@@ -17,7 +17,6 @@ const PARTIALLY_IGNORED_PAGES = new Set([
 ]);
 
 function ignoreSpecialPages(results) {
-
   return results;
 }
 

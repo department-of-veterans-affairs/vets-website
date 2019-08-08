@@ -1,75 +1,16 @@
 const path = require('path');
-const cp = require('child_process');
 
-const { WORKER_MESSAGE_TYPES } = require('./helpers/worker');
+const executeAxeCheck = require('./helpers/executeAxeCheck');
 const ignoreSpecialPages = require('./helpers/ignoreSpecialPages');
+const getErrorOutput = require('./helpers/getErrorOutput');
 
-const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/worker');
-
-function getViolationsOutput(result) {
-  const formattedViolations = result.violations.map(violation => {
-    let output = `[${violation.impact}] ${violation.help}`;
-
-    output += `See ${violation.helpUrl}`;
-    output += violation.nodes.reduce((str, node) => {
-      const { html, target } = node;
-      return [str, html, ...target].join('\n');
-    }, '');
-
-    return output;
-  });
-
-  return formattedViolations.join('\n');
-}
 
 function getHtmlFileList(files) {
-
-  return [
-    files['index.html']
-  ];
   return Object.keys(files)
     .filter(fileName => path.extname(fileName) === '.html')
-    .filter(fileName => !fileName.startsWith('playbook'))
     .map(fileName => files[fileName])
-    .slice(0, 20)
-    .concat(files['index.html'])
-}
-
-function getPartition(htmlFiles, index, partitionSize) {
-  const startIndex = index * partitionSize;
-  const endIndex = startIndex + partitionSize;
-
-  return htmlFiles.slice(startIndex, endIndex).map(file => ({
-    url: `/${file.path}`,
-    html: file.contents.toString(),
-  }));
-}
-
-function beginChildProcess(child, partition) {
-  const operation = new Promise(resolve => {
-    child.on('message', message => {
-      switch (message.type) {
-        case WORKER_MESSAGE_TYPES.PROGRESS: {
-          const totalViolations = message.result.violations.length;
-          if (totalViolations > 0) {
-            console.log(`${message.result.url}: ${totalViolations} violations!`);
-            console.log(getViolationsOutput(message.result));
-          } else {
-            console.log(`${message.result.url}: ✓`);
-          }
-          break;
-        }
-
-        case WORKER_MESSAGE_TYPES.DONE:
-        default:
-          resolve(message.result);
-          child.kill();
-      }
-    });
-  });
-
-  child.send(partition);
-  return operation;
+    .slice(0, 270)
+    .concat([files['index.html']]);
 }
 
 function checkAccessibility(buildOptions) {
@@ -78,40 +19,54 @@ function checkAccessibility(buildOptions) {
     console.time('Accessibility');
 
     const htmlFiles = getHtmlFileList(files);
-    const totalWorkers = 10;
-    const partitionSize = Math.ceil(htmlFiles.length / totalWorkers);
-    const workers = [];
 
-    for (let index = 0; index < totalWorkers; index++) {
-      const child = cp.fork(WORKER_MODULE_PATH);
-      const partition = getPartition(htmlFiles, index, partitionSize);
-      const operation = beginChildProcess(child, partition);
+    // const processes = htmlFiles.map(async (file, index) => {
+    //   const props = {
+    //     url: file.path,
+    //     html: file.contents.toString(),
+    //   };
 
-      workers.push(operation);
-    }
+    //   const delay = index * 1000;
 
-    try {
-      const results = await Promise.all(workers);
-      const flattened = results
-        .reduce((all, slice) => all.concat(slice), []);
-      const allBadResults = flattened
-        .filter(result => result.violations.length > 0);
-      const badResults = ignoreSpecialPages(allBadResults);
+    //   await new Promise((resolve) => setTimeout(resolve, delay));
 
-      console.timeEnd('Accessibility');
-      console.log(
-        `Processed ${flattened.length} out of ${htmlFiles.length} files`,
-      );
+    //   console.log(`enqueuing ${props.url}`);
+    //   const result = await executeAxeCheck(props);
 
-      if (badResults.length > 0) {
-        done(`${badResults.length} pages contain accessibility violations`);
+    //   result.url = props.url;
+
+    //   if (result.violations.length > 0) {
+    //     console.log(getErrorOutput(result));
+    //   } else {
+    //     console.log(`${result.url}: ✓`);
+    //   }
+
+    //   return result;
+    // });
+
+    for (const file of htmlFiles) {
+      const props = {
+        url: file.path,
+        html: file.contents.toString(),
+      };
+
+      const result = await executeAxeCheck(props);
+
+      result.url = props.url;
+
+      if (result.violations.length > 0) {
+        console.log(getErrorOutput(result));
       } else {
-        done();
+        console.log(`${result.url}: ✓`);
       }
-
-    } catch (err) {
-      done(err);
     }
+
+    // const results = await Promise.all(processes);
+    // const output = results.map(getErrorOutput).join('\n');
+
+    // console.log(output);
+    console.timeEnd('Accessibility');
+    done();
   };
 }
 

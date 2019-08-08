@@ -1,10 +1,5 @@
 const { JSDOM } = require('jsdom');
 
-const WORKER_MESSAGE_TYPES = {
-  DONE: 'DONE',
-  PROGRESS: 'PROGRESS',
-};
-
 const AXE_CONFIG = {
   iframes: false,
   runOnly: {
@@ -12,6 +7,18 @@ const AXE_CONFIG = {
     values: ['section508', 'wcag2a', 'wcag2aa'],
   },
 };
+
+function removeAxeFromModuleCache() {
+  // Axe depends on global variables, and once imported,
+  // those global variables are cached, so you can't simply
+  // change the global values and then just re-execute axe.
+  // To get around this, we remove axe from the module cache,
+  // so that each require('axe-core') will do a fresh import of
+  // the module.
+
+  const axeModuleKey = require.resolve('axe-core');
+  delete require.cache[axeModuleKey];
+}
 
 function executeAxeCheck(file) {
   const dom = new JSDOM(file.html);
@@ -33,29 +40,11 @@ function executeAxeCheck(file) {
   const axe = require('axe-core');
 
   return new Promise((resolve, reject) => {
-    axe.run(AXE_CONFIG, (err, result) => err ? reject(err) : resolve(result));
+    axe.run(AXE_CONFIG, (err, result) => {
+      return err ? reject(err) : resolve(result);
+    });
+    removeAxeFromModuleCache();
   });
 }
 
-process.on('message', async function(fileList) {
-  const allResults = [];
-
-  for (const file of fileList) {
-    const result = await executeAxeCheck(file);
-
-    result.url = file.url;
-    allResults.push(result);
-
-    process.send({
-      type: WORKER_MESSAGE_TYPES.PROGRESS,
-      result,
-    });
-  }
-
-  process.send({
-    type: WORKER_MESSAGE_TYPES.DONE,
-    result: allResults,
-  });
-});
-
-module.exports.WORKER_MESSAGE_TYPES = WORKER_MESSAGE_TYPES;
+module.exports = executeAxeCheck;
