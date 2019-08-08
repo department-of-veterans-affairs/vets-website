@@ -71,7 +71,7 @@ const excludedForms = new Set([
   'vaMedicalFacilities',
 ]);
 
-describe('form: ', () => {
+describe('form:', () => {
   it('should check all forms', () => {
     const allFormIds = Object.keys(schemas).filter(
       formId => !excludedForms.has(formId),
@@ -84,19 +84,19 @@ describe('form: ', () => {
   });
 
   configs.forEach(form => {
-    describe('migrations:', () => {
-      it(`${
-        form.formId
-      } should have a length equal to the version number`, () => {
-        if (form.migrations || form.version > 0) {
-          expect(form.migrations.length).to.equal(form.version);
-        }
+    describe(`${form.formId}:`, () => {
+      describe('migrations:', () => {
+        it('should have a length equal to the version number', () => {
+          if (form.migrations || form.version > 0) {
+            expect(form.migrations.length).to.equal(form.version);
+          }
+        });
       });
-    });
 
-    describe('chapters:', () => {
-      it(`${form.formId} should have chapters`, () => {
-        expect(typeof form.chapters).to.not.equal('undefined');
+      describe('chapters:', () => {
+        it('should have chapters', () => {
+          expect(typeof form.chapters).to.not.equal('undefined');
+        });
       });
     });
   });
