@@ -10,9 +10,7 @@ const getErrorOutput = require('./helpers/getErrorOutput');
 function getHtmlFileList(files) {
   return Object.keys(files)
     .filter(fileName => path.extname(fileName) === '.html')
-    .map(fileName => files[fileName])
-    .slice(0, 40)
-    .concat([files['index.html']]);
+    .map(fileName => files[fileName]);
 }
 
 function checkAccessibility(buildOptions) {
