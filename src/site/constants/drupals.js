@@ -2,19 +2,19 @@ const ENVIRONMENTS = require('./environments');
 
 // eslint-disable-next-line no-unused-vars
 const DRUPAL_DEV = {
-  address: 'http://dev.cms.va.gov',
+  address: 'https://dev.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };
 
 const DRUPAL_STAGING = {
-  address: 'http://staging.cms.va.gov',
+  address: 'https://staging.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };
 
 const DRUPAL_PROD = {
-  address: 'http://prod.cms.va.gov',
+  address: 'https://prod.cms.va.gov',
   user: 'api',
   password: 'drupal8',
 };

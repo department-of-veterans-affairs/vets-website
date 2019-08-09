@@ -5,6 +5,8 @@ const SocksProxyAgent = require('socks-proxy-agent');
 const DRUPALS = require('../../../constants/drupals');
 const { queries, getQuery } = require('./queries');
 
+const syswidecas = require('syswide-cas');
+
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
@@ -45,6 +47,10 @@ function getDrupalClient(buildOptions) {
     },
 
     async proxyFetch(url, options = {}) {
+      if (this.usingProxy) {
+        syswidecas.addCAs('certs');
+      }
+
       return fetch(
         url,
         Object.assign({}, options, {
