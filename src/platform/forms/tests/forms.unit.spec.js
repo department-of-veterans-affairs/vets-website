@@ -109,9 +109,9 @@ describe('form:', () => {
             expect(migrations).to.be.an('array');
           });
           it('should be array of functions', () => {
-            migrations.forEach(migration => {
-              expect(migration).to.be.a('function');
-            });
+            expect(
+              migrations.every(migration => typeof migration === 'function'),
+            ).to.be.true;
           });
         }
       });
