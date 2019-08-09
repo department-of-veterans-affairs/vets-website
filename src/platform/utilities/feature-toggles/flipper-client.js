@@ -1,7 +1,8 @@
 import environment from 'platform/utilities/environment';
 
 // const TOGGLE_VALUES_PATH = '/toggle.json';
-const TOGGLE_VALUES_PATH = '/v0/feature_toggles?features=facilityLocatorShowCommunityCares';
+const TOGGLE_VALUES_PATH =
+  '/v0/feature_toggles?features=facilityLocatorShowCommunityCares';
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
@@ -68,7 +69,7 @@ function FlipperClient({
       acc[toggle.name] = toggle.value;
 
       return acc;
-    }, {})
+    }, {});
 
     return toggleValues;
   };
