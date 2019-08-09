@@ -125,9 +125,9 @@ const LoggedOutContent = connect(
     />
     <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
       {environment.isProduction() ? (
-        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018" />
+        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="12/31/2020" />
       ) : (
-        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="05/31/2018">
+        <OMBInfo resBurden={30} ombNumber="2900-0091" expDate="12/31/2020">
           <HealthcareModalContent resBurden={30} ombNumber="2900-0091" />
         </OMBInfo>
       )}

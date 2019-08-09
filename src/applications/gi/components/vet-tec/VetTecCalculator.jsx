@@ -29,7 +29,7 @@ export class VetTecCalculator extends React.Component {
 
     return (
       <div className="calculator-inputs vads-u-margin-x--neg1p5">
-        <div className="form-expanding-group-open">
+        <div>
           <VetTecCalculatorForm
             inputs={inputs}
             displayedInputs={displayed}
@@ -85,27 +85,27 @@ export class VetTecCalculator extends React.Component {
           <div>{outputs.vaPaysToProvider}</div>
         </div>
       </div>
-      <div className="row vads-u-margin-top--0p5 vads-u-padding-left--1 small-screen:vads-u-padding-right--7">
+      <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
         <div className="small-7 small-screen:small-9 columns">
           <div>Upon enrollment in program (25%):</div>
         </div>
-        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value">
+        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value small-screen:vads-u-padding-left--7">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
-      <div className="row vads-u-margin-top--0p5 vads-u-padding-left--1 small-screen:vads-u-padding-right--7">
+      <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
         <div className="small-7 small-screen:small-9 columns">
           <div>Upon completion of program (25%):</div>
         </div>
-        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value">
+        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value small-screen:vads-u-padding-left--7">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
-      <div className="row vads-u-margin-top--0p5 vads-u-padding-left--1 small-screen:vads-u-padding-right--7">
+      <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
         <div className="small-7 small-screen:small-9 columns">
           <div>Upon employment (50%):</div>
         </div>
-        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value">
+        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value small-screen:vads-u-padding-left--7">
           <div>{outputs.halfVetTecPayment}</div>
         </div>
       </div>
@@ -141,7 +141,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>In person rate:</div>
         </div>
-        <div className="small-4 columns vads-u-text-align--right">
+        <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
           <div>{outputs.inPersonRate}</div>
         </div>
       </div>
@@ -150,7 +150,7 @@ export class VetTecCalculator extends React.Component {
         <div className="small-8 columns">
           <div>Online rate:</div>
         </div>
-        <div className="small-4 columns vads-u-text-align--right">
+        <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
           <div>{outputs.onlineRate}</div>
         </div>
       </div>
@@ -165,10 +165,12 @@ export class VetTecCalculator extends React.Component {
     const { showModal } = this.props;
     return (
       <div className="vads-l-row calculate-your-benefits">
-        <div className="medium-5 columns">{this.renderCalculatorForm()}</div>
-        <div className="medium-1 columns">&nbsp;</div>
-        <div className="medium-6 columns vads-u-margin-left--2 vads-u-margin-right--neg2">
-          <div className="your-estimated-benefits">
+        <div className="usa-width-five-twelfths medium-5 columns">
+          {this.renderCalculatorForm()}
+        </div>
+        <div className="usa-width-one-twelfth medium-1 columns">&nbsp;</div>
+        <div className="usa-width-one-half medium-6 columns vads-u-padding--0">
+          <div className=" your-estimated-benefits">
             <h3>Your estimated benefits</h3>
             <i>Tuition and fees data will be available soon.</i>
             {this.renderTuitionSection(outputs, showModal)}

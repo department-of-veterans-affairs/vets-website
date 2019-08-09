@@ -8,7 +8,7 @@ module.exports = `
         path
       }
       title
-      options      
+      options
     }
     fieldLinkSummary
   }

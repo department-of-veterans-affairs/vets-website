@@ -15,8 +15,7 @@ fieldAlert {
 
 const alert = `
 fragment alert on BlockContentAlert {
-  fieldAlertType
-  fieldHelpText
+  fieldAlertType  
   fieldAlertTitle
   fieldReusability
   fieldAlertContent {

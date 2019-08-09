@@ -50,7 +50,7 @@ class RatingRow extends React.Component {
           </>
         )}
         <div className="vads-l-grid-container--full">
-          <div className="rating vads-l-row">
+          <div className={`rating row-${this.props.indx + 1} vads-l-row`}>
             <span id={rowId} className="sr-only">
               row {this.props.indx + 1}
             </span>
@@ -86,6 +86,7 @@ class RatingRow extends React.Component {
                   className="va-button-link usa-button vads-u-margin--1p5"
                   onClick={this.props.removeDisability(this.props.indx)}
                   disabled={!this.props.isDeletable}
+                  data-e2e="delete"
                 >
                   <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
                   <span className="vads-u-display--none medium-screen:vads-u-display--inline">

@@ -29,8 +29,7 @@ module.exports = `
       fieldAlertBlockReference {
         entity {
           ... on BlockContentAlert {
-            fieldAlertTitle
-            fieldHelpText
+            fieldAlertTitle            
             fieldAlertType
             fieldReusability
             fieldAlertContent {

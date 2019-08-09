@@ -17,7 +17,6 @@ import CautionaryInformation from '../components/profile/CautionaryInformation';
 import AdditionalInformation from '../components/profile/AdditionalInformation';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import { outcomeNumbers } from '../selectors/outcomes';
-import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -76,7 +75,7 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
+      if (profile.attributes.vetTecProvider) {
         content = (
           <VetTecInstitutionProfile
             institution={profile.attributes}
@@ -135,6 +134,7 @@ export class ProfilePage extends React.Component {
                   <AdditionalInformation
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
+                    constants={this.props.constants}
                   />
                 </AccordionItem>
               </ul>

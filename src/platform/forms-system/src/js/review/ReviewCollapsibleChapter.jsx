@@ -67,6 +67,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
     );
   }
 
+  shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
+    expandedPages.length === 1 &&
+    chapterTitle.toLowerCase() === pageTitle.toLowerCase();
+
   render() {
     let pageContent = null;
 
@@ -142,6 +146,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
             const classes = classNames('form-review-panel-page', {
               'schemaform-review-page-warning': !viewedPages.has(fullPageKey),
             });
+            const title = page.reviewTitle || page.title;
 
             return (
               <div key={`${fullPageKey}`} className={classes}>
@@ -149,14 +154,18 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {pageSchema && (
                   <SchemaForm
                     name={page.pageKey}
-                    title={page.reviewTitle || page.title}
+                    title={title}
                     data={pageData}
                     appStateData={page.appStateData}
                     schema={pageSchema}
                     uiSchema={pageUiSchema}
                     trackingPrefix={this.props.form.trackingPrefix}
                     hideHeaderRow={page.hideHeaderRow}
-                    hideTitle={expandedPages.length === 1}
+                    hideTitle={this.shouldHideExpandedPageTitle(
+                      expandedPages,
+                      chapterTitle,
+                      title,
+                    )}
                     pagePerItemIndex={page.index}
                     onBlur={this.props.onBlur}
                     onEdit={() =>
