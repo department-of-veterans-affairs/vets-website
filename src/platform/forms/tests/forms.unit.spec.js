@@ -116,16 +116,16 @@ describe('form:', () => {
         }
       });
 
-      describe('chapters:', () => {
-        it('should have chapters', () => {
-          expect(form.chapters).to.be.an('object');
-        });
+      it('should have chapters', () => {
+        expect(form.chapters).to.be.an('object');
       });
 
-      describe('defaultDefinitions:', () => {
-        it('should have defaultDefinitions', () => {
-          expect(form.defaultDefinitions).to.not.be.a('undefined');
-        });
+      it('should have defaultDefinitions', () => {
+        expect(form.defaultDefinitions).to.not.be.a.undefined;
+      });
+
+      it('should have introduction', () => {
+        expect(form.introduction).to.not.be.a.undefined;
       });
     });
   });
