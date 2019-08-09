@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const COMPLETELY_IGNORED_PATHS = [
   'auth/login/callback/',
   'playbook/',
