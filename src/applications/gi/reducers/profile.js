@@ -11,6 +11,11 @@ const INITIAL_STATE = {
   attributes: {},
   version: {},
   inProgress: false,
+  institutionTree: {
+    mainCampus: {},
+    branches: [],
+    extensions: [],
+  },
 };
 
 function normalizedAttributes(attributes) {

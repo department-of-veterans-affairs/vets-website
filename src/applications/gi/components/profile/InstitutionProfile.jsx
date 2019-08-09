@@ -13,13 +13,17 @@ import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 
 export class InstitutionProfile extends React.Component {
+  shouldShowSchoolLocations = institutionTree =>
+    institutionTree.extensions.length > 0 ||
+    institutionTree.branches.length > 0 ||
+    true;
   render() {
-    const { profile, isOJT, constants, outcomes } = this.props;
+    const { profile, isOJT, constants, outcomes, showModal } = this.props;
     return (
       <div>
         <HeadingSummary
           institution={profile.attributes}
-          onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
+          onLearnMore={showModal.bind(this, 'gibillstudents')}
           onViewWarnings={this.handleViewWarnings}
         />
         <div className="usa-accordion">
@@ -31,7 +35,7 @@ export class InstitutionProfile extends React.Component {
               <AccordionItem button="Veteran programs">
                 <Programs
                   institution={profile.attributes}
-                  onShowModal={this.props.showModal}
+                  onShowModal={showModal}
                 />
               </AccordionItem>
             )}
@@ -41,17 +45,15 @@ export class InstitutionProfile extends React.Component {
                   condition={!!profile.attributes.facilityCode && !!constants}
                   comment="TODO"
                 >
-                  <Outcomes
-                    graphing={outcomes}
-                    onShowModal={this.props.showModal}
-                  />
+                  <Outcomes graphing={outcomes} onShowModal={showModal} />
                 </If>
               </AccordionItem>
             )}
-            <AccordionItem button="School locations">
-              <SchoolLocations />
-            </AccordionItem>
-            />
+            {this.shouldShowSchoolLocations(profile.institutionTree) && (
+              <AccordionItem button="School locations">
+                <SchoolLocations institution={profile.attributes} />
+              </AccordionItem>
+            )}
             <AccordionItem
               button="Cautionary information"
               ref={c => {
@@ -61,14 +63,14 @@ export class InstitutionProfile extends React.Component {
               <a name="viewWarnings" />
               <CautionaryInformation
                 institution={profile.attributes}
-                onShowModal={this.props.showModal}
+                onShowModal={showModal}
               />
             </AccordionItem>
             <AccordionItem button="Additional information">
               <AdditionalInformation
                 institution={profile.attributes}
-                onShowModal={this.props.showModal}
-                constants={this.props.constants}
+                onShowModal={showModal}
+                constants={constants}
               />
             </AccordionItem>
           </ul>

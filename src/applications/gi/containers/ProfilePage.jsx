@@ -76,6 +76,7 @@ export class ProfilePage extends React.Component {
             isOJT={isOJT}
             constants={constants}
             outcomes={outcomes}
+            showModal={this.props.showModal}
           />
         );
       }
