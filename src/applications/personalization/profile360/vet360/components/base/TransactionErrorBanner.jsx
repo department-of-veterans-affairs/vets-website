@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import facilityLocator from '../../../../../facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest';
 
 import {
   hasGenericUpdateError,

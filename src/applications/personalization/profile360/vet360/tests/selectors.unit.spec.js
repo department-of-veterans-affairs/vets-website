@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import backendServices from '../../../../../platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
 import {
   TRANSACTION_STATUS,
