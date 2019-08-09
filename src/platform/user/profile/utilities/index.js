@@ -9,7 +9,7 @@ import localStorage from '../../../utilities/storage/localStorage';
 import {
   isVet360Configured,
   mockContactInformation,
-} from '../../../../applications/personalization/profile360/vet360/util/local-vet360';
+} from 'vet360/util/local-vet360';
 
 const commonServices = {
   EMIS: 'EMIS',

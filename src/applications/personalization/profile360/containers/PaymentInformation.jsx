@@ -17,7 +17,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import get from 'platform/utilities/data/get';
 import recordEvent from 'platform/monitoring/record-event';
 
-import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
+import ProfileFieldHeading from 'vet360/components/base/ProfileFieldHeading';
 
 import { handleDowntimeForSection } from '../components/DowntimeBanner';
 import LoadFail from '../components/LoadFail';
