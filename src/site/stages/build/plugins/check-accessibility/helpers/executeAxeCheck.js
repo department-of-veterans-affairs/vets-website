@@ -49,4 +49,7 @@ function executeAxeCheck({ url, contents }) {
   });
 }
 
-module.exports = executeAxeCheck;
+process.on('message', async file => {
+  const result = await executeAxeCheck(file);
+  process.send(result);
+});
