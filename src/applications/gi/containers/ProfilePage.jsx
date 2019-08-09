@@ -105,7 +105,7 @@ export class ProfilePage extends React.Component {
                   </AccordionItem>
                 )}
                 {!isOJT ||
-                  (environment.isProduction() && ( // production flag to remove incorrect table from view (story #19452, sprint 27)
+                  (!environment.isProduction() && ( // production flag to remove incorrect table from view (story #19452, sprint 27)
                     <AccordionItem button="Student outcomes">
                       <If
                         condition={
