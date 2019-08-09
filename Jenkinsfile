@@ -21,7 +21,7 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  // stage('Lint|Security|Unit') {
+  stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
 
     try {
