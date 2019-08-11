@@ -17,6 +17,7 @@ const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
 const bioPage = require('./bioPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
+const homePage = require('./homePage.graphql');
 
 // Get current feature flags
 const {
