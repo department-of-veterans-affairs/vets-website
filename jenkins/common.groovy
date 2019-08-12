@@ -139,7 +139,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --accessibility --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
   }

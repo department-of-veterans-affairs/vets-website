@@ -76,6 +76,13 @@ async function performAudit(buildOptions, htmlFiles) {
 }
 
 function checkAccessibility(buildOptions) {
+  const shouldExecute = buildOptions.accessibility;
+
+  if (!shouldExecute) {
+    const noop = () => {};
+    return noop;
+  }
+
   return async (files, metalsmith, done) => {
     console.log('Starting accessibility tests...');
     console.time('Accessibility');
