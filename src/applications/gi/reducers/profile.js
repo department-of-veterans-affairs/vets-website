@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   version: {},
   inProgress: false,
   institutionTree: {
-    mainCampus: {},
+    main: {},
     branches: [],
     extensions: [],
   },
