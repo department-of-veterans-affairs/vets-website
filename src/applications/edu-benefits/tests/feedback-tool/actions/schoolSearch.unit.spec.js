@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
+  setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
 import {
@@ -13,15 +14,6 @@ import {
   selectInstitution,
   toggleManualSchoolEntry,
 } from '../../../feedback-tool/actions/schoolSearch';
-
-function setFetchFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = false;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('schoolSearch actions', () => {
   describe('clearSearch', () => {

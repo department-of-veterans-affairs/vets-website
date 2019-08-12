@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
+  setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
 import {
@@ -12,15 +13,6 @@ import {
   LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
   LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
 } from '../../../686/actions/index';
-
-function setFetchFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = false;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 const state = {
   user: {

@@ -18,14 +18,6 @@ import {
   transformSearchToolAddress,
 } from '../../feedback-tool/helpers';
 
-// function setFetchResponse(stub, data, headers = {}) {
-//   const response = new Response();
-//   response.ok = true;
-//   response.headers.get = headerID => headers[headerID] || null;
-//   response.json = () => Promise.resolve(data);
-//   stub.resolves(response);
-// }
-
 describe('removeEmptyStringProperties', () => {
   it('removes keys that have empty string values', () => {
     expect(removeEmptyStringProperties({ key: '' })).to.eql({});

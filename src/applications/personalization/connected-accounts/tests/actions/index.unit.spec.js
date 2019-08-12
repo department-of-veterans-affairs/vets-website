@@ -3,18 +3,11 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
+  setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
 
 import * as actions from '../../actions';
-
-function setFetchFailure(stub, data) {
-  const response = new Response();
-  response.headers.set('Content-Type', 'application/json');
-  response.ok = false;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('loadConnectedAccounts', () => {
   beforeEach(() => mockFetch());

@@ -109,6 +109,15 @@ export function setFetchJSONResponse(stub, data = null) {
   stub.resolves(response);
 }
 
+export function setFetchJSONFailure(stub, data) {
+  const response = new Response(null, {
+    headers: { 'content-type': ['application/json'] },
+  });
+  response.ok = false;
+  response.json = () => Promise.resolve(data);
+  stub.resolves(response);
+}
+
 /**
  * Resets the fetch mock set with mockFetch
  */
