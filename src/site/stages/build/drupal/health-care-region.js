@@ -8,6 +8,7 @@ const {
 } = require('./page');
 
 const _ = require('lodash');
+const moment = require('moment');
 
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
@@ -145,9 +146,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 
   // Events listing page
+  const allEvents = page.allEventTeasers;
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
-    { allEventTeasers: page.allEventTeasers },
+    { allEventTeasers: allEvents },
     { eventTeasers: page.eventTeasers },
     { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
     { facilitySidebar: sidebar },
@@ -166,6 +168,49 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'allEventTeasers',
     'events_page.drupal.liquid',
     'events',
+  );
+
+  // Past Events listing page
+  const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
+
+  // get past events
+  const pastEventTeasers = {
+    entities: [],
+  };
+
+  _.forEach(allEvents.entities, value => {
+    const eventTeaser = value;
+    const startDate = eventTeaser.fieldDate.startDate;
+    const isPast = moment().diff(startDate, 'days');
+    if (isPast >= 1) {
+      pastEventTeasers.entities.push(eventTeaser);
+    }
+  });
+
+  const pastEventsObj = Object.assign(
+    { allEventTeasers: pastEventTeasers },
+    { eventTeasers: page.eventTeasers },
+    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
+    { facilitySidebar: sidebar },
+    { entityUrl: pastEventsEntityUrl },
+    { title: page.title },
+    { alert: page.alert },
+  );
+  const pastEventsPage = updateEntityUrlObj(
+    pastEventsObj,
+    drupalPagePath,
+    'Past Events',
+  );
+  const pastEventsPagePath = pastEventsPage.entityUrl.path;
+  pastEventsPage.regionOrOffice = page.title;
+  eventPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
+
+  paginatePages(
+    eventPage,
+    files,
+    'allEventTeasers',
+    'events_page.drupal.liquid',
+    'past-events',
   );
 
   // Staff bio listing page
