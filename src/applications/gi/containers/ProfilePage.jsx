@@ -17,6 +17,7 @@ import CautionaryInformation from '../components/profile/CautionaryInformation';
 import AdditionalInformation from '../components/profile/AdditionalInformation';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import { outcomeNumbers } from '../selectors/outcomes';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -103,21 +104,22 @@ export class ProfilePage extends React.Component {
                     />
                   </AccordionItem>
                 )}
-                {!isOJT && (
-                  <AccordionItem button="Student outcomes">
-                    <If
-                      condition={
-                        !!profile.attributes.facilityCode && !!constants
-                      }
-                      comment="TODO"
-                    >
-                      <Outcomes
-                        graphing={outcomes}
-                        onShowModal={this.props.showModal}
-                      />
-                    </If>
-                  </AccordionItem>
-                )}
+                {!isOJT &&
+                  (environment.isProduction() && ( // production flag to display table only on staging (story #19452, sprint 27)
+                    <AccordionItem button="Student outcomes">
+                      <If
+                        condition={
+                          !!profile.attributes.facilityCode && !!constants
+                        }
+                        comment="TODO"
+                      >
+                        <Outcomes
+                          graphing={outcomes}
+                          onShowModal={this.props.showModal}
+                        />
+                      </If>
+                    </AccordionItem>
+                  ))}
                 <AccordionItem
                   button="Cautionary information"
                   ref={c => {
