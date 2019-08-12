@@ -17,6 +17,7 @@ export class InstitutionProfile extends React.Component {
     institutionTree.extensions.length > 0 ||
     institutionTree.branches.length > 0 ||
     true;
+
   render() {
     const { profile, isOJT, constants, outcomes, showModal } = this.props;
     return (
