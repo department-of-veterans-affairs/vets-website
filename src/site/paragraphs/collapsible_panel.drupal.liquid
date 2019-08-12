@@ -26,6 +26,14 @@
 {% if entity.fieldCollapsiblePanelBordered %}
     {% assign accordionClass = 'usa-accordion-bordered' %}
 {% endif %}
+
+{% assign ariaExpanded = entity.fieldCollapsiblePanelExpand %}
+
+{% assign ariaHidden = true %}
+{% if ariaExpanded == true  %}
+  {% assign ariaHidden = false %}
+{% endif %}
+
 <div class="{{ accordionClass }}" data-multiselectable="{{ entity.fieldCollapsiblePanelMulti }}">
     <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
@@ -33,12 +41,15 @@
             <li>
                 <button
                         class="usa-accordion-button usa-button-unstyled"
-                        aria-expanded="{{ entity.fieldCollapsiblePanelExpand }}"
+                        aria-expanded="{{ ariaExpanded }}"
                         aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
                         >
                     {{ item.fieldTitle }}
                 </button>
-                <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="{{ !entity.fieldCollapsiblePanelExpand }}">
+
+
+
+                <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="{{ ariaHidden }}">
                     {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
 
                     {% for paragraph in item.fieldVaParagraphs %}
