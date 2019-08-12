@@ -1,9 +1,9 @@
-<div id="events-list-toggle" class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
+<div id="events-list-toggle" class="va-c-event-toggle vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" role="group" aria-label="Events List Toggle">
     {% if url contains 'past-events' %}
-        <a href={{ url | replace_first: 'past-events', 'events' }} class="usa-button">Upcoming Events</a>
-        <a href={{ url }} class="usa-button">Past Events</a>
+        <a role="button" href={{ url | replace_first: 'past-events', 'events' }} class="usa-button usa-button-secondary">Upcoming events</a>
+        <a role="button" href={{ url }} class="usa-button">Past events</a>
     {% else %}
-        <a href={{ url }} class="usa-button">Upcoming Events</a>
-        <a href={{ url | replace_first: 'events', 'past-events'}} class="usa-button">Past Events</a>
+        <a role="button" href={{ url }} class="usa-button">Upcoming events</a>
+        <a role="button" href={{ url | replace_first: 'events', 'past-events'}} class="usa-button usa-button-secondary">Past events</a>
     {% endif %}
 </div>

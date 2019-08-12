@@ -13,3 +13,17 @@
 .va-c-social-icon {
   color: $color-link-default;
 }
+
+.va-c-event-toggle {
+  &:not(last-child) {
+    border-right: none;
+  }
+  .usa-button {
+    float: left;
+  }
+  &:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
