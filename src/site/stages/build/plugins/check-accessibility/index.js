@@ -88,20 +88,25 @@ function checkAccessibility(buildOptions) {
     console.time('Accessibility');
 
     const htmlFiles = getHtmlFileList(files);
-    const results = await performAudit(buildOptions, htmlFiles);
 
-    console.timeEnd('Accessibility');
+    try {
+      const results = await performAudit(buildOptions, htmlFiles);
 
-    const summary = `Scanned ${results.filesScanned} of ${
-      results.totalFiles
-    } files with ${results.failures.length} files failing`;
+      console.timeEnd('Accessibility');
 
-    if (results.failures.length > 0) {
-      const pages = results.failures.map(result => result.url).join('\n');
-      done(`${summary}: \n${pages}`);
-    } else {
-      console.log(summary);
-      done();
+      const summary = `Scanned ${results.filesScanned} of ${
+        results.totalFiles
+      } files with ${results.failures.length} files failing`;
+
+      if (results.failures.length > 0) {
+        const pages = results.failures.map(result => result.url).join('\n');
+        done(`${summary}: \n${pages}`);
+      } else {
+        console.log(summary);
+        done();
+      }
+    } catch (err) {
+      done(err);
     }
   };
 }
