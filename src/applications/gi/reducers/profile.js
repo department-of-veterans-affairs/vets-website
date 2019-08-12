@@ -11,11 +11,6 @@ const INITIAL_STATE = {
   attributes: {},
   version: {},
   inProgress: false,
-  facilityMap: {
-    main: {},
-    branches: [],
-    extensions: [],
-  },
 };
 
 function normalizedAttributes(attributes) {

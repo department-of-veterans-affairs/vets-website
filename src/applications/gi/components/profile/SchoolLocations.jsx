@@ -18,80 +18,6 @@ export class SchoolLocations extends React.Component {
     this.state = { viewMore: false };
   }
 
-  getInstitutionTree = () => {
-    const { institution } = this.props;
-    const extensions = [
-      { institution: { ...institution, name: 'A Ext', facilityCode: '01' } },
-      { institution: { ...institution, name: 'B Ext', facilityCode: '02' } },
-      { institution: { ...institution, name: 'C Ext', facilityCode: '03' } },
-    ];
-
-    const branches = [
-      {
-        institution: {
-          ...institution,
-          name: 'A Branch',
-          facilityCode: '11',
-        },
-        extensions,
-      },
-      {
-        institution: {
-          ...institution,
-          name: 'C Branch',
-          facilityCode: '12',
-        },
-        extensions: [],
-      },
-      {
-        institution: {
-          ...institution,
-          name: 'D Branch',
-          facilityCode: '13',
-        },
-        extensions,
-      },
-      {
-        institution: {
-          ...institution,
-          name: 'E Branch',
-          facilityCode: '14',
-        },
-        extensions: [],
-      },
-    ];
-
-    return {
-      main: {
-        ...institution,
-        branches,
-        extensions: [
-          {
-            institution: {
-              ...institution,
-              name: 'A Main Ext',
-              facilityCode: '011',
-            },
-          },
-          {
-            institution: {
-              ...institution,
-              name: 'B Main Ext',
-              facilityCode: '021',
-            },
-          },
-          {
-            institution: {
-              ...institution,
-              name: 'C Main Ext',
-              facilityCode: '031',
-            },
-          },
-        ],
-      },
-    };
-  };
-
   institutionIsBeingViewed = institution =>
     institution.facilityCode === this.props.institution.facilityCode;
 
@@ -128,7 +54,7 @@ export class SchoolLocations extends React.Component {
     return 'TBD';
   };
 
-  renderRow = (institution, type, nameLabel = institution.name) => {
+  renderRow = (institution, type, nameLabel = institution.institution) => {
     const label = this.institutionIsBeingViewed(institution) ? (
       <b>{nameLabel}</b>
     ) : (
@@ -147,11 +73,14 @@ export class SchoolLocations extends React.Component {
     );
   };
 
-  renderMainRow = main => {
-    const nameLabel = this.institutionIsBeingViewed(main)
-      ? `${main.name} (Main Campus)`
-      : this.linkTo(main.facilityCode, `${main.name} (Main Campus)`);
-    return this.renderRow(main, 'main', nameLabel);
+  renderMainRow = institution => {
+    const nameLabel = this.institutionIsBeingViewed(institution)
+      ? `${institution.institution} (Main Campus)`
+      : this.linkTo(
+          institution.facilityCode,
+          `${institution.institution} (Main Campus)`,
+        );
+    return this.renderRow(institution, 'main', nameLabel);
   };
 
   renderExtensions = (rows, extensions, defaultRowsAdjusted) => {
@@ -160,7 +89,7 @@ export class SchoolLocations extends React.Component {
       if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
         break;
       }
-      rows.push(this.renderRow(extension.institution, 'extension'));
+      rows.push(this.renderRow(extension, 'extension'));
     }
 
     return rows;
@@ -170,8 +99,8 @@ export class SchoolLocations extends React.Component {
     for (const branch of branches) {
       const { institution } = branch;
       const nameLabel = this.institutionIsBeingViewed(branch)
-        ? institution.name
-        : this.linkTo(institution.facilityCode, institution.name);
+        ? institution.institution
+        : this.linkTo(institution.facilityCode, institution.institution);
 
       // check if should add more rows
       if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
@@ -184,7 +113,7 @@ export class SchoolLocations extends React.Component {
         if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
           break;
         }
-        rows.push(this.renderRow(extension.institution, 'extension'));
+        rows.push(this.renderRow(extension, 'extension'));
       }
     }
 
@@ -210,7 +139,7 @@ export class SchoolLocations extends React.Component {
         </tr>
       </thead>
       <tbody>
-        {this.renderMainRow(main)}
+        {this.renderMainRow(main.institution)}
         {this.renderBranchesAndExtensionsRows(main)}
       </tbody>
     </table>
@@ -232,12 +161,13 @@ export class SchoolLocations extends React.Component {
   };
 
   render() {
-    const { main } = this.getInstitutionTree();
+    const { main } = this.props.institution.facilityMap;
     return (
       <div>
         <span>
-          Below are locations for {main.name}. Select a link to view another
-          location and calculate the benefits you’d receive there.
+          Below are locations for {main.institution.institution}. Select a link
+          to view another location and calculate the benefits you’d receive
+          there.
         </span>
         {this.renderFacilityMapTable(main)}
         {this.renderViewMore(main)}
