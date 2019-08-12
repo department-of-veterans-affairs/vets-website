@@ -78,7 +78,6 @@ Example data:
 
 {% assign start_date_no_time = fieldDate.value | formatDate: "dddd, MMM D" %}
 {% assign end_date_no_time = fieldDate.endValue | formatDate: "dddd, MMM D" %}
-{% assign days_since = fieldDate.value | isPastDate %}
 
 {% assign start_time = fieldDate.value | formatDate: "h:mm A" %}
 {% assign end_time = fieldDate.endValue | formatDate: "h:mm A" %}
