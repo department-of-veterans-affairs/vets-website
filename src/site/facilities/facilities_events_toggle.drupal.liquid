@@ -1,4 +1,9 @@
 <div id="events-list-toggle" class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
-    <a href="/events" class="usa-button">Upcoming Events</a>
-    <a href="/past-events" class="usa-button usa-button-disabled">Past Events</a>
+    {% if url contains 'past-events' %}
+        <a href={{ url | replace_first: 'past-events', 'events' }} class="usa-button">Upcoming Events</a>
+        <a href={{ url }} class="usa-button">Past Events</a>
+    {% else %}
+        <a href={{ url }} class="usa-button">Upcoming Events</a>
+        <a href={{ url | replace_first: 'events', 'past-events'}} class="usa-button">Past Events</a>
+    {% endif %}
 </div>
