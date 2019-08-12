@@ -14,16 +14,20 @@
   color: $color-link-default;
 }
 
-.va-c-event-toggle {
-  &:not(last-child) {
-    border-right: none;
-  }
+.va-c-btn-group {
+  font-size: 0;
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-block;
   .usa-button {
-    float: left;
-  }
-  &:after {
-    content: "";
-    clear: both;
-    display: table;
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-right: 0;
+    };
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
 }
