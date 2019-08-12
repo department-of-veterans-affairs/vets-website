@@ -3,16 +3,13 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchBlobResponse,
+} from 'platform/testing/unit/helpers';
 
 import PhotoPreview from '../../components/PhotoPreview.jsx';
-
-function setFetchBlobResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.blob = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('<PhotoPreview>', () => {
   it('should render preview with src', () => {

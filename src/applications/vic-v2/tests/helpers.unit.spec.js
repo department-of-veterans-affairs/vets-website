@@ -4,26 +4,14 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
+  setFetchBlobFailure,
+  setFetchBlobResponse,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
 import fullSchemaVIC from 'vets-json-schema/dist/VIC-schema.json';
 import fullFormConfig from '../config/form';
 import { submit, prefillTransformer, transform } from '../helpers';
-
-function setFetchBlobResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.blob = () => Promise.resolve(data);
-  stub.resolves(response);
-}
-
-function setFailedBlobResponse(stub, error) {
-  const response = new Response();
-  response.ok = true;
-  response.blob = () => Promise.reject(new Error(error));
-  stub.resolves(response);
-}
 
 describe('VIC helpers:', () => {
   describe('submit', () => {
@@ -183,7 +171,7 @@ describe('VIC helpers:', () => {
     });
     it('should resolve with failed image request', () => {
       mockFetch();
-      setFailedBlobResponse(global.fetch.onFirstCall(), 'Error');
+      setFetchBlobFailure(global.fetch.onFirstCall(), 'Error');
       setFetchResponse(global.fetch.onSecondCall(), {
         data: {
           attributes: {

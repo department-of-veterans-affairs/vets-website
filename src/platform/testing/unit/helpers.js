@@ -118,6 +118,20 @@ export function setFetchJSONFailure(stub, data) {
   stub.resolves(response);
 }
 
+export function setFetchBlobResponse(stub, data) {
+  const response = new Response();
+  response.ok = true;
+  response.blob = () => Promise.resolve(data);
+  stub.resolves(response);
+}
+
+export function setFetchBlobFailure(stub, error) {
+  const response = new Response();
+  response.ok = true;
+  response.blob = () => Promise.reject(new Error(error));
+  stub.resolves(response);
+}
+
 /**
  * Resets the fetch mock set with mockFetch
  */
