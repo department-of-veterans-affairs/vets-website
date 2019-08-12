@@ -11,9 +11,9 @@ import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 
 export class InstitutionProfile extends React.Component {
-  shouldShowSchoolLocations = institutionTree =>
-    institutionTree.extensions.length > 0 ||
-    institutionTree.branches.length > 0 ||
+  shouldShowSchoolLocations = facilityMap =>
+    facilityMap.extensions.length > 0 ||
+    facilityMap.branches.length > 0 ||
     true;
 
   render() {
@@ -38,11 +38,11 @@ export class InstitutionProfile extends React.Component {
                 />
               </AccordionItem>
             )}
-            {this.shouldShowSchoolLocations(profile.institutionTree) && (
+            {this.shouldShowSchoolLocations(profile.facilityMap) && (
               <AccordionItem button="School locations">
                 <SchoolLocations
                   institution={profile.attributes}
-                  institutionTree={profile.institutionTree}
+                  facilityMap={profile.facilityMap}
                   calculator={this.props.calculator}
                   constants={constants}
                   version={this.props.version}

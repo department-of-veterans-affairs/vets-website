@@ -8,7 +8,7 @@ const DEFAULT_ROWS_VIEWABLE = 10;
 export class SchoolLocations extends React.Component {
   static propTypes = {
     institution: PropTypes.object,
-    institutionTree: PropTypes.object,
+    facilityMap: PropTypes.object,
     calculator: PropTypes.object,
     constants: PropTypes.object,
   };
@@ -200,7 +200,7 @@ export class SchoolLocations extends React.Component {
     return this.renderBranches(rows, branches, defaultRowsAdjusted);
   };
 
-  renderInstitutionTreeTable = main => (
+  renderFacilityMapTable = main => (
     <table>
       <thead>
         <tr>
@@ -239,7 +239,7 @@ export class SchoolLocations extends React.Component {
           Below are locations for {main.name}. Select a link to view another
           location and calculate the benefits you’d receive there.
         </span>
-        {this.renderInstitutionTreeTable(main)}
+        {this.renderFacilityMapTable(main)}
         {this.renderViewMore(main)}
       </div>
     );

@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   attributes: {},
   version: {},
   inProgress: false,
-  institutionTree: {
+  facilityMap: {
     main: {},
     branches: [],
     extensions: [],
