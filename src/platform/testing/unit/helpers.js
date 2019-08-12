@@ -99,6 +99,16 @@ export function mockFetch(returnVal, shouldResolve = true) {
     );
 }
 
+export function setFetchJSONResponse(stub, data = null) {
+  const response = new Response();
+  response.ok = true;
+  if (data) {
+    response.headers.set('Content-Type', 'application/json');
+    response.json = () => Promise.resolve(data);
+  }
+  stub.resolves(response);
+}
+
 /**
  * Resets the fetch mock set with mockFetch
  */

@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
-} from '../../../../platform/testing/unit/helpers.js';
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers.js';
 
 import {
   beneficiaryZIPCodeChanged,
@@ -15,13 +16,6 @@ import {
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
 } from '../../actions/index';
-
-function setFetchResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 function setFetchFailure(stub, data) {
   const response = new Response();

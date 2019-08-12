@@ -7,7 +7,7 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 import PhotoPreview from '../../components/PhotoPreview.jsx';
 
-function setFetchResponse(stub, data) {
+function setFetchBlobResponse(stub, data) {
   const response = new Response();
   response.ok = true;
   response.blob = () => Promise.resolve(data);
@@ -27,7 +27,7 @@ describe('<PhotoPreview>', () => {
   it('should fetch file metadata and update', done => {
     mockFetch();
     const response = new Blob();
-    setFetchResponse(global.fetch.onFirstCall(), response);
+    setFetchBlobResponse(global.fetch.onFirstCall(), response);
 
     window.URL = {
       createObjectURL: sinon.stub().returns('test'),

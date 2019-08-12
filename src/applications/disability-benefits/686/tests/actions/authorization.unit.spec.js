@@ -1,22 +1,17 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers.js';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers.js';
 import {
   verifyDisabilityRating,
   LOAD_30_PERCENT_DISABILITY_RATING_STARTED,
   LOAD_30_PERCENT_DISABILITY_RATING_SUCCEEDED,
   LOAD_30_PERCENT_DISABILITY_RATING_FAILED,
 } from '../../../686/actions/index';
-
-function setFetchResponse(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = true;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 function setFetchFailure(stub, data) {
   const response = new Response(null, {
