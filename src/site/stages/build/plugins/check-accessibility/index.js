@@ -12,24 +12,18 @@ function getHtmlFileList(files) {
   return Object.keys(files)
     .filter(fileName => path.extname(fileName) === '.html')
     .map(fileName => files[fileName])
-    .filter(file => !file.private);
+    .filter(file => !file.private)
+    .slice(0, 40)
+    .concat(files['index.html']);
 }
 
-function processNextHtmlFile(
-  buildOptions,
-  htmlFiles,
-  workerPool,
-  worker,
-  done,
-) {
+function auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, done) {
   if (htmlFiles.length === 0) {
     const workerIndex = workerPool.indexOf(worker);
     workerPool.splice(workerIndex, 1);
     worker.kill();
 
     if (workerPool.length === 0) {
-      console.timeEnd('Accessibility');
-      console.log('done!');
       done();
     }
 
@@ -44,35 +38,65 @@ function processNextHtmlFile(
   });
 }
 
-function checkAccessibility(buildOptions) {
-  return async (files, metalsmith, done) => {
-    console.log('Starting accessibility tests...');
-    console.time('Accessibility');
+async function performAudit(buildOptions, htmlFiles) {
+  const numWorkers = 4;
+  const workerPool = [];
+  const results = {
+    failures: [],
+    filesScanned: 0,
+    totalFiles: htmlFiles.length,
+  };
 
-    const htmlFiles = getHtmlFileList(files);
-    const numWorkers = 4;
-    const workerPool = [];
-
+  const workerAudits = new Promise(resolve => {
     for (let i = 0; i < numWorkers; i++) {
       const worker = cp.fork(WORKER_MODULE_PATH);
 
       worker.on('message', result => {
-        const hasViolations = result.violations.length > 0;
+        results.filesScanned++;
 
+        const hasViolations = result.violations.length > 0;
         if (hasViolations) {
+          results.failures.push(result);
           console.log(getErrorOutput(result));
         } else {
           console.log(`${result.url} is okay`);
         }
 
-        processNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, done);
+        auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, resolve);
       });
 
       workerPool.push(worker);
     }
 
     for (const worker of workerPool) {
-      processNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, done);
+      auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, resolve);
+    }
+  });
+
+  await workerAudits;
+  return results;
+}
+
+function checkAccessibility(buildOptions) {
+  return async (files, metalsmith, done) => {
+    console.log('Starting accessibility tests...');
+    console.time('Accessibility');
+
+    const htmlFiles = getHtmlFileList(files);
+    const results = await performAudit(buildOptions, htmlFiles);
+
+    console.timeEnd('Accessibility');
+
+    const summary = `Scanned ${results.filesScanned} of ${
+      results.totalFiles
+    } files with ${results.failures.length} files failing`;
+
+    if (results.failures.length > 0) {
+      const pages = results.failures.map(result => result.url).join('\n');
+      done(`${summary}: \n${pages}`);
+    } else {
+      console.log(summary);
+      done();
     }
   };
 }
