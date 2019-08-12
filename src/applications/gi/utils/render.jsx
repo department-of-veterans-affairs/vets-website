@@ -1,5 +1,7 @@
 import React from 'react';
 
+import environment from 'platform/utilities/environment';
+
 export const renderSchoolClosingFlag = result => {
   const { schoolClosing } = result;
   if (!schoolClosing) return null;
@@ -33,16 +35,29 @@ export const renderPreferredProviderFlag = result => {
   );
 };
 
-export const renderLearnMoreLabel = ({ text, modal, showModal, component }) => (
-  <span>
-    {text} (
-    <button
-      type="button"
-      className="va-button-link learn-more-button"
-      onClick={showModal.bind(component, modal)}
-    >
-      Learn more
-    </button>
-    )
-  </span>
-);
+export const renderLearnMoreLabel = ({ text, modal, showModal, component }) =>
+  // Production flag for 19402
+  !environment.isProduction() ? (
+    <span>
+      {text}{' '}
+      <button
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={showModal.bind(component, modal)}
+      >
+        (Learn more)
+      </button>
+    </span>
+  ) : (
+    <span>
+      {text} (
+      <button
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={showModal.bind(component, modal)}
+      >
+        Learn more
+      </button>
+      )
+    </span>
+  );

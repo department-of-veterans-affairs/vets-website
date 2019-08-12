@@ -128,7 +128,7 @@ class IntroductionPage extends React.Component {
                 help you with your claim.
               </p>
               <p>
-                <a href="/disability-benefits/apply/help/index.html">
+                <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim
                 </a>
                 .
