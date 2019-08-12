@@ -34,7 +34,10 @@
     ["@babel/plugin-proposal-class-properties", { "loose": false }],
     "@babel/plugin-proposal-json-strings",
     ["module-resolver", {
-      "root": "./src"
+      "root": "./src",
+      "alias": {
+        "vet360": "./src/platform/user/profile/vet360"
+      }
     }]
   ],
   // Share polyfills between files.
