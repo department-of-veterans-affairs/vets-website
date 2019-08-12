@@ -147,9 +147,31 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Events listing page
   const allEvents = page.allEventTeasers;
+
+  // get past events
+  const pastEventTeasers = {
+    entities: [],
+  };
+
+  // get current events
+  const currentEventTeasers = {
+    entities: [],
+  };
+
+  _.forEach(allEvents.entities, value => {
+    const eventTeaser = value;
+    const startDate = eventTeaser.fieldDate.startDate;
+    const isPast = moment().diff(startDate, 'days');
+    if (isPast >= 1) {
+      pastEventTeasers.entities.push(eventTeaser);
+    } else {
+      currentEventTeasers.entities.push(eventTeaser);
+    }
+  });
+
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
-    { allEventTeasers: allEvents },
+    { allEventTeasers: currentEventTeasers },
     { eventTeasers: page.eventTeasers },
     { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
     { facilitySidebar: sidebar },
@@ -173,20 +195,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Past Events listing page
   const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
 
-  // get past events
-  const pastEventTeasers = {
-    entities: [],
-  };
-
-  _.forEach(allEvents.entities, value => {
-    const eventTeaser = value;
-    const startDate = eventTeaser.fieldDate.startDate;
-    const isPast = moment().diff(startDate, 'days');
-    if (isPast >= 1) {
-      pastEventTeasers.entities.push(eventTeaser);
-    }
-  });
-
   const pastEventsObj = Object.assign(
     { allEventTeasers: pastEventTeasers },
     { eventTeasers: page.eventTeasers },
@@ -206,7 +214,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   eventPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
 
   paginatePages(
-    eventPage,
+    pastEventsPage,
     files,
     'allEventTeasers',
     'events_page.drupal.liquid',
