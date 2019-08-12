@@ -12,9 +12,7 @@ function getHtmlFileList(files) {
   return Object.keys(files)
     .filter(fileName => path.extname(fileName) === '.html')
     .map(fileName => files[fileName])
-    .filter(file => !file.private)
-    .slice(0, 40)
-    .concat(files['index.html']);
+    .filter(file => !file.private);
 }
 
 function auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, done) {
