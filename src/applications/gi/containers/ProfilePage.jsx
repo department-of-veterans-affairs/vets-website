@@ -7,7 +7,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
-import { outcomeNumbers } from '../selectors/outcomes';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -53,7 +52,7 @@ export class ProfilePage extends React.Component {
   };
 
   render() {
-    const { constants, outcomes, profile } = this.props;
+    const { constants, profile } = this.props;
 
     let content;
 
@@ -75,9 +74,9 @@ export class ProfilePage extends React.Component {
             profile={profile}
             isOJT={isOJT}
             constants={constants}
-            outcomes={outcomes}
             showModal={this.props.showModal}
             calculator={this.props.calculator}
+            version={this.props.location.query.version}
           />
         );
       }
@@ -97,8 +96,7 @@ const mapStateToProps = state => {
     profile,
     calculator,
   } = state;
-  const outcomes = constants ? outcomeNumbers(state) : null;
-  return { constants, outcomes, profile, calculator };
+  return { constants, profile, calculator };
 };
 
 const mapDispatchToProps = {

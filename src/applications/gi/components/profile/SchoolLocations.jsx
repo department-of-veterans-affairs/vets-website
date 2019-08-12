@@ -3,7 +3,7 @@ import React from 'react';
 import { formatCurrency } from '../../utils/helpers';
 import { Link } from 'react-router';
 
-const DEFAULT_BRANCHES_VIEWABLE = 10;
+const DEFAULT_ROWS_VIEWABLE = 10;
 
 export class SchoolLocations extends React.Component {
   static propTypes = {
@@ -21,97 +21,43 @@ export class SchoolLocations extends React.Component {
   getInstitutionTree = () => {
     const { institution } = this.props;
     const extensions = [
-      { ...institution, name: 'A Ext', facilityCode: '01' },
-      { ...institution, name: 'B Ext', facilityCode: '02' },
-      { ...institution, name: 'C Ext', facilityCode: '03' },
+      { institution: { ...institution, name: 'A Ext', facilityCode: '01' } },
+      { institution: { ...institution, name: 'B Ext', facilityCode: '02' } },
+      { institution: { ...institution, name: 'C Ext', facilityCode: '03' } },
     ];
-    // const branches = [
-    //   {
-    //     ...institution,
-    //     name: 'A Branch',
-    //     extensions,
-    //     facilityCode: '11',
-    //   },
-    //   {
-    //     ...institution,
-    //     name: 'C Branch',
-    //     extensions: [],
-    //     facilityCode: '12',
-    //   },
-    // ];
 
     const branches = [
       {
-        ...institution,
-        name: 'A Branch',
+        institution: {
+          ...institution,
+          name: 'A Branch',
+          facilityCode: '11',
+        },
         extensions,
-        facilityCode: '11',
       },
       {
-        ...institution,
-        name: 'C Branch',
+        institution: {
+          ...institution,
+          name: 'C Branch',
+          facilityCode: '12',
+        },
         extensions: [],
-        facilityCode: '12',
       },
       {
-        ...institution,
-        name: 'D Branch',
+        institution: {
+          ...institution,
+          name: 'D Branch',
+          facilityCode: '13',
+        },
         extensions,
-        facilityCode: '13',
       },
       {
-        ...institution,
-        name: 'E Branch',
+        institution: {
+          ...institution,
+          name: 'E Branch',
+          facilityCode: '14',
+        },
         extensions: [],
-        facilityCode: '14',
-      },
-      {
-        ...institution,
-        name: 'F Branch',
-        extensions,
-        facilityCode: '15',
-      },
-      {
-        ...institution,
-        name: 'G Branch',
-        extensions: [],
-        facilityCode: '16',
-      },
-      {
-        ...institution,
-        name: 'H Branch',
-        extensions,
-        facilityCode: '17',
-      },
-      {
-        ...institution,
-        name: 'I Branch',
-        extensions: [],
-        facilityCode: '18',
-      },
-      {
-        ...institution,
-        name: 'J Branch',
-        extensions,
-        facilityCode: '19',
-      },
-      {
-        ...institution,
-        name: 'K Branch',
-        extensions: [],
-        facilityCode: '20',
-      },
-      {
-        ...institution,
-        name: 'L Branch',
-        extensions,
-        facilityCode: '21',
-      },
-      {
-        ...institution,
-        name: 'M Branch',
-        extensions: [],
-        facilityCode: '22',
       },
     ];
 
@@ -119,6 +65,29 @@ export class SchoolLocations extends React.Component {
       main: {
         ...institution,
         branches,
+        extensions: [
+          {
+            institution: {
+              ...institution,
+              name: 'A Main Ext',
+              facilityCode: '011',
+            },
+          },
+          {
+            institution: {
+              ...institution,
+              name: 'B Main Ext',
+              facilityCode: '021',
+            },
+          },
+          {
+            institution: {
+              ...institution,
+              name: 'C Main Ext',
+              facilityCode: '031',
+            },
+          },
+        ],
       },
     };
   };
@@ -126,8 +95,13 @@ export class SchoolLocations extends React.Component {
   institutionIsBeingViewed = institution =>
     institution.facilityCode === this.props.institution.facilityCode;
 
-  shouldHideBranches = branches =>
-    branches.length > DEFAULT_BRANCHES_VIEWABLE && !this.state.viewMore;
+  shouldHideViewMore = (branches, extensions) => {
+    let totalRows = 1 + branches.length + extensions.length; // always has a main row
+    branches.forEach(branch => {
+      totalRows += branch.extensions.length;
+    });
+    return totalRows > DEFAULT_ROWS_VIEWABLE && !this.state.viewMore;
+  };
 
   linkTo = (facilityCode, name) => {
     const { version } = this.props;
@@ -180,26 +154,50 @@ export class SchoolLocations extends React.Component {
     return this.renderRow(main, 'main', nameLabel);
   };
 
-  renderBranches = branches => {
-    const rows = [];
-
-    let renderBranches = branches;
-    if (this.shouldHideBranches(branches)) {
-      renderBranches = branches.slice(0, DEFAULT_BRANCHES_VIEWABLE);
+  renderExtensions = (rows, extensions, defaultRowsAdjusted) => {
+    for (const extension of extensions) {
+      // check if should add more rows
+      if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
+        break;
+      }
+      rows.push(this.renderRow(extension.institution, 'extension'));
     }
 
-    renderBranches.forEach(branch => {
-      const nameLabel = this.institutionIsBeingViewed(branch)
-        ? branch.name
-        : this.linkTo(branch.facilityCode, branch.name);
-
-      rows.push(this.renderRow(branch, 'branch', nameLabel));
-
-      branch.extensions.forEach(extension => {
-        rows.push(this.renderRow(extension, 'extension'));
-      });
-    });
     return rows;
+  };
+
+  renderBranches = (rows, branches, defaultRowsAdjusted) => {
+    for (const branch of branches) {
+      const { institution } = branch;
+      const nameLabel = this.institutionIsBeingViewed(branch)
+        ? institution.name
+        : this.linkTo(institution.facilityCode, institution.name);
+
+      // check if should add more rows
+      if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
+        break;
+      }
+      rows.push(this.renderRow(institution, 'branch', nameLabel));
+
+      for (const extension of branch.extensions) {
+        // check if should add more rows
+        if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
+          break;
+        }
+        rows.push(this.renderRow(extension.institution, 'extension'));
+      }
+    }
+
+    return rows;
+  };
+
+  renderBranchesAndExtensionsRows = ({ branches, extensions }) => {
+    let rows = [];
+    const defaultRowsAdjusted = DEFAULT_ROWS_VIEWABLE - 1;
+
+    rows = this.renderExtensions(rows, extensions, defaultRowsAdjusted);
+
+    return this.renderBranches(rows, branches, defaultRowsAdjusted);
   };
 
   renderInstitutionTreeTable = main => (
@@ -213,13 +211,13 @@ export class SchoolLocations extends React.Component {
       </thead>
       <tbody>
         {this.renderMainRow(main)}
-        {this.renderBranches(main.branches)}
+        {this.renderBranchesAndExtensionsRows(main)}
       </tbody>
     </table>
   );
 
   renderViewMore = main => {
-    if (this.shouldHideBranches(main.branches)) {
+    if (this.shouldHideViewMore(main.branches, main.extensions)) {
       return (
         <button
           type="button"
