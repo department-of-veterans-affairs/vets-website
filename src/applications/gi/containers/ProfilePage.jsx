@@ -77,6 +77,7 @@ export class ProfilePage extends React.Component {
             constants={constants}
             outcomes={outcomes}
             showModal={this.props.showModal}
+            calculator={this.props.calculator}
           />
         );
       }
@@ -94,9 +95,10 @@ const mapStateToProps = state => {
   const {
     constants: { constants },
     profile,
+    calculator,
   } = state;
   const outcomes = constants ? outcomeNumbers(state) : null;
-  return { constants, outcomes, profile };
+  return { constants, outcomes, profile, calculator };
 };
 
 const mapDispatchToProps = {

@@ -51,7 +51,12 @@ export class InstitutionProfile extends React.Component {
             )}
             {this.shouldShowSchoolLocations(profile.institutionTree) && (
               <AccordionItem button="School locations">
-                <SchoolLocations institution={profile.attributes} />
+                <SchoolLocations
+                  institution={profile.attributes}
+                  institutionTree={profile.institutionTree}
+                  calculator={this.props.calculator}
+                  constants={constants}
+                />
               </AccordionItem>
             )}
             <AccordionItem
@@ -85,6 +90,7 @@ InstitutionProfile.propTypes = {
   isOJT: PropTypes.bool,
   constants: PropTypes.object,
   outcomes: PropTypes.object,
+  calculator: PropTypes.object,
 };
 
 export default InstitutionProfile;
