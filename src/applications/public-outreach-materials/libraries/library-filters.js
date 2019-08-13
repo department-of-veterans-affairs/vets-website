@@ -11,6 +11,12 @@ export function libraryNumCards() {
   ).length;
 }
 
+export function libraryAnchorStop(e) {
+  if (e !== undefined) {
+    e.preventDefault();
+  }
+}
+
 export function libraryNumActiveCards() {
   return document.querySelectorAll(
     '.asset-card:not(.hide-topic):not(.hide-type)',
@@ -78,26 +84,36 @@ export function libraryPagerGen() {
     const diff = pages - activePage;
     let pagerHtml;
     // This is our active page / pager button.
-    pagerHtml = `<button id="va-pagination-active-num" class="va-page-numbers">
-    ${activePage}</button>`;
+    pagerHtml = `<a href="#${activePage}" aria-label="Page ${activePage}" aria-current="true" id="va-pagination-active-num" class="va-pagination-active a-page-numbers">
+    ${activePage}</a>`;
     // If we have more than one page, add a button in front of active button.
     if (diff > 1 && (numCards === undefined || numCards > 9)) {
-      pagerHtml += `<a class="pager-numbers" aria-label="Load page
+      pagerHtml += `<a href="#${activePage + 1}" aria-label="Page ${activePage +
+        1}" class="pager-numbers" aria-label="Load page
       ${activePage + 1}">${activePage + 1}</a>`;
     }
     // If we have more than two pages, add second page
     // button in front of active button.
     if (diff > 2 && (numCards === undefined || numCards > 9)) {
-      pagerHtml += `<a class="pager-numbers" aria-label="Load page
+      pagerHtml += `<a href="#${activePage + 2}" aria-label="Page ${activePage +
+        2}" class="pager-numbers" aria-label="Load page
       ${activePage + 2}">${activePage + 2}</a>`;
     }
     // If we have more than three pages, add a third button and ellipses to
     // link to last page.
     if (diff > 3 && (numCards === undefined || numCards > 9)) {
-      pagerHtml += `.... <a class="pager-numbers" aria-label="Load page
+      pagerHtml += `.... <a href="#${pages}" aria-label="Page ${pages}" class="pager-numbers" aria-label="Load page
       ${pages}"> ${pages}</a>`;
     }
     document.getElementById('pager-nums-insert').innerHTML = pagerHtml;
+
+    // Prevent 508 compliant anchor links from making page jump
+    const pagingAnchors = document.querySelectorAll('.va-button-link');
+    if (pagingAnchors) {
+      pagingAnchors.forEach(element => {
+        element.addEventListener('click', libraryAnchorStop);
+      });
+    }
   }
 }
 
