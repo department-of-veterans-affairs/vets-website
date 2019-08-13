@@ -6,27 +6,34 @@ function addHomeContent(contentData, files) {
   const menuLength = 4;
   const hubListLength = 11;
   const promoBlockLength = 3;
-  const homeEntityObj = createEntityUrlObj('/');
-  const {
-    data: { homePageMenuQuery, homePageHubListQuery, homePagePromoBlockQuery },
-  } = contentData;
 
-  // Add Top Tasks Menu.
-  homeEntityObj.cards = homePageMenuQuery.links.slice(0, menuLength);
+  if (contentData.data.homePageMenuQuery) {
+    const homeEntityObj = createEntityUrlObj('/');
+    const {
+      data: {
+        homePageMenuQuery,
+        homePageHubListQuery,
+        homePagePromoBlockQuery,
+      },
+    } = contentData;
 
-  // Add full hub list.
-  homeEntityObj.hubs = homePageHubListQuery.itemsOfEntitySubqueueHomePageHubList.slice(
-    0,
-    hubListLength,
-  );
+    // Add Top Tasks Menu.
+    homeEntityObj.cards = homePageMenuQuery.links.slice(0, menuLength);
 
-  // Add promo blocks.
-  homeEntityObj.promos = homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos.slice(
-    0,
-    promoBlockLength,
-  );
+    // Add full hub list.
+    homeEntityObj.hubs = homePageHubListQuery.itemsOfEntitySubqueueHomePageHubList.slice(
+      0,
+      hubListLength,
+    );
 
-  files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
+    // Add promo blocks.
+    homeEntityObj.promos = homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos.slice(
+      0,
+      promoBlockLength,
+    );
+
+    files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
+  }
 }
 
 module.exports = { addHomeContent };
