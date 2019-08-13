@@ -348,6 +348,20 @@ function validateLength(
   };
 }
 
+function validateWhiteSpace(errors, input) {
+  if (typeof input !== 'undefined') {
+    if (
+      input.toString().startsWith(' ') ||
+      input.toString().endsWith(' ') ||
+      !/\S/.test(input)
+    ) {
+      errors.addError(
+        'Response cannot start or end with a whitespace character',
+      );
+    }
+  }
+}
+
 export {
   isBlank,
   isBlankDateField,
@@ -388,4 +402,5 @@ export {
   validateLength,
   isValidRoutingNumber,
   getFileError,
+  validateWhiteSpace,
 };

@@ -17,6 +17,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 import { displayActiveDutyStem } from '../helpers';
 
 import { activeDuty, benefitSelection, stem } from '../pages';
+import { validateWhiteSpace } from '../../../../platform/forms/validations';
 
 const {
   civilianBenefitsAssistance,
@@ -134,6 +135,11 @@ export const chapters = {
           // Put back together again in transform()
           newSchoolName: {
             'ui:title': 'Name of school, university, or training facility',
+            'ui:validations': [
+              (errors, newSchoolName) => {
+                validateWhiteSpace(errors, newSchoolName);
+              },
+            ],
           },
           educationType: educationTypeUISchema,
           newSchoolAddress: _.merge(address.uiSchema(), {
