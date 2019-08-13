@@ -17,7 +17,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 import { displayActiveDutyStem } from '../helpers';
 
 import { activeDuty, benefitSelection, stem } from '../pages';
-import { validateWhiteSpace } from '../../../../platform/forms/validations';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 const {
   civilianBenefitsAssistance,
