@@ -75,7 +75,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
   }
-  addHomeContent(contentData, files, path.join('.', '/'));
+  addHomeContent(contentData, files);
 }
 
 async function loadDrupal(buildOptions) {
