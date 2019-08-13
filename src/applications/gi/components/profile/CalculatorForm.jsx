@@ -27,9 +27,23 @@ class CalculatorForm extends React.Component {
     this.renderWorking = this.renderWorking.bind(this);
   }
 
-  handleInputChange(event) {
-    const { name: field, value } = event.target;
-    this.props.onInputChange({ field, value });
+  getExtensions() {
+    const { profile } = this.props;
+    const facilityMap = profile.attributes.facilityMap;
+    const profileFacilityCode = profile.attributes.facilityCode;
+    let extensions;
+    if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
+      extensions = profile.attributes.facilityMap.main.extensions;
+    } else {
+      facilityMap.main.branches.forEach(branch => {
+        if (
+          branch.institution.facilityCode === profile.attributes.facilityCode
+        ) {
+          extensions = branch.extensions;
+        }
+      });
+    }
+    return extensions;
   }
 
   handleBeneficiaryZIPCodeChanged = event => {
@@ -48,6 +62,11 @@ class CalculatorForm extends React.Component {
       this.handleInputChange(event);
     }
   };
+
+  handleInputChange(event) {
+    const { name: field, value } = event.target;
+    this.props.onInputChange({ field, value });
+  }
 
   resetBuyUp(event) {
     event.preventDefault();
@@ -533,8 +552,9 @@ class CalculatorForm extends React.Component {
   }
 
   renderExtensionBeneficiaryZIP() {
-    const extensions = this.props.profile.attributes.facilityMap.main
-      .extensions;
+    const { profile, inputs, onShowModal } = this.props;
+    const extensions = this.getExtensions();
+
     let amountInput;
     let extensionSelector;
     let extensionOptions;
@@ -550,22 +570,22 @@ class CalculatorForm extends React.Component {
       });
       zipcodeRadioOptions = [
         {
-          value: this.props.profile.attributes.name,
-          label: this.props.profile.attributes.name,
+          value: profile.attributes.name,
+          label: profile.attributes.name,
         },
         { value: 'extension', label: 'An extension campus' },
       ];
     } else {
       zipcodeRadioOptions = [
         {
-          value: this.props.profile.attributes.name,
-          label: this.props.profile.attributes.name,
+          value: profile.attributes.name,
+          label: profile.attributes.name,
         },
         { value: 'other', label: 'Other location' },
       ];
     }
 
-    if (this.props.inputs.beneficiaryLocationQuestion === 'extension') {
+    if (inputs.beneficiaryLocationQuestion === 'extension') {
       extensionSelector = (
         <div>
           <Dropdown
@@ -574,7 +594,7 @@ class CalculatorForm extends React.Component {
             alt="Extension Location"
             visible
             options={extensionOptions}
-            value={this.props.inputs.extension}
+            value={inputs.extension}
             onChange={this.handleExtensionChange}
           />
         </div>
@@ -582,25 +602,25 @@ class CalculatorForm extends React.Component {
     }
 
     if (
-      this.props.inputs.beneficiaryLocationQuestion === 'other' ||
-      (this.props.inputs.beneficiaryLocationQuestion === 'extension' &&
-        this.props.inputs.extension === 'other')
+      inputs.beneficiaryLocationQuestion === 'other' ||
+      (inputs.beneficiaryLocationQuestion === 'extension' &&
+        inputs.extension === 'other')
     ) {
       amountInput = (
         <div>
           <ErrorableTextInput
-            errorMessage={this.props.inputs.beneficiaryZIPError}
+            errorMessage={inputs.beneficiaryZIPError}
             label={
               <span>
                 At what ZIP Code will you be taking the majority of classes?
               </span>
             }
             name="beneficiaryZIPCode"
-            field={{ value: this.props.inputs.beneficiaryZIP }}
+            field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
           />
           <p>
-            <strong>{this.props.inputs.housingAllowanceCity}</strong>
+            <strong>{inputs.housingAllowanceCity}</strong>
           </p>
         </div>
       );
@@ -615,7 +635,7 @@ class CalculatorForm extends React.Component {
               <button
                 type="button"
                 className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(
+                onClick={onShowModal.bind(
                   this,
                   'calcBeneficiaryLocationQuestion',
                 )}
@@ -627,7 +647,7 @@ class CalculatorForm extends React.Component {
           }
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
-          value={this.props.inputs.beneficiaryLocationQuestion}
+          value={inputs.beneficiaryLocationQuestion}
           onChange={this.handleInputChange}
         />
         {extensionSelector}
