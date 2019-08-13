@@ -29,6 +29,7 @@ const featureFlags = {
   FEATURE_FIELD_COMPLETE_BIOGRAPHY: 'fieldCompleteBiography',
   FEATURE_HEALTH_SERVICE_API_ID: 'featureHealthServiceApiId',
   FEATURE_DOWNLOADABLE_FILE: 'featureDownloadableFile',
+  FEATURE_HOME_PAGE: 'featureHomePage',
 };
 
 // Edit this to turn flags on or off
