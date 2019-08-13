@@ -193,8 +193,10 @@
                   medium-body-utility
                   large-screen:vads-l-col--12">
                     <i>{{entity.fieldBenefits | benefitTerms}}</i>
-                    <h3 class="asset-body-header vads-u-margin-y--1">
-                      {{entity.title| truncate: 36}}</h3>
+                    <h2 class="asset-body-header
+                    vads-u-margin-y--1
+                    vads-u-font-size--lg">
+                      {{entity.title| truncate: 36}}</h2>
                     <div class="asset-body-text">
                       {{entity.fieldDescription | truncate: 81 }}</div>
 
