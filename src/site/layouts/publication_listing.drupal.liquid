@@ -207,7 +207,7 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a aria-label="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
                           class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.fieldDocument.entity.filesize | fileSize}})
@@ -215,7 +215,7 @@
                       {% endif %}
 
                       {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                      <a aria-label="View {{entity.title}}" class="video-link" target="_blank"
+                      <a aria-label="Go to video about {{entity.title}}" class="video-link" target="_blank"
                         href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
                           class="fas fa-play-circle vads-u-padding-right--1"></i>Go
                         to
@@ -227,7 +227,7 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a aria-label="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
                           class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.image.entity.filesize | fileSize}})
