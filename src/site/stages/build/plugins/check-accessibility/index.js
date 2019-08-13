@@ -7,7 +7,7 @@ const ENVIRONMENTS = require('../../../../constants/environments');
 
 const getErrorOutput = require('./helpers/getErrorOutput');
 
-const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/executeAxeCheck');
+const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/worker');
 
 function getHtmlFileList(files) {
   return Object.keys(files)
