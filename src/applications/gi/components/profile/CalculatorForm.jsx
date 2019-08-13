@@ -481,11 +481,12 @@ class CalculatorForm extends React.Component {
   }
 
   renderBeneficiaryZIP() {
-    if (!environment.isProduction()) {
-      return this.renderExtensionBeneficiaryZIP();
-    }
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
+    }
+
+    if (!environment.isProduction()) {
+      return this.renderExtensionBeneficiaryZIP();
     }
 
     let amountInput;
@@ -532,9 +533,6 @@ class CalculatorForm extends React.Component {
   }
 
   renderExtensionBeneficiaryZIP() {
-    if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
-      return null;
-    }
     const extensions = this.props.profile.attributes.facilityMap.main
       .extensions;
     let amountInput;
