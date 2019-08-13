@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers.js';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONFailure as setFetchFailure,
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers.js';
 import {
   fetchAvailableBenefits,
   savePreferences,
@@ -23,24 +28,6 @@ import {
   SET_USER_PREFERENCE,
   SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS,
 } from '../../actions';
-
-function setFetchResponse(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = true;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
-
-function setFetchFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = false;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('preferences actions', () => {
   describe('fetchUserSelectedBenefits', () => {
