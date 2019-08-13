@@ -4,6 +4,7 @@ import { formatCurrency } from '../../utils/helpers';
 import { Link } from 'react-router';
 
 const DEFAULT_ROWS_VIEWABLE = 10;
+const DEFAULT_ROWS_ADJUSTED = DEFAULT_ROWS_VIEWABLE - 1;
 
 export class SchoolLocations extends React.Component {
   static propTypes = {
@@ -83,19 +84,17 @@ export class SchoolLocations extends React.Component {
     return this.renderRow(institution, 'main', nameLabel);
   };
 
-  renderExtensions = (rows, extensions, defaultRowsAdjusted) => {
+  renderExtensions = (rows, extensions) => {
     for (const extension of extensions) {
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
+      if (!this.state.viewMore && rows.length >= DEFAULT_ROWS_ADJUSTED) {
         break;
       }
       rows.push(this.renderRow(extension, 'extension'));
     }
-
-    return rows;
   };
 
-  renderBranches = (rows, branches, defaultRowsAdjusted) => {
+  renderBranches = (rows, branches) => {
     for (const branch of branches) {
       const { institution } = branch;
       const nameLabel = this.institutionIsBeingViewed(branch)
@@ -103,30 +102,22 @@ export class SchoolLocations extends React.Component {
         : this.linkTo(institution.facilityCode, institution.institution);
 
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
+      if (!this.state.viewMore && rows.length >= DEFAULT_ROWS_ADJUSTED) {
         break;
       }
       rows.push(this.renderRow(institution, 'branch', nameLabel));
 
-      for (const extension of branch.extensions) {
-        // check if should add more rows
-        if (!this.state.viewMore && rows.length >= defaultRowsAdjusted) {
-          break;
-        }
-        rows.push(this.renderRow(extension, 'extension'));
-      }
+      this.renderExtensions(rows, branch.extensions, DEFAULT_ROWS_ADJUSTED);
     }
-
-    return rows;
   };
 
   renderBranchesAndExtensionsRows = ({ branches, extensions }) => {
-    let rows = [];
-    const defaultRowsAdjusted = DEFAULT_ROWS_VIEWABLE - 1;
+    const rows = [];
 
-    rows = this.renderExtensions(rows, extensions, defaultRowsAdjusted);
+    this.renderExtensions(rows, extensions);
+    this.renderBranches(rows, branches);
 
-    return this.renderBranches(rows, branches, defaultRowsAdjusted);
+    return rows;
   };
 
   renderFacilityMapTable = main => (
