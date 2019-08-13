@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { formatCurrency } from '../../utils/helpers';
-import { Link } from 'react-router';
 
 const DEFAULT_ROWS_VIEWABLE = 10;
 const DEFAULT_ROWS_ADJUSTED = DEFAULT_ROWS_VIEWABLE - 1;
@@ -19,8 +18,8 @@ export class SchoolLocations extends React.Component {
     this.state = { viewMore: false };
   }
 
-  institutionIsBeingViewed = institution =>
-    institution.facilityCode === this.props.institution.facilityCode;
+  institutionIsBeingViewed = facilityCode =>
+    facilityCode === this.props.institution.facilityCode;
 
   shouldHideViewMore = (branches, extensions) => {
     let totalRows = 1 + branches.length + extensions.length; // always has a main row
@@ -30,14 +29,18 @@ export class SchoolLocations extends React.Component {
     return totalRows > DEFAULT_ROWS_VIEWABLE && !this.state.viewMore;
   };
 
-  linkTo = (facilityCode, name) => {
+  createLinkTo = (facilityCode, name) => {
+    if (this.institutionIsBeingViewed(facilityCode)) {
+      return name;
+    }
     const { version } = this.props;
-    const linkTo = {
-      pathname: `profile/${facilityCode}`,
-      query: version ? { version } : {},
-    };
+    const query = version ? `?version=${version}` : '';
 
-    return <Link to={linkTo}>{name}</Link>;
+    return (
+      <a href={`${facilityCode}${query}`}>
+        <h6>{name}</h6>
+      </a>
+    );
   };
 
   handleViewMoreClicked = () => {
@@ -55,34 +58,39 @@ export class SchoolLocations extends React.Component {
     return 'TBD';
   };
 
-  renderRow = (institution, type, nameLabel = institution.institution) => {
-    const label = this.institutionIsBeingViewed(institution) ? (
-      <b>{nameLabel}</b>
+  renderRow = (institution, type, name = institution.institution) => {
+    const {
+      facilityCode,
+      physicalCity,
+      physicalState,
+      physicalZip,
+    } = institution;
+    const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
+      <h6>{name}</h6>
     ) : (
-      nameLabel
+      name
     );
 
     return (
-      <tr key={`${institution.facilityCode}-${type}`}>
-        <td>{label}</td>
-        <td>
-          {institution.physicalCity}, {institution.physicalState}{' '}
-          {institution.physicalZip}
+      <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
+        <td>{nameLabel}</td>
+        <td className={'location-cell'}>
+          {physicalCity}, {physicalState} {physicalZip}
         </td>
         <td>{this.estimatedHousingRow(institution)}</td>
       </tr>
     );
   };
 
-  renderMainRow = institution => {
-    const nameLabel = this.institutionIsBeingViewed(institution)
-      ? `${institution.institution} (Main Campus)`
-      : this.linkTo(
-          institution.facilityCode,
-          `${institution.institution} (Main Campus)`,
-        );
-    return this.renderRow(institution, 'main', nameLabel);
-  };
+  renderMainRow = institution =>
+    this.renderRow(
+      institution,
+      'main',
+      this.createLinkTo(
+        institution.facilityCode,
+        `${institution.institution} (Main Campus)`,
+      ),
+    );
 
   renderExtensions = (rows, extensions) => {
     for (const extension of extensions) {
@@ -90,22 +98,32 @@ export class SchoolLocations extends React.Component {
       if (!this.state.viewMore && rows.length >= DEFAULT_ROWS_ADJUSTED) {
         break;
       }
-      rows.push(this.renderRow(extension, 'extension'));
+      const nameLabel = (
+        <span>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          {extension.institution}
+        </span>
+      );
+      rows.push(this.renderRow(extension, 'extension', nameLabel));
     }
   };
 
   renderBranches = (rows, branches) => {
     for (const branch of branches) {
       const { institution } = branch;
-      const nameLabel = this.institutionIsBeingViewed(branch)
-        ? institution.institution
-        : this.linkTo(institution.facilityCode, institution.institution);
+      const { facilityCode, institution: name } = institution;
 
       // check if should add more rows
       if (!this.state.viewMore && rows.length >= DEFAULT_ROWS_ADJUSTED) {
         break;
       }
-      rows.push(this.renderRow(institution, 'branch', nameLabel));
+      rows.push(
+        this.renderRow(
+          institution,
+          'branch',
+          this.createLinkTo(facilityCode, name),
+        ),
+      );
 
       this.renderExtensions(rows, branch.extensions);
     }
@@ -124,9 +142,15 @@ export class SchoolLocations extends React.Component {
     <table>
       <thead>
         <tr>
-          <th>School Name</th>
-          <th>Location</th>
-          <th>Estimated Housing</th>
+          <th>
+            <h4>School Name</h4>
+          </th>
+          <th>
+            <h4>Location</h4>
+          </th>
+          <th>
+            <h4>Estimated housing</h4>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -154,11 +178,12 @@ export class SchoolLocations extends React.Component {
   render() {
     const { main } = this.props.institution.facilityMap;
     return (
-      <div>
+      <div className="school-locations row">
         <span>
-          Below are locations for {main.institution.institution}. Select a link
-          to view another location and calculate the benefits you’d receive
-          there.
+          Below are locations for {main.institution.institution}. The housing
+          estimates shown here are based on a full-time student taking in-person
+          classes. Select a link to view a location and calculate the benefits
+          you’d receive there.
         </span>
         {this.renderFacilityMapTable(main)}
         {this.renderViewMore(main)}
