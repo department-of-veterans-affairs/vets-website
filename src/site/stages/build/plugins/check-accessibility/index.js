@@ -3,7 +3,6 @@
 const path = require('path');
 const cp = require('child_process');
 
-// const ignoreSpecialPages = require('./helpers/ignoreSpecialPages');
 const getErrorOutput = require('./helpers/getErrorOutput');
 
 const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/executeAxeCheck');
