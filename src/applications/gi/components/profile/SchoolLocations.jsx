@@ -107,7 +107,7 @@ export class SchoolLocations extends React.Component {
       }
       rows.push(this.renderRow(institution, 'branch', nameLabel));
 
-      this.renderExtensions(rows, branch.extensions, DEFAULT_ROWS_ADJUSTED);
+      this.renderExtensions(rows, branch.extensions);
     }
   };
 
