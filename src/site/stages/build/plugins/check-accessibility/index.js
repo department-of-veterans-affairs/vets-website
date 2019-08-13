@@ -3,6 +3,8 @@
 const path = require('path');
 const cp = require('child_process');
 
+const ENVIRONMENTS = require('../../../../constants/environments');
+
 const getErrorOutput = require('./helpers/getErrorOutput');
 
 const WORKER_MODULE_PATH = path.join(__dirname, '/helpers/executeAxeCheck');
@@ -82,6 +84,13 @@ function checkAccessibility(buildOptions) {
     return noop;
   }
 
+  const environmentsThatMustPass = new Set([
+    ENVIRONMENTS.VAGOVSTAGING,
+    ENVIRONMENTS.VAGOVPROD,
+  ]);
+
+  const buildMustPass = environmentsThatMustPass.has(buildOptions.buildtype);
+
   return async (files, metalsmith, done) => {
     console.log('Starting accessibility tests...');
     console.time('Accessibility');
@@ -93,17 +102,24 @@ function checkAccessibility(buildOptions) {
 
       console.timeEnd('Accessibility');
 
-      const summary = `Scanned ${results.filesScanned} of ${
+      let summary = `Scanned ${results.filesScanned} of ${
         results.totalFiles
       } files with ${results.failures.length} files failing`;
 
-      if (results.failures.length > 0) {
+      const hasFailures = results.failures.length > 0;
+
+      if (hasFailures) {
         const pages = results.failures.map(result => result.url).join('\n');
-        done(`${summary}: \n${pages}`);
-      } else {
-        console.log(summary);
-        done();
+        summary = `${summary}: \n${pages}`;
+
+        if (buildMustPass) {
+          done(summary);
+          return;
+        }
       }
+
+      console.log(summary);
+      done();
     } catch (err) {
       done(err);
     }
