@@ -50,6 +50,10 @@ function executeAxeCheck({ url, contents }) {
 }
 
 process.on('message', async file => {
-  const result = await executeAxeCheck(file);
-  process.send(result);
+  try {
+    const result = await executeAxeCheck(file);
+    process.send({ result });
+  } catch (error) {
+    process.send({ error });
+  }
 });

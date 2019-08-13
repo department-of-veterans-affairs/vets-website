@@ -46,11 +46,16 @@ async function performAudit(buildOptions, htmlFiles) {
     totalFiles: htmlFiles.length,
   };
 
-  const workerAudits = new Promise(resolve => {
+  const workerAudits = new Promise((resolve, reject) => {
     for (let i = 0; i < numWorkers; i++) {
       const worker = cp.fork(WORKER_MODULE_PATH);
 
-      worker.on('message', result => {
+      worker.on('message', ({ error, result }) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
         results.filesScanned++;
 
         const hasViolations = result.violations.length > 0;
@@ -121,7 +126,7 @@ function checkAccessibility(buildOptions) {
       console.log(summary);
       done();
     } catch (err) {
-      done(err);
+      done(JSON.stringify(err));
     }
   };
 }
