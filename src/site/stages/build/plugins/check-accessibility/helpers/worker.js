@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const { JSDOM } = require('jsdom');
 
 const AXE_CONFIG = {
@@ -54,6 +56,7 @@ process.on('message', async file => {
     const result = await executeAxeCheck(file);
     process.send({ result });
   } catch (error) {
-    process.send({ error });
+    console.log(error);
+    process.send({ error: error.message });
   }
 });

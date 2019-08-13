@@ -126,7 +126,7 @@ function checkAccessibility(buildOptions) {
       console.log(summary);
       done();
     } catch (err) {
-      done(JSON.stringify(err));
+      done(err.message);
     }
   };
 }
