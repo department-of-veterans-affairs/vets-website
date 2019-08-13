@@ -4,5 +4,5 @@
   "entryName": "vaos-beta",
   "rootUrl": "/health-care/vaos-beta",
   "noRouting": true,
-  "production": true
+  "production": false
 }
