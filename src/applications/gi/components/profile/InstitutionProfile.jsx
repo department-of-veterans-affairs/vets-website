@@ -11,6 +11,14 @@ import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 
 export class InstitutionProfile extends React.Component {
+  static propTypes = {
+    profile: PropTypes.object,
+    isOJT: PropTypes.bool,
+    constants: PropTypes.object,
+    calculator: PropTypes.object,
+    eligibility: PropTypes.object,
+  };
+
   shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
@@ -44,6 +52,7 @@ export class InstitutionProfile extends React.Component {
                   institution={profile.attributes}
                   facilityMap={profile.attributes.facilityMap}
                   calculator={this.props.calculator}
+                  eligibility={this.props.eligibility}
                   constants={constants}
                   version={this.props.version}
                 />
@@ -74,12 +83,5 @@ export class InstitutionProfile extends React.Component {
     );
   }
 }
-
-InstitutionProfile.propTypes = {
-  profile: PropTypes.object,
-  isOJT: PropTypes.bool,
-  constants: PropTypes.object,
-  calculator: PropTypes.object,
-};
 
 export default InstitutionProfile;

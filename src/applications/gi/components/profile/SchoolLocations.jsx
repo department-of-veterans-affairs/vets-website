@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { formatCurrency } from '../../utils/helpers';
+import { getCalculatedBenefits } from '../../selectors/calculator';
 
 const DEFAULT_ROWS_VIEWABLE = 10;
 const DEFAULT_ROWS_ADJUSTED = DEFAULT_ROWS_VIEWABLE - 1;
@@ -48,14 +48,15 @@ export class SchoolLocations extends React.Component {
   };
 
   estimatedHousingRow = institution => {
-    const { giBillBenefit } = this.props.calculator;
+    const fakeState = {
+      constants: { constants: this.props.constants },
+      eligibility: this.props.eligibility,
+      profile: { attributes: institution },
+      calculator: this.props.calculator,
+    };
 
-    if (giBillBenefit === 'yes') {
-      return `${formatCurrency(this.props.constants.AVGVABAH)}/mo`;
-    } else if (giBillBenefit === 'no') {
-      return `${formatCurrency(institution.dodBah)}/mo`;
-    }
-    return 'TBD';
+    const calculated = getCalculatedBenefits(fakeState, this.props);
+    return calculated.outputs.housingAllowance.value;
   };
 
   renderRow = (institution, type, name = institution.institution) => {

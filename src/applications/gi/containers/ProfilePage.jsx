@@ -76,6 +76,7 @@ export class ProfilePage extends React.Component {
             constants={constants}
             showModal={this.props.showModal}
             calculator={this.props.calculator}
+            eligibility={this.props.eligibility}
             version={this.props.location.query.version}
           />
         );
@@ -95,8 +96,9 @@ const mapStateToProps = state => {
     constants: { constants },
     profile,
     calculator,
+    eligibility,
   } = state;
-  return { constants, profile, calculator };
+  return { constants, profile, calculator, eligibility };
 };
 
 const mapDispatchToProps = {

@@ -12,6 +12,11 @@ const getInstitution = state => state.profile.attributes;
 
 const getFormInputs = state => state.calculator;
 
+const getInstitutionType = institution =>
+  institution.type
+    ? institution.type.toLowerCase()
+    : institution.institutionTypeName.toLowerCase();
+
 const getDerivedValues = createSelector(
   getConstants,
   getEligibilityDetails,
@@ -74,7 +79,7 @@ const getDerivedValues = createSelector(
     const serviceDischarge = cumulativeService === 'service discharge';
     const purpleHeart = cumulativeService === 'purple heart';
 
-    const institutionType = institution.type.toLowerCase();
+    const institutionType = getInstitutionType(institution);
     const isOJT = institutionType === 'ojt';
     const isFlight = institutionType === 'flight';
     const isCorrespondence = institutionType === 'correspondence';
@@ -912,7 +917,7 @@ export const getCalculatedBenefits = createSelector(
 
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
-    const institutionType = institution.type.toLowerCase();
+    const institutionType = getInstitutionType(institution);
     const isOJT = institutionType === 'ojt';
 
     calculatedBenefits.inputs = {
