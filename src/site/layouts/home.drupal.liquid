@@ -6,22 +6,22 @@
 
     <div class="homepage-hub-container">
 
-      <h1 class="heading-level-2 homepage-heading">{{ heading }}</h1>
+      <h1 class="heading-level-2 homepage-heading">Access and manage your VA benefits and health care</h1>
 
       <!-- top row -->
       <div class="hub-links-row">
       {% for card in cards %}
         <div class="hub-links-container">
-          <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h2>
+          <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{ card.label | downcase | replace: ' ', '-' }} hub-color-{{ card.label | downcase | replace: ' ', '-' }}"></i>{{ card.label }}</h2>
           <ul class="hub-links-list">
             {% assign parentCard = card %}
 
-            {% for link in card.links %}
-              <li><a data-nav-path="{{parentCard.heading}}->{% if link.nav_path != empty %}{{link.nav_path}}{% else %}{{ link.title }}{% endif %}" href="{{link.url}}">{{link.title}}</a></li>
+            {% for link in parentCard.links %}
+              <li><a data-nav-path="{{ parentCard.label }}->{% if link.url.path != empty %}{{ link.url.path }}{% else %}{{ link.label }}{% endif %}" href="{{ link.url.path }}">{{ link.label }}</a></li>
             {% endfor %}
           </ul>
         </div>
-        {% if card.end_row == true and forloop.last != true %}
+        {% if forloop.index == 2 %}
         </div>
         <div class="hub-links-row">
         {% endif %}
@@ -40,8 +40,8 @@
       <div class="usa-grid usa-grid-full homepage-benefits-row">
       {% for hub in hubs %}
         <div class="usa-width-one-third">
-          <h3 class="heading-level-4"><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{hub.hub}} hub-background-{{hub.hub}} white"></i>{{hub.heading}}</a></h4>
-          <p class="homepage-benefits-description">{{hub.description}}</p>
+          <h3 class="heading-level-4"><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{hub.entity.fieldTitleIcon}} hub-background-{{hub.entity.fieldTitleIcon}} white"></i>{{hub.entity.entityLabel}}</a></h4>
+          <p class="homepage-benefits-description">{{hub.entity.fieldTeaserText}}</p>
         </div>
         {% if hub.end_row == true and forloop.last != true %}
         </div>
@@ -100,14 +100,14 @@
   <section id="homepage-news">
 
     <div class="usa-grid usa-grid-full">
-    {% for story in news %}
+    {% for promo in promos %}
       <div class="usa-width-one-third homepage-news-story">
         <div class="homepage-image-wrapper">
-          <img class="lazy" width="552" data-src="{{ story.img }}" alt="{{ story.alt }}"/>
+          <img class="lazy" width="552" data-src="{{ promo.entity.fieldImage.entity.image.url }}" alt="{{ promo.entity.fieldImage.entity.image.alt }}"/>
         </div>
-        <h4 class="homepage-news-story-title"><a class="no-external-icon" href="{{ story.href }}"
-          onClick="recordEvent({ event: 'nav-footer-news-story' });"/>{{ story.title }}</a></h4>
-        <p class="homepage-news-story-desc">{{ story.description }}</p>
+        <h4 class="homepage-news-story-title"><a class="no-external-icon" href="{{ promo.entity.fieldPromoLink.entity.fieldLink.uri }}"
+          onClick="recordEvent({ event: 'nav-footer-news-story' });"/>{{ promo.entity.fieldPromoLink.entity.fieldLink.title }}</a></h4>
+        <p class="homepage-news-story-desc">{{ promo.entity.fieldPromoLink.entity.fieldLinkSummary }}</p>
       </div>
       {% if hub.end_row == true and forloop.last != true %}
       </div>
@@ -136,3 +136,4 @@
 </script>
 
 {% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
