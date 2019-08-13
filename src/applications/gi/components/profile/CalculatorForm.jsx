@@ -59,22 +59,7 @@ class CalculatorForm extends React.Component {
     }
   }
 
-  renderLearnMoreLabel({ text, modal, isBreak }) {
-    if (isBreak) {
-      return (
-        <span>
-          {text} <br />(
-          <button
-            type="button"
-            className="va-button-link learn-more-button"
-            onClick={this.props.onShowModal.bind(this, modal)}
-          >
-            Learn more
-          </button>
-          )
-        </span>
-      );
-    }
+  renderLearnMoreLabel({ text, modal }) {
     return (
       <span>
         {text} (
@@ -114,7 +99,6 @@ class CalculatorForm extends React.Component {
             text:
               'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
             modal: 'whenUsedGiBill',
-            isBreak: false,
           })}
           name="giBillBenefit"
           options={[
@@ -138,7 +122,6 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'In-state tuition and fees per year',
             modal: 'calcInStateTuition',
-            isBreak: false,
           })}
         </label>
         <input
@@ -221,7 +204,6 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
             modal: 'calcYr',
-            isBreak: false,
           })}
           name="yellowRibbonRecipient"
           options={[
@@ -298,7 +280,6 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'Scholarships (excluding Pell)',
             modal: 'calcScholarships',
-            isBreak: false,
           })}
         </label>
         <input
@@ -321,7 +302,6 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
             modal: 'calcTuitionAssist',
-            isBreak: false,
           })}
         </label>
         <input
@@ -377,7 +357,6 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Enrolled',
             modal: 'calcEnrolled',
-            isBreak: false,
           })}
           name={name}
           alt="Enrolled"
@@ -443,7 +422,6 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'School Calendar',
             modal: 'calcSchoolCalendar',
-            isBreak: false,
           })}
           name="calendar"
           alt="School calendar"
@@ -488,7 +466,6 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
             modal: 'calcKicker',
-            isBreak: false,
           })}
           name="kickerEligible"
           options={[
@@ -540,7 +517,6 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will the majority of your classes be on the main campus?',
             modal: 'calcBeneficiaryLocationQuestion',
-            isBreak: false,
           })}
           name="beneficiaryLocationQuestion"
           options={[
@@ -559,36 +535,52 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
     }
-
-    let amountInput;
-    let extensionSelector;
     const extensions = this.props.profile.attributes.facilityMap.main
       .extensions;
+    let amountInput;
+    let extensionSelector;
+    let extensionOptions;
+    let zipcodeRadioOptions;
+
+    if (extensions.length > 0) {
+      extensionOptions = [{ value: 'other', label: 'Other...' }];
+      extensions.forEach(extension => {
+        extensionOptions.push({
+          value: extension.zip,
+          label: extension.institution,
+        });
+      });
+      zipcodeRadioOptions = [
+        {
+          value: this.props.profile.attributes.name,
+          label: this.props.profile.attributes.name,
+        },
+        { value: 'extension', label: 'An extension campus' },
+      ];
+    } else {
+      zipcodeRadioOptions = [
+        {
+          value: this.props.profile.attributes.name,
+          label: this.props.profile.attributes.name,
+        },
+        { value: 'other', label: 'Other location' },
+      ];
+    }
 
     if (this.props.inputs.beneficiaryLocationQuestion === 'extension') {
-      if (extensions.length > 0) {
-        const extensionOptions = [{ value: 'other', label: 'Other...' }];
-        extensions.forEach(extension => {
-          extensionOptions.push({
-            value: extension.zip,
-            label: extension.institution,
-          });
-        });
-
-        extensionSelector = (
-          <div>
-            <Dropdown
-              label="Choose the location where you'll take your classes"
-              name="extension"
-              alt="Extension Location"
-              visible
-              options={extensionOptions}
-              value={this.props.inputs.extension}
-              onChange={this.handleExtensionChange}
-            />
-          </div>
-        );
-      }
+      extensionSelector = (
+        <div>
+          <Dropdown
+            label="Choose the location where you'll take your classes"
+            name="extension"
+            alt="Extension Location"
+            visible
+            options={extensionOptions}
+            value={this.props.inputs.extension}
+            onChange={this.handleExtensionChange}
+          />
+        </div>
+      );
     }
 
     if (
@@ -616,33 +608,25 @@ class CalculatorForm extends React.Component {
       );
     }
 
-    let zipcodeRadioOptions;
-    if (extensions.length > 0) {
-      zipcodeRadioOptions = [
-        {
-          value: this.props.profile.attributes.name,
-          label: this.props.profile.attributes.name,
-        },
-        { value: 'extension', label: 'An extension campus' },
-      ];
-    } else {
-      zipcodeRadioOptions = [
-        {
-          value: this.props.profile.attributes.name,
-          label: this.props.profile.attributes.name,
-        },
-        { value: 'other', label: 'Other location' },
-      ];
-    }
-
     return (
       <div>
         <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text: 'Where will you take the majority of your classes?',
-            modal: 'calcBeneficiaryLocationQuestion',
-            isBreak: true,
-          })}
+          label={
+            <span>
+              {'Where will you take the majority of your classes?'} <br />(
+              <button
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(
+                  this,
+                  'calcBeneficiaryLocationQuestion',
+                )}
+              >
+                Learn more
+              </button>
+              )
+            </span>
+          }
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
           value={this.props.inputs.beneficiaryLocationQuestion}
@@ -702,7 +686,6 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will be working',
             modal: 'calcWorking',
-            isBreak: false,
           })}
           name="working"
           alt="Will be working"
