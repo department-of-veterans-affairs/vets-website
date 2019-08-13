@@ -494,9 +494,17 @@ const getDerivedValues = createSelector(
 
     let bah;
     // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
-    const useBeneficiaryLocationRate =
-      inputs.beneficiaryLocationQuestion === 'no' &&
-      inputs.beneficiaryLocationBah !== null;
+    let useBeneficiaryLocationRate;
+    if (environment.isProduction()) {
+      useBeneficiaryLocationRate =
+        inputs.beneficiaryLocationQuestion === 'no' &&
+        inputs.beneficiaryLocationBah !== null;
+    } else {
+      useBeneficiaryLocationRate =
+        (inputs.beneficiaryLocationQuestion === 'extension' ||
+          inputs.beneficiaryLocationQuestion === 'other') &&
+        inputs.beneficiaryLocationBah !== null;
+    }
 
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =

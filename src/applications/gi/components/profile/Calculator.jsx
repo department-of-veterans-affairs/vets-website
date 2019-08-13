@@ -86,6 +86,7 @@ export class Calculator extends React.Component {
 
   renderCalculatorForm() {
     const {
+      profile,
       calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
@@ -120,6 +121,7 @@ export class Calculator extends React.Component {
           <div>
             {expanded ? (
               <CalculatorForm
+                profile={profile}
                 inputs={inputs}
                 displayedInputs={displayed}
                 onShowModal={this.props.showModal}
@@ -250,6 +252,7 @@ export class Calculator extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   calculator: state.calculator,
+  profile: state.profile,
   calculated: getCalculatedBenefits(state, props),
 });
 
