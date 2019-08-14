@@ -25,7 +25,7 @@
 
 {% assign analytics = buildtype | default: 'vagovprod' %}
 {% if analytics == 'localhost' %}{% assign analytics = 'vagovdev' %}{% endif %}
-{% assign analytics = analytics | prepend: "src/site/assets/js/google-analytics/" %}
+{% assign analytics = analytics | prepend: "src/site/assets/google-analytics/" %}
 {% assign analyticsScript = analytics | append: ".js" %}
 {% assign analyticsIframe = analytics | append: ".html" %}
 
@@ -83,8 +83,10 @@
 
 </head>
 <body class="{{ body_class }} merger">
-  {% include {{ analyticsIframe }} %}
-  <a class="show-on-focus" href="#content">Skip to Content</a>
+
+{% include {{ analyticsIframe }} %}
+
+<a class="show-on-focus" href="#content">Skip to Content</a>
 
 {% if !noHeader %}
   {% include "src/site/includes/top-nav.html" %}
