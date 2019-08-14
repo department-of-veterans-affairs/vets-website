@@ -572,16 +572,18 @@ class CalculatorForm extends React.Component {
       });
       zipcodeRadioOptions = [
         {
-          value: profile.attributes.name,
+          value: 'yes',
           label: profile.attributes.name,
+          checked: true,
         },
         { value: 'extension', label: 'An extension campus' },
       ];
     } else {
       zipcodeRadioOptions = [
         {
-          value: profile.attributes.name,
+          value: 'yes',
           label: profile.attributes.name,
+          checked: true,
         },
         { value: 'other', label: 'Other location' },
       ];
@@ -627,7 +629,6 @@ class CalculatorForm extends React.Component {
         </div>
       );
     }
-
     return (
       <div>
         <RadioButtons
