@@ -106,7 +106,7 @@ describe('build/check-broken-links', () => {
     setTotalBrokenPages(5);
     setErrorOutput('broken links!');
 
-    buildOptions.buildtype = ENVIRONMENTS.VAGOVSTAGING;
+    buildOptions.buildtype = ENVIRONMENTS.VAGOVDEV;
 
     middleware(files, null, done);
     expect(console.log.firstCall.args[0]).to.be.equal('broken links!');
