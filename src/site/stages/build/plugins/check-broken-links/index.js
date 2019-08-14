@@ -48,7 +48,11 @@ function getMiddleware(
     if (brokenPages.length > 0) {
       const errorOutput = getErrorOutput(brokenPages);
 
-      if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
+      if (
+        [ENVIRONMENTS.VAGOVPROD, ENVIRONMENTS.VAGOVSTAGING].includes(
+          buildOptions.buildtype,
+        )
+      ) {
         done(errorOutput);
         return;
       }
