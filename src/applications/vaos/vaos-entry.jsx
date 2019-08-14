@@ -1,7 +1,7 @@
-import '../../platform/polyfills';
+import 'platform/polyfills';
 import './sass/vaos.scss';
 
-import startApp from '../../platform/startup';
+import startApp from 'platform/startup';
 import routes from './routes';
 import manifest from './manifest.json';
 import reducer from './reducers';
@@ -10,5 +10,5 @@ startApp({
   url: manifest.rootUrl,
   routes,
   reducer,
-  entryName: 'vaos-beta',
+  entryName: manifest.entryName,
 });
