@@ -19,7 +19,7 @@ const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 // String Helpers
 const {
@@ -78,7 +78,7 @@ module.exports = `
   }
 `;
 
-if (enabledFeatureFlags.GRAPHQL_MODULE_UPDATE) {
+if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
   const query = module.exports;
 
   let regString = '';

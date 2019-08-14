@@ -22,10 +22,10 @@ const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
 
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 let fieldAministrationKey;
-if (enabledFeatureFlags.GRAPHQL_MODULE_UPDATE) {
+if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
   fieldAministrationKey = 'FieldNodePageFieldAdministration';
 } else {
   fieldAministrationKey = 'FieldNodeFieldAdministration';
@@ -59,7 +59,7 @@ module.exports = `
         ${TABLE}
         ${ALERT_PARAGRAPH}
         ${
-          enabledFeatureFlags.FEATURE_DOWNLOADABLE_FILE
+          cmsFeatureFlags.FEATURE_DOWNLOADABLE_FILE
             ? `
             ${DOWNLOADABLE_FILE_PARAGRAPH}
             ${MEDIA_PARAGRAPH}

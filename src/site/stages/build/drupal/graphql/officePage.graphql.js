@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 module.exports = `
  fragment officePage on NodeOffice {
@@ -12,7 +12,7 @@ module.exports = `
     changed
     title
     fieldDescription
-    ${enabledFeatureFlags.FEATURE_FIELD_BODY ? 'fieldBody { processed }' : ''}
+    ${cmsFeatureFlags.FEATURE_FIELD_BODY ? 'fieldBody { processed }' : ''}
     reverseFieldOfficeNode {
       entities {
     ... on NodeEvent {

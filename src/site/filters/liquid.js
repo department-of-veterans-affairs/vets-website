@@ -10,7 +10,7 @@ function getPath(obj) {
 module.exports = function registerFilters() {
   const {
     featureFlags,
-    enabledFeatureFlags,
+    cmsFeatureFlags,
   } = require('../utilities/featureFlags');
 
   // Custom liquid filter(s)
@@ -250,7 +250,7 @@ module.exports = function registerFilters() {
   liquid.filters.featureFieldRegionalHealthService = entity => {
     if (
       entity &&
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
+      cmsFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
     ) {
       return entity.fieldRegionalHealthService
         ? entity.fieldRegionalHealthService.entity
@@ -264,7 +264,7 @@ module.exports = function registerFilters() {
   liquid.filters.featureSingleValueFieldLink = fieldLink => {
     if (
       fieldLink &&
-      enabledFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
+      cmsFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
     ) {
       return fieldLink[0];
     }
@@ -312,7 +312,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    enabledFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
+    cmsFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
       ? serviceTaxonomy.fieldHealthServiceApiId
       : serviceTaxonomy.name;
 

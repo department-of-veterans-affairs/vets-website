@@ -3,9 +3,9 @@
  * Appears on hub landing pages.
  */
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
-const fieldAministrationKey = enabledFeatureFlags.GRAPHQL_MODULE_UPDATE
+const fieldAministrationKey = cmsFeatureFlags.GRAPHQL_MODULE_UPDATE
   ? 'FieldNodeLandingPageFieldAdministration'
   : 'FieldNodeFieldAdministration';
 

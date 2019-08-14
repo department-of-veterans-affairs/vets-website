@@ -176,14 +176,14 @@ async function setUpFeatureFlags(options) {
     };
     enabled = queryResult.data;
   } else {
-    const { enabledFeatureFlags } = require('../../utilities/featureFlags');
-    enabled = enabledFeatureFlags;
+    const { cmsFeatureFlags } = require('../../utilities/featureFlags');
+    enabled = cmsFeatureFlags;
   }
 
   Object.assign(options, {
-    enabledFeatureFlags: enabled,
+    cmsFeatureFlags: enabled,
   });
-  global.enabledFeatureFlags = enabled;
+  global.cmsFeatureFlags = enabled;
 }
 
 async function getOptions(commandLineOptions) {

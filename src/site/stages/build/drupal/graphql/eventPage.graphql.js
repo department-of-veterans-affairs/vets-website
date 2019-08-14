@@ -4,7 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 module.exports = `
  fragment eventPage on NodeEvent {
@@ -63,7 +63,7 @@ module.exports = `
     }
     fieldEventRegistrationrequired
     ${
-      enabledFeatureFlags.FEATURE_FIELD_ADDITIONAL_INFO
+      cmsFeatureFlags.FEATURE_FIELD_ADDITIONAL_INFO
         ? 'fieldAdditionalInformationAbo {processed}'
         : 'fieldAdditionalInformationAbo'
     }

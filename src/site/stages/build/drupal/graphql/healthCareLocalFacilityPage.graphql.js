@@ -1,7 +1,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const { enabledFeatureFlags } = global;
-const socialMediaFields = enabledFeatureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
+const { cmsFeatureFlags } = global;
+const socialMediaFields = cmsFeatureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
   ? require('./facilities-fragments/healthCareSocialMedia.fields.graphql')
   : '';
 
@@ -13,7 +13,7 @@ module.exports = `
     fieldNicknameForThisFacility
     fieldIntroText
     ${
-      enabledFeatureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
+      cmsFeatureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
         ? 'fieldOperatingStatusFacility'
         : ''
     }
@@ -53,7 +53,7 @@ module.exports = `
             processed
           }
           ${
-            enabledFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
+            cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
               ? 'fieldRegionalHealthService'
               : 'fieldClinicalHealthServices'
           } {
@@ -70,7 +70,7 @@ module.exports = `
                       entityBundle
                       fieldAlsoKnownAs
                       ${
-                        enabledFeatureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
+                        cmsFeatureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
                           ? 'fieldCommonlyTreatedCondition'
                           : ''
                       }
@@ -86,7 +86,7 @@ module.exports = `
                         }
                       }
                       ${
-                        enabledFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
+                        cmsFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
                           ? 'fieldHealthServiceApiId'
                           : ''
                       }

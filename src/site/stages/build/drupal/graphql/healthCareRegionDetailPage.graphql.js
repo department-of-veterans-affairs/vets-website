@@ -24,7 +24,7 @@ const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 module.exports = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
@@ -34,13 +34,13 @@ module.exports = `
     changed
     fieldIntroText
     ${
-      enabledFeatureFlags.FEATURE_REGION_DETAIL_PAGE_TOC
+      cmsFeatureFlags.FEATURE_REGION_DETAIL_PAGE_TOC
         ? 'fieldTableOfContentsBoolean'
         : ''
     }
 
     ${
-      enabledFeatureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
+      cmsFeatureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
         ? `
           fieldFeaturedContent {
             entity {
@@ -70,7 +70,7 @@ module.exports = `
         ${TABLE}
         ${ALERT_PARAGRAPH}        
         ${
-          enabledFeatureFlags.FEATURE_DOWNLOADABLE_FILE
+          cmsFeatureFlags.FEATURE_DOWNLOADABLE_FILE
             ? `
                 ${DOWNLOADABLE_FILE_PARAGRAPH}        
                 ${MEDIA_PARAGRAPH}
@@ -83,7 +83,7 @@ module.exports = `
     ${FIELD_RELATED_LINKS}
 
     ${
-      enabledFeatureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
+      cmsFeatureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
         ? FIELD_ALERT
         : ''
     }

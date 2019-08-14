@@ -20,7 +20,7 @@ const downloadableFile = require('./paragraph-fragments/downloadableFile.paragra
 const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
 
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 module.exports = `
   ${alert}
@@ -40,7 +40,7 @@ module.exports = `
   ${alertParagraph}
   ${table}  
   ${
-    enabledFeatureFlags.FEATURE_DOWNLOADABLE_FILE
+    cmsFeatureFlags.FEATURE_DOWNLOADABLE_FILE
       ? `
         ${downloadableFile}
         ${embeddedImage}

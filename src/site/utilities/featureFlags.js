@@ -108,17 +108,15 @@ const flagsByBuildtype = {
 };
 
 // Exported feature flag state, which can be used in code as needed
-const enabledFeatureFlags = Object.values(featureFlags).reduce((acc, next) => {
+const cmsFeatureFlags = Object.values(featureFlags).reduce((acc, next) => {
   acc[next] = flagsByBuildtype[global.buildtype].includes(next);
   return acc;
 }, {});
 
 const applyFeatureFlags = (moduleToFlag, flagToUse = null) => {
   let flaggedPath;
-  Object.keys(enabledFeatureFlags)
-    .filter(
-      flag => enabledFeatureFlags[flag] && (!flagToUse || flagToUse === flag),
-    )
+  Object.keys(cmsFeatureFlags)
+    .filter(flag => cmsFeatureFlags[flag] && (!flagToUse || flagToUse === flag))
     .forEach(flag => {
       const extension = path.extname(moduleToFlag.filename);
       const pathToTest = moduleToFlag.filename.replace(
@@ -145,6 +143,6 @@ Object.defineProperty(global, 'applyFeatureFlags', {
 });
 
 module.exports = {
-  enabledFeatureFlags,
+  cmsFeatureFlags,
   featureFlags,
 };

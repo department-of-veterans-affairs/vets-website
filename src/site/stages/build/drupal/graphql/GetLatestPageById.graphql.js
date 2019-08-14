@@ -15,7 +15,7 @@ const alertsQuery = require('./alerts.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 
 // Get current feature flags
-const { enabledFeatureFlags } = global;
+const { cmsFeatureFlags } = global;
 
 // String Helpers
 const {
@@ -65,7 +65,7 @@ module.exports = `
   }
 `;
 
-if (enabledFeatureFlags.GRAPHQL_MODULE_UPDATE) {
+if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
   const query = module.exports;
 
   let regString = '';
