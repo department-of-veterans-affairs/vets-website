@@ -49,6 +49,8 @@ class RadioButtons extends React.Component {
         }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
+      const inputId = `${this.inputId}-${index}`;
+      const labelId = `${inputId}-label`;
       const radioButton = (
         <div
           key={optionAdditional ? undefined : index}
@@ -57,19 +59,17 @@ class RadioButtons extends React.Component {
           <input
             className="gids-radio-buttons-input"
             checked={checked}
-            id={`${this.inputId}-${index}`}
+            id={inputId}
             name={this.props.name}
             type="radio"
             value={optionValue}
             onChange={this.handleChange}
-            aria-labelledby={`${this.inputId}-legend ${
-              this.props.name
-            }-${index}-label`}
+            aria-labelledby={`${this.inputId}-legend ${labelId}`}
           />
           <label
-            id={`${this.inputId}-${index}-label`}
+            id={labelId}
             name={`${this.props.name}-${index}-label`}
-            htmlFor={`${this.inputId}-${index}`}
+            htmlFor={inputId}
             className="vads-u-margin-top--1 vads-u-margin-bottom--1"
           >
             {optionLabel}
