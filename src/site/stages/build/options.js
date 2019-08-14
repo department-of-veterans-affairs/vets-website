@@ -183,6 +183,7 @@ async function setUpFeatureFlags(options) {
   Object.assign(options, {
     enabledFeatureFlags: enabled,
   });
+  global.enabledFeatureFlags = enabled;
 }
 
 async function getOptions(commandLineOptions) {
