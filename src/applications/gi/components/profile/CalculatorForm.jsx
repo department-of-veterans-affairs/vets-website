@@ -26,10 +26,9 @@ class CalculatorForm extends React.Component {
     this.renderKicker = this.renderKicker.bind(this);
     this.renderBuyUp = this.renderBuyUp.bind(this);
     this.renderWorking = this.renderWorking.bind(this);
-    this.renderOnlineClasses = this.renderOnlineClasses.bind(this);
   }
 
-  getExtensions() {
+  getExtensions = () => {
     const { profile } = this.props;
     const facilityMap = profile.attributes.facilityMap;
     const profileFacilityCode = profile.attributes.facilityCode;
@@ -46,7 +45,7 @@ class CalculatorForm extends React.Component {
       });
     }
     return extensions;
-  }
+  };
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
@@ -65,10 +64,10 @@ class CalculatorForm extends React.Component {
     }
   };
 
-  handleInputChange(event) {
+  handleInputChange = event => {
     const { name: field, value } = event.target;
     this.props.onInputChange({ field, value });
-  }
+  };
 
   resetBuyUp(event) {
     event.preventDefault();
@@ -553,7 +552,7 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderExtensionBeneficiaryZIP() {
+  renderExtensionBeneficiaryZIP = () => {
     const { profile, inputs, onShowModal } = this.props;
     const extensions = this.getExtensions();
 
@@ -633,7 +632,7 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={
             <span>
-              {'Where will you take the majority of your classes?'} <br />(
+              {'Where will you take the majority of your classes?'} <br />
               <button
                 type="button"
                 className="va-button-link learn-more-button"
@@ -642,9 +641,8 @@ class CalculatorForm extends React.Component {
                   'calcBeneficiaryLocationQuestion',
                 )}
               >
-                Learn more
+                (Learn more)
               </button>
-              )
             </span>
           }
           name="beneficiaryLocationQuestion"
@@ -656,7 +654,7 @@ class CalculatorForm extends React.Component {
         {amountInput}
       </div>
     );
-  }
+  };
 
   renderBuyUp() {
     if (!this.props.displayedInputs.buyUp) return null;
@@ -734,15 +732,13 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderOnlineClasses() {
-    return (
-      <OnlineClassesFilter
-        onlineClasses={this.props.inputs.onlineClasses}
-        onChange={this.handleInputChange}
-        showModal={this.props.onShowModal}
-      />
-    );
-  }
+  renderOnlineClasses = () => (
+    <OnlineClassesFilter
+      onlineClasses={this.props.eligibility.onlineClasses}
+      onChange={this.props.eligibilityChange}
+      showModal={this.props.onShowModal}
+    />
+  );
 
   render() {
     if (!this.props.displayedInputs) return null;
