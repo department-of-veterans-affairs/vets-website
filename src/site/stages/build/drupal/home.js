@@ -7,6 +7,7 @@ function addHomeContent(contentData, files) {
   const hubListLength = 11;
   const promoBlockLength = 3;
 
+  // Make sure that we have content for the home page.
   if (contentData.data.homePageMenuQuery) {
     const homeEntityObj = createEntityUrlObj('/');
     const {
@@ -32,6 +33,7 @@ function addHomeContent(contentData, files) {
       promoBlockLength,
     );
 
+    // Let Metalsmith know we're here.
     files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
   }
 }
