@@ -174,7 +174,21 @@ async function setUpFeatureFlags(options) {
       },
       method: 'GET',
     };
-    enabled = queryResult.data;
+
+    // Using a Proxy to throw an error during the build if the feature
+    // flag referenced isn't returned from Drupal.
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+    const p = new Proxy(queryResult.data, {
+      get: (obj, prop) => {
+        if (prop in obj) {
+          return obj[prop];
+        }
+        throw new Error(
+          `Could not find feature flag ${prop}. This could be a typo or the feature flag wasn't returned from Drupal.`,
+        );
+      },
+    });
+    enabled = p;
   } else {
     const { cmsFeatureFlags } = require('../../utilities/featureFlags');
     enabled = cmsFeatureFlags;
