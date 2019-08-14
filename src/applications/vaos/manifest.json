@@ -1,8 +1,7 @@
 {
   "appName": "VA Online Scheduling",
   "entryFile": "./vaos-entry",
-  "entryName": "vaos-beta",
-  "rootUrl": "/health-care/vaos-beta",
-  "noRouting": true,
+  "entryName": "vaos",
+  "rootUrl": "/vaos",
   "production": false
 }
