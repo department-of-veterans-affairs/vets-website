@@ -1,6 +1,5 @@
 import environment from 'platform/utilities/environment';
 
-// const TOGGLE_VALUES_PATH = '/toggle.json';
 const TOGGLE_VALUES_PATH =
   '/v0/feature_toggles?features=facilityLocatorShowCommunityCares';
 const TOGGLE_POLLING_INTERVAL = 5000;
@@ -9,7 +8,6 @@ let flipperClientInstance;
 
 function FlipperClient({
   host = environment.API_URL,
-  // host = 'http://localhost:3001',
   toggleValuesPath = TOGGLE_VALUES_PATH,
 } = {}) {
   let _timeoutId;
