@@ -12,7 +12,7 @@ const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
 const registerLiquidFilters = require('../../filters/liquid');
-const getDrupalContent = require('./drupal/metalsmith-drupal');
+const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
@@ -181,8 +181,8 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-function main() {
-  const buildOptions = getOptions();
+async function main() {
+  const buildOptions = await getOptions();
   defaultBuild(buildOptions);
 }
 

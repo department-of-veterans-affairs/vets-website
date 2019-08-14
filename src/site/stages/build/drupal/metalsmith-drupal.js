@@ -22,6 +22,8 @@ const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 
+const drupalEnabled = buildtype => ENABLED_ENVIRONMENTS.has(buildtype);
+
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
@@ -147,7 +149,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 }
 
 function getDrupalContent(buildOptions) {
-  if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
+  if (!drupalEnabled(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
     const noop = () => {};
     return noop;
@@ -181,4 +183,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = getDrupalContent;
+module.exports = { getDrupalContent, drupalEnabled };

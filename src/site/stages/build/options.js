@@ -11,6 +11,8 @@ const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
 
+const { drupalEnabled } = require('./drupal/metalsmith-drupal');
+
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
   { name: 'host', type: String, defaultValue: defaultHost },
@@ -147,26 +149,49 @@ function deriveHostUrl(options) {
   ];
 }
 
-function setUpFeatureFlags(options) {
+// Sets up the CMS feature flags by either querying the CMS for them
+// or using ../../utilities/featureFlags
+async function setUpFeatureFlags(options) {
   global.buildtype = options.buildtype;
-  const {
-    enabledFeatureFlags,
-    featureFlags,
-  } = require('../../utilities/featureFlags');
+  let enabled;
+
+  if (drupalEnabled(options.buildtype)) {
+    // Query CMS (will be async...)
+    const queryResult = {
+      data: {
+        FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION: true,
+        FEATURE_FIELD_EVENT_LISTING_DESCRIPTION: false,
+        FEATURE_FIELD_BODY: true,
+        FEATURE_FIELD_ADDITIONAL_INFO: false,
+        FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: true,
+        GRAPHQL_MODULE_UPDATE: true,
+        FEATURE_FIELD_OTHER_VA_LOCATIONS: true,
+        FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT: false,
+        FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS: true,
+        FEATURE_FIELD_LINKS: true,
+        FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT: false,
+        FEATURE_LOCAL_FACILITY_GET_IN_TOUCH: true,
+      },
+      method: 'GET',
+    };
+    enabled = queryResult.data;
+  } else {
+    const { enabledFeatureFlags } = require('../../utilities/featureFlags');
+    enabled = enabledFeatureFlags;
+  }
 
   Object.assign(options, {
-    enabledFeatureFlags,
-    featureFlags,
+    enabledFeatureFlags: enabled,
   });
 }
 
-function getOptions(commandLineOptions) {
+async function getOptions(commandLineOptions) {
   const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
-  setUpFeatureFlags(options);
+  await setUpFeatureFlags(options);
 
   return options;
 }
