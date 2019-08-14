@@ -16,6 +16,7 @@ function getDrupalClient(buildOptions) {
     address: buildOptions['drupal-address'],
     user: buildOptions['drupal-user'],
     password: buildOptions['drupal-password'],
+    useProxy: buildOptions['use-proxy']
   };
 
   Object.keys(buildArgs).forEach(key => {
@@ -25,7 +26,7 @@ function getDrupalClient(buildOptions) {
   const envConfig = DRUPALS[buildOptions.buildtype];
   const drupalConfig = Object.assign({}, envConfig, buildArgs);
 
-  const { address, user, password } = drupalConfig;
+  const { address, user, password, useProxy } = drupalConfig;
   const drupalUri = `${address}/graphql`;
   const encodedCredentials = encodeCredentials({ user, password });
   const headers = {
@@ -35,10 +36,22 @@ function getDrupalClient(buildOptions) {
   const agent = new SocksProxyAgent('socks://127.0.0.1:2001');
 
   return {
-    // We have to point to aws urls on Jenkins, so the only
-    // time we'll be using cms.va.gov addresses is locally,
-    // when we need a proxy
-    usingProxy: address.includes('cms.va.gov'),
+    // During Production WEB builds, the WEB build process reads from the Drupal
+    // CMS using the AWS ELB URL.
+    // e.g. internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com
+
+    // When running WEB build process, the site at DRUPAL_ADDRESS must be reachable.
+    // If building and sourcing content from a site at *.cms.va.gov, from outside of VAEC,
+    // the socks proxy agent must be used because those sites are in VAEC.
+
+    // If a CMS is available at DRUPAL_ADDRESS, reachable by the WEB build process, the proxy is not needed.
+    // This includes in local development environment where user has a local CMS instance
+    // and when WEB is built in CMS-CI where every WEB has a CMS instance.
+
+    // These are the two situations where the proxy must not be used.
+    //
+    // If use-proxy is null we dynamically detect it here.
+    usingProxy: useProxy,
 
     getSiteUri() {
       return address;
