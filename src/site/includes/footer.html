@@ -3,22 +3,6 @@
   <div id="footerNav"></div> <!-- let's try this React thing -->
 </footer>
 
-{% assign analytics = buildtype | default: 'vagovprod' %}
-{% if analytics == 'localhost' %}{% assign analytics = 'vagovdev' %}{% endif %}
-{% assign analytics = analytics | prepend: "src/site/assets/js/google-analytics/" %}
-{% assign analyticsScript = analytics | append: ".js" %}
-{% assign analyticsIframe = analytics | append: ".html" %}
-
-<script>
-  {% include {{ analyticsScript }} %}
-  recordEvent({ environment: '{{ buildtype }}' });
-  if ( self !== top ) {
-    recordEvent({ event: 'iframed', embeddedIn: document.referrer});
-  }
-</script>
-
-{% include {{ analyticsIframe }} %}
-
 <!--
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
