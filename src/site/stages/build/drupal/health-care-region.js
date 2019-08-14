@@ -8,6 +8,7 @@ const {
 } = require('./page');
 
 const _ = require('lodash');
+const moment = require('moment');
 
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
@@ -145,9 +146,32 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 
   // Events listing page
+  const allEvents = page.allEventTeasers;
+
+  // get past events
+  const pastEventTeasers = {
+    entities: [],
+  };
+
+  // get current events
+  const currentEventTeasers = {
+    entities: [],
+  };
+
+  _.forEach(allEvents.entities, value => {
+    const eventTeaser = value;
+    const startDate = eventTeaser.fieldDate.startDate;
+    const isPast = moment().diff(startDate, 'days');
+    if (isPast >= 1) {
+      pastEventTeasers.entities.push(eventTeaser);
+    } else {
+      currentEventTeasers.entities.push(eventTeaser);
+    }
+  });
+
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
-    { allEventTeasers: page.allEventTeasers },
+    { allEventTeasers: currentEventTeasers },
     { eventTeasers: page.eventTeasers },
     { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
     { facilitySidebar: sidebar },
@@ -166,6 +190,35 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'allEventTeasers',
     'events_page.drupal.liquid',
     'events',
+  );
+
+  // Past Events listing page
+  const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
+
+  const pastEventsObj = Object.assign(
+    { allEventTeasers: pastEventTeasers },
+    { eventTeasers: page.eventTeasers },
+    { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
+    { facilitySidebar: sidebar },
+    { entityUrl: pastEventsEntityUrl },
+    { title: page.title },
+    { alert: page.alert },
+  );
+  const pastEventsPage = updateEntityUrlObj(
+    pastEventsObj,
+    drupalPagePath,
+    'Past events',
+  );
+  const pastEventsPagePath = pastEventsPage.entityUrl.path;
+  pastEventsPage.regionOrOffice = page.title;
+  eventPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
+
+  paginatePages(
+    pastEventsPage,
+    files,
+    'allEventTeasers',
+    'events_page.drupal.liquid',
+    'past-events',
   );
 
   // Staff bio listing page
