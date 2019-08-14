@@ -25,6 +25,7 @@ class CalculatorForm extends React.Component {
     this.renderKicker = this.renderKicker.bind(this);
     this.renderBuyUp = this.renderBuyUp.bind(this);
     this.renderWorking = this.renderWorking.bind(this);
+    this.renderOnlineClasses = this.renderOnlineClasses.bind(this);
   }
 
   getExtensions() {
@@ -732,6 +733,24 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderOnlineClasses() {
+    return (
+      <div>
+        <RadioButtons
+          label="How do you want to take classes?"
+          name="onlineClasses"
+          options={[
+            { value: 'yes', label: 'Online only' },
+            { value: 'no', label: 'In person only' },
+            { value: 'both', label: 'In person and online' },
+          ]}
+          value={this.props.inputs.onlineClasses}
+          onChange={this.handleInputChange}
+        />
+      </div>
+    );
+  }
+
   render() {
     if (!this.props.displayedInputs) return null;
     return (
@@ -744,9 +763,10 @@ class CalculatorForm extends React.Component {
         {this.renderTuitionAssist()}
         {this.renderEnrolled()}
         {this.renderCalendar()}
+        {this.renderOnlineClasses()}
+        {this.renderBeneficiaryZIP()}
         {this.renderKicker()}
         {this.renderGbBenefit()}
-        {this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>
