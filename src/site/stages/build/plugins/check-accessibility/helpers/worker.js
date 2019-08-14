@@ -33,7 +33,6 @@ function executeAxeCheck({ url, contents }) {
 
   const operation = new Promise((resolve, reject) => {
     dom.window.axeCallback = (err, result) => {
-      dom.window.document.clear();
       dom.window.close();
       dom = null;
       if (err) {
