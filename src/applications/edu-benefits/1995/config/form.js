@@ -1,7 +1,8 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
-import { transform as oldTransform } from '../helpers';
 import { transform } from '../submit-transformer';
+import { prefillTransformer } from '../prefill-transformer';
+import submitForm from '../submitForm';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -14,8 +15,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { originalChapters } from './original-chapters';
-import { newChapters } from './new-chapters';
+import { chapters } from './chapters';
 
 const {
   preferredContactMethod,
@@ -27,17 +27,19 @@ const {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
+  submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
   version: 1,
   migrations: [urlMigration('/1995')],
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
       'Please sign in again to resume your application for education benefits.',
   },
-  transformForSubmit: environment.isProduction() ? oldTransform : transform,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
@@ -52,7 +54,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  chapters: environment.isProduction() ? originalChapters : newChapters,
+  chapters,
 };
 
 export default formConfig;

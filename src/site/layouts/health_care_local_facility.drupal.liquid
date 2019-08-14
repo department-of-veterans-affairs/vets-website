@@ -168,7 +168,7 @@
 
             <!-- Local Health Services -->
             {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
-                <h2 id="health-care-offered-here" class="vads-u-font-size--xl vads-u-margin-top--5">Health care offered here</h2>
+                <h2 id="health-care-offered-here" class="vads-u-font-size--xl vads-u-margin-top--5">Health care services offered here</h2>
                 <section class="local-health-services" id="local-health-services">
 
                     {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name' %}

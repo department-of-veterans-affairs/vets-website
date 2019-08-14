@@ -17,11 +17,11 @@ import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
-import environment from 'platform/utilities/environment';
-import TypeOfInstitutionFilter from '../components/search/TypeOfInstitutionFilter';
+import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class LandingPage extends React.Component {
   componentDidMount() {
@@ -36,12 +36,7 @@ export class LandingPage extends React.Component {
   handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
-    // ***CT 116***
-    if (environment.isProduction()) {
-      if (value) {
-        this.search(value);
-      }
-    } else if (isVetTecSelected(this.props.filters)) {
+    if (isVetTecSelected(this.props.filters)) {
       this.search(value);
     } else if (value) {
       this.search(value);
@@ -49,16 +44,14 @@ export class LandingPage extends React.Component {
   };
 
   search = value => {
-    const { vetTecProvider } = this.props.filters;
-    // ***CT 116***
+    const { location } = this.props;
+    const { category, vetTecProvider } = this.props.filters;
+
     const query = {
       name: value,
-      version: this.props.location.query.version,
-      category:
-        environment.isProduction() || vetTecProvider
-          ? null
-          : this.props.filters.category,
-      vetTecProvider: environment.isProduction() ? null : vetTecProvider,
+      version: location.query.version,
+      category: vetTecProvider ? null : category,
+      vetTecProvider,
     };
 
     _.forEach(query, (val, key) => {
@@ -75,6 +68,12 @@ export class LandingPage extends React.Component {
     const value = e.target.value;
     const { filters } = this.props;
 
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'typeOfInstitution',
+      'gibct-form-value': value,
+    });
+
     if (field === 'category') {
       filters.vetTecProvider = value === 'vettec';
 
@@ -90,11 +89,6 @@ export class LandingPage extends React.Component {
   shouldDisplayTypeOfInstitution = (eligibility = this.props.eligibility) =>
     eligibility.militaryStatus === 'veteran' &&
     eligibility.giBillChapter === '33';
-
-  // ***CT 116***
-  isVetTecNotSelected = () =>
-    environment.isProduction() ||
-    (!environment.isProduction() && !isVetTecSelected(this.props.filters));
 
   handleEligibilityChange = e => {
     const field = e.target.name;
@@ -131,24 +125,21 @@ export class LandingPage extends React.Component {
               <EligibilityForm
                 eligibilityChange={this.handleEligibilityChange}
               />
-              {/* CT 116 */}
-              {!environment.isProduction() && (
-                <TypeOfInstitutionFilter
-                  category={this.props.filters.category}
-                  onChange={this.handleTypeOfInstitutionFilterChange}
-                  eligibility={this.props.eligibility}
-                  displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
-                />
-              )}
-              {/* /CT 116 */}
-              {this.isVetTecNotSelected() && (
+              <LandingPageTypeOfInstitutionFilter
+                category={this.props.filters.category}
+                showModal={this.props.showModal}
+                onChange={this.handleTypeOfInstitutionFilterChange}
+                eligibility={this.props.eligibility}
+                displayVetTecOption={this.shouldDisplayTypeOfInstitution()}
+              />
+              {!isVetTecSelected(this.props.filters) && (
                 <OnlineClassesFilter
                   onlineClasses={this.props.eligibility.onlineClasses}
                   onChange={this.props.eligibilityChange}
                   showModal={this.props.showModal}
                 />
               )}
-              {this.isVetTecNotSelected() && (
+              {!isVetTecSelected(this.props.filters) && (
                 <KeywordSearch
                   autocomplete={this.props.autocomplete}
                   location={this.props.location}

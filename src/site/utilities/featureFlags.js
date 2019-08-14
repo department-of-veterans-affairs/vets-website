@@ -23,6 +23,13 @@ const featureFlags = {
   FEATURE_SINGLE_VALUE_FIELD_LINK: 'featureSingleValueFieldLink',
   FEATURE_REGION_PAGE_LINKS: 'featureRegionPageLinks',
   FEATURE_REGION_DETAIL_PAGE_TOC: 'featureRegionDetailPageTOC',
+  FEATURE_FEATURED_HEALTH_SERVICE_CONTENT:
+    'featureFeaturedHealthServiceContent',
+  FEATURE_FIELD_OPERATING_STATUS_FACILITY: 'fieldOperatingStatusFacility',
+  FEATURE_FIELD_COMPLETE_BIOGRAPHY: 'fieldCompleteBiography',
+  FEATURE_HEALTH_SERVICE_API_ID: 'featureHealthServiceApiId',
+  FEATURE_DOWNLOADABLE_FILE: 'featureDownloadableFile',
+  FEATURE_FIELD_ALERT_DISMISSABLE: 'fieldAlertDismissable',
 };
 
 // Edit this to turn flags on or off
@@ -42,6 +49,12 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
+    featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
+    featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
+    featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY,
+    featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
+    featureFlags.FEATURE_DOWNLOADABLE_FILE,
+    featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
@@ -58,6 +71,12 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
+    featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
+    featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
+    featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY,
+    featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
+    featureFlags.FEATURE_DOWNLOADABLE_FILE,
+    featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -70,6 +89,13 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
+    featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC,
+    featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT,
+    featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY,
+    featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY,
+    featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
+    featureFlags.FEATURE_DOWNLOADABLE_FILE,
+    featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
   ],
   vagovprod: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,

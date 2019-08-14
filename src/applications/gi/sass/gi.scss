@@ -85,6 +85,17 @@
 
 }
 
+.gibct-legend {
+  margin-top: 3rem;
+  display:block;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+  max-width: 46rem;
+  padding-bottom: 0;
+}
+
 /* 
  * These styles override our overly broad accordion styles
  */
@@ -92,3 +103,15 @@
   background-image: none !important;
   font-weight: inherit !important;
 }
+
+.gids-radio-buttons {
+  position: relative;
+  @include media($small-screen) {
+    display: flex;
+  }
+}
+
+.gids-radio-buttons-input {
+  width: 40px;
+}
+

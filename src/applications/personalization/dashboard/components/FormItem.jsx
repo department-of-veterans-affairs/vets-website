@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import recordEvent from 'platform/monitoring/record-event';
 import {
   formTitles,
   formLinks,
   formConfigs,
   isFormAuthorizable,
   presentableFormIDs,
+  recordDashboardClick,
 } from '../helpers';
 import AuthorizationComponent from 'platform/forms/components/AuthorizationComponent';
 import DashboardAlert, {
@@ -16,14 +16,6 @@ import DashboardAlert, {
 } from 'applications/personalization/dashboard/components/DashboardAlert';
 
 class FormItem extends React.Component {
-  recordDashboardClick = (formId, actionType = 'continue-button') => () => {
-    recordEvent({
-      event: 'dashboard-navigation',
-      'dashboard-action': actionType,
-      'dashboard-product': formId,
-    });
-  };
-
   render() {
     const savedFormData = this.props.savedFormData;
     const formId = savedFormData.form;
@@ -59,7 +51,7 @@ class FormItem extends React.Component {
           className="usa-button-primary application-route vads-u-margin--0"
           aria-label={`Continue your ${itemTitle}`}
           href={`${formLinks[formId]}resume`}
-          onClick={this.recordDashboardClick(formId)}
+          onClick={recordDashboardClick(formId, 'continue-button')}
         >
           Continue your application
         </a>
@@ -86,7 +78,7 @@ class FormItem extends React.Component {
           aria-label={`Remove this notification about my ${itemTitle}`}
           onClick={() => {
             this.props.toggleModal(formId);
-            this.recordDashboardClick(formId, 'delete-link');
+            recordDashboardClick(formId, 'delete-link');
           }}
         >
           <i className="fa fa-times" />

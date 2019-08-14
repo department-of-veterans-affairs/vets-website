@@ -286,6 +286,10 @@ module.exports = function registerFilters() {
 
   // check if this is an about menu page
   liquid.filters.isAboutItem = (menuArray, path) => {
+    const outreachPattern = new RegExp('outreach');
+    if (outreachPattern.test(path)) {
+      return false;
+    }
     const paths = _.flatMap(menuArray, getPath);
     const inMenu = _.indexOf(paths, path);
     return inMenu !== -1;
@@ -300,4 +304,25 @@ module.exports = function registerFilters() {
   // get a value from a path of an object in an array
   liquid.filters.getValueFromArrayObjPath = (entities, index, path) =>
     _.get(entities[index], path);
+
+  // needed until all environments have the "Health Service API ID" feature flag
+  // when this is no longer needed, simply use
+  // `serviceTaxonomy.fieldHealthServiceApiId` as the
+  // `data-service` prop for the
+  // react component `facility-appointment-wait-times-widget`
+  // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
+  liquid.filters.healthServiceApiId = serviceTaxonomy =>
+    enabledFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
+      ? serviceTaxonomy.fieldHealthServiceApiId
+      : serviceTaxonomy.name;
+
+  // finds if a page is a child of a certain page using the entityUrl attribute
+  // returns true or false
+  liquid.filters.isChildPageOf = (childPageEntityUrl, parentPage) =>
+    !!childPageEntityUrl.breadcrumb.find(
+      b => b.text.toLowerCase() === parentPage.toLowerCase(),
+    );
+
+  // find out if date is in the past
+  liquid.filters.isPastDate = contentDate => moment().diff(contentDate, 'days');
 };

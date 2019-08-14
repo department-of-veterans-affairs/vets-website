@@ -4,12 +4,8 @@ import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
 export function fetchAndUpdateSessionExpiration(...args) {
-  // Only replace with custom fetch if not stubbed for testing
-  // and feature flag is enabled
-  if (
-    fetch.displayName !== 'stub' &&
-    localStorage.getItem('useCustomFetch') === 'true'
-  ) {
+  // Only replace with custom fetch if not stubbed for unit testing
+  if (fetch.displayName !== 'stub') {
     return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 

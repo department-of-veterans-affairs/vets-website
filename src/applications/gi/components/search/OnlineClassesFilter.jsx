@@ -1,6 +1,7 @@
 import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
+import { renderLearnMoreLabel } from '../../utils/render';
 
 class OnlineClassesFilter extends React.Component {
   static propTypes = {
@@ -9,26 +10,14 @@ class OnlineClassesFilter extends React.Component {
     showModal: PropTypes.func.isRequired,
   };
 
-  renderLearnMoreLabel = ({ text, modal }) => (
-    <span>
-      {text} (
-      <button
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={this.props.showModal.bind(this, modal)}
-      >
-        Learn more
-      </button>
-      )
-    </span>
-  );
-
   render() {
     return (
       <RadioButtons
-        label={this.renderLearnMoreLabel({
+        label={renderLearnMoreLabel({
           text: 'How do you want to take classes?',
           modal: 'onlineOnlyDistanceLearning',
+          showModal: this.props.showModal,
+          component: this,
         })}
         name="onlineClasses"
         options={[

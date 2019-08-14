@@ -5,7 +5,7 @@
       font-size: 1.15em;
     }
 
-    label {
+    label, legend {
       margin-top: 1em;
     }
 
@@ -22,7 +22,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 1;
+      z-index: 200;
 
       &.opened {
         display: block;
@@ -150,9 +150,6 @@
       text-align: right;
       font-size: 0.9em;
       font-weight: bold;
-      padding-bottom: .25em;
-      padding-right: 1.5em;
-      margin: 1em 0 0 1em;
       border-radius: 3px 3px 3px 3px;
 
       i.fa {

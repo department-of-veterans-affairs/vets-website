@@ -22,7 +22,7 @@ const VetTecInstitutionProfile = ({ institution, showModal }) => (
         <AccordionItem button="Application process">
           <VetTecApplicationProcess />
         </AccordionItem>
-        <AccordionItem button="Contact us">
+        <AccordionItem button="Contact details">
           <VetTecContactInformation institution={institution} />
         </AccordionItem>
         <AccordionItem button="Additional information">

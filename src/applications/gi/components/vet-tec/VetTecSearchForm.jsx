@@ -1,10 +1,11 @@
 import React from 'react';
 
 import KeywordSearch from '../search/KeywordSearch';
-import Checkbox from '../Checkbox';
+import CheckboxGroup from '../CheckboxGroup';
 import { addAllOption } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
+import VetTecFilterBy from './VetTecFilterBy';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -45,32 +46,32 @@ class VetTecSearchForm extends React.Component {
   renderLearningFormat = () => {
     const { inPerson, online } = this.props.eligibility.learningFormat;
 
-    const inPersonLabel = (
-      <div>
-        In Person &nbsp; <i className="fas fa-user" />
-      </div>
-    );
-    const onlineLabel = (
-      <div>
-        Online &nbsp; <i className="fas fa-laptop" />
-      </div>
-    );
+    const options = [
+      {
+        name: 'inPerson',
+        label: (
+          <div>
+            In Person &nbsp; <i className="fas fa-user" />
+          </div>
+        ),
+        checked: inPerson,
+      },
+      {
+        name: 'online',
+        label: (
+          <div>
+            Online &nbsp; <i className="fas fa-laptop" />
+          </div>
+        ),
+        checked: online,
+      },
+    ];
     return (
-      <div>
-        <p>Learning Format</p>
-        <Checkbox
-          checked={inPerson}
-          name="inPerson"
-          label={inPersonLabel}
-          onChange={this.handleOnlineClassesChange}
-        />
-        <Checkbox
-          checked={online}
-          name="online"
-          label={onlineLabel}
-          onChange={this.handleOnlineClassesChange}
-        />
-      </div>
+      <CheckboxGroup
+        label="Learning Format"
+        options={options}
+        onChange={this.handleOnlineClassesChange}
+      />
     );
   };
 
@@ -110,6 +111,14 @@ class VetTecSearchForm extends React.Component {
     );
   };
 
+  renderFilterBy = () => (
+    <VetTecFilterBy
+      showModal={this.props.showModal}
+      filters={this.props.filters}
+      handleFilterChange={this.props.handleFilterChange}
+    />
+  );
+
   render() {
     return (
       <div className="row">
@@ -136,6 +145,7 @@ class VetTecSearchForm extends React.Component {
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
             {this.renderLearningFormat()}
+            {this.renderFilterBy()}
           </div>
           <div className="results-button">
             <button className="usa-button" onClick={this.props.toggleFilter}>

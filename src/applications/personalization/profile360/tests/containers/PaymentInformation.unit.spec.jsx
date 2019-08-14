@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
 
 import { PaymentInformation } from '../../containers/PaymentInformation';
-import ProfileFieldHeading from 'applications/personalization/profile360/vet360/components/base/ProfileFieldHeading';
+import ProfileFieldHeading from 'vet360/components/base/ProfileFieldHeading';
 import PaymentInformationEditModal from '../../components/PaymentInformationEditModal';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 

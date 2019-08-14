@@ -52,7 +52,7 @@ module.exports = `
   ${eventListingPage}
 
   query GetAllPages($today: String!, $onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 500, filter: {
+    nodeQuery(limit: 2000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent }
       ]

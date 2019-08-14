@@ -60,8 +60,14 @@ Example data:
           <div class="va-introtext vads-u-margin-bottom--4">
             {{ fieldIntroTextNewsStories.processed }}
           </div>
-          {% assign sortedItems = pagedItems | sort_by: 'fieldFeatured', 'desc'  %}
-          {% for story in sortedItems %}
+          {% if paginator.prev == null %}
+          {% for storyFeature in newsStoryTeasers.entities %}
+            {% if forloop.first == true %}
+              {% include "src/site/teasers/news_story_page_feature.drupal.liquid" with node = storyFeature %}
+            {% endif %}
+          {% endfor %}
+          {% endif %}
+          {% for story in pagedItems %}
               {% include "src/site/teasers/news_story_page.drupal.liquid" with node = story %}
           {% endfor %}
           {% include "src/site/includes/pagination.drupal.liquid" %}

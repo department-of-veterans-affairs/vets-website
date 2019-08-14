@@ -39,39 +39,30 @@ export class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="outer">
-          <div className="row">
-            <div className="small-12 usa-width-five-twelfths medium-5 columns">
-              {renderSchoolClosingFlag(this.props.result)}
-              {renderCautionFlag(this.props.result)}
-            </div>
-            <div className="small-12 usa-width-five-twelfths medium-5 columns">
-              {renderPreferredProviderFlag(this.props.result)}
-            </div>
-          </div>
+          {renderSchoolClosingFlag(this.props.result)}
+          {renderCautionFlag(this.props.result)}
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link
-                    className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--md"
-                    to={linkTo}
-                  >
-                    {name}
-                  </Link>
+                  <Link to={linkTo}>{name}</Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
-                  <p>
+                  <p className="locality">
                     {city}, {state || country}
                   </p>
                 </div>
               </div>
               <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
-                <h3>You may be eligible for up to:</h3>
+                {renderPreferredProviderFlag(this.props.result)}
+                <h3 className="vads-u-padding-top--1p5">
+                  You may be eligible for up to:
+                </h3>
                 <div className="row">
                   <div className="columns">
                     <h4>
                       <i className="fa fa-graduation-cap fa-search-result" />
-                      Tuition
+                      Tuition:
                       <div>{tuition}</div>
                     </h4>
                   </div>

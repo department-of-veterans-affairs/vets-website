@@ -14,6 +14,7 @@ const {
   createHealthCareRegionListPages,
   addGetUpdatesFields,
 } = require('./health-care-region');
+const { addHubIconField } = require('./benefit-hub');
 
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
@@ -57,6 +58,9 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         break;
       case 'health_care_region_detail_page':
         addGetUpdatesFields(pageCompiled, pages);
+        break;
+      case 'page':
+        addHubIconField(pageCompiled, pages);
         break;
       default:
     }

@@ -32,9 +32,16 @@ export function transform(formConfig, form) {
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
 
+  const contactInfoTransform = formData => ({
+    ...formData,
+    email: _.get(formData, 'view:otherContactInfo.email', undefined),
+    homePhone: _.get(formData, 'view:otherContactInfo.homePhone', undefined),
+  });
+
   const transformedData = [
     newSchoolTransform,
     fryScholarshipTransform,
+    contactInfoTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
 

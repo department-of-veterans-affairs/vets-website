@@ -24,7 +24,6 @@ import SearchResult from '../components/search/SearchResult';
 import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
-import environment from '../../../platform/utilities/environment';
 import { isVetTecSelected } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -57,35 +56,41 @@ export class SearchPage extends React.Component {
   }
 
   updateSearchResults = () => {
-    const programFilters = [
+    const booleanFilterParams = [
       'distanceLearning',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
       'onlineOnly',
       'principlesOfExcellence',
       'eightKeysToVeteranSuccess',
-      'stemOffered',
+      'stemIndicator',
       'priorityEnrollment',
       'independentStudy',
       'vetTecProvider',
+      'preferredProvider',
     ];
 
-    const query = _.pick(this.props.location.query, [
+    const stringFilterParams = [
       'version',
-      'page',
-      'name',
       'category',
       'country',
       'state',
       'type',
-      ...programFilters,
+    ];
+
+    const stringSearchParams = ['page', 'name'];
+
+    const query = _.pick(this.props.location.query, [
+      ...stringSearchParams,
+      ...stringFilterParams,
+      ...booleanFilterParams,
     ]);
 
     // Update form selections based on query.
-    const institutionFilter = _.omit(query, ['page', 'name']);
+    const institutionFilter = _.omit(query, stringSearchParams);
 
     // Convert string to bool for params associated with checkboxes.
-    programFilters.forEach(filterKey => {
+    booleanFilterParams.forEach(filterKey => {
       const filterValue = institutionFilter[filterKey];
       institutionFilter[filterKey] = filterValue === 'true';
     });
@@ -103,7 +108,11 @@ export class SearchPage extends React.Component {
 
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
-    const query = { ...this.props.location.query, [field]: value };
+    const query = {
+      ...this.props.location.query,
+      [field]: value,
+      name: this.props.autocomplete.searchTerm,
+    };
 
     // Don’t update the route if the query hasn’t changed.
     if (
@@ -166,8 +175,7 @@ export class SearchPage extends React.Component {
           {filterButton}
           <div>
             {search.results.map(result => {
-              // ***CT 116***
-              if (!environment.isProduction() && isVetTecSelected(filters)) {
+              if (isVetTecSelected(filters)) {
                 return (
                   <VetTecSearchResult
                     version={this.props.location.query.version}
@@ -241,8 +249,7 @@ export class SearchPage extends React.Component {
           </div>
         </div>
 
-        {/* /CT 116 */}
-        {!environment.isProduction() && isVetTecSelected(filters) ? (
+        {isVetTecSelected(filters) ? (
           <VetTecSearchForm
             filtersClass={filtersClass}
             search={search}

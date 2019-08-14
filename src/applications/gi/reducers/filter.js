@@ -1,9 +1,7 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
-import environment from 'platform/utilities/environment';
 
-// ***CT 116***
 const INITIAL_STATE = Object.freeze({
-  category: environment.isProduction() ? 'ALL' : 'school',
+  category: 'school',
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',
@@ -11,9 +9,10 @@ const INITIAL_STATE = Object.freeze({
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
-  stemOffered: false,
+  stemIndicator: false,
   typeName: 'ALL',
   vetTecProvider: false,
+  preferredProvider: false,
 });
 
 export default function(state = INITIAL_STATE, action) {

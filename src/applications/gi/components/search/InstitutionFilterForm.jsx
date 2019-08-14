@@ -3,7 +3,7 @@ import React from 'react';
 
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
-import TypeOfInstitutionFilter from './TypeOfInstitutionFilter';
+import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
 import { addAllOption } from '../../utils/helpers';
 
 import environment from '../../../../platform/utilities/environment';
@@ -20,7 +20,7 @@ class InstitutionFilterForm extends React.Component {
   };
 
   renderCategoryFilter = () => (
-    <TypeOfInstitutionFilter
+    <SearchResultTypeOfInstitutionFilter
       category={this.props.filters.category}
       onChange={this.handleDropdownChange}
       displayAllOption
@@ -97,9 +97,9 @@ class InstitutionFilterForm extends React.Component {
         />
         {!environment.isProduction() && (
           <Checkbox
-            checked={filters.stemOffered}
-            name="stemOffered"
-            label="STEM (Science, Technology, Engineering, and Math)"
+            checked={filters.stemIndicator}
+            name="stemIndicator"
+            label="Rogers STEM Scholarship"
             onChange={this.handleCheckboxChange}
           />
         )}
@@ -181,7 +181,7 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     principlesOfExcellence: PropTypes.bool,
     eightKeysToVeteranSuccess: PropTypes.bool,
-    stemOffered: PropTypes.bool,
+    stemIndicator: PropTypes.bool,
   }),
   handleFilterChange: PropTypes.func,
   search: PropTypes.shape({
@@ -197,7 +197,7 @@ InstitutionFilterForm.propTypes = {
     onlineLearning: PropTypes.bool,
     priorityEnrollment: PropTypes.object,
     independentStudy: PropTypes.object,
-    stemOffered: PropTypes.object,
+    stemIndicator: PropTypes.object,
   }),
 };
 

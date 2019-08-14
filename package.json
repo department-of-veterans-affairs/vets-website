@@ -19,6 +19,7 @@
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:js:changed:fix": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
+    "new:app": "yo @department-of-veterans-affairs/vets-website",
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
@@ -101,6 +102,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.3.0",
     "@sentry/browser": "^5.4.0",
     "ajv": "^4.7.1",
     "append-query": "2.0.1",
@@ -164,7 +166,6 @@
     "jsonschema": "^1.1.1",
     "libxmljs": "^0.19.5",
     "metalsmith-assets": "^0.1.0",
-    "metalsmith-broken-link-checker": "^1.0.1",
     "metalsmith-date-in-filename": "^0.0.14",
     "metalsmith-watch": "^1.0.3",
     "mini-css-extract-plugin": "^0.7.0",
@@ -205,7 +206,8 @@
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^3.5.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "yo": "^3.1.0"
   },
   "optionalDependencies": {},
   "engines": {
@@ -268,11 +270,12 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
+    "syswide-cas": "^5.3.0",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3bcb70014f04d4ed49fc14625d4298964f80a39c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3f8d21781eaf9cadce9669c54fb7b39d89c9321a",
     "whatwg-fetch": "^2.0.3"
   }
 }

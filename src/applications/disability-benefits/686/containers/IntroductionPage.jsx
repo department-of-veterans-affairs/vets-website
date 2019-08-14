@@ -94,7 +94,7 @@ class IntroductionPage extends React.Component {
                 (VSO), can help you fill out your claim.
               </p>
               <div>
-                <a href="/disability-benefits/apply/help/index.html">
+                <a href="/disability/get-help-filing-claim/">
                   Get help filing your claim
                 </a>
               </div>
