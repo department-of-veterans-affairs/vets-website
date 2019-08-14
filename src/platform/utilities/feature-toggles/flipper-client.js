@@ -18,19 +18,14 @@ function FlipperClient({
 
   const _fetchToggleValues = async function featureToggleValues() {
     const response = await fetch(`${host}${toggleValuesPath}`);
-    const responseJson = response.ok
-      ? await response.json()
-      : new Error(
-          `Failed to fetch toggle values with status ${response.status} ${
-            response.statusText
-          }`,
-        );
-
-    if (responseJson instanceof Error) {
-      throw responseJson;
+    if (!response.ok) {
+      const errorMessage = `Failed to fetch toggle values with status ${
+        response.status
+      } ${response.statusText}`;
+      throw new Error(errorMessage);
     }
 
-    return responseJson;
+    return response.json();
   };
 
   const addSubscriberCallback = subscriberCallback =>
