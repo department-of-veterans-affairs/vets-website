@@ -67,7 +67,7 @@ class RadioButtons extends React.Component {
             }-${index}-label`}
           />
           <label
-            id={`${this.props.name}-${index}-label`}
+            id={`${this.inputId}-${index}-label`}
             name={`${this.props.name}-${index}-label`}
             htmlFor={`${this.inputId}-${index}`}
             className="vads-u-margin-top--1 vads-u-margin-bottom--1"
