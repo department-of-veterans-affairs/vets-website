@@ -1,6 +1,10 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-await-in-loop */
 
 const { JSDOM } = require('jsdom');
+const { Script } = require('vm');
+
+// eslint-disable-next-line no-unused-vars
+const axeCore = require('axe-core');
 
 const AXE_CONFIG = {
   iframes: false,
@@ -10,50 +14,56 @@ const AXE_CONFIG = {
   },
 };
 
-function removeAxeFromModuleCache() {
-  // Axe depends on global variables, and once imported,
-  // those global variables are cached, so you can't simply
-  // change the global values and then just re-execute axe.
-  // To get around this, we remove axe from the module cache,
-  // so that each require('axe-core') will do a fresh import of
-  // the module.
+const axeSource = module.children.find(
+  el => el.filename.indexOf('axe-core') !== -1,
+).exports.source;
 
-  const axeModuleKey = require.resolve('axe-core');
-  delete require.cache[axeModuleKey];
-}
+const axeScript = new Script(`
+  ${axeSource}
+  axe.run(${JSON.stringify(AXE_CONFIG)}, window.axeCallback);
+`);
 
 function executeAxeCheck({ url, contents }) {
   const dom = new JSDOM(contents, {
     url,
     contentType: 'text/html',
     includeNodeLocations: false,
+    runScripts: 'outside-only',
   });
 
-  global.document = dom;
-  global.window = dom.window;
-
-  // needed by axios lib/helpers/isURLSameOrigin.js
-  global.navigator = window.navigator;
-
-  // needed by axe /lib/core/public/run.js
-  global.Node = window.Node;
-  global.NodeList = window.NodeList;
-
-  // needed by axe /lib/core/base/context.js
-  global.Element = window.Element;
-  global.Document = window.Document;
-
-  const axe = require('axe-core');
-
-  return new Promise((resolve, reject) => {
-    axe.run(AXE_CONFIG, (err, result) => (err ? reject(err) : resolve(result)));
-    removeAxeFromModuleCache();
+  const operation = new Promise((resolve, reject) => {
+    dom.window.axeCallback = (err, result) => {
+      dom.window.close();
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    };
   });
+
+  dom.runVMScript(axeScript);
+
+  return operation;
 }
+
+const maxMemory = 50000000;
+const sleep = (snooze = 2000) =>
+  new Promise(resolve => setTimeout(resolve, snooze));
 
 process.on('message', async file => {
   try {
     const result = await executeAxeCheck(file);
+
+    while (process.memoryUsage().heapUsed > maxMemory) {
+      console.log('snoozing....');
+      const heapUsed = process.memoryUsage().heapUsed;
+      await sleep();
+      console.log(
+        `Heap changed by ${process.memoryUsage().heapUsed - heapUsed}`,
+      );
+    }
+
     process.send({ result });
   } catch (error) {
     console.log(error);
