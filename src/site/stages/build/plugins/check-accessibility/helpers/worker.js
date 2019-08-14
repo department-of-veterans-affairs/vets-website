@@ -6,21 +6,19 @@ const { Script } = require('vm');
 // eslint-disable-next-line no-unused-vars
 const axeCore = require('axe-core');
 
-const AXE_CONFIG = {
-  iframes: false,
-  runOnly: {
-    type: 'tag',
-    values: ['section508', 'wcag2a', 'wcag2aa'],
-  },
-};
-
 const axeSource = module.children.find(
   el => el.filename.indexOf('axe-core') !== -1,
 ).exports.source;
 
-const axeScript = new Script(`
-  ${axeSource}
-  axe.run(${JSON.stringify(AXE_CONFIG)}, window.axeCallback);
+const axeScript = new Script(axeSource);
+const runAxeScript = new Script(`
+  axe.run({
+    iframes: false,
+    runOnly: {
+      type: 'tag',
+      values: ['section508', 'wcag2a', 'wcag2aa'],
+    },
+  }, window.axeCallback);
 `);
 
 function executeAxeCheck({ url, contents }) {
@@ -44,6 +42,7 @@ function executeAxeCheck({ url, contents }) {
   });
 
   dom.runVMScript(axeScript);
+  dom.runVMScript(runAxeScript);
 
   return operation;
 }
