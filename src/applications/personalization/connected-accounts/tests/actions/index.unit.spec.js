@@ -3,27 +3,11 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
-} from '../../../../../platform/testing/unit/helpers.js';
+  setFetchJSONFailure as setFetchFailure,
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers.js';
 
 import * as actions from '../../actions';
-
-function setFetchResponse(stub, data = null) {
-  const response = new Response();
-  response.ok = true;
-  if (data) {
-    response.headers.set('Content-Type', 'application/json');
-    response.json = () => Promise.resolve(data);
-  }
-  stub.resolves(response);
-}
-
-function setFetchFailure(stub, data) {
-  const response = new Response();
-  response.headers.set('Content-Type', 'application/json');
-  response.ok = false;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('loadConnectedAccounts', () => {
   beforeEach(() => mockFetch());

@@ -35,7 +35,7 @@ module.exports = `
           alt
           title
           url
-          derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
+          derivative(style: CROP32) {
             url
             width
             height

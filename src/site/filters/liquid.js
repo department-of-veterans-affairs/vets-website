@@ -322,4 +322,7 @@ module.exports = function registerFilters() {
     !!childPageEntityUrl.breadcrumb.find(
       b => b.text.toLowerCase() === parentPage.toLowerCase(),
     );
+
+  // find out if date is in the past
+  liquid.filters.isPastDate = contentDate => moment().diff(contentDate, 'days');
 };
