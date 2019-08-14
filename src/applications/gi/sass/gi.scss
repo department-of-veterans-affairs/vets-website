@@ -106,7 +106,9 @@
 
 .gids-radio-buttons {
   position: relative;
-  display: flex;
+  @include media($small-screen) {
+    display: flex;
+  }
 }
 
 .gids-radio-buttons-input {

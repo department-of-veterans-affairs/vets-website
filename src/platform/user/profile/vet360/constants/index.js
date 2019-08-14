@@ -1,4 +1,4 @@
-import { MILITARY_STATES } from '../../../../letters/utils/constants';
+import { MILITARY_STATES } from 'applications/letters/utils/constants';
 
 import states from './states.json';
 import countries from './countries.json';

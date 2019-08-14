@@ -556,7 +556,7 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('stemOffered')}
+        visible={this.shouldDisplayModal('stemIndicator')}
       >
         <h3>STEM</h3>
         <div>

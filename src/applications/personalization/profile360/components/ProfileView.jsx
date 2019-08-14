@@ -9,7 +9,7 @@ import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/compon
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
-import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
+import Vet360TransactionReporter from 'vet360/containers/TransactionReporter';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';

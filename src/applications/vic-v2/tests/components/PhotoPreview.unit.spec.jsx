@@ -2,21 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import 'isomorphic-fetch';
 
 import {
   mockFetch,
   resetFetch,
-} from '../../../../platform/testing/unit/helpers';
+  setFetchBlobResponse,
+} from 'platform/testing/unit/helpers';
 
 import PhotoPreview from '../../components/PhotoPreview.jsx';
-
-function setFetchResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.blob = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('<PhotoPreview>', () => {
   it('should render preview with src', () => {
@@ -31,7 +24,7 @@ describe('<PhotoPreview>', () => {
   it('should fetch file metadata and update', done => {
     mockFetch();
     const response = new Blob();
-    setFetchResponse(global.fetch.onFirstCall(), response);
+    setFetchBlobResponse(global.fetch.onFirstCall(), response);
 
     window.URL = {
       createObjectURL: sinon.stub().returns('test'),

@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { focusElement } from '../../../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
-import ErrorableSelect from '../../../../../letters/components/ErrorableSelect';
-import ErrorableTextInput from '../../../../../letters/components/ErrorableTextInput';
+import ErrorableSelect from 'applications/letters/components/ErrorableSelect';
+import ErrorableTextInput from 'applications/letters/components/ErrorableTextInput';
 import {
   STATE_CODE_TO_NAME,
   MILITARY_CITIES,
   MILITARY_STATES,
-} from '../../../../../letters/utils/constants';
+} from 'applications/letters/utils/constants';
 
 /**
  * Input component for an address.

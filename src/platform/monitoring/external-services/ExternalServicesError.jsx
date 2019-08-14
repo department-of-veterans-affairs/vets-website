@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getBackendStatuses } from './actions';
 import { EXTERNAL_SERVICES } from './config';
 
-const OPERATIONAL_STATUSES = ['active', 'warning'];
+const OPERATIONAL_STATUSES = ['active'];
 
 /**
  * A wrapper component that render its children if the application's dependencies are failing.
