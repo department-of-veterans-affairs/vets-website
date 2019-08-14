@@ -24,7 +24,7 @@ const axeScript = new Script(`
 `);
 
 function executeAxeCheck({ url, contents }) {
-  const dom = new JSDOM(contents, {
+  let dom = new JSDOM(contents, {
     url,
     contentType: 'text/html',
     includeNodeLocations: false,
@@ -33,7 +33,9 @@ function executeAxeCheck({ url, contents }) {
 
   const operation = new Promise((resolve, reject) => {
     dom.window.axeCallback = (err, result) => {
+      dom.window.document.clear();
       dom.window.close();
+      dom = null;
       if (err) {
         reject(err);
       } else {
@@ -47,23 +49,9 @@ function executeAxeCheck({ url, contents }) {
   return operation;
 }
 
-const maxMemory = 50000000;
-const sleep = (snooze = 2000) =>
-  new Promise(resolve => setTimeout(resolve, snooze));
-
 process.on('message', async file => {
   try {
     const result = await executeAxeCheck(file);
-
-    while (process.memoryUsage().heapUsed > maxMemory) {
-      console.log('snoozing....');
-      const heapUsed = process.memoryUsage().heapUsed;
-      await sleep();
-      console.log(
-        `Heap changed by ${process.memoryUsage().heapUsed - heapUsed}`,
-      );
-    }
-
     process.send({ result });
   } catch (error) {
     console.log(error);
