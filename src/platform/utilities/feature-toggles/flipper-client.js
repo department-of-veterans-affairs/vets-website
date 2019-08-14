@@ -16,7 +16,7 @@ function FlipperClient({
   let _pollingActive;
   const _subscriberCallbacks = [];
 
-  const _fetchToggleValues = async function featureToggleValues() {
+  const _fetchToggleValues = async () => {
     const response = await fetch(`${host}${toggleValuesPath}`);
     if (!response.ok) {
       const errorMessage = `Failed to fetch toggle values with status ${
@@ -34,13 +34,13 @@ function FlipperClient({
   const handleToggleValuesRetrieved = toggleValues =>
     _subscriberCallbacks.forEach(callback => callback(toggleValues));
 
-  const refreshToggleValues = async function refreshToggleValues() {
+  const refreshToggleValues = async () => {
     const { toggleValues } = await _fetchToggleValues();
 
     handleToggleValuesRetrieved(toggleValues);
   };
 
-  const fetchToggleValues = async function fetchTogggleValues() {
+  const fetchToggleValues = async () => {
     /*
     {
       "data":{
@@ -79,7 +79,7 @@ function FlipperClient({
     _pollingActive = false;
   };
 
-  const startPollingToggleValues = async function startPollingService() {
+  const startPollingToggleValues = async () => {
     _pollingActive = true;
     const { toggleValues } = await _fetchToggleValues();
 
@@ -87,7 +87,7 @@ function FlipperClient({
       handleToggleValuesRetrieved(toggleValues);
 
       _timeoutId = window.setTimeout(
-        () => startPollingService(),
+        () => startPollingToggleValues(),
         TOGGLE_POLLING_INTERVAL,
       );
     }
