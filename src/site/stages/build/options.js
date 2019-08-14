@@ -162,7 +162,7 @@ async function setUpFeatureFlags(options) {
         FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION: true,
         FEATURE_FIELD_EVENT_LISTING_DESCRIPTION: false,
         FEATURE_FIELD_BODY: true,
-        FEATURE_FIELD_ADDITIONAL_INFO: false,
+        FEATURE_FIELD_ADDITIONAL_INFO: true, // Errors out when false :grimacing:
         FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: true,
         GRAPHQL_MODULE_UPDATE: true,
         FEATURE_FIELD_OTHER_VA_LOCATIONS: true,
