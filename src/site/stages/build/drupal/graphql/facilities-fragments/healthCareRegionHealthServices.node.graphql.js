@@ -1,10 +1,7 @@
 /**
  * The 'Health Care Local Facility' bundle of the 'Content' entity type.
  */
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../../utilities/featureFlags');
+const { enabledFeatureFlags } = global;
 
 const HEALTH_SERVICES_RESULTS = `
   entities {
@@ -49,9 +46,7 @@ const HEALTH_SERVICES_RESULTS = `
             entityBundle
             fieldAlsoKnownAs
             ${
-              enabledFeatureFlags[
-                featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
-              ]
+              enabledFeatureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
                 ? 'fieldCommonlyTreatedCondition'
                 : ''
             }

@@ -6,10 +6,7 @@ const {
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
+const { enabledFeatureFlags } = global;
 
 /**
  * The top-level page for a section of the website.
@@ -32,7 +29,7 @@ module.exports = `
       }
     }
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_LINKS]
+      enabledFeatureFlags.FEATURE_FIELD_LINKS
         ? 'fieldLinks { title url { path } }'
         : ''
     }

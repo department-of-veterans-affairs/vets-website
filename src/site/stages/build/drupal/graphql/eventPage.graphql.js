@@ -3,10 +3,8 @@
  * Example: /pittsburgh-health-care/events/example-event
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
+
+const { enabledFeatureFlags } = global;
 
 module.exports = `
  fragment eventPage on NodeEvent {
@@ -65,7 +63,7 @@ module.exports = `
     }
     fieldEventRegistrationrequired
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_ADDITIONAL_INFO]
+      enabledFeatureFlags.FEATURE_FIELD_ADDITIONAL_INFO
         ? 'fieldAdditionalInformationAbo {processed}'
         : 'fieldAdditionalInformationAbo'
     }

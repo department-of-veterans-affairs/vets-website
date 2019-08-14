@@ -11,10 +11,7 @@ const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionE
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
+const { enabledFeatureFlags } = global;
 
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
@@ -65,7 +62,7 @@ module.exports = `
       title
     }
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
+      enabledFeatureFlags.FEATURE_REGION_PAGE_LINKS
         ? 'fieldLinks'
         : 'fieldEmailSubscription'
     } {
@@ -75,7 +72,7 @@ module.exports = `
       title
     }
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
+      enabledFeatureFlags.FEATURE_REGION_PAGE_LINKS
         ? `
         fieldOperatingStatus {
           url {
@@ -91,9 +88,7 @@ module.exports = `
         ... on NodeHealthCareLocalFacility {
           title
           ${
-            enabledFeatureFlags[
-              featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
-            ]
+            enabledFeatureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
               ? 'fieldOperatingStatusFacility'
               : ''
           }
@@ -125,7 +120,7 @@ module.exports = `
     }
     ${healthCareLocalFacilities}
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS]
+      enabledFeatureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS
         ? 'fieldOtherVaLocations'
         : ''
     }
@@ -141,7 +136,7 @@ module.exports = `
       processed
     }
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT]
+      enabledFeatureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT
         ? healthCareRegionFeaturedHealthServices
         : ''
     }

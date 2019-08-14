@@ -4,10 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
+const { enabledFeatureFlags } = global;
 
 module.exports = `
  fragment bioPage on NodePersonProfile {
@@ -19,7 +16,7 @@ module.exports = `
   fieldEmailAddress
   fieldPhoneNumber
   ${
-    enabledFeatureFlags[featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY]
+    enabledFeatureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY
       ? 'fieldCompleteBiography { entity { url } }'
       : ''
   }

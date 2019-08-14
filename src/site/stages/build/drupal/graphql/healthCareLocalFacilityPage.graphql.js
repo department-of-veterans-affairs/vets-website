@@ -1,11 +1,7 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
-const socialMediaFields = enabledFeatureFlags[
-  featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
-]
+
+const { enabledFeatureFlags } = global;
+const socialMediaFields = enabledFeatureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
   ? require('./facilities-fragments/healthCareSocialMedia.fields.graphql')
   : '';
 
@@ -17,7 +13,7 @@ module.exports = `
     fieldNicknameForThisFacility
     fieldIntroText
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY]
+      enabledFeatureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
         ? 'fieldOperatingStatusFacility'
         : ''
     }
@@ -57,9 +53,7 @@ module.exports = `
             processed
           }
           ${
-            enabledFeatureFlags[
-              featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
-            ]
+            enabledFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
               ? 'fieldRegionalHealthService'
               : 'fieldClinicalHealthServices'
           } {
@@ -76,9 +70,7 @@ module.exports = `
                       entityBundle
                       fieldAlsoKnownAs
                       ${
-                        enabledFeatureFlags[
-                          featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
-                        ]
+                        enabledFeatureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
                           ? 'fieldCommonlyTreatedCondition'
                           : ''
                       }
@@ -94,9 +86,7 @@ module.exports = `
                         }
                       }
                       ${
-                        enabledFeatureFlags[
-                          featureFlags.FEATURE_HEALTH_SERVICE_API_ID
-                        ]
+                        enabledFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
                           ? 'fieldHealthServiceApiId'
                           : ''
                       }

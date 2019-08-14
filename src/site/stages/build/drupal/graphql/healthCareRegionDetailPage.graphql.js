@@ -24,10 +24,7 @@ const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
+const { enabledFeatureFlags } = global;
 
 module.exports = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
@@ -37,15 +34,13 @@ module.exports = `
     changed
     fieldIntroText
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC]
+      enabledFeatureFlags.FEATURE_REGION_DETAIL_PAGE_TOC
         ? 'fieldTableOfContentsBoolean'
         : ''
     }
 
     ${
-      enabledFeatureFlags[
-        featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
-      ]
+      enabledFeatureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
         ? `
           fieldFeaturedContent {
             entity {
@@ -75,7 +70,7 @@ module.exports = `
         ${TABLE}
         ${ALERT_PARAGRAPH}        
         ${
-          enabledFeatureFlags[featureFlags.FEATURE_DOWNLOADABLE_FILE]
+          enabledFeatureFlags.FEATURE_DOWNLOADABLE_FILE
             ? `
                 ${DOWNLOADABLE_FILE_PARAGRAPH}        
                 ${MEDIA_PARAGRAPH}
@@ -88,9 +83,7 @@ module.exports = `
     ${FIELD_RELATED_LINKS}
 
     ${
-      enabledFeatureFlags[
-        featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
-      ]
+      enabledFeatureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
         ? FIELD_ALERT
         : ''
     }
