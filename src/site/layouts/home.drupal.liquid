@@ -40,8 +40,8 @@
       <div class="usa-grid usa-grid-full homepage-benefits-row">
       {% for hub in hubs %}
         <div class="usa-width-one-third">
-          <h3 class="heading-level-4"><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{hub.entity.fieldTitleIcon}} hub-background-{{hub.entity.fieldTitleIcon}} white"></i>{{hub.entity.entityLabel}}</a></h4>
-          <p class="homepage-benefits-description">{{hub.entity.fieldTeaserText}}</p>
+          <h3 class="heading-level-4"><a href="{{ hub.entityUrl.path }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{ hub.entity.fieldTitleIcon }} hub-background-{{ hub.entity.fieldTitleIcon }} white"></i>{{ hub.entity.entityLabel }}</a></h4>
+          <p class="homepage-benefits-description">{{ hub.entity.fieldTeaserText }}</p>
         </div>
         {% if hub.end_row == true and forloop.last != true %}
         </div>

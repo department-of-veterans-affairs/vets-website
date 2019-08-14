@@ -36,6 +36,10 @@ const query = `
             entityLabel
             fieldTeaserText
             fieldTitleIcon
+            entityUrl {
+              path
+              routed
+            }
           }
         }
       }
