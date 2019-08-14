@@ -191,11 +191,21 @@ $duo-tone-lighten: #000000;
 }
 
 .expand-image-button {
-  background-color: #ffffff;
+  background-color: $color-primary;
   border-radius: 5px;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+  color: $color-white;
   height: 32px;
   width: 32px;
+
+  &:visited {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+
+  &:hover {
+    background-color: $color-primary-darker;
+    color: $color-white;
+  }
 }
 
 .social-links {
