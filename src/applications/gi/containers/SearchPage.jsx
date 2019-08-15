@@ -26,6 +26,7 @@ import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { isVetTecSelected } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
+import { renderVetTecLogo } from '../utils/render';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -236,11 +237,7 @@ export class SearchPage extends React.Component {
     <div>
       {!environment.isProduction() && (
         <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
-          <img
-            className="vettec-logo"
-            src={require('site/assets/img/logo/vet-tec-logo.png')}
-            alt="Vet Tec Logo"
-          />
+          {renderVetTecLogo(classNames('vettec-logo'))}
         </div>
       )}
       {!environment.isProduction() && (
@@ -250,11 +247,7 @@ export class SearchPage extends React.Component {
           </div>
           <div className="vads-l-col--2">
             <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
-              <img
-                className="vettec-logo"
-                src="/site/assets/img/logo/vet-tec-logo.png"
-                alt="Vet Tec Logo"
-              />
+              {renderVetTecLogo(classNames('vettec-logo'))}
             </div>
           </div>
         </div>

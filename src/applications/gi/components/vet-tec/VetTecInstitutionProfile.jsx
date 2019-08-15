@@ -8,16 +8,14 @@ import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
 import VetTecContactInformation from './VetTecContactInformation';
 import environment from 'platform/utilities/environment';
+import { renderVetTecLogo } from '../../utils/render';
+import classNames from 'classnames';
 
 const VetTecInstitutionProfile = ({ institution, showModal }) => (
   <div>
     {!environment.isProduction() && (
       <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
-        <img
-          className="vettec-logo"
-          src="/img/logo/vet-tec-logo.png"
-          alt="Vet Tec Logo"
-        />
+        {renderVetTecLogo(classNames('vettec-logo'))}
       </div>
     )}
     <VetTecHeadingSummary institution={institution} showModal={showModal} />

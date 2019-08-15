@@ -3,6 +3,8 @@ import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
+import classNames from 'classnames';
+import { renderVetTecLogo } from '../../utils/render';
 
 class LandingPageTypeOfInstitutionFilter extends React.Component {
   static propTypes = {
@@ -53,13 +55,14 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
           </span>
         );
 
+      const imgClass = classNames(
+        'vettec-logo',
+        'vads-u-padding-top--0p5',
+        'vads-u-margin-bottom--neg1',
+      );
       const vetTecLogo = (
-        <span className="vads-u-margin-x--neg1  vads-u-display--none small-screen:vads-u-display--block">
-          <img
-            className="vettec-logo vads-u-padding-top--0p5 vads-u-margin-bottom--neg1"
-            src="/img/logo/vet-tec-logo.png"
-            alt="Vet Tec Logo"
-          />
+        <span className="vads-u-margin-x--neg1 small-screen:vads-u-display--block">
+          {renderVetTecLogo(imgClass)}
         </span>
       );
       options.push({
