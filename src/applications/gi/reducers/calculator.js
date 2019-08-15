@@ -14,7 +14,7 @@ const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
 const INITIAL_STATE = {
   beneficiaryLocationQuestion: 'yes',
   beneficiaryZIP: '',
-  extension: 'other',
+  extension: '',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
