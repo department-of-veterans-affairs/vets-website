@@ -39,7 +39,7 @@
   {{ google_analytics_js }}
   recordEvent({ environment: '{{ buildtype }}' });
   if ( self !== top ) {
-    recordEvent({ event: 'iframed', embeddedIn: document.referrer});
+    recordEvent({ event: 'iframed', embeddedIn: document.referrer });
   }
 </script>
 {% endif %}
