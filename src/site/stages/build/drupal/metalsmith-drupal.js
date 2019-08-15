@@ -22,7 +22,16 @@ const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 
-const drupalEnabled = buildtype => ENABLED_ENVIRONMENTS.has(buildtype);
+// We need to pull the Drupal content if we have --pull-drupal OR if
+// the content is not available in the cache.
+const shouldPullDrupal = buildOptions => {
+  const drupalCache = path.join(
+    buildOptions.cacheDirectory,
+    DRUPAL_CACHE_FILENAME,
+  );
+  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
+  return buildOptions[PULL_DRUPAL_BUILD_ARG] || !isDrupalAvailableInCache;
+};
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
@@ -84,17 +93,16 @@ async function loadDrupal(buildOptions) {
     buildOptions.cacheDirectory,
     DRUPAL_CACHE_FILENAME,
   );
-  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
 
-  let shouldPullDrupal = buildOptions[PULL_DRUPAL_BUILD_ARG];
+  const shouldPull = shouldPullDrupal(buildOptions);
+  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
     log('Drupal content unavailable in cache');
-    shouldPullDrupal = true;
   }
 
-  if (shouldPullDrupal) {
+  if (shouldPull) {
     log('Attempting to load Drupal content from API...');
 
     const drupalTimer = `${contentApi.getSiteUri()} response time: `;
@@ -149,7 +157,7 @@ async function loadCachedDrupalFiles(buildOptions, files) {
 }
 
 function getDrupalContent(buildOptions) {
-  if (!drupalEnabled(buildOptions.buildtype)) {
+  if (!ENABLED_ENVIRONMENTS.has(buildOptions.buildtype)) {
     log(`Drupal integration disabled for buildtype ${buildOptions.buildtype}`);
     const noop = () => {};
     return noop;
@@ -185,4 +193,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = { getDrupalContent, drupalEnabled };
+module.exports = { getDrupalContent, shouldPullDrupal };

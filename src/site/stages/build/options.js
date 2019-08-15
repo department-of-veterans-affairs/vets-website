@@ -12,7 +12,7 @@ const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
 
 const getDrupalClient = require('./drupal/api');
-const { drupalEnabled } = require('./drupal/metalsmith-drupal');
+const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
@@ -156,7 +156,7 @@ async function setUpFeatureFlags(options) {
   global.buildtype = options.buildtype;
   let enabled;
 
-  if (drupalEnabled(options.buildtype)) {
+  if (shouldPullDrupal(options)) {
     const apiClient = getDrupalClient(options);
     const result = await apiClient.proxyFetch(
       `${apiClient.getSiteUri()}/flags_list`,
