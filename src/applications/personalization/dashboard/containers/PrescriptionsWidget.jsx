@@ -50,7 +50,7 @@ class PrescriptionsWidget extends React.Component {
           <p>
             You don’t have any prescriptions being refilled. If you’ve refilled
             a prescription within the last 30 days, it may be out for delivery
-            and not showing up here on your dashboard.
+            and not showing up here.
           </p>
 
           <p>
