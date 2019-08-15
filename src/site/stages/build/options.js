@@ -11,6 +11,7 @@ const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
 
+// const getDrupalClient = require('./drupal/api');
 const { drupalEnabled } = require('./drupal/metalsmith-drupal');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
@@ -179,13 +180,23 @@ async function setUpFeatureFlags(options) {
     // flag referenced isn't returned from Drupal.
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
     const p = new Proxy(queryResult.data, {
-      get: (obj, prop) => {
+      get(obj, prop) {
         if (prop in obj) {
           return obj[prop];
         }
-        throw new Error(
-          `Could not find feature flag ${prop}. This could be a typo or the feature flag wasn't returned from Drupal.`,
-        );
+        // Not sure where this was getting called, but V8 does some
+        // complicated things under the hood
+        // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
+        const ignoreList = ['Symbol(Symbol.toStringTag)'];
+        if (!ignoreList.includes(prop.toString())) {
+          throw new ReferenceError(
+            `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
+          );
+        }
+
+        // If we get this far, I guess we make sure we don't mess up
+        // the expected behavior
+        return obj[prop];
       },
     });
     enabled = p;
