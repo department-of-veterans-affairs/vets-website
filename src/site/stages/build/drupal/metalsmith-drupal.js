@@ -171,6 +171,8 @@ function getDrupalContent(buildOptions) {
       buildOptions.drupalData = drupalData;
       done();
     } catch (err) {
+      if (err instanceof ReferenceError) throw err;
+
       buildOptions.drupalError = drupalData;
       log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
