@@ -37,7 +37,6 @@
 
 {% endcase %}
 
-{% if google_analytics_js %}
 <script>
   {{ google_analytics_js }}
   recordEvent({ environment: '{{ buildtype }}' });
@@ -45,5 +44,4 @@
     recordEvent({ event: 'iframed', embeddedIn: document.referrer });
   }
 </script>
-{% endif %}
 
