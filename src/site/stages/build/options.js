@@ -11,7 +11,7 @@ const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
 
-// const getDrupalClient = require('./drupal/api');
+const getDrupalClient = require('./drupal/api');
 const { drupalEnabled } = require('./drupal/metalsmith-drupal');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
@@ -157,44 +157,19 @@ async function setUpFeatureFlags(options) {
   let enabled;
 
   if (drupalEnabled(options.buildtype)) {
-    // Query CMS (will be async...)
-    const queryResult = {
-      data: {
-        FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION: true,
-        FEATURE_FIELD_EVENT_LISTING_DESCRIPTION: false,
-        FEATURE_FIELD_BODY: true,
-        FEATURE_FIELD_ADDITIONAL_INFO: true, // Errors out when false :grimacing:
-        FEATURE_FIELD_REGIONAL_HEALTH_SERVICE: true,
-        GRAPHQL_MODULE_UPDATE: true,
-        FEATURE_FIELD_OTHER_VA_LOCATIONS: true,
-        FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT: false,
-        FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS: true,
-        FEATURE_FIELD_LINKS: true,
-        FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT: false,
-        FEATURE_LOCAL_FACILITY_GET_IN_TOUCH: true,
-        FEATURE_FIELD_ALERT_DISMISSABLE: true,
-        FEATURE_DOWNLOADABLE_FILE: true,
-        FEATURE_REGION_PAGE_LINKS: true,
-        FEATURE_FIELD_OPERATING_STATUS_FACILITY: true,
-        FEATURE_FEATURED_HEALTH_SERVICE_CONTENT: true,
-        FEATURE_HEALTH_SERVICE_API_ID: true,
-        FEATURE_REGION_DETAIL_PAGE_TOC: true,
-        FEATURE_FIELD_COMPLETE_BIOGRAPHY: true,
-      },
-      method: 'GET',
-    };
+    const apiClient = getDrupalClient(options);
+    const result = await apiClient.proxyFetch(
+      `${apiClient.getSiteUri()}/flags_list`,
+    );
 
-    // console.log('build options before fetching:', options);
-    // const apiClient = getDrupalClient(options);
-    // const result = await apiClient.proxyFetch(
-    //   `${options['drupal-address']}/flags_list`,
-    // );
-    // console.log('Fetch results:', result);
+    const flags = (await result.json()).data;
+    // eslint-disable-next-line no-console
+    console.log('Drupal feature flags:\n', flags);
 
     // Using a Proxy to throw an error during the build if the feature
     // flag referenced isn't returned from Drupal.
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
-    const p = new Proxy(queryResult.data, {
+    const p = new Proxy(flags, {
       get(obj, prop) {
         if (prop in obj) {
           return obj[prop];
