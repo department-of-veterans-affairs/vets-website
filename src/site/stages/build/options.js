@@ -172,9 +172,24 @@ async function setUpFeatureFlags(options) {
         FEATURE_FIELD_LINKS: true,
         FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT: false,
         FEATURE_LOCAL_FACILITY_GET_IN_TOUCH: true,
+        FEATURE_FIELD_ALERT_DISMISSABLE: true,
+        FEATURE_DOWNLOADABLE_FILE: true,
+        FEATURE_REGION_PAGE_LINKS: true,
+        FEATURE_FIELD_OPERATING_STATUS_FACILITY: true,
+        FEATURE_FEATURED_HEALTH_SERVICE_CONTENT: true,
+        FEATURE_HEALTH_SERVICE_API_ID: true,
+        FEATURE_REGION_DETAIL_PAGE_TOC: true,
+        FEATURE_FIELD_COMPLETE_BIOGRAPHY: true,
       },
       method: 'GET',
     };
+
+    // console.log('build options before fetching:', options);
+    // const apiClient = getDrupalClient(options);
+    // const result = await apiClient.proxyFetch(
+    //   `${options['drupal-address']}/flags_list`,
+    // );
+    // console.log('Fetch results:', result);
 
     // Using a Proxy to throw an error during the build if the feature
     // flag referenced isn't returned from Drupal.
