@@ -48,6 +48,7 @@ describe('<LandingPage>', () => {
       router: { push: sinon.spy() },
       location: { query: {} },
       autocomplete: { searchTerm: null },
+      renderVetTecLogo: sinon.spy(),
     };
 
     const store = {
@@ -72,7 +73,7 @@ describe('<LandingPage>', () => {
       .find('RadioButtons')
       .find('span')
       .find('button');
-    expect(vetTecOption.text()).to.equal('Learn more');
+    expect(vetTecOption.text()).to.equal('(Learn more)');
     tree.unmount();
   });
 });
