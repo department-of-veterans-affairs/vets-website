@@ -61,3 +61,11 @@ export const renderLearnMoreLabel = ({ text, modal, showModal, component }) =>
       )
     </span>
   );
+
+export const renderVetTecLogo = classNames => (
+  <img
+    className={classNames}
+    src={'/img/logo/vet-tec-logo.png'}
+    alt="Vet Tec Logo"
+  />
+);
