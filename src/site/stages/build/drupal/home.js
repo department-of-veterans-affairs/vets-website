@@ -4,12 +4,10 @@ const { createEntityUrlObj, createFileObj } = require('./page');
 // Processes the data received from the home page query.
 function addHomeContent(contentData, files) {
   const menuLength = 4;
-  const hubListLength = 11;
-  const promoBlockLength = 3;
 
   // Make sure that we have content for the home page.
   if (contentData.data.homePageMenuQuery) {
-    const homeEntityObj = createEntityUrlObj('/');
+    let homeEntityObj = createEntityUrlObj('/');
     const {
       data: {
         homePageMenuQuery,
@@ -18,20 +16,12 @@ function addHomeContent(contentData, files) {
       },
     } = contentData;
 
-    // Add Top Tasks Menu.
-    homeEntityObj.cards = homePageMenuQuery.links.slice(0, menuLength);
-
-    // Add full hub list.
-    homeEntityObj.hubs = homePageHubListQuery.itemsOfEntitySubqueueHomePageHubList.slice(
-      0,
-      hubListLength,
-    );
-
-    // Add promo blocks.
-    homeEntityObj.promos = homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos.slice(
-      0,
-      promoBlockLength,
-    );
+    homeEntityObj = {
+      ...homeEntityObj,
+      cards: homePageMenuQuery.links.slice(0, menuLength), // Top Tasks menu. We have a hard limit.
+      hubs: homePageHubListQuery.itemsOfEntitySubqueueHomePageHubList, // Full hub list.
+      promos: homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos, // Promo blocks.
+    };
 
     // Let Metalsmith know we're here.
     files[`./index.html`] = createFileObj(homeEntityObj, 'home.drupal.liquid');
