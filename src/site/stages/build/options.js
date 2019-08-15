@@ -202,7 +202,12 @@ async function setUpFeatureFlags(options) {
         // Not sure where this was getting called, but V8 does some
         // complicated things under the hood
         // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
-        const ignoreList = ['Symbol(Symbol.toStringTag)'];
+        const ignoreList = [
+          'Symbol(Symbol.toStringTag)',
+          'Symbol(nodejs.util.inspect.custom)',
+          'inspect',
+          'Symbol(Symbol.iterator)',
+        ];
         if (!ignoreList.includes(prop.toString())) {
           throw new ReferenceError(
             `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
