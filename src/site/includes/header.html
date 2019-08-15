@@ -23,19 +23,7 @@
 <meta name="insight-app-sec-validation" content="ec59f99e-d869-4e3f-82d2-a61d32c65776">
 {% endif %}
 
-{% assign analytics = buildtype | default: 'vagovprod' %}
-{% if analytics == 'localhost' %}{% assign analytics = 'vagovdev' %}{% endif %}
-{% assign analytics = analytics | prepend: "src/site/assets/google-analytics/" %}
-{% assign analyticsScript = analytics | append: ".js" %}
-{% assign analyticsIframe = analytics | append: ".html" %}
-
-<script>
-  {% include {{ analyticsScript }} %}
-  recordEvent({ environment: '{{ buildtype }}' });
-  if ( self !== top ) {
-    recordEvent({ event: 'iframed', embeddedIn: document.referrer});
-  }
-</script>
+{% include 'src/site/includes/google-analytics' %}
 
 <!-- Icons -->
 <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -84,7 +72,7 @@
 </head>
 <body class="{{ body_class }} merger">
 
-{% include {{ analyticsIframe }} %}
+{{ google_analytics_iframe }}
 
 <a class="show-on-focus" href="#content">Skip to Content</a>
 
