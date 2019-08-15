@@ -66,7 +66,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
         value: 'vettec',
         label: 'VET TEC training providers only',
         learnMore: vetTecLabel,
-        additional: vetTecLogo,
+        additional: environment.isProduction() ? null : vetTecLogo,
       });
     }
 

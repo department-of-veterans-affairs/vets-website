@@ -7,16 +7,19 @@ import VetTecApprovedPrograms from './VetTecApprovedPrograms';
 import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
 import VetTecContactInformation from './VetTecContactInformation';
+import environment from 'platform/utilities/environment';
 
 const VetTecInstitutionProfile = ({ institution, showModal }) => (
   <div>
-    <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
-      <img
-        className="vettec-logo"
-        src="/img/logo/vet-tec-logo.png"
-        alt="Vet Tec Logo"
-      />
-    </div>
+    {!environment.isProduction() && (
+      <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
+        <img
+          className="vettec-logo"
+          src="/img/logo/vet-tec-logo.png"
+          alt="Vet Tec Logo"
+        />
+      </div>
+    )}
     <VetTecHeadingSummary institution={institution} showModal={showModal} />
     <div className="usa-accordion">
       <ul>
