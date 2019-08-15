@@ -563,13 +563,15 @@ class CalculatorForm extends React.Component {
     let zipcodeRadioOptions;
 
     if (extensions.length > 0) {
-      extensionOptions = [{ value: 'other', label: 'Other...' }];
+      extensionOptions = [{ value: '', label: 'Please choose a location' }];
       extensions.forEach(extension => {
         extensionOptions.push({
           value: extension.zip,
           label: extension.institution,
         });
       });
+      extensionOptions.push({ value: 'other', label: 'Other...' });
+
       zipcodeRadioOptions = [
         {
           value: 'yes',
