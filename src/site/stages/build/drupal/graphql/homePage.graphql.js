@@ -6,7 +6,12 @@ const menu = 'homepage-top-tasks-blocks';
 const hubListQueue = 'home_page_hub_list';
 const promoBlocksQueue = 'home_page_promos';
 
-module.exports = `
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('../../../../utilities/featureFlags');
+
+const query = `
   homePageMenuQuery:menuByName(name: "${menu}") {
     name
     links {
@@ -76,3 +81,7 @@ module.exports = `
     }
   }
 `;
+
+module.exports = enabledFeatureFlags[featureFlags.FEATURE_HOME_PAGE]
+  ? query
+  : '';

@@ -30,6 +30,7 @@ const featureFlags = {
   FEATURE_HEALTH_SERVICE_API_ID: 'featureHealthServiceApiId',
   FEATURE_DOWNLOADABLE_FILE: 'featureDownloadableFile',
   FEATURE_FIELD_ALERT_DISMISSABLE: 'fieldAlertDismissable',
+  FEATURE_HOME_PAGE: 'featureHomePage',
 };
 
 // Edit this to turn flags on or off
