@@ -66,10 +66,8 @@
 
 </head>
 <body class="{{ body_class }} merger">
-
-{{ google_analytics_iframe }}
-
-<a class="show-on-focus" href="#content">Skip to Content</a>
+  {{ google_analytics_iframe }}
+  <a class="show-on-focus" href="#content">Skip to Content</a>
 
 {% if !noHeader %}
   {% include "src/site/includes/top-nav.html" %}
