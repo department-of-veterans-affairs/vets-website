@@ -93,9 +93,9 @@ async function loadDrupal(buildOptions) {
     buildOptions.cacheDirectory,
     DRUPAL_CACHE_FILENAME,
   );
+  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
 
   const shouldPull = shouldPullDrupal(buildOptions);
-  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
