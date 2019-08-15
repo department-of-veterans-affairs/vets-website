@@ -3,6 +3,7 @@ const { createEntityUrlObj, createFileObj } = require('./page');
 
 // Processes the data received from the home page query.
 function addHomeContent(contentData, files) {
+  // We cannot limit menu items in Drupal, so we must do it here.
   const menuLength = 4;
 
   // Make sure that we have content for the home page.
