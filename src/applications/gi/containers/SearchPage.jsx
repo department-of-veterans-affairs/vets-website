@@ -24,7 +24,6 @@ import SearchResult from '../components/search/SearchResult';
 import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
-import environment from '../../../platform/utilities/environment';
 import { isVetTecSelected } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -64,7 +63,7 @@ export class SearchPage extends React.Component {
       'onlineOnly',
       'principlesOfExcellence',
       'eightKeysToVeteranSuccess',
-      'stemOffered',
+      'stemIndicator',
       'priorityEnrollment',
       'independentStudy',
       'vetTecProvider',
@@ -176,8 +175,7 @@ export class SearchPage extends React.Component {
           {filterButton}
           <div>
             {search.results.map(result => {
-              // ***CT 116***
-              if (!environment.isProduction() && isVetTecSelected(filters)) {
+              if (isVetTecSelected(filters)) {
                 return (
                   <VetTecSearchResult
                     version={this.props.location.query.version}
@@ -322,7 +320,7 @@ export class SearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         {/* /CT 116 */}
-        {!environment.isProduction() && isVetTecSelected(filters)
+        {isVetTecSelected(filters)
           ? this.renderVetTecSearchForm(searchResults, filtersClass)
           : this.renderInstitutionSearchForm(searchResults, filtersClass)}
       </ScrollElement>

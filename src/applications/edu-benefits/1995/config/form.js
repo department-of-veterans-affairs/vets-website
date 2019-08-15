@@ -2,6 +2,7 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import { transform } from '../submit-transformer';
 import { prefillTransformer } from '../prefill-transformer';
+import submitForm from '../submitForm';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -26,6 +27,7 @@ const {
 const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
+  submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
   version: 1,

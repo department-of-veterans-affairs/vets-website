@@ -5,14 +5,11 @@ import sinon from 'sinon';
 
 import { fileHelp, submit } from '../helpers.jsx';
 
-import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers';
-
-function setFetchResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers';
 
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;

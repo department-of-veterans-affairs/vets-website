@@ -3,7 +3,6 @@
     {
         "entityBundle": "alert",
         "fieldAlertType": "warning",
-        "fieldHelpText": null,
         "fieldAlertTitle": "How do I talk to someone right now?",
         "fieldReusability": "reusable",
         "fieldAlertContent": {
@@ -31,9 +30,6 @@
     <h3 class="usa-alert-heading">
       {{ alert.fieldAlertTitle }}
     </h3>
-    {% if alert.fieldHelpText %}
-      <p>{{ alert.fieldHelpText }}</p>
-    {% endif %}
 
     {% if expander.fieldTextExpander == empty %}
         {{ expander.fieldWysiwyg.processed }}

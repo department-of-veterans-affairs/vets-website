@@ -2,6 +2,13 @@
  * An alert block in Drupal
  *
  */
+
+// Get current feature flags
+const {
+  featureFlags,
+  enabledFeatureFlags,
+} = require('../../../../../utilities/featureFlags');
+
 const FIELD_ALERT = `
 fieldAlert {
   entity {
@@ -15,8 +22,12 @@ fieldAlert {
 
 const alert = `
 fragment alert on BlockContentAlert {
+  ${
+    enabledFeatureFlags[featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE]
+      ? 'fieldAlertDismissable'
+      : ''
+  }
   fieldAlertType
-  fieldHelpText
   fieldAlertTitle
   fieldReusability
   fieldAlertContent {

@@ -177,8 +177,57 @@ $duo-tone-lighten: #000000;
   margin-top: auto;
 }
 
+.va-c-position--relative {
+  position: relative;
+}
+
+.va-c-position--absolute {
+  position: absolute;
+}
+
+.va-c-position-top-right-corner {
+  right: 0;
+  top: 0;
+}
+
+.expand-image-button {
+  background-color: $color-primary;
+  border-radius: 5px;
+  color: $color-white;
+  height: 32px;
+  width: 32px;
+
+  &:visited {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+
+  &:hover {
+    background-color: $color-primary-darker;
+    color: $color-white;
+  }
+}
+
 .social-links {
   &:last-child.vads-u-margin-bottom--2 {
     margin-bottom: 0 !important;
   }
+}
+
+// featured content
+.featured-content-list-item {
+  width: 100%;
+  margin-right: 1em;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media($medium-screen){
+    width: 33%;
+  }
+}
+
+.featured-content-hr {
+  width: 40px;
 }

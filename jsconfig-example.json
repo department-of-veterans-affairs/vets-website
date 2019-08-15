@@ -4,7 +4,8 @@
     // when importing modules that use the Babel module-resolver plugin
     "baseUrl": ".",
     "paths": {
-      "*": ["*", "src/*"]
+      "*": ["*", "src/*"],
+      "vet360/*": ["./src/platform/user/profile/vet360/*"]
     },
     // adding this line allows you to ⌘click JSX imports to open the source
     "jsx": "react",

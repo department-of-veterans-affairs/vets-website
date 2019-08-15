@@ -7,18 +7,18 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import accountManifest from '../../account/manifest.json';
 
-import { TRANSACTION_CATEGORY_TYPES } from '../vet360/constants';
+import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
 
-import Vet360InitializeID from '../vet360/containers/InitializeID';
-import Vet360PendingTransactionCategory from '../vet360/containers/PendingTransactionCategory';
+import Vet360InitializeID from 'vet360/containers/InitializeID';
+import Vet360PendingTransactionCategory from 'vet360/containers/PendingTransactionCategory';
 
-import MailingAddress from '../vet360/components/MailingAddress';
-import ResidentialAddress from '../vet360/components/ResidentialAddress';
-import HomePhone from '../vet360/components/HomePhone';
-import MobilePhone from '../vet360/components/MobilePhone';
-import WorkPhone from '../vet360/components/WorkPhone';
-import FaxNumber from '../vet360/components/FaxNumber';
-import Email from '../vet360/components/Email';
+import MailingAddress from 'vet360/components/MailingAddress';
+import ResidentialAddress from 'vet360/components/ResidentialAddress';
+import HomePhone from 'vet360/components/HomePhone';
+import MobilePhone from 'vet360/components/MobilePhone';
+import WorkPhone from 'vet360/components/WorkPhone';
+import FaxNumber from 'vet360/components/FaxNumber';
+import Email from 'vet360/components/Email';
 
 import { handleDowntimeForSection } from './DowntimeBanner';
 import ContactInformationExplanation from './ContactInformationExplanation';

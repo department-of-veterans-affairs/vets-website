@@ -76,7 +76,7 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
+      if (profile.attributes.vetTecProvider) {
         content = (
           <VetTecInstitutionProfile
             institution={profile.attributes}
@@ -104,21 +104,22 @@ export class ProfilePage extends React.Component {
                     />
                   </AccordionItem>
                 )}
-                {!isOJT && (
-                  <AccordionItem button="Student outcomes">
-                    <If
-                      condition={
-                        !!profile.attributes.facilityCode && !!constants
-                      }
-                      comment="TODO"
-                    >
-                      <Outcomes
-                        graphing={outcomes}
-                        onShowModal={this.props.showModal}
-                      />
-                    </If>
-                  </AccordionItem>
-                )}
+                {!isOJT &&
+                  (environment.isProduction() && ( // production flag to display table only on staging (story #19452, sprint 27)
+                    <AccordionItem button="Student outcomes">
+                      <If
+                        condition={
+                          !!profile.attributes.facilityCode && !!constants
+                        }
+                        comment="TODO"
+                      >
+                        <Outcomes
+                          graphing={outcomes}
+                          onShowModal={this.props.showModal}
+                        />
+                      </If>
+                    </AccordionItem>
+                  ))}
                 <AccordionItem
                   button="Cautionary information"
                   ref={c => {
@@ -135,6 +136,7 @@ export class ProfilePage extends React.Component {
                   <AdditionalInformation
                     institution={profile.attributes}
                     onShowModal={this.props.showModal}
+                    constants={this.props.constants}
                   />
                 </AccordionItem>
               </ul>

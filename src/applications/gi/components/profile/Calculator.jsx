@@ -13,6 +13,7 @@ import {
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
+import environment from '../../../../platform/utilities/environment';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
@@ -25,7 +26,6 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
       </div>
     </div>
   ) : null;
-
 export class Calculator extends React.Component {
   constructor(props) {
     super(props);
@@ -60,11 +60,26 @@ export class Calculator extends React.Component {
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
-        {expanded ? (
-          <div className="form-expanding-group-open">
-            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
+        {environment.isProduction() && (
+          <div>
+            {expanded ? (
+              <div className="form-expanding-group-open">
+                <EligibilityForm
+                  eligibilityChange={this.props.eligibilityChange}
+                />
+              </div>
+            ) : null}
           </div>
-        ) : null}
+        )}
+        {!environment.isProduction() && (
+          <div>
+            {expanded ? (
+              <EligibilityForm
+                eligibilityChange={this.props.eligibilityChange}
+              />
+            ) : null}
+          </div>
+        )}
       </div>
     );
   }
@@ -84,17 +99,38 @@ export class Calculator extends React.Component {
         >
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
-        {expanded ? (
-          <div className="form-expanding-group-open">
-            <CalculatorForm
-              inputs={inputs}
-              displayedInputs={displayed}
-              onShowModal={this.props.showModal}
-              onInputChange={this.props.calculatorInputChange}
-              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-            />
+        {environment.isProduction() && (
+          <div>
+            {expanded ? (
+              <div className="form-expanding-group-open">
+                <CalculatorForm
+                  inputs={inputs}
+                  displayedInputs={displayed}
+                  onShowModal={this.props.showModal}
+                  onInputChange={this.props.calculatorInputChange}
+                  onBeneficiaryZIPCodeChanged={
+                    this.props.beneficiaryZIPCodeChanged
+                  }
+                />
+              </div>
+            ) : null}
           </div>
-        ) : null}
+        )}
+        {!environment.isProduction() && (
+          <div>
+            {expanded ? (
+              <CalculatorForm
+                inputs={inputs}
+                displayedInputs={displayed}
+                onShowModal={this.props.showModal}
+                onInputChange={this.props.calculatorInputChange}
+                onBeneficiaryZIPCodeChanged={
+                  this.props.beneficiaryZIPCodeChanged
+                }
+              />
+            ) : null}
+          </div>
+        )}
       </div>
     );
   }
