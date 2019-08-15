@@ -1,9 +1,9 @@
-{% case buildtype %}
+{% assign analytics_environment = buildtype %}
+{% if analytics_environment == 'localhost' %}
+  {% assign analytics_environment = 'vagovdev' %}
+{% endif %}
 
-  {% when 'localhost' %}
-    {% comment %}
-      No Analytics on localhost
-    {% endcomment %}
+{% case analytics_environment %}
 
   {% when 'vagovdev' %}
     {% capture google_analytics_js %}
