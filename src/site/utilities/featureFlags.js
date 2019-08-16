@@ -56,6 +56,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
     featureFlags.FEATURE_DOWNLOADABLE_FILE,
     featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
+    featureFlags.FEATURE_HOME_PAGE,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
@@ -78,6 +79,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
     featureFlags.FEATURE_DOWNLOADABLE_FILE,
     featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
+    featureFlags.FEATURE_HOME_PAGE,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -97,6 +99,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
     featureFlags.FEATURE_DOWNLOADABLE_FILE,
     featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
+    featureFlags.FEATURE_HOME_PAGE,
   ],
   vagovprod: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
