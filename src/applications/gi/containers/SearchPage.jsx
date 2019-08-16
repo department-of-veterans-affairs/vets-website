@@ -25,7 +25,6 @@ import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { isVetTecSelected } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
 import { renderVetTecLogo } from '../utils/render';
 
 const { Element: ScrollElement, scroller } = Scroll;
@@ -235,25 +234,19 @@ export class SearchPage extends React.Component {
 
   renderVetTecSearchForm = (searchResults, filtersClass) => (
     <div>
-      {!environment.isProduction() && (
-        <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
-          {renderVetTecLogo(classNames('vettec-logo'))}
+      <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
+        {renderVetTecLogo(classNames('vettec-logo'))}
+      </div>
+      <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+        <div className="vads-l-col--10">
+          {this.renderSearchResultsHeader(this.props.search)}
         </div>
-      )}
-      {!environment.isProduction() && (
-        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
-          <div className="vads-l-col--10">
-            {this.renderSearchResultsHeader(this.props.search)}
-          </div>
-          <div className="vads-l-col--2">
-            <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
-              {renderVetTecLogo(classNames('vettec-logo'))}
-            </div>
+        <div className="vads-l-col--2">
+          <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
+            {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
         </div>
-      )}
-      {environment.isProduction() &&
-        this.renderSearchResultsHeader(this.props.search)}
+      </div>
       <VetTecSearchForm
         filtersClass={filtersClass}
         search={this.props.search}
