@@ -182,7 +182,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       // Testing-only
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-        def buildOutput = sh(returnStdout: true, script: "cat ${envName}-output.log").trim()
+        def buildOutput = sh(returnStdout: true, script: "cat /application/${envName}-output.log").trim()
         // def errStart = buildOutput.indexOf('Error:')
         // def brokenLinkEnd = buildOutput.indexOf('npm ERR! code ELIFECYCLE') - 1
         def message = "@ncksllvn buildOutput[0..100]"
