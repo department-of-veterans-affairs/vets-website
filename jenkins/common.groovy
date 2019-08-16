@@ -139,7 +139,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${envName}-output.log"
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee /application/${envName}-output.log"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
   }
@@ -185,7 +185,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def buildOutput = sh(returnStdout: true, script: "cat /application/${envName}-output.log").trim()
         // def errStart = buildOutput.indexOf('Error:')
         // def brokenLinkEnd = buildOutput.indexOf('npm ERR! code ELIFECYCLE') - 1
-        def message = "@ncksllvn buildOutput[0..100]"
+        def message = "@ncksllvn ${buildOutput[0..100]}"
 
         slackSend message: message,
           color: 'warning',
