@@ -48,6 +48,7 @@ describe('<LandingPage>', () => {
       router: { push: sinon.spy() },
       location: { query: {} },
       autocomplete: { searchTerm: null },
+      renderVetTecLogo: sinon.spy(),
     };
 
     const store = {
@@ -70,9 +71,9 @@ describe('<LandingPage>', () => {
     const vetTecOption = tree
       .find('LandingPageTypeOfInstitutionFilter')
       .find('RadioButtons')
-      .find('span');
-
-    expect(vetTecOption.text()).to.equal(' (Learn more) ');
+      .find('span')
+      .find('button');
+    expect(vetTecOption.text()).to.equal('(Learn more)');
     tree.unmount();
   });
 });
