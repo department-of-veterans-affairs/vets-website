@@ -206,7 +206,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
   const pastEventsPage = updateEntityUrlObj(
     pastEventsObj,
-    drupalPagePath,
+    `${drupalPagePath}/events`,
     'Past events',
   );
   const pastEventsPagePath = pastEventsPage.entityUrl.path;
