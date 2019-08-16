@@ -177,6 +177,8 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         }
       }
 
+      parallel builds
+
       // Testing-only
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
@@ -191,7 +193,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
           channel: 'dev_null'
       }
 
-      parallel builds
       return envUsedCache
     } catch (error) {
       slackNotify()
