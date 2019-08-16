@@ -33,7 +33,7 @@ function auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, done) {
 
   worker.send({
     url: new URL(nextFile.path, buildOptions.hostUrl),
-    contents: nextFile.contents.toString(),
+    contents: nextFile.contents,
   });
 }
 

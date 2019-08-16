@@ -22,9 +22,8 @@ const runAxeScript = new Script(`
 `);
 
 function executeAxeCheck({ url, contents }) {
-  let dom = new JSDOM(contents, {
+  let dom = new JSDOM(Buffer.from(contents), {
     url,
-    contentType: 'text/html',
     includeNodeLocations: false,
     runScripts: 'outside-only',
   });
