@@ -35,13 +35,11 @@ class CalculatorForm extends React.Component {
     if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
       extensions = profile.attributes.facilityMap.main.extensions;
     } else {
-      facilityMap.main.branches.forEach(branch => {
-        if (
-          branch.institution.facilityCode === profile.attributes.facilityCode
-        ) {
-          extensions = branch.extensions;
-        }
-      });
+      const matchedBranch = facilityMap.main.branches.find(
+        branch =>
+          branch.institution.facilityCode === profile.attributes.facilityCode,
+      );
+      ({ extensions } = matchedBranch);
     }
     return extensions;
   }
@@ -557,10 +555,15 @@ class CalculatorForm extends React.Component {
 
     let amountInput;
     let extensionSelector;
-    let extensionOptions;
-    let zipcodeRadioOptions;
+    let extensionOptions = [];
+    const zipcodeRadioOptions = [
+      {
+        value: 'yes',
+        label: profile.attributes.name,
+      },
+    ];
 
-    if (extensions.length > 0) {
+    if (extensions && extensions.length) {
       extensionOptions = [{ value: '', label: 'Please choose a location' }];
       extensions.forEach(extension => {
         extensionOptions.push({
@@ -570,21 +573,12 @@ class CalculatorForm extends React.Component {
       });
       extensionOptions.push({ value: 'other', label: 'Other...' });
 
-      zipcodeRadioOptions = [
-        {
-          value: 'yes',
-          label: profile.attributes.name,
-        },
-        { value: 'extension', label: 'An extension campus' },
-      ];
+      zipcodeRadioOptions.push({
+        value: 'extension',
+        label: 'An extension campus',
+      });
     } else {
-      zipcodeRadioOptions = [
-        {
-          value: 'yes',
-          label: profile.attributes.name,
-        },
-        { value: 'other', label: 'Other location' },
-      ];
+      zipcodeRadioOptions.push({ value: 'other', label: 'Other location' });
     }
 
     if (inputs.beneficiaryLocationQuestion === 'extension') {
@@ -612,11 +606,7 @@ class CalculatorForm extends React.Component {
         <div>
           <ErrorableTextInput
             errorMessage={inputs.beneficiaryZIPError}
-            label={
-              <span>
-                At what ZIP Code will you be taking the majority of classes?
-              </span>
-            }
+            label="At what ZIP Code will you be taking the majority of classes?"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
