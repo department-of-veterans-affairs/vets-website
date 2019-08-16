@@ -74,13 +74,15 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
     }
 
     return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.category}
-        onChange={this.props.onChange}
-      />
+      <div className="type-of-institution-filter">
+        <RadioButtons
+          label="Type of institution"
+          name="category"
+          options={options}
+          value={this.props.category}
+          onChange={this.props.onChange}
+        />
+      </div>
     );
   }
 }
