@@ -4,7 +4,8 @@ import sinon from 'sinon';
 import {
   mockFetch,
   resetFetch,
-} from '../../../../platform/testing/unit/helpers';
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers';
 
 import {
   conditionallyShowPrefillMessage,
@@ -16,14 +17,6 @@ import {
   transform,
   transformSearchToolAddress,
 } from '../../feedback-tool/helpers';
-
-function setFetchResponse(stub, data, headers = {}) {
-  const response = new Response();
-  response.ok = true;
-  response.headers.get = headerID => headers[headerID] || null;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
 
 describe('removeEmptyStringProperties', () => {
   it('removes keys that have empty string values', () => {
@@ -249,40 +242,28 @@ describe('feedback-tool helpers:', () => {
     it('should resolve if polling state is success', () => {
       const parsedResponse = {};
       mockFetch();
-      setFetchResponse(
-        global.fetch.onFirstCall(),
-        {
-          data: {
-            attributes: {
-              guid: 'test',
-            },
+      setFetchResponse(global.fetch.onFirstCall(), {
+        data: {
+          attributes: {
+            guid: 'test',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onSecondCall(),
-        {
-          data: {
-            attributes: {
-              state: 'pending',
-            },
+      });
+      setFetchResponse(global.fetch.onSecondCall(), {
+        data: {
+          attributes: {
+            state: 'pending',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onThirdCall(),
-        {
-          data: {
-            attributes: {
-              state: 'success',
-              parsedResponse,
-            },
+      });
+      setFetchResponse(global.fetch.onThirdCall(), {
+        data: {
+          attributes: {
+            state: 'success',
+            parsedResponse,
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
+      });
       const formConfig = {
         chapters: {},
       };
@@ -296,39 +277,27 @@ describe('feedback-tool helpers:', () => {
     });
     it('should reject if polling state is failed', () => {
       mockFetch();
-      setFetchResponse(
-        global.fetch.onFirstCall(),
-        {
-          data: {
-            attributes: {
-              guid: 'test',
-            },
+      setFetchResponse(global.fetch.onFirstCall(), {
+        data: {
+          attributes: {
+            guid: 'test',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onSecondCall(),
-        {
-          data: {
-            attributes: {
-              state: 'pending',
-            },
+      });
+      setFetchResponse(global.fetch.onSecondCall(), {
+        data: {
+          attributes: {
+            state: 'pending',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onThirdCall(),
-        {
-          data: {
-            attributes: {
-              state: 'failed',
-            },
+      });
+      setFetchResponse(global.fetch.onThirdCall(), {
+        data: {
+          attributes: {
+            state: 'failed',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
+      });
       const formConfig = {
         chapters: {},
       };

@@ -25,6 +25,8 @@ import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { isVetTecSelected } from '../utils/helpers';
+import environment from 'platform/utilities/environment';
+import { renderVetTecLogo } from '../utils/render';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -224,9 +226,77 @@ export class SearchPage extends React.Component {
     return searchResults;
   };
 
+  renderSearchResultsHeader = search => (
+    <h1>
+      {!search.inProgress && `${(search.count || 0).toLocaleString()} `}
+      Search Results
+    </h1>
+  );
+
+  renderVetTecSearchForm = (searchResults, filtersClass) => (
+    <div>
+      {!environment.isProduction() && (
+        <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
+          {renderVetTecLogo(classNames('vettec-logo'))}
+        </div>
+      )}
+      {!environment.isProduction() && (
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+          <div className="vads-l-col--10">
+            {this.renderSearchResultsHeader(this.props.search)}
+          </div>
+          <div className="vads-l-col--2">
+            <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
+              {renderVetTecLogo(classNames('vettec-logo'))}
+            </div>
+          </div>
+        </div>
+      )}
+      {environment.isProduction() &&
+        this.renderSearchResultsHeader(this.props.search)}
+      <VetTecSearchForm
+        filtersClass={filtersClass}
+        search={this.props.search}
+        autocomplete={this.props.autocomplete}
+        location={this.props.location}
+        clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+        handleFilterChange={this.handleFilterChange}
+        updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
+        filters={this.props.filters}
+        toggleFilter={this.props.toggleFilter}
+        searchResults={searchResults}
+        eligibility={this.props.eligibility}
+        showModal={this.props.showModal}
+        eligibilityChange={this.props.eligibilityChange}
+      />
+    </div>
+  );
+
+  renderInstitutionSearchForm = (searchResults, filtersClass) => (
+    <div>
+      {this.renderSearchResultsHeader(this.props.search)}
+      <InstitutionSearchForm
+        filtersClass={filtersClass}
+        search={this.props.search}
+        autocomplete={this.props.autocomplete}
+        location={this.props.location}
+        clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+        handleFilterChange={this.handleFilterChange}
+        updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
+        filters={this.props.filters}
+        toggleFilter={this.props.toggleFilter}
+        searchResults={searchResults}
+        eligibility={this.props.eligibility}
+        showModal={this.props.showModal}
+        eligibilityChange={this.props.eligibilityChange}
+      />
+    </div>
+  );
+
   render() {
     const { search, filters } = this.props;
-    const { count } = search;
 
     const filtersClass = classNames(
       'filters-sidebar',
@@ -234,68 +304,18 @@ export class SearchPage extends React.Component {
       'usa-width-one-fourth',
       'medium-3',
       'columns',
+      'mobile-vettec-logo',
       { opened: search.filterOpened },
     );
 
     const searchResults = this.searchResults();
+
     return (
       <ScrollElement name="searchPage" className="search-page">
-        <div className="row">
-          <div className="column">
-            <h1>
-              {!search.inProgress && `${(count || 0).toLocaleString()} `}
-              Search Results
-            </h1>
-          </div>
-        </div>
-
-        {isVetTecSelected(filters) ? (
-          <VetTecSearchForm
-            filtersClass={filtersClass}
-            search={search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        ) : (
-          <InstitutionSearchForm
-            filtersClass={filtersClass}
-            search={search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        )}
+        {/* /CT 116 */}
+        {isVetTecSelected(filters)
+          ? this.renderVetTecSearchForm(searchResults, filtersClass)
+          : this.renderInstitutionSearchForm(searchResults, filtersClass)}
       </ScrollElement>
     );
   }
