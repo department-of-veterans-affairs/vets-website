@@ -22,13 +22,13 @@ const runAxeScript = new Script(`
 `);
 
 function executeAxeCheck({ url, contents }) {
-  let dom = new JSDOM(Buffer.from(contents), {
-    url,
-    includeNodeLocations: false,
-    runScripts: 'outside-only',
-  });
+  return new Promise((resolve, reject) => {
+    let dom = new JSDOM(Buffer.from(contents), {
+      url,
+      includeNodeLocations: false,
+      runScripts: 'outside-only',
+    });
 
-  const operation = new Promise((resolve, reject) => {
     dom.window.axeCallback = (err, result) => {
       dom.window.close();
       dom = null;
@@ -38,12 +38,10 @@ function executeAxeCheck({ url, contents }) {
         resolve(result);
       }
     };
+
+    dom.runVMScript(axeScript);
+    dom.runVMScript(runAxeScript);
   });
-
-  dom.runVMScript(axeScript);
-  dom.runVMScript(runAxeScript);
-
-  return operation;
 }
 
 process.on('message', async file => {
