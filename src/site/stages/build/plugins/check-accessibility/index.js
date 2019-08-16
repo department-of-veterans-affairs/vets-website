@@ -89,10 +89,7 @@ function checkAccessibility(buildOptions) {
     return noop;
   }
 
-  const environmentsThatMustPass = new Set([
-    ENVIRONMENTS.VAGOVSTAGING,
-    ENVIRONMENTS.VAGOVPROD,
-  ]);
+  const environmentsThatMustPass = new Set([ENVIRONMENTS.VAGOVPROD]);
 
   const buildMustPass = environmentsThatMustPass.has(buildOptions.buildtype);
 
