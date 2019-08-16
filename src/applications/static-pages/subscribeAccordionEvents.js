@@ -5,10 +5,7 @@ export default function subscribeAccordionEvents() {
     '@department-of-veterans-affairs/formation/accordion/button-clicked',
     e => {
       recordEvent({
-        event:
-          e.detail.toggle === 'expand'
-            ? 'nav-accordion-expand'
-            : 'nav-accordion-collapse',
+        event: `nav-accordion-${e.detail.toggle}`,
       });
     },
   );
