@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-await-in-loop */
+/* eslint-disable no-console */
 
 const path = require('path');
 const cp = require('child_process');
