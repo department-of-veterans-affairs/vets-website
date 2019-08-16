@@ -60,8 +60,8 @@ node('vetsgov-general-purpose') {
   // Perform a build for each build type
   envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
-  // Run E2E and accessibility tests
-  stage('Integration') {
+  // Run E2E tests
+  stage('End-To-End') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       try {
