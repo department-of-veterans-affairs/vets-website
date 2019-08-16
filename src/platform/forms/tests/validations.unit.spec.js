@@ -530,16 +530,7 @@ describe('Validations unit tests', () => {
       validateWhiteSpace(errors, '    ');
       expect(errors.addError.called).to.be.true;
     });
-    it('should add an error if the input leads with whitespace', () => {
-      const errors = { addError: spy() };
-      validateWhiteSpace(errors, ' leads with whitespace');
-      expect(errors.addError.called).to.be.true;
-    });
-    it('should add an error if the input trails with whitespace', () => {
-      const errors = { addError: spy() };
-      validateWhiteSpace(errors, 'trails with whitespace ');
-      expect(errors.addError.called).to.be.true;
-    });
+
     it('should not add an error if the input is valid', () => {
       const errors = { addError: spy() };
       validateWhiteSpace(errors, 'valid input');
