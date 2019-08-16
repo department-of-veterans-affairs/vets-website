@@ -52,4 +52,3 @@ Once you have the site set up locally, these are some common commands you might 
 | Safari / iOS Safari       | 9               |                                        |
 | Chrome / Android Web view | 44              | _Latest version with >0.5% of traffic_ |
 | Firefox                   | 52              | _Latest version with >0.5% of traffic_ |
-
