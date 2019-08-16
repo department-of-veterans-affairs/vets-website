@@ -23,7 +23,7 @@ const runAxeScript = new Script(`
 
 function executeAxeCheck({ url, contents }) {
   return new Promise((resolve, reject) => {
-    let dom = new JSDOM(contents, {
+    let dom = new JSDOM(Buffer.from(contents), {
       url,
       includeNodeLocations: false,
       runScripts: 'outside-only',
