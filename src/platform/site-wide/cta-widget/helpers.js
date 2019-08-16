@@ -7,6 +7,8 @@ export const frontendApps = {
   MESSAGING: 'messaging',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   APPOINTMENTS: 'appointments',
+  VIEW_APPOINTMENTS: 'view-appointments',
+  SCHEDULE_APPOINTMENTS: 'schedule-appointments',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   DISABILITY_BENEFITS: 'disability-benefits',
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
@@ -22,6 +24,8 @@ const HEALTH_TOOLS = [
   frontendApps.MESSAGING,
   frontendApps.LAB_AND_TEST_RESULTS,
   frontendApps.APPOINTMENTS,
+  frontendApps.VIEW_APPOINTMENTS,
+  frontendApps.SCHEDULE_APPOINTMENTS,
   frontendApps.DIRECT_DEPOSIT,
 ];
 
@@ -36,6 +40,8 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
       return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
     case frontendApps.MESSAGING:
     case frontendApps.APPOINTMENTS:
+    case frontendApps.VIEW_APPOINTMENTS:
+    case frontendApps.SCHEDULE_APPOINTMENTS:
       return accountLevel === 'Premium';
     default:
       // Not a recognized health tool.
@@ -66,6 +72,8 @@ export const mhvToolName = appId => {
       return 'Lab and Test Results';
 
     case frontendApps.APPOINTMENTS:
+    case frontendApps.VIEW_APPOINTMENTS:
+    case frontendApps.SCHEDULE_APPOINTMENTS:
       return 'VA Appointments';
 
     case frontendApps.DIRECT_DEPOSIT:
@@ -103,6 +111,18 @@ export const toolUrl = (appId, index) => {
           `${mhvBaseUrl()}/mhv-portal-web/appointments`,
           `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
         ][index],
+        redirect: false,
+      };
+
+    case frontendApps.VIEW_APPOINTMENTS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,
+        redirect: false,
+      };
+
+    case frontendApps.SCHEDULE_APPOINTMENTS:
+      return {
+        url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
         redirect: false,
       };
 
@@ -178,6 +198,8 @@ export const requiredServices = appId => {
 
     case frontendApps.LAB_AND_TEST_RESULTS:
     case frontendApps.APPOINTMENTS:
+    case frontendApps.VIEW_APPOINTMENTS:
+    case frontendApps.SCHEDULE_APPOINTMENTS:
       return null;
 
     case frontendApps.GI_BILL_BENEFITS:
@@ -218,6 +240,12 @@ export const serviceDescription = (appId, index) => {
         'view your appointments',
         'schedule, reschedule, or cancel a VA appointment online',
       ][index];
+
+    case frontendApps.VIEW_APPOINTMENTS:
+      return 'view your appointments';
+
+    case frontendApps.SCHEDULE_APPOINTMENTS:
+      return 'schedule, reschedule, or cancel a VA appointment online';
 
     case frontendApps.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';
