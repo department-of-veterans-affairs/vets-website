@@ -128,5 +128,10 @@
     "domain": "www.va.gov",
     "src": "/HEALTHBENEFITS/apply/",
     "dest": "/health-care/how-to-apply/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/decision-reviews/get-help",
+    "dest": "/decision-reviews/get-help-with-review-request/"
   }
 ]
