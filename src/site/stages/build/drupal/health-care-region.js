@@ -148,19 +148,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Events listing page
   const allEvents = page.allEventTeasers;
 
+  // store past & current events
   const pastEventTeasers = {
     entities: [],
   };
-
-  const sortedPastEventTeasers = {
-    entities: [],
-  };
-
-  // get current events
   const currentEventTeasers = {
     entities: [],
   };
 
+  // separate current events from past events;
   _.forEach(allEvents.entities, value => {
     const eventTeaser = value;
     const startDate = eventTeaser.fieldDate.startDate;
@@ -172,13 +168,12 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   });
 
-  sortedPastEventTeasers.entities = _.orderBy(
+  // sort past events into reverse chronological order by start date
+  pastEventTeasers.entities = _.orderBy(
     pastEventTeasers.entities,
     ['fieldDate.startDate'],
     ['desc'],
   );
-
-  // sort past events into reverse chronological order by start date
 
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
@@ -207,7 +202,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}/events`);
 
   const pastEventsObj = Object.assign(
-    { allEventTeasers: sortedPastEventTeasers },
+    { allEventTeasers: pastEventTeasers },
     { eventTeasers: page.eventTeasers },
     { fieldIntroTextEventsPage: page.fieldIntroTextEventsPage },
     { facilitySidebar: sidebar },
@@ -262,6 +257,13 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 }
 
+/**
+ * Modify the page object to add social links.
+ *
+ * @param {page} page The page object.
+ * @param {pages} pages an array of page of objects containing a region page
+ * @return nothing
+ */
 function addGetUpdatesFields(page, pages) {
   const regionPage = pages.find(
     p =>
