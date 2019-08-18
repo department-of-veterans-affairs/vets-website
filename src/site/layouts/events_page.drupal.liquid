@@ -78,7 +78,9 @@ Example data:
                 <div class="vads-u-margin-bottom--2">
                   <strong>In the spotlight at {{ regionOrOffice }}</strong>
                 </div>
-                {% include "src/site/teasers/event_featured.drupal.liquid" with node = featuredEvent %}
+                {% unless url contains 'past-events' %}
+                  {% include "src/site/teasers/event_featured.drupal.liquid" with node = featuredEvent %}
+                {% endunless %}
               </div>
             </div>
           </div>

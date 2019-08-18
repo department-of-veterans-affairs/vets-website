@@ -148,8 +148,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Events listing page
   const allEvents = page.allEventTeasers;
 
-  // get past events
   const pastEventTeasers = {
+    entities: [],
+  };
+
+  const sortedPastEventTeasers = {
     entities: [],
   };
 
@@ -168,6 +171,12 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       currentEventTeasers.entities.push(eventTeaser);
     }
   });
+
+  sortedPastEventTeasers.entities = _.orderBy(
+    pastEventTeasers.entities,
+    ['fieldDate.startDate'],
+    ['desc'],
+  );
 
   // sort past events into reverse chronological order by start date
 
@@ -253,14 +262,9 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 }
 
-// Adds the social media links and email subscription links
-// for local facility page and region detail page entity types from their respective region page
 function addGetUpdatesFields(page, pages) {
   const regionPage = pages.find(
     p =>
-      // Finds the region page based on the second link url
-      // If the url matches the region page's entityUrl.path, it is the base region page for this page
-      // Note: this is done this way because a NodeHealthCareRegionDetailPage has no association field to a NodeHealthCareRegionPage
       p.entityUrl
         ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
         : false,
