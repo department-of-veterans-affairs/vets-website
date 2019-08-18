@@ -204,7 +204,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 
   // Past Events listing page
-  const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}/events`);
 
   const pastEventsObj = Object.assign(
     { allEventTeasers: sortedPastEventTeasers },
@@ -222,7 +222,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
   const pastEventsPagePath = pastEventsPage.entityUrl.path;
   pastEventsPage.regionOrOffice = page.title;
-  eventPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
+  pastEventsPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
 
   paginatePages(
     pastEventsPage,
