@@ -169,6 +169,8 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     }
   });
 
+  // sort past events into reverse chronological order by start date
+
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
     { allEventTeasers: currentEventTeasers },
