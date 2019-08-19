@@ -351,9 +351,7 @@ function validateLength(
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined') {
     if (!/\S/.test(input)) {
-      errors.addError(
-        'Response cannot start or end with a whitespace character',
-      );
+      errors.addError('Please provide a response');
     }
   }
 }
