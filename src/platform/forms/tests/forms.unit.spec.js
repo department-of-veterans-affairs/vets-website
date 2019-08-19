@@ -8,6 +8,7 @@ import fullSchema1990n from 'applications/edu-benefits/1990n/config/form';
 import fullSchema1995 from 'applications/edu-benefits/1995/config/form';
 import fullSchema5490 from 'applications/edu-benefits/5490/config/form';
 import fullSchema5495 from 'applications/edu-benefits/5495/config/form';
+import fullSchemaVIC from 'applications/vic-v2/config/form';
 import fullSchema527EZ from 'applications/pensions/config/form';
 import fullSchema526AllClaims from 'applications/disability-benefits/all-claims/config/form';
 import fullSchema530 from 'applications/burials/config/form';
@@ -36,6 +37,7 @@ const mappedIds = [
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
+  VA_FORM_IDS.VIC,
 ];
 
 const configs = [
@@ -56,16 +58,16 @@ const configs = [
   fullSchema5495,
   fullSchema10007,
   fullSchemaFeedbackTool,
+  fullSchemaVIC,
 ];
 
+// These forms do not have formConfig but are found in vets-json-schema/dist/schemas
 const excludedForms = new Set([
   '28-1900',
-  VA_FORM_IDS.FORM_21_526EZ,
   '28-8832',
   '24-0296',
-  '21-4142',
-  VA_FORM_IDS.VIC,
-  VA_FORM_IDS.FORM_22_1995_STEM,
+  VA_FORM_IDS.FORM_22_1995_STEM, // unused
+  VA_FORM_IDS.FORM_21_526EZ, // old
   'definitions',
   'constants',
   'vaMedicalFacilities',
@@ -116,24 +118,24 @@ describe('form:', () => {
         }
       });
 
-      it('should have chapters', () => {
+      it('should have chapters object', () => {
         expect(form.chapters).to.be.an('object');
       });
 
-      it('should have defaultDefinitions', () => {
+      it('should have defaultDefinitions object', () => {
         expect(form.defaultDefinitions).to.be.an('object');
       });
 
-      it('should have introduction', () => {
+      it('should have introduction function', () => {
         expect(form.introduction).to.be.an('function');
       });
 
-      it('should have prefillEnabled', () => {
+      it('should have prefillEnabled boolean', () => {
         expect(form.prefillEnabled).to.be.a('boolean');
       });
 
       if (form.prefillTransformer) {
-        it('should have prefillTransformer', () => {
+        it('should have prefillTransformer function', () => {
           expect(form.prefillTransformer).to.be.a('function');
         });
       }
@@ -190,9 +192,11 @@ describe('form:', () => {
         expect(form.footerContent).to.be.a('function');
       });
 
-      it('should have getHelp', () => {
-        expect(form.getHelp).to.be.a('function');
-      });
+      if (form.getHelp) {
+        it('should have getHelp', () => {
+          expect(form.getHelp).to.be.a('function');
+        });
+      }
 
       if (form.errorText) {
         it('should have errorText', () => {
