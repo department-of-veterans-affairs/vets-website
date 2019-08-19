@@ -132,6 +132,12 @@ describe('form:', () => {
         expect(form.prefillEnabled).to.be.a('boolean');
       });
 
+      if (form.prefillTransformer) {
+        it('should have prefillTransformer', () => {
+          expect(form.prefillTransformer).to.be.a('function');
+        });
+      }
+
       it('should have trackingPrefix', () => {
         expect(form.trackingPrefix).to.be.a('string');
       });
@@ -140,27 +146,59 @@ describe('form:', () => {
         expect(form.title).to.be.a('string');
       });
 
-      it('should have subTitle', () => {
-        if (form.subTitle) {
+      if (form.subTitle) {
+        it('should have subTitle', () => {
           expect(form.subTitle).to.be.a('string');
-        }
-      });
+        });
+      }
 
       it('should have urlPrefix', () => {
         expect(form.urlPrefix).to.be.a('string');
       });
 
-      it('should have submitUrl', () => {
-        if (form.submitUrl) {
+      if (form.submitUrl) {
+        it('should have submitUrl', () => {
           expect(form.submitUrl).to.be.a('string');
-        }
+        });
+      }
+
+      if (form.submit) {
+        it('should have submit', () => {
+          expect(form.submit).to.be.a('function');
+        });
+      }
+
+      it('should have savedFormMessages', () => {
+        expect(form.savedFormMessages).to.be.a('object');
       });
 
-      it('should have submit', () => {
-        if (form.submit) {
-          expect(form.submit).to.be.a('function');
-        }
+      if (form.transformForSubmit) {
+        it('should have transformForSubmit', () => {
+          expect(form.transformForSubmit).to.be.a('function');
+        });
+      }
+
+      it('should have confirmation', () => {
+        expect(form.confirmation).to.be.a('function');
       });
+
+      it('should have preSubmitInfo', () => {
+        expect(form.preSubmitInfo).to.be.a('object');
+      });
+
+      it('should have footerContent', () => {
+        expect(form.footerContent).to.be.a('function');
+      });
+
+      it('should have getHelp', () => {
+        expect(form.getHelp).to.be.a('function');
+      });
+
+      if (form.errorText) {
+        it('should have errorText', () => {
+          expect(form.errorText).to.be.a('function');
+        });
+      }
     });
   });
 });
