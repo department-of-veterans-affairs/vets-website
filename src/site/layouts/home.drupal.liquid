@@ -19,6 +19,7 @@
             {% endfor %}
           </ul>
         </div>
+        {% comment %} Close row and start new row after 2nd card. {% endcomment %}
         {% if forloop.index == 2 %}
         </div>
         <div class="hub-links-row">
@@ -97,9 +98,7 @@
 
   <section id="homepage-news">
     <div class="usa-grid usa-grid-full">
-    {% comment %}
-      Promos is an array of Drupal promo block entities. See /src/site/stages/build/drupal/home.js
-    {% endcomment %}  
+    {% comment %} Promos is an array of Drupal promo block entities. See /src/site/stages/build/drupal/home.js. {% endcomment %}  
     {% for promo in promos %}
       <div class="usa-width-one-third homepage-news-story">
         <div class="homepage-image-wrapper">
