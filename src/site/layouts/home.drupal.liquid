@@ -14,10 +14,8 @@
         <div class="hub-links-container">
           <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{ card.label | downcase | replace: ' ', '-' }} hub-color-{{ card.label | downcase | replace: ' ', '-' }}"></i>{{ card.label }}</h2>
           <ul class="hub-links-list">
-            {% assign parentCard = card %}
-
-            {% for link in parentCard.links %}
-              <li><a data-nav-path="{{ parentCard.label }}->{% if link.url.path != empty %}{{ link.url.path }}{% else %}{{ link.label }}{% endif %}" href="{{ link.url.path }}">{{ link.label }}</a></li>
+            {% for link in card.links %}
+              <li><a data-nav-path="{{ card.label }}->{% if link.url.path != empty %}{{ link.url.path }}{% else %}{{ link.label }}{% endif %}" href="{{ link.url.path }}">{{ link.label }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -98,8 +96,10 @@
 
 
   <section id="homepage-news">
-
     <div class="usa-grid usa-grid-full">
+    {% comment %}
+      Promos is an array of Drupal promo block entities. See /src/site/stages/build/drupal/home.js
+    {% endcomment %}  
     {% for promo in promos %}
       <div class="usa-width-one-third homepage-news-story">
         <div class="homepage-image-wrapper">
@@ -115,7 +115,6 @@
       {% endif %}
     {% endfor %}
     </div>
-
   </section>
 
 </main>
