@@ -7,6 +7,7 @@ import * as Sentry from '@sentry/browser';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import createCommonStore from './store';
 import startSitewideComponents from '../site-wide';
@@ -40,6 +41,7 @@ export default function startApp({
   Sentry.setTag('source', entryName);
 
   const store = createCommonStore(reducer, analyticsEvents);
+  connectFeatureToggle(store.dispatch);
 
   let history = browserHistory;
   if (url) {

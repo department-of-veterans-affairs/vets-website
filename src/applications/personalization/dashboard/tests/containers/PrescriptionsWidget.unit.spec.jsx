@@ -68,7 +68,7 @@ describe('<PrescriptionsWidget>', () => {
     );
     const emptyState = tree.dive(['p']);
     expect(emptyState.text()).to.have.string(
-      'We haven’t refilled or shipped any prescriptions for you in the last 30 days.',
+      'You don’t have any prescriptions being refilled. If you’ve refilled a prescription within the last 30 days, it may be out for delivery and not showing up here.',
     );
   });
 });

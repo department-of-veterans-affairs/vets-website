@@ -4,7 +4,7 @@
 *
  */
 module.exports = `
-  fragment alertParagraph on ParagraphAlert {      
+  fragment alertParagraph on ParagraphAlert {
       fieldAlertType
       fieldAlertHeading
       fieldVaParagraphs {
@@ -30,7 +30,6 @@ module.exports = `
         entity {
           ... on BlockContentAlert {
             fieldAlertTitle
-            fieldHelpText
             fieldAlertType
             fieldReusability
             fieldAlertContent {

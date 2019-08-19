@@ -19,7 +19,11 @@ export const benefitsLabels = {
     <p>
       Post-9/11 GI Bill (Chapter 33)
       <br />
-      <a href="/education/about-gi-bill-benefits/post-9-11/" target="_blank">
+      <a
+        aria-label="Learn more about Post-9/11 benefits"
+        href="/education/about-gi-bill-benefits/post-9-11/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -30,6 +34,7 @@ export const benefitsLabels = {
       Fry Scholarship (Chapter 33)
       <br />
       <a
+        aria-label="Learn more about Fry Scholarship benefits"
         href="/education/survivor-dependent-benefits/fry-scholarship/"
         target="_blank"
       >
@@ -42,6 +47,7 @@ export const benefitsLabels = {
       Montgomery GI Bill (MGIB-AD, Chapter 30)
       <br />
       <a
+        aria-label="Learn more about Montgomery GI Bill benefits"
         href="/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
       >
@@ -54,6 +60,7 @@ export const benefitsLabels = {
       Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
       <br />
       <a
+        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
         href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
       >
@@ -67,7 +74,11 @@ export const benefitsLabels = {
       <br />
       (VEAP, Chapter 32)
       <br />
-      <a href="/education/other-va-education-benefits/veap/" target="_blank">
+      <a
+        aria-label="Learn more about Post-Vietnam Era Veterans’ Educational Assistance Program benefits"
+        href="/education/other-va-education-benefits/veap/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -76,7 +87,11 @@ export const benefitsLabels = {
     <p>
       Reserve Educational Assistance Program (REAP, Chapter 1607)
       <br />
-      <a href="/education/other-va-education-benefits/reap/" target="_blank">
+      <a
+        aria-label="Learn more about Reserve Educational Assistance Program benefits"
+        href="/education/other-va-education-benefits/reap/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -85,7 +100,11 @@ export const benefitsLabels = {
     <p>
       Transfer of Entitlement Program (TOE)
       <br />
-      <a href="/education/transfer-post-9-11-gi-bill-benefits/" target="_blank">
+      <a
+        aria-label="Learn more about Transfer of Entitlement Program benefits"
+        href="/education/transfer-post-9-11-gi-bill-benefits/"
+        target="_blank"
+      >
         Learn more
       </a>
     </p>
@@ -101,6 +120,7 @@ export const survivorBenefitsLabels = {
       (DEA, Chapter 35)
       <br />
       <a
+        aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance benefits"
         href="/education/survivor-dependent-benefits/dependents-education-assistance/"
         target="_blank"
       >
@@ -113,6 +133,7 @@ export const survivorBenefitsLabels = {
       The Fry Scholarship (Chapter 33)
       <br />
       <a
+        aria-label="Learn more about Fry Scholarship benefits"
         href="/education/survivor-dependent-benefits/fry-scholarship/"
         target="_blank"
       >

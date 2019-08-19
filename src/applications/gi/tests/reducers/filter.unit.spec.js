@@ -13,7 +13,7 @@ const initialState = {
   eightKeysToVeteranSuccess: false,
   priorityEnrollment: false,
   independentStudy: false,
-  stemOffered: false,
+  stemIndicator: false,
   typeName: 'ALL',
 };
 
@@ -34,7 +34,7 @@ describe('filter reducer', () => {
         onlineOnly: false,
         priorityEnrollment: false,
         independentStudy: false,
-        stemOffered: true,
+        stemIndicator: true,
         typeName: 'ALL',
       },
     });
@@ -51,7 +51,7 @@ describe('filter reducer', () => {
     expect(state.eightKeysToVeteranSuccess).to.eql(false);
     expect(state.independentStudy).to.eql(false);
     expect(state.eightKeysToVeteranSuccess).to.eql(false);
-    expect(state.stemOffered).to.eql(true);
+    expect(state.stemIndicator).to.eql(true);
     expect(state.typeName).to.eql('ALL');
   });
 });

@@ -77,7 +77,7 @@ export function setViewedPages(pageKeys) {
   };
 }
 
-export function submitToUrl(body, submitUrl, trackingPrefix) {
+export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('POST', submitUrl);
@@ -85,6 +85,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix) {
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
           event: `${trackingPrefix}-submission-successful`,
+          ...eventData,
         });
         // got this from the fetch polyfill, keeping it to be safe
         const responseBody =

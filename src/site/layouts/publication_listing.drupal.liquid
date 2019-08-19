@@ -193,8 +193,10 @@
                   medium-body-utility
                   large-screen:vads-l-col--12">
                     <i>{{entity.fieldBenefits | benefitTerms}}</i>
-                    <h3 class="asset-body-header vads-u-margin-y--1">
-                      {{entity.title| truncate: 36}}</h3>
+                    <h2 class="asset-body-header
+                    vads-u-margin-y--1
+                    vads-u-font-size--lg">
+                      {{entity.title| truncate: 36}}</h2>
                     <div class="asset-body-text">
                       {{entity.fieldDescription | truncate: 81 }}</div>
 
@@ -207,7 +209,7 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a aria-label="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
                           class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.fieldDocument.entity.filesize | fileSize}})
@@ -215,7 +217,7 @@
                       {% endif %}
 
                       {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                      <a aria-label="View {{entity.title}}" class="video-link" target="_blank"
+                      <a aria-label="Go to video about {{entity.title}}" class="video-link" target="_blank"
                         href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
                           class="fas fa-play-circle vads-u-padding-right--1"></i>Go
                         to
@@ -227,7 +229,7 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a aria-label="Download {{entity.title}}" class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}" class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
                           class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.image.entity.filesize | fileSize}})
@@ -254,24 +256,24 @@
               medium-screen::vads-u-display--block
               small-desktop-screen:vads-u-display--block
               large-screen:vads-u-display--block max-control">
-              <button class="va-button-link" id="first-click">First</button>
+              <a href="#first-click" aria-label="First page" class="va-button-link" id="first-click">First</a>
             </span>
             <span class="va-pagination-prev">
-              <button class="va-button-link" id="pager-previous-click"
+              <a href="#pager-previous-click" class="va-button-link" id="pager-previous-click"
                 aria-label="Load previous page"
-                tabindex="0">Prev</button>
+                tabindex="0">Prev</a>
             </span>
             <div id="pager-nums-insert" class="va-pagination-inner">
             </div>
             <span class="va-pagination-next">
-              <button class="va-button-link" id="pager-next-click"
-                aria-label="Load next page" tabindex="0">Next</button>
+              <a href="#pager-next-click" class="va-button-link" id="pager-next-click"
+                aria-label="Load next page" tabindex="0">Next</a>
             </span>
             <span class="vads-u-display--none
               medium-screen::vads-u-display--block
               small-desktop-screen:vads-u-display--block
               large-screen:vads-u-display--block max-control">
-              <button class="va-button-link" id="last-click">Last</button>
+              <a aria-label="Last page" href="#search-entry" class="va-button-link" id="last-click">Last</a>
             </span>
           </div>
           <div class="library-show" id="no-results">
