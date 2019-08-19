@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { shallow } from 'enzyme';
 
 import createCommonStore from '../../../../platform/startup/store';
 import { EligibilityForm } from '../../components/search/EligibilityForm';
@@ -22,6 +23,14 @@ describe('<EligibilityForm>', () => {
     const tree = SkinDeep.shallowRender(<EligibilityForm {...defaultProps} />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
+  });
+
+  it('should render OnlineClassesFilter', () => {
+    const tree = shallow(<EligibilityForm {...defaultProps} />);
+
+    expect(tree.find('OnlineClassesFilter')).to.not.be.undefined;
+
+    tree.unmount();
   });
 
   it('should render default fields', () => {
