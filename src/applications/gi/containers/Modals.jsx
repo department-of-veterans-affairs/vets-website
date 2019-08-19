@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import environmnet from 'platform/utilities/environment';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -578,7 +579,9 @@ export class Modals extends React.Component {
               rel="noopener noreferrer"
             >
               {' '}
-              visit the VBA STEM website.
+              {environmnet.isProduction() && 'visit the VBA STEM website.'}
+              {!environmnet.isProduction() &&
+                'visit the Rogers STEM Scholarship website.'}
             </a>
           </p>
         </div>
