@@ -36,6 +36,7 @@ const query = `
             entityLabel
             fieldTeaserText
             fieldTitleIcon
+            fieldHomePageHubLabel
             entityUrl {
               path
               routed
