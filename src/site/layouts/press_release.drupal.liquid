@@ -107,9 +107,9 @@
                         <p class="vads-u-margin-bottom--0p5">PRESS RELEASE</p>
                         <p class="vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-margin-top--0">{{ fieldReleaseDate.value | formatDate: 'MMMM D, YYYY' }}</p>
                         <div>
-                            <button type="button" class="vads-u-margin-right--4 va-button-link" onclick="window.print(); return false;"><i class="fa fa-print"></i> Print</button>
+                            <button type="button" class="vads-u-margin-right--4 va-button-link" onclick="window.print(); return false;"><i class="fa fa-print vads-u-padding-right--1"></i>Print</button>
                             {% if fieldPdfVersion != empty %}
-                                <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download"></i> Download a PDF version</a>
+                                <a href="{{ fieldPdfVersion.entity.fieldDocument.entity.url }}" download><i class="fa fa-download vads-u-padding-right--1"></i>Download press release (PDF)</a>
                             {% endif %}
                         </div>
                         <p class="va-introtext vads-u-font-size--lg vads-u-margin-top--3">{{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }} — {{ fieldIntroText }}</p>

@@ -3,6 +3,7 @@
 
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 
+@import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
 @import "partials/gi-modal";
@@ -106,10 +107,14 @@
 
 .gids-radio-buttons {
   position: relative;
-  display: flex;
+  @include media($small-screen) {
+    display: flex;
+  }
+}
+.form-expanding-group-open {
+  border-left: none;
 }
 
 .gids-radio-buttons-input {
   width: 40px;
 }
-
