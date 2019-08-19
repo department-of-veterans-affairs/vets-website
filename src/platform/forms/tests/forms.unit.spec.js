@@ -18,6 +18,7 @@ import fullSchemaFeedbackTool from 'applications/edu-benefits/feedback-tool/conf
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import schemas from 'vets-json-schema/dist/schemas';
+import environment from 'platform/utilities/environment';
 
 // Maps schema id to config id
 const mappedIds = [
@@ -146,6 +147,7 @@ describe('form:', () => {
 
       it('should have submitUrl', () => {
         expect(form.submitUrl).to.be.a('string');
+        expect(form.submitUrl).to.contain(environment.API_URL);
       });
     });
   });
