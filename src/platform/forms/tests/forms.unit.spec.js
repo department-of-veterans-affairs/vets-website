@@ -121,11 +121,31 @@ describe('form:', () => {
       });
 
       it('should have defaultDefinitions', () => {
-        expect(form.defaultDefinitions).to.not.be.a.undefined;
+        expect(form.defaultDefinitions).to.be.an('object');
       });
 
       it('should have introduction', () => {
-        expect(form.introduction).to.not.be.a.undefined;
+        expect(form.introduction).to.be.an('function');
+      });
+
+      it('should have prefillEnabled', () => {
+        expect(form.prefillEnabled).to.be.a('boolean');
+      });
+
+      it('should have trackingPrefix', () => {
+        expect(form.trackingPrefix).to.be.a('string');
+      });
+
+      it('should have title', () => {
+        expect(form.title).to.be.a('string');
+      });
+
+      it('should have urlPrefix', () => {
+        expect(form.urlPrefix).to.be.a('string');
+      });
+
+      it('should have submitUrl', () => {
+        expect(form.submitUrl).to.be.a('string');
       });
     });
   });
