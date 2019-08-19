@@ -23,7 +23,7 @@
   }
 
   .additional-resources {
-    @include media-maxwidth($medium-large-screen) {
+    @include media-maxwidth($medium-large-screen - 1) {
       display: none;
     }
   }
