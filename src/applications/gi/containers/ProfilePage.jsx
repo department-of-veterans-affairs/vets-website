@@ -8,16 +8,13 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import AccordionItem from '../components/AccordionItem';
-import If from '../components/If';
 import HeadingSummary from '../components/profile/HeadingSummary';
 import Programs from '../components/profile/Programs';
-import Outcomes from '../components/profile/Outcomes';
 import Calculator from '../components/profile/Calculator';
 import CautionaryInformation from '../components/profile/CautionaryInformation';
 import AdditionalInformation from '../components/profile/AdditionalInformation';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import { outcomeNumbers } from '../selectors/outcomes';
-import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -67,7 +64,7 @@ export class ProfilePage extends React.Component {
   }
 
   render() {
-    const { constants, outcomes, profile } = this.props;
+    const { profile } = this.props;
 
     let content;
 
@@ -104,22 +101,6 @@ export class ProfilePage extends React.Component {
                     />
                   </AccordionItem>
                 )}
-                {!isOJT &&
-                  (environment.isProduction() && ( // production flag to display table only on staging (story #19452, sprint 27)
-                    <AccordionItem button="Student outcomes">
-                      <If
-                        condition={
-                          !!profile.attributes.facilityCode && !!constants
-                        }
-                        comment="TODO"
-                      >
-                        <Outcomes
-                          graphing={outcomes}
-                          onShowModal={this.props.showModal}
-                        />
-                      </If>
-                    </AccordionItem>
-                  ))}
                 <AccordionItem
                   button="Cautionary information"
                   ref={c => {
