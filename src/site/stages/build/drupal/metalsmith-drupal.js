@@ -88,8 +88,10 @@ async function loadDrupal(buildOptions) {
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
-    log('Drupal content unavailable in cache');
+    log('Drupal content unavailable in local cache: ' + drupalCache);
     shouldPullDrupal = true;
+  } else {
+    log('Drupal content loaded from local cache: ' + drupalCache);
   }
 
   if (shouldPullDrupal) {
