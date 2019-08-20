@@ -75,6 +75,8 @@
   {% include "src/site/includes/top-nav.html" %}
 {% endif %}
 
+{% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
+
 {% if path == '' and banner and banner.visible %}
   <div class="usa-alert-full-width usa-alert-full-width-{{ banner.type }}">
     <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}">
@@ -87,5 +89,4 @@
     </div>
   </div>
 {% endif %}
-
 <script async src="/js/incompatible-browser.js"></script>
