@@ -348,6 +348,7 @@ function validateLength(
   };
 }
 
+// validator to prevent users from entering just whitespace on required fields
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined') {
     if (!/\S/.test(input)) {
