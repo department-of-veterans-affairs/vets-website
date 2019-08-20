@@ -1,11 +1,3 @@
-// const fs = require('fs-extra');
-// const path = require('path');
-// const yaml = require('js-yaml');
-
-// const footerData = require('../../../../platform/static-data/footer-links.json');
-
-// const { applyFragments } = require('./apply-fragments');
-
 const {
   FlipperClient,
 } = require('../../../../platform/utilities/feature-toggles/flipper-client.js');
@@ -40,8 +32,5 @@ function createFeatureToggles(buildOptions) {
     done();
   };
 }
-
-// look at build options
-// extra fetching from flipper client into module that can be required (isomoprhic feature toggle fetch)
 
 module.exports = createFeatureToggles;
