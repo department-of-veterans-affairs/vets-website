@@ -52,14 +52,14 @@ import UpgradeAccount from './components/messages/UpgradeAccount';
 export class CallToActionWidget extends React.Component {
   constructor(props) {
     super(props);
-    const { appId, index } = props;
-    const { url, redirect } = toolUrl(appId, index);
+    const { appId } = props;
+    const { url, redirect } = toolUrl(appId);
 
     this._hasRedirect = redirect;
     this._isHealthTool = isHealthTool(appId);
     this._popup = null;
     this._requiredServices = requiredServices(appId);
-    this._serviceDescription = serviceDescription(appId, index);
+    this._serviceDescription = serviceDescription(appId);
     this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
     this._gaPrefix = 'register-mhv';
