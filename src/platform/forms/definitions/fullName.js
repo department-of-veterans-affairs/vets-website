@@ -1,4 +1,13 @@
+import { validateWhiteSpace } from '../validations';
+
+export function validateName(errors, pageData) {
+  const { first, last } = pageData;
+  validateWhiteSpace(errors.first, first);
+  validateWhiteSpace(errors.last, last);
+}
+
 const uiSchema = {
+  'ui:validations': [validateName],
   first: {
     'ui:title': 'First name',
   },
