@@ -18,6 +18,7 @@ import {
   isValidSSN,
   validateCustomFormComponent,
   validateLength,
+  validateWhiteSpace,
 } from '../validations';
 
 describe('Validations unit tests', () => {
@@ -519,6 +520,20 @@ describe('Validations unit tests', () => {
     it('should not add an error if the input length is not too large', () => {
       const errors = { addError: spy() };
       validateLength(40)(errors, 'Less than forty characters');
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateWhiteSpace', () => {
+    it('should add an error if the input contains only whitespace', () => {
+      const errors = { addError: spy() };
+      validateWhiteSpace(errors, '    ');
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not add an error if the input is valid', () => {
+      const errors = { addError: spy() };
+      validateWhiteSpace(errors, 'valid input');
       expect(errors.addError.called).to.be.false;
     });
   });

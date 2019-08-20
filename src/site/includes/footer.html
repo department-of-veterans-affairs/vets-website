@@ -3,47 +3,10 @@
   <div id="footerNav"></div> <!-- let's try this React thing -->
 </footer>
 
-<!-- Begin generic overlay modal -->
-{% if modal %}
-  {% include "src/site/includes/modal.html" %}
-{% endif %}
-
-<!-- htmllint attr-bans="[]" -->
-{% if buildtype == 'localhost' or buildtype == 'vagovdev' %}
-  <script>
-    recordEvent({ environment: '{{ buildtype }}' });
-  </script>
-  <script async src="/js/google-analytics-dev.js"></script>
-{% else %}
-  <!-- Google Tag Manager -->
-  <script>
-    // Always use push with GTM: https://www.simoahava.com/gtm-tips/datalayer-declaration-vs-push/
-    recordEvent({ environment: '{{ buildtype }}' });
-    // We want to know if we are being iframed
-    if ( self !== top ) {
-      recordEvent({ event: 'iframed', embeddedIn: document.referrer});
-    }
-  </script>
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
-  height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
-  <script async src="/js/google-analytics.js"></script>
-  <!-- End Google Tag Manager -->
-{% endif %}
-<!-- htmllint attr-bans="$previous" -->
-
 <!--
 “To care for him who shall have borne the battle and for his widow, and his orphan.”
 - Abraham Lincoln
 -->
-<script type="text/javascript">
-  function footerNavClick(elem) {
-    var eventLabel = 'nav-' + elem.parentElement.parentElement.id;
-    recordEvent({
-      event: eventLabel,
-      navlabel: elem.innerText
-    });
-  }
-</script>
 <script type="text/javascript">
 (function() {
   var module = {};
