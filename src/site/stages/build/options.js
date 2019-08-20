@@ -175,8 +175,9 @@ async function setUpFeatureFlags(options) {
           return obj[prop];
         }
         // Not sure where this was getting called, but V8 does some
-        // complicated things under the hood
+        // complicated things under the hood.
         // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
+        // TL;DR: V8 calls some things we don't want to throw up on.
         const ignoreList = [
           'Symbol(Symbol.toStringTag)',
           'Symbol(nodejs.util.inspect.custom)',
