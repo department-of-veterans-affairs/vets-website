@@ -154,7 +154,7 @@ function deriveHostUrl(options) {
 // or using ../../utilities/featureFlags
 async function setUpFeatureFlags(options) {
   global.buildtype = options.buildtype;
-  let enabled;
+  let flagsList; // The list of all the flags whether true or false
 
   if (shouldPullDrupal(options)) {
     const apiClient = getDrupalClient(options);
@@ -194,16 +194,16 @@ async function setUpFeatureFlags(options) {
         return obj[prop];
       },
     });
-    enabled = p;
+    flagsList = p;
   } else {
     const { cmsFeatureFlags } = require('../../utilities/featureFlags');
-    enabled = cmsFeatureFlags;
+    flagsList = cmsFeatureFlags;
   }
 
   Object.assign(options, {
-    cmsFeatureFlags: enabled,
+    cmsFeatureFlags: flagsList,
   });
-  global.cmsFeatureFlags = enabled;
+  global.cmsFeatureFlags = flagsList;
 }
 
 async function getOptions(commandLineOptions) {
