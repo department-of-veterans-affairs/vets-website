@@ -99,8 +99,8 @@ function FlipperClient({
   };
 }
 
-function makeFlipperClient() {
-  flipperClientInstance = flipperClientInstance || new FlipperClient();
+function makeFlipperClient(options) {
+  flipperClientInstance = flipperClientInstance || new FlipperClient(options);
 
   return flipperClientInstance;
 }
