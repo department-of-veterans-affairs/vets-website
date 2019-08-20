@@ -34,7 +34,8 @@
               class="vads-l-grid-container--full asset-component-library library-show"
               id="search-entry">
 
-              <form class="usa-form outreach-asset-form-filters library-show vads-u-max-width--100 vads-u-padding-y--3 vads-u-padding-x--1p5 vads-u-margin-bottom--2">
+              <form
+                class="usa-form outreach-asset-form-filters library-show vads-u-max-width--100 vads-u-padding-y--3 vads-u-padding-x--1p5 vads-u-margin-bottom--2">
                 <div class="vads-l-row vads-u-justify-content--space-between">
                   <div class="vads-l-col--12
                                 medium-screen:vads-l-col--12
@@ -70,7 +71,8 @@
                 large-screen:vads-l-col--6
                 vads-u-padding-x--1p5
                 ">
-                    <label class="vads-u-margin-top--0" for="outreach-type">Select file type</label>
+                    <label class="vads-u-margin-top--0"
+                      for="outreach-type">Select file type</label>
                     <select class="vads-u-max-width--100 usa-select"
                       name="outreach-type" id="outreach-type">
                       <option value="select">- All types -</option>
@@ -88,9 +90,14 @@
               </form>
 
               <div id="total-pages-div" class="vads-u-margin-bottom--1">
-                <div class="break-div">Showing
-                  <span id="total-pages"></span>
-                  <span id="total-all"></span> results
+                <div aria-live="polite" class="break-div" role="status"
+                  tabindex="-1">
+                  <span role="text">
+                    Showing
+                    <span aria-hidden="true" id="total-pages"></span>
+                    <span class="usa-sr-only" id="total-pages-sr"></span>
+                    <span id="total-all"></span> results
+                  </span>
                 </div>
               </div>
               {% assign even = true %}
@@ -209,15 +216,18 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}" class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}"
+                        class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
-                          class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
+                          class="fas fa-download vads-u-padding-right--1"></i>Download
+                        {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.fieldDocument.entity.filesize | fileSize}})
-                        </a>
+                      </a>
                       {% endif %}
 
                       {% if entity.fieldMedia.entity.entityBundle == 'video' %}
-                      <a aria-label="Go to video about {{entity.title}}" class="video-link" target="_blank"
+                      <a aria-label="Go to video about {{entity.title}}"
+                        class="video-link" target="_blank"
                         href="{{entity.fieldMedia.entity.fieldMediaVideoEmbedField}}"><i
                           class="fas fa-play-circle vads-u-padding-right--1"></i>Go
                         to
@@ -229,11 +239,13 @@
                       {% if entity.derivedFields.absoluteUrl %}
                       {% assign url = entity.derivedFields.absoluteUrl %}
                       {% endif %}
-                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}" class="file-download-with-icon" target="_blank"
+                      <a aria-label="Download {{url | fileExt | upcase}} {{entity.title}}"
+                        class="file-download-with-icon" target="_blank"
                         href="{{url}}" download="{{url}}"><i
-                          class="fas fa-download vads-u-padding-right--1"></i>Download {{url | fileExt | upcase}}
+                          class="fas fa-download vads-u-padding-right--1"></i>Download
+                        {{url | fileExt | upcase}}
                         ({{entity.fieldMedia.entity.image.entity.filesize | fileSize}})
-                        </a>
+                      </a>
                       {% endif %}
 
                     </div>
@@ -242,43 +254,48 @@
               </div>
               {% endif %}
 
-            {% if even %}
+              {% if even %}
               {% assign even = false %}
-            {% else %}
+              {% else %}
               {% assign even = true %}
-            {% endif %}
-            {% endfor %}
+              {% endif %}
+              {% endfor %}
 
-          </div>
-
-          <div class="va-pagination library-show" id="va-pager-div">
-            <span class="vads-u-display--none
-              medium-screen::vads-u-display--block
-              small-desktop-screen:vads-u-display--block
-              large-screen:vads-u-display--block max-control">
-              <a href="#first-click" aria-label="First page" class="va-button-link" id="first-click">First</a>
-            </span>
-            <span class="va-pagination-prev">
-              <a href="#pager-previous-click" class="va-button-link" id="pager-previous-click"
-                aria-label="Load previous page"
-                tabindex="0">Prev</a>
-            </span>
-            <div id="pager-nums-insert" class="va-pagination-inner">
             </div>
-            <span class="va-pagination-next">
-              <a href="#pager-next-click" class="va-button-link" id="pager-next-click"
-                aria-label="Load next page" tabindex="0">Next</a>
-            </span>
-            <span class="vads-u-display--none
+
+            <div class="va-pagination library-show" id="va-pager-div">
+              <span class="vads-u-display--none
               medium-screen::vads-u-display--block
               small-desktop-screen:vads-u-display--block
               large-screen:vads-u-display--block max-control">
-              <a aria-label="Last page" href="#search-entry" class="va-button-link" id="last-click">Last</a>
-            </span>
-          </div>
-          <div class="library-show" id="no-results">
-            <div><p><b>Select a different topic or file type</b></p></div>
-          </div>
+                <a href="#first-click" aria-label="First page"
+                  class="va-button-link" id="first-click">First</a>
+              </span>
+              <span class="va-pagination-prev">
+                <a href="#pager-previous-click" class="va-button-link"
+                  id="pager-previous-click" aria-label="Load previous page"
+                  tabindex="0">Prev</a>
+              </span>
+              <div id="pager-nums-insert" class="va-pagination-inner">
+              </div>
+              <span class="va-pagination-next">
+                <a href="#pager-next-click" class="va-button-link"
+                  id="pager-next-click" aria-label="Load next page"
+                  tabindex="0">Next</a>
+              </span>
+              <span class="vads-u-display--none
+              medium-screen::vads-u-display--block
+              small-desktop-screen:vads-u-display--block
+              large-screen:vads-u-display--block max-control">
+                <a aria-label="Last page" href="#search-entry"
+                  class="va-button-link" id="last-click">Last</a>
+              </span>
+            </div>
+            <div class="library-show" id="no-results">
+              <div>
+                <p><b>Select a different topic or file type</b></p>
+              </div>
+            </div>
 
         </article>
 

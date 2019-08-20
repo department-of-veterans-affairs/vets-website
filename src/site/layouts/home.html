@@ -11,7 +11,7 @@
       <!-- top row -->
       <div class="hub-links-row">
       {% for card in cards %}
-        <div class="hub-links-container">
+        <div class="hub-links-container" data-e2e="bucket">
           <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{card.hub}} hub-color-{{card.hub}}"></i>{{ card.heading }}</h2>
           <ul class="hub-links-list">
             {% assign parentCard = card %}
@@ -39,7 +39,7 @@
     <section id="homepage-benefits">
       <div class="usa-grid usa-grid-full homepage-benefits-row">
       {% for hub in hubs %}
-        <div class="usa-width-one-third">
+        <div class="usa-width-one-third" data-e2e="hub">
           <h3 class="heading-level-4"><a href="{{ hub.url }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{hub.hub}} hub-background-{{hub.hub}} white"></i>{{hub.heading}}</a></h4>
           <p class="homepage-benefits-description">{{hub.description}}</p>
         </div>
@@ -101,7 +101,7 @@
 
     <div class="usa-grid usa-grid-full">
     {% for story in news %}
-      <div class="usa-width-one-third homepage-news-story">
+      <div class="usa-width-one-third homepage-news-story" data-e2e="news">
         <div class="homepage-image-wrapper">
           <img class="lazy" width="552" data-src="{{ story.img }}" alt="{{ story.alt }}"/>
         </div>

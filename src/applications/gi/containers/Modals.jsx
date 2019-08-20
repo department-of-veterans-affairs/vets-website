@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import environment from 'platform/utilities/environment';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -558,7 +559,8 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('stemIndicator')}
       >
-        <h3>STEM</h3>
+        {environment.isProduction() && <h3>STEM</h3>}
+        {!environment.isProduction() && <h3>The Rogers STEM Scholarship</h3>}
         <div>
           <p>
             The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
@@ -571,14 +573,19 @@ export class Modals extends React.Component {
             degree and are getting a teaching certification.
           </p>
           <p>
-            To learn more about the STEM Scholarship,{' '}
+            {environment.isProduction() &&
+              'To learn more about the STEM Scholarship,'}{' '}
+            {!environment.isProduction() &&
+              'To learn more about this scholarship,'}{' '}
             <a
               href="https://benefits.va.gov/gibill/fgib/stem.asp"
               target="_blank"
               rel="noopener noreferrer"
             >
               {' '}
-              visit the VBA STEM website.
+              {environment.isProduction() && 'visit the VBA STEM website.'}
+              {!environment.isProduction() &&
+                'visit the Rogers STEM Scholarship website.'}
             </a>
           </p>
         </div>
