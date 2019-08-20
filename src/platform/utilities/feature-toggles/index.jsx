@@ -2,7 +2,7 @@
 import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
 import environments from 'platform/utilities/environment';
 
-const { fetchToggleValues } = new FlipperClient();
+const { fetchToggleValues } = new FlipperClient({ host: environments.API_URL });
 
 function makeEnvironmentToggleValues(env = environments) {
   return {
@@ -15,9 +15,7 @@ function makeEnvironmentToggleValues(env = environments) {
 }
 
 function getBootstrappedToggleValues() {
-  return {
-    facilityLocatorShowCommunityCares: true,
-  };
+  return window.featureToggles ? window.featureToggles : {};
 }
 
 const initialToggleValues = {
@@ -36,6 +34,7 @@ async function connectFeatureToggle(
 
   if (!environments.isProduction()) {
     const newToggleValues = await fetchToggleValues();
+    // const newToggleValues = {};
 
     dispatch({
       type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
