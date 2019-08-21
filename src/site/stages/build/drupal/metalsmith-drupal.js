@@ -97,7 +97,7 @@ async function loadDrupal(buildOptions) {
   }
 
   if (shouldPullDrupal) {
-    log('Attempting to load Drupal content from API...');
+    log(`Attempting to load Drupal content from API at: ${contentApi.getSiteUri()}`);
 
     const drupalTimer = `${contentApi.getSiteUri()} response time: `;
 
