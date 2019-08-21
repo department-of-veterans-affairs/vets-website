@@ -28,7 +28,7 @@ class CalculatorForm extends React.Component {
     this.renderWorking = this.renderWorking.bind(this);
   }
 
-  getExtensions = () => {
+  getExtensions() {
     const { profile } = this.props;
     const facilityMap = profile.attributes.facilityMap;
     const profileFacilityCode = profile.attributes.facilityCode;
@@ -36,16 +36,14 @@ class CalculatorForm extends React.Component {
     if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
       extensions = profile.attributes.facilityMap.main.extensions;
     } else {
-      facilityMap.main.branches.forEach(branch => {
-        if (
-          branch.institution.facilityCode === profile.attributes.facilityCode
-        ) {
-          extensions = branch.extensions;
-        }
-      });
+      const matchedBranch = facilityMap.main.branches.find(
+        branch =>
+          branch.institution.facilityCode === profile.attributes.facilityCode,
+      );
+      ({ extensions } = matchedBranch);
     }
     return extensions;
-  };
+  }
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
@@ -64,10 +62,10 @@ class CalculatorForm extends React.Component {
     }
   };
 
-  handleInputChange = event => {
+  handleInputChange(event) {
     const { name: field, value } = event.target;
     this.props.onInputChange({ field, value });
-  };
+  }
 
   resetBuyUp(event) {
     event.preventDefault();
@@ -552,38 +550,36 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderExtensionBeneficiaryZIP = () => {
+  renderExtensionBeneficiaryZIP() {
     const { profile, inputs, onShowModal } = this.props;
     const extensions = this.getExtensions();
 
     let amountInput;
     let extensionSelector;
-    let extensionOptions;
-    let zipcodeRadioOptions;
+    let extensionOptions = [];
+    const zipcodeRadioOptions = [
+      {
+        value: 'yes',
+        label: profile.attributes.name,
+      },
+    ];
 
-    if (extensions.length > 0) {
-      extensionOptions = [{ value: 'other', label: 'Other...' }];
+    if (extensions && extensions.length) {
+      extensionOptions = [{ value: '', label: 'Please choose a location' }];
       extensions.forEach(extension => {
         extensionOptions.push({
           value: extension.zip,
           label: extension.institution,
         });
       });
-      zipcodeRadioOptions = [
-        {
-          value: profile.attributes.name,
-          label: profile.attributes.name,
-        },
-        { value: 'extension', label: 'An extension campus' },
-      ];
+      extensionOptions.push({ value: 'other', label: 'Other...' });
+
+      zipcodeRadioOptions.push({
+        value: 'extension',
+        label: 'An extension campus',
+      });
     } else {
-      zipcodeRadioOptions = [
-        {
-          value: profile.attributes.name,
-          label: profile.attributes.name,
-        },
-        { value: 'other', label: 'Other location' },
-      ];
+      zipcodeRadioOptions.push({ value: 'other', label: 'Other location' });
     }
 
     if (inputs.beneficiaryLocationQuestion === 'extension') {
@@ -611,11 +607,7 @@ class CalculatorForm extends React.Component {
         <div>
           <ErrorableTextInput
             errorMessage={inputs.beneficiaryZIPError}
-            label={
-              <span>
-                At what ZIP Code will you be taking the majority of classes?
-              </span>
-            }
+            label="At what ZIP Code will you be taking the majority of classes?"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
@@ -632,7 +624,7 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={
             <span>
-              {'Where will you take the majority of your classes?'} <br />
+              {'Where will you take the majority of your classes?'} <br />(
               <button
                 type="button"
                 className="va-button-link learn-more-button"
@@ -641,8 +633,9 @@ class CalculatorForm extends React.Component {
                   'calcBeneficiaryLocationQuestion',
                 )}
               >
-                (Learn more)
+                Learn more
               </button>
+              )
             </span>
           }
           name="beneficiaryLocationQuestion"
@@ -654,7 +647,7 @@ class CalculatorForm extends React.Component {
         {amountInput}
       </div>
     );
-  };
+  }
 
   renderBuyUp() {
     if (!this.props.displayedInputs.buyUp) return null;
@@ -679,6 +672,7 @@ class CalculatorForm extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         <RadioButtons

@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
 import environments from 'platform/utilities/environment';
+
+const { fetchToggleValues } = new FlipperClient();
 
 function makeEnvironmentToggleValues(env = environments) {
   return {
@@ -11,29 +14,78 @@ function makeEnvironmentToggleValues(env = environments) {
   };
 }
 
+function getBootstrappedToggleValues() {
+  return {
+    facilityLocatorShowCommunityCares: true,
+  };
+}
+
+const initialToggleValues = {
+  ...makeEnvironmentToggleValues(),
+  ...getBootstrappedToggleValues(),
+};
+
+async function connectFeatureToggle(
+  dispatch,
+  toggleValues = initialToggleValues,
+) {
+  dispatch({
+    type: 'FETCH_TOGGLE_VALUES_STARTED',
+    payload: toggleValues,
+  });
+
+  if (!environments.isProduction()) {
+    const newToggleValues = await fetchToggleValues();
+
+    dispatch({
+      type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+      payload: newToggleValues,
+    });
+  }
+}
+
+// TODO: remove or refactor
+/*
+addSubscriberCallback(newToggleValues => {
+  currentToggleValues = {
+    ...currentToggleValues,
+    ...newToggleValues,
+  };
+});
+
+const subscribeToToggleUpdates = callback => addSubscriberCallback(callback);
+
 const ToggleContext = React.createContext();
 
 function ToggleProvider(props) {
   const {
     children,
-    initialToggleValues,
+    providerInitialToggleValues,
     subscribeToUpdateToggles = () => {},
     unsubscribeToUpdateToggles = () => {},
   } = props;
 
-  const [toggleValues, setToggleValues] = useState(initialToggleValues);
-
-  function handleToggleValuesUpdate(newToggleValues) {
-    setToggleValues(newToggleValues);
-  }
+  const [toggleValues, setToggleValues] = useState(providerInitialToggleValues);
 
   useEffect(
     () => {
+      function handleToggleValuesUpdate(newToggleValues) {
+        setToggleValues({
+          ...toggleValues,
+          ...newToggleValues,
+        });
+      }
+
       subscribeToUpdateToggles(handleToggleValuesUpdate);
 
       return () => unsubscribeToUpdateToggles();
     },
-    [toggleValues, subscribeToUpdateToggles, unsubscribeToUpdateToggles],
+    [
+      providerInitialToggleValues,
+      subscribeToUpdateToggles,
+      toggleValues,
+      unsubscribeToUpdateToggles,
+    ],
   );
 
   return (
@@ -43,13 +95,15 @@ function ToggleProvider(props) {
   );
 }
 
-const initialToggleValues = makeEnvironmentToggleValues();
-
 const withFeatureToggleProvider = (
   WrappedComponent,
   toggleValues = initialToggleValues,
+  subscribeToUpdateToggles = addSubscriberCallback,
 ) => props => (
-  <ToggleProvider initialToggleValues={toggleValues}>
+  <ToggleProvider
+    providerInitialToggleValues={toggleValues}
+    subscribeToUpdateToggles={subscribeToUpdateToggles}
+  >
     <WrappedComponent {...props} />
   </ToggleProvider>
 );
@@ -83,5 +137,11 @@ const FeatureToggle = ({ children, ...props }) => {
     </ToggleContext.Consumer>
   );
 };
+*/
 
-export { withFeatureToggleProvider, FeatureToggle };
+export {
+  connectFeatureToggle,
+  // FeatureToggle,
+  // subscribeToToggleUpdates,
+  // withFeatureToggleProvider,
+};

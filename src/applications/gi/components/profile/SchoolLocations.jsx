@@ -44,7 +44,7 @@ export class SchoolLocations extends React.Component {
   };
 
   handleViewMoreClicked = () => {
-    this.setState({ ...this.state, viewMore: true });
+    this.setState({ viewMore: true });
   };
 
   estimatedHousingRow = institution => {

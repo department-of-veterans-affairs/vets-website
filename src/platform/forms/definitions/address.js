@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import set from '../../utilities/data/set';
 import get from '../../utilities/data/get';
 import unset from '../../utilities/data/unset';
+import { validateWhiteSpace } from '../validations';
 
 import {
   countries,
@@ -41,6 +42,9 @@ function validateAddress(errors, address, formData, currentSchema) {
   ) {
     errors.state.addError('Please select a state or province');
   }
+
+  validateWhiteSpace(errors.street, address.street);
+  validateWhiteSpace(errors.city, address.city);
 
   const hasAddressInfo =
     stateRequiredCountries.has(address.country) &&
