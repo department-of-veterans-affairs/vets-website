@@ -16,6 +16,11 @@
         "cookieOnly": false
     },
     {
+        "hostname": "www.oprm.va.gov",
+        "pathnameBeginning": "/",
+        "cookieOnly": true 
+    },
+    {
         "hostname": "www.telehealth.va.gov",
         "pathnameBeginning": "/",
         "cookieOnly": true
