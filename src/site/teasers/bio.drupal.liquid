@@ -41,12 +41,14 @@ Example data:
 {% assign header = "h4" %}
 {% endif %}
 <div class="usa-grid usa-grid-full vads-u-margin-bottom--4">
-    <div class="usa-width-one-third">
-        {% assign image = node.fieldMedia.entity.image %}
-        <img src="{{ image.derivative.url }}" alt="{{ image.alt }}"
-            title="{{ image.title }}" width="{{ image.derivative.width }}"
-            height="{{ image.derivative.height }}">
-    </div>
+    {% if node.fieldMedia != empty %}
+        <div class="usa-width-one-third">
+            {% assign image = node.fieldMedia.entity.image %}
+            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}"
+                title="{{ image.title }}" width="{{ image.derivative.width }}"
+                height="{{ image.derivative.height }}">
+        </div>
+    {% endif %}
     <div class="usa-width-two-thirds">
         <h2 class="
         vads-u-margin-bottom--1
