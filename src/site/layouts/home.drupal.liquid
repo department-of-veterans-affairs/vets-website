@@ -41,7 +41,8 @@
           <h3 class="heading-level-4"><a href="{{ hub.entity.entityUrl.path }}" onclick="recordEvent({ event: 'nav-linkslist' });"><i class="icon-small icon-heading hub-icon-{{ hub.entity.fieldTitleIcon }} hub-background-{{ hub.entity.fieldTitleIcon }} white"></i>{{ hub.entity.fieldHomePageHubLabel }}</a></h4>
           <p class="homepage-benefits-description">{{ hub.entity.fieldTeaserText }}</p>
         </div>
-        {% if hub.end_row == true and forloop.last != true %}
+        {% comment %} Close this row and open a new one when needed. {% endcomment %}
+        {% if hub.endRow and forloop.last != true %}
         </div>
         <div class="usa-grid usa-grid-full homepage-benefits-row">
         {% endif %}
