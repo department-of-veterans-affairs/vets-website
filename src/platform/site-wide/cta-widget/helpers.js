@@ -1,7 +1,11 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
 
-export const frontendApps = {
+/**
+ * These are the valid values for the Widget Type field in the Drupal CMS when
+ * embedding a Call To Action React Widget in a static page
+ */
+export const widgetTypes = {
   HEALTH_RECORDS: 'health-records',
   RX: 'rx',
   MESSAGING: 'messaging',
@@ -18,27 +22,27 @@ export const frontendApps = {
 };
 
 const HEALTH_TOOLS = [
-  frontendApps.HEALTH_RECORDS,
-  frontendApps.RX,
-  frontendApps.MESSAGING,
-  frontendApps.LAB_AND_TEST_RESULTS,
-  frontendApps.VIEW_APPOINTMENTS,
-  frontendApps.SCHEDULE_APPOINTMENTS,
-  frontendApps.DIRECT_DEPOSIT,
+  widgetTypes.HEALTH_RECORDS,
+  widgetTypes.RX,
+  widgetTypes.MESSAGING,
+  widgetTypes.LAB_AND_TEST_RESULTS,
+  widgetTypes.VIEW_APPOINTMENTS,
+  widgetTypes.SCHEDULE_APPOINTMENTS,
+  widgetTypes.DIRECT_DEPOSIT,
 ];
 
 const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
 
 export const hasRequiredMhvAccount = (appId, accountLevel) => {
   switch (appId) {
-    case frontendApps.HEALTH_RECORDS:
-    case frontendApps.LAB_AND_TEST_RESULTS:
+    case widgetTypes.HEALTH_RECORDS:
+    case widgetTypes.LAB_AND_TEST_RESULTS:
       return MHV_ACCOUNT_TYPES.includes(accountLevel);
-    case frontendApps.RX:
+    case widgetTypes.RX:
       return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
-    case frontendApps.MESSAGING:
-    case frontendApps.VIEW_APPOINTMENTS:
-    case frontendApps.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.MESSAGING:
+    case widgetTypes.VIEW_APPOINTMENTS:
+    case widgetTypes.SCHEDULE_APPOINTMENTS:
       return accountLevel === 'Premium';
     default:
       // Not a recognized health tool.
@@ -56,23 +60,23 @@ export const mhvBaseUrl = () => {
 
 export const mhvToolName = appId => {
   switch (appId) {
-    case frontendApps.HEALTH_RECORDS:
+    case widgetTypes.HEALTH_RECORDS:
       return 'VA Blue Button';
 
-    case frontendApps.RX:
+    case widgetTypes.RX:
       return 'Prescription Refill and Tracking';
 
-    case frontendApps.MESSAGING:
+    case widgetTypes.MESSAGING:
       return 'Secure Messaging';
 
-    case frontendApps.LAB_AND_TEST_RESULTS:
+    case widgetTypes.LAB_AND_TEST_RESULTS:
       return 'Lab and Test Results';
 
-    case frontendApps.VIEW_APPOINTMENTS:
-    case frontendApps.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.VIEW_APPOINTMENTS:
+    case widgetTypes.SCHEDULE_APPOINTMENTS:
       return 'VA Appointments';
 
-    case frontendApps.DIRECT_DEPOSIT:
+    case widgetTypes.DIRECT_DEPOSIT:
       return 'Direct Deposit';
 
     default: // Not a recognized health tool.
@@ -83,80 +87,80 @@ export const mhvToolName = appId => {
 
 export const toolUrl = appId => {
   switch (appId) {
-    case frontendApps.HEALTH_RECORDS:
+    case widgetTypes.HEALTH_RECORDS:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/download-my-data`,
         redirect: false,
       };
 
-    case frontendApps.RX:
+    case widgetTypes.RX:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/refill-prescriptions`,
         redirect: true,
       };
 
-    case frontendApps.MESSAGING:
+    case widgetTypes.MESSAGING:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/secure-messaging`,
         redirect: true,
       };
 
-    case frontendApps.VIEW_APPOINTMENTS:
+    case widgetTypes.VIEW_APPOINTMENTS:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/appointments`,
         redirect: false,
       };
 
-    case frontendApps.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.SCHEDULE_APPOINTMENTS:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/scheduling-a-va-appointment`,
         redirect: false,
       };
 
-    case frontendApps.LAB_AND_TEST_RESULTS:
+    case widgetTypes.LAB_AND_TEST_RESULTS:
       return {
         url: `${mhvBaseUrl()}/mhv-portal-web/labs-tests`,
         redirect: true,
       };
 
-    case frontendApps.CLAIMS_AND_APPEALS:
+    case widgetTypes.CLAIMS_AND_APPEALS:
       return {
         url: '/track-claims/',
         redirect: true,
       };
 
-    case frontendApps.GI_BILL_BENEFITS:
+    case widgetTypes.GI_BILL_BENEFITS:
       return {
         url: '/education/gi-bill/post-9-11/ch-33-benefit/status',
         redirect: false,
       };
 
-    case frontendApps.DISABILITY_BENEFITS:
+    case widgetTypes.DISABILITY_BENEFITS:
       return {
         url: '/disability/how-to-file-claim',
         redirect: false,
       };
 
-    case frontendApps.LETTERS:
+    case widgetTypes.LETTERS:
       return {
         url: '/records/download-va-letters/letters',
         redirect: false,
       };
 
-    case frontendApps.VETERAN_ID_CARD:
+    case widgetTypes.VETERAN_ID_CARD:
       return {
         url: '/records/get-veteran-id-cards/apply',
         redirect: false,
       };
 
-    case frontendApps.VET_TEC:
+    case widgetTypes.VET_TEC:
       return {
         url:
           '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
         redirect: false,
       };
 
-    case frontendApps.DIRECT_DEPOSIT:
+    case widgetTypes.DIRECT_DEPOSIT:
       return {
         url: '/profile',
         redirect: false,
@@ -174,32 +178,32 @@ export const toolUrl = appId => {
 
 export const requiredServices = appId => {
   switch (appId) {
-    case frontendApps.HEALTH_RECORDS:
+    case widgetTypes.HEALTH_RECORDS:
       return backendServices.HEALTH_RECORDS;
 
-    case frontendApps.RX:
+    case widgetTypes.RX:
       return backendServices.RX;
 
-    case frontendApps.MESSAGING:
+    case widgetTypes.MESSAGING:
       return backendServices.MESSAGING;
 
-    case frontendApps.LAB_AND_TEST_RESULTS:
-    case frontendApps.VIEW_APPOINTMENTS:
-    case frontendApps.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.LAB_AND_TEST_RESULTS:
+    case widgetTypes.VIEW_APPOINTMENTS:
+    case widgetTypes.SCHEDULE_APPOINTMENTS:
       return null;
 
-    case frontendApps.GI_BILL_BENEFITS:
-    case frontendApps.DISABILITY_BENEFITS:
-    case frontendApps.LETTERS:
+    case widgetTypes.GI_BILL_BENEFITS:
+    case widgetTypes.DISABILITY_BENEFITS:
+    case widgetTypes.LETTERS:
       return backendServices.EVSS_CLAIMS;
 
-    case frontendApps.CLAIMS_AND_APPEALS:
+    case widgetTypes.CLAIMS_AND_APPEALS:
       return [backendServices.EVSS_CLAIMS, backendServices.APPEALS_STATUS];
 
-    case frontendApps.VETERAN_ID_CARD:
+    case widgetTypes.VETERAN_ID_CARD:
       return backendServices.ID_CARD;
 
-    case frontendApps.VET_TEC:
+    case widgetTypes.VET_TEC:
       return backendServices.EDUCATION_BENEFITS;
 
     default:
@@ -209,43 +213,43 @@ export const requiredServices = appId => {
 
 export const serviceDescription = appId => {
   switch (appId) {
-    case frontendApps.HEALTH_RECORDS:
+    case widgetTypes.HEALTH_RECORDS:
       return 'view your VA medical records';
 
-    case frontendApps.RX:
+    case widgetTypes.RX:
       return 'refill prescriptions';
 
-    case frontendApps.MESSAGING:
+    case widgetTypes.MESSAGING:
       return 'send secure messages';
 
-    case frontendApps.LAB_AND_TEST_RESULTS:
+    case widgetTypes.LAB_AND_TEST_RESULTS:
       return 'view your lab and test results';
 
-    case frontendApps.VIEW_APPOINTMENTS:
+    case widgetTypes.VIEW_APPOINTMENTS:
       return 'view your appointments';
 
-    case frontendApps.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.SCHEDULE_APPOINTMENTS:
       return 'schedule, reschedule, or cancel a VA appointment online';
 
-    case frontendApps.GI_BILL_BENEFITS:
+    case widgetTypes.GI_BILL_BENEFITS:
       return 'check your GI Bill Benefits';
 
-    case frontendApps.DISABILITY_BENEFITS:
+    case widgetTypes.DISABILITY_BENEFITS:
       return 'apply for disability benefits';
 
-    case frontendApps.CLAIMS_AND_APPEALS:
+    case widgetTypes.CLAIMS_AND_APPEALS:
       return 'see your claim or appeal status';
 
-    case frontendApps.LETTERS:
+    case widgetTypes.LETTERS:
       return 'get your VA Benefit Letters';
 
-    case frontendApps.VETERAN_ID_CARD:
+    case widgetTypes.VETERAN_ID_CARD:
       return 'apply for a Veteran ID Card';
 
-    case frontendApps.VET_TEC:
+    case widgetTypes.VET_TEC:
       return 'apply for VET TEC';
 
-    case frontendApps.DIRECT_DEPOSIT:
+    case widgetTypes.DIRECT_DEPOSIT:
       return 'change your direct deposit information online';
 
     default:

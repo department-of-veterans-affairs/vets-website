@@ -23,7 +23,7 @@ import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import titleCase from 'platform/utilities/data/titleCase';
 
 import {
-  frontendApps,
+  widgetTypes,
   hasRequiredMhvAccount,
   isHealthTool,
   mhvToolName,
@@ -148,7 +148,7 @@ export class CallToActionWidget extends React.Component {
 
     if (
       this.props.profile.verified &&
-      this.props.appId === frontendApps.DIRECT_DEPOSIT
+      this.props.appId === widgetTypes.DIRECT_DEPOSIT
     ) {
       if (!this.props.profile.multifactor) {
         return (
