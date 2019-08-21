@@ -2,7 +2,6 @@ import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 
-import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import { renderVetTecLogo } from '../../utils/render';
 
@@ -25,35 +24,19 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
       },
     ];
     if (this.props.displayVetTecOption) {
-      const vetTecLabel =
-        // Production flag for 19402
-        !environment.isProduction() ? (
-          <span className="vads-u-padding-top--1 vads-u-margin-left--0p5 learnMoreLabel">
-            {' '}
-            <button
-              aria-label="VET TEC training providers only learn more"
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={() => this.props.showModal('vetTec')}
-            >
-              (Learn more)
-            </button>{' '}
-          </span>
-        ) : (
-          <span className="vads-u-padding-top--1 vads-u-margin-left--0p5">
-            {' '}
-            (
-            <button
-              aria-label="VET TEC training providers only learn more"
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={() => this.props.showModal('vetTec')}
-            >
-              Learn more
-            </button>
-            ){' '}
-          </span>
-        );
+      const vetTecLabel = (
+        <span className="vads-u-padding-top--1 vads-u-margin-left--0p5 learnMoreLabel">
+          {' '}
+          <button
+            aria-label="VET TEC training providers only learn more"
+            type="button"
+            className="va-button-link learn-more-button"
+            onClick={() => this.props.showModal('vetTec')}
+          >
+            (Learn more)
+          </button>{' '}
+        </span>
+      );
 
       const imgClass = classNames(
         'vettec-logo',
@@ -69,18 +52,20 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
         value: 'vettec',
         label: 'VET TEC training providers only',
         learnMore: vetTecLabel,
-        additional: environment.isProduction() ? null : vetTecLogo,
+        additional: vetTecLogo,
       });
     }
 
     return (
-      <RadioButtons
-        label="Type of institution"
-        name="category"
-        options={options}
-        value={this.props.category}
-        onChange={this.props.onChange}
-      />
+      <div className="type-of-institution-filter">
+        <RadioButtons
+          label="Type of institution"
+          name="category"
+          options={options}
+          value={this.props.category}
+          onChange={this.props.onChange}
+        />
+      </div>
     );
   }
 }
