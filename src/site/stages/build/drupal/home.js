@@ -33,6 +33,9 @@ function addHomeContent(contentData, files) {
 
     homeEntityObj = {
       ...homeEntityObj,
+      title: 'VA.gov',
+      description:
+        'Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.',
       cards: homePageMenuQuery.links.slice(0, menuLength), // Top Tasks menu. We have a hard limit.
       hubs, // Full hub list.
       promos: homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos, // Promo blocks.
