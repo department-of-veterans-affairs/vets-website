@@ -127,9 +127,11 @@ describe('form:', () => {
         expect(form.introduction).to.be.an('function');
       });
 
-      it('should have prefillEnabled boolean', () => {
-        expect(form.prefillEnabled).to.be.a('boolean');
-      });
+      if (form.prefillEnabled !== 'undefined') {
+        it('should have prefillEnabled boolean', () => {
+          expect(form.prefillEnabled).to.be.a('boolean');
+        });
+      }
 
       if (form.prefillTransformer) {
         it('should have prefillTransformer function', () => {
@@ -167,9 +169,11 @@ describe('form:', () => {
         });
       }
 
-      it('should have savedFormMessages', () => {
-        expect(form.savedFormMessages).to.be.a('object');
-      });
+      if (form.savedFormMessages) {
+        it('should have savedFormMessages', () => {
+          expect(form.savedFormMessages).to.be.a('object');
+        });
+      }
 
       if (form.transformForSubmit) {
         it('should have transformForSubmit', () => {
@@ -185,9 +189,11 @@ describe('form:', () => {
         expect(form.preSubmitInfo).to.be.a('object');
       });
 
-      it('should have footerContent', () => {
-        expect(form.footerContent).to.be.a('function');
-      });
+      if (form.footerContent) {
+        it('should have footerContent', () => {
+          expect(form.footerContent).to.be.a('function');
+        });
+      }
 
       if (form.getHelp) {
         it('should have getHelp', () => {
