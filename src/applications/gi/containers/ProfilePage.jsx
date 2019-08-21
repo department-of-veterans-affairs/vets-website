@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -7,26 +6,12 @@ import _ from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
-import AccordionItem from '../components/AccordionItem';
-import If from '../components/If';
-import HeadingSummary from '../components/profile/HeadingSummary';
-import Programs from '../components/profile/Programs';
-import Outcomes from '../components/profile/Outcomes';
-import Calculator from '../components/profile/Calculator';
-import CautionaryInformation from '../components/profile/CautionaryInformation';
-import AdditionalInformation from '../components/profile/AdditionalInformation';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
-import { outcomeNumbers } from '../selectors/outcomes';
-import environment from 'platform/utilities/environment';
+import InstitutionProfile from '../components/profile/InstitutionProfile';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class ProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleViewWarnings = this.handleViewWarnings.bind(this);
-  }
-
   componentDidMount() {
     this.props.fetchProfile(
       this.props.params.facilityCode,
@@ -62,12 +47,12 @@ export class ProfilePage extends React.Component {
     }
   }
 
-  handleViewWarnings() {
+  handleViewWarnings = () => {
     this._cautionaryInfo.setState({ expanded: true });
-  }
+  };
 
   render() {
-    const { constants, outcomes, profile } = this.props;
+    const { constants, profile } = this.props;
 
     let content;
 
@@ -85,63 +70,15 @@ export class ProfilePage extends React.Component {
         );
       } else {
         content = (
-          <div>
-            <HeadingSummary
-              institution={profile.attributes}
-              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-              onViewWarnings={this.handleViewWarnings}
-            />
-            <div className="usa-accordion">
-              <ul>
-                <AccordionItem button="Estimate your benefits">
-                  <Calculator />
-                </AccordionItem>
-                {!isOJT && (
-                  <AccordionItem button="Veteran programs">
-                    <Programs
-                      institution={profile.attributes}
-                      onShowModal={this.props.showModal}
-                    />
-                  </AccordionItem>
-                )}
-                {!isOJT &&
-                  (environment.isProduction() && ( // production flag to display table only on staging (story #19452, sprint 27)
-                    <AccordionItem button="Student outcomes">
-                      <If
-                        condition={
-                          !!profile.attributes.facilityCode && !!constants
-                        }
-                        comment="TODO"
-                      >
-                        <Outcomes
-                          graphing={outcomes}
-                          onShowModal={this.props.showModal}
-                        />
-                      </If>
-                    </AccordionItem>
-                  ))}
-                <AccordionItem
-                  button="Cautionary information"
-                  ref={c => {
-                    this._cautionaryInfo = c;
-                  }}
-                >
-                  <a name="viewWarnings" />
-                  <CautionaryInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Additional information">
-                  <AdditionalInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                    constants={this.props.constants}
-                  />
-                </AccordionItem>
-              </ul>
-            </div>
-          </div>
+          <InstitutionProfile
+            profile={profile}
+            isOJT={isOJT}
+            constants={constants}
+            showModal={this.props.showModal}
+            calculator={this.props.calculator}
+            eligibility={this.props.eligibility}
+            version={this.props.location.query.version}
+          />
         );
       }
     }
@@ -158,9 +95,10 @@ const mapStateToProps = state => {
   const {
     constants: { constants },
     profile,
+    calculator,
+    eligibility,
   } = state;
-  const outcomes = constants ? outcomeNumbers(state) : null;
-  return { constants, outcomes, profile };
+  return { constants, profile, calculator, eligibility };
 };
 
 const mapDispatchToProps = {

@@ -583,10 +583,11 @@ export class Modals extends React.Component {
               rel="noopener noreferrer"
             >
               {' '}
-              {environment.isProduction() && 'visit the VBA STEM website.'}
+              {environment.isProduction() && 'visit the VBA STEM website'}
               {!environment.isProduction() &&
-                'visit the Rogers STEM Scholarship website.'}
+                'visit the Rogers STEM Scholarship website'}
             </a>
+            .
           </p>
         </div>
       </Modal>
