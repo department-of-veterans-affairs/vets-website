@@ -7,6 +7,7 @@ import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import environment from 'platform/utilities/environment';
+import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -671,6 +672,7 @@ class CalculatorForm extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         <RadioButtons
@@ -724,8 +726,35 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderOnlineClasses = () => (
+    <OnlineClassesFilter
+      onlineClasses={this.props.eligibility.onlineClasses}
+      onChange={this.props.eligibilityChange}
+      showModal={this.props.onShowModal}
+    />
+  );
+
   render() {
     if (!this.props.displayedInputs) return null;
+    if (environment.isProduction()) {
+      return (
+        <div className="calculator-form">
+          {this.renderInState()}
+          {this.renderTuition()}
+          {this.renderBooks()}
+          {this.renderYellowRibbon()}
+          {this.renderScholarships()}
+          {this.renderTuitionAssist()}
+          {this.renderEnrolled()}
+          {this.renderCalendar()}
+          {this.renderKicker()}
+          {this.renderGbBenefit()}
+          {this.renderBeneficiaryZIP()}
+          {this.renderBuyUp()}
+          {this.renderWorking()}
+        </div>
+      );
+    }
     return (
       <div className="calculator-form">
         {this.renderInState()}
@@ -736,9 +765,10 @@ class CalculatorForm extends React.Component {
         {this.renderTuitionAssist()}
         {this.renderEnrolled()}
         {this.renderCalendar()}
+        {this.renderOnlineClasses()}
+        {this.renderBeneficiaryZIP()}
         {this.renderKicker()}
         {this.renderGbBenefit()}
-        {this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>
