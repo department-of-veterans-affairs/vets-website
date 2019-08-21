@@ -18,10 +18,9 @@
   {% include "src/site/includes/metatags.liquid" %}
 {% endif %}
 
-{% if buildtype == 'vagovstaging' %}
-<!-- Verification of site-ownership to the Insight App Sec Scanner -->
-<meta name="insight-app-sec-validation" content="ec59f99e-d869-4e3f-82d2-a61d32c65776">
-{% endif %}
+<script src="/js/record-event.js"></script>
+<script src="/js/settings.js"></script>
+{% include 'src/site/includes/google-analytics' %}
 
 <!-- Icons -->
 <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -48,9 +47,6 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<script src="/js/record-event.js"></script>
-<script src="/js/settings.js"></script>
-
 <script defer nomodule src="/generated/polyfills.entry.js"></script>
 <script defer src="/generated/vendor.entry.js"></script>
 {% if entryname %}
@@ -59,7 +55,10 @@
 <script defer src="/generated/static-pages.entry.js"></script>
 {% endif %}
 
-<!-- We participate in the US government’s analytics program. See the data at analytics.usa.gov. -->
+<!--
+  We participate in the US government’s analytics program. See the data at analytics.usa.gov.
+  https://github.com/digital-analytics-program/gov-wide-code
+-->
 <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
 
 <script type="text/javascript">
@@ -69,11 +68,14 @@
 
 </head>
 <body class="{{ body_class }} merger">
+  {{ google_analytics_noscript }}
   <a class="show-on-focus" href="#content">Skip to Content</a>
 
 {% if !noHeader %}
   {% include "src/site/includes/top-nav.html" %}
 {% endif %}
+
+{% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
 
 {% if path == '' and banner and banner.visible %}
   <div class="usa-alert-full-width usa-alert-full-width-{{ banner.type }}">
@@ -87,5 +89,4 @@
     </div>
   </div>
 {% endif %}
-
 <script async src="/js/incompatible-browser.js"></script>

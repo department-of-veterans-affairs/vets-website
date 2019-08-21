@@ -96,7 +96,7 @@ function callAPI(dispatch, formData = {}) {
     'userAttributes[veteranSocialSecurityNumber]': formData.ssn,
   });
 
-  apiRequest(
+  return apiRequest(
     url,
     null,
     data => dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, data }),
@@ -110,7 +110,7 @@ function callAPI(dispatch, formData = {}) {
 export function getEnrollmentStatus(formData) {
   return (dispatch, getState) => {
     if (isEnrollmentStatusLoading(getState())) {
-      return;
+      return null;
     }
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
     /*
@@ -141,12 +141,10 @@ export function getEnrollmentStatus(formData) {
         formData.firstName.toLowerCase() === 'pat'
       ) {
         callFake404(dispatch);
-      } else {
-        callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
       }
-    } else {
-      callAPI(dispatch, formData);
+      callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
     }
+    return callAPI(dispatch, formData);
   };
 }
 
@@ -155,7 +153,7 @@ export function getDismissedHCANotification() {
     dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
     const url = `/notifications/dismissed_statuses/form_10_10ez`;
 
-    apiRequest(
+    return apiRequest(
       url,
       null,
       response =>
@@ -179,7 +177,7 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
       data: statusEffectiveAt,
     });
     if (hasPreviouslyDismissedNotification) {
-      apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
+      return apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -187,16 +185,15 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
           statusEffectiveAt,
         }),
       });
-    } else {
-      apiRequest('/notifications/dismissed_statuses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subject: 'form_10_10ez',
-          status,
-          statusEffectiveAt,
-        }),
-      });
     }
+    return apiRequest('/notifications/dismissed_statuses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: 'form_10_10ez',
+        status,
+        statusEffectiveAt,
+      }),
+    });
   };
 }
