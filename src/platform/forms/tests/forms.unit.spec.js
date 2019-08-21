@@ -185,9 +185,11 @@ describe('form:', () => {
         expect(form.confirmation).to.be.a('function');
       });
 
-      it('should have preSubmitInfo', () => {
-        expect(form.preSubmitInfo).to.be.a('object');
-      });
+      if (form.preSubmitInfo) {
+        it('should have preSubmitInfo', () => {
+          expect(form.preSubmitInfo).to.be.a('object');
+        });
+      }
 
       if (form.footerContent) {
         it('should have footerContent', () => {
