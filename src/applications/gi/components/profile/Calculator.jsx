@@ -14,6 +14,7 @@ import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 import environment from '../../../../platform/utilities/environment';
+import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
@@ -67,6 +68,12 @@ export class Calculator extends React.Component {
               <div className="form-expanding-group-open">
                 <EligibilityForm
                   eligibilityChange={this.props.eligibilityChange}
+                />
+                {/* prod flag for 19475 changes */}
+                <OnlineClassesFilter
+                  onlineClasses={this.props.eligibility.onlineClasses}
+                  onChange={this.props.eligibilityChange}
+                  showModal={this.props.showModal}
                 />
               </div>
             ) : null}
