@@ -6,6 +6,7 @@ import { renderLearnMoreLabel } from '../../utils/render';
 
 import Dropdown from '../Dropdown';
 import environment from 'platform/utilities/environment';
+import OnlineClassesFilter from './OnlineClassesFilter';
 
 export class EligibilityForm extends React.Component {
   // This will be enabled via story https://app.zenhub.com/workspaces/vft-59c95ae5fda7577a9b3184f8/issues/department-of-veterans-affairs/vets.gov-team/18639
@@ -225,6 +226,11 @@ export class EligibilityForm extends React.Component {
             this.props.eligForPostGiBill === 'no'
           }
           onChange={this.props.eligibilityChange}
+        />
+        <OnlineClassesFilter
+          onlineClasses={this.props.onlineClasses}
+          onChange={this.props.eligibilityChange}
+          showModal={this.props.showModal}
         />
       </div>
     );
