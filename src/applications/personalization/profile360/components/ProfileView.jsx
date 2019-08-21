@@ -7,7 +7,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+import featureFlags from '../featureFlags';
 
 import Vet360TransactionReporter from 'vet360/containers/TransactionReporter';
 
@@ -28,7 +28,7 @@ const ProfileTOC = ({ militaryInformation }) => (
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      {!environment.isProduction() && <PaymentInformationTOCItem />}
+      {featureFlags.directDeposit && <PaymentInformationTOCItem />}
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
