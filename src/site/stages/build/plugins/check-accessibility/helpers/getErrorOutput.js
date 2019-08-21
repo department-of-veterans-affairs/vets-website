@@ -3,7 +3,7 @@ function getErrorOutput(result) {
 
   const formattedViolations = result.violations
     .map((violation, index) => {
-      let output = `${index + 1}. [${violation.impact}] ${violation.help}`;
+      let output = `${index + 1}. [${violation.impact}] ${violation.help}\n`;
 
       output += `See ${violation.helpUrl}`;
       output += violation.nodes.reduce((str, node) => {
