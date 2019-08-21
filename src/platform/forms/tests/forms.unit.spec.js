@@ -124,7 +124,7 @@ describe('form:', () => {
       });
 
       it('should have introduction function', () => {
-        expect(form.introduction).to.be.an('function');
+        expect(form.introduction).to.be.a('function');
       });
 
       it('should have prefillEnabled boolean', () => {
