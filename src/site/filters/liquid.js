@@ -295,6 +295,14 @@ module.exports = function registerFilters() {
     return inMenu !== -1;
   };
 
+  // check if this is a pittsburgh page
+  liquid.filters.isPitt = path => {
+    if (path.includes('pittsburgh-health-care')) {
+      return true;
+    }
+    return false;
+  };
+
   // sort a list of objects by a certain property in the object
   liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
 

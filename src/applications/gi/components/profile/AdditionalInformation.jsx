@@ -119,21 +119,19 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.independentStudy ? 'Yes' : 'No'}
         </div>
-        {!environment.isProduction() && (
-          <div>
-            <strong>
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={this.props.onShowModal.bind(this, 'stemIndicator')}
-              >
-                Rogers STEM Scholarship:
-              </button>
-            </strong>
-            &nbsp;
-            {institution.stemIndicator ? 'Yes' : 'No'}
-          </div>
-        )}
+        <div>
+          <strong>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'stemIndicator')}
+            >
+              Rogers STEM Scholarship:
+            </button>
+          </strong>
+          &nbsp;
+          {institution.stemIndicator ? 'Yes' : 'No'}
+        </div>
       </div>
     );
   }
