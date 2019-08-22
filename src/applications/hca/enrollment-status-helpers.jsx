@@ -263,11 +263,11 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>We can’t accept an application for this Veteran.</p>
           <p>
             If this information is incorrect, please call our enrollment case
-            management team at 877-222-VETS (
+            management team at
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
-            ).
+            .
           </p>
         </>
       );
@@ -344,11 +344,10 @@ function wrapJSXInKeyedFragment(arrayOfJSX) {
 export function getFAQContent(enrollmentStatus) {
   const callOurTeam = (
     <>
-      call our enrollment case management team at 877-222-VETS (
+      call our enrollment case management team at{' '}
       <a className="help-phone-number-link" href="tel:1-877-222-8387">
         877-222-8387
       </a>
-      )
     </>
   );
 
@@ -909,11 +908,10 @@ export function getAlertContent(
   const whatShouldIDo1 = (
     <p key="what-should-i-do-1">
       If you have questions, please call our enrollment case management team at
-      1-877-222-VETS (
       <a className="help-phone-number-link" href="tel:1-877-222-8387">
         877-222-8387
       </a>
-      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   );
   // this block will also be used for character of discharge status
