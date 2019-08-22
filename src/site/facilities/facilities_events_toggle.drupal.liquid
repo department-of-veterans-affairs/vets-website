@@ -1,11 +1,20 @@
 <div id="events-list-toggle"
-     class="va-c-btn-group vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
+     class="usa-width-two-thirds"
      role="group" aria-label="Events List Toggle">
-    {% if url contains 'past-events' %}
-        <a role="button" href={{ url | replace_first: 'past-events', 'events' }} class="usa-button usa-button-secondary">Upcoming events</a>
-        <a role="button" href={{ url }} class="usa-button">Past events</a>
-    {% else %}
-        <a role="button" href={{ url }} class="usa-button">Upcoming events</a>
-        <a role="button" href={{ url | replace_first: 'events', 'past-events'}} class="usa-button usa-button-secondary">Past events</a>
-    {% endif %}
+        <div class="usa-grid usa-grid-full
+        va-c-btn-group
+        vads-u-margin-bottom--3
+        medium-screen:vads-u-margin-bottom--4
+        vads-u-display--flex
+        vads-u-flex-direction--column
+        medium-screen:vads-u-flex-direction--row
+        medium-screen:vads-u-align-items--flex-start">
+                {% if url contains 'past-events' %}
+                        <a role="button" href="{{ url | remove_first: 'past-events' }}" class="vads-u-flex--1 usa-button usa-button-secondary vads-u-font-weight--normal">Upcoming events</a>
+                        <a role="button" href="{{ url }}" class="vads-u-flex--1 usa-button vads-u-font-weight--normal">Past events</a>
+                {% else %}
+                        <a role="button" href="{{ url }}" class="vads-u-flex--1 usa-button vads-u-font-weight--normal">Upcoming events</a>
+                        <a role="button" href="{{ url }}/past-events" class="vads-u-flex--1 usa-button usa-button-secondary vads-u-font-weight--normal">Past events</a>
+                {% endif %}
+        </div>
 </div>
