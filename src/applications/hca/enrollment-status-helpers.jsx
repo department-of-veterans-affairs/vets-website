@@ -68,8 +68,7 @@ export function getWarningHeadline(enrollmentStatus) {
       break;
 
     case HCA_ENROLLMENT_STATUSES.nonMilitary:
-      content =
-        'We see that you are not a service member or veteran but you may have received care at a VA medical facility';
+      content = 'We see that you aren’t a Veteran or service member';
       break;
 
     default:
@@ -508,14 +507,26 @@ export function getFAQContent(enrollmentStatus) {
     <>
       <h4>Can I apply for VA health care?</h4>
       <p>
-        If you are not a veteran or service member who has received separation
-        papers...
+        The health care application on this page is only for Veterans or service
+        members who have received their separation orders and are within one
+        year of their separation. If you are a family member or caregiver
+        submitting a health care application on behalf of a Veteran or service
+        member, then you can use this tool to help get them VA health care.
       </p>
       <p>
-        <strong>If you are seeing this in error</strong>
+        If you’re not helping a Veteran or service member sign up, you may be
+        eligible for your own VA health care benefits.
       </p>
       <p>
-        Please {callOurTeam}. {ourHours}.
+        <a href="https://www.va.gov/health-care/family-caregiver-benefits/">
+          Learn about health care for spouses, dependents, and family caregivers
+        </a>
+      </p>
+      <p>
+        <strong>
+          Note: If you are a Veteran or service member receiving this message in
+          error, please {callOurTeam}. {ourHours}.
+        </strong>
       </p>
     </>
   );
