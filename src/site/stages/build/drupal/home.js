@@ -34,7 +34,7 @@ function addHomeContent(contentData, files) {
     homeEntityObj = {
       ...homeEntityObj,
       // Since homepage is not an independent node, we don't have a source for metatags. So we need to hard-code these for now.
-      title: 'VA.gov',
+      title: 'VA.gov Home',
       description:
         'Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.',
       cards: homePageMenuQuery.links.slice(0, menuLength), // Top Tasks menu. We have a hard limit.
