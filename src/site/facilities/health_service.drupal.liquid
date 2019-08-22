@@ -19,7 +19,7 @@
                 {% endif %}
 
                 {% if healthService.fieldLocalHealthCareService.length > 0 %}
-                    <p class="vads-u-font-weight--bold vads-u-font-family--serif">Available at</p>
+                    <h3>Available at these {{ regionNickname }} locations</h3>
                     <ul class="usa-unstyled-list">
                         {% for location in healthService.fieldLocalHealthCareService %}
                             {% assign facility = location.entity.fieldFacilityLocation.entity %}

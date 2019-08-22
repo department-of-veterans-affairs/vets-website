@@ -76,6 +76,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     entityUrl: hsEntityUrl,
     alert: page.alert,
     title: page.title,
+    regionNickname: page.fieldNicknameForThisFacility,
     clinicalHealthServices,
   };
   const hsPage = updateEntityUrlObj(
