@@ -263,7 +263,7 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>We can’t accept an application for this Veteran.</p>
           <p>
             If this information is incorrect, please call our enrollment case
-            management team at
+            management team at{' '}
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
