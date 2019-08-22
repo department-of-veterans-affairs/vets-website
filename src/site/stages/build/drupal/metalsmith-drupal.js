@@ -120,8 +120,7 @@ async function loadDrupal(buildOptions) {
       throw new Error('Drupal query returned with errors');
     }
 
-    const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-    fs.writeFileSync(drupalCache, serialized);
+    fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
