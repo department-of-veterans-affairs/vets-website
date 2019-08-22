@@ -148,16 +148,15 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Events listing page
   const allEvents = page.allEventTeasers;
 
-  // get past events
+  // store past & current events
   const pastEventTeasers = {
     entities: [],
   };
-
-  // get current events
   const currentEventTeasers = {
     entities: [],
   };
 
+  // separate current events from past events;
   _.forEach(allEvents.entities, value => {
     const eventTeaser = value;
     const startDate = eventTeaser.fieldDate.startDate;
@@ -168,6 +167,13 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
       currentEventTeasers.entities.push(eventTeaser);
     }
   });
+
+  // sort past events into reverse chronological order by start date
+  pastEventTeasers.entities = _.orderBy(
+    pastEventTeasers.entities,
+    ['fieldDate.startDate'],
+    ['desc'],
+  );
 
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
   const eventObj = Object.assign(
@@ -193,7 +199,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 
   // Past Events listing page
-  const pastEventsEntityUrl = createEntityUrlObj(drupalPagePath);
+  const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}/events`);
 
   const pastEventsObj = Object.assign(
     { allEventTeasers: pastEventTeasers },
@@ -206,12 +212,12 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
   const pastEventsPage = updateEntityUrlObj(
     pastEventsObj,
-    drupalPagePath,
+    `${drupalPagePath}/events`,
     'Past events',
   );
   const pastEventsPagePath = pastEventsPage.entityUrl.path;
   pastEventsPage.regionOrOffice = page.title;
-  eventPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
+  pastEventsPage.entityUrl = generateBreadCrumbs(pastEventsPagePath);
 
   paginatePages(
     pastEventsPage,
@@ -251,14 +257,16 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   );
 }
 
-// Adds the social media links and email subscription links
-// for local facility page and region detail page entity types from their respective region page
+/**
+ * Modify the page object to add social links.
+ *
+ * @param {page} page The page object.
+ * @param {pages} pages an array of page of objects containing a region page
+ * @return nothing
+ */
 function addGetUpdatesFields(page, pages) {
   const regionPage = pages.find(
     p =>
-      // Finds the region page based on the second link url
-      // If the url matches the region page's entityUrl.path, it is the base region page for this page
-      // Note: this is done this way because a NodeHealthCareRegionDetailPage has no association field to a NodeHealthCareRegionPage
       p.entityUrl
         ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
         : false,

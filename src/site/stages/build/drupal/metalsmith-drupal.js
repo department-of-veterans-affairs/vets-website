@@ -30,17 +30,21 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     },
   } = contentData;
 
+  const skippedContent = {
+    nullEntities: 0,
+    emptyEntities: 0,
+  };
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
     // Once the Content-Preview server is up and running, then unpublished pages should
     // reliably return like any other page and we can delete this.
     if (!page) {
-      log('Skipping null entity...');
+      skippedContent.nullEntities++;
       continue;
     }
 
     if (!Object.keys(page).length) {
-      log('Skipping empty entity...');
+      skippedContent.emptyEntities++;
       continue;
     }
 
@@ -75,6 +79,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
   }
+
+  if (skippedContent.nullEntities) {
+    log(`Skipped ${skippedContent.nullEntities} null entities`);
+  }
+  if (skippedContent.emptyEntities) {
+    log(`Skipped ${skippedContent.emptyEntities} empty entities`);
+  }
+
   addHomeContent(contentData, files);
 }
 
