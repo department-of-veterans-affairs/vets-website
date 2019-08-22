@@ -121,8 +121,6 @@ async function loadDrupal(buildOptions) {
     }
 
     const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-    fs.ensureDirSync(buildOptions.cacheDirectory);
-    fs.emptyDirSync(path.dirname(drupalCache));
     fs.writeFileSync(drupalCache, serialized);
   } else {
     log('Attempting to load Drupal content from cache...');
