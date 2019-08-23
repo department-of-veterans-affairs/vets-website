@@ -498,13 +498,6 @@ class CalculatorForm extends React.Component {
     );
   }
 
-  renderHousingAllowanceCity() {
-    if (!environment.isProduction()) {
-      return this.props.inputs.housingAllowanceCity;
-    }
-    return '';
-  }
-
   renderBeneficiaryZIP() {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
@@ -530,9 +523,6 @@ class CalculatorForm extends React.Component {
             field={{ value: this.props.inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
           />
-          <p>
-            <strong>{this.renderHousingAllowanceCity()}</strong>
-          </p>
         </div>
       );
     }
