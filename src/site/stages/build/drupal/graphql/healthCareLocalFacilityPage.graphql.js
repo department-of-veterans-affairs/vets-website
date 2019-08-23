@@ -49,6 +49,17 @@ module.exports = `
         }
       }
     }
+    fieldRegionPage {
+      entity {
+        ... on NodeHealthCareRegionPage {
+          entityBundle
+          entityId
+          entityPublished
+          title
+          fieldNicknameForThisFacility
+        }
+      }
+    }
     ${socialMediaFields}
     fieldLocalHealthCareService {
       entity {
