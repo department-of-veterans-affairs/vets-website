@@ -567,9 +567,12 @@ class CalculatorForm extends React.Component {
     if (extensions && extensions.length) {
       extensionOptions = [{ value: '', label: 'Please choose a location' }];
       extensions.forEach(extension => {
+        const extensionOptionLabel = `${extension.institution} (${
+          extension.city ? extension.city : ''
+        }, ${extension.state ? extension.state : ''})`;
         extensionOptions.push({
           value: extension.zip,
-          label: extension.institution,
+          label: extensionOptionLabel,
         });
       });
       extensionOptions.push({ value: 'other', label: 'Other...' });
