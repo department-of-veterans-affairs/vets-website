@@ -12,16 +12,11 @@ const submitForm = (form, formConfig) => {
 
   const eventData = {
     'benefitsUsedRecently': form.data.benefit,
-    'edu-stem-applicant': form.data.isEdithNourseRogersScholarship ?
-      'Yes' : 'No',
-    'edu-undergradStem': form.data.isEnrolledStem ?
-      'Yes' : 'No',
-    'edu-pursueTeaching': form.data.isPursuingTeachingCert ?
-      'Yes' : 'No',
-    'activeDuty': form.data.isActiveDuty ?
-      'Yes' : 'No',
-    'calledActiveDuty': form.data.isActiveDuty ?
-      'Yes' : 'No',
+    'edu-stem-applicant': form.data.isEdithNourseRogersScholarship ? 'Yes' : 'No',
+    'edu-undergradStem': form.data.isEnrolledStem ? 'Yes' : 'No',
+    'edu-pursueTeaching': form.data.isPursuingTeachingCert ? 'Yes' : 'No',
+    'activeDuty': form.data.isActiveDuty ? 'Yes' : 'No',
+    'calledActiveDuty': form.data.isActiveDuty ? 'Yes' : 'No',
     'preferredContactMethod': form.data.preferredContactMethod,
   };
 
