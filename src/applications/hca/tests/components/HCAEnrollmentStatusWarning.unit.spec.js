@@ -13,7 +13,7 @@ const expectedOutputs = {
   [HCA_ENROLLMENT_STATUSES.closed]:
     'class="usa-alert-text"><div><h4 class="usa-alert-heading">Our records show that your application for VA health care expired</h4><p><strong>You applied on: </strong>April 24, 2019</p><p>We closed your application because you didn’t submit all the documents needed to complete it within a year.</p></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.deceased]:
-    '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">Our records show that this Veteran is deceased</h4><p>We can’t accept an application for this Veteran.</p><p>If this information is incorrect, please call our enrollment case management team at 877-222-VETS (<a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>).</p></div></div></div></div>',
+    '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">Our records show that this Veteran is deceased</h4><p>We can’t accept an application for this Veteran.</p><p>If this information is incorrect, please call our enrollment case management team at <a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>.</p></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.enrolled]:
     '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">You’re already enrolled in VA health care</h4><p><strong>You applied on: </strong>April 24, 2019<br/><strong>We enrolled you on: </strong>April 30, 2019<br/><strong>Your preferred VA medical center is: </strong>ANCHORAGE VA MEDICAL CENTER</p></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]:
@@ -42,6 +42,8 @@ const expectedOutputs = {
     '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">We determined that you don’t qualify for VA health care based on your past application</h4><p><strong>You applied on: </strong>April 24, 2019</p></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.ineligTrainingOnly]:
     '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">We determined that you don’t qualify for VA health care based on your past application</h4><p><strong>You applied on: </strong>April 24, 2019</p><p>Our records show that you served on active duty for less than 24 continuous months. To qualify for VA health care without other special eligibility factors, you must have served on active duty for at least 24 months all at once, without a break in service.</p></div></div></div></div>',
+  [HCA_ENROLLMENT_STATUSES.nonMilitary]:
+    '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">We see that you aren’t a Veteran or service member</h4></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.pendingMt]:
     '<div class="usa-alert usa-alert-warning"><div class="usa-alert-body"><div class="usa-alert-text"><div><h4 class="usa-alert-heading">We need more information to complete our review of your VA health care application</h4><p><strong>You applied on: </strong>April 24, 2019</p><p>We need you to submit a financial disclosure so we can determine if you’re eligible for VA health care based on your income.</p></div></div></div></div>',
   [HCA_ENROLLMENT_STATUSES.pendingOther]:
