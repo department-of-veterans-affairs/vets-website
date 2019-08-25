@@ -55,10 +55,12 @@
 
                     <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 small-screen:vads-u-display--flex small-screen:vads-u-flex-direction--row">
 
-                        <div class="usa-width-one-third small-screen:vads-u-margin-right--3">
-                            {% assign image = fieldMedia.entity.image %}
-                            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-                        </div>
+                        {% if fieldMedia.entity.image != empty %}
+                            <div class="usa-width-one-third small-screen:vads-u-margin-right--3">
+                                {% assign image = fieldMedia.entity.image %}
+                                <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                            </div>
+                        {% endif %}
 
                         <div class="usa-width-two-thirds vads-u-display--flex vads-u-flex-direction--column">
                             <h1 class="
