@@ -61,7 +61,3 @@ export const renderVetTecLogo = classNames => (
     alt="Vet Tec Logo"
   />
 );
-
-// export const renderLabel = ({ name, text }) => (
-//   <label htmlFor={name}> {text} </label>
-// );
