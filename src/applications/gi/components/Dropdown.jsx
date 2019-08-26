@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { renderLabel } from '../utils/render';
 
 class Dropdown extends React.Component {
   render() {
@@ -10,7 +11,7 @@ class Dropdown extends React.Component {
 
     return (
       <div className={this.props.className}>
-        <label htmlFor={this.props.name}>{this.props.label}</label>
+        {renderLabel({ ...this.props.label })}
         <select
           className={hideArrowsClass}
           id={this.props.name}
@@ -33,7 +34,7 @@ class Dropdown extends React.Component {
 Dropdown.propTypes = {
   visible: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  label: PropTypes.object.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,

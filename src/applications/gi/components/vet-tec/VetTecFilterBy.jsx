@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CheckboxGroup from '../CheckboxGroup';
-import { renderLearnMoreLabel } from '../../utils/render';
+import { renderLabel } from '../../utils/render';
 import recordEvent from 'platform/monitoring/record-event';
 
 class VetTecFilterBy extends React.Component {
@@ -28,7 +28,7 @@ class VetTecFilterBy extends React.Component {
         <i className="fa fa-star vads-u-color--gold" />
       </div>
     );
-    return renderLearnMoreLabel({
+    return renderLabel({
       text: label,
       modal: 'preferredProvider',
       showModal: this.props.showModal,

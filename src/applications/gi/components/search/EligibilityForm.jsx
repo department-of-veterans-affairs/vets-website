@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { showModal, hideModal } from '../../actions';
-import { renderLearnMoreLabel } from '../../utils/render';
+import { renderLabel } from '../../utils/render';
 
 import Dropdown from '../Dropdown';
 import environment from 'platform/utilities/environment';
@@ -46,8 +46,9 @@ export class EligibilityForm extends React.Component {
     ];
   };
 
-  renderLearnMoreLabel = ({ text, modal }) =>
-    renderLearnMoreLabel({
+  renderLabel = ({ name, text, modal }) =>
+    renderLabel({
+      name,
       text,
       modal,
       showModal: this.props.showModal,
@@ -59,7 +60,10 @@ export class EligibilityForm extends React.Component {
       <div className="eligibility-form">
         <h2>Your eligibility</h2>
         <Dropdown
-          label="What is your military status?"
+          label={{
+            name: 'militaryStatus',
+            text: 'What is your military status?',
+          }}
           name="militaryStatus"
           options={[
             { value: 'veteran', label: 'Veteran' },
@@ -75,9 +79,13 @@ export class EligibilityForm extends React.Component {
           alt="What is your military status?"
           visible
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         <Dropdown
-          label="Is your spouse on active duty?"
+          label={{
+            name: 'spouseActiveDuty',
+            text: 'Is your spouse on active duty?',
+          }}
           name="spouseActiveDuty"
           options={[
             { value: 'yes', label: 'Yes' },
@@ -87,12 +95,15 @@ export class EligibilityForm extends React.Component {
           alt="Is your spouse on active duty?"
           visible={this.props.militaryStatus === 'spouse'}
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name: 'giBillChapter',
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
-          })}
+            showModal: this.props.showModal,
+          }}
           name="giBillChapter"
           options={[
             { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
@@ -109,6 +120,7 @@ export class EligibilityForm extends React.Component {
           alt="Which GI Bill benefit do you want to use?"
           visible
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         {this.props.militaryStatus === 'active duty' &&
           this.props.giBillChapter === '33' && (
@@ -143,22 +155,27 @@ export class EligibilityForm extends React.Component {
           </div>
         )}
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name: 'cumulativeService',
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
-          })}
+            showModal: this.props.showModal,
+          }}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
           value={this.props.cumulativeService}
           alt="Cumulative Post-9/11 active duty service"
           visible={this.props.giBillChapter === '33'}
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name: 'enlistmentService',
             text: 'Completed an enlistment of:',
             modal: 'enlistmentService',
-          })}
+            showModal: this.props.showModal,
+          }}
           name="enlistmentService"
           options={[
             { value: '3', label: '3 or more years' },
@@ -168,12 +185,15 @@ export class EligibilityForm extends React.Component {
           alt="Completed an enlistment of:"
           visible={this.props.giBillChapter === '30'}
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name: 'consecutiveService',
             text: 'Length of longest active duty tour:',
             modal: 'consecutiveService',
-          })}
+            showModal: this.props.showModal,
+          }}
           name="consecutiveService"
           options={[
             { value: '0.8', label: '2+ years of consecutive service: 80%' },
@@ -184,9 +204,13 @@ export class EligibilityForm extends React.Component {
           alt="Length of longest active duty tour:"
           visible={this.props.giBillChapter === '1607'}
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         <Dropdown
-          label="Are you eligible for the Post-9/11 GI Bill?"
+          label={{
+            name: 'eligForPostGiBill',
+            text: 'Are you eligible for the Post-9/11 GI Bill?',
+          }}
           name="eligForPostGiBill"
           options={[
             { value: 'yes', label: 'Yes' },
@@ -196,9 +220,13 @@ export class EligibilityForm extends React.Component {
           alt="Are you eligible for the Post-9/11 GI Bill?"
           visible={this.props.giBillChapter === '31'}
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
         <Dropdown
-          label="How many dependents do you have?"
+          label={{
+            name: 'numberOfDependents',
+            text: 'How many dependents do you have?',
+          }}
           name="numberOfDependents"
           options={[
             { value: '0', label: '0 Dependents' },
@@ -215,6 +243,7 @@ export class EligibilityForm extends React.Component {
             this.props.eligForPostGiBill === 'no'
           }
           onChange={this.props.eligibilityChange}
+          className="gi-form-field"
         />
       </div>
     );

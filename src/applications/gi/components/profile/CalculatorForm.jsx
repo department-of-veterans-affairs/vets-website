@@ -8,13 +8,13 @@ import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import environment from 'platform/utilities/environment';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
+import { renderLabel } from '../../utils/render';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.resetBuyUp = this.resetBuyUp.bind(this);
-    this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
     this.renderInState = this.renderInState.bind(this);
     this.renderTuition = this.renderTuition.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
@@ -130,10 +130,12 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={this.renderLearnMoreLabel({
+          label={renderLabel({
+            name: 'giBillBenefit',
             text:
               'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
             modal: 'whenUsedGiBill',
+            showModal: this.props.onShowModal,
           })}
           name="giBillBenefit"
           options={[
@@ -154,9 +156,11 @@ class CalculatorForm extends React.Component {
     const inStateTuitionInput = this.props.inputs.inState === 'no' && (
       <div>
         <label htmlFor={inStateTuitionFeesId}>
-          {this.renderLearnMoreLabel({
+          {renderLabel({
+            name: { inStateTuitionFeesId },
             text: 'In-state tuition and fees per year',
             modal: 'calcInStateTuition',
+            showModal: this.props.onShowModal,
           })}
         </label>
         <input
@@ -236,9 +240,11 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={this.renderLearnMoreLabel({
+          label={renderLabel({
+            name: 'yellowRibbonRecipient',
             text: 'Will you be a Yellow Ribbon recipient?',
             modal: 'calcYr',
+            showModal: this.props.onShowModal,
           })}
           name="yellowRibbonRecipient"
           options={[
@@ -251,7 +257,10 @@ class CalculatorForm extends React.Component {
         {this.props.inputs.yellowRibbonRecipient === 'yes' ? (
           <div>
             <Dropdown
-              label="Degree Level"
+              label={renderLabel({
+                name: 'yellowRibbonDegreeLevel',
+                text: 'Degree Level',
+              })}
               name="yellowRibbonDegreeLevel"
               alt="Degree Level"
               hideArrows={yellowRibbonDegreeLevelOptions.length <= 1}
@@ -259,9 +268,13 @@ class CalculatorForm extends React.Component {
               visible={showYellowRibbonOptions}
               value={this.props.inputs.yellowRibbonDegreeLevel}
               onChange={this.handleInputChange}
+              className="gi-form-field"
             />
             <Dropdown
-              label="Division or school"
+              label={renderLabel({
+                name: 'yellowRibbonDivision',
+                text: 'Division or school',
+              })}
               name={'yellowRibbonDivision'}
               alt="Division or school"
               hideArrows={yellowRibbonDivisionOptions.length <= 1}
@@ -269,6 +282,7 @@ class CalculatorForm extends React.Component {
               visible={showYellowRibbonDetails}
               value={this.props.inputs.yellowRibbonDivision}
               onChange={this.handleInputChange}
+              className="gi-form-field"
             />
             <div>
               <label htmlFor="yellowRibbonContributionAmount">
@@ -310,13 +324,13 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.scholarships) return null;
     const scholarshipsId = 'scholarships';
     return (
-      <div>
-        <label htmlFor={scholarshipsId}>
-          {this.renderLearnMoreLabel({
-            text: 'Scholarships (excluding Pell)',
-            modal: 'calcScholarships',
-          })}
-        </label>
+      <div className="gi-form-field">
+        {renderLabel({
+          name: scholarshipsId,
+          text: 'Scholarships (excluding Pell)',
+          modal: 'calcScholarships',
+          showModal: this.props.onShowModal,
+        })}
         <input
           type="text"
           name={scholarshipsId}
@@ -333,12 +347,12 @@ class CalculatorForm extends React.Component {
     const tuitionAssistId = 'tuitionAssist';
     return (
       <div>
-        <label htmlFor={tuitionAssistId}>
-          {this.renderLearnMoreLabel({
-            text: 'How much are you receiving in military tuition assistance',
-            modal: 'calcTuitionAssist',
-          })}
-        </label>
+        {renderLabel({
+          name: tuitionAssistId,
+          text: 'How much are you receiving in military tuition assistance',
+          modal: 'calcTuitionAssist',
+          showModal: this.props.onShowModal,
+        })}
         <input
           type="text"
           name={tuitionAssistId}
@@ -389,16 +403,19 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name,
             text: 'Enrolled',
             modal: 'calcEnrolled',
-          })}
+            showModal: this.props.onShowModal,
+          }}
           name={name}
           alt="Enrolled"
           options={options}
           visible
           value={value}
           onChange={this.handleInputChange}
+          className="gi-form-field"
         />
       </div>
     );
@@ -413,7 +430,10 @@ class CalculatorForm extends React.Component {
       dependentDropdowns = (
         <div>
           <Dropdown
-            label="How many terms per year?"
+            label={{
+              name: 'numberNontradTerms',
+              text: 'How many terms per year?',
+            }}
             name="numberNontradTerms"
             alt="How many terms per year?"
             options={[
@@ -426,7 +446,10 @@ class CalculatorForm extends React.Component {
             onChange={this.handleInputChange}
           />
           <Dropdown
-            label="How long is each term?"
+            label={{
+              name: 'lengthNontradTerms',
+              text: 'How long is each term?',
+            }}
             name="lengthNontradTerms"
             alt="How long is each term?"
             options={[
@@ -454,10 +477,12 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name: 'calendar',
             text: 'School Calendar',
             modal: 'calcSchoolCalendar',
-          })}
+            showModal: this.props.onShowModal,
+          }}
           name="calendar"
           alt="School calendar"
           options={[
@@ -468,6 +493,7 @@ class CalculatorForm extends React.Component {
           visible
           value={this.props.inputs.calendar}
           onChange={this.handleInputChange}
+          className="gi-form-field"
         />
         {dependentDropdowns}
       </div>
@@ -498,9 +524,11 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={this.renderLearnMoreLabel({
+          label={renderLabel({
+            name: 'kickerEligible',
             text: 'Eligible for kicker bonus?',
             modal: 'calcKicker',
+            showModal: this.props.onShowModal,
           })}
           name="kickerEligible"
           options={[
@@ -550,9 +578,11 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={this.renderLearnMoreLabel({
+          label={renderLabel({
+            name: 'beneficiaryLocationQuestion',
             text: 'Will the majority of your classes be on the main campus?',
             modal: 'calcBeneficiaryLocationQuestion',
+            showModal: this.props.onShowModal,
           })}
           name="beneficiaryLocationQuestion"
           options={[
@@ -600,7 +630,10 @@ class CalculatorForm extends React.Component {
       extensionSelector = (
         <div>
           <Dropdown
-            label="Choose the location where you'll take your classes"
+            label={{
+              name: 'extension',
+              text: "Choose the location where you'll take your classes",
+            }}
             name="extension"
             alt="Extension Location"
             visible
@@ -709,10 +742,12 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <Dropdown
-          label={this.renderLearnMoreLabel({
+          label={{
+            name: 'working',
             text: 'Will be working',
             modal: 'calcWorking',
-          })}
+            showModal: this.props.onShowModal,
+          }}
           name="working"
           alt="Will be working"
           options={[
