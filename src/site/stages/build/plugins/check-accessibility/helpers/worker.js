@@ -18,6 +18,9 @@ const runAxeScript = new Script(`
       type: 'tag',
       values: ['section508', 'wcag2a', 'wcag2aa'],
     },
+    rules: {
+      'color-contrast': { enabled: false },
+    },
   }, window.axeCallback);
 `);
 

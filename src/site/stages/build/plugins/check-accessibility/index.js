@@ -32,7 +32,8 @@ function checkAccessibility(buildOptions) {
         results.totalFiles
       } files with ${results.failures.length} files failing`;
 
-      const hasFailures = results.failures.length > 0;
+      const hasFailures =
+        results.failures.length > 0 || results.incompletes.length > 0;
 
       if (hasFailures) {
         const pages = results.failures.map(result => result.url).join('\n');
@@ -47,7 +48,12 @@ function checkAccessibility(buildOptions) {
       console.log(summary);
       done();
     } catch (err) {
-      done(err.message);
+      if (buildMustPass) {
+        done(err.message);
+      } else {
+        console.log(err);
+        done();
+      }
     }
   };
 }
