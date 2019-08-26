@@ -45,6 +45,23 @@ class CalculatorForm extends React.Component {
     return extensions;
   }
 
+  createExtensionOption = extension => {
+    const { city, institution, state, zip } = extension;
+    const extensionOption = {
+      value: zip,
+      label: institution,
+    };
+
+    if (city && state) {
+      extensionOption.label = `${extensionOption.label} (${city}, ${state})`;
+    } else if (city) {
+      extensionOption.label = `${extensionOption.label} (${city})`;
+    } else if (state) {
+      extensionOption.label = `${extensionOption.label} (${state})`;
+    }
+    return extensionOption;
+  };
+
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
@@ -567,10 +584,7 @@ class CalculatorForm extends React.Component {
     if (extensions && extensions.length) {
       extensionOptions = [{ value: '', label: 'Please choose a location' }];
       extensions.forEach(extension => {
-        extensionOptions.push({
-          value: extension.zip,
-          label: extension.institution,
-        });
+        extensionOptions.push(this.createExtensionOption(extension));
       });
       extensionOptions.push({ value: 'other', label: 'Other...' });
 
