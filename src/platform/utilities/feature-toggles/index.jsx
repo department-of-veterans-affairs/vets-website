@@ -15,8 +15,13 @@ function makeEnvironmentToggleValues(env = environments) {
 }
 
 function getBootstrappedToggleValues() {
+  // the featureToggles are bootstrapped into the static html
+  // and use these bootstrapped values for the initial page render
+
   return window.featureToggles ? window.featureToggles : {};
 }
+
+// TODO: add helper to that gets loading state of feature toggles
 
 const initialToggleValues = {
   ...makeEnvironmentToggleValues(),
