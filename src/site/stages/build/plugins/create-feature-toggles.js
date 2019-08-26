@@ -16,6 +16,7 @@ function createFeatureToggles(buildOptions) {
     try {
       toggleValues = await fetchToggleValues();
     } catch (error) {
+      // prevents build process from breaking if not running locally
       if (environmentName === environments.LOCALHOST) {
         toggleValues = {};
       } else {
