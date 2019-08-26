@@ -15,7 +15,7 @@ function getErrorOutput(result) {
     })
     .join('\n\n');
 
-  const title = `${separator}${result.url} has ${
+  const title = `${separator}${result.url}: Failed with ${
     result.violations.length
   } violation(s)!\n\n`;
 

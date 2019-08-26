@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 const path = require('path');
+const chalk = require('chalk');
 const cp = require('child_process');
 
 const _getErrorOutput = require('./getErrorOutput');
@@ -65,12 +66,17 @@ async function performAudit(
 
         if (isIncomplete) {
           results.incompletes.push(result);
-          console.log(`Incomplete results from ${result.url}`);
+          console.log(
+            chalk.yellow(
+              `${result.url}: Scan could not be completed on nodes:`,
+            ),
+          );
+          console.log(chalk.yellow(result.incomplete));
         } else if (isFailure) {
           results.failures.push(result);
-          console.log(getErrorOutput(result));
+          console.log(chalk.red(getErrorOutput(result)));
         } else {
-          console.log(`${result.url} is okay`);
+          console.log(chalk.cyan(`${result.url}: Passes`));
         }
 
         auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, resolve);

@@ -5,6 +5,28 @@ const ENVIRONMENTS = require('../../../../constants/environments');
 const getHtmlFileList = require('./helpers/getHtmlFileList');
 const performAudit = require('./helpers/performAudit');
 
+function getAuditSummary(results) {
+  let summary = `Scanned ${results.filesScanned} of ${
+    results.totalFiles
+  } files with ${results.failures.length} files failing and ${
+    results.incompletes.length
+  } incomplete scans`;
+
+  if (results.failures.length > 0) {
+    const failingPages = results.failures.map(result => result.url).join('\n');
+    summary += `\nFailing pages: \n ${failingPages}`;
+  }
+
+  if (results.incompletes.length > 0) {
+    const incompletePages = results.incompletes
+      .map(result => result.url)
+      .join('\n');
+    summary += `\n Incomplete pages: ${incompletePages}`;
+  }
+
+  return summary;
+}
+
 function checkAccessibility(buildOptions) {
   const shouldExecute = buildOptions.accessibility;
 
@@ -28,25 +50,17 @@ function checkAccessibility(buildOptions) {
 
       console.timeEnd('Accessibility');
 
-      let summary = `Scanned ${results.filesScanned} of ${
-        results.totalFiles
-      } files with ${results.failures.length} files failing`;
+      const summary = getAuditSummary(results);
 
       const hasFailures =
         results.failures.length > 0 || results.incompletes.length > 0;
 
-      if (hasFailures) {
-        const pages = results.failures.map(result => result.url).join('\n');
-        summary = `${summary}: \n${pages}`;
-
-        if (buildMustPass) {
-          done(summary);
-          return;
-        }
+      if (hasFailures && buildMustPass) {
+        done(summary);
+      } else {
+        console.log(summary);
+        done();
       }
-
-      console.log(summary);
-      done();
     } catch (err) {
       if (buildMustPass) {
         done(err.message);
