@@ -25,9 +25,9 @@ function createFeatureToggles(buildOptions) {
       }
     }
 
-    Object.keys(files).forEach(file => {
+    Object.keys(files).forEach(fileName => {
       // eslint-disable-next-line no-param-reassign
-      files[file].featureToggles = JSON.stringify(toggleValues);
+      files[fileName].featureToggles = JSON.stringify(toggleValues);
     });
 
     done();
