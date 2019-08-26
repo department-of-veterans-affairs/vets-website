@@ -33,7 +33,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label="Country"
+        label={{ name: 'country', text: 'Country' }}
         name="country"
         alt="Filter results by country"
         options={addAllOption(options)}
@@ -52,7 +52,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label="State"
+        label={{ name: 'state', text: 'State' }}
         name="state"
         alt="Filter results by state"
         options={addAllOption(options)}
@@ -138,8 +138,7 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
-        label="Institution type"
-        name="type"
+        label={{ name: 'type', text: 'Institution type' }}
         options={options}
         value={this.props.filters.type}
         alt="Filter results by institution type"

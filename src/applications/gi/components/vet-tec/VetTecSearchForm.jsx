@@ -82,7 +82,7 @@ class VetTecSearchForm extends React.Component {
     }));
     return (
       <Dropdown
-        label="Country"
+        label={{ name: 'country', text: 'Country' }}
         name="country"
         alt="Filter results by country"
         options={addAllOption(options)}
@@ -100,7 +100,7 @@ class VetTecSearchForm extends React.Component {
     }));
     return (
       <Dropdown
-        label="State"
+        label={{ name: 'state', text: 'State' }}
         name="state"
         alt="Filter results by state"
         options={addAllOption(options)}
