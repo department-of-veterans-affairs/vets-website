@@ -289,6 +289,7 @@ function compilePage(page, contentData) {
       break;
     case 'event': {
       // eslint-disable-next-line no-param-reassign
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,

@@ -17,6 +17,7 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   ineligOver65: 'inelig_over65',
   ineligRefusedCopay: 'inelig_refusedcopay',
   ineligTrainingOnly: 'inelig_training_only',
+  nonMilitary: 'non_military',
   noneOfTheAbove: 'none_of_the_above',
   pendingMt: 'pending_mt',
   pendingOther: 'pending_other',
