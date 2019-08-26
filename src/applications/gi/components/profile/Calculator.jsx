@@ -202,7 +202,7 @@ export class Calculator extends React.Component {
     const { outputs } = this.props.calculated;
     return (
       <div className="row calculate-your-benefits">
-        <div className="usa-width-five-twelfths medium-5 columns">
+        <div className="usa-width-one-eigth medium-5 columns">
           {this.renderEligibilityForm()}
           {this.renderCalculatorForm()}
         </div>
