@@ -4,6 +4,12 @@
  */
 const ENVIRONMENTS = require('./environments');
 
+let isNode = false;
+
+if (typeof window === 'undefined') {
+  isNode = true;
+}
+
 module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
@@ -25,7 +31,13 @@ module.exports = {
 
   [ENVIRONMENTS.LOCALHOST]: {
     BUILDTYPE: ENVIRONMENTS.LOCALHOST,
-    BASE_URL: 'http://localhost:3001',
-    API_URL: 'http://localhost:3000',
+    BASE_URL: isNode
+      ? 'https://localhost:3001'
+      : `http://${location.hostname}${
+          location.port ? `:${location.port}` : ''
+        }`,
+    API_URL: isNode
+      ? 'http://localhost:3000'
+      : `http://${location.hostname}:3000`,
   },
 };
