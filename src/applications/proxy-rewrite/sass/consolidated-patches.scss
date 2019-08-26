@@ -183,5 +183,7 @@ footer.footer {
 }
 
 .vetnav-panel--submenu {
-  background-color: $color-white;
+  h3 { 
+    background-color: $color-gray-light-alt;
+  }
 }
