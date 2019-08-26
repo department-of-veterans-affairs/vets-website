@@ -24,10 +24,9 @@ export class SchoolLocations extends React.Component {
   shouldHideViewMore = (facilityMap, maxRows) =>
     this.totalRows(facilityMap) > maxRows && !this.state.viewMore;
 
-  totalRows = facilityMap => {
-    let totalRows =
-      1 + facilityMap.branches.length + facilityMap.extensions.length; // always has a main row
-    facilityMap.branches.forEach(branch => {
+  totalRows = ({ branches, extensions }) => {
+    let totalRows = 1 + branches.length + extensions.length; // always has a main row
+    branches.forEach(branch => {
       totalRows += branch.extensions.length;
     });
     return totalRows;
