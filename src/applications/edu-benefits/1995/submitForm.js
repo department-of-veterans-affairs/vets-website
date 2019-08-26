@@ -8,7 +8,7 @@ const submitForm = (form, formConfig) => {
 
   const eventData = {
     benefitsUsedRecently: form.data.benefit,
-    'edu-stem-applicant': form.data.isEdithNourseRogersScholarship
+    'edu-stemApplicant': form.data.isEdithNourseRogersScholarship
       ? 'Yes'
       : 'No',
     'edu-undergradStem': form.data.isEnrolledStem ? 'Yes' : 'No',
