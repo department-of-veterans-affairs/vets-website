@@ -12,11 +12,11 @@ const axeSource = module.children.find(
 
 const axeScript = new Script(axeSource);
 const runAxeScript = new Script(`
-  axe.run('main,.main', {
+  axe.run(document, {
     iframes: false,
     runOnly: {
       type: 'tag',
-      values: ['section508'],
+      values: ['section508', 'wcag2a', 'wcag2aa'],
       resultTypes: ['violations'],
     },
     rules: {
