@@ -4,7 +4,6 @@ import { getCalculatedBenefits } from '../../selectors/calculator';
 
 const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
-const DEFAULT_ROWS_ADJUSTED = DEFAULT_ROWS_VIEWABLE - 1;
 
 export class SchoolLocations extends React.Component {
   static propTypes = {
@@ -22,14 +21,25 @@ export class SchoolLocations extends React.Component {
   institutionIsBeingViewed = facilityCode =>
     facilityCode === this.props.institution.facilityCode;
 
-  shouldHideViewMore = (branches, extensions) => {
-    let totalRows = 1 + branches.length + extensions.length; // always has a main row
-    branches.forEach(branch => {
+  shouldHideViewMore = (facilityMap, maxRows) =>
+    this.totalRows(facilityMap) > maxRows && !this.state.viewMore;
+
+  totalRows = facilityMap => {
+    let totalRows =
+      1 + facilityMap.branches.length + facilityMap.extensions.length; // always has a main row
+    facilityMap.branches.forEach(branch => {
       totalRows += branch.extensions.length;
     });
-    return (
-      totalRows > TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE && !this.state.viewMore
-    );
+    return totalRows;
+  };
+
+  numberOfRowsToDisplay = facilityMap => {
+    const totalRows = this.totalRows(facilityMap);
+
+    return totalRows > DEFAULT_ROWS_VIEWABLE &&
+      totalRows <= TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE
+      ? TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE
+      : DEFAULT_ROWS_VIEWABLE;
   };
 
   createLinkTo = (facilityCode, name) => {
@@ -92,10 +102,10 @@ export class SchoolLocations extends React.Component {
       ),
     );
 
-  renderExtensions = (rows, extensions) => {
+  renderExtensions = (rows, extensions, maxRows) => {
     for (const extension of extensions) {
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= DEFAULT_ROWS_ADJUSTED) {
+      if (!this.state.viewMore && rows.length >= maxRows - 1) {
         break;
       }
       const nameLabel = (
@@ -108,15 +118,16 @@ export class SchoolLocations extends React.Component {
     }
   };
 
-  renderBranches = (rows, branches) => {
+  renderBranches = (rows, branches, maxRows) => {
     for (const branch of branches) {
+      // check if should add more rows
+      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+        break;
+      }
+
       const { institution } = branch;
       const { facilityCode, institution: name } = institution;
 
-      // check if should add more rows
-      if (!this.state.viewMore && rows.length >= DEFAULT_ROWS_ADJUSTED) {
-        break;
-      }
       rows.push(
         this.renderRow(
           institution,
@@ -125,43 +136,46 @@ export class SchoolLocations extends React.Component {
         ),
       );
 
-      this.renderExtensions(rows, branch.extensions);
+      this.renderExtensions(rows, branch.extensions, maxRows);
     }
   };
 
-  renderBranchesAndExtensionsRows = ({ branches, extensions }) => {
+  renderBranchesAndExtensionsRows = ({ branches, extensions }, maxRows) => {
     const rows = [];
-
-    this.renderExtensions(rows, extensions);
-    this.renderBranches(rows, branches);
-
+    this.renderExtensions(rows, extensions, maxRows);
+    this.renderBranches(rows, branches, maxRows);
     return rows;
   };
 
-  renderFacilityMapTable = main => (
-    <table>
-      <thead>
-        <tr>
-          <th>
-            <h4>School Name</h4>
-          </th>
-          <th>
-            <h4>Location</h4>
-          </th>
-          <th>
-            <h4>Estimated housing</h4>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {this.renderMainRow(main.institution)}
-        {this.renderBranchesAndExtensionsRows(main)}
-      </tbody>
-    </table>
-  );
+  renderFacilityMapTable = main => {
+    const maxRows = this.numberOfRowsToDisplay(main);
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <h4>School Name</h4>
+            </th>
+            <th>
+              <h4>Location</h4>
+            </th>
+            <th>
+              <h4>Estimated housing</h4>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.renderMainRow(main.institution)}
+          {this.renderBranchesAndExtensionsRows(main, maxRows)}
+        </tbody>
+      </table>
+    );
+  };
 
   renderViewMore = main => {
-    if (this.shouldHideViewMore(main.branches, main.extensions)) {
+    const maxRows = this.numberOfRowsToDisplay(main);
+
+    if (this.shouldHideViewMore(main, maxRows)) {
       return (
         <button
           type="button"
