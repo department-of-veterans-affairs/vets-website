@@ -1,8 +1,6 @@
 const { expect } = require('chai');
 
-const worker = require('../../helpers/worker');
-
-const { executeAxeCheck } = worker;
+const executeAxeCheck = require('../../helpers/worker');
 
 const AXE_RESULT_SHAPE = [
   // From https://github.com/dequelabs/axe-core/blob/16682fdb4aefa1bb0b181235fb4b9f23bd51c99c/doc/API.md#results-object

@@ -56,3 +56,5 @@ process.on('message', async file => {
     process.send({ error: error.message });
   }
 });
+
+module.exports = executeAxeCheck;
