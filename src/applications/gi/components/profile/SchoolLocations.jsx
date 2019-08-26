@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 
+const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
 const DEFAULT_ROWS_ADJUSTED = DEFAULT_ROWS_VIEWABLE - 1;
 
@@ -26,7 +27,9 @@ export class SchoolLocations extends React.Component {
     branches.forEach(branch => {
       totalRows += branch.extensions.length;
     });
-    return totalRows > DEFAULT_ROWS_VIEWABLE && !this.state.viewMore;
+    return (
+      totalRows > TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE && !this.state.viewMore
+    );
   };
 
   createLinkTo = (facilityCode, name) => {
@@ -36,11 +39,7 @@ export class SchoolLocations extends React.Component {
     const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
-    return (
-      <a href={`${facilityCode}${query}`}>
-        <h6>{name}</h6>
-      </a>
-    );
+    return <a href={`${facilityCode}${query}`}>{name}</a>;
   };
 
   handleViewMoreClicked = () => {
