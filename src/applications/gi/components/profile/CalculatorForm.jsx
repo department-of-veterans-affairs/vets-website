@@ -532,9 +532,15 @@ class CalculatorForm extends React.Component {
           <ErrorableTextInput
             errorMessage={this.props.inputs.beneficiaryZIPError}
             label={
-              <span>
-                At what ZIP Code will you be taking the majority of classes?
-              </span>
+              environment.isProduction() ? (
+                <span>
+                  At what ZIP Code will you be taking the majority of classes?
+                </span>
+              ) : (
+                <span>
+                  Please enter the Postal code where you'll take your classes
+                </span>
+              )
             }
             name="beneficiaryZIPCode"
             field={{ value: this.props.inputs.beneficiaryZIP }}
@@ -614,11 +620,24 @@ class CalculatorForm extends React.Component {
       (inputs.beneficiaryLocationQuestion === 'extension' &&
         inputs.extension === 'other')
     ) {
-      amountInput = (
+      amountInput = environment.isProduction() ? (
         <div>
           <ErrorableTextInput
             errorMessage={inputs.beneficiaryZIPError}
             label="At what ZIP Code will you be taking the majority of classes?"
+            name="beneficiaryZIPCode"
+            field={{ value: inputs.beneficiaryZIP }}
+            onValueChange={this.handleBeneficiaryZIPCodeChanged}
+          />
+          <p>
+            <strong>{inputs.housingAllowanceCity}</strong>
+          </p>
+        </div>
+      ) : (
+        <div>
+          <ErrorableTextInput
+            errorMessage={inputs.beneficiaryZIPError}
+            label="Please enter the Postal code where you'll take your classes"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
