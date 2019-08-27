@@ -2,10 +2,10 @@
 
 const ENVIRONMENTS = require('../../../../constants/environments');
 
-const getHtmlFileList = require('./helpers/getHtmlFileList');
-const performAudit = require('./helpers/performAudit');
+const _getHtmlFileList = require('./helpers/getHtmlFileList');
+const _performAudit = require('./helpers/performAudit');
 
-function getAuditSummary(results) {
+function _getAuditSummary(results) {
   let summary = `Scanned ${results.filesScanned} of ${
     results.totalFiles
   } files with ${results.failures.length} files failing and ${
@@ -27,7 +27,12 @@ function getAuditSummary(results) {
   return summary;
 }
 
-function checkAccessibility(buildOptions) {
+function checkAccessibility(
+  buildOptions,
+  getHtmlFileList = _getHtmlFileList,
+  performAudit = _performAudit,
+  getAuditSummary = _getAuditSummary,
+) {
   const shouldExecute = buildOptions.accessibility;
 
   if (!shouldExecute) {
@@ -73,3 +78,4 @@ function checkAccessibility(buildOptions) {
 }
 
 module.exports = checkAccessibility;
+module.exports.getAuditSummary = _getAuditSummary;
