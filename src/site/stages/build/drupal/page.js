@@ -169,7 +169,7 @@ function generateBreadCrumbs(pathString) {
 function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
-    if (nav !== null && nav.links.length) {
+    if (nav !== null && nav.links) {
       const navName = _.toLower(nav.name.replace(/&/g, 'and'));
       if (owner !== null && owner === navName) {
         return { sidebar: nav };
