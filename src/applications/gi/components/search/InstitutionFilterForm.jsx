@@ -139,6 +139,7 @@ class InstitutionFilterForm extends React.Component {
     return (
       <Dropdown
         label={{ name: 'type', text: 'Institution type' }}
+        name="type"
         options={options}
         value={this.props.filters.type}
         alt="Filter results by institution type"
