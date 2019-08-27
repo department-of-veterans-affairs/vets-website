@@ -31,7 +31,7 @@ function createBuildSettings(options) {
       if (!entryName) continue;
 
       const validTypes = ['string', 'boolean', 'number'];
-      const keysToSkip = new Set(['headerFooterData']);
+      const keysToSkip = new Set(['headerFooterData', 'featureToggles']);
       const frontmatter = {};
 
       for (const dataKey of Object.keys(file)) {
