@@ -131,7 +131,7 @@ def setup() {
   }
 }
 
-def testNotifactions(dockerContainer) {
+def testNotifications(dockerContainer) {
   dockerContainer.inside(DOCKER_ARGS) {
     sh "cd /application && echo 'testing...' | tee testing.log"
     sh "cd /application && ls -la"
