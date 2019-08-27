@@ -136,7 +136,8 @@ def testNotifications(dockerContainer) {
 	sh "cd /application && echo 'testing...' | tee testing.log"
     }
 
-    sh(returnStdout: true, script: 'ls -la')
+    sh(returnStdout: true, script: 'pwd')
+    sh(returnStdout: true, script: 'cd /application && ls -la')
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
