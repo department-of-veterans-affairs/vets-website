@@ -31,8 +31,6 @@
     "test:e2e": "./script/run-nightwatch.sh",
     "test:e2e:headless": "./script/run-nightwatch.sh --env headless",
     "test:e2e:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker && docker-compose -p e2e stop",
-    "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
-    "test:accessibility:docker": "docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility && docker-compose -p accessibility stop",
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:coverage": "./script/run-coverage.sh",
     "test:puppeteer": "./script/run-puppeteer-tests.sh",

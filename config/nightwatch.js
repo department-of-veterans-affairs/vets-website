@@ -60,9 +60,6 @@ module.exports = {
         workers: parseInt(process.env.CONCURRENCY || 1, 10),
       },
     },
-    accessibility: {
-      filter: './src/platform/site-wide/tests/sitemap/*.spec.js',
-    },
     headless: {
       desiredCapabilities: {
         chromeOptions: {
