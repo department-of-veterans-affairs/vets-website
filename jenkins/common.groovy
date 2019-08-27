@@ -132,10 +132,11 @@ def setup() {
 }
 
 def testNotifications(dockerContainer) {
-  dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && echo 'testing...' | tee testing.log"
-    sh "cd /application && ls -la"
-  }
+    dockerContainer.inside(DOCKER_ARGS) {
+	sh "cd /application && echo 'testing...' | tee testing.log"
+    }
+
+    sh(returnStdout: true, script: 'ls -la')
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
