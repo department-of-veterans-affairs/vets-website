@@ -200,9 +200,12 @@ export class Calculator extends React.Component {
 
     // const it = this.props.profile.attributes;
     const { outputs } = this.props.calculated;
+    const fraction = environment.isProduction()
+      ? 'usa-width-five-twelfths'
+      : 'usa-width-one-eigth';
     return (
       <div className="row calculate-your-benefits">
-        <div className="usa-width-one-eigth medium-5 columns">
+        <div className={fraction + ' medium-5 columns'}>
           {this.renderEligibilityForm()}
           {this.renderCalculatorForm()}
         </div>
