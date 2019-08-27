@@ -47,13 +47,16 @@ function hasError(errors, errorKey) {
 }
 
 export default function PaymentInformationEditModalError({ responseError }) {
-  const { errors = [] } = responseError.error;
   let content = <GenericError />;
 
-  if (hasError(errors, ACCOUNT_FLAGGED_FOR_FRAUD)) {
-    content = <FlaggedAccount />;
-  } else if (hasError(errors, INVALID_ROUTING_NUMBER)) {
-    content = <InvalidRoutingNumber />;
+  if (responseError.error) {
+    const { errors = [] } = responseError.error;
+
+    if (hasError(errors, ACCOUNT_FLAGGED_FOR_FRAUD)) {
+      content = <FlaggedAccount />;
+    } else if (hasError(errors, INVALID_ROUTING_NUMBER)) {
+      content = <InvalidRoutingNumber />;
+    }
   }
 
   return (
