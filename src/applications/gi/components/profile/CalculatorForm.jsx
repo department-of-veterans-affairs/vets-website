@@ -94,22 +94,6 @@ class CalculatorForm extends React.Component {
     }
   }
 
-  renderLearnMoreLabel({ text, modal }) {
-    return (
-      <span>
-        {text} (
-        <button
-          type="button"
-          className="va-button-link learn-more-button"
-          onClick={this.props.onShowModal.bind(this, modal)}
-        >
-          Learn more
-        </button>
-        )
-      </span>
-    );
-  }
-
   renderInState() {
     if (!this.props.displayedInputs.inState) return null;
     return (
@@ -666,22 +650,12 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <RadioButtons
-          label={
-            <span>
-              {'Where will you take the majority of your classes?'} <br />(
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={onShowModal.bind(
-                  this,
-                  'calcBeneficiaryLocationQuestion',
-                )}
-              >
-                Learn more
-              </button>
-              )
-            </span>
-          }
+          label={renderLabel({
+            name: 'beneficiaryLocationQuestion',
+            text: 'Where will you take the majority of your classes?',
+            modal: 'calcBeneficiaryLocationQuestion',
+            showModal: onShowModal,
+          })}
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
           value={inputs.beneficiaryLocationQuestion}
