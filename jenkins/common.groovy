@@ -136,8 +136,13 @@ def testNotifications(dockerContainer) {
 	sh "cd /application && echo 'testing...' | tee testing.log"
     }
 
-    pwd = sh(returnStdout: true, script: 'pwd')
-    ls = sh(returnStdout: true, script: 'cd /application && ls -la')
+    def pwd
+    def ls
+
+    dir("vets-website") {
+	pwd = sh "pwd"
+	ls = sh "ls -la"
+    }
 
     // This is silly, but how else can I see the output of those commands?
     dockerContainer.inside(DOCKER_ARGS) {
