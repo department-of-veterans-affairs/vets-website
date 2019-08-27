@@ -99,6 +99,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_HEALTH_SERVICE_API_ID,
     featureFlags.FEATURE_DOWNLOADABLE_FILE,
     featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
+    featureFlags.FEATURE_HOME_PAGE,
   ],
   vagovprod: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
@@ -111,6 +112,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_FIELD_LINKS,
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
+    featureFlags.FEATURE_HOME_PAGE,
   ],
 };
 
