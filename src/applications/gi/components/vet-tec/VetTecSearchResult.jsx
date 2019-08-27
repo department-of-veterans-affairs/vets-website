@@ -62,8 +62,8 @@ export class SearchResult extends React.Component {
                   <div className="columns">
                     <h4>
                       <i
-                        className="fa fa-graduation-cap fa-search-result"
                         aria-hidden="true"
+                        className="fa fa-graduation-cap fa-search-result"
                       />
                       Tuition:
                       <div>{tuition}</div>
@@ -74,8 +74,8 @@ export class SearchResult extends React.Component {
                   <div className="columns">
                     <h4>
                       <i
-                        className="fa fa-home fa-search-result"
                         aria-hidden="true"
+                        className="fa fa-home fa-search-result"
                       />
                       Housing <span>(monthly):</span>
                       <div>{housing}</div>
