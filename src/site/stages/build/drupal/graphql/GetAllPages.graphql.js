@@ -81,7 +81,11 @@ module.exports = `
     ${alertsQuery}
     ${outreachAssetsQuery}
     ${homePageQuery}
-    ${allSideNavMachineNames}
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_ALL_HUB_SIDE_NAVS]
+        ? `${allSideNavMachineNames}`
+        : ''
+    }
   }
 `;
 
