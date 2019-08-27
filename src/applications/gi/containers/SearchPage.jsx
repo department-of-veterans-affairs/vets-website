@@ -59,7 +59,7 @@ export class SearchPage extends React.Component {
       !currentlyInProgress &&
       !_.isEqual(this.props.search.results, prevProps.search.results)
     ) {
-      focusElement('.search-results-count h1');
+      focusElement('.search-results-count > h1');
     }
   }
 

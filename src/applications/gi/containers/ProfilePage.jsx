@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
@@ -40,6 +40,7 @@ export class ProfilePage extends React.Component {
 
     if (profile.inProgress !== prevProps.profile.inProgress) {
       scroller.scrollTo('profilePage', getScrollOptions());
+      focusElement('.profile-page h1');
     }
 
     if (prevProps.location.query.version !== uuid) {
