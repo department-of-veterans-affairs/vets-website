@@ -57,6 +57,11 @@ module.exports = `
           entityPublished
           title
           fieldNicknameForThisFacility
+          fieldRelatedLinks {
+            entity {
+              ... listOfLinkTeasers
+            }
+          }
         }
       }
     }
