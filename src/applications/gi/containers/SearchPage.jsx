@@ -54,6 +54,13 @@ export class SearchPage extends React.Component {
     if (currentlyInProgress !== prevProps.search.inProgress) {
       scroller.scrollTo('searchPage', getScrollOptions());
     }
+
+    if (
+      !currentlyInProgress &&
+      !_.isEqual(this.props.search.results, prevProps.search.results)
+    ) {
+      focusElement('.search-results-count h1');
+    }
   }
 
   updateSearchResults = () => {
@@ -98,7 +105,6 @@ export class SearchPage extends React.Component {
 
     this.props.institutionFilterChange(institutionFilter);
     this.props.fetchSearchResults(query);
-    focusElement('.search-results-count h1');
   };
 
   handlePageSelect = page => {
@@ -228,8 +234,8 @@ export class SearchPage extends React.Component {
 
   renderSearchResultsHeader = search => (
     <h1 tabIndex={-1}>
-      {!search.inProgress && `${(search.count || 0).toLocaleString()} `}
-      Search Results
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} Search Results`}
     </h1>
   );
 
