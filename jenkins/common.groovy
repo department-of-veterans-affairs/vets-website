@@ -121,11 +121,11 @@ def setup() {
       sh "mkdir -p temp"
 
       dockerImage = docker.build(DOCKER_TAG)
-      retry(5) {
-        dockerImage.inside(DOCKER_ARGS) {
-          sh "cd /application && yarn install --production=false"
-        }
-      }
+      // retry(5) {
+      //   dockerImage.inside(DOCKER_ARGS) {
+      //     sh "cd /application && yarn install --production=false"
+      //   }
+      // }
       return dockerImage
     }
   }
@@ -136,8 +136,17 @@ def testNotifications(dockerContainer) {
 	sh "cd /application && echo 'testing...' | tee testing.log"
     }
 
-    sh(returnStdout: true, script: 'pwd')
-    sh(returnStdout: true, script: 'cd /application && ls -la')
+    pwd = sh(returnStdout: true, script: 'pwd')
+    ls = sh(returnStdout: true, script: 'cd /application && ls -la')
+
+    // This is silly, but how else can I see the output of those commands?
+    dockerContainer.inside(DOCKER_ARGS) {
+	sh "echo ${pwd}"
+	sh "echo ${ls}"
+    }
+
+    // And fail fast...
+    sh(returnStdout: true, script: 'faaaaiiiilllll')
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
