@@ -33,6 +33,11 @@ function _auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, done) {
   });
 }
 
+/**
+ * Executes the axe-check on an array of HTML files by creating a pool
+ * of child processes where each child process grabs the next HTML file as they
+ * finish scanning their current HTML file.
+ */
 async function performAudit(
   buildOptions,
   htmlFiles,
@@ -53,6 +58,8 @@ async function performAudit(
     for (let i = 0; i < numWorkers; i++) {
       const worker = getWorker();
 
+      // Set up the parent-child process message handler,
+      // where "result" is the result of a single page audit.
       worker.on('message', ({ error, result }) => {
         if (error) {
           reject(error);
@@ -85,6 +92,7 @@ async function performAudit(
       workerPool.push(worker);
     }
 
+    // Kick off the child processes
     for (const worker of workerPool) {
       auditNextHtmlFile(buildOptions, htmlFiles, workerPool, worker, resolve);
     }

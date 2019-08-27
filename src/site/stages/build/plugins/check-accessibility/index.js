@@ -27,6 +27,10 @@ function _getAuditSummary(results) {
   return summary;
 }
 
+/**
+ * Entry point for the plugin - executes the audit function, formats the audit result
+ * data into a summary, and handles whether it should pass or kill the build.
+ */
 function checkAccessibility(
   buildOptions,
   getHtmlFileList = _getHtmlFileList,

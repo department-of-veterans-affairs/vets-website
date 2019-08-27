@@ -25,6 +25,10 @@ const runAxeScript = new Script(`
   }, window.axeCallback);
 `);
 
+/**
+ * Executes the axe-check function by constructing a virtual DOM
+ * and injecting the axe-core JavaScript
+ */
 function executeAxeCheck({ url, contents }) {
   return new Promise((resolve, reject) => {
     let dom = new JSDOM(Buffer.from(contents), {
@@ -48,6 +52,9 @@ function executeAxeCheck({ url, contents }) {
   });
 }
 
+/**
+ * Sets up this module as a child process
+ */
 process.on('message', async file => {
   try {
     const result = await executeAxeCheck(file);
