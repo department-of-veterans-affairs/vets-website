@@ -77,7 +77,7 @@ function getDrupalClient(buildOptions) {
       throw new Error(`HTTP error: ${response.status}: ${response.statusText}`);
     },
 
-    getAllPages(onlyPublishedContent = false) {
+    getAllPages(onlyPublishedContent = true) {
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES),
         variables: {
