@@ -17,9 +17,14 @@ function prependUnderscore(string) {
   return string;
 }
 
+// Safe uppercase string
+function upperCase(str) {
+  return str.toUpperCase();
+}
+
 // Camelcase a string
 function camelize(str) {
-  return str.replace(/\W+(.)/g, chr => chr.toUpperCase());
+  return str.replace(/\W+(.)/g, upperCase);
 }
 
 // Remove all underscores from body of string and then prepend an underscore if string starts with number
