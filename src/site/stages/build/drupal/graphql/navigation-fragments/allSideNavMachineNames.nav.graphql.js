@@ -3,5 +3,5 @@
  *
  */
 module.exports = `
-    allSideNavMachineNames: siteMenus
+    allSideNavMachineNamesQuery: siteMenus
 `;

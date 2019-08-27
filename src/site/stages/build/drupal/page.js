@@ -184,12 +184,16 @@ function getHubSidebar(navsArray, owner) {
 function compilePage(page, contentData) {
   const {
     data: {
-      healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
-      recordsHubSidebarQuery: recordsHubSidebarNav = {},
-      pensionHubSidebarQuery: pensionHubSidebarNav = {},
-      careersHubSidebarQuery: careersHubSidebarNav = {},
-      housingHubSidebarQuery: housingHubSidebarNav = {},
-      lifeInsuranceHubSidebarQuery: lifeInsuranceHubSidebarNav = {},
+      burialsAndMemorialsBenefQuery: burialsHubidebarNav = {},
+      careersEmploymentBenefitsQuery: careersHubSidebarNav = {},
+      decisionReviewsBenefitsHQuery: decisionHubSidebarNav = {},
+      disabilityBenefitsHubQuery: disabilityHubSidebarNav = {},
+      educationBenefitsHubQuery: educationHubSidebarNav = {},
+      healthCareBenefitsHubQuery: healthcareHubSidebarNav = {},
+      housingAssistanceBenefitsQuery: housingHubSidebarNav = {},
+      lifeInsuranceBenefitsHubQuery: lifeInsuranceHubSidebarNav = {},
+      pensionBenefitsHubQuery: pensionHubSidebarNav = {},
+      recordsBenefitsHubQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -203,12 +207,16 @@ function compilePage(page, contentData) {
   }
   // Benefits hub side navs in an array to loop through later
   const sideNavs = [
-    healthcareHubSidebarNav,
-    recordsHubSidebarNav,
-    pensionHubSidebarNav,
+    burialsHubidebarNav,
     careersHubSidebarNav,
+    decisionHubSidebarNav,
+    disabilityHubSidebarNav,
+    educationHubSidebarNav,
+    healthcareHubSidebarNav,
     housingHubSidebarNav,
     lifeInsuranceHubSidebarNav,
+    pensionHubSidebarNav,
+    recordsHubSidebarNav,
   ];
   let sidebarNavItems;
 

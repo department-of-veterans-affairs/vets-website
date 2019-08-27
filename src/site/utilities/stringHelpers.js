@@ -17,6 +17,11 @@ function prependUnderscore(string) {
   return string;
 }
 
+// Camelcase a string
+function camelize(str) {
+  return str.replace(/\W+(.)/g, chr => chr.toUpperCase());
+}
+
 // Remove all underscores from body of string and then prepend an underscore if string starts with number
 function updateQueryString(matchedString) {
   const findUnderscores = new RegExp('_', 'g');
@@ -37,4 +42,5 @@ function updateQueryString(matchedString) {
 module.exports = {
   updateQueryString,
   queryParamToBeChanged,
+  camelize,
 };
