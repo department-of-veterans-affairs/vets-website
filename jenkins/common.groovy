@@ -139,6 +139,7 @@ def testNotifications(dockerContainer) {
     dir("vets-website") {
 	ls = sh(returnStdout: true, script: "ls -la")
     }
+    echo "${ls}"
 
     // And fail fast...
     sh(returnStdout: true, script: 'faaaaiiiilllll')
