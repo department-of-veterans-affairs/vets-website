@@ -121,28 +121,14 @@ def setup() {
       sh "mkdir -p temp"
 
       dockerImage = docker.build(DOCKER_TAG)
-      // retry(5) {
-      //   dockerImage.inside(DOCKER_ARGS) {
-      //     sh "cd /application && yarn install --production=false"
-      //   }
-      // }
+      retry(5) {
+        dockerImage.inside(DOCKER_ARGS) {
+          sh "cd /application && yarn install --production=false"
+        }
+      }
       return dockerImage
     }
   }
-}
-
-def testNotifications(dockerContainer) {
-    dockerContainer.inside(DOCKER_ARGS) {
-	sh "cd /application && echo 'testing...' | tee testing.log"
-    }
-
-    dir("vets-website") {
-	ls = sh(returnStdout: true, script: "ls -la")
-    }
-    echo "${ls}"
-
-    // And fail fast...
-    sh(returnStdout: true, script: 'faaaaiiiilllll')
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
@@ -196,10 +182,13 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       // Testing-only
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-        def buildOutput = sh(returnStdout: true, script: "cat /application/${envName}-output.log").trim()
+	def buildOutput
+	dir("vets-website") {
+	  buildOutput = sh(returnStdout: true, script: "cat ${envName}-output.log").trim()
+	}
         // def errStart = buildOutput.indexOf('Error:')
         // def brokenLinkEnd = buildOutput.indexOf('npm ERR! code ELIFECYCLE') - 1
-        def message = "@ncksllvn ${buildOutput[0..100]}"
+        def message = "@chris.valarida ${buildOutput[0..100]}"
 
         slackSend message: message,
           color: 'warning',
