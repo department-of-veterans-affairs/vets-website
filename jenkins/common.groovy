@@ -131,6 +131,13 @@ def setup() {
   }
 }
 
+def testNotifactions(dockerContainer) {
+  dockerContainer.inside(DOCKER_ARGS) {
+    sh "cd /application && echo 'testing...' | tee testing.log"
+    sh "cd /application && ls -la"
+  }
+}
+
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
   def buildDetails = buildDetails(envName, ref)
   def drupalAddress = DRUPAL_ADDRESSES.get(envName)

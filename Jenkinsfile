@@ -21,6 +21,11 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
+    // Temporary
+    stage('Test slack notifications') {
+	commonStages.testNotifications(dockerContainer)
+    }
+
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
 
