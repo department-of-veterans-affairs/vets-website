@@ -140,8 +140,8 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
-      // Don't redirect stderr to stdout because Jenkins gets confused and thinks the step passed even if it failed
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} | tee ${buildLog}"
+      // The test command fails the build if the npm command fails
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}; test ${PIPESTATUS[0]} -eq 0"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
 
       // Ensure the file isn't there if we have to rebuild
