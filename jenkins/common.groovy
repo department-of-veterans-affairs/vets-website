@@ -149,13 +149,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
 
-	// Temporary: get the version
-	dockerContainer.inside(DOCKER_ARGS) {
-	    sh "which node"
-	    sh "node --version"
-	    sh "faaaaiiiiilll" //and fail fast
-	}
-
     try {
       def builds = [:]
       def envUsedCache = [:]
