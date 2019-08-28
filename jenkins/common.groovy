@@ -141,6 +141,17 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee /application/${envName}-output.log"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+
+      // Output a csv file with the broken links
+      def csvFile = "${envName}-broken-links.csv"
+      def csv = sh(returnStdout: true, script: "sed -n '/Page,Broken link/,/^$/p' build.log")
+      if (csv) {
+	echo "Found broken links; attempting to send the CSV file to Slack."
+	sh 'echo "${csv}" > ${csvFile}'
+	slackUploadFile(filePath: csvFile, channel: 'dev_null', initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+      } else {
+	echo "Did not find broken links."
+      }
     }
   }
 }
