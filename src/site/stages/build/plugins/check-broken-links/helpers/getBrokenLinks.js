@@ -21,6 +21,10 @@ function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
 
     if ($node.is('a')) {
       target = $node.attr('href');
+
+      if (target === undefined) {
+        return;
+      }
     } else if ($node.is('img')) {
       target = $node.attr('src') || $node.attr('data-src');
     }
