@@ -13,6 +13,7 @@ const bioPage = require('./bioPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const alertsQuery = require('./alerts.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
+const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 
 // Get current feature flags
 const {
@@ -65,6 +66,11 @@ module.exports = `
     ${sidebarQuery}
     ${facilitySidebarQuery}
     ${alertsQuery}
+    ${
+      enabledFeatureFlags[featureFlags.FEATURE_ALL_HUB_SIDE_NAVS]
+        ? `${allSideNavMachineNamesQuery}`
+        : ''
+    }
   }
 `;
 
