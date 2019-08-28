@@ -149,6 +149,13 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
   stage("Build") {
     if (shouldBail()) { return }
 
+	// Temporary: get the version
+	dockerContainer.inside(DOCKER_ARGS) {
+	    sh "which node"
+	    sh "node --version"
+	    sh "faaaaiiiiilll" //and fail fast
+	}
+
     try {
       def builds = [:]
       def envUsedCache = [:]
@@ -180,6 +187,7 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       parallel builds
 
       // Testing-only
+      // TODO: Move the important bits into the previous loop
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
 	def buildOutput
