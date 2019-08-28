@@ -122,7 +122,7 @@
                             <div class="vads-u-font-weight--bold">Media contacts</div>
                             {% for contact in fieldPressReleaseContact %}
                                 {% assign c = contact.entity %}
-                                {% if c !=empty %}
+                                {% if c != empty %}
                                     <div>
                                         <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
                                         <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
