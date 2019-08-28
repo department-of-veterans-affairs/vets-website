@@ -190,27 +190,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
 
       parallel builds
 
-      // Testing-only
-      // TODO: Move the important bits into the previous loop
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-	def buildOutput
-	dir("vets-website") {
-          def csvFile = "${envName}-broken-links.csv"
-	  sh "node jenkins/glean-broken-links.js --log-file ${envName}-output.log --output ${csvFile}"
-
-	  // The script will output a file only if broken links are found
-	  if (fileExists('${csvFile}')) {
-	    echo "Found ${csvFile}; attempting to send the file in Slack."
-	    slackUploadFile(filePath: csvFile, channel: 'dev_null', initialComment: "Found broken links in the ${envName} build.")
-	  } else {
-	    echo "Did not find ${csvFile}."
-	    sh "pwd"
-	    sh "ls -la"
-	  }
-	}
-      }
-
       return envUsedCache
     } catch (error) {
       slackNotify()
