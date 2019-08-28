@@ -6,6 +6,57 @@ const fs = require('fs-extra');
 const { logDrupal: log } = require('../drupal/utilities-drupal');
 const getDrupalClient = require('../drupal/api');
 
+async function downloadFile(
+  files,
+  options,
+  client,
+  assetsToDownload,
+  downloadResults,
+  everythingDownloaded,
+) {
+  if (
+    downloadResults.downloadCount + downloadResults.errorCount ===
+    downloadResults.total
+  ) {
+    everythingDownloaded();
+    return;
+  }
+
+  const asset = assetsToDownload.shift();
+  const response = await client.proxyFetch(asset.src);
+
+  if (response.ok) {
+    downloadResults.downloadCount++;
+    files[asset.dest] = {
+      path: asset.dest,
+      isDrupalAsset: true,
+      contents: await response.buffer(),
+    };
+    fs.outputFileSync(
+      path.join(options.cacheDirectory, 'drupal/downloads', asset.dest),
+      files[asset.dest].contents,
+    );
+
+    log(`Finished downloading ${asset.src}`);
+  } else {
+    // For now, not going to fail the build for a missing asset
+    // Should get caught by the broken link checker, though
+    downloadResults.errorCount++;
+    log(`Image download failed: ${response.statusText}: ${asset.src}`);
+  }
+
+  if (assetsToDownload.length > 0) {
+    downloadFile(
+      files,
+      options,
+      client,
+      assetsToDownload,
+      downloadResults,
+      everythingDownloaded,
+    );
+  }
+}
+
 function downloadDrupalAssets(options) {
   const client = getDrupalClient(options);
   return async (files, metalsmith, done) => {
@@ -17,35 +68,34 @@ function downloadDrupalAssets(options) {
       }));
 
     if (assetsToDownload.length) {
-      let downloadCount = 0;
-      let errorCount = 0;
+      const downloadResults = {
+        downloadCount: 0,
+        errorCount: 0,
+        total: assetsToDownload.length,
+      };
 
-      const downloads = assetsToDownload.map(async asset => {
-        const response = await client.proxyFetch(asset.src);
+      const downloadersCount = 5;
 
-        if (response.ok) {
-          downloadCount++;
-          files[asset.dest] = {
-            path: asset.dest,
-            isDrupalAsset: true,
-            contents: await response.buffer(),
-          };
-          fs.outputFileSync(
-            path.join(options.cacheDirectory, 'drupal/downloads', asset.dest),
-            files[asset.dest].contents,
+      await new Promise(everythingDownloaded => {
+        for (let i = 0; i < downloadersCount; i++) {
+          downloadFile(
+            files,
+            options,
+            client,
+            assetsToDownload,
+            downloadResults,
+            everythingDownloaded,
           );
-        } else {
-          // For now, not going to fail the build for a missing asset
-          // Should get caught by the broken link checker, though
-          errorCount++;
-          log(`Image download failed: ${response.statusText}: ${asset.src}`);
         }
       });
 
-      await Promise.all(downloads);
-      log(`Downloaded ${downloadCount} asset(s) from Drupal`);
-      if (errorCount) {
-        log(`${errorCount} error(s) downloading assets from Drupal`);
+      log(`Downloaded ${downloadResults.downloadCount} asset(s) from Drupal`);
+      if (downloadResults.errorCount) {
+        log(
+          `${
+            downloadResults.errorCount
+          } error(s) downloading assets from Drupal`,
+        );
       }
     }
 
