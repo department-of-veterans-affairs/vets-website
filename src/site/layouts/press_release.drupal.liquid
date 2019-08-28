@@ -126,7 +126,9 @@
                                     <div>
                                         <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
                                         <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
-                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
+                                        {% if c.fieldEmailAddress != empty %}
+                                            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
+                                        {% endif %}
                                     </div>
                                 {% endif %}
                             {% endfor %}
