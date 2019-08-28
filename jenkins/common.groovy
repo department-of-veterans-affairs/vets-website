@@ -140,8 +140,9 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
-      // The test command fails the build if the npm command fails
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}; test \${PIPESTATUS[0]} -eq 0"
+      // `set -o pipefail` to return the exit status of the right-most non-zero exit code
+      // `set +o pipefail` revert the option
+      sh "set -o pipefail; cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}; set +o pipefail"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
 
       // Ensure the file isn't there if we have to rebuild
