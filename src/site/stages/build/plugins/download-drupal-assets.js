@@ -18,16 +18,18 @@ async function downloadFile(
   const response = await client.proxyFetch(asset.src);
 
   if (response.ok) {
-    downloadResults.downloadCount++;
     files[asset.dest] = {
       path: asset.dest,
       isDrupalAsset: true,
       contents: await response.buffer(),
     };
+
     fs.outputFileSync(
       path.join(options.cacheDirectory, 'drupal/downloads', asset.dest),
       files[asset.dest].contents,
     );
+
+    downloadResults.downloadCount++;
 
     log(`Finished downloading ${asset.src}`);
   } else {
@@ -37,7 +39,14 @@ async function downloadFile(
     log(`Image download failed: ${response.statusText}: ${asset.src}`);
   }
 
-  if (assetsToDownload.length > 0) {
+  const currentDownloadCount =
+    downloadResults.downloadCount + downloadResults.errorCount;
+
+  const allDownloaded = currentDownloadCount === downloadResults.total;
+
+  if (allDownloaded) {
+    everythingDownloaded();
+  } else if (assetsToDownload.length > 0) {
     downloadFile(
       files,
       options,
@@ -46,15 +55,9 @@ async function downloadFile(
       downloadResults,
       everythingDownloaded,
     );
-    return;
-  }
-
-  const currentDownloadCount =
-    downloadResults.downloadCount + downloadResults.errorCount;
-  const allDownloaded = currentDownloadCount === downloadResults.total;
-
-  if (allDownloaded) {
-    everythingDownloaded();
+  } else {
+    // Some downloads must still be in progress, but there are no files left to begin downloading
+    // So, nothing left to do here for this downloader.
   }
 }
 
