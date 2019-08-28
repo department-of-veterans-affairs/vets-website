@@ -141,14 +141,15 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
       sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}"
-      sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
+      sh "cd /application && echo \\\"${buildDetails}\\\" > build/${envName}/BUILD.txt"
 
       // Output a csv file with the broken links
       def csvFile = "${envName}-broken-links.csv"
       def csv = sh(returnStdout: true, script: "sed -n '/Page,Broken link/,/^\$/p' ${buildLog}")
       if (csv) {
 	echo "Found broken links; attempting to send the CSV file to Slack."
-	sh "echo \"${csv}\" > ${csvFile}"
+	sh "echo \\\"${csv}\\\" > ${csvFile}"
+	// TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
 	slackUploadFile(filePath: csvFile, channel: 'dev_null', initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
       } else {
 	echo "Did not find broken links."
@@ -190,7 +191,6 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
       }
 
       parallel builds
-
       return envUsedCache
     } catch (error) {
       slackNotify()
