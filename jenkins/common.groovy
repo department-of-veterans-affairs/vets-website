@@ -141,7 +141,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
       // The test command fails the build if the npm command fails
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}; test ${PIPESTATUS[0]} -eq 0"
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}; test \${PIPESTATUS[0]} -eq 0"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
 
       // Ensure the file isn't there if we have to rebuild
