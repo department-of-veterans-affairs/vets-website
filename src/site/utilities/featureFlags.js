@@ -113,6 +113,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT,
     featureFlags.FEATURE_REGION_PAGE_LINKS,
     featureFlags.FEATURE_HOME_PAGE,
+    featureFlags.FEATURE_DOWNLOADABLE_FILE,
   ],
 };
 
