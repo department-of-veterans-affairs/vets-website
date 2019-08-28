@@ -148,7 +148,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       def csv = sh(returnStdout: true, script: "sed -n '/Page,Broken link/,/^\$/p' ${buildLog}")
       if (csv) {
 	echo "Found broken links; attempting to send the CSV file to Slack."
-	sh 'echo "${csv}" > ${csvFile}'
+	sh "echo \"${csv}\" > ${csvFile}"
 	slackUploadFile(filePath: csvFile, channel: 'dev_null', initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
       } else {
 	echo "Did not find broken links."
