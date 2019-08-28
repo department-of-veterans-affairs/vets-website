@@ -69,6 +69,7 @@ function applyDefaultOptions(options) {
   const facilities = path.join(siteRoot, 'facilities');
   const blocks = path.join(siteRoot, 'blocks');
   const teasers = path.join(siteRoot, 'teasers');
+  const utilities = path.join(siteRoot, 'utilities');
 
   Object.assign(options, {
     contentRoot,
@@ -98,6 +99,7 @@ function applyDefaultOptions(options) {
       [`${teasers}/**/*`]: '**/*.{md,html}',
     },
     cacheDirectory: path.join(projectRoot, '.cache', options.buildtype),
+    paramsDirectory: path.join(utilities, 'query-params'),
   });
 }
 

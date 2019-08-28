@@ -7,7 +7,7 @@ const {
 } = require('../../../../../utilities/featureFlags');
 
 const hubNavNames = enabledFeatureFlags[featureFlags.FEATURE_ALL_HUB_SIDE_NAVS]
-  ? require('./../../../../../../../.cache/localhost/drupal/hubnavs.json')
+  ? require('../../../../../utilities/query-params/hubNavNames')
   : null;
 
 // String Helpers
