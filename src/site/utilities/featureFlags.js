@@ -82,7 +82,6 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_DOWNLOADABLE_FILE,
     featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
     featureFlags.FEATURE_HOME_PAGE,
-    featureFlags.FEATURE_ALL_HUB_SIDE_NAVS,
   ],
   vagovstaging: [
     featureFlags.FEATURE_FIELD_ADDITIONAL_INFO,
