@@ -140,7 +140,8 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} 2>&1 | tee ${buildLog}"
+      // Don't redirect stderr to stdout because Jenkins gets confused and thinks the step passed even if it failed
+      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode} | tee ${buildLog}"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
 
       // Output a csv file with the broken links
