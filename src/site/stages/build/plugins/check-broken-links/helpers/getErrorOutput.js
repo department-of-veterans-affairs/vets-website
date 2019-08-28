@@ -10,17 +10,16 @@ function getErrorOutput(brokenPages) {
   const separator = '\n\n---\n\n';
   const header = `${separator}There are ${brokenLinkCount} broken links!${separator}`;
 
-  const body = brokenPages
-    .map(brokenPage => {
-      let pageChunk = `There are ${
-        brokenPage.linkErrors.length
-      } broken links on ${brokenPage.path}:\n\n`;
-      pageChunk += brokenPage.linkErrors.map(link => link.html).join('\n');
-      return pageChunk;
-    })
-    .join(separator);
+  const csvHeader = 'Page,Broken link\n';
+  const csvBody = brokenPages
+    .map(brokenPage =>
+      brokenPage.linkErrors
+        .map(link => `${brokenPage.path},${link.html}`)
+        .join('\n'),
+    )
+    .join('\n');
 
-  return header + body + separator;
+  return header + csvHeader + csvBody + separator;
 }
 
 module.exports = getErrorOutput;
