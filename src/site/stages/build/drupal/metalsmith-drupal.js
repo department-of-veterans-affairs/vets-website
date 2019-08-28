@@ -129,16 +129,18 @@ async function loadDrupal(buildOptions) {
     }
 
     const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-    const hubnavsSerialized = Buffer.from(
-      JSON.stringify(drupalPages.data.allSideNavMachineNamesQuery),
-    );
     fs.ensureDirSync(buildOptions.cacheDirectory);
     fs.emptyDirSync(path.dirname(drupalCache));
     fs.writeFileSync(drupalCache, serialized);
 
-    fs.ensureDirSync(buildOptions.paramsDirectory);
-    fs.emptyDirSync(path.dirname(drupalHubMenuNames));
-    fs.writeFileSync(drupalHubMenuNames, hubnavsSerialized);
+    if (drupalPages.data.allSideNavMachineNamesQuery) {
+      const hubnavsSerialized = Buffer.from(
+        JSON.stringify(drupalPages.data.allSideNavMachineNamesQuery),
+      );
+      fs.ensureDirSync(buildOptions.paramsDirectory);
+      fs.emptyDirSync(path.dirname(drupalHubMenuNames));
+      fs.writeFileSync(drupalHubMenuNames, hubnavsSerialized);
+    }
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);

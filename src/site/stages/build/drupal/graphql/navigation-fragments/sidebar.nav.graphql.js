@@ -95,7 +95,7 @@ if (
     )} {
       ${SIDEBAR_QUERY}
     }
-    decisionReviewsBenefitsHQuery: disabilityBenefitsHubQuery: ${queryFilter(
+    decisionReviewsBenefitsHQuery: ${queryFilter(
       'decision-reviews-benefits-h',
     )} {
       ${SIDEBAR_QUERY}
