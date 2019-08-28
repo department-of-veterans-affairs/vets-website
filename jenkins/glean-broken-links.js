@@ -56,9 +56,8 @@ const output = ['Page,Broken Link'];
 const brokenSection = log.split(linkLineRegex)[1].trim();
 
 // Grab each block between lines of "---"
-const pageChunkMatches = brokenSection.match(
-  /There are \d+ broken links on[\s\S]*?---/g,
-);
+// eslint-disable-next-line
+const pageChunkMatches = brokenSection.match(/There are \d+ broken links on[\s\S]*?---/g);
 pageChunkMatches.forEach(chunk => {
   //  Grab the name of the page
   const pageName = chunk.match(/There are \d+ broken links on (.+):/)[1];
