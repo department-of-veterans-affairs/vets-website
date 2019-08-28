@@ -184,7 +184,7 @@ function getHubSidebar(navsArray, owner) {
 function compilePage(page, contentData) {
   const {
     data: {
-      burialsAndMemorialsBenefQuery: burialsHubidebarNav = {},
+      burialsAndMemorialsBenefQuery: burialsHubSidebarNav = {},
       careersEmploymentBenefitsQuery: careersHubSidebarNav = {},
       decisionReviewsBenefitsHQuery: decisionHubSidebarNav = {},
       disabilityBenefitsHubQuery: disabilityHubSidebarNav = {},
@@ -207,7 +207,7 @@ function compilePage(page, contentData) {
   }
   // Benefits hub side navs in an array to loop through later
   const sideNavs = [
-    burialsHubidebarNav,
+    burialsHubSidebarNav,
     careersHubSidebarNav,
     decisionHubSidebarNav,
     disabilityHubSidebarNav,
