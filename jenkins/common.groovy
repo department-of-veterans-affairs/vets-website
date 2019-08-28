@@ -144,7 +144,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
       // Output a csv file with the broken links
       def csvFile = "${envName}-broken-links.csv"
-      def csv = sh(returnStdout: true, script: "sed -n '/Page,Broken link/,/^$/p' build.log")
+      def csv = sh(returnStdout: true, script: "sed -n '/Page,Broken link/,/^\$/p' build.log")
       if (csv) {
 	echo "Found broken links; attempting to send the CSV file to Slack."
 	sh 'echo "${csv}" > ${csvFile}'
