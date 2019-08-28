@@ -4,8 +4,6 @@
  * file to be uploaded to Slack.
  */
 
-// eslint gets mad at the s flag in a regex
-/* eslint-disable no-empty-character-class */
 /* eslint-disable no-console */
 
 const commandLineArgs = require('command-line-args');
@@ -59,7 +57,7 @@ const brokenSection = log.split(linkLineRegex)[1].trim();
 
 // Grab each block between lines of "---"
 const pageChunkMatches = brokenSection.match(
-  /There are \d+ broken links on.*?---/gs,
+  /There are \d+ broken links on[\s\S]*?---/g,
 );
 pageChunkMatches.forEach(chunk => {
   //  Grab the name of the page
@@ -67,7 +65,7 @@ pageChunkMatches.forEach(chunk => {
 
   //  Grab each line in the block of HTML elements
   chunk
-    .match(/\n\n(.*)\n\n/s)[1]
+    .match(/\n\n([\s\S]*)\n\n/)[1]
     .split('\n')
     .forEach(line => output.push(`${pageName},${line}`));
 });
