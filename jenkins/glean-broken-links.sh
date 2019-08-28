@@ -1,17 +1,19 @@
 #!/bin/bash
 
-# This script reads the build log output by Jenkins in the build
-# step, checks for broken links, and if there are any, outputs a CSV
-# file to be uploaded to Slack.
+# This script reads the build log output by Jenkins in the build step,
+# checks for broken links, and if there are any, outputs a CSV file to
+# be uploaded to Slack.
 #
-# Note: This must be called with the csv file as the first argument.
-# It's brittle, but since it's only called from one place, that works for now.
+# Note: This must be called with the build log as the first argument
+# and the csv file as the second.  It's brittle, but since it's only
+# called from one place, that works for now.
 
-OUTPUT_FILE=$1
+LOG_FILE=$1
+OUTPUT_FILE=$2
 
 # cd /application || exit 1
 
-CSV=$(sed -n '/Page,Broken link/,/^$/p' build.log)
+CSV=$(sed -n '/Page,Broken link/,/^$/p' "$LOG_FILE")
 
 if [ -n "$CSV" ]; then
     # The output wasn't empty; there are broken links
