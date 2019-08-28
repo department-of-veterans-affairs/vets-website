@@ -14,14 +14,6 @@ async function downloadFile(
   downloadResults,
   everythingDownloaded,
 ) {
-  if (
-    downloadResults.downloadCount + downloadResults.errorCount ===
-    downloadResults.total
-  ) {
-    everythingDownloaded();
-    return;
-  }
-
   const asset = assetsToDownload.shift();
   const response = await client.proxyFetch(asset.src);
 
@@ -54,6 +46,15 @@ async function downloadFile(
       downloadResults,
       everythingDownloaded,
     );
+    return;
+  }
+
+  const currentDownloadCount =
+    downloadResults.downloadCount + downloadResults.errorCount;
+  const allDownloaded = currentDownloadCount === downloadResults.total;
+
+  if (allDownloaded) {
+    everythingDownloaded();
   }
 }
 
