@@ -145,11 +145,9 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
       // Output a csv file with the broken links
       def csvFile = "${envName}-broken-links.csv"
-      def csv = sh(returnStdout: true, script: "sed -n '/Page,Broken link/,/^\$/p' ${buildLog}")
-      if (csv) {
+      sh "cd /application && jenkins/glean-broken-links.sh ${csvFile}"
+      if (fileExists(csvFile)) {
 	echo "Found broken links; attempting to send the CSV file to Slack."
-	echo csv
-	sh "echo \\\"${csv}\\\" > ${csvFile}"
 	// TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
 	slackUploadFile(filePath: csvFile, channel: 'dev_null', initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
       } else {
