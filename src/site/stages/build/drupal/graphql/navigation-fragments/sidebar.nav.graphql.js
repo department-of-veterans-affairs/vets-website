@@ -87,7 +87,9 @@ if (
   module.exports = compiledQuery;
 } else {
   module.exports = `
-    burialsAndMemorialsBenefQuery: ${queryFilter('health-care-benefits-hub')} {
+    burialsAndMemorialsBenefQuery: ${queryFilter(
+      'burials-and-memorials-benef',
+    )} {
       ${SIDEBAR_QUERY}
     }
     careersEmploymentBenefitsQuery: ${queryFilter(
