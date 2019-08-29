@@ -56,6 +56,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(getDrupalContent(BUILD_OPTIONS));
   smith.use(addDrupalPrefix(BUILD_OPTIONS));
   smith.use(createOutreachAssetsData(BUILD_OPTIONS));
+  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
@@ -115,8 +116,6 @@ function defaultBuild(BUILD_OPTIONS) {
       ],
     }),
   );
-
-  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
   smith.use(createFeatureToggles(BUILD_OPTIONS));
   smith.use(createHeaderFooter(BUILD_OPTIONS));
