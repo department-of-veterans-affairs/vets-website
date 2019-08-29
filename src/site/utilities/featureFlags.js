@@ -31,6 +31,7 @@ const featureFlags = {
   FEATURE_DOWNLOADABLE_FILE: 'featureDownloadableFile',
   FEATURE_FIELD_ALERT_DISMISSABLE: 'fieldAlertDismissable',
   FEATURE_HOME_PAGE: 'featureHomePage',
+  FEATURE_ALL_HUB_SIDE_NAVS: 'featureAllHubSideNavs',
 };
 
 // Edit this to turn flags on or off
@@ -57,6 +58,7 @@ const flagsByBuildtype = {
     featureFlags.FEATURE_DOWNLOADABLE_FILE,
     featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE,
     featureFlags.FEATURE_HOME_PAGE,
+    featureFlags.FEATURE_ALL_HUB_SIDE_NAVS,
   ],
   vagovdev: [
     featureFlags.FEATURE_FIELD_ASSET_LIBRARY_DESCRIPTION,
