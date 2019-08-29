@@ -635,7 +635,7 @@ class CalculatorForm extends React.Component {
         <RadioButtons
           label={
             <span>
-              {'Where will you take the majority of your classes?'} <br />(
+              {'Where will you take the majority of your classes? '}
               <button
                 type="button"
                 className="va-button-link learn-more-button"
@@ -644,9 +644,8 @@ class CalculatorForm extends React.Component {
                   'calcBeneficiaryLocationQuestion',
                 )}
               >
-                Learn more
+                (Learn more)
               </button>
-              )
             </span>
           }
           name="beneficiaryLocationQuestion"
