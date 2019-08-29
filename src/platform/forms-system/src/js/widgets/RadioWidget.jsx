@@ -9,12 +9,7 @@ export default function RadioWidget({
   onChange,
   id,
 }) {
-  const {
-    enumOptions,
-    labels = {},
-    labelSecondaryText = {},
-    nestedContent = {},
-  } = options;
+  const { enumOptions, labels = {}, nestedContent = {} } = options;
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
@@ -27,15 +22,8 @@ export default function RadioWidget({
     <div>
       {enumOptions.map((option, i) => {
         const checked = option.value === value;
-        const primaryText = labels[option.value] || option.label;
-        const secondaryText =
-          labelSecondaryText[option.value] || option.labelSecondaryText;
-
-        const classList = ['form-radio-buttons'];
-        if (secondaryText) classList.push('schemaform-radio-secondary-text');
-
         const radioButton = (
-          <div className={classList.join(' ')} key={option.value}>
+          <div className="form-radio-buttons" key={option.value}>
             <input
               type="radio"
               checked={checked}
@@ -46,12 +34,7 @@ export default function RadioWidget({
               onChange={_ => onChange(option.value)}
             />
             <label htmlFor={`${id}_${i}`}>
-              <span className="primary">{primaryText}</span>
-              {secondaryText ? (
-                <span className="secondary">{secondaryText}</span>
-              ) : (
-                ''
-              )}
+              {labels[option.value] || option.label}
             </label>
           </div>
         );

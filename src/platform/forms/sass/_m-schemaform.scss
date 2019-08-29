@@ -266,23 +266,6 @@ fieldset.schemaform-field-template {
   margin-left: 27px;
 }
 
-.schemaform-radio-secondary-text {
-  input[type="radio"]+label::before {
-    margin-top: 0.45em;
-  }
-
-  label {
-    span {
-      display: block;
-
-      &.primary {
-        font-size: 1.8rem;
-        font-weight: bold;
-      }
-    }
-  }
-}
-
 .schemaform-expandUnder-indent {
   margin-left: 29px;
 }

@@ -19,3 +19,11 @@
 .vaos-form__checkbox > .schemaform-label {
   margin-top: 0;
 }
+
+.vaos-appt-type {
+  .form-radio-buttons {
+    input[type="radio"]+label::before {
+      margin-top: 0.6em;
+    }
+  }
+}
