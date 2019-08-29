@@ -16,8 +16,9 @@ const initialSchema = {
 };
 
 const uiSchema = {
+  'ui:title': 'How would you like to make an appointment?',
   typeOfAppointment: {
-    'ui:title': 'How would you like to make an appointment?',
+    'ui:title': '',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
