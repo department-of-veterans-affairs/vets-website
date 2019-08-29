@@ -140,6 +140,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
+
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
 
