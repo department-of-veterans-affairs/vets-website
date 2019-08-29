@@ -141,24 +141,30 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
+      // Try building; notify in Slack if there were any broken links
+      try {
+	sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
+      } catch (error) {
+	// Ensure the file isn't there if we had to rebuild
+	def csvFile = "${envName}-broken-links.csv"
+	if (fileExists(csvFile)) {
+	  sh "rm ${csvFile}"
+	}
+
+	// Output a csv file with the broken links
+	sh "cd /application && jenkins/glean-broken-links.sh ${buildLog} ${csvFile}"
+	if (fileExists(csvFile)) {
+	  echo "Found broken links; attempting to send the CSV file to Slack."
+	  // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+	  slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+	} else {
+	  echo "Did not find broken links."
+	}
+
+	throw error
+      }
+
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
-
-      // Ensure the file isn't there if we have to rebuild
-      def csvFile = "${envName}-broken-links.csv"
-      if (fileExists(csvFile)) {
-	sh "rm ${csvFile}"
-      }
-
-      // Output a csv file with the broken links
-      sh "cd /application && jenkins/glean-broken-links.sh ${buildLog} ${csvFile}"
-      if (fileExists(csvFile)) {
-	echo "Found broken links; attempting to send the CSV file to Slack."
-	// TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
-	slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
-      } else {
-	echo "Did not find broken links."
-      }
     }
   }
 }
