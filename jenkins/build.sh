@@ -11,34 +11,28 @@ do
   case ${key} in
     --envName)
       envName="${2}"
-      shift # past argument
-      shift # past value
+      shift 2
       ;;
     --assetSource)
       assetSource="${2}"
-      shift # past argument
-      shift # past value
+      shift 2
       ;;
     --drupalAddress)
       drupalAddress="${2}"
-      shift # past argument
-      shift # past value
+      shift 2
       ;;
     --drupalMode)
       drupalMode="${2}"
-      shift # past argument
-      shift # past value
+      shift 2
       ;;
     --buildLog)
       buildLog="${2}"
-      shift # past argument
-      shift # past value
+      shift 2
       ;;
     *)    # unknown option
       shift # past argument
       ;;
   esac
-  shift
 done
 
 # The pipefail option makes the command return the right-most non-zero
