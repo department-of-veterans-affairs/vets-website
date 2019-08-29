@@ -56,7 +56,7 @@ export class TypeOfAppointmentPage extends React.Component {
       <SchemaForm
         name="Type of appointment"
         title="Type of appointment"
-        schema={schema}
+        schema={schema || initialSchema}
         uiSchema={uiSchema}
         onSubmit={this.goForward}
         onChange={newData =>
