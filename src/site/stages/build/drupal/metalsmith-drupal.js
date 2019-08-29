@@ -119,11 +119,15 @@ async function loadDrupal(buildOptions) {
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
-    log('Drupal content unavailable in cache');
+    log(`Drupal content unavailable in local cache: ${drupalCache}`);
+  } else {
+    log(`Drupal content loaded from local cache: ${drupalCache}`);
   }
 
   if (shouldPull) {
-    log('Attempting to load Drupal content from API...');
+    log(
+      `Attempting to load Drupal content from API at ${contentApi.getSiteUri()}`,
+    );
 
     const drupalTimer = `${contentApi.getSiteUri()} response time: `;
 
