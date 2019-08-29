@@ -33,10 +33,10 @@ const uiSchema = {
         ),
         typeOfCare: (
           <>
-            <span className="primary vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
+            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               Type of care
             </span>
-            <span className="secondary vads-u-display--block vads-u-font-size--sm">
+            <span className="vads-u-display--block vads-u-font-size--sm">
               Choose a specific type of care, like audiology or primary care
             </span>
           </>
