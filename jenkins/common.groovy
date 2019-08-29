@@ -142,7 +142,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       def buildLog = "/application/${envName}-build.log"
       // `set -o pipefail` to return the exit status of the right-most non-zero exit code
       // `set +o pipefail` revert the option
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMode ${drupalMode} --buldLog ${buildLog}"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMode ${drupalMode} --buildLog ${buildLog}"
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
 
       // Ensure the file isn't there if we have to rebuild
