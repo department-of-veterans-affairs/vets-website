@@ -20,7 +20,6 @@ const uiSchema = {
     'ui:title': 'How would you like to make an appointment?',
     'ui:widget': 'radio',
     'ui:options': {
-      widgetClassNames: 'vaos-form__checkbox1122',
       labels: {
         provider: (
           <>
