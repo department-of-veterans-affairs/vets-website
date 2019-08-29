@@ -275,7 +275,9 @@ export class SearchPage extends React.Component {
 
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>
-      {this.renderSearchResultsHeader(this.props.search)}
+      <div className="vads-l-col--10 search-results-count">
+        {this.renderSearchResultsHeader(this.props.search)}
+      </div>
       <InstitutionSearchForm
         filtersClass={filtersClass}
         search={this.props.search}
