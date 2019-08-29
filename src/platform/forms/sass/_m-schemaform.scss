@@ -306,17 +306,12 @@ fieldset.schemaform-field-template {
   margin-left: 27px;
 }
 
-.schemaform-radio-secondary-text {
-  input[type="radio"]+label::before {
-    margin-top: 0.45em;
-  }
-
+.schemaform-radio-secondary {
   label {
     span {
       display: block;
 
       &.primary {
-        font-size: 1.8rem;
         font-weight: bold;
       }
     }
