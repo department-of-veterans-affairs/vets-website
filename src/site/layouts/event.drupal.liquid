@@ -101,6 +101,8 @@ Example data:
 
   <main class="va-l-detail-page">
     <div class="usa-grid usa-grid-full">
+      {% comment %} Adding a broken link to test sending the broken links in a file to Slack {% endcomment %}
+      <a href="I am broken">This link left intentionally broken in event.drupal.liquid</a>
       {% if entityUrl.path contains "/outreach-and-events" %}
         {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
       {% else %}
