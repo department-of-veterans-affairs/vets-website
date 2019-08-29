@@ -31,7 +31,7 @@ export class ProfilePage extends React.Component {
     const institutionName = _.get(profile, 'attributes.name');
     const shouldUpdateTitle = !_.isEqual(
       institutionName,
-      _.get(prevProps.profile, 'attributes.name'),
+      prevProps?.profile?.attributes?.name,
     );
 
     if (shouldUpdateTitle) {

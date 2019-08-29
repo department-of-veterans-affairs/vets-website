@@ -113,5 +113,13 @@ module.exports = `
         }
       }
     }
+    fieldOffice {
+      entity {
+        ...on NodeHealthCareRegionPage {
+          title
+          fieldNicknameForThisFacility
+        }
+      }
+    }
   }
 `;

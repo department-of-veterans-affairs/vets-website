@@ -246,7 +246,7 @@ Example data:
 
         <!-- Social Links -->
         {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
-          {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
+          {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldNicknameForThisFacility %}
         {% endif %}
 
     </article>

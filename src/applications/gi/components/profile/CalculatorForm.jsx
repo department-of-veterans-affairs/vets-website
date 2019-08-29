@@ -7,6 +7,7 @@ import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import environment from 'platform/utilities/environment';
+import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -43,6 +44,23 @@ class CalculatorForm extends React.Component {
     }
     return extensions;
   }
+
+  createExtensionOption = extension => {
+    const { city, institution, state, zip } = extension;
+    const extensionOption = {
+      value: zip,
+      label: institution,
+    };
+
+    if (city && state) {
+      extensionOption.label = `${extensionOption.label} (${city}, ${state})`;
+    } else if (city) {
+      extensionOption.label = `${extensionOption.label} (${city})`;
+    } else if (state) {
+      extensionOption.label = `${extensionOption.label} (${state})`;
+    }
+    return extensionOption;
+  };
 
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
@@ -522,9 +540,6 @@ class CalculatorForm extends React.Component {
             field={{ value: this.props.inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
           />
-          <p>
-            <strong>{this.props.inputs.housingAllowanceCity}</strong>
-          </p>
         </div>
       );
     }
@@ -566,10 +581,7 @@ class CalculatorForm extends React.Component {
     if (extensions && extensions.length) {
       extensionOptions = [{ value: '', label: 'Please choose a location' }];
       extensions.forEach(extension => {
-        extensionOptions.push({
-          value: extension.zip,
-          label: extension.institution,
-        });
+        extensionOptions.push(this.createExtensionOption(extension));
       });
       extensionOptions.push({ value: 'other', label: 'Other...' });
 
@@ -671,6 +683,7 @@ class CalculatorForm extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         <RadioButtons
@@ -724,8 +737,35 @@ class CalculatorForm extends React.Component {
     );
   }
 
+  renderOnlineClasses = () => (
+    <OnlineClassesFilter
+      onlineClasses={this.props.eligibility.onlineClasses}
+      onChange={this.props.eligibilityChange}
+      showModal={this.props.onShowModal}
+    />
+  );
+
   render() {
     if (!this.props.displayedInputs) return null;
+    if (environment.isProduction()) {
+      return (
+        <div className="calculator-form">
+          {this.renderInState()}
+          {this.renderTuition()}
+          {this.renderBooks()}
+          {this.renderYellowRibbon()}
+          {this.renderScholarships()}
+          {this.renderTuitionAssist()}
+          {this.renderEnrolled()}
+          {this.renderCalendar()}
+          {this.renderKicker()}
+          {this.renderGbBenefit()}
+          {this.renderBeneficiaryZIP()}
+          {this.renderBuyUp()}
+          {this.renderWorking()}
+        </div>
+      );
+    }
     return (
       <div className="calculator-form">
         {this.renderInState()}
@@ -736,9 +776,10 @@ class CalculatorForm extends React.Component {
         {this.renderTuitionAssist()}
         {this.renderEnrolled()}
         {this.renderCalendar()}
+        {this.renderOnlineClasses()}
+        {this.renderBeneficiaryZIP()}
         {this.renderKicker()}
         {this.renderGbBenefit()}
-        {this.renderBeneficiaryZIP()}
         {this.renderBuyUp()}
         {this.renderWorking()}
       </div>

@@ -15,8 +15,8 @@ function FlaggedAccount() {
       </p>
       <p>
         If you have any questions, please call us at 800-827-1000 (TTY:
-        800-829-4833), and select 5. We’re here Monday through Friday, 8:00 a.m.
-        to 9:00 p.m. ET.
+        800-829-4833). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+        ET.
       </p>
     </>
   );
@@ -47,13 +47,16 @@ function hasError(errors, errorKey) {
 }
 
 export default function PaymentInformationEditModalError({ responseError }) {
-  const { errors = [] } = responseError.error;
   let content = <GenericError />;
 
-  if (hasError(errors, ACCOUNT_FLAGGED_FOR_FRAUD)) {
-    content = <FlaggedAccount />;
-  } else if (hasError(errors, INVALID_ROUTING_NUMBER)) {
-    content = <InvalidRoutingNumber />;
+  if (responseError.error) {
+    const { errors = [] } = responseError.error;
+
+    if (hasError(errors, ACCOUNT_FLAGGED_FOR_FRAUD)) {
+      content = <FlaggedAccount />;
+    } else if (hasError(errors, INVALID_ROUTING_NUMBER)) {
+      content = <InvalidRoutingNumber />;
+    }
   }
 
   return (

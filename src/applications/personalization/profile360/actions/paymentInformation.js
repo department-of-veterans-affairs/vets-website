@@ -68,7 +68,7 @@ export function savePaymentInformation(fields) {
       apiRequestOptions,
     );
 
-    if (response.error) {
+    if (response.error || response.errors) {
       recordEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',

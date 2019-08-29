@@ -12,8 +12,8 @@
       {% endif %}
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        <article class="usa-content">
-          <h1>{{ title }}</h1>
+        <article aria-labelledby="article-heading" role="region" class="usa-content">
+          <h1 id="article-heading">{{ title }}</h1>
           <div class="va-introtext">
             <p>{{ fieldIntroText }}</p>
           </div>
@@ -89,7 +89,7 @@
           <!-- Social Links -->
           {% if isContactPage %}
             {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
-              {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
+              {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldOffice.entity.fieldNicknameForThisFacility %}
             {% endif %}
           {% endif %}
         </article>

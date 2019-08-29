@@ -14,6 +14,7 @@ import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 import environment from '../../../../platform/utilities/environment';
+import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
@@ -67,6 +68,12 @@ export class Calculator extends React.Component {
               <div className="form-expanding-group-open">
                 <EligibilityForm
                   eligibilityChange={this.props.eligibilityChange}
+                />
+                {/* prod flag for 19475 changes */}
+                <OnlineClassesFilter
+                  onlineClasses={this.props.eligibility.onlineClasses}
+                  onChange={this.props.eligibilityChange}
+                  showModal={this.props.showModal}
                 />
               </div>
             ) : null}
@@ -124,6 +131,8 @@ export class Calculator extends React.Component {
             {expanded ? (
               <CalculatorForm
                 profile={profile}
+                eligibility={this.props.eligibility}
+                eligibilityChange={this.props.eligibilityChange}
                 inputs={inputs}
                 displayedInputs={displayed}
                 onShowModal={this.props.showModal}
@@ -191,9 +200,12 @@ export class Calculator extends React.Component {
 
     // const it = this.props.profile.attributes;
     const { outputs } = this.props.calculated;
+    const fraction = environment.isProduction()
+      ? 'usa-width-five-twelfths medium-5 columns'
+      : 'usa-width-one-eigth medium-5 columns';
     return (
       <div className="row calculate-your-benefits">
-        <div className="usa-width-five-twelfths medium-5 columns">
+        <div className={fraction}>
           {this.renderEligibilityForm()}
           {this.renderCalculatorForm()}
         </div>
@@ -256,6 +268,7 @@ const mapStateToProps = (state, props) => ({
   calculator: state.calculator,
   profile: state.profile,
   calculated: getCalculatedBenefits(state, props),
+  eligibility: state.eligibility,
 });
 
 const mapDispatchToProps = {

@@ -16,6 +16,7 @@ const { cmsFeatureFlags } = global;
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
+    fieldNicknameForThisFacility
     fieldMedia {
       entity {
         ... on MediaImage {
