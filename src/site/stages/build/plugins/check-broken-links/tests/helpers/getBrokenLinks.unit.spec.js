@@ -6,6 +6,7 @@ const getBrokenLinks = require('../../helpers/getBrokenLinks');
 const anchor = '<a href="/link">Testing</a>';
 const img = '<img src="/another-link.png">';
 const span = '<span>Not a link</span>';
+const anchorWithoutHref = '<a>Link</a>';
 
 describe('getBrokenLinks', () => {
   it('finds broken links', () => {
@@ -41,6 +42,18 @@ describe('getBrokenLinks', () => {
 
     const detectAllLinksOkay = sinon.stub().returns(false);
     const linkErrors = getBrokenLinks(file, [], detectAllLinksOkay);
+
+    expect(linkErrors).to.have.lengthOf(0);
+  });
+
+  it('skips anchors without an HREF attribute', () => {
+    const file = {
+      path: '/health-care',
+      contents: `<div>${anchorWithoutHref}</div>`,
+    };
+
+    const detectAllLinksBroken = sinon.stub().returns(true);
+    const linkErrors = getBrokenLinks(file, [], detectAllLinksBroken);
 
     expect(linkErrors).to.have.lengthOf(0);
   });

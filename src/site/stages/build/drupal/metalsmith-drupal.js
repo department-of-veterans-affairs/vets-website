@@ -18,6 +18,7 @@ const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
 
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
+const DRUPAL_HUB_NAV_FILENAME = 'hubNavNames.json';
 
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
@@ -96,6 +97,11 @@ async function loadDrupal(buildOptions) {
     buildOptions.cacheDirectory,
     DRUPAL_CACHE_FILENAME,
   );
+  const drupalHubMenuNames = path.join(
+    buildOptions.paramsDirectory,
+    DRUPAL_HUB_NAV_FILENAME,
+  );
+
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
 
   let shouldPullDrupal = buildOptions[PULL_DRUPAL_BUILD_ARG];
@@ -126,6 +132,15 @@ async function loadDrupal(buildOptions) {
     fs.ensureDirSync(buildOptions.cacheDirectory);
     fs.emptyDirSync(path.dirname(drupalCache));
     fs.writeFileSync(drupalCache, serialized);
+
+    if (drupalPages.data.allSideNavMachineNamesQuery) {
+      const hubnavsSerialized = Buffer.from(
+        JSON.stringify(drupalPages.data.allSideNavMachineNamesQuery),
+      );
+      fs.ensureDirSync(buildOptions.paramsDirectory);
+      fs.emptyDirSync(path.dirname(drupalHubMenuNames));
+      fs.writeFileSync(drupalHubMenuNames, hubnavsSerialized);
+    }
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);

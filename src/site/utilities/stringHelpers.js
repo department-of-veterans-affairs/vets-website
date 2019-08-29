@@ -1,3 +1,4 @@
+const camelCase = require('lodash/fp/camelCase');
 // Query strings to search for
 const queryParamToBeChanged = [
   'CROP_FREEFORM',
@@ -15,6 +16,11 @@ function prependUnderscore(string) {
     return `_${string}`;
   }
   return string;
+}
+
+// Camelcase a string
+function camelize(str) {
+  return camelCase(str);
 }
 
 // Remove all underscores from body of string and then prepend an underscore if string starts with number
@@ -37,4 +43,5 @@ function updateQueryString(matchedString) {
 module.exports = {
   updateQueryString,
   queryParamToBeChanged,
+  camelize,
 };
