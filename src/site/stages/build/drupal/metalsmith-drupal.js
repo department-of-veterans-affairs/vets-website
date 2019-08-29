@@ -145,7 +145,7 @@ async function loadDrupal(buildOptions) {
     fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
 
     if (drupalPages.data.allSideNavMachineNamesQuery) {
-      fs.ouputJsonSync(
+      fs.outputJsonSync(
         drupalHubMenuNames,
         drupalPages.data.allSideNavMachineNamesQuery,
         { spaces: 2 },
