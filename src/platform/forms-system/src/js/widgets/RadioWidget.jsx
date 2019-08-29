@@ -31,11 +31,12 @@ export default function RadioWidget({
         const secondaryText =
           labelSecondaryText[option.value] || option.labelSecondaryText;
 
-        const className = secondaryText
-          ? 'form-radio-buttons schemaform-radio-secondary-text'
-          : 'form-radio-buttons';
+        const classList = ['form-radio-buttons'];
+
+        if (secondaryText) classList.push('schemaform-radio-secondary-text');
+
         const radioButton = (
-          <div className={className} key={option.value}>
+          <div className={classList.join(' ')} key={option.value}>
             <input
               type="radio"
               checked={checked}
