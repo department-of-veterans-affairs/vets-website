@@ -27,12 +27,12 @@ export default function RadioWidget({
     <div>
       {enumOptions.map((option, i) => {
         const checked = option.value === value;
-        const label = labels[option.value] || option.label;
+        const primaryText = labels[option.value] || option.label;
         const secondaryText =
           labelSecondaryText[option.value] || option.labelSecondaryText;
 
         const className = secondaryText
-          ? 'form-radio-buttons schemaform-radio-secondary'
+          ? 'form-radio-buttons schemaform-radio-secondary-text'
           : 'form-radio-buttons';
         const radioButton = (
           <div className={className} key={option.value}>
@@ -46,7 +46,7 @@ export default function RadioWidget({
               onChange={_ => onChange(option.value)}
             />
             <label htmlFor={`${id}_${i}`}>
-              <span className="primary">{label}</span>
+              <span className="primary">{primaryText}</span>
               {secondaryText ? (
                 <span className="secondary">{secondaryText}</span>
               ) : (
