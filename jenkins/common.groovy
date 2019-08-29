@@ -155,7 +155,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       if (fileExists(csvFile)) {
 	echo "Found broken links; attempting to send the CSV file to Slack."
 	// TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
-	slackUploadFile(filePath: csvFile, channel: 'dev_null', initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+	slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
       } else {
 	echo "Did not find broken links."
       }
