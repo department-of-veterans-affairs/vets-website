@@ -24,6 +24,11 @@ const uiSchema = {
         provider: 'Provider',
         typeOfCare: 'Type of care',
       },
+      labelSecondaryText: {
+        provider: 'Choose a doctor or care team.',
+        typeOfCare:
+          'Choose a specific type of care, like audiology or primary care',
+      },
     },
   },
 };
