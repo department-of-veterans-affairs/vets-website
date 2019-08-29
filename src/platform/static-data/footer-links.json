@@ -240,6 +240,20 @@
     "column": "bottom_rail",
     "href": "https://www.oprm.va.gov/foia/",
     "order": 7,
+    "target": "_blank",
+    "title": "Freedom of Information Act (FOIA)"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "https://www.usa.gov/",
+    "order": 8,
+    "target": "_blank",
+    "title": "USA.gov"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "https://www.va.gov/scorecard/",
+    "order": 9,
     "target": null,
     "title": "Freedom of Information Act (FOIA)"
   },
