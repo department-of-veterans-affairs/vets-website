@@ -97,3 +97,6 @@ if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
   const regex = new RegExp(`${regString}`, 'g');
   module.exports = query.replace(regex, updateQueryString);
 }
+
+// eslint-disable-next-line no-console
+console.log(module.exports);
