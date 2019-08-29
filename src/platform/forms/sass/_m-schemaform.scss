@@ -9,6 +9,7 @@
 .progress-box .va-growable button {
   width: auto;
   margin-right: 0;
+
   @media screen and (max-width: 340px) {
     padding-left: 10px;
     padding-right: 10px;
@@ -37,6 +38,7 @@ fieldset {
   display: inline-block;
   width: 100%;
   max-width: 750px;
+
   .form-review-panel & {
     width: 100%;
   }
@@ -58,7 +60,13 @@ fieldset {
   }
 }
 
-.va-nav-breadcrumbs-list, legend, .nav-header > h4, .nav-header, .usa-input-error, .input-error-date, .usa-alert {
+.va-nav-breadcrumbs-list,
+legend,
+.nav-header>h4,
+.nav-header,
+.usa-input-error,
+.input-error-date,
+.usa-alert {
   &:focus {
     outline: none;
   }
@@ -78,26 +86,32 @@ dl.review {
     border-top: 1px solid $color-gray-light;
     padding: 1.5rem;
     padding-left: 0;
-    > dd {
+
+    >dd {
       font-weight: bold;
       text-align: right;
     }
-    > dt > p {
+
+    >dt>p {
       margin-top: 0;
       margin-bottom: 0;
     }
+
     @media (min-width: $small-screen) {
       flex-direction: row;
-      > dd {
+
+      >dd {
         padding-left: 5px;
         min-width: 100px;
       }
-      > dt {
+
+      >dt {
         max-width: 60%;
         min-width: 40%;
       }
     }
   }
+
   border-bottom: 1px solid $color-gray-light;
 }
 
@@ -111,18 +125,29 @@ form.rjsf {
 
 // Even up the spacing between multi-line labels and their respective elements
 label {
-  + div {
+  +div {
+
     // Space above the date fields
-    .form-datefield-month, .form-datefield-day, .usa-form-group-year,
+    .form-datefield-month,
+    .form-datefield-day,
+    .usa-form-group-year,
     // And the inputs uswds sets a top margin for
     input:not([type="radio"]),
-    input[type="text"], input[type="email"],
-    input[type="password"], input[type="url"],
-    input[type="tel"], input[type="number"],
-    input[type="search"], input[type="file"],
-    input[type="date"], input[type="datetime-local"],
-    input[type="month"], input[type="time"],
-    input[type="week"], textarea, select {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="url"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="search"],
+    input[type="file"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    textarea,
+    select {
       margin-top: 0.5em;
     }
   }
@@ -161,11 +186,13 @@ label {
   padding-left: 2rem;
   padding-right: 2rem;
   margin-bottom: 1.5em;
+
   @media (max-width: 40.063em) {
     padding-left: 2rem - .9375rem;
     padding-right: 2rem - .9375rem;
   }
-  > h4 {
+
+  >h4 {
     padding-bottom: 0 !important;
   }
 }
@@ -174,13 +201,16 @@ label {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  > h1 {
+
+  >h1 {
     margin-bottom: 0;
     padding-right: 10px;
   }
-  > .schemaform-subtitle {
+
+  >.schemaform-subtitle {
     font-size: 2rem;
   }
+
   margin-bottom: 3rem;
 }
 
@@ -212,28 +242,37 @@ label {
 
 .schemaform-block-header {
   margin-bottom: 0.7em;
-  > legend, > h5, > p {
+
+  >legend,
+  >h5,
+  >p {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
   }
-  > p {
+
+  >p {
     margin-top: 0;
   }
-  > .schemaform-block-title + p {
+
+  >.schemaform-block-title+p {
     margin-top: 0.5em;
   }
 }
+
 .schemaform-block-title {
   font-family: $font-serif;
   font-size: 1.8rem;
 }
+
 .schemaform-block-subtitle {
   font-size: 1.5rem;
   font-weight: 700;
 }
 
 .schemaform-first-field {
-  .schemaform-label, > .usa-input-error {
+
+  .schemaform-label,
+  >.usa-input-error {
     margin-top: 0;
   }
 }
@@ -249,6 +288,7 @@ legend.schemaform-label {
 
 fieldset.schemaform-field-template {
   margin-top: 3rem;
+
   &.schemaform-first-field {
     margin-top: 0;
   }
@@ -266,12 +306,25 @@ fieldset.schemaform-field-template {
   margin-left: 27px;
 }
 
+.schemaform-radio-secondary {
+  label {
+    span {
+      display: block;
+
+      &.primary {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
 .schemaform-expandUnder-indent {
   margin-left: 29px;
 }
 
 .schemaform-currency-input .schemaform-widget-wrapper {
   position: relative;
+
   &:before {
     content: "$";
     display: block;
@@ -279,7 +332,8 @@ fieldset.schemaform-field-template {
     top: 9px;
     left: 10px;
   }
-  > input {
+
+  >input {
     padding-left: 25px !important;
   }
 }
@@ -304,11 +358,13 @@ fieldset.schemaform-field-template {
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding: 2em 0;
+
   @include media($medium-large-screen) {
     padding-top: 0.6em;
     // padding-left: inherit;
   }
 }
+
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding-top: 0.3em;
@@ -330,7 +386,8 @@ fieldset.schemaform-field-template {
 .schemaform-file-list {
   list-style: none;
   padding-left: 0;
-  > li {
+
+  >li {
     list-style: none;
   }
 }
@@ -339,7 +396,7 @@ fieldset.schemaform-field-template {
   margin-top: 0.5em;
 }
 
-.schemaform-file-upload > div > .schemaform-label {
+.schemaform-file-upload>div>.schemaform-label {
   font-weight: bold;
 }
 
@@ -357,12 +414,13 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-file-attachment {
   margin-top: 1em;
   margin-bottom: 1em;
+
   .usa-input-error {
     margin-top: 0;
   }
 }
 
-.schemaform-file-list-buttons-editing > .usa-button {
+.schemaform-file-list-buttons-editing>.usa-button {
   margin: 0.5em 0.5em 0.5em 0;
 }
 
@@ -381,9 +439,11 @@ legend.schemaform-label.schemaform-file-label {
 
 .schemaform-address-view {
   white-space: pre-wrap;
+
   p {
     margin-bottom: 0;
   }
+
   p:not(:first-child) {
     margin-top: 0;
   }
@@ -412,7 +472,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-label-no-top-margin {
-  > .schemaform-label {
+  >.schemaform-label {
     margin-top: 1rem;
   }
 }
@@ -424,11 +484,13 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-review-array-warning {
   margin: -1em -0.8em 0;
   border: 2px solid $color-gold-lightest;
-  > .form-review-panel-page-header-row {
+
+  >.form-review-panel-page-header-row {
     padding: 1em 0.8em;
     background-color: $color-gold-lightest;
   }
-  > .va-growable-review {
+
+  >.va-growable-review {
     padding: 0 1em 1em 1em;
   }
 }
@@ -444,9 +506,11 @@ legend.schemaform-label.schemaform-file-label {
 
 .schemaform-review-page-warning {
   margin: -1em -1em 5rem;
+
   .form-review-panel-page-header-row {
     padding: 1em 1em;
     background-color: $color-gold-lightest;
+
     &:after {
       display: block;
       order: 2;
@@ -458,10 +522,12 @@ legend.schemaform-label.schemaform-file-label {
       background-size: 2em;
       margin-right: 1em;
     }
+
     .edit-btn {
       order: 3;
     }
   }
+
   dl.review {
     padding: 0 1em;
     margin-top: 0;
@@ -473,9 +539,11 @@ legend.schemaform-label.schemaform-file-label {
 .schemaform-review-chapter-warning {
   .schemaform-chapter-accordion-header {
     position: relative;
-    > .usa-button-unstyled {
+
+    >.usa-button-unstyled {
       background-color: $color-gold-lightest;
     }
+
     .schemaform-review-chapter-warning-icon {
       position: absolute;
       top: 2.8rem;
@@ -489,6 +557,7 @@ legend.schemaform-label.schemaform-file-label {
       margin-right: 1em;
     }
   }
+
   .schemaform-chapter-accordion-content {
     border-right-color: $color-gold-lightest;
     border-left-color: $color-gold-lightest;
@@ -507,14 +576,17 @@ legend.schemaform-label.schemaform-file-label {
 .usa-alert-no-color {
   background-color: transparent;
 }
+
 .usa-alert-mini {
   margin-top: 0;
   margin-bottom: 1em;
   background-size: 3rem;
   background-position: 1rem 2.2rem;
-  > .usa-alert-body {
+
+  >.usa-alert-body {
     padding-left: 3rem;
   }
+
   &::before {
     display: none;
   }
@@ -532,22 +604,27 @@ legend.schemaform-label.schemaform-file-label {
 .saved-form-metadata-container {
   margin-bottom: 16px;
 }
+
 .saved-form-metadata {
   display: block;
 }
+
 .saved-form-autosaving {
   font-style: italic;
   padding: 1em 0;
   margin-top: 0;
   margin-bottom: 1.5em;
 }
+
 .confirmation-guidance-container {
   margin-top: 16px;
 }
+
 .confirmation-guidance-heading {
   padding-bottom: 0;
   padding-top: 16px;
 }
+
 .confirmation-guidance-message {
   margin-top: 0;
 }
@@ -566,9 +643,9 @@ legend.schemaform-label.schemaform-file-label {
   border: 1px solid $color-gray;
   // Box shadow only sides and bottom of suggestion list.
   box-shadow: 3px 3px 3px -3px $color-focus,
-              -3px 3px 3px -3px $color-focus,
-              7px 7px 7px -7px $color-focus,
-              -7px 7px 7px -7px $color-focus;
+    -3px 3px 3px -3px $color-focus,
+    7px 7px 7px -7px $color-focus,
+    -7px 7px 7px -7px $color-focus;
   list-style: none;
   margin-top: -.5rem;
   max-width: 46rem;
@@ -586,7 +663,7 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
-.usa-input-error > .schemaform-widget-wrapper > .autosuggest-container > .autosuggest-list {
+.usa-input-error>.schemaform-widget-wrapper>.autosuggest-container>.autosuggest-list {
   width: calc(100% + 1.9rem);
 }
 
@@ -598,6 +675,7 @@ legend.schemaform-label.schemaform-file-label {
     background-color: $color-primary-alt-light;
     cursor: pointer;
   }
+
   &-selected {
     font-weight: bold;
   }
@@ -619,8 +697,9 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 1em;
 }
 
-.usa-accordion, .usa-accordion-bordered {
-  > ul {
+.usa-accordion,
+.usa-accordion-bordered {
+  >ul {
     button {
       border-radius: $button-border-radius;
     }
