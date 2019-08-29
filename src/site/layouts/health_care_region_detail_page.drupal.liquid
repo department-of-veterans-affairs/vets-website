@@ -12,8 +12,8 @@
       {% endif %}
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        <article class="usa-content">
-          <h1>{{ title }}</h1>
+        <article aria-labelledby="article-heading" role="region" class="usa-content">
+          <h1 id="article-heading">{{ title }}</h1>
           <div class="va-introtext">
             <p>{{ fieldIntroText }}</p>
           </div>
