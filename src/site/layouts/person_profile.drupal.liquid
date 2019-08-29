@@ -41,7 +41,8 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+            {% include 'src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid' with sidebarData = '{"depth": 5, "link": {"label": "Test testerton", "url": {"path": "/"}, "links": []}, "parent": {"label": "Leadership", "links": [], "url": {"path": ""}}}' %}
+
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}

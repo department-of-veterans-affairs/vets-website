@@ -247,6 +247,76 @@ module.exports = function registerFilters() {
     return JSON.stringify(getDeepLinks(currentPath, linksArray));
   };
 
+  liquid.filters.findCurrentPathDepthRecursive = (linksArray, currentPath) => {
+    // getDepth2 from https://repl.it/@ahay_agile6/CavernousFluidDevicedriver
+    function getDepth(array, path) {
+      // tells us when we have found the path
+      let found = false;
+      // tells us the parent
+      const parentTree = [];
+
+      let deepObj = {};
+
+      // eslint-disable-next-line no-shadow
+      function findLink(array, depth = 0) {
+        // start depth at 1
+        // eslint-disable-next-line no-param-reassign
+        depth++;
+        // eslint-disable-next-line no-undef
+        for (i of array) {
+          // push the item into the trail
+          // eslint-disable-next-line no-undef
+          parentTree.push(i);
+
+          // eslint-disable-next-line no-undef
+          if (i.url.path === path) {
+            // we found the path! set 'found' to true and exit the recursion
+            let parent = parentTree[parentTree.length - 2];
+
+            if (
+              parentTree[parentTree.length - 2] &&
+              parentTree[parentTree.length - 2].url.path === ''
+            ) {
+              parent = parentTree[parentTree.length - 3];
+              // eslint-disable-next-line no-param-reassign
+              depth -= 1;
+            }
+
+            deepObj = {
+              depth,
+              parent,
+              // eslint-disable-next-line no-undef
+              link: i,
+            };
+            found = true;
+            break;
+          } else {
+            // we didn't find it yet
+            // if the item has links, look for it within the links of this item (recursively)
+            // eslint-disable-next-line no-lonely-if,no-undef
+            if (i.links && i.links.length) {
+              // eslint-disable-next-line no-undef
+              findLink(i.links, depth);
+              if (found) {
+                break;
+              }
+            }
+          }
+          // we don't need this parent, get rid of it
+          parentTree.pop();
+        }
+      }
+
+      // start the recursion
+      findLink(array);
+
+      // we should have a list of the parents that lead to this path
+      // return parentTree;
+      return deepObj;
+    }
+    return JSON.stringify(getDepth(linksArray, currentPath));
+  };
+
   liquid.filters.featureFieldRegionalHealthService = entity => {
     if (
       entity &&

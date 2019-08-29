@@ -14,7 +14,7 @@
                     {% assign aboutMenu = lastMenu.links | map: 'url' %}
                     {% assign isInAbout = aboutMenu | isAboutItem: entityUrl.path %}
 
-                    {% assign deepLinksString = sidebarData.links | findCurrentPathDepthRecursive: entityUrl.path %}
+                    {% assign deepLinksString = sidebarData %}
                     {% assign deepLinksObj = deepLinksString | jsonToObj %}
                     {% assign depth = deepLinksObj.depth  %}
                     {% assign deepLinks = deepLinksObj.link.links %}
@@ -114,9 +114,6 @@
 
 {% if buildtype != 'vagovprod' %}
     <script>
-      console.info('Context specific sidebar data:', {{ deepLinksString }});
-    </script>
-    <script>
-      console.info('Context specific sidebar data recursive:', {{ sidebarData.links | findCurrentPathDepthRecursive: entityUrl.path }});
+      console.info('Context specific sidebar data recursive:', {{ sidebarData }});
     </script>
 {% endif %}
