@@ -32,7 +32,6 @@ export default function RadioWidget({
           labelSecondaryText[option.value] || option.labelSecondaryText;
 
         const classList = ['form-radio-buttons'];
-
         if (secondaryText) classList.push('schemaform-radio-secondary-text');
 
         const radioButton = (
