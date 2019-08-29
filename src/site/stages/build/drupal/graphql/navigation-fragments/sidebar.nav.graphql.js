@@ -1,12 +1,9 @@
 /**
  * The sidebar navigation menu from Drupal for display on basic pages
  */
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
-const hubNavNames = enabledFeatureFlags[featureFlags.FEATURE_ALL_HUB_SIDE_NAVS]
+const hubNavNames = cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
   ? require('../../../../../utilities/query-params/hubNavNames')
   : null;
 
@@ -72,10 +69,7 @@ function queryFilter(menuName) {
     `;
 }
 
-if (
-  enabledFeatureFlags[featureFlags.FEATURE_ALL_HUB_SIDE_NAVS] &&
-  hubNavNames !== null
-) {
+if (cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS && hubNavNames !== null) {
   let compiledQuery = '';
   hubNavNames.forEach(navName => {
     compiledQuery += `

@@ -21,10 +21,7 @@ const homePageQuery = require('./homePage.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
 // String Helpers
 const {
@@ -82,14 +79,14 @@ module.exports = `
     ${outreachAssetsQuery}
     ${homePageQuery}
     ${
-      enabledFeatureFlags[featureFlags.FEATURE_ALL_HUB_SIDE_NAVS]
+      cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
         ? `${allSideNavMachineNamesQuery}`
         : ''
     }
   }
 `;
 
-if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
+if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
   const query = module.exports;
 
   let regString = '';
@@ -100,3 +97,6 @@ if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
   const regex = new RegExp(`${regString}`, 'g');
   module.exports = query.replace(regex, updateQueryString);
 }
+
+// eslint-disable-next-line no-console
+console.log(module.exports);
