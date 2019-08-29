@@ -20,13 +20,14 @@ const uiSchema = {
     'ui:title': 'How would you like to make an appointment?',
     'ui:widget': 'radio',
     'ui:options': {
+      widgetClassNames: 'vaos-form__checkbox1122',
       labels: {
         provider: (
           <>
-            <span className="primary vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
+            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               Provider
             </span>
-            <span className="secondary vads-u-display--block vads-u-font-size--sm">
+            <span className="vads-u-display--block vads-u-font-size--sm">
               Choose a doctor or care team
             </span>
           </>
@@ -65,7 +66,7 @@ export class TypeOfAppointmentPage extends React.Component {
     const { schema, data } = this.props;
 
     return (
-      <div className="vaos-appt-type">
+      <div className="vaos-form__appt-type">
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"
