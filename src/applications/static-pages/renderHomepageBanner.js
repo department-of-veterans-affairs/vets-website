@@ -25,6 +25,11 @@ const ACCEPTABLE_CONTENT_TAGS = [
 ];
 
 async function loadConfigFromGitHub() {
+  // This is not an approach we should follow across any other area of the site.
+  // This is a solution for a specific edge case that we will not run into again.
+  // This edge case is that we need real-time updates to the homepage banner as
+  // the statuses of VA facilities change over the course of Hurricane Dorian.
+
   const response = await fetch(HOMEPAGE_BANNER_YML_LOCATION, {
     mode: 'cors',
   });
