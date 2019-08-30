@@ -146,7 +146,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 	sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
       } catch (error) {
 	// Ensure the file isn't there if we had to rebuild
-	def csvFile = "${envName}-broken-links.csv"
+	def csvFile = "/application/${envName}-broken-links.csv"
 	if (fileExists(csvFile)) {
 	  sh "rm ${csvFile}"
 	}
