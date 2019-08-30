@@ -3,44 +3,74 @@ import { connect } from 'react-redux';
 import { openFormPage, updateFormData } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 const initialSchema = {
   type: 'object',
-  required: ['typeOfAppointment'],
+  required: ['phoneNumber'],
   properties: {
-    typeOfAppointment: {
+    phoneNumber: {
       type: 'string',
-      enum: ['provider', 'typeOfCare'],
+      minLength: 10,
     },
-  },
-};
-
-const uiSchema = {
-  typeOfAppointment: {
-    'ui:title': 'How would you like to make an appointment?',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        provider: 'Provider',
-        typeOfCare: 'Type of care',
+    bestTimeToCall: {
+      type: 'object',
+      properties: {
+        morning: {
+          type: 'boolean',
+        },
+        afternoon: {
+          type: 'boolean',
+        },
+        evening: {
+          type: 'boolean',
+        },
       },
     },
   },
 };
 
-const pageKey = 'type-appointment';
+const uiSchema = {
+  'ui:title': 'Where can we call to confirm your appointment?',
+  'ui:description':
+    'A scheduling clerk will contact you to coordinate an appointment date',
+  phoneNumber: phoneUI('Phone number'),
+  bestTimeToCall: {
+    'ui:title': 'Best times for VA to call',
+    morning: {
+      'ui:title': 'Morning (8 a.m. to noon EST)',
+      'ui:options': {
+        widgetClassNames: 'vaos-form__checkbox',
+      },
+    },
+    afternoon: {
+      'ui:title': 'Afternoon (noon - 4 p.m. EST)',
+      'ui:options': {
+        widgetClassNames: 'vaos-form__checkbox',
+      },
+    },
+    evening: {
+      'ui:title': 'Evening (4 p.m. to 8 p.m. EST)',
+      'ui:options': {
+        widgetClassNames: 'vaos-form__checkbox',
+      },
+    },
+  },
+};
 
-export class TypeOfAppointmentPage extends React.Component {
+const pageKey = 'contact-info';
+
+export class ContactInfoPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
-    this.props.router.push('/');
+    this.props.router.push('/new-appointment');
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/contact-info');
+    this.props.router.push('/');
   };
 
   render() {
@@ -48,9 +78,9 @@ export class TypeOfAppointmentPage extends React.Component {
 
     return (
       <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema}
+        name="Contact info"
+        title="Contact info"
+        schema={schema || initialSchema}
         uiSchema={uiSchema}
         onSubmit={this.goForward}
         onChange={newData =>
@@ -83,7 +113,7 @@ export class TypeOfAppointmentPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    schema: state.newAppointment.pages[pageKey] || initialSchema,
+    schema: state.newAppointment.pages[pageKey],
     data: state.newAppointment.data,
   };
 }
@@ -96,4 +126,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfAppointmentPage);
+)(ContactInfoPage);
