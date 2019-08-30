@@ -150,7 +150,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
 	// Ensure the file isn't there if we had to rebuild
 	if (fileExists(csvFile)) {
-	  sh "rm ${csvFileName}"
+	  sh "rm /application/${csvFileName}"
 	}
 
 	// Output a csv file with the broken links
