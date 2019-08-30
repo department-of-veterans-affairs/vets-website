@@ -30,8 +30,6 @@ import {
   editModalFieldChanged,
 } from '../actions/paymentInformation';
 
-import featureFlags from '../featureFlags';
-
 const AdditionalInfos = props => (
   <>
     <div className="vads-u-margin-bottom--2">
@@ -283,10 +281,6 @@ const PaymentInformationContainer = connect(
   mapDispatchToProps,
 )(PaymentInformation);
 
-const noop = () => null;
-
-export default (featureFlags.directDeposit
-  ? PaymentInformationContainer
-  : noop);
+export default PaymentInformationContainer;
 
 export { PaymentInformation };
