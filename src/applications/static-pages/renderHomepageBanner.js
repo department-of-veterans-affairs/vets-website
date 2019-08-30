@@ -2,8 +2,10 @@ import yaml from 'js-yaml';
 import * as Sentry from '@sentry/browser';
 import sanitizeHtml from 'sanitize-html';
 
-const HOMEPAGE_BANNER_YML_LOCATION =
-  'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/master/fragments/home/banner.yml';
+const VAGOV_CONTENT =
+  'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/master';
+
+const HOMEPAGE_BANNER_YML_LOCATION = `${VAGOV_CONTENT}/fragments/home/banner.yml?cache-break=${new Date().getTime()}`;
 
 const ACCEPTABLE_CONTENT_TAGS = [
   'h4',
