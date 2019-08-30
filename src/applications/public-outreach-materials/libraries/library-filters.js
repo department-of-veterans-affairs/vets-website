@@ -61,7 +61,7 @@ export function libraryCount() {
 export function libraryCurrent() {
   let increment = 1;
   let numVal;
-  cards.forEach(element => {
+  Array.prototype.slice.call(cards).forEach(element => {
     if (
       !element.classList.contains('hide-topic') &&
       !element.classList.contains('hide-type')
@@ -124,7 +124,7 @@ export function libraryPagerGen() {
     // Prevent 508 compliant anchor links from making page jump
     const pagingAnchors = document.querySelectorAll('.va-button-link');
     if (pagingAnchors) {
-      pagingAnchors.forEach(element => {
+      Array.prototype.slice.call(pagingAnchors).forEach(element => {
         element.addEventListener('click', libraryAnchorStop);
       });
     }
@@ -201,7 +201,7 @@ export function libraryFilters(el) {
         element.classList.remove(`hide-${selectSwitch}`);
       },
     );
-    cards.forEach(element => {
+    Array.prototype.slice.call(cards).forEach(element => {
       element.classList.remove('pager-hide');
     });
   } else if (el.srcElement.value === 'select') {
