@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import sanitizeHtml from 'sanitize-html';
 
 const HOMEPAGE_BANNER_YML_LOCATION =
-  'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/nick-test/fragments/home/banner.yml';
+  'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/master/fragments/home/banner.yml';
 
 const ACCEPTABLE_CONTENT_TAGS = [
   'h4',
