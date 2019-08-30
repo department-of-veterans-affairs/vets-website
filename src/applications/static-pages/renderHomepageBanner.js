@@ -1,8 +1,28 @@
 import yaml from 'js-yaml';
 import * as Sentry from '@sentry/browser';
+import sanitizeHtml from 'sanitize-html';
 
 const HOMEPAGE_BANNER_YML_LOCATION =
-  'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/master/fragments/home/banner.yml';
+  'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/nick-test/fragments/home/banner.yml';
+
+const ACCEPTABLE_CONTENT_TAGS = [
+  'h4',
+  'h5',
+  'h6',
+  'blockquote',
+  'p',
+  'a',
+  'ul',
+  'ol',
+  'li',
+  'b',
+  'i',
+  'strong',
+  'em',
+  'hr',
+  'br',
+  'div',
+];
 
 async function loadConfigFromGitHub() {
   const response = await fetch(HOMEPAGE_BANNER_YML_LOCATION, {
@@ -18,17 +38,27 @@ function renderToDocument(banner) {
     return;
   }
 
+  const type = sanitizeHtml(banner.type, {
+    allowedTags: [],
+  });
+
+  const title = sanitizeHtml(banner.title, {
+    allowedTags: ['b', 'i', 'strong', 'em'],
+  });
+
+  const content = sanitizeHtml(banner.content, {
+    allowedTags: ACCEPTABLE_CONTENT_TAGS,
+  });
+
   const root = document.getElementById('homepage-banner');
 
   root.innerHTML = `
-    <div class="usa-alert-full-width usa-alert-full-width-${banner.type}">
-      <div aria-live="polite" role="alert" class="usa-alert usa-alert-${
-        banner.type
-      }">
+    <div class="usa-alert-full-width usa-alert-full-width-${type}">
+      <div aria-live="polite" role="alert" class="usa-alert usa-alert-${type}">
         <div class="usa-alert-body">
-          <h3 class="usa-alert-heading">${banner.title}</h3>
+          <h3 class="usa-alert-heading">${title}</h3>
           <div class="usa-alert-text">
-            ${banner.content}
+            ${content}
           </div>
         </div>
       </div>
