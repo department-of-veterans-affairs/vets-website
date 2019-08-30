@@ -8808,7 +8808,6 @@ metalsmith-date-in-filename@^0.0.14:
 metalsmith-filenames@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/metalsmith-filenames/-/metalsmith-filenames-1.0.0.tgz#df4e69f246b8325bb9189e0273d2ee70899d00de"
-  integrity sha1-305p8ka4Mlu5GJ4Cc9LucImdAN4=
 
 metalsmith-in-place@^1.4.4:
   version "1.4.4"
