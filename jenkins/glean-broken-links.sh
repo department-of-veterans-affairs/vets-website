@@ -15,6 +15,16 @@ OUTPUT_FILE=$2
 
 CSV=$(sed -n '/Page,Broken link/,/^$/p' "$LOG_FILE")
 
+if [ ! -f "$LOG_FILE" ]; then
+  echo "$LOG_FILE not found from $(pwd)"
+else
+  printf 'Head:\n'
+  head "$LOG_FILE" -n 20
+  printf '\nTail:\n'
+  tail "$LOG_FILE" -n 30
+  printf '\nCSV found:\n%s' "$CSV"
+fi
+
 if [ -n "$CSV" ]; then
     # The output wasn't empty; there are broken links
     echo "$CSV" > "$OUTPUT_FILE"
