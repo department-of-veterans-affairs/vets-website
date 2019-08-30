@@ -145,14 +145,16 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       try {
 	sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
       } catch (error) {
+	def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
+	def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
+
 	// Ensure the file isn't there if we had to rebuild
-	def csvFile = "/application/${envName}-broken-links.csv"
 	if (fileExists(csvFile)) {
-	  sh "rm ${csvFile}"
+	  sh "rm ${csvFileName}"
 	}
 
 	// Output a csv file with the broken links
-	sh "cd /application && jenkins/glean-broken-links.sh ${buildLog} ${csvFile}"
+	sh "cd /application && jenkins/glean-broken-links.sh ${buildLog} ${csvFileName}"
 	if (fileExists(csvFile)) {
 	  echo "Found broken links; attempting to send the CSV file to Slack."
 	  // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
