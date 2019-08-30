@@ -162,7 +162,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 	}
 
 	currentBuild.result = 'FAILURE'
-	throw error
       }
 
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
