@@ -161,6 +161,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 	  echo "Did not find broken links."
 	}
 
+	currentBuild.result = 'FAILURE'
 	throw error
       }
 
