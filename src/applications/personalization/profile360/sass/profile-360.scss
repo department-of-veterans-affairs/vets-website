@@ -70,12 +70,3 @@ input.usa-only-phone {
     margin: 0;
   }
 }
-form .payment-info-submit-button {
-  width: 100%;
-}
-
-@include media($small-screen) {
-    form .payment-info-submit-button {
-    width: auto;
-  }
-}

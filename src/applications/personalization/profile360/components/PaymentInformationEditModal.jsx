@@ -166,7 +166,7 @@ class PaymentInformationEditModal extends React.Component {
 
           <LoadingButton
             type="submit"
-            className="usa-button-primary payment-info-submit-button"
+            className="usa-button-primary vads-u-width--full small-screen:vads-u-width--auto"
             isLoading={this.props.isSaving}
           >
             Update
