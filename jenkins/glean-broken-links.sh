@@ -32,3 +32,5 @@ if [ -n "$CSV" ]; then
 else
   echo "No CSV found in $LOG_FILE"
 fi
+
+exit 0

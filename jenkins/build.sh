@@ -40,3 +40,5 @@ done
 # command won't trick Jenkins into thinking the step passed.
 set -o pipefail
 npm --no-color run build -- --buildtype="$envName" --asset-source="$assetSource" --drupal-address="$drupalAddress" "$pullDrupal" 2>&1 | tee "$buildLog"
+
+exit $?
