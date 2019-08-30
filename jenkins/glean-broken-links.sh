@@ -33,4 +33,6 @@ else
   echo "No CSV found in $LOG_FILE"
 fi
 
+ls -la /application
+
 exit 0
