@@ -70,13 +70,12 @@ input.usa-only-phone {
     margin: 0;
   }
 }
-[type="submit"].vads-u-width--auto {
-  width: 100% !important;
+form .payment-info-submit-button {
+  width: 100%;
 }
 
-@include media($medium-screen) {
-  [type="submit"].vads-u-width--auto {
-    width: auto !important;
+@include media($small-screen) {
+    form .payment-info-submit-button {
+    width: auto;
   }
 }
-
