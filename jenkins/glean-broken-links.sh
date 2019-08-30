@@ -26,6 +26,9 @@ else
 fi
 
 if [ -n "$CSV" ]; then
-    # The output wasn't empty; there are broken links
-    echo "$CSV" > "$OUTPUT_FILE"
+  # The output wasn't empty; there are broken links
+  echo "Printing the CSV to $OUTPUT_FILE"
+  printf "%s" "$CSV" > "$OUTPUT_FILE"
+else
+  echo "No CSV found in $LOG_FILE"
 fi
