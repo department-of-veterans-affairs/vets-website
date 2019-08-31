@@ -76,14 +76,14 @@ Example data:
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
-{% assign start_date_no_time = fieldDate.value | formatDate: "dddd, MMM D" %}
-{% assign end_date_no_time = fieldDate.endValue | formatDate: "dddd, MMM D" %}
+{% assign start_date_no_time = fieldDate.value | timeZone: uid.entity.timezone, "dddd, MMM D" %}
+{% assign end_date_no_time = fieldDate.endValue | timeZone: uid.entity.timezone, "dddd, MMM D" %}
 
-{% assign start_time = fieldDate.value | formatDate: "h:mm A" %}
-{% assign end_time = fieldDate.endValue | formatDate: "h:mm A" %}
+{% assign start_time = fieldDate.value | timeZone: uid.entity.timezone, "h:mm A" %}
+{% assign end_time = fieldDate.endValue | timeZone: uid.entity.timezone, "h:mm A" %}
 
-{% assign start_date_full = fieldDate.value | formatDate: "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = fieldDate.endValue | formatDate: "dddd, MMM D, h:mm A" %}
+{% assign start_date_full = fieldDate.value | timeZone: uid.entity.timezone, "dddd, MMM D, h:mm A" %}
+{% assign end_date_full = fieldDate.endValue | timeZone: uid.entity.timezone, "dddd, MMM D, h:mm A" %}
 
 {% assign start_timestamp = fieldDate.value | unixFromDate %}
 {% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
@@ -139,11 +139,11 @@ Example data:
                   {% if date_type == "same_day" %}
                   <span>{{ start_date_no_time }}</span><br>
                   <span>{{ start_time }}
-                    -
+                    –
                     {{ end_time }}</span>
                   {% else %}
                   <span>{{ start_date_full }}
-                    -</span><br>
+                    –</span><br>
                   <span>{{ end_date_full }}</span>
                   {% endif %}
                   {% endif %}
