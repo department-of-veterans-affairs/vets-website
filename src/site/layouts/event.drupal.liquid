@@ -150,6 +150,7 @@ Example data:
                 </dd>
               </dl>
 
+              {% if fieldFacilityLocation or fieldAddress.addressLine1 %}
               <dl class="va-c-event-info">
                 <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">Where</dt>
                 <dd>
@@ -179,6 +180,7 @@ Example data:
                 </dd>
 
               </dl>
+              {% endif %}
 
                 {% if fieldEventCost %}
                     <dl class="va-c-event-info">
