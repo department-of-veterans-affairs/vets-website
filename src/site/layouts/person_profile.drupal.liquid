@@ -41,7 +41,9 @@
 <div id="content" class="interior">
     <main class="va-l-detail-page">
         <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid' with sidebarData = '{"depth": 5, "link": {"label": "Test testerton", "url": {"path": "/"}, "links": []}, "parent": {"label": "Leadership", "links": [], "url": {"path": ""}}}' %}
+            {% assign sidebarData = '{"depth": 5, "link": {"label":"' | append: title | append: '","url": {"path": "/"}, "links": []}, "parent": {"label": "Leadership", "links": [], "url": {"path": "' | append: fieldOffice.entity.entityUrl.path | append: '/leadership"}}}' %}
+
+            {% include 'src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid' with entityUrl = entityUrl, sidebarData = sidebarData %}
 
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
