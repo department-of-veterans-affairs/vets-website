@@ -12,8 +12,13 @@
         vads-u-margin-bottom--1
         vads-u-font-size--md
         medium-screen:vads-u-font-size--lg">
-      <a href="{{ bio.entityUrl.path }}">{{ bio.fieldNameFirst }}
-        {{ bio.fieldLastName }} {{ bio.fieldSuffix }}</a>
+      {% if bio.fieldBody == empty %}
+        {{ bio.fieldNameFirst }}
+        {{ bio.fieldLastName }} {{ bio.fieldSuffix }}
+      {% else %}
+        <a href="{{ bio.entityUrl.path }}">{{ bio.fieldNameFirst }}
+          {{ bio.fieldLastName }} {{ bio.fieldSuffix }}</a>
+      {% endif %}
     </h2>
     {% if bio.fieldDescription %}
     <p class="
