@@ -15,6 +15,7 @@ const defaultContentDir = '../../../../../vagov-content/pages';
 const getDrupalClient = require('./drupal/api');
 const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
 const { logDrupal } = require('./drupal/utilities-drupal');
+const { useFlags } = require('./drupal/load-saved-flags');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
@@ -189,40 +190,12 @@ async function setUpFeatureFlags(options) {
 
   logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
 
-  // Using a Proxy to throw an error during the build if the feature
-  // flag referenced isn't returned from Drupal.
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
-  const p = new Proxy(rawFlags, {
-    get(obj, prop) {
-      if (prop in obj) {
-        return obj[prop];
-      }
-      // Not sure where this was getting called, but V8 does some
-      // complicated things under the hood.
-      // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
-      // TL;DR: V8 calls some things we don't want to throw up on.
-      const ignoreList = [
-        'Symbol(Symbol.toStringTag)',
-        'Symbol(nodejs.util.inspect.custom)',
-        'inspect',
-        'Symbol(Symbol.iterator)',
-      ];
-      if (!ignoreList.includes(prop.toString())) {
-        throw new ReferenceError(
-          `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
-        );
-      }
-
-      // If we get this far, I guess we make sure we don't mess up
-      // the expected behavior
-      return obj[prop];
-    },
-  });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const proxiedFlags = useFlags(rawFlags);
 
   Object.assign(options, {
-    cmsFeatureFlags: p,
+    cmsFeatureFlags: proxiedFlags,
   });
-  global.cmsFeatureFlags = p;
 }
 
 async function getOptions(commandLineOptions) {
