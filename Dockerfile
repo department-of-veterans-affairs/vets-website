@@ -36,4 +36,3 @@ RUN mkdir -p /application
 WORKDIR /application
 
 USER jenkins
-ENV CC_TEST_REPORTER_ID=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24
