@@ -48,15 +48,11 @@ function useFlags(rawFlags) {
  * Attempt to load the feature flags from the file and put them in
  * global.cmsFeatureFlags.
  *
- * This is for use with the cache and preview scripts. The normal
- * build script does this in setUpFeatureFlags().
+ * This is for use with the drupal-aws-cache script. The normal build
+ * and preview build scripts do this in setUpFeatureFlags().
  */
 async function loadFeatureFlags(cacheDirectory) {
-  const featureFlagFile = path.join(
-    cacheDirectory,
-    'drupal',
-    'feature-flags.json',
-  );
+  const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
   const rawFlags = fs.readJsonSync(featureFlagFile);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
