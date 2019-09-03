@@ -4,9 +4,6 @@
  */
 
 module.exports = `
-{
-  menuLinkContentQuery(limit: 1000) {
-    entities {
       ... on MenuLinkContentHeaderMegamenu {
         parent
         link {
@@ -37,12 +34,7 @@ module.exports = `
         bundle {
           entity {
             entityLabel
-         } 
+          } 
+        }
       }
-      weight
-      enabled
-      }
-    }
-  }
-}     
 `;

@@ -19,6 +19,7 @@ const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
+const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 
 // Get current feature flags
 const { cmsFeatureFlags } = global;
@@ -83,6 +84,7 @@ module.exports = `
         ? `${allSideNavMachineNamesQuery}`
         : ''
     }
+    ${menuLinksQuery}
   }
 `;
 

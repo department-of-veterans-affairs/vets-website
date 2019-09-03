@@ -39,9 +39,10 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
+      menuLinkContentQuery: { entities: menuLinks },
     },
   } = contentData;
-
+  console.log(menuLinks);
   const skippedContent = {
     nullEntities: 0,
     emptyEntities: 0,
