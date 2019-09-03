@@ -32,7 +32,7 @@ const cacheDirectory = path.join('.cache', options.buildtype, 'drupal');
 
 // Load up the flags into `global` before requiring getDrupalCacheKey,
 // which uses the flags from `global`.
-require('../src/site/stages/build/drupal/load-saved-flags').useFlags(
+require('../src/site/stages/build/drupal/load-saved-flags').loadFeatureFlags(
   cacheDirectory,
 );
 const {
