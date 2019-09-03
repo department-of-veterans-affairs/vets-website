@@ -86,26 +86,26 @@ export class VetTecCalculator extends React.Component {
         </div>
       </div>
       <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
-        <div className="small-7 small-screen:small-9 columns">
+        <div className="small-9 small-screen:small-9 columns">
           <div>Upon enrollment in program (25%):</div>
         </div>
-        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value small-screen:vads-u-padding-left--7">
+        <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
       <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
-        <div className="small-7 small-screen:small-9 columns">
+        <div className="small-9 small-screen:small-9 columns">
           <div>Upon completion of program (25%):</div>
         </div>
-        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value small-screen:vads-u-padding-left--7">
+        <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
           <div>{outputs.quarterVetTecPayment}</div>
         </div>
       </div>
       <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
-        <div className="small-7 small-screen:small-9 columns">
+        <div className="small-9 small-screen:small-9 columns">
           <div>Upon employment (50%):</div>
         </div>
-        <div className="small-5 xsmall-screen:small-3 vads-u-text-align--right columns value small-screen:vads-u-padding-left--7">
+        <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
           <div>{outputs.halfVetTecPayment}</div>
         </div>
       </div>
