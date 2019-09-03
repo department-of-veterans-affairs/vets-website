@@ -45,7 +45,7 @@ node('vetsgov-general-purpose') {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:coverage"
-            sh "CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 /cc-test-reporter < ./coverage/lcov.info"
+            sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 /cc-test-reporter  after-build"
           }
         }
       )
