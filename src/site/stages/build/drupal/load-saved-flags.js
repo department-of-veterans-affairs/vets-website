@@ -51,7 +51,7 @@ function useFlags(rawFlags) {
  * This is for use with the drupal-aws-cache script. The normal build
  * and preview build scripts do this in setUpFeatureFlags().
  */
-async function loadFeatureFlags(cacheDirectory) {
+function loadFeatureFlags(cacheDirectory) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
   const rawFlags = fs.readJsonSync(featureFlagFile);
 
