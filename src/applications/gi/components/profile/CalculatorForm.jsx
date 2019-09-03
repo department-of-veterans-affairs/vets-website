@@ -46,18 +46,26 @@ class CalculatorForm extends React.Component {
   }
 
   createExtensionOption = extension => {
-    const { city, institution, state, zip, facilityCode } = extension;
+    const {
+      facilityCode,
+      physicalCity,
+      physicalState,
+      physicalZip,
+      institution,
+    } = extension;
     const extensionOption = {
-      value: `${facilityCode}-${zip}`,
+      value: `${facilityCode}-${physicalZip}`,
       label: institution,
     };
 
-    if (city && state) {
-      extensionOption.label = `${extensionOption.label} (${city}, ${state})`;
-    } else if (city) {
-      extensionOption.label = `${extensionOption.label} (${city})`;
-    } else if (state) {
-      extensionOption.label = `${extensionOption.label} (${state})`;
+    if (physicalCity && physicalState) {
+      extensionOption.label = `${
+        extensionOption.label
+      } (${physicalCity}, ${physicalState})`;
+    } else if (physicalCity) {
+      extensionOption.label = `${extensionOption.label} (${physicalCity})`;
+    } else if (physicalState) {
+      extensionOption.label = `${extensionOption.label} (${physicalState})`;
     }
     return extensionOption;
   };
