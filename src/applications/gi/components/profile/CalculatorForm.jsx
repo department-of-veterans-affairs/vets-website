@@ -46,9 +46,9 @@ class CalculatorForm extends React.Component {
   }
 
   createExtensionOption = extension => {
-    const { city, institution, state, zip } = extension;
+    const { city, institution, state, zip, facilityCode } = extension;
     const extensionOption = {
-      value: zip,
+      value: `${facilityCode}-${zip}`,
       label: institution,
     };
 
@@ -69,9 +69,11 @@ class CalculatorForm extends React.Component {
   };
 
   handleExtensionChange = event => {
+    const value = event.target.value;
+    const zipCode = value.slice(value.indexOf('-') + 1);
     if (!event.dirty) {
       if (event.target.value !== 'other') {
-        this.props.onBeneficiaryZIPCodeChanged(event.target.value);
+        this.props.onBeneficiaryZIPCodeChanged(zipCode);
       } else {
         this.props.onBeneficiaryZIPCodeChanged('');
       }
