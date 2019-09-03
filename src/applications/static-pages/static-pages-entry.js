@@ -14,6 +14,7 @@ import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
+import renderHomepageBanner from './renderHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -87,6 +88,7 @@ createBasicFacilityListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {
+  renderHomepageBanner();
   createMyVALoginWidget(store);
 }
 

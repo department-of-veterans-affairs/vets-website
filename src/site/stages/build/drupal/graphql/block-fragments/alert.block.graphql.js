@@ -4,10 +4,7 @@
  */
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
 const FIELD_ALERT = `
 fieldAlert {
@@ -23,7 +20,7 @@ fieldAlert {
 const alert = `
 fragment alert on BlockContentAlert {
   ${
-    enabledFeatureFlags[featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE]
+    cmsFeatureFlags.FEATURE_FIELD_ALERT_DISMISSABLE
       ? 'fieldAlertDismissable'
       : ''
   }

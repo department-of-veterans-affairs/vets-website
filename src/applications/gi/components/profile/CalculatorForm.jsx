@@ -635,7 +635,7 @@ class CalculatorForm extends React.Component {
         <div>
           <ErrorableTextInput
             errorMessage={inputs.beneficiaryZIPError}
-            label="At what ZIP Code will you be taking the majority of classes?"
+            label="Please enter the Postal code where you'll take your classes"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}

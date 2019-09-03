@@ -80,6 +80,10 @@ async function fetchCache(options) {
   }
 }
 
+/**
+ * Compresses everything in .cache/{buildtype}/drupal/ and puts it in
+ *  .cache/content/{buildtype}_{query-hash}.tar.bz2
+ */
 async function createCacheFile(options) {
   global.buildtype = options.buildtype;
   const cacheDirectory = path.join('.cache', options.buildtype, 'drupal');

@@ -11,3 +11,11 @@
   background-color: $color-primary;
   padding: 14px 0 0 17px;
 }
+
+.vaos-form__title {
+  text-transform: uppercase;
+}
+
+.vaos-form__checkbox > .schemaform-label {
+  margin-top: 0;
+}
