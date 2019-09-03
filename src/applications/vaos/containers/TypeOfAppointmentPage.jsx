@@ -40,7 +40,7 @@ export class TypeOfAppointmentPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.router.push('/');
+    this.props.router.push('/new-appointment/contact-info');
   };
 
   render() {
