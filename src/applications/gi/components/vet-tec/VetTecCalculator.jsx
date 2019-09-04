@@ -86,7 +86,7 @@ export class VetTecCalculator extends React.Component {
           <div>{outputs.vaPaysToProvider}</div>
         </div>
       </div>
-      {environment.isProduction() && ( // prod flag added for 19578, THIS BLOCK WILL BE REMOVED UPON APPROVAL
+      {environment.isProduction() ? ( // prod flag added for 19578, THIS BLOCK WILL BE REMOVED UPON APPROVAL
         <div>
           <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
             <div className="small-7 small-screen:small-9 columns">
@@ -113,8 +113,7 @@ export class VetTecCalculator extends React.Component {
             </div>
           </div>
         </div>
-      )}
-      {!environment.isProduction() && ( // prod flag added for 19578, THIS BLOCK CONTAINS THOSE CHANGES
+      ) : (
         <div>
           <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
             <div className="small-9 small-screen:small-9 columns">
