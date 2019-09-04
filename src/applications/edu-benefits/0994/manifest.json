@@ -3,5 +3,19 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "0994-edu-benefits",
   "rootUrl": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994",
-  "production": false
+  "template": {
+    "title": "Apply for education benefits",
+    "layout": "page-react.html",
+    "description": "Vet Tec.",
+    "breadcrumbs_override": [
+      {
+        "label": "/education/",
+        "path": "Education"
+      },
+      {
+        "label": "Apply for VET TEC",
+        "path": "/education/how-to-apply/"
+      }
+    ]
+  }
 }
