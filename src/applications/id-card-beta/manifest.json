@@ -3,5 +3,8 @@
   "entryFile": "./id-card-beta-entry.jsx",
   "entryName": "id-card-beta",
   "rootUrl": "/id-card-beta",
-  "production": true
+  "template": {
+    "title": "Your VA.gov Account",
+    "layout": "page-react.html"
+  }
 }
