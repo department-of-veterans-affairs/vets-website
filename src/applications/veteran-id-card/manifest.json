@@ -3,6 +3,15 @@
   "entryFile": "./veteran-id-card-entry.jsx",
   "entryName": "veteran-id-card",
   "rootUrl": "/records/get-veteran-id-cards/apply",
-  "noRouting": true,
-  "production": true
+  "template": {
+    "title": "Veteran ID Card",
+    "layout": "page-react.html",
+    "hideFromSidebar": true,
+    "breadcrumbs_override": [
+      {
+        "path": "records/get-veteran-id-cards/apply/",
+        "name": "Apply for an ID Card"
+      }
+    ]
+  }
 }
