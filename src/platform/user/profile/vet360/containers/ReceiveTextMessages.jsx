@@ -2,17 +2,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import * as VET360 from '../constants';
+
 import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
-import * as VET360 from '../constants';
 import { isPendingTransaction } from '../util/transactions';
 
-import {
-  createTransaction,
-  refreshTransaction,
-  clearTransactionRequest,
-  updateFormField,
-} from '../actions';
+import { createTransaction } from '../actions';
 
 import {
   selectVet360Field,
@@ -20,15 +16,16 @@ import {
   selectEditedFormField,
 } from '../selectors';
 
-import Vet360Transaction from '../components/base/Transaction';
-
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 class ReceiveTextMessages extends React.Component {
-  state = { showSuccess: false, checkboxValue: this.props.checked };
+  state = {
+    showSuccess: false,
+    checkboxValue: this.props.checked,
+  };
 
   componentDidMount() {
     if (this.props.profile.verified) {
@@ -37,14 +34,9 @@ class ReceiveTextMessages extends React.Component {
   }
 
   onChange = event => {
-    this.setState({ checkboxValue: event });
-    // start the api call to update isTextPermitted with value of event (true/false)
-    // make checkbox disabled until api call comes back
-    // when api call comes back as a success then re-enable checkbox and make success message visable
-    this.setState({ showSuccess: true });
-    // TODO: Figure out where/when to make the success alert invisible again after that
+    // true or false
+    let payload = event;
 
-    let payload = this.props.field.value;
     if (this.props.convertCleanDataToPayload) {
       payload = this.props.convertCleanDataToPayload(
         payload,
@@ -61,36 +53,40 @@ class ReceiveTextMessages extends React.Component {
       payload,
       this.props.analyticsSectionName,
     );
+
+    this.setState({
+      checkboxValue: event,
+      showSuccess: true, // TODO: not what we want
+    });
   };
 
   isSuccessAlertVisible = () => {
-    // TODO: Put logic here to control success alert box.
-    let transactionPending = false;
-    if (this.props.transaction) {
-      transactionPending = isPendingTransaction(this.props.transaction);
-    }
-    // TODO: This is not right yet...
-    return this.props.mobilePhone && !transactionPending;
-    // this.state.showSuccess;
+    // TODO: This is not enough
+    return this.state.showSuccess;
   };
 
   render() {
+    const {
+      isTextable,
+      isEnrolledInHealthCare,
+      isEmpty,
+      transaction,
+    } = this.props;
+
     if (
       environment.isProduction() ||
-      !this.props.isTextable ||
-      !this.props.isEnrolledInHealthCare
+      isEmpty ||
+      !isTextable ||
+      !isEnrolledInHealthCare ||
+      (transaction && isPendingTransaction(this.props.transaction))
     )
       return null;
 
-    const { title, transaction, transactionRequest } = this.props;
-    // TODO: There might be more attributes needed on this checkbox to get
-    // it wired up as the entire mobile phone field
     return (
       <div className="receive-text-messages">
         <div className="form-checkbox-buttons">
           <ErrorableCheckbox
-            name="isTextPermitted"
-            checked={this.state.checkboxValue}
+            checked={!!this.state.checkboxValue}
             label={
               <span>
                 Receive text messages (SMS) for VA health care appointment
@@ -98,15 +94,6 @@ class ReceiveTextMessages extends React.Component {
               </span>
             }
             onValueChange={this.onChange}
-          />
-          <Vet360Transaction
-            title={title}
-            transaction={transaction}
-            transactionRequest={transactionRequest}
-            refreshTransaction={this.props.refreshTransaction.bind(
-              this,
-              transaction,
-            )}
           />
           <AlertBox
             isVisible={this.isSuccessAlertVisible()}
@@ -120,15 +107,14 @@ class ReceiveTextMessages extends React.Component {
   }
 }
 
-export function mapStateToProps(state) {
+export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
-  const fieldName = VET360.FIELD_NAMES.MOBILE_PHONE;
-  const { transaction, transactionRequest } = selectVet360Transaction(
-    state,
-    fieldName,
-  );
+  const { fieldName, title } = ownProps;
+  const { transaction } = selectVet360Transaction(state, fieldName);
 
   const mobilePhone = selectVet360Field(state, fieldName);
+
+  const isEmpty = !mobilePhone;
 
   const isTextable = mobilePhone && mobilePhone.isTextable;
 
@@ -136,28 +122,24 @@ export function mapStateToProps(state) {
 
   const checked = isTextable && isTextPermitted;
 
-  const isEnrolledInHealthCare = isEnrolledInVAHealthCare(state);
-
   return {
+    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     profile: profileState,
     mobilePhone,
+    title,
+    isEmpty,
     isTextable,
     isTextPermitted,
     checked,
-    isEnrolledInHealthCare,
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    isEnrolledInHealthCare: isEnrolledInVAHealthCare(state),
     field: selectEditedFormField(state, fieldName),
     transaction,
-    transactionRequest,
   };
 }
 
 const mapDispatchToProps = {
-  enrollmentStatus: getEnrollmentStatusAction,
-  clearTransactionRequest,
-  refreshTransaction,
+  getEnrollmentStatus: getEnrollmentStatusAction,
   createTransaction,
-  updateFormField,
 };
 
 const ReceiveTextMessagesContainer = connect(
