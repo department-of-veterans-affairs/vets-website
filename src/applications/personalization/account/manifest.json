@@ -8,8 +8,8 @@
     "layout": "page-react.html",
     "breadcrumbs_override": [
       {
-        "path": "/account/",
-        "label": "Your account settings"
+        "path": "account/",
+        "name": "Your account settings"
       }
     ]
   }

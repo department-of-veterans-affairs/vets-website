@@ -11,12 +11,12 @@
     "order": 1,
     "breadcrumbs_override": [
       {
-        "path": "/burials-memorials/",
-        "label": "Burials and Memorials"
+        "path": "burials-memorials/",
+        "name": "Burials and Memorials"
       },
       {
-        "path": "/burials-and-memorials/pre-need/form-10007-apply-for-eligibility/",
-        "label": "Pre-need Eligibility Determination"
+        "path": "burials-and-memorials/pre-need/form-10007-apply-for-eligibility/",
+        "name": "Pre-need Eligibility Determination"
       }
     ]
   }

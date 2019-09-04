@@ -11,8 +11,8 @@
     "layout": "page-react.html",
     "breadcrumbs_override": [
       {
-        "path": "/disability/",
-        "label": "Disability benefits"
+        "path": "disability/",
+        "name": "Disability benefits"
       }
     ]
   }

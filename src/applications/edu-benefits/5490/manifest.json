@@ -13,12 +13,12 @@
     "hideFromSidebar": true,
     "breadcrumbs_override": [
       {
-        "label": "Education",
-        "path": "/education/"
+        "name": "Education",
+        "path": "education/"
       },
       {
-        "label": "Apply for education benefits",
-        "path": "/education/how-to-apply/"
+        "name": "Apply for education benefits",
+        "path": "education/how-to-apply/"
       }
     ]
   }

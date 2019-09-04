@@ -9,12 +9,12 @@
     "description": "Vet Tec.",
     "breadcrumbs_override": [
       {
-        "label": "/education/",
-        "path": "Education"
+        "name": "Education",
+        "path": "education/"
       },
       {
-        "label": "Apply for VET TEC",
-        "path": "/education/how-to-apply/"
+        "name": "Apply for VET TEC",
+        "path": "education/how-to-apply/"
       }
     ]
   }

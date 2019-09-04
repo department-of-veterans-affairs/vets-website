@@ -10,12 +10,12 @@
     "hideFromSidebar": true,
     "breadcrumbs_override": [
       {
-        "label": "/disability/",
+        "name": "disability/",
         "path": "Disability Benefits"
       },
       {
-        "label": "File for Disability Compensation",
-        "path": "/disability/file-disability-claim-form-21-526ez"
+        "name": "File for Disability Compensation",
+        "path": "disability/file-disability-claim-form-21-526ez"
       }
     ]
   }
