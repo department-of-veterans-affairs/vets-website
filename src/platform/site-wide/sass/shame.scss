@@ -540,3 +540,18 @@ img[data-srcset] {
 .inline-table-helper {
   display: inline-table
 }
+
+.va-l-detail-page {
+  .usa-content {
+    p {
+      margin-top: 0
+    }
+  }
+
+  .usa-accordion-content {
+    h3 {
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+  }
+}
