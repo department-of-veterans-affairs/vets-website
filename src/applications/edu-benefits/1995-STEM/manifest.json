@@ -3,5 +3,23 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "1995-STEM-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/1995-STEM",
-  "production": false
+  "template": {
+    "title": "Veteran Request For Change",
+    "heading": "Veteran request for change",
+    "layout": "page-react.html",
+    "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
+    "vagovprod": false,
+    "order": 1,
+    "hideFromSidebar": true,
+    "breadcrumbs_override": [
+      {
+        "label": "Education",
+        "path": "/education/"
+      },
+      {
+        "label": "Apply for education benefits",
+        "path": "/education/how-to-apply/"
+      }
+    ]
+  }
 }
