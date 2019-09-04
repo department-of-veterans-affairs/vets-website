@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 const path = require('path');
+const fs = require('fs-extra');
 const commandLineArgs = require('command-line-args');
 
 const ENVIRONMENTS = require('../../constants/environments');
@@ -10,6 +11,10 @@ const assetSources = require('../../constants/assetSources');
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
+
+const getDrupalClient = require('./drupal/api');
+const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
+const { logDrupal } = require('./drupal/utilities-drupal');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
@@ -69,6 +74,7 @@ function applyDefaultOptions(options) {
   const facilities = path.join(siteRoot, 'facilities');
   const blocks = path.join(siteRoot, 'blocks');
   const teasers = path.join(siteRoot, 'teasers');
+  const utilities = path.join(siteRoot, 'utilities');
 
   Object.assign(options, {
     contentRoot,
@@ -98,6 +104,7 @@ function applyDefaultOptions(options) {
       [`${teasers}/**/*`]: '**/*.{md,html}',
     },
     cacheDirectory: path.join(projectRoot, '.cache', options.buildtype),
+    paramsDirectory: path.join(utilities, 'query-params'),
   });
 }
 
@@ -147,26 +154,84 @@ function deriveHostUrl(options) {
   ];
 }
 
-function setUpFeatureFlags(options) {
+/**
+ * Sets up the CMS feature flags by either querying the CMS for them
+ * or using ../../utilities/featureFlags. If we pull from Drupal, it'll
+ * also ensure the cache directory exists and is empty.
+ */
+async function setUpFeatureFlags(options) {
   global.buildtype = options.buildtype;
-  const {
-    enabledFeatureFlags,
-    featureFlags,
-  } = require('../../utilities/featureFlags');
+  let rawFlags;
+
+  const featureFlagFile = path.join(
+    options.cacheDirectory,
+    'drupal',
+    'feature-flags.json',
+  );
+
+  if (shouldPullDrupal(options)) {
+    logDrupal('Pulling feature flags from Drupal...');
+    const apiClient = getDrupalClient(options);
+    const result = await apiClient.proxyFetch(
+      `${apiClient.getSiteUri()}/flags_list`,
+    );
+
+    rawFlags = (await result.json()).data;
+
+    // Write them to .cache/{buildtype}/drupal/feature-flags.json
+    fs.ensureDirSync(options.cacheDirectory);
+    fs.emptyDirSync(path.dirname(featureFlagFile));
+    fs.writeJsonSync(featureFlagFile, rawFlags, { spaces: 2 });
+  } else {
+    logDrupal('Using cached feature flags');
+    rawFlags = fs.readJsonSync(featureFlagFile);
+  }
+
+  logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
+
+  // Using a Proxy to throw an error during the build if the feature
+  // flag referenced isn't returned from Drupal.
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+  const p = new Proxy(rawFlags, {
+    get(obj, prop) {
+      if (prop in obj) {
+        return obj[prop];
+      }
+      // Not sure where this was getting called, but V8 does some
+      // complicated things under the hood.
+      // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
+      // TL;DR: V8 calls some things we don't want to throw up on.
+      const ignoreList = [
+        'Symbol(Symbol.toStringTag)',
+        'Symbol(nodejs.util.inspect.custom)',
+        'inspect',
+        'Symbol(Symbol.iterator)',
+      ];
+      if (!ignoreList.includes(prop.toString())) {
+        throw new ReferenceError(
+          `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
+        );
+      }
+
+      // If we get this far, I guess we make sure we don't mess up
+      // the expected behavior
+      return obj[prop];
+    },
+  });
 
   Object.assign(options, {
-    enabledFeatureFlags,
-    featureFlags,
+    cmsFeatureFlags: p,
   });
+  global.cmsFeatureFlags = p;
 }
 
-function getOptions(commandLineOptions) {
+async function getOptions(commandLineOptions) {
   const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
-  setUpFeatureFlags(options);
+  await setUpFeatureFlags(options);
 
   return options;
 }

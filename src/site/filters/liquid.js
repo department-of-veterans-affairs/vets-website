@@ -8,10 +8,7 @@ function getPath(obj) {
 }
 
 module.exports = function registerFilters() {
-  const {
-    featureFlags,
-    enabledFeatureFlags,
-  } = require('../utilities/featureFlags');
+  const { cmsFeatureFlags } = global;
 
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
@@ -22,7 +19,34 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
-  liquid.filters.formatDate = (dt, format) => moment(dt).format(format);
+  liquid.filters.timeZone = (dt, tz, format) => {
+    if (dt && tz) {
+      const tzOffset = new Date(dt).getTimezoneOffset(tz) * 60000;
+      const dtDate = new Date(
+        dt.toLocaleString('en-US', {
+          timeZone: tz,
+        }),
+      ).getTime();
+
+      const diffToMoment = dtDate - tzOffset;
+
+      const prettyTime = moment(diffToMoment).format(format);
+      const prettyTimeFormatted = prettyTime
+        .replace(/AM/g, 'a.m.')
+        .replace(/PM/g, 'p.m.');
+
+      return prettyTimeFormatted;
+    }
+    return dt;
+  };
+
+  liquid.filters.formatDate = (dt, format) => {
+    const prettyTime = moment(dt).format(format);
+    const prettyTimeFormatted = prettyTime
+      .replace(/AM/g, 'a.m.')
+      .replace(/PM/g, 'p.m.');
+    return prettyTimeFormatted;
+  };
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
@@ -248,10 +272,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.featureFieldRegionalHealthService = entity => {
-    if (
-      entity &&
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
-    ) {
+    if (entity && cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE) {
       return entity.fieldRegionalHealthService
         ? entity.fieldRegionalHealthService.entity
         : null;
@@ -262,10 +283,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.featureSingleValueFieldLink = fieldLink => {
-    if (
-      fieldLink &&
-      enabledFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
-    ) {
+    if (fieldLink && cmsFeatureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK) {
       return fieldLink[0];
     }
 
@@ -320,7 +338,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    enabledFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
+    cmsFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
       ? serviceTaxonomy.fieldHealthServiceApiId
       : serviceTaxonomy.name;
 

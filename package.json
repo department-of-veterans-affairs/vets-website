@@ -271,12 +271,13 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
+    "sanitize-html": "^1.20.1",
     "syswide-cas": "^5.3.0",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3f8d21781eaf9cadce9669c54fb7b39d89c9321a",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fa98845b15c9091bb3eae4677485566ddfbab494",
     "whatwg-fetch": "^2.0.3"
   }
 }

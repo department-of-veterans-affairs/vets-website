@@ -110,8 +110,12 @@ class ProfileView extends React.Component {
               <ProfileTOC militaryInformation={militaryInformation} />
               <div id="contact-information" />
               <ContactInformation />
-              <div id="direct-deposit" />
-              <PaymentInformation />
+              {featureFlags.directDeposit && (
+                <>
+                  <div id="direct-deposit" />
+                  <PaymentInformation />
+                </>
+              )}
               <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
