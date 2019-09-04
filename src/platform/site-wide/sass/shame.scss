@@ -530,3 +530,9 @@ img[data-srcset] {
 .circular-profile-image {
   border-radius: 50%;
 }
+
+.usa-grid > :last-child, .usa-grid-full > :last-child {
+  &.half-em-bottom-margin {
+    margin-bottom: .5em;
+  }
+}
