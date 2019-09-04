@@ -115,20 +115,20 @@
                 <ul class="usa-unstyled-list"></ul>
             </section>
 
+          <h2 class="vads-u-line-height--1 vads-u-margin-bottom--2">Location and contact information</h2>
           <div class="region-list usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5">
-
             <!-- facility details from api -->
-            <div class="usa-width-one-half">
-              <h2 class="vads-u-font-size--lg vads-u-line-height--1 vads-u-margin-bottom--1">Address and phone numbers</h2>
+            <div class="usa-width-two-thirds">
+              <h3 class="vads-u-font-size--lg vads-u-line-height--1 vads-u-margin-bottom--1">Address</h3>
               <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
             </div>
 
-              <div class="usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
+              <div class="usa-width-one-third inline-table-helper vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
                 <!-- facility image -->
                 {% if fieldMedia.entity.image != empty %}
                   {% assign image = fieldMedia.entity.image %}
                   <a href="#" rel="noopener noreferrer" target="_blank" id="google-map-link-image">
-                    <img class="facility-img" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                    <img class="facility-img" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}"/>
                   </a>
                 {% endif %}
                 <div data-widget-type="facility-map" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
