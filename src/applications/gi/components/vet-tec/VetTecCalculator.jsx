@@ -10,7 +10,7 @@ import {
 import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
 import PropTypes from 'prop-types';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export class VetTecCalculator extends React.Component {
   constructor(props) {
