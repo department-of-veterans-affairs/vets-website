@@ -3,7 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import recordEvent from 'platform/monitoring/record-event';
 
-import facilityLocator from 'applications/facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 
 export default function ContactInformationExplanation() {
   return (

@@ -1,5 +1,5 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
-const manifest = require('../../feedback-tool/manifest');
+const manifest = require('../../feedback-tool/manifest.json');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./feedback-tool-helpers');
 const testData = require('./schema/maximal-test.json');
