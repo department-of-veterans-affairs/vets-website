@@ -3,5 +3,22 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "5495-edu-benefits",
   "rootUrl": "/education/apply-for-education-benefits/application/5495",
-  "production": true
+  "template": {
+    "title": "Dependents Request For Change",
+    "heading": "Dependents request for change",
+    "layout": "page-react.html",
+    "description": "Use your VA education benefits to pay for college or training programs. Find out which documents you’ll need to apply for benefits, and start your online application today.",
+    "order": 2,
+    "hideFromSidebar": true,
+    "breadcrumbs_override": [
+      {
+        "label": "Education",
+        "path": "/education/"
+      },
+      {
+        "label": "Apply for education benefits",
+        "path": "/education/how-to-apply/"
+      }
+    ]
+  }
 }
