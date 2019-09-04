@@ -1,0 +1,13 @@
+{
+  "appName": "686 Dependent-status form",
+  "entryFile": "./686-entry.jsx",
+  "entryName": "686-dependent-status",
+  "e2eTestsDisabled": true,
+  "template": {
+    "title": "Declaration Of Status Of Dependents",
+    "heading": "Declaration of status of dependents",
+    "display_title": "Add or remove a dependent",
+    "entryname": "686-dependent-status",
+    "layout": "page-react.html"
+  }
+}
