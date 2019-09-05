@@ -11,7 +11,7 @@ const fs = require('fs-extra');
  * @return {Proxy} - A Proxy containing all the feature flags; throws
  *                   an error if a flag is called without existing
  */
-function useFlags(rawFlags) {
+function useFlags(rawFlags, buildType) {
   const p = new Proxy(rawFlags, {
     get(obj, prop) {
       if (prop in obj) {
@@ -27,7 +27,7 @@ function useFlags(rawFlags) {
         'inspect',
         'Symbol(Symbol.iterator)',
       ];
-      if (!ignoreList.includes(prop.toString())) {
+      if (!ignoreList.includes(prop.toString()) && buildType !== 'localhost') {
         throw new ReferenceError(
           `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
         );
@@ -51,9 +51,9 @@ function useFlags(rawFlags) {
  * This is for use with the drupal-aws-cache script. The normal build
  * and preview build scripts do this in setUpFeatureFlags().
  */
-function loadFeatureFlags(cacheDirectory) {
+function loadFeatureFlags(cacheDirectory, buildType) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
-  const rawFlags = fs.readJsonSync(featureFlagFile);
+  const rawFlags = fs.readJsonSync(featureFlagFile, buildType.toString());
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useFlags(rawFlags);

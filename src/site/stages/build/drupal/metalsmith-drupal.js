@@ -27,9 +27,6 @@ const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
 // We need to pull the Drupal content if we have --pull-drupal OR if
 // the content is not available in the cache.
 
-// If a dev doesn't have socks, then --pull-drupal won't work
-// and the content can't be written to cache.
-
 const shouldPullDrupal = buildOptions => {
   const drupalCache = path.join(
     buildOptions.cacheDirectory,
