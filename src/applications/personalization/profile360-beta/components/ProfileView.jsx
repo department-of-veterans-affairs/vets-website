@@ -7,19 +7,18 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
-import featureFlags from '../featureFlags';
 
 import Vet360TransactionReporter from 'vet360/containers/TransactionReporter';
 
-import Hero from './Hero';
-import ContactInformation from './ContactInformation';
-import PersonalInformation from './PersonalInformation';
-import MilitaryInformation from './MilitaryInformation';
-import PaymentInformation from '../containers/PaymentInformation';
-import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
+import Hero from '@profile360/components/Hero';
+import ContactInformation from '@profile360/components/ContactInformation';
+import PersonalInformation from '@profile360/components/PersonalInformation';
+import MilitaryInformation from '@profile360/components/MilitaryInformation';
+import PaymentInformation from '@profile360/containers/PaymentInformation';
+import PaymentInformationTOCItem from '@profile360/containers/PaymentInformationTOCItem';
 
-import IdentityVerification from './IdentityVerification';
-import MVIError from './MVIError';
+import IdentityVerification from '@profile360/components/IdentityVerification';
+import MVIError from '@profile360/components/MVIError';
 
 const ProfileTOC = ({ militaryInformation }) => (
   <>
@@ -28,7 +27,7 @@ const ProfileTOC = ({ militaryInformation }) => (
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      {featureFlags.directDeposit && <PaymentInformationTOCItem />}
+      <PaymentInformationTOCItem />
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
@@ -110,12 +109,8 @@ class ProfileView extends React.Component {
               <ProfileTOC militaryInformation={militaryInformation} />
               <div id="contact-information" />
               <ContactInformation />
-              {featureFlags.directDeposit && (
-                <>
-                  <div id="direct-deposit" />
-                  <PaymentInformation />
-                </>
-              )}
+              <div id="direct-deposit" />
+              <PaymentInformation />
               <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}

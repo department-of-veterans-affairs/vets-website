@@ -140,7 +140,11 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
 
 // Generate breadcrumbs from drupal page path
 function generateBreadCrumbs(pathString) {
-  const pathArray = pathString.split('/');
+  const pathArray = pathString
+    .split('/')
+    .map(
+      value => (value === 'health-services' ? 'our-health-services' : value),
+    );
   const entityUrlObj = createEntityUrlObj(pathString);
   let previous = '';
   let trimmedValue;
@@ -162,7 +166,6 @@ function generateBreadCrumbs(pathString) {
     }
     previous += `${trimmedValue}/`;
   }
-
   return entityUrlObj;
 }
 

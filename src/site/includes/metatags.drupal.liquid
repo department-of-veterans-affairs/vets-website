@@ -34,6 +34,9 @@
 <!-- Metatags -->
   {% if regionOrOffice %}
     {% assign metaTitle = title | append: " | " | append: regionOrOffice %}
+      {% if regionOrOffice == "VA Pittsburgh health care" %}
+        {% assign metaTitle = "VA Pittsburgh Health Care" | append: " | " | append: title %}
+      {% endif %}
   {% else %}
     {% assign metaTitle = title %}
   {% endif %}
