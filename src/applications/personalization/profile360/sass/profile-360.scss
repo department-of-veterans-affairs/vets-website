@@ -70,13 +70,3 @@ input.usa-only-phone {
     margin: 0;
   }
 }
-[type="submit"].vads-u-width--auto {
-  width: 100% !important;
-}
-
-@include media($medium-screen) {
-  [type="submit"].vads-u-width--auto {
-    width: auto !important;
-  }
-}
-

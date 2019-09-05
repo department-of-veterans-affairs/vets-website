@@ -177,39 +177,39 @@ class PaymentInformation extends React.Component {
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                !directDepositIsSetUp &&
+                directDepositIsSetUp &&
                 (() => this.handleLinkClick('edit', 'bank-name'))
               }
             >
               Bank name
             </ProfileFieldHeading>
-            {!directDepositIsSetUp
+            {directDepositIsSetUp
               ? paymentAccount.financialInstitutionName
               : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                !directDepositIsSetUp &&
+                directDepositIsSetUp &&
                 (() => this.handleLinkClick('edit', 'account-number'))
               }
             >
               Account number
             </ProfileFieldHeading>
-            {!directDepositIsSetUp
+            {directDepositIsSetUp
               ? paymentAccount.accountNumber
               : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
               onEditClick={
-                !directDepositIsSetUp &&
+                directDepositIsSetUp &&
                 (() => this.handleLinkClick('edit', 'account-type'))
               }
             >
               Account type
             </ProfileFieldHeading>
-            {!directDepositIsSetUp
+            {directDepositIsSetUp
               ? paymentAccount.accountType
               : this.renderSetupButton(
                   'account type (checking or savings)',
