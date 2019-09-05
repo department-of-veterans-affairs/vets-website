@@ -251,7 +251,7 @@ def archiveAll(dockerContainer, String ref) {
 
 def cacheDrupalContent(dockerContainer, envUsedCache) {
   stage("Cache Drupal Content") {
-    // if (!isDeployable()) { return }
+    if (!isDeployable()) { return }
 
     try {
       def archives = [:]
