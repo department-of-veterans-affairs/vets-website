@@ -9,6 +9,7 @@
     "display_title": "File for increased disability",
     "layout": "page-react.html",
     "description": "Learn how to apply online for increased disability compensation.",
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "name": "Disability benefits",

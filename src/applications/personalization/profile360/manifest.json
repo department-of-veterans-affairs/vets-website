@@ -6,6 +6,7 @@
   "template": {
     "title": "Your Profile",
     "layout": "page-react.html",
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "profile/",

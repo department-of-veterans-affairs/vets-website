@@ -9,6 +9,7 @@
     "entryname": "pre-need",
     "layout": "page-react.html",
     "order": 1,
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "burials-memorials/",

@@ -15,6 +15,7 @@
     "collection": "healthCare",
     "spoke": "Get benefits",
     "order": 4,
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "health-care/",

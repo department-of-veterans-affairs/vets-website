@@ -12,6 +12,7 @@
     "spoke": "Get benefits",
     "collection": "pension",
     "order": 3,
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "pension/",

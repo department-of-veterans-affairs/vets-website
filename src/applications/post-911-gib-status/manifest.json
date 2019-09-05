@@ -13,6 +13,7 @@
     "order": 2,
     "in_maintenance": false,
     "maintenance_line1": "We’re sorry. Our system is temporarily down while we fix a few things. Please try again later.",
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "education/",

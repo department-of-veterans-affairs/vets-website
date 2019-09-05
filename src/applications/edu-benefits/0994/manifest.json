@@ -7,6 +7,7 @@
     "title": "Apply for education benefits",
     "layout": "page-react.html",
     "description": "Vet Tec.",
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "name": "Education",

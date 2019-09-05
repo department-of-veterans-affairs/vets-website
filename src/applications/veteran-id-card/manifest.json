@@ -7,6 +7,7 @@
     "title": "Veteran ID Card",
     "layout": "page-react.html",
     "hideFromSidebar": true,
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "records/get-veteran-id-cards/apply/",

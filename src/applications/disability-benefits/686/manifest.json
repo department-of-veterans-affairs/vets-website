@@ -9,6 +9,7 @@
     "heading": "Declaration of status of dependents",
     "display_title": "Add or remove a dependent",
     "layout": "page-react.html",
+    "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
         "path": "disability/",
