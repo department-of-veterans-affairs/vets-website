@@ -33,16 +33,9 @@ class ReceiveTextMessages extends React.Component {
   }
 
   onChange = event => {
-    let payload = this.props.mobilePhone;
+    const payload = this.props.mobilePhone;
+    // true or false
     payload.isTextPermitted = event;
-
-    // TODO: Is this right?  Don't think so...
-    if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
-    }
 
     const method = payload.id ? 'PUT' : 'POST';
 
