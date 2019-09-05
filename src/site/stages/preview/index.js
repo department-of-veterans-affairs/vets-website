@@ -20,9 +20,10 @@ const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
+const createFeatureToggles = require('../build/plugins/create-feature-toggles');
 
-function createPipeline(options) {
-  const BUILD_OPTIONS = getOptions(options);
+async function createPipeline(options) {
+  const BUILD_OPTIONS = await getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
   const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
     BUILD_OPTIONS.buildtype,
@@ -91,6 +92,8 @@ function createPipeline(options) {
       ],
     }),
   );
+
+  smith.use(createFeatureToggles(BUILD_OPTIONS));
 
   smith.use(
     navigation({
