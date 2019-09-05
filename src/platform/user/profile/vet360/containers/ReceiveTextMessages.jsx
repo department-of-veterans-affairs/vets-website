@@ -33,9 +33,10 @@ class ReceiveTextMessages extends React.Component {
   }
 
   onChange = event => {
-    // true or false
-    let payload = event;
+    let payload = this.props.mobilePhone;
+    payload.isTextPermitted = event;
 
+    // TODO: Is this right?  Don't think so...
     if (this.props.convertCleanDataToPayload) {
       payload = this.props.convertCleanDataToPayload(
         payload,
