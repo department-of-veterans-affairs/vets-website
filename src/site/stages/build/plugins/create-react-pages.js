@@ -11,10 +11,12 @@ function createTemporaryReactPages() {
       .filter(m => m.rootUrl)
       .forEach(({ entryName, appName, rootUrl, template }) => {
         const trimmedUrl = path.join('.', rootUrl);
-        const filePath = path.join(trimmedUrl, 'index.html');
+        const filePath = path.join(trimmedUrl, 'index.md');
 
         if (!files[filePath]) {
-          console.log(`Generating application entry point: ${rootUrl}`);
+          console.log(
+            `Generating HTML template for application ${appName} at ${rootUrl}`,
+          );
           files[filePath] = {
             title: appName,
             entryname: entryName,
