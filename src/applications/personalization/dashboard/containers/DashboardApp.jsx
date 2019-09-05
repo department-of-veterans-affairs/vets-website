@@ -28,7 +28,7 @@ import PreferencesWidget from 'applications/personalization/preferences/containe
 
 import profileManifest from 'applications/personalization/profile360/manifest.json';
 import accountManifest from 'applications/personalization/account/manifest.json';
-import lettersManifest from 'applications/letters/manifest.js';
+import lettersManifest from 'applications/letters/manifest.json';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
 const scroller = Scroll.animateScroll;
