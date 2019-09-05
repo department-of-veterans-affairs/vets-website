@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
 import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
+import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import ContactInfoPage from './containers/ContactInfoPage';
 
 const routes = (
@@ -12,6 +13,7 @@ const routes = (
       <IndexRoute component={TypeOfAppointmentPage} />
       <Route path="contact-info" component={ContactInfoPage} />
     </Route>
+    <Route path="appointments/pending" component={PendingAppointmentsPage} />
   </Route>
 );
 
