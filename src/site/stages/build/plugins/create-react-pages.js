@@ -2,7 +2,7 @@
 const path = require('path');
 const manifestHelpers = require('../webpack/manifest-helpers');
 
-function createTemporaryReactPages() {
+function createReactPages() {
   return (files, metalsmith, done) => {
     const root = path.join(__dirname, '../../../../..');
     manifestHelpers
@@ -31,4 +31,4 @@ function createTemporaryReactPages() {
   };
 }
 
-module.exports = createTemporaryReactPages;
+module.exports = createReactPages;
