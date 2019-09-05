@@ -19,7 +19,34 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
-  liquid.filters.formatDate = (dt, format) => moment(dt).format(format);
+  liquid.filters.timeZone = (dt, tz, format) => {
+    if (dt && tz) {
+      const tzOffset = new Date(dt).getTimezoneOffset(tz) * 60000;
+      const dtDate = new Date(
+        dt.toLocaleString('en-US', {
+          timeZone: tz,
+        }),
+      ).getTime();
+
+      const diffToMoment = dtDate - tzOffset;
+
+      const prettyTime = moment(diffToMoment).format(format);
+      const prettyTimeFormatted = prettyTime
+        .replace(/AM/g, 'a.m.')
+        .replace(/PM/g, 'p.m.');
+
+      return prettyTimeFormatted;
+    }
+    return dt;
+  };
+
+  liquid.filters.formatDate = (dt, format) => {
+    const prettyTime = moment(dt).format(format);
+    const prettyTimeFormatted = prettyTime
+      .replace(/AM/g, 'a.m.')
+      .replace(/PM/g, 'p.m.');
+    return prettyTimeFormatted;
+  };
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 

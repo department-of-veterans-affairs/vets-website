@@ -55,6 +55,8 @@ function renderToDocument(banner) {
 
   const content = sanitizeHtml(banner.content, {
     allowedTags: ACCEPTABLE_CONTENT_TAGS,
+    allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+    allowedSchemesAppliedToAttributes: ['href'],
   });
 
   const root = document.getElementById('homepage-banner');
