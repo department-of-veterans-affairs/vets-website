@@ -4,6 +4,7 @@
   "entryName": "chapter36-vre",
   "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter36",
   "template": {
-    "vagovprod": false
+    "vagovprod": false,
+    "layout": "page-react.html"
   }
 }

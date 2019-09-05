@@ -4,6 +4,7 @@
   "entryName": "chapter31-vre",
   "rootUrl": "/employment/vocational-rehab-and-employment/application/chapter31",
   "template": {
-    "vagovprod": false
+    "vagovprod": false,
+    "layout": "page-react.html"
   }
 }

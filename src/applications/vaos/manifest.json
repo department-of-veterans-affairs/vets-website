@@ -3,5 +3,8 @@
   "entryFile": "./vaos-entry",
   "entryName": "vaos",
   "rootUrl": "/vaos",
-  "production": false
+  "template": {
+    "vagovprod": false,
+    "layout": "page-react.html"
+  }
 }
