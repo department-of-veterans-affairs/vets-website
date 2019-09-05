@@ -20,6 +20,7 @@ const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
+const createFeatureToggles = require('../build/plugins/create-feature-toggles');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -91,6 +92,8 @@ async function createPipeline(options) {
       ],
     }),
   );
+
+  smith.use(createFeatureToggles(BUILD_OPTIONS));
 
   smith.use(
     navigation({
