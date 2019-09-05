@@ -53,10 +53,12 @@ function useFlags(rawFlags, buildType) {
  */
 function loadFeatureFlags(cacheDirectory, buildType) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
-  const rawFlags = fs.readJsonSync(featureFlagFile, buildType.toString());
+  const rawFlags = fs.existsSync(featureFlagFile)
+    ? fs.readJsonSync(featureFlagFile)
+    : {};
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useFlags(rawFlags);
+  return useFlags(rawFlags, buildType);
 }
 
 module.exports = { loadFeatureFlags, useFlags };
