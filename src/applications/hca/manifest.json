@@ -2,6 +2,7 @@
   "appName": "1010ez Health Care Application form",
   "entryFile": "./hca-entry.jsx",
   "entryName": "hca",
+  "rootUrl": "/health-care/apply/application",
   "template": {
     "title": "Apply for Health Care",
     "layout": "page-react.html",
