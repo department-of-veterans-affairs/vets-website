@@ -185,7 +185,12 @@ async function setUpFeatureFlags(options) {
     fs.writeJsonSync(featureFlagFile, rawFlags, { spaces: 2 });
   } else {
     logDrupal('Using cached feature flags');
-    rawFlags = fs.readJsonSync(featureFlagFile);
+    // Check if a cached feature-flags.json file exists already
+    if (fs.existsSync(featureFlagFile)) {
+      rawFlags = fs.readJsonSync(featureFlagFile);
+    } else {
+      rawFlags = require('../../utilities/featureFlags');
+    }
   }
 
   logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
