@@ -33,7 +33,11 @@ const shouldPullDrupal = buildOptions => {
     DRUPAL_CACHE_FILENAME,
   );
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
-  return buildOptions[PULL_DRUPAL_BUILD_ARG] || isDrupalAvailableInCache;
+  return (
+    buildOptions[PULL_DRUPAL_BUILD_ARG] ||
+    (!isDrupalAvailableInCache &&
+      buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST)
+  );
 };
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {

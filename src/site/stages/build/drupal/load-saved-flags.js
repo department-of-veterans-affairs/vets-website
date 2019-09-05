@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
+const ENVIRONMENTS = require('../../../constants/environments');
 
 /**
  * Takes an object of CMS feature flags, puts them in a Proxy which
@@ -27,7 +28,10 @@ function useFlags(rawFlags, buildType) {
         'inspect',
         'Symbol(Symbol.iterator)',
       ];
-      if (!ignoreList.includes(prop.toString()) && buildType !== 'localhost') {
+      if (
+        !ignoreList.includes(prop.toString()) &&
+        buildType !== ENVIRONMENTS.LOCALHOST
+      ) {
         throw new ReferenceError(
           `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
         );
