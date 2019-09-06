@@ -229,8 +229,8 @@ export default function(state = INITIAL_STATE, action) {
       let beneficiaryZIPError;
 
       if (
-        !beneficiaryZIPRegExTester.exec(beneficiaryZIP) &&
-        beneficiaryZIP !== ''
+        beneficiaryZIP !== '' &&
+        !beneficiaryZIPRegExTester.exec(beneficiaryZIP)
       ) {
         beneficiaryZIPError = 'ZIP Code must be a five digit number';
       } else {
