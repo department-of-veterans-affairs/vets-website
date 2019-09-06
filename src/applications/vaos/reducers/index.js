@@ -1,5 +1,10 @@
+import { combineReducers } from 'redux';
+import appointments from './appointments';
 import newAppointment from './newAppointment';
 
 export default {
-  newAppointment,
+  vaos: combineReducers({
+    appointments,
+    newAppointment,
+  }),
 };

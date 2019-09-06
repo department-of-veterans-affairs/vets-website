@@ -1,0 +1,128 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
+import { fetchAppointmentSummary } from '../actions/appointments';
+
+class AppointmentListSelector extends Component {
+  componentDidMount() {
+    this.props.fetchAppointmentSummary();
+  }
+
+  render() {
+    const { loading, confirmedCount, pendingCount } = this.props.summary;
+
+    return (
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
+            <div>
+              <h1>Your Appointments</h1>
+              {loading ? (
+                <div className="vads-u-margin-y--8">
+                  <LoadingIndicator
+                    setFocus
+                    message="Loading your appointments..."
+                  />
+                </div>
+              ) : (
+                <ul className="usa-unstyled-list">
+                  <li className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
+                    <Link
+                      to="appointments/confirmed"
+                      className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
+                    >
+                      <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
+                        <i className="vaos-appt-list__icon fas fa-calendar-check vads-u-background-color--green-lightest vads-u-color--base" />
+                      </div>
+                      <div className="vads-u-flex--1">
+                        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+                          Confirmed appointments
+                        </h3>
+                        {!loading && (
+                          <div>
+                            You have{' '}
+                            <span className="vaos-appt-list__badge vads-u-background-color--green-lightest">
+                              {confirmedCount}
+                            </span>{' '}
+                            confirmed appointments
+                          </div>
+                        )}
+                      </div>
+                      <div className="vads-u-flex--auto vads-u-margin-left--2">
+                        <i className="vads-u-color--primary vads-u-font-size--xl fas fa-angle-right" />
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+                    <Link
+                      to="appointments/pending"
+                      className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
+                    >
+                      <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
+                        <i className="vaos-appt-list__icon fas fa-list-alt vads-u-background-color--gibill-accent vads-u-color--base" />
+                      </div>
+                      <div className="vads-u-flex--1">
+                        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+                          Pending appointments
+                        </h3>
+                        {!loading && (
+                          <div>
+                            You have{' '}
+                            <span className="vaos-appt-list__badge vads-u-background-color--gibill-accent">
+                              {pendingCount}
+                            </span>{' '}
+                            pending appointments
+                          </div>
+                        )}{' '}
+                      </div>
+                      <div className="vads-u-flex--auto vads-u-margin-left--2">
+                        <i className="vads-u-color--primary vads-u-font-size--xl fas fa-angle-right" />
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+                    <Link
+                      to="appointments/history"
+                      className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
+                    >
+                      <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
+                        <i className="vaos-appt-list__icon vaos-appt-list__icon--type-history fas fa-history vads-u-color--base" />
+                      </div>
+                      <div className="vads-u-flex--1">
+                        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+                          Appointment history
+                        </h3>
+                        View previous appointments
+                      </div>
+                      <div className="vads-u-flex--auto vads-u-margin-left--2">
+                        <i className="vads-u-color--primary vads-u-font-size--xl fas fa-angle-right" />
+                      </div>
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+AppointmentListSelector.propTypes = {
+  fetchAppointmentSummary: PropTypes.func.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    summary: state.vaos.appointments.summary,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  { fetchAppointmentSummary },
+)(AppointmentListSelector);

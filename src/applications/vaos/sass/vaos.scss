@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-schemaform";
 
-.vaos-landing__icon {
+.vaos-landing__icon, .vaos-appt-list__icon {
   display: inline-block;
   font-size: 19px;
   color: white;
@@ -10,6 +10,22 @@
   border-radius: 100%;
   background-color: $color-primary;
   padding: 14px 0 0 17px;
+}
+
+.vaos-appt-list__icon {
+  &.vaos-appt-list__icon--type-history {
+    background-color: #DBE4EF;
+  }
+}
+
+.vaos-appt-list__badge {
+  display: inline-flex;
+  border-radius: 100%;
+  height: 22px;
+  width: 22px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
 }
 
 .vaos-form__title {
