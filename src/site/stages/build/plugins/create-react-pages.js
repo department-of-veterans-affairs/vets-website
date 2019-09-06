@@ -11,7 +11,7 @@ function createReactPages() {
       .filter(m => m.rootUrl)
       .forEach(({ entryName, appName, rootUrl, template }) => {
         const trimmedUrl = path.join('.', rootUrl);
-        const filePath = path.join(trimmedUrl, 'index.md');
+        const filePath = path.join(trimmedUrl, 'index.html');
 
         if (!files[filePath]) {
           console.log(
