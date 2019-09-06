@@ -155,7 +155,10 @@ def handleBrokenLinks(String buildLogPath, String envName, String csvFileName) {
       failOnError: true,
       channel: 'cms-ci'
 
-    // TODO: Throw an error if broken links are found && isDeployable && envName === 'vagovprod'
+    // Only break the build if broken links are found in master
+    if (isDeployable()) {
+      throw new Exception('Broken links found')
+    }
   } else {
     echo "Did not find broken links."
   }
