@@ -141,9 +141,10 @@ class PaymentInformation extends React.Component {
 
   renderSetupButton(label, gaProfileSection) {
     return (
-      <a
+      <button
+        className="va-button-link"
         onClick={() => this.handleLinkClick('add', gaProfileSection)}
-      >{`Please add your ${label}`}</a>
+      >{`Please add your ${label}`}</button>
     );
   }
 
