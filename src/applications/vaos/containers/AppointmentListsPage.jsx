@@ -4,15 +4,27 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { fetchUserAppointmentsSummary } from '../actions/appointments';
+import get from 'platform/utilities/data/get';
+import {
+  fetchConfirmedAppointments,
+  fetchPendingAppointments,
+} from '../actions/appointments';
 
 class AppointmentListsPage extends Component {
   componentDidMount() {
-    this.props.fetchUserAppointmentsSummary();
+    this.props.fetchConfirmedAppointments();
+    this.props.fetchPendingAppointments();
   }
 
   render() {
-    const { loading, confirmedCount, pendingCount } = this.props.summary;
+    const {
+      confirmed,
+      confirmedLoading,
+      pending,
+      pendingLoading,
+    } = this.props.appointments;
+
+    const loading = confirmedLoading || pendingLoading;
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -45,7 +57,7 @@ class AppointmentListsPage extends Component {
                           <div>
                             You have{' '}
                             <span className="vaos-appt-list__badge vads-u-background-color--green-lightest">
-                              {confirmedCount}
+                              {get('length', confirmed, 0)}
                             </span>{' '}
                             confirmed appointments
                           </div>
@@ -72,7 +84,7 @@ class AppointmentListsPage extends Component {
                           <div>
                             You have{' '}
                             <span className="vaos-appt-list__badge vads-u-background-color--gibill-accent">
-                              {pendingCount}
+                              {get('length', pending, 0)}
                             </span>{' '}
                             pending appointments
                           </div>
@@ -89,7 +101,7 @@ class AppointmentListsPage extends Component {
                       className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
                     >
                       <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
-                        <i className="vaos-option-list__icon vaos-option-list__icon--type-history fas fa-history vads-u-color--base" />
+                        <i className="vaos-option-list__icon fas fa-history vads-u-background-color--cool-blue-lightest vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
                         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
@@ -113,16 +125,20 @@ class AppointmentListsPage extends Component {
 }
 
 AppointmentListsPage.propTypes = {
-  fetchUserAppointmentsSummary: PropTypes.func.isRequired,
+  fetchConfirmedAppointments: PropTypes.func.isRequired,
+  fetchPendingAppointments: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    summary: state.vaos.appointments.summary,
+    appointments: state.appointments,
   };
 }
 
 export default connect(
   mapStateToProps,
-  { fetchUserAppointmentsSummary },
+  {
+    fetchConfirmedAppointments,
+    fetchPendingAppointments,
+  },
 )(AppointmentListsPage);
