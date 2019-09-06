@@ -10,5 +10,3 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
-
-module.exports['@disabled'] = true;
