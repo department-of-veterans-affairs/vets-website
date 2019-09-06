@@ -1,10 +1,13 @@
 import {
   FETCH_CONFIRMED_APPOINTMENTS,
   FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
+  FETCH_CONFIRMED_APPOINTMENTS_FAILED,
   FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+  FETCH_PENDING_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+  FETCH_PAST_APPOINTMENTS_FAILED,
 } from '../actions/appointments';
 
 const initialState = {
@@ -29,6 +32,12 @@ export default function appointmentsReducer(state = initialState, action) {
         confirmedLoading: false,
         confirmed: action.data,
       };
+    case FETCH_CONFIRMED_APPOINTMENTS_FAILED:
+      return {
+        ...state,
+        confirmedLoading: false,
+        confirmed: null,
+      };
     case FETCH_PENDING_APPOINTMENTS:
       return {
         ...state,
@@ -42,6 +51,12 @@ export default function appointmentsReducer(state = initialState, action) {
           req => req.status === 'Submitted',
         ),
       };
+    case FETCH_PENDING_APPOINTMENTS_FAILED:
+      return {
+        ...state,
+        pendingLoading: false,
+        pending: null,
+      };
     case FETCH_PAST_APPOINTMENTS:
       return {
         ...state,
@@ -52,6 +67,12 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         pastLoading: false,
         past: action.data,
+      };
+    case FETCH_PAST_APPOINTMENTS_FAILED:
+      return {
+        ...state,
+        pastLoading: false,
+        past: null,
       };
     default:
       return state;
