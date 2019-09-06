@@ -35,7 +35,7 @@ const shouldPullDrupal = buildOptions => {
   return (
     buildOptions[PULL_DRUPAL_BUILD_ARG] ||
     (!isDrupalAvailableInCache &&
-      buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST)
+      buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) // Don't require a cache to build locally.
   );
 };
 

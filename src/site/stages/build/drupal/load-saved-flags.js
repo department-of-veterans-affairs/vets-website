@@ -30,7 +30,7 @@ function useFlags(rawFlags, buildType) {
       ];
       if (
         !ignoreList.includes(prop.toString()) &&
-        buildType !== ENVIRONMENTS.LOCALHOST // Don't require a cache to build locally.
+        buildType !== ENVIRONMENTS.LOCALHOST // Don't fail a localhost build for missing query flags
       ) {
         throw new ReferenceError(
           `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
