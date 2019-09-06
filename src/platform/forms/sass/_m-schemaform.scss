@@ -298,7 +298,7 @@ fieldset.schemaform-field-template {
   font-weight: bold;
   text-decoration: none;
   margin: 0.5em 0;
-  word-break: keep-all;
+  white-space: nowrap;
 }
 
 //duplicated/renamed from claims-status.scss
