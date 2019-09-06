@@ -12,7 +12,7 @@ const permalinks = require('metalsmith-permalinks');
 
 const getOptions = require('./options');
 const registerLiquidFilters = require('../../filters/liquid');
-const getDrupalContent = require('./drupal/metalsmith-drupal');
+const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createRedirects = require('./plugins/create-redirects');
@@ -28,6 +28,7 @@ const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const configureAssets = require('./plugins/configure-assets');
 const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
+const createFeatureToggles = require('./plugins/create-feature-toggles');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createTemporaryReactPages = require('./plugins/create-react-pages');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
@@ -49,7 +50,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
-    enabledFeatureFlags: BUILD_OPTIONS.enabledFeatureFlags,
+    enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
 
   smith.use(getDrupalContent(BUILD_OPTIONS));
@@ -117,6 +118,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
+  smith.use(createFeatureToggles(BUILD_OPTIONS));
   smith.use(createHeaderFooter(BUILD_OPTIONS));
 
   smith.use(
@@ -181,8 +183,8 @@ function defaultBuild(BUILD_OPTIONS) {
   });
 }
 
-function main() {
-  const buildOptions = getOptions();
+async function main() {
+  const buildOptions = await getOptions();
   defaultBuild(buildOptions);
 }
 

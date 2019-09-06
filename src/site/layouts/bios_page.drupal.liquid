@@ -46,7 +46,7 @@
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 <article class="usa-content">
-                    <h1>Our Leadership Team</h1>
+                    <h1 class="vads-u-margin-bottom--3">Our leadership team</h1>
                     {% for bio in pagedItems %}
                         {% include "src/site/teasers/bio.drupal.liquid" with node = bio.entity %}
                     {% endfor %}

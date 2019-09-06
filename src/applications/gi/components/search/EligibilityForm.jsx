@@ -58,7 +58,6 @@ export class EligibilityForm extends React.Component {
     return (
       <div className="eligibility-form">
         <h2>Your eligibility</h2>
-
         <Dropdown
           label="What is your military status?"
           name="militaryStatus"
@@ -77,7 +76,6 @@ export class EligibilityForm extends React.Component {
           visible
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label="Is your spouse on active duty?"
           name="spouseActiveDuty"
@@ -90,7 +88,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.militaryStatus === 'spouse'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
@@ -113,7 +110,6 @@ export class EligibilityForm extends React.Component {
           visible
           onChange={this.props.eligibilityChange}
         />
-
         {this.props.militaryStatus === 'active duty' &&
           this.props.giBillChapter === '33' && (
             <div className="military-status-info warning form-group">
@@ -132,7 +128,6 @@ export class EligibilityForm extends React.Component {
               monthly housing allowance.
             </div>
           )}
-
         {this.props.giBillChapter === '31' && (
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
@@ -147,7 +142,6 @@ export class EligibilityForm extends React.Component {
             .
           </div>
         )}
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
@@ -160,7 +154,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '33'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Completed an enlistment of:',
@@ -176,7 +169,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '30'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Length of longest active duty tour:',
@@ -193,7 +185,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '1607'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label="Are you eligible for the Post-9/11 GI Bill?"
           name="eligForPostGiBill"
@@ -206,7 +197,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '31'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label="How many dependents do you have?"
           name="numberOfDependents"

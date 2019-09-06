@@ -30,8 +30,6 @@ import {
   editModalFieldChanged,
 } from '../actions/paymentInformation';
 
-import featureFlags from '../featureFlags';
-
 const AdditionalInfos = props => (
   <>
     <div className="vads-u-margin-bottom--2">
@@ -219,8 +217,8 @@ class PaymentInformation extends React.Component {
           {directDepositIsSetUp && (
             <p>
               <strong>Note:</strong> If you think you’ve been the victim of bank
-              fraud, please call us at 800-827-1000 (TTY: 800-829-4833), and
-              select 5. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+              fraud, please call us at 800-827-1000 (TTY: 800-829-4833). We’re
+              here Monday through Friday, 8:00 a.m. to 9:00 p.m.
             </p>
           )}
 
@@ -283,10 +281,6 @@ const PaymentInformationContainer = connect(
   mapDispatchToProps,
 )(PaymentInformation);
 
-const noop = () => null;
-
-export default (featureFlags.directDeposit
-  ? PaymentInformationContainer
-  : noop);
+export default PaymentInformationContainer;
 
 export { PaymentInformation };

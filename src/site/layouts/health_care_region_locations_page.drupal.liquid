@@ -10,7 +10,7 @@
             {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
 
             <article class="usa-content">
-                <h1 class="vads-u-margin-bottom--2">Our Locations</h1>
+                <h1 class="vads-u-margin-bottom--2">Our locations</h1>
                 <div class="va-introtext vads-u-margin-bottom--0">
                     {{ fieldLocationsIntroBlurb.processed }}
                 </div>
@@ -23,7 +23,7 @@
                     <div data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | widgetFacilitiesList | escape }}"></div>
 
                     {% if fieldOtherVaLocations != empty and fieldOtherVaLocations.length %}
-                        <h2 id="community-clinic-locations" class="medium-screen:vads-u-margin-bottom--4">Other nearby VA locations</h2>
+                        <h2 id="other-nearby-va-locations" class="medium-screen:vads-u-margin-bottom--4">Other nearby VA locations</h2>
                         <div data-widget-type="other-facility-locations-list" data-facilities="{{ fieldOtherVaLocations }}"></div>
                     {% endif %}
                 </section>

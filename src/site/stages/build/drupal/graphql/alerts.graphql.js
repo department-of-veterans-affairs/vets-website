@@ -3,10 +3,7 @@
  */
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
 module.exports = `
     alerts:   blockContentQuery(filter: {conditions: [{field: "type", value: "alert"}, {field: "status", value: "1"}]},
@@ -16,7 +13,7 @@ module.exports = `
       ... on BlockContentAlert {
         id
       ${
-        enabledFeatureFlags[featureFlags.FEATURE_FIELD_ALERT_DISMISSABLE]
+        cmsFeatureFlags.FEATURE_FIELD_ALERT_DISMISSABLE
           ? 'fieldAlertDismissable'
           : ''
       }

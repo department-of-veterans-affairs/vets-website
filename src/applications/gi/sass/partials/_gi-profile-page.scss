@@ -10,6 +10,7 @@
 
   .link-header {
     h3,
+    h4,
     h5 {
       display: inline-block;
       padding: 0;
@@ -187,6 +188,40 @@
     li {
       list-style: square;
     }
+  }
+
+  .school-locations {
+    table {
+      border: hidden;
+      margin-top: 0em;
+      margin-bottom: 0em;
+    }
+
+    th {
+      border: hidden;
+      background: none;
+      white-space: nowrap;
+      padding-bottom: 0em;
+      padding-top: 0em;
+    }
+
+    td {
+      border: hidden;
+      font-size: 0.9em;
+      padding-top: 0em;
+      padding-bottom: 0em;
+      vertical-align: top;
+
+      h6 {
+        margin-top: 0em;
+      }
+    }
+
+    .location-cell {
+      white-space: nowrap;
+    }
+
+    padding-bottom:1rem;
   }
 
   .vettec-logo-container {

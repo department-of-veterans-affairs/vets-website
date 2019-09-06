@@ -140,7 +140,11 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
 
 // Generate breadcrumbs from drupal page path
 function generateBreadCrumbs(pathString) {
-  const pathArray = pathString.split('/');
+  const pathArray = pathString
+    .split('/')
+    .map(
+      value => (value === 'health-services' ? 'our-health-services' : value),
+    );
   const entityUrlObj = createEntityUrlObj(pathString);
   let previous = '';
   let trimmedValue;
@@ -162,14 +166,13 @@ function generateBreadCrumbs(pathString) {
     }
     previous += `${trimmedValue}/`;
   }
-
   return entityUrlObj;
 }
 
 function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
-    if (nav !== null && nav.links.length) {
+    if (nav !== null && nav.links) {
       const navName = _.toLower(nav.name.replace(/&/g, 'and'));
       if (owner !== null && owner === navName) {
         return { sidebar: nav };
@@ -184,12 +187,16 @@ function getHubSidebar(navsArray, owner) {
 function compilePage(page, contentData) {
   const {
     data: {
-      healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
-      recordsHubSidebarQuery: recordsHubSidebarNav = {},
-      pensionHubSidebarQuery: pensionHubSidebarNav = {},
-      careersHubSidebarQuery: careersHubSidebarNav = {},
-      housingHubSidebarQuery: housingHubSidebarNav = {},
-      lifeInsuranceHubSidebarQuery: lifeInsuranceHubSidebarNav = {},
+      burialsAndMemorialsBenefQuery: burialsHubSidebarNav = {},
+      careersEmploymentBenefitsQuery: careersHubSidebarNav = {},
+      decisionReviewsBenefitsHQuery: decisionHubSidebarNav = {},
+      disabilityBenefitsHubQuery: disabilityHubSidebarNav = {},
+      educationBenefitsHubQuery: educationHubSidebarNav = {},
+      healthCareBenefitsHubQuery: healthcareHubSidebarNav = {},
+      housingAssistanceBenefitsQuery: housingHubSidebarNav = {},
+      lifeInsuranceBenefitsHubQuery: lifeInsuranceHubSidebarNav = {},
+      pensionBenefitsHubQuery: pensionHubSidebarNav = {},
+      recordsBenefitsHubQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -203,12 +210,16 @@ function compilePage(page, contentData) {
   }
   // Benefits hub side navs in an array to loop through later
   const sideNavs = [
-    healthcareHubSidebarNav,
-    recordsHubSidebarNav,
-    pensionHubSidebarNav,
+    burialsHubSidebarNav,
     careersHubSidebarNav,
+    decisionHubSidebarNav,
+    disabilityHubSidebarNav,
+    educationHubSidebarNav,
+    healthcareHubSidebarNav,
     housingHubSidebarNav,
     lifeInsuranceHubSidebarNav,
+    pensionHubSidebarNav,
+    recordsHubSidebarNav,
   ];
   let sidebarNavItems;
 
@@ -289,6 +300,7 @@ function compilePage(page, contentData) {
       break;
     case 'event': {
       // eslint-disable-next-line no-param-reassign
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,

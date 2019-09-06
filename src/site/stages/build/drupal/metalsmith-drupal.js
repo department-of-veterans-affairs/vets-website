@@ -18,10 +18,22 @@ const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
 
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
+const DRUPAL_HUB_NAV_FILENAME = 'hubNavNames.json';
 
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
+
+// We need to pull the Drupal content if we have --pull-drupal OR if
+// the content is not available in the cache.
+const shouldPullDrupal = buildOptions => {
+  const drupalCache = path.join(
+    buildOptions.cacheDirectory,
+    DRUPAL_CACHE_FILENAME,
+  );
+  const isDrupalAvailableInCache = fs.existsSync(drupalCache);
+  return buildOptions[PULL_DRUPAL_BUILD_ARG] || !isDrupalAvailableInCache;
+};
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
@@ -30,17 +42,21 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     },
   } = contentData;
 
+  const skippedContent = {
+    nullEntities: 0,
+    emptyEntities: 0,
+  };
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
     // Once the Content-Preview server is up and running, then unpublished pages should
     // reliably return like any other page and we can delete this.
     if (!page) {
-      log('Skipping null entity...');
+      skippedContent.nullEntities++;
       continue;
     }
 
     if (!Object.keys(page).length) {
-      log('Skipping empty entity...');
+      skippedContent.emptyEntities++;
       continue;
     }
 
@@ -75,6 +91,14 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       createHealthCareRegionListPages(pageCompiled, drupalPageDir, files);
     }
   }
+
+  if (skippedContent.nullEntities) {
+    log(`Skipped ${skippedContent.nullEntities} null entities`);
+  }
+  if (skippedContent.emptyEntities) {
+    log(`Skipped ${skippedContent.emptyEntities} empty entities`);
+  }
+
   addHomeContent(contentData, files);
 }
 
@@ -84,18 +108,26 @@ async function loadDrupal(buildOptions) {
     buildOptions.cacheDirectory,
     DRUPAL_CACHE_FILENAME,
   );
+  const drupalHubMenuNames = path.join(
+    buildOptions.paramsDirectory,
+    DRUPAL_HUB_NAV_FILENAME,
+  );
+
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
 
-  let shouldPullDrupal = buildOptions[PULL_DRUPAL_BUILD_ARG];
+  const shouldPull = shouldPullDrupal(buildOptions);
   let drupalPages = null;
 
   if (!isDrupalAvailableInCache) {
-    log('Drupal content unavailable in cache');
-    shouldPullDrupal = true;
+    log(`Drupal content unavailable in local cache: ${drupalCache}`);
+  } else {
+    log(`Drupal content loaded from local cache: ${drupalCache}`);
   }
 
-  if (shouldPullDrupal) {
-    log('Attempting to load Drupal content from API...');
+  if (shouldPull) {
+    log(
+      `Attempting to load Drupal content from API at ${contentApi.getSiteUri()}`,
+    );
 
     const drupalTimer = `${contentApi.getSiteUri()} response time: `;
 
@@ -110,10 +142,15 @@ async function loadDrupal(buildOptions) {
       throw new Error('Drupal query returned with errors');
     }
 
-    const serialized = Buffer.from(JSON.stringify(drupalPages, null, 2));
-    fs.ensureDirSync(buildOptions.cacheDirectory);
-    fs.emptyDirSync(path.dirname(drupalCache));
-    fs.writeFileSync(drupalCache, serialized);
+    fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
+
+    if (drupalPages.data.allSideNavMachineNamesQuery) {
+      fs.outputJsonSync(
+        drupalHubMenuNames,
+        drupalPages.data.allSideNavMachineNamesQuery,
+        { spaces: 2 },
+      );
+    }
   } else {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
@@ -171,6 +208,8 @@ function getDrupalContent(buildOptions) {
       buildOptions.drupalData = drupalData;
       done();
     } catch (err) {
+      if (err instanceof ReferenceError) throw err;
+
       buildOptions.drupalError = drupalData;
       log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
@@ -183,4 +222,4 @@ function getDrupalContent(buildOptions) {
   };
 }
 
-module.exports = getDrupalContent;
+module.exports = { getDrupalContent, shouldPullDrupal };

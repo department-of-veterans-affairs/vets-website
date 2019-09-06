@@ -18,12 +18,10 @@ const bioPage = require('./bioPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
+const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
 // String Helpers
 const {
@@ -80,10 +78,15 @@ module.exports = `
     ${alertsQuery}
     ${outreachAssetsQuery}
     ${homePageQuery}
+    ${
+      cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
+        ? `${allSideNavMachineNamesQuery}`
+        : ''
+    }
   }
 `;
 
-if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
+if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
   const query = module.exports;
 
   let regString = '';
