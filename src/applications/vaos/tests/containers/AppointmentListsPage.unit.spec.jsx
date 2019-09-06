@@ -19,20 +19,4 @@ describe('VAOS <AppointmentListsPage>', () => {
     expect(fetchUserAppointmentsSummary.called).to.be.true;
     form.unmount();
   });
-
-  //  it('should render pending appointments', () => {
-  //   const fetchPendingAppointments = sinon.spy();
-  //   const appointments = [{}, {}];
-  //   const form = shallow(
-  //     <PendingAppointmentsPage
-  //       fetchPendingAppointments={fetchPendingAppointments}
-  //       appointments={appointments}
-  //     />,
-  //   );
-
-  //    expect(fetchPendingAppointments.called).to.be.true;
-  //   expect(form.find('LoadingIndicator').exists()).to.be.false;
-  //   expect(form.find('PendingAppointment').length).to.equal(2);
-  //   form.unmount();
-  // });
 });
