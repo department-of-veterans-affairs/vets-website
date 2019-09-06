@@ -131,7 +131,7 @@ def setup() {
   }
 }
 
-def handleBrokenLinks(String buildLogPath, String envName, String csvFileName) {
+def handleBrokenLinks(String buildLogPath, String envName) {
   // Look for broken links
   def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
   def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
@@ -177,7 +177,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath}"
 
       if (envName == 'vagovprod') {
-	handleBrokenLinks(buildLogPath, envName, csvFileName)
+	handleBrokenLinks(buildLogPath, envName)
       }
 
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
