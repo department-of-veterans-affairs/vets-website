@@ -10,29 +10,37 @@
     <h3 class="vads-u-margin-bottom--2">
         {{ paragraph.fieldTitle }}
     </h3>
+
     <div class="va-c-list-link-teasers">
-        {% assign even = true %}
+        <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+        {% comment %}
+            If there are less than 7 links, 3 items per column
+            If there are more than 7 links, 4 items per column
+        {% endcomment %}
+        {% if paragraph.fieldVaParagraphs.length > 7 %}
+            {% assign linkWrapperStartIndex = 5 %}
+            {% assign linkWrapperEndIndex = 4 %}
+        {%  else %}
+            {% assign linkWrapperStartIndex = 4 %}
+            {% assign linkWrapperEndIndex = 3 %}
+        {% endif %}
         {% for linkTeaser in paragraph.fieldVaParagraphs %}
             {% assign link = linkTeaser.entity.fieldLink %}
-            {% if even %}
-                <div class="usa-grid usa-grid-full">
+
+            {% assign everyStartItem = forloop.index | genericModulo: linkWrapperStartIndex %}
+            {% assign everyEndItem = forloop.index | genericModulo: linkWrapperEndIndex %}
+            {% if forloop.first || everyStartItem == 0 %}
+                <div class="usa-width-one-half vads-u-display--flex vads-u-flex-direction--column">
             {% endif %}
-            <div class="usa-width-one-half vads-u-margin-bottom--2">
-            <a href="{{link.url.path}}">
-                    {{ link.title }}
-                </a>
-            </div>
-            {% if !even %}
+                    <a class="vads-u-margin-bottom--2" href="{{link.url.path}}">
+                        {{ link.title }}
+                    </a>
+            {% if forloop.last || everyEndItem == 0 %}
                 </div>
             {% endif %}
-            {% if even %}
-                {% assign even = false %}
-            {% else %}
-                {% assign even = true %}
-            {% endif %}
         {% endfor %}
-        {% if !even %}
-      </div>
-    {% endif %}
+        </div>
+    </div>
+
 </section>
 {% endif %}
