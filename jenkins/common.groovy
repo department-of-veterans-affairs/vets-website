@@ -176,7 +176,9 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath}"
 
-      handleBrokenLinks(buildLogPath, envName, csvFileName)
+      if (envName == 'vagovprod') {
+	handleBrokenLinks(buildLogPath, envName, csvFileName)
+      }
 
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
