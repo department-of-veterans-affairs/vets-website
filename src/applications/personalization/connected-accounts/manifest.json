@@ -3,6 +3,7 @@
   "entryFile": "./connected-accounts-entry.jsx",
   "entryName": "connected-accounts",
   "rootUrl": "/account/connected-accounts",
+  "production": true,
   "template": {
     "title": "Connected Accounts",
     "layout": "page-react.html",

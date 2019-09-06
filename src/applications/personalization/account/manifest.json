@@ -3,6 +3,7 @@
   "entryFile": "./account-entry.jsx",
   "entryName": "account",
   "rootUrl": "/account",
+  "production": true,
   "template": {
     "title": "Your VA.gov Account",
     "layout": "page-react.html",

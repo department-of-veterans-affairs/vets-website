@@ -3,6 +3,7 @@
   "entryFile": "./edu-benefits-entry.jsx",
   "entryName": "0993-edu-benefits",
   "rootUrl": "/education/opt-out-information-sharing/opt-out-form-0993",
+  "production": true,
   "template": {
     "title": "Opt Out Of Sharing VA Education Benefits Information",
     "heading": "Opt out of sharing VA education benefits information",

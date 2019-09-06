@@ -3,6 +3,7 @@
   "entryFile": "./pensions-entry.jsx",
   "entryName": "pensions",
   "rootUrl": "/pension/application/527EZ",
+  "production": true,
   "template": {
     "title": "Apply For Pension Benefits",
     "heading": "Apply for pension benefits",

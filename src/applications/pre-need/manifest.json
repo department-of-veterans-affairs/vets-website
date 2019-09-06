@@ -3,6 +3,7 @@
   "entryFile": "./pre-need-entry.jsx",
   "entryName": "pre-need",
   "rootUrl": "/burials-and-memorials/pre-need/form-10007-apply-for-eligibility",
+  "production": true,
   "template": {
     "title": "Apply online for pre-need determination of eligibility in a VA National Cemetery",
     "display_title": "Apply Now",
