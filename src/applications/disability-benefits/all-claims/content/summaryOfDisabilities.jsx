@@ -29,13 +29,15 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const ratedDisabilityNames = ratedDisabilities
     ? ratedDisabilities
         .filter(disability => disability['view:selected'])
-        .map(disability => capitalizeEachWord(disability.name))
+        .map((disability) => {
+          return typeof disability.name === 'string' ? capitalizeEachWord(disability.name) : 'Unknown Condition';
+        })
     : [];
   const newDisabilityNames =
     newDisabilities && formData['view:newDisabilities']
-      ? newDisabilities.map(disability =>
-          capitalizeEachWord(disability.condition),
-        )
+      ? newDisabilities.map((disability) => {
+          return typeof disability.condition === 'string' ? capitalizeEachWord(disability.condition) : 'Unknown Condition';
+        })
       : [];
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)

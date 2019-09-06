@@ -165,14 +165,12 @@ export const capitalizeEachWord = name => {
   }
 
   if (typeof name !== 'string') {
-    // Sentry.captureMessage(
-    //   `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
-    // );
+    Sentry.captureMessage(
+      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+    );
   }
 
-  // TODO: Refactor this out; the function name doesn't imply that it
-  // would return a completely unrelated string
-  return 'Unknown Condition';
+  return null;
 };
 
 export const hasForwardingAddress = formData =>
@@ -222,7 +220,7 @@ export const disabilityIsSelected = disability => disability['view:selected'];
 export const sippableId = str => (str || 'blank').toLowerCase();
 
 const createCheckboxSchema = (schema, disabilityName) => {
-  const capitalizedDisabilityName = capitalizeEachWord(disabilityName);
+  const capitalizedDisabilityName = typeof disabilityName === 'string' ? capitalizeEachWord(disabilityName) : 'Unknown Condition';
   return _.set(
     // As an array like this to prevent periods in the name being interpreted as nested objects
     [sippableId(disabilityName)],

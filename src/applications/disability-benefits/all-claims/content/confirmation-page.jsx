@@ -73,7 +73,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <br />
           <ul className="disability-list">
             {disabilities.map((disability, i) => (
-              <li key={i}>{capitalizeEachWord(disability)}</li>
+              <li key={i}>{typeof disability === 'string' ? capitalizeEachWord(disability) : 'Unknown Condition'}</li>
             ))}
           </ul>
           {submissionMessage}

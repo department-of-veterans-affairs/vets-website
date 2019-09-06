@@ -303,7 +303,7 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          title: formData => capitalizeEachWord(formData.condition),
+          title: formData => typeof formData.condition === 'string' ? capitalizeEachWord(formData.condition) : 'Unknown Condition',
           depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
@@ -328,7 +328,7 @@ const formConfig = {
         },
         // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
-          title: formData => capitalizeEachWord(formData.condition),
+          title: formData => typeof formData.condition === 'string' ? capitalizeEachWord(formData.condition) : 'Unknown Condition',
           path: 'new-disabilities/ptsd-intro',
           depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,
