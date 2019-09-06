@@ -38,9 +38,9 @@ class AppointmentListsPage extends Component {
                         <i className="vaos-appt-list__icon fas fa-calendar-check vads-u-background-color--green-lightest vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
-                        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+                        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
                           Confirmed appointments
-                        </h3>
+                        </h2>
                         {!loading && (
                           <div>
                             You have{' '}
@@ -65,9 +65,9 @@ class AppointmentListsPage extends Component {
                         <i className="vaos-appt-list__icon fas fa-list-alt vads-u-background-color--gibill-accent vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
-                        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+                        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
                           Pending appointments
-                        </h3>
+                        </h2>
                         {!loading && (
                           <div>
                             You have{' '}
@@ -92,9 +92,9 @@ class AppointmentListsPage extends Component {
                         <i className="vaos-appt-list__icon vaos-appt-list__icon--type-history fas fa-history vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
-                        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+                        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
                           Appointment history
-                        </h3>
+                        </h2>
                         View previous appointments
                       </div>
                       <div className="vads-u-flex--auto vads-u-margin-left--2">
