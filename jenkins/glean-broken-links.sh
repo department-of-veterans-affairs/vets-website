@@ -11,8 +11,6 @@
 LOG_FILE=$1
 OUTPUT_FILE=$2
 
-# cd /application || exit 1
-
 CSV=$(sed -n '/Page,Broken link/,/^$/p' "$LOG_FILE")
 
 if [ ! -f "$LOG_FILE" ]; then
