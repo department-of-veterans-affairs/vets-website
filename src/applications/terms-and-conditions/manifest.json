@@ -3,5 +3,11 @@
   "entryFile": "./terms-and-conditions-entry.js",
   "entryName": "terms-and-conditions",
   "rootUrl": "/health-care/medical-information-terms-conditions",
-  "production": true
+  "production": true,
+  "template": {
+    "title": "Terms and Conditions for Medical Information",
+    "layout": "page-react.html",
+    "entryname": "terms-and-conditions",
+    "includeBreadcrumbs": true
+  }
 }
