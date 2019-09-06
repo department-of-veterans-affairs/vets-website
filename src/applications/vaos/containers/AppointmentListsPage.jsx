@@ -35,7 +35,7 @@ class AppointmentListsPage extends Component {
                       className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
                     >
                       <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
-                        <i className="vaos-appt-list__icon fas fa-calendar-check vads-u-background-color--green-lightest vads-u-color--base" />
+                        <i className="vaos-option-list__icon fas fa-calendar-check vads-u-background-color--green-lightest vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
                         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
@@ -62,7 +62,7 @@ class AppointmentListsPage extends Component {
                       className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
                     >
                       <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
-                        <i className="vaos-appt-list__icon fas fa-list-alt vads-u-background-color--gibill-accent vads-u-color--base" />
+                        <i className="vaos-option-list__icon fas fa-list-alt vads-u-background-color--gibill-accent vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
                         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
@@ -89,7 +89,7 @@ class AppointmentListsPage extends Component {
                       className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
                     >
                       <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
-                        <i className="vaos-appt-list__icon vaos-appt-list__icon--type-history fas fa-history vads-u-color--base" />
+                        <i className="vaos-option-list__icon vaos-option-list__icon--type-history fas fa-history vads-u-color--base" />
                       </div>
                       <div className="vads-u-flex--1">
                         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
