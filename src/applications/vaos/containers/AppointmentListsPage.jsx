@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import { fetchAppointmentSummary } from '../actions/appointments';
+import { fetchUserAppointmentsSummary } from '../actions/appointments';
 
-class AppointmentListSelector extends Component {
+class AppointmentListsPage extends Component {
   componentDidMount() {
-    this.props.fetchAppointmentSummary();
+    this.props.fetchUserAppointmentsSummary();
   }
 
   render() {
@@ -112,8 +112,8 @@ class AppointmentListSelector extends Component {
   }
 }
 
-AppointmentListSelector.propTypes = {
-  fetchAppointmentSummary: PropTypes.func.isRequired,
+AppointmentListsPage.propTypes = {
+  fetchUserAppointmentsSummary: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -124,5 +124,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { fetchAppointmentSummary },
-)(AppointmentListSelector);
+  { fetchUserAppointmentsSummary },
+)(AppointmentListsPage);

@@ -1,4 +1,4 @@
-export function getAppointmentSummary() {
+export function getUserAppointmentsSummary() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve({
