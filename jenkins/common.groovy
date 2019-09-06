@@ -141,10 +141,10 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLog = "/application/${envName}-build.log"
 
-      // Try building; notify in Slack if there were any broken links
       try {
 	sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
       } catch (error) {
+	// Look for broken links
 	def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
 	def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
 
