@@ -30,7 +30,7 @@ function useFlags(rawFlags, buildType) {
       ];
       if (
         !ignoreList.includes(prop.toString()) &&
-        buildType !== ENVIRONMENTS.LOCALHOST
+        buildType !== ENVIRONMENTS.LOCALHOST // Don't require a cache to build locally.
       ) {
         throw new ReferenceError(
           `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
@@ -54,12 +54,15 @@ function useFlags(rawFlags, buildType) {
  *
  * This is for use with the drupal-aws-cache script. The normal build
  * and preview build scripts do this in setUpFeatureFlags().
+ *
+ * This function doesn't check for the existence of a feature flags file
+ * because those should have already been pulled using --pull-drupal.
+ * Not having a failsafe allows for better visibility into any potential
+ * error messages and prevents the upload of a cache without feature flags.
  */
 function loadFeatureFlags(cacheDirectory, buildType) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
-  const rawFlags = fs.existsSync(featureFlagFile)
-    ? fs.readJsonSync(featureFlagFile)
-    : {};
+  const rawFlags = fs.readJsonSync(featureFlagFile);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useFlags(rawFlags, buildType);
