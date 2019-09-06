@@ -14,10 +14,10 @@
     <div class="va-c-list-link-teasers">
         <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
         {% comment %}
-            If there are less than 7 links, 3 items per column
-            If there are more than 7 links, 4 items per column
+            If there are less than or exactly 6 links, 3 items per column
+            If there are more than 6 links, 4 items per column
         {% endcomment %}
-        {% if paragraph.fieldVaParagraphs.length > 7 %}
+        {% if paragraph.fieldVaParagraphs.length > 6 %}
             {% assign linkWrapperStartIndex = 5 %}
             {% assign linkWrapperEndIndex = 4 %}
         {%  else %}
