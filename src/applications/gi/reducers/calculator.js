@@ -10,7 +10,7 @@ import {
   FETCH_PROFILE_SUCCEEDED,
 } from '../actions';
 
-const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
+const beneficiaryZIPRegExTester = /^\d{1,5}$|^\d{1,5}-\d{4}$/;
 const INITIAL_STATE = {
   beneficiaryLocationQuestion: 'yes',
   beneficiaryZIP: '',
