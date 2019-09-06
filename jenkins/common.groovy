@@ -162,10 +162,10 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
 	  // Until slackUploadFile works...
 	  def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
-	  slackSend message: "${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+	  slackSend message: "@here ${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
 	    color: 'danger',
 	    failOnError: true,
-	    channel: 'dev_null'
+	    channel: 'cms-ci'
 	} else {
 	  echo "Did not find broken links."
 	}
