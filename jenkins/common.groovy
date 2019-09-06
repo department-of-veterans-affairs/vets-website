@@ -153,7 +153,7 @@ def checkForBrokenLinks(String buildLogPath, String envName) {
     slackSend message: "@here ${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
       color: 'danger',
       failOnError: true,
-      channel: 'cms-ci'
+      channel: 'cms-general'
 
     // Only break the build if broken links are found in master
     if (isDeployable()) {
