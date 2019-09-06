@@ -271,6 +271,71 @@ module.exports = function registerFilters() {
     return JSON.stringify(getDeepLinks(currentPath, linksArray));
   };
 
+  function setDeepObj(parentTree, depth, link) {
+    let d = depth;
+
+    let parent = parentTree[parentTree.length - 2];
+
+    // this is here if the parent item does not have a path and it is only for looks
+    if (
+      parentTree[parentTree.length - 2] &&
+      parentTree[parentTree.length - 2].url.path === ''
+    ) {
+      parent = parentTree[parentTree.length - 3];
+      d -= 1;
+    }
+
+    return {
+      depth: d,
+      parent,
+      link,
+    };
+  }
+
+  function getDepth(array, path) {
+    // tells us when we have found the path
+    let found = false;
+    // tells us the parent
+    const parentTree = [];
+
+    let deepObj = {};
+
+    function findLink(arr, depth = 0) {
+      let d = depth;
+      // start depth at 1
+      d++;
+      for (const link of arr) {
+        // push the item into the trail
+        parentTree.push(link);
+
+        if (link.url.path === path) {
+          // we found the path! set 'found' to true and exit the recursion
+          deepObj = setDeepObj(parentTree, d, link);
+          found = true;
+          break;
+        } else if (link.links && link.links.length) {
+          // we didn't find it yet
+          // if the item has links, look for it within the links of this item (recursively)
+          findLink(link.links, d);
+          if (found) {
+            break;
+          }
+        }
+        // we don't need this parent, get rid of it
+        parentTree.pop();
+      }
+    }
+
+    // start the recursion
+    findLink(array);
+
+    // we should have a list of the parents that lead to this path
+    return deepObj;
+  }
+
+  liquid.filters.findCurrentPathDepthRecursive = (linksArray, currentPath) =>
+    JSON.stringify(getDepth(linksArray, currentPath));
+
   liquid.filters.featureFieldRegionalHealthService = entity => {
     if (entity && cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE) {
       return entity.fieldRegionalHealthService
