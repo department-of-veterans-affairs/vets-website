@@ -298,7 +298,7 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
           }
         } else {
           slackCachedContent(envName)
-          // Read the envName-output.log and send that into the Slack message
+          // TODO: Read the envName-output.log and send that into the Slack message
         }
       }
 
