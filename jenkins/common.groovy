@@ -161,7 +161,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 	  // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
 
 	  // Until slackUploadFile works...
-	  def linkCount = sh(returnStdout: true, script: "wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
+	  def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
 	  slackSend message: "${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`",
 	    color: 'danger',
 	    failOnError: true,
