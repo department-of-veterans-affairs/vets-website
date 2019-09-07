@@ -10,7 +10,7 @@ import {
   fetchPendingAppointments,
 } from '../actions/appointments';
 
-class AppointmentListsPage extends Component {
+export class AppointmentListsPage extends Component {
   componentDidMount() {
     this.props.fetchConfirmedAppointments();
     this.props.fetchPendingAppointments();
