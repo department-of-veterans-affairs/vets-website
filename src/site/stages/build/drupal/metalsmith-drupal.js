@@ -16,6 +16,7 @@ const {
 } = require('./health-care-region');
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
+const { formatHeaderData } = require('./menus');
 
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 const DRUPAL_HUB_NAV_FILENAME = 'hubNavNames.json';
@@ -42,7 +43,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       menuLinkContentQuery: { entities: menuLinks },
     },
   } = contentData;
-  console.log(menuLinks);
+
   const skippedContent = {
     nullEntities: 0,
     emptyEntities: 0,
@@ -101,6 +102,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   }
 
   addHomeContent(contentData, files);
+  formatHeaderData(menuLinks);
 }
 
 async function loadDrupal(buildOptions) {
@@ -135,7 +137,7 @@ async function loadDrupal(buildOptions) {
     console.time(drupalTimer);
 
     drupalPages = await contentApi.getAllPages();
-
+    // console.dir(drupalPages.data.menuLinkContentQuery, {maxArrayLength: null});
     console.timeEnd(drupalTimer);
 
     if (drupalPages.errors && drupalPages.errors.length) {

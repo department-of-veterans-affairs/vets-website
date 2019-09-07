@@ -5,7 +5,9 @@
 
 module.exports = `
       ... on MenuLinkContentHeaderMegamenu {
+        menuName
         parent
+        weight
         link {
           url {
             path
