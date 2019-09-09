@@ -20,7 +20,9 @@ const SCOContactInformation = props => (
             </div>
             <div>
               <a
-                href={`tel:+1${`${props.scos[0].phoneAreaCode}-${props.scos[0].phoneNumber}`}`}
+                href={`tel:+1${`${props.scos[0].phoneAreaCode}-${
+                  props.scos[0].phoneNumber
+                }`}`}
               >
                 {props.scos[0].phoneAreaCode}
                 {'-'}
@@ -46,7 +48,9 @@ const SCOContactInformation = props => (
               </div>
               <div>
                 <a
-                  href={`tel:+1${`${props.scos[1].phoneAreaCode}-${props.scos[1].phoneNumber}`}`}
+                  href={`tel:+1${`${props.scos[1].phoneAreaCode}-${
+                    props.scos[1].phoneNumber
+                  }`}`}
                 >
                   {props.scos[1].phoneAreaCode}
                   {'-'}
