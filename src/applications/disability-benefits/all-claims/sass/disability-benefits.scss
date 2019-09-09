@@ -38,7 +38,7 @@ ul.original-disability-list {
 }
 
 // Bring the text of an element nested in a <label> up to the same line as the check box
-.form-checkbox input[type='checkbox'] + label {
+.form-checkbox input[type="checkbox"] + label {
   div {
     display: inline-block;
     // Also give a little more space between the checkbox and the label
@@ -69,7 +69,7 @@ ul.original-disability-list {
     display: inline-block;
   }
 
-  input[type='checkbox'] + label {
+  input[type="checkbox"] + label {
     // The former margin was to separate the checkbox from the elements above it, but now
     //  that we have the outline, we need to move the whitespace to the outside of the border.
     margin-top: 0em;

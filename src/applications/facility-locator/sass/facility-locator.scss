@@ -413,7 +413,7 @@
       text-decoration: underline;
 
       &:after {
-        font: normal normal normal 1em 'Font Awesome 5 Free';
+        font: normal normal normal 1em "Font Awesome 5 Free";
         content: "\F078";
         text-decoration: none;
         display: inline-block;
@@ -685,7 +685,7 @@
   top: -7.1rem;
   right: -7.1rem;
   padding: 0.7rem;
-  box-shadow: 0px 0px 4px grey;
+  box-shadow: 0px 0px 4px #808080;
   border-radius: 4px;
   border: 1px solid #6495a3;
   z-index: 9999;
