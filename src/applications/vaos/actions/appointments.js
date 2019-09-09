@@ -35,7 +35,7 @@ export function fetchConfirmedAppointments() {
         type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
         data: confirmed,
       });
-    }, 2000);
+    }, 1500);
   };
 }
 
@@ -53,7 +53,7 @@ export function fetchPendingAppointments() {
           type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
           data: pending,
         });
-      }, 2000);
+      }, 1500);
     }
   };
 }
@@ -70,6 +70,6 @@ export function fetchPastAppointments() {
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
         data: past,
       });
-    }, 2000);
+    }, 1500);
   };
 }
