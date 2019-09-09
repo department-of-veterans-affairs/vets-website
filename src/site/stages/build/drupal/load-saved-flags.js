@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 
 /**
  * Takes an object of CMS feature flags, puts them in a Proxy which
- * throws an error if one is used without being defined, and assigns
+ * logs an error if one is used without being defined, and assigns
  * that to global.cmsFeatureFlags.
  *
  * Returns the Proxy.
@@ -20,7 +20,7 @@ function useFlags(rawFlags) {
       // Not sure where this was getting called, but V8 does some
       // complicated things under the hood.
       // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
-      // TL;DR: V8 calls some things we don't want to throw up on.
+      // TL;DR: V8 calls some things we don't need to mention
       const ignoreList = [
         'Symbol(Symbol.toStringTag)',
         'Symbol(nodejs.util.inspect.custom)',
@@ -34,8 +34,6 @@ function useFlags(rawFlags) {
         );
       }
 
-      // If we get this far, I guess we make sure we don't mess up
-      // the expected behavior
       return obj[prop];
     },
   });
