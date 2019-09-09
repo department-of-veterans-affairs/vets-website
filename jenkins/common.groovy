@@ -131,6 +131,23 @@ def setup() {
   }
 }
 
+/**
+ * Searches the build log for missing query flags ands sends a notification
+ * to Slack if any are found.
+ *
+ * NOTE: This function is meant to be called from within the
+ * dockerContainer.inside() context so buildLog can point to the right file.
+ */
+def findMissingQueryFlags(String buildLog) {
+  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\1/p' ${buildLog}")
+  if (missingFlags) {
+    slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
+      color: 'warning',
+      failOnError: true,
+      channel: 'dev_null'
+  }
+}
+
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
   def buildDetails = buildDetails(envName, ref)
   def drupalAddress = DRUPAL_ADDRESSES.get(envName)
@@ -171,6 +188,11 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 	}
 
 	throw error
+      }
+
+      // Find any missing query flags in the log
+      if (envName == 'vagovprod') {
+	findMissingQueryFlags(buildLog)
       }
 
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
