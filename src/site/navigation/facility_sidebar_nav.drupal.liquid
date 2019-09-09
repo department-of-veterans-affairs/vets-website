@@ -87,7 +87,7 @@
                 </div>
 
                 <ul class="usa-sidenav-list">
-                    {% for link in deepLinks %}
+                    {% for link in deepLinksObj.parent.links %}
                     <li {% if entityUrl.path == link.url.path %} class="active-level" {% endif %}>
                         <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
                                 href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
