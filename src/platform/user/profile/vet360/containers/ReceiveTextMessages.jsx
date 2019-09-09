@@ -1,36 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as VET360 from '../constants';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+// import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
+
+import * as VET360 from '../constants';
+import { createTransaction } from '../actions';
+import { selectVet360Field, selectVet360Transaction } from '../selectors';
+
 import {
   isPendingTransaction,
   isFailedTransaction,
 } from '../util/transactions';
 
-import { createTransaction } from '../actions';
-
-import {
-  selectVet360Field,
-  selectVet360Transaction,
-  selectEditedFormField,
-} from '../selectors';
-
-// import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 class ReceiveTextMessages extends React.Component {
-  /*
-  state = {
-    showSuccess: false,
-    checkboxValue: this.props.checked,
-  };
-  */
-
   componentDidMount() {
     if (this.props.profile.verified) {
       this.props.getEnrollmentStatus();
@@ -39,11 +28,8 @@ class ReceiveTextMessages extends React.Component {
 
   onChange = event => {
     const payload = this.props.mobilePhone;
-    // true or false
     payload.isTextPermitted = event;
-
     const method = payload.id ? 'PUT' : 'POST';
-
     this.props.createTransaction(
       this.props.apiRoute,
       method,
@@ -51,21 +37,7 @@ class ReceiveTextMessages extends React.Component {
       payload,
       this.props.analyticsSectionName,
     );
-
-    /*
-    this.setState({
-      checkboxValue: event,
-      showSuccess: true, // TODO: not what we want
-    });
-    */
   };
-
-  /*
-  isSuccessAlertVisible = () => {
-    // TODO: This is not enough
-    return this.state.showSuccess;
-  };
-  */
 
   render() {
     const {
@@ -100,14 +72,6 @@ class ReceiveTextMessages extends React.Component {
             }
             onValueChange={this.onChange}
           />
-          {/*
-          <AlertBox
-            isVisible={this.isSuccessAlertVisible()}
-            content={<p>Your preference has been saved.</p>}
-            status="success"
-            backgroundOnly
-          />
-          */}
         </div>
       </div>
     );
@@ -118,17 +82,11 @@ export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
   const { fieldName, title } = ownProps;
   const { transaction } = selectVet360Transaction(state, fieldName);
-
   const mobilePhone = selectVet360Field(state, fieldName);
-
   const isEmpty = !mobilePhone;
-
   const isTextable = mobilePhone && mobilePhone.isTextable;
-
   const isTextPermitted = mobilePhone && mobilePhone.isTextPermitted;
-
   const checked = isTextable && isTextPermitted;
-
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     profile: profileState,
@@ -139,7 +97,6 @@ export function mapStateToProps(state, ownProps) {
     isTextPermitted,
     checked,
     isEnrolledInHealthCare: isEnrolledInVAHealthCare(state),
-    field: selectEditedFormField(state, fieldName),
     transaction,
   };
 }
