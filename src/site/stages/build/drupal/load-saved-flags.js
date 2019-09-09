@@ -30,7 +30,7 @@ function useFlags(rawFlags) {
       if (!ignoreList.includes(prop.toString())) {
         // eslint-disable-next-line no-console
         console.error(
-          `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
+          `Could not find query flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
         );
       }
 
