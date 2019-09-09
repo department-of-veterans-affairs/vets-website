@@ -88,7 +88,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.confirmedLoading).to.be.false;
   });
 
-  it('should update pastLoading to be false when calling FETCH_PENDING_APPOINTMENTS_FAILED', () => {
+  it('should update pastLoading to be false when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS_FAILED,
     };
@@ -98,7 +98,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastLoading).to.be.false;
   });
 
-  it('should update pendingLoading to be false when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
+  it('should update pendingLoading to be false when calling FETCH_PENDING_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_PENDING_APPOINTMENTS_FAILED,
     };
