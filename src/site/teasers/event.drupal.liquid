@@ -72,21 +72,21 @@ Example data:
             {% endif %}
         </div>
       </div>
+      {% if node.fieldFacilityLocation != empty %}
       <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
         <div class="vads-u-margin-right--2 when-where-width">
           <strong>Where</strong>
         </div>
         <div class="usa-width-five-sixths">
-            {% if node.fieldFacilityLocation != empty %}
               <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
                   <a href="{{ node.fieldFacilityLocation.entity.entityUrl.path }}">{{ node.fieldFacilityLocation.entity.title }}</a>
               </p>
-            {% endif %}
             {% if node.fieldLocationHumanreadable != empty %}
                 <span>{{ node.fieldLocationHumanreadable }}</span>
             {% endif %}
         </div>
       </div>
+      {% endif %}
   </div>
 
 {% endif %}

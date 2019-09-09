@@ -35,7 +35,8 @@
   {% if regionOrOffice %}
     {% assign metaTitle = title | append: " | " | append: regionOrOffice %}
       {% if regionOrOffice == "VA Pittsburgh health care" %}
-        {% assign metaTitle = "VA Pittsburgh Health Care" | append: " | " | append: title %}
+      {% assign titleCaseTitle = title | toTitleCase %}
+        {% assign metaTitle = "VA Pittsburgh Health Care" | append: " | " | append: titleCaseTitle %}
       {% endif %}
   {% else %}
     {% assign metaTitle = title %}

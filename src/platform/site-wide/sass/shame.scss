@@ -555,3 +555,8 @@ img[data-srcset] {
     }
   }
 }
+
+.usa-accordion > ul li ul,
+.usa-accordion-bordered > ul li ul {
+    list-style: square;
+}
