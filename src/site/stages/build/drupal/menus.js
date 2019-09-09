@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign, no-continue, no-console */
 
 /* 
- * Perform a depth-first topological sort on the flat list of menu links
+ * Perform a topological sort on the flat list of menu links
  * so that we get back a sorted tree of all links.
  * Along the way, add a 'depth' property to each link.
  */
-function sortMenuLinks(menuLinks) {
+function sortMenuLinksWithDepth(menuLinks) {
   const sortedLinks = [];
   const roots = [];
   const children = [];
@@ -29,9 +29,6 @@ function sortMenuLinks(menuLinks) {
       children[rootUuid].push(link);
     }
   }
-
-  // console.log(roots);
-  // console.log(children);
 
   // We go through each parent and push its children into a 'children' array.
   while (roots.length > 0) {
@@ -59,8 +56,59 @@ function sortMenuLinks(menuLinks) {
   return sortedLinks;
 }
 
-function log(item) {
-  console.dir(item, { depth: null, maxArrayLength: null });
+function createLinkObj(link) {
+  return {
+    text: link.title,
+    href: link.link.url.path,
+  };
+}
+
+function makeLinkList(links) {
+  const list = [];
+
+  links.forEach(link => {
+    const linkObj = createLinkObj(link);
+    list.push(linkObj);
+  });
+
+  return list;
+}
+
+function getArrayDepth(arr) {
+  const counter = curArr =>
+    curArr.children[0] ? Math.max(...curArr.children.map(counter)) + 1 : 0;
+  return counter(arr);
+}
+
+function makeColumns(childLinks, arrayDepth) {
+  const columns = {};
+  const columnNames = ['columnOne', 'columnTwo', 'columnThree', 'columnFour']; // Possible column names.
+  let i = 0;
+
+  childLinks.forEach(childLink => {
+    // Create named columns.
+    if (childLink.children.length > 0) {
+      const column = {
+        title: childLink.title,
+        links: makeLinkList(childLink.children),
+      };
+      columns[columnNames[i]] = column;
+      i++;
+
+      // If we have no children, then this is the 'See all' link.
+    } else if (arrayDepth === 3) {
+      columns.seeAllLink = createLinkObj(childLink);
+    }
+  });
+
+  return columns;
+}
+
+function makeSection(child, arrayDepth) {
+  return {
+    title: child.title,
+    links: makeColumns(child.children, arrayDepth),
+  };
 }
 
 function formatHeaderData(menuLinks) {
@@ -72,10 +120,38 @@ function formatHeaderData(menuLinks) {
   // To create the desired json schema, we'll need a hierarchical
   // list of menu links, rather than the flat list that Drupal/GraphQL
   // provide.
-  menuLinks = sortMenuLinks(menuLinks);
+  menuLinks = sortMenuLinksWithDepth(menuLinks);
 
-  log('****');
-  log(menuLinks);
+  // Top-level.
+  menuLinks.forEach(link => {
+    const linkObj = { title: link.title };
+
+    // If this top-level item has a link, add it.
+    if (link.link.url.path !== '') {
+      linkObj.href = link.link.url.path;
+    }
+
+    // If we have children, add in menuSections.
+    if (link.children.length > 0) {
+      const arrayDepth = getArrayDepth(link);
+
+      // For the deepest tabs, like our hub tab.
+      // We have an extra left column that defines 'sections', which in practical terms are hubs.
+      if (arrayDepth === 3) {
+        linkObj.menuSections = [];
+        link.children.forEach(child => {
+          linkObj.menuSections.push(makeSection(child, arrayDepth));
+        });
+      } else {
+        // For menu tabs with a depth < 3, like our 'About VA' tab.
+        // In this case, we go straight to 'columns' rather than defining wider 'sections.'
+        // Note, that menuSections is an object in this case, instead of an array.
+        linkObj.menuSections = makeColumns(link.children, arrayDepth);
+      }
+    }
+
+    headerData.push(linkObj);
+  });
 
   headerData = menuLinks;
   return headerData;
