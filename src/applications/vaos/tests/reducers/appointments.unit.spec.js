@@ -17,7 +17,7 @@ import { FETCH_STATUS } from '../../utils/constants';
 const initialState = {};
 
 describe('VAOS reducer: appointments', () => {
-  it('should update confirmedLoading to be true when calling FETCH_CONFIRMED_APPOINTMENTS', () => {
+  it('should update confirmedStatus to be loading when calling FETCH_CONFIRMED_APPOINTMENTS', () => {
     const action = {
       type: FETCH_CONFIRMED_APPOINTMENTS,
     };
@@ -27,7 +27,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.confirmedStatus).to.equal(FETCH_STATUS.loading);
   });
 
-  it('should update pastLoading to be true when calling FETCH_PAST_APPOINTMENTS', () => {
+  it('should update pastStatus to be loading when calling FETCH_PAST_APPOINTMENTS', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS,
     };
@@ -85,7 +85,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pending.length).to.equal(1);
   });
 
-  it('should update confirmedLoading to be false when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
+  it('should update confirmedStatus to be error when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_CONFIRMED_APPOINTMENTS_FAILED,
     };
@@ -95,7 +95,7 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.confirmedStatus).to.equal(FETCH_STATUS.error);
   });
 
-  it('should update pastLoading to be false when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
+  it('should update pastStatus to be error when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS_FAILED,
     };
