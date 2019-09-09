@@ -24,25 +24,26 @@ export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 
 export function fetchConfirmedAppointments() {
-  return dispatch => {
-    dispatch({
-      type: FETCH_CONFIRMED_APPOINTMENTS,
-    });
-
-    // Mock API Call
-    setTimeout(() => {
+  return (dispatch, getState) => {
+    if (getState().appointments.confirmedStatus === FETCH_STATUS.notStarted) {
       dispatch({
-        type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-        data: confirmed,
+        type: FETCH_CONFIRMED_APPOINTMENTS,
       });
-    }, 2000);
+
+      // Mock API Call
+      setTimeout(() => {
+        dispatch({
+          type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
+          data: confirmed,
+        });
+      }, 1500);
+    }
   };
 }
 
 export function fetchPendingAppointments() {
   return (dispatch, getState) => {
-    const appointmentsState = getState().appointments;
-    if (appointmentsState.pendingStatus === FETCH_STATUS.notStarted) {
+    if (getState().appointments.pendingStatus === FETCH_STATUS.notStarted) {
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS,
       });
@@ -53,7 +54,7 @@ export function fetchPendingAppointments() {
           type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
           data: pending,
         });
-      }, 2000);
+      }, 1500);
     }
   };
 }
@@ -70,6 +71,6 @@ export function fetchPastAppointments() {
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
         data: past,
       });
-    }, 2000);
+    }, 1500);
   };
 }
