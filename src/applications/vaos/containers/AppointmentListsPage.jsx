@@ -21,12 +21,14 @@ export class AppointmentListsPage extends Component {
   render() {
     const {
       confirmed,
-      confirmedLoading,
+      confirmedStatus,
       pending,
       pendingStatus,
     } = this.props.appointments;
 
-    const loading = confirmedLoading || pendingStatus === FETCH_STATUS.loading;
+    const loading =
+      confirmedStatus === FETCH_STATUS.loading ||
+      pendingStatus === FETCH_STATUS.loading;
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
