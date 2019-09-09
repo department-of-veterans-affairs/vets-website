@@ -38,9 +38,7 @@ const SCOContactInformation = props => (
               <div>
                 {props.scos[1].firstName} {props.scos[1].lastName}
               </div>
-
               <div>{props.scos[1].title}</div>
-
               <div>
                 <a href={`mailto:${props.scos[1].email}`}>
                   {props.scos[1].email}
