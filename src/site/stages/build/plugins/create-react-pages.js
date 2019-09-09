@@ -21,6 +21,7 @@ function createReactPages() {
             title: appName,
             entryname: entryName,
             path: trimmedUrl,
+            layout: 'page-react.html',
             contents: Buffer.from('\n<!-- Generated from manifest.json -->\n'),
             ...template,
           };
