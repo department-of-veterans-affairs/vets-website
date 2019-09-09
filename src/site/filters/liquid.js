@@ -55,6 +55,18 @@ module.exports = function registerFilters() {
     return prettyTimeFormatted;
   };
 
+  liquid.filters.drupalToVaPath = content => {
+    let replaced = content.replace(/href="(.*?)(png|jpg|jpeg|svg|gif)"/g, img =>
+      img.replace('sites/default/files', 'img'),
+    );
+
+    replaced = replaced.replace(/href="(.*?)(doc|docx|pdf|txt)"/g, file =>
+      file.replace('sites/default/files', 'files'),
+    );
+
+    return replaced;
+  };
+
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
   liquid.filters.unixFromDate = data => new Date(data).getTime();
