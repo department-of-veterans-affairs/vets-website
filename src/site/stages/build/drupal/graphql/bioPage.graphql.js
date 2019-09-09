@@ -21,11 +21,15 @@ module.exports = `
       : ''
   }
   fieldOffice {
-    entity {
-      entityLabel
-      entityType
+      entity {
+        entityLabel
+        entityType
+        ...on NodeHealthCareRegionPage {
+          ${entityElementsFromPages}
+          fieldNicknameForThisFacility
+        }
+      }
     }
-  }
   fieldIntroText
   fieldPhotoAllowHiresDownload
   fieldMedia {
