@@ -19,7 +19,7 @@ function formatDate(date) {
 }
 
 export default function PendingAppointment({ appointment }) {
-  const isCommunityCare = appointment.typeOfCareId.startsWith('CC');
+  const isCommunityCare = !!appointment.ccAppointmentRequest;
 
   return (
     <li className="vads-u-border-left--5px vads-u-border-color--gold vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
