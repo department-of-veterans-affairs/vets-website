@@ -10,11 +10,13 @@ import {
   FETCH_PAST_APPOINTMENTS_FAILED,
 } from '../actions/appointments';
 
+import { FETCH_STATUS } from '../utils/constants';
+
 const initialState = {
   confirmed: null,
   confirmedLoading: true,
   pending: null,
-  pendingLoading: true,
+  pendingStatus: FETCH_STATUS.notStarted,
   past: null,
   pastLoading: true,
 };
@@ -24,7 +26,7 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_CONFIRMED_APPOINTMENTS:
       return {
         ...state,
-        confirmedLoading: true,
+        confirmedStatus: true,
       };
     case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED:
       return {
@@ -41,20 +43,31 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_PENDING_APPOINTMENTS:
       return {
         ...state,
-        pendingLoading: true,
+        pendingStatus: FETCH_STATUS.loading,
       };
-    case FETCH_PENDING_APPOINTMENTS_SUCCEEDED:
+    case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
+      const pending = action.data.appointmentRequests.filter(
+        req => req.status === 'Submitted',
+      );
+      pending.sort((a, b) => {
+        if (a.appointmentType < b.appointmentType) {
+          return -1;
+        } else if (a.appointmentType > b.appointmentType) {
+          return 1;
+        }
+        return 0;
+      });
+
       return {
         ...state,
-        pendingLoading: false,
-        pending: action.data.appointmentRequests.filter(
-          req => req.status === 'Submitted',
-        ),
+        pendingStatus: FETCH_STATUS.successful,
+        pending,
       };
+    }
     case FETCH_PENDING_APPOINTMENTS_FAILED:
       return {
         ...state,
-        pendingLoading: false,
+        pendingStatus: FETCH_STATUS.error,
         pending: null,
       };
     case FETCH_PAST_APPOINTMENTS:

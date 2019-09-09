@@ -9,6 +9,7 @@ import {
   fetchConfirmedAppointments,
   fetchPendingAppointments,
 } from '../actions/appointments';
+import { FETCH_STATUS } from '../utils/constants';
 
 export class AppointmentListsPage extends Component {
   componentDidMount() {
@@ -21,10 +22,10 @@ export class AppointmentListsPage extends Component {
       confirmed,
       confirmedLoading,
       pending,
-      pendingLoading,
+      pendingStatus,
     } = this.props.appointments;
 
-    const loading = confirmedLoading || pendingLoading;
+    const loading = confirmedLoading || pendingStatus === FETCH_STATUS.loading;
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -53,7 +54,7 @@ export class AppointmentListsPage extends Component {
                         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
                           Confirmed appointments
                         </h2>
-                        {!loading && (
+                        {!confirmedLoading && (
                           <div>
                             You have{' '}
                             <span className="vaos-appt-list__badge vads-u-background-color--green-lightest">
@@ -80,7 +81,7 @@ export class AppointmentListsPage extends Component {
                         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
                           Pending appointments
                         </h2>
-                        {!loading && (
+                        {pendingStatus === FETCH_STATUS.successful && (
                           <div>
                             You have{' '}
                             <span className="vaos-appt-list__badge vads-u-background-color--gibill-accent">

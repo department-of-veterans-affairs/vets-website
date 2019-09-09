@@ -3,6 +3,8 @@ import confirmed from './confirmed.json';
 import pending from './requests.json';
 import past from './past.json';
 
+import { FETCH_STATUS } from '../utils/constants';
+
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =
   'vaos/FETCH_PENDING_APPOINTMENTS_FAILED';
@@ -38,18 +40,21 @@ export function fetchConfirmedAppointments() {
 }
 
 export function fetchPendingAppointments() {
-  return dispatch => {
-    dispatch({
-      type: FETCH_PENDING_APPOINTMENTS,
-    });
-
-    // Mock API Call
-    setTimeout(() => {
+  return (dispatch, getState) => {
+    const appointmentsState = getState().appointments;
+    if (appointmentsState.pendingStatus === FETCH_STATUS.notStarted) {
       dispatch({
-        type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-        data: pending,
+        type: FETCH_PENDING_APPOINTMENTS,
       });
-    }, 2000);
+
+      // Mock API Call
+      setTimeout(() => {
+        dispatch({
+          type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
+          data: pending,
+        });
+      }, 2000);
+    }
   };
 }
 
