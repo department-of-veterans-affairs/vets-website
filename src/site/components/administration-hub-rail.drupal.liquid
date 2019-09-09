@@ -3,10 +3,12 @@
         {% assign accordionId = administration.entityBundle | append: administration.entityId  %}
         <button class="usa-accordion-button usa-accordion-button-dark rail-heading" aria-expanded="true" aria-controls="{{ accordionId }}">Connect with us</button>
         <div id="{{ accordionId }}" class="usa-accordion-content" aria-hidden="false">
-            <h4 class="va-nav-linkslist-list">
-                <a href="{{ administration.fieldLink.url.path }}"
-                  onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">{{ administration.name }}</a>
-            </h4>
+            {% if administration.fieldLink.url.path %}
+              <h4 class="va-nav-linkslist-list">
+                  <a href="{{ administration.fieldLink.url.path }}"
+                    onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Connect with us' });">{{ administration.name }}</a>
+              </h4>
+            {% endif %}
 
             <section>
                 <h4>Get updates</h4>
