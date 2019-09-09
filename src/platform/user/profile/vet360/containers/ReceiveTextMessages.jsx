@@ -5,7 +5,10 @@ import * as VET360 from '../constants';
 
 import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
-import { isPendingTransaction } from '../util/transactions';
+import {
+  isPendingTransaction,
+  isFailedTransaction,
+} from '../util/transactions';
 
 import { createTransaction } from '../actions';
 
@@ -15,16 +18,18 @@ import {
   selectEditedFormField,
 } from '../selectors';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+// import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 class ReceiveTextMessages extends React.Component {
+  /*
   state = {
     showSuccess: false,
     checkboxValue: this.props.checked,
   };
+  */
 
   componentDidMount() {
     if (this.props.profile.verified) {
@@ -47,16 +52,20 @@ class ReceiveTextMessages extends React.Component {
       this.props.analyticsSectionName,
     );
 
+    /*
     this.setState({
       checkboxValue: event,
       showSuccess: true, // TODO: not what we want
     });
+    */
   };
 
+  /*
   isSuccessAlertVisible = () => {
     // TODO: This is not enough
     return this.state.showSuccess;
   };
+  */
 
   render() {
     const {
@@ -66,11 +75,14 @@ class ReceiveTextMessages extends React.Component {
       transaction,
     } = this.props;
 
+    const hasError = transaction && isFailedTransaction(transaction);
+
     if (
       environment.isProduction() ||
       isEmpty ||
       !isTextable ||
       !isEnrolledInHealthCare ||
+      hasError ||
       (transaction && isPendingTransaction(this.props.transaction))
     )
       return null;
@@ -79,7 +91,7 @@ class ReceiveTextMessages extends React.Component {
       <div className="receive-text-messages">
         <div className="form-checkbox-buttons">
           <ErrorableCheckbox
-            checked={!!this.state.checkboxValue}
+            checked={!!this.props.checked}
             label={
               <span>
                 Receive text messages (SMS) for VA health care appointment
@@ -88,12 +100,14 @@ class ReceiveTextMessages extends React.Component {
             }
             onValueChange={this.onChange}
           />
+          {/*
           <AlertBox
             isVisible={this.isSuccessAlertVisible()}
             content={<p>Your preference has been saved.</p>}
             status="success"
             backgroundOnly
           />
+          */}
         </div>
       </div>
     );
