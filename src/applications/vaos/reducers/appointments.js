@@ -26,7 +26,7 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_CONFIRMED_APPOINTMENTS:
       return {
         ...state,
-        confirmedStatus: true,
+        confirmedLoading: true,
       };
     case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED:
       return {

@@ -12,6 +12,8 @@ import {
   FETCH_PAST_APPOINTMENTS_FAILED,
 } from '../../actions/appointments';
 
+import { FETCH_STATUS } from '../../utils/constants';
+
 const initialState = {};
 
 describe('VAOS reducer: appointments', () => {
@@ -42,7 +44,7 @@ describe('VAOS reducer: appointments', () => {
 
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.pendingLoading).to.be.true;
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.loading);
   });
 
   it('should populate confirmed with appointments with FETCH_CONFIRMED_APPOINTMENTS_SUCCEDED', () => {
@@ -70,11 +72,16 @@ describe('VAOS reducer: appointments', () => {
   it('should populate pending with appointments with FETCH_PENDING_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-      data: { appointmentRequests: [{ id: 1, status: 'Submitted' }] },
+      data: {
+        appointmentRequests: [
+          { id: 1, status: 'Submitted' },
+          { id: 2, status: 'Booked' },
+        ],
+      },
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.pendingLoading).to.be.false;
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.successful);
     expect(newState.pending.length).to.equal(1);
   });
 
@@ -98,12 +105,12 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastLoading).to.be.false;
   });
 
-  it('should update pendingLoading to be false when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
+  it('should update pendingStatus to be error when calling FETCH_PENDING_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_PENDING_APPOINTMENTS_FAILED,
     };
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.pendingLoading).to.be.false;
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.error);
   });
 });
