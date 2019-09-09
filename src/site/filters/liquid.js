@@ -63,6 +63,8 @@ module.exports = function registerFilters() {
 
   liquid.filters.modulo = item => item % 2;
 
+  liquid.filters.genericModulo = (i, n) => i % n;
+
   liquid.filters.listValue = data => {
     const string = data.split('_').join(' ');
     return string;
