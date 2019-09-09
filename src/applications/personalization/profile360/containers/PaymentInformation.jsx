@@ -141,9 +141,10 @@ class PaymentInformation extends React.Component {
 
   renderSetupButton(label, gaProfileSection) {
     return (
-      <a
+      <button
+        className="va-button-link"
         onClick={() => this.handleLinkClick('add', gaProfileSection)}
-      >{`Please add your ${label}`}</a>
+      >{`Please add your ${label}`}</button>
     );
   }
 
@@ -217,8 +218,10 @@ class PaymentInformation extends React.Component {
           {directDepositIsSetUp && (
             <p>
               <strong>Note:</strong> If you think you’ve been the victim of bank
-              fraud, please call us at 800-827-1000 (TTY: 800-829-4833). We’re
-              here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+              fraud, please call us at{' '}
+              <span className="no-wrap">800-827-1000</span> (TTY:{' '}
+              <span className="no-wrap">800-829-4833</span>
+              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
             </p>
           )}
 
