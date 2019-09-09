@@ -156,7 +156,7 @@ def checkForBrokenLinks(String buildLogPath, String envName) {
       channel: 'cms-general'
 
     // Only break the build if broken links are found in master
-    if (isDeployable()) {
+    if (IS_PROD_BRANCH) {
       throw new Exception('Broken links found')
     }
   } else {
