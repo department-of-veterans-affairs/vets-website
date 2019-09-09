@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
+const ENVIRONMENTS = require('../../../constants/environments');
 
 /**
  * Takes an object of CMS feature flags, puts them in a Proxy which
@@ -11,7 +12,7 @@ const fs = require('fs-extra');
  * @return {Proxy} - A Proxy containing all the feature flags; throws
  *                   an error if a flag is called without existing
  */
-function useFlags(rawFlags) {
+function useFlags(rawFlags, buildType) {
   const p = new Proxy(rawFlags, {
     get(obj, prop) {
       if (prop in obj) {
@@ -27,7 +28,10 @@ function useFlags(rawFlags) {
         'inspect',
         'Symbol(Symbol.iterator)',
       ];
-      if (!ignoreList.includes(prop.toString())) {
+      if (
+        !ignoreList.includes(prop.toString()) &&
+        buildType !== ENVIRONMENTS.LOCALHOST // Don't fail a localhost build for missing query flags
+      ) {
         throw new ReferenceError(
           `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
         );
@@ -50,13 +54,18 @@ function useFlags(rawFlags) {
  *
  * This is for use with the drupal-aws-cache script. The normal build
  * and preview build scripts do this in setUpFeatureFlags().
+ *
+ * This function doesn't check for the existence of a feature flags file
+ * because those should have already been pulled using --pull-drupal.
+ * Not having a failsafe allows for better visibility into any potential
+ * error messages and prevents the upload of a cache without feature flags.
  */
-function loadFeatureFlags(cacheDirectory) {
+function loadFeatureFlags(cacheDirectory, buildType) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
   const rawFlags = fs.readJsonSync(featureFlagFile);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useFlags(rawFlags);
+  return useFlags(rawFlags, buildType);
 }
 
 module.exports = { loadFeatureFlags, useFlags };
