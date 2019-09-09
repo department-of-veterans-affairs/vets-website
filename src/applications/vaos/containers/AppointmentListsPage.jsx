@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import { focusElement } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-import get from 'platform/utilities/data/get';
 import {
   fetchConfirmedAppointments,
   fetchPendingAppointments,
