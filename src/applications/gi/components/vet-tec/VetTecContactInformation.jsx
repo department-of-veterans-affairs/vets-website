@@ -103,9 +103,10 @@ export const VetTecContactInformation = ({ institution }) => (
       </div>
     </div>
     {/* Production flag for 19534 */}
-    {!environment.isProduction() && (
-      <SCOContactInformation scos={institution.schoolCertifyingOfficials} />
-    )}
+    {!environment.isProduction() &&
+      institution.schoolCertifyingOfficials.length > 0 && (
+        <SCOContactInformation scos={institution.schoolCertifyingOfficials} />
+      )}
   </div>
 );
 
