@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs-extra');
-const ENVIRONMENTS = require('../../../constants/environments');
 
 /**
  * Takes an object of CMS feature flags, puts them in a Proxy which
@@ -12,7 +11,7 @@ const ENVIRONMENTS = require('../../../constants/environments');
  * @return {Proxy} - A Proxy containing all the feature flags; throws
  *                   an error if a flag is called without existing
  */
-function useFlags(rawFlags, buildType) {
+function useFlags(rawFlags) {
   const p = new Proxy(rawFlags, {
     get(obj, prop) {
       if (prop in obj) {
@@ -28,11 +27,9 @@ function useFlags(rawFlags, buildType) {
         'inspect',
         'Symbol(Symbol.iterator)',
       ];
-      if (
-        !ignoreList.includes(prop.toString()) &&
-        buildType !== ENVIRONMENTS.LOCALHOST // Don't fail a localhost build for missing query flags
-      ) {
-        throw new ReferenceError(
+      if (!ignoreList.includes(prop.toString())) {
+        // eslint-disable-next-line no-console
+        console.error(
           `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
         );
       }
@@ -60,12 +57,12 @@ function useFlags(rawFlags, buildType) {
  * Not having a failsafe allows for better visibility into any potential
  * error messages and prevents the upload of a cache without feature flags.
  */
-function loadFeatureFlags(cacheDirectory, buildType) {
+function loadFeatureFlags(cacheDirectory) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');
   const rawFlags = fs.readJsonSync(featureFlagFile);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useFlags(rawFlags, buildType);
+  return useFlags(rawFlags);
 }
 
 module.exports = { loadFeatureFlags, useFlags };
