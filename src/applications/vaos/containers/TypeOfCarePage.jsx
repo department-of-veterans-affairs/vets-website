@@ -3,21 +3,22 @@ import { connect } from 'react-redux';
 import { openFormPage, updateFormData } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { TYPES_OF_CARE } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
-  required: ['typeOfAppointment'],
+  required: ['typeOfCareId'],
   properties: {
-    typeOfAppointment: {
+    typeOfCareId: {
       type: 'string',
-      enum: ['provider', 'typeOfCare'],
+      enum: TYPES_OF_CARE.map(care => care.id || care.ccId),
     },
   },
 };
 
 const uiSchema = {
-  typeOfAppointment: {
-    'ui:title': 'How would you like to make an appointment?',
+  typeOfCareId: {
+    'ui:title': 'What type of care do you need?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -46,9 +47,9 @@ const uiSchema = {
   },
 };
 
-const pageKey = 'type-appointment';
+const pageKey = 'type-of-care';
 
-export class TypeOfAppointmentPage extends React.Component {
+export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
@@ -58,17 +59,18 @@ export class TypeOfAppointmentPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/type-of-care');
+    this.props.router.push('/new-appointment/contact-info');
   };
 
   render() {
     const { schema, data } = this.props;
 
     return (
-      <div className="vaos-form__appt-type">
+      <div>
+        <h1 className="vads-u-font-size--h2">Choose the type of care you need</h1>
         <SchemaForm
-          name="Type of appointment"
-          title="Type of appointment"
+          name="Type of care"
+          title="Type of care"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
@@ -116,4 +118,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfAppointmentPage);
+)(TypeOfCarePage);
