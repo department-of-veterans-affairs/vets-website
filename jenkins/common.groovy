@@ -139,7 +139,7 @@ def setup() {
  * dockerContainer.inside() context so buildLog can point to the right file.
  */
 def findMissingQueryFlags(String buildLog) {
-  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\1/p' ${buildLog}")
+  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\1/p' ${buildLog} | sort | uniq")
   if (missingFlags) {
     slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
       color: 'warning',
