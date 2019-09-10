@@ -2,6 +2,7 @@
 
 const { getRelatedHubByPath } = require('./utilities-drupal');
 const { getArrayDepth } = require('../../../utilities/arrayHelpers');
+const { qualifyUrl } = require('../../../utilities/stringHelpers');
 
 /* 
  * Perform a topological sort on the flat list of menu links
@@ -62,7 +63,7 @@ function sortMenuLinksWithDepth(menuLinks) {
 function createLinkObj(link) {
   return {
     text: link.title,
-    href: link.link.url.path,
+    href: qualifyUrl(link.link.url.path),
   };
 }
 
@@ -83,12 +84,12 @@ function makePromo(promo) {
 
   return {
     img: {
-      src: img.derivative.url,
+      src: qualifyUrl(img.derivative.url),
       alt: img.alt || '',
     },
     link: {
       text: link.title,
-      href: link.url.path,
+      href: qualifyUrl(link.url.path),
     },
     description: promo.entity.fieldPromoLink.entity.fieldLinkSummary,
   };
@@ -161,7 +162,7 @@ function formatHeaderData(menuLinks, pages) {
 
     // If this top-level item has a link, add it.
     if (link.link.url.path !== '') {
-      linkObj.href = link.link.url.path;
+      linkObj.href = qualifyUrl(link.link.url.path);
     }
 
     // If we have children, add in menuSections.

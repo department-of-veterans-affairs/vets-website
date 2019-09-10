@@ -40,8 +40,19 @@ function updateQueryString(matchedString) {
   return updatedString;
 }
 
+// If a url is relative (not fully-qualified), return the fully-qualified version.
+function qualifyUrl(path) {
+  const siteUrl = 'https://va.gov';
+  if (path.indexOf('http') !== 0) {
+    const pathWithSlash = path.charAt(0) === '/' ? path : `/${path}`;
+    return siteUrl + pathWithSlash;
+  }
+  return path;
+}
+
 module.exports = {
   updateQueryString,
   queryParamToBeChanged,
   camelize,
+  qualifyUrl,
 };
