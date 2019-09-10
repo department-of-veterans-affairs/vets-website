@@ -75,7 +75,7 @@ export class SchoolLocations extends React.Component {
       physicalZip,
     } = institution;
     const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
-      <h6>{name}</h6>
+      <p className="main-campus-name">{name}</p>
     ) : (
       name
     );
@@ -152,15 +152,9 @@ export class SchoolLocations extends React.Component {
       <table>
         <thead>
           <tr>
-            <th>
-              <h4>School Name</h4>
-            </th>
-            <th>
-              <h4>Location</h4>
-            </th>
-            <th>
-              <h4>Estimated housing</h4>
-            </th>
+            <th>School Name</th>
+            <th>Location</th>
+            <th>Estimated housing</th>
           </tr>
         </thead>
         <tbody>
