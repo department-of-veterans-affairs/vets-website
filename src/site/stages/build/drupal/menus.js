@@ -1,4 +1,7 @@
-/* eslint-disable no-param-reassign, no-continue, no-console */
+/* eslint-disable no-param-reassign */
+
+const { getRelatedHubByPath } = require('./utilities-drupal');
+const { getArrayDepth } = require('../../../utilities/arrayHelpers');
 
 /* 
  * Perform a topological sort on the flat list of menu links
@@ -74,16 +77,40 @@ function makeLinkList(links) {
   return list;
 }
 
-function getArrayDepth(arr) {
-  const counter = curArr =>
-    curArr.children[0] ? Math.max(...curArr.children.map(counter)) + 1 : 0;
-  return counter(arr);
+function makePromo(promo) {
+  const img = promo.entity.fieldImage.entity.image;
+  const link = promo.entity.fieldPromoLink.entity.fieldLink;
+
+  return {
+    img: {
+      src: img.derivative.url,
+      alt: img.alt || '',
+    },
+    link: {
+      text: link.title,
+      href: link.url.path,
+    },
+    description: promo.entity.fieldPromoLink.entity.fieldLinkSummary,
+  };
 }
 
-function makeColumns(childLinks, arrayDepth) {
+function makeColumns(childLinks, arrayDepth, promo, pages) {
   const columns = {};
-  const columnNames = ['columnOne', 'columnTwo', 'columnThree', 'columnFour']; // Possible column names.
-  let i = 0;
+  const columnNames = [
+    // Possible column names.
+    'mainColumn',
+    'columnOne',
+    'columnTwo',
+    'columnThree',
+    'columnFour',
+  ];
+  let i = 1;
+
+  // I'm not sure why it's set up this way, but the About VA (arrayDepth = 2)
+  // tab starts with 'mainColumn.'
+  if (arrayDepth < 3) {
+    i = 0;
+  }
 
   childLinks.forEach(childLink => {
     // Create named columns.
@@ -96,22 +123,28 @@ function makeColumns(childLinks, arrayDepth) {
       i++;
 
       // If we have no children, then this is the 'See all' link.
+      // This also means we will have a promo block related to this hub.
     } else if (arrayDepth === 3) {
       columns.seeAllLink = createLinkObj(childLink);
+      promo = getRelatedHubByPath(childLink, pages).fieldPromo;
+    }
+
+    if (promo !== null) {
+      columns[columnNames[i]] = makePromo(promo);
     }
   });
 
   return columns;
 }
 
-function makeSection(child, arrayDepth) {
+function makeSection(child, arrayDepth, promo, pages) {
   return {
     title: child.title,
-    links: makeColumns(child.children, arrayDepth),
+    links: makeColumns(child.children, arrayDepth, promo, pages),
   };
 }
 
-function formatHeaderData(menuLinks) {
+function formatHeaderData(menuLinks, pages) {
   let headerData = [];
 
   // Sort by menu weight so we don't have do any sorting later.
@@ -140,13 +173,19 @@ function formatHeaderData(menuLinks) {
       if (arrayDepth === 3) {
         linkObj.menuSections = [];
         link.children.forEach(child => {
-          linkObj.menuSections.push(makeSection(child, arrayDepth));
+          linkObj.menuSections.push(
+            makeSection(child, arrayDepth, link.fieldPromoReference, pages),
+          );
         });
       } else {
         // For menu tabs with a depth < 3, like our 'About VA' tab.
         // In this case, we go straight to 'columns' rather than defining wider 'sections.'
         // Note, that menuSections is an object in this case, instead of an array.
-        linkObj.menuSections = makeColumns(link.children, arrayDepth);
+        linkObj.menuSections = makeColumns(
+          link.children,
+          arrayDepth,
+          link.fieldPromoReference,
+        );
       }
     }
 

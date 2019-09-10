@@ -48,6 +48,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     nullEntities: 0,
     emptyEntities: 0,
   };
+
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
     // Once the Content-Preview server is up and running, then unpublished pages should
@@ -102,7 +103,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   }
 
   addHomeContent(contentData, files);
-  formatHeaderData(menuLinks);
+  formatHeaderData(menuLinks, pages);
 }
 
 async function loadDrupal(buildOptions) {

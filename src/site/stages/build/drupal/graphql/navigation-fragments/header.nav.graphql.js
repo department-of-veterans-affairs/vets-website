@@ -15,17 +15,41 @@ module.exports = `
         }
         fieldPromoReference {
           ... on FieldMenuLinkContentHeaderMegamenuFieldPromoReference {
-            targetId
             entity {
-              entityId
-              entityLabel
               ... on BlockContentPromo {
                 fieldImage {
-                  targetId
+                  entity {
+                    ... on MediaImage {
+                      image {
+                        url
+                        alt
+                        title
+                        width
+                        height
+                        derivative(style: CROP_FREEFORM) {
+                          url
+                          width
+                          height
+                        }
+                      }
+                    }
+                  }
                 }
                 fieldPromoLink {
-                  targetId
-                  targetRevisionId
+                  ...on FieldBlockContentPromoFieldPromoLink {
+                    entity {
+                      ... on ParagraphLinkTeaser {
+                        fieldLink {
+                          url {
+                            path
+                          }
+                          title
+                          options
+                        }
+                        fieldLinkSummary
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -33,10 +57,5 @@ module.exports = `
         }
         title
         uuid
-        bundle {
-          entity {
-            entityLabel
-          } 
-        }
       }
 `;

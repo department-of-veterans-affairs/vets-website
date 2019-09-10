@@ -27,8 +27,25 @@ function getDrupalCacheKey(env) {
   return `${env}_${hash}`;
 }
 
+function getRelatedHubByPath(link, pages) {
+  const hub = pages.filter(page => {
+    // Careful: Some pages are empty objects, and breadcrumbs are in flux.
+    if (page.entityUrl && page.entityUrl !== null) {
+      return (
+        page.entityUrl.path === link.link.url.path &&
+        page.entityBundle === 'landing_page'
+      );
+    }
+    return false;
+  });
+
+  // We'll only ever have one related hub.
+  return hub[0];
+}
+
 module.exports = {
   logDrupal,
   facilityLocationPath,
   getDrupalCacheKey,
+  getRelatedHubByPath,
 };
