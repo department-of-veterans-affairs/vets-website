@@ -163,6 +163,45 @@
       }
     }
   }
+  .cautionary-information-new {
+    .table {
+      table {
+        margin: 1em 0;
+      }
+
+      th:first-child {
+        width: 60%;
+      }
+    }
+
+    .complaints-by-type {
+      th:first-child span {
+        font-weight: normal;
+      }
+    }
+
+    .list {
+      h4 {
+        padding: 0.5em 0 !important;
+      }
+      .number {
+        text-align: right;
+      }
+      margin-bottom: 1em;
+    }
+
+    @media screen and (min-width: $medium-screen) {
+      .list {
+        display: none;
+      }
+    }
+
+    @include media-maxwidth($small-screen) {
+      .table {
+        display: none;
+      }
+    }
+  }
 
   .additional-information {
     .historical-information.list {
@@ -221,7 +260,7 @@
       white-space: nowrap;
     }
 
-    padding-bottom:1rem;
+    padding-bottom: 1rem;
   }
 
   .vettec-logo-container {

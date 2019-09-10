@@ -1,4 +1,7 @@
 import React from 'react';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import {
   getRatings,
   getRatingErrorMessage,
@@ -77,6 +80,8 @@ export default class DisabilityRatingCalculator extends React.Component {
       disabilities: disabilitiesValidated,
       calculatedRating: calculateCombinedRating(ratings),
     });
+
+    recordEvent({ event: 'widget-disability-ratings-calculator-calculate' });
   };
 
   handleAddRating = () => {

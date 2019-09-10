@@ -40,6 +40,13 @@ module.exports = function registerFilters() {
     return dt;
   };
 
+  liquid.filters.toTitleCase = phrase =>
+    phrase
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
   liquid.filters.formatDate = (dt, format) => {
     const prettyTime = moment(dt).format(format);
     const prettyTimeFormatted = prettyTime
@@ -62,6 +69,8 @@ module.exports = function registerFilters() {
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
 
   liquid.filters.modulo = item => item % 2;
+
+  liquid.filters.genericModulo = (i, n) => i % n;
 
   liquid.filters.listValue = data => {
     const string = data.split('_').join(' ');
