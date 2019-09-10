@@ -614,7 +614,8 @@ class CalculatorForm extends React.Component {
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
             charMax={5}
           />
-          <p>
+          <p aria-live="polite" aria-atomic="true">
+            <span class="sr-only">Your postal code is located in</span>
             <strong>{inputs.housingAllowanceCity}</strong>
           </p>
         </div>
