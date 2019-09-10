@@ -615,7 +615,7 @@ class CalculatorForm extends React.Component {
             charMax={5}
           />
           <p aria-live="polite" aria-atomic="true">
-            <span class="sr-only">Your postal code is located in</span>
+            <span className="sr-only">Your postal code is located in</span>
             <strong>{inputs.housingAllowanceCity}</strong>
           </p>
         </div>
