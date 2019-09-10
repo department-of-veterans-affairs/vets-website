@@ -25,10 +25,18 @@ function FlaggedAccount() {
 
 function InvalidRoutingNumber() {
   return (
-    <p>
-      We couldn’t find a bank linked to this routing number. Please check your
-      bank’s 9-digit routing number and enter it again.
-    </p>
+    <div id="errors" role="alert" aria-atomic="true">
+      <div className="usa-alert usa-alert-error">
+        <div className="usa-alert-body">
+          <div className="usa-alert-text">
+            <p>
+              We couldn’t find a bank linked to this routing number. Please
+              check your bank’s 9-digit routing number and enter it again.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
