@@ -18,7 +18,7 @@ export default function LandingPage() {
                   className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
                 >
                   <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
-                    <i className="vaos-landing__icon fas fa-plus" />
+                    <i className="vaos-option-list__icon fas fa-plus" />
                   </div>
                   <div className="vads-u-flex--1">
                     <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
@@ -38,7 +38,7 @@ export default function LandingPage() {
                   className="vads-u-text-decoration--none vads-u-color--base vads-u-padding-y--3 vads-u-display--flex vads-u-align-items--center"
                 >
                   <div className="vads-u-flex--auto vads-u-margin-right--2 vads-u-display--none medium-screen:vads-u-display--block">
-                    <i className="vaos-landing__icon fas fa-calendar-alt" />
+                    <i className="vaos-option-list__icon fas fa-calendar-alt" />
                   </div>
                   <div className="vads-u-flex--1">
                     <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
