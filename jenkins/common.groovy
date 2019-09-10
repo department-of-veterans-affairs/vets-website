@@ -192,7 +192,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
       // Find any missing query flags in the log
       if (envName == 'vagovprod') {
-	findMissingQueryFlags(buildLog)
+        findMissingQueryFlags(buildLog)
       }
 
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
