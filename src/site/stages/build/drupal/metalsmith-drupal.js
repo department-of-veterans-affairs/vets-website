@@ -32,7 +32,11 @@ const shouldPullDrupal = buildOptions => {
     DRUPAL_CACHE_FILENAME,
   );
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
-  return buildOptions[PULL_DRUPAL_BUILD_ARG] || !isDrupalAvailableInCache;
+  return (
+    buildOptions[PULL_DRUPAL_BUILD_ARG] ||
+    (!isDrupalAvailableInCache &&
+      buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) // Don't require a cache to build locally.
+  );
 };
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
