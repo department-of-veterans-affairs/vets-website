@@ -31,13 +31,13 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED:
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.successful,
+        confirmedStatus: FETCH_STATUS.succeeded,
         confirmed: action.data,
       };
     case FETCH_CONFIRMED_APPOINTMENTS_FAILED:
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.error,
+        confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
       };
     case FETCH_PENDING_APPOINTMENTS:
@@ -60,14 +60,14 @@ export default function appointmentsReducer(state = initialState, action) {
 
       return {
         ...state,
-        pendingStatus: FETCH_STATUS.successful,
+        pendingStatus: FETCH_STATUS.succeeded,
         pending,
       };
     }
     case FETCH_PENDING_APPOINTMENTS_FAILED:
       return {
         ...state,
-        pendingStatus: FETCH_STATUS.error,
+        pendingStatus: FETCH_STATUS.failed,
         pending: null,
       };
     case FETCH_PAST_APPOINTMENTS:
@@ -78,13 +78,13 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_PAST_APPOINTMENTS_SUCCEEDED:
       return {
         ...state,
-        pastStatus: FETCH_STATUS.successful,
+        pastStatus: FETCH_STATUS.succeeded,
         past: action.data,
       };
     case FETCH_PAST_APPOINTMENTS_FAILED:
       return {
         ...state,
-        pastStatus: FETCH_STATUS.error,
+        pastStatus: FETCH_STATUS.failed,
         past: null,
       };
     default:

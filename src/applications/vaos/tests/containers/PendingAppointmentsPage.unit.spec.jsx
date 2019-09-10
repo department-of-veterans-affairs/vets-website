@@ -26,7 +26,7 @@ describe('VAOS <PendingAppointmentsPage>', () => {
     const form = shallow(
       <PendingAppointmentsPage
         fetchPendingAppointments={fetchPendingAppointments}
-        status="successful"
+        status="succeeded"
         appointments={appointments}
       />,
     );
