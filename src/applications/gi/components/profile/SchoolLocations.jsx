@@ -189,8 +189,13 @@ export class SchoolLocations extends React.Component {
         <span>
           Below are locations for {main.institution.institution}. The housing
           estimates shown here are based on a full-time student taking in-person
-          classes. Select a link to view a location and calculate the benefits
-          you’d receive there.
+          classes.&nbsp;
+          {main.branches.length > 0 && ( // only displayed when branches exist
+            <span>
+              Select a link to view a location and calculate the benefits you’d
+              receive there.
+            </span>
+          )}
         </span>
         {this.renderFacilityMapTable(main)}
         {this.renderViewMore(main)}
