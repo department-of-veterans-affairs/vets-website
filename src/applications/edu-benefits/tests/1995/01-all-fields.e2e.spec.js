@@ -7,6 +7,7 @@ const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers'
 
 module.exports = E2eHelpers.createE2eTest(client => {
   EduHelpers.initApplicationSubmitMock('1995');
+  EduHelpers.initApplicationSubmitMock('1995s');
 
   // Ensure introduction page renders.
   client
