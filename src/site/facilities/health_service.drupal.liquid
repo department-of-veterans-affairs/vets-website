@@ -13,7 +13,7 @@
                 {% endif %}
             </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                {% if serviceTaxonomy.fieldCommonlyTreatedCondition %}<div><span class="vads-u-font-style--italic">Common Conditions: </span>{{ serviceTaxonomy.fieldCommonlyTreatedCondition }}</div>{% endif %}
+                {% if serviceTaxonomy.fieldCommonlyTreatedCondition %}<div class="vads-u-margin-bottom--2"><span class="vads-u-font-style--italic">Common conditions: </span>{{ serviceTaxonomy.fieldCommonlyTreatedCondition }}</div>{% endif %}
                 {% if serviceTaxonomy.description.processed  %}
                     <div>{{ serviceTaxonomy.description.processed }}</div>
                 {% endif %}

@@ -2,7 +2,13 @@
   <ul class="row va-nav-breadcrumbs-list columns" id="va-breadcrumbs-list">
     {% for crumb in entityUrl.breadcrumb %}
         {% if forloop.last == true %}
-            <li><a aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
+            <li><a aria-current="page" href="/{{ path }}">
+            {% if path == "pittsburgh-health-care" %}
+                {{ crumb.text }}
+            {% else %}
+                {{ crumb.text | downcase | capitalize }}
+            {% endif %}
+            </a></li>
         {% elsif crumb.url.path %}
             {% if crumb.url.path == '/' %}
                 <li>

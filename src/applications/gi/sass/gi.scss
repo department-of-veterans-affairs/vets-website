@@ -84,6 +84,9 @@
     padding-top: 1em;
   }
 
+  h1:focus {
+    outline:none;
+  }
 }
 
 .gibct-legend {

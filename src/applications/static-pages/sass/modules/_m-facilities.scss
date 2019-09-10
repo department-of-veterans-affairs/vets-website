@@ -75,17 +75,16 @@ $duo-tone-lighten: #000000;
 
 .facility-img {
   width: 100%;
-  height: 164px;
+  min-width: 250px;
+  min-height: 150px;
   object-fit: cover;
 
   @include media($small-screen) {
-    height: 180px;
-    width: 342px;
+    height: 150px;
+    width: 250px;
   }
 
   @include media($medium-large-screen) {
-    height: initial;
-    width: initial;
     object-fit: initial;
   }
 }
@@ -242,4 +241,21 @@ $duo-tone-lighten: #000000;
   height: 178px;
   width: 144px;
   object-fit: cover;
+}
+
+.person-profile-detail-page-image {
+  height: 227px;
+  width: 176px;
+  object-fit: cover;
+}
+
+
+.va-facility-page {
+  .va-address-block {
+    margin-left: 1rem;
+  }
+}
+
+.va-l-font-size--12px {
+  font-size: 12px !important;
 }

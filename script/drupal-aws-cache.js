@@ -19,9 +19,6 @@ const fs = require('fs-extra');
 const decompress = require('decompress');
 
 const ENVIRONMENTS = require('../src/site/constants/environments');
-const {
-  getDrupalCacheKey,
-} = require('../src/site/stages/build/drupal/utilities-drupal');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
@@ -30,6 +27,19 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 const cacheUrl = `https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/content`;
+const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
+const cacheDirectory = path.join('.cache', options.buildtype, 'drupal');
+
+// Load up the flags into `global` before requiring getDrupalCacheKey,
+// which uses the flags from `global`.
+const buildType = options.buildtype;
+require('../src/site/stages/build/drupal/load-saved-flags').loadFeatureFlags(
+  cacheDirectory,
+  buildType,
+);
+const {
+  getDrupalCacheKey,
+} = require('../src/site/stages/build/drupal/utilities-drupal');
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
@@ -54,9 +64,8 @@ function downloadFile(url, dest) {
   });
 }
 
-async function fetchCache(options) {
+async function fetchCache() {
   global.buildtype = options.buildtype;
-  const cacheDirectory = path.join('.cache', options.buildtype, 'drupal');
   const cacheEnv =
     options.buildtype === ENVIRONMENTS.LOCALHOST
       ? ENVIRONMENTS.VAGOVDEV
@@ -84,9 +93,8 @@ async function fetchCache(options) {
  * Compresses everything in .cache/{buildtype}/drupal/ and puts it in
  *  .cache/content/{buildtype}_{query-hash}.tar.bz2
  */
-async function createCacheFile(options) {
+async function createCacheFile() {
   global.buildtype = options.buildtype;
-  const cacheDirectory = path.join('.cache', options.buildtype, 'drupal');
   const cacheOutput = path.join('.cache', 'content');
   const cacheEnv =
     options.buildtype === ENVIRONMENTS.LOCALHOST
@@ -108,10 +116,8 @@ async function createCacheFile(options) {
   }
 }
 
-const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
-
 if (options.fetch) {
-  fetchCache(options);
+  fetchCache();
 } else {
-  createCacheFile(options);
+  createCacheFile();
 }

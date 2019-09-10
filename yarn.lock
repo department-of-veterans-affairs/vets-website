@@ -717,10 +717,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.7.1":
-  version "6.7.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.7.1.tgz#e93f6e0f0c77b735db230fca6fa20ffbc01138e3"
-  integrity sha512-OZX4tgMXzhkaJ5JPPrNC4csehKZLWTo8idjDaG9Auoc2+1KHjZ9qz15rWddXSDmtQxPKASMftw1mNjvN/Zv4hg==
+"@department-of-veterans-affairs/formation@^6.7.2":
+  version "6.7.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.7.2.tgz#47f77f097d3ed3551955af117570948e5b2ea2b4"
+  integrity sha512-tVonMaO4b0C9IMN6QYbyAQESxgFusT0uF78GaB1lyeJB8yVzP3ZXzma0xHQxMU0zQcvtSqTtK6Nk5NUFGRnXhQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -8859,6 +8859,7 @@ metalsmith-date-in-filename@^0.0.14:
 metalsmith-filenames@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/metalsmith-filenames/-/metalsmith-filenames-1.0.0.tgz#df4e69f246b8325bb9189e0273d2ee70899d00de"
+  integrity sha1-305p8ka4Mlu5GJ4Cc9LucImdAN4=
 
 metalsmith-in-place@^1.4.4:
   version "1.4.4"

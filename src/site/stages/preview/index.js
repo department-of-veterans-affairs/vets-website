@@ -21,8 +21,8 @@ const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 
-function createPipeline(options) {
-  const BUILD_OPTIONS = getOptions(options);
+async function createPipeline(options) {
+  const BUILD_OPTIONS = await getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
   const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
     BUILD_OPTIONS.buildtype,
@@ -40,6 +40,7 @@ function createPipeline(options) {
   smith.metadata({
     buildtype: BUILD_OPTIONS.buildtype,
     hostUrl: BUILD_OPTIONS.hostUrl,
+    featureToggles: '{}',
   });
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
