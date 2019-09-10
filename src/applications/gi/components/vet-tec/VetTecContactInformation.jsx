@@ -2,68 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 
-const SCOContactInformation = props => (
-  <div>
-    <div className="additional-information row vads-u-margin-y--4">
-      <div className="usa-width-one-half medium-6 columns">
-        <div className="physical-address usa-width-one-whole">
-          <h3>School certifying officials</h3>
-          <div>
-            <div>
-              {props.scos[0].firstName} {props.scos[0].lastName}
-            </div>
-            <div>{props.scos[0].title}</div>
-            <div>
-              <a href={`mailto:${props.scos[0].email}`}>
-                {props.scos[0].email}
-              </a>
-            </div>
-            <div>
-              <a
-                href={`tel:+1${`${props.scos[0].phoneAreaCode}-${
-                  props.scos[0].phoneNumber
-                }`}`}
-              >
-                {props.scos[0].phoneAreaCode}
-                {'-'}
-                {props.scos[0].phoneNumber}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      {props.scos.length > 1 && (
-        <div className="usa-width-one-half medium-6 columns">
-          <div className="mailing-address usa-width-one-whole">
-            <h3>&nbsp;</h3>
-            <div>
-              <div>
-                {props.scos[1].firstName} {props.scos[1].lastName}
-              </div>
-              <div>{props.scos[1].title}</div>
-              <div>
-                <a href={`mailto:${props.scos[1].email}`}>
-                  {props.scos[1].email}
-                </a>
-              </div>
-              <div>
-                <a
-                  href={`tel:+1${`${props.scos[1].phoneAreaCode}-${
-                    props.scos[1].phoneNumber
-                  }`}`}
-                >
-                  {props.scos[1].phoneAreaCode}
-                  {'-'}
-                  {props.scos[1].phoneNumber}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  </div>
-);
+import { VetTecScoContact } from './VetTecScoContact';
 
 export const VetTecContactInformation = ({ institution }) => (
   <div>
@@ -104,8 +43,14 @@ export const VetTecContactInformation = ({ institution }) => (
     </div>
     {/* Production flag for 19534 */}
     {!environment.isProduction() &&
-      institution.schoolCertifyingOfficials.length > 0 && (
-        <SCOContactInformation scos={institution.schoolCertifyingOfficials} />
+      institution.schoolCertifyingOfficials[0] && (
+        <div className="additional-information row vads-u-margin-y--4">
+          {VetTecScoContact(
+            institution.schoolCertifyingOfficials[0],
+            'School certifying officials',
+          )}
+          {VetTecScoContact(institution.schoolCertifyingOfficials[1])}
+        </div>
       )}
   </div>
 );
