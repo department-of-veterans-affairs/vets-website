@@ -57,11 +57,25 @@ module.exports = function registerFilters() {
 
   liquid.filters.drupalToVaPath = content => {
     let replaced = content.replace(/href="(.*?)(png|jpg|jpeg|svg|gif)"/g, img =>
-      img.replace('sites/default/files', 'img'),
+      img
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/img')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/img')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('http://cms.va.gov/sites/default/files', '/img')
+        .replace('https://cms.va.gov/sites/default/files', '/img'),
     );
 
     replaced = replaced.replace(/href="(.*?)(doc|docx|pdf|txt)"/g, file =>
-      file.replace('sites/default/files', 'files'),
+      file
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/files')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/files')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('http://cms.va.gov/sites/default/files', '/files')
+        .replace('https://cms.va.gov/sites/default/files', '/files'),
     );
 
     return replaced;
