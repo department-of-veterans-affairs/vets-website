@@ -612,6 +612,7 @@ class CalculatorForm extends React.Component {
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
+            charMax={5}
           />
           <p>
             <strong>{inputs.housingAllowanceCity}</strong>

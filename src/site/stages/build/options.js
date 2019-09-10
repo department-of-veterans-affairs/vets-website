@@ -185,13 +185,16 @@ async function setUpFeatureFlags(options) {
     fs.writeJsonSync(featureFlagFile, rawFlags, { spaces: 2 });
   } else {
     logDrupal('Using cached feature flags');
-    rawFlags = fs.readJsonSync(featureFlagFile);
+    rawFlags = fs.existsSync(featureFlagFile)
+      ? fs.readJsonSync(featureFlagFile)
+      : {};
   }
 
   logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
 
+  const buildType = options.buildtype;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const proxiedFlags = useFlags(rawFlags);
+  const proxiedFlags = useFlags(rawFlags, buildType);
 
   Object.assign(options, {
     cmsFeatureFlags: proxiedFlags,
