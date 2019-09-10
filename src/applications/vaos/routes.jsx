@@ -6,6 +6,7 @@ import AppointmentListsPage from './containers/AppointmentListsPage';
 import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import ContactInfoPage from './containers/ContactInfoPage';
+import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentsPage';
 
 const routes = (
   <Route path="/">
@@ -16,6 +17,7 @@ const routes = (
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
     <Route path="appointments/pending" component={PendingAppointmentsPage} />
+    <Route path="appointments/confirmed" component={ConfirmedAppointmentPage} />
   </Route>
 );
 
