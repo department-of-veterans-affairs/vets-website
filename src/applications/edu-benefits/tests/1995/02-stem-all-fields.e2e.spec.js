@@ -6,7 +6,7 @@ const testData = require('./schema/e2e-maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  EduHelpers.initApplicationSubmitMock('1995');
+  EduHelpers.initApplicationSubmitMock('1995s');
 
   // Ensure introduction page renders.
   client
@@ -43,27 +43,28 @@ module.exports = E2eHelpers.createE2eTest(client => {
     'label[for="root_isEdithNourseRogersScholarshipYes"',
     Timeouts.slow,
   );
-  Edu1995Helpers.completeStemSelection(client);
+  Edu1995Helpers.completeStemSelectionFor1995s(client);
+  client.waitForElementVisible(
+    'label[for="root_isEnrolledStemYes"]',
+    Timeouts.slow,
+  );
+  Edu1995Helpers.completeStemEnrollmentSelection(client);
+  client.waitForElementVisible(
+    'label[for="root_isPursuingTeachingCertYes"]',
+    Timeouts.slow,
+  );
+  Edu1995Helpers.completePursuingTeachingCertSelection(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/stem');
 
-  // Service periods page.
+  // Active duty page
   client.waitForElementVisible(
-    'label[for="root_view:newServiceYes"]',
+    'label[for="root_isActiveDutyYes"]',
     Timeouts.slow,
   );
-  EduHelpers.completeServicePeriods(client, testData.data);
+  Edu1995Helpers.completeActiveDutySelection(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
-
-  // Military service page.
-  client.waitForElementVisible(
-    'label[for="root_view:hasServiceBefore1978Yes"]',
-    Timeouts.slow,
-  );
-  Edu1995Helpers.completeMilitaryService(client);
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
+  E2eHelpers.expectNavigateAwayFrom(client, '/benefits/stem');
 
   // New school page.
   client.waitForElementVisible(
@@ -94,15 +95,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     client,
     '/personal-information/contact-information',
   );
-
-  // Dependents page.
-  client.waitForElementVisible(
-    'label[for="root_serviceBefore1977_marriedYes"]',
-    Timeouts.slow,
-  );
-  Edu1995Helpers.completeDependents(client);
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/dependents');
 
   // Direct deposit page.
   client.waitForElementVisible(

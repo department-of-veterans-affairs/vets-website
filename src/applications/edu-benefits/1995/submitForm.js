@@ -23,7 +23,7 @@ const submitForm = (form, formConfig) => {
     !environment.isProduction() &&
     form.data.isEdithNourseRogersScholarship === true
       ? formConfig.submitUrl.replace('1995', '1995s')
-      : formConfig;
+      : formConfig.submitUrl;
 
   return submitToUrl(body, submitUrl, formConfig.trackingPrefix, eventData);
 };
