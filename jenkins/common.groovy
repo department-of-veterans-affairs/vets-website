@@ -145,7 +145,7 @@ def findMissingQueryFlags(String buildLog, String envName) {
     slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
       color: 'warning',
       failOnError: true,
-      channel: 'cms-ci'
+      channel: 'cms-engineering'
   }
 }
 
@@ -171,7 +171,7 @@ def checkForBrokenLinks(String buildLogPath, String envName) {
     slackSend message: "${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
       color: 'danger',
       failOnError: true,
-      channel: 'cms-general'
+      channel: 'cms-engineering'
 
     // Only break the build if broken links are found in master
     if (IS_PROD_BRANCH) {
