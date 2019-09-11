@@ -2,7 +2,6 @@
   "appName": "GI Bill School Feedback Tool",
   "entryFile": "./feedback-tool-entry.jsx",
   "entryName": "feedback-tool",
-  "e2eTestsDisabled": true,
   "rootUrl": "/education/submit-school-feedback",
   "template": {
     "title": "GI Bill® School Feedback Tool",
