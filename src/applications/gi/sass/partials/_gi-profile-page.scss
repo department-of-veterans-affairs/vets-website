@@ -272,10 +272,6 @@
     @media screen and (min-width: $medium-screen) {
       display: none;
     }
-    
-    .item {
-      padding-top:1em;
-    }
   }
 
   @include media-maxwidth($medium-screen) {
