@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-// import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
 import { createTransaction } from '../actions';
-import { selectVet360Field, selectVet360Transaction } from '../selectors';
+import { selectVet360Transaction } from '../selectors';
 
 import {
   isPendingTransaction,
@@ -20,14 +19,28 @@ import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/h
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 class ReceiveTextMessages extends React.Component {
+  state = {
+    startedTransaction: false,
+    completedTransaction: false,
+    lastTransaction: null,
+  };
+
   componentDidMount() {
     if (this.props.profile.verified) {
       this.props.getEnrollmentStatus();
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.transaction) {
+      this.setState({ lastTransaction: nextProps.transaction });
+      if (!this.props.transaction)
+        this.setState({ completedTransaction: true });
+    }
+  }
+
   onChange = event => {
-    const payload = this.props.mobilePhone;
+    const payload = this.props.profile.vet360.mobilePhone;
     payload.isTextPermitted = event;
     const method = payload.id ? 'PUT' : 'POST';
     this.props.createTransaction(
@@ -37,33 +50,37 @@ class ReceiveTextMessages extends React.Component {
       payload,
       this.props.analyticsSectionName,
     );
+
+    this.setState({
+      startedTransaction: true,
+      completedTransaction: false,
+      lastTransaction: null,
+    });
   };
 
-  render() {
-    const {
-      isTextable,
-      isEnrolledInHealthCare,
-      isEmpty,
-      transaction,
-    } = this.props;
-
-    const hasError = transaction && isFailedTransaction(transaction);
-
+  isSuccessVisible() {
+    let showSuccess = false;
     if (
-      environment.isProduction() ||
-      isEmpty ||
-      !isTextable ||
-      !isEnrolledInHealthCare ||
-      hasError ||
-      (transaction && isPendingTransaction(this.props.transaction))
-    )
-      return null;
+      this.state.startedTransaction &&
+      this.state.completedTransaction &&
+      this.state.lastTransaction &&
+      !isFailedTransaction(this.state.lastTransaction)
+    ) {
+      showSuccess = true;
+    }
+    return showSuccess;
+  }
+
+  render() {
+    const { hideCheckbox } = this.props;
+
+    if (hideCheckbox) return null;
 
     return (
       <div className="receive-text-messages">
         <div className="form-checkbox-buttons">
           <ErrorableCheckbox
-            checked={!!this.props.checked}
+            checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
             label={
               <span>
                 Receive text messages (SMS) for VA health care appointment
@@ -72,6 +89,12 @@ class ReceiveTextMessages extends React.Component {
             }
             onValueChange={this.onChange}
           />
+          <AlertBox
+            isVisible={this.isSuccessVisible()}
+            content={<p>Your preference has been saved.</p>}
+            status="success"
+            backgroundOnly
+          />
         </div>
       </div>
     );
@@ -79,25 +102,25 @@ class ReceiveTextMessages extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const profileState = selectProfile(state);
-  const { fieldName, title } = ownProps;
+  const { fieldName } = ownProps;
   const { transaction } = selectVet360Transaction(state, fieldName);
-  const mobilePhone = selectVet360Field(state, fieldName);
-  const isEmpty = !mobilePhone;
-  const isTextable = mobilePhone && mobilePhone.isTextable;
-  const isTextPermitted = mobilePhone && mobilePhone.isTextPermitted;
-  const checked = isTextable && isTextPermitted;
+  const hasError = transaction && isFailedTransaction(transaction);
+  const isPending = transaction && isPendingTransaction(transaction);
+  const profileState = selectProfile(state);
+  const isEmpty = !profileState.vet360.mobilePhone;
+  const isTextable = !isEmpty && profileState.vet360.mobilePhone.isTextable;
+  const hideCheckbox =
+    environment.isProduction() ||
+    isEmpty ||
+    !isTextable ||
+    !isEnrolledInVAHealthCare(state) ||
+    hasError ||
+    isPending;
   return {
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     profile: profileState,
-    mobilePhone,
-    title,
-    isEmpty,
-    isTextable,
-    isTextPermitted,
-    checked,
-    isEnrolledInHealthCare: isEnrolledInVAHealthCare(state),
+    hideCheckbox,
     transaction,
+    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
   };
 }
 

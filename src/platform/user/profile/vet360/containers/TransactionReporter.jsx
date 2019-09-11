@@ -25,7 +25,7 @@ class Vet360TransactionReporter extends React.Component {
       prevProps.erroredTransactions.length <
       this.props.erroredTransactions.length;
 
-    if (newMessageVisible) scrollToTop();
+    // if (newMessageVisible) scrollToTop();
   }
 
   clearAllErroredTransactions = () => {
