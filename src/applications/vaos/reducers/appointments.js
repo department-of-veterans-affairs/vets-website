@@ -11,6 +11,7 @@ import {
 } from '../actions/appointments';
 
 import { FETCH_STATUS } from '../utils/constants';
+import moment from 'moment';
 
 const initialState = {
   confirmed: null,
@@ -33,11 +34,12 @@ export default function appointmentsReducer(state = initialState, action) {
         req => req.status === 'Booked',
       );
       confirmed.sort((a, b) => {
-        if (a.appointmentType < b.appointmentType) {
-          return -1;
-        } else if (a.appointmentType > b.appointmentType) {
-          return 1;
+        const date1 = moment(a.bookedApptDateTime, 'MM/DD/YYYY HH:mm:ss');
+        const date2 = moment(b.bookedApptDateTime, 'MM/DD/YYYY HH:mm:ss');
+        if (date1.isValid() && date2.isValid()) {
+          return date1.isBefore(date2) ? -1 : 1;
         }
+
         return 0;
       });
       return {

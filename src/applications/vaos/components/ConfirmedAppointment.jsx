@@ -31,7 +31,7 @@ function formatTimeFromDate(date) {
 }
 
 export default function ConfirmedAppointment({ appointment }) {
-  const isCommunityCare = appointment.typeOfCareId.startsWith('CC');
+  const isCommunityCare = !!appointment.ccAppointmentRequest;
 
   return (
     <li className="vads-u-border-left--5px vads-u-border-color--green vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
