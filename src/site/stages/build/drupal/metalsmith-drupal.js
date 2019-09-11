@@ -125,7 +125,7 @@ async function loadDrupal(buildOptions) {
   if (!isDrupalAvailableInCache) {
     log(`Drupal content unavailable in local cache: ${drupalCache}`);
   } else {
-    log(`Drupal content loaded from local cache: ${drupalCache}`);
+    log(`Drupal content cache found: ${drupalCache}`);
   }
 
   if (shouldPull) {
