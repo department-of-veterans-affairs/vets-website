@@ -40,7 +40,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   const {
     data: {
       nodeQuery: { entities: pages },
-      menuLinkContentQuery: { entities: menuLinks },
     },
   } = contentData;
 
@@ -103,7 +102,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
   }
 
   addHomeContent(contentData, files);
-  formatHeaderData(menuLinks, pages);
 }
 
 async function loadDrupal(buildOptions) {
@@ -210,6 +208,7 @@ function getDrupalContent(buildOptions) {
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
+      buildOptions.headerData = formatHeaderData(drupalData);
       done();
     } catch (err) {
       if (err instanceof ReferenceError) throw err;

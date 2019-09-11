@@ -145,8 +145,10 @@ function makeSection(child, arrayDepth, promo, pages) {
   };
 }
 
-function formatHeaderData(menuLinks, pages) {
-  let headerData = [];
+function formatHeaderData(contentData) {
+  let menuLinks = contentData.data.menuLinkContentQuery.entities;
+  const pages = contentData.data.nodeQuery.entities;
+  const headerData = [];
 
   // Sort by menu weight so we don't have do any sorting later.
   menuLinks.sort((a, b) => a.weight - b.weight);
@@ -193,7 +195,6 @@ function formatHeaderData(menuLinks, pages) {
     headerData.push(linkObj);
   });
 
-  headerData = menuLinks;
   return headerData;
 }
 
