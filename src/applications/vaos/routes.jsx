@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
+import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import ContactInfoPage from './containers/ContactInfoPage';
 
 const routes = (
@@ -14,6 +15,7 @@ const routes = (
       <Route path="contact-info" component={ContactInfoPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
+    <Route path="appointments/pending" component={PendingAppointmentsPage} />
   </Route>
 );
 
