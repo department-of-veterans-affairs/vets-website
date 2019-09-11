@@ -16,7 +16,6 @@ const {
 } = require('./health-care-region');
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
-const { formatHeaderData } = require('./menus');
 
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 const DRUPAL_HUB_NAV_FILENAME = 'hubNavNames.json';
@@ -208,7 +207,6 @@ function getDrupalContent(buildOptions) {
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
-      buildOptions.headerData = formatHeaderData(drupalData);
       done();
     } catch (err) {
       if (err instanceof ReferenceError) throw err;
