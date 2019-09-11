@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
-const assert = require('assert');
+const { expect } = require('chai');
 
 const footerData = require('../../../../platform/static-data/footer-links.json');
 
@@ -87,14 +87,14 @@ function createHeaderFooterData(buildOptions) {
 
     if (shouldLoadFromDrupal) {
       const megaMenuFromDrupal = convertDrupalHeaderData(
+        buildOptions,
         buildOptions.drupalData,
       );
 
       // eslint-disable-next-line no-console
-      console.log(megaMenuFromDrupal);
+      console.log(JSON.stringify(megaMenuFromDrupal, null, 4));
 
-      assert.deepEqual(
-        megaMenuFromDrupal,
+      expect(megaMenuFromDrupal).to.be.deep.equal(
         megaMenuFromVagovContent,
         'The Drupal data aligns with that from vagov-content.',
       );

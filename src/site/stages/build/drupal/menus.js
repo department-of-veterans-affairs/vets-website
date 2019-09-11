@@ -2,9 +2,13 @@
 
 const { getRelatedHubByPath } = require('./utilities-drupal');
 const { getArrayDepth } = require('../../../utilities/arrayHelpers');
-const { qualifyUrl } = require('../../../utilities/stringHelpers');
 
-/* 
+function convertLinkToAbsolute(hostUrl, pathName) {
+  const url = new URL(pathName, hostUrl);
+  return url.href;
+}
+
+/*
  * Perform a topological sort on the flat list of menu links
  * so that we get back a sorted tree of all links.
  * Along the way, add a 'depth' property to each link.
@@ -60,42 +64,42 @@ function sortMenuLinksWithDepth(menuLinks) {
   return sortedLinks;
 }
 
-function createLinkObj(link) {
+function createLinkObj(hostUrl, link) {
   return {
     text: link.title,
-    href: qualifyUrl(link.link.url.path),
+    href: convertLinkToAbsolute(hostUrl, link.link.url.path),
   };
 }
 
-function makeLinkList(links) {
+function makeLinkList(hostUrl, links) {
   const list = [];
 
   links.forEach(link => {
-    const linkObj = createLinkObj(link);
+    const linkObj = createLinkObj(hostUrl, link);
     list.push(linkObj);
   });
 
   return list;
 }
 
-function makePromo(promo) {
+function makePromo(hostUrl, promo) {
   const img = promo.entity.fieldImage.entity.image;
   const link = promo.entity.fieldPromoLink.entity.fieldLink;
 
   return {
     img: {
-      src: qualifyUrl(img.derivative.url),
+      src: convertLinkToAbsolute(hostUrl, img.derivative.url),
       alt: img.alt || '',
     },
     link: {
       text: link.title,
-      href: qualifyUrl(link.url.path),
+      href: convertLinkToAbsolute(hostUrl, link.url.path),
     },
     description: promo.entity.fieldPromoLink.entity.fieldLinkSummary,
   };
 }
 
-function makeColumns(childLinks, arrayDepth, promo, pages) {
+function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
   const columns = {};
   const columnNames = [
     // Possible column names.
@@ -118,7 +122,7 @@ function makeColumns(childLinks, arrayDepth, promo, pages) {
     if (childLink.children.length > 0) {
       const column = {
         title: childLink.title,
-        links: makeLinkList(childLink.children),
+        links: makeLinkList(hostUrl, childLink.children),
       };
       columns[columnNames[i]] = column;
       i++;
@@ -126,29 +130,30 @@ function makeColumns(childLinks, arrayDepth, promo, pages) {
       // If we have no children, then this is the 'See all' link.
       // This also means we will have a promo block related to this hub.
     } else if (arrayDepth === 3) {
-      columns.seeAllLink = createLinkObj(childLink);
+      columns.seeAllLink = createLinkObj(hostUrl, childLink);
       promo = getRelatedHubByPath(childLink, pages).fieldPromo;
     }
 
     if (promo !== null) {
-      columns[columnNames[i]] = makePromo(promo);
+      columns[columnNames[i]] = makePromo(hostUrl, promo);
     }
   });
 
   return columns;
 }
 
-function makeSection(child, arrayDepth, promo, pages) {
+function makeSection(hostUrl, child, arrayDepth, promo, pages) {
   return {
     title: child.title,
-    links: makeColumns(child.children, arrayDepth, promo, pages),
+    links: makeColumns(hostUrl, child.children, arrayDepth, promo, pages),
   };
 }
 
-function formatHeaderData(contentData) {
+function formatHeaderData(buildOptions, contentData) {
   let menuLinks = contentData.data.menuLinkContentQuery.entities;
   const pages = contentData.data.nodeQuery.entities;
   const headerData = [];
+  const { hostUrl } = buildOptions;
 
   // Sort by menu weight so we don't have do any sorting later.
   menuLinks.sort((a, b) => a.weight - b.weight);
@@ -164,7 +169,7 @@ function formatHeaderData(contentData) {
 
     // If this top-level item has a link, add it.
     if (link.link.url.path !== '') {
-      linkObj.href = qualifyUrl(link.link.url.path);
+      linkObj.href = convertLinkToAbsolute(hostUrl, link.link.url.path);
     }
 
     // If we have children, add in menuSections.
@@ -177,7 +182,13 @@ function formatHeaderData(contentData) {
         linkObj.menuSections = [];
         link.children.forEach(child => {
           linkObj.menuSections.push(
-            makeSection(child, arrayDepth, link.fieldPromoReference, pages),
+            makeSection(
+              hostUrl,
+              child,
+              arrayDepth,
+              link.fieldPromoReference,
+              pages,
+            ),
           );
         });
       } else {
@@ -185,6 +196,7 @@ function formatHeaderData(contentData) {
         // In this case, we go straight to 'columns' rather than defining wider 'sections.'
         // Note, that menuSections is an object in this case, instead of an array.
         linkObj.menuSections = makeColumns(
+          hostUrl,
           link.children,
           arrayDepth,
           link.fieldPromoReference,
