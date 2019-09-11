@@ -91,6 +91,27 @@ export class SchoolLocations extends React.Component {
     );
   };
 
+  renderItem = (institution, type, name = institution.institution) => {
+    const {
+      facilityCode,
+      physicalCity,
+      physicalState,
+      physicalZip,
+    } = institution;
+
+    return (
+      <div key={`${facilityCode}-${type}`} className={`${type} item`}>
+        <div>
+          <h6>{name}</h6>
+        </div>
+        <div className={'location-cell'}>
+          {physicalCity}, {physicalState} {physicalZip}
+        </div>
+        <div>Estimated housing: {this.estimatedHousingRow(institution)}</div>
+      </div>
+    );
+  };
+
   renderMainRow = institution =>
     this.renderRow(
       institution,
@@ -101,7 +122,7 @@ export class SchoolLocations extends React.Component {
       ),
     );
 
-  renderExtensions = (rows, extensions, maxRows) => {
+  renderExtensionRows = (rows, extensions, maxRows) => {
     for (const extension of extensions) {
       // check if should add more rows
       if (!this.state.viewMore && rows.length >= maxRows - 1) {
@@ -117,7 +138,7 @@ export class SchoolLocations extends React.Component {
     }
   };
 
-  renderBranches = (rows, branches, maxRows) => {
+  renderBranchRows = (rows, branches, maxRows) => {
     for (const branch of branches) {
       // check if should add more rows
       if (!this.state.viewMore && rows.length >= maxRows - 1) {
@@ -135,21 +156,21 @@ export class SchoolLocations extends React.Component {
         ),
       );
 
-      this.renderExtensions(rows, branch.extensions, maxRows);
+      this.renderExtensionRows(rows, branch.extensions, maxRows);
     }
   };
 
   renderBranchesAndExtensionsRows = ({ branches, extensions }, maxRows) => {
     const rows = [];
-    this.renderExtensions(rows, extensions, maxRows);
-    this.renderBranches(rows, branches, maxRows);
+    this.renderExtensionRows(rows, extensions, maxRows);
+    this.renderBranchRows(rows, branches, maxRows);
     return rows;
   };
 
   renderFacilityMapTable = main => {
     const maxRows = this.numberOfRowsToDisplay(main);
     return (
-      <table>
+      <table className="locations-table">
         <thead>
           <tr>
             <th>
@@ -169,6 +190,66 @@ export class SchoolLocations extends React.Component {
         </tbody>
       </table>
     );
+  };
+
+  renderFacilityMapList = main => {
+    const maxRows = this.numberOfRowsToDisplay(main);
+    return (
+      <div className="locations-list">
+        {this.renderMainListItem(main.institution)}
+        {this.renderBranchesAndExtensionsList(main, maxRows)}
+      </div>
+    );
+  };
+
+  renderMainListItem = institution =>
+    this.renderItem(
+      institution,
+      'main',
+      this.createLinkTo(
+        institution.facilityCode,
+        `${institution.institution} (Main Campus)`,
+      ),
+    );
+
+  renderBranchesAndExtensionsList = ({ branches, extensions }, maxRows) => {
+    const rows = [];
+    this.renderExtensionItems(rows, extensions, maxRows);
+    this.renderBranchItems(rows, branches, maxRows);
+    return rows;
+  };
+
+  renderBranchItems = (rows, branches, maxRows) => {
+    for (const branch of branches) {
+      // check if should add more rows
+      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+        break;
+      }
+
+      const { institution } = branch;
+      const { facilityCode, institution: name } = institution;
+
+      rows.push(
+        this.renderItem(
+          institution,
+          'branch',
+          this.createLinkTo(facilityCode, name),
+        ),
+      );
+
+      this.renderExtensionItems(rows, branch.extensions, maxRows);
+    }
+  };
+
+  renderExtensionItems = (rows, extensions, maxRows) => {
+    for (const extension of extensions) {
+      // check if should add more rows
+      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+        break;
+      }
+      const nameLabel = <span>{extension.institution}</span>;
+      rows.push(this.renderItem(extension, 'extension', nameLabel));
+    }
   };
 
   renderViewMore = main => {
@@ -199,6 +280,7 @@ export class SchoolLocations extends React.Component {
           you’d receive there.
         </span>
         {this.renderFacilityMapTable(main)}
+        {this.renderFacilityMapList(main)}
         {this.renderViewMore(main)}
       </div>
     );

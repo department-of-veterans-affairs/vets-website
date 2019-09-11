@@ -267,4 +267,20 @@
     padding-top: 0.3em;
     padding-bottom: 0.5em;
   }
+
+  .locations-list {   
+    @media screen and (min-width: $medium-screen) {
+      display: none;
+    }
+    
+    .item {
+      padding-top:1em;
+    }
+  }
+
+  @include media-maxwidth($medium-screen) {
+    .locations-table {
+      display: none;
+    }
+  }
 }
