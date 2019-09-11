@@ -146,6 +146,8 @@ def findMissingQueryFlags(String buildLog, String envName) {
       color: 'warning',
       failOnError: true,
       channel: 'cms-ci'
+  }
+}
 
 def checkForBrokenLinks(String buildLogPath, String envName) {
   // Look for broken links
