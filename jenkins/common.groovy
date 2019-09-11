@@ -131,6 +131,7 @@ def setup() {
   }
 }
 
+
 /**
  * Searches the build log for missing query flags ands sends a notification
  * to Slack if any are found.
@@ -144,7 +145,38 @@ def findMissingQueryFlags(String buildLog, String envName) {
     slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
       color: 'warning',
       failOnError: true,
-      channel: 'dev_null'
+      channel: 'cms-ci'
+
+def checkForBrokenLinks(String buildLogPath, String envName) {
+  // Look for broken links
+  def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
+  def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
+
+  // Ensure the file isn't there if we had to rebuild
+  if (fileExists(csvFile)) {
+    sh "rm /application/${csvFileName}"
+  }
+
+  // Output a csv file with the broken links
+  sh "cd /application && jenkins/glean-broken-links.sh ${buildLogPath} ${csvFileName}"
+  if (fileExists(csvFile)) {
+    echo "Found broken links; notifying the Slack channel."
+    // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+    // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+
+    // Until slackUploadFile works...
+    def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
+    slackSend message: "${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+      color: 'danger',
+      failOnError: true,
+      channel: 'cms-general'
+
+    // Only break the build if broken links are found in master
+    if (IS_PROD_BRANCH) {
+      throw new Exception('Broken links found')
+    }
+  } else {
+    echo "Did not find broken links."
   }
 }
 
@@ -156,38 +188,12 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
-      def buildLog = "/application/${envName}-build.log"
+      def buildLogPath = "/application/${envName}-build.log"
 
-      try {
-	sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLog}"
-      } catch (error) {
-	// Look for broken links
-	def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
-	def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath}"
 
-	// Ensure the file isn't there if we had to rebuild
-	if (fileExists(csvFile)) {
-	  sh "rm /application/${csvFileName}"
-	}
-
-	// Output a csv file with the broken links
-	sh "cd /application && jenkins/glean-broken-links.sh ${buildLog} ${csvFileName}"
-	if (fileExists(csvFile)) {
-	  echo "Found broken links; notifying the Slack channel."
-	  // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
-	  // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
-
-	  // Until slackUploadFile works...
-	  def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
-	  slackSend message: "@here ${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
-	    color: 'danger',
-	    failOnError: true,
-	    channel: 'cms-ci'
-	} else {
-	  echo "Did not find broken links."
-	}
-
-	throw error
+      if (envName == 'vagovprod') {
+	checkForBrokenLinks(buildLogPath, envName)
       }
 
       // Find any missing query flags in the log

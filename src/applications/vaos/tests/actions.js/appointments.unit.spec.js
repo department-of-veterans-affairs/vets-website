@@ -38,6 +38,11 @@ describe('VAOS actions: appointments', () => {
     });
     const thunk = fetchConfirmedAppointments();
     const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        confirmedStatus: 'notStarted',
+      },
+    });
     const dispatch = action => {
       dispatchSpy(action);
       if (dispatchSpy.callCount === 2) {
@@ -51,7 +56,7 @@ describe('VAOS actions: appointments', () => {
       }
     };
 
-    thunk(dispatch);
+    thunk(dispatch, getState);
   });
 
   it('should fetch pending appointments', done => {
@@ -63,6 +68,11 @@ describe('VAOS actions: appointments', () => {
     });
     const thunk = fetchPendingAppointments();
     const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        pendingStatus: 'notStarted',
+      },
+    });
     const dispatch = action => {
       dispatchSpy(action);
       if (dispatchSpy.callCount === 2) {
@@ -76,7 +86,7 @@ describe('VAOS actions: appointments', () => {
       }
     };
 
-    thunk(dispatch);
+    thunk(dispatch, getState);
   });
 
   it('should fetch past appointments', done => {

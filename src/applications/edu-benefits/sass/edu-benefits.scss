@@ -102,7 +102,7 @@
       width: 100%;
 
       &.institution-name {
-        color: #0071BC;
+        color: $color-light-blue;
         font-weight: bold;
         text-decoration: underline;
       }
@@ -116,7 +116,7 @@
       }
 
       .institution-information {
-        background-color: #f1f1f1;
+        background-color: $color-gray-lightest;
         margin-left: 25px;
         padding: 10px 15px;
       }
