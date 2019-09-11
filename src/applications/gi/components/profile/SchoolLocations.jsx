@@ -91,27 +91,6 @@ export class SchoolLocations extends React.Component {
     );
   };
 
-  renderItem = (institution, type, name = institution.institution) => {
-    const {
-      facilityCode,
-      physicalCity,
-      physicalState,
-      physicalZip,
-    } = institution;
-
-    return (
-      <div key={`${facilityCode}-${type}`} className={`${type} item`}>
-        <div>
-          <h6>{name}</h6>
-        </div>
-        <div className={'location-cell'}>
-          {physicalCity}, {physicalState} {physicalZip}
-        </div>
-        <div>Estimated housing: {this.estimatedHousingRow(institution)}</div>
-      </div>
-    );
-  };
-
   renderMainRow = institution =>
     this.renderRow(
       institution,
@@ -250,6 +229,27 @@ export class SchoolLocations extends React.Component {
       const nameLabel = <span>{extension.institution}</span>;
       rows.push(this.renderItem(extension, 'extension', nameLabel));
     }
+  };
+
+  renderItem = (institution, type, name = institution.institution) => {
+    const {
+      facilityCode,
+      physicalCity,
+      physicalState,
+      physicalZip,
+    } = institution;
+
+    return (
+      <div key={`${facilityCode}-${type}`} className={`${type} item`}>
+        <div>
+          <h6>{name}</h6>
+        </div>
+        <div className={'location-cell'}>
+          {physicalCity}, {physicalState} {physicalZip}
+        </div>
+        <div>Estimated housing: {this.estimatedHousingRow(institution)}</div>
+      </div>
+    );
   };
 
   renderViewMore = main => {
