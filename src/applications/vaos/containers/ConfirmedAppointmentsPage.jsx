@@ -25,7 +25,7 @@ export class ConfirmedAppointmentsPage extends React.Component {
               {status === FETCH_STATUS.loading && (
                 <LoadingIndicator message="Loading confirmed appointments" />
               )}
-              {status === FETCH_STATUS.successful && (
+              {status === FETCH_STATUS.succeeded && (
                 <ul className="usa-unstyled-list">
                   {appointments.map(appt => (
                     <ConfirmedAppointment
