@@ -13,9 +13,10 @@
   },
   "dateTime": "2019-08-29T12:00:00Z",
   "reason": "Routine/Follow-up",
-  "type": "Office Visit",
+  "type": "Hematology (Internal Medicine), Medical Oncology, Internal Medicine",
+  "visitType": "Office Visit",
   "contactNumber": "+1-908-477-1720",
-  "preferredContactTime": "evening",
+  "preferredContactTime": ["Morning"],
   "status": "booked",
   "pactTeam": {
     "teamSid": "1400018881",
