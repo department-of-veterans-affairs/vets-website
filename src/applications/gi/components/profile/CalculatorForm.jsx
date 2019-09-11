@@ -59,7 +59,6 @@ class CalculatorForm extends React.Component {
   };
 
   handleBeneficiaryZIPCodeChanged = event => {
-    console.log(event);
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
       this.setState({ invalidZip: '' });
