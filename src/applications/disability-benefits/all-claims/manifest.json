@@ -11,8 +11,8 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
-        "name": "disability/",
-        "path": "Disability Benefits"
+        "name": "Disability Benefits",
+        "path": "disability/"
       },
       {
         "name": "File for Disability Compensation",
