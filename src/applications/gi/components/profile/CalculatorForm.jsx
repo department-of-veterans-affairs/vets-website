@@ -10,6 +10,12 @@ import environment from 'platform/utilities/environment';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 class CalculatorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      invalidZip: '',
+    };
+  }
   getExtensions = () => {
     const { profile } = this.props;
     const facilityMap = profile.attributes.facilityMap;
@@ -53,8 +59,12 @@ class CalculatorForm extends React.Component {
   };
 
   handleBeneficiaryZIPCodeChanged = event => {
+    console.log(event);
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
+      this.setState({ invalidZip: '' });
+    } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
+      this.setState({ invalidZip: 'ZIP Code must be a five digit number' });
     }
   };
 
@@ -604,10 +614,15 @@ class CalculatorForm extends React.Component {
       (inputs.beneficiaryLocationQuestion === 'extension' &&
         inputs.extension === 'other')
     ) {
+      const errorMessage = this.state.invalidZip;
+
+      const errorMessageCheck =
+        errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
+
       amountInput = (
         <div>
           <ErrorableTextInput
-            errorMessage={inputs.beneficiaryZIPError}
+            errorMessage={errorMessageCheck}
             label="Please enter the Postal code where you'll take your classes"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
