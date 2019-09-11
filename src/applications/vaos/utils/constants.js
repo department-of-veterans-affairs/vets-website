@@ -61,7 +61,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '407',
-    name: 'Ophthalmology',
+    name: 'Opthalmology',
     group: 'specialty',
   },
   {
@@ -71,6 +71,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCOPT',
   },
   {
+    id: 'tbd',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',

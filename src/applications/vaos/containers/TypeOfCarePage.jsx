@@ -4,6 +4,7 @@ import { openFormPage, updateFormData } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import { TYPES_OF_CARE } from '../utils/constants';
+import TypeOfCareField from '../components/TypeOfCareField';
 
 const initialSchema = {
   type: 'object',
@@ -19,30 +20,9 @@ const initialSchema = {
 const uiSchema = {
   typeOfCareId: {
     'ui:title': 'What type of care do you need?',
-    'ui:widget': 'radio',
+    'ui:field': TypeOfCareField,
     'ui:options': {
-      labels: {
-        provider: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Provider
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Choose a doctor or care team
-            </span>
-          </>
-        ),
-        typeOfCare: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Type of care
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Choose a specific type of care, like audiology or primary care
-            </span>
-          </>
-        ),
-      },
+      hideLabelText: true,
     },
   },
 };
@@ -67,7 +47,9 @@ export class TypeOfCarePage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">Choose the type of care you need</h1>
+        <h1 className="vads-u-font-size--h2">
+          Choose the type of care you need
+        </h1>
         <SchemaForm
           name="Type of care"
           title="Type of care"
