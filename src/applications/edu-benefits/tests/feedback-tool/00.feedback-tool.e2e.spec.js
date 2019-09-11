@@ -3,12 +3,13 @@ const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./feedback-tool-helpers');
 const testData = require('./schema/maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
+const manifest = require('../../feedback-tool/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
 
   client
-    .openUrl(`${E2eHelpers.baseUrl}/education/gi-bill-school-feedback`)
+    .openUrl(`${E2eHelpers.baseUrl}${manifest.rootUrl}`)
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.schemaform-title', Timeouts.slow)
     .click('.schemaform-start-button');
