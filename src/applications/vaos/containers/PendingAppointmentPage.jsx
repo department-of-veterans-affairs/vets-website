@@ -58,7 +58,7 @@ export class PendingAppointmentPage extends React.Component {
             {status === FETCH_STATUS.loading && (
               <LoadingIndicator message="Loading pending appointment" />
             )}
-            {status === FETCH_STATUS.successful && (
+            {status === FETCH_STATUS.succeeded && (
               <>
                 <h2>{appointment.appointmentType}</h2>
                 <div className="vads-u-display--flex vads-u-margin-bottom--2">
