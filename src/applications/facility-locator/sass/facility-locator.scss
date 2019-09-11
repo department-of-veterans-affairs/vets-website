@@ -4,6 +4,12 @@
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
+// TODO: These colors are not close enough to anything that already exists in
+// Formation. Perhaps the design should be reevaluated to see if Formation
+// colors could be used in place of these
+$color-info-bubble-border: #6495a3;
+$color-info-bubble-text: #818a8d;
+
 .facility-locator {
 
   // TODO(css): Fix when #content .section h* is fixed
@@ -129,7 +135,7 @@
       text-decoration: none;
 
       &:focus {
-        outline: 2px solid #f9c642;
+        outline: 2px solid $color-gold-light;
         outline-offset: 2px;
       }
     }
@@ -413,7 +419,7 @@
       text-decoration: underline;
 
       &:after {
-        font: normal normal normal 1em 'Font Awesome 5 Free';
+        font: normal normal normal 1em "Font Awesome 5 Free";
         content: "\F078";
         text-decoration: none;
         display: inline-block;
@@ -677,7 +683,7 @@
 
 
 #infoBubble {
-  background-color: #e1f3f8;
+  background-color: $color-aqua-lightest;
   color: inherit;
   text-align: left;
   width: 115%;
@@ -685,9 +691,9 @@
   top: -7.1rem;
   right: -7.1rem;
   padding: 0.7rem;
-  box-shadow: 0px 0px 4px grey;
+  box-shadow: 0px 0px 4px $color-gray-medium;
   border-radius: 4px;
-  border: 1px solid #6495a3;
+  border: 1px solid $color-info-bubble-border;
   z-index: 9999;
 
   span {
@@ -696,7 +702,7 @@
     font-size: 1.9rem;
     font-family: Arial, sans-serif;
     cursor: pointer;
-    color: #818a8d;
+    color: $color-info-bubble-text;
   }
 
 

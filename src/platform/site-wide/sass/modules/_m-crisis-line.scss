@@ -1,8 +1,3 @@
-// These should be replaced when the new colors are in the design
-// system
-$red-70v: #8b1303;
-$red-60v: #b51d09;
-
 .va-crisis-line-container {
   position: relative;
   margin: auto;
@@ -103,7 +98,7 @@ button.va-crisis-line {
     max-height: 100%;
   }
   &-title {
-    color: #212121;
+    color: $color-base;
     padding-left: 41px;
     background: url(/img/vcl-logo.png) no-repeat left;
     background-position: left 5px;
