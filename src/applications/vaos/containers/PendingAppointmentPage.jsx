@@ -8,6 +8,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { focusElement } from 'platform/utilities/ui';
 import { fetchPendingAppointments } from '../actions/appointments';
 import { FETCH_STATUS, TIME_TEXT, PURPOSE_TEXT } from '../utils/constants';
+import { selectPendingAppointment } from '../utils/selectors';
 
 function formatDate(date) {
   const parsedDate = moment(date, 'MM/DD/YYYY');
@@ -136,11 +137,7 @@ PendingAppointmentPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    appointment: state.appointments.pending
-      ? state.appointments.pending.find(
-          appt => appt.uniqueId === ownProps.params.id,
-        )
-      : null,
+    appointment: selectPendingAppointment(state, ownProps.id),
     status: state.appointments.pendingStatus,
   };
 }
