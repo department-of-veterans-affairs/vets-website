@@ -6,6 +6,7 @@
   "production": true,
   "template": {
     "title": "Your VA.gov Account",
-    "layout": "page-react.html"
+    "layout": "page-react.html",
+    "includeBreadcrumbs": true
   }
 }
