@@ -1,3 +1,10 @@
+export const FETCH_STATUS = {
+  loading: 'loading',
+  notStarted: 'notStarted',
+  succeeded: 'succeeded',
+  failed: 'failed',
+};
+
 export const TYPES_OF_CARE = [
   {
     id: '323',
