@@ -33,7 +33,7 @@ describe('VAOS <PendingAppointmentPage>', () => {
       <PendingAppointmentPage
         fetchPendingAppointments={fetchPendingAppointments}
         appointment={appointment}
-        status="successful"
+        status="succeeded"
       />,
     );
 
