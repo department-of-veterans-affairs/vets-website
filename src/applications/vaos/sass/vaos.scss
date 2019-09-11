@@ -22,6 +22,16 @@
   align-items: center;
 }
 
+.vaos-appt-list__badge {
+  display: inline-flex;
+  border-radius: 100%;
+  height: 22px;
+  width: 22px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+}
+
 .vaos-appts__block-label {
   margin: 0;
   margin-bottom: map-get($spacers, 0p5); 

@@ -54,7 +54,7 @@ describe('VAOS reducer: appointments', () => {
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.successful);
+    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.confirmed.length).to.equal(2);
   });
 
@@ -65,52 +65,47 @@ describe('VAOS reducer: appointments', () => {
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.pastStatus).to.equal(FETCH_STATUS.successful);
+    expect(newState.pastStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.past.length).to.equal(3);
   });
 
   it('should populate pending with appointments with FETCH_PENDING_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-      data: {
-        appointmentRequests: [
-          { id: 1, status: 'Submitted' },
-          { id: 2, status: 'Booked' },
-        ],
-      },
+      data: { appointmentRequests: [{ id: 1, status: 'Submitted' }] },
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.pendingStatus).to.equal(FETCH_STATUS.successful);
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.pending.length).to.equal(1);
   });
 
-  it('should update confirmedStatus to be error when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
+  it('should update confirmedStatus to be failed when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_CONFIRMED_APPOINTMENTS_FAILED,
     };
 
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.error);
+    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.failed);
   });
 
-  it('should update pastStatus to be error when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
+  it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS_FAILED,
     };
 
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.pastStatus).to.equal(FETCH_STATUS.error);
+    expect(newState.pastStatus).to.equal(FETCH_STATUS.failed);
   });
 
-  it('should update pendingStatus to be error when calling FETCH_PENDING_APPOINTMENTS_FAILED', () => {
+  it('should update pendingStatus to be failed when calling FETCH_PENDING_APPOINTMENTS_FAILED', () => {
     const action = {
       type: FETCH_PENDING_APPOINTMENTS_FAILED,
     };
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.pendingStatus).to.equal(FETCH_STATUS.error);
+    expect(newState.pendingStatus).to.equal(FETCH_STATUS.failed);
   });
 });

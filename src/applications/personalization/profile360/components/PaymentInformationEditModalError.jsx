@@ -14,9 +14,10 @@ function FlaggedAccount() {
         security issue.
       </p>
       <p>
-        If you have any questions, please call us at 800-827-1000 (TTY:
-        800-829-4833). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-        ET.
+        If you have any questions, please call us at{' '}
+        <span className="no-wrap">800-827-1000</span> (TTY:
+        <span className="no-wrap">800-829-4833</span>
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   );
