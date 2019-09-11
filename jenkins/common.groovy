@@ -138,7 +138,7 @@ def setup() {
  * NOTE: This function is meant to be called from within the
  * dockerContainer.inside() context so buildLog can point to the right file.
  */
-def findMissingQueryFlags(String buildLog) {
+def findMissingQueryFlags(String buildLog, String envName) {
   def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\1/p' ${buildLog} | sort | uniq")
   if (missingFlags) {
     slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
@@ -192,7 +192,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
       // Find any missing query flags in the log
       if (envName == 'vagovprod') {
-        findMissingQueryFlags(buildLog)
+        findMissingQueryFlags(buildLog, envName)
       }
 
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
