@@ -137,7 +137,7 @@ PendingAppointmentPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    appointment: selectPendingAppointment(state, ownProps.id),
+    appointment: selectPendingAppointment(state, ownProps.params.id),
     status: state.appointments.pendingStatus,
   };
 }
