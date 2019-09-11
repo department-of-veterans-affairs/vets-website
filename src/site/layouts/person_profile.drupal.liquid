@@ -39,9 +39,13 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
-    <main class="va-l-detail-page">
+    <main class="va-l-detail-page va-facility-page">
         <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+            {% if fieldOffice.entity.entityUrl.path %}
+                {% assign sidebarData = '{"depth": 5, "link": {"label":"' | append: title | append: '","url": {"path": "/"}, "links": []}, "parent": {"label": "Leadership", "links": [], "url": {"path": "' | append: fieldOffice.entity.entityUrl.path | append: '/leadership"}}}' %}
+
+                {% include 'src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid' with entityUrl = entityUrl, sidebarData = sidebarData %}
+            {%  endif %}
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}
@@ -53,14 +57,16 @@
                 {% endif %}
                 <article class="usa-content">
 
-                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 small-screen:vads-u-display--flex small-screen:vads-u-flex-direction--row">
+                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
 
-                        <div class="usa-width-one-third small-screen:vads-u-margin-right--3">
-                            {% assign image = fieldMedia.entity.image %}
-                            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-                        </div>
+                        {% if fieldMedia.entity.image != empty %}
+                            <div class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-margin-right--3">
+                                {% assign image = fieldMedia.entity.image %}
+                                <img class="person-profile-detail-page-image" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}">
+                            </div>
+                        {% endif %}
 
-                        <div class="usa-width-two-thirds vads-u-display--flex vads-u-flex-direction--column">
+                        <div class="vads-u-display--flex vads-u-flex-direction--column">
                             <h1 class="
                             vads-u-font-size--xl
                             vads-u-margin-bottom--0p5">
@@ -91,14 +97,15 @@
                             {% if fieldEmailAddress %}
                             <p class="
                             vads-u-margin--0
-                            vads-u-margin-bottom--0p5">
+                            vads-u-margin-bottom--0p5
+                            vads-u-font-weight--regular">
                                 <span class="vads-u-font-weight--bold">Email:</span> <a target="blank"
-                                    href="{{ fieldEmailAddress }}">{{ fieldEmailAddress }}</a>
+                                    href="mailto:{{ fieldEmailAddress }}">{{ fieldEmailAddress }}</a>
                             </p>
                             {% endif %}
                             {% if fieldPhoneNumber %}
                             <p class="
-                            vads-u-font-weight--bold
+                            vads-u-font-weight--regular
                             vads-u-margin--0
                             vads-u-margin-bottom--0p5">
                                 <span class="vads-u-font-weight--bold">Phone:</span> <a

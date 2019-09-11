@@ -84,11 +84,14 @@
     padding-top: 1em;
   }
 
+  h1:focus {
+    outline: none;
+  }
 }
 
 .gibct-legend {
   margin-top: 3rem;
-  display:block;
+  display: block;
   font-weight: inherit;
   font-size: inherit;
   color: inherit;
@@ -97,7 +100,7 @@
   padding-bottom: 0;
 }
 
-/* 
+/*
  * These styles override our overly broad accordion styles
  */
 .learn-more-button {

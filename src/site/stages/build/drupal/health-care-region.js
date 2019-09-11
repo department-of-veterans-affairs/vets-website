@@ -76,6 +76,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     entityUrl: hsEntityUrl,
     alert: page.alert,
     title: page.title,
+    regionNickname: page.fieldNicknameForThisFacility,
     clinicalHealthServices,
   };
   const hsPage = updateEntityUrlObj(
@@ -103,7 +104,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     title: page.title,
     alert: page.alert,
   };
-  const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'Press Releases');
+  const prPage = updateEntityUrlObj(prObj, drupalPagePath, 'News Releases');
   const prPath = prPage.entityUrl.path;
   prPage.regionOrOffice = page.title;
   prPage.entityUrl = generateBreadCrumbs(prPath);
@@ -113,7 +114,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     files,
     'allPressReleaseTeasers',
     'press_releases_page.drupal.liquid',
-    'press releases',
+    'news releases',
   );
 
   // News Story listing page

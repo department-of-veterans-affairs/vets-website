@@ -6,29 +6,29 @@ import environment from 'platform/utilities/environment';
  * embedding a Call To Action React Widget in a static page
  */
 export const widgetTypes = {
-  HEALTH_RECORDS: 'health-records',
-  RX: 'rx',
-  MESSAGING: 'messaging',
-  LAB_AND_TEST_RESULTS: 'lab-and-test-results',
-  VIEW_APPOINTMENTS: 'view-appointments',
-  SCHEDULE_APPOINTMENTS: 'schedule-appointments',
-  GI_BILL_BENEFITS: 'gi-bill-benefits',
-  DISABILITY_BENEFITS: 'disability-benefits',
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
-  LETTERS: 'letters',
-  VETERAN_ID_CARD: 'vic',
-  VET_TEC: 'vet-tec',
   DIRECT_DEPOSIT: 'direct-deposit',
+  DISABILITY_BENEFITS: 'disability-benefits',
+  GI_BILL_BENEFITS: 'gi-bill-benefits',
+  HEALTH_RECORDS: 'health-records',
+  LAB_AND_TEST_RESULTS: 'lab-and-test-results',
+  LETTERS: 'letters',
+  MESSAGING: 'messaging',
+  RX: 'rx',
+  SCHEDULE_APPOINTMENTS: 'schedule-appointments',
+  VET_TEC: 'vet-tec',
+  VETERAN_ID_CARD: 'vic',
+  VIEW_APPOINTMENTS: 'view-appointments',
 };
 
 const HEALTH_TOOLS = [
-  widgetTypes.HEALTH_RECORDS,
-  widgetTypes.RX,
-  widgetTypes.MESSAGING,
-  widgetTypes.LAB_AND_TEST_RESULTS,
-  widgetTypes.VIEW_APPOINTMENTS,
-  widgetTypes.SCHEDULE_APPOINTMENTS,
   widgetTypes.DIRECT_DEPOSIT,
+  widgetTypes.HEALTH_RECORDS,
+  widgetTypes.LAB_AND_TEST_RESULTS,
+  widgetTypes.MESSAGING,
+  widgetTypes.RX,
+  widgetTypes.SCHEDULE_APPOINTMENTS,
+  widgetTypes.VIEW_APPOINTMENTS,
 ];
 
 const MHV_ACCOUNT_TYPES = ['Premium', 'Advanced', 'Basic'];
@@ -41,8 +41,8 @@ export const hasRequiredMhvAccount = (appId, accountLevel) => {
     case widgetTypes.RX:
       return MHV_ACCOUNT_TYPES.slice(0, 2).includes(accountLevel);
     case widgetTypes.MESSAGING:
-    case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.VIEW_APPOINTMENTS:
       return accountLevel === 'Premium';
     default:
       // Not a recognized health tool.
@@ -72,8 +72,8 @@ export const mhvToolName = appId => {
     case widgetTypes.LAB_AND_TEST_RESULTS:
       return 'Lab and Test Results';
 
-    case widgetTypes.VIEW_APPOINTMENTS:
     case widgetTypes.SCHEDULE_APPOINTMENTS:
+    case widgetTypes.VIEW_APPOINTMENTS:
       return 'VA Appointments';
 
     case widgetTypes.DIRECT_DEPOSIT:

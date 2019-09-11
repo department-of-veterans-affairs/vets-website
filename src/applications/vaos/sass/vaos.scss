@@ -1,2 +1,46 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "../../../platform/forms/sass/m-schemaform";
+
+.vaos-option-list__icon {
+  display: inline-block;
+  font-size: 19px;
+  color: $color-white;
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  background-color: $color-primary;
+  padding: 14px 0 0 17px;
+}
+
+.vaos-appt-list__badge {
+  display: inline-flex;
+  border-radius: 100%;
+  height: 22px;
+  width: 22px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+}
+
+.vaos-appts__block-label {
+  margin: 0;
+  margin-bottom: map-get($spacers, 0p5); 
+  font-size: $base-font-size;
+  font-family: $font-sans;
+}
+
+.vaos-form__title {
+  text-transform: uppercase;
+}
+
+.vaos-form__checkbox > .schemaform-label {
+  margin-top: 0;
+}
+
+.vaos-form__appt-type {
+  input[type="radio"]+label::before {
+    margin-top: 0.6em;
+  }
+}
+
+

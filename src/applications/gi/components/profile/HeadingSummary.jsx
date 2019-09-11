@@ -35,7 +35,7 @@ class HeadingSummary extends React.Component {
     return (
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
-          <h1>{it.name}</h1>
+          <h1 tabIndex={-1}>{it.name}</h1>
           <AlertBox
             content={
               <p>

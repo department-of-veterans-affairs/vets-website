@@ -1,16 +1,23 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import VAOSApp from './containers/VAOSApp';
-import Index from './containers/Main';
+import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
+import AppointmentListsPage from './containers/AppointmentListsPage';
 import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
+import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
+import PendingAppointmentPage from './containers/PendingAppointmentPage';
+import ContactInfoPage from './containers/ContactInfoPage';
 
 const routes = (
-  <Route path="/" component={VAOSApp}>
-    <IndexRoute component={Index} />
+  <Route path="/">
+    <IndexRoute component={LandingPage} />
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfAppointmentPage} />
+      <Route path="contact-info" component={ContactInfoPage} />
     </Route>
+    <Route path="appointments" component={AppointmentListsPage} />
+    <Route path="appointments/pending" component={PendingAppointmentsPage} />
+    <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
   </Route>
 );
 

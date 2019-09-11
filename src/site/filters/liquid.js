@@ -8,10 +8,7 @@ function getPath(obj) {
 }
 
 module.exports = function registerFilters() {
-  const {
-    featureFlags,
-    enabledFeatureFlags,
-  } = require('../utilities/featureFlags');
+  const { cmsFeatureFlags } = global;
 
   // Custom liquid filter(s)
   liquid.filters.humanizeDate = dt =>
@@ -22,7 +19,67 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
-  liquid.filters.formatDate = (dt, format) => moment(dt).format(format);
+  liquid.filters.timeZone = (dt, tz, format) => {
+    if (dt && tz) {
+      const tzOffset = new Date(dt).getTimezoneOffset(tz) * 60000;
+      const dtDate = new Date(
+        dt.toLocaleString('en-US', {
+          timeZone: tz,
+        }),
+      ).getTime();
+
+      const diffToMoment = dtDate - tzOffset;
+
+      const prettyTime = moment(diffToMoment).format(format);
+      const prettyTimeFormatted = prettyTime
+        .replace(/AM/g, 'a.m.')
+        .replace(/PM/g, 'p.m.');
+
+      return prettyTimeFormatted;
+    }
+    return dt;
+  };
+
+  liquid.filters.toTitleCase = phrase =>
+    phrase
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
+  liquid.filters.formatDate = (dt, format) => {
+    const prettyTime = moment(dt).format(format);
+    const prettyTimeFormatted = prettyTime
+      .replace(/AM/g, 'a.m.')
+      .replace(/PM/g, 'p.m.');
+    return prettyTimeFormatted;
+  };
+
+  liquid.filters.drupalToVaPath = content => {
+    let replaced = content.replace(/href="(.*?)(png|jpg|jpeg|svg|gif)"/g, img =>
+      img
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/img')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/img')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/img')
+        .replace('http://cms.va.gov/sites/default/files', '/img')
+        .replace('https://cms.va.gov/sites/default/files', '/img'),
+    );
+
+    replaced = replaced.replace(/href="(.*?)(doc|docx|pdf|txt)"/g, file =>
+      file
+        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
+        .replace('http://dev.cms.va.gov/sites/default/files', '/files')
+        .replace('http://staging.cms.va.gov/sites/default/files', '/files')
+        .replace('http://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('https://prod.cms.va.gov/sites/default/files', '/files')
+        .replace('http://cms.va.gov/sites/default/files', '/files')
+        .replace('https://cms.va.gov/sites/default/files', '/files'),
+    );
+
+    return replaced;
+  };
 
   liquid.filters.dateFromUnix = (dt, format) => moment.unix(dt).format(format);
 
@@ -38,6 +95,8 @@ module.exports = function registerFilters() {
   liquid.filters.jsonToObj = jsonString => JSON.parse(jsonString);
 
   liquid.filters.modulo = item => item % 2;
+
+  liquid.filters.genericModulo = (i, n) => i % n;
 
   liquid.filters.listValue = data => {
     const string = data.split('_').join(' ');
@@ -247,11 +306,73 @@ module.exports = function registerFilters() {
     return JSON.stringify(getDeepLinks(currentPath, linksArray));
   };
 
-  liquid.filters.featureFieldRegionalHealthService = entity => {
+  function setDeepObj(parentTree, depth, link) {
+    let d = depth;
+
+    let parent = parentTree[parentTree.length - 2];
+
+    // this is here if the parent item does not have a path and it is only for looks
     if (
-      entity &&
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE]
+      parentTree[parentTree.length - 2] &&
+      parentTree[parentTree.length - 2].url.path === ''
     ) {
+      parent = parentTree[parentTree.length - 3];
+      d -= 1;
+    }
+
+    return {
+      depth: d,
+      parent,
+      link,
+    };
+  }
+
+  function getDepth(array, path) {
+    // tells us when we have found the path
+    let found = false;
+    // tells us the parent
+    const parentTree = [];
+
+    let deepObj = {};
+
+    function findLink(arr, depth = 0) {
+      let d = depth;
+      // start depth at 1
+      d++;
+      for (const link of arr) {
+        // push the item into the trail
+        parentTree.push(link);
+
+        if (link.url.path === path) {
+          // we found the path! set 'found' to true and exit the recursion
+          deepObj = setDeepObj(parentTree, d, link);
+          found = true;
+          break;
+        } else if (link.links && link.links.length) {
+          // we didn't find it yet
+          // if the item has links, look for it within the links of this item (recursively)
+          findLink(link.links, d);
+          if (found) {
+            break;
+          }
+        }
+        // we don't need this parent, get rid of it
+        parentTree.pop();
+      }
+    }
+
+    // start the recursion
+    findLink(array);
+
+    // we should have a list of the parents that lead to this path
+    return deepObj;
+  }
+
+  liquid.filters.findCurrentPathDepthRecursive = (linksArray, currentPath) =>
+    JSON.stringify(getDepth(linksArray, currentPath));
+
+  liquid.filters.featureFieldRegionalHealthService = entity => {
+    if (entity && cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE) {
       return entity.fieldRegionalHealthService
         ? entity.fieldRegionalHealthService.entity
         : null;
@@ -262,10 +383,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.featureSingleValueFieldLink = fieldLink => {
-    if (
-      fieldLink &&
-      enabledFeatureFlags[featureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK]
-    ) {
+    if (fieldLink && cmsFeatureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK) {
       return fieldLink[0];
     }
 
@@ -320,7 +438,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    enabledFeatureFlags[featureFlags.FEATURE_HEALTH_SERVICE_API_ID]
+    cmsFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
       ? serviceTaxonomy.fieldHealthServiceApiId
       : serviceTaxonomy.name;
 

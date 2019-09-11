@@ -44,18 +44,18 @@ Example data:
 },
 }
 {% endcomment %}
-{% include "src/site/includes/header.html" %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
-  <main class="va-l-detail-page">
+  <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       <div class="usa-width-three-fourths">
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
         <article class="usa-content">
-          <h1>Community Events</h1>
+          <h1>Community events</h1>
           <div class="va-introtext vads-u-margin-bottom--6">
             {{ fieldIntroTextEventsPage.processed }}
           </div>

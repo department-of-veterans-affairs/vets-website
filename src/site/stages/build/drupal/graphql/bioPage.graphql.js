@@ -4,10 +4,7 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
 module.exports = `
  fragment bioPage on NodePersonProfile {
@@ -19,16 +16,20 @@ module.exports = `
   fieldEmailAddress
   fieldPhoneNumber
   ${
-    enabledFeatureFlags[featureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY]
+    cmsFeatureFlags.FEATURE_FIELD_COMPLETE_BIOGRAPHY
       ? 'fieldCompleteBiography { entity { url } }'
       : ''
   }
   fieldOffice {
-    entity {
-      entityLabel
-      entityType
+      entity {
+        entityLabel
+        entityType
+        ...on NodeHealthCareRegionPage {
+          ${entityElementsFromPages}
+          fieldNicknameForThisFacility
+        }
+      }
     }
-  }
   fieldIntroText
   fieldPhotoAllowHiresDownload
   fieldMedia {

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 const path = require('path');
+const fs = require('fs-extra');
 const commandLineArgs = require('command-line-args');
 
 const ENVIRONMENTS = require('../../constants/environments');
@@ -10,6 +11,11 @@ const assetSources = require('../../constants/assetSources');
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
 const defaultContentDir = '../../../../../vagov-content/pages';
+
+const getDrupalClient = require('./drupal/api');
+const { shouldPullDrupal } = require('./drupal/metalsmith-drupal');
+const { logDrupal } = require('./drupal/utilities-drupal');
+const { useFlags } = require('./drupal/load-saved-flags');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'buildtype', type: String, defaultValue: defaultBuildtype },
@@ -74,6 +80,7 @@ function applyDefaultOptions(options) {
   const facilities = path.join(siteRoot, 'facilities');
   const blocks = path.join(siteRoot, 'blocks');
   const teasers = path.join(siteRoot, 'teasers');
+  const utilities = path.join(siteRoot, 'utilities');
 
   Object.assign(options, {
     contentRoot,
@@ -103,6 +110,7 @@ function applyDefaultOptions(options) {
       [`${teasers}/**/*`]: '**/*.{md,html}',
     },
     cacheDirectory: path.join(projectRoot, '.cache', options.buildtype),
+    paramsDirectory: path.join(utilities, 'query-params'),
   });
 }
 
@@ -152,26 +160,58 @@ function deriveHostUrl(options) {
   ];
 }
 
-function setUpFeatureFlags(options) {
+/**
+ * Sets up the CMS feature flags by either querying the CMS for them
+ * or using ../../utilities/featureFlags. If we pull from Drupal, it'll
+ * also ensure the cache directory exists and is empty.
+ */
+async function setUpFeatureFlags(options) {
   global.buildtype = options.buildtype;
-  const {
-    enabledFeatureFlags,
-    featureFlags,
-  } = require('../../utilities/featureFlags');
+  let rawFlags;
+
+  const featureFlagFile = path.join(
+    options.cacheDirectory,
+    'drupal',
+    'feature-flags.json',
+  );
+
+  if (shouldPullDrupal(options)) {
+    logDrupal('Pulling feature flags from Drupal...');
+    const apiClient = getDrupalClient(options);
+    const result = await apiClient.proxyFetch(
+      `${apiClient.getSiteUri()}/flags_list`,
+    );
+
+    rawFlags = (await result.json()).data;
+
+    // Write them to .cache/{buildtype}/drupal/feature-flags.json
+    fs.ensureDirSync(options.cacheDirectory);
+    fs.emptyDirSync(path.dirname(featureFlagFile));
+    fs.writeJsonSync(featureFlagFile, rawFlags, { spaces: 2 });
+  } else {
+    logDrupal('Using cached feature flags');
+    rawFlags = fs.existsSync(featureFlagFile)
+      ? fs.readJsonSync(featureFlagFile)
+      : {};
+  }
+
+  logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const proxiedFlags = useFlags(rawFlags);
 
   Object.assign(options, {
-    enabledFeatureFlags,
-    featureFlags,
+    cmsFeatureFlags: proxiedFlags,
   });
 }
 
-function getOptions(commandLineOptions) {
+async function getOptions(commandLineOptions) {
   const options = commandLineOptions || gatherFromCommandLine();
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
   deriveHostUrl(options);
-  setUpFeatureFlags(options);
+  await setUpFeatureFlags(options);
 
   return options;
 }
