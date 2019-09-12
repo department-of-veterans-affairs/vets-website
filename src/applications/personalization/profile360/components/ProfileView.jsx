@@ -15,6 +15,7 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
+import RatedDisabilities from './RatedDisabilities';
 import PaymentInformation from '../containers/PaymentInformation';
 import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
@@ -47,6 +48,7 @@ class ProfileView extends React.Component {
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
+    fetchRatedDisabilities: PropTypes.func.isRequired,
     profile: PropTypes.shape({
       hero: PropTypes.object,
       personalInformation: PropTypes.object,
@@ -81,6 +83,7 @@ class ProfileView extends React.Component {
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
+      fetchRatedDisabilities,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
     } = this.props;
@@ -127,6 +130,7 @@ class ProfileView extends React.Component {
                 fetchMilitaryInformation={fetchMilitaryInformation}
                 militaryInformation={militaryInformation}
               />
+              <RatedDisabilities fetchRatedDisabilities={fetchRatedDisabilities}/>
             </div>
           </DowntimeNotification>
         );

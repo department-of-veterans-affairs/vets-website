@@ -8,6 +8,8 @@ export const FETCH_MILITARY_INFORMATION_SUCCESS =
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS =
   'FETCH_ADDRESS_CONSTANTS_SUCCESS';
 
+export const FETCH_RATED_DISABILITIES = 'FETCH_RATED_DISABILITIES';
+
 export function fetchHero() {
   return async dispatch => {
     dispatch({
@@ -16,8 +18,6 @@ export function fetchHero() {
         userFullName: await getData('/profile/full_name'),
       },
     });
-
-    getData('/disability_compensation_form/rated_disabilities');
   };
 }
 
@@ -38,5 +38,14 @@ export function fetchMilitaryInformation() {
         serviceHistory: await getData('/profile/service_history'),
       },
     });
+  };
+}
+
+export function fetchRatedDisabilities() {
+  return async dispatch => {
+    dispatch({
+      type: FETCH_RATED_DISABILITIES,
+      ratedDisabilities: await getData('/disability_compensation_form/rated_disabilities'),
+    })
   };
 }
