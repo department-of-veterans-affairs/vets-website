@@ -63,7 +63,7 @@ class CalculatorForm extends React.Component {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
-      this.setState({ invalidZip: 'ZIP Code must be a five digit number' });
+      this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
     }
   };
 
