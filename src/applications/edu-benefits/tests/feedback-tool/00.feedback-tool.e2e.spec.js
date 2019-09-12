@@ -59,7 +59,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Benefit information
   client
     .waitForElementPresent(
-      'input[name="root_educationDetails_programs_TATU"]',
+      'input[name="root_educationDetails_programs_chapter33"]',
       Timeouts.normal,
     )
     .axeCheck('.main');
