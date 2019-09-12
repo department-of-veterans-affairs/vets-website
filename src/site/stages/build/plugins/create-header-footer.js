@@ -1,7 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
-const { expect } = require('chai');
+const assert = require('assert');
+const ENVIRONMENTS = require('../../../constants/environments');
 
 const footerData = require('../../../../platform/static-data/footer-links.json');
 
@@ -76,6 +77,11 @@ function loadFromVagovContent(buildOptions, metalsmith) {
 }
 
 function createHeaderFooterData(buildOptions) {
+  const shouldConfirmDrupalMenuOkay = [
+    ENVIRONMENTS.VAGOVPROD,
+    ENVIRONMENTS.VAGOVSTAGING,
+  ].includes(buildOptions.buildtype);
+
   return (files, metalsmith, done) => {
     const megaMenuFromVagovContent = loadFromVagovContent(
       buildOptions,
@@ -91,13 +97,15 @@ function createHeaderFooterData(buildOptions) {
         buildOptions.drupalData,
       );
 
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(megaMenuFromDrupal, null, 4));
-
-      expect(megaMenuFromDrupal).to.be.deep.equal(
-        megaMenuFromVagovContent,
-        'The Drupal data aligns with that from vagov-content.',
-      );
+      if (shouldConfirmDrupalMenuOkay) {
+        // eslint-disable-next-line no-console
+        console.log(JSON.stringify(megaMenuFromDrupal, null, 4));
+        assert.deepStrictEqual(
+          megaMenuFromDrupal,
+          megaMenuFromVagovContent,
+          'The Drupal data aligns with that from vagov-content.',
+        );
+      }
 
       megaMenuData = megaMenuFromDrupal;
     }
