@@ -4,7 +4,7 @@ const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   client
-    .openUrl(`${E2eHelpers.baseUrl}/disability-benefits/686/dependent-status`)
+    .openUrl(`${E2eHelpers.baseUrl}${manifest.rootUrl}`)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main');
 
