@@ -238,12 +238,15 @@ export class SchoolLocations extends React.Component {
       physicalState,
       physicalZip,
     } = institution;
+    const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
+      <h6>{name}</h6>
+    ) : (
+      name
+    );
 
     return (
       <div key={`${facilityCode}-${type}`} className={`${type} item`}>
-        <div>
-          <h6>{name}</h6>
-        </div>
+        <div>{nameLabel}</div>
         <div className={'location-cell'}>
           {physicalCity}, {physicalState} {physicalZip}
         </div>
