@@ -3,7 +3,6 @@
   "entryFile": "./686-entry.jsx",
   "entryName": "686-dependent-status",
   "rootUrl": "/disability-benefits/apply/dependents",
-  "e2eTestsDisabled": true,
   "template": {
     "title": "Declaration Of Status Of Dependents",
     "heading": "Declaration of status of dependents",
