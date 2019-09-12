@@ -84,7 +84,12 @@ class ProfileView extends React.Component {
       fetchHero,
       fetchPersonalInformation,
       fetchRatedDisabilities,
-      profile: { hero, personalInformation, militaryInformation, ratedDisabilities },
+      profile: {
+        hero,
+        personalInformation,
+        militaryInformation,
+        ratedDisabilities,
+      },
       downtimeData: { appTitle },
     } = this.props;
 
