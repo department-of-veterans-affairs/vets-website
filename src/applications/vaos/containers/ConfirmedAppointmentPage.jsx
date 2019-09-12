@@ -82,7 +82,7 @@ export class ConfirmedAppointmentPage extends React.Component {
                     {formatTimeToCall(appointment.preferredContactTime)}
                   </div>
                 </div>
-                <Link to="appointments/pending">
+                <Link to="appointments/confirmed">
                   <i className="fas fa-angle-left" /> Back
                 </Link>
               </>
