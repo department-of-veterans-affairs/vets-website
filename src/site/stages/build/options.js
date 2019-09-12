@@ -192,9 +192,8 @@ async function setUpFeatureFlags(options) {
 
   logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
 
-  const buildType = options.buildtype;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const proxiedFlags = useFlags(rawFlags, buildType);
+  const proxiedFlags = useFlags(rawFlags);
 
   Object.assign(options, {
     cmsFeatureFlags: proxiedFlags,

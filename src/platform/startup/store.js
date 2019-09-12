@@ -10,6 +10,7 @@ import buildSettings from '../monitoring/BuildSettings/reducer';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import externalServiceStatuses from '../monitoring/external-services/reducer';
 import announcements from '../site-wide/announcements/reducers';
+import { FeatureToggleReducer } from '../site-wide/feature-toggles/reducers';
 import megaMenu from '../site-wide/mega-menu/reducers';
 import navigation from '../site-wide/user-nav/reducers';
 import login from '../user/authentication/reducers';
@@ -29,6 +30,7 @@ export const commonReducer = {
   announcements,
   buildSettings,
   externalServiceStatuses,
+  featureToggles: FeatureToggleReducer,
   navigation,
   scheduledDowntime,
   user: combineReducers({ login, profile }),
