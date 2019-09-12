@@ -84,7 +84,7 @@ class ProfileView extends React.Component {
       fetchHero,
       fetchPersonalInformation,
       fetchRatedDisabilities,
-      profile: { hero, personalInformation, militaryInformation },
+      profile: { hero, personalInformation, militaryInformation, ratedDisabilities },
       downtimeData: { appTitle },
     } = this.props;
 
@@ -130,7 +130,10 @@ class ProfileView extends React.Component {
                 fetchMilitaryInformation={fetchMilitaryInformation}
                 militaryInformation={militaryInformation}
               />
-              <RatedDisabilities fetchRatedDisabilities={fetchRatedDisabilities}/>
+              <RatedDisabilities
+                fetchRatedDisabilities={fetchRatedDisabilities}
+                ratedDisabilities={ratedDisabilities}
+              />
             </div>
           </DowntimeNotification>
         );

@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class RatedDisabilities extends React.Component {
-
   static propTypes = {
     fetchRatedDisabilities: PropTypes.func.isRequired,
+    ratedDisabilities: PropTypes.shape({
+      ratedDisabilities: PropTypes.array
+    })
   };
 
   componentDidMount() {
@@ -12,11 +14,14 @@ class RatedDisabilities extends React.Component {
   }
 
   render() {
+    if (!this.props.ratedDisabilities) {
+      return <h1>Loading!</h1>;
+    }
+
     return (
-      <h1>Rated Disabilities!</h1>
+      <code>{JSON.stringify(this.props.ratedDisabilities)}</code>
     );
   }
-
 }
 
 export default RatedDisabilities;

@@ -5,6 +5,7 @@ import {
   FETCH_HERO_SUCCESS,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_SUCCESS,
+  FETCH_RATED_DISABILITIES,
 } from '../actions';
 
 import {
@@ -64,6 +65,9 @@ function vaProfile(state = initialState, action) {
 
     case FETCH_MILITARY_INFORMATION_SUCCESS:
       return set('militaryInformation', action.militaryInformation, state);
+
+    case FETCH_RATED_DISABILITIES:
+      return set('ratedDisabilities', action.ratedDisabilities, state);
 
     case PAYMENT_INFORMATION_FETCH_SUCCEEDED:
     case PAYMENT_INFORMATION_SAVE_SUCCEEDED: {
