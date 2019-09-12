@@ -16,6 +16,8 @@ export function fetchHero() {
         userFullName: await getData('/profile/full_name'),
       },
     });
+
+    getData('/disability_compensation_form/rated_disabilities');
   };
 }
 
