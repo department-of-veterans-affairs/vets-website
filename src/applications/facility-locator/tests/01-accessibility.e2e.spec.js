@@ -1,5 +1,8 @@
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
+const {
+  updateFeatureToggleValues,
+} = require('../../../platform/utilities/feature-toggles');
 const FacilityHelpers = require('./facility-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
@@ -7,6 +10,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   E2eHelpers.overrideSmoothScrolling(client);
   FacilityHelpers.initApplicationMock();
+  updateFeatureToggleValues({ facilityLocatorShowCommunityCares: true });
 
   client
     .waitForElementVisible('body', Timeouts.normal)
