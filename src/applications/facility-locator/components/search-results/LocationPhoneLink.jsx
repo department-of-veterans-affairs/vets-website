@@ -36,7 +36,7 @@ const LocationPhoneLink = ({ location }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
 
   if (isProvider) {
-    const { phone } = location.attributes;
+    const { caresitePhone: phone } = location.attributes;
     return (
       <div>
         {renderPhoneNumber(
