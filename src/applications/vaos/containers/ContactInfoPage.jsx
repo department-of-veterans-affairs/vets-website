@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import FormButtons from '../components/FormButtons';
 
 import {
   openFormPage,
@@ -96,25 +95,10 @@ export class ContactInfoPage extends React.Component {
         }
         data={data}
       >
-        <div className="vads-l-row form-progress-buttons schemaform-buttons">
-          <div className="vads-l-col--6 vads-u-padding-right--2p5">
-            <ProgressButton
-              onButtonClick={this.goBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary vads-u-width--full"
-              beforeText="«"
-            />
-          </div>
-          <div className="vads-l-col--6">
-            <LoadingButton
-              isLoading={navigatingBetweenPages}
-              type="submit"
-              className="usa-button usa-button-primary"
-            >
-              Continue »
-            </LoadingButton>
-          </div>
-        </div>
+        <FormButtons
+          goBack={this.goBack}
+          navigatingBetweenPages={navigatingBetweenPages}
+        />
       </SchemaForm>
     );
   }
