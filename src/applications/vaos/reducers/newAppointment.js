@@ -1,9 +1,15 @@
 import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
-import { FORM_DATA_UPDATED, FORM_PAGE_OPENED } from '../actions/newAppointment';
+import {
+  FORM_DATA_UPDATED,
+  FORM_PAGE_OPENED,
+  FORM_PAGE_NAVIGATE_STARTED,
+  FORM_PAGE_NAVIGATE_COMPLETED,
+} from '../actions/newAppointment';
 
 const initialState = {
   pages: {},
   data: {},
+  navigatingBetweenPages: false,
 };
 
 export default function formReducer(state = initialState, action) {
@@ -36,6 +42,18 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_PAGE_NAVIGATE_STARTED: {
+      return {
+        ...state,
+        navigatingBetweenPages: true,
+      };
+    }
+    case FORM_PAGE_NAVIGATE_COMPLETED: {
+      return {
+        ...state,
+        navigatingBetweenPages: false,
       };
     }
     default:
