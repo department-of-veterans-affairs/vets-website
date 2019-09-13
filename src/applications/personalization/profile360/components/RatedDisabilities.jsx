@@ -18,17 +18,21 @@ class RatedDisabilities extends React.Component {
     this.props.fetchRatedDisabilities();
   }
 
+  // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData = data => {
-    data.map(d => {
+    const formalizedDisabilityData = data.map(d => {
       const effectiveDate = {
         effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
       };
       const relatedTo = {
-        relatedTo: d.specialsIssues.length > 0 ? d.specialIssues[0].name : '',
+        // Right now we only take the first value...but what if there is more than one?
+        relatedTo: d.specialIssues.length > 0 ? d.specialIssues[0].name : '',
       };
       const disability = Object.assign({}, d, effectiveDate, relatedTo);
       return disability;
     });
+
+    return formalizedDisabilityData;
   };
 
   render() {
@@ -47,7 +51,6 @@ class RatedDisabilities extends React.Component {
         </h1>
       );
     }
-    // Format date strings
     const formattedDisabilities = this.formalizeData(
       this.props.ratedDisabilities.ratedDisabilities,
     );
