@@ -18,6 +18,19 @@ class RatedDisabilities extends React.Component {
     this.props.fetchRatedDisabilities();
   }
 
+  formalizeData = data => {
+    data.map(d => {
+      const effectiveDate = {
+        effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
+      };
+      const relatedTo = {
+        relatedTo: d.specialsIssues.length > 0 ? d.specialIssues[0].name : '',
+      };
+      const disability = Object.assign({}, d, effectiveDate, relatedTo);
+      return disability;
+    });
+  };
+
   render() {
     if (!featureFlags.ratedDisabilities) {
       return null;
@@ -35,14 +48,8 @@ class RatedDisabilities extends React.Component {
       );
     }
     // Format date strings
-    const formattedDisabilities = this.props.ratedDisabilities.ratedDisabilities.map(
-      d => {
-        const effectiveDate = {
-          effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
-        };
-        const disability = Object.assign({}, d, effectiveDate);
-        return disability;
-      },
+    const formattedDisabilities = this.formalizeData(
+      this.props.ratedDisabilities.ratedDisabilities,
     );
     return (
       <>
@@ -54,6 +61,7 @@ class RatedDisabilities extends React.Component {
             { label: 'Disability', value: 'name' },
             { label: 'Rating', value: 'ratingPercentage' },
             { label: 'Decision', value: 'decisionText' },
+            { label: 'Related To', value: 'relatedTo' },
             { label: 'Effective Date', value: 'effectiveDate' },
           ]}
           data={[...formattedDisabilities]}
