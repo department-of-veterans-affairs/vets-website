@@ -1,12 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-
-const timeText = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
+import { TIME_TEXT } from '../utils/constants';
 
 function formatDate(date) {
   const parsedDate = moment(date, 'MM/DD/YYYY');
@@ -28,29 +23,27 @@ export default function PendingAppointment({ appointment }) {
       </h2>
       <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
-          <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vaos-appts__block-label">
             Preferred appointment dates:
           </h3>
           <ul className="usa-unstyled-list">
             <li className="vads-u-margin-bottom--1">
               {formatDate(appointment.optionDate1)}{' '}
-              {timeText[appointment.optionTime1]}
+              {TIME_TEXT[appointment.optionTime1]}
             </li>
             <li className="vads-u-margin-bottom--1">
               {formatDate(appointment.optionDate2)}{' '}
-              {timeText[appointment.optionTime2]}
+              {TIME_TEXT[appointment.optionTime2]}
             </li>
             <li>
               {formatDate(appointment.optionDate3)}{' '}
-              {timeText[appointment.optionTime3]}
+              {TIME_TEXT[appointment.optionTime3]}
             </li>
           </ul>
         </div>
         {!isCommunityCare && (
           <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
-            <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
-              Where:
-            </h3>
+            <h3 className="vaos-appts__block-label">Where:</h3>
             {appointment.friendlyLocationName || appointment.facility.name}
             <br />
             {appointment.facility.city}, {appointment.facility.state}
@@ -58,9 +51,7 @@ export default function PendingAppointment({ appointment }) {
         )}
         {isCommunityCare && (
           <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
-            <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
-              Preferred location:
-            </h3>
+            <h3 className="vaos-appts__block-label">Preferred location:</h3>
             {appointment.ccAppointmentRequest.preferredCity},{' '}
             {appointment.ccAppointmentRequest.preferredState}
           </div>
