@@ -9,7 +9,7 @@ export const VetTecApprovedPrograms = ({ institution }) => {
   if (!environment.isProduction() && programs && programs.length) {
     const programRows = programs.map((program, index) => (
       <tr key={index}>
-        <td>{program.institutionName}</td>
+        <td>{program.description}</td>
         <td>{program.length}</td>
       </tr>
     ));
