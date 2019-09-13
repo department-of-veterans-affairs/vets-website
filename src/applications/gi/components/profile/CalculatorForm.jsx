@@ -599,28 +599,29 @@ class CalculatorForm extends React.Component {
       );
     }
 
-    if (
+    const benefitsLocationQ =
       inputs.beneficiaryLocationQuestion === 'other' ||
       (inputs.beneficiaryLocationQuestion === 'extension' &&
-        inputs.extension === 'other')
-    ) {
-      amountInput = (
-        <div>
-          <ErrorableTextInput
-            errorMessage={inputs.beneficiaryZIPError}
-            label="Please enter the Postal code where you'll take your classes"
-            name="beneficiaryZIPCode"
-            field={{ value: inputs.beneficiaryZIP }}
-            onValueChange={this.handleBeneficiaryZIPCodeChanged}
-            charMax={5}
-          />
-          <p aria-live="polite" aria-atomic="true">
-            <span className="sr-only">Your postal code is located in</span>
-            <strong>{inputs.housingAllowanceCity}</strong>
-          </p>
-        </div>
-      );
-    }
+      inputs.extension === 'other'
+        ? ''
+        : 'hidden');
+
+    amountInput = (
+      <div className={benefitsLocationQ}>
+        <ErrorableTextInput
+          errorMessage={inputs.beneficiaryZIPError}
+          label="Please enter a the Postal code where you'll take your classes"
+          name="beneficiaryZIPCode"
+          field={{ value: inputs.beneficiaryZIP }}
+          onValueChange={this.handleBeneficiaryZIPCodeChanged}
+          charMax={5}
+        />
+        <p aria-live="polite" aria-atomic="true">
+          <span className="sr-only">Your postal code is located in</span>
+          <strong>{inputs.housingAllowanceCity}</strong>
+        </p>
+      </div>
+    );
 
     return (
       <div>
