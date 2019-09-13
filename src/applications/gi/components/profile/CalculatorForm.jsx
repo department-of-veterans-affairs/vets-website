@@ -558,7 +558,6 @@ class CalculatorForm extends React.Component {
     const { profile, inputs, onShowModal } = this.props;
     const extensions = this.getExtensions();
 
-    let amountInput;
     let extensionSelector;
     let extensionOptions = [];
     const zipcodeRadioOptions = [
@@ -606,7 +605,7 @@ class CalculatorForm extends React.Component {
         ? ''
         : 'hidden');
 
-    amountInput = (
+    const amountInput = (
       <div className={benefitsLocationQ}>
         <ErrorableTextInput
           errorMessage={inputs.beneficiaryZIPError}
