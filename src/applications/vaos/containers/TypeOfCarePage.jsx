@@ -69,7 +69,7 @@ export class TypeOfCarePage extends React.Component {
           data={data}
         >
           <FormButtons
-            goBack={this.goBack}
+            onBack={this.goBack}
             navigatingBetweenPages={navigatingBetweenPages}
           />
         </SchemaForm>

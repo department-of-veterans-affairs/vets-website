@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-export default function FormButtons({ goBack, navigatingBetweenPages }) {
+export default function FormButtons({ onBack, navigatingBetweenPages }) {
   return (
     <div className="vads-l-row form-progress-buttons schemaform-buttons">
       <div className="vads-l-col--6 vads-u-padding-right--2p5">
         <ProgressButton
-          onButtonClick={goBack}
+          onButtonClick={onBack}
           buttonText="Back"
           buttonClass="usa-button-secondary vads-u-width--full"
           beforeText="«"
@@ -25,3 +26,8 @@ export default function FormButtons({ goBack, navigatingBetweenPages }) {
     </div>
   );
 }
+
+FormButtons.propTypes = {
+  onBack: PropTypes.func.isRequired,
+  navigatingBetweenPages: PropTypes.bool,
+};
