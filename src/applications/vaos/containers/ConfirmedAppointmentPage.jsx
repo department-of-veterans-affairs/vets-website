@@ -11,7 +11,7 @@ import { selectConfirmedAppointment } from '../utils/selectors';
 import { formatTimeToCall } from '../utils/formatters';
 
 function formatDate(date) {
-  const parsedDate = moment(date);
+  const parsedDate = moment(date, 'MM/DD/YYYY hh:mm:ss');
 
   if (!parsedDate.isValid()) {
     return '';
@@ -31,8 +31,8 @@ export class ConfirmedAppointmentPage extends React.Component {
   render() {
     const { appointment, status } = this.props;
 
-    const formattedDateTime = appointment?.dateTime
-      ? formatDate(appointment.dateTime)
+    const formattedDateTime = appointment?.bookedApptDateTime
+      ? formatDate(appointment.bookedApptDateTime)
       : {};
 
     return (
@@ -50,7 +50,7 @@ export class ConfirmedAppointmentPage extends React.Component {
             )}
             {status === FETCH_STATUS.succeeded && (
               <>
-                <h2>{appointment.type}</h2>
+                <h2>{appointment.appointmentType}</h2>
                 <div className="vads-u-display--flex vads-u-margin-bottom--2">
                   <div className="vads-u-flex--1">
                     <>
@@ -70,7 +70,7 @@ export class ConfirmedAppointmentPage extends React.Component {
                       Purpose
                     </h3>
                     {PURPOSE_TEXT[appointment.purposeOfVisit] ||
-                      appointment.reason}
+                      appointment.reasonForVisit}
                     <h3 className="vaos-appts__block-label vads-u-margin-top--2">
                       Type
                     </h3>
@@ -78,8 +78,8 @@ export class ConfirmedAppointmentPage extends React.Component {
                     <h3 className="vaos-appts__block-label vads-u-margin-top--2">
                       My contact number
                     </h3>
-                    {appointment.contactNumber}, in the{' '}
-                    {formatTimeToCall(appointment.preferredContactTime)}
+                    {appointment.phoneNumber}, in the{' '}
+                    {formatTimeToCall(appointment.bestTimetoCall)}
                   </div>
                 </div>
                 <Link to="appointments/confirmed">
