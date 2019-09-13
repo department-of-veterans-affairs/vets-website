@@ -25,28 +25,31 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-function routeToAppointmentPage(router, current, action) {
+export function routeToPage(flow, router, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_NAVIGATE_STARTED,
     });
 
-    const nextAction = newAppointmentFlow[current][action];
+    const nextAction = flow[current][action];
     let nextState;
 
     if (typeof nextAction === 'string') {
-      nextState = newAppointmentFlow[nextAction];
+      nextState = flow[nextAction];
     } else {
-      nextState = await newAppointmentFlow[nextAction](getState(), dispatch);
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextState = flow[nextStateKey];
     }
 
-    if (nextState.url) {
+    if (nextState?.url) {
       router.push(nextState.url);
       dispatch({
         type: FORM_PAGE_NAVIGATE_COMPLETED,
       });
+    } else if (nextState) {
+      throw new Error(`Tried to route to a page without a url: ${nextState}`);
     } else {
-      throw new Error(`Unrouteable state: ${nextState}`);
+      throw new Error('Tried to route to page that does not exist');
     }
 
     return nextState;
@@ -54,9 +57,9 @@ function routeToAppointmentPage(router, current, action) {
 }
 
 export function routeToNextAppointmentPage(router, current) {
-  return routeToAppointmentPage(router, current, 'next');
+  return routeToPage(newAppointmentFlow, router, current, 'next');
 }
 
 export function routeToPreviousAppointmentPage(router, current) {
-  return routeToAppointmentPage(router, current, 'previous');
+  return routeToPage(newAppointmentFlow, router, current, 'previous');
 }
