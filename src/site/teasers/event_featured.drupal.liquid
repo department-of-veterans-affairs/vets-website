@@ -28,14 +28,19 @@ views",
 {% endcomment %}
 {% if node != empty %}
 
-{% assign start_date_no_time = node.fieldDate.value | timeZone: node.uid.entity.timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = node.fieldDate.endValue | timeZone: node.uid.entity.timezone , "dddd, MMM D" %}
+  {% assign timezone = "EST" %}
+  {% if node.uid.entity.timezone != empty %}
+    {% assign timezone = uid.entity.timezone %}
+  {% endif %}
 
-{% assign start_time = node.fieldDate.value | timeZone: node.uid.entity.timezone, "h:mm A" %}
-{% assign end_time = node.fieldDate.endValue | timeZone: node.uid.entity.timezone, "h:mm A" %}
+{% assign start_date_no_time = node.fieldDate.value | timeZone: timezone, "dddd, MMM D" %}
+{% assign end_date_no_time = node.fieldDate.endValue | timeZone: timezone , "dddd, MMM D" %}
 
-{% assign start_date_full = node.fieldDate.value | timeZone: node.uid.entity.timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = node.fieldDate.endValue | timeZone: node.uid.entity.timezone, "dddd, MMM D, h:mm A" %}
+{% assign start_time = node.fieldDate.value | timeZone: timezone, "h:mm A" %}
+{% assign end_time = node.fieldDate.endValue | timeZone: timezone, "h:mm A" %}
+
+{% assign start_date_full = node.fieldDate.value | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% assign end_date_full = node.fieldDate.endValue | timeZone: timezone, "dddd, MMM D, h:mm A" %}
 
 {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
 {% assign date_type = "start_date_only" %}
