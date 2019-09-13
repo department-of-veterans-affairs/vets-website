@@ -142,9 +142,7 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
 function generateBreadCrumbs(pathString) {
   const pathArray = pathString
     .split('/')
-    .map(
-      value => (value === 'health-services' ? 'our-health-services' : value),
-    );
+    .map(value => (value === 'health-services' ? 'health-services' : value));
   const entityUrlObj = createEntityUrlObj(pathString);
   let previous = '';
   let trimmedValue;
@@ -155,7 +153,7 @@ function generateBreadCrumbs(pathString) {
       const dehandlized =
         value === 'pittsburgh-health-care'
           ? 'VA Pittsburgh health care'
-          : _.startCase(_.trim(value, '-'));
+          : value.charAt(0).toUpperCase() + value.replace('-', ' ').slice(1);
       entityUrlObj.breadcrumb.push({
         url: {
           path: `${previous}${value}`,
