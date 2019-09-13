@@ -27,10 +27,8 @@ import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
-import {
-  isProduction,
-  facilityLocatorShowCommunityCares,
-} from '../utils/selectors';
+import { facilityLocatorShowCommunityCares } from '../utils/selectors';
+import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 
 const otherToolsLink = (
   <p>

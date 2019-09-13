@@ -2,8 +2,6 @@
 
 const path = require('path');
 
-const ENVIRONMENTS = require('../../../../constants/environments');
-
 const _getBrokenLinks = require('./helpers/getBrokenLinks');
 const _applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
 const _getErrorOutput = require('./helpers/getErrorOutput');
@@ -12,7 +10,6 @@ const _getErrorOutput = require('./helpers/getErrorOutput');
  * Metalsmith middleware for verifying HREF/SRC values in HTML files are valid file references.
  */
 function getMiddleware(
-  buildOptions,
   getBrokenLinks = _getBrokenLinks,
   applyIgnoredRoutes = _applyIgnoredRoutes,
   getErrorOutput = _getErrorOutput,
@@ -48,10 +45,6 @@ function getMiddleware(
     if (brokenPages.length > 0) {
       const errorOutput = getErrorOutput(brokenPages);
 
-      if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
-        done(errorOutput);
-        return;
-      }
       console.log(errorOutput);
     }
 
