@@ -3,52 +3,33 @@ import { connect } from 'react-redux';
 import { openFormPage, updateFormData } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { TYPES_OF_CARE } from '../utils/constants';
+import TypeOfCareField from '../components/TypeOfCareField';
 
 const initialSchema = {
   type: 'object',
-  required: ['typeOfAppointment'],
+  required: ['typeOfCareId'],
   properties: {
-    typeOfAppointment: {
+    typeOfCareId: {
       type: 'string',
-      enum: ['provider', 'typeOfCare'],
+      enum: TYPES_OF_CARE.map(care => care.id || care.ccId),
     },
   },
 };
 
 const uiSchema = {
-  typeOfAppointment: {
-    'ui:title': 'How would you like to make an appointment?',
-    'ui:widget': 'radio',
+  typeOfCareId: {
+    'ui:title': 'What type of care do you need?',
+    'ui:field': TypeOfCareField,
     'ui:options': {
-      labels: {
-        provider: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Provider
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Choose a doctor or care team
-            </span>
-          </>
-        ),
-        typeOfCare: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Type of care
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Choose a specific type of care, like audiology or primary care
-            </span>
-          </>
-        ),
-      },
+      hideLabelText: true,
     },
   },
 };
 
-const pageKey = 'type-appointment';
+const pageKey = 'type-of-care';
 
-export class TypeOfAppointmentPage extends React.Component {
+export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
@@ -58,17 +39,20 @@ export class TypeOfAppointmentPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/type-of-care');
+    this.props.router.push('/new-appointment/contact-info');
   };
 
   render() {
     const { schema, data } = this.props;
 
     return (
-      <div className="vaos-form__appt-type">
+      <div>
+        <h1 className="vads-u-font-size--h2">
+          Choose the type of care you need
+        </h1>
         <SchemaForm
-          name="Type of appointment"
-          title="Type of appointment"
+          name="Type of care"
+          title="Type of care"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
@@ -116,4 +100,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfAppointmentPage);
+)(TypeOfCarePage);
