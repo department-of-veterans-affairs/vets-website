@@ -26,7 +26,7 @@ export function updateFormData(page, uiSchema, data) {
 }
 
 function routeToAppointmentPage(router, current, action) {
-  return async (getState, dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_NAVIGATE_STARTED,
     });

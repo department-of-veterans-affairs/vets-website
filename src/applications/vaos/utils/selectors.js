@@ -5,5 +5,13 @@ export function selectPendingAppointment(state, id) {
 }
 
 export function getFormData(state) {
-  return state.appointments.newAppointment.data;
+  return state.newAppointment.data;
+}
+
+export function getFormPageInfo(state, pageKey) {
+  return {
+    schema: state.newAppointment.pages[pageKey],
+    data: getFormData(state),
+    navigatingBetweenPages: state.newAppointment.navigatingBetweenPages,
+  };
 }

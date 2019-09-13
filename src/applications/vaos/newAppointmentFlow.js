@@ -1,4 +1,3 @@
-// import { isEligible, isAllowedTypeOfCare } from './utils/communityCare';
 import { getFormData } from './utils/selectors';
 
 const AUDIOLOGY = '203';
@@ -8,7 +7,7 @@ export default {
     url: '/',
   },
   typeOfCare: {
-    url: '/new-appointment/type-of-care',
+    url: '/new-appointment',
     next: 'contactInfo',
     // async next(state) {
     //   try {
