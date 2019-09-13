@@ -2,6 +2,7 @@
   "appName": "21-22 Appoint Veteran Service Officer as Representative",
   "entryFile": "./veteran-representative-entry.jsx",
   "entryName": "veteran-representative",
+  "rootUrl": "/veteran-representative",
   "e2eTestsDisabled": true,
   "template": {
     "title": "Appoint VSO as representative",
