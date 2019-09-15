@@ -7,7 +7,7 @@ import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
-import { createTransaction } from '../actions';
+import { createTransaction, clearTransactionStatus } from '../actions';
 import { selectVet360Transaction } from '../selectors';
 
 import {
@@ -34,12 +34,23 @@ class ReceiveTextMessages extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.transaction) {
       this.setState({ lastTransaction: nextProps.transaction });
-      if (!this.props.transaction)
+      if (!this.props.transaction) {
         this.setState({ completedTransaction: true });
+      }
     }
   }
 
+  componentWillUnmount() {
+    this.clearSuccess();
+  }
+
   onChange = event => {
+    if (this.state.lastTransaction) this.clearSuccess();
+    this.setState({
+      startedTransaction: true,
+      completedTransaction: false,
+      lastTransaction: null,
+    });
     const payload = this.props.profile.vet360.mobilePhone;
     payload.isTextPermitted = event;
     const method = payload.id ? 'PUT' : 'POST';
@@ -50,9 +61,14 @@ class ReceiveTextMessages extends React.Component {
       payload,
       this.props.analyticsSectionName,
     );
+  };
 
+  clearSuccess = () => {
+    this.props.clearTransactionStatus();
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;
     this.setState({
-      startedTransaction: true,
+      startedTransaction: false,
       completedTransaction: false,
       lastTransaction: null,
     });
@@ -60,13 +76,10 @@ class ReceiveTextMessages extends React.Component {
 
   isSuccessVisible() {
     let showSuccess = false;
-    if (
-      this.state.startedTransaction &&
-      this.state.completedTransaction &&
-      this.state.lastTransaction &&
-      !isFailedTransaction(this.state.lastTransaction)
-    ) {
-      showSuccess = true;
+    if (this.state.startedTransaction && this.state.completedTransaction) {
+      showSuccess = this.props.transactionSuccess;
+      if (this.intervalId === undefined)
+        this.intervalId = setInterval(this.clearSuccess, 3000);
     }
     return showSuccess;
   }
@@ -116,10 +129,13 @@ export function mapStateToProps(state, ownProps) {
     !isEnrolledInVAHealthCare(state) ||
     hasError ||
     isPending;
+  const transactionSuccess =
+    state.vet360.transactionStatus === 'COMPLETED_SUCCESS';
   return {
     profile: profileState,
     hideCheckbox,
     transaction,
+    transactionSuccess,
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
   };
 }
@@ -127,6 +143,7 @@ export function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   getEnrollmentStatus: getEnrollmentStatusAction,
   createTransaction,
+  clearTransactionStatus,
 };
 
 const ReceiveTextMessagesContainer = connect(
