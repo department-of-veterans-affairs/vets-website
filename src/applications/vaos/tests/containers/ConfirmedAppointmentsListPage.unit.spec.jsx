@@ -23,6 +23,7 @@ describe('VAOS <ConfirmedAppointmentsListPage>', () => {
   it('should render confirmed appointments', () => {
     const fetchConfirmedAppointments = sinon.spy();
     const appointments = [{}, {}];
+
     const form = shallow(
       <ConfirmedAppointmentsListPage
         fetchConfirmedAppointments={fetchConfirmedAppointments}
@@ -33,7 +34,7 @@ describe('VAOS <ConfirmedAppointmentsListPage>', () => {
 
     expect(fetchConfirmedAppointments.called).to.be.true;
     expect(form.find('LoadingIndicator').exists()).to.be.false;
-    expect(form.find('ConfirmedAppointment').length).to.equal(2);
+    expect(form.find('ConfirmedAppointmentListItem').length).to.equal(2);
     form.unmount();
   });
 });
