@@ -26,6 +26,15 @@ module.exports = `
         }
       }
     }
+    uid {
+      targetId
+      ... on FieldNodeUid {
+        entity {
+          name
+          timezone
+        }
+      }
+    }
     fieldDate {
         startDate
         value

@@ -76,14 +76,19 @@ Example data:
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
-{% assign start_date_no_time = fieldDate.value | formatDate: "dddd, MMM D" %}
-{% assign end_date_no_time = fieldDate.endValue | formatDate: "dddd, MMM D" %}
+{% assign timezone = "EST" %}
+{% if uid.entity.timezone != empty %}
+  {% assign timezone = uid.entity.timezone %}
+{% endif %}
 
-{% assign start_time = fieldDate.value | formatDate: "h:mm A" %}
-{% assign end_time = fieldDate.endValue | formatDate: "h:mm A" %}
+{% assign start_date_no_time = fieldDate.value | timeZone: timezone, "dddd, MMM D" %}
+{% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
 
-{% assign start_date_full = fieldDate.value | formatDate: "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = fieldDate.endValue | formatDate: "dddd, MMM D, h:mm A" %}
+{% assign start_time = fieldDate.value | timeZone: timezone, "h:mm A" %}
+{% assign end_time = fieldDate.endValue | timeZone: timezone, "h:mm A" %}
+
+{% assign start_date_full = fieldDate.value | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% assign end_date_full = fieldDate.endValue | timeZone: timezone, "dddd, MMM D, h:mm A" %}
 
 {% assign start_timestamp = fieldDate.value | unixFromDate %}
 {% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
@@ -99,7 +104,7 @@ Example data:
 {% endif %}
 <div class="interior" id="content">
 
-  <main class="va-l-detail-page">
+  <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% if entityUrl.path contains "/outreach-and-events" %}
         {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
@@ -139,17 +144,18 @@ Example data:
                   {% if date_type == "same_day" %}
                   <span>{{ start_date_no_time }}</span><br>
                   <span>{{ start_time }}
-                    -
+                    –
                     {{ end_time }}</span>
                   {% else %}
                   <span>{{ start_date_full }}
-                    -</span><br>
+                    –</span><br>
                   <span>{{ end_date_full }}</span>
                   {% endif %}
                   {% endif %}
                 </dd>
               </dl>
 
+              {% if fieldFacilityLocation or fieldAddress.addressLine1 %}
               <dl class="va-c-event-info">
                 <dt class="vads-u-font-weight--bold when-where-width vads-u-margin-right--2">Where</dt>
                 <dd>
@@ -179,6 +185,7 @@ Example data:
                 </dd>
 
               </dl>
+              {% endif %}
 
                 {% if fieldEventCost %}
                     <dl class="va-c-event-info">

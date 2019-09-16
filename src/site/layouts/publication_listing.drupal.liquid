@@ -5,7 +5,7 @@
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
 <div class="interior" id="content">
-  <main class="va-l-detail-page">
+  <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = outreachSidebar %}
       <div class="usa-width-three-fourths">
@@ -90,9 +90,15 @@
               </form>
 
               <div id="total-pages-div" class="vads-u-margin-bottom--1">
-                <div aria-live="polite" class="break-div" role="status"
-                  tabindex="-1">
-                  <span role="text">
+                <div
+                  aria-live="polite"
+                  aria-atomic="true"
+                  id="pager-focus"
+                  class="break-div"
+                  role="status"
+                  tabindex="-1"
+                  >
+                  <span>
                     Showing
                     <span aria-hidden="true" id="total-pages"></span>
                     <span class="usa-sr-only" id="total-pages-sr"></span>
@@ -269,17 +275,17 @@
               small-desktop-screen:vads-u-display--block
               large-screen:vads-u-display--block max-control">
                 <a href="#first-click" aria-label="First page"
-                  class="va-button-link" id="first-click">First</a>
+                  class="va-button-link pager-focus-item" id="first-click">First</a>
               </span>
               <span class="va-pagination-prev">
-                <a href="#pager-previous-click" class="va-button-link"
+                <a href="#pager-previous-click" class="va-button-link pager-focus-item"
                   id="pager-previous-click" aria-label="Load previous page"
                   tabindex="0">Prev</a>
               </span>
               <div id="pager-nums-insert" class="va-pagination-inner">
               </div>
               <span class="va-pagination-next">
-                <a href="#pager-next-click" class="va-button-link"
+                <a href="#pager-next-click" class="va-button-link pager-focus-item"
                   id="pager-next-click" aria-label="Load next page"
                   tabindex="0">Next</a>
               </span>
@@ -288,7 +294,7 @@
               small-desktop-screen:vads-u-display--block
               large-screen:vads-u-display--block max-control">
                 <a aria-label="Last page" href="#search-entry"
-                  class="va-button-link" id="last-click">Last</a>
+                  class="va-button-link pager-focus-item" id="last-click">Last</a>
               </span>
             </div>
             <div class="library-show" id="no-results">

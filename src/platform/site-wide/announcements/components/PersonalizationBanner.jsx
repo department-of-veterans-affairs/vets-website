@@ -3,7 +3,7 @@ import PromoBanner, {
   PROMO_BANNER_TYPES,
 } from '@department-of-veterans-affairs/formation-react/PromoBanner';
 
-import { rootUrl as dashboardUrl } from '../../../../applications/personalization/dashboard/manifest.js';
+import { rootUrl as dashboardUrl } from '../../../../applications/personalization/dashboard/manifest.json';
 
 export default function PersonalizationBanner({ dismiss, isLoggedIn }) {
   if (!isLoggedIn) return null;

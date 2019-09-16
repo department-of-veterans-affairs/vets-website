@@ -16,7 +16,7 @@ const IconWithInfo = ({ icon, iconClassName, children, present }) => {
 export const VetTecHeadingSummary = ({ institution, showModal }) => (
   <div className="heading row">
     <div className="usa-width-two-thirds medium-8 small-12 column">
-      <h1>{institution.name}</h1>
+      <h1 tabIndex={-1}>{institution.name}</h1>
       <div>
         <div className="usa-width-one-half medium-6 small-12 column">
           <IconWithInfo
