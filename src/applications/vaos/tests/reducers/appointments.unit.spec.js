@@ -51,7 +51,10 @@ describe('VAOS reducer: appointments', () => {
     const action = {
       type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
       data: {
-        appointmentRequests: [{ id: 1, status: 'Booked' }, { id: 2, status: 'Booked' }]
+        appointmentRequests: [
+          { id: 1, status: 'Booked' },
+          { id: 2, status: 'Booked' },
+        ],
       },
     };
 

@@ -29,9 +29,9 @@ describe('VA Confirmed Appointment', () => {
   let tree;
   // let tree = shallow(<ConfirmedAppointment appointment={appointment} />);
 
-  before(() => { });
+  before(() => {});
 
-  after(() => { });
+  after(() => {});
 
   describe('appointment details', () => {
     beforeEach(() => {
