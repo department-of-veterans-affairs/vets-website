@@ -505,56 +505,10 @@ class CalculatorForm extends React.Component {
     );
   };
 
-  renderBeneficiaryZIP = () => {
+  renderExtensionBeneficiaryZIP = () => {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
     }
-
-    if (!environment.isProduction()) {
-      return this.renderExtensionBeneficiaryZIP();
-    }
-
-    let amountInput;
-
-    if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
-      amountInput = (
-        <div>
-          <ErrorableTextInput
-            errorMessage={this.props.inputs.beneficiaryZIPError}
-            label={
-              <span>
-                At what ZIP Code will you be taking the majority of classes?
-              </span>
-            }
-            name="beneficiaryZIPCode"
-            field={{ value: this.props.inputs.beneficiaryZIP }}
-            onValueChange={this.handleBeneficiaryZIPCodeChanged}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text: 'Will the majority of your classes be on the main campus?',
-            modal: 'calcBeneficiaryLocationQuestion',
-          })}
-          name="beneficiaryLocationQuestion"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.inputs.beneficiaryLocationQuestion}
-          onChange={this.handleInputChange}
-        />
-        {amountInput}
-      </div>
-    );
-  };
-
-  renderExtensionBeneficiaryZIP = () => {
     const { profile, inputs, onShowModal } = this.props;
     const extensions = this.getExtensions();
 
@@ -608,7 +562,7 @@ class CalculatorForm extends React.Component {
         <div>
           <ErrorableTextInput
             errorMessage={inputs.beneficiaryZIPError}
-            label="Please enter the Postal code where you'll take your classes"
+            label="Please enter the ZIP Code where you'll take your classes"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
@@ -750,7 +704,7 @@ class CalculatorForm extends React.Component {
           {this.renderCalendar()}
           {this.renderKicker()}
           {this.renderGbBenefit()}
-          {this.renderBeneficiaryZIP()}
+          {this.renderExtensionBeneficiaryZIP()}
           {this.renderBuyUp()}
           {this.renderWorking()}
         </div>
@@ -767,7 +721,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderOnlineClasses()}
-        {this.renderBeneficiaryZIP()}
+        {this.renderExtensionBeneficiaryZIP()}
         {this.renderKicker()}
         {this.renderGbBenefit()}
         {this.renderBuyUp()}
