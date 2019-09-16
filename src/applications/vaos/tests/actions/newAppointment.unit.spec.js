@@ -3,8 +3,8 @@ import sinon from 'sinon';
 
 import {
   routeToPage,
-  FORM_PAGE_NAVIGATE_STARTED,
-  FORM_PAGE_NAVIGATE_COMPLETED,
+  FORM_PAGE_CHANGE_STARTED,
+  FORM_PAGE_CHANGE_COMPLETED,
 } from '../../actions/newAppointment';
 
 const testFlow = {
@@ -35,10 +35,10 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: FORM_PAGE_NAVIGATE_STARTED,
+        type: FORM_PAGE_CHANGE_STARTED,
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: FORM_PAGE_NAVIGATE_COMPLETED,
+        type: FORM_PAGE_CHANGE_COMPLETED,
       });
       expect(router.push.firstCall.args[0]).to.equal('/page2');
     });

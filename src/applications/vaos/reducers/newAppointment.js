@@ -2,8 +2,8 @@ import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers'
 import {
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
-  FORM_PAGE_NAVIGATE_STARTED,
-  FORM_PAGE_NAVIGATE_COMPLETED,
+  FORM_PAGE_CHANGE_STARTED,
+  FORM_PAGE_CHANGE_COMPLETED,
 } from '../actions/newAppointment';
 
 const initialState = {
@@ -44,13 +44,13 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_PAGE_NAVIGATE_STARTED: {
+    case FORM_PAGE_CHANGE_STARTED: {
       return {
         ...state,
         pageChangeInProgress: true,
       };
     }
-    case FORM_PAGE_NAVIGATE_COMPLETED: {
+    case FORM_PAGE_CHANGE_COMPLETED: {
       return {
         ...state,
         pageChangeInProgress: false,

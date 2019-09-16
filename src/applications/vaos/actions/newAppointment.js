@@ -2,10 +2,10 @@ import newAppointmentFlow from '../newAppointmentFlow';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
-export const FORM_PAGE_NAVIGATE_STARTED =
-  'newAppointment/FORM_PAGE_NAVIGATE_STARTED';
-export const FORM_PAGE_NAVIGATE_COMPLETED =
-  'newAppointment/FORM_PAGE_NAVIGATE_COMPLETED';
+export const FORM_PAGE_CHANGE_STARTED =
+  'newAppointment/FORM_PAGE_CHANGE_STARTED';
+export const FORM_PAGE_CHANGE_COMPLETED =
+  'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -28,7 +28,7 @@ export function updateFormData(page, uiSchema, data) {
 export function routeToPage(flow, router, current, action) {
   return async (dispatch, getState) => {
     dispatch({
-      type: FORM_PAGE_NAVIGATE_STARTED,
+      type: FORM_PAGE_CHANGE_STARTED,
     });
 
     const nextAction = flow[current][action];
@@ -44,7 +44,7 @@ export function routeToPage(flow, router, current, action) {
     if (nextState?.url) {
       router.push(nextState.url);
       dispatch({
-        type: FORM_PAGE_NAVIGATE_COMPLETED,
+        type: FORM_PAGE_CHANGE_COMPLETED,
       });
     } else if (nextState) {
       throw new Error(`Tried to route to a page without a url: ${nextState}`);
