@@ -2,15 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import createCommonStore from '../../../../platform/startup/store';
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
-import reducer from '../../reducers';
-
-const defaultProps = createCommonStore(reducer).getState();
 
 describe('<VetTecScoContact>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<VetTecScoContact {...defaultProps} />);
+    const tree = SkinDeep.shallowRender(<VetTecScoContact />);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
@@ -19,7 +15,7 @@ describe('<VetTecScoContact>', () => {
     expect(VetTecScoContact()).to.be.null;
   });
 
-  it('expect header text to render when it should', () => {
+  it('expect header text to render when the text is provided', () => {
     const sco = {
       facilityCode: '2V000203',
       institutionName: 'GALVANIZE INC',
@@ -32,14 +28,15 @@ describe('<VetTecScoContact>', () => {
       phoneExtension: null,
       email: 'VABENEFITS@GALVANIZE.COM',
     };
-    const tree = SkinDeep.shallowRender(
-      VetTecScoContact(sco, 'School certifying officials'),
-    );
-    const header = tree.subTree('h3').text();
-    expect(header).to.equal('School certifying officials');
+
+    const header = 'School certifying officials';
+
+    const tree = SkinDeep.shallowRender(VetTecScoContact(sco, header));
+    const headerText = tree.subTree('h3').text();
+    expect(headerText).to.equal('School certifying officials');
   });
 
-  it("expect header to not render when it shouldn't", () => {
+  it('expect header to not render when no text is provided', () => {
     const sco = {
       facilityCode: '2V000203',
       institutionName: 'GALVANIZE INC',
