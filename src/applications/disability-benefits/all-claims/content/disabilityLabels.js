@@ -8,7 +8,7 @@ export default {
   70: 'acne',
   80: 'acromegaly',
   90: 'acute nonlymphocytic leukemia',
-  100: `Addison's disease`,
+  100: "Addison's disease",
   109: '2010 Presumptive Herbicide Condition',
   110: 'adenocarcinoma',
   120: 'adenomyoepithelioma',
