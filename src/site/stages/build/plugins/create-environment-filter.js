@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-console */
 const ENVIRONMENTS = require('../../../constants/environments');
 
 function createEnvironmentFilter(options) {
@@ -15,6 +15,7 @@ function createEnvironmentFilter(options) {
       }
 
       if (file[environmentName] === false) {
+        console.log(`File excluded from current buildtype: ${fileName}`);
         delete files[fileName];
       }
     }
