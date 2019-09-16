@@ -5,6 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchConfirmedAppointments } from '../actions/appointments';
 import ConfirmedAppointment from '../components/ConfirmedAppointment';
 import { FETCH_STATUS } from '../utils/constants';
+import { getAppointmentId } from '../utils/appointment';
 
 export class ConfirmedAppointmentsPage extends React.Component {
   componentDidMount() {
@@ -29,7 +30,7 @@ export class ConfirmedAppointmentsPage extends React.Component {
                 <ul className="usa-unstyled-list">
                   {appointments.map(appt => (
                     <ConfirmedAppointment
-                      key={appt.appointmentRequestId}
+                      key={getAppointmentId(appt)}
                       appointment={appt}
                     />
                   ))}
