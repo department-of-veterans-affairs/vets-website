@@ -1,6 +1,6 @@
 /* Blue duo-tone for the main region landing page image */
 $duo-tone-darken: #112e51;
-$duo-tone-lighten: #000000;
+$duo-tone-lighten: #000;
 
 /* The brightest duo-tone color */
 .darken::before {
@@ -20,7 +20,7 @@ $duo-tone-lighten: #000000;
 }
 
 .duotone::before, .duotone::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
   position: absolute;
@@ -241,4 +241,21 @@ $duo-tone-lighten: #000000;
   height: 178px;
   width: 144px;
   object-fit: cover;
+}
+
+.person-profile-detail-page-image {
+  height: 227px;
+  width: 176px;
+  object-fit: cover;
+}
+
+
+.va-facility-page {
+  .va-address-block {
+    margin-left: 1rem;
+  }
+}
+
+.va-l-font-size--12px {
+  font-size: 12px !important;
 }

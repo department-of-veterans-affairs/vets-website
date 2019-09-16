@@ -27,14 +27,19 @@ Example data:
 {% endcomment %}
 {% if node != empty %}
 
-    {% assign start_date_no_time = node.fieldDate.value | timeZone: node.uid.entity.timezone, "dddd, MMM D" %}
-    {% assign end_date_no_time = node.fieldDate.endValue | timeZone: node.uid.entity.timezone , "dddd, MMM D" %}
+    {% assign timezone = "EST" %}
+    {% if node.uid.entity.timezone != empty %}
+        {% assign timezone = uid.entity.timezone %}
+    {% endif %}
 
-    {% assign start_time = node.fieldDate.value | timeZone: node.uid.entity.timezone, "h:mm A" %}
-    {% assign end_time = node.fieldDate.endValue | timeZone: node.uid.entity.timezone, "h:mm A" %}
+    {% assign start_date_no_time = node.fieldDate.value | timeZone: timezone, "dddd, MMM D" %}
+    {% assign end_date_no_time = node.fieldDate.endValue | timeZone: timezone , "dddd, MMM D" %}
 
-    {% assign start_date_full = node.fieldDate.value | timeZone: node.uid.entity.timezone, "dddd, MMM D, h:mm A" %}
-    {% assign end_date_full = node.fieldDate.endValue | timeZone: node.uid.entity.timezone, "dddd, MMM D, h:mm A" %}
+    {% assign start_time = node.fieldDate.value | timeZone: timezone, "h:mm A" %}
+    {% assign end_time = node.fieldDate.endValue | timeZone: timezone, "h:mm A" %}
+
+    {% assign start_date_full = node.fieldDate.value | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+    {% assign end_date_full = node.fieldDate.endValue | timeZone: timezone, "dddd, MMM D, h:mm A" %}
 
     {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
         {% assign date_type = "start_date_only" %}
@@ -72,21 +77,21 @@ Example data:
             {% endif %}
         </div>
       </div>
+      {% if node.fieldFacilityLocation != empty %}
       <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
         <div class="vads-u-margin-right--2 when-where-width">
           <strong>Where</strong>
         </div>
         <div class="usa-width-five-sixths">
-            {% if node.fieldFacilityLocation != empty %}
               <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
                   <a href="{{ node.fieldFacilityLocation.entity.entityUrl.path }}">{{ node.fieldFacilityLocation.entity.title }}</a>
               </p>
-            {% endif %}
             {% if node.fieldLocationHumanreadable != empty %}
                 <span>{{ node.fieldLocationHumanreadable }}</span>
             {% endif %}
         </div>
       </div>
+      {% endif %}
   </div>
 
 {% endif %}

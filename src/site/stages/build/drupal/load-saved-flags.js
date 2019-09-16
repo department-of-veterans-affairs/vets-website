@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 
 /**
  * Takes an object of CMS feature flags, puts them in a Proxy which
- * throws an error if one is used without being defined, and assigns
+ * logs an error if one is used without being defined, and assigns
  * that to global.cmsFeatureFlags.
  *
  * Returns the Proxy.
@@ -20,7 +20,7 @@ function useFlags(rawFlags) {
       // Not sure where this was getting called, but V8 does some
       // complicated things under the hood.
       // https://www.mattzeunert.com/2016/07/20/proxy-symbol-tostring.html
-      // TL;DR: V8 calls some things we don't want to throw up on.
+      // TL;DR: V8 calls some things we don't need to mention
       const ignoreList = [
         'Symbol(Symbol.toStringTag)',
         'Symbol(nodejs.util.inspect.custom)',
@@ -28,13 +28,12 @@ function useFlags(rawFlags) {
         'Symbol(Symbol.iterator)',
       ];
       if (!ignoreList.includes(prop.toString())) {
-        throw new ReferenceError(
-          `Could not find feature flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
+        // eslint-disable-next-line no-console
+        console.error(
+          `Could not find query flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,
         );
       }
 
-      // If we get this far, I guess we make sure we don't mess up
-      // the expected behavior
       return obj[prop];
     },
   });
@@ -50,6 +49,11 @@ function useFlags(rawFlags) {
  *
  * This is for use with the drupal-aws-cache script. The normal build
  * and preview build scripts do this in setUpFeatureFlags().
+ *
+ * This function doesn't check for the existence of a feature flags file
+ * because those should have already been pulled using --pull-drupal.
+ * Not having a failsafe allows for better visibility into any potential
+ * error messages and prevents the upload of a cache without feature flags.
  */
 function loadFeatureFlags(cacheDirectory) {
   const featureFlagFile = path.join(cacheDirectory, 'feature-flags.json');

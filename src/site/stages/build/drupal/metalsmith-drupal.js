@@ -32,7 +32,11 @@ const shouldPullDrupal = buildOptions => {
     DRUPAL_CACHE_FILENAME,
   );
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
-  return buildOptions[PULL_DRUPAL_BUILD_ARG] || !isDrupalAvailableInCache;
+  return (
+    buildOptions[PULL_DRUPAL_BUILD_ARG] ||
+    (!isDrupalAvailableInCache &&
+      buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) // Don't require a cache to build locally.
+  );
 };
 
 function pipeDrupalPagesIntoMetalsmith(contentData, files) {
@@ -122,7 +126,7 @@ async function loadDrupal(buildOptions) {
   if (!isDrupalAvailableInCache) {
     log(`Drupal content unavailable in local cache: ${drupalCache}`);
   } else {
-    log(`Drupal content loaded from local cache: ${drupalCache}`);
+    log(`Drupal content cache found: ${drupalCache}`);
   }
 
   if (shouldPull) {
