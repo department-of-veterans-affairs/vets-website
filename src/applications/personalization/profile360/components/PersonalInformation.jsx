@@ -9,7 +9,7 @@ import { handleDowntimeForSection } from './DowntimeBanner';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import recordEvent from 'platform/monitoring/record-event';
-import facilityLocator from 'applications/facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 
 function Gender({ gender }) {
   let content = 'This information is not available right now.';

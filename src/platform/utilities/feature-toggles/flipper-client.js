@@ -1,5 +1,10 @@
-const TOGGLE_VALUES_PATH =
-  '/v0/feature_toggles?features=facilityLocatorShowCommunityCares';
+/* This file is must run in both NodeJS and browser environments */
+
+const { featureToggleQueryList } = require('./feature-toggle-query-list.json');
+
+const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
+  ',',
+)}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
