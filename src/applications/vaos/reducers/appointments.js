@@ -11,6 +11,7 @@ import {
 } from '../actions/appointments';
 
 import { FETCH_STATUS } from '../utils/constants';
+import moment from 'moment';
 
 const initialState = {
   confirmed: null,
@@ -28,12 +29,25 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.loading,
       };
-    case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED:
+    case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED: {
+      const confirmed = action.data.appointmentRequests.filter(
+        req => req.status === 'Booked',
+      );
+      confirmed.sort((a, b) => {
+        const date1 = moment(a.bookedApptDateTime, 'MM/DD/YYYY HH:mm:ss');
+        const date2 = moment(b.bookedApptDateTime, 'MM/DD/YYYY HH:mm:ss');
+        if (date1.isValid() && date2.isValid()) {
+          return date1.isBefore(date2) ? -1 : 1;
+        }
+
+        return 0;
+      });
       return {
         ...state,
         confirmedStatus: FETCH_STATUS.succeeded,
-        confirmed: action.data,
+        confirmed,
       };
+    }
     case FETCH_CONFIRMED_APPOINTMENTS_FAILED:
       return {
         ...state,
