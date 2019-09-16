@@ -13,7 +13,6 @@ import {
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
-import environment from '../../../../platform/utilities/environment';
 
 const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
@@ -157,9 +156,7 @@ export class Calculator extends React.Component {
 
     // const it = this.props.profile.attributes;
     const { outputs } = this.props.calculated;
-    const fraction = environment.isProduction()
-      ? 'usa-width-five-twelfths medium-5 columns'
-      : 'usa-width-one-eigth medium-5 columns';
+    const fraction = 'usa-width-one-eigth medium-5 columns';
     return (
       <div className="row calculate-your-benefits">
         <div className={fraction}>
