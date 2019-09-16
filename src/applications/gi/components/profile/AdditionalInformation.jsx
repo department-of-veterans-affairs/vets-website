@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
     const constants = this.props.constants;
