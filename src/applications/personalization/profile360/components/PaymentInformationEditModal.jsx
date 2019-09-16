@@ -119,15 +119,9 @@ class PaymentInformationEditModal extends React.Component {
       >
         {!!this.props.responseError && (
           <div id="errors" role="alert" aria-atomic="true">
-            <div className="usa-alert usa-alert-error">
-              <div className="usa-alert-body">
-                <div className="usa-alert-text">
-                  <PaymentInformationEditModalError
-                    responseError={this.props.responseError}
-                  />
-                </div>
-              </div>
-            </div>
+            <PaymentInformationEditModalError
+              responseError={this.props.responseError}
+            />
           </div>
         )}
         <p className="vads-u-margin-top--1p5">
