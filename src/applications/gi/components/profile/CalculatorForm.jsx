@@ -6,7 +6,6 @@ import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
-import environment from 'platform/utilities/environment';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 class CalculatorForm extends React.Component {
@@ -691,25 +690,6 @@ class CalculatorForm extends React.Component {
 
   render() {
     if (!this.props.displayedInputs) return null;
-    if (environment.isProduction()) {
-      return (
-        <div className="calculator-form">
-          {this.renderInState()}
-          {this.renderTuition()}
-          {this.renderBooks()}
-          {this.renderYellowRibbon()}
-          {this.renderScholarships()}
-          {this.renderTuitionAssist()}
-          {this.renderEnrolled()}
-          {this.renderCalendar()}
-          {this.renderKicker()}
-          {this.renderGbBenefit()}
-          {this.renderExtensionBeneficiaryZIP()}
-          {this.renderBuyUp()}
-          {this.renderWorking()}
-        </div>
-      );
-    }
     return (
       <div className="calculator-form">
         {this.renderInState()}
