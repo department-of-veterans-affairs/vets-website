@@ -75,7 +75,7 @@ export class SchoolLocations extends React.Component {
       physicalZip,
     } = institution;
     const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
-      <h6>{name}</h6>
+      <p className="schoolName">{name}</p>
     ) : (
       name
     );
@@ -152,15 +152,9 @@ export class SchoolLocations extends React.Component {
       <table className="locations-table">
         <thead>
           <tr>
-            <th>
-              <h4>School Name</h4>
-            </th>
-            <th>
-              <h4>Location</h4>
-            </th>
-            <th>
-              <h4>Estimated housing</h4>
-            </th>
+            <th>School Name</th>
+            <th>Location</th>
+            <th>Estimated housing</th>
           </tr>
         </thead>
         <tbody>
@@ -279,8 +273,13 @@ export class SchoolLocations extends React.Component {
         <span>
           Below are locations for {main.institution.institution}. The housing
           estimates shown here are based on a full-time student taking in-person
-          classes. Select a link to view a location and calculate the benefits
-          you’d receive there.
+          classes.&nbsp;
+          {main.branches.length > 0 && ( // only displayed when branches exist
+            <span>
+              Select a link to view a location and calculate the benefits you’d
+              receive there.
+            </span>
+          )}
         </span>
         {this.renderFacilityMapTable(main)}
         {this.renderFacilityMapList(main)}
