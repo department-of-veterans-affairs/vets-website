@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { selectPendingAppointment } from '../../utils/selectors';
+import {
+  selectPendingAppointment,
+  selectConfirmedAppointment,
+} from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
   describe('selectPendingAppointment', () => {
@@ -24,6 +27,30 @@ describe('VAOS selectors', () => {
         },
       };
       const appt = selectPendingAppointment(state, 'testing');
+      expect(appt).to.be.null;
+    });
+  });
+  describe('selectConfirmedAppointment', () => {
+    it('should return appt matching id', () => {
+      const state = {
+        appointments: {
+          confirmed: [
+            {
+              appointmentRequestId: 'testing',
+            },
+          ],
+        },
+      };
+      const appt = selectConfirmedAppointment(state, 'testing');
+      expect(appt).to.equal(state.appointments.pending[0]);
+    });
+    it('should return null if no matching id', () => {
+      const state = {
+        appointments: {
+          confirmed: null,
+        },
+      };
+      const appt = selectConfirmedAppointment(state, 'testing');
       expect(appt).to.be.null;
     });
   });
