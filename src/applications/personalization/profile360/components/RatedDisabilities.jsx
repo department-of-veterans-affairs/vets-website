@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import featureFlags from '../featureFlags';
-
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import moment from 'moment';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 class RatedDisabilities extends React.Component {
   static propTypes = {
@@ -44,11 +43,26 @@ class RatedDisabilities extends React.Component {
       return <h1>Loading!</h1>;
     }
 
-    if (this.props.ratedDisabilities?.error) {
+    // Alert Box is set to 'info' -- no disability info is not necessarily an error.
+    if (this.props.ratedDisabilities.error) {
       return (
-        <h1>
-          We're having trouble accessing your rated disabilities at this time.
-        </h1>
+        <>
+          <h2 className="va-profile-heading">Rated disabilities</h2>
+          <div className="usa-width-one-whole">
+            <AlertBox
+              headline="No disability rating found"
+              content="We can't find a disability rating matched with the name, date of birth, and social secuity number you provided in our Veteran records."
+              status="info"
+              isVisible
+            />
+            <h4>What you can do</h4>
+            <p>
+              If you feel your information is correct, please call the VA.gov
+              Help Desk at 1-855-574-7286. We're here Monday through Friday,
+              8:00 a.m. to 8:00 p.m. (ET).
+            </p>
+          </div>
+        </>
       );
     }
     const formattedDisabilities = this.formalizeData(
