@@ -83,39 +83,28 @@ describe('Community Care Confirmed Appointment', () => {
       street: '123 second st',
       city: 'Northampton',
       state: 'MA',
+      zipCode: '22222',
     },
   };
 
   const tree = shallow(<ConfirmedAppointment appointment={appointment} />);
 
   describe('appointment details', () => {
-    it('should contain community care data', () => {
-      expect(appointment.ccAppointmentRequest).not.to.be.undefined;
-    });
-
-    it('should display preferred location header', () => {
-      expect(
-        tree
-          .find('h3')
-          .at(1)
-          .text(),
-      ).to.contain('Preferred location:');
-    });
-
-    it('should display preferred location', () => {
+    it('should display location', () => {
       const locationDiv = tree.find('li > div > div').at(1);
 
-      expect(locationDiv.text()).to.contain('Preferred location:');
-      expect(locationDiv.text()).to.contain('Leeds, NH');
+      expect(locationDiv.text()).to.contain(
+        '123 second stNorthampton, MA 22222',
+      );
     });
 
-    it('should display preferred location', () => {
+    it('should display booked time', () => {
       expect(
         tree
           .find('ul')
           .text()
           .trim(),
-      ).to.equal('May 22, 2019 10:00 a.m.');
+      ).to.equal('May 22, 201910:00 a.m.');
     });
   });
 });
