@@ -50,7 +50,7 @@ export class TypeOfCarePage extends React.Component {
   };
 
   render() {
-    const { schema, data, navigatingBetweenPages } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <div>
@@ -70,7 +70,7 @@ export class TypeOfCarePage extends React.Component {
         >
           <FormButtons
             onBack={this.goBack}
-            navigatingBetweenPages={navigatingBetweenPages}
+            pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
       </div>

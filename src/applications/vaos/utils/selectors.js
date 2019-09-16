@@ -12,6 +12,6 @@ export function getFormPageInfo(state, pageKey) {
   return {
     schema: state.newAppointment.pages[pageKey],
     data: getFormData(state),
-    navigatingBetweenPages: state.newAppointment.navigatingBetweenPages,
+    pageChangeInProgress: state.newAppointment.pageChangeInProgress,
   };
 }

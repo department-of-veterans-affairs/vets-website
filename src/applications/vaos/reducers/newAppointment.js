@@ -9,7 +9,7 @@ import {
 const initialState = {
   pages: {},
   data: {},
-  navigatingBetweenPages: false,
+  pageChangeInProgress: false,
 };
 
 export default function formReducer(state = initialState, action) {
@@ -47,13 +47,13 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_NAVIGATE_STARTED: {
       return {
         ...state,
-        navigatingBetweenPages: true,
+        pageChangeInProgress: true,
       };
     }
     case FORM_PAGE_NAVIGATE_COMPLETED: {
       return {
         ...state,
-        navigatingBetweenPages: false,
+        pageChangeInProgress: false,
       };
     }
     default:

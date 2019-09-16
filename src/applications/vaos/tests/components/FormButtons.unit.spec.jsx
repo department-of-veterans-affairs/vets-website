@@ -15,9 +15,7 @@ describe('VAOS <FormButtons>', () => {
     tree.unmount();
   });
   it('should set loading state', () => {
-    const tree = shallow(
-      <FormButtons onBack={f => f} navigatingBetweenPages />,
-    );
+    const tree = shallow(<FormButtons onBack={f => f} pageChangeInProgress />);
 
     expect(tree.find('ProgressButton').length).to.equal(1);
     expect(tree.find('LoadingButton').props().isLoading).to.be.true;
@@ -27,9 +25,7 @@ describe('VAOS <FormButtons>', () => {
   it('should call onBack prop', () => {
     const goBack = sinon.spy();
 
-    const tree = shallow(
-      <FormButtons onBack={goBack} navigatingBetweenPages />,
-    );
+    const tree = shallow(<FormButtons onBack={goBack} pageChangeInProgress />);
 
     tree
       .find('ProgressButton')
