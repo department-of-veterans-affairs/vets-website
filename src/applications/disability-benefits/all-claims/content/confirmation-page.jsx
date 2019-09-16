@@ -9,6 +9,8 @@ import {
   errorMessage,
 } from '../content/confirmation-poll';
 
+import { NULL_CONDITION_STRING } from '../constants';
+
 const template = (props, title, content, submissionMessage, messageType) => {
   const { fullName, disabilities, submittedAt } = props;
   const { first, last, middle, suffix } = fullName;
@@ -73,7 +75,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           <br />
           <ul className="disability-list">
             {disabilities.map((disability, i) => (
-              <li key={i}>{typeof disability === 'string' ? capitalizeEachWord(disability) : 'Unknown Condition'}</li>
+              <li key={i}>{typeof disability === 'string' ? capitalizeEachWord(disability) : NULL_CONDITION_STRING}</li>
             ))}
           </ul>
           {submissionMessage}

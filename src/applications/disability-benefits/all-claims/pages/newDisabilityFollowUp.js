@@ -12,6 +12,8 @@ import {
 
 import { validateLength } from '../../../../platform/forms/validations';
 
+import { NULL_CONDITION_STRING } from '../constants';
+
 const {
   cause,
   causedByDisability,
@@ -32,12 +34,12 @@ const getDisabilitiesList = createSelector(
     const newDisabilitiesWithoutCurrent = newDisabilities
       .filter((item, index) => index !== currentIndex)
       .map((item) => {
-        return typeof item.condition === 'string' ? capitalizeEachWord(item.condition) : 'Unknown Condition';
+        return typeof item.condition === 'string' ? capitalizeEachWord(item.condition) : NULL_CONDITION_STRING;
       });
 
     return ratedDisabilities
       .map((disability) => {
-        return typeof disability.name === 'string' ? capitalizeEachWord(disability.name) : 'Unknown Condition'
+        return typeof disability.name === 'string' ? capitalizeEachWord(disability.name) : NULL_CONDITION_STRING
       })
       .concat(newDisabilitiesWithoutCurrent);
   },

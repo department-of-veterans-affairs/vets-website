@@ -35,6 +35,7 @@ import {
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
+  NULL_CONDITION_STRING
 } from './constants';
 
 /**
@@ -155,7 +156,7 @@ const capitalizeWord = word => {
 
 /**
  * Takes a string and returns the same string with every word capitalized. If no valid
- * string is given as input, returns 'Unknown Condition' and logs to Sentry.
+ * string is given as input, returns NULL_CONDITION_STRING and logs to Sentry.
  * @param {string} name the lower-case name of a disability
  * @returns {string} the input name, but with all words capitalized
  */
@@ -220,7 +221,7 @@ export const disabilityIsSelected = disability => disability['view:selected'];
 export const sippableId = str => (str || 'blank').toLowerCase();
 
 const createCheckboxSchema = (schema, disabilityName) => {
-  const capitalizedDisabilityName = typeof disabilityName === 'string' ? capitalizeEachWord(disabilityName) : 'Unknown Condition';
+  const capitalizedDisabilityName = typeof disabilityName === 'string' ? capitalizeEachWord(disabilityName) : NULL_CONDITION_STRING;
   return _.set(
     // As an array like this to prevent periods in the name being interpreted as nested objects
     [sippableId(disabilityName)],

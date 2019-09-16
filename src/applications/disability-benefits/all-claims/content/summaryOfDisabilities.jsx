@@ -1,6 +1,7 @@
 import React from 'react';
 import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
+import { NULL_CONDITION_STRING } from '../constants';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
   if (isDisabilityPtsd(disabilityName)) {
@@ -30,13 +31,13 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
     ? ratedDisabilities
         .filter(disability => disability['view:selected'])
         .map((disability) => {
-          return typeof disability.name === 'string' ? capitalizeEachWord(disability.name) : 'Unknown Condition';
+          return typeof disability.name === 'string' ? capitalizeEachWord(disability.name) : NULL_CONDITION_STRING;
         })
     : [];
   const newDisabilityNames =
     newDisabilities && formData['view:newDisabilities']
       ? newDisabilities.map((disability) => {
-          return typeof disability.condition === 'string' ? capitalizeEachWord(disability.condition) : 'Unknown Condition';
+          return typeof disability.condition === 'string' ? capitalizeEachWord(disability.condition) : NULL_CONDITION_STRING;
         })
       : [];
   const selectedDisabilitiesList = ratedDisabilityNames
