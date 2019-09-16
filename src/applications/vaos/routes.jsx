@@ -8,6 +8,7 @@ import TypeOfCarePage from './containers/TypeOfCarePage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
 import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
+import ConfirmedAppointmentsPage from './containers/ConfirmedAppointmentsPage';
 import ContactInfoPage from './containers/ContactInfoPage';
 
 const routes = (
@@ -24,7 +25,14 @@ const routes = (
     />
     <Route path="appointments/pending" component={PendingAppointmentsPage} />
     <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
-    <Route path="appointments/confirmed" component={ConfirmedAppointmentPage} />
+    <Route
+      path="appointments/confirmed"
+      component={ConfirmedAppointmentsPage}
+    />
+    <Route
+      path="appointments/confirmed/:id"
+      component={ConfirmedAppointmentPage}
+    />
   </Route>
 );
 

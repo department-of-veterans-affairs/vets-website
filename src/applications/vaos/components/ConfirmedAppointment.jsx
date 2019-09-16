@@ -12,12 +12,40 @@ function formatDate(date) {
   return parsedDate.format('MMMM D, YYYY');
 }
 
+function isCommunityCare(appt) {
+  return !!appt.appointmentRequestId;
+}
+
+function isVideoVisit(appt) {
+  return !!appt.vvsAppointments;
+}
+
+function isVAVisit(appt) {
+  return !!appt.vdsAppointments;
+}
+
 function titleCase(str) {
   return str
     .toLowerCase()
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+}
+
+function getTitle(appt) {
+  if (isCommunityCare(appt)) {
+    return `Community Care visit - ${appt.providerPractice}`;
+  } else if (appt.vvsAppointments) {
+    const providers = appt.vvsAppointments[0]?.providers?.provider
+      .map(provider =>
+        titleCase(`${provider.name.firstName} ${provider.name.lastName}`),
+      )
+      .join(', ');
+    return `Video visit - ${providers}`;
+  }
+
+  return `VA visit - ${appt.clinicFriendlyName ||
+    appt.vdsAppointments[0].clinic.name}`;
 }
 
 function formatTimeFromDate(date) {
@@ -31,15 +59,10 @@ function formatTimeFromDate(date) {
 }
 
 export default function ConfirmedAppointment({ appointment }) {
-  const isCommunityCare = !!appointment.ccAppointmentRequest;
-
   return (
     <li className="vads-u-border-left--5px vads-u-border-color--green vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
       <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        {' '}
-        {titleCase(
-          `${appointment.patient.firstName} ${appointment.patient.lastName}`,
-        )}
+        {getTitle(appointment)}
       </h2>
 
       <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
@@ -50,31 +73,39 @@ export default function ConfirmedAppointment({ appointment }) {
           </h3>
           <ul className="usa-unstyled-list">
             <li className="vads-u-margin-bottom--1">
-              {formatDate(appointment.bookedApptDateTime)}{' '}
+              {formatDate(appointment.appointmentTime)}{' '}
             </li>
             <li className="vads-u-margin-bottom--1">
-              {formatTimeFromDate(appointment.bookedApptDateTime)}
+              {formatTimeFromDate(appointment.appointmentTime)}
             </li>
           </ul>
         </div>
-        {!isCommunityCare && (
+        {isVAVisit(appointment) && (
           <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
             <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
               {' '}
               Where{' '}
             </h3>
-            {appointment.friendlyLocationName || appointment.facility.name}
-            <br />
-            {appointment.facility.city}, {appointment.facility.state}
+            <a
+              href={`/find-locations/vha_${appointment.facilityId}`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              View facility information
+            </a>
           </div>
         )}
-        {isCommunityCare && (
+        {isCommunityCare(appointment) && (
           <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
             <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
-              Preferred location:
+              Location:
             </h3>
-            {appointment.ccAppointmentRequest.preferredCity},{' '}
-            {appointment.ccAppointmentRequest.preferredState}
+            {appointment.providerPractice}
+            <br />
+            {appointment.address.street}
+            <br />
+            {appointment.address.city}, {appointment.address.state}{' '}
+            {appointment.address.zipCode}
           </div>
         )}
       </div>
