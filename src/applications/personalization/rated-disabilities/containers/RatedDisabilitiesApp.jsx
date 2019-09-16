@@ -23,6 +23,7 @@ class RatedDisabilitiesApp extends React.Component {
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
+            user={this.props.user}
           />
         </RequiredLoginView>
       </>

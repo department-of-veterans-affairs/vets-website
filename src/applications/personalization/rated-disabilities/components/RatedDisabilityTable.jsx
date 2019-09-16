@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import featureFlags from '../featureFlags';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
-import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import moment from 'moment';
 
-class RatedDisabilities extends React.Component {
+class RatedDisabilityTable extends React.Component {
   static propTypes = {
     fetchRatedDisabilities: PropTypes.func.isRequired,
     ratedDisabilities: PropTypes.shape({
@@ -50,15 +49,10 @@ class RatedDisabilities extends React.Component {
   };
 
   render() {
-    if (!featureFlags.ratedDisabilities) {
-      return null;
-    }
-
     if (!this.props.ratedDisabilities) {
       return <h1>Loading!</h1>;
     }
 
-    // Alert Box is set to 'info' -- no disability info is not necessarily an error.
     if (this.props.ratedDisabilities.error) {
       return (
         <>
@@ -77,8 +71,9 @@ class RatedDisabilities extends React.Component {
     const formattedDisabilities = this.formalizeData(
       this.props.ratedDisabilities.ratedDisabilities,
     );
+
     return (
-      <>
+      <div className="vads-u-width--full">
         <h2 className="va-profile-heading">Rated disabilities</h2>
         <SortableTable
           className="va-table"
@@ -92,9 +87,9 @@ class RatedDisabilities extends React.Component {
           ]}
           data={[...formattedDisabilities]}
         />
-      </>
+      </div>
     );
   }
 }
 
-export default RatedDisabilities;
+export default RatedDisabilityTable;

@@ -15,7 +15,6 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
-import RatedDisabilities from './RatedDisabilities';
 import PaymentInformation from '../containers/PaymentInformation';
 import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
@@ -38,11 +37,6 @@ const ProfileTOC = ({ militaryInformation }) => (
           <a href="#military-information">Military service information</a>
         </li>
       )}
-      {featureFlags.ratedDisabilities && (
-        <li>
-          <a href="#rated-disabilities">Rated Disabilites</a>
-        </li>
-      )}
     </ul>
   </>
 );
@@ -53,7 +47,6 @@ class ProfileView extends React.Component {
     fetchMilitaryInformation: PropTypes.func.isRequired,
     fetchHero: PropTypes.func.isRequired,
     fetchPersonalInformation: PropTypes.func.isRequired,
-    fetchRatedDisabilities: PropTypes.func.isRequired,
     profile: PropTypes.shape({
       hero: PropTypes.object,
       personalInformation: PropTypes.object,
@@ -88,13 +81,7 @@ class ProfileView extends React.Component {
       fetchMilitaryInformation,
       fetchHero,
       fetchPersonalInformation,
-      fetchRatedDisabilities,
-      profile: {
-        hero,
-        personalInformation,
-        militaryInformation,
-        ratedDisabilities,
-      },
+      profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
     } = this.props;
 
@@ -140,16 +127,6 @@ class ProfileView extends React.Component {
                 fetchMilitaryInformation={fetchMilitaryInformation}
                 militaryInformation={militaryInformation}
               />
-              {featureFlags.ratedDisabilities && (
-                <>
-                  <div id="rated-disabilities">
-                    <RatedDisabilities
-                      fetchRatedDisabilities={fetchRatedDisabilities}
-                      ratedDisabilities={ratedDisabilities}
-                    />
-                  </div>
-                </>
-              )}
             </div>
           </DowntimeNotification>
         );
