@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import { ConfirmedAppointmentsPage } from '../../containers/ConfirmedAppointmentsPage';
+import { ConfirmedAppointmentsPage } from '../../containers/ConfirmedAppointmentsListPage';
 
 describe('VAOS <ConfirmedAppointmentsPage>', () => {
   it('should render a loading indicator', () => {

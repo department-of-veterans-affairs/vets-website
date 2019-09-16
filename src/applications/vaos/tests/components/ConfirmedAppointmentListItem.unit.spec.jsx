@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import ConfirmedAppointment, {
   formatDate,
   formatTimeFromDate,
-} from '../../components/ConfirmedAppointment';
+} from '../../components/ConfirmedAppointmentListItem';
 
 describe('VA Confirmed Appointment', () => {
   const appointment = {
@@ -27,11 +27,6 @@ describe('VA Confirmed Appointment', () => {
     bookedApptDateTime: '09/11/2019 10:00:00',
   };
   let tree;
-  // let tree = shallow(<ConfirmedAppointment appointment={appointment} />);
-
-  before(() => {});
-
-  after(() => {});
 
   describe('appointment details', () => {
     beforeEach(() => {
