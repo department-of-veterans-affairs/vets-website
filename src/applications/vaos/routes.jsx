@@ -19,10 +19,6 @@ const routes = (
       <Route path="contact-info" component={ContactInfoPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
-    <Route
-      path="appointments/confirmed/:id"
-      component={ConfirmedAppointmentPage}
-    />
     <Route path="appointments/pending" component={PendingAppointmentsPage} />
     <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
     <Route
