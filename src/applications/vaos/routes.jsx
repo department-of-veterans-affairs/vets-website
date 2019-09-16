@@ -29,10 +29,6 @@ const routes = (
       path="appointments/confirmed"
       component={ConfirmedAppointmentsListPage}
     />
-    <Route
-      path="appointments/confirmed"
-      component={ConfirmedAppointmentsListPage}
-    />
   </Route>
 );
 
