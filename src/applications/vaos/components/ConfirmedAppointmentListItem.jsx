@@ -30,7 +30,7 @@ export function formatTimeFromDate(date) {
   return parsedDate.format('hh:mm a');
 }
 
-export default function ConfirmedAppointment({ appointment }) {
+export default function ConfirmedAppointmentListItem({ appointment }) {
   const isCommunityCare = !!appointment.ccAppointmentRequest;
 
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import ConfirmedAppointment, {
+import ConfirmedAppointmentListItem, {
   formatDate,
   formatTimeFromDate,
 } from '../../components/ConfirmedAppointmentListItem';
@@ -31,7 +31,9 @@ describe('VA Confirmed Appointment', () => {
   describe('appointment details', () => {
     beforeEach(() => {
       appointment.friendlyLocationName = 'Some location';
-      tree = shallow(<ConfirmedAppointment appointment={appointment} />);
+      tree = shallow(
+        <ConfirmedAppointmentListItem appointment={appointment} />,
+      );
     });
 
     afterEach(() => {
@@ -73,7 +75,9 @@ describe('VA Confirmed Appointment', () => {
 
     it('should render facility name if friendly location name is not present....', () => {
       appointment.friendlyLocationName = null;
-      tree = shallow(<ConfirmedAppointment appointment={appointment} />);
+      tree = shallow(
+        <ConfirmedAppointmentListItem appointment={appointment} />,
+      );
       expect(
         tree
           .find('li > div > div')
@@ -131,7 +135,9 @@ describe('Community Care Confirmed Appointment', () => {
     status: 'Booked',
   };
 
-  const tree = shallow(<ConfirmedAppointment appointment={appointment} />);
+  const tree = shallow(
+    <ConfirmedAppointmentListItem appointment={appointment} />,
+  );
 
   describe('appointment details', () => {
     it('should contain community care data', () => {
