@@ -7,7 +7,11 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchConfirmedAppointments } from '../actions/appointments';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectConfirmedAppointment } from '../utils/selectors';
-import { getTitle, getLocation, getDateTime } from '../utils/appointment';
+import {
+  getAppointmentTitle,
+  getAppointmentLocation,
+  getAppointmentDateTime,
+} from '../utils/appointment';
 
 export class ConfirmedAppointmentPage extends React.Component {
   componentDidMount() {
@@ -32,17 +36,17 @@ export class ConfirmedAppointmentPage extends React.Component {
             )}
             {status === FETCH_STATUS.succeeded && (
               <>
-                <h2>{getTitle(appointment)}</h2>
+                <h2>{getAppointmentTitle(appointment)}</h2>
                 <div className="vads-u-display--flex vads-u-margin-bottom--2">
                   <div className="vads-u-flex--1">
                     <>
                       <h3 className="vaos-appts__block-label">Where</h3>
-                      {getLocation(appointment)}
+                      {getAppointmentLocation(appointment)}
                     </>
                     <h3 className="vaos-appts__block-label vads-u-margin-top--2">
                       When
                     </h3>
-                    {getDateTime(appointment)}
+                    {getAppointmentDateTime(appointment)}
                   </div>
                 </div>
                 <Link to="appointments/confirmed">

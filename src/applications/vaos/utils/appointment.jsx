@@ -36,7 +36,7 @@ function titleCase(str) {
     .join(' ');
 }
 
-export function getTitle(appt) {
+export function getAppointmentTitle(appt) {
   if (isCommunityCare(appt)) {
     return `Community Care visit - ${appt.providerPractice}`;
   } else if (isVideoVisit(appt)) {
@@ -52,7 +52,7 @@ export function getTitle(appt) {
     appt.vdsAppointments[0]?.clinic?.name}`;
 }
 
-export function getLocation(appt) {
+export function getAppointmentLocation(appt) {
   if (isCommunityCare(appt)) {
     return (
       <>
@@ -78,7 +78,7 @@ export function getLocation(appt) {
   );
 }
 
-export function getDateTime(appt) {
+export function getAppointmentDateTime(appt) {
   let parsedDate;
   if (isCommunityCare(appt)) {
     parsedDate = moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
