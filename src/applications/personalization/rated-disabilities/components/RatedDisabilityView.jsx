@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import featureFlags from '../featureFlags';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
-import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import moment from 'moment';
 
-class RatedDisabilities extends React.Component {
+class RatedDisabilityView extends React.Component {
   static propTypes = {
     fetchRatedDisabilities: PropTypes.func.isRequired,
     ratedDisabilities: PropTypes.shape({
@@ -14,6 +13,7 @@ class RatedDisabilities extends React.Component {
   };
 
   componentDidMount() {
+    console.log('fetching disabilities');
     this.props.fetchRatedDisabilities();
   }
 
@@ -50,15 +50,10 @@ class RatedDisabilities extends React.Component {
   };
 
   render() {
-    if (!featureFlags.ratedDisabilities) {
-      return null;
-    }
-
     if (!this.props.ratedDisabilities) {
       return <h1>Loading!</h1>;
     }
 
-    // Alert Box is set to 'info' -- no disability info is not necessarily an error.
     if (this.props.ratedDisabilities.error) {
       return (
         <>
@@ -77,6 +72,7 @@ class RatedDisabilities extends React.Component {
     const formattedDisabilities = this.formalizeData(
       this.props.ratedDisabilities.ratedDisabilities,
     );
+
     return (
       <>
         <h2 className="va-profile-heading">Rated disabilities</h2>
@@ -97,4 +93,4 @@ class RatedDisabilities extends React.Component {
   }
 }
 
-export default RatedDisabilities;
+export default RatedDisabilityView;

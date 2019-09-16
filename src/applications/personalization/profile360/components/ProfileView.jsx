@@ -38,6 +38,11 @@ const ProfileTOC = ({ militaryInformation }) => (
           <a href="#military-information">Military service information</a>
         </li>
       )}
+      {featureFlags.ratedDisabilities && (
+        <li>
+          <a href="#rated-disabilities">Rated Disabilites</a>
+        </li>
+      )}
     </ul>
   </>
 );
@@ -135,10 +140,16 @@ class ProfileView extends React.Component {
                 fetchMilitaryInformation={fetchMilitaryInformation}
                 militaryInformation={militaryInformation}
               />
-              <RatedDisabilities
-                fetchRatedDisabilities={fetchRatedDisabilities}
-                ratedDisabilities={ratedDisabilities}
-              />
+              {featureFlags.ratedDisabilities && (
+                <>
+                  <div id="rated-disabilities">
+                    <RatedDisabilities
+                      fetchRatedDisabilities={fetchRatedDisabilities}
+                      ratedDisabilities={ratedDisabilities}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </DowntimeNotification>
         );
