@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+// import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   selectVet360FailedTransactions,
@@ -20,13 +20,15 @@ class Vet360TransactionReporter extends React.Component {
     erroredTransactions: PropTypes.array.isRequired,
   };
 
+  /*
   componentDidUpdate(prevProps) {
     const newMessageVisible =
       prevProps.erroredTransactions.length <
       this.props.erroredTransactions.length;
 
-    // if (newMessageVisible) scrollToTop();
+    if (newMessageVisible) scrollToTop();
   }
+  */
 
   clearAllErroredTransactions = () => {
     this.props.erroredTransactions.forEach(this.props.clearTransaction);
