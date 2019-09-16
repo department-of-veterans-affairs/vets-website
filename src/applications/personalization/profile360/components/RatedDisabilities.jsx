@@ -17,6 +17,21 @@ class RatedDisabilities extends React.Component {
     this.props.fetchRatedDisabilities();
   }
 
+  noDisabilityRatingContent = () => (
+    <>
+      <p>
+        We can't find a disability rating matched with the name, date of birth,
+        and social secuity number you provided in our Veteran records.
+      </p>
+      <h4>What you can do</h4>
+      <p>
+        If you feel your information is correct, please call the VA.gov
+        1-855-574-7286. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+        (ET).
+      </p>
+    </>
+  );
+
   // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData = data => {
     const formalizedDisabilityData = data.map(d => {
@@ -51,16 +66,11 @@ class RatedDisabilities extends React.Component {
           <div className="usa-width-one-whole">
             <AlertBox
               headline="No disability rating found"
-              content="We can't find a disability rating matched with the name, date of birth, and social secuity number you provided in our Veteran records."
+              content={this.noDisabilityRatingContent()}
+              // content="We can't find a disability rating matched with the name, date of birth, and social secuity number you provided in our Veteran records."
               status="info"
               isVisible
             />
-            <h4>What you can do</h4>
-            <p>
-              If you feel your information is correct, please call the VA.gov
-              Help Desk at 1-855-574-7286. We're here Monday through Friday,
-              8:00 a.m. to 8:00 p.m. (ET).
-            </p>
           </div>
         </>
       );
