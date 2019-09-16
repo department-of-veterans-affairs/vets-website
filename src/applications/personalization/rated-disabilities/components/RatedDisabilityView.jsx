@@ -7,13 +7,10 @@ import moment from 'moment';
 class RatedDisabilityView extends React.Component {
   static propTypes = {
     fetchRatedDisabilities: PropTypes.func.isRequired,
-    ratedDisabilities: PropTypes.shape({
-      ratedDisabilities: PropTypes.array,
-    }),
+    ratedDisabilities: PropTypes.object,
   };
 
   componentDidMount() {
-    console.log('fetching disabilities');
     this.props.fetchRatedDisabilities();
   }
 
