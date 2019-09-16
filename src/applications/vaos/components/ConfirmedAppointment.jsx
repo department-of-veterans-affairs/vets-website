@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-function formatDate(date) {
+export function formatDate(date) {
   const parsedDate = moment(date, 'MM/DD/YYYY HH:mm:ss');
 
   if (!parsedDate.isValid()) {
@@ -12,7 +12,7 @@ function formatDate(date) {
   return parsedDate.format('MMMM D, YYYY');
 }
 
-function titleCase(str) {
+export function titleCase(str) {
   return str
     .toLowerCase()
     .split(' ')
@@ -20,7 +20,7 @@ function titleCase(str) {
     .join(' ');
 }
 
-function formatTimeFromDate(date) {
+export function formatTimeFromDate(date) {
   const parsedDate = moment(date, 'MM/DD/YYYY HH:mm:ss');
 
   if (!parsedDate.isValid()) {
@@ -36,7 +36,6 @@ export default function ConfirmedAppointment({ appointment }) {
   return (
     <li className="vads-u-border-left--5px vads-u-border-color--green vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
       <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        {' '}
         {titleCase(
           `${appointment.patient.firstName} ${appointment.patient.lastName}`,
         )}
@@ -45,12 +44,11 @@ export default function ConfirmedAppointment({ appointment }) {
       <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
           <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
-            {' '}
-            When{' '}
+            When
           </h3>
-          <ul className="usa-unstyled-list">
+          <ul id="foo" className="usa-unstyled-list">
             <li className="vads-u-margin-bottom--1">
-              {formatDate(appointment.bookedApptDateTime)}{' '}
+              {formatDate(appointment.bookedApptDateTime)}
             </li>
             <li className="vads-u-margin-bottom--1">
               {formatTimeFromDate(appointment.bookedApptDateTime)}
@@ -60,8 +58,7 @@ export default function ConfirmedAppointment({ appointment }) {
         {!isCommunityCare && (
           <div className="vads-u-flex--1 vads-u-margin-bottom--1p5">
             <h3 className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-family--sans">
-              {' '}
-              Where{' '}
+              Where
             </h3>
             {appointment.friendlyLocationName || appointment.facility.name}
             <br />
@@ -80,7 +77,7 @@ export default function ConfirmedAppointment({ appointment }) {
       </div>
       <Link
         className="vads-u-font-weight--bold vads-u-text-decoration--none"
-        to={`appointments/pending/${appointment.appointmentRequestId}`}
+        to={`appointments/confirmed/${appointment.appointmentRequestId}`}
       >
         View details <i className="fas fa-angle-right" />
       </Link>

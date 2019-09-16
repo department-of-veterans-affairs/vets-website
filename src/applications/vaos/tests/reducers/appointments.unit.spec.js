@@ -50,7 +50,9 @@ describe('VAOS reducer: appointments', () => {
   it('should populate confirmed with appointments with FETCH_CONFIRMED_APPOINTMENTS_SUCCEDED', () => {
     const action = {
       type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-      data: [{ id: 1 }, { id: 2 }],
+      data: {
+        appointmentRequests: [{ id: 1, status: 'Booked' }, { id: 2, status: 'Booked' }]
+      },
     };
 
     const newState = appointmentsReducer(initialState, action);
