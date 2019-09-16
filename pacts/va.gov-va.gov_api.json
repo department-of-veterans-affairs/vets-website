@@ -1,0 +1,90 @@
+{
+  "consumer": {
+    "name": "VA.gov"
+  },
+  "provider": {
+    "name": "VA.gov API"
+  },
+  "interactions": [
+    {
+      "description": "request for current user",
+      "providerState": "user is logged in",
+      "request": {
+        "method": "GET",
+        "path": "/v0/user"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "data": {
+            "attributes": {
+              "profile": {
+                "sign_in": {
+                  "service_name": "idme"
+                },
+                "email": "fake@fake.com",
+                "loa": {
+                  "current": 3,
+                  "highest": 3
+                },
+                "first_name": "Jane",
+                "middle_name": "",
+                "last_name": "Doe",
+                "gender": "F",
+                "birth_date": "1985-01-01",
+                "verified": true
+              },
+              "veteran_status": {
+                "status": "OK",
+                "is_veteran": true,
+                "served_in_military": true
+              },
+              "in_progress_forms": [
+                {
+                  "form": "1010ez",
+                  "metadata": {
+                  }
+                }
+              ],
+              "prefills_available": [
+                "21-526EZ",
+                "22-0994"
+              ],
+              "services": [
+                "facilities",
+                "hca",
+                "edu-benefits",
+                "evss-claims",
+                "user-profile",
+                "health-records",
+                "rx",
+                "messaging",
+                "form-save-in-progress",
+                "form-prefill"
+              ],
+              "va_profile": {
+                "status": "OK",
+                "birth_date": "19511118",
+                "family_name": "Hunter",
+                "gender": "M",
+                "given_names": [
+                  "Julio",
+                  "E"
+                ],
+                "active_status": "active"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
