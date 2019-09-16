@@ -121,3 +121,21 @@
 .gids-radio-buttons-input {
   width: 40px;
 }
+
+.vet-tec-programs-table {
+  thead {
+    tr {
+      th {
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+      }
+    }
+  }
+  tr {
+    td {
+      border-right: 0;
+      border-left: 0;
+    }
+  }
+}
