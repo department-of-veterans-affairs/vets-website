@@ -85,7 +85,7 @@ export function getAppointmentDateTime(appt) {
   } else if (isVideoVisit(appt)) {
     parsedDate = moment(appt.vvsAppointments[0].dateTime);
   } else {
-    parsedDate = moment(appt.vdsAppointments[0].appointmentTime);
+    parsedDate = moment(appt.startDate);
   }
 
   if (!parsedDate.isValid()) {
