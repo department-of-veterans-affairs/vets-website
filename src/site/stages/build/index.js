@@ -30,7 +30,7 @@ const applyFragments = require('./plugins/apply-fragments');
 const checkCollections = require('./plugins/check-collections');
 const createFeatureToggles = require('./plugins/create-feature-toggles');
 const createHeaderFooter = require('./plugins/create-header-footer');
-const createTemporaryReactPages = require('./plugins/create-react-pages');
+const createReactPages = require('./plugins/create-react-pages');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
@@ -53,6 +53,7 @@ function defaultBuild(BUILD_OPTIONS) {
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
 
+  smith.use(createReactPages(BUILD_OPTIONS));
   smith.use(getDrupalContent(BUILD_OPTIONS));
   smith.use(addDrupalPrefix(BUILD_OPTIONS));
   smith.use(createOutreachAssetsData(BUILD_OPTIONS));
@@ -115,8 +116,6 @@ function defaultBuild(BUILD_OPTIONS) {
       ],
     }),
   );
-
-  smith.use(createTemporaryReactPages(BUILD_OPTIONS));
 
   smith.use(createFeatureToggles(BUILD_OPTIONS));
   smith.use(createHeaderFooter(BUILD_OPTIONS));

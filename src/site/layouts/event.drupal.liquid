@@ -76,14 +76,19 @@ Example data:
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
-{% assign start_date_no_time = fieldDate.value | timeZone: uid.entity.timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = fieldDate.endValue | timeZone: uid.entity.timezone, "dddd, MMM D" %}
+{% assign timezone = "EST" %}
+{% if uid.entity.timezone != empty %}
+  {% assign timezone = uid.entity.timezone %}
+{% endif %}
 
-{% assign start_time = fieldDate.value | timeZone: uid.entity.timezone, "h:mm A" %}
-{% assign end_time = fieldDate.endValue | timeZone: uid.entity.timezone, "h:mm A" %}
+{% assign start_date_no_time = fieldDate.value | timeZone: timezone, "dddd, MMM D" %}
+{% assign end_date_no_time = fieldDate.endValue | timeZone: timezone, "dddd, MMM D" %}
 
-{% assign start_date_full = fieldDate.value | timeZone: uid.entity.timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = fieldDate.endValue | timeZone: uid.entity.timezone, "dddd, MMM D, h:mm A" %}
+{% assign start_time = fieldDate.value | timeZone: timezone, "h:mm A" %}
+{% assign end_time = fieldDate.endValue | timeZone: timezone, "h:mm A" %}
+
+{% assign start_date_full = fieldDate.value | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% assign end_date_full = fieldDate.endValue | timeZone: timezone, "dddd, MMM D, h:mm A" %}
 
 {% assign start_timestamp = fieldDate.value | unixFromDate %}
 {% assign current_timestamp = fieldDate.value | currentUnixFromDate %}
@@ -220,7 +225,7 @@ Example data:
             </div>
           </div>
             {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-          <a href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all community events</a>
+          <a href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all events</a>
         </article>
 
         <div class="last-updated usa-content">
