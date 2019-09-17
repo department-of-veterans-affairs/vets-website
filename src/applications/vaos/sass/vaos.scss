@@ -37,13 +37,7 @@
   margin-top: 0;
 }
 
-.vaos-form__appt-type {
-  input[type="radio"]+label::before {
-    margin-top: 0.6em;
-  }
-}
-
-.vaos-form__audiology-type {
+.vaos-form__detailed-radio {
   input[type="radio"]+label::before {
     margin-top: 0.6em;
   }

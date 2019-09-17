@@ -12,9 +12,9 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['ccId'],
+  required: ['audiologyType'],
   properties: {
-    ccId: {
+    audiologyType: {
       type: 'string',
       enum: ['CCAUDRTNE', 'CCAUDHEAR'],
     },
@@ -22,7 +22,7 @@ const initialSchema = {
 };
 
 const uiSchema = {
-  ccId: {
+  audiologyType: {
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
@@ -78,7 +78,7 @@ export class TypeOfAudiologyCare extends React.Component {
     const { schema, data, pageChangeInProgress } = this.props;
 
     return (
-      <div className="vaos-form__audiology-type">
+      <div className="vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
           Choose the type of audiology care you need
         </h1>
