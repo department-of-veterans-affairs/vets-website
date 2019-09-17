@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  routeToPage,
+  routeToPageInFlow,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
 } from '../../actions/newAppointment';
@@ -22,7 +22,7 @@ const testFlow = {
 };
 
 describe('VAOS newAppointment actions', () => {
-  describe('routeToPage', () => {
+  describe('routeToPageInFlow', () => {
     it('should route to next page with string key', async () => {
       const router = {
         push: sinon.spy(),
@@ -31,7 +31,7 @@ describe('VAOS newAppointment actions', () => {
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPage(testFlow, router, 'page1', 'next');
+      const thunk = routeToPageInFlow(testFlow, router, 'page1', 'next');
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
@@ -51,7 +51,7 @@ describe('VAOS newAppointment actions', () => {
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPage(testFlow, router, 'page2', 'next');
+      const thunk = routeToPageInFlow(testFlow, router, 'page2', 'next');
       await thunk(dispatch, getState);
 
       expect(router.push.firstCall.args[0]).to.equal('/page3');
@@ -65,7 +65,7 @@ describe('VAOS newAppointment actions', () => {
       const state = {};
       const getState = () => state;
 
-      const thunk = routeToPage(testFlow, router, 'page3', 'next');
+      const thunk = routeToPageInFlow(testFlow, router, 'page3', 'next');
 
       thunk(dispatch, getState)
         .then(() => {
