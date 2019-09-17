@@ -217,7 +217,10 @@ function getDrupalContent(buildOptions) {
       buildOptions.drupalError = drupalData;
       log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
-      if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
+      if (
+        buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+        buildOptions['drupal-fail-fast']
+      ) {
         done(err);
       } else {
         done();
