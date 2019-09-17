@@ -61,7 +61,7 @@ const uiSchema = {
 
 const pageKey = 'audiologyCareType';
 
-export class TypeOfAudiologyCare extends React.Component {
+export class TypeOfAudiologyCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
@@ -117,4 +117,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfAudiologyCare);
+)(TypeOfAudiologyCarePage);

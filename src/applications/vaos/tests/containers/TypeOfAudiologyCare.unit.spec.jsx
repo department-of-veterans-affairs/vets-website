@@ -60,32 +60,30 @@ describe('VAOS <TypeOfAudiologyCarePage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_typeOfAppointment', 'provider');
+    selectRadio(form, 'root_audiologyType', 'CCAUDRTNE');
 
-    expect(updateFormData.firstCall.args[2].typeOfAppointment).to.equal(
-      'provider',
+    expect(updateFormData.firstCall.args[2].audiologyType).to.equal(
+      'CCAUDRTNE',
     );
     form.unmount();
   });
 
   it('should submit with valid data', () => {
     const openFormPage = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
+    const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <TypeOfAudiologyCarePage
         openFormPage={openFormPage}
-        router={router}
-        data={{ typeOfAppointment: 'provider' }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        data={{ audiologyType: 'CCAUDRTNE' }}
       />,
     );
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(router.push.called).to.be.true;
+    expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
 });
