@@ -22,7 +22,7 @@ export default {
     //     return 'vaLocation';
     //   }
     // },
-    previous: 'home',
+    previous: 'typeOfFacility',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
