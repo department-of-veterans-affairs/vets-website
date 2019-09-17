@@ -74,7 +74,7 @@
                 },
                 "contactInformation": {
                   "mobile": "7036520000",
-                  "preferredEmail": "samatha.girla@va.gov"
+                  "preferredEmail": "fake@va.gov"
                 },
                 "location": {
                   "type": "NonVA",
@@ -97,8 +97,8 @@
             "provider": [
               {
                 "name": {
-                  "firstName": "Vilasini",
-                  "lastName": "Reddy"
+                  "firstName": "Jane",
+                  "lastName": "Doe"
                 },
                 "id": {
                   "assigningAuthority": "DFN-983",
@@ -106,7 +106,7 @@
                 },
                 "contactInformation": {
                   "mobile": "6767676767",
-                  "preferredEmail": "vilasini.reddy@va.gov",
+                  "preferredEmail": "fake@va.gov",
                   "timeZone": "10"
                 },
                 "location": {
@@ -160,7 +160,7 @@
                 },
                 "contactInformation": {
                   "mobile": "7036520000",
-                  "preferredEmail": "marcy.nadeau@va.gov"
+                  "preferredEmail": "fake@va.gov"
                 },
                 "location": {
                   "type": "NonVA",
@@ -192,7 +192,7 @@
                 },
                 "contactInformation": {
                   "mobile": "8888888888",
-                  "preferredEmail": "marcy.nadeau@va.gov",
+                  "preferredEmail": "fake@va.gov",
                   "timeZone": "10"
                 },
                 "location": {
