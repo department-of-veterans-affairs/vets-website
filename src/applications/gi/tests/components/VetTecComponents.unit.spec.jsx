@@ -22,7 +22,7 @@ describe('<VetTecScoContact>', () => {
       priority: 'PRIMARY',
       firstName: 'MARTIN',
       lastName: 'INDIATSI',
-      title: 'REGISTRAR BURSAR',
+      title: 'SCHOOL CERTIFYING OFFICIAL',
       phoneAreaCode: '303',
       phoneNumber: '749-0110',
       phoneExtension: null,
