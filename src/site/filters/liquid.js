@@ -375,7 +375,7 @@ module.exports = function registerFilters() {
     JSON.stringify(getDepth(linksArray, currentPath));
 
   liquid.filters.featureFieldRegionalHealthService = entity => {
-    if (entity && cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE) {
+    if (entity) {
       return entity.fieldRegionalHealthService
         ? entity.fieldRegionalHealthService.entity
         : null;
@@ -441,9 +441,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    cmsFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
-      ? serviceTaxonomy.fieldHealthServiceApiId
-      : serviceTaxonomy.name;
+    serviceTaxonomy.fieldHealthServiceApiId;
 
   // finds if a page is a child of a certain page using the entityUrl attribute
   // returns true or false
