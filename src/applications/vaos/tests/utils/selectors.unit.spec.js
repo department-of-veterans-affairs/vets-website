@@ -42,7 +42,7 @@ describe('VAOS selectors', () => {
         },
       };
       const appt = selectConfirmedAppointment(state, 'testing');
-      expect(appt).to.equal(state.appointments.pending[0]);
+      expect(appt).to.equal(state.appointments.confirmed[0]);
     });
     it('should return null if no matching id', () => {
       const state = {
