@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { selectPendingAppointment } from '../../utils/selectors';
+import {
+  selectPendingAppointment,
+  getFormPageInfo,
+} from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
   describe('selectPendingAppointment', () => {
@@ -25,6 +28,26 @@ describe('VAOS selectors', () => {
       };
       const appt = selectPendingAppointment(state, 'testing');
       expect(appt).to.be.null;
+    });
+  });
+  describe('getFormPageInfo', () => {
+    it('should return info needed for form pages', () => {
+      const state = {
+        newAppointment: {
+          pages: {
+            testPage: {},
+          },
+          data: {},
+          pageChangeInProgress: false,
+        },
+      };
+      const pageInfo = getFormPageInfo(state, 'testPage');
+
+      expect(pageInfo.pageChangeInProgress).to.equal(
+        state.newAppointment.pageChangeInProgress,
+      );
+      expect(pageInfo.data).to.equal(state.newAppointment.data);
+      expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
     });
   });
 });

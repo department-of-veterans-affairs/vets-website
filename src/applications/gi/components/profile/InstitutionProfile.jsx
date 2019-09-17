@@ -9,7 +9,6 @@ import SchoolLocations from './SchoolLocations';
 import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
-import environment from 'platform/utilities/environment';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -21,7 +20,6 @@ export class InstitutionProfile extends React.Component {
   };
 
   shouldShowSchoolLocations = facilityMap =>
-    !environment.isProduction() &&
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);

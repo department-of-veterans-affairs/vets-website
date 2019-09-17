@@ -65,14 +65,12 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should submit with valid data', () => {
     const openFormPage = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
+    const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <TypeOfCarePage
         openFormPage={openFormPage}
-        router={router}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{ typeOfCareId: '323' }}
       />,
     );
@@ -80,7 +78,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(router.push.called).to.be.true;
+    expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
 });
