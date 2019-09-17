@@ -12,22 +12,22 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['audiologyType'],
+  required: ['ccId'],
   properties: {
-    audiologyType: {
+    ccId: {
       type: 'string',
-      enum: ['routine', 'hearingAid'],
+      enum: ['CCAUDRTNE', 'CCAUDHEAR'],
     },
   },
 };
 
 const uiSchema = {
-  audiologyType: {
+  ccId: {
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
       labels: {
-        routine: (
+        CCAUDRTNE: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               Routine hearing exam
@@ -40,7 +40,7 @@ const uiSchema = {
             </span>
           </>
         ),
-        hearingAid: (
+        CCAUDHEAR: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               Hearing aid support
