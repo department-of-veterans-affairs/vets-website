@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import SkinDeep from 'skin-deep';
 
 import createCommonStore from '../../../../../platform/startup/store';
@@ -26,6 +26,7 @@ describe('<CalculatorForm>', () => {
 
   it('should assign an empty string to initial state of beneficiaryZIP', () => {
     const tree = shallow(<CalculatorForm {...defaultProps} />);
-    expect(defaultProps.beneficiaryZIP).to.have.lengthOf(0);
+    expect(tree.defaultProps.beneficiaryZIP).to.have.lengthOf(0);
+    tree.unmount();
   });
 });
