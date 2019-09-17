@@ -612,6 +612,7 @@ class CalculatorForm extends React.Component {
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
+            charMax={5}
           />
           <p>
             <strong>{inputs.housingAllowanceCity}</strong>
@@ -627,6 +628,8 @@ class CalculatorForm extends React.Component {
             <span>
               {'Where will you take the majority of your classes? '}
               <button
+                aria-live="polite"
+                aria-atomic="true"
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={onShowModal.bind(
@@ -634,6 +637,9 @@ class CalculatorForm extends React.Component {
                   'calcBeneficiaryLocationQuestion',
                 )}
               >
+                <span className="sr-only">
+                  Learn more about the location-based housing allowance
+                </span>
                 (Learn more)
               </button>
             </span>

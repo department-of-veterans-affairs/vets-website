@@ -145,7 +145,7 @@ Example data:
           <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
         </div>
 
-        <div class="usa-grid usa-grid-full vads-u-margin-y--0">{% assign basePath = entityUrl.path | regionBasePath %}
+        <div class="usa-grid usa-grid-full vads-u-margin-top--0 vads-u-margin-bottom--3">{% assign basePath = entityUrl.path | regionBasePath %}
             {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
 
         {% if fieldIntroText != empty %}
@@ -218,18 +218,18 @@ Example data:
 
           <!-- Stories -->
         <section>
-          <h2 class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">Community stories</h2>
+          <h2 class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">Stories</h2>
           {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
           {% endfor %}
           <a class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/stories">
-            See all community stories <i class="fa fa-chevron-right va-l-font-size--12px"></i>
+            See all stories <i class="fa fa-chevron-right va-l-font-size--12px"></i>
           </a>
         </section>
 
         <!-- Events -->
         <section>
-          <h3 class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">Community events</h3>
+          <h2 class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">Events</h2>
           <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           {% for event in eventTeasers.entities %}
             <div class="region-grid event">

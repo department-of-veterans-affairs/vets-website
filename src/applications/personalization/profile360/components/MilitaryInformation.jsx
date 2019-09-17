@@ -12,7 +12,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import recordEvent from 'platform/monitoring/record-event';
-import facilityLocator from 'applications/facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 
 class MilitaryInformationContent extends React.Component {
   componentDidMount() {

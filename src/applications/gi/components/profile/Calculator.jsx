@@ -20,7 +20,7 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) =>
   visible ? (
     <div className={classNames('row', 'calculator-result', { bold })}>
       <div className="small-6 columns">
-        {header ? <h5>{label}:</h5> : <div>{label}:</div>}
+        {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>
       <div className="small-6 columns vads-u-text-align--right">
         {header ? <h5>{value}</h5> : <div>{value}</div>}
@@ -162,7 +162,7 @@ export class Calculator extends React.Component {
       return (
         <div key={section} className="per-term-section">
           <div className="link-header">
-            <h5>{title}</h5>
+            <h4>{title}</h4>
             &nbsp;(
             <a href={learnMoreLink} target="_blank" rel="noopener noreferrer">
               Learn more

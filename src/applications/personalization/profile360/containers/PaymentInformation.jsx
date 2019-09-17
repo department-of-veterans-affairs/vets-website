@@ -60,7 +60,7 @@ const AdditionalInfos = props => (
           Go to eBenefits to change your information
         </a>
         <br />
-        <a href="/change-direct-deposit/#mail-phone">
+        <a href="/change-direct-deposit/#are-there-other-ways-to-change">
           Find out how to change your information by mail or phone
         </a>
       </AdditionalInfo>
