@@ -2,9 +2,6 @@
  * The alerts that appear above content.
  */
 
-// Get current feature flags
-const { cmsFeatureFlags } = global;
-
 module.exports = `
     alerts:   blockContentQuery(filter: {conditions: [{field: "type", value: "alert"}, {field: "status", value: "1"}]},
     sort: {field: "field_node_reference", direction: DESC}
@@ -12,11 +9,7 @@ module.exports = `
     entities {
       ... on BlockContentAlert {
         id
-      ${
-        cmsFeatureFlags.FEATURE_FIELD_ALERT_DISMISSABLE
-          ? 'fieldAlertDismissable'
-          : ''
-      }
+        fieldAlertDismissable
         fieldAlertFrequency
         fieldNodeReference {
           targetId

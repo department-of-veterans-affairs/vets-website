@@ -19,9 +19,6 @@ const table = require('./paragraph-fragments/table.paragraph.graphql');
 const downloadableFile = require('./paragraph-fragments/downloadableFile.paragraph.graphql');
 const embeddedImage = require('./paragraph-fragments/media.paragraph.graphql');
 
-// Get current feature flags
-const { cmsFeatureFlags } = global;
-
 module.exports = `
   ${alert}
   ${collapsiblePanel}
@@ -38,16 +35,7 @@ module.exports = `
   ${spanishSummary}
   ${numberCallout}
   ${alertParagraph}
-  ${table}  
-  ${
-    cmsFeatureFlags.FEATURE_DOWNLOADABLE_FILE
-      ? `
-        ${downloadableFile}
-        ${embeddedImage}
-     `
-      : ''
-  }
-  
-  
-  
+  ${table}
+  ${downloadableFile}
+  ${embeddedImage}
 `;
