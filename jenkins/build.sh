@@ -21,7 +21,7 @@ do
       drupalAddress="${2}"
       shift 2
       ;;
-    --pullDrupal)
+    --pull-drupal)
       pullDrupal="${1}"
       shift
       ;;

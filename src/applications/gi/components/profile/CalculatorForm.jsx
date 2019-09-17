@@ -625,6 +625,8 @@ class CalculatorForm extends React.Component {
             <span>
               {'Where will you take the majority of your classes? '}
               <button
+                aria-live="polite"
+                aria-atomic="true"
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={onShowModal.bind(
@@ -632,6 +634,9 @@ class CalculatorForm extends React.Component {
                   'calcBeneficiaryLocationQuestion',
                 )}
               >
+                <span className="sr-only">
+                  Learn more about the location-based housing allowance
+                </span>
                 (Learn more)
               </button>
             </span>
