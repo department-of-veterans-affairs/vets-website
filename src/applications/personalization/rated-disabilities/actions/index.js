@@ -1,4 +1,4 @@
-import { getData } from '../../profile360/util';
+import { getData } from '../util';
 
 export const FETCH_RATED_DISABILITIES = 'FETCH_RATED_DISABILITIES';
 

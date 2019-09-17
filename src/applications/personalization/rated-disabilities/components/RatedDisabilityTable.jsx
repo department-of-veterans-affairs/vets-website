@@ -74,7 +74,7 @@ class RatedDisabilityTable extends React.Component {
 
     return (
       <div className="vads-u-width--full">
-        <h2 className="va-profile-heading">Rated disabilities</h2>
+        <h2 className="va-profile-heading">Your Rated disabilities</h2>
         <SortableTable
           className="va-table"
           currentSort={{ value: 'String', order: 'ASC' }}

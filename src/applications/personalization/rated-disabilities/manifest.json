@@ -2,5 +2,8 @@
   "appName": "Rated Disabilities",
   "entryFile": "./rated-disabilities-entry.jsx",
   "entryName": "rated-disabilities",
-  "rootUrl": "/rated-disabilities"
+  "rootUrl": "/rated-disabilities",
+  "template": {
+    "layout": "page-react-sidebar.html"
+  }
 }
