@@ -9,6 +9,7 @@ import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
 import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
 import ContactInfoPage from './containers/ContactInfoPage';
+import TypeOfAudiologyCarePage from './containers/TypeOfAudiologyCarePage';
 
 const routes = (
   <Route path="/">
@@ -16,6 +17,7 @@ const routes = (
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfCarePage} />
       <Route path="contact-info" component={ContactInfoPage} />
+      <Route path="audiology" component={TypeOfAudiologyCarePage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
     <Route
