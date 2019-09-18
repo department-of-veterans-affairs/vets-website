@@ -14,34 +14,34 @@ function convertLinkToAbsolute(hostUrl, pathName) {
  * Along the way, add a 'depth' property to each link.
  */
 function sortMenuLinksWithDepth(menuLinks) {
-  const sortedLinks = [];
-  const roots = [];
-  const children = [];
+  const sortedLinks = []; // The final array of links ordered hierarchically.
+  const parents = []; // This will hold links that are parents of others.
+  const parentChildrenMap = {}; // Describes relationship of parent links to child links.
 
   for (const link of menuLinks) {
     // Add in a children property so we can have a hierachy.
     link.children = [];
 
-    // Collect the root items. AD
+    // Collect the root items.
     if (link.parent === null) {
       link.depth = 0;
-      roots.push(link);
+      parents.push(link);
 
       // All other links are children and need to be cached in an array
       // that is keyed by the parent.
     } else if (link.parent) {
       const rootUuid = link.parent.split(':')[1];
-      if (!children[rootUuid]) {
-        children[rootUuid] = [];
+      if (!parentChildrenMap[rootUuid]) {
+        parentChildrenMap[rootUuid] = [];
       }
-      children[rootUuid].push(link);
+      parentChildrenMap[rootUuid].push(link);
     }
   }
 
   // We go through each parent and push its children into a 'children' array.
-  while (roots.length > 0) {
+  while (parents.length > 0) {
     // Grab first item from roots array.
-    const root = roots.shift();
+    const root = parents.shift();
     const rootDepth = root.depth;
 
     // Only push true roots onto our sorted list.
@@ -49,14 +49,14 @@ function sortMenuLinksWithDepth(menuLinks) {
       sortedLinks.push(root);
     }
 
-    // Grab the kids from our children array.
-    if (children[root.uuid]) {
-      children[root.uuid].forEach(child => {
+    // Grab the kids from our parentChildrenMap array.
+    if (parentChildrenMap[root.uuid]) {
+      parentChildrenMap[root.uuid].forEach(child => {
         child.depth = rootDepth + 1;
         root.children.push(child);
 
-        // Put this item into the first position of the roots array so we can find its children, if needed.
-        roots.unshift(child);
+        // Put this item into the first position of the parents array so we can find its children, if needed.
+        parents.unshift(child);
       });
     }
   }
