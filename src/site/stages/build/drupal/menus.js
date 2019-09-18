@@ -172,7 +172,8 @@ function makePromo(hostUrl, promo) {
  * @param {string} hostUrl - Absolute url for the site.
  * @param {Array} linkData - A set of links to be divided into columns.
  * @param {number} arrayDepth - Total depth of the parent tab.
- * @param {(Object|null)} promo - GraphQL response for the promo block related to this hub.
+ * @param {(Object|null)} promo - GraphQL response for a promo block.
+ *   The block may be related to a hub/section or a top-level tab.
  * @param {Array} pages - Drupal data representing pages published in CMS.
  *
  * @return {Array} columns - A set of columns formatted correctly for the megaMenu React widget.
@@ -209,7 +210,9 @@ function makeColumns(hostUrl, linkData, arrayDepth, promo, pages) {
       // This also means we will have a promo block related to this hub.
     } else if (arrayDepth === 3) {
       columns.seeAllLink = createLinkObj(hostUrl, link);
-      promo = getRelatedHubByPath(link, pages).fieldPromo;
+
+      const relatedHub = getRelatedHubByPath(link, pages);
+      promo = relatedHub ? relatedHub.fieldPromo : promo;
     }
 
     if (promo !== null) {
@@ -231,9 +234,9 @@ function makeColumns(hostUrl, linkData, arrayDepth, promo, pages) {
  * columns to the right.
  * 
  * @param {string} hostUrl - Absolute url for the site.
- * @param {Object} hub - Collection of title and links for this section.
+ * @param {Object} hub - Collection of title and links for this section. This may also contain a promo block.
  * @param {number} arrayDepth - Total depth of this tab.
- * @param {(Object|null)} promo - GraphQL response for the promo block related to this hub.
+ * @param {(Object|null)} promo - GraphQL response for a promo block related to this section.
  * @param {Array} pages - Drupal data representing pages published in CMS.
  *
  * @return {Object} A section of the menu formatted for the megaMenu widget.
@@ -291,7 +294,7 @@ function formatHeaderData(buildOptions, contentData) {
               hostUrl,
               child,
               arrayDepth,
-              link.fieldPromoReference,
+              child.fieldPromoReference,
               pages,
             ),
           );
