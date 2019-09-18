@@ -65,7 +65,6 @@ function sortMenuLinksWithDepth(menuLinks) {
 
     // Collect the root items.
     if (link.parent === null) {
-      link.depth = 0;
       parents.push(link);
 
       // All other links are children and need to be cached in an array
@@ -83,7 +82,6 @@ function sortMenuLinksWithDepth(menuLinks) {
   while (parents.length > 0) {
     // Grab first item from roots array.
     const root = parents.shift();
-    const rootDepth = root.depth;
 
     // Only push true roots onto our sorted list.
     if (root.parent === null) {
@@ -93,7 +91,6 @@ function sortMenuLinksWithDepth(menuLinks) {
     // Grab the kids from our parentChildrenMap array.
     if (parentChildrenMap[root.uuid]) {
       parentChildrenMap[root.uuid].forEach(child => {
-        child.depth = rootDepth + 1;
         root.children.push(child);
 
         // Put this item into the first position of the parents array so we can find its children, if needed.
@@ -183,24 +180,6 @@ function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
   return columns;
 }
 
-/**
- * Make a 'section' in the first tab of the megaMenu. 
- * 
- * The first tab of the megaMenu is broken down by 'section', each of 
- * which corresponds to a benefit hub. 
-
- * The title of the section (e.g., 'Health care') lives in a list 
- * in the left side of the menu block. The hub's links live in
- * columns to the right.
- * 
- * @param {string} hostUrl - Absolute url for the site.
- * @param {Object} hub - Collection of title and links for this section.
- * @param {number} arrayDepth - Total depth of this tab.
- * @param {(Object|null)} promo - GraphQL response for the promo block related to this hub.
- * @param {Array} pages - Drupal data representing pages published in CMS.
- *
- * @return {Object} A section of the menu formatted for the megaMenu widget.
- */
 function makeSection(hostUrl, hub, arrayDepth, promo, pages) {
   return {
     title: hub.title,
