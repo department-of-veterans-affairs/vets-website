@@ -72,7 +72,7 @@ export class TypeOfFacilityPage extends React.Component {
     const { schema, data, pageChangeInProgress } = this.props;
 
     return (
-      <div className="vaos-form__detailed-radio">
+      <div className="vaos-form__facility-type vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
           Choose where you would prefer to receive your care
         </h1>
