@@ -1,4 +1,8 @@
-import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
+import {
+  updateSchemaAndData,
+  updateItemsSchema,
+} from 'platform/forms-system/src/js/state/helpers';
+
 import {
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
@@ -16,7 +20,7 @@ export default function formReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
       const { data, schema } = updateSchemaAndData(
-        action.schema,
+        updateItemsSchema(action.schema),
         action.uiSchema,
         state.data,
       );
