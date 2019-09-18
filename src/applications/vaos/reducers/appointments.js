@@ -11,6 +11,7 @@ import {
 } from '../actions/appointments';
 
 import { FETCH_STATUS } from '../utils/constants';
+import moment from 'moment';
 
 const initialState = {
   confirmed: null,
@@ -21,6 +22,15 @@ const initialState = {
   pastStatus: FETCH_STATUS.notStarted,
 };
 
+function parseVAorCCDate(item) {
+  // This means it's a CC appt, which has a different date format
+  if (item.appointmentTime) {
+    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
+  }
+
+  return moment(item.startDate);
+}
+
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_CONFIRMED_APPOINTMENTS:
@@ -28,12 +38,26 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.loading,
       };
-    case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED:
+    case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED: {
+      const confirmed = action.data.vaAppointments.concat(
+        action.data.ccAppointments,
+      );
+
+      confirmed.sort((a, b) => {
+        const date1 = parseVAorCCDate(a);
+        const date2 = parseVAorCCDate(b);
+        if (date1.isValid() && date2.isValid()) {
+          return date1.isBefore(date2) ? -1 : 1;
+        }
+
+        return 0;
+      });
       return {
         ...state,
         confirmedStatus: FETCH_STATUS.succeeded,
-        confirmed: action.data,
+        confirmed,
       };
+    }
     case FETCH_CONFIRMED_APPOINTMENTS_FAILED:
       return {
         ...state,

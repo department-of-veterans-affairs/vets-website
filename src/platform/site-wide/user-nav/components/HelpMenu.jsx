@@ -5,7 +5,7 @@ import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropD
 import IconHelp from '@department-of-veterans-affairs/formation-react/IconHelp';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
-import facilityLocatorManifest from '../../../../applications/facility-locator/manifest';
+import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
 
 const FACILITY_LOCATOR_URL = facilityLocatorManifest.rootUrl;
 

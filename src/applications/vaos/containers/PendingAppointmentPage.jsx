@@ -9,6 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchPendingAppointments } from '../actions/appointments';
 import { FETCH_STATUS, TIME_TEXT, PURPOSE_TEXT } from '../utils/constants';
 import { selectPendingAppointment } from '../utils/selectors';
+import { formatTimeToCall } from '../utils/formatters';
 
 function formatDate(date) {
   const parsedDate = moment(date, 'MM/DD/YYYY');
@@ -18,16 +19,6 @@ function formatDate(date) {
   }
 
   return parsedDate.format('MMMM D, YYYY');
-}
-
-function formatTimeToCall(timeToCall) {
-  if (timeToCall.length === 1) {
-    return timeToCall[0].toLowerCase();
-  } else if (timeToCall.length === 2) {
-    return `${timeToCall[0].toLowerCase()} or ${timeToCall[1].toLowerCase()}`;
-  }
-
-  return `${timeToCall[0].toLowerCase()}, ${timeToCall[1].toLowerCase()}, or ${timeToCall[2].toLowerCase()}`;
 }
 
 export class PendingAppointmentPage extends React.Component {
@@ -137,7 +128,7 @@ PendingAppointmentPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    appointment: selectPendingAppointment(state, ownProps.id),
+    appointment: selectPendingAppointment(state, ownProps.params.id),
     status: state.appointments.pendingStatus,
   };
 }

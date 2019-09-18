@@ -56,27 +56,30 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.drupalToVaPath = content => {
-    let replaced = content.replace(/href="(.*?)(png|jpg|jpeg|svg|gif)"/g, img =>
-      img
-        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
-        .replace('http://dev.cms.va.gov/sites/default/files', '/img')
-        .replace('http://staging.cms.va.gov/sites/default/files', '/img')
-        .replace('http://prod.cms.va.gov/sites/default/files', '/img')
-        .replace('https://prod.cms.va.gov/sites/default/files', '/img')
-        .replace('http://cms.va.gov/sites/default/files', '/img')
-        .replace('https://cms.va.gov/sites/default/files', '/img'),
-    );
+    let replaced = content;
+    if (content) {
+      replaced = content.replace(/href="(.*?)(png|jpg|jpeg|svg|gif)"/g, img =>
+        img
+          .replace('http://va-gov-cms.lndo.site/sites/default/files', '/img')
+          .replace('http://dev.cms.va.gov/sites/default/files', '/img')
+          .replace('http://staging.cms.va.gov/sites/default/files', '/img')
+          .replace('http://prod.cms.va.gov/sites/default/files', '/img')
+          .replace('https://prod.cms.va.gov/sites/default/files', '/img')
+          .replace('http://cms.va.gov/sites/default/files', '/img')
+          .replace('https://cms.va.gov/sites/default/files', '/img'),
+      );
 
-    replaced = replaced.replace(/href="(.*?)(doc|docx|pdf|txt)"/g, file =>
-      file
-        .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
-        .replace('http://dev.cms.va.gov/sites/default/files', '/files')
-        .replace('http://staging.cms.va.gov/sites/default/files', '/files')
-        .replace('http://prod.cms.va.gov/sites/default/files', '/files')
-        .replace('https://prod.cms.va.gov/sites/default/files', '/files')
-        .replace('http://cms.va.gov/sites/default/files', '/files')
-        .replace('https://cms.va.gov/sites/default/files', '/files'),
-    );
+      replaced = replaced.replace(/href="(.*?)(doc|docx|pdf|txt)"/g, file =>
+        file
+          .replace('http://va-gov-cms.lndo.site/sites/default/files', '/files')
+          .replace('http://dev.cms.va.gov/sites/default/files', '/files')
+          .replace('http://staging.cms.va.gov/sites/default/files', '/files')
+          .replace('http://prod.cms.va.gov/sites/default/files', '/files')
+          .replace('https://prod.cms.va.gov/sites/default/files', '/files')
+          .replace('http://cms.va.gov/sites/default/files', '/files')
+          .replace('https://cms.va.gov/sites/default/files', '/files'),
+      );
+    }
 
     return replaced;
   };
@@ -372,7 +375,7 @@ module.exports = function registerFilters() {
     JSON.stringify(getDepth(linksArray, currentPath));
 
   liquid.filters.featureFieldRegionalHealthService = entity => {
-    if (entity && cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE) {
+    if (entity) {
       return entity.fieldRegionalHealthService
         ? entity.fieldRegionalHealthService.entity
         : null;
@@ -438,9 +441,7 @@ module.exports = function registerFilters() {
   // react component `facility-appointment-wait-times-widget`
   // (line 22 in src/site/facilities/facility_health_service.drupal.liquid)
   liquid.filters.healthServiceApiId = serviceTaxonomy =>
-    cmsFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
-      ? serviceTaxonomy.fieldHealthServiceApiId
-      : serviceTaxonomy.name;
+    serviceTaxonomy.fieldHealthServiceApiId;
 
   // finds if a page is a child of a certain page using the entityUrl attribute
   // returns true or false
