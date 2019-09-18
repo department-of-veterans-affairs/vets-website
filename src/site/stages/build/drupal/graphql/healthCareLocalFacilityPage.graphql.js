@@ -1,9 +1,5 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-
-const { cmsFeatureFlags } = global;
-const socialMediaFields = cmsFeatureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
-  ? require('./facilities-fragments/healthCareSocialMedia.fields.graphql')
-  : '';
+const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -12,11 +8,7 @@ module.exports = `
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
     fieldIntroText
-    ${
-      cmsFeatureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
-        ? 'fieldOperatingStatusFacility'
-        : ''
-    }
+    fieldOperatingStatusFacility
     fieldLocationServices {
       entity {
         ... on ParagraphHealthCareLocalFacilityServi {
@@ -68,11 +60,8 @@ module.exports = `
           fieldBody {
             processed
           }
-          ${
-            cmsFeatureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
-              ? 'fieldRegionalHealthService'
-              : 'fieldClinicalHealthServices'
-          } {
+          fieldRegionalHealthService
+          {
             entity {
               ... on NodeRegionalHealthCareServiceDes {
                 entityBundle
@@ -81,15 +70,11 @@ module.exports = `
                 }
                 fieldServiceNameAndDescripti {
                   entity {
-                    ... on TaxonomyTermHealthCareServiceTaxonomy {                    
+                    ... on TaxonomyTermHealthCareServiceTaxonomy {
                       entityId
                       entityBundle
                       fieldAlsoKnownAs
-                      ${
-                        cmsFeatureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
-                          ? 'fieldCommonlyTreatedCondition'
-                          : ''
-                      }
+                      fieldCommonlyTreatedCondition
                       name
                       description {
                         processed
@@ -101,11 +86,7 @@ module.exports = `
                           }
                         }
                       }
-                      ${
-                        cmsFeatureFlags.FEATURE_HEALTH_SERVICE_API_ID
-                          ? 'fieldHealthServiceApiId'
-                          : ''
-                      }
+                      fieldHealthServiceApiId
                     }
                   }
                 }
