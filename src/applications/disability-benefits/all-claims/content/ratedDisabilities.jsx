@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { capitalizeEachWord } from '../utils';
+import { NULL_CONDITION_STRING } from '../constants';
 
 /**
  * @typedef {Object} Disability
@@ -16,7 +17,7 @@ export const disabilityOption = ({ name, ratingPercentage }) => {
 
   return (
     <div>
-      <h4>{capitalizeEachWord(name)}</h4>
+      <h4>{typeof name === 'string' ? capitalizeEachWord(name) : NULL_CONDITION_STRING}</h4>
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
