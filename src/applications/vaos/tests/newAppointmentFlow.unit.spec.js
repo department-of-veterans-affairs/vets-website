@@ -59,5 +59,33 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
       expect(nextState).to.equal('contactInfo');
     });
+
+    it('previous should choose audiologyCareType page if CC and audiology', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const prevState = newAppointmentFlow.contactInfo.previous(state);
+      expect(prevState).to.equal('audiologyCareType');
+    });
+
+    it('previous should choose typeOfFacility page if not CC and audiology', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'va',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const prevState = newAppointmentFlow.contactInfo.previous(state);
+      expect(prevState).to.equal('typeOfFacility');
+    });
   });
 });
