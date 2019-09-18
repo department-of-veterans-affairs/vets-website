@@ -137,6 +137,7 @@ export function mapStateToProps(state, ownProps) {
     transaction,
     transactionSuccess,
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
+    apiRoute: VET360.API_ROUTES.TELEPHONES,
   };
 }
 
@@ -146,9 +147,9 @@ const mapDispatchToProps = {
   clearTransactionStatus,
 };
 
-const ReceiveTextMessagesContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReceiveTextMessages);
 
-export default ReceiveTextMessagesContainer;
+export { ReceiveTextMessages };
