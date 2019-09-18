@@ -6,7 +6,6 @@ import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
-import environment from 'platform/utilities/environment';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 class CalculatorForm extends React.Component {
@@ -505,56 +504,10 @@ class CalculatorForm extends React.Component {
     );
   };
 
-  renderBeneficiaryZIP = () => {
+  renderExtensionBeneficiaryZIP = () => {
     if (!this.props.displayedInputs.beneficiaryLocationQuestion) {
       return null;
     }
-
-    if (!environment.isProduction()) {
-      return this.renderExtensionBeneficiaryZIP();
-    }
-
-    let amountInput;
-
-    if (this.props.inputs.beneficiaryLocationQuestion === 'no') {
-      amountInput = (
-        <div>
-          <ErrorableTextInput
-            errorMessage={this.props.inputs.beneficiaryZIPError}
-            label={
-              <span>
-                At what ZIP Code will you be taking the majority of classes?
-              </span>
-            }
-            name="beneficiaryZIPCode"
-            field={{ value: this.props.inputs.beneficiaryZIP }}
-            onValueChange={this.handleBeneficiaryZIPCodeChanged}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text: 'Will the majority of your classes be on the main campus?',
-            modal: 'calcBeneficiaryLocationQuestion',
-          })}
-          name="beneficiaryLocationQuestion"
-          options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
-          ]}
-          value={this.props.inputs.beneficiaryLocationQuestion}
-          onChange={this.handleInputChange}
-        />
-        {amountInput}
-      </div>
-    );
-  };
-
-  renderExtensionBeneficiaryZIP = () => {
     const { profile, inputs, onShowModal } = this.props;
     const extensions = this.getExtensions();
 
@@ -608,15 +561,12 @@ class CalculatorForm extends React.Component {
         <div>
           <ErrorableTextInput
             errorMessage={inputs.beneficiaryZIPError}
-            label="Please enter the Postal code where you'll take your classes"
+            label="Please enter the zip code where you’ll take your classes"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
             charMax={5}
           />
-          <p>
-            <strong>{inputs.housingAllowanceCity}</strong>
-          </p>
         </div>
       );
     }
@@ -651,6 +601,10 @@ class CalculatorForm extends React.Component {
         />
         {extensionSelector}
         {amountInput}
+        <p aria-live="polite" aria-atomic="true">
+          <span className="sr-only">Your postal code is located in</span>
+          <strong>{inputs.housingAllowanceCity}</strong>
+        </p>
       </div>
     );
   };
@@ -742,25 +696,6 @@ class CalculatorForm extends React.Component {
 
   render() {
     if (!this.props.displayedInputs) return null;
-    if (environment.isProduction()) {
-      return (
-        <div className="calculator-form">
-          {this.renderInState()}
-          {this.renderTuition()}
-          {this.renderBooks()}
-          {this.renderYellowRibbon()}
-          {this.renderScholarships()}
-          {this.renderTuitionAssist()}
-          {this.renderEnrolled()}
-          {this.renderCalendar()}
-          {this.renderKicker()}
-          {this.renderGbBenefit()}
-          {this.renderBeneficiaryZIP()}
-          {this.renderBuyUp()}
-          {this.renderWorking()}
-        </div>
-      );
-    }
     return (
       <div className="calculator-form">
         {this.renderInState()}
@@ -772,7 +707,7 @@ class CalculatorForm extends React.Component {
         {this.renderEnrolled()}
         {this.renderCalendar()}
         {this.renderOnlineClasses()}
-        {this.renderBeneficiaryZIP()}
+        {this.renderExtensionBeneficiaryZIP()}
         {this.renderKicker()}
         {this.renderGbBenefit()}
         {this.renderBuyUp()}

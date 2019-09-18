@@ -71,14 +71,12 @@ module.exports = `
   }
 `;
 
-if (cmsFeatureFlags.GRAPHQL_MODULE_UPDATE) {
-  const query = module.exports;
+const query = module.exports;
 
-  let regString = '';
-  queryParamToBeChanged.forEach(param => {
-    regString += `${param}|`;
-  });
+let regString = '';
+queryParamToBeChanged.forEach(param => {
+  regString += `${param}|`;
+});
 
-  const regex = new RegExp(`${regString}`, 'g');
-  module.exports = query.replace(regex, updateQueryString);
-}
+const regex = new RegExp(`${regString}`, 'g');
+module.exports = query.replace(regex, updateQueryString);
