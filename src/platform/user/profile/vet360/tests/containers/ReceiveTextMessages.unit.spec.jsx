@@ -60,36 +60,13 @@ describe('<ReceiveTextMessages/>', () => {
     component.unmount();
   });
 
-  it('calls componentWillReceiveProps with verified profile', () => {
+  it('calls componentWillReceiveProps with nextProps', () => {
     sinon.stub(props, 'componentWillReceiveProps');
     const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
     const nextProps = props;
     expect(
       props.componentWillReceiveProps.calledWith(nextProps),
       'componentWillReceiveProps was called with nextProps',
-    ).to.be.false;
-    component.unmount();
-  });
-
-  it('calls onChange to create a transaction', () => {
-    sinon.stub(props, 'onChange');
-    const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
-    expect(props.onChange.calledWith(), 'onChange was called').to.be.false;
-    component.unmount();
-  });
-
-  it('calls isSuccessVisible to see if success message should be visible', () => {
-    props.transactionSuccess = true;
-    sinon.stub(props, 'isSuccessVisible');
-    const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
-    component.setState({
-      startedTransaction: true,
-      completedTransaction: true,
-      lastTransaction: props.transaction,
-    });
-    expect(
-      props.isSuccessVisible.calledWith(),
-      'isSuccessVisible was called with transaction success',
     ).to.be.false;
     component.unmount();
   });

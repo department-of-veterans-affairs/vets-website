@@ -114,7 +114,7 @@ class ReceiveTextMessages extends React.Component {
   }
 }
 
-export function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
   const { transaction } = selectVet360Transaction(state, fieldName);
   const hasError = transaction && isFailedTransaction(transaction);
@@ -139,7 +139,7 @@ export function mapStateToProps(state, ownProps) {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     apiRoute: VET360.API_ROUTES.TELEPHONES,
   };
-}
+};
 
 const mapDispatchToProps = {
   getEnrollmentStatus: getEnrollmentStatusAction,
@@ -151,5 +151,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReceiveTextMessages);
-
 export { ReceiveTextMessages };
