@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { focusElement } from 'platform/utilities/ui';
 import { fetchConfirmedAppointments } from '../actions/appointments';
-import ConfirmedAppointment from '../components/ConfirmedAppointment';
+import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import { FETCH_STATUS } from '../utils/constants';
 import { getAppointmentId } from '../utils/appointment';
 
-export class ConfirmedAppointmentsPage extends React.Component {
+export class ConfirmedAppointmentsListPage extends React.Component {
   componentDidMount() {
     this.props.fetchConfirmedAppointments();
     focusElement('h1');
@@ -29,7 +29,7 @@ export class ConfirmedAppointmentsPage extends React.Component {
               {status === FETCH_STATUS.succeeded && (
                 <ul className="usa-unstyled-list">
                   {appointments.map(appt => (
-                    <ConfirmedAppointment
+                    <ConfirmedAppointmentListItem
                       key={getAppointmentId(appt)}
                       appointment={appt}
                     />
@@ -58,4 +58,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConfirmedAppointmentsPage);
+)(ConfirmedAppointmentsListPage);

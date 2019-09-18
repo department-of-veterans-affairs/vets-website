@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import ConfirmedAppointment from '../../components/ConfirmedAppointment';
+import ConfirmedAppointmentListItem from '../../components/ConfirmedAppointmentListItem';
 
 describe('VA Confirmed Appointment', () => {
   const appointment = {
@@ -21,7 +21,9 @@ describe('VA Confirmed Appointment', () => {
 
   describe('appointment details', () => {
     beforeEach(() => {
-      tree = shallow(<ConfirmedAppointment appointment={appointment} />);
+      tree = shallow(
+        <ConfirmedAppointmentListItem appointment={appointment} />,
+      );
     });
 
     afterEach(() => {
@@ -43,7 +45,6 @@ describe('VA Confirmed Appointment', () => {
     });
 
     it('should render facility info link', () => {
-      tree = shallow(<ConfirmedAppointment appointment={appointment} />);
       expect(tree.find('a').props().href).to.contain(appointment.facilityId);
       tree.unmount();
     });
@@ -87,7 +88,9 @@ describe('Community Care Confirmed Appointment', () => {
     },
   };
 
-  const tree = shallow(<ConfirmedAppointment appointment={appointment} />);
+  const tree = shallow(
+    <ConfirmedAppointmentListItem appointment={appointment} />,
+  );
 
   describe('appointment details', () => {
     it('should display location', () => {
