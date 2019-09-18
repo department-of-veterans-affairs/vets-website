@@ -56,20 +56,24 @@ function convertLinkToAbsolute(hostUrl, pathName) {
  */
 function sortMenuLinksWithDepth(menuLinks) {
   const sortedLinks = []; // The final array of links ordered hierarchically.
-  const parents = []; // This will hold links that are parents of others.
+  const roots = []; // This will hold links that are parents of others.
   const parentChildrenMap = {}; // Describes relationship of parent links to child links.
 
   for (const link of menuLinks) {
     // Add in a children property so we can have a hierachy.
     link.children = [];
 
-    // Collect the root items.
+    // Collect the root items. Roots do not have parents.
     if (link.parent === null) {
-      parents.push(link);
+      roots.push(link);
 
       // All other links are children and need to be cached in an array
       // that is keyed by the parent.
+      // Menu items always have a parent or null (it can't be undefined).
     } else if (link.parent) {
+      // Drupal uses this pattern for the parent property:
+      //   menu-link-content:[the-parent-uuid]
+      // So, we need to split that up to get the parent's uuid.
       const rootUuid = link.parent.split(':')[1];
       if (!parentChildrenMap[rootUuid]) {
         parentChildrenMap[rootUuid] = [];
@@ -79,11 +83,12 @@ function sortMenuLinksWithDepth(menuLinks) {
   }
 
   // We go through each parent and push its children into a 'children' array.
-  while (parents.length > 0) {
+  while (roots.length > 0) {
     // Grab first item from roots array.
-    const root = parents.shift();
+    const root = roots.shift();
 
-    // Only push true roots onto our sorted list.
+    // If this item is in the top level of the menu (no parent),
+    // push it into our sorted list.
     if (root.parent === null) {
       sortedLinks.push(root);
     }
@@ -93,8 +98,10 @@ function sortMenuLinksWithDepth(menuLinks) {
       parentChildrenMap[root.uuid].forEach(child => {
         root.children.push(child);
 
-        // Put this item into the first position of the parents array so we can find its children, if needed.
-        parents.unshift(child);
+        // Put this item into the first position of the parents array
+        // so we can find its children, if needed.
+        // Note that this is how we are able to recurse to an arbitrary depth of menu.
+        roots.unshift(child);
       });
     }
   }
