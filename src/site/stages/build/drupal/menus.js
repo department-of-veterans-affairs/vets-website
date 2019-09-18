@@ -144,7 +144,30 @@ function makePromo(hostUrl, promo) {
   };
 }
 
-function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
+/**
+ * Make a set of link columns in the megaMenu from a set of link data.
+ *
+ *
+ * The JSON format consumed by the megaMenu widget has a set of column names
+ * that it uses, e.g., "mainColumn," "columnOne."
+ *
+ * With some exceptions, each column has a title and a list of links under that title.
+ *
+ * Exception 1: A column may also contain a promo block. If so, we call a function to create
+ * that block.
+ *
+ * Exception 2: If a 'column' does not have any child links, then this is a special
+ * case: the seeAllLink, which is used to link to a hub landing page.
+ *
+ * @param {string} hostUrl - Absolute url for the site.
+ * @param {Array} linkData - A set of links to be divided into columns.
+ * @param {number} arrayDepth - Total depth of the parent tab.
+ * @param {(Object|null)} promo - GraphQL response for the promo block related to this hub.
+ * @param {Array} pages - Drupal data representing pages published in CMS.
+ *
+ * @return {Array} columns - A set of columns formatted correctly for the megaMenu React widget.
+ */
+function makeColumns(hostUrl, linkData, arrayDepth, promo, pages) {
   const columns = {};
   const columnNames = [
     // Possible column names.
@@ -162,12 +185,12 @@ function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
     i = 0;
   }
 
-  childLinks.forEach(childLink => {
+  linkData.forEach(link => {
     // Create named columns.
-    if (childLink.children.length > 0) {
+    if (link.children.length > 0) {
       const column = {
-        title: childLink.title,
-        links: makeLinkList(hostUrl, childLink.children),
+        title: link.title,
+        links: makeLinkList(hostUrl, link.children),
       };
       columns[columnNames[i]] = column;
       i++;
@@ -175,8 +198,8 @@ function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
       // If we have no children, then this is the 'See all' link.
       // This also means we will have a promo block related to this hub.
     } else if (arrayDepth === 3) {
-      columns.seeAllLink = createLinkObj(hostUrl, childLink);
-      promo = getRelatedHubByPath(childLink, pages).fieldPromo;
+      columns.seeAllLink = createLinkObj(hostUrl, link);
+      promo = getRelatedHubByPath(link, pages).fieldPromo;
     }
 
     if (promo !== null) {
@@ -187,6 +210,24 @@ function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
   return columns;
 }
 
+/**
+ * Make a 'section' in the first tab of the megaMenu. 
+ * 
+ * The first tab of the megaMenu is broken down by 'section', each of 
+ * which corresponds to a benefit hub. 
+
+ * The title of the section (e.g., 'Health care') lives in a list 
+ * in the left side of the menu block. The hub's links live in
+ * columns to the right.
+ * 
+ * @param {string} hostUrl - Absolute url for the site.
+ * @param {Object} hub - Collection of title and links for this section.
+ * @param {number} arrayDepth - Total depth of this tab.
+ * @param {(Object|null)} promo - GraphQL response for the promo block related to this hub.
+ * @param {Array} pages - Drupal data representing pages published in CMS.
+ *
+ * @return {Object} A section of the menu formatted for the megaMenu widget.
+ */
 function makeSection(hostUrl, hub, arrayDepth, promo, pages) {
   return {
     title: hub.title,
