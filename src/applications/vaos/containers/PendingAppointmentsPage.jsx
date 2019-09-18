@@ -6,6 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchPendingAppointments } from '../actions/appointments';
 import PendingAppointment from '../components/PendingAppointment';
 import { FETCH_STATUS } from '../utils/constants';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export class PendingAppointmentsPage extends React.Component {
   componentDidMount() {
@@ -17,6 +18,10 @@ export class PendingAppointmentsPage extends React.Component {
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        <Breadcrumbs>
+          <Link to="appointments">Your appointments</Link>
+          <Link to="appointments/pending">Pending appointments</Link>
+        </Breadcrumbs>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
             <Link to="appointments">
