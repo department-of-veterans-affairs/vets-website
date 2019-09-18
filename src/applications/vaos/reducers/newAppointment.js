@@ -1,3 +1,4 @@
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   updateSchemaAndData,
   updateItemsSchema,
@@ -19,10 +20,11 @@ const initialState = {
 export default function formReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
+      const schemaWithItemsCorrected = updateItemsSchema(action.schema);
       const { data, schema } = updateSchemaAndData(
-        updateItemsSchema(action.schema),
+        schemaWithItemsCorrected,
         action.uiSchema,
-        state.data,
+        getDefaultFormState(schemaWithItemsCorrected, action.data, {}),
       );
 
       return {

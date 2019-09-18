@@ -14,15 +14,18 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['phoneNumber'],
+  required: ['hasCommunityCareProvider'],
   properties: {
     hasCommunityCareProvider: {
       type: 'boolean',
     },
     communityCareProviders: {
       type: 'array',
+      maxItems: 3,
+      minItems: 1,
       items: {
         type: 'object',
+        required: ['firstName', 'lastName', 'phone'],
         properties: {
           practiceName: {
             type: 'string',
@@ -35,6 +38,7 @@ const initialSchema = {
           },
           phone: {
             type: 'string',
+            minLength: 10,
           },
         },
       },
@@ -55,25 +59,33 @@ const uiSchema = {
   },
   communityCareProviders: {
     'ui:title': 'Community Care provider',
+    'ui:required': data => data.hasCommunityCareProvider,
     'ui:options': {
       expandUnder: 'hasCommunityCareProvider',
-      viewField: ({ formData }) => <div>{formData.practiceName}</div>,
+      viewField: ({ formData }) => (
+        <div>
+          <strong>
+            {formData.firstName} {formData.lastName}
+          </strong>
+          <br />
+          {formData.phone}
+          <br />
+          {formData.practiceName}
+        </div>
+      ),
       itemName: 'Community Care provider',
     },
     items: {
-      'ui:options': {
-        expandUnder: 'hasCommunityCareProvider',
-      },
       practiceName: {
         'ui:title': 'Practice name',
       },
       firstName: {
-        'ui:title': 'Provider first name',
+        'ui:title': 'First name',
       },
       lastName: {
-        'ui:title': 'Provider last name',
+        'ui:title': 'Last name',
       },
-      phone: phoneUI('Provider phone number'),
+      phone: phoneUI(),
     },
   },
 };
