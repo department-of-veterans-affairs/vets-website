@@ -25,41 +25,39 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function routeToPage(flow, router, current, action) {
+export function routeToPageInFlow(flow, router, current, action) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
     });
 
     const nextAction = flow[current][action];
-    let nextState;
+    let nextPage;
 
     if (typeof nextAction === 'string') {
-      nextState = flow[nextAction];
+      nextPage = flow[nextAction];
     } else {
       const nextStateKey = await nextAction(getState(), dispatch);
-      nextState = flow[nextStateKey];
+      nextPage = flow[nextStateKey];
     }
 
-    if (nextState?.url) {
-      router.push(nextState.url);
+    if (nextPage?.url) {
+      router.push(nextPage.url);
       dispatch({
         type: FORM_PAGE_CHANGE_COMPLETED,
       });
-    } else if (nextState) {
-      throw new Error(`Tried to route to a page without a url: ${nextState}`);
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
     } else {
       throw new Error('Tried to route to page that does not exist');
     }
-
-    return nextState;
   };
 }
 
 export function routeToNextAppointmentPage(router, current) {
-  return routeToPage(newAppointmentFlow, router, current, 'next');
+  return routeToPageInFlow(newAppointmentFlow, router, current, 'next');
 }
 
 export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPage(newAppointmentFlow, router, current, 'previous');
+  return routeToPageInFlow(newAppointmentFlow, router, current, 'previous');
 }

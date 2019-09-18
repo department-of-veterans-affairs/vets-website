@@ -232,16 +232,22 @@
   .school-locations {
     table {
       border: hidden;
-      margin-top: 0em;
-      margin-bottom: 0em;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
     }
 
     th {
       border: hidden;
       background: none;
       white-space: nowrap;
-      padding-bottom: 0em;
+      padding-bottom: 0.5em;
       padding-top: 0em;
+      clear: both;
+      font-weight: 700;
+      font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
+      line-height: 1.5;
+      margin-bottom: 0.5em;
+      margin-top: 1.5em;
     }
 
     td {
@@ -250,10 +256,12 @@
       padding-top: 0em;
       padding-bottom: 0em;
       vertical-align: top;
+    }
 
-      h6 {
-        margin-top: 0em;
-      }
+    .schoolName {
+      margin-bottom: 0em;
+      margin-top: 0em;
+      font-weight: bold;
     }
 
     .location-cell {

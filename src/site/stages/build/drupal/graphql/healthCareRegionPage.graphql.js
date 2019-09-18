@@ -10,9 +10,6 @@ const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRe
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
 
-// Get current feature flags
-const { cmsFeatureFlags } = global;
-
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
@@ -62,37 +59,23 @@ module.exports = `
       }
       title
     }
-    ${
-      cmsFeatureFlags.FEATURE_REGION_PAGE_LINKS
-        ? 'fieldLinks'
-        : 'fieldEmailSubscription'
-    } {
+    fieldLinks {
       url {
         path
       }
       title
     }
-    ${
-      cmsFeatureFlags.FEATURE_REGION_PAGE_LINKS
-        ? `
-        fieldOperatingStatus {
-          url {
-            path
-          }
-          title
-        }
-        `
-        : ''
+    fieldOperatingStatus {
+      url {
+        path
+      }
+      title
     }
     reverseFieldRegionPageNode(limit: 100000, filter:{conditions:[{field: "type", value: "health_care_local_facility"}]}) {
       entities {
         ... on NodeHealthCareLocalFacility {
           title
-          ${
-            cmsFeatureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
-              ? 'fieldOperatingStatusFacility'
-              : ''
-          }
+          fieldOperatingStatusFacility
         }
       }
     }
@@ -120,11 +103,7 @@ module.exports = `
       processed
     }
     ${healthCareLocalFacilities}
-    ${
-      cmsFeatureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS
-        ? 'fieldOtherVaLocations'
-        : ''
-    }
+    fieldOtherVaLocations
     fieldIntroTextNewsStories {
       processed
     }
@@ -136,11 +115,7 @@ module.exports = `
     fieldClinicalHealthCareServi {
       processed
     }
-    ${
-      cmsFeatureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT
-        ? healthCareRegionFeaturedHealthServices
-        : ''
-    }
+    ${healthCareRegionFeaturedHealthServices}
     ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {
       processed
