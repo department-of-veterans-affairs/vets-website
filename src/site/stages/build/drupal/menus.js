@@ -8,10 +8,51 @@ function convertLinkToAbsolute(hostUrl, pathName) {
   return url.href;
 }
 
-/*
+/**
  * Perform a topological sort on the flat list of menu links
  * so that we get back a sorted tree of all links.
- * Along the way, add a 'depth' property to each link.
+ *
+ * @param {Array} menuLinks - All menu links as returned from GraphQL, e.g.:
+ *
+ * [
+ *    {
+ *      "entityId": "739",
+ *      "entityLabel": "About VA",
+ *      "menuName": "header-megamenu",
+ *      "parent": null,
+ *      "weight": 1,
+ *      "link": {
+ *        "url": {
+ *          "path": ""
+ *         }
+ *       },
+ *       "fieldPromoReference": {
+ *         "targetId": 27,
+ *           "entity": {
+ *             "entityId": "27",
+ *             "entityLabel": "Agency financial report (Header)",
+ *             "fieldImage": {
+ *               "targetId": 538
+ *             },
+ *             "fieldPromoLink": {
+ *               "targetId": 7002,
+ *               "targetRevisionId": 28921
+ *             }
+ *           }
+ *        },
+ *        "title": "About VA",
+ *        "uuid": "4f9473b7-c59f-4ad5-9450-a3ed2362ca3f",
+ *        "bundle": {
+ *          "entity": {
+ *            "entityLabel": "Header megamenu"
+ *          }
+ *        }
+ *      },
+ *      ...
+ *  ]
+ *
+ * @return {Array} Menu links ordered with depth, hierarchically.
+ *
  */
 function sortMenuLinksWithDepth(menuLinks) {
   const sortedLinks = []; // The final array of links ordered hierarchically.
@@ -142,13 +183,40 @@ function makeColumns(hostUrl, childLinks, arrayDepth, promo, pages) {
   return columns;
 }
 
-function makeSection(hostUrl, child, arrayDepth, promo, pages) {
+/**
+ * Make a 'section' in the first tab of the megaMenu. 
+ * 
+ * The first tab of the megaMenu is broken down by 'section', each of 
+ * which corresponds to a benefit hub. 
+
+ * The title of the section (e.g., 'Health care') lives in a list 
+ * in the left side of the menu block. The hub's links live in
+ * columns to the right.
+ * 
+ * @param {string} hostUrl - Absolute url for the site.
+ * @param {Object} hub - Collection of title and links for this section.
+ * @param {number} arrayDepth - Total depth of this tab.
+ * @param {(Object|null)} promo - GraphQL response for the promo block related to this hub.
+ * @param {Array} pages - Drupal data representing pages published in CMS.
+ *
+ * @return {Object} A section of the menu formatted for the megaMenu widget.
+ */
+function makeSection(hostUrl, hub, arrayDepth, promo, pages) {
   return {
-    title: child.title,
-    links: makeColumns(hostUrl, child.children, arrayDepth, promo, pages),
+    title: hub.title,
+    links: makeColumns(hostUrl, hub.children, arrayDepth, promo, pages),
   };
 }
 
+/**
+ * Take the response from the GraphQL query and reformat it
+ * into a structure that the megaMenu widget will understand.
+ *
+ * @param {Object} buildOptions - See /src/stages/build/options.js.
+ * @param {Object} contentData - Drupal data received from api query.
+ *
+ * @return {Array} headerData - Menu information formatted for the megaMenu React widget.
+ */
 function formatHeaderData(buildOptions, contentData) {
   let menuLinks = contentData.data.menuLinkContentQuery.entities;
   const pages = contentData.data.nodeQuery.entities;
