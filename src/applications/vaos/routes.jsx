@@ -8,8 +8,8 @@ import TypeOfCarePage from './containers/TypeOfCarePage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
 import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
-import ContactInfoPage from './containers/ContactInfoPage';
 import ConfirmedAppointmentsListPage from './containers/ConfirmedAppointmentsListPage';
+import ContactInfoPage from './containers/ContactInfoPage';
 
 const routes = (
   <Route path="/">
@@ -19,12 +19,12 @@ const routes = (
       <Route path="contact-info" component={ContactInfoPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
+    <Route path="appointments/pending" component={PendingAppointmentsPage} />
+    <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
     <Route
       path="appointments/confirmed/:id"
       component={ConfirmedAppointmentPage}
     />
-    <Route path="appointments/pending" component={PendingAppointmentsPage} />
-    <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
     <Route
       path="appointments/confirmed"
       component={ConfirmedAppointmentsListPage}
