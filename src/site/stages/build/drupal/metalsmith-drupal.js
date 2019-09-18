@@ -139,7 +139,7 @@ async function loadDrupal(buildOptions) {
     console.time(drupalTimer);
 
     drupalPages = await contentApi.getAllPages();
-    // console.dir(drupalPages.data.menuLinkContentQuery, {maxArrayLength: null});
+
     console.timeEnd(drupalTimer);
 
     if (drupalPages.errors && drupalPages.errors.length) {
