@@ -19,7 +19,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(3);
     form.unmount();
   });
 
@@ -60,9 +60,9 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_typeOfAppointment', 'routine');
+    selectRadio(form, 'root_reasonForAppointment', 'routine');
 
-    expect(updateFormData.firstCall.args[2].typeOfAppointment).to.equal(
+    expect(updateFormData.firstCall.args[2].reasonForAppointment).to.equal(
       'routine',
     );
     form.unmount();
@@ -78,7 +78,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       <ReasonForAppointmentPage
         openFormPage={openFormPage}
         router={router}
-        data={{ typeOfAppointment: 'routine' }}
+        data={{ reasonForAppointment: 'routine' }}
       />,
     );
 
