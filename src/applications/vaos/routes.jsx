@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
+import ReasonForAppointmentPage from './containers/ReasonForAppointmentPage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
 import ContactInfoPage from './containers/ContactInfoPage';
@@ -13,6 +14,7 @@ const routes = (
     <IndexRoute component={LandingPage} />
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfAppointmentPage} />
+      <Route path="reason-appointment" component={ReasonForAppointmentPage} />
       <Route path="contact-info" component={ContactInfoPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />

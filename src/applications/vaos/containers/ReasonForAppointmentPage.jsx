@@ -6,38 +6,40 @@ import ProgressButton from 'platform/forms-system/src/js/components/ProgressButt
 
 const initialSchema = {
   type: 'object',
-  required: ['typeOfAppointment'],
+  required: ['reasonForAppointment'],
   properties: {
-    typeOfAppointment: {
+    reasonForAppointment: {
       type: 'string',
-      enum: ['provider', 'typeOfCare'],
+      enum: ['routine', 'newIssue', 'medicationConcern'],
     },
   },
 };
 
 const uiSchema = {
-  typeOfAppointment: {
-    'ui:title': 'How would you like to make an appointment?',
+  reasonForAppointment: {
+    'ui:title': 'Why do you want to make an appointment?',
     'ui:widget': 'radio',
     'ui:options': {
+      hideLabelText: true,
       labels: {
-        provider: (
+        routine: (
           <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Provider
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Choose a doctor or care team
+            <span className="vads-u-display--block vads-u-font-size--sm ">
+              Routine/Follow-up
             </span>
           </>
         ),
-        typeOfCare: (
+        newIssue: (
           <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Type of care
+            <span className="vads-u-display--block vads-u-font-size--sm ">
+              New Issue
             </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              Choose a specific type of care, like audiology or primary care
+          </>
+        ),
+        medicationConcern: (
+          <>
+            <span className="vads-u-display--block vads-u-font-size--sm ">
+              Medication Concern
             </span>
           </>
         ),
@@ -46,29 +48,32 @@ const uiSchema = {
   },
 };
 
-const pageKey = 'type-appointment';
+const pageKey = 'reason-appointment';
 
-export class TypeOfAppointmentPage extends React.Component {
+export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
-    this.props.router.push('/');
+    this.props.router.push('/new-appointment');
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/reason-appointment'); 
+    this.props.router.push('/new-appointment/contact-info');
   };
 
   render() {
     const { schema, data } = this.props;
 
     return (
-      <div className="vaos-form__appt-type">
+      <div className="vaos-form__detailed-radio">
+        <h1 className="vads-u-font-size--h2">
+          Why do you want to make an appointment?
+        </h1>
         <SchemaForm
-          name="Type of appointment"
-          title="Type of appointment"
+          name="Reason for appointment"
+          title="Reason for appointment"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
@@ -116,4 +121,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfAppointmentPage);
+)(ReasonForAppointmentPage);

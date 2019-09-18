@@ -66,7 +66,7 @@ export class ContactInfoPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.router.push('/new-appointment');
+    this.props.router.push('/new-appointment/reason-appointment');
   };
 
   goForward = () => {
