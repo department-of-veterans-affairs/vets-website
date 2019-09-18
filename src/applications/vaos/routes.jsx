@@ -5,11 +5,11 @@ import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 // import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
 import TypeOfCarePage from './containers/TypeOfCarePage';
-import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
-import PendingAppointmentPage from './containers/PendingAppointmentPage';
-import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
+import PendingAppointmentListPage from './containers/PendingAppointmentListPage';
+import PendingAppointmentDetailPage from './containers/PendingAppointmentDetailPage';
+import ConfirmedAppointmentDetailPage from './containers/ConfirmedAppointmentDetailPage';
 import ContactInfoPage from './containers/ContactInfoPage';
-import ConfirmedAppointmentsListPage from './containers/ConfirmedAppointmentsListPage';
+import ConfirmedAppointmentListPage from './containers/ConfirmedAppointmentListPage';
 
 const routes = (
   <Route path="/">
@@ -21,14 +21,17 @@ const routes = (
     <Route path="appointments" component={AppointmentListsPage} />
     <Route
       path="appointments/confirmed/:id"
-      component={ConfirmedAppointmentPage}
+      component={ConfirmedAppointmentDetailPage}
     />
-    <Route path="appointments/pending" component={PendingAppointmentsPage} />
-    <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
     <Route
       path="appointments/confirmed"
-      component={ConfirmedAppointmentsListPage}
+      component={ConfirmedAppointmentListPage}
     />
+    <Route
+      path="appointments/pending/:id"
+      component={PendingAppointmentDetailPage}
+    />
+    <Route path="appointments/pending" component={PendingAppointmentListPage} />
   </Route>
 );
 
