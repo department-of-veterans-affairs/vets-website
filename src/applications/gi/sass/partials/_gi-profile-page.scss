@@ -290,7 +290,7 @@
     }
   }
 
-  @include media-maxwidth($medium-screen) {
+  @include media-maxwidth($medium-screen - 1) {
     .locations-table {
       display: none;
     }
