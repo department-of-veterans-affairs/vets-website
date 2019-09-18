@@ -58,6 +58,8 @@ function sortMenuLinksWithDepth(menuLinks) {
   const sortedLinks = []; // The final array of links ordered hierarchically.
   const roots = []; // This will hold links that are parents of others.
   const parentChildrenMap = {}; // Describes relationship of parent links to child links.
+  const menuLinkCt = menuLinks.length;
+  let i = 0;
 
   for (const link of menuLinks) {
     // Add in a children property so we can have a hierachy.
@@ -84,6 +86,13 @@ function sortMenuLinksWithDepth(menuLinks) {
 
   // We go through each parent and push its children into a 'children' array.
   while (roots.length > 0) {
+    // We use an index i to ensure that we do not exceed our 'backstop:'
+    // the total number of links in the menu. Thus, we prevent an infinite loop
+    // and stop the build with an error.
+    if (i >= menuLinkCt) {
+      throw new Error('Drupal header menu data contained an anomaly.');
+    }
+
     // Grab first item from roots array.
     const root = roots.shift();
 
@@ -104,6 +113,7 @@ function sortMenuLinksWithDepth(menuLinks) {
         roots.unshift(child);
       });
     }
+    i++;
   }
 
   return sortedLinks;
