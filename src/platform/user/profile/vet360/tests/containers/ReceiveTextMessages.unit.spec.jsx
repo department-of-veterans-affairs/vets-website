@@ -50,33 +50,12 @@ describe('<ReceiveTextMessages/>', () => {
     component.unmount();
   });
 
-  it('calls componentDidMount with verified profile', () => {
-    sinon.stub(props, 'componentDidMount');
-    const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
-    expect(
-      props.componentDidMount.calledWith(props),
-      'componentDidMount was called with user profile to initialize enrollment status',
-    ).to.be.false;
-    component.unmount();
-  });
-
-  it('calls componentWillReceiveProps with nextProps', () => {
-    sinon.stub(props, 'componentWillReceiveProps');
-    const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
-    const nextProps = props;
-    expect(
-      props.componentWillReceiveProps.calledWith(nextProps),
-      'componentWillReceiveProps was called with nextProps',
-    ).to.be.false;
-    component.unmount();
-  });
-
-  it('calls getEnrollmentStatus with verified profile', () => {
+  it('calls getEnrollmentStatus during componentDidMount when profile is verified', () => {
     sinon.stub(props, 'getEnrollmentStatus');
     const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
     expect(
       props.getEnrollmentStatus.calledWith(),
-      'getEnrollmentStatus was called with user profile to initialize enrollment status',
+      'getEnrollmentStatus was not called in componentDidMount',
     ).to.be.true;
     component.unmount();
   });
