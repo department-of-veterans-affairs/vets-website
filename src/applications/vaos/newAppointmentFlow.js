@@ -2,13 +2,20 @@ import { getFormData } from './utils/selectors';
 
 const AUDIOLOGY = '203';
 
+function isCCAudiology(state) {
+  return (
+    getFormData(state).facilityType === 'communityCare' &&
+    getFormData(state).typeOfCareId === AUDIOLOGY
+  );
+}
+
 export default {
   home: {
     url: '/',
   },
   typeOfCare: {
     url: '/new-appointment',
-    next: 'contactInfo',
+    next: 'typeOfFacility',
     // async next(state) {
     //   try {
     //     const data = await apiRequest('/vaos/community-care/eligibility');
@@ -22,32 +29,35 @@ export default {
     //     return 'vaLocation';
     //   }
     // },
-    previous: 'typeOfFacility',
-  },
-  contactInfo: {
-    url: '/new-appointment/contact-info',
-    next: 'home',
-    previous: 'typeOfCare',
+    previous: 'home',
   },
   typeOfFacility: {
-    url: '/new-appointment/type-of-facility',
+    url: '/new-appointment/choose-facility-type',
     next(state) {
-      if (
-        getFormData(state).facilityType === 'communityCare' &&
-        getFormData(state).typeOfCareId === AUDIOLOGY
-      ) {
+      if (isCCAudiology(state)) {
         return 'audiologyCareType';
       } else if (getFormData(state).facilityType === 'communityCare') {
-        return 'preferredDates';
+        return 'contactInfo';
       }
 
-      return 'vaLocation';
+      return 'contactInfo';
     },
     previous: 'typeOfCare',
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'preferredDates',
+    next: 'contactInfo',
     previous: 'typeOfFacility',
+  },
+  contactInfo: {
+    url: '/new-appointment/contact-info',
+    next: 'home',
+    previous(state) {
+      if (isCCAudiology(state)) {
+        return 'audiologyCareType';
+      }
+      // TODO: If user is not CC eligible, return to page prior to typeOfFacility
+      return 'typeOfFacility';
+    },
   },
 };

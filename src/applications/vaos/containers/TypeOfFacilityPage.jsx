@@ -12,17 +12,17 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['typeOfFacility'],
+  required: ['facilityType'],
   properties: {
-    typeOfFacility: {
+    facilityType: {
       type: 'string',
-      enum: ['vamc', 'cc'],
+      enum: ['vamc', 'communityCare'],
     },
   },
 };
 
 const uiSchema = {
-  typeOfFacility: {
+  facilityType: {
     'ui:title':
       'You are eligible to see either a VA provider or community care provider for this type of service.',
     'ui:widget': 'radio',
@@ -38,7 +38,7 @@ const uiSchema = {
             </span>
           </>
         ),
-        cc: (
+        communityCare: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               Community care facility

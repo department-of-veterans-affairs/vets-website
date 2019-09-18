@@ -18,7 +18,7 @@ const routes = (
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfCarePage} />
       <Route path="contact-info" component={ContactInfoPage} />
-      <Route path="facility" component={TypeOfFacilityPage} />
+      <Route path="choose-facility-type" component={TypeOfFacilityPage} />
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
