@@ -8,10 +8,11 @@ const fs = require('fs-extra');
  *
  * Returns the Proxy.
  * @param {Object} rawFlags - The CMS feature flags to use
+ * @param {Bool} shouldLog - Whether to log any missing flags or not
  * @return {Proxy} - A Proxy containing all the feature flags; throws
  *                   an error if a flag is called without existing
  */
-function useFlags(rawFlags) {
+function useFlags(rawFlags, shouldLog = true) {
   const p = new Proxy(rawFlags, {
     get(obj, prop) {
       if (prop in obj) {
@@ -27,7 +28,7 @@ function useFlags(rawFlags) {
         'inspect',
         'Symbol(Symbol.iterator)',
       ];
-      if (!ignoreList.includes(prop.toString())) {
+      if (!ignoreList.includes(prop.toString()) && shouldLog) {
         // eslint-disable-next-line no-console
         console.error(
           `Could not find query flag ${prop.toString()}. This could be a typo or the feature flag wasn't returned from Drupal.`,

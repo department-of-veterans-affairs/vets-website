@@ -560,3 +560,13 @@ img[data-srcset] {
 .usa-accordion-bordered > ul li ul {
     list-style: square;
 }
+
+.no-left-button-right-radius-treatment {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.no-right-button-left-radius-treatment {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
