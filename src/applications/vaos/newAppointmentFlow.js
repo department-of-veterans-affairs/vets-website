@@ -36,8 +36,6 @@ export default {
     next(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
-      } else if (getFormData(state).facilityType === 'communityCare') {
-        return 'contactInfo';
       }
 
       return 'contactInfo';
