@@ -1,11 +1,11 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 
-export const StemScholarshipNotification = () => {
+export const BenefitNotification = () => {
   // prod flag for story 19656
   if (environment.isProduction())
     return (
-      <div className="stem-notification">
+      <div className="benefit-notification">
         <span className="usa-label">New</span>
         <div className="feature">
           <h4>The Edith Nourse Rogers STEM Scholarship</h4>
@@ -30,7 +30,7 @@ export const StemScholarshipNotification = () => {
       </div>
     );
   return (
-    <div className="stem-notification">
+    <div className="benefit-notification">
       <span className="usa-label">New</span>
       <div className="feature">
         <h4>Attending classes at an extension campus?</h4>
@@ -61,4 +61,4 @@ export const StemScholarshipNotification = () => {
   );
 };
 
-export default StemScholarshipNotification;
+export default BenefitNotification;
