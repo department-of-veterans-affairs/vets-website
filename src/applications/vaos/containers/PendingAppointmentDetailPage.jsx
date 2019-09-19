@@ -10,6 +10,7 @@ import { fetchPendingAppointments } from '../actions/appointments';
 import { FETCH_STATUS, TIME_TEXT, PURPOSE_TEXT } from '../utils/constants';
 import { selectPendingAppointment } from '../utils/selectors';
 import { formatTimeToCall } from '../utils/formatters';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 function formatDate(date) {
   const parsedDate = moment(date, 'MM/DD/YYYY');
@@ -21,7 +22,7 @@ function formatDate(date) {
   return parsedDate.format('MMMM D, YYYY');
 }
 
-export class PendingAppointmentPage extends React.Component {
+export class PendingAppointmentDetailPage extends React.Component {
   componentDidMount() {
     this.props.fetchPendingAppointments();
     focusElement('h1');
@@ -32,6 +33,11 @@ export class PendingAppointmentPage extends React.Component {
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        <Breadcrumbs>
+          <Link to="appointments">Your appointments</Link>
+          <Link to="appointments/pending">Pending appointments</Link>
+          <Link to="appointments/pending">Appointment details</Link>
+        </Breadcrumbs>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
             <Link to="appointments/pending">
@@ -121,7 +127,7 @@ export class PendingAppointmentPage extends React.Component {
   }
 }
 
-PendingAppointmentPage.propTypes = {
+PendingAppointmentDetailPage.propTypes = {
   appointment: PropTypes.object,
   status: PropTypes.string.isRequired,
 };
@@ -140,4 +146,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PendingAppointmentPage);
+)(PendingAppointmentDetailPage);

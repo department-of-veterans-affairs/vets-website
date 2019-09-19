@@ -4,6 +4,8 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+const { cmsFeatureFlags } = global;
+
 module.exports = `
  fragment bioPage on NodePersonProfile {
   ${entityElementsFromPages}
@@ -33,10 +35,10 @@ module.exports = `
           alt
           title
           url
-          derivative(style: CROP32) {
-            url
-            width
-            height
+          ${
+            cmsFeatureFlags.FEATURE_IMAGE_STYLE_23
+              ? 'derivative(style: _23MEDIUMTHUMBNAIL) {url width height}'
+              : 'derivative(style: CROP32) {url width height}'
           }
         }
       }

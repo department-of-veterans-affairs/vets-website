@@ -47,20 +47,19 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pendingStatus).to.equal(FETCH_STATUS.loading);
   });
 
-  it('should populate confirmed with appointments with FETCH_CONFIRMED_APPOINTMENTS_SUCCEDED', () => {
+  it('should populate confirmed with appointments with FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
       data: {
-        appointmentRequests: [
-          { id: 1, status: 'Booked' },
-          { id: 2, status: 'Booked' },
-        ],
+        vaAppointments: [{ appointmentTime: '05/29/2019 05:30:00' }],
+        ccAppointments: [{ startDate: '2019-04-30T05:35:00' }],
       },
     };
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.confirmedStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.confirmed.length).to.equal(2);
+    expect(newState.confirmed[0]).to.equal(action.data.ccAppointments[0]);
   });
 
   it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
