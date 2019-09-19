@@ -36,7 +36,7 @@ export default {
         getFormData(state).facilityType === 'communityCare' &&
         getFormData(state).typeOfCareId === AUDIOLOGY
       ) {
-        return 'audiologyDecision';
+        return 'audiologyCareType';
       } else if (getFormData(state).facilityType === 'communityCare') {
         return 'preferredDates';
       }
@@ -44,5 +44,15 @@ export default {
       return 'vaLocation';
     },
     previous: 'typeOfCare',
+  },
+  audiologyCareType: {
+    url: '/new-appointment/audiology',
+    next: 'preferredDates',
+    previous: 'typeOfFacility',
+  },
+  ccProvider: {
+    url: '/new-appointment/community-care-provider',
+    next: 'home',
+    previous: 'contactInfo',
   },
 };

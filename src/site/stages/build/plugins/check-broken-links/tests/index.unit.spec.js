@@ -5,6 +5,7 @@ const sinon = require('sinon');
 
 const checkBrokenLinks = require('../index');
 
+const buildOptions = {};
 const getBrokenLinks = sinon.stub();
 const applyIgnoredRoutes = sinon.stub();
 const getErrorOutput = sinon.stub();
@@ -18,6 +19,7 @@ const files = {
 const done = sinon.stub();
 
 const middleware = checkBrokenLinks(
+  buildOptions,
   getBrokenLinks,
   applyIgnoredRoutes,
   getErrorOutput,
@@ -45,6 +47,7 @@ describe('build/check-broken-links', () => {
   });
 
   beforeEach(() => {
+    buildOptions['drupal-fail-fast'] = false;
     console.log.reset();
     getBrokenLinks.resetHistory();
     applyIgnoredRoutes.resetHistory();
@@ -104,5 +107,16 @@ describe('build/check-broken-links', () => {
     middleware(files, null, done);
     expect(console.log.firstCall.args[0]).to.be.equal('broken links!');
     expect(done.firstCall.args[0]).to.be.undefined;
+  });
+
+  it('logs errors and calls done without arguments', () => {
+    setBrokenLinksPerPage(0);
+    setTotalBrokenPages(5);
+    setErrorOutput('broken links!');
+
+    buildOptions['drupal-fail-fast'] = true;
+
+    middleware(files, null, done);
+    expect(done.firstCall.args[0]).to.equal('broken links!');
   });
 });

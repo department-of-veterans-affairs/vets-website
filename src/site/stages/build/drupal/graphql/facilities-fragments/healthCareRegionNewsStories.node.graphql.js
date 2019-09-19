@@ -14,7 +14,7 @@ const NEWS_STORIES_RESULTS = `
             image {
               alt
               title
-              derivative(style: CROP_3_2) {
+              derivative(style: _32MEDIUMTHUMBNAIL) {
                   url
                   width
                   height
