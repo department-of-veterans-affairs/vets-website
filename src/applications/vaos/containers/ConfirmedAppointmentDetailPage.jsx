@@ -13,7 +13,7 @@ import {
   getAppointmentDateTime,
 } from '../utils/appointment';
 
-export class ConfirmedAppointmentPage extends React.Component {
+export class ConfirmedAppointmentDetailPage extends React.Component {
   componentDidMount() {
     this.props.fetchConfirmedAppointments();
     focusElement('h1');
@@ -61,7 +61,7 @@ export class ConfirmedAppointmentPage extends React.Component {
   }
 }
 
-ConfirmedAppointmentPage.propTypes = {
+ConfirmedAppointmentDetailPage.propTypes = {
   appointment: PropTypes.object,
   status: PropTypes.string.isRequired,
 };
@@ -80,4 +80,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConfirmedAppointmentPage);
+)(ConfirmedAppointmentDetailPage);

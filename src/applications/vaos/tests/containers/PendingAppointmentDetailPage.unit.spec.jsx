@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import { PendingAppointmentPage } from '../../containers/PendingAppointmentPage';
+import { PendingAppointmentDetailPage } from '../../containers/PendingAppointmentDetailPage';
 
-describe('VAOS <PendingAppointmentPage>', () => {
+describe('VAOS <PendingAppointmentDetailPage>', () => {
   it('should render a loading indicator', () => {
     const fetchPendingAppointments = sinon.spy();
     const tree = shallow(
-      <PendingAppointmentPage
+      <PendingAppointmentDetailPage
         fetchPendingAppointments={fetchPendingAppointments}
         status="loading"
       />,
@@ -30,7 +30,7 @@ describe('VAOS <PendingAppointmentPage>', () => {
       phoneNumber: '555 555-5555',
     };
     const tree = shallow(
-      <PendingAppointmentPage
+      <PendingAppointmentDetailPage
         fetchPendingAppointments={fetchPendingAppointments}
         appointment={appointment}
         status="succeeded"
@@ -54,7 +54,7 @@ describe('VAOS <PendingAppointmentPage>', () => {
       phoneNumber: '555 555-5555',
     };
     const tree = shallow(
-      <PendingAppointmentPage
+      <PendingAppointmentDetailPage
         fetchPendingAppointments={fetchPendingAppointments}
         appointment={appointment}
         status="succeeded"
@@ -75,7 +75,7 @@ describe('VAOS <PendingAppointmentPage>', () => {
       phoneNumber: '555 555-5555',
     };
     const tree = shallow(
-      <PendingAppointmentPage
+      <PendingAppointmentDetailPage
         fetchPendingAppointments={fetchPendingAppointments}
         appointment={appointment}
         status="succeeded"

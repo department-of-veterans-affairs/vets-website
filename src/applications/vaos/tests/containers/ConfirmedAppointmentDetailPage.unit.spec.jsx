@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import { ConfirmedAppointmentPage } from '../../containers/ConfirmedAppointmentPage';
+import { ConfirmedAppointmentDetailPage } from '../../containers/ConfirmedAppointmentDetailPage';
 
-describe('VAOS <ConfirmedAppointmentPage>', () => {
+describe('VAOS <ConfirmedAppointmentDetailPage>', () => {
   describe('VA appointment', () => {
     const appointment = {
       startDate: '2019-08-16T18:57:00',
@@ -23,7 +23,7 @@ describe('VAOS <ConfirmedAppointmentPage>', () => {
     it('should render a loading indicator', () => {
       const fetchConfirmedAppointments = sinon.spy();
       const tree = shallow(
-        <ConfirmedAppointmentPage
+        <ConfirmedAppointmentDetailPage
           fetchConfirmedAppointments={fetchConfirmedAppointments}
           status="loading"
         />,
@@ -37,7 +37,7 @@ describe('VAOS <ConfirmedAppointmentPage>', () => {
     it('should render confirmed appointment', () => {
       const fetchConfirmedAppointments = sinon.spy();
       const tree = shallow(
-        <ConfirmedAppointmentPage
+        <ConfirmedAppointmentDetailPage
           fetchConfirmedAppointments={fetchConfirmedAppointments}
           appointment={appointment}
           status="succeeded"
