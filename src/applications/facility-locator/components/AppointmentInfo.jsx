@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { get, some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -113,7 +113,7 @@ export default class AppointmentInfo extends Component {
         );
 
       return (
-        <Fragment>
+        <>
           <li key="specialty-care">Specialty care:</li>
           <ul className="sublist">
             {firstThree.map(k =>
@@ -134,7 +134,7 @@ export default class AppointmentInfo extends Component {
               </button>
             </li>
           </ul>
-        </Fragment>
+        </>
       );
     };
 
