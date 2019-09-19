@@ -7,12 +7,14 @@ import { fetchRatedDisabilities } from '../actions';
 // Wonder if we can put RD data in platform...
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RatedDisabilityView from '../components/RatedDisabilityView';
+// import RatedDisabilityHeader from '../components/RatedDisabilityHeader';
 
 class RatedDisabilitiesApp extends React.Component {
   render() {
     const { ratedDisabilities } = this.props.ratedDisabilities;
     return (
       <>
+        {/* <RatedDisabilityHeader /> */}
         <RequiredLoginView
           authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}

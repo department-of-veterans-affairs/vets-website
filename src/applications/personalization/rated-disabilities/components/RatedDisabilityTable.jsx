@@ -50,7 +50,7 @@ class RatedDisabilityTable extends React.Component {
 
   render() {
     if (!this.props.ratedDisabilities) {
-      return <h1>Loading!</h1>;
+      return <h5>&nbsp;</h5>; // Don't need load indicator
     }
 
     if (this.props.ratedDisabilities.error) {
@@ -68,13 +68,16 @@ class RatedDisabilityTable extends React.Component {
         </>
       );
     }
+
     const formattedDisabilities = this.formalizeData(
       this.props.ratedDisabilities.ratedDisabilities,
     );
 
     return (
       <div className="vads-u-width--full">
-        <h2 className="va-profile-heading">Your Rated disabilities</h2>
+        <h2 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin-y--1">
+          Your rated disabilities
+        </h2>
         <SortableTable
           className="va-table"
           currentSort={{ value: 'String', order: 'ASC' }}
