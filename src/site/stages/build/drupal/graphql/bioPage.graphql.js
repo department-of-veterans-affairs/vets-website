@@ -4,6 +4,8 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+const { cmsFeatureFlags } = global;
+
 module.exports = `
  fragment bioPage on NodePersonProfile {
   ${entityElementsFromPages}
