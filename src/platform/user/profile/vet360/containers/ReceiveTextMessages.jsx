@@ -17,6 +17,7 @@ import {
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
+import { isEmptyBindingElement } from 'typescript';
 
 class ReceiveTextMessages extends React.Component {
   state = {
@@ -114,11 +115,11 @@ class ReceiveTextMessages extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
   const { transaction } = selectVet360Transaction(state, fieldName);
-  const hasError = transaction && isFailedTransaction(transaction);
-  const isPending = transaction && isPendingTransaction(transaction);
+  const hasError = !!(transaction && isFailedTransaction(transaction));
+  const isPending = !!(transaction && isPendingTransaction(transaction));
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable = !isEmpty && profileState.vet360.mobilePhone.isTextable;
@@ -139,7 +140,7 @@ const mapStateToProps = (state, ownProps) => {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     apiRoute: VET360.API_ROUTES.TELEPHONES,
   };
-};
+}
 
 const mapDispatchToProps = {
   getEnrollmentStatus: getEnrollmentStatusAction,
@@ -151,4 +152,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ReceiveTextMessages);
+
 export { ReceiveTextMessages };
