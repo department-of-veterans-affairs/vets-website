@@ -40,7 +40,7 @@ export const BenefitNotification = () => {
           the majority of your classes.
         </p>
         <p>
-          To estimate your MHA benefit, you can go a school or employer's
+          To estimate your MHA benefit, you can go to a school or employer's
           profile page in the GI Bill Comparison Tool and answer the question
           "Where will you take the majority of your classes?"
         </p>
