@@ -26,7 +26,7 @@ module.exports = `
                         title
                         width
                         height
-                        derivative(style: CROP_FREEFORM) {
+                        derivative(style: _32MEDIUMTHUMBNAIL) {
                           url
                           width
                           height
