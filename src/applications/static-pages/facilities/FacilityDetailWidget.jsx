@@ -20,7 +20,7 @@ export class FacilityDetailWidget extends React.Component {
 
     // Sort and compile facility hours into a list
     const hours = facilityDetail.attributes.hours;
-    const builtHours = buildHours(hours);
+    const builtHours = buildHours(hours, true);
 
     return (
       <div key={facilityDetail.id} className="vads-c-facility-detail">
@@ -33,9 +33,16 @@ export class FacilityDetailWidget extends React.Component {
                 Clinical Hours
               </h3>
               <ul className="va-c-facility-hours-list vads-u-margin-top--0">
-                {builtHours.map((day, index) => (
-                  <li key={index}>{day}</li>
-                ))}
+                {builtHours.map((day, index) => {
+                  const splitDay = day.split(': ');
+                  const abbrvDay = splitDay[0];
+                  const times = splitDay[1];
+                  return (
+                    <li key={index}>
+                      <b className="abbrv-day">{abbrvDay}:</b> {times}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

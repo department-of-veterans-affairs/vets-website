@@ -50,4 +50,9 @@ export default {
     next: 'preferredDates',
     previous: 'typeOfFacility',
   },
+  ccProvider: {
+    url: '/new-appointment/community-care-provider',
+    next: 'home',
+    previous: 'contactInfo',
+  },
 };
