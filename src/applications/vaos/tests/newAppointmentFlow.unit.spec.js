@@ -15,7 +15,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('audiologyDecision');
+      expect(nextState).to.equal('audiologyCareType');
     });
 
     it('next should choose preferred dates page if CC chosen', () => {

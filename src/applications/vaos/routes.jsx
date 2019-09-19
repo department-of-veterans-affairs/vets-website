@@ -9,6 +9,7 @@ import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
 import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
+import TypeOfAudiologyCarePage from './containers/TypeOfAudiologyCarePage';
 import ConfirmedAppointmentsListPage from './containers/ConfirmedAppointmentsListPage';
 import ContactInfoPage from './containers/ContactInfoPage';
 
@@ -18,6 +19,7 @@ const routes = (
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfCarePage} />
       <Route path="contact-info" component={ContactInfoPage} />
+      <Route path="audiology" component={TypeOfAudiologyCarePage} />
       <Route
         path="community-care-provider"
         component={CommunityCareProviderPage}
