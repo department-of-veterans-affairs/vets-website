@@ -18,7 +18,7 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('audiologyCareType');
     });
 
-    it('next should choose preferred dates page if CC chosen', () => {
+    it('next should choose contact info page if CC chosen', () => {
       const state = {
         newAppointment: {
           data: {
@@ -29,10 +29,24 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('preferredDates');
+      expect(nextState).to.equal('contactInfo');
     });
 
-    it('next should choose va facility page if not CC', () => {
+    it('next should choose audiology options page if CC and audiology is chosen', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.typeOfFacility.next(state);
+      expect(nextState).to.equal('audiologyCareType');
+    });
+
+    it('next should choose contact info page if not CC', () => {
       const state = {
         newAppointment: {
           data: {
@@ -43,7 +57,35 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('vaLocation');
+      expect(nextState).to.equal('contactInfo');
+    });
+
+    it('previous should choose audiologyCareType page if CC and audiology', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const prevState = newAppointmentFlow.contactInfo.previous(state);
+      expect(prevState).to.equal('audiologyCareType');
+    });
+
+    it('previous should choose typeOfFacility page if not CC and audiology', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'va',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const prevState = newAppointmentFlow.contactInfo.previous(state);
+      expect(prevState).to.equal('typeOfFacility');
     });
   });
 });
