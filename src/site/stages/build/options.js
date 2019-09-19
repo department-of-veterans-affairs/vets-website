@@ -31,6 +31,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'asset-source', type: String, defaultValue: assetSources.LOCAL },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'pull-drupal', type: Boolean, defaultValue: false },
+  { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,

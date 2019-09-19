@@ -168,7 +168,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createSitemaps(BUILD_OPTIONS));
   smith.use(createRedirects(BUILD_OPTIONS));
-  smith.use(checkBrokenLinks());
+  smith.use(checkBrokenLinks(BUILD_OPTIONS));
   smith.use(checkForCMSUrls(BUILD_OPTIONS));
 
   /* eslint-disable no-console */
