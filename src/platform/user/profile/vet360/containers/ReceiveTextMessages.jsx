@@ -17,7 +17,6 @@ import {
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
-import { isEmptyBindingElement } from 'typescript';
 
 class ReceiveTextMessages extends React.Component {
   state = {
