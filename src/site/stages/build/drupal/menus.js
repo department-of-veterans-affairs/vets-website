@@ -289,15 +289,26 @@ function formatHeaderData(buildOptions, contentData) {
       if (arrayDepth === 3) {
         linkObj.menuSections = [];
         link.children.forEach(child => {
-          linkObj.menuSections.push(
-            makeSection(
-              hostUrl,
-              child,
-              arrayDepth,
-              child.fieldPromoReference,
-              pages,
-            ),
-          );
+          // These are hubs with child links.
+          if (child.children.length > 0) {
+            linkObj.menuSections.push(
+              makeSection(
+                hostUrl,
+                child,
+                arrayDepth,
+                child.fieldPromoReference,
+                pages,
+              ),
+            );
+          } else {
+            // 2 hubs just have a single link. Unlike the usual pattern, these
+            // must have both 'title' and 'text' properties in addition to 'href'.
+            const childLinkObj = {
+              title: child.title,
+              ...createLinkObj(hostUrl, child),
+            };
+            linkObj.menuSections.push(childLinkObj);
+          }
         });
       } else {
         // For menu tabs with a depth < 3, like our 'About VA' tab.
