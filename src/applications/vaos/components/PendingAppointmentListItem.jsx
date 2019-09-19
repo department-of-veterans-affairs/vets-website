@@ -13,7 +13,7 @@ function formatDate(date) {
   return parsedDate.format('MMMM D, YYYY');
 }
 
-export default function PendingAppointment({ appointment }) {
+export default function PendingAppointmentListItem({ appointment }) {
   const isCommunityCare = !!appointment.ccAppointmentRequest;
 
   return (

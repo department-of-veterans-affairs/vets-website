@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { focusElement } from 'platform/utilities/ui';
 import { fetchPendingAppointments } from '../actions/appointments';
-import PendingAppointment from '../components/PendingAppointment';
+import PendingAppointmentListItem from '../components/PendingAppointmentListItem';
 import { FETCH_STATUS } from '../utils/constants';
 
-export class PendingAppointmentsPage extends React.Component {
+export class PendingAppointmentListPage extends React.Component {
   componentDidMount() {
     this.props.fetchPendingAppointments();
     focusElement('h1');
@@ -31,7 +31,7 @@ export class PendingAppointmentsPage extends React.Component {
             {status === FETCH_STATUS.succeeded && (
               <ul className="usa-unstyled-list">
                 {appointments.map(appt => (
-                  <PendingAppointment
+                  <PendingAppointmentListItem
                     key={appt.appointmentRequestId}
                     appointment={appt}
                   />
@@ -59,4 +59,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PendingAppointmentsPage);
+)(PendingAppointmentListPage);
