@@ -115,7 +115,7 @@ export default class AppointmentInfo extends Component {
       return (
         <>
           <li key="specialty-care">Specialty care:</li>
-          <ul className="sublist">
+          <ul className="vads-u-padding-left--0">
             {firstThree.map(k =>
               renderStat(
                 startCase(k.replace(/([A-Z])/g, ' $1')),
