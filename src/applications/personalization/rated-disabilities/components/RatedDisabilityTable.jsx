@@ -16,20 +16,62 @@ class RatedDisabilityTable extends React.Component {
     this.props.fetchRatedDisabilities();
   }
 
-  noDisabilityRatingContent = () => (
-    <>
-      <p>
-        We can't find a disability rating matched with the name, date of birth,
-        and social secuity number you provided in our Veteran records.
-      </p>
-      <h4>What you can do</h4>
-      <p>
-        If you feel your information is correct, please call the VA.gov
-        1-855-574-7286. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-        (ET).
-      </p>
-    </>
-  );
+  noDisabilityRatingContent = errorCode => {
+    let headline;
+    let content;
+    let status;
+    switch (errorCode) {
+      case '500':
+        headline = 'Rated disabilities error';
+        status = 'error';
+        content = (
+          <>
+            <p>
+              We're sorry. An error occurred when accessing your disability
+              rating information.
+            </p>
+            <h4>What you can do</h4>
+            <p>
+              Sign out of VA.gov, then log back in to try this page again. If
+              the error continues, please call the VA.gov Help Desk at
+              1-855-574-7286 (TTY:1-800-829-4833). We're here Monday-Friday,
+              8:00 a.m. - 8:00 p.m. (ET).
+            </p>
+          </>
+        );
+        break;
+      default:
+        headline = 'No disability rating found';
+        status = 'info';
+        content = (
+          <>
+            <p>
+              We sorry. We can't find a disability rating matched with the name,
+              date of birth, and social secuity number you provided in our
+              Veteran records.
+            </p>
+            <h4>What you can do</h4>
+            <p>
+              If you feel your information is correct, please call the VA.gov
+              1-855-574-7286. We're here Monday through Friday, 8:00 a.m. to
+              8:00 p.m. (ET).
+            </p>
+          </>
+        );
+        break;
+    }
+
+    return (
+      <>
+        <AlertBox
+          headline={headline}
+          content={content}
+          status={status}
+          isVisible
+        />
+      </>
+    );
+  };
 
   // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData = data => {
@@ -52,18 +94,13 @@ class RatedDisabilityTable extends React.Component {
     if (!this.props.ratedDisabilities) {
       return <h5>&nbsp;</h5>; // Don't need load indicator
     }
-
-    if (this.props.ratedDisabilities.error) {
+    // Display error message based on error type.
+    if (this.props.ratedDisabilities.errors) {
+      const code = this.props.ratedDisabilities.errors[0].code;
       return (
         <>
-          <h2 className="va-profile-heading">Rated disabilities</h2>
           <div className="usa-width-one-whole">
-            <AlertBox
-              headline="No disability rating found"
-              content={this.noDisabilityRatingContent()}
-              status="info"
-              isVisible
-            />
+            {this.noDisabilityRatingContent(code)}
           </div>
         </>
       );
