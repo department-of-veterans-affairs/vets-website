@@ -21,7 +21,7 @@ function formatDate(date) {
   return parsedDate.format('MMMM D, YYYY');
 }
 
-export class PendingAppointmentPage extends React.Component {
+export class PendingAppointmentDetailPage extends React.Component {
   componentDidMount() {
     this.props.fetchPendingAppointments();
     focusElement('h1');
@@ -121,7 +121,7 @@ export class PendingAppointmentPage extends React.Component {
   }
 }
 
-PendingAppointmentPage.propTypes = {
+PendingAppointmentDetailPage.propTypes = {
   appointment: PropTypes.object,
   status: PropTypes.string.isRequired,
 };
@@ -140,4 +140,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PendingAppointmentPage);
+)(PendingAppointmentDetailPage);
