@@ -45,4 +45,9 @@ export default {
     },
     previous: 'typeOfCare',
   },
+  ccProvider: {
+    url: '/new-appointment/community-care-provider',
+    next: 'home',
+    previous: 'contactInfo',
+  },
 };

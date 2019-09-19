@@ -5,6 +5,7 @@ import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 // import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
 import TypeOfCarePage from './containers/TypeOfCarePage';
+import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
 import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
@@ -17,6 +18,10 @@ const routes = (
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfCarePage} />
       <Route path="contact-info" component={ContactInfoPage} />
+      <Route
+        path="community-care-provider"
+        component={CommunityCareProviderPage}
+      />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
     <Route path="appointments/pending" component={PendingAppointmentsPage} />
