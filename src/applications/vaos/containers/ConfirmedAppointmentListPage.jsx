@@ -9,7 +9,7 @@ import { FETCH_STATUS } from '../utils/constants';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getAppointmentId } from '../utils/appointment';
 
-export class ConfirmedAppointmentsListPage extends React.Component {
+export class ConfirmedAppointmentListPage extends React.Component {
   componentDidMount() {
     this.props.fetchConfirmedAppointments();
     focusElement('h1');
@@ -64,4 +64,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ConfirmedAppointmentsListPage);
+)(ConfirmedAppointmentListPage);

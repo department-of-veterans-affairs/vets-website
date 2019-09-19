@@ -14,13 +14,19 @@ export const VetTecScoContact = (sco, header) => {
             <div>
               <a href={`mailto:${sco.email}`}>{sco.email}</a>
             </div>
-            <div>
-              <a href={`tel:+1${`${sco.phoneAreaCode}-${sco.phoneNumber}`}`}>
-                {sco.phoneAreaCode}
-                {'-'}
-                {sco.phoneNumber}
-              </a>
-            </div>
+            {sco.phoneAreaCode &&
+              sco.phoneNumber && (
+                <div>
+                  <a
+                    href={`tel:+1${`${sco.phoneAreaCode}-${sco.phoneNumber}`}`}
+                  >
+                    {sco.phoneAreaCode}
+                    {'-'}
+                    {sco.phoneNumber}
+                  </a>
+                  {sco.phoneExtension && ` ext. ${sco.phoneExtension}`}
+                </div>
+              )}
           </div>
         </div>
       </div>
