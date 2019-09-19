@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import { ConfirmedAppointmentsListPage } from '../../containers/ConfirmedAppointmentsListPage';
+import { ConfirmedAppointmentListPage } from '../../containers/ConfirmedAppointmentListPage';
 
-describe('VAOS <ConfirmedAppointmentsListPage>', () => {
+describe('VAOS <ConfirmedAppointmentListPage>', () => {
   it('should render a loading indicator', () => {
     const fetchConfirmedAppointments = sinon.spy();
     const form = shallow(
-      <ConfirmedAppointmentsListPage
+      <ConfirmedAppointmentListPage
         fetchConfirmedAppointments={fetchConfirmedAppointments}
         status="loading"
       />,
@@ -25,7 +25,7 @@ describe('VAOS <ConfirmedAppointmentsListPage>', () => {
     const appointments = [{}, {}];
 
     const form = shallow(
-      <ConfirmedAppointmentsListPage
+      <ConfirmedAppointmentListPage
         fetchConfirmedAppointments={fetchConfirmedAppointments}
         status="succeeded"
         appointments={appointments}

@@ -65,7 +65,7 @@ export class TypeOfAppointmentPage extends React.Component {
     const { schema, data } = this.props;
 
     return (
-      <div className="vaos-form__appt-type">
+      <div className="vaos-form__detailed-radio">
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"

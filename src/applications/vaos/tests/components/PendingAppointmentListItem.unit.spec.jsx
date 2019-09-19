@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import PendingAppointment from '../../components/PendingAppointment';
+import PendingAppointmentListItem from '../../components/PendingAppointmentListItem';
 
-describe('VAOS <PendingAppointment>', () => {
+describe('VAOS <PendingAppointmentListItem>', () => {
   it('should render pending VA appointment item', () => {
     const appointment = {
       appointmentType: 'Testing',
@@ -18,7 +18,9 @@ describe('VAOS <PendingAppointment>', () => {
       },
       appointmentRequestId: 'guid',
     };
-    const tree = shallow(<PendingAppointment appointment={appointment} />);
+    const tree = shallow(
+      <PendingAppointmentListItem appointment={appointment} />,
+    );
 
     expect(tree.find('h2').text()).to.equal(appointment.appointmentType);
     expect(
@@ -58,7 +60,9 @@ describe('VAOS <PendingAppointment>', () => {
         preferredState: 'NH',
       },
     };
-    const tree = shallow(<PendingAppointment appointment={appointment} />);
+    const tree = shallow(
+      <PendingAppointmentListItem appointment={appointment} />,
+    );
 
     expect(tree.find('h2').text()).to.equal(appointment.appointmentType);
     expect(

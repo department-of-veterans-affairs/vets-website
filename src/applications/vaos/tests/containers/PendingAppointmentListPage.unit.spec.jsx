@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import { PendingAppointmentsPage } from '../../containers/PendingAppointmentsPage';
+import { PendingAppointmentListPage } from '../../containers/PendingAppointmentListPage';
 
-describe('VAOS <PendingAppointmentsPage>', () => {
+describe('VAOS <PendingAppointmentListPage>', () => {
   it('should render a loading indicator', () => {
     const fetchPendingAppointments = sinon.spy();
     const form = shallow(
-      <PendingAppointmentsPage
+      <PendingAppointmentListPage
         fetchPendingAppointments={fetchPendingAppointments}
         status="loading"
       />,
@@ -24,7 +24,7 @@ describe('VAOS <PendingAppointmentsPage>', () => {
     const fetchPendingAppointments = sinon.spy();
     const appointments = [{}, {}];
     const form = shallow(
-      <PendingAppointmentsPage
+      <PendingAppointmentListPage
         fetchPendingAppointments={fetchPendingAppointments}
         status="succeeded"
         appointments={appointments}
@@ -33,7 +33,7 @@ describe('VAOS <PendingAppointmentsPage>', () => {
 
     expect(fetchPendingAppointments.called).to.be.true;
     expect(form.find('LoadingIndicator').exists()).to.be.false;
-    expect(form.find('PendingAppointment').length).to.equal(2);
+    expect(form.find('PendingAppointmentListItem').length).to.equal(2);
     form.unmount();
   });
 });

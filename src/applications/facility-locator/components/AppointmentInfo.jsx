@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { get, some, pull, startCase } from 'lodash';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -112,26 +112,30 @@ export default class AppointmentInfo extends Component {
           ),
         );
 
-      return [
-        <li key="specialty-care">Specialty care:</li>,
-        firstThree.map(k =>
-          renderStat(
-            startCase(k.replace(/([A-Z])/g, ' $1')),
-            healthAccessAttrs[k][existing ? 'established' : 'new'],
-            true,
-          ),
-        ),
-        lastToEnd.length > 0 && renderMoreTimes(),
-        <li key="show-more" className="show-more">
-          <button
-            onClick={onClick}
-            className={seeMoreClasses}
-            aria-expanded={this.state[showHideKey] ? 'true' : 'false'}
-          >
-            See {this.state[showHideKey] ? 'less' : 'more'}
-          </button>
-        </li>,
-      ];
+      return (
+        <Fragment>
+          <li key="specialty-care">Specialty care:</li>
+          <ul className="sublist">
+            {firstThree.map(k =>
+              renderStat(
+                startCase(k.replace(/([A-Z])/g, ' $1')),
+                healthAccessAttrs[k][existing ? 'established' : 'new'],
+                true,
+              ),
+            )}
+            {lastToEnd.length > 0 && renderMoreTimes()}
+            <li key="show-more" className="show-more">
+              <button
+                onClick={onClick}
+                className={seeMoreClasses}
+                aria-expanded={this.state[showHideKey] ? 'true' : 'false'}
+              >
+                See {this.state[showHideKey] ? 'less' : 'more'}
+              </button>
+            </li>
+          </ul>
+        </Fragment>
+      );
     };
 
     return (

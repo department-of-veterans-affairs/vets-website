@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import DowntimeNotification, {
   externalServices,
@@ -7,7 +8,6 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
-import featureFlags from '../featureFlags';
 
 import Vet360TransactionReporter from 'vet360/containers/TransactionReporter';
 
@@ -21,14 +21,17 @@ import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
-const ProfileTOC = ({ militaryInformation }) => (
+import { profileShowDirectDeposit } from '../selectors';
+import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
+
+const ProfileTOC = ({ militaryInformation, showDirectDeposit }) => (
   <>
     <h2 className="vads-u-font-size--h3">On this page</h2>
     <ul>
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      {featureFlags.directDeposit && <PaymentInformationTOCItem />}
+      {showDirectDeposit && <PaymentInformationTOCItem />}
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
@@ -83,6 +86,7 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
+      showDirectDeposit,
     } = this.props;
 
     let content;
@@ -107,10 +111,13 @@ class ProfileView extends React.Component {
                 hero={hero}
                 militaryInformation={militaryInformation}
               />
-              <ProfileTOC militaryInformation={militaryInformation} />
+              <ProfileTOC
+                militaryInformation={militaryInformation}
+                showDirectDeposit={showDirectDeposit}
+              />
               <div id="contact-information" />
               <ContactInformation />
-              {featureFlags.directDeposit && (
+              {showDirectDeposit && (
                 <>
                   <div id="direct-deposit" />
                   <PaymentInformation />
@@ -177,4 +184,12 @@ class ProfileView extends React.Component {
   }
 }
 
-export default ProfileView;
+function mapStateToProps(state) {
+  return {
+    showDirectDeposit: !isProduction(state) && profileShowDirectDeposit(state),
+  };
+}
+
+export default connect(mapStateToProps)(ProfileView);
+
+export { ProfileView };
