@@ -44,47 +44,33 @@ function defaultBuild(BUILD_OPTIONS) {
   smith._use = smith.use;
   let stepCount = 0;
   smith.use = function use(plugin, description) {
-    stepCount++;
+    const step = ++stepCount;
     if (!description) return smith._use(plugin);
 
-    // Wrapped in yet another function so we can get the step count
-    return (step =>
-      smith._use(async (files, metalsmith, done) => {
-        /* eslint-disable no-console */
+    let timer = process.hrtime();
+
+    /* eslint-disable no-console */
+    return smith
+      ._use(() => {
         console.log(chalk.cyan(`\nStep ${step} start: ${description}`));
-        const timer = process.hrtime();
+        timer = process.hrtime();
+      })
+      ._use(plugin)
+      ._use(() => {
+        const time = process.hrtime(timer)[1] / 1000000;
 
-        let calledDone = false;
-        const logAndDone = err => {
-          calledDone = true;
-          const time = process.hrtime(timer)[1] / 1000000;
+        // Color the time
+        let color;
+        if (time < 1000) color = chalk.green;
+        else if (time < 10000) color = chalk.yellow;
+        else color = chalk.red;
+        const coloredTime = color(`[${time}ms]`);
 
-          // Color the time
-          let color;
-          if (time < 1000) color = chalk.green;
-          else if (time < 10000) color = chalk.yellow;
-          else color = chalk.red;
-          const coloredTime = color(`[${time}ms]`);
-
-          console.log(
-            chalk.cyan(`Step ${step} end ${coloredTime}: ${description}`),
-          );
-          done(err);
-        };
-        // Plugins can call done() or not. If they don't, they'll
-        // return a promise, which we'll want to call our function on.
-        const res = plugin(files, metalsmith, logAndDone);
-        console.log(`After plugin call for step ${step}: ${description}`);
-        if (res instanceof Promise) {
-          console.log('  Found a promise!');
-          res.finally(logAndDone);
-          await res;
-        } else if (!calledDone) {
-          logAndDone();
-        }
-        return res;
-        /* eslint-enable no-console */
-      }))(stepCount);
+        console.log(
+          chalk.cyan(`Step ${step} end ${coloredTime}: ${description}`),
+        );
+      });
+    /* eslint-enable no-console */
   };
 
   registerLiquidFilters();
