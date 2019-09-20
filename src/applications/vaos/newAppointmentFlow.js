@@ -8,7 +8,7 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    next: 'contactInfo',
+    next: 'reasonForAppointment',
     // async next(state) {
     //   try {
     //     const data = await apiRequest('/vaos/community-care/eligibility');
@@ -24,10 +24,15 @@ export default {
     // },
     previous: 'home',
   },
+  reasonForAppointment: {
+    url: '/new-appointment/reason-appointment',
+    next: 'contactInfo',
+    previous: 'typeOfCare',
+  },
   contactInfo: {
     url: '/new-appointment/contact-info',
     next: 'home',
-    previous: 'typeOfCare',
+    previous: 'reasonForAppointment',
   },
   typeOfFacility: {
     url: '/new-appointment/type-of-facility',

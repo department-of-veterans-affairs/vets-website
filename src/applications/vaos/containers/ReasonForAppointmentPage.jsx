@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { openFormPage, updateFormData } from '../actions/newAppointment.js';
+import {
+  openFormPage,
+  updateFormData,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -48,7 +54,7 @@ const uiSchema = {
   },
 };
 
-const pageKey = 'reason-appointment';
+const pageKey = 'reasonForAppointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
@@ -56,11 +62,11 @@ export class ReasonForAppointmentPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.router.push('/new-appointment');
+    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/contact-info');
+    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
   };
 
   render() {
@@ -69,7 +75,8 @@ export class ReasonForAppointmentPage extends React.Component {
     return (
       <div className="vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
-          Why do you want to make an appointment?
+          Why do you want to make an
+          <br /> appointment?
         </h1>
         <SchemaForm
           name="Reason for appointment"
@@ -107,15 +114,14 @@ export class ReasonForAppointmentPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    schema: state.newAppointment.pages[pageKey] || initialSchema,
-    data: state.newAppointment.data,
-  };
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
   openFormPage,
   updateFormData,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
 };
 
 export default connect(
