@@ -1,4 +1,5 @@
 // Builds the site using Metalsmith as the top-level build runner.
+const chalk = require('chalk');
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
@@ -48,17 +49,40 @@ function defaultBuild(BUILD_OPTIONS) {
 
     // Wrapped in yet another function so we can get the step count
     return (step =>
-      smith._use((files, metalsmith, done) => {
+      smith._use(async (files, metalsmith, done) => {
         /* eslint-disable no-console */
-        console.log(`Step ${step} start: ${description}`);
+        console.log(chalk.cyan(`\nStep ${step} start: ${description}`));
         const timer = process.hrtime();
-        return plugin(files, metalsmith, err => {
+
+        let calledDone = false;
+        const logAndDone = err => {
+          calledDone = true;
+          const time = process.hrtime(timer)[1] / 1000000;
+
+          // Color the time
+          let color;
+          if (time < 1000) color = chalk.green;
+          else if (time < 10000) color = chalk.yellow;
+          else color = chalk.red;
+          const coloredTime = color(`[${time}ms]`);
+
           console.log(
-            `Step ${step} end [${process.hrtime(timer)[1] /
-              1000000}ms]: ${description}`,
+            chalk.cyan(`Step ${step} end ${coloredTime}: ${description}`),
           );
           done(err);
-        });
+        };
+        // Plugins can call done() or not. If they don't, they'll
+        // return a promise, which we'll want to call our function on.
+        const res = plugin(files, metalsmith, logAndDone);
+        console.log(`After plugin call for step ${step}: ${description}`);
+        if (res instanceof Promise) {
+          console.log('  Found a promise!');
+          res.finally(logAndDone);
+          await res;
+        } else if (!calledDone) {
+          logAndDone();
+        }
+        return res;
         /* eslint-enable no-console */
       }))(stepCount);
   };
