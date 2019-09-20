@@ -63,12 +63,14 @@ class RatedDisabilityTable extends React.Component {
 
     return (
       <>
-        <AlertBox
-          headline={headline}
-          content={content}
-          status={status}
-          isVisible
-        />
+        <div className="vads-u-margin-y--5">
+          <AlertBox
+            headline={headline}
+            content={content}
+            status={status}
+            isVisible
+          />
+        </div>
       </>
     );
   };
