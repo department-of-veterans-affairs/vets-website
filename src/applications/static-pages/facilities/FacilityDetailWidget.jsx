@@ -31,7 +31,7 @@ export class FacilityDetailWidget extends React.Component {
       if (index === 0 || index === 5) {
         el += `<ul class="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 ${
           index === 0
-            ? 'vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--0'
+            ? 'vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--0 vads-u-margin-right--3'
             : 'vads-u-margin-bottom--0'
         }">`;
       }
