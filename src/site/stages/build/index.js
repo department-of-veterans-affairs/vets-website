@@ -47,17 +47,17 @@ function defaultBuild(BUILD_OPTIONS) {
     const step = ++stepCount;
     if (!description) return smith._use(plugin);
 
-    let timer = process.hrtime();
+    let timerStart;
 
     /* eslint-disable no-console */
     return smith
       ._use(() => {
         console.log(chalk.cyan(`\nStep ${step} start: ${description}`));
-        timer = process.hrtime();
+        timerStart = process.hrtime.bigint();
       })
       ._use(plugin)
       ._use(() => {
-        const time = process.hrtime(timer)[1] / 1000000;
+        const time = (process.hrtime.bigint() - timerStart) / 1000000n;
 
         // Color the time
         let color;
