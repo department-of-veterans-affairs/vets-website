@@ -7,7 +7,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
@@ -70,7 +70,7 @@ export class ReasonForAppointmentPage extends React.Component {
   };
 
   render() {
-    const { schema, data } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <div className="vaos-form__detailed-radio">
@@ -89,24 +89,10 @@ export class ReasonForAppointmentPage extends React.Component {
           }
           data={data}
         >
-          <div className="vads-l-row form-progress-buttons schemaform-buttons">
-            <div className="vads-l-col--6 vads-u-padding-right--2p5">
-              <ProgressButton
-                onButtonClick={this.goBack}
-                buttonText="Back"
-                buttonClass="usa-button-secondary vads-u-width--full"
-                beforeText="«"
-              />
-            </div>
-            <div className="vads-l-col--6">
-              <ProgressButton
-                submitButton
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-              />
-            </div>
-          </div>
+          <FormButtons
+            onBack={this.goBack}
+            pageChangeInProgress={pageChangeInProgress}
+          />
         </SchemaForm>
       </div>
     );
