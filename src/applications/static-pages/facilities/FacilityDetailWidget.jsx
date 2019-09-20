@@ -50,12 +50,20 @@ export class FacilityDetailWidget extends React.Component {
     return (
       <div key={facilityDetail.id} className="vads-c-facility-detail">
         <section className="vads-facility-detail">
-          <FacilityAddress facility={facilityDetail} />
+          <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
+            Address
+          </h3>
+          <div className="vads-u-margin-bottom--3">
+            <FacilityAddress facility={facilityDetail} />
+          </div>
+          <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
+            Phone numbers
+          </h3>
           <FacilityPhone facility={facilityDetail} />
           <div className="vads-u-margin-bottom--0">
             <div className="clinicalhours">
               <h3 className="vads-u-margin-top--2p5 vads-u-margin-bottom--1">
-                Clinical Hours
+                Clinical hours
               </h3>
               <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
                 {ReactHtmlParser(clinicalHours.join(''))}
