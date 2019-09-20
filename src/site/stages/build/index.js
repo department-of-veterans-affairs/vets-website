@@ -38,6 +38,31 @@ const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
+
+  // Override the normal use function to provide timing and logging information
+  smith._use = smith.use;
+  let stepCount = 0;
+  smith.use = function use(plugin, description) {
+    stepCount++;
+    if (!description) return smith._use(plugin);
+
+    // Wrapped in yet another function so we can get the step count
+    return (step =>
+      smith._use((files, metalsmith, done) => {
+        /* eslint-disable no-console */
+        console.log(`Step ${step} start: ${description}`);
+        const timer = process.hrtime();
+        return plugin(files, metalsmith, err => {
+          console.log(
+            `Step ${step} end [${process.hrtime(timer)[1] /
+              1000000}ms]: ${description}`,
+          );
+          done(err);
+        });
+        /* eslint-enable no-console */
+      }))(stepCount);
+  };
+
   registerLiquidFilters();
 
   // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
@@ -53,10 +78,13 @@ function defaultBuild(BUILD_OPTIONS) {
     enabledFeatureFlags: BUILD_OPTIONS.cmsFeatureFlags,
   });
 
-  smith.use(createReactPages(BUILD_OPTIONS));
-  smith.use(getDrupalContent(BUILD_OPTIONS));
-  smith.use(addDrupalPrefix(BUILD_OPTIONS));
-  smith.use(createOutreachAssetsData(BUILD_OPTIONS));
+  smith.use(createReactPages(BUILD_OPTIONS), 'Create React pages');
+  smith.use(getDrupalContent(BUILD_OPTIONS), 'Get Drupal content');
+  smith.use(addDrupalPrefix(BUILD_OPTIONS), 'Add Drupal Prefix');
+  smith.use(
+    createOutreachAssetsData(BUILD_OPTIONS),
+    'Create Outreach Assets Data',
+  );
 
   smith.use(createEnvironmentFilter(BUILD_OPTIONS));
 
