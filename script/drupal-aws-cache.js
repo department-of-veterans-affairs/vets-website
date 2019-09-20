@@ -32,11 +32,13 @@ const cacheDirectory = path.join('.cache', options.buildtype, 'drupal');
 
 // Load up the flags into `global` before requiring getDrupalCacheKey,
 // which uses the flags from `global`.
-const buildType = options.buildtype;
-require('../src/site/stages/build/drupal/load-saved-flags').loadFeatureFlags(
-  cacheDirectory,
-  buildType,
-);
+//
+// Setting the query flags to {} so they always evaluate to falsey
+// when constructing the cache key. This means the query will be built
+// the same way regardless of the query flag state. The query flag
+// state _shouldn't_ matter when looking up the cache because it's
+// saved in the cache itself in feature-flags.json.
+require('../src/site/stages/build/drupal/load-saved-flags').useFlags({}, false);
 const {
   getDrupalCacheKey,
 } = require('../src/site/stages/build/drupal/utilities-drupal');

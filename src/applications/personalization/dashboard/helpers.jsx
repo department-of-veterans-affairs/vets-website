@@ -8,10 +8,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
 
-import hcaManifest from 'applications/hca/manifest.js';
-import dependentStatusManifest from 'applications/disability-benefits/686/manifest.js';
-import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.js';
-import burialsManifest from 'applications/burials/manifest.js';
+import hcaManifest from 'applications/hca/manifest.json';
+import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
+import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
+import burialsManifest from 'applications/burials/manifest.json';
 import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
 import edu1995Manifest from 'applications/edu-benefits/1995/manifest.json';
 import edu1995StemManifest from 'applications/edu-benefits/1995-STEM/manifest.json';

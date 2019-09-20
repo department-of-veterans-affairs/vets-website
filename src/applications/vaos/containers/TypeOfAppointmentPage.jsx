@@ -59,13 +59,14 @@ export class TypeOfAppointmentPage extends React.Component {
 
   goForward = () => {
     this.props.router.push('/new-appointment/reason-appointment');
+    this.props.router.push('/new-appointment/type-of-care');
   };
 
   render() {
     const { schema, data } = this.props;
 
     return (
-      <div className="vaos-form__appt-type">
+      <div className="vaos-form__detailed-radio">
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"

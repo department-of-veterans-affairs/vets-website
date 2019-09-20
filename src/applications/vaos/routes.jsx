@@ -5,8 +5,14 @@ import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
 import ReasonForAppointmentPage from './containers/ReasonForAppointmentPage';
+// import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
+import TypeOfCarePage from './containers/TypeOfCarePage';
+import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
 import PendingAppointmentPage from './containers/PendingAppointmentPage';
+import ConfirmedAppointmentPage from './containers/ConfirmedAppointmentPage';
+import TypeOfAudiologyCarePage from './containers/TypeOfAudiologyCarePage';
+import ConfirmedAppointmentsListPage from './containers/ConfirmedAppointmentsListPage';
 import ContactInfoPage from './containers/ContactInfoPage';
 
 const routes = (
@@ -15,11 +21,25 @@ const routes = (
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <IndexRoute component={TypeOfAppointmentPage} />
       <Route path="reason-appointment" component={ReasonForAppointmentPage} />
+      <IndexRoute component={TypeOfCarePage} />
       <Route path="contact-info" component={ContactInfoPage} />
+      <Route path="audiology" component={TypeOfAudiologyCarePage} />
+      <Route
+        path="community-care-provider"
+        component={CommunityCareProviderPage}
+      />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
     <Route path="appointments/pending" component={PendingAppointmentsPage} />
     <Route path="appointments/pending/:id" component={PendingAppointmentPage} />
+    <Route
+      path="appointments/confirmed/:id"
+      component={ConfirmedAppointmentPage}
+    />
+    <Route
+      path="appointments/confirmed"
+      component={ConfirmedAppointmentsListPage}
+    />
   </Route>
 );
 
