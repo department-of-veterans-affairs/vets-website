@@ -1,5 +1,11 @@
 /* eslint-disable no-param-reassign */
 
+/**
+ * Most of this file is to massage the data for the menu links
+ * to match the structure in `vetsgov-content` so the mega
+ * menu React component successfully renders all the links.
+ */
+
 const { getRelatedHubByPath } = require('./utilities-drupal');
 const { getArrayDepth } = require('../../../utilities/arrayHelpers');
 

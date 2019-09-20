@@ -100,6 +100,12 @@ function createHeaderFooterData(buildOptions) {
       if (shouldConfirmDrupalMenuOkay) {
         // eslint-disable-next-line no-console
         console.log(JSON.stringify(megaMenuFromDrupal, null, 4));
+
+        // This assertion ensures that the Drupal-generated
+        // menu data structure is identical to the vagov-content-generated
+        // menu structure while we launch and QA the Drupal-powered
+        // megaMenu header. The assertion should be removed once
+        // we are confident that Drupal reliably generates the menu data.
         assert.deepStrictEqual(
           megaMenuFromDrupal,
           megaMenuFromVagovContent,
