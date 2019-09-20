@@ -4,6 +4,7 @@
   "entryName": "disability/my-rated-disabilities",
   "rootUrl": "/disability/my-rated-disabilities",
   "template": {
-    "layout": "page-react-sidebar.html"
+    "layout": "page-react-sidebar.html",
+    "vagovprod": false
   }
 }
