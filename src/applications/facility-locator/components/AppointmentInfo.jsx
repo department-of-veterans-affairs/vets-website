@@ -113,9 +113,9 @@ export default class AppointmentInfo extends Component {
         );
 
       return (
-        <>
-          <li key="specialty-care">Specialty care:</li>
-          <ul className="vads-u-padding-left--0">
+        <li key="specialty-care">
+          Specialty care:
+          <ul className="vads-u-margin-top--1">
             {firstThree.map(k =>
               renderStat(
                 startCase(k.replace(/([A-Z])/g, ' $1')),
@@ -134,7 +134,7 @@ export default class AppointmentInfo extends Component {
               </button>
             </li>
           </ul>
-        </>
+        </li>
       );
     };
 
