@@ -3,6 +3,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 const assert = require('assert');
 const ENVIRONMENTS = require('../../../constants/environments');
+const { logDrupal } = require('../drupal/utilities-drupal');
 
 const footerData = require('../../../../platform/static-data/footer-links.json');
 
@@ -82,6 +83,8 @@ function createHeaderFooterData(buildOptions) {
     ENVIRONMENTS.VAGOVSTAGING,
   ].includes(buildOptions.buildtype);
 
+  const menuMustBeEqual = buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD;
+
   return (files, metalsmith, done) => {
     const megaMenuFromVagovContent = loadFromVagovContent(
       buildOptions,
@@ -98,19 +101,31 @@ function createHeaderFooterData(buildOptions) {
       );
 
       if (shouldConfirmDrupalMenuOkay) {
-        // eslint-disable-next-line no-console
-        console.log(JSON.stringify(megaMenuFromDrupal, null, 4));
-
         // This assertion ensures that the Drupal-generated
         // menu data structure is identical to the vagov-content-generated
         // menu structure while we launch and QA the Drupal-powered
         // megaMenu header. The assertion should be removed once
         // we are confident that Drupal reliably generates the menu data.
-        assert.deepStrictEqual(
-          megaMenuFromDrupal,
-          megaMenuFromVagovContent,
-          'The Drupal data aligns with that from vagov-content.',
-        );
+
+        try {
+          assert.deepStrictEqual(
+            megaMenuFromDrupal,
+            megaMenuFromVagovContent,
+            'The Drupal data aligns with that from vagov-content.',
+          );
+        } catch (error) {
+          if (menuMustBeEqual) {
+            throw error;
+          } else {
+            logDrupal(
+              'The CMS-backed menu is not equal to that of vagov-content',
+            );
+            logDrupal('CMS menu: ');
+            logDrupal(JSON.stringify(megaMenuFromDrupal, null, 4));
+            logDrupal('Vagov-content menu: ');
+            logDrupal(JSON.stringify(megaMenuFromVagovContent, null, 4));
+          }
+        }
       }
 
       megaMenuData = megaMenuFromDrupal;
