@@ -62,16 +62,12 @@ const validInput = {
   beneficiaryZIP: '60641',
 };
 
-const displayed2 = {
-  beneficiaryLocationQuestion: true,
-};
-
 const treeValid = mount(
   <CalculatorForm
     profile={props.profile}
     eligibility={props.eligibility}
     inputs={validInput}
-    displayedInputs={displayed2}
+    displayedInputs={displayed}
     onShowModal={() => {}}
     onInputChange={() => {}}
   />,
