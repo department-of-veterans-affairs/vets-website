@@ -38,7 +38,7 @@ export function normalizedAttributes(attributes) {
   const name = attributes.name
     ? attributes.name.toUpperCase()
     : attributes.name;
-  let city = attributes.physicalCity
+  const city = attributes.physicalCity
     ? attributes.physicalCity.toUpperCase()
     : attributes.physicalCity;
   const state = attributes.physicalState
