@@ -1,4 +1,6 @@
 // Builds the site using Metalsmith as the top-level build runner.
+// require('@babel/register');
+
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');

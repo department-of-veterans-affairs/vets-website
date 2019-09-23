@@ -1,6 +1,8 @@
+// require('@babel/register');
+
 const {
   FlipperClient,
-} = require('../../../../platform/utilities/feature-toggles/flipper-client.js');
+} = require('platform/utilities/feature-toggles/flipper-client.js');
 const environmentsConfigs = require('../../../constants/environments-configs');
 const environments = require('../../../constants/environments');
 
