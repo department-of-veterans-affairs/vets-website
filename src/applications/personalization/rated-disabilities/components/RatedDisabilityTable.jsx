@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import _ from 'lodash';
 import moment from 'moment';
 
 class RatedDisabilityTable extends React.Component {
@@ -62,22 +64,20 @@ class RatedDisabilityTable extends React.Component {
     }
 
     return (
-      <>
-        <div className="vads-u-margin-y--5">
-          <AlertBox
-            headline={headline}
-            content={content}
-            status={status}
-            isVisible
-          />
-        </div>
-      </>
+      <div className="vads-u-margin-y--5">
+        <AlertBox
+          headline={headline}
+          content={content}
+          status={status}
+          isVisible
+        />
+      </div>
     );
   };
 
   // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData = data => {
-    const formalizedDisabilityData = data.map(d => {
+    const formalizedDisabilityData = _.map(data, d => {
       const effectiveDate = {
         effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
       };
@@ -94,17 +94,15 @@ class RatedDisabilityTable extends React.Component {
 
   render() {
     if (!this.props.ratedDisabilities) {
-      return <h5>&nbsp;</h5>; // Don't need load indicator
+      return <LoadingIndicator message="Loading your information..." />;
     }
     // Display error message based on error type.
     if (this.props.ratedDisabilities.errors) {
       const code = this.props.ratedDisabilities.errors[0].code;
       return (
-        <>
-          <div className="usa-width-one-whole">
-            {this.noDisabilityRatingContent(code)}
-          </div>
-        </>
+        <div className="usa-width-one-whole">
+          {this.noDisabilityRatingContent(code)}
+        </div>
       );
     }
 

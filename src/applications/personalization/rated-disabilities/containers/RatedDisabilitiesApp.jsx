@@ -14,7 +14,6 @@ class RatedDisabilitiesApp extends React.Component {
     const { ratedDisabilities } = this.props.ratedDisabilities;
     return (
       <>
-        {/* <RatedDisabilityHeader /> */}
         <RequiredLoginView
           authRequired={1}
           serviceRequired={backendServices.USER_PROFILE}

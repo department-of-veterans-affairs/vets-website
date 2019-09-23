@@ -19,12 +19,10 @@ class RatedDisabilityView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
-          <>
-            <RatedDisabilityTable
-              fetchRatedDisabilities={fetchRatedDisabilities}
-              ratedDisabilities={ratedDisabilities}
-            />
-          </>
+          <RatedDisabilityTable
+            fetchRatedDisabilities={fetchRatedDisabilities}
+            ratedDisabilities={ratedDisabilities}
+          />
         );
       }
     }
