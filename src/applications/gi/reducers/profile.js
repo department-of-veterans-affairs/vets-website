@@ -17,7 +17,7 @@ function normalizedAttributes(attributes) {
   const name = attributes.name
     ? attributes.name.toUpperCase()
     : attributes.name;
-  let city = attributes.physicalCity || attributes.city;
+  let city = attributes.physicalCity;
   city = city ? city.toUpperCase() : city;
   const state = attributes.state
     ? attributes.state.toUpperCase()
