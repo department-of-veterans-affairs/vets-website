@@ -56,3 +56,36 @@ describe('<CalculatorForm>', () => {
     expect(errorMessage).to.equal('Error Zip code must be a 5-digit number');
   });
 });
+
+const inputs2 = {
+  beneficiaryLocationQuestion: 'other',
+  beneficiaryZIP: '60641',
+};
+
+const displayed2 = {
+  beneficiaryLocationQuestion: true,
+};
+
+const treeValid = mount(
+  <CalculatorForm
+    profile={props.profile}
+    eligibility={props.eligibility}
+    inputs={inputs2}
+    displayedInputs={displayed2}
+    onShowModal={() => {}}
+    onInputChange={() => {}}
+  />,
+);
+console.log(treeValid.html());
+describe('<CalculatorForm> Valid', () => {
+  it('should display empty string when beneficiary zip is a valid 5 digit zipcode', () => {
+    const textBox2 = treeValid.find('#errorable-text-input-2');
+    textBox2.simulate('blur');
+    const errorMessage = treeValid.find(
+      '#errorable-text-input-2-error-message',
+    );
+    treeValid.unmount();
+
+    expect(errorMessage.length).to.equal(0);
+  });
+});
