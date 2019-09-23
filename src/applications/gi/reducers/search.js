@@ -34,7 +34,7 @@ const INITIAL_STATE = {
   filterOpened: false,
 };
 
-function normalizedAttributes(attributes) {
+export function normalizedAttributes(attributes) {
   const name = attributes.name
     ? attributes.name.toUpperCase()
     : attributes.name;
