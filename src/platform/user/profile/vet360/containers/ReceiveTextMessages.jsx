@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import featureFlags from '../featureFlags';
+import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
@@ -122,9 +122,9 @@ export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable = !isEmpty && profileState.vet360.mobilePhone.isTextable;
-  const isVerified = featureFlags.receiveTextMessages && profileState.verified;
+  const isVerified = !environment.isProduction() && profileState.verified;
   const hideCheckbox =
-    !featureFlags.receiveTextMessages ||
+    environment.isProduction() ||
     isEmpty ||
     !isTextable ||
     !isEnrolledInVAHealthCare(state) ||
