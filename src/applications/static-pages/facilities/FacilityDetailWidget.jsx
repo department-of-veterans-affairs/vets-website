@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactHtmlParser from 'react-html-parser';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { buildHours } from '../../facility-locator/utils/facilityHours';
 import FacilityAddress from './FacilityAddress';
@@ -18,6 +17,7 @@ export class FacilityDetailWidget extends React.Component {
     }
 
     const facilityDetail = this.props.facility;
+    const CLINICAL_HOURS_COLUMN_MODIFIER = 5;
 
     // Sort and compile facility hours into a list
     const hours = facilityDetail.attributes.hours;
@@ -27,24 +27,11 @@ export class FacilityDetailWidget extends React.Component {
       const abbrvDay = splitDay[0];
       const times = splitDay[1];
 
-      let el = '';
-      if (index === 0 || index === 5) {
-        el += `<ul class="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 ${
-          index === 0
-            ? 'vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--0 vads-u-margin-right--3'
-            : 'vads-u-margin-bottom--0'
-        }">`;
-      }
-
-      el += `<li key=${index}>
-                <b class="abbrv-day">${abbrvDay}:</b> ${times}
-              </li>`;
-
-      if (index === 4 || index === 6) {
-        el += '</ul>';
-      }
-
-      return el;
+      return (
+        <li key={index}>
+          <b className="abbrv-day">{abbrvDay}:</b> {times}
+        </li>
+      );
     });
 
     return (
@@ -66,7 +53,12 @@ export class FacilityDetailWidget extends React.Component {
                 Clinical hours
               </h3>
               <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
-                {ReactHtmlParser(clinicalHours.join(''))}
+                <ul className="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--0 vads-u-margin-right--3">
+                  {clinicalHours.slice(0, CLINICAL_HOURS_COLUMN_MODIFIER)}
+                </ul>
+                <ul className="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 'vads-u-margin-bottom--0">
+                  {clinicalHours.slice(CLINICAL_HOURS_COLUMN_MODIFIER)}
+                </ul>
               </div>
             </div>
           </div>
