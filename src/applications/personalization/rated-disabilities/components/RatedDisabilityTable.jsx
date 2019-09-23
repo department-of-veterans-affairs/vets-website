@@ -107,7 +107,7 @@ class RatedDisabilityTable extends React.Component {
     }
 
     const formattedDisabilities = this.formalizeData(
-      this.props.ratedDisabilities.ratedDisabilities,
+      this.props?.ratedDisabilities?.ratedDisabilities,
     );
 
     return (
