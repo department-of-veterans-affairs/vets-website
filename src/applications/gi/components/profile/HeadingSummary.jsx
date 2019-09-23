@@ -81,9 +81,18 @@ class HeadingSummary extends React.Component {
           </div>
           <div>
             <div className="usa-width-one-half medium-6 small-12 column">
-              <IconWithInfo icon="map-marker" present={it.city && it.country}>
-                {it.city}, {it.state || it.country}
-              </IconWithInfo>
+              {it.country === 'USA' ? (
+                <IconWithInfo icon="map-marker" present={it.city && it.state}>
+                  {it.city}, {it.state}
+                </IconWithInfo>
+              ) : (
+                <IconWithInfo
+                  icon="map-marker"
+                  present={it.city && it.country !== 'USA'}
+                >
+                  {it.city}, {it.country}
+                </IconWithInfo>
+              )}
               <IconWithInfo icon="globe" present={it.website}>
                 <a href={it.website} target="_blank" rel="noopener noreferrer">
                   {it.website}
