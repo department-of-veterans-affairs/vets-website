@@ -20,10 +20,6 @@ export default function IntroPageSummary() {
         </p>
       </div>
       <CallToActionWidget appId="gi-bill-benefits" />
-      <p>
-        <strong>Note:</strong> This tool is available Sunday through Friday,
-        6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET.
-      </p>
       <h2 itemProp="name">Am I eligible to use this tool?</h2>
       <div
         itemProp="acceptedAnswer"

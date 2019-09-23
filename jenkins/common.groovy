@@ -140,7 +140,7 @@ def setup() {
  * dockerContainer.inside() context so buildLog can point to the right file.
  */
 def findMissingQueryFlags(String buildLogPath, String envName) {
-  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\1/p' ${buildLogPath} | sort | uniq")
+  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\\1/p' ${buildLogPath} | sort | uniq")
   if (missingFlags) {
     slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
       color: 'warning',
@@ -168,7 +168,7 @@ def checkForBrokenLinks(String buildLogPath, String envName) {
 
     // Until slackUploadFile works...
     def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
-    slackSend message: "${linkCount - 1} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+    slackSend message: "${linkCount} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
       color: 'danger',
       failOnError: true,
       channel: 'cms-engineering'
