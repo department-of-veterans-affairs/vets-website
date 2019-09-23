@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import featureFlags from '../featureFlags';
 import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
 
@@ -26,7 +27,7 @@ class ReceiveTextMessages extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.profile.verified) {
+    if (this.props.isVerified) {
       this.props.getEnrollmentStatus();
     }
   }
@@ -122,8 +123,9 @@ export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable = !isEmpty && profileState.vet360.mobilePhone.isTextable;
+  const isVerified = !environment.isProduction() && profileState.verified;
   const hideCheckbox =
-    environment.isProduction() ||
+    !featureFlags.receiveTextMessages ||
     isEmpty ||
     !isTextable ||
     !isEnrolledInVAHealthCare(state) ||
@@ -134,6 +136,7 @@ export function mapStateToProps(state, ownProps) {
   return {
     profile: profileState,
     hideCheckbox,
+    isVerified,
     transaction,
     transactionSuccess,
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],

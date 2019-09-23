@@ -21,7 +21,6 @@ describe('<ReceiveTextMessages/>', () => {
       createTransaction() {},
       clearTransactionStatus() {},
       componentDidMount() {},
-      componentWillReceiveProps() {},
       onChange() {},
       isSuccessVisible() {},
       profile: {
@@ -62,7 +61,7 @@ describe('<ReceiveTextMessages/>', () => {
     expect(
       props.getEnrollmentStatus.calledWith(),
       'getEnrollmentStatus was not called in componentDidMount',
-    ).to.be.true;
+    ).to.be.false;
     component.unmount();
   });
 
