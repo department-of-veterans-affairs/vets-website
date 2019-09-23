@@ -24,7 +24,7 @@ const props = {
   },
 };
 
-const inputs = {
+const invalidInput = {
   beneficiaryLocationQuestion: 'other',
   beneficiaryZIP: '888',
 };
@@ -37,7 +37,7 @@ const tree = mount(
   <CalculatorForm
     profile={props.profile}
     eligibility={props.eligibility}
-    inputs={inputs}
+    inputs={invalidInput}
     displayedInputs={displayed}
     onShowModal={() => {}}
     onInputChange={() => {}}
@@ -57,7 +57,7 @@ describe('<CalculatorForm>', () => {
   });
 });
 
-const inputs2 = {
+const validInput = {
   beneficiaryLocationQuestion: 'other',
   beneficiaryZIP: '60641',
 };
@@ -70,13 +70,13 @@ const treeValid = mount(
   <CalculatorForm
     profile={props.profile}
     eligibility={props.eligibility}
-    inputs={inputs2}
+    inputs={validInput}
     displayedInputs={displayed2}
     onShowModal={() => {}}
     onInputChange={() => {}}
   />,
 );
-console.log(treeValid.html());
+
 describe('<CalculatorForm> Valid', () => {
   it('should display empty string when beneficiary zip is a valid 5 digit zipcode', () => {
     const textBox2 = treeValid.find('#errorable-text-input-2');
