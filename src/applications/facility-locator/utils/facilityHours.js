@@ -23,8 +23,8 @@ export function buildHours(hours, shortDay = false) {
     if (value === 'Closed' || value === '24/7') {
       dayHours = value;
     } else {
-      const hour = value.split('-').map(time => moment(time, 'hmmA'));
-      dayHours = hour.map(time => time.format('h:mmA')).join(' – ');
+      const hour = value.split('-').map(time => moment(time, 'hmm A'));
+      dayHours = hour.map(time => time.format('h:mm A')).join(' – ');
     }
 
     builtHours.push(`${day}: ${dayHours}`);
