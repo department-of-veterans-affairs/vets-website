@@ -407,6 +407,10 @@ $color-info-bubble-text: #818a8d;
   .facility-detail {
     padding: 0 1.5rem;
 
+    ul.sublist {
+      padding-left: 0;
+    }
+
     li.sublist {
       margin-left: 1.5em;
     }

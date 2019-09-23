@@ -581,9 +581,6 @@ class CalculatorForm extends React.Component {
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
             charMax={5}
           />
-          <p>
-            <strong>{inputs.housingAllowanceCity}</strong>
-          </p>
         </div>
       );
     }
@@ -618,6 +615,10 @@ class CalculatorForm extends React.Component {
         />
         {extensionSelector}
         {amountInput}
+        <p aria-live="polite" aria-atomic="true">
+          <span className="sr-only">Your postal code is located in</span>
+          <strong>{inputs.housingAllowanceCity}</strong>
+        </p>
       </div>
     );
   };
