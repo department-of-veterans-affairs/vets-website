@@ -165,7 +165,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -181,7 +181,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -218,7 +218,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -246,7 +246,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -274,7 +274,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -302,7 +302,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
