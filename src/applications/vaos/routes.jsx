@@ -13,6 +13,7 @@ import ConfirmedAppointmentListPage from './containers/ConfirmedAppointmentListP
 import TypeOfAudiologyCarePage from './containers/TypeOfAudiologyCarePage';
 import TypeOfFacilityPage from './containers/TypeOfFacilityPage';
 import ContactInfoPage from './containers/ContactInfoPage';
+import VAFacilityPage from './containers/VAFacilityPage';
 
 const routes = (
   <Route path="/">
@@ -26,6 +27,7 @@ const routes = (
         path="community-care-provider"
         component={CommunityCareProviderPage}
       />
+      <Route path="va-facility" component={VAFacilityPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
     <Route path="appointments/pending" component={PendingAppointmentListPage} />
