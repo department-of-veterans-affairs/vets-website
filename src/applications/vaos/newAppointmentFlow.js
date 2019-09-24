@@ -60,8 +60,7 @@ export default {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
       }
-      // TODO: If user is not CC eligible, return to page prior to typeOfFacility
-      return 'typeOfFacility';
+      return 'vaFacility';
     },
   },
 };

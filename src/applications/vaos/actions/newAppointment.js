@@ -18,6 +18,7 @@ export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
+export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -59,64 +60,85 @@ function mockInstitutionsFetch(url) {
 
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_PAGE_FACILITY_OPEN,
-    });
+    const newAppointment = getState().newAppointment;
+    let systems;
+    let facilities;
 
-    if (
-      !getState().newAppointment.pages[page]?.properties?.vaSystem?.enumNames
-    ) {
+    if (!newAppointment.pages[page]?.properties.vaSystem.enum?.length) {
+      dispatch({
+        type: FORM_PAGE_FACILITY_OPEN,
+      });
+
       const systemIds = mockSystems
         .filter(id => id.assigningAuthority.startsWith('dfn'))
         .map(id => id.assigningCode);
 
-      const systems = await mockFetchFacility(
+      systems = await mockFetchFacility(
         `/facilities?facilityIds=${systemIds.join(',')}`,
       );
-
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        page,
-        uiSchema,
-        schema,
-        systems,
-      });
     }
+
+    const canShowFacilities =
+      newAppointment.data.vaSystem || systems.length === 1;
+
+    if (canShowFacilities && !newAppointment.facilities.length) {
+      facilities = await mockInstitutionsFetch(
+        `/systems/${newAppointment.data.vaSystem}/facilities?typeOfCareId=${
+          newAppointment.data.typeOfCareId
+        }`,
+      );
+    }
+
+    dispatch({
+      type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      page,
+      uiSchema,
+      schema,
+      systems,
+      facilities,
+      typeOfCareId: newAppointment.data.typeOfCareId,
+    });
   };
 }
 
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
-    const previousState = getState();
+    const previousNewAppointmentState = getState().newAppointment;
+    let facilities =
+      previousNewAppointmentState.facilities[data.typeOfCareId] || [];
     dispatch(updateFormData(page, uiSchema, data));
 
     if (
       data.vaSystem &&
-      previousState.newAppointment.data.vaSystem !== data.vaSystem &&
-      !previousState.newAppointment.facilities?.some(
+      previousNewAppointmentState.data.vaSystem !== data.vaSystem &&
+      !facilities?.some(
         facility => facility.institution.parentStationCode === data.vaSystem,
       )
     ) {
       dispatch({
         type: FORM_FETCH_CHILD_FACILITIES,
       });
-      const facilities = await mockInstitutionsFetch(
+
+      facilities = await mockInstitutionsFetch(
         `/systems/${data.vaSystem}/facilities?typeOfCareId=${
           data.typeOfCareId
         }`,
       );
+
       dispatch({
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema,
         facilities,
+        typeOfCareId: data.typeOfCareId,
       });
     } else if (
       data.vaSystem &&
-      previousState.newAppointment.data.vaSystem !== data.vaSystem
+      previousNewAppointmentState.data.vaSystem !== data.vaSystem
     ) {
       dispatch({
-        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+        type: FORM_VA_SYSTEM_CHANGED,
         uiSchema,
+        typeOfCareId: data.typeOfCareId,
       });
     }
   };
