@@ -74,7 +74,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '407',
-    name: 'Opthalmology',
+    name: 'Opthamology',
     group: 'specialty',
   },
   {
