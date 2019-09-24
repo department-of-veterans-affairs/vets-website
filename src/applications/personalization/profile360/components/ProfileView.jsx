@@ -22,7 +22,6 @@ import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
 import { profileShowDirectDeposit } from '../selectors';
-import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 
 const ProfileTOC = ({ militaryInformation, showDirectDeposit }) => (
   <>
@@ -186,7 +185,7 @@ class ProfileView extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    showDirectDeposit: !isProduction(state) && profileShowDirectDeposit(state),
+    showDirectDeposit: profileShowDirectDeposit(state),
   };
 }
 
