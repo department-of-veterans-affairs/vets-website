@@ -301,5 +301,5 @@ function testDataDrivenMegamenu(client, path) {
 }
 
 module.exports = {
-  testDataDrivenHeader: testDataDrivenMegamenu,
+  testDataDrivenMegamenu,
 };
