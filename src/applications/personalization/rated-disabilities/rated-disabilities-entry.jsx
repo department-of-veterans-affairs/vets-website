@@ -1,10 +1,10 @@
-import '@profile360/sass/profile-360.scss';
+import './sass/rated-disabilities.scss';
 import 'platform/polyfills';
 
 import startApp from 'platform/startup';
 
 import routes from './routes';
-import reducer from '@profile360/reducers';
+import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
