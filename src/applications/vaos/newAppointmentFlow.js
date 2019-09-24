@@ -38,6 +38,10 @@ export default {
         return 'audiologyCareType';
       }
 
+      if (getFormData(state).facilityType === 'communityCare') {
+        return 'contactInfo';
+      }
+
       return 'vaFacility';
     },
     previous: 'typeOfCare',
