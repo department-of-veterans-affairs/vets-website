@@ -1,5 +1,6 @@
 import set from 'platform/utilities/data/set';
 import vet360 from 'vet360/reducers';
+import { hcaEnrollmentStatus } from 'applications/hca/reducer';
 
 import {
   FETCH_HERO_SUCCESS,
@@ -123,4 +124,5 @@ function vaProfile(state = initialState, action) {
 export default {
   vaProfile,
   vet360,
+  hcaEnrollmentStatus,
 };
