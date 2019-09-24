@@ -149,9 +149,10 @@ export default function formReducer(state = initialState, action) {
                 facility => facility.institution.authoritativeName,
               ),
             },
-            state.pages.vaFacility,
+            newSchema,
           );
         } else {
+          newSchema = unset('properties.vaFacility', newSchema);
           newData = {
             ...newData,
             vaFacility: availableFacilities[0]?.institutionCode,
