@@ -10,6 +10,7 @@ import {
   VET360_TRANSACTION_REQUEST_CLEARED,
   VET360_TRANSACTION_UPDATE_REQUESTED,
   VET360_TRANSACTION_UPDATE_FAILED,
+  VET360_CLEAR_TRANSACTION_STATUS,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -23,10 +24,18 @@ const initialState = {
   metadata: {
     mostRecentErroredTransactionId: '',
   },
+  transactionStatus: '',
 };
 
 export default function vet360(state = initialState, action) {
   switch (action.type) {
+    case VET360_CLEAR_TRANSACTION_STATUS: {
+      return {
+        ...state,
+        transactionStatus: '',
+      };
+    }
+
     case VET360_TRANSACTIONS_FETCH_SUCCESS: {
       const transactions = action.data.map(transactionData =>
         // Wrap in a "data" property to imitate the API response for a single transaction
@@ -43,10 +52,7 @@ export default function vet360(state = initialState, action) {
         ...state,
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
-          [action.fieldName]: {
-            isPending: true,
-            method: action.method,
-          },
+          [action.fieldName]: { isPending: true, method: action.method },
         },
       };
 
@@ -153,6 +159,7 @@ export default function vet360(state = initialState, action) {
           t => t.data.attributes.transactionId !== finishedTransactionId,
         ),
         fieldTransactionMap,
+        transactionStatus: action.transaction.data.attributes.transactionStatus,
       };
     }
 
