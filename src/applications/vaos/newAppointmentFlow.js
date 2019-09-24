@@ -38,7 +38,7 @@ export default {
         return 'audiologyCareType';
       }
 
-      return 'contactInfo';
+      return 'visitType';
     },
     previous: 'typeOfCare',
   },
@@ -47,9 +47,9 @@ export default {
     next: 'contactInfo',
     previous: 'typeOfFacility',
   },
-  contactInfo: {
-    url: '/new-appointment/contact-info',
-    next: 'home',
+  visitType: {
+    url: '/new-appointment/choose-visit-type',
+    next: 'contactInfo',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -57,5 +57,10 @@ export default {
       // TODO: If user is not CC eligible, return to page prior to typeOfFacility
       return 'typeOfFacility';
     },
+  },
+  contactInfo: {
+    url: '/new-appointment/contact-info',
+    next: 'home',
+    previous: 'visitType',
   },
 };
