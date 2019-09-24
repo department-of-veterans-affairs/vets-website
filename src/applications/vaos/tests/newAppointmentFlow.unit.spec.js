@@ -46,7 +46,7 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('audiologyCareType');
     });
 
-    it('next should choose contact info page if not CC', () => {
+    it('next should choose va facility page if not CC', () => {
       const state = {
         newAppointment: {
           data: {
@@ -57,7 +57,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('contactInfo');
+      expect(nextState).to.equal('vaFacility');
     });
 
     it('previous should choose audiologyCareType page if CC and audiology', () => {
@@ -74,7 +74,7 @@ describe('VAOS newAppointmentFlow', () => {
       expect(prevState).to.equal('audiologyCareType');
     });
 
-    it('previous should choose typeOfFacility page if not CC and audiology', () => {
+    it('previous should choose vaFacility page if not CC and audiology', () => {
       const state = {
         newAppointment: {
           data: {
@@ -85,7 +85,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const prevState = newAppointmentFlow.contactInfo.previous(state);
-      expect(prevState).to.equal('typeOfFacility');
+      expect(prevState).to.equal('vaFacility');
     });
   });
 });

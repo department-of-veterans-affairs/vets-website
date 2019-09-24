@@ -5,12 +5,6 @@
    -webkit-columns: 1;
    -moz-columns: 1;
    list-style-position: inside;
-
-   @include media($medium-screen){
-      columns: 2;
-      -webkit-columns: 2;
-      -moz-columns: 2;
-   }
  }
 
 .abbrv-day {

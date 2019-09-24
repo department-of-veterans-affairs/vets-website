@@ -207,7 +207,7 @@ function getDrupalContent(buildOptions) {
       }
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
 
-      loadCachedDrupalFiles(buildOptions, files);
+      await loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
