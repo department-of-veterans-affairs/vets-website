@@ -40,7 +40,8 @@ function getDrupalClient(buildOptions) {
     // We have to point to aws urls on Jenkins, so the only
     // time we'll be using cms.va.gov addresses is locally,
     // when we need a proxy
-    usingProxy: address.includes('cms.va.gov'),
+    usingProxy:
+      address.includes('cms.va.gov') && !buildOptions['no-drupal-proxy'],
 
     getSiteUri() {
       return address;
