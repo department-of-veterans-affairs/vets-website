@@ -122,6 +122,7 @@
     "body-parser": "^1.15.2",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
+    "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
     "chokidar": "2",
     "choma": "^1.1.0",
