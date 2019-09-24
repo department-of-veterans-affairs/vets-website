@@ -4,7 +4,7 @@ import {
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
 } from '../actions';
-import normalizedAttributes from '../reducers/search';
+import normalizedAttributes from './utility';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import _ from 'lodash';
 
