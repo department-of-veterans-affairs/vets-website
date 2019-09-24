@@ -89,11 +89,12 @@ export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const previousState = getState();
     dispatch(updateFormData(page, uiSchema, data));
+
     if (
       data.vaSystem &&
       previousState.newAppointment.data.vaSystem !== data.vaSystem &&
       !previousState.newAppointment.facilities?.some(
-        facility => facility.facilityId === data.vaSystem,
+        facility => facility.institution.parentStationCode === data.vaSystem,
       )
     ) {
       dispatch({
@@ -108,6 +109,14 @@ export function updateFacilityPageData(page, uiSchema, data) {
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema,
         facilities,
+      });
+    } else if (
+      data.vaSystem &&
+      previousState.newAppointment.data.vaSystem !== data.vaSystem
+    ) {
+      dispatch({
+        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+        uiSchema,
       });
     }
   };

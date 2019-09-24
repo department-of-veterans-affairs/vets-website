@@ -20,6 +20,7 @@ import {
 const initialState = {
   pages: {},
   data: {},
+  facilities: [],
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingFacilities: false,
@@ -121,24 +122,35 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_FETCH_CHILD_FACILITIES_SUCCEEDED: {
-      const validFacilities = action.facilities.filter(
+      // Holding all the facilities, across systems, in state so that we
+      // don't have to fetch more than once per system
+      let facilities = state.facilities;
+      if (action.facilities) {
+        facilities = facilities.concat(action.facilities);
+      }
+
+      const availableFacilities = facilities.filter(
         facility =>
-          facility.requestSupported || facility.directSchedulingSupported,
+          facility.institution.parentStationCode === state.data.vaSystem &&
+          (facility.requestSupported || facility.directSchedulingSupported),
       );
 
-      let newSchema = set(
-        'properties.vaFacility.enum',
-        validFacilities.map(facility => facility.institution.institutionCode),
+      const schemaWithUpdatedFacilities = set(
+        'properties.vaFacility',
+        {
+          type: 'string',
+          enum: availableFacilities.map(
+            facility => facility.institution.institutionCode,
+          ),
+          enumNames: availableFacilities.map(
+            facility => facility.institution.authoritativeName,
+          ),
+        },
         state.pages.vaFacility,
-      );
-      newSchema = set(
-        'properties.vaFacility.enumNames',
-        validFacilities.map(facility => facility.institution.authoritativeName),
-        newSchema,
       );
 
       const { data, schema } = updateSchemaAndData(
-        newSchema,
+        schemaWithUpdatedFacilities,
         action.uiSchema,
         state.data,
       );
@@ -147,6 +159,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data,
         loadingFacilities: false,
+        facilities,
         pages: {
           ...state.pages,
           vaFacility: schema,
