@@ -64,7 +64,9 @@ export function openFacilityPage(page, uiSchema, schema) {
     let systems;
     let facilities;
 
-    if (!newAppointment.pages[page]?.properties.vaSystem.enum?.length) {
+    // If we already have systems listed in the schema, we don't need
+    // to fetch them again
+    if (!newAppointment.pages[page]?.properties.vaSystem.enum?.length === 0) {
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN,
       });
