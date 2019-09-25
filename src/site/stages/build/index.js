@@ -222,10 +222,10 @@ function defaultBuild(BUILD_OPTIONS) {
    * changes will be overwritten during the outputHtml step.
    */
   smith.use(parseHtml, 'Parse HTML');
-  /*
-  Add nonce attribute with substition string to all inline script tags
-  Convert onclick event handles into nonced script tags
-  */
+  /**
+   * Add nonce attribute with substition string to all inline script tags
+   * Convert onclick event handles into nonced script tags
+   */
   smith.use(addNonceToScripts, 'Add nonce to script tags');
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
