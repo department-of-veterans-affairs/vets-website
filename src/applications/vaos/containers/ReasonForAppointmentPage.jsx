@@ -9,6 +9,7 @@ import {
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
+import { PURPOSE_TEXT } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -16,7 +17,11 @@ const initialSchema = {
   properties: {
     reasonForAppointment: {
       type: 'string',
-      enum: ['routine', 'newIssue', 'medicationConcern'],
+      enum: [
+        PURPOSE_TEXT['routine-rollow-up'],
+        PURPOSE_TEXT['new-issue'],
+        PURPOSE_TEXT['medication-concern'],
+      ],
     },
   },
 };
@@ -28,27 +33,9 @@ const uiSchema = {
     'ui:options': {
       hideLabelText: true,
       labels: {
-        routine: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--sm ">
-              Routine/Follow-up
-            </span>
-          </>
-        ),
-        newIssue: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--sm ">
-              New Issue
-            </span>
-          </>
-        ),
-        medicationConcern: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--sm ">
-              Medication Concern
-            </span>
-          </>
-        ),
+        routine: <>Routine/Follow-up</>,
+        newIssue: <>New Issue</>,
+        medicationConcern: <>Medication Concern</>,
       },
     },
   },
