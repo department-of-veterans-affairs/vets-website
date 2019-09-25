@@ -66,7 +66,10 @@ export function openFacilityPage(page, uiSchema, schema) {
 
     // If we already have systems listed in the schema, we don't need
     // to fetch them again
-    if (!newAppointment.pages[page]?.properties.vaSystem.enum?.length === 0) {
+    if (
+      !newAppointment.pages[page] ||
+      newAppointment.pages[page].properties.vaSystem?.enum.length === 0
+    ) {
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN,
       });
@@ -81,7 +84,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     }
 
     const canShowFacilities =
-      newAppointment.data.vaSystem || systems.length === 1;
+      newAppointment.data.vaSystem || systems?.length === 1;
 
     if (canShowFacilities && !newAppointment.facilities.length) {
       facilities = await mockInstitutionsFetch(
