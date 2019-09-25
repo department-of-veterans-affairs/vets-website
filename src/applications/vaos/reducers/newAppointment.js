@@ -155,7 +155,7 @@ export default function formReducer(state = initialState, action) {
           newSchema = unset('properties.vaFacility', newSchema);
           newData = {
             ...newData,
-            vaFacility: availableFacilities[0]?.institutionCode,
+            vaFacility: availableFacilities[0]?.institution.institutionCode,
           };
         }
       }
