@@ -66,7 +66,7 @@ function updateExternalLinks() {
         });
 
         if (linkUpdated) {
-          file.contents = new Buffer(doc.html());
+          file.modified = true;
         }
       }
     }

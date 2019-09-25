@@ -37,6 +37,7 @@ const checkForCMSUrls = require('./plugins/check-cms-urls');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
 const parseHtml = require('./plugins/parse-html');
+const outputHtml = require('./plugins/output-html');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -230,7 +231,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
-  // smith.use(outputHtml, 'Save the changes from parsedContent');
+  smith.use(outputHtml, 'Save the changes from parsedContent');
 
   /* eslint-disable no-console */
   smith.build(err => {

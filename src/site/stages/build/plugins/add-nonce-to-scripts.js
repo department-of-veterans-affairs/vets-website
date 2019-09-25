@@ -53,7 +53,7 @@ module.exports = (files, metalsmith, done) => {
     newScript.attr('nonce', CSP_NONCE);
 
     dom('body').append(newScript);
-    files[fileName].contents = new Buffer(dom.html());
+    files[fileName].modified = true;
   });
   done();
 };

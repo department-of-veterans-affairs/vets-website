@@ -72,7 +72,7 @@ function generateHeadingIds() {
         });
 
         if (idAdded) {
-          file.contents = new Buffer(doc.html());
+          file.modified = true;
         }
       }
     }
