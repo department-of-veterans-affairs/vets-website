@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import facilities984 from '../actions/facilities_984.json';
 
 import {
   openFacilityPage,
-  updateFacilityPageData,
+  updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
@@ -22,7 +23,10 @@ const initialSchema = {
     },
     vaFacility: {
       type: 'string',
-      enum: [],
+      enum: facilities984.map(facility => facility.institution.institutionCode),
+      enumNames: facilities984.map(
+        facility => facility.institution.authoritativeName,
+      ),
     },
   },
 };
@@ -43,16 +47,6 @@ const uiSchema = {
   },
 };
 
-const loadingUISchema = {
-  ...uiSchema,
-  vaFacility: {
-    'ui:field': () => <LoadingIndicator message="Finding locations" />,
-    'ui:options': {
-      hideLabelText: true,
-    },
-  },
-};
-
 const pageKey = 'vaFacility';
 
 export class VAFacilityPage extends React.Component {
@@ -69,13 +63,7 @@ export class VAFacilityPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      loadingSystems,
-      loadingFacilities,
-    } = this.props;
+    const { schema, data, pageChangeInProgress, loadingSystems } = this.props;
 
     return (
       <div>
@@ -91,16 +79,16 @@ export class VAFacilityPage extends React.Component {
               name="VA Facility"
               title="VA Facility"
               schema={schema || initialSchema}
-              uiSchema={loadingFacilities ? loadingUISchema : uiSchema}
+              uiSchema={uiSchema}
               onSubmit={this.goForward}
               onChange={newData =>
-                this.props.updateFacilityPageData(pageKey, uiSchema, newData)
+                this.props.updateFormData(pageKey, uiSchema, newData)
               }
               data={data}
             >
               <FormButtons
                 onBack={this.goBack}
-                disabled={loadingSystems || loadingFacilities}
+                disabled={loadingSystems}
                 pageChangeInProgress={pageChangeInProgress}
               />
             </SchemaForm>
@@ -117,13 +105,12 @@ function mapStateToProps(state) {
   return {
     ...formInfo,
     loadingSystems: newAppointment.loadingSystems,
-    loadingFacilities: newAppointment.loadingFacilities,
   };
 }
 
 const mapDispatchToProps = {
   openFacilityPage,
-  updateFacilityPageData,
+  updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };

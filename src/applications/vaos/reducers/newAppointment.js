@@ -15,9 +15,6 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-  FORM_FETCH_CHILD_FACILITIES,
-  FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
-  FORM_VA_SYSTEM_CHANGED,
 } from '../actions/newAppointment';
 
 const initialState = {
@@ -181,93 +178,6 @@ export default function formReducer(state = initialState, action) {
         pages: {
           ...state.pages,
           [action.page]: schema,
-        },
-      };
-    }
-    case FORM_FETCH_CHILD_FACILITIES: {
-      return {
-        ...state,
-        loadingFacilities: true,
-      };
-    }
-    case FORM_FETCH_CHILD_FACILITIES_SUCCEEDED: {
-      // Holding all the facilities, across systems, in state so that we
-      // don't have to fetch more than once per system
-      let facilities = getFacilities(state, action.typeOfCareId);
-      if (action.facilities) {
-        facilities = facilities.concat(action.facilities);
-      }
-
-      const availableFacilities = getAvailableFacilities(
-        facilities,
-        state.data.vaSystem,
-      );
-
-      const schemaWithUpdatedFacilities = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: availableFacilities.map(
-            facility => facility.institution.institutionCode,
-          ),
-          enumNames: availableFacilities.map(
-            facility => facility.institution.authoritativeName,
-          ),
-        },
-        state.pages.vaFacility,
-      );
-
-      const { data, schema } = updateSchemaAndData(
-        schemaWithUpdatedFacilities,
-        action.uiSchema,
-        state.data,
-      );
-
-      return {
-        ...state,
-        data,
-        loadingFacilities: false,
-        facilities: {
-          ...state.facilities,
-          [action.typeOfCareId]: facilities,
-        },
-        pages: {
-          ...state.pages,
-          vaFacility: schema,
-        },
-      };
-    }
-    case FORM_VA_SYSTEM_CHANGED: {
-      const availableFacilities = getAvailableFacilities(
-        getFacilities(state, action.typeOfCareId),
-        state.data.vaSystem,
-      );
-      const schemaWithUpdatedFacilities = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: availableFacilities.map(
-            facility => facility.institution.institutionCode,
-          ),
-          enumNames: availableFacilities.map(
-            facility => facility.institution.authoritativeName,
-          ),
-        },
-        state.pages.vaFacility,
-      );
-
-      const { data, schema } = updateSchemaAndData(
-        schemaWithUpdatedFacilities,
-        action.uiSchema,
-        state.data,
-      );
-
-      return {
-        ...state,
-        data,
-        pages: {
-          ...state.pages,
-          vaFacility: schema,
         },
       };
     }

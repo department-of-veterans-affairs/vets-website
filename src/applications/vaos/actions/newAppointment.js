@@ -14,11 +14,6 @@ export const FORM_PAGE_CHANGE_COMPLETED =
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
-export const FORM_FETCH_CHILD_FACILITIES =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES';
-export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -103,49 +98,6 @@ export function openFacilityPage(page, uiSchema, schema) {
       facilities,
       typeOfCareId: newAppointment.data.typeOfCareId,
     });
-  };
-}
-
-export function updateFacilityPageData(page, uiSchema, data) {
-  return async (dispatch, getState) => {
-    const previousNewAppointmentState = getState().newAppointment;
-    let facilities =
-      previousNewAppointmentState.facilities[data.typeOfCareId] || [];
-    dispatch(updateFormData(page, uiSchema, data));
-
-    if (
-      data.vaSystem &&
-      previousNewAppointmentState.data.vaSystem !== data.vaSystem &&
-      !facilities?.some(
-        facility => facility.institution.parentStationCode === data.vaSystem,
-      )
-    ) {
-      dispatch({
-        type: FORM_FETCH_CHILD_FACILITIES,
-      });
-
-      facilities = await mockInstitutionsFetch(
-        `/systems/${data.vaSystem}/facilities?typeOfCareId=${
-          data.typeOfCareId
-        }`,
-      );
-
-      dispatch({
-        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
-        uiSchema,
-        facilities,
-        typeOfCareId: data.typeOfCareId,
-      });
-    } else if (
-      data.vaSystem &&
-      previousNewAppointmentState.data.vaSystem !== data.vaSystem
-    ) {
-      dispatch({
-        type: FORM_VA_SYSTEM_CHANGED,
-        uiSchema,
-        typeOfCareId: data.typeOfCareId,
-      });
-    }
   };
 }
 
