@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { capitalizeEachWord } from '../utils';
+import { NULL_CONDITION_STRING } from '../constants';
 
 export class CauseTitle extends React.Component {
   constructor(props) {
@@ -47,6 +48,6 @@ export class CauseTitle extends React.Component {
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {capitalizeEachWord(formData.condition)}
+    {typeof formData.condition === 'string' ? capitalizeEachWord(formData.condition) : NULL_CONDITION_STRING}
   </legend>
 );
