@@ -16,14 +16,14 @@ function generateNewId(existingIds) {
 }
 
 module.exports = (files, metalsmith, done) => {
-  Object.keys(files).forEach(file => {
-    if (path.extname(file) !== '.html') return;
+  Object.keys(files).forEach(fileName => {
+    if (path.extname(fileName) !== '.html') return;
 
-    // const dom = new jsdom.JSDOM(data.contents.toString());
-    const dom = files[file].parsedContent;
+    const dom = files[fileName].parsedContent;
     dom('script').each((index, scriptEl) => {
       const s = dom(scriptEl);
-      if (s.text() !== '') {
+      // Only add nonce to inline scripts
+      if (!s.attr('src')) {
         s.attr('nonce', CSP_NONCE);
       }
     });
@@ -53,7 +53,7 @@ module.exports = (files, metalsmith, done) => {
     newScript.attr('nonce', CSP_NONCE);
 
     dom('body').append(newScript);
-    files[file].contents = new Buffer(dom.html());
+    files[fileName].contents = new Buffer(dom.html());
   });
   done();
 };
