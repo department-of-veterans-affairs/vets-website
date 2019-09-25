@@ -31,10 +31,10 @@ module.exports = (files, metalsmith, done) => {
     const clickHandlers = [];
     dom('[onclick]').each((index, onClickEl) => {
       const o = dom(onClickEl);
-      if (o.attr('id') === '') {
+      if (!o.attr('id')) {
         o.attr('id', generateNewId(ids)); // eslint-disable-line no-param-reassign
       }
-      const id = o.id;
+      const id = o.attr('id');
       const onclick = o.attr('onclick');
 
       clickHandlers.push(
