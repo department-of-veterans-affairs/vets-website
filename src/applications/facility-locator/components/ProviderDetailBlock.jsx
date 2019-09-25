@@ -23,11 +23,11 @@ const ProviderDetailBlock = ({ provider }) => {
         </li>
       </ul>
 
-      <h4 className="highlight">Appointments</h4>
-      <h4>Accepting new patients</h4>
+      <h3 className="highlight vads-u-font-size--h4">Appointments</h3>
+      <h3 className="vads-u-font-size--h4">Accepting new patients</h3>
       {accNewPatients ? 'Yes' : 'No'}
 
-      <h4 className="highlight">Community Care Details</h4>
+      <h3 className="highlight vads-u-font-size--h4">Community Care Details</h3>
       <ul>
         <li>
           <strong>Network:</strong> {network}
