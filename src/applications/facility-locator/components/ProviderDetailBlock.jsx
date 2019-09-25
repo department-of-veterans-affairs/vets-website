@@ -19,8 +19,8 @@ const ProviderDetailBlock = ({ provider }) => {
         </li>
         <li>
           <strong>Services:</strong>
+          <ProviderServiceDescription provider={provider} details />
         </li>
-        <ProviderServiceDescription provider={provider} details />
       </ul>
 
       <h4 className="highlight">Appointments</h4>
