@@ -23,7 +23,6 @@ class CalculatedDisabilityRating extends React.Component {
 
   render() {
     const { calculatedRating } = this.props;
-
     const placeholder = '--';
 
     return (
