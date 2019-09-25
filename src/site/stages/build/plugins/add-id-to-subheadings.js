@@ -2,8 +2,6 @@
  * Add unique ID to H2s and H3s that aren't in WYSIWYG or accordion buttons
  */
 
-const cheerio = require('cheerio');
-
 const usedHeaders = [];
 
 let currentId = 1;
@@ -36,7 +34,7 @@ function generateHeadingIds() {
       let idAdded = false;
 
       if (fileName.endsWith('html')) {
-        const doc = cheerio.load(file.contents);
+        const doc = file.parsedContent;
         const tableOfContents = doc('#table-of-contents ul');
         doc('h2, h3').each((i, el) => {
           const heading = doc(el);

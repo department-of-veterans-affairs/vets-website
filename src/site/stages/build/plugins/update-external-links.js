@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-const cheerio = require('cheerio');
-
 const newTabDomains = [
   'myhealth.va.gov',
   'ebenefits.va.gov',
@@ -28,7 +26,7 @@ function updateExternalLinks() {
       let linkUpdated = false;
 
       if (fileName.endsWith('html')) {
-        const doc = cheerio.load(file.contents);
+        const doc = file.parsedContent;
         doc('a[href^="http"]').each((i, el) => {
           const link = doc(el);
           const relAttr = link.attr('rel');
