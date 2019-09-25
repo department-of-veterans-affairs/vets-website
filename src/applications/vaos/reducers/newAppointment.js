@@ -109,6 +109,11 @@ export default function formReducer(state = initialState, action) {
       let newData = state.data;
       const systems = action.systems || state.systems;
 
+      // For both systems and facilities, we want to put them in the form
+      // schema as radio options if we have more than one to choose from.
+      // If we only have one, then we want to just set the value in the
+      // form data and remove the schema for that field, so we don't
+      // show the question to the user
       if (systems.length > 1) {
         newSchema = set(
           'properties.vaSystem.enum',
@@ -131,33 +136,31 @@ export default function formReducer(state = initialState, action) {
       const facilities =
         action.facilities || getFacilities(state, action.typeOfCareId);
 
-      if (facilities.length) {
-        const availableFacilities = getAvailableFacilities(
-          facilities,
-          newData.vaSystem,
-        );
+      const availableFacilities = getAvailableFacilities(
+        facilities,
+        newData.vaSystem,
+      );
 
-        if (availableFacilities.length > 1) {
-          newSchema = set(
-            'properties.vaFacility',
-            {
-              type: 'string',
-              enum: availableFacilities.map(
-                facility => facility.institution.institutionCode,
-              ),
-              enumNames: availableFacilities.map(
-                facility => facility.institution.authoritativeName,
-              ),
-            },
-            newSchema,
-          );
-        } else {
-          newSchema = unset('properties.vaFacility', newSchema);
-          newData = {
-            ...newData,
-            vaFacility: availableFacilities[0]?.institution.institutionCode,
-          };
-        }
+      if (availableFacilities.length > 1) {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: availableFacilities.map(
+              facility => facility.institution.institutionCode,
+            ),
+            enumNames: availableFacilities.map(
+              facility => facility.institution.authoritativeName,
+            ),
+          },
+          newSchema,
+        );
+      } else if (newData.vaSystem) {
+        newSchema = unset('properties.vaFacility', newSchema);
+        newData = {
+          ...newData,
+          vaFacility: availableFacilities[0]?.institution.institutionCode,
+        };
       }
 
       const { data, schema } = setupFormData(
