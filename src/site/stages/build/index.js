@@ -36,6 +36,7 @@ const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
+const parseHtml = require('./plugins/parse-html');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -190,12 +191,6 @@ function defaultBuild(BUILD_OPTIONS) {
   );
 
   /*
-  Add nonce attribute with substition string to all inline script tags
-  Convert onclick event handles into nonced script tags
-  */
-  smith.use(addNonceToScripts, 'Add nonce to script tags');
-
-  /*
   * This will replace links in static pages with a staging domain,
   * if it is in the list of domains to replace
   */
@@ -211,16 +206,31 @@ function defaultBuild(BUILD_OPTIONS) {
   // In the browser, it can be accessed at window.settings.
   smith.use(createBuildSettings(BUILD_OPTIONS), 'Create build settings');
 
-  smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
-  smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(downloadDrupalAssets(BUILD_OPTIONS), 'Download Drupal assets');
 
   configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(createRedirects(BUILD_OPTIONS), 'Create redirects');
-  smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
+
+  /**
+   * Parse the HTML into a JS data structure for use in later plugins.
+   * Important: Only plugins that use the parsedContent to modify the
+   * content can go between the parseHtml and outputHtml plugins. If
+   * the content is modified directly between those two plugins, any
+   * changes will be overwritten during the outputHtml step.
+   */
+  smith.use(parseHtml, 'Parse HTML');
+  /*
+  Add nonce attribute with substition string to all inline script tags
+  Convert onclick event handles into nonced script tags
+  */
+  smith.use(addNonceToScripts, 'Add nonce to script tags');
+  smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
+  smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
+  smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
+  // smith.use(outputHtml, 'Save the changes from parsedContent');
 
   /* eslint-disable no-console */
   smith.build(err => {
