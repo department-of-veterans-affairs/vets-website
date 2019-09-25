@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentPage';
+import { PURPOSE_TEXT } from '../../utils/constants';
 
 describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
@@ -60,10 +61,14 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_reasonForAppointment', 'routine');
+    selectRadio(
+      form,
+      'root_reasonForAppointment',
+      PURPOSE_TEXT['routine-follow-up'],
+    );
 
     expect(updateFormData.firstCall.args[2].reasonForAppointment).to.equal(
-      'routine',
+      PURPOSE_TEXT['routine-follow-up'],
     );
     form.unmount();
   });
@@ -78,7 +83,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       <ReasonForAppointmentPage
         openFormPage={openFormPage}
         router={router}
-        data={{ reasonForAppointment: 'routine' }}
+        data={{ reasonForAppointment: PURPOSE_TEXT['routine-rollow-up'] }}
       />,
     );
 

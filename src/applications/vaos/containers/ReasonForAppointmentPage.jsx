@@ -18,7 +18,7 @@ const initialSchema = {
     reasonForAppointment: {
       type: 'string',
       enum: [
-        PURPOSE_TEXT['routine-rollow-up'],
+        PURPOSE_TEXT['routine-follow-up'],
         PURPOSE_TEXT['new-issue'],
         PURPOSE_TEXT['medication-concern'],
       ],
