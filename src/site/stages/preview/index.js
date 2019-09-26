@@ -116,21 +116,6 @@ async function createPipeline(options) {
     }),
   );
 
-  /**
-   * Parse the HTML into a JS data structure for use in later plugins.
-   * Important: Only plugins that use the parsedContent to modify the
-   * content can go between the parseHtml and outputHtml plugins. If
-   * the content is modified directly between those two plugins, any
-   * changes will be overwritten during the outputHtml step.
-   */
-  smith.use(parseHtml, 'Parse HTML files');
-  /*
-  Add nonce attribute with substition string to all inline script tags
-  Convert onclick event handles into nonced script tags
-  */
-  smith.use(addNonceToScripts);
-  smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
-
   /*
    * This will replace links in static pages with a staging domain,
    * if it is in the list of domains to replace
@@ -143,8 +128,22 @@ async function createPipeline(options) {
   // In the browser, it can be accessed at window.settings.
   smith.use(createBuildSettings(BUILD_OPTIONS));
 
+  /**
+   * Parse the HTML into a JS data structure for use in later plugins.
+   * Important: Only plugins that use the parsedContent to modify the
+   * content can go between the parseHtml and outputHtml plugins. If
+   * the content is modified directly between those two plugins, any
+   * changes will be overwritten during the outputHtml step.
+   */
+  smith.use(parseHtml);
+  /*
+  Add nonce attribute with substition string to all inline script tags
+  Convert onclick event handles into nonced script tags
+  */
+  smith.use(addNonceToScripts);
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
+  smith.use(replaceContentsWithDom);
 
   // For prod builds, we need to add asset hashes, but since this is a live
   // request, we're not doing a webpack build.
