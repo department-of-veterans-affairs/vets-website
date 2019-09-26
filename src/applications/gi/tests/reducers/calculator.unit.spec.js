@@ -283,7 +283,7 @@ describe('calculator reducer', () => {
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'ZIP Code must be a five digit number',
+        beneficiaryZIPError: 'Zip code must be a 5-digit number',
         beneficiaryZIP: '1dd',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
@@ -311,7 +311,7 @@ describe('calculator reducer', () => {
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'ZIP Code must be a five digit number',
+        beneficiaryZIPError: 'Zip code must be a 5-digit number',
         beneficiaryZIP: '1111111',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
