@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import sinon from 'sinon';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import RatedDisabilityTable from '../../components/RatedDisabilityTable';
@@ -29,6 +29,22 @@ describe('<RatedDisabilityTable/>', () => {
     ],
   };
   const fetchRatedDisabilities = sinon.spy();
+  it('should render', () => {
+    const wrapper = shallow(
+      <RatedDisabilityTable
+        fetchRatedDisabilities={fetchRatedDisabilities}
+        ratedDisabilities={ratedDisabilities}
+      />,
+    );
+    expect(
+      wrapper
+        .find('div')
+        .first()
+        .hasClass('vads-u-width--full'),
+    ).to.be.true;
+    expect(fetchRatedDisabilities.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
   it('should convert disability data into a readable format', () => {
     const wrapper = shallow(
       <RatedDisabilityTable
@@ -49,6 +65,7 @@ describe('<RatedDisabilityTable/>', () => {
   });
 
   it('should display rated disabilities in a table', () => {
+    const spy = sinon.spy(RatedDisabilityTable.prototype, 'formalizeData');
     const wrapper = shallow(
       <RatedDisabilityTable
         fetchRatedDisabilities={fetchRatedDisabilities}
@@ -65,7 +82,6 @@ describe('<RatedDisabilityTable/>', () => {
         .first()
         .text(),
     ).to.contain('Your rated disabilities');
-
     expect(
       wrapper
         .find('.va-table')
@@ -74,7 +90,7 @@ describe('<RatedDisabilityTable/>', () => {
         .first()
         .text(),
     ).to.contain(disability);
-
+    expect(spy.calledOnce).to.be.true;
     wrapper.unmount();
   });
 
@@ -86,23 +102,17 @@ describe('<RatedDisabilityTable/>', () => {
         },
       ],
     };
-    const wrapper = mount(
+    const spy = sinon.spy(
+      RatedDisabilityTable.prototype,
+      'noDisabilityRatingContent',
+    );
+    const wrapper = shallow(
       <RatedDisabilityTable
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
-    // this should check that noDisabilityRatingContent was called...
-    expect(wrapper.find('.usa-width-one-whole')).lengthOf(1);
-    expect(
-      wrapper
-        .find('.usa-width-one-whole')
-        .find('.vads-u-margin-y--5')
-        .find('h3')
-        .first()
-        .text(),
-    ).to.equal('Rated disabilities error');
-
+    expect(spy.calledOnce).to.be.true;
     wrapper.unmount();
   });
 });
