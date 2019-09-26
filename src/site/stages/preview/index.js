@@ -20,6 +20,8 @@ const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
 const addAssetHashes = require('../build/plugins/add-asset-hashes');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
+const parseHtml = require('../build/plugins/parse-html');
+const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -114,11 +116,20 @@ async function createPipeline(options) {
     }),
   );
 
+  /**
+   * Parse the HTML into a JS data structure for use in later plugins.
+   * Important: Only plugins that use the parsedContent to modify the
+   * content can go between the parseHtml and outputHtml plugins. If
+   * the content is modified directly between those two plugins, any
+   * changes will be overwritten during the outputHtml step.
+   */
+  smith.use(parseHtml, 'Parse HTML files');
   /*
   Add nonce attribute with substition string to all inline script tags
   Convert onclick event handles into nonced script tags
   */
   smith.use(addNonceToScripts);
+  smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
 
   /*
    * This will replace links in static pages with a staging domain,
