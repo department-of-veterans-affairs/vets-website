@@ -1,0 +1,52 @@
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+
+.chart-box {
+  background-color: #e1f3f8; /* Light blue to match FeatureBox */
+  height: 200px;
+  position: relative;
+  width: 200px;
+
+  .donut {
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.disability-rating {
+  color: #323a45;
+  position: absolute;
+  text-align: center;
+  top: 68px;
+  width: 200px;
+}
+
+.donut {
+  height: 200px;
+  width: 200px;
+}
+
+.donut-hole {
+  fill: $color-primary-alt-lightest;
+}
+
+.donut-ring {
+  fill: transparent;
+  stroke: #cdcdcd;
+  stroke-width: 3;
+}
+
+.donut-data {
+  stroke-dashoffset: 125;
+  fill: transparent;
+  stroke: #004795;
+  stroke-width: 3;
+}
+/*
+@keyframes draw-stroke {
+  to {
+    stroke-dasharray: 80 20;
+    opacity: 1;
+  }
+}
+*/

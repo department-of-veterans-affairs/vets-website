@@ -8,6 +8,7 @@ import { fetchRatedDisabilities } from '../actions';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 // import RatedDisabilityHeader from '../components/RatedDisabilityHeader';
+import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 
 class RatedDisabilitiesApp extends React.Component {
   render() {
@@ -21,6 +22,7 @@ class RatedDisabilitiesApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}
         >
+          <TotalRatedDisabilities percentage={80} />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
