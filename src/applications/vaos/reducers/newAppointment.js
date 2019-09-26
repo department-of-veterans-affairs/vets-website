@@ -185,7 +185,7 @@ export default function formReducer(state = initialState, action) {
         getFacilities(state, action.typeOfCareId, newData.vaSystem);
 
       const facilityUpdate = updateFacilitiesSchemaAndData(
-        state.systems,
+        systems,
         facilities,
         newSchema,
         newData,

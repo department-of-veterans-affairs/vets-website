@@ -177,11 +177,11 @@ describe('VAOS reducer: newAppointment', () => {
             type: 'string',
             enum: ['983', '983GB', '983GC', '983GD', '983HK'],
             enumNames: [
-              'CHYSHR-Cheyenne VA Medical Center',
-              'CHYSHR-Sidney VA Clinic',
-              'CHYSHR-Fort Collins VA Clinic',
-              'CHYSHR-Loveland VA Clinic',
-              'CHYSHR-Wheatland VA Mobile Clinic',
+              'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
+              'CHYSHR-Sidney VA Clinic (Sidney, NE)',
+              'CHYSHR-Fort Collins VA Clinic (Fort Collins, CO)',
+              'CHYSHR-Loveland VA Clinic (Loveland, CO)',
+              'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
             ],
           },
         },
@@ -236,6 +236,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         },
       },
+      systems,
       facilities: {},
       loadingFacilities: true,
     };
@@ -247,7 +248,9 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.loadingFacilities).to.be.true;
+      expect(
+        newState.pages.vaFacility.properties.vaFacilityLoading,
+      ).to.deep.equal({ type: 'string' });
     });
 
     it('should set up facilities after they are fetched', () => {
@@ -258,31 +261,20 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultFacilityState, action);
 
-      expect(newState.loadingFacilities).to.be.false;
+      expect(newState.pages.vaFacility.properties.vaFacilityLoading).to.be
+        .undefined;
       expect(newState.pages.vaFacility.properties.vaFacility).to.deep.equal({
         type: 'string',
         enum: ['983', '983GB', '983GC', '983GD', '983HK'],
         enumNames: [
-          'CHYSHR-Cheyenne VA Medical Center',
-          'CHYSHR-Sidney VA Clinic',
-          'CHYSHR-Fort Collins VA Clinic',
-          'CHYSHR-Loveland VA Clinic',
-          'CHYSHR-Wheatland VA Mobile Clinic',
+          'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
+          'CHYSHR-Sidney VA Clinic (Sidney, NE)',
+          'CHYSHR-Fort Collins VA Clinic (Fort Collins, CO)',
+          'CHYSHR-Loveland VA Clinic (Loveland, CO)',
+          'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
         ],
       });
       expect(newState.facilities['323_983']).to.equal(facilities983);
-    });
-
-    it('should remove facility question and set data if only one facility', () => {
-      const action = {
-        ...defaultFetchFacilitiesAction,
-        facilities: facilities983.slice(0, 1),
-      };
-
-      const newState = newAppointmentReducer(defaultFacilityState, action);
-
-      expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
-      expect(newState.data.vaFacility).to.equal('983');
     });
 
     it('should update facility choices if system changed and we have the list in state', () => {
@@ -306,11 +298,11 @@ describe('VAOS reducer: newAppointment', () => {
         type: 'string',
         enum: ['983', '983GB', '983GC', '983GD', '983HK'],
         enumNames: [
-          'CHYSHR-Cheyenne VA Medical Center',
-          'CHYSHR-Sidney VA Clinic',
-          'CHYSHR-Fort Collins VA Clinic',
-          'CHYSHR-Loveland VA Clinic',
-          'CHYSHR-Wheatland VA Mobile Clinic',
+          'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
+          'CHYSHR-Sidney VA Clinic (Sidney, NE)',
+          'CHYSHR-Fort Collins VA Clinic (Fort Collins, CO)',
+          'CHYSHR-Loveland VA Clinic (Loveland, CO)',
+          'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
         ],
       });
     });
@@ -322,6 +314,11 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultFacilityState,
+        systems: [
+          {
+            institutionCode: '983',
+          },
+        ],
         facilities: {
           '323_983': facilities983.slice(0, 1),
         },
