@@ -29,7 +29,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('contactInfo');
+      expect(nextState).to.equal('ccProvider');
     });
 
     it('next should choose audiology options page if CC and audiology is chosen', () => {
