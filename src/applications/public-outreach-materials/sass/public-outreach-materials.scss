@@ -4,17 +4,31 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
 
 .outreach-asset-form-filters {
-  padding: 15px;
   background: $color-gray-lightest;
-  max-width: 95%;
-  margin-bottom: 25px;
 }
-
+.va-sidebarnav .left-side-nav-title h4 {
+  width: 100%;
+}
 .asset-component-library {
   .asset-card {
-    min-height: 450px;
+    height: 388px;
     float: left;
     display: none;
+
+    @media (min-width: $medium-screen) {
+      height: 184px;
+    }
+    @media (min-width: $large-screen) {
+      height: 388px;
+      &.large-screen\:vads-l-col--6 {
+        max-width: 48.35%;
+      }
+    }
+
+    .card-inside-wrap {
+      background: $color-gray-lightest;
+      height: 100%;
+    }
     &.show-type {
       display: block;
       &.hide-topic {
@@ -32,6 +46,15 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       &.pager-hide {
         display: none;
       }
+      @media (min-width: $medium-screen) {
+        //height: 224px;
+        height: 100%;
+      }
+
+      @media (min-width: $large-screen) {
+        height: 388px;
+      }
+
     }
     &.hide-topic {
       display: none;
@@ -41,29 +64,29 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
 
     .asset-head-wrap {
-      max-width: 100%;
-      height: 212px;
+      height: 148px;
+      width: 100%;
       overflow: hidden;
-      background: $color-primary-alt-darkest;
       background-size: contain;
-      &.document-asset-wrap {
-        background: url(/img/megamenu/disability-illustration.png) center center;
-      }
-      &.video-asset-wrap {
-        background: url(/img/megamenu/health-care-illustration.png) center center;
-      }
       img {
-        margin: 0 auto;
+        margin: 0;
         display: block;
         width: 100%;
-        height: 100%;
+        height: 148px;
         object-fit: cover;
       }
     }
     .asset-body-wrap {
-      background: $color-gray-lightest;
-      height: 250px;
-      padding: 15px;
+      height: 214px;
+
+      @media (min-width: $medium-screen) {
+        height: 100%;
+      }
+
+      @media (min-width: $large-screen) {
+        height: 214px;
+      }
+
       .asset-body-text,
       .asset-category-text,
       .asset-filetype-text {
@@ -73,6 +96,9 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
         text-transform: capitalize;
       }
     }
+  }
+  .va-c-margin-top--auto {
+    margin-top: auto;
   }
 }
 
@@ -91,4 +117,38 @@ button.va-page-numbers {
 
 #no-results {
   display: none;
+}
+
+/*
+Currently, necessary combination of classes in formation
+is not available to accomplish styling / layout
+needed for card tablet view (i.e., adding one class might
+cover one scenario, however, it would result in a new styling issue).
+Only way to accomplish everything required is with this method.
+*/
+@media (min-width: $medium-screen) and (max-width: $large-screen) {
+  .asset-card {
+    &.medium-card-utility {
+      margin-bottom: 25px;
+      min-height: 0;
+      .medium-head-utility {
+        background: none;
+        max-width: none;
+        display: block;
+        float: left;
+        width: 33%;
+        height: 100%;
+        img {
+          height: 110px;
+        }
+      }
+      .medium-body-utility {
+        float: right;
+        display: block;
+        width: 66%;
+        background: none;
+        padding-top: 0 !important;
+      }
+    }
+  }
 }

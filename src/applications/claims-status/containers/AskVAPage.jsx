@@ -46,23 +46,23 @@ class AskVAPage extends React.Component {
       buttonMsg = 'Something went wrong...';
     }
     return (
-      <div>
-        <div className="row">
-          <div className="medium-12 columns">
+      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
               <Link to={`your-claims/${this.props.params.id}`}>
-                Status Details
+                Status details
               </Link>
               <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
-                Ask for Claim Decision
+                Ask for your claim decision
               </Link>
             </ClaimsBreadcrumbs>
           </div>
         </div>
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 columns">
+        <div className="vads-l-row vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <div>
-              <h1>Ask for your Claim Decision</h1>
+              <h1>Ask for your claim decision</h1>
               <p className="first-of-type">
                 We sent you a letter in the mail asking for more evidence to
                 support your claim. We’ll wait 30 days for your evidence. If you
@@ -108,7 +108,7 @@ class AskVAPage extends React.Component {
               ) : null}
             </div>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 columns help-sidebar">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
             <AskVAQuestions />
           </div>
         </div>

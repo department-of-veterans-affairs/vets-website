@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import DowntimeNotification, {
   externalServices,
@@ -8,16 +9,39 @@ import DowntimeNotification, {
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
 
-import Vet360TransactionReporter from '../vet360/containers/TransactionReporter';
+import Vet360TransactionReporter from 'vet360/containers/TransactionReporter';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
 import PaymentInformation from '../containers/PaymentInformation';
+import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
+
+import { profileShowDirectDeposit } from '../selectors';
+
+const ProfileTOC = ({ militaryInformation, showDirectDeposit }) => (
+  <>
+    <h2 className="vads-u-font-size--h3">On this page</h2>
+    <ul>
+      <li>
+        <a href="#contact-information">Contact information</a>
+      </li>
+      {showDirectDeposit && <PaymentInformationTOCItem />}
+      <li>
+        <a href="#personal-information">Personal information</a>
+      </li>
+      {militaryInformation && (
+        <li>
+          <a href="#military-information">Military service information</a>
+        </li>
+      )}
+    </ul>
+  </>
+);
 
 class ProfileView extends React.Component {
   static propTypes = {
@@ -61,6 +85,7 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
+      showDirectDeposit,
     } = this.props;
 
     let content;
@@ -85,12 +110,24 @@ class ProfileView extends React.Component {
                 hero={hero}
                 militaryInformation={militaryInformation}
               />
+              <ProfileTOC
+                militaryInformation={militaryInformation}
+                showDirectDeposit={showDirectDeposit}
+              />
+              <div id="contact-information" />
               <ContactInformation />
-              <PaymentInformation />
+              {showDirectDeposit && (
+                <>
+                  <div id="direct-deposit" />
+                  <PaymentInformation />
+                </>
+              )}
+              <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
                 personalInformation={personalInformation}
               />
+              {militaryInformation && <div id="military-information" />}
               <MilitaryInformation
                 veteranStatus={user.profile.veteranStatus}
                 fetchMilitaryInformation={fetchMilitaryInformation}
@@ -146,4 +183,12 @@ class ProfileView extends React.Component {
   }
 }
 
-export default ProfileView;
+function mapStateToProps(state) {
+  return {
+    showDirectDeposit: profileShowDirectDeposit(state),
+  };
+}
+
+export default connect(mapStateToProps)(ProfileView);
+
+export { ProfileView };

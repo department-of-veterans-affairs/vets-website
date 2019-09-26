@@ -2,7 +2,7 @@
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
-<div id="content" class="interior">
+<div id="content" class="interior">   
   <main>
     <div class="usa-grid usa-grid-full">
       <article class="usa-width-two-thirds">
@@ -34,13 +34,19 @@
           {% endfor %}
         </ul>
         {% endif %}
+
         {% if fieldAlert.length %}
-          {% if alert.entity is not null %}
-            {% for alert in fieldAlert %}
-              {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
-            {% endfor %}
+          {% for alert in fieldAlert %}
+            {% if alert.entity != empty %}
+                {% include "src/site/blocks/alert.drupal.liquid" with alert = alert.entity %}
+              {% endif %}
+          {% endfor %}
+        {% else %}
+          {% if fieldAlert.entity != empty %}
+            {% include "src/site/blocks/alert.drupal.liquid" with alert = fieldAlert.entity %}
           {% endif %}
         {% endif %}
+
         {% if fieldSpokes != empty %}
         {% for spoke in fieldSpokes %}
         <section class="usa-grid">
@@ -79,7 +85,8 @@
                 <h4>Message us</h4>
                 <ul class="va-nav-linkslist-list social">
                   <li>
-                    <a href="https://iris.custhelp.va.gov/app/ask">
+                    <a href="https://iris.custhelp.va.gov/app/ask"
+                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Ask questions' });">
                       Ask a question online
                     </a>
                   </li>
@@ -94,7 +101,8 @@
                   {% assign service = supportService.entity %}
                   <li>
                     {% if service.fieldPhoneNumber %}
-                    <a href="{{ service.fieldLink.url.path }}">
+                    <a href="{{ service.fieldLink.url.path }}"
+                      onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Ask questions' });">
                       <span>{{ service.title }}</span><br>
                       <span>{{ service.fieldPhoneNumber }}</span>
                     </a>
@@ -123,7 +131,8 @@
               <ul class="va-nav-linkslist-list links">
                 {% for link in fieldLinks %}
                 <li>
-                  <a href="{{ link.url.path }}">
+                  <a href="{{ link.url.path }}"
+                    onclick="recordEvent({ 'event': 'nav-hub-rail', 'nav-path': 'Not a Veteran?' });">
                     <span>{{ link.title }}</span>
                   </a>
                 </li>

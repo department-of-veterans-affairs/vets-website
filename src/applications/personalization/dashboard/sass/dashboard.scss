@@ -1,9 +1,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
-@import "../../../../platform/forms/sass/_m-applications";
+@import "../../../../platform/forms/sass/m-applications";
 
 #dashboard-title {
   margin-top: 1.5em;
+  outline: 0;
 }
 
 .profile-section {

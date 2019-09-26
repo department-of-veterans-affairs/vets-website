@@ -1,9 +1,5 @@
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
-  // `activeduty` is a possible value for `parsedStatus` from `health_care_applications/enrollment_status` but we do not use it in the front end...
   activeDuty: 'activeduty',
-  // ...instead we convert it to one of these two values in the HCA reducer:
-  activeDutyHasApplied: 'activeduty_has_applied',
-  activeDutyHasNotApplied: 'activeduty_has_not_applied',
   canceledDeclined: 'canceled_declined',
   closed: 'closed',
   deceased: 'deceased',
@@ -21,6 +17,7 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   ineligOver65: 'inelig_over65',
   ineligRefusedCopay: 'inelig_refusedcopay',
   ineligTrainingOnly: 'inelig_training_only',
+  nonMilitary: 'non_military',
   noneOfTheAbove: 'none_of_the_above',
   pendingMt: 'pending_mt',
   pendingOther: 'pending_other',

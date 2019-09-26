@@ -1,6 +1,7 @@
 /**
  * Associated person profiles on the healthcare region node
  */
+const { cmsFeatureFlags } = global;
 
 const PERSON_PROFILE_RESULTS = `
   entity {
@@ -10,6 +11,8 @@ const PERSON_PROFILE_RESULTS = `
       fieldNameFirst
       fieldLastName
       fieldSuffix
+      fieldEmailAddress
+      fieldPhoneNumber
       fieldDescription
       fieldOffice {
         entity {
@@ -26,10 +29,10 @@ const PERSON_PROFILE_RESULTS = `
               alt
               title
               url
-              derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
-                url
-                width
-                height
+              ${
+                cmsFeatureFlags.FEATURE_IMAGE_STYLE_23
+                  ? 'derivative(style: _23MEDIUMTHUMBNAIL) {url width height}'
+                  : 'derivative(style: CROP32) {url width height}'
               }
             }
           }

@@ -140,17 +140,20 @@ function updateEntityUrlObj(page, drupalPagePath, title, pathSuffix) {
 
 // Generate breadcrumbs from drupal page path
 function generateBreadCrumbs(pathString) {
-  const pathArray = pathString.split('/');
+  const pathArray = pathString
+    .split('/')
+    .map(value => (value === 'health-services' ? 'health-services' : value));
   const entityUrlObj = createEntityUrlObj(pathString);
   let previous = '';
   let trimmedValue;
+
   for (const value of pathArray) {
     trimmedValue = _.trim(value, '/');
     if (value) {
       const dehandlized =
         value === 'pittsburgh-health-care'
           ? 'VA Pittsburgh health care'
-          : _.startCase(_.trim(value, '-'));
+          : value.charAt(0).toUpperCase() + value.replace('-', ' ').slice(1);
       entityUrlObj.breadcrumb.push({
         url: {
           path: `${previous}${value}`,
@@ -161,14 +164,13 @@ function generateBreadCrumbs(pathString) {
     }
     previous += `${trimmedValue}/`;
   }
-
   return entityUrlObj;
 }
 
 function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
-    if (nav !== null && nav.links.length) {
+    if (nav !== null && nav.links) {
       const navName = _.toLower(nav.name.replace(/&/g, 'and'));
       if (owner !== null && owner === navName) {
         return { sidebar: nav };
@@ -183,10 +185,16 @@ function getHubSidebar(navsArray, owner) {
 function compilePage(page, contentData) {
   const {
     data: {
-      healthcareHubSidebarQuery: healthcareHubSidebarNav = {},
-      recordsHubSidebarQuery: recordsHubSidebarNav = {},
-      pensionHubSidebarQuery: pensionHubSidebarNav = {},
-      careersHubSidebarQuery: careersHubSidebarNav = {},
+      burialsAndMemorialsBenefQuery: burialsHubSidebarNav = {},
+      careersEmploymentBenefitsQuery: careersHubSidebarNav = {},
+      decisionReviewsBenefitsHQuery: decisionHubSidebarNav = {},
+      disabilityBenefitsHubQuery: disabilityHubSidebarNav = {},
+      educationBenefitsHubQuery: educationHubSidebarNav = {},
+      healthCareBenefitsHubQuery: healthcareHubSidebarNav = {},
+      housingAssistanceBenefitsQuery: housingHubSidebarNav = {},
+      lifeInsuranceBenefitsHubQuery: lifeInsuranceHubSidebarNav = {},
+      pensionBenefitsHubQuery: pensionHubSidebarNav = {},
+      recordsBenefitsHubQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
       facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
@@ -200,10 +208,16 @@ function compilePage(page, contentData) {
   }
   // Benefits hub side navs in an array to loop through later
   const sideNavs = [
-    healthcareHubSidebarNav,
-    recordsHubSidebarNav,
-    pensionHubSidebarNav,
+    burialsHubSidebarNav,
     careersHubSidebarNav,
+    decisionHubSidebarNav,
+    disabilityHubSidebarNav,
+    educationHubSidebarNav,
+    healthcareHubSidebarNav,
+    housingHubSidebarNav,
+    lifeInsuranceHubSidebarNav,
+    pensionHubSidebarNav,
+    recordsHubSidebarNav,
   ];
   let sidebarNavItems;
 
@@ -215,11 +229,17 @@ function compilePage(page, contentData) {
 
   const pageIdRaw = parseInt(page.entityId, 10);
   const pageId = { pid: pageIdRaw };
-  page.entityUrl = generateBreadCrumbs(entityUrl.path);
+
+  if (!('breadcrumb' in entityUrl)) {
+    page.entityUrl = generateBreadCrumbs(entityUrl.path);
+  }
+
   let pageCompiled;
 
   switch (entityBundle) {
     case 'office':
+    case 'publication_listing':
+    case 'event_listing':
       pageCompiled = Object.assign(
         {},
         page,
@@ -278,6 +298,7 @@ function compilePage(page, contentData) {
       break;
     case 'event': {
       // eslint-disable-next-line no-param-reassign
+      page.entityUrl = generateBreadCrumbs(entityUrl.path);
       pageCompiled = Object.assign(
         page,
         facilitySidebarNavItems,
@@ -299,7 +320,6 @@ function compilePage(page, contentData) {
     default:
       // Get the right benefits hub sidebar
       sidebarNavItems = getHubSidebar(sideNavs, owner);
-      page.entityUrl = generateBreadCrumbs(entityUrl.path);
 
       // Build page with correct sidebar
       pageCompiled = Object.assign(

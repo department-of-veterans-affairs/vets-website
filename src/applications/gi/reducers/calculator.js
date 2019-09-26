@@ -10,10 +10,12 @@ import {
   FETCH_PROFILE_SUCCEEDED,
 } from '../actions';
 
-const beneficiaryZIPRegExTester = /\b\d{1,5}\b/;
+const beneficiaryZIPRegExTester = /^\d{1,5}$/;
+
 const INITIAL_STATE = {
   beneficiaryLocationQuestion: 'yes',
   beneficiaryZIP: '',
+  extension: '',
   inState: 'yes',
   tuitionInState: 0,
   tuitionOutOfState: 0,
@@ -35,6 +37,8 @@ const INITIAL_STATE = {
   kickerAmount: 200,
   buyUp: 'no',
   buyUpAmount: 600,
+  vetTecTuitionFees: null,
+  vetTecScholarships: null,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -52,6 +56,8 @@ export default function(state = INITIAL_STATE, action) {
         'tuitionAssist',
         'kickerAmount',
         'buyUpAmount',
+        'vetTecTuitionFees',
+        'vetTecScholarships',
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
@@ -183,7 +189,7 @@ export default function(state = INITIAL_STATE, action) {
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       return {
@@ -223,8 +229,11 @@ export default function(state = INITIAL_STATE, action) {
 
       let beneficiaryZIPError;
 
-      if (!beneficiaryZIPRegExTester.exec(beneficiaryZIP)) {
-        beneficiaryZIPError = 'ZIP Code must be a five digit number';
+      if (
+        beneficiaryZIP !== '' &&
+        !beneficiaryZIPRegExTester.exec(beneficiaryZIP)
+      ) {
+        beneficiaryZIPError = 'Zip code must be a 5-digit number';
       } else {
         beneficiaryZIPError = '';
       }

@@ -2,6 +2,7 @@
  * An alert block in Drupal
  *
  */
+
 const FIELD_ALERT = `
 fieldAlert {
   entity {
@@ -15,8 +16,8 @@ fieldAlert {
 
 const alert = `
 fragment alert on BlockContentAlert {
+  fieldAlertDismissable
   fieldAlertType
-  fieldHelpText
   fieldAlertTitle
   fieldReusability
   fieldAlertContent {

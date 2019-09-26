@@ -2,7 +2,7 @@ const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const EduHelpers = require('../1990/edu-helpers');
 const Edu1995Helpers = require('./edu-1995-helpers');
-const testData = require('./schema/maximal-test.json');
+const testData = require('./schema/e2e-maximal-test.json');
 const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 
 module.exports = E2eHelpers.createE2eTest(client => {
@@ -16,7 +16,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
       }/education/apply-for-education-benefits/application/1995`,
     )
     .waitForElementVisible('body', Timeouts.normal)
-    .assert.title('Veteran request for change | Veterans Affairs')
     .waitForElementVisible('.schemaform-start-button', Timeouts.slow)
     .axeCheck('.main')
     .click('.schemaform-start-button');
@@ -39,6 +38,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
+  // STEM page
+  client.waitForElementVisible(
+    'label[for="root_isEdithNourseRogersScholarshipYes"',
+    Timeouts.slow,
+  );
+  Edu1995Helpers.completeStemSelection(client);
+  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/benefits/stem');
+
   // Service periods page.
   client.waitForElementVisible(
     'label[for="root_view:newServiceYes"]',
@@ -55,7 +63,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   Edu1995Helpers.completeMilitaryService(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
+  E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
   // New school page.
   client.waitForElementVisible(

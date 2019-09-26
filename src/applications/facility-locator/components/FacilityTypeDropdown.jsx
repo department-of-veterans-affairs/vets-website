@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
-import { LOCATION_OPTIONS /* LocationType */ } from '../constants';
+import { LOCATION_OPTIONS, LocationType } from '../constants';
 
 const facilityOptionClasses = (item, selected) =>
   classNames(
@@ -73,8 +73,13 @@ class FacilityTypeDropdown extends Component {
   */
 
   render() {
+    const locationOptions = this.props.showCommunityCares
+      ? this.props.locationOptions
+      : this.props.locationOptions.filter(
+          item => item !== LocationType.CC_PROVIDER,
+        );
     const facilityType = this.props.facilityType || 'all';
-    const highlightIndex = LOCATION_OPTIONS.indexOf(facilityType);
+    const highlightIndex = locationOptions.indexOf(facilityType);
 
     return (
       <Downshift
@@ -99,7 +104,7 @@ class FacilityTypeDropdown extends Component {
             }
           };
 
-          const options = LOCATION_OPTIONS.map((item, index) => (
+          const options = locationOptions.map((item, index) => (
             <li
               key={item}
               {...getItemProps({
@@ -202,5 +207,9 @@ class FacilityTypeDropdown extends Component {
     );
   }
 }
+
+FacilityTypeDropdown.defaultProps = {
+  locationOptions: LOCATION_OPTIONS,
+};
 
 export default FacilityTypeDropdown;

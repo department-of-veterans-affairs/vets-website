@@ -3,15 +3,11 @@ import sinon from 'sinon';
 
 import { submit } from '../helpers.jsx';
 
-import { mockFetch, resetFetch } from '../../../platform/testing/unit/helpers';
-
-function setFetchResponse(stub, data, headers = {}) {
-  const response = new Response();
-  response.ok = true;
-  response.headers.get = headerID => headers[headerID] || null;
-  response.json = () => Promise.resolve(data);
-  stub.resolves(response);
-}
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse as setFetchResponse,
+} from 'platform/testing/unit/helpers';
 
 describe('Burials helpers', () => {
   describe('submit', () => {
@@ -41,41 +37,29 @@ describe('Burials helpers', () => {
     });
     it('should resolve if polling state is success', () => {
       mockFetch();
-      setFetchResponse(
-        global.fetch.onFirstCall(),
-        {
-          data: {
-            attributes: {
-              guid: 'test',
-            },
+      setFetchResponse(global.fetch.onFirstCall(), {
+        data: {
+          attributes: {
+            guid: 'test',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onSecondCall(),
-        {
-          data: {
-            attributes: {
-              state: 'pending',
-            },
+      });
+      setFetchResponse(global.fetch.onSecondCall(), {
+        data: {
+          attributes: {
+            state: 'pending',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
+      });
       const response = {};
-      setFetchResponse(
-        global.fetch.onThirdCall(),
-        {
-          data: {
-            attributes: {
-              state: 'success',
-              response,
-            },
+      setFetchResponse(global.fetch.onThirdCall(), {
+        data: {
+          attributes: {
+            state: 'success',
+            response,
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
+      });
       const formConfig = {
         chapters: {},
       };
@@ -89,39 +73,27 @@ describe('Burials helpers', () => {
     });
     it('should reject if polling state is failed', () => {
       mockFetch();
-      setFetchResponse(
-        global.fetch.onFirstCall(),
-        {
-          data: {
-            attributes: {
-              guid: 'test',
-            },
+      setFetchResponse(global.fetch.onFirstCall(), {
+        data: {
+          attributes: {
+            guid: 'test',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onSecondCall(),
-        {
-          data: {
-            attributes: {
-              state: 'pending',
-            },
+      });
+      setFetchResponse(global.fetch.onSecondCall(), {
+        data: {
+          attributes: {
+            state: 'pending',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
-      setFetchResponse(
-        global.fetch.onThirdCall(),
-        {
-          data: {
-            attributes: {
-              state: 'failed',
-            },
+      });
+      setFetchResponse(global.fetch.onThirdCall(), {
+        data: {
+          attributes: {
+            state: 'failed',
           },
         },
-        { 'Content-Type': 'application/json' },
-      );
+      });
       const formConfig = {
         chapters: {},
       };

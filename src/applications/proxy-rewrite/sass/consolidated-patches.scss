@@ -103,6 +103,10 @@ header.merger {
       .vetnav-panel {
         width: 487px;
 
+        .mm-link-container {
+          width: 220px;
+        }
+
         &.column-one {
           .mm-link-container {
             width: 200px;
@@ -176,4 +180,10 @@ footer.footer {
 .padding-h-none {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+.vetnav-panel--submenu {
+  h3 {
+    background-color: transparent;
+  }
 }

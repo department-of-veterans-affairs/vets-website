@@ -6,6 +6,7 @@ const NEWS_STORIES_RESULTS = `
   entities {
     ... on NodeNewsStory {
       title
+      fieldFeatured
       fieldIntroText
       fieldMedia {
         entity {
@@ -13,7 +14,7 @@ const NEWS_STORIES_RESULTS = `
             image {
               alt
               title
-              derivative(style: CROP_3_2) {
+              derivative(style: _32MEDIUMTHUMBNAIL) {
                   url
                   width
                   height
@@ -35,8 +36,8 @@ function queryFilter(isAll) {
       conditions: [
         { field: "type", value: "news_story"}
         { field: "status", value: "1"}
-        ${isAll ? '' : '{ field: "field_featured" value: "1"}'}        
-      ]} sort: {field: "changed", direction: DESC } limit:${
+        ${isAll ? '' : '{ field: "field_featured" value: "1"}'}
+      ]} sort: {field: "changed", direction: DESC }, limit:${
         isAll ? '500' : '2'
       })
   `;

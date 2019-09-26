@@ -29,7 +29,7 @@ Example data:
             "alt": null,
             "title": null,
             "derivative": {
-              "url": "http://stg.va.agile6.com/sites/default/files/styles/crop_3_2/public/hub_promos/education.png?itok=Dq-jwud0",
+              "url": "http://stg.va.agile6.com/sites/default/files/styles/3_2_medium_thumbnail/public/hub_promos/education.png?itok=Dq-jwud0",
               "width": 456,
               "height": 304
             }
@@ -50,16 +50,23 @@ Example data:
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
-  <main class="va-l-detail-page">
+  <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       <div class="usa-width-three-fourths">
        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
-          <h1>Community stories</h1>
+        <article class="usa-content">
+          <h1>Stories</h1>
           <div class="va-introtext vads-u-margin-bottom--4">
             {{ fieldIntroTextNewsStories.processed }}
           </div>
+          {% if paginator.prev == null %}
+          {% for storyFeature in newsStoryTeasers.entities %}
+            {% if forloop.first == true %}
+              {% include "src/site/teasers/news_story_page_feature.drupal.liquid" with node = storyFeature %}
+            {% endif %}
+          {% endfor %}
+          {% endif %}
           {% for story in pagedItems %}
               {% include "src/site/teasers/news_story_page.drupal.liquid" with node = story %}
           {% endfor %}

@@ -1,13 +1,5 @@
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
-const socialMediaFields = enabledFeatureFlags[
-  featureFlags.FEATURE_LOCAL_FACILITY_GET_IN_TOUCH
-]
-  ? require('./facilities-fragments/healthCareSocialMedia.fields.graphql')
-  : '';
+const socialMediaFields = require('./facilities-fragments/healthCareSocialMedia.fields.graphql');
 
 module.exports = `
   fragment healthCareLocalFacilityPage on NodeHealthCareLocalFacility {
@@ -16,6 +8,7 @@ module.exports = `
     fieldFacilityLocatorApiId
     fieldNicknameForThisFacility
     fieldIntroText
+    fieldOperatingStatusFacility
     fieldLocationServices {
       entity {
         ... on ParagraphHealthCareLocalFacilityServi {
@@ -35,10 +28,26 @@ module.exports = `
           image {
             alt
             title
-            derivative(style: CROP_3_2) {
+            derivative(style: _32MEDIUMTHUMBNAIL) {
                 url
                 width
                 height
+            }
+          }
+        }
+      }
+    }
+    fieldRegionPage {
+      entity {
+        ... on NodeHealthCareRegionPage {
+          entityBundle
+          entityId
+          entityPublished
+          title
+          fieldNicknameForThisFacility
+          fieldRelatedLinks {
+            entity {
+              ... listOfLinkTeasers
             }
           }
         }
@@ -51,13 +60,8 @@ module.exports = `
           fieldBody {
             processed
           }
-          ${
-            enabledFeatureFlags[
-              featureFlags.FEATURE_FIELD_REGIONAL_HEALTH_SERVICE
-            ]
-              ? 'fieldRegionalHealthService'
-              : 'fieldClinicalHealthServices'
-          } {
+          fieldRegionalHealthService
+          {
             entity {
               ... on NodeRegionalHealthCareServiceDes {
                 entityBundle
@@ -70,13 +74,7 @@ module.exports = `
                       entityId
                       entityBundle
                       fieldAlsoKnownAs
-                      ${
-                        enabledFeatureFlags[
-                          featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
-                        ]
-                          ? 'fieldCommonlyTreatedCondition'
-                          : ''
-                      }
+                      fieldCommonlyTreatedCondition
                       name
                       description {
                         processed
@@ -88,9 +86,10 @@ module.exports = `
                           }
                         }
                       }
+                      fieldHealthServiceApiId
                     }
                   }
-                }    
+                }
               }
             }
           }

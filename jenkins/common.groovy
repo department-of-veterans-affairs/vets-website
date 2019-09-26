@@ -5,9 +5,9 @@ DRUPAL_MAPPING = [
 ]
 
 DRUPAL_ADDRESSES = [
-  'vagovdev'    : 'http://internal-dev-vagovcms-3000-552087943.us-gov-west-1.elb.amazonaws.com',
-  'vagovstaging': 'http://internal-stg-vagovcms-3000-521598752.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'   : 'http://internal-prod-vagovcms-3001-2053888503.us-gov-west-1.elb.amazonaws.com',
+  'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
+  'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
+  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
 ]
 
 DRUPAL_CREDENTIALS = [
@@ -58,11 +58,11 @@ def shouldBail() {
     currentBuild.nextBuild
 }
 
-def runDeploy(jobName, ref) {
+def runDeploy(String jobName, String ref, boolean waitForDeploy) {
   build job: jobName, parameters: [
     booleanParam(name: 'notify_slack', value: true),
     stringParam(name: 'ref', value: ref),
-  ], wait: false
+  ], wait: waitForDeploy
 }
 
 def buildDetails(String buildtype, String ref) {
@@ -87,7 +87,7 @@ def slackNotify() {
 }
 
 def puppeteerNotification() {
-  message = "(Testing) @chris.valarida: `${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
+  message = "`${env.BRANCH_NAME}` failed the puppeteer tests. |${env.RUN_DISPLAY_URL}".stripMargin()
   slackSend message: message,
     color: 'danger',
     failOnError: true
@@ -131,7 +131,58 @@ def setup() {
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
+
+/**
+ * Searches the build log for missing query flags ands sends a notification
+ * to Slack if any are found.
+ *
+ * NOTE: This function is meant to be called from within the
+ * dockerContainer.inside() context so buildLog can point to the right file.
+ */
+def findMissingQueryFlags(String buildLogPath, String envName) {
+  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\\1/p' ${buildLogPath} | sort | uniq")
+  if (missingFlags) {
+    slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
+      color: 'warning',
+      failOnError: true,
+      channel: 'cms-engineering'
+  }
+}
+
+def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
+  // Look for broken links
+  def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
+  def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
+
+  // Ensure the file isn't there if we had to rebuild
+  if (fileExists(csvFile)) {
+    sh "rm /application/${csvFileName}"
+  }
+
+  // Output a csv file with the broken links
+  sh "cd /application && jenkins/glean-broken-links.sh ${buildLogPath} ${csvFileName}"
+  if (fileExists(csvFile)) {
+    echo "Found broken links; notifying the Slack channel."
+    // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+    // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+
+    // Until slackUploadFile works...
+    def linkCount = sh(returnStdout: true, script: "cd /application && wc -l ${csvFileName} | cut -d ' ' -f1") as Integer
+    slackSend message: "${linkCount} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
+      color: 'danger',
+      failOnError: true,
+      channel: 'cms-engineering'
+
+    // Only break the build if broken links are found in master
+    if (IS_PROD_BRANCH || contentOnlyBuild) {
+      throw new Exception('Broken links found')
+    }
+  } else {
+    echo "Did not find broken links."
+  }
+}
+
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   def buildDetails = buildDetails(envName, ref)
   def drupalAddress = DRUPAL_ADDRESSES.get(envName)
   def drupalCred = DRUPAL_CREDENTIALS.get(envName)
@@ -139,7 +190,19 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
-      sh "cd /application && npm --no-color run build -- --buildtype=${envName} --asset-source=${assetSource} --drupal-address=${drupalAddress} ${drupalMode}"
+      def buildLogPath = "/application/${envName}-build.log"
+
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath}"
+
+      if (envName == 'vagovprod') {
+	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
+      }
+
+      // Find any missing query flags in the log
+      if (envName == 'vagovprod') {
+        findMissingQueryFlags(buildLogPath, envName)
+      }
+
       sh "cd /application && echo \"${buildDetails}\" > build/${envName}/BUILD.txt"
     }
   }
@@ -158,7 +221,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false)
+            build(
+	      ref: ref,
+	      dockerContainer: dockerContainer,
+	      assetSource: assetSource,
+	      envName: envName,
+	      useCache: false,
+	      contentOnlyBuild: contentOnlyBuild
+	    )
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
@@ -167,10 +237,10 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true)
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false)
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
             }
           }
@@ -265,6 +335,7 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
           }
         } else {
           slackCachedContent(envName)
+          // TODO: Read the envName-output.log and send that into the Slack message
         }
       }
 

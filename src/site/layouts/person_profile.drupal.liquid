@@ -39,9 +39,13 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
-    <main class="va-l-detail-page">
+    <main class="va-l-detail-page va-facility-page">
         <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+            {% if fieldOffice.entity.entityUrl.path %}
+                {% assign sidebarData = '{"depth": 5, "link": {"label":"' | append: title | append: '","url": {"path": "/"}, "links": []}, "parent": {"label": "Leadership", "links": [], "url": {"path": "' | append: fieldOffice.entity.entityUrl.path | append: '/leadership"}}}' %}
+
+                {% include 'src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid' with entityUrl = entityUrl, sidebarData = sidebarData %}
+            {%  endif %}
             <div class="usa-width-three-fourths">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}
@@ -51,25 +55,64 @@
                         </div>
                     </div>
                 {% endif %}
-                <article class="vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+                <article class="usa-content">
 
-                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 small-screen:vads-u-display--flex small-screen:vads-u-flex-direction--row">
+                    <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
 
-                        <div class="usa-width-one-third small-screen:vads-u-margin-right--3">
-                            {% assign image = fieldMedia.entity.image %}
-                            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
-                        </div>
+                        {% if fieldMedia.entity.image != empty %}
+                            <div class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-margin-right--3">
+                                {% assign image = fieldMedia.entity.image %}
+                                <img class="person-profile-detail-page-image" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}">
+                            </div>
+                        {% endif %}
 
-                        <div class="usa-width-two-thirds vads-u-display--flex vads-u-flex-direction--column">
-                            <h1 class="vads-u-font-size--xl vads-u-margin-bottom--2">{{ title }}</h1>
-                            <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-line-height--1">{{ fieldDescription }}</p>
-                            {% if fieldPhotoAllowHiresDownload %}
-                                <div class="vads-u-align-content--flex-end va-c-margin-top--auto">
-                                    <i class="va-c-social-icon fas fa-download"></i>  <a href="{{ image.url }}" download>Download full size photo</a>
-                                </div>
+                        <div class="vads-u-display--flex vads-u-flex-direction--column">
+                            <h1 class="
+                            vads-u-font-size--xl
+                            vads-u-margin-bottom--0p5">
+                                {{ title }}
+                                {% if fieldSuffix %}
+                                {{ fieldSuffix }}
+                                {% endif %}
+                            </h1>
+                            {% if fieldDescription %}
+                            <p class="
+                            vads-u-font-weight--normal
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5
+                            vads-u-font-family--serif
+                            vads-u-font-size--lg">
+                                {{ fieldDescription }}</p>
+                            {% endif %}
+                            {% if fieldOffice.entity.entityLabel %}
+                            <p class="
+                            vads-u-font-weight--normal
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5
+                            vads-u-font-family--serif
+                            vads-u-font-size--lg">
+                                {{ fieldOffice.entity.entityLabel }}
+                            </p>
+                            {% endif %}
+                            {% if fieldEmailAddress %}
+                            <p class="
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5
+                            vads-u-font-weight--regular">
+                                <span class="vads-u-font-weight--bold">Email:</span> <a target="blank"
+                                    href="mailto:{{ fieldEmailAddress }}">{{ fieldEmailAddress }}</a>
+                            </p>
+                            {% endif %}
+                            {% if fieldPhoneNumber %}
+                            <p class="
+                            vads-u-font-weight--regular
+                            vads-u-margin--0
+                            vads-u-margin-bottom--0p5">
+                                <span class="vads-u-font-weight--bold">Phone:</span> <a
+                                    href="tel:{{ fieldPhoneNumber }}">{{ fieldPhoneNumber }}</a>
+                            </p>
                             {% endif %}
                         </div>
-
                     </div>
 
                     {% if fieldIntroText %}
@@ -83,10 +126,21 @@
                         {{ fieldBody.processed }}
                     </div>
                     {% endif %}
-
+                    {% if fieldPhotoAllowHiresDownload %}
+                    <div class="vads-u-align-content--flex-end va-c-margin-top--auto vads-u-margin-bottom--2">
+                        <i class="va-c-social-icon fas fa-download"></i> <a href="{{ image.url }}"
+                            download>Download full size photo</a>
+                    </div>
+                    {% endif %}
+                    {% if fieldCompleteBiography %}
+                    <div class="vads-u-align-content--flex-end va-c-margin-top--auto vads-u-margin-bottom--2">
+                        <i class="va-c-social-icon fas fa-download"></i> <a href="{{ fieldCompleteBiography.entity.url }}"
+                            download>Download full bio (PDF)</a>
+                    </div>
+                    {% endif %}
                 </article>
 
-                <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+                <div class="last-updated usa-content">
                     Last updated: <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
                 </div>
 

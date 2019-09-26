@@ -3,10 +3,6 @@
  * Example: /pittsburgh-health-care/events/example-event
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('../../../../utilities/featureFlags');
 
 module.exports = `
  fragment eventPage on NodeEvent {
@@ -19,12 +15,21 @@ module.exports = `
           image {
             alt
             title
-            derivative(style: CROP_7_2) {
+            derivative(style: _72MEDIUMTHUMBNAIL) {
               url
               width
               height
             }
           }
+        }
+      }
+    }
+    uid {
+      targetId
+      ... on FieldNodeUid {
+        entity {
+          name
+          timezone
         }
       }
     }
@@ -64,10 +69,6 @@ module.exports = `
       }
     }
     fieldEventRegistrationrequired
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_ADDITIONAL_INFO]
-        ? 'fieldAdditionalInformationAbo {processed}'
-        : 'fieldAdditionalInformationAbo'
-    }
+    fieldAdditionalInformationAbo {processed}
  }
 `;

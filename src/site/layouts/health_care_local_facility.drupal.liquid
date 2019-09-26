@@ -65,7 +65,7 @@
     "alt": "The entrance to the Pittsburgh VA Medical Center--University Drive",
     "title": "",
     "derivative": {
-    "url": "http://dev.va.agile6.com/sites/default/files/styles/crop_3_2/public/2019-02/university-drive-consolidation-building2.jpg?itok=qK823DFr",
+    "url": "http://dev.va.agile6.com/sites/default/files/styles/3_2_medium_thumbnail/public/2019-02/university-drive-consolidation-building2.jpg?itok=qK823DFr",
     "width": 480,
     "height": 330
     },
@@ -83,7 +83,7 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div class="interior" id="content">
-  <main class="va-l-detail-page">
+  <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       <div class="usa-width-three-fourths">
@@ -96,7 +96,7 @@
           </div>
         {% endif %}
 
-        <article class="vads-u-width--full vads-u-padding-x--2 small-screen:vads-u-padding-x--3 va-l-facility-detail">
+        <article class="usa-content va-l-facility-detail">
           {% if title != empty %}
             <h1>{{ title }}</h1>
           {% endif %}
@@ -110,44 +110,29 @@
           <div class="usa-grid usa-grid-full vads-u-margin-y--1p5 vads-u-margin-bottom--6">{% assign basePath = entityUrl.path | regionBasePath %}
               {% include "src/site/facilities/facilities_health_services_buttons.drupal.liquid" with path = basePath %}</div>
 
-          <div class="region-list usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5">
+            <section id="table-of-contents" class="vads-u-margin-bottom--5">
+                <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+                <ul class="usa-unstyled-list"></ul>
+            </section>
 
+          <h2 class="vads-u-line-height--1 vads-u-margin-bottom--3">Location and contact information</h2>
+          <div class="region-list usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 vads-u-margin-bottom--4">
             <!-- facility details from api -->
-            <div class="usa-width-one-half">
-              <h2 class="vads-u-font-size--lg vads-u-line-height--1 vads-u-margin-bottom--1">Address and phone numbers</h2>
+            <div class="usa-width-two-thirds vads-u-display--block vads-u-width--full">
               <div data-widget-type="facility-detail" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
             </div>
 
-              <div class="usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
+              <div class="usa-width-one-third inline-table-helper vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
                 <!-- facility image -->
                 {% if fieldMedia.entity.image != empty %}
                   {% assign image = fieldMedia.entity.image %}
                   <a href="#" rel="noopener noreferrer" target="_blank" id="google-map-link-image">
-                    <img class="facility-img" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}">
+                    <img class="facility-img" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="{{ image.derivative.width }}" height="{{ image.derivative.height }}"/>
                   </a>
                 {% endif %}
                 <div data-widget-type="facility-map" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
               </div>
           </div>
-
-        <div class="vads-u-margin-bottom--4 small-screen:vads-u-margin-bottom--7">
-            <h2 class="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
-            <ul class="usa-unstyled-list">
-                {% if fieldLocationServices != empty and fieldLocationServices.length %}
-                    <li class="vads-u-margin-bottom--2">
-                        <a class="vads-u-text-decoration--none" href="#prepare-for-your-visit"><i class="fas fa-level-down-alt"></i> Prepare for your visit</a>
-                    </li>
-                {% endif %}
-                {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
-                    <li class="vads-u-margin-bottom--2">
-                        <a class="vads-u-text-decoration--none" href="#health-care-offered-here"><i class="fas fa-level-down-alt"></i> Health care offered here</a>
-                    </li>
-                {% endif %}
-                <li class="vads-u-margin-bottom--2">
-                    <a class="vads-u-text-decoration--none" href="#our-patient-satisfaction-scores"><i class="fas fa-level-down-alt"></i> Appointment access at this location</a>
-                </li>
-            </ul>
-        </div>
 
           <!-- Location services section -->
           {% capture difference %}
@@ -157,7 +142,7 @@
             <div class="vads-u-margin-bottom--4">
                 <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
                 <div class="usa-accordion-bordered">
-                  <ul aria-multiselectable="false" class="usa-unstyled-list">
+                  <ul class="usa-unstyled-list">
                     {% for accordionItem in fieldLocationServices %}
                       {% assign item = accordionItem.entity %}
                       <li class="vads-u-margin-bottom--1">
@@ -176,13 +161,13 @@
           {% endunless %}
 
             <!-- List of links section -->
-            {% if fieldRelatedLinks != empty %}
-                {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+            {% if fieldRegionPage.entity.fieldRelatedLinks != empty %}
+                {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRegionPage.entity.fieldRelatedLinks.entity %}
             {% endif %}
 
             <!-- Local Health Services -->
             {% if fieldLocalHealthCareService != empty and fieldLocalHealthCareService.length %}
-                <h2 id="health-care-offered-here" class="vads-u-font-size--xl vads-u-margin-top--5">Health care offered here</h2>
+                <h2 id="health-care-offered-here" class="vads-u-font-size--xl vads-u-margin-top--5">Health care services offered here</h2>
                 <section class="local-health-services" id="local-health-services">
 
                     {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name' %}
@@ -195,16 +180,22 @@
                 </section>
             {% endif %}
 
+            <h2
+                    id="our-patient-satisfaction-scores"
+                    class="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl"
+            >
+                Appointment access at this location
+            </h2>
             <div data-widget-type="facility-patient-satisfaction-scores" data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}"></div>
 
 
             <!-- Social Links -->
-            {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
-                {% include "src/site/facilities/facility_social_links.drupal.liquid" %}
+            {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
+                {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldRegionPage.entity.fieldNicknameForThisFacility %}
             {% endif %}
 
         </article>
-        <div class="last-updated usa-content vads-u-padding-x--2 small-screen:vads-u-padding-x--3">
+        <div class="last-updated usa-content">
           Last updated:
           <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
         </div>

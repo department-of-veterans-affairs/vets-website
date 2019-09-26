@@ -22,11 +22,6 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
 
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
-    const satisfactionScoresHeader = tree.find('h2');
-    expect(satisfactionScoresHeader.text()).to.contain(
-      'Appointment access at this location',
-    );
-
     const facilityPatientSatisfactionScoresEffectiveDate = tree.find(
       '#facility-patient-satisfaction-scores-effective-date',
     );

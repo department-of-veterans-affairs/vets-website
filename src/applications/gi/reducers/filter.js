@@ -1,7 +1,7 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
 
-const INITIAL_STATE = {
-  category: 'ALL',
+const INITIAL_STATE = Object.freeze({
+  category: 'school',
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',
@@ -9,9 +9,11 @@ const INITIAL_STATE = {
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
-  stemOffered: false,
+  stemIndicator: false,
   typeName: 'ALL',
-};
+  vetTecProvider: false,
+  preferredProvider: false,
+});
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -21,6 +23,6 @@ export default function(state = INITIAL_STATE, action) {
         ...action.filter,
       };
     default:
-      return state;
+      return { ...state };
   }
 }

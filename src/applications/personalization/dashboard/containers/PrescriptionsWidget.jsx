@@ -46,10 +46,18 @@ class PrescriptionsWidget extends React.Component {
 
     if (this.props.prescriptions && this.props.prescriptions.length === 0) {
       content = (
-        <p>
-          We haven’t refilled or shipped any prescriptions for you in the last
-          30 days.
-        </p>
+        <>
+          <p>
+            You don’t have any prescriptions being refilled. If you’ve refilled
+            a prescription within the last 30 days, it may be out for delivery
+            and not showing up here.
+          </p>
+
+          <p>
+            To view and track all of your prescriptions, please go to
+            MyHealtheVet.
+          </p>
+        </>
       );
     }
 

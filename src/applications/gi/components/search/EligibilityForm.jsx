@@ -1,77 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { showModal, hideModal, eligibilityChange } from '../../actions';
+import { showModal, hideModal } from '../../actions';
+import { renderLearnMoreLabel } from '../../utils/render';
 
 import Dropdown from '../Dropdown';
-import RadioButtons from '../RadioButtons';
-import environment from 'platform/utilities/environment';
 
 export class EligibilityForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
-  }
+  cumulativeServiceOptions = () => [
+    { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
+    { value: '0.9', label: '30 months: 90% (includes BASIC)' },
+    { value: '0.8', label: '24 months: 80% (includes BASIC)' },
+    { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
+    { value: '0.6', label: '6 months: 60% (excludes BASIC)' },
+    { value: '0.5', label: '90 days: 50% (excludes BASIC)' },
+    { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
+    { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
+    {
+      value: 'service discharge',
+      label: 'Service-Connected Discharge: 100%',
+    },
+    { value: 'purple heart', label: 'Purple Heart Service: 100%' },
+  ];
 
-  // This will be enabled via story https://app.zenhub.com/workspaces/vft-59c95ae5fda7577a9b3184f8/issues/department-of-veterans-affairs/vets.gov-team/18639
-  cumulativeServiceOptions = () => {
-    if (environment.isProduction()) {
-      return [
-        { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
-        { value: '0.9', label: '30 months: 90% (includes BASIC)' },
-        { value: '0.8', label: '24 months: 80% (includes BASIC)' },
-        { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
-        { value: '0.6', label: '12 months: 60% (excludes BASIC)' },
-        { value: '0.5', label: '6 months: 50% (excludes BASIC)' },
-        { value: '0.4', label: '90 days: 40% (excludes BASIC)' },
-        { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
-        { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
-        {
-          value: 'service discharge',
-          label: 'Service-Connected Discharge: 100%',
-        },
-        { value: 'purple heart', label: 'Purple Heart Service: 100%' },
-      ];
-    }
-
-    return [
-      { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
-      { value: '0.9', label: '30 months: 90% (includes BASIC)' },
-      { value: '0.8', label: '24 months: 80% (includes BASIC)' },
-      { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
-      { value: '0.6', label: '6 months: 60% (excludes BASIC)' },
-      { value: '0.5', label: '90 days: 50% (excludes BASIC)' },
-      { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
-      { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
-      {
-        value: 'service discharge',
-        label: 'Service-Connected Discharge: 100%',
-      },
-      { value: 'purple heart', label: 'Purple Heart Service: 100%' },
-    ];
-  };
-
-  renderLearnMoreLabel({ text, modal }) {
-    return (
-      <span>
-        {text} (
-        <button
-          type="button"
-          className="va-button-link learn-more-button"
-          onClick={this.props.showModal.bind(this, modal)}
-        >
-          Learn more
-        </button>
-        )
-      </span>
-    );
-  }
+  renderLearnMoreLabel = ({ text, modal }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   render() {
     return (
       <div className="eligibility-form">
         <h2>Your eligibility</h2>
-
         <Dropdown
           label="What is your military status?"
           name="militaryStatus"
@@ -90,7 +53,6 @@ export class EligibilityForm extends React.Component {
           visible
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label="Is your spouse on active duty?"
           name="spouseActiveDuty"
@@ -103,7 +65,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.militaryStatus === 'spouse'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
@@ -126,7 +87,6 @@ export class EligibilityForm extends React.Component {
           visible
           onChange={this.props.eligibilityChange}
         />
-
         {this.props.militaryStatus === 'active duty' &&
           this.props.giBillChapter === '33' && (
             <div className="military-status-info warning form-group">
@@ -145,7 +105,6 @@ export class EligibilityForm extends React.Component {
               monthly housing allowance.
             </div>
           )}
-
         {this.props.giBillChapter === '31' && (
           <div className="military-status-info info form-group">
             <i className="fa fa-info-circle" />
@@ -160,7 +119,6 @@ export class EligibilityForm extends React.Component {
             .
           </div>
         )}
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
@@ -173,7 +131,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '33'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Completed an enlistment of:',
@@ -189,7 +146,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '30'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label={this.renderLearnMoreLabel({
             text: 'Length of longest active duty tour:',
@@ -206,7 +162,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '1607'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label="Are you eligible for the Post-9/11 GI Bill?"
           name="eligForPostGiBill"
@@ -219,7 +174,6 @@ export class EligibilityForm extends React.Component {
           visible={this.props.giBillChapter === '31'}
           onChange={this.props.eligibilityChange}
         />
-
         <Dropdown
           label="How many dependents do you have?"
           name="numberOfDependents"
@@ -239,21 +193,6 @@ export class EligibilityForm extends React.Component {
           }
           onChange={this.props.eligibilityChange}
         />
-
-        <RadioButtons
-          label={this.renderLearnMoreLabel({
-            text: 'How do you want to take classes?',
-            modal: 'onlineOnlyDistanceLearning',
-          })}
-          name="onlineClasses"
-          options={[
-            { value: 'yes', label: 'Online only' },
-            { value: 'no', label: 'In person only' },
-            { value: 'both', label: 'In person and online' },
-          ]}
-          value={this.props.onlineClasses}
-          onChange={this.props.eligibilityChange}
-        />
       </div>
     );
   }
@@ -264,7 +203,6 @@ const mapStateToProps = state => state.eligibility;
 const mapDispatchToProps = {
   showModal,
   hideModal,
-  eligibilityChange,
 };
 
 export default connect(

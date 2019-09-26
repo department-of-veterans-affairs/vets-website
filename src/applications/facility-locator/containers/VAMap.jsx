@@ -27,6 +27,8 @@ import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
+import { facilityLocatorShowCommunityCares } from '../utils/selectors';
+import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 
 const otherToolsLink = (
   <p>
@@ -459,7 +461,7 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, selectedResult } = this.props;
+    const { currentQuery, selectedResult, showCommunityCares } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const externalLink =
       currentQuery.facilityType === LocationType.CC_PROVIDER
@@ -472,6 +474,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
+            showCommunityCares={showCommunityCares}
             isMobile
           />
           <Tabs onSelect={this.centerMap}>
@@ -529,7 +532,7 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery } = this.props;
+    const { currentQuery, showCommunityCares } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
@@ -545,6 +548,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
+            showCommunityCares={showCommunityCares}
           />
         </div>
         <div className="row">
@@ -637,6 +641,8 @@ VAMap.contextTypes = {
 function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
+    showCommunityCares:
+      isProduction(state) || facilityLocatorShowCommunityCares(state),
     results: state.searchResult.results,
     pagination: state.searchResult.pagination,
     selectedResult: state.searchResult.selectedResult,

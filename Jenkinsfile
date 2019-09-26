@@ -43,7 +43,9 @@ node('vetsgov-general-purpose') {
 
         unit: {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:coverage"
+            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
           }
         }
       )
@@ -71,7 +73,6 @@ node('vetsgov-general-purpose') {
             try {
               sh "docker-compose -p e2e run --rm --entrypoint npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run test:puppeteer:docker"
             } catch (error) {
-	      // Notify Chris and fail the build
               commonStages.puppeteerNotification()
               throw error
             }
@@ -124,11 +125,11 @@ node('vetsgov-general-purpose') {
       if (!commonStages.isDeployable()) { return }
 
       if (commonStages.IS_DEV_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovdev')) {
-        commonStages.runDeploy('deploys/vets-website-vagovdev', ref)
+        commonStages.runDeploy('deploys/vets-website-vagovdev', ref, false)
       }
 
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
-        commonStages.runDeploy('deploys/vets-website-vagovstaging', ref)
+        commonStages.runDeploy('deploys/vets-website-vagovstaging', ref, false)
       }
 
     } catch (error) {

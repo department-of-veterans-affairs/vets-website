@@ -111,7 +111,7 @@ export function getLetterListAndBSLOptions() {
   return dispatch =>
     getLetterList(dispatch)
       .then(() => getBenefitSummaryOptions(dispatch))
-      .catch(error => Sentry.captureException(error));
+      .catch(() => {});
 }
 
 export function getAddressFailure() {
@@ -178,16 +178,19 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
     });
     dispatch({ type: GET_LETTER_PDF_DOWNLOADING, data: letterType });
 
+    const { userAgent } = window.navigator;
+    const iOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
+    const webkit = !!userAgent.match(/WebKit/i);
+    const isMobileSafari = iOS && webkit && !userAgent.match(/CriOS/i);
     // We handle IE10 separately but assume all other vets.gov-supported
     // browsers have blob URL support.
     // TODO: possibly want to explicitly check for blob URL support with something like
     // const blobSupported = !!(/^blob:/.exec(downloadUrl));
     const isIE = !!window.navigator.msSaveOrOpenBlob;
     const save = document.createElement('a');
-    const downloadSupported = typeof save.download !== 'undefined';
     let downloadWindow;
 
-    if (!downloadSupported && !isIE) {
+    if (isMobileSafari) {
       // Instead of giving the file a readable name and downloading
       // it directly, open it in a new window with an ugly hash URL
       // NOTE: We're opening the window here because Safari won't open
@@ -206,15 +209,18 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           } else {
             window.URL = window.URL || window.webkitURL;
             downloadUrl = window.URL.createObjectURL(blob);
-            if (downloadSupported) {
-              // Give the file a readable name if the download attribute is supported.
+
+            // Give the file a readable name if the download attribute is supported.
+            if (typeof save.download !== 'undefined') {
               save.download = letterName;
-              save.href = downloadUrl;
-              save.target = '_blank';
-              document.body.appendChild(save);
-              save.click();
-              document.body.removeChild(save);
-            } else {
+            }
+            save.href = downloadUrl;
+            save.target = '_blank';
+            document.body.appendChild(save);
+            save.click();
+            document.body.removeChild(save);
+
+            if (isMobileSafari) {
               downloadWindow.location.href = downloadUrl;
             }
           }

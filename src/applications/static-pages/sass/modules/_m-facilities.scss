@@ -1,6 +1,6 @@
 /* Blue duo-tone for the main region landing page image */
 $duo-tone-darken: #112e51;
-$duo-tone-lighten: #000000;
+$duo-tone-lighten: #000;
 
 /* The brightest duo-tone color */
 .darken::before {
@@ -20,7 +20,7 @@ $duo-tone-lighten: #000000;
 }
 
 .duotone::before, .duotone::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
   position: absolute;
@@ -75,17 +75,16 @@ $duo-tone-lighten: #000000;
 
 .facility-img {
   width: 100%;
-  height: 164px;
+  min-width: 250px;
+  min-height: 150px;
   object-fit: cover;
 
   @include media($small-screen) {
-    height: 180px;
-    width: 342px;
+    height: 150px;
+    width: 250px;
   }
 
   @include media($medium-large-screen) {
-    height: initial;
-    width: initial;
     object-fit: initial;
   }
 }
@@ -175,4 +174,96 @@ $duo-tone-lighten: #000000;
 // to push items at the end of an element wrapped in display: flex to the bottom
 .va-c-margin-top--auto {
   margin-top: auto;
+}
+
+.va-c-position--relative {
+  position: relative;
+}
+
+.va-c-position--absolute {
+  position: absolute;
+}
+
+.va-c-position-top-right-corner {
+  right: 0;
+  top: 0;
+}
+
+.expand-image-button {
+  background-color: $color-primary;
+  border-radius: 5px;
+  color: $color-white;
+  height: 32px;
+  width: 32px;
+
+  &:visited {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+
+  &:hover {
+    background-color: $color-primary-darker;
+    color: $color-white;
+  }
+}
+
+.social-links {
+  &:last-child.vads-u-margin-bottom--2 {
+    margin-bottom: 0 !important;
+  }
+}
+
+// featured content
+.featured-content-list-item {
+  width: 100%;
+  margin-right: 1em;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media($medium-screen){
+    width: 33%;
+  }
+}
+
+.featured-content-hr {
+  width: 40px;
+}
+
+
+.bio-paragraph-image {
+  height: 110px;
+  width: 110px;
+}
+
+.bio-image {
+  height: 178px;
+  width: 144px;
+  object-fit: cover;
+}
+
+.person-profile-detail-page-image {
+  height: 227px;
+  width: 176px;
+  object-fit: cover;
+}
+
+
+.va-facility-page {
+  .va-address-block {
+    margin-left: 1rem;
+  }
+}
+
+.va-l-font-size--12px {
+  font-size: 12px !important;
+}
+
+
+.circular-profile-missing-icon {
+  position: absolute;
+  top: 33%;
+  left: 37%;
+  font-size: 32px;
 }

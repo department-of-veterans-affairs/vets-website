@@ -5,6 +5,8 @@ const SocksProxyAgent = require('socks-proxy-agent');
 const DRUPALS = require('../../../constants/drupals');
 const { queries, getQuery } = require('./queries');
 
+const syswidecas = require('syswide-cas');
+
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
@@ -38,13 +40,21 @@ function getDrupalClient(buildOptions) {
     // We have to point to aws urls on Jenkins, so the only
     // time we'll be using cms.va.gov addresses is locally,
     // when we need a proxy
-    usingProxy: address.includes('cms.va.gov'),
+    usingProxy:
+      address.includes('cms.va.gov') && !buildOptions['no-drupal-proxy'],
 
     getSiteUri() {
       return address;
     },
 
     async proxyFetch(url, options = {}) {
+      if (this.usingProxy) {
+        // addCAs() is here because VA uses self-signed certificates with a
+        // non-globally trusted Root Certificate Authority and we need to
+        // tell our code to trust it, otherwise we get self-signed certificate errors.
+        syswidecas.addCAs('certs/VA-Internal-S2-RCA1-v1.pem');
+      }
+
       return fetch(
         url,
         Object.assign({}, options, {

@@ -88,9 +88,34 @@ function completeDependents(client) {
     .click('input#root_serviceBefore1977_parentDependentYes');
 }
 
+function completeStemSelection(client) {
+  client.click('input[id="root_isEdithNourseRogersScholarshipNo"]');
+}
+
+function completeStemSelectionFor1995s(client) {
+  client.click('input[id="root_isEdithNourseRogersScholarshipYes"]');
+}
+
+function completeStemEnrollmentSelection(client) {
+  client.click('input[id="root_isEnrolledStemNo"]');
+}
+
+function completePursuingTeachingCertSelection(client) {
+  client.click('input[id="root_isPursuingTeachingCertNo"]');
+}
+
+function completeActiveDutySelection(client) {
+  client.click('input[id="root_isActiveDutyNo"]');
+}
+
 module.exports = {
   completeMilitaryService,
   completeNewSchool,
   completeOldSchool,
   completeDependents,
+  completeStemSelection,
+  completeStemSelectionFor1995s,
+  completeStemEnrollmentSelection,
+  completePursuingTeachingCertSelection,
+  completeActiveDutySelection,
 };

@@ -8,6 +8,7 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  eligibilityChange,
 } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
@@ -17,14 +18,13 @@ const CalculatorResultRow = ({ label, value, header, bold, visible, id }) =>
   visible ? (
     <div id={id} className={classNames('row', 'calculator-result', { bold })}>
       <div className="small-6 columns">
-        {header ? <h5>{label}:</h5> : <div>{label}:</div>}
+        {header ? <h4>{label}:</h4> : <div>{label}:</div>}
       </div>
-      <div className="small-6 columns value">
+      <div className="small-6 columns vads-u-text-align--right">
         {header ? <h5>{value}</h5> : <div>{value}</div>}
       </div>
     </div>
   ) : null;
-
 export class Calculator extends React.Component {
   constructor(props) {
     super(props);
@@ -54,22 +54,24 @@ export class Calculator extends React.Component {
     return (
       <div className="eligibility-details">
         <button
+          aria-expanded={expanded}
           onClick={this.toggleEligibilityForm}
           className="usa-button-secondary"
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
-        {expanded ? (
-          <div className="form-expanding-group-open">
-            <EligibilityForm />
-          </div>
-        ) : null}
+        <div>
+          {expanded ? (
+            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
+          ) : null}
+        </div>
       </div>
     );
   }
 
   renderCalculatorForm() {
     const {
+      profile,
       calculator: inputs,
       calculated: { inputs: displayed },
     } = this.props;
@@ -78,22 +80,26 @@ export class Calculator extends React.Component {
     return (
       <div className="calculator-inputs">
         <button
+          aria-expanded={expanded}
           onClick={this.toggleCalculatorForm}
           className="usa-button-secondary"
         >
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
-        {expanded ? (
-          <div className="form-expanding-group-open">
+        <div>
+          {expanded ? (
             <CalculatorForm
+              profile={profile}
+              eligibility={this.props.eligibility}
+              eligibilityChange={this.props.eligibilityChange}
               inputs={inputs}
               displayedInputs={displayed}
               onShowModal={this.props.showModal}
               onInputChange={this.props.calculatorInputChange}
               onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
             />
-          </div>
-        ) : null}
+          ) : null}
+        </div>
       </div>
     );
   }
@@ -112,7 +118,7 @@ export class Calculator extends React.Component {
       return (
         <div key={section} className="per-term-section">
           <div className="link-header">
-            <h5>{title}</h5>
+            <h4>{title}</h4>
             &nbsp;(
             <a href={learnMoreLink} target="_blank" rel="noopener noreferrer">
               Learn more
@@ -150,9 +156,10 @@ export class Calculator extends React.Component {
 
     // const it = this.props.profile.attributes;
     const { outputs } = this.props.calculated;
+    const fraction = 'usa-width-one-eigth medium-5 columns';
     return (
       <div className="row calculate-your-benefits">
-        <div className="usa-width-five-twelfths medium-5 columns">
+        <div className={fraction}>
           {this.renderEligibilityForm()}
           {this.renderCalculatorForm()}
         </div>
@@ -214,13 +221,16 @@ export class Calculator extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   calculator: state.calculator,
+  profile: state.profile,
   calculated: getCalculatedBenefits(state, props),
+  eligibility: state.eligibility,
 });
 
 const mapDispatchToProps = {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
+  eligibilityChange,
 };
 
 export default connect(

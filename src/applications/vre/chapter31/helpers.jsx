@@ -1,5 +1,5 @@
 import React from 'react';
-import facilityLocator from '../../facility-locator/manifest';
+import facilityLocator from '../../facility-locator/manifest.json';
 
 export const facilityLocatorLink = (
   <span>

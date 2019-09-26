@@ -30,7 +30,11 @@ export const AdditionalResourcesLinks = () => (
       </a>
     </p>
     <p>
-      <a href="/education/how-to-apply/" target="_blank">
+      <a
+        href="/education/how-to-apply/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Apply for education benefits
       </a>
     </p>

@@ -9,6 +9,7 @@ module.exports = `
     entities {
       ... on BlockContentAlert {
         id
+        fieldAlertDismissable
         fieldAlertFrequency
         fieldNodeReference {
           targetId

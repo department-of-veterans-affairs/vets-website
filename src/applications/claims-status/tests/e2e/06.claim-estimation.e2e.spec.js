@@ -30,7 +30,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.expect
     .element('.claims-status-content h1')
-    .text.to.equal('How We Come Up with Your Estimated Decision Date');
+    .text.to.equal('How we come up with your estimated decision date');
 
   client.end();
 });

@@ -1,6 +1,16 @@
 $medium-phone-screen: 375px;
 /* OVERRIDE */
 .merger {
+
+  // Begin new-grid override
+  // Overrides some default properties with a
+  // class name that makes it more clear we remove
+  // it when the work is complete.
+  .va-sidebarnav.new-grid {
+    width: 100% !important;
+  }
+  // End new-grid override
+
   .login {
     .container {
       width: 100%;
@@ -285,6 +295,12 @@ $medium-phone-screen: 375px;
       padding-right: 0.5em;
     }
 
+    .va-nav-breadcrumbs.new-grid,
+    article.new-grid {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     .va-nav-breadcrumbs {
       padding-top: 0.25em;
       padding-bottom: 0.25em;
@@ -350,6 +366,12 @@ $medium-phone-screen: 375px;
     #hub-rail {
       padding-left: 1em;
       padding-right: 1em;
+    }
+
+    .va-nav-breadcrumbs.new-grid,
+    article.new-grid {
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 
@@ -503,4 +525,49 @@ img[data-srcset] {
 
 .process-accordion > li {
   list-style: none !important;
+}
+
+.circular-profile-image {
+  border-radius: 50%;
+  position: relative;
+}
+
+.usa-grid > :last-child, .usa-grid-full > :last-child {
+  &.half-em-bottom-margin {
+    margin-bottom: .5em;
+  }
+}
+
+.inline-table-helper {
+  display: inline-table
+}
+
+.va-l-detail-page {
+  .usa-content {
+    p {
+      margin-top: 0
+    }
+  }
+
+  .usa-accordion-content {
+    h3 {
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+  }
+}
+
+.usa-accordion > ul li ul,
+.usa-accordion-bordered > ul li ul {
+    list-style: square;
+}
+
+.no-left-button-right-radius-treatment {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.no-right-button-left-radius-treatment {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

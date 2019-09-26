@@ -9,9 +9,10 @@ import { HCA_ENROLLMENT_STATUSES } from './constants';
 const nonActiveInESRStatuses = new Set([
   null,
   HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
-  HCA_ENROLLMENT_STATUSES.activeDutyHasNotApplied,
+  HCA_ENROLLMENT_STATUSES.activeDuty,
   HCA_ENROLLMENT_STATUSES.canceledDeclined,
   HCA_ENROLLMENT_STATUSES.deceased,
+  HCA_ENROLLMENT_STATUSES.nonMilitary,
 ]);
 
 // top-level selectors

@@ -4,6 +4,8 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
+const { cmsFeatureFlags } = global;
+
 module.exports = `
  fragment bioPage on NodePersonProfile {
   ${entityElementsFromPages}
@@ -11,12 +13,19 @@ module.exports = `
   fieldLastName
   fieldSuffix
   fieldDescription
+  fieldEmailAddress
+  fieldPhoneNumber
+  fieldCompleteBiography { entity { url } }
   fieldOffice {
-    entity {
-      entityLabel
-      entityType
+      entity {
+        entityLabel
+        entityType
+        ...on NodeHealthCareRegionPage {
+          ${entityElementsFromPages}
+          fieldNicknameForThisFacility
+        }
+      }
     }
-  }
   fieldIntroText
   fieldPhotoAllowHiresDownload
   fieldMedia {
@@ -26,10 +35,10 @@ module.exports = `
           alt
           title
           url
-          derivative(style: _1_1_SQUARE_MEDIUM_THUMBNAIL) {
-            url
-            width
-            height
+          ${
+            cmsFeatureFlags.FEATURE_IMAGE_STYLE_23
+              ? 'derivative(style: _23MEDIUMTHUMBNAIL) {url width height}'
+              : 'derivative(style: CROP32) {url width height}'
           }
         }
       }

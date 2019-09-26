@@ -9,6 +9,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectProfile } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
+import { focusElement } from 'platform/utilities/ui';
 
 import { removeSavedForm as removeSavedFormAction } from '../actions';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
@@ -27,8 +28,8 @@ import PreferencesWidget from 'applications/personalization/preferences/containe
 
 import profileManifest from 'applications/personalization/profile360/manifest.json';
 import accountManifest from 'applications/personalization/account/manifest.json';
-import lettersManifest from 'applications/letters/manifest.js';
-import facilityLocator from 'applications/facility-locator/manifest';
+import lettersManifest from 'applications/letters/manifest.json';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 
 const scroller = Scroll.animateScroll;
 const scrollToTop = () => {
@@ -196,6 +197,7 @@ class DashboardApp extends React.Component {
     if (this.props.profile.verified) {
       this.props.getEnrollmentStatus();
     }
+    focusElement('#dashboard-title');
   }
 
   dismissAlertBox = name => () => {
@@ -210,13 +212,13 @@ class DashboardApp extends React.Component {
       <AlertBox
         content={
           <div>
-            <h4 className="usa-alert-heading">
+            <h3 className="usa-alert-heading">
               Verify your identity to access more VA.gov tools and features
-            </h4>
+            </h3>
             <p>
               When you verify your identity, you can use VA.gov to do things
-              like track your claims, refill your prescriptions, and download
-              your VA benefit letters.
+              like check the status of your claims and health care application,
+              refill your prescriptions, and download your VA benefit letters.
             </p>
             <a
               className="usa-button-primary"
@@ -307,7 +309,9 @@ class DashboardApp extends React.Component {
 
     const view = (
       <>
-        <h1 id="dashboard-title">My VA</h1>
+        <h1 id="dashboard-title" tabIndex="-1">
+          My VA
+        </h1>
         <div className="va-introtext">
           <p>
             Access the tools and information you’ll need to track and manage

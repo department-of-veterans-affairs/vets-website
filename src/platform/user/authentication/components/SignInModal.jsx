@@ -3,13 +3,13 @@ import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
-import environment from '../../../utilities/environment';
-import recordEvent from '../../../monitoring/record-event';
-import { login, signup } from '../../../user/authentication/utilities';
-import { externalServices } from '../../../../platform/monitoring/DowntimeNotification';
-import DowntimeBanner from '../../../../platform/monitoring/DowntimeNotification/components/Banner';
+import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
+import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
+import recordEvent from 'platform/monitoring/record-event';
+import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { login, signup } from 'platform/user/authentication/utilities';
+import environment from 'platform/utilities/environment';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -33,7 +33,7 @@ class SignInModal extends React.Component {
   }
 
   downtimeBanner = (dependencies, headline, status, message) => (
-    <DowntimeBanner dependencies={dependencies}>
+    <ExternalServicesError dependencies={dependencies}>
       <div className="downtime-notification row">
         <div className="columns small-12">
           <div className="form-warning-banner">
@@ -44,7 +44,7 @@ class SignInModal extends React.Component {
           </div>
         </div>
       </div>
-    </DowntimeBanner>
+    </ExternalServicesError>
   );
 
   renderModalContent = () => (
@@ -72,25 +72,25 @@ class SignInModal extends React.Component {
           </div>
         </div>
         {this.downtimeBanner(
-          [externalServices.idme],
+          [EXTERNAL_SERVICES.idme],
           'Our sign in process isn’t working right now',
           'error',
           'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
         )}
         {this.downtimeBanner(
-          [externalServices.dslogon],
+          [EXTERNAL_SERVICES.dslogon],
           'You may have trouble signing in with DS Logon',
           'warning',
           'We’re sorry. We’re working to fix some problems with our DS Logon sign in process. If you’d like to sign in to VA.gov with your DS Logon account, please check back later.',
         )}
         {this.downtimeBanner(
-          [externalServices.mhv],
+          [EXTERNAL_SERVICES.mhv],
           'You may have trouble signing in with My HealtheVet',
           'warning',
-          'We’re sorry. We’re making some scheduled updates to our My HealtheVet sign-in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
+          'We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
         )}
         {this.downtimeBanner(
-          [externalServices.mvi],
+          [EXTERNAL_SERVICES.mvi],
           'You may have trouble signing in or using some tools or services',
           'warning',
           'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',

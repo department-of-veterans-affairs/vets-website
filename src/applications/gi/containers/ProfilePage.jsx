@@ -1,36 +1,17 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { fetchProfile, setPageTitle, showModal } from '../actions';
-import AccordionItem from '../components/AccordionItem';
-import If from '../components/If';
-import HeadingSummary from '../components/profile/HeadingSummary';
-import Programs from '../components/profile/Programs';
-import Outcomes from '../components/profile/Outcomes';
-import Calculator from '../components/profile/Calculator';
-import CautionaryInformation from '../components/profile/CautionaryInformation';
-import AdditionalInformation from '../components/profile/AdditionalInformation';
-import VetTecAdditionalInformation from '../components/vet-tec/VetTecAdditionalInformation';
-import VetTecApplicationProcess from '../components/vet-tec/VetTecApplicationProcess';
-import VetTecApprovedPrograms from '../components/vet-tec/VetTecApprovedPrograms';
-import VetTecHeadingSummary from '../components/vet-tec/VetTecHeadingSummary';
-import VetTecContactInformation from '../components/vet-tec/VetTecContactInformation';
-import { outcomeNumbers } from '../selectors/outcomes';
-import environment from 'platform/utilities/environment';
+import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
+import InstitutionProfile from '../components/profile/InstitutionProfile';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
 export class ProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleViewWarnings = this.handleViewWarnings.bind(this);
-  }
-
   componentDidMount() {
     this.props.fetchProfile(
       this.props.params.facilityCode,
@@ -50,7 +31,7 @@ export class ProfilePage extends React.Component {
     const institutionName = _.get(profile, 'attributes.name');
     const shouldUpdateTitle = !_.isEqual(
       institutionName,
-      _.get(prevProps.profile, 'attributes.name'),
+      prevProps?.profile?.attributes?.name,
     );
 
     if (shouldUpdateTitle) {
@@ -59,6 +40,7 @@ export class ProfilePage extends React.Component {
 
     if (profile.inProgress !== prevProps.profile.inProgress) {
       scroller.scrollTo('profilePage', getScrollOptions());
+      focusElement('.profile-page h1');
     }
 
     if (prevProps.location.query.version !== uuid) {
@@ -66,12 +48,12 @@ export class ProfilePage extends React.Component {
     }
   }
 
-  handleViewWarnings() {
+  handleViewWarnings = () => {
     this._cautionaryInfo.setState({ expanded: true });
-  }
+  };
 
   render() {
-    const { constants, outcomes, profile } = this.props;
+    const { constants, profile } = this.props;
 
     let content;
 
@@ -80,104 +62,24 @@ export class ProfilePage extends React.Component {
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
 
-      if (!environment.isProduction() && profile.attributes.vetTecProvider) {
+      if (profile.attributes.vetTecProvider) {
         content = (
-          <div>
-            <VetTecHeadingSummary
-              institution={profile.attributes}
-              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-              onViewWarnings={this.handleViewWarnings}
-            />
-            <div className="usa-accordion">
-              <ul>
-                <AccordionItem button="Approved programs">
-                  <VetTecApprovedPrograms
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Estimate your benefits">
-                  <Calculator />
-                </AccordionItem>
-                <AccordionItem button="Application process">
-                  <VetTecApplicationProcess
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Contact us">
-                  <VetTecContactInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Additional information">
-                  <VetTecAdditionalInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-              </ul>
-            </div>
-          </div>
+          <VetTecInstitutionProfile
+            institution={profile.attributes}
+            showModal={this.props.showModal}
+          />
         );
       } else {
         content = (
-          <div>
-            <HeadingSummary
-              institution={profile.attributes}
-              onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
-              onViewWarnings={this.handleViewWarnings}
-            />
-            <div className="usa-accordion">
-              <ul>
-                <AccordionItem button="Estimate your benefits">
-                  <Calculator />
-                </AccordionItem>
-                {!isOJT && (
-                  <AccordionItem button="Veteran programs">
-                    <Programs
-                      institution={profile.attributes}
-                      onShowModal={this.props.showModal}
-                    />
-                  </AccordionItem>
-                )}
-                {!isOJT && (
-                  <AccordionItem button="Student outcomes">
-                    <If
-                      condition={
-                        !!profile.attributes.facilityCode && !!constants
-                      }
-                      comment="TODO"
-                    >
-                      <Outcomes
-                        graphing={outcomes}
-                        onShowModal={this.props.showModal}
-                      />
-                    </If>
-                  </AccordionItem>
-                )}
-                <AccordionItem
-                  button="Cautionary information"
-                  ref={c => {
-                    this._cautionaryInfo = c;
-                  }}
-                >
-                  <a name="viewWarnings" />
-                  <CautionaryInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-                <AccordionItem button="Additional information">
-                  <AdditionalInformation
-                    institution={profile.attributes}
-                    onShowModal={this.props.showModal}
-                  />
-                </AccordionItem>
-              </ul>
-            </div>
-          </div>
+          <InstitutionProfile
+            profile={profile}
+            isOJT={isOJT}
+            constants={constants}
+            showModal={this.props.showModal}
+            calculator={this.props.calculator}
+            eligibility={this.props.eligibility}
+            version={this.props.location.query.version}
+          />
         );
       }
     }
@@ -194,9 +96,10 @@ const mapStateToProps = state => {
   const {
     constants: { constants },
     profile,
+    calculator,
+    eligibility,
   } = state;
-  const outcomes = constants ? outcomeNumbers(state) : null;
-  return { constants, outcomes, profile };
+  return { constants, profile, calculator, eligibility };
 };
 
 const mapDispatchToProps = {

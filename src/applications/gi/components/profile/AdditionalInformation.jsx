@@ -2,14 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export class AdditionalInformation extends React.Component {
+  updateFiscalYear() {
+    const constants = this.props.constants;
+
+    return constants.FISCALYEAR;
+  }
   renderInstitutionSummary() {
-    const it = this.props.institution;
-    const isOJT = it.type.toLowerCase() === 'ojt';
+    const { institution } = this.props;
+    const isOJT = institution.type.toLowerCase() === 'ojt';
 
     if (isOJT) return null;
 
-    const typeOfAccreditation = it.accredited &&
-      it.accreditationType && (
+    const typeOfAccreditation = institution.accredited &&
+      institution.accreditationType && (
         <div>
           <strong>
             <button
@@ -21,15 +26,19 @@ export class AdditionalInformation extends React.Component {
             </button>
           </strong>
           &nbsp;
-          {it.accreditationType.toUpperCase()}
+          {institution.accreditationType.toUpperCase()}
         </div>
       );
 
-    const vetTuitionPolicy = it.vetWebsiteLink && (
+    const vetTuitionPolicy = institution.vetWebsiteLink && (
       <div>
         <strong>Veterans tuition policy:</strong>
         &nbsp;
-        <a href={it.vetWebsiteLink} target="_blank" rel="noopener noreferrer">
+        <a
+          href={institution.vetWebsiteLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View policy
         </a>
       </div>
@@ -49,12 +58,12 @@ export class AdditionalInformation extends React.Component {
             </button>
           </strong>
           &nbsp;
-          {it.accredited ? (
+          {institution.accredited ? (
             <span>
               Yes (
               <a
                 href={`http://nces.ed.gov/collegenavigator/?id=${
-                  it.cross
+                  institution.cross
                 }#accred`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -80,7 +89,7 @@ export class AdditionalInformation extends React.Component {
             </button>
           </strong>
           &nbsp;
-          {it.vetPoc ? 'Yes' : 'No'}
+          {institution.vetPoc ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
@@ -93,7 +102,7 @@ export class AdditionalInformation extends React.Component {
             </button>
           </strong>
           &nbsp;
-          {it.creditForMilTraining ? 'Yes' : 'No'}
+          {institution.creditForMilTraining ? 'Yes' : 'No'}
         </div>
         <div>
           <strong>
@@ -106,7 +115,20 @@ export class AdditionalInformation extends React.Component {
             </button>
           </strong>
           &nbsp;
-          {it.independentStudy ? 'Yes' : 'No'}
+          {institution.independentStudy ? 'Yes' : 'No'}
+        </div>
+        <div>
+          <strong>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.props.onShowModal.bind(this, 'stemIndicator')}
+            >
+              Rogers STEM Scholarship:
+            </button>
+          </strong>
+          &nbsp;
+          {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
       </div>
     );
@@ -114,7 +136,6 @@ export class AdditionalInformation extends React.Component {
 
   render() {
     const it = this.props.institution;
-
     // Formats positive and negative currency values in USD
     const formatCurrency = num => {
       const str = Number(num)
@@ -153,7 +174,10 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911Recipients)}
               </div>
               <div>
-                <strong>Total paid (FY 2016):&nbsp;</strong>
+                <strong>
+                  Total paid (FY {this.updateFiscalYear()}
+                  ):&nbsp;
+                </strong>
                 {formatCurrency(it.p911TuitionFees)}
               </div>
             </div>
@@ -167,7 +191,10 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911YrRecipients)}
               </div>
               <div>
-                <strong>Total paid (FY 2016):&nbsp;</strong>
+                <strong>
+                  Total paid (FY {this.updateFiscalYear()}
+                  ):&nbsp;
+                </strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </div>
             </div>
@@ -223,7 +250,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>Total paid (FY 2016)</th>
+                  <th>Total paid (FY {this.updateFiscalYear()})</th>
                 </tr>
               </thead>
               <tbody>

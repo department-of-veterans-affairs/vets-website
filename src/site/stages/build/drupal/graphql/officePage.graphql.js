@@ -9,6 +9,8 @@ module.exports = `
     ${entityElementsFromPages}
     changed
     title
+    fieldDescription
+    fieldBody { processed }
     reverseFieldOfficeNode {
       entities {
     ... on NodeEvent {

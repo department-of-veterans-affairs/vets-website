@@ -59,6 +59,7 @@ const HCAStatusAlert = ({ applicationDate, enrollmentStatus, onRemove }) => {
 
   return (
     <DashboardAlert
+      id="hca-status"
       status={getAlertType(enrollmentStatus)}
       headline="Application for health care"
       subheadline="FORM 10-10EZ"

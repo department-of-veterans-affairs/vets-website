@@ -2,7 +2,10 @@ import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
-import { dismissedHCANotificationDate } from './selectors';
+import {
+  dismissedHCANotificationDate,
+  isEnrollmentStatusLoading,
+} from './selectors';
 
 // flip the `false` to `true` to fake the endpoint when testing locally
 const simulateServerLocally = environment.isLocalhost() && false;
@@ -93,7 +96,7 @@ function callAPI(dispatch, formData = {}) {
     'userAttributes[veteranSocialSecurityNumber]': formData.ssn,
   });
 
-  apiRequest(
+  return apiRequest(
     url,
     null,
     data => dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, data }),
@@ -105,7 +108,10 @@ function callAPI(dispatch, formData = {}) {
 // /health_care_applications/enrollment_status endpoint, depending on the value
 // of the `simulateServerLocally` flag
 export function getEnrollmentStatus(formData) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    if (isEnrollmentStatusLoading(getState())) {
+      return null;
+    }
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
     /*
     When hitting the API locally, we cannot get responses other than 500s from
@@ -134,13 +140,11 @@ export function getEnrollmentStatus(formData) {
         formData.firstName &&
         formData.firstName.toLowerCase() === 'pat'
       ) {
-        callFake404(dispatch);
-      } else {
-        callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
+        return callFake404(dispatch);
       }
-    } else {
-      callAPI(dispatch, formData);
+      return callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
     }
+    return callAPI(dispatch, formData);
   };
 }
 
@@ -149,7 +153,7 @@ export function getDismissedHCANotification() {
     dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
     const url = `/notifications/dismissed_statuses/form_10_10ez`;
 
-    apiRequest(
+    return apiRequest(
       url,
       null,
       response =>
@@ -173,7 +177,7 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
       data: statusEffectiveAt,
     });
     if (hasPreviouslyDismissedNotification) {
-      apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
+      return apiRequest('/notifications/dismissed_statuses/form_10_10ez', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -181,16 +185,15 @@ export function setDismissedHCANotification(status, statusEffectiveAt) {
           statusEffectiveAt,
         }),
       });
-    } else {
-      apiRequest('/notifications/dismissed_statuses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subject: 'form_10_10ez',
-          status,
-          statusEffectiveAt,
-        }),
-      });
     }
+    return apiRequest('/notifications/dismissed_statuses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: 'form_10_10ez',
+        status,
+        statusEffectiveAt,
+      }),
+    });
   };
 }
