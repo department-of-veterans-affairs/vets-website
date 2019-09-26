@@ -221,7 +221,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            build(
+	      ref: ref,
+	      dockerContainer: dockerContainer,
+	      assetSource: assetSource,
+	      envName: envName,
+	      useCache: false,
+	      contentOnlyBuild: contentOnlyBuild
+	    )
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
