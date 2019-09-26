@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function NoVASystems({ systemId }) {
+export default function NoValidVAFacilities({ systemId }) {
   return (
     <AlertBox
       status="warning"
