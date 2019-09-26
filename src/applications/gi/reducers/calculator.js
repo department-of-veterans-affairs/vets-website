@@ -189,7 +189,7 @@ export default function(state = INITIAL_STATE, action) {
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       return {
