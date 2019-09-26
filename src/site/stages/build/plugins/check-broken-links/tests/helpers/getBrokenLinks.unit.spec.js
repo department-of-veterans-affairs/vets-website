@@ -14,7 +14,7 @@ const getFile = tag => {
   return {
     path: '/health-care',
     contents,
-    parsedContent: cheerio.load(contents),
+    dom: cheerio.load(contents),
   };
 };
 
