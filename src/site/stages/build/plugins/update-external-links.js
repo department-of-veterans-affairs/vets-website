@@ -26,9 +26,9 @@ function updateExternalLinks() {
       let linkUpdated = false;
 
       if (fileName.endsWith('html')) {
-        const doc = file.parsedContent;
-        doc('a[href^="http"]').each((i, el) => {
-          const link = doc(el);
+        const { dom } = file;
+        dom('a[href^="http"]').each((i, el) => {
+          const link = dom(el);
           const relAttr = link.attr('rel');
           const targetAttr = link.attr('target');
           const hrefAttr = link.attr('href') || '';

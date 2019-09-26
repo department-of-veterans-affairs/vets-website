@@ -34,10 +34,10 @@ function generateHeadingIds() {
       let idAdded = false;
 
       if (fileName.endsWith('html')) {
-        const doc = file.parsedContent;
-        const tableOfContents = doc('#table-of-contents ul');
-        doc('h2, h3').each((i, el) => {
-          const heading = doc(el);
+        const { dom } = file;
+        const tableOfContents = dom('#table-of-contents ul');
+        dom('h2, h3').each((i, el) => {
+          const heading = dom(el);
           const parent = heading.parents();
           const isInAccordionButton = parent.hasClass('usa-accordion-button');
           const isInAccordion = parent.hasClass('usa-accordion-content');

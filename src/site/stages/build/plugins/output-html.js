@@ -3,8 +3,8 @@
 const outputHtml = files => {
   for (const fileName of Object.keys(files)) {
     const file = files[fileName];
-    if (file.parsedContent && file.modified) {
-      file.contents = new Buffer(file.parsedContent.html());
+    if (file.dom && file.modified) {
+      file.contents = new Buffer(file.dom.html());
     }
   }
 };

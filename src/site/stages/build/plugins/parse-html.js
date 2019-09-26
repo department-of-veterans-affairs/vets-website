@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const parseHtml = files => {
   for (const fileName of Object.keys(files)) {
     if (path.extname(fileName) === '.html') {
-      files[fileName].parsedContent = cheerio.load(files[fileName].contents);
+      files[fileName].dom = cheerio.load(files[fileName].contents);
     }
   }
 };

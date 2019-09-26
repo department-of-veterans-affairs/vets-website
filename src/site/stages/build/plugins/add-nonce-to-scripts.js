@@ -19,7 +19,7 @@ module.exports = (files, metalsmith, done) => {
   Object.keys(files).forEach(fileName => {
     if (path.extname(fileName) !== '.html') return;
 
-    const dom = files[fileName].parsedContent;
+    const { dom } = files[fileName];
     dom('script').each((index, scriptEl) => {
       const s = dom(scriptEl);
       // Only add nonce to inline scripts
