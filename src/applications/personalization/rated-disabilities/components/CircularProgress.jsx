@@ -5,7 +5,7 @@ import '../sass/total-rated-disabilities.scss';
 const CircularProgress = props => {
   const { percentage } = props;
 
-  const oppositeValue = 100 - percentage;
+  const offsetValue = 100 - percentage;
 
   return (
     <div className="chart-box">
@@ -17,7 +17,7 @@ const CircularProgress = props => {
           cx="21"
           cy="21"
           r="16"
-          strokeDasharray={percentage + ' ' + oppositeValue}
+          strokeDasharray={percentage + ' ' + offsetValue}
         />
       </svg>
       <div className="disability-rating vads-u-font-family--sans vads-u-font-size--2xl">

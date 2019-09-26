@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../sass/total-rated-disabilities.scss';
-import './CircularProgress';
 import CircularProgress from './CircularProgress';
 
 const TotalRatedDisabilities = props => {
@@ -40,6 +39,10 @@ const TotalRatedDisabilities = props => {
       </div>
     </div>
   );
+};
+
+TotalRatedDisabilities.propTypes = {
+  percentage: PropTypes.number.isRequired,
 };
 
 export default TotalRatedDisabilities;
