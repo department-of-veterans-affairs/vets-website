@@ -9,6 +9,12 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 
 class CalculatorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      invalidZip: '',
+    };
+  }
   getExtensions = () => {
     const { profile } = this.props;
     const facilityMap = profile.attributes.facilityMap;
@@ -54,6 +60,9 @@ class CalculatorForm extends React.Component {
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
+      this.setState({ invalidZip: '' });
+    } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
+      this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
     }
   };
 
@@ -557,11 +566,16 @@ class CalculatorForm extends React.Component {
       (inputs.beneficiaryLocationQuestion === 'extension' &&
         inputs.extension === 'other')
     ) {
+      const errorMessage = this.state.invalidZip;
+
+      const errorMessageCheck =
+        errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
+
       amountInput = (
         <div>
           <ErrorableTextInput
-            errorMessage={inputs.beneficiaryZIPError}
-            label="Please enter the zip code where you’ll take your classes"
+            errorMessage={errorMessageCheck}
+            label="Please enter the zip code where you'll take your classes"
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
@@ -602,7 +616,7 @@ class CalculatorForm extends React.Component {
         {extensionSelector}
         {amountInput}
         <p aria-live="polite" aria-atomic="true">
-          <span className="sr-only">Your postal code is located in</span>
+          <span className="sr-only">Your zip code is located in</span>
           <strong>{inputs.housingAllowanceCity}</strong>
         </p>
       </div>
