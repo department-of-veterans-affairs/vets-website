@@ -10,7 +10,6 @@ import Pagination from '@department-of-veterans-affairs/formation-react/Paginati
 import { facilityTypes } from '../config';
 
 import { distBetween } from '../utils/facilityDistance';
-import { setFocus } from '../utils/helpers';
 
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
@@ -24,17 +23,12 @@ class ResultsList extends Component {
     super(props);
     this.searchResultTitle = React.createRef();
   }
+
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
       nextProps.inProgress !== this.props.inProgress
     );
-  }
-
-  componentDidUpdate() {
-    if (this.searchResultTitle.current) {
-      setFocus(this.searchResultTitle.current);
-    }
   }
 
   handlePageSelect = page => {
@@ -86,10 +80,7 @@ class ResultsList extends Component {
         const timedOut = error.find(err => TIMEOUTS.has(err.code));
         if (timedOut) {
           return (
-            <div
-              className="search-result-title facility-result"
-              ref={this.searchResultTitle}
-            >
+            <div className="search-result-title facility-result">
               <p>
                 We’re sorry. We couldn’t complete your request. We’re aware of
                 this problem, and we’re working to fix it as soon as possible.
@@ -117,10 +108,7 @@ class ResultsList extends Component {
       }
 
       return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
+        <div className="search-result-title facility-result">
           <p>We’re sorry. We couldn’t complete your request.</p>
           <p>
             Please try again in a few minutes. Or, if you need care right away
@@ -146,10 +134,7 @@ class ResultsList extends Component {
     if (!results || results.length < 1) {
       if (this.props.facilityTypeName === facilityTypes.cc_provider) {
         return (
-          <div
-            className="search-result-title facility-result"
-            ref={this.searchResultTitle}
-          >
+          <div className="search-result-title facility-result">
             We didn't find any facilities near you. <br />
             <strong>To try again, please enter a different:</strong>
             <ul className="vads-u-margin-y--1p5">
@@ -167,10 +152,7 @@ class ResultsList extends Component {
         );
       }
       return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
+        <div className="search-result-title facility-result">
           No facilities found. Please try entering a different search term
           (Street, City, State or Zip) and click search to find facilities.
         </div>
@@ -194,7 +176,7 @@ class ResultsList extends Component {
 
     return (
       <div>
-        <p className="search-result-title" ref={this.searchResultTitle}>
+        <p className="search-result-title">
           {`${totalEntries} results for ${facilityTypeName} near `}
           <strong>“{context}”</strong>
         </p>
