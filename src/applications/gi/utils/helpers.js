@@ -12,3 +12,25 @@ export const addAllOption = options => [
   { value: 'ALL', label: 'ALL' },
   ...options,
 ];
+
+export const locationInfo = (city, state, country) => {
+  let address = '';
+  if (country === 'USA') {
+    if (city && state) {
+      address = `${city}, ${state}`;
+    } else if (!state) {
+      address = `${city}`;
+    } else if (!city) {
+      address = `${state}`;
+    }
+  } else if (country) {
+    if (city && country) {
+      address = `${city}, ${country}`;
+    } else if (!city) {
+      address = `${country}`;
+    } else {
+      address = `${city}`;
+    }
+  }
+  return address;
+};
