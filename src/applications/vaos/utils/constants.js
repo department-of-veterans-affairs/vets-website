@@ -96,6 +96,69 @@ export const TYPES_OF_CARE = [
   },
 ];
 
+export const LANGUAGES = [
+  {
+    id: 'english',
+    text: 'English',
+    value: 'English',
+  },
+  {
+    id: 'chinese',
+    text: 'Chinese',
+    value: 'Chinese',
+  },
+  {
+    id: 'french',
+    text: 'French',
+    value: 'French',
+  },
+  {
+    id: 'german',
+    text: 'German',
+    value: 'German',
+  },
+  {
+    id: 'italian)',
+    text: 'Italian',
+    value: 'Italian',
+  },
+  {
+    id: 'korean',
+    text: 'Korean',
+    value: 'Korean',
+  },
+  {
+    id: 'portuguese',
+    text: 'Portuguese',
+    value: 'Portuguese',
+  },
+  {
+    id: 'russian',
+    text: 'Russian',
+    value: 'Russian',
+  },
+  {
+    id: 'spanish',
+    text: 'Spanish',
+    value: 'Spanish',
+  },
+  {
+    id: 'tagalog',
+    text: 'Tagalog (Filipino)',
+    value: 'Tagalog (Filipino)',
+  },
+  {
+    id: 'vietnamese',
+    text: 'Vietnamese',
+    value: 'Vietnamese',
+  },
+  {
+    id: 'other',
+    text: 'Other',
+    value: 'Other',
+  },
+];
+
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO-SHOW',
   'CANCELLED BY CLINIC',
