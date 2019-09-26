@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-const cheerio = require('cheerio');
-
 const newTabDomains = [
   'myhealth.va.gov',
   'ebenefits.va.gov',
@@ -28,9 +26,9 @@ function updateExternalLinks() {
       let linkUpdated = false;
 
       if (fileName.endsWith('html')) {
-        const doc = cheerio.load(file.contents);
-        doc('a[href^="http"]').each((i, el) => {
-          const link = doc(el);
+        const { dom } = file;
+        dom('a[href^="http"]').each((i, el) => {
+          const link = dom(el);
           const relAttr = link.attr('rel');
           const targetAttr = link.attr('target');
           const hrefAttr = link.attr('href') || '';
@@ -68,7 +66,7 @@ function updateExternalLinks() {
         });
 
         if (linkUpdated) {
-          file.contents = new Buffer(doc.html());
+          file.modified = true;
         }
       }
     }
