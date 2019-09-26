@@ -38,29 +38,50 @@ export default {
         return 'audiologyCareType';
       }
 
-      return 'visitType';
+      if (getFormData(state).facilityType === 'communityCare') {
+        return 'ccProvider';
+      }
+
+      return 'vaFacility';
     },
     previous: 'typeOfCare',
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'contactInfo',
+    next: 'ccProvider',
     previous: 'typeOfFacility',
   },
-  visitType: {
-    url: '/new-appointment/choose-visit-type',
+  ccProvider: {
+    url: '/new-appointment/community-care-provider',
     next: 'contactInfo',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
       }
-      // TODO: If user is not CC eligible, return to page prior to typeOfFacility
+
       return 'typeOfFacility';
     },
+  },
+  vaFacility: {
+    url: '/new-appointment/va-facility',
+    next: 'visitType',
+    // TODO: If user is not CC eligible, return to page prior to typeOfFacility
+    previous: 'typeOfFacility',
+  },
+  visitType: {
+    url: '/new-appointment/choose-visit-type',
+    previous: 'vaFacility',
+    next: 'contactInfo',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
     next: 'home',
-    previous: 'visitType',
+    previous(state) {
+      if (getFormData(state).facilityType === 'communityCare') {
+        return 'ccProvider';
+      }
+
+      return 'visitType';
+    },
   },
 };
