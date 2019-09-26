@@ -69,6 +69,7 @@ class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
+        onClick="window.dataLayer.push({ 'event': 'nav-jumplink-click' });"
         buttonText="Search"
         clickHandler={this.props.clickHandler}
         cssClass={buttonClasses}

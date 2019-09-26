@@ -33,6 +33,7 @@ class HelpMenu extends React.Component {
 
     return (
       <DropDownPanel
+        onClick="window.dataLayer.push({ 'event': 'nav-jumplink-click' });"
         buttonText="Contact us"
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}

@@ -225,7 +225,7 @@ Example data:
             </div>
           </div>
             {% assign index = entityUrl.breadcrumb.length | minus: 2 %}
-          <a href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all events</a>
+          <a onClick="window.dataLayer.push({ 'event': 'nav-secondary-button-click' });" href="{{ entityUrl.breadcrumb | getValueFromArrayObjPath: index, 'url.path' }}">See all events</a>
         </article>
 
         <div class="last-updated usa-content">

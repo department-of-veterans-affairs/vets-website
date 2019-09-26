@@ -11,6 +11,9 @@ class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
+    window.dataLayer.push({
+      event: 'nav-jumplink-click',
+    });
   };
 
   handleMenuClick = menu => () => {
@@ -51,6 +54,7 @@ class SearchHelpSignIn extends React.Component {
         )}
         {isSubdomain && (
           <a
+            onClick="window.dataLayer.push({ 'event': 'nav-jumplink-click' });"
             className="usa-button sign-in-link"
             href={`https://www.va.gov/my-va`}
           >
