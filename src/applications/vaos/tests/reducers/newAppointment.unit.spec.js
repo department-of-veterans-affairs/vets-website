@@ -7,10 +7,22 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_FETCH_CHILD_FACILITIES,
+  FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+  FORM_VA_SYSTEM_CHANGED,
 } from '../../actions/newAppointment';
 
 import systems from '../../actions/facilities.json';
 import facilities983 from '../../actions/facilities_983.json';
+
+const defaultState = {
+  data: {},
+  pages: {},
+  loadingSystems: false,
+  loadingFacilities: false,
+  systems: null,
+  facilities: {},
+};
 
 describe('VAOS reducer: newAppointment', () => {
   it('should set the new schema', () => {
@@ -83,15 +95,7 @@ describe('VAOS reducer: newAppointment', () => {
 
     expect(newState.pageChangeInProgress).to.be.false;
   });
-  describe('facility page reducers', () => {
-    const defaultState = {
-      data: {},
-      pages: {},
-      loadingSystems: false,
-      systems: [],
-      facilities: {},
-    };
-
+  describe('open facility page reducer', () => {
     const defaultOpenPageAction = {
       type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
       page: 'vaFacility',
@@ -203,6 +207,130 @@ describe('VAOS reducer: newAppointment', () => {
         type: 'object',
         properties: {},
       });
+    });
+  });
+
+  describe('update facility data reducer', () => {
+    const defaultFetchFacilitiesAction = {
+      type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+      uiSchema: {},
+      typeOfCareId: '323',
+    };
+    const defaultFacilityState = {
+      ...defaultState,
+      data: {
+        vaSystem: '983',
+        typeOfCareId: '323',
+      },
+      pages: {
+        vaFacility: {
+          type: 'object',
+          properties: {
+            vaSystem: {
+              type: 'string',
+            },
+            vaFacility: {
+              type: 'string',
+              enum: [],
+            },
+          },
+        },
+      },
+      facilities: {},
+      loadingFacilities: true,
+    };
+
+    it('should set loading state when system changes and facilities are fetched', () => {
+      const action = {
+        type: FORM_FETCH_CHILD_FACILITIES,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.loadingFacilities).to.be.true;
+    });
+
+    it('should set up facilities after they are fetched', () => {
+      const action = {
+        ...defaultFetchFacilitiesAction,
+        facilities: facilities983,
+      };
+
+      const newState = newAppointmentReducer(defaultFacilityState, action);
+
+      expect(newState.loadingFacilities).to.be.false;
+      expect(newState.pages.vaFacility.properties.vaFacility).to.deep.equal({
+        type: 'string',
+        enum: ['983', '983GB', '983GC', '983GD', '983HK'],
+        enumNames: [
+          'CHYSHR-Cheyenne VA Medical Center',
+          'CHYSHR-Sidney VA Clinic',
+          'CHYSHR-Fort Collins VA Clinic',
+          'CHYSHR-Loveland VA Clinic',
+          'CHYSHR-Wheatland VA Mobile Clinic',
+        ],
+      });
+      expect(newState.facilities['323_983']).to.equal(facilities983);
+    });
+
+    it('should remove facility question and set data if only one facility', () => {
+      const action = {
+        ...defaultFetchFacilitiesAction,
+        facilities: facilities983.slice(0, 1),
+      };
+
+      const newState = newAppointmentReducer(defaultFacilityState, action);
+
+      expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
+      expect(newState.data.vaFacility).to.equal('983');
+    });
+
+    it('should update facility choices if system changed and we have the list in state', () => {
+      const action = {
+        type: FORM_VA_SYSTEM_CHANGED,
+        typeOfCareId: '323',
+      };
+      const state = {
+        ...defaultFacilityState,
+        data: {
+          vaSystem: '983',
+        },
+        facilities: {
+          '323_983': facilities983,
+        },
+      };
+
+      const newState = newAppointmentReducer(state, action);
+
+      expect(newState.pages.vaFacility.properties.vaFacility).to.deep.equal({
+        type: 'string',
+        enum: ['983', '983GB', '983GC', '983GD', '983HK'],
+        enumNames: [
+          'CHYSHR-Cheyenne VA Medical Center',
+          'CHYSHR-Sidney VA Clinic',
+          'CHYSHR-Fort Collins VA Clinic',
+          'CHYSHR-Loveland VA Clinic',
+          'CHYSHR-Wheatland VA Mobile Clinic',
+        ],
+      });
+    });
+
+    it('should remove facility question and set data if only one facility in state', () => {
+      const action = {
+        type: FORM_VA_SYSTEM_CHANGED,
+        typeOfCareId: '323',
+      };
+      const state = {
+        ...defaultFacilityState,
+        facilities: {
+          '323_983': facilities983.slice(0, 1),
+        },
+      };
+
+      const newState = newAppointmentReducer(state, action);
+
+      expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
+      expect(newState.data.vaFacility).to.equal('983');
     });
   });
 });

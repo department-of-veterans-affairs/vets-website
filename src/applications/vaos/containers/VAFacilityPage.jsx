@@ -3,15 +3,18 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import facilities984 from '../actions/facilities_984.json';
 
 import {
   openFacilityPage,
-  updateFormData,
+  updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+
+import NoVASystems from '../components/NoVASystems';
+import NoValidVAFacilities from '../components/NoValidVAFacilities';
+import VAFacilityInfoMessage from '../components/VAFacilityInfoMessage';
 
 const initialSchema = {
   type: 'object',
@@ -23,10 +26,7 @@ const initialSchema = {
     },
     vaFacility: {
       type: 'string',
-      enum: facilities984.map(facility => facility.institution.institutionCode),
-      enumNames: facilities984.map(
-        facility => facility.institution.authoritativeName,
-      ),
+      enum: [],
     },
   },
 };
@@ -45,9 +45,27 @@ const uiSchema = {
       hideIf: data => !data.vaSystem,
     },
   },
+  vaFacilityLoading: {
+    'ui:field': () => <LoadingIndicator message="Finding locations" />,
+    'ui:options': {
+      hideLabelText: true,
+    },
+  },
+  vaFacilityMessage: {
+    'ui:field': NoValidVAFacilities,
+    'ui:options': {
+      hideLabelText: true,
+    },
+  },
 };
 
 const pageKey = 'vaFacility';
+
+const title = (
+  <h1 className="vads-u-font-size--h2">
+    Choose a VA location for your apppointment
+  </h1>
+);
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
@@ -63,36 +81,109 @@ export class VAFacilityPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress, loadingSystems } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      loadingSystems,
+      loadingFacilities,
+      facility,
+    } = this.props;
+
+    if (!schema || loadingSystems) {
+      return (
+        <div>
+          {title}
+          <LoadingIndicator message="Finding your VA facility..." />
+        </div>
+      );
+    }
+
+    if (
+      !schema.properties.vaSystem &&
+      !schema.properties.vaFacility &&
+      data.vaSystem &&
+      data.vaFacility
+    ) {
+      return (
+        <div>
+          {title}
+          <VAFacilityInfoMessage facility={facility} />
+          <div className="vads-u-margin-top--2">
+            <FormButtons
+              onBack={this.goBack}
+              pageChangeInProgress={pageChangeInProgress}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    if (!schema.properties.vaSystem) {
+      return (
+        <div>
+          {title}
+          <NoVASystems />
+          <div className="vads-u-margin-top--2">
+            <FormButtons
+              onBack={this.goBack}
+              disabled
+              pageChangeInProgress={pageChangeInProgress}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    let currentSchema = schema;
+    let canContinue = true;
+
+    if (loadingFacilities) {
+      currentSchema = {
+        type: 'object',
+        properties: {
+          vaSystem: schema.properties.vaSystem,
+          vaFacilityLoading: { type: 'string' },
+        },
+      };
+      canContinue = false;
+    } else if (
+      !schema.properties.vaFacility &&
+      data.vaSystem &&
+      !data.vaFacility
+    ) {
+      currentSchema = {
+        type: 'object',
+        properties: {
+          vaSystem: schema.properties.vaSystem,
+          vaFacilityMessage: { type: 'string' },
+        },
+      };
+      canContinue = false;
+    }
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
           Choose a VA location for your apppointment
         </h1>
-        {loadingSystems && (
-          <LoadingIndicator message="Finding your VA facility..." />
-        )}
-        {!loadingSystems &&
-          schema && (
-            <SchemaForm
-              name="VA Facility"
-              title="VA Facility"
-              schema={schema || initialSchema}
-              uiSchema={uiSchema}
-              onSubmit={this.goForward}
-              onChange={newData =>
-                this.props.updateFormData(pageKey, uiSchema, newData)
-              }
-              data={data}
-            >
-              <FormButtons
-                onBack={this.goBack}
-                disabled={loadingSystems}
-                pageChangeInProgress={pageChangeInProgress}
-              />
-            </SchemaForm>
-          )}
+        <SchemaForm
+          name="VA Facility"
+          title="VA Facility"
+          schema={currentSchema}
+          uiSchema={uiSchema}
+          onSubmit={this.goForward}
+          onChange={newData =>
+            this.props.updateFacilityPageData(pageKey, uiSchema, newData)
+          }
+          data={data}
+        >
+          <FormButtons
+            onBack={this.goBack}
+            disabled={!canContinue}
+            pageChangeInProgress={pageChangeInProgress}
+          />
+        </SchemaForm>
       </div>
     );
   }
@@ -104,13 +195,20 @@ function mapStateToProps(state) {
 
   return {
     ...formInfo,
+    facility: newAppointment.facilities[
+      `${formInfo.data.typeOfCareId}_${formInfo.data.vaSystem}`
+    ]?.find(
+      facility =>
+        facility.institution.institutionCode === formInfo.data.vaFacility,
+    ),
     loadingSystems: newAppointment.loadingSystems,
+    loadingFacilities: newAppointment.loadingFacilities,
   };
 }
 
 const mapDispatchToProps = {
   openFacilityPage,
-  updateFormData,
+  updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };

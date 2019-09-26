@@ -1,0 +1,22 @@
+import React from 'react';
+import { Link } from 'react-router';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+export default function NoVASystems({ systemId }) {
+  return (
+    <AlertBox
+      status="warning"
+      headline="Sorry, we couldn't find any locations for you"
+    >
+      Some types of care are not available at certain VA locations and not all
+      VA locations have enabled online scheduling. You can{' '}
+      <a href={`/find-locations/facility/${systemId}`}>
+        contact your VA medical center
+      </a>{' '}
+      to get help with the care you need.
+      <p>
+        <Link to="/">Go back to VA Online Scheduling home.</Link>
+      </p>
+    </AlertBox>
+  );
+}

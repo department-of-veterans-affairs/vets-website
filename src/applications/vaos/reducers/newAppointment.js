@@ -15,6 +15,9 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_FETCH_CHILD_FACILITIES,
+  FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+  FORM_VA_SYSTEM_CHANGED,
 } from '../actions/newAppointment';
 
 const initialState = {
@@ -23,20 +26,19 @@ const initialState = {
     typeOfCareId: '323',
   },
   facilities: {},
+  systems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingFacilities: false,
 };
 
-function getFacilities(state, typeOfCareId) {
-  return state.facilities[typeOfCareId] || [];
+function getFacilities(state, typeOfCareId, vaSystem) {
+  return state.facilities[`${typeOfCareId}_${vaSystem}`] || [];
 }
 
-function getAvailableFacilities(facilities, vaSystem) {
+function getAvailableFacilities(facilities) {
   return facilities.filter(
-    facility =>
-      facility.institution.parentStationCode === vaSystem &&
-      (facility.requestSupported || facility.directSchedulingSupported),
+    facility => facility.requestSupported || facility.directSchedulingSupported,
   );
 }
 
@@ -68,6 +70,14 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
+      let newPages = state.pages;
+      if (
+        action.data.typeOfCareId !== state.data.typeOfCareId &&
+        state.pages.vaFacility
+      ) {
+        newPages = unset('vaFacility', newPages);
+      }
+
       const { data, schema } = updateSchemaAndData(
         state.pages[action.page],
         action.uiSchema,
@@ -78,7 +88,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         data,
         pages: {
-          ...state.pages,
+          ...newPages,
           [action.page]: schema,
         },
       };
@@ -131,12 +141,10 @@ export default function formReducer(state = initialState, action) {
       }
 
       const facilities =
-        action.facilities || getFacilities(state, action.typeOfCareId);
+        action.facilities ||
+        getFacilities(state, action.typeOfCareId, newData.vaSystem);
 
-      const availableFacilities = getAvailableFacilities(
-        facilities,
-        newData.vaSystem,
-      );
+      const availableFacilities = getAvailableFacilities(facilities);
 
       if (availableFacilities.length > 1) {
         newSchema = set(
@@ -173,11 +181,108 @@ export default function formReducer(state = initialState, action) {
         loadingSystems: false,
         facilities: {
           ...state.facilities,
-          [action.typeOfCareId]: facilities,
+          [`${newData.typeOfCareId}_${newData.vaSystem}`]: facilities,
         },
         pages: {
           ...state.pages,
           [action.page]: schema,
+        },
+      };
+    }
+    case FORM_FETCH_CHILD_FACILITIES: {
+      return {
+        ...state,
+        loadingFacilities: true,
+      };
+    }
+    case FORM_FETCH_CHILD_FACILITIES_SUCCEEDED: {
+      const availableFacilities = getAvailableFacilities(action.facilities);
+
+      let newSchema = state.pages.vaFacility;
+      let newData = state.data;
+      if (availableFacilities.length > 1) {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: availableFacilities.map(
+              facility => facility.institution.institutionCode,
+            ),
+            enumNames: availableFacilities.map(
+              facility => facility.institution.authoritativeName,
+            ),
+          },
+          newSchema,
+        );
+      } else {
+        newSchema = unset('properties.vaFacility', newSchema);
+        newData = {
+          ...newData,
+          vaFacility: availableFacilities[0]?.institution.institutionCode,
+        };
+      }
+
+      const { data, schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        newData,
+      );
+
+      return {
+        ...state,
+        data,
+        loadingFacilities: false,
+        facilities: {
+          ...state.facilities,
+          [`${newData.typeOfCareId}_${newData.vaSystem}`]: action.facilities,
+        },
+        pages: {
+          ...state.pages,
+          vaFacility: schema,
+        },
+      };
+    }
+    case FORM_VA_SYSTEM_CHANGED: {
+      const availableFacilities = getAvailableFacilities(
+        getFacilities(state, action.typeOfCareId, state.data.vaSystem),
+      );
+
+      let newSchema = state.pages.vaFacility;
+      let newData = state.data;
+      if (availableFacilities.length > 1) {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: availableFacilities.map(
+              facility => facility.institution.institutionCode,
+            ),
+            enumNames: availableFacilities.map(
+              facility => facility.institution.authoritativeName,
+            ),
+          },
+          newSchema,
+        );
+      } else {
+        newSchema = unset('properties.vaFacility', newSchema);
+        newData = {
+          ...newData,
+          vaFacility: availableFacilities[0]?.institution.institutionCode,
+        };
+      }
+
+      const { data, schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        newData,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          vaFacility: schema,
         },
       };
     }
