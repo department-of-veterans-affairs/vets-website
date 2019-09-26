@@ -44,6 +44,6 @@ describe('getBrokenLinks', () => {
       [],
       detectAllLinksBroken,
     );
-    expect(linkErrors).to.have.lengthOf(0);
+    expect(linkErrors).to.have.lengthOf(1);
   });
 });
