@@ -10,7 +10,12 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
+import {
+  getFormPageInfo,
+  getNewAppointment,
+  getChosenFacilityInfo,
+  hasSingleValidVALocation,
+} from '../utils/selectors';
 
 import NoVASystems from '../components/NoVASystems';
 import NoValidVAFacilities from '../components/NoValidVAFacilities';
@@ -41,6 +46,15 @@ const uiSchema = {
     'ui:title':
       'Appointments are available at the following locations. Some types of care are only available at one location. Select your preferred location',
     'ui:widget': 'radio',
+    'ui:validations': [
+      (errors, vaFacility, data) => {
+        if (vaFacility && !vaFacility.startsWith(data.vaSystem)) {
+          errors.add(
+            'Please choose a facility that is in the selected VA health systems',
+          );
+        }
+      },
+    ],
     'ui:options': {
       hideIf: data => !data.vaSystem,
     },
@@ -52,7 +66,9 @@ const uiSchema = {
     },
   },
   vaFacilityMessage: {
-    'ui:field': NoValidVAFacilities,
+    'ui:field': ({ formContext }) => (
+      <NoValidVAFacilities systemId={formContext.vaSystem} />
+    ),
     'ui:options': {
       hideLabelText: true,
     },
@@ -88,9 +104,12 @@ export class VAFacilityPage extends React.Component {
       loadingSystems,
       loadingFacilities,
       facility,
+      singleValidVALocation,
+      noValidVASystems,
+      noValidVAFacilities,
     } = this.props;
 
-    if (!schema || loadingSystems) {
+    if (loadingSystems) {
       return (
         <div>
           {title}
@@ -99,12 +118,7 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
-    if (
-      !schema.properties.vaSystem &&
-      !schema.properties.vaFacility &&
-      data.vaSystem &&
-      data.vaFacility
-    ) {
+    if (singleValidVALocation) {
       return (
         <div>
           {title}
@@ -119,7 +133,7 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
-    if (!schema.properties.vaSystem) {
+    if (noValidVASystems) {
       return (
         <div>
           {title}
@@ -135,32 +149,7 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
-    let currentSchema = schema;
-    let canContinue = true;
-
-    if (loadingFacilities) {
-      currentSchema = {
-        type: 'object',
-        properties: {
-          vaSystem: schema.properties.vaSystem,
-          vaFacilityLoading: { type: 'string' },
-        },
-      };
-      canContinue = false;
-    } else if (
-      !schema.properties.vaFacility &&
-      data.vaSystem &&
-      !data.vaFacility
-    ) {
-      currentSchema = {
-        type: 'object',
-        properties: {
-          vaSystem: schema.properties.vaSystem,
-          vaFacilityMessage: { type: 'string' },
-        },
-      };
-      canContinue = false;
-    }
+    const continueDisabled = loadingFacilities || noValidVAFacilities;
 
     return (
       <div>
@@ -170,17 +159,18 @@ export class VAFacilityPage extends React.Component {
         <SchemaForm
           name="VA Facility"
           title="VA Facility"
-          schema={currentSchema}
+          schema={schema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={newData =>
             this.props.updateFacilityPageData(pageKey, uiSchema, newData)
           }
+          formContext={{ vaSystem: data.vaSystem }}
           data={data}
         >
           <FormButtons
             onBack={this.goBack}
-            disabled={!canContinue}
+            disabled={continueDisabled}
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
@@ -195,14 +185,16 @@ function mapStateToProps(state) {
 
   return {
     ...formInfo,
-    facility: newAppointment.facilities[
-      `${formInfo.data.typeOfCareId}_${formInfo.data.vaSystem}`
-    ]?.find(
-      facility =>
-        facility.institution.institutionCode === formInfo.data.vaFacility,
-    ),
-    loadingSystems: newAppointment.loadingSystems,
-    loadingFacilities: newAppointment.loadingFacilities,
+    facility: getChosenFacilityInfo(state),
+    loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
+    loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
+    singleValidVALocation: hasSingleValidVALocation(state),
+    noValidVASystems:
+      !formInfo.data.vaSystem &&
+      formInfo.schema &&
+      !formInfo.schema.properties.vaSystem,
+    noValidVAFacilities:
+      !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
   };
 }
 

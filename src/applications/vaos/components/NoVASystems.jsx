@@ -9,7 +9,7 @@ export default function NoVASystems() {
       headline="Sorry, we couldn't find any VA health systems you've been seen at."
     >
       You may need to call to make an appointment at your{' '}
-      <a href="/find-locations" target="_blank" rel="nofollow">
+      <a href="/find-locations" target="_blank" rel="noopener noreferrer">
         local VA medical center
       </a>{' '}
       if you have not been seen there before.

@@ -10,7 +10,11 @@ export default function NoVASystems({ systemId }) {
     >
       Some types of care are not available at certain VA locations and not all
       VA locations have enabled online scheduling. You can{' '}
-      <a href={`/find-locations/facility/${systemId}`}>
+      <a
+        href={`/find-locations/facility/vha_${systemId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         contact your VA medical center
       </a>{' '}
       to get help with the care you need.
