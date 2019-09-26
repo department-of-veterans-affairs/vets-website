@@ -26,7 +26,14 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage("Build") {
-    commonStages.build(ref, dockerContainer, ref, params.env, false)
+    commonStages.build(
+      ref: ref,
+      dockerContainer: dockerContainer,
+      assetSource: ref,
+      envName: params.env,
+      useCache: false,
+      contentOnlyBuild: true
+    )
   }
 
   stage("Prearchive") {

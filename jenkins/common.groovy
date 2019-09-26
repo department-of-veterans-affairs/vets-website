@@ -149,7 +149,7 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
   }
 }
 
-def checkForBrokenLinks(String buildLogPath, String envName) {
+def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
   // Look for broken links
   def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
   def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
@@ -174,7 +174,7 @@ def checkForBrokenLinks(String buildLogPath, String envName) {
       channel: 'cms-engineering'
 
     // Only break the build if broken links are found in master
-    if (IS_PROD_BRANCH) {
+    if (IS_PROD_BRANCH || contentOnlyBuild) {
       throw new Exception('Broken links found')
     }
   } else {
@@ -182,7 +182,7 @@ def checkForBrokenLinks(String buildLogPath, String envName) {
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   def buildDetails = buildDetails(envName, ref)
   def drupalAddress = DRUPAL_ADDRESSES.get(envName)
   def drupalCred = DRUPAL_CREDENTIALS.get(envName)
@@ -195,7 +195,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} ${drupalMode} --buildLog ${buildLogPath}"
 
       if (envName == 'vagovprod') {
-	checkForBrokenLinks(buildLogPath, envName)
+	checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
       }
 
       // Find any missing query flags in the log
@@ -221,7 +221,14 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
         def envName = VAGOV_BUILDTYPES.get(i)
         builds[envName] = {
           try {
-            build(ref, dockerContainer, assetSource, envName, false)
+            build(
+	      ref: ref,
+	      dockerContainer: dockerContainer,
+	      assetSource: assetSource,
+	      envName: envName,
+	      useCache: false,
+	      contentOnlyBuild: contentOnlyBuild
+	    )
             envUsedCache[envName] = false
           } catch (error) {
             // We're not using the cache for content only builds, because requesting
@@ -230,10 +237,10 @@ def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
-              build(ref, dockerContainer, assetSource, envName, true)
+              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
-              build(ref, dockerContainer, assetSource, envName, false)
+              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
             }
           }
