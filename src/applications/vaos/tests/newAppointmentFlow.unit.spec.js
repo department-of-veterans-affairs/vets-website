@@ -15,10 +15,10 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('audiologyDecision');
+      expect(nextState).to.equal('audiologyCareType');
     });
 
-    it('next should choose preferred dates page if CC chosen', () => {
+    it('next should choose type of visit page if CC chosen', () => {
       const state = {
         newAppointment: {
           data: {
@@ -29,10 +29,24 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('preferredDates');
+      expect(nextState).to.equal('visitType');
     });
 
-    it('next should choose va facility page if not CC', () => {
+    it('next should choose audiology options page if CC and audiology is chosen', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.typeOfFacility.next(state);
+      expect(nextState).to.equal('audiologyCareType');
+    });
+
+    it('next should choose visit type page if not CC', () => {
       const state = {
         newAppointment: {
           data: {
@@ -43,7 +57,26 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('vaLocation');
+      expect(nextState).to.equal('visitType');
+    });
+
+    it('previous should choose audiologyCareType page if CC and audiology', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+            typeOfCareId: '203',
+          },
+        },
+      };
+
+      const prevState = newAppointmentFlow.visitType.previous(state);
+      expect(prevState).to.equal('audiologyCareType');
+    });
+
+    it('previous should choose visitType page', () => {
+      const prevState = newAppointmentFlow.contactInfo.previous;
+      expect(prevState).to.equal('visitType');
     });
   });
 });

@@ -157,45 +157,6 @@
       }
     }
 
-    @include media-maxwidth($medium-screen) {
-      .table {
-        display: none;
-      }
-    }
-  }
-  .cautionary-information-new {
-    .table {
-      table {
-        margin: 1em 0;
-      }
-
-      th:first-child {
-        width: 60%;
-      }
-    }
-
-    .complaints-by-type {
-      th:first-child span {
-        font-weight: normal;
-      }
-    }
-
-    .list {
-      h4 {
-        padding: 0.5em 0 !important;
-      }
-      .number {
-        text-align: right;
-      }
-      margin-bottom: 1em;
-    }
-
-    @media screen and (min-width: $medium-screen) {
-      .list {
-        display: none;
-      }
-    }
-
     @include media-maxwidth($small-screen) {
       .table {
         display: none;
@@ -276,7 +237,7 @@
     padding-bottom: 0.5em;
   }
 
-  .locations-list {   
+  .locations-list {
     @media screen and (min-width: $medium-screen) {
       display: none;
     }
@@ -290,7 +251,7 @@
     }
   }
 
-  @include media-maxwidth($medium-screen) {
+  @include media-maxwidth($medium-screen - 1) {
     .locations-table {
       display: none;
     }
