@@ -75,15 +75,6 @@ describe('VAOS newAppointmentFlow', () => {
     });
 
     it('previous should choose typeOfFacility page if not CC and audiology', () => {
-      // const state = {
-      //   newAppointment: {
-      //     data: {
-      //       facilityType: 'va',
-      //       typeOfCareId: '203',
-      //     },
-      //   },
-      // };
-
       const prevState = newAppointmentFlow.contactInfo.previous;
       expect(prevState).to.equal('visitType');
     });
