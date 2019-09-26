@@ -23,8 +23,8 @@ export const VetTecScoContact = (sco, header) => {
                     {sco.phoneAreaCode}
                     {'-'}
                     {sco.phoneNumber}
+                    {sco.phoneExtension && `, ext. ${sco.phoneExtension}`}
                   </a>
-                  {sco.phoneExtension && ` ext. ${sco.phoneExtension}`}
                 </div>
               )}
           </div>

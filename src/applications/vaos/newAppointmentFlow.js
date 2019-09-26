@@ -39,7 +39,7 @@ export default {
       }
 
       if (getFormData(state).facilityType === 'communityCare') {
-        return 'contactInfo';
+        return 'ccProvider';
       }
 
       return 'vaFacility';
@@ -48,23 +48,40 @@ export default {
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'contactInfo',
+    next: 'ccProvider',
     previous: 'typeOfFacility',
+  },
+  ccProvider: {
+    url: '/new-appointment/community-care-provider',
+    next: 'contactInfo',
+    previous(state) {
+      if (isCCAudiology(state)) {
+        return 'audiologyCareType';
+      }
+
+      return 'typeOfFacility';
+    },
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'contactInfo',
+    next: 'visitType',
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
+  },
+  visitType: {
+    url: '/new-appointment/choose-visit-type',
+    previous: 'vaFacility',
+    next: 'contactInfo',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
     next: 'home',
     previous(state) {
-      if (isCCAudiology(state)) {
-        return 'audiologyCareType';
+      if (getFormData(state).facilityType === 'communityCare') {
+        return 'ccProvider';
       }
-      return 'vaFacility';
+
+      return 'visitType';
     },
   },
 };
