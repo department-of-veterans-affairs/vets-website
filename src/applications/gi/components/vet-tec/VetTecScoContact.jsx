@@ -1,11 +1,10 @@
 import React from 'react';
 
-export const VetTecScoContact = (sco, header) => {
+export const VetTecScoContact = sco => {
   if (sco) {
     return (
       <div className="usa-width-one-half medium-6 columns">
         <div className="usa-width-one-whole">
-          {header ? <h3>{header}</h3> : <div className="vads-u-margin-y--5" />}
           <div>
             <div>
               {sco.firstName} {sco.lastName}
