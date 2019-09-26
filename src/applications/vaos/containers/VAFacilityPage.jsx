@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -10,12 +11,7 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
-import {
-  getFormPageInfo,
-  getNewAppointment,
-  getChosenFacilityInfo,
-  hasSingleValidVALocation,
-} from '../utils/selectors';
+import { getFacilityPageInfo } from '../utils/selectors';
 
 import NoVASystems from '../components/NoVASystems';
 import NoValidVAFacilities from '../components/NoValidVAFacilities';
@@ -149,13 +145,9 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
-    const continueDisabled = loadingFacilities || noValidVAFacilities;
-
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Choose a VA location for your apppointment
-        </h1>
+        {title}
         <SchemaForm
           name="VA Facility"
           title="VA Facility"
@@ -170,7 +162,7 @@ export class VAFacilityPage extends React.Component {
         >
           <FormButtons
             onBack={this.goBack}
-            disabled={continueDisabled}
+            disabled={loadingFacilities || noValidVAFacilities}
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
@@ -179,23 +171,19 @@ export class VAFacilityPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  const formInfo = getFormPageInfo(state, pageKey);
-  const newAppointment = getNewAppointment(state);
+VAFacilityPage.propTypes = {
+  schema: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+  loadingSystems: PropTypes.bool,
+  loadingFacilities: PropTypes.bool,
+  singleValidVALocation: PropTypes.bool,
+  noValidVASystems: PropTypes.bool,
+  noValidVAFacilities: PropTypes.bool,
+};
 
-  return {
-    ...formInfo,
-    facility: getChosenFacilityInfo(state),
-    loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
-    loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
-    singleValidVALocation: hasSingleValidVALocation(state),
-    noValidVASystems:
-      !formInfo.data.vaSystem &&
-      formInfo.schema &&
-      !formInfo.schema.properties.vaSystem,
-    noValidVAFacilities:
-      !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
-  };
+function mapStateToProps(state) {
+  return getFacilityPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {

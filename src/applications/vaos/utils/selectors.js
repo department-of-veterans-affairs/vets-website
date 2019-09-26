@@ -50,3 +50,22 @@ export function hasSingleValidVALocation(state) {
     formInfo.data.vaFacility
   );
 }
+
+export function getFacilityPageInfo(state, pageKey) {
+  const formInfo = getFormPageInfo(state, pageKey);
+  const newAppointment = getNewAppointment(state);
+
+  return {
+    ...formInfo,
+    facility: getChosenFacilityInfo(state),
+    loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
+    loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
+    singleValidVALocation: hasSingleValidVALocation(state),
+    noValidVASystems:
+      !formInfo.data.vaSystem &&
+      formInfo.schema &&
+      !formInfo.schema.properties.vaSystem,
+    noValidVAFacilities:
+      !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
+  };
+}
