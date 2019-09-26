@@ -25,7 +25,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // check detail pages
   client
     .waitForElementVisible('.facility-result a h2', Timeouts.slow)
-    .click('.facility-result a h5')
+    .click('.facility-result a h2')
     .waitForElementVisible('.all-details', Timeouts.slow)
     .axeCheck('.main');
 
