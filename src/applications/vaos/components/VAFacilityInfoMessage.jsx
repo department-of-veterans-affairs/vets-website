@@ -9,10 +9,13 @@ export default function VAFacilityInfoMessage({ facility }) {
         <br />
         {facility.institution.city}, {facility.institution.stateAbbrev}
       </p>
-      Not all VA locations offer all types of care or support online scheduling
+      Not all VA locations offer all types of care or support online scheduling.
       <p>
-        If this location does not work for you, you can find a different
-        location and call to schedule an appointment
+        If this location wasn't what you were looking for, you can{' '}
+        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+          search for a nearby location
+        </a>{' '}
+        and call to schedule an appointment.
       </p>
     </AlertBox>
   );
