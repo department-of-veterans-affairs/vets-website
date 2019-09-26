@@ -11,6 +11,7 @@ const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 
+const defaultPostBuild = require('./postbuild');
 const getOptions = require('./options');
 const registerLiquidFilters = require('../../filters/liquid');
 const { getDrupalContent } = require('./drupal/metalsmith-drupal');
@@ -240,6 +241,7 @@ function defaultBuild(BUILD_OPTIONS) {
       console.log('Metalsmith build finished!  Starting webpack-dev-server...');
     } else {
       console.log('Build finished!');
+      defaultPostBuild(BUILD_OPTIONS);
     }
   });
 }
