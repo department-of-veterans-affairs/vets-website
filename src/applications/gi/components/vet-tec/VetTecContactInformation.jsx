@@ -42,16 +42,26 @@ export const VetTecContactInformation = ({ institution }) => (
       </div>
     </div>
     {/* Production flag for 19534 */}
-    {!environment.isProduction() &&
-      institution.schoolCertifyingOfficials[0] && (
-        <div className="additional-information row vads-u-margin-y--4">
-          {VetTecScoContact(
-            institution.schoolCertifyingOfficials[0],
-            'School certifying officials',
-          )}
-          {VetTecScoContact(institution.schoolCertifyingOfficials[1])}
-        </div>
-      )}
+    {!environment.isProduction() && institution.schoolCertifyingOfficials[0] && (
+      <React.Fragment>
+        {institution.schoolCertifyingOfficials.map(
+          (sco, i) =>
+            i % 2 === 0 && (
+              <div className="additional-information row vads-u-margin-y--4">
+                {/* {i === 0 ? () : ()} */}
+                {VetTecScoContact(
+                  sco,
+                  i === 0 && 'School certifying officials',
+                )}
+                {institution.schoolCertifyingOfficials[i + 1] &&
+                  VetTecScoContact(
+                    institution.schoolCertifyingOfficials[i + 1],
+                  )}
+              </div>
+            ),
+        )}
+      </React.Fragment>
+    )}
   </div>
 );
 
