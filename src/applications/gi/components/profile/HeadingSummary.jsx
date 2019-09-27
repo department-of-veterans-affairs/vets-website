@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
-import { formatNumber } from '../../utils/helpers';
+import { formatNumber, locationInfo } from '../../utils/helpers';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -17,32 +17,12 @@ const IconWithInfo = ({ icon, children, present }) => {
   );
 };
 
-const LocationInfo = ({ city, state, country }) => {
-  let address = `${city}, ${country}`;
-  let present = city && country;
-  if (country === 'USA') {
-    if (city && state) {
-      address = `${city}, ${state}`;
-      present = city && state;
-    } else if (!state) {
-      address = `${city}`;
-      present = city;
-    } else if (!city) {
-      address = `${state}`;
-      present = state;
-    }
-  }
-  return (
-    <IconWithInfo icon="map-marker" present={present}>
-      {address}
-    </IconWithInfo>
-  );
-};
-
 class HeadingSummary extends React.Component {
   render() {
     const it = this.props.institution;
     it.type = it.type && it.type.toLowerCase();
+    const formattedAddress = locationInfo(it.city, it.state, it.country);
+    const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
 
     const schoolSize = enrollment => {
       if (!enrollment) return 'Unknown';
@@ -103,11 +83,9 @@ class HeadingSummary extends React.Component {
           </div>
           <div>
             <div className="usa-width-one-half medium-6 small-12 column">
-              <LocationInfo
-                city={it.city}
-                state={it.state}
-                country={it.country}
-              />
+              <IconWithInfo icon="map-marker" present={addressPresent}>
+                {formattedAddress}
+              </IconWithInfo>
               <IconWithInfo icon="globe" present={it.website}>
                 <a href={it.website} target="_blank" rel="noopener noreferrer">
                   {it.website}
