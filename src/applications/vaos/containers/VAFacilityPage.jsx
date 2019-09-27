@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import facilities from '../actions/facilities.json';
 import facilities984 from '../actions/facilities_984.json';
 
 import {
-  openFormPage,
+  openFacilityPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment';
-import { getFormPageInfo } from '../utils/selectors';
+} from '../actions/newAppointment.js';
+import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -19,11 +19,12 @@ const initialSchema = {
   properties: {
     vaSystem: {
       type: 'string',
-      enum: facilities.map(facility => facility.authoritativeName),
+      enum: [],
     },
     vaFacility: {
       type: 'string',
-      enum: facilities984.map(
+      enum: facilities984.map(facility => facility.institution.institutionCode),
+      enumNames: facilities984.map(
         facility => facility.institution.authoritativeName,
       ),
     },
@@ -40,6 +41,9 @@ const uiSchema = {
     'ui:title':
       'Appointments are available at the following locations. Some types of care are only available at one location. Select your preferred location',
     'ui:widget': 'radio',
+    'ui:options': {
+      hideIf: data => !data.vaSystem,
+    },
   },
 };
 
@@ -47,7 +51,7 @@ const pageKey = 'vaFacility';
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
@@ -59,40 +63,53 @@ export class VAFacilityPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const { schema, data, pageChangeInProgress, loadingSystems } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
           Choose a VA location for your apppointment
         </h1>
-        <SchemaForm
-          name="VA Facility"
-          title="VA Facility"
-          schema={schema || initialSchema}
-          uiSchema={uiSchema}
-          onSubmit={this.goForward}
-          onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
-          }
-          data={data}
-        >
-          <FormButtons
-            onBack={this.goBack}
-            pageChangeInProgress={pageChangeInProgress}
-          />
-        </SchemaForm>
+        {loadingSystems && (
+          <LoadingIndicator message="Finding your VA facility..." />
+        )}
+        {!loadingSystems &&
+          schema && (
+            <SchemaForm
+              name="VA Facility"
+              title="VA Facility"
+              schema={schema || initialSchema}
+              uiSchema={uiSchema}
+              onSubmit={this.goForward}
+              onChange={newData =>
+                this.props.updateFormData(pageKey, uiSchema, newData)
+              }
+              data={data}
+            >
+              <FormButtons
+                onBack={this.goBack}
+                disabled={loadingSystems}
+                pageChangeInProgress={pageChangeInProgress}
+              />
+            </SchemaForm>
+          )}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  const formInfo = getFormPageInfo(state, pageKey);
+  const newAppointment = getNewAppointment(state);
+
+  return {
+    ...formInfo,
+    loadingSystems: newAppointment.loadingSystems,
+  };
 }
 
 const mapDispatchToProps = {
-  openFormPage,
+  openFacilityPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,

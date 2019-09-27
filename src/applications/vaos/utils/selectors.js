@@ -14,14 +14,18 @@ export function selectPendingAppointment(state, id) {
   );
 }
 
+export function getNewAppointment(state) {
+  return state.newAppointment;
+}
+
 export function getFormData(state) {
-  return state.newAppointment.data;
+  return getNewAppointment(state).data;
 }
 
 export function getFormPageInfo(state, pageKey) {
   return {
-    schema: state.newAppointment.pages[pageKey],
+    schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
-    pageChangeInProgress: state.newAppointment.pageChangeInProgress,
+    pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
   };
 }
