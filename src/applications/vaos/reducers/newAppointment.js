@@ -24,7 +24,7 @@ export default function formReducer(state = initialState, action) {
       const { data, schema } = updateSchemaAndData(
         schemaWithItemsCorrected,
         action.uiSchema,
-        getDefaultFormState(schemaWithItemsCorrected, action.data, {}),
+        getDefaultFormState(schemaWithItemsCorrected, state.data, {}),
       );
 
       return {
