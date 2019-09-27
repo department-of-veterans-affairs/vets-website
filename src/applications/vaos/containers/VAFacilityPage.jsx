@@ -45,7 +45,7 @@ const uiSchema = {
     'ui:validations': [
       (errors, vaFacility, data) => {
         if (vaFacility && !vaFacility.startsWith(data.vaSystem)) {
-          errors.add(
+          errors.addError(
             'Please choose a facility that is in the selected VA health systems',
           );
         }
