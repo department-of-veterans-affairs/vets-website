@@ -33,7 +33,7 @@ const dsState = {
       ],
     },
     clinics: {
-      '323_983': [
+      '323_983GB': [
         {
           siteCode: '983GB',
           clinicId: '2276',
@@ -51,6 +51,7 @@ const dsState = {
       ],
     },
     data: {
+      isDirectSchedule: true,
       typeOfCareId: '323',
       vaSystem: '983',
       vaFacility: '983GB',

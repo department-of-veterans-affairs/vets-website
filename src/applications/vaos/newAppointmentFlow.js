@@ -71,12 +71,18 @@ export default {
   visitType: {
     url: '/new-appointment/choose-visit-type',
     previous: 'vaFacility',
-    next: 'reasonForAppointment',
+    // Update this when reasonForAppointment is merged
+    next: 'contactInfo',
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next: 'contactInfo',
     previous: 'visitType',
+  },
+  appointmentTime: {
+    url: '/new-appointment/appointment-time',
+    next: 'contactInfo',
+    previous: 'vaFacility',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
