@@ -3,24 +3,25 @@ const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const GiHelpers = require('./gibct-helpers');
 
 const firstResult =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+  '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 const firstResultRate =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-five-twelfths.medium-5.columns.estimated-benefits > div:nth-child(3) > div > h4 > div';
+  '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(1) > div.small-12.usa-width-five-twelfths.medium-5.columns.estimated-benefits > div:nth-child(3) > div > h4 > div';
 const secondResult =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+  '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
 const secondResultRate =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-five-twelfths.medium-5.columns.estimated-benefits > div:nth-child(3) > div > h4 > div';
+  '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div.small-12.usa-width-five-twelfths.medium-5.columns.estimated-benefits > div:nth-child(3) > div > h4 > div';
 const thirdResult =
-  '#react-root > div > div > div > div.search-page > div:nth-child(2) > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
-const onlineOnlyRadio = '#radio-buttons-2-0';
-const inPersonOnlyRadio = '#radio-buttons-2-1';
-const inPersonAndOnlineRadio = '#radio-buttons-2-2';
-const vaRateRadio = '#radio-buttons-15-0';
-const dodRateRadio = '#radio-buttons-15-1';
-const vaRateRadioUS = '#radio-buttons-16-0';
-const dodRateRadioUS = '#radio-buttons-16-1';
+  '#react-root > div > div > div > div.search-page > div > div.row > div.search-results.small-12.usa-width-three-fourths.medium-9.columns.opened > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(1) > div.small-12.usa-width-seven-twelfths.medium-7.columns > h2 > a';
+const onlineOnlyRadio = '#radio-buttons-4-0';
+const inPersonOnlyRadio = '#radio-buttons-4-1';
+const inPersonAndOnlineRadio = '#radio-buttons-4-2';
+const vaRateRadio = '#radio-buttons-19-0';
+const dodRateRadio = '#radio-buttons-19-1';
+const vaRateRadioUS = '#radio-buttons-20-0';
+const dodRateRadioUS = '#radio-buttons-20-1';
 const deaEnrolledMax = 30;
-const housingRate = '#gbct_housing_allowance > div.small-6.columns.value > h5';
+const housingRate =
+  '#gbct_housing_allowance > div.small-6.columns.vads-u-text-align--right > h5';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   GiHelpers.initApplicationMock();
