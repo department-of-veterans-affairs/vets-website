@@ -21,8 +21,26 @@ const uiSchema = {
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        provider: 'Provider',
-        typeOfCare: 'Type of care',
+        provider: (
+          <>
+            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
+              Provider
+            </span>
+            <span className="vads-u-display--block vads-u-font-size--sm">
+              Choose a doctor or care team
+            </span>
+          </>
+        ),
+        typeOfCare: (
+          <>
+            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
+              Type of care
+            </span>
+            <span className="vads-u-display--block vads-u-font-size--sm">
+              Choose a specific type of care, like audiology or primary care
+            </span>
+          </>
+        ),
       },
     },
   },
@@ -40,43 +58,45 @@ export class TypeOfAppointmentPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.router.push('/');
+    this.props.router.push('/new-appointment/type-of-care');
   };
 
   render() {
     const { schema, data } = this.props;
 
     return (
-      <SchemaForm
-        name="Type of appointment"
-        title="Type of appointment"
-        schema={schema}
-        uiSchema={uiSchema}
-        onSubmit={this.goForward}
-        onChange={newData =>
-          this.props.updateFormData(pageKey, uiSchema, newData)
-        }
-        data={data}
-      >
-        <div className="vads-l-row form-progress-buttons schemaform-buttons">
-          <div className="vads-l-col--6 vads-u-padding-right--2p5">
-            <ProgressButton
-              onButtonClick={this.goBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary vads-u-width--full"
-              beforeText="«"
-            />
+      <div className="vaos-form__detailed-radio">
+        <SchemaForm
+          name="Type of appointment"
+          title="Type of appointment"
+          schema={schema || initialSchema}
+          uiSchema={uiSchema}
+          onSubmit={this.goForward}
+          onChange={newData =>
+            this.props.updateFormData(pageKey, uiSchema, newData)
+          }
+          data={data}
+        >
+          <div className="vads-l-row form-progress-buttons schemaform-buttons">
+            <div className="vads-l-col--6 vads-u-padding-right--2p5">
+              <ProgressButton
+                onButtonClick={this.goBack}
+                buttonText="Back"
+                buttonClass="usa-button-secondary vads-u-width--full"
+                beforeText="«"
+              />
+            </div>
+            <div className="vads-l-col--6">
+              <ProgressButton
+                submitButton
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"
+              />
+            </div>
           </div>
-          <div className="vads-l-col--6">
-            <ProgressButton
-              submitButton
-              buttonText="Continue"
-              buttonClass="usa-button-primary"
-              afterText="»"
-            />
-          </div>
-        </div>
-      </SchemaForm>
+        </SchemaForm>
+      </div>
     );
   }
 }

@@ -67,6 +67,20 @@ describe('<PaymentInformationEditModalError />', () => {
     ],
   };
 
+  // When vet360 was not working in the staging env, we saw this error when
+  // saving direct deposit info (hitting PUT ppiu/payment_information)
+  const upstreamError = {
+    errors: [
+      {
+        title: 'Bad Gateway',
+        detail: 'Received an an invalid response from the upstream server',
+        code: 'VET360_502',
+        source: 'Vet360::ContactInformation::Service',
+        status: '502',
+      },
+    ],
+  };
+
   it('renders', () => {
     const wrapper = shallow(
       <PaymentInformationEditModalError
@@ -109,6 +123,16 @@ describe('<PaymentInformationEditModalError />', () => {
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+  });
+
+  it('renders the default error when an upstream error occurs', () => {
+    const wrapper = shallow(
+      <PaymentInformationEditModalError responseError={upstreamError} />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. We couldn’t update your payment information. Please try again later.',
     );
     wrapper.unmount();
   });

@@ -12,6 +12,11 @@ const getInstitution = state => state.profile.attributes;
 
 const getFormInputs = state => state.calculator;
 
+const getInstitutionType = institution =>
+  institution.type
+    ? institution.type.toLowerCase()
+    : institution.institutionTypeName.toLowerCase();
+
 const getDerivedValues = createSelector(
   getConstants,
   getEligibilityDetails,
@@ -74,7 +79,7 @@ const getDerivedValues = createSelector(
     const serviceDischarge = cumulativeService === 'service discharge';
     const purpleHeart = cumulativeService === 'purple heart';
 
-    const institutionType = institution.type.toLowerCase();
+    const institutionType = getInstitutionType(institution);
     const isOJT = institutionType === 'ojt';
     const isFlight = institutionType === 'flight';
     const isCorrespondence = institutionType === 'correspondence';
@@ -490,8 +495,9 @@ const getDerivedValues = createSelector(
     let bah;
     // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
     const useBeneficiaryLocationRate =
-      inputs.beneficiaryLocationQuestion === 'no' &&
-      inputs.beneficiaryLocationBah !== null;
+      inputs.beneficiaryLocationBah !== null &&
+      (inputs.beneficiaryLocationQuestion === 'extension' ||
+        inputs.beneficiaryLocationQuestion === 'other');
 
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
@@ -912,7 +918,7 @@ export const getCalculatedBenefits = createSelector(
 
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
-    const institutionType = institution.type.toLowerCase();
+    const institutionType = getInstitutionType(institution);
     const isOJT = institutionType === 'ojt';
 
     calculatedBenefits.inputs = {

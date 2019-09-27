@@ -14,20 +14,20 @@
   color: $color-link-default;
 }
 
-.va-c-btn-group {
-  font-size: 0;
-  line-height: 1;
-  white-space: nowrap;
-  display: inline-block;
-  .usa-button {
-    &:first-child {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      margin-right: 0;
-    };
-    &:last-child {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+
+@include media($medium-screen) {
+  .va-c-btn-group {
+    .usa-button {
+      &:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-right: 0;
+      };
+      &:last-child {
+        margin-top: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
     }
   }
 }

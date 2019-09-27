@@ -6,6 +6,15 @@ const EVENTS_RESULTS = `
   entities {
     ... on NodeEvent {
         title
+        uid {
+          targetId
+          ... on FieldNodeUid {
+            entity {
+              name
+              timezone
+            }
+          }
+        }
         fieldDate {
             startDate
             value

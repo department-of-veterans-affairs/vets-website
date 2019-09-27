@@ -10,22 +10,17 @@ const healthCareRegionNewsStories = require('./facilities-fragments/healthCareRe
 const healthCareRegionEvents = require('./facilities-fragments/healthCareRegionEvents.node.graphql');
 const healthCareStaffBios = require('./facilities-fragments/healthCareRegionStaffBios.node.graphql');
 
-// Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
-
 module.exports = `
   fragment healthCareRegionPage on NodeHealthCareRegionPage {
     ${entityElementsFromPages}
+    fieldNicknameForThisFacility
     fieldMedia {
       entity {
         ... on MediaImage {
             image {
               alt
               title
-              derivative(style: CROP_7_2) {
+              derivative(style: _72MEDIUMTHUMBNAIL) {
                   url
                   width
                   height
@@ -64,39 +59,23 @@ module.exports = `
       }
       title
     }
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
-        ? 'fieldLinks'
-        : 'fieldEmailSubscription'
-    } {
+    fieldLinks {
       url {
         path
       }
       title
     }
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_REGION_PAGE_LINKS]
-        ? `
-        fieldOperatingStatus {
-          url {
-            path
-          }
-          title
-        }
-        `
-        : ''
+    fieldOperatingStatus {
+      url {
+        path
+      }
+      title
     }
     reverseFieldRegionPageNode(limit: 100000, filter:{conditions:[{field: "type", value: "health_care_local_facility"}]}) {
       entities {
         ... on NodeHealthCareLocalFacility {
           title
-          ${
-            enabledFeatureFlags[
-              featureFlags.FEATURE_FIELD_OPERATING_STATUS_FACILITY
-            ]
-              ? 'fieldOperatingStatusFacility'
-              : ''
-          }
+          fieldOperatingStatusFacility
         }
       }
     }
@@ -124,11 +103,7 @@ module.exports = `
       processed
     }
     ${healthCareLocalFacilities}
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_FIELD_OTHER_VA_LOCATIONS]
-        ? 'fieldOtherVaLocations'
-        : ''
-    }
+    fieldOtherVaLocations
     fieldIntroTextNewsStories {
       processed
     }
@@ -140,11 +115,7 @@ module.exports = `
     fieldClinicalHealthCareServi {
       processed
     }
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_FEATURED_HEALTH_SERVICE_CONTENT]
-        ? healthCareRegionFeaturedHealthServices
-        : ''
-    }
+    ${healthCareRegionFeaturedHealthServices}
     ${healthCareRegionHealthServices}
     fieldPressReleaseBlurb {
       processed

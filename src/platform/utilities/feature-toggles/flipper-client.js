@@ -1,13 +1,16 @@
-import environment from 'platform/utilities/environment';
+/* This file is must run in both NodeJS and browser environments */
 
-const TOGGLE_VALUES_PATH =
-  '/v0/feature_toggles?features=facilityLocatorShowCommunityCares';
+const { featureToggleQueryList } = require('./feature-toggle-query-list.json');
+
+const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
+  ',',
+)}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
 
 function FlipperClient({
-  host = environment.API_URL,
+  host = 'http://localhost:3000',
   toggleValuesPath = TOGGLE_VALUES_PATH,
 } = {}) {
   let _timeoutId;
@@ -15,7 +18,9 @@ function FlipperClient({
   const _subscriberCallbacks = [];
 
   const _fetchToggleValues = async () => {
-    const response = await fetch(`${host}${toggleValuesPath}`);
+    const response = await fetch(`${host}${toggleValuesPath}`, {
+      credentials: 'include',
+    });
     if (!response.ok) {
       const errorMessage = `Failed to fetch toggle values with status ${
         response.status
@@ -101,9 +106,12 @@ function FlipperClient({
   };
 }
 
-function makeFlipperClient() {
-  flipperClientInstance = flipperClientInstance || new FlipperClient();
+function makeFlipperClient(options) {
+  flipperClientInstance = flipperClientInstance || new FlipperClient(options);
 
   return flipperClientInstance;
 }
-export { makeFlipperClient as FlipperClient };
+
+module.exports = {
+  FlipperClient: makeFlipperClient,
+};

@@ -80,15 +80,18 @@
    }
   }
 
-  .stem-notification {
+  .benefit-notification {
     padding-top: 1em;
   }
 
+  h1:focus {
+    outline: none;
+  }
 }
 
 .gibct-legend {
   margin-top: 3rem;
-  display:block;
+  display: block;
   font-weight: inherit;
   font-size: inherit;
   color: inherit;
@@ -97,7 +100,7 @@
   padding-bottom: 0;
 }
 
-/* 
+/*
  * These styles override our overly broad accordion styles
  */
 .learn-more-button {
@@ -117,4 +120,22 @@
 
 .gids-radio-buttons-input {
   width: 40px;
+}
+
+.vet-tec-programs-table {
+  thead {
+    tr {
+      th {
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+      }
+    }
+  }
+  tr {
+    td {
+      border-right: 0;
+      border-left: 0;
+    }
+  }
 }

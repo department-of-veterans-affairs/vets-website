@@ -243,7 +243,7 @@ function initApplicationMock(token) {
  * existing Facility Locator App.
  */
 function ccLocatorEnabled() {
-  return true;
+  return false;
 }
 
 module.exports = {

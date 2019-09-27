@@ -298,7 +298,7 @@ fieldset.schemaform-field-template {
   font-weight: bold;
   text-decoration: none;
   margin: 0.5em 0;
-  word-break: keep-all;
+  white-space: nowrap;
 }
 
 //duplicated/renamed from claims-status.scss
@@ -642,7 +642,7 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid #f9c642;
+  outline: 2px solid $color-gold-light;
   outline-offset: 2px;
 }
 

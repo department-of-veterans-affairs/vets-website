@@ -1,0 +1,10 @@
+{
+  "appName": "Rated Disabilities",
+  "entryFile": "./rated-disabilities-entry.jsx",
+  "entryName": "disability-my-rated-disabilities",
+  "rootUrl": "/disability/my-rated-disabilities",
+  "template": {
+    "layout": "page-react-sidebar.html",
+    "vagovprod": false
+  }
+}

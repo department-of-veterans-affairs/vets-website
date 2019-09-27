@@ -13,13 +13,13 @@
                 {% endif %}
             </button>
             <div id="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}" class="usa-accordion-content" aria-hidden="true">
-                {% if serviceTaxonomy.fieldCommonlyTreatedCondition %}<div><span class="vads-u-font-style--italic">Common Conditions: </span>{{ serviceTaxonomy.fieldCommonlyTreatedCondition }}</div>{% endif %}
+                {% if serviceTaxonomy.fieldCommonlyTreatedCondition %}<div class="vads-u-margin-bottom--2"><span class="vads-u-font-style--italic">Common conditions: </span>{{ serviceTaxonomy.fieldCommonlyTreatedCondition }}</div>{% endif %}
                 {% if serviceTaxonomy.description.processed  %}
                     <div>{{ serviceTaxonomy.description.processed }}</div>
                 {% endif %}
 
                 {% if healthService.fieldLocalHealthCareService.length > 0 %}
-                    <p class="vads-u-font-weight--bold vads-u-font-family--serif">Available at</p>
+                    <h3>Available at these {{ regionNickname }} locations</h3>
                     <ul class="usa-unstyled-list">
                         {% for location in healthService.fieldLocalHealthCareService %}
                             {% assign facility = location.entity.fieldFacilityLocation.entity %}

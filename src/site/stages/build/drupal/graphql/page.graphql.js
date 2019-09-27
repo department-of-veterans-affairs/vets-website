@@ -21,18 +21,7 @@ const TABLE = '... table';
 const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
 
-// Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
-
-let fieldAministrationKey;
-if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
-  fieldAministrationKey = 'FieldNodePageFieldAdministration';
-} else {
-  fieldAministrationKey = 'FieldNodeFieldAdministration';
-}
+const fieldAministrationKey = 'FieldNodePageFieldAdministration';
 
 module.exports = `
 
@@ -44,8 +33,8 @@ module.exports = `
       entity {
         entityType
         entityBundle
-        ${WYSIWYG}      
-        ${QA}        
+        ${WYSIWYG}
+        ${QA}
       }
     }
     fieldContentBlock {
@@ -57,21 +46,15 @@ module.exports = `
         ${PROCESS}
         ${QA_SECTION}
         ${LIST_OF_LINK_TEASERS}
-        ${REACT_WIDGET} 
+        ${REACT_WIDGET}
         ${SPANISH_SUMMARY}
         ${TABLE}
         ${ALERT_PARAGRAPH}
-        ${
-          enabledFeatureFlags[featureFlags.FEATURE_DOWNLOADABLE_FILE]
-            ? `
-            ${DOWNLOADABLE_FILE_PARAGRAPH}
-            ${MEDIA_PARAGRAPH}
-            `
-            : ''
-        }
+        ${DOWNLOADABLE_FILE_PARAGRAPH}
+        ${MEDIA_PARAGRAPH}
       }
     }
-    ${FIELD_ALERT} 
+    ${FIELD_ALERT}
     ${FIELD_RELATED_LINKS}
     fieldAdministration {
       ... on ${fieldAministrationKey} {
@@ -84,7 +67,7 @@ module.exports = `
     }
     fieldPageLastBuilt {
       date
-    }    
-    changed    
+    }
+    changed
   }
 `;
