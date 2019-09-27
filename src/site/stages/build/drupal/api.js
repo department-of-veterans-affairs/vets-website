@@ -88,7 +88,6 @@ function getDrupalClient(buildOptions) {
             console.error(chalk.red('Response code:'), response.status);
             // Log HEAD
             console.error(chalk.red('Start of body:'), data.slice(0, 100));
-            // Log TAIL
             console.error(chalk.red('End of body:'), data.slice(-100));
             /* eslint-enable */
 
