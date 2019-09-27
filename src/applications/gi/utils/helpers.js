@@ -36,33 +36,9 @@ export const locationInfo = (city, state, country) => {
 };
 
 export const schoolLocationTableInfo = (city, state, country, zip) => {
-  let address = '';
-  if (country === 'USA') {
-    if (zip) {
-      if (city && state) {
-        address = `${city}, ${state} ${zip}`;
-      } else if (!state) {
-        address = `${city} ${zip}`;
-      } else if (!city) {
-        address = `${state} ${zip}`;
-      }
-    } else {
-      if (city && state) {
-        address = `${city}, ${state}`;
-      } else if (!state) {
-        address = `${city}`;
-      } else if (!city) {
-        address = `${state}`;
-      }
-    }
-  } else if (country) {
-    if (city && country) {
-      address = `${city}, ${country}`;
-    } else if (!city) {
-      address = `${country}`;
-    } else {
-      address = `${city}`;
-    }
+  let address = locationInfo(city, state, country);
+  if (country === 'USA' && zip) {
+    address = `${address} ${zip}`;
   }
   return address;
 };
