@@ -1,10 +1,10 @@
 @import '~@department-of-veterans-affairs/formation/sass/shared-variables';
 
 .chart-box {
-  background-color: #e1f3f8; /* Light blue to match FeatureBox */
-  height: 200px;
+  background-color: transparent;
+  height: 144px;
   position: relative;
-  width: 200px;
+  width: 144px;
 
   .donut {
     left: 0;
@@ -14,32 +14,32 @@
 }
 
 .disability-rating {
-  color: #323a45;
+  color: $color-gray-dark;
   position: absolute;
   text-align: center;
-  top: 68px;
-  width: 200px;
+  top: 42px;
+  width: 144px;
 }
 
 .donut {
-  height: 200px;
-  width: 200px;
+  height: 144px;
+  width: 144px;
 }
 
 .donut-hole {
-  fill: $color-primary-alt-lightest;
+  fill: transparent;
 }
 
 .donut-ring {
   fill: transparent;
-  stroke: #cdcdcd;
+  stroke: $color-gray-lighter;
   stroke-width: 3;
 }
 
 .donut-data {
-  stroke-dashoffset: 125;
   fill: transparent;
-  stroke: #004795;
+  stroke: $color-link-default;
+  stroke-dashoffset: 125;
   stroke-width: 3;
 }
 /*

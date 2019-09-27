@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../sass/total-rated-disabilities.scss';
+import '../sass/circular-progress.scss';
 
 const CircularProgress = props => {
+  // numbers used to set the stroke-dasharray, the props.percentage passed in translates to the percentage of the progress bar filled
   const { percentage } = props;
-
   const offsetValue = 100 - percentage;
+  const dashArray = percentage + ' ' + offsetValue;
 
   return (
     <div className="chart-box">
@@ -17,7 +18,7 @@ const CircularProgress = props => {
           cx="21"
           cy="21"
           r="16"
-          strokeDasharray={percentage + ' ' + offsetValue}
+          strokeDasharray={dashArray}
         />
       </svg>
       <div className="disability-rating vads-u-font-family--sans vads-u-font-size--2xl">
