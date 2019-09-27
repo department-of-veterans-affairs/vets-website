@@ -1,7 +1,8 @@
 /* This file is must run in both NodeJS and browser environments */
 
-const { featureToggleQueryList } = require('./feature-toggle-query-list.json');
+const FEATURE_FLAG_NAMES = require('./featureFlagNames');
 
+const featureToggleQueryList = Object.values(FEATURE_FLAG_NAMES);
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?features=${featureToggleQueryList.join(
   ',',
 )}`;
