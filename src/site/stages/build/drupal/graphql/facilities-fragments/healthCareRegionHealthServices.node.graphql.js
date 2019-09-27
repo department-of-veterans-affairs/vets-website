@@ -1,11 +1,6 @@
 /**
  * The 'Health Care Local Facility' bundle of the 'Content' entity type.
  */
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../../utilities/featureFlags');
-
 const HEALTH_SERVICES_RESULTS = `
   entities {
     ... on NodeRegionalHealthCareServiceDes {
@@ -14,7 +9,7 @@ const HEALTH_SERVICES_RESULTS = `
       fieldBody {
         processed
       }
-      
+
       fieldLocalHealthCareService {
         entity {
           ...on NodeHealthCareLocalHealthService {
@@ -40,7 +35,7 @@ const HEALTH_SERVICES_RESULTS = `
           }
         }
       }
-                          
+
       fieldServiceNameAndDescripti {
         entity {
           ... on TaxonomyTermHealthCareServiceTaxonomy {
@@ -48,13 +43,7 @@ const HEALTH_SERVICES_RESULTS = `
             entityId
             entityBundle
             fieldAlsoKnownAs
-            ${
-              enabledFeatureFlags[
-                featureFlags.FEATURE_FIELD_COMMONLY_TREATED_CONDITIONS
-              ]
-                ? 'fieldCommonlyTreatedCondition'
-                : ''
-            }
+            fieldCommonlyTreatedCondition
             name
             description {
               processed
@@ -66,11 +55,11 @@ const HEALTH_SERVICES_RESULTS = `
                   name
                 }
               }
-            }            
-            
+            }
+
           }
         }
-      }        
+      }
     }
   }
 `;

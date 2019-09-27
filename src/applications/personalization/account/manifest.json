@@ -4,5 +4,15 @@
   "entryName": "account",
   "rootUrl": "/account",
   "production": true,
-  "contentPage": "account/index.md"
+  "template": {
+    "title": "Your VA.gov Account",
+    "layout": "page-react.html",
+    "includeBreadcrumbs": true,
+    "breadcrumbs_override": [
+      {
+        "path": "account/",
+        "name": "Your account settings"
+      }
+    ]
+  }
 }

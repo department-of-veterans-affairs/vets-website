@@ -27,7 +27,7 @@ module.exports = `
         }
       }
     }
-    fieldAuthor {    
+    fieldAuthor {
       entity {
         ...on NodePersonProfile {
           title
@@ -43,7 +43,7 @@ module.exports = `
           image {
             alt
             title
-            derivative(style: CROP_2_1) {
+            derivative(style: _21MEDIUMTHUMBNAIL) {
               url
               width
               height

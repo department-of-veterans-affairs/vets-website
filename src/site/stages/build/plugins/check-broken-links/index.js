@@ -2,8 +2,6 @@
 
 const path = require('path');
 
-const ENVIRONMENTS = require('../../../../constants/environments');
-
 const _getBrokenLinks = require('./helpers/getBrokenLinks');
 const _applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
 const _getErrorOutput = require('./helpers/getErrorOutput');
@@ -48,10 +46,11 @@ function getMiddleware(
     if (brokenPages.length > 0) {
       const errorOutput = getErrorOutput(brokenPages);
 
-      if (buildOptions.buildtype === ENVIRONMENTS.VAGOVPROD) {
+      if (buildOptions['drupal-fail-fast']) {
         done(errorOutput);
         return;
       }
+
       console.log(errorOutput);
     }
 

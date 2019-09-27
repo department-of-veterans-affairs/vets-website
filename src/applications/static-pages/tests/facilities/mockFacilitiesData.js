@@ -5,7 +5,7 @@ const mockWidgetFacilitiesList = {
     title: '',
     derivative: {
       url:
-        'http://stg.va.agile6.com/sites/default/files/styles/crop_3_2/public/2019-02/university-drive-consolidation-building2.jpg?itok=qK823DFr',
+        'http://stg.va.agile6.com/sites/default/files/styles/3_2_medium_thumbnail/public/2019-02/university-drive-consolidation-building2.jpg?itok=qK823DFr',
       width: 480,
       height: 330,
     },

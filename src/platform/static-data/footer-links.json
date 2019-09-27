@@ -238,15 +238,29 @@
   },
   {
     "column": "bottom_rail",
-    "href": "https://www.va.gov/scorecard/",
+    "href": "https://www.va.gov/foia/",
     "order": 7,
+    "target": null,
+    "title": "Freedom of Information Act (FOIA)"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "https://www.usa.gov/",
+    "order": 8,
+    "target": "_blank",
+    "title": "USA.gov"
+  },
+  {
+    "column": "bottom_rail",
+    "href": "https://www.va.gov/scorecard/",
+    "order": 9,
     "target": null,
     "title": "VA.gov scorecard"
   },
   {
     "column": "bottom_rail",
     "href": "https://www.va.gov/veterans-portrait-project/",
-    "order": 8,
+    "order": 10,
     "target": null,
     "title": "Veterans Portrait Project"
   }

@@ -3,8 +3,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const ENVIRONMENTS = require('../../../../../constants/environments');
-
 const checkBrokenLinks = require('../index');
 
 const buildOptions = {};
@@ -49,7 +47,7 @@ describe('build/check-broken-links', () => {
   });
 
   beforeEach(() => {
-    buildOptions.buildtype = ENVIRONMENTS.LOCALHOST;
+    buildOptions['drupal-fail-fast'] = false;
     console.log.reset();
     getBrokenLinks.resetHistory();
     applyIgnoredRoutes.resetHistory();
@@ -101,26 +99,24 @@ describe('build/check-broken-links', () => {
     expect(getErrorOutput.called).to.be.true;
   });
 
-  it('logs errors and calls done without arguments on non-production environments', () => {
+  it('logs errors and calls done without arguments', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(5);
     setErrorOutput('broken links!');
-
-    buildOptions.buildtype = ENVIRONMENTS.VAGOVSTAGING;
 
     middleware(files, null, done);
     expect(console.log.firstCall.args[0]).to.be.equal('broken links!');
     expect(done.firstCall.args[0]).to.be.undefined;
   });
 
-  it('calls done with errors on the production environment', () => {
+  it('logs errors and calls done without arguments', () => {
     setBrokenLinksPerPage(0);
     setTotalBrokenPages(5);
     setErrorOutput('broken links!');
 
-    buildOptions.buildtype = ENVIRONMENTS.VAGOVPROD;
+    buildOptions['drupal-fail-fast'] = true;
 
     middleware(files, null, done);
-    expect(done.firstCall.args[0]).to.be.equal('broken links!');
+    expect(done.firstCall.args[0]).to.equal('broken links!');
   });
 });

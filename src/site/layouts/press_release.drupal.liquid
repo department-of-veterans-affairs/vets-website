@@ -96,7 +96,7 @@
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
-    <main class="va-l-detail-page">
+    <main class="va-l-detail-page va-facility-page">
         <div class="usa-grid usa-grid-full">
             {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
             <div class="usa-width-three-fourths">
@@ -122,11 +122,15 @@
                             <div class="vads-u-font-weight--bold">Media contacts</div>
                             {% for contact in fieldPressReleaseContact %}
                                 {% assign c = contact.entity %}
-                                <div>
-                                    <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
-                                    <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
-                                    <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
-                                </div>
+                                {% if c != empty %}
+                                    <div>
+                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.title }}{% if c.fieldDescription != empty %}, {{ c.fieldDescription }} {% endif %}</p>
+                                        <p class="vads-u-margin-top--1 vads-u-margin-bottom--0">{{ c.fieldPhoneNumber }}</p>
+                                        {% if c.fieldEmailAddress != empty %}
+                                            <p class="vads-u-margin-top--1 vads-u-margin-bottom--0"><a href="mailto:{{ c.fieldEmailAddress }}">{{ c.fieldEmailAddress }}</a></p>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         </section>
                     {%  endif %}

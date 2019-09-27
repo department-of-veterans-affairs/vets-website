@@ -11,7 +11,7 @@ import ConnectedAccountsSection from './ConnectedAccountsSection.jsx';
 import LoginSettings from './LoginSettings';
 import MultifactorMessage from './MultifactorMessage';
 import TermsAndConditions from './TermsAndConditions';
-import facilityLocator from 'applications/facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 
 class AccountMain extends React.Component {
   componentDidMount() {

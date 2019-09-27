@@ -26,8 +26,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
     --no-install-recommends \
   && npm install -g yarn@$YARN_VERSION \
   && npm install -g s3-cli \
-  && npm install -g codeclimate-test-reporter \
   && chmod +x /usr/local/lib/node_modules/yarn/bin/yarn.js
+
+RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
+RUN chmod +x /cc-test-reporter
 
 RUN mkdir -p /application
 
