@@ -53,9 +53,18 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleDisabilityChange = (index, updatedRow) => {
-    const disabilities = this.state.disabilities;
+    const { disabilities, calculatedRating } = this.state;
+
+    const previousRowValue = disabilities[index];
+
     disabilities[index] = updatedRow;
-    this.setState({ disabilities });
+
+    const ratingChanged = previousRowValue.rating !== updatedRow.rating;
+
+    this.setState({
+      disabilities,
+      calculatedRating: ratingChanged ? null : calculatedRating,
+    });
   };
 
   handleSubmit = () => {

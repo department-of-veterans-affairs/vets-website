@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-export default function FormButtons({ onBack, pageChangeInProgress }) {
+export default function FormButtons({
+  onBack,
+  pageChangeInProgress,
+  disabled,
+}) {
   return (
     <div className="vads-l-row form-progress-buttons schemaform-buttons">
       <div className="vads-l-col--6 vads-u-padding-right--2p5">
@@ -18,6 +22,7 @@ export default function FormButtons({ onBack, pageChangeInProgress }) {
         <LoadingButton
           isLoading={pageChangeInProgress}
           type="submit"
+          disabled={disabled}
           className="usa-button usa-button-primary"
         >
           Continue »

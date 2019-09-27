@@ -113,7 +113,7 @@ class PhoneEditModal extends React.Component {
 
       <ReceiveTextMessagesCheckbox
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
-        isTextable={this.props.field.value.isTextable}
+        isTextable={this.props.field.value.phoneType === 'MOBILE'}
         label="Receive text messages (SMS) for VA health care appointment reminders."
         field={{ value: this.props.field.value.isTextPermitted, dirty: false }}
         checked={this.props.field.value.isTextPermitted}
