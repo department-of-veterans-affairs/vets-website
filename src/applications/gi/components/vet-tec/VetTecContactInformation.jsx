@@ -42,25 +42,26 @@ export const VetTecContactInformation = ({ institution }) => (
       </div>
     </div>
     {/* Production flag for 19534 */}
-    {!environment.isProduction() && institution.schoolCertifyingOfficials[0] && (
-      <React.Fragment>
-        <div className="vads-u-margin-top--4">
-          <h3>School certifying officials</h3>
-        </div>
-        {institution.schoolCertifyingOfficials.map(
-          (sco, i) =>
-            i % 2 === 0 && (
-              <div className="additional-information row vads-u-margin-y--2">
-                {VetTecScoContact(sco)}
-                {institution.schoolCertifyingOfficials[i + 1] &&
-                  VetTecScoContact(
-                    institution.schoolCertifyingOfficials[i + 1],
-                  )}
-              </div>
-            ),
-        )}
-      </React.Fragment>
-    )}
+    {!environment.isProduction() &&
+      institution.schoolCertifyingOfficials[0] && (
+        <React.Fragment>
+          <div className="vads-u-margin-top--4">
+            <h3>School certifying officials</h3>
+          </div>
+          {institution.schoolCertifyingOfficials.map(
+            (sco, i) =>
+              i % 2 === 0 && (
+                <div className="additional-information row vads-u-margin-y--2">
+                  {VetTecScoContact(sco)}
+                  {institution.schoolCertifyingOfficials[i + 1] &&
+                    VetTecScoContact(
+                      institution.schoolCertifyingOfficials[i + 1],
+                    )}
+                </div>
+              ),
+          )}
+        </React.Fragment>
+      )}
   </div>
 );
 
