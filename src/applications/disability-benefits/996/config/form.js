@@ -59,9 +59,6 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
-  testData: {
-    test: true,
-  },
   chapters: {
     confirmVeteranDetails: {
       title: 'Confirm Veteran details',
