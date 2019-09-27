@@ -10,11 +10,19 @@ function normalizedAttributes(attributes) {
   const state = attributes.physicalState
     ? attributes.physicalState.toUpperCase()
     : attributes.physicalState;
+  const country = attributes.physicalCountry
+    ? attributes.physicalCountry.toUpperCase()
+    : attributes.physicalCountry;
+  const zip = attributes.physicalZip
+    ? attributes.physicalZip.toUpperCase()
+    : attributes.physicalZip;
   return {
     ...attributes,
     name,
     city,
     state,
+    country,
+    zip,
   };
 }
 
