@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo } from '../../utils/helpers';
+import { schoolLocationTableInfo } from '../../utils/helpers';
 
 const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
@@ -69,7 +69,13 @@ export class SchoolLocations extends React.Component {
   };
 
   renderRow = (institution, type, name = institution.institution) => {
-    const { facilityCode, physicalCity, physicalState, country } = institution;
+    const {
+      facilityCode,
+      physicalCity,
+      physicalState,
+      physicalCountry,
+      physicalZip,
+    } = institution;
     const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
       <p className="schoolName">{name}</p>
     ) : (
@@ -80,7 +86,12 @@ export class SchoolLocations extends React.Component {
       <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
         <td>{nameLabel}</td>
         <td className={'location-cell'}>
-          {locationInfo(physicalCity, physicalState, country)}
+          {schoolLocationTableInfo(
+            physicalCity,
+            physicalState,
+            physicalCountry,
+            physicalZip,
+          )}
         </td>
         <td>{this.estimatedHousingRow(institution)}</td>
       </tr>
@@ -222,7 +233,13 @@ export class SchoolLocations extends React.Component {
   };
 
   renderItem = (institution, type, name = institution.institution) => {
-    const { facilityCode, physicalCity, physicalState, country } = institution;
+    const {
+      facilityCode,
+      physicalCity,
+      physicalState,
+      physicalCountry,
+      physicalZip,
+    } = institution;
     const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
       <h6>{name}</h6>
     ) : (
@@ -233,7 +250,12 @@ export class SchoolLocations extends React.Component {
       <div key={`${facilityCode}-${type}`} className={`${type} item`}>
         <div>{nameLabel}</div>
         <div className={'location-cell'}>
-          {locationInfo(physicalCity, physicalState, country)}
+          {schoolLocationTableInfo(
+            physicalCity,
+            physicalState,
+            physicalCountry,
+            physicalZip,
+          )}
         </div>
         <div>Estimated housing: {this.estimatedHousingRow(institution)}</div>
       </div>
