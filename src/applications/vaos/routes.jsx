@@ -6,6 +6,7 @@ import AppointmentListsPage from './containers/AppointmentListsPage';
 // import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
 import TypeOfCarePage from './containers/TypeOfCarePage';
 import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
+import CommunityCarePreferencesPage from './containers/CommunityCarePreferencesPage';
 import PendingAppointmentListPage from './containers/PendingAppointmentListPage';
 import PendingAppointmentDetailPage from './containers/PendingAppointmentDetailPage';
 import ConfirmedAppointmentDetailPage from './containers/ConfirmedAppointmentDetailPage';
@@ -13,6 +14,7 @@ import ConfirmedAppointmentListPage from './containers/ConfirmedAppointmentListP
 import TypeOfAudiologyCarePage from './containers/TypeOfAudiologyCarePage';
 import TypeOfFacilityPage from './containers/TypeOfFacilityPage';
 import ContactInfoPage from './containers/ContactInfoPage';
+import VAFacilityPage from './containers/VAFacilityPage';
 import TypeOfVisitPage from './containers/TypeOfVisitPage';
 
 const routes = (
@@ -27,6 +29,11 @@ const routes = (
       <Route
         path="community-care-provider"
         component={CommunityCareProviderPage}
+      />
+      <Route path="va-facility" component={VAFacilityPage} />
+      <Route
+        path="community-care-preferences"
+        component={CommunityCarePreferencesPage}
       />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
