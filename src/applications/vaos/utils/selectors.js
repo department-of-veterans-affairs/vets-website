@@ -1,4 +1,5 @@
 import { getAppointmentId } from './appointment';
+import { TYPES_OF_CARE, AUDIOLOGY_TYPES_OF_CARE } from './constants';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -14,8 +15,12 @@ export function selectPendingAppointment(state, id) {
   );
 }
 
+export function getNewAppointment(state) {
+  return state.newAppointment;
+}
+
 export function getFormData(state) {
-  return state.newAppointment.data;
+  return getNewAppointment(state).data;
 }
 
 export function getFormPageInfo(state, pageKey) {
@@ -24,4 +29,38 @@ export function getFormPageInfo(state, pageKey) {
     data: getFormData(state),
     pageChangeInProgress: state.newAppointment.pageChangeInProgress,
   };
+}
+
+const AUDIOLOGY = '203';
+export function getTypeOfCare(data) {
+  if (
+    data.typeOfCareId === AUDIOLOGY &&
+    data.facilityType === 'communityCare'
+  ) {
+    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+  }
+
+  return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+}
+
+export function getChosenFacilityInfo(state) {
+  const data = getFormData(state);
+  const facilities = getNewAppointment(state).facilities;
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  return (
+    facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
+      facility => facility.institution.institutionCode === data.vaFacility,
+    ) || null
+  );
+}
+
+export function getChosenClinicInfo(state) {
+  const data = getFormData(state);
+  const clinics = getNewAppointment(state).clinics;
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  return (
+    clinics[`${typeOfCareId}_${data.vaFacility}`]?.find(
+      clinic => clinic.siteCode === data.vaFacility,
+    ) || null
+  );
 }

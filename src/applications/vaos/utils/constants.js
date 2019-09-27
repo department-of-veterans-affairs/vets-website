@@ -96,6 +96,17 @@ export const TYPES_OF_CARE = [
   },
 ];
 
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    id: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    id: 'CCAUDHEAR',
+    name: 'Hearing aid support',
+  },
+];
+
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO-SHOW',
   'CANCELLED BY CLINIC',

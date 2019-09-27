@@ -14,6 +14,8 @@ import {
 const initialState = {
   pages: {},
   data: {},
+  facilities: {},
+  clinics: {},
   pageChangeInProgress: false,
 };
 

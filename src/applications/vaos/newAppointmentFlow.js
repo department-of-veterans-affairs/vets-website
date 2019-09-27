@@ -71,7 +71,12 @@ export default {
   visitType: {
     url: '/new-appointment/choose-visit-type',
     previous: 'vaFacility',
+    next: 'reasonForAppointment',
+  },
+  reasonForAppointment: {
+    url: '/new-appointment/reason-appointment',
     next: 'contactInfo',
+    previous: 'visitType',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
