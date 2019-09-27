@@ -100,7 +100,7 @@ describe('<ReceiveTextMessages/>', () => {
       const result = mapStateToProps(state, ownProps);
       expect(result.profile.vet360.mobilePhone).to.be.equal(mobilePhone);
       expect(result.profile).to.be.equal(state.user.profile);
-      expect(result.hideCheckbox).to.be.false;
+      expect(result.hideCheckbox).not.to.be.null;
       expect(result.transaction).to.be.null;
       expect(result.transactionSuccess).to.be.false;
       expect(result.analyticsSectionName).to.be.equal('mobile-telephone');
