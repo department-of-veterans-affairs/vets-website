@@ -24,6 +24,7 @@ class RatedDisabilitiesApp extends React.Component {
         >
           <TotalRatedDisabilities
             fetchTotalDisability={this.props.fetchTotalDisability}
+            percentage={80}
           />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
