@@ -22,9 +22,7 @@ import {
 
 const initialState = {
   pages: {},
-  data: {
-    typeOfCareId: '323',
-  },
+  data: {},
   facilities: {},
   systems: null,
   pageChangeInProgress: false,

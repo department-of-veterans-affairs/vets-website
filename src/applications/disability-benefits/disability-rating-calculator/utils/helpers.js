@@ -10,14 +10,14 @@ export function getRatingErrorMessage(rating) {
   if (isBeyondMax) {
     return {
       title: '100% is the maximum disability rating',
-      body: 'You can’t receive a combined rating of more than 100%.',
+      body: 'You can’t receive a combined disability rating of more than 100%.',
     };
   }
 
   if (!isFactorOfTen || isBelowMin) {
     return {
       title: 'Enter a valid rating',
-      body: 'Disability ratings are given in 10% increments, from 0 to 100.',
+      body: 'Disability ratings are given in 10% increments.',
     };
   }
 
