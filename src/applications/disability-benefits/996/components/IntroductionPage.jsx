@@ -5,10 +5,10 @@ import moment from 'moment';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from '../../../../platform/site-wide/cta-widget';
-import { toggleLoginModal } from '../../../../platform/site-wide/user-nav/actions';
-import { focusElement } from '../../../../platform/utilities/ui';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { focusElement } from 'platform/utilities/ui';
 
 import { WithdrawFromLegacySystem } from './WithdrawFromLegacySystem';
 
@@ -60,8 +60,6 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { user } = this.props;
-    // console.log(this.props);
-
     const isLoggedIn = user.login?.currentlyLoggedIn;
 
     return (
