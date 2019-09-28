@@ -20,7 +20,7 @@
 - [ ] Given multiple entry points, where should the "Back" button lead? Is it
       bad form to use `history.back()`?
 - [ ] URL destination for the "Learn more about the review options" link?
-      Currently it is pointing to `/decision-reviews`
+      Currently it is pointing to `/decision-reviews`.
 - [ ] Destination or component that opens when the "See all your contested
       issues" link is used.
 
