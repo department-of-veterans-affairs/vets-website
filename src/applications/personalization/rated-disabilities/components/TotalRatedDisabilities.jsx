@@ -6,8 +6,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 const TotalRatedDisabilities = props => {
   let content;
-  // If there is an error, display error message,
-  // If there is no rating, display no rating message
+  // If there is an error, display an error message,
+  // If there is no rating, display a no rating message
   // If there is a rating, display the rating and content
   if (props.error) {
     content = (
@@ -73,6 +73,12 @@ const TotalRatedDisabilities = props => {
   } else {
     return <span>{content}</span>;
   }
+};
+
+TotalRatedDisabilities.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
 };
 
 export default TotalRatedDisabilities;

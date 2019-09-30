@@ -15,13 +15,4 @@ describe('<TotalRatedDisabilities />', () => {
         .hasClass('feature'),
     ).to.be.true;
   });
-
-  it('Should render a loading indicator while loading', () => {
-    const wrapper = shallow(
-      <TotalRatedDisabilities loading={true} totalDisabilityRating={80} />,
-    );
-    el = wrapper.find('.loading-indicator-container');
-    console.log('derp');
-    console.log(el);
-  });
 });
