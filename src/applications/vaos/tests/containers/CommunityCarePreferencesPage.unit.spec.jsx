@@ -88,7 +88,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       <CommunityCarePreferencesPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ distanceWillingToTravel: '25', preferredLanguage: 'English' }}
+        data={{ distanceWillingToTravel: '25', preferredLanguage: 'english' }}
       />,
     );
 
