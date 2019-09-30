@@ -28,7 +28,7 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
         Appointment date
       </h2>
       <span className="vads-u-padding-right--1">
-        {moment(data.appointmentDate).format('MMMM M, YYYY [at] hh:mm a')}{' '}
+        {moment(data.appointmentDate).format('MMMM D, YYYY [at] hh:mm a')}{' '}
       </span>
       <Link to={newAppointmentFlow.appointmentTime.url}>Edit</Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">Purpose</h2>
