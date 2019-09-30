@@ -323,24 +323,6 @@ button.msg-btn-save {
   }
 }
 
-.msg-attachment-close {
-  color: $color-close-button;
-  background: transparent;
-  font-size: 1.25em;
-  margin: 0;
-  position: absolute;
-  padding: 1rem;
-  top: 0;
-  right: 0;
-  width: auto;
-
-  &:focus,
-  &:hover {
-    background: inherit;
-    color: $color-base;
-  }
-}
-
 .msg-attachments-list {
   list-style: none;
   margin: 0;
