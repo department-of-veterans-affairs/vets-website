@@ -1,53 +1,42 @@
 @import '~@department-of-veterans-affairs/formation/sass/shared-variables';
 
-.chart-box {
+.circular-progress {
   background-color: transparent;
-  height: 144px;
+  height: 185px;
   margin: 0 auto;
   position: relative;
-  width: 144px;
+  width: 185px;
+}
 
-  .donut {
-    left: 0;
-    position: absolute;
-    top: 0;
-  }
+.circular-progress .circle {
+  height: 185px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 185px;
 }
 
 .disability-rating {
   color: $color-gray-dark;
   position: absolute;
   text-align: center;
-  top: 42px;
-  width: 144px;
+  top: 62px;
+  width: 185px;
 }
 
-.donut {
-  height: 144px;
-  width: 144px;
-}
-
-.donut-hole {
-  fill: transparent;
-}
-
-.donut-ring {
-  fill: transparent;
-  stroke: $color-gray-lighter;
-  stroke-width: 3;
-}
-
-.donut-data {
+.fill {
   fill: transparent;
   stroke: $color-link-default;
   stroke-dashoffset: 125;
   stroke-width: 3;
 }
-/*
-@keyframes draw-stroke {
-  to {
-    stroke-dasharray: 80 20;
-    opacity: 1;
-  }
+
+.center {
+  fill: transparent;
 }
-*/
+
+.empty {
+  fill: transparent;
+  stroke: $color-gray-lighter;
+  stroke-width: 3;
+}

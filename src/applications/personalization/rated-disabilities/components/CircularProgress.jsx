@@ -6,15 +6,15 @@ const CircularProgress = props => {
   // numbers used to set the stroke-dasharray, the props.percentage passed in translates to the percentage of the progress bar filled
   const { percentage } = props;
   const offsetValue = 100 - percentage;
-  const dashArray = percentage + ' ' + offsetValue;
+  const dashArray = `${percentage} ${offsetValue}`;
 
   return (
-    <div className="chart-box">
-      <svg viewBox="0 0 42 42" className="donut">
-        <circle className="donut-hole" cx="21" cy="21" r="16" />
-        <circle className="donut-ring" cx="21" cy="21" r="16" />
+    <div className="circular-progress">
+      <svg viewBox="0 0 42 42" className="circle">
+        <circle className="center" cx="21" cy="21" r="16" />
+        <circle className="empty" cx="21" cy="21" r="16" />
         <circle
-          className="donut-data"
+          className="fill"
           cx="21"
           cy="21"
           r="16"
