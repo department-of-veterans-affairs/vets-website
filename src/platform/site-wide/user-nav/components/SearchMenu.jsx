@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/formation-react/IconSearch';
@@ -69,7 +70,7 @@ class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
-        onClick="window.dataLayer.push({ 'event': 'nav-jumplink-click' });"
+        onClick={recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Search"
         clickHandler={this.props.clickHandler}
         cssClass={buttonClasses}

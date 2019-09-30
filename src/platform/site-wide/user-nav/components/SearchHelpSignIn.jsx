@@ -12,7 +12,7 @@ class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
-    window.dataLayer.push({
+    recordEvent({
       event: 'nav-jumplink-click',
     });
   };

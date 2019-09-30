@@ -7,7 +7,7 @@
     {% if linkTeaser.fieldLinkSummary != empty %}
         <p class="va-nav-linkslist-description">{{ linkTeaser.fieldLinkSummary }}</p>
     {% endif %}
-    <a onClick="window.dataLayer.push({ 'event': 'nav-featured-content-link-click' });" class="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none" href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
+    <a onClick="recordEvent({ event: 'nav-featured-content-link-click' });" class="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none" href="{{link.url.path}}" {% if linkTeaser.options["target"] %}target="{{ linkTeaser.options["target"] }}"{% endif %} onClick="recordEvent({ event: 'nav-linkslist' });">
         <span>Read more<i class="fa fa-chevron-right vads-facility-hub-cta-arrow"></i></span>
     </a>
 </li>
