@@ -78,12 +78,10 @@ class FacilityTypeDropdown extends Component {
           item => item !== LocationType.CC_PROVIDER,
         );
     const facilityType = this.props.facilityType || 'all';
-    const highlightIndex = locationOptions.indexOf(facilityType);
 
     return (
       <Downshift
         defaultSelectedItem="all"
-        defaultHighlightedIndex={highlightIndex}
         itemToString={itemToString}
         onChange={this.props.onChange}
         selectedItem={facilityType}
@@ -97,54 +95,49 @@ class FacilityTypeDropdown extends Component {
           highlightedIndex,
           isOpen,
           selectedItem,
-        }) => {
-          const options = locationOptions.map((item, index) => (
-            <li
-              key={item}
-              {...getItemProps({
-                item,
-                index,
-                key: item,
-                className: facilityOptionClasses(
-                  item,
-                  index === highlightedIndex,
-                ),
-              })}
-            >
-              {itemToString(item)}
-            </li>
-          ));
-
-          return (
-            <div>
-              <div className="row">
-                <div className="columns medium-4">
-                  <label
-                    {...getLabelProps()}
-                    htmlFor="facility-dropdown-toggle"
-                    id="facility-dropdown-label"
-                  >
-                    Search for
-                  </label>
-                </div>
+        }) => (
+          <div>
+            <div className="row">
+              <div className="columns medium-4">
+                {/* eslint-disable-next-line jsx-a11y/label-has-for */}
+                <label {...getLabelProps()}>Search for</label>
               </div>
-              <div id="facility-dropdown" className="row">
-                <button
-                  {...getToggleButtonProps({
-                    id: 'facility-dropdown-toggle',
-                    className: facilityOptionClasses(selectedItem),
-                    type: 'button',
-                    onBlur: closeMenu,
-                  })}
-                >
-                  {itemToString(selectedItem)}
-                  <i className="fa fa-chevron-down dropdown-toggle" />
-                </button>
-                <ul {...getMenuProps()} className="dropdown">
-                  {isOpen ? options : null}
-                </ul>
-              </div>
-              {/* <div className="columns medium-8">
+            </div>
+            <div id="facility-dropdown" className="row">
+              <button
+                {...getToggleButtonProps({
+                  id: 'facility-dropdown-toggle',
+                  className: facilityOptionClasses(selectedItem),
+                  onBlur: closeMenu,
+                })}
+              >
+                {itemToString(selectedItem)}
+                <i className="fa fa-chevron-down dropdown-toggle" />
+              </button>
+              <ul {...getMenuProps()} className="dropdown">
+                {isOpen
+                  ? locationOptions
+                      .filter(option => selectedItem !== option)
+                      .map((item, index) => (
+                        <li
+                          key={item}
+                          {...getItemProps({
+                            item,
+                            index,
+                            key: item,
+                            className: facilityOptionClasses(
+                              item,
+                              index === highlightedIndex,
+                            ),
+                          })}
+                        >
+                          {itemToString(item)}
+                        </li>
+                      ))
+                  : null}
+              </ul>
+            </div>
+            {/* <div className="columns medium-8">
                 {selectedItem === LocationType.CC_PROVIDER && (
                   <span className="cc-info-link-span">
                     <button
@@ -190,9 +183,8 @@ class FacilityTypeDropdown extends Component {
                   </div>
                 )}
               </div> */}
-            </div>
-          );
-        }}
+          </div>
+        )}
       </Downshift>
     );
   }
