@@ -114,7 +114,7 @@ export default function ReviewRequestInfo({ data, facility }) {
           <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
         </>
       )}
-      <AlertBox status="info" headline="Where and when we'll call you">
+      <AlertBox status="info" headline="Where and when we’ll call you">
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">Email</h2>
         <span className="vads-u-padding-right--1">{data.email} </span>
         <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
