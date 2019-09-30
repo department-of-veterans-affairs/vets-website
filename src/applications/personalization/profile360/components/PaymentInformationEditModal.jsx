@@ -117,11 +117,13 @@ class PaymentInformationEditModal extends React.Component {
         visible={this.props.isEditing}
         onClose={this.props.onClose}
       >
-        {!!this.props.responseError && (
-          <PaymentInformationEditModalError
-            responseError={this.props.responseError}
-          />
-        )}
+        <div id="errors" role="alert" aria-atomic="true">
+          {!!this.props.responseError && (
+            <PaymentInformationEditModalError
+              responseError={this.props.responseError}
+            />
+          )}
+        </div>
         <p className="vads-u-margin-top--1p5">
           Please provide your bank’s current routing number as well as your
           current account number and type. Then click <strong>Update</strong> to
