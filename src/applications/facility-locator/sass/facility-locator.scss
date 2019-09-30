@@ -489,7 +489,6 @@ $color-info-bubble-text: #818a8d;
 
   .dropdown {
     background: $color-white;
-    // border: solid 1px $color-black;
     box-sizing: content-box;
     font-size: 1.6rem;
     left: -1px;
@@ -514,10 +513,6 @@ $color-info-bubble-text: #818a8d;
 
       &:first-child {
         border-top: solid 1px $color-black;
-      }
-
-      &:last-child {
-        // border-bottom: none;
       }
     }
   }
