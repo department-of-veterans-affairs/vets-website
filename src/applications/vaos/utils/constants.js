@@ -117,3 +117,9 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY PATIENT & AUTO-REBOOK',
   'NO ACTION TAKEN',
 ]);
+
+export const TYPE_OF_VISIT = {
+  office: 'Office visit',
+  phone: 'Phone call',
+  telehealth: 'Telehealth',
+};

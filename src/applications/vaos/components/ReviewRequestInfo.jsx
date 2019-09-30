@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
-import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
+import { TYPE_OF_VISIT } from '../utils/constants';
 
 function formatBestTime(bestTime) {
   if (bestTime?.morning) {
@@ -35,22 +35,15 @@ export default function ReviewRequestInfo({ data, facility }) {
       <Link to={newAppointmentFlow.vaFacility.url}>Edit</Link>
       <br />
       {facility?.institution.city}, {facility?.institution.stateAbbrev}
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        Appointment date
-      </h2>
-      <span className="vads-u-padding-right--1">
-        {moment(data.appointmentDate).format('MMMM M, YYYY [at] hh:mm a')}{' '}
-      </span>
-      <Link to={newAppointmentFlow.appointmentTime.url}>Edit</Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">Purpose</h2>
       <span className="vads-u-padding-right--1">
         {data.reasonForAppointment}{' '}
       </span>
       <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        Additional details
-      </h2>
-      <span className="vads-u-padding-right--1">{data.additionalDetails} </span>
+      <h2 className="vaos-appts__block-label vads-u-margin-top--2">Type</h2>
+      <span className="vads-u-padding-right--1">
+        {TYPE_OF_VISIT[data.visitType]}{' '}
+      </span>
       <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
       <AlertBox status="info" headline="Where and when we'll call you">
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">Email</h2>
