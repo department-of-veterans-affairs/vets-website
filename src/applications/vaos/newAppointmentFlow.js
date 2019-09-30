@@ -53,7 +53,7 @@ export default {
   },
   ccProvider: {
     url: '/new-appointment/community-care-provider',
-    next: 'contactInfo',
+    next: 'ccPreferences',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -61,6 +61,11 @@ export default {
 
       return 'typeOfFacility';
     },
+  },
+  ccPreferences: {
+    url: '/new-appointment/community-care-preferences',
+    next: 'contactInfo',
+    previous: 'ccProvider',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
