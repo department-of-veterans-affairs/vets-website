@@ -1,17 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import facilities from '../actions/facilities.json';
-import facilities984 from '../actions/facilities_984.json';
 
 import {
-  openFormPage,
-  updateFormData,
+  openFacilityPage,
+  updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../actions/newAppointment';
-import { getFormPageInfo } from '../utils/selectors';
+} from '../actions/newAppointment.js';
+import { getFacilityPageInfo } from '../utils/selectors';
+
+import NoVASystems from '../components/NoVASystems';
+import NoValidVAFacilities from '../components/NoValidVAFacilities';
+import VAFacilityInfoMessage from '../components/VAFacilityInfoMessage';
 
 const initialSchema = {
   type: 'object',
@@ -19,13 +23,11 @@ const initialSchema = {
   properties: {
     vaSystem: {
       type: 'string',
-      enum: facilities.map(facility => facility.authoritativeName),
+      enum: [],
     },
     vaFacility: {
       type: 'string',
-      enum: facilities984.map(
-        facility => facility.institution.authoritativeName,
-      ),
+      enum: [],
     },
   },
 };
@@ -40,14 +42,46 @@ const uiSchema = {
     'ui:title':
       'Appointments are available at the following locations. Some types of care are only available at one location. Select your preferred location',
     'ui:widget': 'radio',
+    'ui:validations': [
+      (errors, vaFacility, data) => {
+        if (vaFacility && !vaFacility.startsWith(data.vaSystem)) {
+          errors.addError(
+            'Please choose a facility that is in the selected VA health systems',
+          );
+        }
+      },
+    ],
+    'ui:options': {
+      hideIf: data => !data.vaSystem,
+    },
+  },
+  vaFacilityLoading: {
+    'ui:field': () => <LoadingIndicator message="Finding locations" />,
+    'ui:options': {
+      hideLabelText: true,
+    },
+  },
+  vaFacilityMessage: {
+    'ui:field': ({ formContext }) => (
+      <NoValidVAFacilities systemId={formContext.vaSystem} />
+    ),
+    'ui:options': {
+      hideLabelText: true,
+    },
   },
 };
 
 const pageKey = 'vaFacility';
 
+const title = (
+  <h1 className="vads-u-font-size--h2">
+    Choose a VA location for your apppointment
+  </h1>
+);
+
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
@@ -59,26 +93,76 @@ export class VAFacilityPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      loadingSystems,
+      loadingFacilities,
+      facility,
+      singleValidVALocation,
+      noValidVASystems,
+      noValidVAFacilities,
+    } = this.props;
+
+    if (loadingSystems) {
+      return (
+        <div>
+          {title}
+          <LoadingIndicator message="Finding your VA facility..." />
+        </div>
+      );
+    }
+
+    if (singleValidVALocation) {
+      return (
+        <div>
+          {title}
+          <VAFacilityInfoMessage facility={facility} />
+          <div className="vads-u-margin-top--2">
+            <FormButtons
+              onBack={this.goBack}
+              pageChangeInProgress={pageChangeInProgress}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    if (noValidVASystems) {
+      return (
+        <div>
+          {title}
+          <NoVASystems />
+          <div className="vads-u-margin-top--2">
+            <FormButtons
+              onBack={this.goBack}
+              disabled
+              pageChangeInProgress={pageChangeInProgress}
+            />
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Choose a VA location for your apppointment
-        </h1>
+        {title}
         <SchemaForm
           name="VA Facility"
           title="VA Facility"
-          schema={schema || initialSchema}
+          schema={schema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
+            this.props.updateFacilityPageData(pageKey, uiSchema, newData)
           }
+          formContext={{ vaSystem: data.vaSystem }}
           data={data}
         >
           <FormButtons
             onBack={this.goBack}
+            disabled={loadingFacilities || noValidVAFacilities}
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
@@ -87,13 +171,24 @@ export class VAFacilityPage extends React.Component {
   }
 }
 
+VAFacilityPage.propTypes = {
+  schema: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+  loadingSystems: PropTypes.bool,
+  loadingFacilities: PropTypes.bool,
+  singleValidVALocation: PropTypes.bool,
+  noValidVASystems: PropTypes.bool,
+  noValidVAFacilities: PropTypes.bool,
+};
+
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  return getFacilityPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
-  openFormPage,
-  updateFormData,
+  openFacilityPage,
+  updateFacilityPageData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };
