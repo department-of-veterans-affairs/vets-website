@@ -23,9 +23,9 @@ class RatedDisabilitiesApp extends React.Component {
           verifyUrl={this.props.verifyUrl}
         >
           <TotalRatedDisabilities
-            totalDisabilityRating={85}
-            user={this.props.user}
+            totalDisabilityRating={null}
             loading={false}
+            error={false}
           />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}

@@ -29,7 +29,7 @@ const CircularProgress = props => {
 };
 
 CircularProgress.propTypes = {
-  percentage: PropTypes.number.isRequired,
+  percentage: PropTypes.number,
 };
 
 export default CircularProgress;
