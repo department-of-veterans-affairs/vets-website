@@ -23,9 +23,9 @@ class RatedDisabilitiesApp extends React.Component {
           verifyUrl={this.props.verifyUrl}
         >
           <TotalRatedDisabilities
-            fetchTotalDisabilityRating={this.props.fetchTotalDisabilityRating}
             totalDisabilityRating={85}
             user={this.props.user}
+            loading={false}
           />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
@@ -41,12 +41,10 @@ class RatedDisabilitiesApp extends React.Component {
 const mapStateToProps = state => ({
   user: state.user,
   ratedDisabilities: state.ratedDisabilities,
-  totalDisabilityRating: state.totalDisabilityRating,
 });
 
 const mapDispatchToProps = {
   fetchRatedDisabilities,
-  fetchTotalDisabilityRating,
 };
 
 export default connect(
