@@ -12,12 +12,19 @@ class CalculatedDisabilityRating extends React.Component {
   }
 
   componentDidUpdate(previousProps) {
-    if (previousProps.calculatedRating !== this.props.calculatedRating) {
+    const formWasSubmitted =
+      this.props.calculatedRating &&
+      previousProps.calculatedRating !== this.props.calculatedRating;
+
+    if (formWasSubmitted) {
       focusElement(this.resultsRef.current);
     }
   }
 
   render() {
+    const { calculatedRating } = this.props;
+    const placeholder = '--';
+
     return (
       <div className="vads-u-margin-top--1">
         <div
@@ -30,12 +37,12 @@ class CalculatedDisabilityRating extends React.Component {
             className="vads-u-font-size--2xl vads-u-line-height--1"
             data-e2e="combined-rating"
           >
-            {this.props.calculatedRating.rounded}%
+            {calculatedRating ? calculatedRating.rounded : placeholder}%
           </div>
         </div>
         <p>
           <strong>Note:</strong> The actual combined value of your disability
-          ratings is {this.props.calculatedRating.exact}
+          ratings is {calculatedRating ? calculatedRating.exact : placeholder}
           %.
         </p>
         <p>

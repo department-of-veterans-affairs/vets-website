@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
+import { fetchRatedDisabilities } from '../actions';
 
 // Wonder if we can put RD data in platform...
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';

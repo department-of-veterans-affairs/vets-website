@@ -1,8 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const yaml = require('js-yaml');
-const assert = require('assert');
-const ENVIRONMENTS = require('../../../constants/environments');
 
 const footerData = require('../../../../platform/static-data/footer-links.json');
 
@@ -77,11 +75,6 @@ function loadFromVagovContent(buildOptions, metalsmith) {
 }
 
 function createHeaderFooterData(buildOptions) {
-  const shouldConfirmDrupalMenuOkay = [
-    ENVIRONMENTS.VAGOVPROD,
-    ENVIRONMENTS.VAGOVSTAGING,
-  ].includes(buildOptions.buildtype);
-
   return (files, metalsmith, done) => {
     const megaMenuFromVagovContent = loadFromVagovContent(
       buildOptions,
@@ -96,22 +89,6 @@ function createHeaderFooterData(buildOptions) {
         buildOptions,
         buildOptions.drupalData,
       );
-
-      if (shouldConfirmDrupalMenuOkay) {
-        // eslint-disable-next-line no-console
-        console.log(JSON.stringify(megaMenuFromDrupal, null, 4));
-
-        // This assertion ensures that the Drupal-generated
-        // menu data structure is identical to the vagov-content-generated
-        // menu structure while we launch and QA the Drupal-powered
-        // megaMenu header. The assertion should be removed once
-        // we are confident that Drupal reliably generates the menu data.
-        assert.deepStrictEqual(
-          megaMenuFromDrupal,
-          megaMenuFromVagovContent,
-          'The Drupal data aligns with that from vagov-content.',
-        );
-      }
 
       megaMenuData = megaMenuFromDrupal;
     }

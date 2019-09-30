@@ -122,6 +122,7 @@
     "body-parser": "^1.15.2",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
+    "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
     "chokidar": "2",
     "choma": "^1.1.0",
@@ -218,7 +219,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "^6.7.3",
-    "@department-of-veterans-affairs/formation-react": "^4.10.0",
+    "@department-of-veterans-affairs/formation-react": "^4.10.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "blob-polyfill": "^2.0.20171115",

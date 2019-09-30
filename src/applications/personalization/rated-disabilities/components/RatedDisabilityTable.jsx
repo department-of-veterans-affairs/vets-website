@@ -18,7 +18,7 @@ class RatedDisabilityTable extends React.Component {
     this.props.fetchRatedDisabilities();
   }
 
-  noDisabilityRatingContent = errorCode => {
+  noDisabilityRatingContent(errorCode) {
     let headline;
     let content;
     let status;
@@ -73,10 +73,10 @@ class RatedDisabilityTable extends React.Component {
         />
       </div>
     );
-  };
+  }
 
   // Need to transform date string into a meaningful format and extract any special issues.
-  formalizeData = data => {
+  formalizeData(data) {
     const formalizedDisabilityData = _.map(data, d => {
       const effectiveDate = {
         effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
@@ -90,7 +90,7 @@ class RatedDisabilityTable extends React.Component {
     });
 
     return formalizedDisabilityData;
-  };
+  }
 
   render() {
     if (!this.props.ratedDisabilities) {

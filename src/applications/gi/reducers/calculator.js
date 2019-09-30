@@ -189,7 +189,7 @@ export default function(state = INITIAL_STATE, action) {
         beneficiaryZIPError: '',
         beneficiaryZIP: beneficiaryZIPFetched,
         beneficiaryZIPFetched,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       return {
@@ -233,7 +233,7 @@ export default function(state = INITIAL_STATE, action) {
         beneficiaryZIP !== '' &&
         !beneficiaryZIPRegExTester.exec(beneficiaryZIP)
       ) {
-        beneficiaryZIPError = 'ZIP Code must be a five digit number';
+        beneficiaryZIPError = 'Zip code must be a 5-digit number';
       } else {
         beneficiaryZIPError = '';
       }
