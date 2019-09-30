@@ -91,7 +91,7 @@ export default {
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    next: 'home',
+    next: 'review',
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
         return 'ccProvider';
@@ -99,5 +99,8 @@ export default {
 
       return 'visitType';
     },
+  },
+  review: {
+    url: '/new-appointment/review',
   },
 };

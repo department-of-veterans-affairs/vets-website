@@ -118,7 +118,7 @@ export const LANGUAGES = [
     value: 'German',
   },
   {
-    id: 'italian)',
+    id: 'italian',
     text: 'Italian',
     value: 'Italian',
   },
@@ -181,8 +181,32 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO ACTION TAKEN',
 ]);
 
-export const TYPE_OF_VISIT = {
-  office: 'Office visit',
-  phone: 'Phone call',
-  telehealth: 'Telehealth',
-};
+export const TYPE_OF_VISIT = [
+  {
+    id: 'office',
+    name: 'Office visit',
+  },
+  {
+    id: 'phone',
+    name: 'Phone call',
+  },
+  {
+    id: 'telehealth',
+    name: 'Telehealth',
+  },
+];
+
+export const DISTANCE = [
+  {
+    id: '25',
+    name: 'Up to 25 miles',
+  },
+  {
+    id: '50',
+    name: 'Up to 50 miles',
+  },
+  {
+    id: '50+',
+    name: 'Further than 50 miles',
+  },
+];

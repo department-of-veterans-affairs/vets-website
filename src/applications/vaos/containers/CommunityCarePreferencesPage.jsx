@@ -9,7 +9,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
-import { LANGUAGES } from './../utils/constants';
+import { LANGUAGES, DISTANCE } from './../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -17,11 +17,13 @@ const initialSchema = {
   properties: {
     distanceWillingToTravel: {
       type: 'string',
-      enum: ['25', '50', '50 or more'],
+      enum: DISTANCE.map(dist => dist.id),
+      enumNames: DISTANCE.map(dist => dist.name),
     },
     preferredLanguage: {
       type: 'string',
-      enum: LANGUAGES.map(l => l.value),
+      enum: LANGUAGES.map(l => l.id),
+      enumNames: LANGUAGES.map(l => l.text),
     },
   },
 };
@@ -30,23 +32,9 @@ const uiSchema = {
   distanceWillingToTravel: {
     'ui:title': 'How many miles are you willing to travel for an appointment?',
     'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        25: 'Up to 25 miles',
-        50: '25 to 50 miles',
-        '50 or more': 'Farther than 50 miles',
-      },
-    },
   },
   preferredLanguage: {
     'ui:title': 'Select your preferred language',
-    'ui:options': {
-      labels: LANGUAGES.reduce((allLanguages, language) => {
-        const result = { ...allLanguages };
-        result[language] = language.text;
-        return result;
-      }),
-    },
   },
 };
 

@@ -31,11 +31,24 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
+const AUDIOLOGY = '203';
+export function getTypeOfCare(data) {
+  if (
+    data.typeOfCareId === AUDIOLOGY &&
+    data.facilityType === 'communityCare'
+  ) {
+    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+  }
+
+  return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+}
+
 export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
+  const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    facilities[`${data.typeOfCareId}_${data.vaSystem}`]?.find(
+    facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
       facility => facility.institution.institutionCode === data.vaFacility,
     ) || null
   );
@@ -69,29 +82,6 @@ export function getFacilityPageInfo(state, pageKey) {
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
   };
-}
-
-const AUDIOLOGY = '203';
-export function getTypeOfCare(data) {
-  if (
-    data.typeOfCareId === AUDIOLOGY &&
-    data.facilityType === 'communityCare'
-  ) {
-    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
-  }
-
-  return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
-}
-
-export function getChosenFacilityInfo(state) {
-  const data = getFormData(state);
-  const facilities = getNewAppointment(state).facilities;
-  const typeOfCareId = getTypeOfCare(data)?.id;
-  return (
-    facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
-      facility => facility.institution.institutionCode === data.vaFacility,
-    ) || null
-  );
 }
 
 export function getChosenClinicInfo(state) {

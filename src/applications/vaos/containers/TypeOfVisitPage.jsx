@@ -17,7 +17,8 @@ const initialSchema = {
   properties: {
     visitType: {
       type: 'string',
-      enum: Object.keys(TYPE_OF_VISIT),
+      enum: TYPE_OF_VISIT.map(v => v.id),
+      enumNames: TYPE_OF_VISIT.map(v => v.name),
     },
   },
 };
@@ -27,7 +28,6 @@ const uiSchema = {
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
-      labels: TYPE_OF_VISIT,
     },
   },
 };
