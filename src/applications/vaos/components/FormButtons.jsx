@@ -23,7 +23,7 @@ export default function FormButtons({
           isLoading={pageChangeInProgress}
           type="submit"
           disabled={disabled}
-          className="usa-button usa-button-primary"
+          className="usa-button usa-button-primary vads-u-width--full"
         >
           Continue »
         </LoadingButton>
