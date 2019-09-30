@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -11,6 +12,9 @@ class SearchHelpSignIn extends React.Component {
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
+    recordEvent({
+      event: 'nav-jumplink-click',
+    });
   };
 
   handleMenuClick = menu => () => {
@@ -51,6 +55,7 @@ class SearchHelpSignIn extends React.Component {
         )}
         {isSubdomain && (
           <a
+            onClick={recordEvent({ event: 'nav-jumplink-click' })}
             className="usa-button sign-in-link"
             href={`https://www.va.gov/my-va`}
           >

@@ -32,10 +32,86 @@ describe('VAOS <VAFacilityPage>', () => {
     form.unmount();
   });
 
-  it('should render', () => {
+  it('should render no systems message', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage noValidVASystems openFacilityPage={openFormPage} />,
+    );
+
+    expect(form.find('NoVASystems').exists()).to.be.true;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should render single facility message', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        singleValidVALocation
+        data={{}}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('VAFacilityInfoMessage').exists()).to.be.true;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should render form with facility loading message', () => {
+    const openFormPage = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        vaFacilityLoading: { type: 'string' },
+      },
+    };
+
+    const form = mount(
+      <VAFacilityPage
+        data={{ vaSystem: '123' }}
+        loadingFacilities
+        schema={schema}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(0);
+    expect(form.find('.loading-indicator').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render form with no facility message', () => {
+    const openFormPage = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        vaFacilityMessage: { type: 'string' },
+      },
+    };
+
+    const form = mount(
+      <VAFacilityPage
+        data={{ vaSystem: '123' }}
+        noValidVASystems
+        schema={schema}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(0);
+    expect(form.find('.usa-alert').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render form', () => {
     const openFormPage = sinon.spy();
     const form = mount(
-      <VAFacilityPage schema={defaultSchema} openFacilityPage={openFormPage} />,
+      <VAFacilityPage
+        data={{}}
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
+      />,
     );
 
     expect(form.find('input').length).to.equal(3);
@@ -48,6 +124,7 @@ describe('VAOS <VAFacilityPage>', () => {
 
     const form = mount(
       <VAFacilityPage
+        data={{}}
         schema={defaultSchema}
         openFacilityPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
