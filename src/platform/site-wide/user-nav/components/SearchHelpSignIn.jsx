@@ -55,7 +55,7 @@ class SearchHelpSignIn extends React.Component {
         )}
         {isSubdomain && (
           <a
-            onClick={recordEvent({ event: 'nav-jumplink-click' })}
+            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
             className="usa-button sign-in-link"
             href={`https://www.va.gov/my-va`}
           >

@@ -34,7 +34,7 @@ class HelpMenu extends React.Component {
 
     return (
       <DropDownPanel
-        onClick={recordEvent({ event: 'nav-jumplink-click' })}
+        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Contact us"
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}
