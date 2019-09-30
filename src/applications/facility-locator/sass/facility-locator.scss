@@ -489,7 +489,7 @@ $color-info-bubble-text: #818a8d;
 
   .dropdown {
     background: $color-white;
-    border: solid 1px $color-black;
+    // border: solid 1px $color-black;
     box-sizing: content-box;
     font-size: 1.6rem;
     left: -1px;
@@ -502,7 +502,8 @@ $color-info-bubble-text: #818a8d;
     z-index: 1010;
 
     .dropdown-option {
-      border-bottom: solid 1px $color-black;
+      border: solid 1px $color-black;
+      border-top: none;
       z-index: 1011;
 
       &.selected,
@@ -511,8 +512,12 @@ $color-info-bubble-text: #818a8d;
         background-color: $color-primary-darker;
       }
 
+      &:first-child {
+        border-top: solid 1px $color-black;
+      }
+
       &:last-child {
-        border-bottom: none;
+        // border-bottom: none;
       }
     }
   }

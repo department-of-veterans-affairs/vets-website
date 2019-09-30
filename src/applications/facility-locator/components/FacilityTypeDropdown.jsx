@@ -3,7 +3,6 @@ import { kebabCase } from 'lodash/fp';
 import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
-import { keyMap } from '../utils/helpers';
 import { LOCATION_OPTIONS, LocationType } from '../constants';
 
 const facilityOptionClasses = (item, selected) =>
@@ -91,30 +90,25 @@ class FacilityTypeDropdown extends Component {
       >
         {({
           closeMenu,
-          getButtonProps,
+          getToggleButtonProps,
+          getLabelProps,
           getItemProps,
+          getMenuProps,
           highlightedIndex,
           isOpen,
           selectedItem,
         }) => {
-          const handleKeyDown = e => {
-            // Allow blurring focus (with TAB) to close dropdown.
-            if (e.keyCode === keyMap.TAB && isOpen) {
-              closeMenu();
-            }
-          };
-
           const options = locationOptions.map((item, index) => (
             <li
               key={item}
               {...getItemProps({
                 item,
+                index,
+                key: item,
                 className: facilityOptionClasses(
                   item,
                   index === highlightedIndex,
                 ),
-                role: 'option',
-                'aria-selected': index === highlightedIndex,
               })}
             >
               {itemToString(item)}
@@ -126,6 +120,7 @@ class FacilityTypeDropdown extends Component {
               <div className="row">
                 <div className="columns medium-4">
                   <label
+                    {...getLabelProps()}
                     htmlFor="facility-dropdown-toggle"
                     id="facility-dropdown-label"
                   >
@@ -135,24 +130,19 @@ class FacilityTypeDropdown extends Component {
               </div>
               <div id="facility-dropdown" className="row">
                 <button
-                  {...getButtonProps({
+                  {...getToggleButtonProps({
                     id: 'facility-dropdown-toggle',
                     className: facilityOptionClasses(selectedItem),
-                    onKeyDown: handleKeyDown,
-                    tabIndex: 0,
                     type: 'button',
-                    'aria-label': null, // Remove in favor of HTML label above.
-                    'aria-expanded': isOpen,
+                    onBlur: closeMenu,
                   })}
                 >
                   {itemToString(selectedItem)}
                   <i className="fa fa-chevron-down dropdown-toggle" />
                 </button>
-                {isOpen && (
-                  <ul className="dropdown" role="listbox">
-                    {options}
-                  </ul>
-                )}
+                <ul {...getMenuProps()} className="dropdown">
+                  {isOpen ? options : null}
+                </ul>
               </div>
               {/* <div className="columns medium-8">
                 {selectedItem === LocationType.CC_PROVIDER && (
