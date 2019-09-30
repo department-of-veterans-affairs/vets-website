@@ -1,4 +1,7 @@
 import React from 'react';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import {
   getRatings,
   getRatingErrorMessage,
@@ -50,9 +53,18 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleDisabilityChange = (index, updatedRow) => {
-    const disabilities = this.state.disabilities;
+    const { disabilities, calculatedRating } = this.state;
+
+    const previousRowValue = disabilities[index];
+
     disabilities[index] = updatedRow;
-    this.setState({ disabilities });
+
+    const ratingChanged = previousRowValue.rating !== updatedRow.rating;
+
+    this.setState({
+      disabilities,
+      calculatedRating: ratingChanged ? null : calculatedRating,
+    });
   };
 
   handleSubmit = () => {
@@ -77,6 +89,8 @@ export default class DisabilityRatingCalculator extends React.Component {
       disabilities: disabilitiesValidated,
       calculatedRating: calculateCombinedRating(ratings),
     });
+
+    recordEvent({ event: 'widget-disability-ratings-calculator-calculate' });
   };
 
   handleAddRating = () => {

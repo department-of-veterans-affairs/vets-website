@@ -1,6 +1,6 @@
 /* Blue duo-tone for the main region landing page image */
 $duo-tone-darken: #112e51;
-$duo-tone-lighten: #000000;
+$duo-tone-lighten: #000;
 
 /* The brightest duo-tone color */
 .darken::before {
@@ -20,7 +20,7 @@ $duo-tone-lighten: #000000;
 }
 
 .duotone::before, .duotone::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
   position: absolute;
@@ -258,4 +258,12 @@ $duo-tone-lighten: #000000;
 
 .va-l-font-size--12px {
   font-size: 12px !important;
+}
+
+
+.circular-profile-missing-icon {
+  position: absolute;
+  top: 33%;
+  left: 37%;
+  font-size: 32px;
 }

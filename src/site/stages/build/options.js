@@ -31,6 +31,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'asset-source', type: String, defaultValue: assetSources.LOCAL },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'pull-drupal', type: Boolean, defaultValue: false },
+  { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,
@@ -46,6 +47,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_PASSWORD,
   },
+  { name: 'no-drupal-proxy', type: Boolean, defaultValue: false },
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -192,9 +194,8 @@ async function setUpFeatureFlags(options) {
 
   logDrupal(`Drupal feature flags:\n${JSON.stringify(rawFlags, null, 2)}`);
 
-  const buildType = options.buildtype;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const proxiedFlags = useFlags(rawFlags, buildType);
+  const proxiedFlags = useFlags(rawFlags);
 
   Object.assign(options, {
     cmsFeatureFlags: proxiedFlags,

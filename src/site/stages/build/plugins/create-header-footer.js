@@ -9,6 +9,10 @@ const { applyFragments } = require('./apply-fragments');
 const MEGAMENU_DATA_SOURCE_FILENAME = 'megamenu/index.yml';
 const DRUPALS = require('../../../constants/drupals');
 
+const {
+  formatHeaderData: convertDrupalHeaderData,
+} = require('../drupal/menus');
+
 function replaceWithDrupalLinks(data, files) {
   let current = data;
   if (Array.isArray(data)) {
@@ -43,30 +47,51 @@ function replaceWithDrupalLinks(data, files) {
   return current;
 }
 
+function loadFromVagovContent(buildOptions, metalsmith) {
+  const fragmentsRoot = metalsmith.path(buildOptions.contentFragments);
+  const megaMenuDataSourceFile = path.join(
+    fragmentsRoot,
+    MEGAMENU_DATA_SOURCE_FILENAME,
+  );
+  const megaMenuFile = fs.readFileSync(megaMenuDataSourceFile);
+  const megaMenuData = yaml.safeLoad(megaMenuFile);
+
+  const [vaBenefitsAndHealthCare, aboutVa] = megaMenuData;
+
+  // "promotions", which is data that (as of writing) are located under the "columnThree"
+  // property, has to exist in a separate file for editing/organizational reasons.
+  // To accomplish this, we borrow use the fragments concept. More info in that middleware.
+  for (const hub of vaBenefitsAndHealthCare.menuSections) {
+    if (hub.links && hub.links.fragments) {
+      applyFragments(buildOptions, metalsmith, hub.links);
+      delete hub.links.fragments;
+    }
+  }
+
+  applyFragments(buildOptions, metalsmith, aboutVa.menuSections);
+  delete aboutVa.menuSections.fragments;
+
+  return megaMenuData;
+}
+
 function createHeaderFooterData(buildOptions) {
   return (files, metalsmith, done) => {
-    const fragmentsRoot = metalsmith.path(buildOptions.contentFragments);
-    const megaMenuDataSourceFile = path.join(
-      fragmentsRoot,
-      MEGAMENU_DATA_SOURCE_FILENAME,
+    const megaMenuFromVagovContent = loadFromVagovContent(
+      buildOptions,
+      metalsmith,
     );
-    const megaMenuFile = fs.readFileSync(megaMenuDataSourceFile);
-    const megaMenuData = yaml.safeLoad(megaMenuFile);
+    let megaMenuData = megaMenuFromVagovContent;
 
-    const [vaBenefitsAndHealthCare, aboutVa] = megaMenuData;
+    const shouldLoadFromDrupal = global.cmsFeatureFlags.FEATURE_HEADER_MEGAMENU;
 
-    // "promotions", which is data that (as of writing) are located under the "columnThree"
-    // property, has to exist in a separate file for editing/organizational reasons.
-    // To accomplish this, we borrow use the fragments concept. More info in that middleware.
-    for (const hub of vaBenefitsAndHealthCare.menuSections) {
-      if (hub.links && hub.links.fragments) {
-        applyFragments(buildOptions, metalsmith, hub.links);
-        delete hub.links.fragments;
-      }
+    if (shouldLoadFromDrupal) {
+      const megaMenuFromDrupal = convertDrupalHeaderData(
+        buildOptions,
+        buildOptions.drupalData,
+      );
+
+      megaMenuData = megaMenuFromDrupal;
     }
-
-    applyFragments(buildOptions, metalsmith, aboutVa.menuSections);
-    delete aboutVa.menuSections.fragments;
 
     const headerFooter = {
       footerData,

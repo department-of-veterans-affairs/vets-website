@@ -8,10 +8,10 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { VA_FORM_IDS } from 'platform/forms/constants.js';
 import recordEvent from 'platform/monitoring/record-event';
 
-import hcaManifest from 'applications/hca/manifest.js';
-import dependentStatusManifest from 'applications/disability-benefits/686/manifest.js';
-import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.js';
-import burialsManifest from 'applications/burials/manifest.js';
+import hcaManifest from 'applications/hca/manifest.json';
+import dependentStatusManifest from 'applications/disability-benefits/686/manifest.json';
+import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
+import burialsManifest from 'applications/burials/manifest.json';
 import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
 import edu1995Manifest from 'applications/edu-benefits/1995/manifest.json';
 import edu1995StemManifest from 'applications/edu-benefits/1995-STEM/manifest.json';
@@ -24,6 +24,7 @@ import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
 import preneedManifest from 'applications/pre-need/manifest.json';
 import pensionManifest from 'applications/pensions/manifest.json';
 import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 
 import hcaConfig from 'applications/hca/config/form.js';
 import dependentStatusConfig from 'applications/disability-benefits/686/config/form';
@@ -42,6 +43,7 @@ import preneedConfig from 'applications/pre-need/config/form.jsx';
 import pensionConfig from 'applications/pensions/config/form.js';
 import vicV2Config from 'applications/vic-v2/config/form';
 import disability526Config from 'applications/disability-benefits/526EZ/config/form.js';
+import hlrConfig from 'applications/disability-benefits/996/config/form';
 
 export const formConfigs = {
   [VA_FORM_IDS.FORM_10_10EZ]: hcaConfig,
@@ -61,6 +63,7 @@ export const formConfigs = {
   [VA_FORM_IDS.FORM_40_10007]: preneedConfig,
   [VA_FORM_IDS.VIC]: vicV2Config,
   [VA_FORM_IDS.FEEDBACK_TOOL]: feedbackConfig,
+  [VA_FORM_IDS.FORM_20_0996]: hlrConfig,
 };
 
 export const formBenefits = {
@@ -82,6 +85,7 @@ export const formBenefits = {
   [VA_FORM_IDS.VIC]: 'Veteran ID Card',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
+  [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -136,6 +140,7 @@ export const formLinks = {
   [VA_FORM_IDS.VIC]: '/veteran-id-card/apply/',
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
 };
 
 export const trackingPrefixes = {
@@ -156,6 +161,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.VIC]: 'veteran-id-card-',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'gi_bill_feedback',
   [VA_FORM_IDS.FORM_21_686C]: '686-',
+  [VA_FORM_IDS.FORM_20_0996]: 'hlr-0996-',
 };
 
 export const sipEnabledForms = new Set([
@@ -176,6 +182,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.VIC,
   VA_FORM_IDS.FEEDBACK_TOOL,
+  VA_FORM_IDS.FORM_20_0996,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself

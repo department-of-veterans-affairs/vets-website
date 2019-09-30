@@ -14,6 +14,9 @@
     text-indent: -9999em;
     width: 1em;
   }
+  &[aria-expanded="true"]::after {
+    background-image: url("/img/arrow-up-white.svg");
+  }
 }
 
 // Handles the height transition
