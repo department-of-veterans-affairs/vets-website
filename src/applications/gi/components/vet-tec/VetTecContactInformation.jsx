@@ -51,7 +51,7 @@ export const VetTecContactInformation = ({ institution }) => (
           {institution.schoolCertifyingOfficials.map(
             (sco, i) =>
               i % 2 === 0 && (
-                <div className="additional-information row vads-u-margin-y--2">
+                <div className="additional-information row ">
                   {VetTecScoContact(sco)}
                   {institution.schoolCertifyingOfficials[i + 1] &&
                     VetTecScoContact(

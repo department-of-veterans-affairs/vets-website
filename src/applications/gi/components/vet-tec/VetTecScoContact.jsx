@@ -3,7 +3,7 @@ import React from 'react';
 export const VetTecScoContact = sco => {
   if (sco) {
     return (
-      <div className="usa-width-one-half medium-6 columns">
+      <div className="usa-width-one-half medium-6 columns vads-u-margin-bottom--1">
         <div className="usa-width-one-whole">
           <div>
             <div>
