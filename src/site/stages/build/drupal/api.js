@@ -1,5 +1,6 @@
 const moment = require('moment');
 const fetch = require('node-fetch');
+const chalk = require('chalk');
 const SocksProxyAgent = require('socks-proxy-agent');
 
 const DRUPALS = require('../../../constants/drupals');
@@ -40,7 +41,8 @@ function getDrupalClient(buildOptions) {
     // We have to point to aws urls on Jenkins, so the only
     // time we'll be using cms.va.gov addresses is locally,
     // when we need a proxy
-    usingProxy: address.includes('cms.va.gov'),
+    usingProxy:
+      address.includes('cms.va.gov') && !buildOptions['no-drupal-proxy'],
 
     getSiteUri() {
       return address;
@@ -71,7 +73,26 @@ function getDrupalClient(buildOptions) {
       });
 
       if (response.ok) {
-        return response.json();
+        return response.text().then(data => {
+          try {
+            return JSON.parse(data);
+          } catch (error) {
+            /* eslint-disable no-console */
+            console.error(
+              chalk.red(
+                "There was an error parsing the response body, it isn't valid JSON. Here is the error:",
+              ),
+            );
+            console.error(error);
+            console.error();
+            console.error(chalk.red('Response code:'), response.status);
+            console.error(chalk.red('Start of body:'), data.slice(0, 100));
+            console.error(chalk.red('End of body:'), data.slice(-100));
+            /* eslint-enable */
+
+            throw error;
+          }
+        });
       }
 
       throw new Error(`HTTP error: ${response.status}: ${response.statusText}`);
