@@ -1,6 +1,11 @@
-import { getFormData } from './utils/selectors';
+import {
+  getFormData,
+  getChosenFacilityInfo,
+  getTypeOfCare,
+} from './utils/selectors';
 
 const AUDIOLOGY = '203';
+const DISABLED_LIMIT_VALUE = 0;
 
 function isCCAudiology(state) {
   return (
@@ -69,7 +74,65 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'visitType',
+    // next: 'visitType',
+    async next(state, dispatch) {
+      const facility = getChosenFacilityInfo(state);
+      const typeOfCareId = getTypeOfCare(state)?.id;
+
+      const {
+        durationInMonths,
+        hasVisitedInPastMonths,
+      } = await mockFetchPastVisits(
+        `/vaos/facilities/${
+          facility.institution.institutionCode
+        }/visits?typeOfCareId=${typeOfCareId}`,
+      );
+
+      if (
+        durationInMonths === DISABLED_LIMIT_VALUE ||
+        !hasVisitedInPastMonths
+      ) {
+        return 'visitRequirements';
+      }
+
+      // The facility page should prevent you from choosing
+      // a facility that doesn't have either requests or
+      // direct scheduling, so we only need to check one
+      if (!facility.directSchedulingSupported) {
+        const { requestLimit, numberOfRequests } = await mockFetchRequestLimit(
+          `/vaos/facilities/${
+            facility.institution.institutionCode
+          }/limits?typeOfCareId=${typeOfCareId}`,
+        );
+
+        if (
+          requestLimit === DISABLED_LIMIT_VALUE ||
+          numberOfRequests >= requestLimit
+        ) {
+          return 'visitType';
+        }
+
+        return 'requestLimits';
+      }
+
+      const [clinics, appointments] = await Promise.all([
+        mockFetchClinics(),
+        mockFetchPastAppointments(),
+      ]);
+      const apptHash = buildApptHash(appointments);
+
+      if (clinics.some(clinic => !!apptHash[clinic.clinicId])) {
+        dispatch({
+          type: 'START_DIRECT_SCHEDULE_FLOW',
+          clinics,
+          appointments,
+        });
+
+        return 'clinicChoice';
+      }
+
+      return 'visitType';
+    },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },
