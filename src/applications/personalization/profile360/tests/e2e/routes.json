@@ -5,9 +5,7 @@
     "value": {
       "data": {
         "attributes": {
-          "countries": [
-            "USA"
-          ]
+          "countries": ["USA"]
         }
       }
     }
@@ -18,10 +16,7 @@
     "value": {
       "data": {
         "attributes": {
-          "states": [
-            "Alabama",
-            "Kentucky"
-          ]
+          "states": ["Alabama", "Kentucky"]
         }
       }
     }
