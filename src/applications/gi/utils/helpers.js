@@ -18,27 +18,17 @@ export const locationInfo = (city, state, country) => {
   if (country === 'USA') {
     if (city && state) {
       address = `${city}, ${state}`;
-    } else if (!state) {
+    } else if (!state && city) {
       address = `${city}`;
-    } else if (!city) {
+    } else if (state && !city) {
       address = `${state}`;
     }
   } else if (country) {
-    if (city && country) {
+    if (city) {
       address = `${city}, ${country}`;
-    } else if (!city) {
-      address = `${country}`;
     } else {
-      address = `${city}`;
+      address = `${country}`;
     }
-  }
-  return address;
-};
-
-export const schoolLocationTableInfo = (city, state, country, zip) => {
-  let address = locationInfo(city, state, country);
-  if (country === 'USA' && zip) {
-    address = `${address} ${zip}`;
   }
   return address;
 };

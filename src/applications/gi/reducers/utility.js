@@ -1,6 +1,6 @@
 // This file was created to hold redundant or multi-use functions to be used elsewhere in the reducers
 
-function normalizedAttributes(attributes) {
+export const normalizedAttributes = attributes => {
   const name = attributes.name
     ? attributes.name.toUpperCase()
     : attributes.name;
@@ -24,6 +24,4 @@ function normalizedAttributes(attributes) {
     country,
     zip,
   };
-}
-
-export default normalizedAttributes;
+};

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import normalizedAttributes from '../../reducers/utility';
+import { normalizedAttributes } from '../../reducers/utility';
 
 describe('normalized attributes function', () => {
   it('capitalizes attributes for name, city, and state', () => {

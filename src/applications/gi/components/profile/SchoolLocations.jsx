@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { schoolLocationTableInfo } from '../../utils/helpers';
+import { locationInfo } from '../../utils/helpers';
 
 const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
@@ -56,6 +56,14 @@ export class SchoolLocations extends React.Component {
     this.setState({ viewMore: true });
   };
 
+  schoolLocationTableInfo = (city, state, country, zip) => {
+    let address = locationInfo(city, state, country);
+    if (country === 'USA' && zip) {
+      address = `${address} ${zip}`;
+    }
+    return address;
+  };
+
   estimatedHousingRow = institution => {
     const fakeState = {
       constants: { constants: this.props.constants },
@@ -86,7 +94,7 @@ export class SchoolLocations extends React.Component {
       <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
         <td>{nameLabel}</td>
         <td className={'location-cell'}>
-          {schoolLocationTableInfo(
+          {this.schoolLocationTableInfo(
             physicalCity,
             physicalState,
             physicalCountry,
@@ -250,7 +258,7 @@ export class SchoolLocations extends React.Component {
       <div key={`${facilityCode}-${type}`} className={`${type} item`}>
         <div>{nameLabel}</div>
         <div className={'location-cell'}>
-          {schoolLocationTableInfo(
+          {this.schoolLocationTableInfo(
             physicalCity,
             physicalState,
             physicalCountry,
