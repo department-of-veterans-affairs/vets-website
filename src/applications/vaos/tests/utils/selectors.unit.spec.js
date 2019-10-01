@@ -5,6 +5,7 @@ import {
   selectConfirmedAppointment,
   getFormPageInfo,
   getChosenClinicInfo,
+  getTypeOfCare,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -76,6 +77,7 @@ describe('VAOS selectors', () => {
       expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
     });
   });
+
   describe('getChosenClinicInfo', () => {
     it('should return a stored clinic object', () => {
       const state = {
@@ -99,6 +101,19 @@ describe('VAOS selectors', () => {
       };
       const clinic = getChosenClinicInfo(state);
       expect(clinic.clinicId).to.equal(state.newAppointment.data.clinicId);
+    });
+  });
+
+  describe('getTypeOfCare', () => {
+    it('get audiology type of care', () => {
+      const data = {
+        typeOfCareId: '203',
+        audiologyType: 'CCAUDHEAR',
+        facilityType: 'communityCare',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('CCAUDHEAR');
     });
   });
 });
