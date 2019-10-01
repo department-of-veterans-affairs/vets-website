@@ -23,7 +23,7 @@ function injectAxeCore() {
             iframes: false,
             runOnly: {
               type: 'tag',
-              values: ['section508', 'wcag2a', 'wcag2aa', 'best-practices'],
+              values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
               resultTypes: ['violations'],
             },
             rules: {
@@ -31,6 +31,10 @@ function injectAxeCore() {
             },
           }, function axeCheckDone(error, results) {
             console.log(results);
+
+            if (results.violations.length > 0) {
+              // Render the results into a banner at the top of the page
+            }
           });
         </script>
       `);
