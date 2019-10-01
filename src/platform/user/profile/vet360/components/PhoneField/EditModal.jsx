@@ -113,7 +113,7 @@ class PhoneEditModal extends React.Component {
 
       <ReceiveTextMessagesCheckbox
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
-        isTextable={this.props.field.value.phoneType === 'MOBILE'}
+        isTextable={this.props.fieldName === 'mobilePhone'}
         label="Send me text message (SMS) reminders for my VA health care appointments"
         field={{ value: this.props.field.value.isTextPermitted, dirty: false }}
         checked={this.props.field.value.isTextPermitted}
@@ -134,8 +134,10 @@ class PhoneEditModal extends React.Component {
   }
 }
 
-export function mapStateToProps(state) {
+export function mapStateToProps(state, ownProps) {
+  const { fieldName } = ownProps;
   return {
+    fieldName,
     isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
   };
 }
