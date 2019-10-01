@@ -5,6 +5,9 @@ export const FETCH_RATED_DISABILITIES_SUCCESS =
 export const FETCH_RATED_DISABILITIES_FAILED =
   'FETCH_RATED_DISABILITIES_FAILED';
 
+export const FETCH_TOTAL_RATING_REQUEST = 
+'FETCH_TOTAL_RATING_REQUEST';
+
 export function fetchRatedDisabilities() {
   return async dispatch => {
     const response = await getData(
@@ -25,3 +28,14 @@ export function fetchRatedDisabilities() {
     }
   };
 }
+
+
+export function fetchTotalDisabilityRating() {
+  return function(dispatch) {
+    dispatch({
+      type: 'FETCH_TOTAL_RATING_REQUEST',
+    }
+    )
+  }
+};
+
