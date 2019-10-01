@@ -48,8 +48,6 @@ ReviewPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  // const state = dsState;
-  // dsState.newAppointment.data.isDirectSchedule = false;
   return {
     data: getFormData(state),
     facility: getChosenFacilityInfo(state),
