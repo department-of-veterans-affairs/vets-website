@@ -24,7 +24,6 @@ const initialSchema = {
 
 const uiSchema = {
   reasonForAppointment: {
-    'ui:title': 'Why do you want to make an appointment?',
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,

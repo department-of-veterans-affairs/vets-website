@@ -5,7 +5,6 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentPage';
-import { PURPOSE_TEXT } from '../../utils/constants';
 
 describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
@@ -61,36 +60,30 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       />,
     );
 
-    selectRadio(
-      form,
-      'root_reasonForAppointment',
-      PURPOSE_TEXT['routine-follow-up'],
-    );
+    selectRadio(form, 'root_reasonForAppointment', 'routine-follow-up');
 
     expect(updateFormData.firstCall.args[2].reasonForAppointment).to.equal(
-      PURPOSE_TEXT['routine-follow-up'],
+      'routine-follow-up',
     );
     form.unmount();
   });
 
-  xit('should submit with valid data', () => {
+  it('should submit with valid data', () => {
     const openFormPage = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
+    const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <ReasonForAppointmentPage
         openFormPage={openFormPage}
-        router={router}
-        data={{ reasonForAppointment: PURPOSE_TEXT['routine-rollow-up'] }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        data={{
+          reasonForAppointment: 'routine-follow-up',
+        }}
       />,
     );
-
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(router.push.called).to.be.true;
     form.unmount();
   });
 });
