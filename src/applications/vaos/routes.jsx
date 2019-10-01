@@ -4,7 +4,6 @@ import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 import ReasonForAppointmentPage from './containers/ReasonForAppointmentPage';
-// import TypeOfAppointmentPage from './containers/TypeOfAppointmentPage';
 import TypeOfCarePage from './containers/TypeOfCarePage';
 import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
 import PendingAppointmentsPage from './containers/PendingAppointmentsPage';
