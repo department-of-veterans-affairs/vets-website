@@ -6,7 +6,7 @@ const usedHeaders = [];
 
 let currentId = 1;
 
-function createUniqueId(headingEl) {
+function createUniqueId(headingEl, usedHeaders, currentHeaderId) {
   const headingString = headingEl.text();
   const length = 30;
   let anchor = headingString
@@ -18,9 +18,13 @@ function createUniqueId(headingEl) {
     .substring(0, length);
 
   if (usedHeaders.includes(anchor)) {
-    if (!usedHeaders.includes(`${anchor}-${currentId}`)) {
-      anchor = `${anchor}-${currentId}`;
-      currentId++;
+
+    anchor = `${anchor}-${++currentHeaderId}`;
+
+    if (usedHeaders.includes(anchor)) {
+      console.log(usedHeaders)
+      console.log(anchor)
+      throw new Error('WTF')
     }
   }
   usedHeaders.push(anchor);
@@ -36,6 +40,11 @@ function generateHeadingIds() {
       if (fileName.endsWith('html')) {
         const { dom } = file;
         const tableOfContents = dom('#table-of-contents ul');
+
+        const
+        const usedHeaders = [];
+        let currentHeaderId = 0;
+
         dom('h2, h3').each((i, el) => {
           const heading = dom(el);
           const parent = heading.parents();
@@ -44,7 +53,7 @@ function generateHeadingIds() {
 
           // skip heading if it already has an id and skip heading if it's in an accordion button
           if (!heading.attr('id') && !isInAccordionButton) {
-            const headingID = createUniqueId(heading);
+            const headingID = createUniqueId(heading, usedHeaders, currentHeaderId);
             heading.attr('id', headingID);
             idAdded = true;
           }
@@ -62,7 +71,7 @@ function generateHeadingIds() {
                   <a href="#${heading.attr(
                     'id',
                   )}" class="vads-u-text-decoration--none">
-                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i> 
+                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
                     ${heading.text()}
                   </a>
                 </li>`,
