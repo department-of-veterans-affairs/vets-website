@@ -196,7 +196,7 @@ export const TYPE_OF_VISIT = [
   },
 ];
 
-export const DISTANCE = [
+export const DISTANCES = [
   {
     id: '25',
     name: 'Up to 25 miles',

@@ -9,7 +9,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
-import { LANGUAGES, DISTANCE } from './../utils/constants';
+import { LANGUAGES, DISTANCES } from './../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -17,8 +17,8 @@ const initialSchema = {
   properties: {
     distanceWillingToTravel: {
       type: 'string',
-      enum: DISTANCE.map(dist => dist.id),
-      enumNames: DISTANCE.map(dist => dist.name),
+      enum: DISTANCES.map(dist => dist.id),
+      enumNames: DISTANCES.map(dist => dist.name),
     },
     preferredLanguage: {
       type: 'string',

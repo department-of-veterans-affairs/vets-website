@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import { TYPE_OF_VISIT, DISTANCE, LANGUAGES } from '../utils/constants';
+import { TYPE_OF_VISIT, DISTANCES, LANGUAGES } from '../utils/constants';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -100,7 +100,7 @@ export default function ReviewRequestInfo({ data, facility }) {
           </h2>
           <span className="vads-u-padding-right--1">
             {
-              DISTANCE.find(dist => dist.id === data.distanceWillingToTravel)
+              DISTANCES.find(dist => dist.id === data.distanceWillingToTravel)
                 ?.name
             }
           </span>
