@@ -1,107 +1,76 @@
-import { values, every, capitalize } from 'lodash';
-import React, { Component } from 'react';
-import * as Sentry from '@sentry/browser';
-import moment from 'moment';
+import { get } from 'lodash';
+import React from 'react';
 
 /**
  * VA Facility Known Operational Hours
  */
-export default class LocationHours extends Component {
-  formatTimeRange(hour) {
-    const hours = hour.split('-').map(time => moment(time, 'hmmA'));
-    const isValid = hours.every(time => time.isValid());
+const LocationHours = ({ location }) => {
+  // Derive the hours for each day.
+  const hoursInfo = get(location, 'attributes.hours');
+  const sunday = get(hoursInfo, 'sunday', 'N/A');
+  const monday = get(hoursInfo, 'monday', 'N/A');
+  const tuesday = get(hoursInfo, 'tuesday', 'N/A');
+  const wednesday = get(hoursInfo, 'wednesday', 'N/A');
+  const thursday = get(hoursInfo, 'thursday', 'N/A');
+  const friday = get(hoursInfo, 'friday', 'N/A');
+  const saturday = get(hoursInfo, 'saturday', 'N/A');
 
-    if (!isValid) {
-      Sentry.withScope(scope => {
-        scope.setExtra('data', this.props.location);
-        Sentry.captureMessage('API location hours data is malformed');
-      });
+  return (
+    <div>
+      <h4 className="highlight">Hours of Operation</h4>
 
-      return '';
-    }
+      {/* Sunday */}
+      <div className="row">
+        <div className="small-6 columns">Sunday:</div>
+        <div className="small-6 columns">{sunday}</div>
+      </div>
 
-    return hours.map(time => time.format('h:mmA')).join(' - ');
-  }
+      {/* Monday */}
+      <div className="row">
+        <div className="small-6 columns">Monday:</div>
+        <div className="small-6 columns">{monday}</div>
+      </div>
 
-  formatLocationHours(hours) {
-    return Object.keys(hours).reduce((accum, key) => {
-      if (hours[key] === '-' || hours[key] === 'Closed') {
-        return { ...accum, [key]: 'Closed' };
-      }
+      {/* Tuesday */}
+      <div className="row">
+        <div className="small-6 columns">Tuesday:</div>
+        <div className="small-6 columns">{tuesday}</div>
+      </div>
 
-      if (!this.formatTimeRange(hours[key])) {
-        return { ...accum };
-      }
+      {/* Wednesday */}
+      <div className="row">
+        <div className="small-6 columns">Wednesday:</div>
+        <div className="small-6 columns">{wednesday}</div>
+      </div>
 
-      return { ...accum, [key]: this.formatTimeRange(hours[key]) };
-    }, {});
-  }
+      {/* Thursday */}
+      <div className="row">
+        <div className="small-6 columns">Thursday:</div>
+        <div className="small-6 columns">{thursday}</div>
+      </div>
 
-  isLocationDataValid(location) {
-    if (!location) {
-      return false;
-    }
+      {/* Friday */}
+      <div className="row">
+        <div className="small-6 columns">Friday:</div>
+        <div className="small-6 columns">{friday}</div>
+      </div>
 
-    const isVetCenter = location.attributes.facilityType === 'vet_center';
+      {/* Saturday */}
+      <div className="row">
+        <div className="small-6 columns">Saturday:</div>
+        <div className="small-6 columns">{saturday}</div>
+      </div>
 
-    if (
-      every(values(location.attributes.hours), hour => !hour) &&
-      !isVetCenter
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-
-  renderVetCenterContent() {
-    const { location } = this.props;
-    if (location && location.attributes.facilityType === 'vet_center') {
-      return (
+      {get(location, 'attributes.facilityType') === 'vet_center' && (
         <p>
           In addition to the hours listed above, all Vet Centers maintain
           non-traditional hours that are specific to each site and can change
           periodically given local Veteran, Service member & Family needs.
           Please contact your Vet Center to obtain the current schedule.
         </p>
-      );
-    }
-    return null;
-  }
+      )}
+    </div>
+  );
+};
 
-  render() {
-    const { location } = this.props;
-
-    if (!this.isLocationDataValid(location)) {
-      return null;
-    }
-
-    const {
-      attributes: { hours },
-    } = location;
-
-    const mappedHours = this.formatLocationHours(hours);
-
-    return (
-      <div>
-        <h4 className="highlight">Hours of Operation</h4>
-        <div>
-          {Object.keys(mappedHours).map(h => {
-            if (h !== 'notes' && mappedHours[h] && mappedHours[h] !== '') {
-              return (
-                <div className="row" key={h}>
-                  <div className="small-6 columns">{capitalize(h)}:</div>
-                  <div className="small-6 columns">
-                    {capitalize(mappedHours[h])}
-                  </div>
-                </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-        {this.renderVetCenterContent()}
-      </div>
-    );
-  }
-}
+export default LocationHours;
