@@ -17,11 +17,7 @@ const initialSchema = {
   properties: {
     reasonForAppointment: {
       type: 'string',
-      enum: [
-        PURPOSE_TEXT['routine-follow-up'],
-        PURPOSE_TEXT['new-issue'],
-        PURPOSE_TEXT['medication-concern'],
-      ],
+      enum: ['routine-follow-up', 'new-issue', 'medication-concern'],
     },
   },
 };
@@ -32,11 +28,7 @@ const uiSchema = {
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
-      labels: {
-        routine: <>Routine/Follow-up</>,
-        newIssue: <>New Issue</>,
-        medicationConcern: <>Medication Concern</>,
-      },
+      labels: PURPOSE_TEXT,
     },
   },
 };
