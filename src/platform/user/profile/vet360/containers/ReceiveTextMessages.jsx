@@ -121,7 +121,8 @@ export function mapStateToProps(state, ownProps) {
   const isPending = !!(transaction && isPendingTransaction(transaction));
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
-  const isTextable = !isEmpty && profileState.vet360.mobilePhone.isTextable;
+  const isTextable =
+    !isEmpty && profileState.vet360.mobilePhone.phoneType === 'MOBILE';
   const isVerified = !environment.isProduction() && profileState.verified;
   const hideCheckbox =
     environment.isProduction() ||

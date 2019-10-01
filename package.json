@@ -24,6 +24,7 @@
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
+    "install-repos": "./script/install-repos.sh",
     "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
