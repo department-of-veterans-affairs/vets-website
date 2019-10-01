@@ -2,11 +2,7 @@
  * Add unique ID to H2s and H3s that aren't in WYSIWYG or accordion buttons
  */
 
-const usedHeaders = [];
-
-let currentId = 1;
-
-function createUniqueId(headingEl, usedHeaders, currentHeaderId) {
+function createUniqueId(headingEl, headingOptions) {
   const headingString = headingEl.text();
   const length = 30;
   let anchor = headingString
@@ -17,17 +13,11 @@ function createUniqueId(headingEl, usedHeaders, currentHeaderId) {
     .replace(/-+$/, '')
     .substring(0, length);
 
-  if (usedHeaders.includes(anchor)) {
-
-    anchor = `${anchor}-${++currentHeaderId}`;
-
-    if (usedHeaders.includes(anchor)) {
-      console.log(usedHeaders)
-      console.log(anchor)
-      throw new Error('WTF')
-    }
+  if (headingOptions.previousHeadings.includes(anchor)) {
+    anchor += `-${headingOptions.getHeadingId()}`;
   }
-  usedHeaders.push(anchor);
+
+  headingOptions.previousHeadings.push(anchor);
   return anchor;
 }
 
@@ -41,11 +31,15 @@ function generateHeadingIds() {
         const { dom } = file;
         const tableOfContents = dom('#table-of-contents ul');
 
-        const
-        const usedHeaders = [];
-        let currentHeaderId = 0;
+        const headingOptions = {
+          previousHeadings: [],
+          previousId: 0,
+          getHeadingId() {
+            return ++this.previousId;
+          },
+        };
 
-        dom('h2, h3').each((i, el) => {
+        dom('h2, h3').each((index, el) => {
           const heading = dom(el);
           const parent = heading.parents();
           const isInAccordionButton = parent.hasClass('usa-accordion-button');
@@ -53,7 +47,7 @@ function generateHeadingIds() {
 
           // skip heading if it already has an id and skip heading if it's in an accordion button
           if (!heading.attr('id') && !isInAccordionButton) {
-            const headingID = createUniqueId(heading, usedHeaders, currentHeaderId);
+            const headingID = createUniqueId(heading, headingOptions);
             heading.attr('id', headingID);
             idAdded = true;
           }
