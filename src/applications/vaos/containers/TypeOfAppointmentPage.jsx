@@ -58,7 +58,6 @@ export class TypeOfAppointmentPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/reason-appointment');
     this.props.router.push('/new-appointment/type-of-care');
   };
 
