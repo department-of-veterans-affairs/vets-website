@@ -39,6 +39,7 @@ const INITIAL_STATE = {
   buyUpAmount: 600,
   vetTecTuitionFees: null,
   vetTecScholarships: null,
+  vetTecProgramName: '',
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -67,6 +68,14 @@ export default function(state = INITIAL_STATE, action) {
       let newState = {
         [field]: convertedValue,
       };
+
+      if (field === 'vetTecProgram') {
+        newState = {
+          ...newState,
+          vetTecProgramName: value.vetTecProgramName,
+          vetTecTuitionFees: value.vetTecTuitionFees,
+        };
+      }
 
       if (field === 'yellowRibbonDegreeLevel') {
         if (value === 'customAmount') {
