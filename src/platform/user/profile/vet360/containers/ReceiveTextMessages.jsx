@@ -45,6 +45,7 @@ class ReceiveTextMessages extends React.Component {
   }
 
   onChange = event => {
+    if (this.state.startedTransaction) return;
     if (this.state.lastTransaction) this.clearSuccess();
     this.setState({
       startedTransaction: true,
