@@ -6,23 +6,58 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 const TotalRatedDisabilities = props => {
   let content;
+  // If the data from the parent is loading, show a loading indicator
   // If there is an error, display an error message,
   // If there is no rating, display a no rating message
   // If there is a rating, display the rating and content
-  if (props.error) {
+  if (props.loading) {
+    content = (
+      <LoadingIndicator message="Loading your total disability rating..." />
+    );
+  } else if (props.error) {
+    const message = (
+      <span>
+        <p>
+          We're sorry. An error occurred when accessing your disability rating
+          information.
+        </p>
+        <h4>What you can do</h4>
+        <p>
+          Sign out of VA.gov, then log back in to try this page again. If the
+          error continues, please call the VA.gov Help Desk at 1-855-574-7286
+          (TTY:1-800-829-4833). We're here Monday-Friday, 8:00 a.m. - 8:00 p.m.
+          (ET).
+        </p>
+      </span>
+    );
     content = (
       <AlertBox
-        headline="Rated disabilities error"
-        content="We're sorry. An error occurred when accessing your disability rating information."
+        headline="Total disabilities error"
+        content={message}
         status="error"
         isVisible
       />
     );
   } else if (!props.totalDisabilityRating) {
+    const message = (
+      <span>
+        <p>
+          We sorry. We can't find a disability rating matched with the name,
+          date of birth, and social secuity number you provided in our Veteran
+          records.
+        </p>
+        <h4>What you can do</h4>
+        <p>
+          If you feel your information is correct, please call the VA.gov
+          1-855-574-7286. We're here Monday through Friday, 8:00 a.m. to 8:00
+          p.m. (ET).
+        </p>
+      </span>
+    );
     content = (
       <AlertBox
-        headline="No info"
-        content="We don't have any disability rating for you."
+        headline="No total disabilities information"
+        content={message}
         status="info"
         isVisible
       />
@@ -66,13 +101,7 @@ const TotalRatedDisabilities = props => {
     );
   }
 
-  if (props.loading) {
-    return (
-      <LoadingIndicator message="Loading your total disability rating..." />
-    );
-  } else {
-    return <span>{content}</span>;
-  }
+  return <span>{content}</span>;
 };
 
 TotalRatedDisabilities.propTypes = {

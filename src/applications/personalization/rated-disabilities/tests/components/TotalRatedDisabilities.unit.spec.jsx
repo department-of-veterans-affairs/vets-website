@@ -14,5 +14,6 @@ describe('<TotalRatedDisabilities />', () => {
         .first()
         .hasClass('feature'),
     ).to.be.true;
+    wrapper.unmount();
   });
 });

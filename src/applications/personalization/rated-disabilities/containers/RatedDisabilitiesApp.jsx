@@ -11,6 +11,14 @@ import RatedDisabilityView from '../components/RatedDisabilityView';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 
 class RatedDisabilitiesApp extends React.Component {
+  state = {
+    total: {
+      loading: false,
+      error: false,
+      totalDisabilityRating: null,
+    },
+  };
+
   render() {
     const { ratedDisabilities } = this.props.ratedDisabilities;
     return (
@@ -23,9 +31,9 @@ class RatedDisabilitiesApp extends React.Component {
           verifyUrl={this.props.verifyUrl}
         >
           <TotalRatedDisabilities
-            totalDisabilityRating={null}
-            loading={false}
-            error={false}
+            totalDisabilityRating={this.state.total.totalDisabilityRating}
+            loading={this.state.total.loading}
+            error={this.state.total.error}
           />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
