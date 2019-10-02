@@ -53,7 +53,7 @@ export default {
   },
   ccProvider: {
     url: '/new-appointment/community-care-provider',
-    next: 'contactInfo',
+    next: 'ccPreferences',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -62,15 +62,25 @@ export default {
       return 'typeOfFacility';
     },
   },
+  ccPreferences: {
+    url: '/new-appointment/community-care-preferences',
+    next: 'contactInfo',
+    previous: 'ccProvider',
+  },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'visitType',
+    next: 'reasonForAppointment',
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },
+  reasonForAppointment: {
+    url: '/new-appointment/reason-appointment',
+    next: 'visitType',
+    previous: 'vaFacility',
+  },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    previous: 'vaFacility',
+    previous: 'reasonForAppointment',
     next: 'contactInfo',
   },
   contactInfo: {

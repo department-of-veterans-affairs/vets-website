@@ -45,6 +45,7 @@ class ReceiveTextMessages extends React.Component {
   }
 
   onChange = event => {
+    if (this.state.startedTransaction) return;
     if (this.state.lastTransaction) this.clearSuccess();
     this.setState({
       startedTransaction: true,
@@ -96,8 +97,8 @@ class ReceiveTextMessages extends React.Component {
             checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
             label={
               <span>
-                Receive text messages (SMS) for VA health care appointment
-                reminders.
+                Send me text message (SMS) reminders for my VA health care
+                appointments
               </span>
             }
             onValueChange={this.onChange}
@@ -121,7 +122,8 @@ export function mapStateToProps(state, ownProps) {
   const isPending = !!(transaction && isPendingTransaction(transaction));
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
-  const isTextable = !isEmpty && profileState.vet360.mobilePhone.isTextable;
+  const isTextable =
+    !isEmpty && profileState.vet360.mobilePhone.phoneType === 'MOBILE';
   const isVerified = !environment.isProduction() && profileState.verified;
   const hideCheckbox =
     environment.isProduction() ||

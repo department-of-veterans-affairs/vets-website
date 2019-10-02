@@ -1,16 +1,120 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import { VAFacilityPage } from '../../containers/VAFacilityPage';
 
 describe('VAOS <VAFacilityPage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const form = mount(<VAFacilityPage openFormPage={openFormPage} />);
+  const defaultSchema = {
+    type: 'object',
+    required: ['vaSystem', 'vaFacility'],
+    properties: {
+      vaSystem: {
+        type: 'string',
+        enum: ['983'],
+      },
+      vaFacility: {
+        type: 'string',
+        enum: ['983', '983GB'],
+      },
+    },
+  };
 
-    expect(form.find('input').length).to.equal(7);
+  it('should render loading', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage loadingSystems openFacilityPage={openFormPage} />,
+    );
+
+    expect(form.find('LoadingIndicator').exists()).to.be.true;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should render no systems message', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage noValidVASystems openFacilityPage={openFormPage} />,
+    );
+
+    expect(form.find('NoVASystems').exists()).to.be.true;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should render single facility message', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        singleValidVALocation
+        data={{}}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('VAFacilityInfoMessage').exists()).to.be.true;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    form.unmount();
+  });
+
+  it('should render form with facility loading message', () => {
+    const openFormPage = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        vaFacilityLoading: { type: 'string' },
+      },
+    };
+
+    const form = mount(
+      <VAFacilityPage
+        data={{ vaSystem: '123' }}
+        loadingFacilities
+        schema={schema}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(0);
+    expect(form.find('.loading-indicator').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render form with no facility message', () => {
+    const openFormPage = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        vaFacilityMessage: { type: 'string' },
+      },
+    };
+
+    const form = mount(
+      <VAFacilityPage
+        data={{ vaSystem: '123' }}
+        noValidVASystems
+        schema={schema}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(0);
+    expect(form.find('.usa-alert').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render form', () => {
+    const openFormPage = sinon.spy();
+    const form = mount(
+      <VAFacilityPage
+        data={{}}
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(3);
     form.unmount();
   });
 
@@ -20,7 +124,9 @@ describe('VAOS <VAFacilityPage>', () => {
 
     const form = mount(
       <VAFacilityPage
-        openFormPage={openFormPage}
+        data={{}}
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
     );
@@ -38,11 +144,12 @@ describe('VAOS <VAFacilityPage>', () => {
 
     const form = mount(
       <VAFacilityPage
-        openFormPage={openFormPage}
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{
-          vaSystem: 'DAYTSHR -Dayton VA Medical Center',
-          vaFacility: 'DAYTSHR -Dayton VA Medical Center',
+          vaSystem: '983',
+          vaFacility: '983',
         }}
       />,
     );
