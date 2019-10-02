@@ -5,36 +5,34 @@ import fullSchema from '../20-0996-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 // import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const { fullName, date, dateRange, usaPhone } = commonDefinitions;
+// Pages
+import veteranDetailsDescription from '../pages/confirmVeteranDetails';
+import {
+  uiSchema as contactInfoUiSchema,
+  schema as contactInfoSchema,
+} from '../pages/contactInfo';
 
-// Define all the fields in the form to aid reuse
-const formFields = {
-  fullName: 'fullName',
-  address: 'address',
-  email: 'email',
-  altEmail: 'altEmail',
-  phoneNumber: 'phoneNumber',
-};
+// TODO: Mock data - remove once API is connected
+import initialData from '../tests/schema/initialData';
 
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  confirmVeteranDetails: 'confirmVeteranDetails',
-  selectContestedIssues: 'selectContestedIssues',
-  addNotes: 'addNotes',
-  requestOriginalJurisdiction: 'requestOriginalJurisdiction',
-  // requestAnInformalConference: 'requestAnInformalConference',
-};
+const {
+  address,
+  phone,
+  date,
+  dateRange,
+  dateRangeFromRequired,
+  dateRangeAllRequired,
+} = fullSchema.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -54,50 +52,59 @@ const formConfig = {
   },
   title: 'Higher-Level Review',
   defaultDefinitions: {
-    fullName,
+    address,
+    phone,
     date,
     dateRange,
-    usaPhone,
+    dateRangeFromRequired,
+    dateRangeAllRequired,
+    veteranDetailsDescription,
   },
   chapters: {
-    confirmVeteranDetails: {
-      title: 'Confirm Veteran details',
+    veteranDetails: {
+      title: 'Personal information',
       pages: {
-        [formPages.confirmVeteranDetails]: {
-          path: 'confirm-veteran-details',
+        confirmVeteranDetails: {
           title: 'Confirm Veteran details',
+          path: 'veteran-details',
           uiSchema: {
-            [formFields.fullName]: fullNameUI,
+            'ui:description': veteranDetailsDescription,
           },
           schema: {
             type: 'object',
-            // required: [formFields.fullName],
-            properties: {
-              [formFields.fullName]: fullName,
-            },
+            properties: {},
           },
+          // showPagePerItem: true,
+          initialData: {
+            veteran: initialData,
+          },
+        },
+        confirmContactInfo: {
+          title: 'Contact information',
+          path: 'veteran-details/contact-information',
+          uiSchema: contactInfoUiSchema,
+          schema: contactInfoSchema,
+          initialData,
         },
       },
     },
     selectContestedIssues: {
-      title: 'Select your contested issues',
+      title: 'Issues selected',
       pages: {
-        [formPages.selectContestedIssues]: {
+        contestedIssues: {
           path: 'select-your-contested-issues',
           title: 'Select your contested issues',
           uiSchema: {
-            [formFields.address]: address.uiSchema('Mailing address'),
-            [formFields.email]: {
-              'ui:title': 'Primary email',
+            myIssues: {
+              'ui:title': 'My issues',
             },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.address]: address.schema(fullSchema, true),
-              [formFields.email]: {
+              myIssues: {
                 type: 'string',
-                format: 'email',
+                enum: ['First issue', 'Second issue'],
               },
             },
           },
@@ -105,22 +112,21 @@ const formConfig = {
       },
     },
     addNotes: {
-      title: 'Add notes',
+      title: 'Optional Notes',
       pages: {
-        [formPages.selectContestedIssues]: {
+        addNotes: {
           path: 'add-notes',
           title: 'Add notes (optional)',
           uiSchema: {
-            [formFields.altEmail]: {
-              'ui:title': 'Secondary email',
+            addNote: {
+              'ui:title': 'Notes (optional)',
             },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.altEmail]: {
+              addNote: {
                 type: 'string',
-                format: 'email',
               },
             },
           },
@@ -128,24 +134,54 @@ const formConfig = {
       },
     },
     requestOriginalJurisdiction: {
-      title: 'Request original jurisdiction',
+      title: 'Original jurisdiction',
       pages: {
-        [formPages.selectContestedIssues]: {
+        requestJurisdiction: {
           path: 'request-original-jurisdiction',
           title: 'Request original jurisdiction',
           uiSchema: {
-            [formFields.phoneNumber]: phoneUI('Daytime phone'),
+            jurisdiction: {
+              'ui:title': 'Name of Original Regional Office',
+            },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.phoneNumber]: usaPhone,
+              jurisdiction: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
+    requestInformalConference: {
+      title: 'Informal conference',
+      pages: {
+        requestConference: {
+          path: 'request-informal-conference',
+          title: 'Request an informal conference',
+          uiSchema: {
+            conference: {
+              'ui:title': 'Would you like to request an Informal Conference?',
+              'ui:widget': 'yesNo',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              conference: {
+                type: 'boolean',
+                default: true,
+              },
             },
           },
         },
       },
     },
   },
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;

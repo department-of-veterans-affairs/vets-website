@@ -26,41 +26,48 @@
 
 ### Confirm Veteran Details (Step 1)
 
-- [ ] Build form `confirmVeteranDetails` in `config/form.js`
+- [x] Build form `confirmVeteranDetails` in `config/form.js`
 - [ ] Get last 4 of SSN? Look for API entry.
-- [ ] Auto-fill contact info review (collapsed with edit button? - talk to design)
+- [x] Auto-fill contact info review (collapsed with edit button? - talk to design)
+- [ ] Add tests
 
 ### Select your contested issues (Step 2)
 
 - [ ] Build form `selectContestedIssues` in `config/form.js`
 - [ ] Get eligible issues API call?
 - [ ] Desination of "See all your issues" click?
+- [ ] Add tests
 
 ### Add notes (Step 3)
 
 - [ ] Build form `addNotes` in `config/form.js`
 - [ ] Awaiting design on if notes should be a textarea (not a blocker)
 - [ ] Always show "You can't submit any evidence"?
+- [ ] Add tests
 
 ### Request original jurisdiction (Step 4)
 
 - [ ] Build form `requestOriginalJurisdiction` in `config/form.js`
 - [ ] Blocked by design on how to deal with choosing regional office.
+- [ ] Add tests
 
 ### Request an informal conference (Step 5)
 
 - [ ] Build form `requestAnInformalConference` in `config/form.js`
 - [ ] Awaiting design on "Weekday" dropdown content
+- [ ] Add tests
 
 ### Submit your application (Step 6)
 
 - [ ] Build form in ?? (wording appears to be "Review and submit your
       application", can it be changed to match the design?)
 - [ ] Add privacy policy check
+- [ ] Add tests
 
 ### Confirmation page
 
 - [ ] Is there a design? This page was automaticaly added by the form builder.
+- [ ] Add tests
 
 ### Before Production
 - [ ] Check for, and remove, all console logs.
@@ -70,3 +77,4 @@
   - `src/applications/personalization/dashboard/helpers.jsx` ~line 146
 - [ ] Clear production flag in `config/form.js`.
 - [ ] Delete this to-do file.
+- [ ] Add e2e tests (only executes on production pages?)

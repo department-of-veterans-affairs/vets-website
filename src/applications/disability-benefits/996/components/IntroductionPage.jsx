@@ -14,8 +14,6 @@ import { WithdrawFromLegacySystem } from './WithdrawFromLegacySystem';
 
 import { BASE_URL } from '../constants';
 
-// import { VerifiedAlert } from '../helpers';
-
 class IntroductionPage extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +35,7 @@ class IntroductionPage extends React.Component {
     ) {
       window.location.replace(`${BASE_URL}/introduction`);
     }
+
     focusElement('.va-nav-breadcrumbs-list');
   }
 
@@ -63,7 +62,7 @@ class IntroductionPage extends React.Component {
     const isLoggedIn = user.login?.currentlyLoggedIn;
 
     return (
-      <div className="schemaform-intro">
+      <div id="form0996" className="schemaform-intro">
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
         {isLoggedIn && this.state.isInLegacySystem ? (
@@ -98,8 +97,6 @@ class IntroductionPage extends React.Component {
                 />
               </div>
             </CallToActionWidget>
-            <br />
-            <br />
           </>
         )}
       </div>

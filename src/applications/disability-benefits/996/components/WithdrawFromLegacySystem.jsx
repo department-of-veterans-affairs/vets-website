@@ -71,8 +71,6 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
           {/* TODO - make this link do something */}
           <a href="#">See all your contested issues</a>
         </p>
-        <br />
-        <br />
       </div>
     </>
   );
