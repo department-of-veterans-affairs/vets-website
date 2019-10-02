@@ -18,7 +18,8 @@ const initialSchema = {
   properties: {
     typeOfSleepCareId: {
       type: 'string',
-      enum: TYPES_OF_SLEEP_CARE,
+      enum: TYPES_OF_SLEEP_CARE.map(care => care.id),
+      enumNames: TYPES_OF_SLEEP_CARE.map(care => care.name),
     },
   },
 };

@@ -12,23 +12,16 @@ function RadioWidget({ option, checked, onChange, id }) {
         value={option.id}
         onChange={_ => onChange(option.id)}
       />
-      <label htmlFor={`${id}_${option.id}`}>
-        {option.name}{' '}
-        {option.id === '203' ? '(including hearing aid support)' : ''}
-      </label>
+      <label htmlFor={`${id}_${option.id}`}>{option.name}</label>
     </div>
   );
 }
 
-const PRIMARY_CARE = TYPES_OF_CARE.filter(
-  care => care.group === 'primary' && care.id !== 'CR1',
-);
+const PRIMARY_CARE = TYPES_OF_CARE.filter(care => care.group === 'primary');
 const MENTAL_HEALTH = TYPES_OF_CARE.filter(
   care => care.group === 'mentalHealth',
 );
-const SPECIALTY = TYPES_OF_CARE.filter(
-  care => care.group === 'specialty' && care.id !== '349',
-);
+const SPECIALTY = TYPES_OF_CARE.filter(care => care.group === 'specialty');
 
 export default function TypeOfCareField({ formData, onChange, idSchema }) {
   return (
