@@ -9,7 +9,7 @@ function updateRobots(buildOptions) {
     return () => {};
   }
 
-  return (files, smith, done) => {
+  return files => {
     // Derive the robots file.
     const robots = files['robots.txt'];
 
@@ -18,8 +18,6 @@ function updateRobots(buildOptions) {
 
     // eslint-disable-next-line
     console.log('Using the non-production robots.txt');
-
-    done();
   };
 }
 
