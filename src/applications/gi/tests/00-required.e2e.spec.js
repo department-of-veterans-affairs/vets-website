@@ -15,10 +15,7 @@ const thirdResult =
 const onlineOnlyRadio = '#radio-buttons-4-0';
 const inPersonOnlyRadio = '#radio-buttons-4-1';
 const inPersonAndOnlineRadio = '#radio-buttons-4-2';
-const vaRateRadio = '#radio-buttons-19-0';
-const dodRateRadio = '#radio-buttons-19-1';
-const vaRateRadioUS = '#radio-buttons-20-0';
-const dodRateRadioUS = '#radio-buttons-20-1';
+
 const deaEnrolledMax = 30;
 const housingRate =
   '#gbct_housing_allowance > div.small-6.columns.vads-u-text-align--right > h5';
@@ -108,17 +105,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   GiHelpers.verifyCh33(
     client,
-    dodRateRadio,
     `${GiHelpers.formatCurrencyHalf(
       GiHelpers.calculatorConstantsList.AVGDODBAH,
     )}/mo`,
-  );
-  GiHelpers.verifyCh33(
-    client,
-    vaRateRadio,
     `${GiHelpers.formatCurrencyHalf(
       GiHelpers.calculatorConstantsList.AVGVABAH,
     )}/mo`,
+    19,
   );
 
   // check Foreign DOD and VA rate for in person only
@@ -130,17 +123,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   GiHelpers.verifyCh33(
     client,
-    dodRateRadio,
     `${GiHelpers.formatCurrency(
       GiHelpers.calculatorConstantsList.AVGDODBAH,
     )}/mo`,
-  );
-  GiHelpers.verifyCh33(
-    client,
-    vaRateRadio,
     `${GiHelpers.formatCurrency(
       GiHelpers.calculatorConstantsList.AVGVABAH,
     )}/mo`,
+    20,
   );
 
   // check Foreign DOD and VA rate for In person and online
@@ -152,17 +141,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   GiHelpers.verifyCh33(
     client,
-    dodRateRadio,
     `${GiHelpers.formatCurrency(
       GiHelpers.calculatorConstantsList.AVGDODBAH,
     )}/mo`,
-  );
-  GiHelpers.verifyCh33(
-    client,
-    vaRateRadio,
     `${GiHelpers.formatCurrency(
       GiHelpers.calculatorConstantsList.AVGVABAH,
     )}/mo`,
+    20,
   );
 
   // check US DOD and VA rate for online only
@@ -174,17 +159,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   GiHelpers.verifyCh33(
     client,
-    dodRateRadioUS,
     `${GiHelpers.formatCurrencyHalf(
       GiHelpers.calculatorConstantsList.AVGDODBAH,
     )}/mo`,
-  );
-  GiHelpers.verifyCh33(
-    client,
-    vaRateRadioUS,
     `${GiHelpers.formatCurrencyHalf(
       GiHelpers.calculatorConstantsList.AVGVABAH,
     )}/mo`,
+    20,
   );
 
   // check US DOD and VA rate for in person only
@@ -196,15 +177,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   GiHelpers.verifyCh33(
     client,
-    dodRateRadioUS,
     `${GiHelpers.formatCurrency(
       GiHelpers.schools.data[1].attributes.dodBah,
     )}/mo`,
-  );
-  GiHelpers.verifyCh33(
-    client,
-    vaRateRadioUS,
     `${GiHelpers.formatCurrency(GiHelpers.schools.data[1].attributes.bah)}/mo`,
+    21,
   );
 
   // check US DOD and VA rate for in person and online
@@ -216,15 +193,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
   GiHelpers.verifyCh33(
     client,
-    dodRateRadioUS,
     `${GiHelpers.formatCurrency(
       GiHelpers.schools.data[1].attributes.dodBah,
     )}/mo`,
-  );
-  GiHelpers.verifyCh33(
-    client,
-    vaRateRadioUS,
     `${GiHelpers.formatCurrency(GiHelpers.schools.data[1].attributes.bah)}/mo`,
+    21,
   );
 
   client.end();
