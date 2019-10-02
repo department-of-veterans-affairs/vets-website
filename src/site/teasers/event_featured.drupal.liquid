@@ -91,6 +91,7 @@ views",
   <div class="usa-width-five-sixths">
     <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
       <a
+        onClick="recordEvent({ event: 'nav-featured-content-link-click' });"
         href="{{ node.fieldFacilityLocation.entity.entityUrl.path }}">{{ node.fieldFacilityLocation.entity.title }}</a>
     </p>
     {% if node.fieldLocationHumanreadable != empty %}

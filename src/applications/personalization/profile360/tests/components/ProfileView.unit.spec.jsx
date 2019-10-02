@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import ProfileView from '../../components/ProfileView';
+import { ProfileView } from '../../components/ProfileView';
 
 describe('<ProfileView/>', () => {
   let props = null;
@@ -21,7 +21,7 @@ describe('<ProfileView/>', () => {
     };
   });
 
-  it('should render the profile when the user is verifed and status OK', () => {
+  it('should render the profile when the user is verified and status OK', () => {
     const wrapper = enzyme.shallow(<ProfileView {...props} />);
     expect(wrapper.find('Hero')).to.have.lengthOf(1);
     expect(wrapper.find('ContactInformation')).to.have.lengthOf(1);
