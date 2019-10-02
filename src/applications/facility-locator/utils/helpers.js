@@ -118,9 +118,6 @@ export const formatOperatingHours = (operatingHours = 'N/A - N/A') => {
   // Remove all whitespace.
   const sanitizedOperatingHours = replace(operatingHours, ' ', '');
 
-  // eslint-disable-next-line
-  debugger;
-
   // Escape early if it is 'Sunrise - Sunset'.
   if (toLower(sanitizedOperatingHours) === 'sunrise-sunset') {
     return 'All Day';
