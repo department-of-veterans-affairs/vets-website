@@ -41,5 +41,27 @@ describe('Api Helper', () => {
         }),
       ).to.be.true;
     });
+
+    describe('with query params', () => {
+      it('makes a GET request with a single query param', async () => {
+        await api.get.appointments({ foo: 'bar' });
+
+        expect(
+          global.fetch.calledWith(`${host}/appointments?foo=bar`, {
+            method: 'GET',
+          }),
+        ).to.be.true;
+      });
+
+      it('makes a GET request with a multiple params', async () => {
+        await api.get.appointments({ foo: 'bar', hello: 'world' });
+
+        expect(
+          global.fetch.calledWith(`${host}/appointments?foo=bar&hello=world`, {
+            method: 'GET',
+          }),
+        ).to.be.true;
+      });
+    });
   });
 });
