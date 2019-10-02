@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+import vet360 from 'vet360/reducers';
 
 import _ from 'lodash/fp';
 import {
@@ -236,4 +237,5 @@ function letters(state = initialState, action) {
 
 export default {
   letters,
+  vet360
 };
