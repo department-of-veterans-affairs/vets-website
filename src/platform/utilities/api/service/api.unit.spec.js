@@ -90,4 +90,18 @@ describe('Api Helper', () => {
       ).to.be.true;
     });
   });
+
+  describe('PATCH requests', () => {
+    it('makes a PATCH request', async () => {
+      const data = { address: '123 Red rd' };
+      await api.patch.veterans['john-doe'](data);
+
+      expect(
+        global.fetch.calledWith(`${host}/veterans/john-doe`, {
+          method: 'PATCH',
+          body: JSON.stringify(data),
+        }),
+      ).to.be.true;
+    });
+  });
 });
