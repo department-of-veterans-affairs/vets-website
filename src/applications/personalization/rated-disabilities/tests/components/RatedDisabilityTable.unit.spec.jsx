@@ -28,12 +28,17 @@ describe('<RatedDisabilityTable/>', () => {
       },
     ],
   };
-  const fetchRatedDisabilities = sinon.spy();
+  const fetchRatedDisabilities = () => {};
   it('should render', () => {
+    const stub = sinon.stub(
+      RatedDisabilityTable.prototype,
+      'componentDidMount',
+    );
     const wrapper = shallow(
       <RatedDisabilityTable
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
+        componentDidMount={stub}
       />,
     );
     expect(
@@ -42,7 +47,7 @@ describe('<RatedDisabilityTable/>', () => {
         .first()
         .hasClass('vads-u-width--full'),
     ).to.be.true;
-    expect(fetchRatedDisabilities.calledOnce).to.be.true;
+    expect(stub.calledOnce).to.be.true;
     wrapper.unmount();
   });
   it('should convert disability data into a readable format', () => {
