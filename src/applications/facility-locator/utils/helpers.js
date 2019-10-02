@@ -1,3 +1,7 @@
+// Dependencies
+import moment from 'moment';
+import { first, includes, last, replace, split, toLower } from 'lodash';
+
 export const setFocus = selector => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
@@ -99,4 +103,66 @@ export const validateIdString = (urlObj, urlPrefixString) => {
   const validString = urlObj.match(unparsedString);
 
   return validString;
+};
+
+/**
+ *
+ * @param {String} operatingHours '800AM-500PM' or 'Sunrise - Sunset', etc.
+ *
+ * Formats an operating hours string to be more legible.
+ *
+ * @returns {String} Formatted operating hours, like '8:00am - 5:00pm' or 'All Day', etc.
+ *
+ */
+export const formatOperatingHours = (operatingHours = 'N/A - N/A') => {
+  // Remove all whitespace.
+  const sanitizedOperatingHours = replace(operatingHours, ' ', '');
+
+  // eslint-disable-next-line
+  debugger;
+
+  // Escape early if it is 'Sunrise - Sunset'.
+  if (toLower(sanitizedOperatingHours) === 'sunrise-sunset') {
+    return 'All Day';
+  }
+
+  // Derive if the hours are closed.
+  const isClosed =
+    sanitizedOperatingHours === '-' ||
+    includes(toLower(sanitizedOperatingHours), 'close');
+
+  // Escape early if it is '-' or 'Closed'.
+  if (isClosed) {
+    return 'Closed';
+  }
+
+  // Derive the opening and closing hours.
+  const hours = split(sanitizedOperatingHours, '-');
+  const openingHour = first(hours);
+  const closingHour = last(hours);
+
+  // Format the hours based on 'hmmA' format.
+  let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mma');
+  let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mma');
+
+  // Attempt to format the hours based on 'h:mmA' if theere's a colon.
+  if (includes(openingHour, ':')) {
+    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mma');
+  }
+  if (includes(closingHour, ':')) {
+    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mma');
+  }
+
+  // Derive the formatted operating hours.
+  let formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
+
+  // Swap 'Invalid date' with 'N/A' for legibility.
+  formattedOperatingHours = replace(
+    formattedOperatingHours,
+    /Invalid date/g,
+    'N/A',
+  );
+
+  // Return the formatted operating hours.
+  return formattedOperatingHours;
 };
