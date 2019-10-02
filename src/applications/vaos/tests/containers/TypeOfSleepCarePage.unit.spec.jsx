@@ -61,9 +61,9 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_typeOfSleepCareId', 'CPAP');
+    selectRadio(form, 'root_typeOfSleepCareId', '349');
 
-    expect(updateFormData.firstCall.args[2].typeOfSleepCareId).to.equal('CPAP');
+    expect(updateFormData.firstCall.args[2].typeOfSleepCareId).to.equal('349');
     form.unmount();
   });
 
@@ -75,7 +75,7 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
       <TypeOfSleepCarePage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ typeOfSleepCareId: 'CPAP' }}
+        data={{ typeOfSleepCareId: '349' }}
       />,
     );
 
