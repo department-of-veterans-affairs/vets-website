@@ -832,5 +832,5 @@ export default {
   249479: 'Cyst/Benign Growth - Heart/Veins/Arteries',
   249480: 'Cyst/Benign Growth - Hemic and Lymphatic',
   249481: 'Dental and Oral - Musculoskeletal',
-  249482: 'Musculoskeletal - Bones'
+  249482: 'Musculoskeletal - Bones',
 };
