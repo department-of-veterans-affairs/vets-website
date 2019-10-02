@@ -31,10 +31,13 @@ export default class FacilityPhone extends React.Component {
         <div className="mental-health-clinic-phone">
           <strong>Mental health clinic: </strong>
           <a
-            href={`tel:${this.props.facility.attributes.phone.mentalHealthClinic.replace(
-              /[ ]?x/,
-              '',
-            )}`}
+            href={`tel:${
+              // this replaces an "x" that appears from the api data with a space
+              this.props.facility.attributes.phone.mentalHealthClinic.replace(
+                /[ ]?x/,
+                '',
+              )
+            }`}
           >
             {this.props.facility.attributes.phone.mentalHealthClinic.replace(
               /[ ]?x/,
