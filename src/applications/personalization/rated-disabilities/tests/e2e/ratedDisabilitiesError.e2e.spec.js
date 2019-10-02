@@ -1,8 +1,9 @@
-const E2eHelpers = require('platform/testing/e2e/helpers');
-const Timeouts = require('platform/testing/e2e/timeouts');
 const Auth = require('platform/testing/e2e/auth');
-const Mock = require('platform/testing/e2e/mock-helpers');
+const E2eHelpers = require('platform/testing/e2e/helpers');
 const ErrorMockData = require('../mockdata/error-response.json');
+const manifest = require('../../manifest.json');
+const Mock = require('platform/testing/e2e/mock-helpers');
+const Timeouts = require('platform/testing/e2e/timeouts');
 
 function runRatedDisabilitiesTest(browser) {
   browser.assert.containsText(
@@ -38,3 +39,5 @@ function begin(browser) {
 }
 
 module.exports = E2eHelpers.createE2eTest(begin);
+module.exports['@disabled'] =
+  manifest.template[process.env.BUILDTYPE] === false;
