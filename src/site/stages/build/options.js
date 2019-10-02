@@ -31,6 +31,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'asset-source', type: String, defaultValue: assetSources.LOCAL },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'pull-drupal', type: Boolean, defaultValue: false },
+  { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,
@@ -46,6 +47,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     type: String,
     defaultValue: process.env.DRUPAL_PASSWORD,
   },
+  { name: 'no-drupal-proxy', type: Boolean, defaultValue: false },
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },

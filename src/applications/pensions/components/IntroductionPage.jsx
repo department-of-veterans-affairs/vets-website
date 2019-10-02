@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for Veterans pension benefits" />
+        <FormTitle title="Apply for Veterans Pension benefits" />
         <p>Equal to VA Form 21P-527EZ (Application for Pension).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -23,7 +23,7 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
           startText="Start the pension application"
         />
-        <h4>Follow the steps below to apply for a Veterans pension.</h4>
+        <h4>Follow the steps below to apply for a Veterans Pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">
@@ -115,7 +115,7 @@ class IntroductionPage extends React.Component {
                 </a>
                 .
               </p>
-              <h6>Learn about Veterans pension rates</h6>
+              <h6>Apply for Veterans Pension benefits</h6>
               <a href="/pension/veterans-pension-rates/" target="_blank">
                 Find out how we decide pension rates
               </a>

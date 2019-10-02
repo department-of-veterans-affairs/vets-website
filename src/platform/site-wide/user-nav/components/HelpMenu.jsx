@@ -3,6 +3,7 @@ import React from 'react';
 
 import DropDownPanel from '@department-of-veterans-affairs/formation-react/DropDownPanel';
 import IconHelp from '@department-of-veterans-affairs/formation-react/IconHelp';
+import recordEvent from '../../../../platform/monitoring/record-event';
 
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 import facilityLocatorManifest from '../../../../applications/facility-locator/manifest.json';
@@ -33,6 +34,7 @@ class HelpMenu extends React.Component {
 
     return (
       <DropDownPanel
+        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Contact us"
         clickHandler={this.props.clickHandler}
         cssClass={this.props.cssClass}

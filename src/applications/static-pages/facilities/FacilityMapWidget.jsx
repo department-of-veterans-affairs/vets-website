@@ -75,7 +75,12 @@ export class FacilityMapWidget extends React.Component {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img className="facility-img" src={mapUrl} alt="Static map" />
+          <div className="va-c-position--relative vads-u-display--inline-block">
+            <span className="vads-u-margin-right--1p5 vads-u-margin-top--1p5 vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center expand-image-button va-c-position--absolute va-c-position-top-right-corner vads-u-justify-content--center">
+              <i className="fas fa-expand-arrows-alt" />
+            </span>
+            <img className="facility-img" src={mapUrl} alt="Static map" />
+          </div>
         </a>
       </div>
     );
