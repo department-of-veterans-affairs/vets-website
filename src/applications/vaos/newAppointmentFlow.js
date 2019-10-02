@@ -4,6 +4,9 @@ import {
   getTypeOfCare,
 } from './utils/selectors';
 
+import mockClinicList from './actions/clinicList983.json';
+import mockPastAppts from './actions/pastAppointments983.json';
+
 const AUDIOLOGY = '203';
 const DISABLED_LIMIT_VALUE = 0;
 
@@ -12,6 +15,52 @@ function isCCAudiology(state) {
     getFormData(state).facilityType === 'communityCare' &&
     getFormData(state).typeOfCareId === AUDIOLOGY
   );
+}
+
+function mockFetchPastVisits(url) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        durationInMonths: 24,
+        hasVisitedInPastMonths: url.includes('984'),
+      });
+    }, 500);
+  });
+}
+
+function mockFetchRequestLimit(url) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        requestLimit: 1,
+        numberOfRequests: url.includes('984') ? 1 : 0,
+      });
+    }, 500);
+  });
+}
+
+function mockFetchClinics(url) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (url.includes('983')) {
+        resolve(mockClinicList);
+      } else {
+        resolve([]);
+      }
+    }, 500);
+  });
+}
+
+function mockFetchPastAppointments(url) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (url.includes('983')) {
+        resolve(mockPastAppts);
+      } else {
+        resolve([]);
+      }
+    }, 500);
+  });
 }
 
 export default {
