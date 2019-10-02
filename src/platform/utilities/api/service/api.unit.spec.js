@@ -104,4 +104,14 @@ describe('Api Helper', () => {
       ).to.be.true;
     });
   });
+
+  describe('Unsupported HTTP method', () => {
+    it('throws an error', () => {
+      expect(() => {
+        api.corrupt.veterans();
+      }).to.throw(
+        'Unsupported HTTP method: corrupt.  Try one of: get/post/delete/patch instead',
+      );
+    });
+  });
 });
