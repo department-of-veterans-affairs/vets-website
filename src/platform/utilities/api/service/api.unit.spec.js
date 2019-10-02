@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import api from './index.js';
+import api, { constructUrl } from './index.js';
 import { mockFetch } from '../../../testing/unit/helpers';
 
 const host = '/v0';
@@ -112,6 +112,38 @@ describe('Api Helper', () => {
       }).to.throw(
         'Unsupported HTTP method: corrupt.  Try one of: get/post/delete/patch instead',
       );
+    });
+  });
+});
+
+describe('Helper functions', () => {
+  describe('constructUrl', () => {
+    it('builds a url for a basic GET', () => {
+      const chunks = ['employees', 'harry-potter'];
+
+      expect(constructUrl('GET', chunks)).to.equal(
+        '/v0/employees/harry-potter',
+      );
+    });
+
+    it('encodes query params for GET requests', () => {
+      const chunks = ['animals', 'dogs'];
+      const params = { color: 'brown', age: 2 };
+
+      expect(constructUrl('GET', chunks, params)).to.equal(
+        '/v0/animals/dogs?color=brown&age=2',
+      );
+    });
+
+    it('allows a single numeric id to be appended to requests', () => {
+      const chunks = ['players'];
+
+      expect(constructUrl('GET', chunks, 1)).to.equal('/v0/players/1');
+
+      // it doesn't make sense to POST like this, but it doesn;t seem harmful
+      expect(constructUrl('POST', chunks, 4)).to.equal('/v0/players/4');
+      expect(constructUrl('DELETE', chunks, 9)).to.equal('/v0/players/9');
+      expect(constructUrl('PATCH', chunks, 24)).to.equal('/v0/players/24');
     });
   });
 });
