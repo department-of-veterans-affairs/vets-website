@@ -78,4 +78,16 @@ describe('Api Helper', () => {
       ).to.be.true;
     });
   });
+
+  describe('DELETE requests', () => {
+    it('makes a DELETE request', async () => {
+      await api.delete.appointments(1);
+
+      expect(
+        global.fetch.calledWith(`${host}/appointments/1`, {
+          method: 'DELETE',
+        }),
+      ).to.be.true;
+    });
+  });
 });
