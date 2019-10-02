@@ -6,8 +6,6 @@ const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts');
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
-// let radioID = 19;
-
 const housingRate =
   '#gbct_housing_allowance > div.small-6.columns.vads-u-text-align--right > h5';
 
@@ -43,7 +41,6 @@ function verifyCh33(client, expectedRateDOD, expectedRateVA, radioID) {
     .click(`#radio-buttons-${radioID}-1`)
     .waitForElementVisible(housingRate, Timeouts.normal)
     .assert.containsText(housingRate, expectedRateDOD);
-  // radioID++;
 }
 // Selects DEA as benefit type, searches for schools in washington dc, checks the housing rate of the expected result, and clicks the expected result
 function searchAsDEA(client, expectedResult, resultRate, expectedRate) {
