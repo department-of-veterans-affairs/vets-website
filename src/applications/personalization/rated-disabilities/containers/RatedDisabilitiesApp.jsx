@@ -12,7 +12,7 @@ import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 
 class RatedDisabilitiesApp extends React.Component {
   
-  componentDidMount() {
+  componentDidUpdate() {
     this.props.fetchTotalDisabilityRating();
     console.log(this.props.totalRatingData);
   }
@@ -30,8 +30,8 @@ class RatedDisabilitiesApp extends React.Component {
         >
           <TotalRatedDisabilities
             //totalDisabilityRating={this.state.total.totalDisabilityRating}
-            //loading={this.state.total.loading}
-            //error={this.state.total.error}
+            loading={this.props.loading}
+            error={this.props.error}
           />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
@@ -47,7 +47,8 @@ class RatedDisabilitiesApp extends React.Component {
 const mapStateToProps = state => ({
   user: state.user,
   ratedDisabilities: state.ratedDisabilities,
-  totalRatingData: state,
+  loading: state.totalRating.loading,
+  error: state.totalRating.error,
 });
 
 const mapDispatchToProps = {

@@ -5,14 +5,18 @@ export const FETCH_RATED_DISABILITIES_SUCCESS =
 export const FETCH_RATED_DISABILITIES_FAILED =
   'FETCH_RATED_DISABILITIES_FAILED';
 
-export const FETCH_TOTAL_RATING_REQUEST = 
-'FETCH_TOTAL_RATING_REQUEST';
+export const FETCH_TOTAL_RATING_SUCCESS = 
+  'FETCH_TOTAL_RATING_SUCCESS';
+export const FETCH_TOTAL_RATING_FAILED = 
+  'FETCH_TOTAL_RATING_FAILED';
 
 export function fetchRatedDisabilities() {
   return async dispatch => {
     const response = await getData(
       '/disability_compensation_form/rated_disabilities',
     );
+
+    console.log(response);
 
     if (response.errors) {
       // record event here
@@ -31,11 +35,23 @@ export function fetchRatedDisabilities() {
 
 
 export function fetchTotalDisabilityRating() {
-  return function(dispatch) {
-    dispatch({
-      type: 'FETCH_TOTAL_RATING_REQUEST',
+  return async dispatch => {
+    const response = await getData(
+      '/disability_compensation_form/rated_disabilities',
+    );
+
+    if (response.errors) {
+      // record event here
+      dispatch({
+        type: FETCH_TOTAL_RATING_FAILED,
+        response,
+      });
+    } else {
+      dispatch({
+        type: FETCH_TOTAL_RATING_SUCCESS,
+        response,
+      });
     }
-    )
-  }
+  };
 };
 
