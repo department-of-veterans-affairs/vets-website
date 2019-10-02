@@ -6,19 +6,13 @@ import { systemDownMessage } from '../../../platform/static-data/error-messages'
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound } from '../utils/helpers';
 
-import {
-  getLetterListAndBSLOptions,
-  getMailingAddress,
-  getAddressCountries,
-  getAddressStates,
-} from '../actions/letters';
+import { getLetterListAndBSLOptions } from '../actions/letters';
 
 const {
   awaitingResponse,
   available,
   backendServiceError,
   backendAuthenticationError,
-  invalidAddressProperty,
   unavailable,
   letterEligibilityError,
 } = AVAILABILITY_STATUSES;
@@ -26,23 +20,11 @@ const {
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getLetterListAndBSLOptions();
-    this.props.getMailingAddress();
-    this.props.getAddressCountries();
-    this.props.getAddressStates();
   }
 
-  appAvailability(lettersAvailability, addressAvailability) {
-    // If letters are available, but address is still awaiting response, consider the entire app to still be awaiting response
-    if (
-      lettersAvailability === awaitingResponse ||
-      addressAvailability === awaitingResponse
-    ) {
+  appAvailability(lettersAvailability) {
+    if (lettersAvailability === awaitingResponse) {
       return awaitingResponse;
-    }
-
-    // If address isn't available, take the whole system down
-    if (addressAvailability === unavailable) {
-      return backendServiceError;
     }
 
     return lettersAvailability;
@@ -53,8 +35,7 @@ export class Main extends React.Component {
 
     switch (
       this.appAvailability(
-        this.props.lettersAvailability,
-        this.props.addressAvailability,
+        this.props.lettersAvailability
       )
     ) {
       case available:
@@ -71,7 +52,6 @@ export class Main extends React.Component {
         break;
       case unavailable: // fall-through to default
       case backendServiceError: // fall-through to default
-      case invalidAddressProperty: // fall-through to default
       default:
         appContent = systemDownMessage;
         break;
@@ -86,8 +66,6 @@ function mapStateToProps(state) {
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
-    address: letterState.address,
-    addressAvailability: letterState.addressAvailability,
     benefitSummaryOptions: {
       benefitInfo: letterState.benefitInfo,
       serviceInfo: letterState.serviceInfo,
@@ -99,10 +77,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   // getBenefitSummaryOptions,
   // getLetterList,
-  getLetterListAndBSLOptions,
-  getMailingAddress,
-  getAddressCountries,
-  getAddressStates,
+  getLetterListAndBSLOptions
 };
 
 export default connect(
