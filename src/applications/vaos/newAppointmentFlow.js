@@ -59,7 +59,7 @@ function mockFetchPastAppointments(url) {
       } else {
         resolve([]);
       }
-    }, 500);
+    }, 6000);
   });
 }
 
