@@ -6,13 +6,13 @@ import { mockFetch } from '../../../testing/unit/helpers';
 const host = '/v0';
 
 describe('Api Helper', () => {
+  mockFetch({
+    ok: true,
+    json() {},
+  });
+
   describe('GET requests', () => {
     it('makes a basic GET request', async () => {
-      mockFetch({
-        ok: true,
-        json() {},
-      });
-
       await api.get.veterans(); // Equivalent to resource#index
 
       expect(
@@ -62,6 +62,20 @@ describe('Api Helper', () => {
           }),
         ).to.be.true;
       });
+    });
+  });
+
+  describe('POST requests', () => {
+    it('makes a basic POST request', async () => {
+      const veteran = { name: 'John Doe' };
+      await api.post.veterans(veteran);
+
+      expect(
+        global.fetch.calledWith(`${host}/veterans`, {
+          method: 'POST',
+          body: JSON.stringify(veteran),
+        }),
+      ).to.be.true;
     });
   });
 });
