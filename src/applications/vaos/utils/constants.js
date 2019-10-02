@@ -27,7 +27,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '160',
-    name: 'Clinical pharmacy primary care',
+    name: 'Pharmacy',
     group: 'primary',
   },
   {
@@ -37,7 +37,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '502',
-    name: 'Outpatient mental health',
+    name: 'Mental health',
     group: 'mentalHealth',
   },
   {
@@ -91,10 +91,12 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '143',
-    name: 'Sleep medicine and home sleep testing',
+    name: 'Sleep medicine',
     group: 'specialty',
   },
 ];
+
+export const TYPES_OF_SLEEP_CARE = ['CPAP', 'Home sleep study'];
 
 export const LANGUAGES = [
   {

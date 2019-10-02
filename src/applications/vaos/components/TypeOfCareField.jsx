@@ -12,16 +12,23 @@ function RadioWidget({ option, checked, onChange, id }) {
         value={option.id}
         onChange={_ => onChange(option.id)}
       />
-      <label htmlFor={`${id}_${option.id}`}>{option.name}</label>
+      <label htmlFor={`${id}_${option.id}`}>
+        {option.name}{' '}
+        {option.id === '203' ? '(including hearing aid support)' : ''}
+      </label>
     </div>
   );
 }
 
-const PRIMARY_CARE = TYPES_OF_CARE.filter(care => care.group === 'primary');
+const PRIMARY_CARE = TYPES_OF_CARE.filter(
+  care => care.group === 'primary' && care.id !== 'CR1',
+);
 const MENTAL_HEALTH = TYPES_OF_CARE.filter(
   care => care.group === 'mentalHealth',
 );
-const SPECIALTY = TYPES_OF_CARE.filter(care => care.group === 'specialty');
+const SPECIALTY = TYPES_OF_CARE.filter(
+  care => care.group === 'specialty' && care.id !== '349',
+);
 
 export default function TypeOfCareField({ formData, onChange, idSchema }) {
   return (
@@ -46,7 +53,6 @@ export default function TypeOfCareField({ formData, onChange, idSchema }) {
         <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
           Mental and behavioral health
         </legend>
-        Including outpatient mental health and social services
         {MENTAL_HEALTH.map(care => (
           <RadioWidget
             key={care.id}
@@ -61,7 +67,6 @@ export default function TypeOfCareField({ formData, onChange, idSchema }) {
         <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
           Specialty care
         </legend>
-        Including hearing aid support and some other types of specialty care
         {SPECIALTY.map(care => (
           <RadioWidget
             key={care.id}
