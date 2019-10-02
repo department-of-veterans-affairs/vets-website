@@ -26,7 +26,7 @@ function begin(browser) {
         browser,
         '/disability/my-rated-disabilities',
         3,
-      ).waitForElementVisible('.vads-u-font-size--h3', Timeouts.slow);
+      ).waitForElementVisible('.vads-u-font-size--h3', Timeouts.verySlow);
     });
     browser.pause(Timeouts.slow);
     runRatedDisabilitiesTest(browser);

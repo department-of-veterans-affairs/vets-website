@@ -29,7 +29,7 @@ function begin(browser) {
         browser,
         '/disability/my-rated-disabilities',
         3,
-      ).waitForElementVisible('.usa-alert-heading', Timeouts.slow);
+      ).waitForElementVisible('.usa-alert-heading', Timeouts.verySlow);
     });
     browser.pause(Timeouts.slow);
     runRatedDisabilitiesTest(browser);
