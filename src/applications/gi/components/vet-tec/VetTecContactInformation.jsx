@@ -44,7 +44,7 @@ export const VetTecContactInformation = ({ institution }) => (
     {/* Production flag for 19534 */}
     {!environment.isProduction() &&
       institution.schoolCertifyingOfficials[0] && (
-        <React.Fragment>
+        <div>
           <div className="vads-u-margin-top--4">
             <h3>School certifying officials</h3>
           </div>
@@ -60,7 +60,7 @@ export const VetTecContactInformation = ({ institution }) => (
                 </div>
               ),
           )}
-        </React.Fragment>
+        </div>
       )}
   </div>
 );
