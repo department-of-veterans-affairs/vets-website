@@ -21,5 +21,25 @@ describe('Api Helper', () => {
         }),
       ).to.be.true;
     });
+
+    it('makes a nested GET request', async () => {
+      await api.get.employees.current(); // Equivalent to resource#current
+
+      expect(
+        global.fetch.calledWith(`${host}/employees/current`, {
+          method: 'GET',
+        }),
+      ).to.be.true;
+    });
+
+    it('makes a GET request for single resource', async () => {
+      await api.get.veterans(5); // Equivalent to resource#show
+
+      expect(
+        global.fetch.calledWith(`${host}/veterans/5`, {
+          method: 'GET',
+        }),
+      ).to.be.true;
+    });
   });
 });
