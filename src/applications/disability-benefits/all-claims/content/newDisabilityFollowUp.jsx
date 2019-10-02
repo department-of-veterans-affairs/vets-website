@@ -48,6 +48,8 @@ export class CauseTitle extends React.Component {
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {typeof formData.condition === 'string' ? capitalizeEachWord(formData.condition) : NULL_CONDITION_STRING}
+    {typeof formData.condition === 'string'
+      ? capitalizeEachWord(formData.condition)
+      : NULL_CONDITION_STRING}
   </legend>
 );

@@ -17,7 +17,11 @@ export const disabilityOption = ({ name, ratingPercentage }) => {
 
   return (
     <div>
-      <h4>{typeof name === 'string' ? capitalizeEachWord(name) : NULL_CONDITION_STRING}</h4>
+      <h4>
+        {typeof name === 'string'
+          ? capitalizeEachWord(name)
+          : NULL_CONDITION_STRING}
+      </h4>
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
