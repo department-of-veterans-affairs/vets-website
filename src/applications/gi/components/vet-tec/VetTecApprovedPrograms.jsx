@@ -9,20 +9,21 @@ import { formatCurrency } from '../../utils/helpers';
 class VetTecApprovedPrograms extends React.Component {
   constructor(props) {
     super(props);
-    const selectedProgram = props.preSelectedProgram
-      ? props.preSelectedProgram
-      : 0;
-    this.state = { selectedProgram };
+    this.state = { selectedProgram: props.preSelectedProgram };
   }
 
   componentDidUpdate() {
-    const index = this.state.selectedProgram;
-    const field = 'vetTecProgram';
-    const value = {
-      vetTecTuitionFees: this.props.institution.programs[index].tuitionAmount,
-      vetTecProgramName: this.props.institution.programs[index].description,
-    };
-    this.props.calculatorInputChange({ field, value });
+    const program = this.props.institution.programs.find(
+      p => p.description === this.state.selectedProgram,
+    );
+    if (program) {
+      const field = 'vetTecProgram';
+      const value = {
+        vetTecTuitionFees: program.tuitionAmount,
+        vetTecProgramName: program.description,
+      };
+      this.props.calculatorInputChange({ field, value });
+    }
   }
 
   handleInputChange = (event, index, vetTecProgramName) => {
@@ -31,7 +32,7 @@ class VetTecApprovedPrograms extends React.Component {
       vetTecTuitionFees,
       vetTecProgramName,
     };
-    this.setState({ selectedProgram: index });
+    this.setState({ selectedProgram: vetTecProgramName });
     this.props.calculatorInputChange({ field, value });
   };
 
@@ -46,9 +47,7 @@ class VetTecApprovedPrograms extends React.Component {
               <input
                 id={`radio-${index}`}
                 name="vetTecProgram"
-                checked={
-                  index.toString() === this.state.selectedProgram.toString()
-                }
+                checked={program.description === this.state.selectedProgram}
                 className="gids-radio-buttons-input"
                 type="radio"
                 value={program.tuitionAmount}
