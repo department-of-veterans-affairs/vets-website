@@ -16,4 +16,14 @@ describe('<TotalRatedDisabilities />', () => {
     ).to.be.true;
     wrapper.unmount();
   });
+
+  it('displays a loading indicator while loading', () => {
+    const wrapper = shallow(
+      <TotalRatedDisabilities loading={true} totalDisabilityRating={80} />
+    );
+    expect(
+      wrapper
+      .find('.loading-indicator-container')
+    ).to.exist;
+  });
 });

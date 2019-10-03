@@ -12,9 +12,8 @@ import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 
 class RatedDisabilitiesApp extends React.Component {
   
-  componentDidUpdate() {
+  componentDidMount() {
     this.props.fetchTotalDisabilityRating();
-    console.log(this.props.totalRatingData);
   }
 
   render() {
@@ -29,7 +28,7 @@ class RatedDisabilitiesApp extends React.Component {
           verifyUrl={this.props.verifyUrl}
         >
           <TotalRatedDisabilities
-            //totalDisabilityRating={this.state.total.totalDisabilityRating}
+            totalDisabilityRating={this.props.totalDisabilityRating}
             loading={this.props.loading}
             error={this.props.error}
           />

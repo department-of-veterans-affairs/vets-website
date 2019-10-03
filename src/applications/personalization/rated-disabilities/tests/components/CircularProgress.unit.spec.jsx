@@ -12,15 +12,16 @@ describe('<CircularProgress />', () => {
         .first()
         .hasClass('circular-progress'),
     ).to.be.true;
+    wrapper.unmount();
   });
 
-  it('Should render the total disability percentage text', () => {
-    const wrapper = shallow(<CircularProgress percentage={80} />);
+  it('should show the percentage text', () => {
+    const wrapper = shallow(<CircularProgress percentage={80}/>);
     expect(
       wrapper
-        .find('.disability-rating')
-        .first()
-        .text(),
-    ).to.contain('80%');
+      .find('.disability-rating')
+      .first()
+      .text()
+      ).to.contain('80%');
   });
 });

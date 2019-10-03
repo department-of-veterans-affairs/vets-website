@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../sass/circular-progress.scss';
 
 const CircularProgress = props => {
   // numbers used to set the stroke-dasharray, the props.percentage passed in translates to the percentage of the progress bar filled

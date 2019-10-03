@@ -1,5 +1,3 @@
-import set from 'platform/utilities/data/set';
-
 import { FETCH_TOTAL_RATING_SUCCESS, FETCH_TOTAL_RATING_FAILED } from '../actions/index';
 
 const initialState = {
@@ -20,6 +18,8 @@ const initialState = {
             return {
                 ...state,
                 loading: false,
+                error: false,
+                totalDisabilityRating: 65,// to be replaced with response payload
             };
         default:
             return state;
