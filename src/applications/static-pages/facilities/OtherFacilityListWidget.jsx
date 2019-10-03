@@ -2,7 +2,7 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
-import { sortFacilitiesByName } from './facilityUtilities';
+import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
 
 export default class OtherFacilityListWidget extends React.Component {
@@ -65,7 +65,7 @@ export default class OtherFacilityListWidget extends React.Component {
                   <a
                     href={`tel:${
                       // this replaces an "x" that appears from the api data with a space
-                      facility.attributes.phone.main.replace(/[ ]?x/, '')
+                      cleanPhoneNumber(facility.attributes.phone.main)
                     }`}
                   >
                     {facility.attributes.phone.main.replace(/[ ]?x/, '')}
