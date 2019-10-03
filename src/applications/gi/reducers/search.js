@@ -7,7 +7,7 @@ import {
 } from '../actions';
 
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
-import normalizedAttributes from './utility';
+import { normalizedAttributes } from './utility';
 
 const INITIAL_STATE = {
   facets: {
