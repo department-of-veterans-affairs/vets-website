@@ -1,7 +1,7 @@
 import { FETCH_TOTAL_RATING_SUCCESS, FETCH_TOTAL_RATING_FAILED } from '../actions/index';
 
 const initialState = {
-    loading: true, // app is looading
+    loading: true, // app starts in loading state
     error: false,
     totalDisabilityRating: null,
 }
@@ -19,7 +19,7 @@ const initialState = {
                 ...state,
                 loading: false,
                 error: false,
-                totalDisabilityRating: 65,// to be replaced with response payload
+                totalDisabilityRating: null,// to be replaced with response payload
             };
         default:
             return state;
