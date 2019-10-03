@@ -16,12 +16,12 @@ export function isCommunityCare(appt) {
   return !!appt.appointmentRequestId;
 }
 
-export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments || appt.appointmentKind === 'MOBILE_GFE';
-}
-
 export function isGFEVideoVisit(appt) {
   return appt.vvsAppointments[0]?.appointmentKind === 'MOBILE_GFE';
+}
+
+export function isVideoVisit(appt) {
+  return !!appt.vvsAppointments || isGFEVideoVisit(appt);
 }
 
 export function getVideoVisitLink(appt) {
