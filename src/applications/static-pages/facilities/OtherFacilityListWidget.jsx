@@ -2,7 +2,7 @@ import React from 'react';
 import { apiRequest } from '../../../platform/utilities/api';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
-import { sortFacilitiesByName } from './facilityUtilities';
+import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
 
 export default class OtherFacilityListWidget extends React.Component {
@@ -59,17 +59,18 @@ export default class OtherFacilityListWidget extends React.Component {
             </h3>
             <FacilityAddress facility={facility} />
             <div className="vads-u-margin-bottom--0">
-              <div className="main-phone vads-u-margin-bottom--1">
-                <strong>Main phone: </strong>
-                <a
-                  href={`tel:${facility.attributes.phone.main.replace(
-                    /[ ]?x/,
-                    '',
-                  )}`}
-                >
-                  {facility.attributes.phone.main.replace(/[ ]?x/, '')}
-                </a>
-              </div>
+              {facility.attributes.phone.main && (
+                <div className="main-phone vads-u-margin-bottom--1">
+                  <strong>Main phone: </strong>
+                  <a
+                    href={`tel:${cleanPhoneNumber(
+                      facility.attributes.phone.main,
+                    )}`}
+                  >
+                    {cleanPhoneNumber(facility.attributes.phone.main)}
+                  </a>
+                </div>
+              )}
               {facility.attributes.classification && (
                 <div className="facility-type">
                   <p className="vads-u-margin--0">

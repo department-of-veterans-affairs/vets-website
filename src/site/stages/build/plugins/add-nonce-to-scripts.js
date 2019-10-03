@@ -1,18 +1,25 @@
 /* eslint-disable no-param-reassign */
 const path = require('path');
+const crypto = require('crypto');
 
 const CSP_NONCE = '**CSP_NONCE**';
 
-function generateNewId(existingIds) {
-  const newId = Math.random()
-    .toString(36)
-    .replace(/[^a-z]+/g, '')
-    .substr(0, 10);
-  if (!existingIds.has(newId)) {
-    existingIds.add(newId);
-    return newId;
-  }
-  return generateNewId(existingIds);
+function idGeneratorFactory(fileName) {
+  let i = 0;
+  const existingIds = new Set();
+
+  return function idGenerator() {
+    const newId = crypto
+      .createHash('md5')
+      .update(fileName + i)
+      .digest('hex');
+    i++;
+    if (!existingIds.has(newId)) {
+      existingIds.add(newId);
+      return newId;
+    }
+    return idGenerator();
+  };
 }
 
 module.exports = (files, metalsmith, done) => {
@@ -27,12 +34,12 @@ module.exports = (files, metalsmith, done) => {
         s.attr('nonce', CSP_NONCE);
       }
     });
-    const ids = new Set();
+    const generateNewId = idGeneratorFactory(fileName);
     const clickHandlers = [];
     dom('[onclick]').each((index, onClickEl) => {
       const o = dom(onClickEl);
       if (!o.attr('id')) {
-        o.attr('id', generateNewId(ids)); // eslint-disable-line no-param-reassign
+        o.attr('id', generateNewId());
       }
       const id = o.attr('id');
       const onclick = o.attr('onclick');

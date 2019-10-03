@@ -14,3 +14,6 @@ export function sortFacilitiesByName(facilities) {
   });
   return facilities;
 }
+
+// This removes an "x" that appears from the API data.
+export const cleanPhoneNumber = number => number.replace(/[ ]?x/, '');
