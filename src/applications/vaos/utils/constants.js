@@ -12,9 +12,9 @@ export const TIME_TEXT = {
 };
 
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/Follow-Up',
-  'new-issue': 'New Issue',
-  'medication-concern': 'Medication Concern',
+  'routine-follow-up': 'Routine/follow-up',
+  'new-issue': 'New issue',
+  'medication-concern': 'Medication concern',
   other: 'Other',
 };
 

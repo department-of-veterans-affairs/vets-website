@@ -3,7 +3,12 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import { TYPE_OF_VISIT, DISTANCES, LANGUAGES } from '../utils/constants';
+import {
+  TYPE_OF_VISIT,
+  DISTANCES,
+  LANGUAGES,
+  PURPOSE_TEXT,
+} from '../utils/constants';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -58,7 +63,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             Purpose
           </h2>
           <span className="vads-u-padding-right--1">
-            {data.reasonForAppointment}{' '}
+            {PURPOSE_TEXT[data.reasonForAppointment]}{' '}
           </span>
           <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
           <h2 className="vaos-appts__block-label vads-u-margin-top--2">Type</h2>
