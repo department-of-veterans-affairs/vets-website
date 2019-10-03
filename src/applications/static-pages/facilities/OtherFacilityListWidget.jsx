@@ -63,12 +63,11 @@ export default class OtherFacilityListWidget extends React.Component {
                 <div className="main-phone vads-u-margin-bottom--1">
                   <strong>Main phone: </strong>
                   <a
-                    href={`tel:${
-                      // this replaces an "x" that appears from the api data with a space
-                      cleanPhoneNumber(facility.attributes.phone.main)
-                    }`}
+                    href={`tel:${cleanPhoneNumber(
+                      facility.attributes.phone.main,
+                    )}`}
                   >
-                    {facility.attributes.phone.main.replace(/[ ]?x/, '')}
+                    {cleanPhoneNumber(facility.attributes.phone.main)}
                   </a>
                 </div>
               )}
