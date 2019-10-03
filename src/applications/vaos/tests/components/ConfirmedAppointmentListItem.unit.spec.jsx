@@ -102,28 +102,12 @@ describe('Video visit', () => {
     ],
   };
 
-  let tree = shallow(
+  const tree = shallow(
     <ConfirmedAppointmentListItem appointment={appointment} />,
   );
 
-  it('should contain link to appointment detail page', () => {
-    const videoLink = tree.find('.vaos-appts__video-link');
-    expect(videoLink.length).to.equal(1);
-    expect(videoLink.at(0).props().href).to.equal(url);
-  });
-
-  it('should enable video link if appointment if appointment is within 30 minutes', () => {
-    expect(tree.find('.usa-button-disabled').length).to.equal(0);
-  });
-
-  it('should disable video link if appointment is over 30 min away', () => {
-    appointment.startDate = moment()
-      .add(40, 'minutes')
-      .format();
-
-    tree = shallow(<ConfirmedAppointmentListItem appointment={appointment} />);
-    expect(tree.find('.usa-button-disabled').length).to.equal(1);
-    tree.unmount();
+  it('should contain link to video conference', () => {
+    expect(tree.find('VideoVisitLink').length).to.equal(1);
   });
 });
 
