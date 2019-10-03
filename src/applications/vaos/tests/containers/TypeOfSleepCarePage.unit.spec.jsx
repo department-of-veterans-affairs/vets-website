@@ -4,23 +4,23 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
+import { TypeOfSleepCarePage } from '../../containers/TypeOfSleepCarePage';
 
-describe('VAOS <TypeOfCarePage>', () => {
+describe('VAOS <TypeOfSleepCarePage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         data={{}}
       />,
     );
 
-    expect(form.find('fieldset').length).to.equal(3);
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('fieldset').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -31,7 +31,11 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage openFormPage={openFormPage} router={router} data={{}} />,
+      <TypeOfSleepCarePage
+        openFormPage={openFormPage}
+        router={router}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -49,7 +53,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         router={router}
@@ -57,9 +61,9 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_typeOfCareId', '323');
+    selectRadio(form, 'root_typeOfSleepCareId', '349');
 
-    expect(updateFormData.firstCall.args[2].typeOfCareId).to.equal('323');
+    expect(updateFormData.firstCall.args[2].typeOfSleepCareId).to.equal('349');
     form.unmount();
   });
 
@@ -68,10 +72,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ typeOfCareId: '323' }}
+        data={{ typeOfSleepCareId: '349' }}
       />,
     );
 
