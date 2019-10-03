@@ -47,13 +47,12 @@ export class ConfirmedAppointmentDetailPage extends React.Component {
                 <h2>{getAppointmentTitle(appointment)}</h2>
                 <div className="vads-u-display--flex vads-u-margin-bottom--2">
                   <div className="vads-u-flex--1">
-                    <>
-                      <h3 className="vaos-appts__block-label">Where</h3>
-                      {getAppointmentLocation(appointment)}
-                      {isVideoVisit(appointment) && (
-                        <VideoVisitLink appointment={appointment} />
-                      )}
-                    </>
+                    <h3 className="vaos-appts__block-label">Where</h3>
+                    {isVideoVisit(appointment) ? (
+                      <VideoVisitLink appointment={appointment} />
+                    ) : (
+                      getAppointmentLocation(appointment)
+                    )}
                     <h3 className="vaos-appts__block-label vads-u-margin-top--2">
                       When
                     </h3>
