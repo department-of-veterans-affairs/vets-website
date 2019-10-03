@@ -1,14 +1,19 @@
 import { expect } from 'chai';
 
 import api, { constructUrl } from './index.js';
-import { mockFetch } from '../../../testing/unit/helpers';
+import { mockFetch, resetFetch } from '../../../testing/unit/helpers';
 
 const host = '/v0';
 
 describe('Api Helper', () => {
-  mockFetch({
-    ok: true,
-    json() {},
+  beforeEach(() => {
+    mockFetch({
+      ok: true,
+      json() {},
+    });
+  });
+  afterEach(() => {
+    resetFetch();
   });
 
   describe('GET requests', () => {
