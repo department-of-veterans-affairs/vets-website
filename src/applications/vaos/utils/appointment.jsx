@@ -21,7 +21,7 @@ export function isVideoVisit(appt) {
 }
 
 export function isGFEVideoVisit(appt) {
-  return appt.appointmentKind === 'MOBILE_GFE';
+  return appt.vvsAppointments[0]?.appointmentKind === 'MOBILE_GFE';
 }
 
 export function getVideoVisitLink(appt) {

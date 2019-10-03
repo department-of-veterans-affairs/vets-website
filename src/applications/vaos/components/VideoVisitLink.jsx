@@ -13,12 +13,12 @@ const VideoVisitLink = ({ appointment }) => {
   }
 
   const videoLink = getVideoVisitLink(appointment);
-  let disableVideoLink = true;
 
   if (videoLink) {
     const now = moment();
     const apptTime = moment(appointment.startDate);
     const diff = apptTime.diff(now, 'minutes');
+    let disableVideoLink = true;
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     disableVideoLink = diff < -30 || diff > 240;
@@ -39,7 +39,6 @@ const VideoVisitLink = ({ appointment }) => {
           <span className="vads-u-display--block">
             You can join 30 minutes prior to your appointment
           </span>
-        )}
         )}
       </div>
     );

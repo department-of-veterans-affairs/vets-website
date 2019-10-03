@@ -68,7 +68,14 @@ describe('Video visit', () => {
   });
 
   it('should only display a message if it is a MOBILE_GFE appointment', () => {
-    const gfeAppt = { ...appointment, appointmentKind: 'MOBILE_GFE' };
+    const gfeAppt = {
+      ...appointment,
+      vvsAppointments: [
+        {
+          appointmentKind: 'MOBILE_GFE',
+        },
+      ],
+    };
     const tree = shallow(<VideoVisitLink appointment={gfeAppt} />);
     expect(tree.exists('.usa-button')).to.equal(false);
     expect(tree.find('span.vads-u-display--block').text()).to.equal(

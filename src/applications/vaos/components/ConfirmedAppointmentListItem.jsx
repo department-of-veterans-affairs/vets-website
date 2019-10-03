@@ -32,7 +32,7 @@ export default function ConfirmedAppointmentListItem({ appointment }) {
           {isVideoVisit(appointment) ? (
             <VideoVisitLink appointment={appointment} />
           ) : (
-            <>{getAppointmentLocation(appointment)}</>
+            getAppointmentLocation(appointment)
           )}
         </div>
       </div>
