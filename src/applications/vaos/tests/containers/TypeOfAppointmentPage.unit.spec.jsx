@@ -77,7 +77,6 @@ describe('VAOS <TypeOfAppointmentPage>', () => {
     );
 
     form.find('form').simulate('submit');
-
     expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
