@@ -79,7 +79,7 @@
     }
 
     .view-details {
-      display: block;
+      display: inline-block;
 
       @include media-maxwidth($small-screen) {
         margin-top: 1.6rem;
@@ -103,6 +103,7 @@
       margin: 0;
     }
 
+    p.institution-name,
     p.locality {
       font-weight: bold;
     }
@@ -131,6 +132,17 @@
       i.fa {
         margin-right: 0.5em;
       }
+    }
+
+    .info-flag {
+      color: $color-white;
+      background-color: $color-gray-light;
+      border-radius: 3px 3px 3px 3px;
+      font-size: 0.9em;
+      font-weight: bold;
+      display: inline-block;
+      padding: 0.1em 0.5em;
+      margin-right: 1em;
     }
 
     .caution-flag {

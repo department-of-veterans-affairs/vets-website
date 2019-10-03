@@ -44,7 +44,7 @@ describe('search reducer', () => {
     const state = searchReducer(
       { inProgress: true },
       {
-        type: 'SEARCH_SUCCEEDED',
+        type: 'INSTITUTION_SEARCH_SUCCEEDED',
         payload: {
           data: [
             {

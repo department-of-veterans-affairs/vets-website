@@ -10,7 +10,7 @@ import {
   renderPreferredProviderFlag,
 } from '../../utils/render';
 
-export class SearchResult extends React.Component {
+export class VetTecSearchResult extends React.Component {
   estimate = ({ qualifier, value, range }) => {
     if (qualifier === 'per month range') {
       return (
@@ -26,13 +26,23 @@ export class SearchResult extends React.Component {
 
   render() {
     const { version, result, estimated } = this.props;
-    const { facilityCode, name, city, state, country } = result;
+    const {
+      facilityCode,
+      description,
+      institutionName,
+      institutionCity,
+      institutionState,
+      institutionCountry,
+      tuitionAmount,
+      lengthInHours,
+      vaBah,
+      dodBah
+    } = result;
 
-    const tuition = this.estimate(estimated.tuition);
-    const housing = this.estimate(estimated.housing);
+    const housing = Math.min(dodBah, vaBah);
 
     const linkTo = {
-      pathname: `profile/${facilityCode}`,
+      pathname: `profile/${facilityCode}/${description}`,
       query: version ? { version } : {},
     };
 
@@ -45,11 +55,12 @@ export class SearchResult extends React.Component {
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{name}</Link>
+                  <Link to={linkTo}>{description}</Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
-                  <p className="locality">
-                    {city}, {state || country}
+                  <p className="institution-name">{institutionName}</p>
+                  <p>
+                    {institutionCity}, {institutionState || institutionCountry}
                   </p>
                 </div>
               </div>
@@ -66,7 +77,7 @@ export class SearchResult extends React.Component {
                         className="fa fa-graduation-cap fa-search-result"
                       />
                       Tuition:
-                      <div>{tuition}</div>
+                      <div>{formatCurrency(tuitionAmount)}</div>
                     </h4>
                   </div>
                 </div>
@@ -78,7 +89,7 @@ export class SearchResult extends React.Component {
                         className="fa fa-home fa-search-result"
                       />
                       Housing <span>(monthly):</span>
-                      <div>{housing}</div>
+                      <div>{formatCurrency(housing)}</div>
                     </h4>
                   </div>
                 </div>
@@ -86,6 +97,7 @@ export class SearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns">
+                <div className="info-flag">{lengthInHours} hours</div>
                 <Link to={linkTo}>View details ›</Link>
               </div>
             </div>
@@ -105,4 +117,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchResult);
+)(VetTecSearchResult);

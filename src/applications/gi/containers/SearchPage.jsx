@@ -8,7 +8,8 @@ import classNames from 'classnames';
 import {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
-  fetchSearchResults,
+  fetchInstitutionSearchResults,
+  fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
   toggleFilter,
@@ -104,7 +105,12 @@ export class SearchPage extends React.Component {
     });
 
     this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchSearchResults(query);
+
+    if (isVetTecSelected(institutionFilter)) {
+      this.props.fetchProgramSearchResults(query);
+    } else {
+      this.props.fetchInstitutionSearchResults(query);
+    }
   };
 
   handlePageSelect = page => {
@@ -335,7 +341,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchAutocompleteSuggestions,
-  fetchSearchResults,
+  fetchInstitutionSearchResults,
+  fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
   toggleFilter,

@@ -12,7 +12,7 @@ import reducer from '../../reducers';
 const defaultStore = createCommonStore(reducer);
 const defaultProps = {
   ...defaultStore.getState(),
-  fetchSearchResults: sinon.spy(),
+  fetchInstitutionSearchResults: sinon.spy(),
   setPageTitle: sinon.spy(),
   institutionFilterChange: sinon.spy(),
   eligibilityChange: sinon.spy(),
@@ -66,7 +66,7 @@ describe('<SearchPage>', () => {
       </Provider>,
     );
 
-    expect(defaultProps.fetchSearchResults.called).to.be.true;
+    expect(defaultProps.fetchInstitutionSearchResults.called).to.be.true;
     expect(defaultProps.setPageTitle.called).to.be.true;
     tree.unmount();
   });
@@ -141,7 +141,7 @@ describe('<SearchPage> functions', () => {
       .map(key => `${key}=${query[key]}`)
       .join('&')}`;
 
-    const fetchSearchResults = queryStore => {
+    const fetchInstitutionSearchResults = queryStore => {
       const queryCheck = _.pick(query, [
         ...stringSearchParams,
         ...stringFilterParams,
@@ -153,7 +153,7 @@ describe('<SearchPage> functions', () => {
     const props = {
       ...defaultProps,
       institutionFilterChange,
-      fetchSearchResults,
+      fetchInstitutionSearchResults,
       location: {
         action: 'POP',
         basename: '/gi-bill-comparison-tool',
