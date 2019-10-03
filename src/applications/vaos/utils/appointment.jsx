@@ -17,7 +17,11 @@ export function isCommunityCare(appt) {
 }
 
 export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments;
+  return !!appt.vvsAppointments || appt.appointmentKind === 'MOBILE_GFE';
+}
+
+export function isGFEVideoVisit(appt) {
+  return appt.appointmentKind === 'MOBILE_GFE';
 }
 
 export function getVideoVisitLink(appt) {

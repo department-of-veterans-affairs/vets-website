@@ -1,9 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getVideoVisitLink } from '../utils/appointment';
+import { getVideoVisitLink, isGFEVideoVisit } from '../utils/appointment';
 
 const VideoVisitLink = ({ appointment }) => {
+  if (isGFEVideoVisit(appointment)) {
+    return (
+      <span className="vads-u-display--block">
+        Join the video session from the device provided by the VA.
+      </span>
+    );
+  }
+
   const videoLink = getVideoVisitLink(appointment);
   let disableVideoLink = true;
 
@@ -11,27 +19,34 @@ const VideoVisitLink = ({ appointment }) => {
     const now = moment();
     const apptTime = moment(appointment.startDate);
     const diff = apptTime.diff(now, 'minutes');
-    disableVideoLink = diff < 0 || diff > 30;
+
+    // Button is enabled 30 minutes prior to start time, until 4 hours after start time
+    disableVideoLink = diff < -30 || diff > 240;
+
+    return (
+      <div className="vads-u-display--block">
+        <a
+          href={videoLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`vaos-appts__video-link usa-button${
+            disableVideoLink ? ' usa-button-disabled' : ''
+          }`}
+        >
+          Join meeting
+        </a>
+        {disableVideoLink && (
+          <span className="vads-u-display--block">
+            You can join 30 minutes prior to your appointment
+          </span>
+        )}
+        )}
+      </div>
+    );
   }
 
   return (
-    <div className="vads-u-display--block">
-      <a
-        href={videoLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`vaos-appts__video-link usa-button ${
-          disableVideoLink ? 'usa-button-disabled' : ''
-        }`}
-      >
-        Join meeting
-      </a>
-      {disableVideoLink && (
-        <span className="vads-u-display--block">
-          You can join 30 minutes prior to your appointment
-        </span>
-      )}
-    </div>
+    <div className="vads-u-display--block">Video visit link unavailable</div>
   );
 };
 

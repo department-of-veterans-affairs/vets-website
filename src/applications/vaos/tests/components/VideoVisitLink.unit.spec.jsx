@@ -31,25 +31,49 @@ describe('Video visit', () => {
     ],
   };
 
-  let tree = shallow(<VideoVisitLink appointment={appointment} />);
-
+  // console.log(tree.debug());
   it('should display link button', () => {
-    const linkButton = tree.find('.vaos-appts__video-link');
-    expect(linkButton.length).to.equal(1);
+    const tree = shallow(<VideoVisitLink appointment={appointment} />);
+    expect(tree.exists('.usa-button')).to.equal(true);
+    tree.unmount();
   });
 
-  it('should enable video link if appointment if appointment is within 30 minutes', () => {
-    const linkButton = tree.find('.usa-button-disabled');
-    expect(linkButton.length).to.equal(0);
+  it('should enable video link if appointment if appointment has started and is less than 240 min passed', () => {
+    const tree = shallow(<VideoVisitLink appointment={appointment} />);
+    expect(tree.exists('.usa-button')).to.equal(true);
+    expect(tree.exists('.usa-button-disabled')).to.equal(false);
+    tree.unmount();
   });
 
-  it('should disable video link if appointment is over 30 min away', () => {
+  it('should enable video link if appointment is less than 30 minutes away', () => {
     appointment.startDate = moment()
-      .add(40, 'minutes')
+      .add(-20, 'minutes')
       .format();
 
-    tree = shallow(<VideoVisitLink appointment={appointment} />);
-    expect(tree.find('.usa-button-disabled').length).to.equal(1);
+    const tree = shallow(<VideoVisitLink appointment={appointment} />);
+    expect(tree.exists('.usa-button')).to.equal(true);
+    expect(tree.exists('.usa-button-disabled')).to.equal(false);
+    tree.unmount();
+  });
+
+  it('should disable video link if appointment is over 4 hours away', () => {
+    appointment.startDate = moment()
+      .add(245, 'minutes')
+      .format();
+
+    const tree = shallow(<VideoVisitLink appointment={appointment} />);
+    expect(tree.exists('.usa-button')).to.equal(true);
+    expect(tree.exists('.usa-button-disabled')).to.equal(true);
+    tree.unmount();
+  });
+
+  it('should only display a message if it is a MOBILE_GFE appointment', () => {
+    const gfeAppt = { ...appointment, appointmentKind: 'MOBILE_GFE' };
+    const tree = shallow(<VideoVisitLink appointment={gfeAppt} />);
+    expect(tree.exists('.usa-button')).to.equal(false);
+    expect(tree.find('span.vads-u-display--block').text()).to.equal(
+      'Join the video session from the device provided by the VA.',
+    );
     tree.unmount();
   });
 });
