@@ -13,7 +13,7 @@ function runRatedDisabilitiesTest(browser) {
   browser.assert.visible('.usa-alert-text');
   browser.assert.containsText(
     '.usa-alert-text p:nth-of-type(1)',
-    "We sorry. We can't find a disability rating matched with the name, date of birth, and social secuity number you provided in our Veteran records.",
+    "We are sorry. We can't find a disability rating matched with the name, date of birth, and social secuity number you provided in our Veteran records.",
   );
 }
 
