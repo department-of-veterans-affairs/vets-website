@@ -1,13 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 import {
   getAppointmentId,
   getAppointmentTitle,
   getAppointmentLocation,
   getAppointmentDateTime,
+  isVideoVisit,
+  getVideoVisitLink,
 } from '../utils/appointment';
 
 export default function ConfirmedAppointmentListItem({ appointment }) {
+  const videoLink = isVideoVisit(appointment) && getVideoVisitLink(appointment);
+  let disableVideoLink = true;
+
+  if (videoLink) {
+    const now = moment();
+    const apptTime = moment(appointment.startDate);
+    const diff = apptTime.diff(now, 'minutes');
+    disableVideoLink = diff < 0 || diff > 30;
+  }
+
   return (
     <li className="vads-u-border-left--5px vads-u-border-color--green vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
       <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
@@ -27,7 +40,27 @@ export default function ConfirmedAppointmentListItem({ appointment }) {
             {' '}
             Where{' '}
           </h3>
-          {getAppointmentLocation(appointment)}
+          {videoLink ? (
+            <>
+              <a
+                href={videoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`vaos-appts__video-link usa-button ${
+                  disableVideoLink ? 'usa-button-disabled' : ''
+                }`}
+              >
+                Join meeting
+              </a>
+              {disableVideoLink && (
+                <span className="vads-u-display--block">
+                  You can join 30 minutes prior to your appointment
+                </span>
+              )}
+            </>
+          ) : (
+            <>{getAppointmentLocation(appointment)}</>
+          )}
         </div>
       </div>
       <Link

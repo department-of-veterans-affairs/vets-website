@@ -20,6 +20,10 @@ export function isVideoVisit(appt) {
   return !!appt.vvsAppointments;
 }
 
+export function getVideoVisitLink(appt) {
+  return appt.vvsAppointments[0]?.patients?.patient[0]?.virtualMeetingRoom?.url;
+}
+
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
     return facilityId.replace('983', '442');

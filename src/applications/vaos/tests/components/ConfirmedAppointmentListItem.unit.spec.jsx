@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import moment from 'moment';
 
 import ConfirmedAppointmentListItem from '../../components/ConfirmedAppointmentListItem';
 
@@ -72,6 +73,57 @@ describe('VA Confirmed Appointment', () => {
         `appointments/confirmed/va-234-456-2019-04-05T10:00:00`,
       );
     });
+  });
+});
+
+describe('Video visit', () => {
+  const apptTime = moment()
+    .add(20, 'minutes')
+    .format();
+
+  const url =
+    'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#';
+  const appointment = {
+    startDate: apptTime,
+    facilityId: '234',
+    clinicId: '456',
+    vvsAppointments: [
+      {
+        patients: {
+          patient: [
+            {
+              virtualMeetingRoom: {
+                url,
+              },
+            },
+          ],
+        },
+      },
+    ],
+  };
+
+  let tree = shallow(
+    <ConfirmedAppointmentListItem appointment={appointment} />,
+  );
+
+  it('should contain link to appointment detail page', () => {
+    const videoLink = tree.find('.vaos-appts__video-link');
+    expect(videoLink.length).to.equal(1);
+    expect(videoLink.at(0).props().href).to.equal(url);
+  });
+
+  it('should enable video link if appointment if appointment is within 30 minutes', () => {
+    expect(tree.find('.usa-button-disabled').length).to.equal(0);
+  });
+
+  it('should disable video link if appointment is over 30 min away', () => {
+    appointment.startDate = moment()
+      .add(40, 'minutes')
+      .format();
+
+    tree = shallow(<ConfirmedAppointmentListItem appointment={appointment} />);
+    expect(tree.find('.usa-button-disabled').length).to.equal(1);
+    tree.unmount();
   });
 });
 
