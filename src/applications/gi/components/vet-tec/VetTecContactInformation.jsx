@@ -6,9 +6,9 @@ import { VetTecScoContact } from './VetTecScoContact';
 
 export const VetTecContactInformation = ({ institution }) => (
   <div>
-    <div className="additional-information row vads-u-margin-y--1">
-      <div className="usa-width-one-half medium-6 columns">
-        <div className="physical-address usa-width-one-whole">
+    <div className="additional-information vads-l-grid-container--full">
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--6">
           <h3>Physical address</h3>
           <div>
             {institution.physicalAddress1 && (
@@ -26,9 +26,7 @@ export const VetTecContactInformation = ({ institution }) => (
             </div>
           </div>
         </div>
-      </div>
-      <div className="usa-width-one-half medium-6 columns">
-        <div className="mailing-address usa-width-one-whole">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--6">
           <h3>Mailing address</h3>
           <div>
             {institution.address1 && <div>{institution.address1}</div>}
@@ -41,6 +39,7 @@ export const VetTecContactInformation = ({ institution }) => (
         </div>
       </div>
     </div>
+
     {/* Production flag for 19534 */}
     {!environment.isProduction() &&
       institution.schoolCertifyingOfficials[0] && (
@@ -48,18 +47,13 @@ export const VetTecContactInformation = ({ institution }) => (
           <div className="vads-u-margin-top--4">
             <h3>School certifying officials</h3>
           </div>
-          {institution.schoolCertifyingOfficials.map(
-            (sco, i) =>
-              i % 2 === 0 && (
-                <div className="additional-information row ">
-                  {VetTecScoContact(sco)}
-                  {institution.schoolCertifyingOfficials[i + 1] &&
-                    VetTecScoContact(
-                      institution.schoolCertifyingOfficials[i + 1],
-                    )}
-                </div>
-              ),
-          )}
+          <div className="vads-l-grid-container--full">
+            <div className="vads-l-row">
+              {institution.schoolCertifyingOfficials.map(sco =>
+                VetTecScoContact(sco),
+              )}
+            </div>
+          </div>
         </div>
       )}
   </div>
