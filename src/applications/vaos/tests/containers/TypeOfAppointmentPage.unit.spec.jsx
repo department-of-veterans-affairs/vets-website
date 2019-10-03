@@ -47,15 +47,11 @@ describe('VAOS <TypeOfAppointmentPage>', () => {
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
 
     const form = mount(
       <TypeOfAppointmentPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        router={router}
         data={{}}
       />,
     );
@@ -70,14 +66,12 @@ describe('VAOS <TypeOfAppointmentPage>', () => {
 
   it('should submit with valid data', () => {
     const openFormPage = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
+    const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <TypeOfAppointmentPage
         openFormPage={openFormPage}
-        router={router}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{ typeOfAppointment: 'provider' }}
       />,
     );
@@ -85,7 +79,6 @@ describe('VAOS <TypeOfAppointmentPage>', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(router.push.called).to.be.true;
     form.unmount();
   });
 });
