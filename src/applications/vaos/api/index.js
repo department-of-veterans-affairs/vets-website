@@ -8,6 +8,8 @@ import mockFacilityData from './facilities.json';
 import mockFacility983Data from './facilities_983.json';
 import mockFacility984Data from './facilities_984.json';
 
+import mockClinicList from './clinicList983.json';
+
 export function getConfirmedAppointments() {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -57,5 +59,39 @@ export function getFacilitiesBySystemAndTypeOfCare(typeOfCareId, facilityId) {
         resolve(mockFacility983Data);
       }
     }, 1000);
+  });
+}
+
+export function checkPastVisits(facilityId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        durationInMonths: 24,
+        hasVisitedInPastMonths: facilityId.includes('984'),
+      });
+    }, 500);
+  });
+}
+
+export function getRequestLimits(facilityId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        requestLimit: 1,
+        numberOfRequests: facilityId.includes('984') ? 1 : 0,
+      });
+    }, 500);
+  });
+}
+
+export function getClinics(facilityId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (facilityId.includes('983')) {
+        resolve(mockClinicList);
+      } else {
+        resolve([]);
+      }
+    }, 500);
   });
 }

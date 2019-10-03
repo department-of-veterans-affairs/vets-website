@@ -4,8 +4,12 @@ import {
   getTypeOfCare,
 } from './utils/selectors';
 
-import mockClinicList from './actions/clinicList983.json';
-import mockPastAppts from './actions/pastAppointments983.json';
+import {
+  getClinics,
+  checkPastVisits,
+  getRequestLimits,
+  getPastAppointments,
+} from './api';
 
 const AUDIOLOGY = '203';
 const DISABLED_LIMIT_VALUE = 0;
@@ -15,52 +19,6 @@ function isCCAudiology(state) {
     getFormData(state).facilityType === 'communityCare' &&
     getFormData(state).typeOfCareId === AUDIOLOGY
   );
-}
-
-function mockFetchPastVisits(url) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        durationInMonths: 24,
-        hasVisitedInPastMonths: url.includes('984'),
-      });
-    }, 500);
-  });
-}
-
-function mockFetchRequestLimit(url) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        requestLimit: 1,
-        numberOfRequests: url.includes('984') ? 1 : 0,
-      });
-    }, 500);
-  });
-}
-
-function mockFetchClinics(url) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (url.includes('983')) {
-        resolve(mockClinicList);
-      } else {
-        resolve([]);
-      }
-    }, 500);
-  });
-}
-
-function mockFetchPastAppointments(url) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (url.includes('983')) {
-        resolve(mockPastAppts);
-      } else {
-        resolve([]);
-      }
-    }, 6000);
-  });
 }
 
 export default {
@@ -131,7 +89,7 @@ export default {
       const {
         durationInMonths,
         hasVisitedInPastMonths,
-      } = await mockFetchPastVisits(
+      } = await checkPastVisits(
         `/vaos/facilities/${
           facility.institution.institutionCode
         }/visits?typeOfCareId=${typeOfCareId}`,
@@ -148,7 +106,7 @@ export default {
       // a facility that doesn't have either requests or
       // direct scheduling, so we only need to check one
       if (!facility.directSchedulingSupported) {
-        const { requestLimit, numberOfRequests } = await mockFetchRequestLimit(
+        const { requestLimit, numberOfRequests } = await getRequestLimits(
           `/vaos/facilities/${
             facility.institution.institutionCode
           }/limits?typeOfCareId=${typeOfCareId}`,
@@ -165,8 +123,8 @@ export default {
       }
 
       const [clinics, appointments] = await Promise.all([
-        mockFetchClinics(),
-        mockFetchPastAppointments(),
+        getClinics(facility.institution.institutionCode),
+        getPastAppointments(),
       ]);
       const apptHash = buildApptHash(appointments);
 
