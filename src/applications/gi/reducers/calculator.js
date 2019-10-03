@@ -330,7 +330,6 @@ export default function(state = INITIAL_STATE, action) {
             ? 'no'
             : 'yes';
       }
-
       return {
         ...INITIAL_STATE,
         giBillBenefit,

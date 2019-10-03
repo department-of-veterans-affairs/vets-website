@@ -67,6 +67,7 @@ export class ProfilePage extends React.Component {
           <VetTecInstitutionProfile
             institution={profile.attributes}
             showModal={this.props.showModal}
+            preSelectedProgram={this.props.params.preSelectedProgram}
           />
         );
       } else {

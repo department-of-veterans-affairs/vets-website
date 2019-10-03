@@ -7,12 +7,31 @@ import { calculatorInputChange } from '../../actions';
 import { formatCurrency } from '../../utils/helpers';
 
 class VetTecApprovedPrograms extends React.Component {
-  handleInputChange = (event, vetTecProgramName) => {
+  constructor(props) {
+    super(props);
+    const selectedProgram = props.preSelectedProgram
+      ? props.preSelectedProgram
+      : 0;
+    this.state = { selectedProgram };
+  }
+
+  componentDidUpdate() {
+    const index = this.state.selectedProgram;
+    const field = 'vetTecProgram';
+    const value = {
+      vetTecTuitionFees: this.props.institution.programs[index].tuitionAmount,
+      vetTecProgramName: this.props.institution.programs[index].description,
+    };
+    this.props.calculatorInputChange({ field, value });
+  }
+
+  handleInputChange = (event, index, vetTecProgramName) => {
     const { name: field, value: vetTecTuitionFees } = event.target;
     const value = {
       vetTecTuitionFees,
       vetTecProgramName,
     };
+    this.setState({ selectedProgram: index });
     this.props.calculatorInputChange({ field, value });
   };
 
@@ -27,10 +46,15 @@ class VetTecApprovedPrograms extends React.Component {
               <input
                 id={`radio-${index}`}
                 name="vetTecProgram"
+                checked={
+                  index.toString() === this.state.selectedProgram.toString()
+                }
                 className="gids-radio-buttons-input"
                 type="radio"
                 value={program.tuitionAmount}
-                onChange={e => this.handleInputChange(e, program.description)}
+                onChange={e =>
+                  this.handleInputChange(e, index, program.description)
+                }
                 aria-labelledby={`program-${index}`}
               />
               <label id={`program-${index}`} htmlFor={`radio-${index}`}>
@@ -85,6 +109,7 @@ class VetTecApprovedPrograms extends React.Component {
 
 VetTecContactInformation.propTypes = {
   institution: PropTypes.object,
+  preSelectedProgram: PropTypes.string,
 };
 
 const mapDispatchToProps = { calculatorInputChange };

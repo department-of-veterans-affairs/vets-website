@@ -10,7 +10,11 @@ import VetTecContactInformation from './VetTecContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
-const VetTecInstitutionProfile = ({ institution, showModal }) => (
+const VetTecInstitutionProfile = ({
+  institution,
+  showModal,
+  preSelectedProgram,
+}) => (
   <div>
     <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
       {renderVetTecLogo(classNames('vettec-logo'))}
@@ -19,7 +23,10 @@ const VetTecInstitutionProfile = ({ institution, showModal }) => (
     <div className="usa-accordion">
       <ul>
         <AccordionItem button="Approved programs">
-          <VetTecApprovedPrograms institution={institution} />
+          <VetTecApprovedPrograms
+            institution={institution}
+            preSelectedProgram={preSelectedProgram}
+          />
         </AccordionItem>
         <AccordionItem button="Estimate your benefits">
           <VetTecCalculator showModal={showModal} />
