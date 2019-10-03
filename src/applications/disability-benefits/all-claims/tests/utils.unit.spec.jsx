@@ -173,14 +173,14 @@ describe('526 helpers', () => {
         ['some "quote" disability', 'Some "Quote" Disability'],
       ].forEach(pair => expect(capitalizeEachWord(pair[0])).to.equal(pair[1]));
     });
-    it('should return Unknown Condition with undefined name', () => {
-      expect(capitalizeEachWord()).to.equal('Unknown Condition');
+    it('should return null with undefined name', () => {
+      expect(capitalizeEachWord()).to.equal(null);
     });
-    it('should return Unknown Condition when input is empty string', () => {
-      expect(capitalizeEachWord('')).to.equal('Unknown Condition');
+    it('should return null when input is empty string', () => {
+      expect(capitalizeEachWord('')).to.equal(null);
     });
-    it('should return Unknown Condition when name is not a string', () => {
-      expect(capitalizeEachWord(249481)).to.equal('Unknown Condition');
+    it('should return null when name is not a string', () => {
+      expect(capitalizeEachWord(249481)).to.equal(null);
     });
   });
 
