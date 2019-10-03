@@ -7,6 +7,7 @@ import RadioButtons from '../RadioButtons';
 import { formatCurrency } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
+import environment from 'platform/utilities/environment';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class CalculatorForm extends React.Component {
       invalidZip: '',
     };
   }
+
   getExtensions = () => {
     const { profile } = this.props;
     const facilityMap = profile.attributes.facilityMap;
@@ -31,6 +33,9 @@ class CalculatorForm extends React.Component {
     }
     return extensions;
   };
+
+  isInternationalCountry = () =>
+    this.props.profile.attributes.physicalCountry !== 'USA';
 
   createExtensionOption = extension => {
     const {
@@ -571,11 +576,16 @@ class CalculatorForm extends React.Component {
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
+      const label =
+        this.isInternationalCountry() && !environment.isProduction
+          ? "If you're taking classes in the U.S., enter the location's zip code"
+          : "Please enter the zip code where you'll take your classes";
+
       amountInput = (
         <div>
           <ErrorableTextInput
             errorMessage={errorMessageCheck}
-            label="Please enter the zip code where you'll take your classes"
+            label={label}
             name="beneficiaryZIPCode"
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
