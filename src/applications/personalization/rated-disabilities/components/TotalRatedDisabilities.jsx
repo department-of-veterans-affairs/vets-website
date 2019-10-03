@@ -42,21 +42,18 @@ const TotalRatedDisabilities = props => {
     const message = (
       <span>
         <p>
-          We sorry. We can't find a disability rating matched with the name,
-          date of birth, and social secuity number you provided in our Veteran
-          records.
+          We don't have a disability rating for you in our system.
         </p>
-        <h4>What you can do</h4>
+        <h4>Want to add disabilities?</h4>
         <p>
-          If you feel your information is correct, please call the VA.gov
-          1-855-574-7286. We're here Monday through Friday, 8:00 a.m. to 8:00
-          p.m. (ET).
+          If you believe you have disabilities related to your military service, you can submit a claim to update your disability rating.
         </p>
+        <a href="#" className="usa-link">Submit a new claim</a>
       </span>
     );
     content = (
       <AlertBox
-        headline="No total disabilities information"
+        headline="No disability rating to show"
         content={message}
         status="info"
         isVisible

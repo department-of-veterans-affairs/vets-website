@@ -49,6 +49,7 @@ const mapStateToProps = state => ({
   ratedDisabilities: state.ratedDisabilities,
   loading: state.totalRating.loading,
   error: state.totalRating.error,
+  totalDisabilityRating: state.totalRating.totalDisabilityRating,
 });
 
 const mapDispatchToProps = {

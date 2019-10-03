@@ -1,31 +1,27 @@
-import { getData } from '../util';
+import {getData} from '../util';
 
 export const FETCH_RATED_DISABILITIES_SUCCESS =
   'FETCH_RATED_DISABILITIES_SUCCESS';
 export const FETCH_RATED_DISABILITIES_FAILED =
   'FETCH_RATED_DISABILITIES_FAILED';
 
-export const FETCH_TOTAL_RATING_SUCCESS = 
-  'FETCH_TOTAL_RATING_SUCCESS';
-export const FETCH_TOTAL_RATING_FAILED = 
-  'FETCH_TOTAL_RATING_FAILED';
+export const FETCH_TOTAL_RATING_SUCCESS = 'FETCH_TOTAL_RATING_SUCCESS';
+export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
-export function fetchRatedDisabilities() {
+export function fetchRatedDisabilities () {
   return async dispatch => {
-    const response = await getData(
-      '/disability_compensation_form/rated_disabilities',
+    const response = await getData (
+      '/disability_compensation_form/rated_disabilities'
     );
-
-    console.log(response);
 
     if (response.errors) {
       // record event here
-      dispatch({
+      dispatch ({
         type: FETCH_RATED_DISABILITIES_FAILED,
         response,
       });
     } else {
-      dispatch({
+      dispatch ({
         type: FETCH_RATED_DISABILITIES_SUCCESS,
         response,
       });
@@ -33,25 +29,23 @@ export function fetchRatedDisabilities() {
   };
 }
 
-
-export function fetchTotalDisabilityRating() {
+export function fetchTotalDisabilityRating () {
   return async dispatch => {
-    const response = await getData(
-      '/disability_compensation_form/rated_disabilities',
+    const response = await getData (
+      '/disability_compensation_form/rated_disabilities'
     );
 
     if (response.errors) {
       // record event here
-      dispatch({
-        type: FETCH_TOTAL_RATING_FAILED,
+      dispatch ({
+        type: FETCH_TOTAL_RATING_SUCCESS,
         response,
       });
     } else {
-      dispatch({
+      dispatch ({
         type: FETCH_TOTAL_RATING_SUCCESS,
         response,
       });
     }
   };
-};
-
+}
