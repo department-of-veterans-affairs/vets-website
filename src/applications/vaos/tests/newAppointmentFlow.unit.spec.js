@@ -18,7 +18,7 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('audiologyCareType');
     });
 
-    it('next should choose provider page if CC chosen', () => {
+    it('next should choose contact info page if CC chosen', () => {
       const state = {
         newAppointment: {
           data: {
