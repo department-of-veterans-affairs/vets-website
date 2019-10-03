@@ -1,6 +1,7 @@
 import { getFormData } from './utils/selectors';
 
 const AUDIOLOGY = '203';
+const SLEEP_CARE = 'SLEEP';
 
 function isCCAudiology(state) {
   return (
@@ -15,7 +16,13 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    next: 'typeOfFacility',
+    next(state) {
+      if (getFormData(state).typeOfCareId === SLEEP_CARE) {
+        return 'typeOfSleepCare';
+      }
+      return 'typeOfFacility';
+    },
+
     // async next(state) {
     //   try {
     //     const data = await apiRequest('/vaos/community-care/eligibility');
@@ -44,6 +51,11 @@ export default {
 
       return 'vaFacility';
     },
+    previous: 'typeOfCare',
+  },
+  typeOfSleepCare: {
+    url: '/new-appointment/choose-sleep-care',
+    next: 'typeOfFacility',
     previous: 'typeOfCare',
   },
   audiologyCareType: {

@@ -203,7 +203,7 @@ export default function formReducer(state = initialState, action) {
         loadingSystems: false,
         facilities: {
           ...state.facilities,
-          [`${newData.typeOfCareId}_${newData.vaSystem}`]: facilities,
+          [`${action.typeOfCareId}_${newData.vaSystem}`]: facilities,
         },
         pages: {
           ...state.pages,
@@ -249,7 +249,7 @@ export default function formReducer(state = initialState, action) {
         data,
         facilities: {
           ...state.facilities,
-          [`${newData.typeOfCareId}_${newData.vaSystem}`]: action.facilities,
+          [`${action.typeOfCareId}_${newData.vaSystem}`]: action.facilities,
         },
         pages: {
           ...state.pages,

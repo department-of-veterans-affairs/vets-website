@@ -27,17 +27,12 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '160',
-    name: 'Clinical pharmacy primary care',
-    group: 'primary',
-  },
-  {
-    id: 'CR1',
-    name: 'Express care clinic',
+    name: 'Pharmacy',
     group: 'primary',
   },
   {
     id: '502',
-    name: 'Outpatient mental health',
+    name: 'Mental health',
     group: 'mentalHealth',
   },
   {
@@ -52,14 +47,9 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '203',
-    name: 'Audiology and speech',
+    name: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
     ccId: ['CCAUDHEAR', 'CCAUDRTNE'],
-  },
-  {
-    id: '349',
-    name: 'CPAP clinic',
-    group: 'specialty',
   },
   {
     id: '372',
@@ -90,9 +80,20 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
   },
   {
-    id: '143',
-    name: 'Sleep medicine and home sleep testing',
+    id: 'SLEEP',
+    name: 'Sleep medicine',
     group: 'specialty',
+  },
+];
+
+export const TYPES_OF_SLEEP_CARE = [
+  {
+    id: '349',
+    name: 'CPAP',
+  },
+  {
+    id: '143',
+    name: 'Home sleep study',
   },
 ];
 

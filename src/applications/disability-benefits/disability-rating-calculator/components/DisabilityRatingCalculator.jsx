@@ -141,10 +141,8 @@ export default class DisabilityRatingCalculator extends React.Component {
             VA combined disability rating calculator
           </h2>
           <p>
-            If you have 2 or more disability ratings, use our calculator to
-            determine your combined disability rating. Enter each of your
-            disability ratings separately below. You can also add a description
-            of each for your notes, if you'd like. Then click{' '}
+            Enter each of your disability ratings separately below. You can also
+            add a description of each for your notes, if you'd like. Then click{' '}
             <strong>Calculate</strong> to get your combined rating.
           </p>
           <div className="vads-l-grid-container--full">

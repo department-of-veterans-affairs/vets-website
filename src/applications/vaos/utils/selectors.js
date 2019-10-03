@@ -1,5 +1,9 @@
 import { getAppointmentId } from './appointment';
-import { TYPES_OF_CARE, AUDIOLOGY_TYPES_OF_CARE } from './constants';
+import {
+  TYPES_OF_CARE,
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_SLEEP_CARE,
+} from './constants';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -32,7 +36,12 @@ export function getFormPageInfo(state, pageKey) {
 }
 
 const AUDIOLOGY = '203';
+const SLEEP_CARE = 'SLEEP';
 export function getTypeOfCare(data) {
+  if (data.typeOfCareId === SLEEP_CARE) {
+    return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
+  }
+
   if (
     data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === 'communityCare'
