@@ -78,7 +78,7 @@ describe('Video visit', () => {
     };
     const tree = shallow(<VideoVisitLink appointment={gfeAppt} />);
     expect(tree.exists('.usa-button')).to.equal(false);
-    expect(tree.find('span.vads-u-display--block').text()).to.equal(
+    expect(tree.find('span').text()).to.equal(
       'Join the video session from the device provided by the VA.',
     );
     tree.unmount();

@@ -6,9 +6,7 @@ import { getVideoVisitLink, isGFEVideoVisit } from '../utils/appointment';
 const VideoVisitLink = ({ appointment }) => {
   if (isGFEVideoVisit(appointment)) {
     return (
-      <span className="vads-u-display--block">
-        Join the video session from the device provided by the VA.
-      </span>
+      <span>Join the video session from the device provided by the VA.</span>
     );
   }
 
@@ -44,9 +42,7 @@ const VideoVisitLink = ({ appointment }) => {
     );
   }
 
-  return (
-    <div className="vads-u-display--block">Video visit link unavailable</div>
-  );
+  return <span>Video visit link unavailable</span>;
 };
 
 VideoVisitLink.propTypes = {
