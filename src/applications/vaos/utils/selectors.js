@@ -1,4 +1,5 @@
 import { getAppointmentId } from './appointment';
+import { TYPES_OF_CARE, AUDIOLOGY_TYPES_OF_CARE } from './constants';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -28,6 +29,18 @@ export function getFormPageInfo(state, pageKey) {
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
   };
+}
+
+const AUDIOLOGY = '203';
+export function getTypeOfCare(data) {
+  if (
+    data.typeOfCareId === AUDIOLOGY &&
+    data.facilityType === 'communityCare'
+  ) {
+    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+  }
+
+  return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
 }
 
 export function getChosenFacilityInfo(state) {

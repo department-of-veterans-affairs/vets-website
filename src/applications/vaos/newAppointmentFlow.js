@@ -4,6 +4,8 @@ import {
   getTypeOfCare,
 } from './utils/selectors';
 
+import { CANCELLED_APPOINTMENT_SET } from './utils/constants';
+
 import {
   getClinics,
   checkPastVisits,
@@ -19,6 +21,24 @@ function isCCAudiology(state) {
     getFormData(state).facilityType === 'communityCare' &&
     getFormData(state).typeOfCareId === AUDIOLOGY
   );
+}
+
+function buildApptHash(pastAppointments) {
+  return pastAppointments
+    .filter(
+      appt =>
+        appt.clinicId &&
+        !CANCELLED_APPOINTMENT_SET.has(
+          appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
+        ),
+    )
+    .reduce(
+      (map, next) => ({
+        ...map,
+        [next.clinicId]: (map[next.clinicId] || 0) + 1,
+      }),
+      {},
+    );
 }
 
 export default {
@@ -116,10 +136,10 @@ export default {
           requestLimit === DISABLED_LIMIT_VALUE ||
           numberOfRequests >= requestLimit
         ) {
-          return 'visitType';
+          return 'requestLimits';
         }
 
-        return 'requestLimits';
+        return 'visitType';
       }
 
       const [clinics, appointments] = await Promise.all([

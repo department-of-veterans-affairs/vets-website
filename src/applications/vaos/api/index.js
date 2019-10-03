@@ -29,13 +29,22 @@ export function getPendingAppointments() {
   });
 }
 
-export function getPastAppointments() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(past);
-    }, TEST_TIMEOUT || 6000);
-  });
-}
+// This request takes a while, so we're going to call it early
+// and we need a way to wait for an in progress call to finish
+// So this memoizes the promise and returns it to the caller
+export const getPastAppointments = (() => {
+  let promise = null;
+  return () => {
+    if (!promise) {
+      promise = new Promise(resolve => {
+        setTimeout(() => {
+          resolve(past);
+        }, TEST_TIMEOUT || 6000);
+      });
+    }
+    return promise;
+  };
+})();
 
 export function getSystemIdentifiers() {
   return new Promise(resolve => {
