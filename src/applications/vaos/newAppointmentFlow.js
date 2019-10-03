@@ -185,9 +185,14 @@ export default {
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },
+  reasonForAppointment: {
+    url: '/new-appointment/reason-appointment',
+    next: 'visitType',
+    previous: 'vaFacility',
+  },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    previous: 'vaFacility',
+    previous: 'reasonForAppointment',
     next: 'contactInfo',
   },
   contactInfo: {

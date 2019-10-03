@@ -1,9 +1,9 @@
-// Mock Data
-import confirmed from './confirmed.json';
-import pending from './requests.json';
-import past from './past.json';
-
 import { FETCH_STATUS } from '../utils/constants';
+import {
+  getConfirmedAppointments,
+  getPendingAppointments,
+  getPastAppointments,
+} from '../api';
 
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =
@@ -30,13 +30,12 @@ export function fetchConfirmedAppointments() {
         type: FETCH_CONFIRMED_APPOINTMENTS,
       });
 
-      // Mock API Call
-      setTimeout(() => {
+      getConfirmedAppointments().then(data => {
         dispatch({
           type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-          data: confirmed,
+          data,
         });
-      }, 1500);
+      });
     }
   };
 }
@@ -48,13 +47,12 @@ export function fetchPendingAppointments() {
         type: FETCH_PENDING_APPOINTMENTS,
       });
 
-      // Mock API Call
-      setTimeout(() => {
+      getPendingAppointments().then(data => {
         dispatch({
           type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-          data: pending,
+          data,
         });
-      }, 1500);
+      });
     }
   };
 }
@@ -65,12 +63,11 @@ export function fetchPastAppointments() {
       type: FETCH_PAST_APPOINTMENTS,
     });
 
-    // Mock API Call
-    setTimeout(() => {
+    getPastAppointments().then(data => {
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data: past,
+        data,
       });
-    }, 1500);
+    });
   };
 }
