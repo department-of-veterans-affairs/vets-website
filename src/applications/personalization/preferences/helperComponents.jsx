@@ -202,7 +202,7 @@ const pensionQuestions = [
   },
   {
     href: '/pension/how-to-apply/',
-    title: 'Learn how to apply for a Veterans pension',
+    title: 'Learn how to apply for a Veterans Pension',
   },
 ];
 const survivorQuestions = [

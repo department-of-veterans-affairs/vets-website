@@ -28,19 +28,19 @@ views",
 {% endcomment %}
 {% if node != empty %}
 
-  {% assign timezone = "EST" %}
+  {% assign timezone = "America/New_York" %}
   {% if node.uid.entity.timezone != empty %}
     {% assign timezone = uid.entity.timezone %}
   {% endif %}
 
-{% assign start_date_no_time = node.fieldDate.value | timeZone: timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = node.fieldDate.endValue | timeZone: timezone , "dddd, MMM D" %}
+{% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
+{% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D" %}
 
-{% assign start_time = node.fieldDate.value | timeZone: timezone, "h:mm A" %}
-{% assign end_time = node.fieldDate.endValue | timeZone: timezone, "h:mm A" %}
+{% assign start_time = node.fieldDate.startDate | timeZone: timezone, "h:mm A" %}
+{% assign end_time = node.fieldDate.endDate | timeZone: timezone, "h:mm A" %}
 
-{% assign start_date_full = node.fieldDate.value | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = node.fieldDate.endValue | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% assign start_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+{% assign end_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
 
 {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
 {% assign date_type = "start_date_only" %}
@@ -80,6 +80,7 @@ views",
     <span>{{ end_date_full }}</span>
     {% endif %}
     {% endif %}
+    <span> ET</span>
   </div>
 </div>
 {% if node.fieldFacilityLocation != empty %}
@@ -91,6 +92,7 @@ views",
   <div class="usa-width-five-sixths">
     <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
       <a
+        onClick="recordEvent({ event: 'nav-featured-content-link-click' });"
         href="{{ node.fieldFacilityLocation.entity.entityUrl.path }}">{{ node.fieldFacilityLocation.entity.title }}</a>
     </p>
     {% if node.fieldLocationHumanreadable != empty %}
