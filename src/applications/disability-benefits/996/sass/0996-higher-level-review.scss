@@ -63,6 +63,7 @@
       width: 8rem;
       margin-right: 0;
     }
+
   }
 
   .review-card--body {
@@ -79,6 +80,12 @@
     .update-button {
       margin-top: 1rem;
       width: 15rem;
+    }
+
+    /* Remove blue border (with this, it's not consistent across the site) */
+    .blue-bar-block {
+      border-left: none;
+      padding-left: 0;
     }
   }
 }
