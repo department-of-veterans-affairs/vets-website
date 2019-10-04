@@ -12,9 +12,9 @@ export const TIME_TEXT = {
 };
 
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/Follow-Up',
-  'new-issue': 'New Issue',
-  'medication-concern': 'Medication Concern',
+  'routine-follow-up': 'Routine/follow-up',
+  'new-issue': 'New issue',
+  'medication-concern': 'Medication concern',
   other: 'Other',
 };
 
@@ -80,7 +80,7 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
   },
   {
-    id: '143',
+    id: 'SLEEP',
     name: 'Sleep medicine',
     group: 'specialty',
   },
@@ -119,7 +119,7 @@ export const LANGUAGES = [
     value: 'German',
   },
   {
-    id: 'italian)',
+    id: 'italian',
     text: 'Italian',
     value: 'Italian',
   },
@@ -160,6 +160,17 @@ export const LANGUAGES = [
   },
 ];
 
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    id: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    id: 'CCAUDHEAR',
+    name: 'Hearing aid support',
+  },
+];
+
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO-SHOW',
   'CANCELLED BY CLINIC',
@@ -170,3 +181,33 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY PATIENT & AUTO-REBOOK',
   'NO ACTION TAKEN',
 ]);
+
+export const TYPE_OF_VISIT = [
+  {
+    id: 'office',
+    name: 'Office visit',
+  },
+  {
+    id: 'phone',
+    name: 'Phone call',
+  },
+  {
+    id: 'telehealth',
+    name: 'Telehealth',
+  },
+];
+
+export const DISTANCES = [
+  {
+    id: '25',
+    name: 'Up to 25 miles',
+  },
+  {
+    id: '50',
+    name: 'Up to 50 miles',
+  },
+  {
+    id: '50+',
+    name: 'Further than 50 miles',
+  },
+];

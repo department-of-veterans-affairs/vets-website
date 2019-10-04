@@ -1,7 +1,7 @@
 import { getFormData } from './utils/selectors';
 
 const AUDIOLOGY = '203';
-const SLEEP_CARE = '143';
+const SLEEP_CARE = 'SLEEP';
 
 function isCCAudiology(state) {
   return (
@@ -93,11 +93,17 @@ export default {
   visitType: {
     url: '/new-appointment/choose-visit-type',
     previous: 'reasonForAppointment',
+    // Update this when reasonForAppointment is merged
     next: 'contactInfo',
+  },
+  appointmentTime: {
+    url: '/new-appointment/appointment-time',
+    next: 'contactInfo',
+    previous: 'vaFacility',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    next: 'home',
+    next: 'review',
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
         return 'ccProvider';
@@ -105,5 +111,8 @@ export default {
 
       return 'visitType';
     },
+  },
+  review: {
+    url: '/new-appointment/review',
   },
 };
