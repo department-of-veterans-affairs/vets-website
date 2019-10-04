@@ -1,28 +1,22 @@
-[{
-  "id": "123",
-  "facilityId": "888",
-  "facility": {
-    "id": "888",
-    "name": "Washington VA Medical Center",
-    "type": "VAMC",
-    "address": "50 Irving St NW",
-    "city": "Washington",
-    "state": "DC",
-    "directScheduleEnabled": true,
-    "parentSiteCode": 688
-  },
-  "dateTime": "2019-08-29T12:00:00Z",
-  "reason": "Routine/Follow-up",
-  "type": "Office Visit",
-  "contactNumber": "+1-908-477-1720",
-  "preferredContactTime": "evening",
-  "status": "booked",
-  "pactTeam": {
-    "teamSid": "1400018881",
-    "teamName": "Green-four",
-    "staff": [{
-      "name": "McBride, Samantha M",
-      "title": "Registered Nurse (RN)"
-    }]
+[
+  {
+    "startDate": "2018-09-11T15:00:00Z",
+    "clinicId": "308",
+    "facilityId": "983",
+    "patientIcn": "1012845331V153043",
+    "vdsAppointments": [
+      {
+        "appointmentLength": "60",
+        "appointmentTime": "2019-09-11T15:00:00Z",
+        "clinic": {
+          "name": "CASSIDY PC",
+          "askForCheckIn": false,
+          "facilityCode": "983"
+        },
+        "patientId": "7216691",
+        "type": "REGULAR",
+        "currentStatus": "NO ACTION TAKEN/TODAY"
+      }
+    ]
   }
-}]
+]

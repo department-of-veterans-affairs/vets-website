@@ -79,7 +79,7 @@ export function checkPastVisits(facilityId) {
     setTimeout(() => {
       resolve({
         durationInMonths: 24,
-        hasVisitedInPastMonths: facilityId.includes('984'),
+        hasVisitedInPastMonths: !facilityId.includes('984'),
       });
     }, 500);
   });
