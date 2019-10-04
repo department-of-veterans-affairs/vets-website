@@ -846,8 +846,8 @@
               "type": "string",
               "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
             },
-            "effectiveDate": {
-              "$ref": "#/definitions/date"
+            "dateRange": {
+              "$ref": "#/definitions/dateRangeFromRequired"
             }
           }
         }

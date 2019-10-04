@@ -29,9 +29,9 @@ const {
   address,
   phone,
   date,
-  dateRange,
+  // dateRange,
   dateRangeFromRequired,
-  dateRangeAllRequired,
+  // dateRangeAllRequired,
 } = fullSchema.definitions;
 
 const formConfig = {
@@ -55,9 +55,9 @@ const formConfig = {
     address,
     phone,
     date,
-    dateRange,
+    // dateRange,
     dateRangeFromRequired,
-    dateRangeAllRequired,
+    // dateRangeAllRequired,
     veteranDetailsDescription,
   },
   chapters: {
@@ -74,7 +74,6 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
-          // showPagePerItem: true,
           initialData: {
             veteran: initialData,
           },

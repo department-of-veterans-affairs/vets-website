@@ -1,14 +1,15 @@
 import _ from 'lodash';
 
-// import fullSchema from 'vets-json-schema/dist/21-526EZ-schema.json';
+// import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import fullSchema from '../20-0996-schema.json';
 
-import dateUI from 'platform/forms-system/src/js/definitions/date';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import { ForwardingAddressViewField } from '../helpers';
+import { isInPast } from '../validations';
 
 import {
   contactInfoDescription,
@@ -17,6 +18,8 @@ import {
 } from '../../all-claims/content/contactInformation';
 import { USA } from '../../all-claims/constants';
 import { addressUISchema } from '../../all-claims/utils';
+
+import ForwardingAddressDescription from '../components/ForwardingAddressDescription';
 
 const hasForwardingAddress = formData =>
   _.get(formData, 'veteran[view:hasForwardingAddress]', false);
@@ -39,7 +42,6 @@ export const uiSchema = {
       'ui:field': ReviewCardField,
       'ui:options': {
         viewComponent: phoneEmailViewField,
-        // startInEdit: false,
       },
       phone: {
         'ui:title': 'Phone number',
@@ -71,7 +73,7 @@ export const uiSchema = {
       addressUISchema('veteran.forwardingAddress', 'Forwarding address'),
       {
         'ui:order': [
-          'effectiveDate',
+          'dateRange',
           'country',
           'addressLine1',
           'addressLine2',
@@ -80,13 +82,24 @@ export const uiSchema = {
           'state',
           'zipCode',
         ],
+        'ui:description': ForwardingAddressDescription,
         'ui:options': {
           viewComponent: ForwardingAddressViewField,
           expandUnder: 'view:hasForwardingAddress',
         },
-        effectiveDate: _.merge({}, dateUI('Effective date'), {
-          'ui:required': hasForwardingAddress,
-        }),
+        dateRange: _.merge(
+          {},
+          dateRangeUI(
+            'Start date',
+            'End date',
+            'End date must be after start date',
+          ),
+          {
+            to: {
+              'ui:validations': [isInPast],
+            },
+          },
+        ),
         country: {
           'ui:required': hasForwardingAddress,
         },
