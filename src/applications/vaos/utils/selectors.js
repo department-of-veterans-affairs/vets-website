@@ -1,5 +1,9 @@
 import { getAppointmentId } from './appointment';
-import { TYPES_OF_CARE, AUDIOLOGY_TYPES_OF_CARE } from './constants';
+import {
+  TYPES_OF_CARE,
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_SLEEP_CARE,
+} from './constants';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -32,7 +36,12 @@ export function getFormPageInfo(state, pageKey) {
 }
 
 const AUDIOLOGY = '203';
+const SLEEP_CARE = 'SLEEP';
 export function getTypeOfCare(data) {
+  if (data.typeOfCareId === SLEEP_CARE) {
+    return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
+  }
+
   if (
     data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === 'communityCare'
@@ -46,8 +55,9 @@ export function getTypeOfCare(data) {
 export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
+  const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    facilities[`${data.typeOfCareId}_${data.vaSystem}`]?.find(
+    facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
       facility => facility.institution.institutionCode === data.vaFacility,
     ) || null
   );
@@ -81,4 +91,15 @@ export function getFacilityPageInfo(state, pageKey) {
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
   };
+}
+
+export function getChosenClinicInfo(state) {
+  const data = getFormData(state);
+  const clinics = getNewAppointment(state).clinics;
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  return (
+    clinics[`${typeOfCareId}_${data.vaFacility}`]?.find(
+      clinic => clinic.clinicId === data.clinicId,
+    ) || null
+  );
 }

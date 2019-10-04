@@ -307,3 +307,5 @@ export const ANALYTICS_EVENTS = {
       'Disability - Form 21-0781a - PTSD Secondary Sources - Which should I choose',
   },
 };
+
+export const NULL_CONDITION_STRING = 'Unknown Condition';

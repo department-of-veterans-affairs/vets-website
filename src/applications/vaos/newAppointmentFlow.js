@@ -15,6 +15,7 @@ import {
 
 const AUDIOLOGY = '203';
 const DISABLED_LIMIT_VALUE = 0;
+const SLEEP_CARE = 'SLEEP';
 
 function isCCAudiology(state) {
   return (
@@ -47,7 +48,13 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    next: 'typeOfFacility',
+    next(state) {
+      if (getFormData(state).typeOfCareId === SLEEP_CARE) {
+        return 'typeOfSleepCare';
+      }
+      return 'typeOfFacility';
+    },
+
     // async next(state) {
     //   try {
     //     const data = await apiRequest('/vaos/community-care/eligibility');
@@ -76,6 +83,11 @@ export default {
 
       return 'vaFacility';
     },
+    previous: 'typeOfCare',
+  },
+  typeOfSleepCare: {
+    url: '/new-appointment/choose-sleep-care',
+    next: 'typeOfFacility',
     previous: 'typeOfCare',
   },
   audiologyCareType: {
@@ -171,11 +183,17 @@ export default {
   visitType: {
     url: '/new-appointment/choose-visit-type',
     previous: 'reasonForAppointment',
+    // Update this when reasonForAppointment is merged
     next: 'contactInfo',
+  },
+  appointmentTime: {
+    url: '/new-appointment/appointment-time',
+    next: 'contactInfo',
+    previous: 'vaFacility',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    next: 'home',
+    next: 'review',
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
         return 'ccProvider';
@@ -183,5 +201,8 @@ export default {
 
       return 'visitType';
     },
+  },
+  review: {
+    url: '/new-appointment/review',
   },
 };
