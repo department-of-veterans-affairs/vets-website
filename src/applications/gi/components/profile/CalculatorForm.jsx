@@ -82,6 +82,14 @@ class CalculatorForm extends React.Component {
     }
   };
 
+  handleHasClassesOutsideUSChange = e => {
+    const { checked } = e.target;
+    if (!checked) {
+      this.handleBeneficiaryZIPCodeChanged({ value: '' });
+    }
+    this.handleCheckboxChange(e);
+  };
+
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
     this.props.onInputChange({ field, value });
@@ -531,6 +539,7 @@ class CalculatorForm extends React.Component {
     let amountInput;
     let internationalCheckbox;
     let extensionSelector;
+    let zipcodeLocation;
     let extensionOptions = [];
     const zipcodeRadioOptions = [
       {
@@ -581,15 +590,14 @@ class CalculatorForm extends React.Component {
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
       // Prod Flag for 19703
-      const label =
-        this.isCountryInternational() && !environment.isProduction
-          ? "If you're taking classes in the U.S., enter the location's zip code"
-          : "Please enter the zip code where you'll take your classes";
+      if (environment.isProduction() || !inputs.classesOutsideUS) {
+        // Prod Flag for 19703
+        const label =
+          this.isCountryInternational() && !environment.isProduction
+            ? "If you're taking classes in the U.S., enter the location's zip code"
+            : "Please enter the zip code where you'll take your classes";
 
-      // Prod Flag for 19703
-      amountInput =
-        environment.isProduction() ||
-        (!inputs.classesOutsideUS && (
+        amountInput = (
           <div>
             <ErrorableTextInput
               errorMessage={errorMessageCheck}
@@ -600,8 +608,15 @@ class CalculatorForm extends React.Component {
               charMax={5}
             />
           </div>
-        ));
+        );
 
+        zipcodeLocation = (
+          <p aria-live="polite" aria-atomic="true">
+            <span className="sr-only">Your zip code is located in</span>
+            <strong>{inputs.housingAllowanceCity}</strong>
+          </p>
+        );
+      }
       // Prod Flag for 19703
       internationalCheckbox = !environment.isProduction() && (
         <div>
@@ -609,7 +624,7 @@ class CalculatorForm extends React.Component {
             label={
               "I'll be taking classes outside of the U.S. and U.S. territories"
             }
-            onChange={this.handleCheckboxChange}
+            onChange={this.handleHasClassesOutsideUSChange}
             checked={inputs.classesOutsideUS}
             name={'classesOutsideUS'}
             id={'classesOutsideUS'}
@@ -648,11 +663,8 @@ class CalculatorForm extends React.Component {
         />
         {extensionSelector}
         {amountInput}
+        {zipcodeLocation}
         {internationalCheckbox}
-        <p aria-live="polite" aria-atomic="true">
-          <span className="sr-only">Your zip code is located in</span>
-          <strong>{inputs.housingAllowanceCity}</strong>
-        </p>
       </div>
     );
   };
