@@ -586,18 +586,21 @@ class CalculatorForm extends React.Component {
           ? "If you're taking classes in the U.S., enter the location's zip code"
           : "Please enter the zip code where you'll take your classes";
 
-      amountInput = (
-        <div>
-          <ErrorableTextInput
-            errorMessage={errorMessageCheck}
-            label={label}
-            name="beneficiaryZIPCode"
-            field={{ value: inputs.beneficiaryZIP }}
-            onValueChange={this.handleBeneficiaryZIPCodeChanged}
-            charMax={5}
-          />
-        </div>
-      );
+      // Prod Flag for 19703
+      amountInput =
+        environment.isProduction() ||
+        (!inputs.classesOutsideUS && (
+          <div>
+            <ErrorableTextInput
+              errorMessage={errorMessageCheck}
+              label={label}
+              name="beneficiaryZIPCode"
+              field={{ value: inputs.beneficiaryZIP }}
+              onValueChange={this.handleBeneficiaryZIPCodeChanged}
+              charMax={5}
+            />
+          </div>
+        ));
 
       // Prod Flag for 19703
       internationalCheckbox = !environment.isProduction() && (

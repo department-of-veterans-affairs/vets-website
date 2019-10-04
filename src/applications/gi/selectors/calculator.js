@@ -499,22 +499,28 @@ const getDerivedValues = createSelector(
       (inputs.beneficiaryLocationQuestion === 'extension' ||
         inputs.beneficiaryLocationQuestion === 'other');
 
-    // if beneficiary has indicated they are using the grandfathered rate, use it when available;
-    const useGrandfatheredBeneficiaryLocationRate =
-      inputs.giBillBenefit === 'yes';
-
     const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+    const hasClassesOutsideUS = inputs.classesOutsideUS;
+
     const avgBah = !hasUsedGiBillBenefit
       ? constant.AVGDODBAH
       : constant.AVGVABAH;
 
     if (useBeneficiaryLocationRate) {
-      // sometimes there's no grandfathered rate for a zip code
-      bah =
-        useGrandfatheredBeneficiaryLocationRate &&
-        inputs.beneficiaryLocationGrandfatheredBah
-          ? inputs.beneficiaryLocationGrandfatheredBah
-          : inputs.beneficiaryLocationBah;
+      // Prod Flag for 19703
+      if (hasClassesOutsideUS && !environment.isProduction()) {
+        if (hasUsedGiBillBenefit) {
+          bah = constant.AVGVABAH;
+        } else {
+          bah = constant.AVGDODBAH;
+        }
+      } else {
+        // sometimes there's no grandfathered rate for a zip code
+        bah =
+          hasUsedGiBillBenefit && inputs.beneficiaryLocationGrandfatheredBah
+            ? inputs.beneficiaryLocationGrandfatheredBah
+            : inputs.beneficiaryLocationBah;
+      }
     } else {
       // use the DOD rate on staging
       bah =
