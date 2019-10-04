@@ -13,9 +13,12 @@ export const addAllOption = options => [
   ...options,
 ];
 
+export const isCountryUSA = country => country === 'USA';
+export const isCountryInternational = country => !isCountryUSA(country);
+
 export const locationInfo = (city, state, country) => {
   let address = '';
-  if (country === 'USA') {
+  if (isCountryUSA(country)) {
     if (city && state) {
       address = `${city}, ${state}`;
     } else if (!state && city) {

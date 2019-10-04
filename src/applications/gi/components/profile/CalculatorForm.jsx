@@ -4,7 +4,11 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
-import { formatCurrency } from '../../utils/helpers';
+import {
+  formatCurrency,
+  isCountryInternational,
+  locationInfo,
+} from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import environment from 'platform/utilities/environment';
@@ -35,31 +39,24 @@ class CalculatorForm extends React.Component {
   };
 
   isInternationalCountry = () =>
-    this.props.profile.attributes.physicalCountry !== 'USA';
+    isCountryInternational(this.props.profile.attributes.physicalCountry);
 
   createExtensionOption = extension => {
     const {
       facilityCode,
       physicalCity,
       physicalState,
+      physicalCountry,
       physicalZip,
       institution,
     } = extension;
-    const extensionOption = {
-      value: `${facilityCode}-${physicalZip}`,
-      label: institution,
-    };
 
-    if (physicalCity && physicalState) {
-      extensionOption.label = `${
-        extensionOption.label
-      } (${physicalCity}, ${physicalState})`;
-    } else if (physicalCity) {
-      extensionOption.label = `${extensionOption.label} (${physicalCity})`;
-    } else if (physicalState) {
-      extensionOption.label = `${extensionOption.label} (${physicalState})`;
-    }
-    return extensionOption;
+    const address = locationInfo(physicalCity, physicalState, physicalCountry);
+
+    return {
+      value: `${facilityCode}-${physicalZip}`,
+      label: `${institution} ${address}`,
+    };
   };
 
   handleBeneficiaryZIPCodeChanged = event => {
