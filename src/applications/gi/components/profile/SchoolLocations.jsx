@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo } from '../../utils/helpers';
+import { locationInfo, isCountryInternational } from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
@@ -65,14 +66,21 @@ export class SchoolLocations extends React.Component {
   };
 
   estimatedHousingRow = institution => {
-    const fakeState = {
+    const schoolLocationCalculator = {
+      ...this.props.calculator,
+      classesOutsideUS:
+        !environment.isProduction() &&
+        isCountryInternational(institution.physicalCountry),
+    };
+
+    const schoolLocationState = {
       constants: { constants: this.props.constants },
       eligibility: this.props.eligibility,
       profile: { attributes: institution },
-      calculator: this.props.calculator,
+      calculator: schoolLocationCalculator,
     };
 
-    const calculated = getCalculatedBenefits(fakeState, this.props);
+    const calculated = getCalculatedBenefits(schoolLocationState, this.props);
     return calculated.outputs.housingAllowance.value;
   };
 
