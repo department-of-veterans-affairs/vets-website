@@ -743,3 +743,17 @@ $color-info-bubble-text: #818a8d;
 .va-nav-breadcrumbs:focus {
   outline: 0;
 }
+
+.service-type-ahead-input:focus {
+  &::-webkit-input-placeholder {
+    color: #5b616b;
+  }
+
+  &::-moz-placeholder {
+    color: #5b616b;
+  }
+
+  &::-ms-input-placeholder {
+    color: #5b616b;
+  }
+}
