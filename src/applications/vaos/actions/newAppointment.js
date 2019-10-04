@@ -73,7 +73,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         newAppointment.data.vaSystem || systems[0].institutionCode;
       facilities = await getFacilitiesBySystemAndTypeOfCare(
         systemId,
-        newAppointment.data.typeOfCareId,
+        typeOfCareId,
       );
     }
 
@@ -105,7 +105,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
       });
 
       facilities = await getFacilitiesBySystemAndTypeOfCare(
-        data.typeOfCareId,
+        typeOfCareId,
         data.vaSystem,
       );
 
