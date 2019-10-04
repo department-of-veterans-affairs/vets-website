@@ -52,25 +52,6 @@ function normalizedAttributes(attributes) {
   };
 }
 
-function normalizedProgramAttributes(attributes) {
-  const description = attributes.description
-    ? attributes.description.toUpperCase()
-    : attributes.description;
-  let institutionCity = attributes.institutionCity;
-  institutionCity = institutionCity
-    ? institutionCity.toUpperCase()
-    : institutionCity;
-  const institutionState = attributes.institutionState
-    ? attributes.institutionState.toUpperCase()
-    : attributes.institutionState;
-  return {
-    ...attributes,
-    description,
-    institutionCity,
-    institutionState,
-  };
-}
-
 function uppercaseKeys(obj) {
   return Object.keys(obj).reduce(
     (result, key) => ({
@@ -130,7 +111,7 @@ export default function(state = INITIAL_STATE, action) {
     case PROGRAM_SEARCH_SUCCEEDED:
       const programCamelPayload = camelCaseKeysRecursive(action.payload);
       const programResults = programCamelPayload.data.reduce((acc, result) => {
-        const attributes = normalizedProgramAttributes(result.attributes);
+        const attributes = normalizedAttributes(result.attributes);
         return [...acc, attributes];
       }, []);
       return {
