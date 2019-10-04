@@ -105,7 +105,7 @@ class ReceiveTextMessages extends React.Component {
           />
           <AlertBox
             isVisible={this.isSuccessVisible()}
-            content={<p>Your preference has been saved.</p>}
+            content={<p>We've saved your preference.</p>}
             status="success"
             backgroundOnly
           />
@@ -123,7 +123,8 @@ export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable =
-    !isEmpty && profileState.vet360.mobilePhone.phoneType === 'MOBILE';
+    !isEmpty &&
+    profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
   const isVerified = !environment.isProduction() && profileState.verified;
   const hideCheckbox =
     environment.isProduction() ||
@@ -133,7 +134,8 @@ export function mapStateToProps(state, ownProps) {
     hasError ||
     isPending;
   const transactionSuccess =
-    state.vet360.transactionStatus === 'COMPLETED_SUCCESS';
+    state.vet360.transactionStatus ===
+    VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,
     hideCheckbox,

@@ -1,4 +1,5 @@
 import newAppointmentFlow from '../newAppointmentFlow';
+import { getTypeOfCare } from '../utils/selectors';
 import {
   getSystemIdentifiers,
   getSystemDetails,
@@ -61,9 +62,10 @@ export function openFacilityPage(page, uiSchema, schema) {
 
     const canShowFacilities =
       newAppointment.data.vaSystem || systems?.length === 1;
+    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
     const hasExistingFacilities = !!newAppointment.facilities[
-      `${newAppointment.data.typeOfCareId}_${newAppointment.data.vaSystem}`
+      `${typeOfCareId}_${newAppointment.data.vaSystem}`
     ];
 
     if (canShowFacilities && !hasExistingFacilities) {
@@ -82,7 +84,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       schema,
       systems,
       facilities,
-      typeOfCareId: newAppointment.data.typeOfCareId,
+      typeOfCareId,
     });
   };
 }
@@ -90,9 +92,10 @@ export function openFacilityPage(page, uiSchema, schema) {
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const previousNewAppointmentState = getState().newAppointment;
+    const typeOfCareId = getTypeOfCare(data)?.id;
     let facilities =
       previousNewAppointmentState.facilities[
-        `${data.typeOfCareId}_${data.vaSystem}`
+        `${typeOfCareId}_${data.vaSystem}`
       ];
     dispatch(updateFormData(page, uiSchema, data));
 
@@ -110,7 +113,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema,
         facilities,
-        typeOfCareId: data.typeOfCareId,
+        typeOfCareId,
       });
     } else if (
       data.vaSystem &&
@@ -119,7 +122,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
       dispatch({
         type: FORM_VA_SYSTEM_CHANGED,
         uiSchema,
-        typeOfCareId: data.typeOfCareId,
+        typeOfCareId,
       });
     }
   };

@@ -107,7 +107,7 @@ describe('VAOS newAppointment actions', () => {
     const defaultState = {
       newAppointment: {
         data: {
-          typeOfCareId: 323,
+          typeOfCareId: '323',
         },
         pages: {},
         loadingSystems: false,

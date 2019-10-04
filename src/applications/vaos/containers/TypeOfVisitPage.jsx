@@ -9,6 +9,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
+import { TYPE_OF_VISIT } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -16,7 +17,8 @@ const initialSchema = {
   properties: {
     visitType: {
       type: 'string',
-      enum: ['office', 'phone', 'telehealth'],
+      enum: TYPE_OF_VISIT.map(v => v.id),
+      enumNames: TYPE_OF_VISIT.map(v => v.name),
     },
   },
 };
@@ -26,11 +28,6 @@ const uiSchema = {
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
-      labels: {
-        office: 'Office visit',
-        phone: 'Phone call',
-        telehealth: 'Telehealth',
-      },
     },
   },
 };
