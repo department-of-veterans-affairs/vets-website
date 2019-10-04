@@ -12,6 +12,7 @@ import {
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import environment from 'platform/utilities/environment';
+import Checkbox from '../Checkbox';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class CalculatorForm extends React.Component {
     return extensions;
   };
 
-  isInternationalCountry = () =>
+  isCountryInternational = () =>
     isCountryInternational(this.props.profile.attributes.physicalCountry);
 
   createExtensionOption = extension => {
@@ -79,6 +80,11 @@ class CalculatorForm extends React.Component {
       }
       this.handleInputChange(event);
     }
+  };
+
+  handleCheckboxChange = e => {
+    const { name: field, checked: value } = e.target;
+    this.props.onInputChange({ field, value });
   };
 
   handleInputChange = event => {
@@ -523,6 +529,7 @@ class CalculatorForm extends React.Component {
     const extensions = this.getExtensions();
 
     let amountInput;
+    let internationalCheckbox;
     let extensionSelector;
     let extensionOptions = [];
     const zipcodeRadioOptions = [
@@ -573,8 +580,9 @@ class CalculatorForm extends React.Component {
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
+      // Prod Flag for 19703
       const label =
-        this.isInternationalCountry() && !environment.isProduction
+        this.isCountryInternational() && !environment.isProduction
           ? "If you're taking classes in the U.S., enter the location's zip code"
           : "Please enter the zip code where you'll take your classes";
 
@@ -587,6 +595,21 @@ class CalculatorForm extends React.Component {
             field={{ value: inputs.beneficiaryZIP }}
             onValueChange={this.handleBeneficiaryZIPCodeChanged}
             charMax={5}
+          />
+        </div>
+      );
+
+      // Prod Flag for 19703
+      internationalCheckbox = !environment.isProduction() && (
+        <div>
+          <Checkbox
+            label={
+              "I'll be taking classes outside of the U.S. and U.S. territories"
+            }
+            onChange={this.handleCheckboxChange}
+            checked={inputs.classesOutsideUS}
+            name={'classesOutsideUS'}
+            id={'classesOutsideUS'}
           />
         </div>
       );
@@ -622,6 +645,7 @@ class CalculatorForm extends React.Component {
         />
         {extensionSelector}
         {amountInput}
+        {internationalCheckbox}
         <p aria-live="polite" aria-atomic="true">
           <span className="sr-only">Your zip code is located in</span>
           <strong>{inputs.housingAllowanceCity}</strong>

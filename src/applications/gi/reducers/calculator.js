@@ -39,6 +39,7 @@ const INITIAL_STATE = {
   buyUpAmount: 600,
   vetTecTuitionFees: null,
   vetTecScholarships: null,
+  classesOutsideUS: false,
 };
 
 export default function(state = INITIAL_STATE, action) {
