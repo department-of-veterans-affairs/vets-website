@@ -66,11 +66,16 @@ export class SchoolLocations extends React.Component {
   };
 
   estimatedHousingRow = institution => {
+    const countryIsInternational = isCountryInternational(
+      institution.physicalCountry,
+    );
+    const beneficiaryLocationQuestion =
+      !environment.isProduction() && countryIsInternational ? 'other' : null;
+
     const schoolLocationCalculator = {
       ...this.props.calculator,
-      classesOutsideUS:
-        !environment.isProduction() &&
-        isCountryInternational(institution.physicalCountry),
+      classesOutsideUS: !environment.isProduction() && countryIsInternational,
+      beneficiaryLocationQuestion,
     };
 
     const schoolLocationState = {
