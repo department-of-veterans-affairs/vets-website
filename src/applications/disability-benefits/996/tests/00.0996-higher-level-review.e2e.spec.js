@@ -4,11 +4,7 @@ const manifest = require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   client
-    .url(
-      `${
-        E2eHelpers.baseUrl
-      }/disability-benefits/apply/form-0996-higher-level-review`,
-    )
+    .url(`${E2eHelpers.baseUrl}${manifest.rootUrl}`)
     .waitForElementVisible('body', Timeouts.normal)
     .axeCheck('.main');
 
