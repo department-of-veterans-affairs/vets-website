@@ -4,6 +4,7 @@ import {
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
 } from '../actions';
+import { normalizedAttributes } from './utility';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import _ from 'lodash';
 
@@ -12,23 +13,6 @@ const INITIAL_STATE = {
   version: {},
   inProgress: false,
 };
-
-function normalizedAttributes(attributes) {
-  const name = attributes.name
-    ? attributes.name.toUpperCase()
-    : attributes.name;
-  let city = attributes.physicalCity || attributes.city;
-  city = city ? city.toUpperCase() : city;
-  const state = attributes.state
-    ? attributes.state.toUpperCase()
-    : attributes.state;
-  return {
-    ...attributes,
-    name,
-    city,
-    state,
-  };
-}
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {

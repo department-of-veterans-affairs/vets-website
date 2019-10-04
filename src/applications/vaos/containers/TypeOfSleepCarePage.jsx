@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+
+import { TYPES_OF_SLEEP_CARE } from '../utils/constants';
 import FormButtons from '../components/FormButtons';
 import {
   openFormPage,
@@ -9,32 +11,32 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
-import { TYPE_OF_VISIT } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
-  required: ['visitType'],
+  required: ['typeOfSleepCareId'],
   properties: {
-    visitType: {
+    typeOfSleepCareId: {
       type: 'string',
-      enum: TYPE_OF_VISIT.map(v => v.id),
-      enumNames: TYPE_OF_VISIT.map(v => v.name),
+      enum: TYPES_OF_SLEEP_CARE.map(care => care.id),
+      enumNames: TYPES_OF_SLEEP_CARE.map(care => care.name),
     },
   },
 };
 
 const uiSchema = {
-  visitType: {
+  typeOfSleepCareId: {
     'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
+      labels: {},
     },
   },
 };
 
-const pageKey = 'visitType';
+const pageKey = 'typeOfSleepCare';
 
-export class TypeOfVisitPage extends React.Component {
+export class TypeOfSleepCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
@@ -52,10 +54,12 @@ export class TypeOfVisitPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">How would you like to be seen?</h1>
+        <h1 className="vads-u-font-size--h2">
+          Choose the type of sleep care you need
+        </h1>
         <SchemaForm
-          name="Type of visit"
-          title="Type of visit"
+          name="Type of sleep care"
+          title="Type of sleep care"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
@@ -88,4 +92,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TypeOfVisitPage);
+)(TypeOfSleepCarePage);

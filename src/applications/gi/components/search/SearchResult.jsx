@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { estimatedBenefits } from '../../selectors/estimator';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, locationInfo } from '../../utils/helpers';
 import { renderCautionFlag, renderSchoolClosingFlag } from '../../utils/render';
 
 export class SearchResult extends React.Component {
@@ -52,7 +52,7 @@ export class SearchResult extends React.Component {
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality">
-                    {city}, {state || country}
+                    {locationInfo(city, state, country)}
                   </p>
                   <p className="count">
                     {(+studentCount).toLocaleString()} GI Bill Students

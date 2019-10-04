@@ -4,22 +4,23 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { CommunityCarePreferencesPage } from '../../containers/CommunityCarePreferencesPage';
+import { TypeOfSleepCarePage } from '../../containers/TypeOfSleepCarePage';
 
-describe('VAOS <CommunityCarePreferencesPage>', () => {
+describe('VAOS <TypeOfSleepCarePage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <CommunityCarePreferencesPage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         data={{}}
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('fieldset').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -30,7 +31,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     };
 
     const form = mount(
-      <CommunityCarePreferencesPage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         router={router}
         data={{}}
@@ -39,7 +40,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(1);
     expect(router.push.called).to.be.false;
     form.unmount();
   });
@@ -52,7 +53,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     };
 
     const form = mount(
-      <CommunityCarePreferencesPage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         router={router}
@@ -60,23 +61,9 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_distanceWillingToTravel', '25');
+    selectRadio(form, 'root_typeOfSleepCareId', '349');
 
-    const language = form.find('select#root_preferredLanguage');
-
-    expect(updateFormData.firstCall.args[2].distanceWillingToTravel).to.equal(
-      '25',
-    );
-
-    language.simulate('change', {
-      target: {
-        value: 'Chinese',
-      },
-    });
-
-    expect(updateFormData.secondCall.args[2].preferredLanguage).to.equal(
-      'Chinese',
-    );
+    expect(updateFormData.firstCall.args[2].typeOfSleepCareId).to.equal('349');
     form.unmount();
   });
 
@@ -85,10 +72,10 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <CommunityCarePreferencesPage
+      <TypeOfSleepCarePage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ distanceWillingToTravel: '25', preferredLanguage: 'english' }}
+        data={{ typeOfSleepCareId: '349' }}
       />,
     );
 

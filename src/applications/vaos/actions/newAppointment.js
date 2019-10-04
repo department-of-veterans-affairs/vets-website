@@ -4,6 +4,7 @@ import mockFacility983Data from './facilities_983.json';
 import mockFacility984Data from './facilities_984.json';
 
 import newAppointmentFlow from '../newAppointmentFlow';
+import { getTypeOfCare } from '../utils/selectors';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -82,18 +83,17 @@ export function openFacilityPage(page, uiSchema, schema) {
 
     const canShowFacilities =
       newAppointment.data.vaSystem || systems?.length === 1;
+    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
     const hasExistingFacilities = !!newAppointment.facilities[
-      `${newAppointment.data.typeOfCareId}_${newAppointment.data.vaSystem}`
+      `${typeOfCareId}_${newAppointment.data.vaSystem}`
     ];
 
     if (canShowFacilities && !hasExistingFacilities) {
       const systemId =
         newAppointment.data.vaSystem || systems[0].institutionCode;
       facilities = await mockInstitutionsFetch(
-        `/systems/${systemId}/facilities?typeOfCareId=${
-          newAppointment.data.typeOfCareId
-        }`,
+        `/systems/${systemId}/facilities?typeOfCareId=${typeOfCareId}`,
       );
     }
 
@@ -104,7 +104,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       schema,
       systems,
       facilities,
-      typeOfCareId: newAppointment.data.typeOfCareId,
+      typeOfCareId,
     });
   };
 }
@@ -112,9 +112,10 @@ export function openFacilityPage(page, uiSchema, schema) {
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const previousNewAppointmentState = getState().newAppointment;
+    const typeOfCareId = getTypeOfCare(data)?.id;
     let facilities =
       previousNewAppointmentState.facilities[
-        `${data.typeOfCareId}_${data.vaSystem}`
+        `${typeOfCareId}_${data.vaSystem}`
       ];
     dispatch(updateFormData(page, uiSchema, data));
 
@@ -124,16 +125,14 @@ export function updateFacilityPageData(page, uiSchema, data) {
       });
 
       facilities = await mockInstitutionsFetch(
-        `/systems/${data.vaSystem}/facilities?typeOfCareId=${
-          data.typeOfCareId
-        }`,
+        `/systems/${data.vaSystem}/facilities?typeOfCareId=${typeOfCareId}`,
       );
 
       dispatch({
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema,
         facilities,
-        typeOfCareId: data.typeOfCareId,
+        typeOfCareId,
       });
     } else if (
       data.vaSystem &&
@@ -142,7 +141,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
       dispatch({
         type: FORM_VA_SYSTEM_CHANGED,
         uiSchema,
-        typeOfCareId: data.typeOfCareId,
+        typeOfCareId,
       });
     }
   };
