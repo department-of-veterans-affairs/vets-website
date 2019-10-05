@@ -22,7 +22,7 @@ export default function MVIError({ facilitiesClick }) {
       </p>
 
       <p>
-        <a href={facilityLocator} onClick={facilitiesClick}>
+        <a href={facilityLocator.rootUrl} onClick={facilitiesClick}>
           Find your nearest VA Medical Center
         </a>
       </p>
