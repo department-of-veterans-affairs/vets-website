@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
+import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
+import createCommonStore from '../../../../platform/startup/store';
 
 describe('<VetTecScoContact>', () => {
   it('should render', () => {
@@ -52,5 +54,18 @@ describe('<VetTecScoContact>', () => {
     const tree = SkinDeep.shallowRender(VetTecScoContact(sco));
     const placeholder = tree.subTree('.vads-u-margin-y--5');
     expect(placeholder).not.to.be.false;
+  });
+});
+
+describe('<VetTecApprovedPrograms>', () => {
+  it('should render', () => {
+    const defaultProps = {
+      store: createCommonStore(),
+    };
+    const tree = SkinDeep.shallowRender(
+      <VetTecApprovedPrograms {...defaultProps} />,
+    );
+    const vdom = tree.getRenderOutput();
+    expect(vdom).to.not.be.undefined;
   });
 });
