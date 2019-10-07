@@ -211,3 +211,7 @@ export const DISTANCES = [
     name: 'Further than 50 miles',
   },
 ];
+
+export const DISABLED_LIMIT_VALUE = 0;
+export const PRIMARY_CARE = '323';
+export const DIRECT_SCHEDULE_TYPES = new Set([PRIMARY_CARE, '502']);

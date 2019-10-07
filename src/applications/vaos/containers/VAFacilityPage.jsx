@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 
@@ -99,10 +100,13 @@ export class VAFacilityPage extends React.Component {
       pageChangeInProgress,
       loadingSystems,
       loadingFacilities,
+      loadingEligibility,
       facility,
       singleValidVALocation,
       noValidVASystems,
       noValidVAFacilities,
+      eligibility,
+      canScheduleAtChosenFacility,
     } = this.props;
 
     if (loadingSystems) {
@@ -160,10 +164,24 @@ export class VAFacilityPage extends React.Component {
           formContext={{ vaSystem: data.vaSystem }}
           data={data}
         >
+          {data.vaFacility &&
+            data.vaFacility.startsWith(data.vaSystem) &&
+            !loadingEligibility &&
+            !canScheduleAtChosenFacility && (
+              <AlertBox
+                eligibility={eligibility}
+                status="warning"
+                headline="Sorry, there are problems"
+              />
+            )}
           <FormButtons
             onBack={this.goBack}
-            disabled={loadingFacilities || noValidVAFacilities}
-            pageChangeInProgress={pageChangeInProgress}
+            disabled={
+              loadingFacilities ||
+              noValidVAFacilities ||
+              !canScheduleAtChosenFacility
+            }
+            pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
         </SchemaForm>
       </div>

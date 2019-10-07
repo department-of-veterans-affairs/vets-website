@@ -18,16 +18,26 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
+  FORM_ELIGIBILITY_CHECKS,
+  FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
 } from '../actions/newAppointment';
+
+import {
+  DIRECT_SCHEDULE_TYPES,
+  PRIMARY_CARE,
+  DISABLED_LIMIT_VALUE,
+} from '../utils/constants';
 
 const initialState = {
   pages: {},
   data: {},
   facilities: {},
   clinics: {},
+  eligibility: {},
   systems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
+  loadingEligibility: false,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -88,6 +98,68 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   }
 
   return { schema: newSchema, data: newData };
+}
+
+function getEligibilityStatus(vaFacility, typeOfCareId, eligibilityData) {
+  const eligibility = {
+    directTypes: true,
+    directPastVisit: true,
+    directPastVisitValue: null,
+    directPACT: true,
+    directClinics: true,
+    requestPastVisit: true,
+    requestPastVisitValue: null,
+    requestLimit: true,
+    requestLimitValue: null,
+  };
+
+  if (!DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
+    eligibility.directTypes = false;
+  } else {
+    if (
+      eligibilityData.directPastVisit.durationInMonths ===
+        DISABLED_LIMIT_VALUE ||
+      !eligibilityData.directPastVisit.hasVisitedInPastMonths
+    ) {
+      eligibility.directPastVisit = false;
+      eligibility.directPastVisitValue =
+        eligibilityData.directPastVisit.durationInMonths;
+    }
+
+    if (
+      typeOfCareId === PRIMARY_CARE &&
+      !eligibilityData.pacTeam.some(
+        provider => provider.facilityId === vaFacility.substring(0, 3),
+      )
+    ) {
+      eligibility.directPACT = false;
+    }
+
+    if (!eligibilityData.clinics.length) {
+      eligibility.directClinics = false;
+    }
+  }
+
+  if (
+    eligibilityData.requestPastVisit.durationInMonths ===
+      DISABLED_LIMIT_VALUE ||
+    !eligibilityData.requestPastVisit.hasVisitedInPastMonths
+  ) {
+    eligibility.requestPastVisit = false;
+    eligibility.requestPastVisitValue =
+      eligibilityData.requestPastVisit.durationInMonths;
+  }
+
+  if (
+    eligibilityData.requestLimits.requestLimit === DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestLimits.numberOfRequests >=
+      eligibilityData.requestLimits.requestLimit
+  ) {
+    eligibility.requestLimit = false;
+    eligibility.requestLimitValue = eligibilityData.requestLimits.requestLimit;
+  }
+
+  return eligibility;
 }
 
 export default function formReducer(state = initialState, action) {
@@ -196,6 +268,20 @@ export default function formReducer(state = initialState, action) {
         action.uiSchema,
       );
 
+      let eligibility = state.eligibility;
+      if (action.eligibilityData) {
+        const facilityEligibility = getEligibilityStatus(
+          newData.vaFacility,
+          action.typeOfCareId,
+          action.eligibilityData,
+        );
+
+        eligibility = {
+          ...state.eligibility,
+          [`${newData.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+        };
+      }
+
       return {
         ...state,
         systems,
@@ -209,6 +295,7 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+        eligibility,
       };
     }
     case FORM_FETCH_CHILD_FACILITIES: {
@@ -278,6 +365,32 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacility: schema,
         },
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS: {
+      return {
+        ...state,
+        loadingEligibility: true,
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
+      const eligibility = getEligibilityStatus(
+        state.data.vaFacility,
+        action.typeOfCareId,
+        action.eligibilityData,
+      );
+
+      return {
+        ...state,
+        clinics: {
+          ...state.clinics,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action.clinics,
+        },
+        eligibility: {
+          ...state.eligibility,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
+        },
+        loadingEligibility: false,
       };
     }
     default:

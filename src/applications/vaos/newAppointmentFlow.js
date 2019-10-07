@@ -16,6 +16,7 @@ import {
 const AUDIOLOGY = '203';
 const DISABLED_LIMIT_VALUE = 0;
 const SLEEP_CARE = 'SLEEP';
+const DIRECT_SCHEDULE_TYPES = new Set(['323', '502']);
 
 function isCCAudiology(state) {
   return (
@@ -113,65 +114,72 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    // next: 'visitType',
-    async next(state, dispatch) {
-      const facility = getChosenFacilityInfo(state);
-      const typeOfCareId = getTypeOfCare(state)?.id;
-
-      const {
-        durationInMonths,
-        hasVisitedInPastMonths,
-      } = await checkPastVisits(
-        `/vaos/facilities/${
-          facility.institution.institutionCode
-        }/visits?typeOfCareId=${typeOfCareId}`,
-      );
-
-      if (
-        durationInMonths === DISABLED_LIMIT_VALUE ||
-        !hasVisitedInPastMonths
-      ) {
-        return 'visitRequirements';
-      }
-
-      // The facility page should prevent you from choosing
-      // a facility that doesn't have either requests or
-      // direct scheduling, so we only need to check one
-      if (!facility.directSchedulingSupported) {
-        const { requestLimit, numberOfRequests } = await getRequestLimits(
-          `/vaos/facilities/${
-            facility.institution.institutionCode
-          }/limits?typeOfCareId=${typeOfCareId}`,
-        );
-
-        if (
-          requestLimit === DISABLED_LIMIT_VALUE ||
-          numberOfRequests >= requestLimit
-        ) {
-          return 'requestLimits';
-        }
-
-        return 'visitType';
-      }
-
-      const [clinics, appointments] = await Promise.all([
-        getClinics(facility.institution.institutionCode),
-        getPastAppointments(),
-      ]);
-      const apptHash = buildApptHash(appointments);
-
-      if (clinics.some(clinic => !!apptHash[clinic.clinicId])) {
-        dispatch({
-          type: 'START_DIRECT_SCHEDULE_FLOW',
-          clinics,
-          appointments,
-        });
-
-        return 'clinicChoice';
-      }
-
-      return 'visitType';
-    },
+    next: 'visitType',
+    // async next(state, dispatch) {
+    //   const facility = getChosenFacilityInfo(state);
+    //   // const typeOfCareId = getTypeOfCare(state)?.id;
+    //   const canDirectSchedule = isDirectScheduleEligible(state);
+    //   const canRequest = isRequestEligible(state);
+    //
+    //   // const {
+    //   //   durationInMonths,
+    //   //   hasVisitedInPastMonths,
+    //   // } = await checkPastVisits(facility.institution.institutionCode, typeOfCareId, 'direct');
+    //   //
+    //   // if (
+    //   //   durationInMonths === DISABLED_LIMIT_VALUE ||
+    //   //   !hasVisitedInPastMonths
+    //   // ) {
+    //   //   return 'visitRequirements';
+    //   // }
+    //
+    //   // The facility page should prevent you from choosing
+    //   // a facility that doesn't have either requests or
+    //   // direct scheduling, so we only need to check one
+    //   // if (
+    //   //   !facility.directSchedulingSupported ||
+    //   //   !DIRECT_SCHEDULE_TYPES.has(typeOfCareId)
+    //   // ) {
+    //   //   const { requestLimit, numberOfRequests } = await getRequestLimits(
+    //   //     `/vaos/facilities/${
+    //   //       facility.institution.institutionCode
+    //   //     }/limits?typeOfCareId=${typeOfCareId}`,
+    //   //   );
+    //   //
+    //   //   if (
+    //   //     requestLimit === DISABLED_LIMIT_VALUE ||
+    //   //     numberOfRequests >= requestLimit
+    //   //   ) {
+    //   //     return 'requestLimits';
+    //   //   }
+    //   //
+    //   //   return 'visitType';
+    //   // }
+    //
+    //   if (canDirectSchedule) {
+    //     const [clinics, appointments] = await Promise.all([
+    //       getClinics(facility.institution.institutionCode),
+    //       getPastAppointments(),
+    //     ]);
+    //     const apptHash = buildApptHash(appointments);
+    //
+    //     if (clinics.some(clinic => !!apptHash[clinic.clinicId])) {
+    //       dispatch({
+    //         type: 'START_DIRECT_SCHEDULE_FLOW',
+    //         clinics,
+    //         appointments,
+    //       });
+    //
+    //       return 'clinicChoice';
+    //     }
+    //   } else if (canRequest) {
+    //     return 'visitType';
+    //   } else {
+    //     throw new Error('No valid options to continue through flow');
+    //   }
+    //
+    //   return null;
+    // },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },

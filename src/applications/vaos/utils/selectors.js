@@ -74,15 +74,41 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
+export function getSchedulingEligibility(state) {
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  return (
+    newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
+  );
+}
+
+export function canScheduleAtChosenFacility(state) {
+  const eligibility = getSchedulingEligibility(state);
+
+  if (!eligibility) {
+    return null;
+  }
+
+  return Object.values(eligibility).every(value => value !== false);
+}
+
 export function getFacilityPageInfo(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
+  const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+  const eligibility =
+    newAppointment.eligibility[`${formInfo.data.vaFacility}_${typeOfCareId}`] ||
+    null;
 
   return {
     ...formInfo,
     facility: getChosenFacilityInfo(state),
     loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
+    loadingEligibility: newAppointment.loadingEligibility,
+    eligibility,
+    canScheduleAtChosenFacility: canScheduleAtChosenFacility(state),
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVASystems:
       !formInfo.data.vaSystem &&

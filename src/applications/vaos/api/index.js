@@ -9,6 +9,7 @@ import mockFacility983Data from './facilities_983.json';
 import mockFacility984Data from './facilities_984.json';
 
 import mockClinicList from './clinicList983.json';
+import mockPACT from './pact.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
@@ -74,13 +75,20 @@ export function getFacilitiesBySystemAndTypeOfCare(typeOfCareId, facilityId) {
   });
 }
 
-export function checkPastVisits(facilityId) {
+export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve({
-        durationInMonths: 24,
-        hasVisitedInPastMonths: !facilityId.includes('984'),
-      });
+      if (directOrRequest === 'direct') {
+        resolve({
+          durationInMonths: 24,
+          hasVisitedInPastMonths: !facilityId.includes('984'),
+        });
+      } else {
+        resolve({
+          durationInMonths: 12,
+          hasVisitedInPastMonths: !facilityId.includes('984'),
+        });
+      }
     }, 500);
   });
 }
@@ -105,5 +113,17 @@ export function getClinics(facilityId) {
         resolve([]);
       }
     }, 500);
+  });
+}
+
+export function getPacTeam(systemId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (systemId === '983') {
+        resolve(mockPACT);
+      } else {
+        resolve([]);
+      }
+    }, 750);
   });
 }
