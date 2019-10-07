@@ -8,17 +8,13 @@ describe('<RatedDisabilityApp/>', () => {
   const props = {
     ratedDisabilities: [],
     user: {},
-    loginUrl: '',
-    verifyUrl: '',
+    profile: { loading: false },
     fetchRatedDisabilities: sinon.stub(),
   };
-  it('should render a RequiredLoginView', () => {
-    const wrapper = shallow(
-      <RatedDisabilitiesApp {...props}>
-        <div>App Children</div>
-      </RatedDisabilitiesApp>,
-    );
-    expect(wrapper.find('RequiredLoginView').length).to.equal(1);
+  it('should render a CallToActionWidget', () => {
+    const wrapper = shallow(<RatedDisabilitiesApp {...props} />);
+    wrapper.update();
+    expect(wrapper.find('Connect(CallToActionWidget)').length).to.equal(1);
     wrapper.unmount();
   });
 });
