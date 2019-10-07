@@ -29,7 +29,7 @@ class RatedDisabilityTable extends React.Component {
         content = (
           <>
             <p>
-              We're sorry. An error occurred when accessing your disability
+              We are sorry. An error occurred when accessing your disability
               rating information.
             </p>
             <h4>What you can do</h4>
@@ -48,8 +48,8 @@ class RatedDisabilityTable extends React.Component {
         content = (
           <>
             <p>
-              We sorry. We can't find a disability rating matched with the name,
-              date of birth, and social secuity number you provided in our
+              We are sorry. We can't find a disability rating matched with the
+              name, date of birth, and social secuity number you provided in our
               Veteran records.
             </p>
             <h4>What you can do</h4>

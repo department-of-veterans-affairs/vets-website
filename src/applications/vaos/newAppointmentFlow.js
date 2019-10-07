@@ -1,6 +1,7 @@
 import { getFormData } from './utils/selectors';
 
 const AUDIOLOGY = '203';
+const SLEEP_CARE = '143';
 
 function isCCAudiology(state) {
   return (
@@ -15,7 +16,13 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    next: 'typeOfFacility',
+    next(state) {
+      if (getFormData(state).typeOfCareId === SLEEP_CARE) {
+        return 'typeOfSleepCare';
+      }
+      return 'typeOfFacility';
+    },
+
     // async next(state) {
     //   try {
     //     const data = await apiRequest('/vaos/community-care/eligibility');
@@ -46,6 +53,11 @@ export default {
     },
     previous: 'typeOfCare',
   },
+  typeOfSleepCare: {
+    url: '/new-appointment/choose-sleep-care',
+    next: 'typeOfFacility',
+    previous: 'typeOfCare',
+  },
   audiologyCareType: {
     url: '/new-appointment/audiology',
     next: 'ccProvider',
@@ -69,13 +81,18 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'visitType',
+    next: 'reasonForAppointment',
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },
+  reasonForAppointment: {
+    url: '/new-appointment/reason-appointment',
+    next: 'visitType',
+    previous: 'vaFacility',
+  },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    previous: 'vaFacility',
+    previous: 'reasonForAppointment',
     next: 'contactInfo',
   },
   contactInfo: {

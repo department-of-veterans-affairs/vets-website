@@ -46,7 +46,6 @@ export default function TypeOfCareField({ formData, onChange, idSchema }) {
         <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
           Mental and behavioral health
         </legend>
-        Including outpatient mental health and social services
         {MENTAL_HEALTH.map(care => (
           <RadioWidget
             key={care.id}
@@ -61,7 +60,6 @@ export default function TypeOfCareField({ formData, onChange, idSchema }) {
         <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
           Specialty care
         </legend>
-        Including hearing aid support and some other types of specialty care
         {SPECIALTY.map(care => (
           <RadioWidget
             key={care.id}

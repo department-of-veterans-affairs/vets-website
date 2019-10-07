@@ -45,6 +45,7 @@ class ReceiveTextMessages extends React.Component {
   }
 
   onChange = event => {
+    if (this.state.startedTransaction) return;
     if (this.state.lastTransaction) this.clearSuccess();
     this.setState({
       startedTransaction: true,
@@ -96,15 +97,15 @@ class ReceiveTextMessages extends React.Component {
             checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
             label={
               <span>
-                Receive text messages (SMS) for VA health care appointment
-                reminders.
+                Send me text message (SMS) reminders for my VA health care
+                appointments
               </span>
             }
             onValueChange={this.onChange}
           />
           <AlertBox
             isVisible={this.isSuccessVisible()}
-            content={<p>Your preference has been saved.</p>}
+            content={<p>We've saved your preference.</p>}
             status="success"
             backgroundOnly
           />
@@ -122,7 +123,8 @@ export function mapStateToProps(state, ownProps) {
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable =
-    !isEmpty && profileState.vet360.mobilePhone.phoneType === 'MOBILE';
+    !isEmpty &&
+    profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
   const isVerified = !environment.isProduction() && profileState.verified;
   const hideCheckbox =
     environment.isProduction() ||
@@ -132,7 +134,8 @@ export function mapStateToProps(state, ownProps) {
     hasError ||
     isPending;
   const transactionSuccess =
-    state.vet360.transactionStatus === 'COMPLETED_SUCCESS';
+    state.vet360.transactionStatus ===
+    VET360.TRANSACTION_STATUS.COMPLETED_SUCCESS;
   return {
     profile: profileState,
     hideCheckbox,

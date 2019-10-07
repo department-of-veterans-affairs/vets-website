@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { areBoundsEqual, validateIdString } from '../utils/helpers';
+import {
+  areBoundsEqual,
+  formatOperatingHours,
+  validateIdString,
+} from '../utils/helpers';
 
 describe('Locator Helper Method Tests', () => {
   describe('areBoundsEqual Tests', () => {
@@ -163,5 +167,50 @@ describe('Validate ID Strings for Breadcrumb', () => {
   it('Should not handle patterns without a type prefix', () => {
     const result = validateIdString('/abcdefg_abcdefg', '/');
     expect(result).to.eql(null);
+  });
+
+  it('formatOperatingHours should convert API hour (without colon) to a human readable hour', () => {
+    const operatingHours = '800AM-430PM';
+    const expected = '8:00a.m. - 4:30p.m.';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should convert API hour (with colon) to a human readable hour', () => {
+    const operatingHours = '8:00AM-4:30PM';
+    const expected = '8:00a.m. - 4:30p.m.';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should return "N/A" if a time is invalid', () => {
+    const operatingHours = '00AM-30PM';
+    const expected = 'N/A - N/A';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should return "Closed" if format is "-"', () => {
+    const operatingHours = '-';
+    const expected = 'Closed';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
+  });
+
+  it('formatOperatingHours should return "Closed" if format is "Closed"', () => {
+    const operatingHours = 'Closed';
+    const expected = 'Closed';
+
+    const result = formatOperatingHours(operatingHours);
+
+    expect(result).to.eq(expected);
   });
 });

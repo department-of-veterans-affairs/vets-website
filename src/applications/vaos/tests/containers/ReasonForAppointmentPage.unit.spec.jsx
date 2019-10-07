@@ -4,23 +4,22 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
-import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
+import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentPage';
 
-describe('VAOS <TypeOfCarePage>', () => {
+describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <ReasonForAppointmentPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         data={{}}
       />,
     );
 
-    expect(form.find('fieldset').length).to.equal(3);
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(3);
     form.unmount();
   });
 
@@ -31,7 +30,11 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage openFormPage={openFormPage} router={router} data={{}} />,
+      <ReasonForAppointmentPage
+        openFormPage={openFormPage}
+        router={router}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -49,7 +52,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     };
 
     const form = mount(
-      <TypeOfCarePage
+      <ReasonForAppointmentPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
         router={router}
@@ -57,9 +60,11 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_typeOfCareId', '323');
+    selectRadio(form, 'root_reasonForAppointment', 'routine-follow-up');
 
-    expect(updateFormData.firstCall.args[2].typeOfCareId).to.equal('323');
+    expect(updateFormData.firstCall.args[2].reasonForAppointment).to.equal(
+      'routine-follow-up',
+    );
     form.unmount();
   });
 
@@ -68,17 +73,17 @@ describe('VAOS <TypeOfCarePage>', () => {
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <TypeOfCarePage
+      <ReasonForAppointmentPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ typeOfCareId: '323' }}
+        data={{
+          reasonForAppointment: 'routine-follow-up',
+        }}
       />,
     );
-
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
 });
