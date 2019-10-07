@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
 import { fetchRatedDisabilities } from '../actions';
 
-// Wonder if we can put RD data in platform...
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 
 class RatedDisabilitiesApp extends React.Component {
@@ -13,19 +11,15 @@ class RatedDisabilitiesApp extends React.Component {
     const { ratedDisabilities } = this.props.ratedDisabilities;
     return (
       <>
-        <RequiredLoginView
-          authRequired={1}
-          serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.user}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}
-        >
+        {this.props.user.login?.currentlyLoggedIn ? (
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
             user={this.props.user}
           />
-        </RequiredLoginView>
+        ) : (
+          <CallToActionWidget appId="rated-disabilities" />
+        )}
       </>
     );
   }

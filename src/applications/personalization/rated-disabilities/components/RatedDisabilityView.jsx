@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import RatedDisabilitiesHeader from '../components/RatedDisabilitiesHeader';
 import RatedDisabilityTable from './RatedDisabilityTable';
 
 class RatedDisabilityView extends React.Component {
@@ -19,10 +20,16 @@ class RatedDisabilityView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
-          <RatedDisabilityTable
-            fetchRatedDisabilities={fetchRatedDisabilities}
-            ratedDisabilities={ratedDisabilities}
-          />
+          <>
+            <RatedDisabilitiesHeader
+              headline="Your disability rating"
+              content="Review your total combined disability rating and find out what benefits you are eligible for."
+            />
+            <RatedDisabilityTable
+              fetchRatedDisabilities={fetchRatedDisabilities}
+              ratedDisabilities={ratedDisabilities}
+            />
+          </>
         );
       }
     }
