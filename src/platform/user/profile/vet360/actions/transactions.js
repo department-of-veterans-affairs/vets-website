@@ -92,7 +92,7 @@ export function refreshTransaction(
       const route = _route || `/profile/status/${transactionId}`;
       const transactionRefreshed = isVet360Configured()
         ? await apiRequest(route)
-        : await localVet360.updateTransaction(transactionId);
+        : await localVet360.updateTransactionToFailure(transactionId);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;

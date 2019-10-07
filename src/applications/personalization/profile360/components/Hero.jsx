@@ -45,19 +45,17 @@ class HeroContent extends React.Component {
   render() {
     return (
       <div className="va-profile-hero">
-        <div className="row-padded">
-          <LoadingSection
-            isLoading={!this.props.hero}
-            message="Loading full name..."
-            render={this.renderName}
-          />
-          {this.props.militaryInformation && this.renderService()}
-          <p className="va-introtext">
-            Review your personal, military service, direct deposit, and contact
-            information—and find out how to make any needed updates or
-            corrections.
-          </p>
-        </div>
+        <LoadingSection
+          isLoading={!this.props.hero}
+          message="Loading full name..."
+          render={this.renderName}
+        />
+        {this.props.militaryInformation && this.renderService()}
+        <p className="va-introtext">
+          Review your personal, military service, direct deposit, and contact
+          information—and find out how to make any needed updates or
+          corrections.
+        </p>
       </div>
     );
   }

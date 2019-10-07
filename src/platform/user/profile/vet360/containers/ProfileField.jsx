@@ -143,6 +143,7 @@ class Vet360ProfileField extends React.Component {
 
   render() {
     const {
+      analyticsSectionName,
       fieldName,
       isEditing,
       isEmpty,
@@ -177,10 +178,9 @@ class Vet360ProfileField extends React.Component {
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
-          refreshTransaction={this.props.refreshTransaction.bind(
-            this,
-            transaction,
-          )}
+          refreshTransaction={() =>
+            this.props.refreshTransaction(transaction, analyticsSectionName)
+          }
         >
           {isEmpty ? (
             <button

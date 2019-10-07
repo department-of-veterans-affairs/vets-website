@@ -12,16 +12,11 @@ export function GenericUpdateError(props) {
   return (
     <AlertBox
       {...props}
+      className="vads-u-margin-bottom--4"
       status="error"
-      content={
-        <div>
-          <h4>Your recent profile update didn’t save</h4>
-          <p>
-            We’re sorry. Something went wrong on our end and we couldn’t save
-            the recent updates you made to your profile. Please try again later.
-          </p>
-        </div>
-      }
+      headline="Your recent profile update didn’t save"
+      content="We’re sorry. Something went wrong on our end and we couldn’t save the
+      recent updates you made to your profile. Please try again later."
     />
   );
 }
