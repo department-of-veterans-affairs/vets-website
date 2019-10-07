@@ -847,7 +847,7 @@
               "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
             },
             "dateRange": {
-              "$ref": "#/definitions/dateRangeFromRequired"
+              "$ref": "#/definitions/dateRange"
             }
           }
         }

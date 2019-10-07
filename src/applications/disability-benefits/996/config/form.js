@@ -29,8 +29,8 @@ const {
   address,
   phone,
   date,
-  // dateRange,
-  dateRangeFromRequired,
+  dateRange,
+  // dateRangeFromRequired,
   // dateRangeAllRequired,
 } = fullSchema.definitions;
 
@@ -55,8 +55,8 @@ const formConfig = {
     address,
     phone,
     date,
-    // dateRange,
-    dateRangeFromRequired,
+    dateRange,
+    // dateRange1FromRequired,
     // dateRangeAllRequired,
     veteranDetailsDescription,
   },

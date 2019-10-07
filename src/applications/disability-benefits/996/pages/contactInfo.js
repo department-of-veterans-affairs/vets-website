@@ -95,6 +95,9 @@ export const uiSchema = {
             'End date must be after start date',
           ),
           {
+            from: {
+              'ui:required': hasForwardingAddress,
+            },
             to: {
               'ui:validations': [isInPast],
             },
