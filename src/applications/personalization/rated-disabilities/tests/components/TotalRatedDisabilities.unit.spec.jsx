@@ -12,7 +12,7 @@ describe('<TotalRatedDisabilities />', () => {
       wrapper
         .find('div')
         .first()
-        .hasClass('feature'),
+        .hasClass('vads-l-grid-container'),
     ).to.be.true;
     wrapper.unmount();
   });
@@ -37,5 +37,17 @@ describe('<TotalRatedDisabilities />', () => {
       .find('.usa-alert-error')
     ).to.exist;
 
+  });
+
+  it('displays the total disability rating', () => {
+    const wrapper = shallow(
+      <TotalRatedDisabilities loading={false} error={false} totalDisabilityRating={80} />
+    );
+
+    expect(
+      wrapper
+      .find('.total-rating')
+      .text(),
+      ).to.contain('80%');
   });
 });

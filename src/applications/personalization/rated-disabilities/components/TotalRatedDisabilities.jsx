@@ -5,16 +5,17 @@ import LoadingIndicator
   from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 const TotalRatedDisabilities = props => {
+  const { loading,totalDisabilityRating, error } = props;
   let content;
   // If the data from the parent is loading, show a loading indicator
   // If there is an error, display an error message,
   // If there is no rating, display a no rating message
   // If there is a rating, display the rating and content
-  if (props.loading) {
+  if (loading) {
     content = (
       <LoadingIndicator message="Loading your total disability rating..." />
     );
-  } else if (props.error) {
+  } else if (error) {
     const message = (
       <span>
         <p>
@@ -38,7 +39,7 @@ const TotalRatedDisabilities = props => {
         isVisible
       />
     );
-  } else if (!props.totalDisabilityRating) {
+  } else if (!totalDisabilityRating) {
     const message = (
       <span>
         <p>
@@ -67,7 +68,7 @@ const TotalRatedDisabilities = props => {
             <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--8">
               <h3>Total combined disability</h3>
               <p>
-                Your final degree of disability is {props.totalDisabilityRating}
+                Your final degree of disability is {totalDisabilityRating}
                 %. This percentage determines the amount of benefit pay you will
                 receive.
               </p>
@@ -79,8 +80,8 @@ const TotalRatedDisabilities = props => {
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4">
               <div className="vads-u-background-color--gray-lightest">
-                <p className="vads-u-font-size--2xl vads-u-font-family--sans">
-                  {props.totalDisabilityRating}%
+                <p className="vads-u-font-size--2xl vads-u-font-family--sans total-rating">
+                  {totalDisabilityRating}%
                 </p>
               </div>
             </div>
