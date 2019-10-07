@@ -32,7 +32,7 @@
             {% if forloop.first || everyStartItem == 0 %}
                 <div class="usa-width-one-half vads-u-display--flex vads-u-flex-direction--column">
             {% endif %}
-                    <a class="vads-u-margin-bottom--2" href="{{link.url.path}}">
+                    <a onClick="recordEvent({ event: 'nav-featured-content-link-click', 'featured-content-header': 'In the Spotlight' });" class="vads-u-margin-bottom--2" href="{{link.url.path}}">
                         {{ link.title }}
                     </a>
             {% if forloop.last || everyEndItem == 0 %}

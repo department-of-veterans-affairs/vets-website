@@ -24,7 +24,7 @@
                         {% for location in healthService.fieldLocalHealthCareService %}
                             {% assign facility = location.entity.fieldFacilityLocation.entity %}
                             {% if facility != empty %}<li class="vads-u-margin-bottom--2">
-                                <a href="{{ facility.entityUrl.path }}">{{ facility.fieldNicknameForThisFacility }}</a></li>{% endif %}
+                                <a onClick="recordEvent({ event: 'nav-accordion-embedded-link-click' });" href="{{ facility.entityUrl.path }}">{{ facility.fieldNicknameForThisFacility }}</a></li>{% endif %}
                         {% endfor %}
                     </ul>
                 {% endif %}
