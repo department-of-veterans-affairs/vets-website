@@ -5,6 +5,9 @@
   "rootUrl": "/disability/my-rated-disabilities",
   "template": {
     "layout": "page-react-sidebar.html",
-    "vagovprod": false
+    "vagovprod": false,
+    "spoke": "Manage benefits",
+    "collection": "disability",
+    "order": 11
   }
 }

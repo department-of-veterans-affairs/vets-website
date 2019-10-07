@@ -1,7 +1,6 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
 
 // Quick fix for table styling
@@ -10,4 +9,8 @@ th {
     border-top: none;
     border-left: none;
     border-right: none;
+}
+
+h2 {
+    margin-top: 0;
 }

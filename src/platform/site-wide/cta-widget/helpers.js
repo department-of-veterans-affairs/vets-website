@@ -14,6 +14,7 @@ export const widgetTypes = {
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MESSAGING: 'messaging',
+  RATED_DISABILITY: 'rated-disabilities',
   RX: 'rx',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
   VET_TEC: 'vet-tec',
@@ -251,6 +252,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.DIRECT_DEPOSIT:
       return 'change your direct deposit information online';
+
+    case widgetTypes.RATED_DISABILITY:
+      return 'view your disability rating.';
 
     default:
       return 'use this service';
