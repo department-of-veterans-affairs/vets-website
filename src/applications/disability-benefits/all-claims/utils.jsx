@@ -391,13 +391,13 @@ export const addressUISchema = (
       },
     },
     addressLine2: {
-      'ui:title': 'Street address (optional)',
+      'ui:title': 'Street address',
       'ui:errorMessages': {
         pattern: 'Please fill in a valid address',
       },
     },
     addressLine3: {
-      'ui:title': 'Street address (optional)',
+      'ui:title': 'Street address',
       'ui:errorMessages': {
         pattern: 'Please fill in a valid address',
       },
