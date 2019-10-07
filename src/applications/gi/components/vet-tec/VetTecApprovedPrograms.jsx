@@ -60,7 +60,7 @@ class VetTecApprovedPrograms extends React.Component {
                 onChange={e =>
                   this.handleInputChange(e, index, program.description)
                 }
-                aria-labelledby={`program-${index}`}
+                aria-labelledby={`program-name-header program-${index}`}
               />
               <label id={`program-${index}`} htmlFor={`radio-${index}`}>
                 {program.description}
@@ -83,7 +83,9 @@ class VetTecApprovedPrograms extends React.Component {
             </colgroup>
             <thead>
               <tr>
-                <th className="name-th">Program name</th>
+                <th className="name-th" id="program-name-header">
+                  Program name
+                </th>
                 <th>Length</th>
                 <th>Tuition & Fees</th>
               </tr>
