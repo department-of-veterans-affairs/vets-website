@@ -18,6 +18,7 @@ import {
 } from '../../all-claims/content/contactInformation';
 import { USA } from '../../all-claims/constants';
 import { addressUISchema } from '../../all-claims/utils';
+import { errorMessages } from '../constants';
 
 import ForwardingAddressDescription from '../components/ForwardingAddressDescription';
 
@@ -48,7 +49,8 @@ export const uiSchema = {
         'ui:widget': PhoneNumberWidget,
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:errorMessages': {
-          pattern: 'Phone numbers must be 10 digits (dashes allowed)',
+          pattern: errorMessages.phone,
+          required: errorMessages.phone,
         },
         'ui:options': {
           widgetClassNames: 'va-input-medium-large',
@@ -57,14 +59,39 @@ export const uiSchema = {
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: 'The email you enter should be in this format x@x.xx',
+          pattern: errorMessages.email,
+          required: errorMessages.email,
         },
       },
     },
-    mailingAddress: addressUISchema(
-      'veteran.mailingAddress',
-      'Mailing address',
-      true,
+    mailingAddress: _.merge(
+      addressUISchema('veteran.mailingAddress', 'Mailing address', true),
+      {
+        addressLine1: {
+          'ui:errorMessages': {
+            pattern: errorMessages.address1,
+            required: errorMessages.address1,
+          },
+        },
+        city: {
+          'ui:errorMessages': {
+            pattern: errorMessages.city,
+            required: errorMessages.city,
+          },
+        },
+        state: {
+          'ui:errorMessages': {
+            pattern: errorMessages.state,
+            required: errorMessages.state,
+          },
+        },
+        zipCode: {
+          'ui:errorMessages': {
+            pattern: errorMessages.zipCode,
+            required: errorMessages.zipCode,
+          },
+        },
+      },
     ),
     'view:hasForwardingAddress': {
       'ui:title': 'My address will be changing soon.',
@@ -97,6 +124,9 @@ export const uiSchema = {
           {
             from: {
               'ui:required': hasForwardingAddress,
+              'ui:errorMessages': {
+                required: errorMessages.forwardStartDate,
+              },
             },
             to: {
               'ui:validations': [isInPast],
@@ -108,17 +138,33 @@ export const uiSchema = {
         },
         addressLine1: {
           'ui:required': hasForwardingAddress,
+          'ui:errorMessages': {
+            pattern: errorMessages.address1,
+            required: errorMessages.address1,
+          },
         },
         city: {
           'ui:required': hasForwardingAddress,
+          'ui:errorMessages': {
+            pattern: errorMessages.city,
+            required: errorMessages.city,
+          },
         },
         state: {
           'ui:required': formData =>
             hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
+          'ui:errorMessages': {
+            pattern: errorMessages.state,
+            required: errorMessages.state,
+          },
         },
         zipCode: {
           'ui:required': formData =>
             hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
+          'ui:errorMessages': {
+            pattern: errorMessages.zipCode,
+            required: errorMessages.zipCode,
+          },
         },
       },
     ),
