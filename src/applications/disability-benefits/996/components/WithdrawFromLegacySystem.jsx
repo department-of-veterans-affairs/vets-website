@@ -11,9 +11,9 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
 
   return (
     <>
-      <h3 className="confirmation-page-title">
+      <h2 className="confirmation-page-title">
         Withdraw from legacy appeal system
-      </h3>
+      </h2>
       <p>
         In order to request a Higher-Level Review, you need to opt out of the
         Legacy Appeals system. Once you opt in to the new system, the decision
