@@ -36,4 +36,24 @@ describe('VAOS <PendingAppointmentListPage>', () => {
     expect(form.find('PendingAppointmentListItem').length).to.equal(2);
     form.unmount();
   });
+
+  it('should render message when no pending appointments', () => {
+    const fetchPendingAppointments = sinon.spy();
+    const appointments = [];
+    const form = shallow(
+      <PendingAppointmentListPage
+        fetchPendingAppointments={fetchPendingAppointments}
+        status="succeeded"
+        appointments={appointments}
+      />,
+    );
+
+    expect(fetchPendingAppointments.called).to.be.true;
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('PendingAppointmentListItem').length).to.equal(0);
+    expect(form.find('h2').text()).to.equal(
+      "You don't have any pending appointments at this time",
+    );
+    form.unmount();
+  });
 });

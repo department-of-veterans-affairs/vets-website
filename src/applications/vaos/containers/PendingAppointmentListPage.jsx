@@ -33,16 +33,42 @@ export class PendingAppointmentListPage extends React.Component {
             {status === FETCH_STATUS.loading && (
               <LoadingIndicator message="Loading pending appointments" />
             )}
-            {status === FETCH_STATUS.succeeded && (
-              <ul className="usa-unstyled-list">
-                {appointments.map(appt => (
-                  <PendingAppointmentListItem
-                    key={appt.appointmentRequestId}
-                    appointment={appt}
-                  />
-                ))}
-              </ul>
-            )}
+            {status === FETCH_STATUS.succeeded &&
+              appointments.length === 0 && (
+                <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+                  <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+                    You don't have any pending appointments at this time
+                  </h2>
+                  <p>
+                    You can schedule an appointment now, or you can call your{' '}
+                    <Link to="">VA Medical center</Link> to shedule an
+                    appointment.
+                  </p>
+                  <p>
+                    You may have confirmed appointments.{' '}
+                    <Link to="appointments/confirmed">
+                      Go here to manage your confirmed appointments
+                    </Link>
+                    .
+                  </p>
+                  <Link to="new-appointment">
+                    <button type="button" className="usa-button">
+                      Schedule an appointment
+                    </button>
+                  </Link>
+                </div>
+              )}
+            {status === FETCH_STATUS.succeeded &&
+              appointments.length > 0 && (
+                <ul className="usa-unstyled-list">
+                  {appointments.map(appt => (
+                    <PendingAppointmentListItem
+                      key={appt.appointmentRequestId}
+                      appointment={appt}
+                    />
+                  ))}
+                </ul>
+              )}
           </div>
         </div>
       </div>
