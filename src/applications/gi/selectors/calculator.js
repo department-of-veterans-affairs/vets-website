@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
-import { formatCurrency } from '../utils/helpers';
+import { formatCurrency, isCountryInternational } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
@@ -493,11 +493,10 @@ const getDerivedValues = createSelector(
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
     let bah;
-    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
-    const useBeneficiaryLocationRate =
-      inputs.beneficiaryLocationBah !== null &&
-      (inputs.beneficiaryLocationQuestion === 'extension' ||
-        inputs.beneficiaryLocationQuestion === 'other');
+    const extensionBeneficiaryLocationQuestion =
+      inputs.beneficiaryLocationQuestion === 'other' ||
+      (inputs.beneficiaryLocationQuestion === 'extension' &&
+        inputs.extension === 'other');
 
     const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
     const hasClassesOutsideUS = inputs.classesOutsideUS;
@@ -506,23 +505,28 @@ const getDerivedValues = createSelector(
       ? constant.AVGDODBAH
       : constant.AVGVABAH;
 
-    if (useBeneficiaryLocationRate) {
+    if (
+      extensionBeneficiaryLocationQuestion &&
+      hasClassesOutsideUS &&
+      !environment.isProduction()
+    ) {
       // Prod Flag for 19703
-      if (hasClassesOutsideUS && !environment.isProduction()) {
-        if (hasUsedGiBillBenefit) {
-          bah = constant.AVGVABAH;
-        } else {
-          bah = constant.AVGDODBAH;
-        }
+      if (hasUsedGiBillBenefit) {
+        bah = constant.AVGVABAH;
       } else {
-        // sometimes there's no grandfathered rate for a zip code
-        bah =
-          hasUsedGiBillBenefit && inputs.beneficiaryLocationGrandfatheredBah
-            ? inputs.beneficiaryLocationGrandfatheredBah
-            : inputs.beneficiaryLocationBah;
+        bah = constant.AVGDODBAH;
       }
+    } else if (
+      extensionBeneficiaryLocationQuestion &&
+      inputs.beneficiaryLocationBah !== null
+    ) {
+      // sometimes there's no grandfathered rate for a zip code
+      bah =
+        hasUsedGiBillBenefit && inputs.beneficiaryLocationGrandfatheredBah
+          ? inputs.beneficiaryLocationGrandfatheredBah
+          : inputs.beneficiaryLocationBah;
     } else {
-      // use the DOD rate on staging
+      // use the DOD rate
       bah =
         !hasUsedGiBillBenefit && institution.dodBah
           ? institution.dodBah
@@ -1263,3 +1267,26 @@ export const getCalculatedBenefits = createSelector(
     return calculatedBenefits;
   },
 );
+
+export const getSchoolLocationsCalculatedBenefits = (institution, props) => {
+  const countryIsInternational = isCountryInternational(
+    institution.physicalCountry,
+  );
+  const beneficiaryLocationQuestion =
+    !environment.isProduction() && countryIsInternational ? 'other' : null;
+
+  const schoolLocationCalculator = {
+    ...this.props.calculator,
+    classesOutsideUS: !environment.isProduction() && countryIsInternational,
+    beneficiaryLocationQuestion,
+  };
+
+  const schoolLocationState = {
+    constants: { constants: this.props.constants },
+    eligibility: this.props.eligibility,
+    profile: { attributes: institution },
+    calculator: schoolLocationCalculator,
+  };
+
+  return getCalculatedBenefits(schoolLocationState, props);
+};
