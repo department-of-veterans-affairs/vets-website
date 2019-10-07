@@ -23,7 +23,7 @@ class IntroductionPage extends React.Component {
           downtime={this.props.route.formConfig.downtime}
           startText="Start the pension application"
         />
-        <h4>Follow the steps below to apply for a Veterans pension.</h4>
+        <h4>Follow the steps below to apply for a Veterans Pension.</h4>
         <div className="process schemaform-process schemaform-process-sip">
           <ol>
             <li className="process-step list-one">

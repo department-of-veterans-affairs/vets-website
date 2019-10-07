@@ -15,8 +15,8 @@ import {
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
 } from '../../actions/newAppointment';
-import systems from '../../actions/facilities.json';
-import facilities983 from '../../actions/facilities_983.json';
+import systems from '../../api/facilities.json';
+import facilities983 from '../../api/facilities_983.json';
 
 const testFlow = {
   page1: {
@@ -107,7 +107,7 @@ describe('VAOS newAppointment actions', () => {
     const defaultState = {
       newAppointment: {
         data: {
-          typeOfCareId: 323,
+          typeOfCareId: '323',
         },
         pages: {},
         loadingSystems: false,

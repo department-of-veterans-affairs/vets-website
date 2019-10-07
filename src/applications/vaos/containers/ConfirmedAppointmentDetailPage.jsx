@@ -8,10 +8,12 @@ import { fetchConfirmedAppointments } from '../actions/appointments';
 import { FETCH_STATUS } from '../utils/constants';
 import { selectConfirmedAppointment } from '../utils/selectors';
 import Breadcrumbs from '../components/Breadcrumbs';
+import VideoVisitLink from '../components/VideoVisitLink';
 import {
   getAppointmentTitle,
   getAppointmentLocation,
   getAppointmentDateTime,
+  isVideoVisit,
 } from '../utils/appointment';
 
 export class ConfirmedAppointmentDetailPage extends React.Component {
@@ -45,10 +47,12 @@ export class ConfirmedAppointmentDetailPage extends React.Component {
                 <h2>{getAppointmentTitle(appointment)}</h2>
                 <div className="vads-u-display--flex vads-u-margin-bottom--2">
                   <div className="vads-u-flex--1">
-                    <>
-                      <h3 className="vaos-appts__block-label">Where</h3>
-                      {getAppointmentLocation(appointment)}
-                    </>
+                    <h3 className="vaos-appts__block-label">Where</h3>
+                    {isVideoVisit(appointment) ? (
+                      <VideoVisitLink appointment={appointment} />
+                    ) : (
+                      getAppointmentLocation(appointment)
+                    )}
                     <h3 className="vaos-appts__block-label vads-u-margin-top--2">
                       When
                     </h3>
