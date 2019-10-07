@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CircularProgress from './CircularProgress';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator
+  from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
 const TotalRatedDisabilities = props => {
   let content;
@@ -62,7 +62,7 @@ const TotalRatedDisabilities = props => {
   } else {
     content = (
       <span>
-        <div className="feature vads-l-grid-container">
+        <div className="vads-l-grid-container">
           <div className="vads-l-row">
             <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--8">
               <h3>Total combined disability</h3>
@@ -78,7 +78,11 @@ const TotalRatedDisabilities = props => {
               </p>
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4">
-              <CircularProgress percentage={props.totalDisabilityRating} />
+              <div className="vads-u-background-color--gray-lightest">
+                <p className="vads-u-font-size--2xl vads-u-font-family--sans">
+                  {props.totalDisabilityRating}%
+                </p>
+              </div>
             </div>
           </div>
           <div className="vads-l-row">
