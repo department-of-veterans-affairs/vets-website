@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
-import { formatCurrency, isCountryInternational } from '../utils/helpers';
+import { formatCurrency } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
@@ -1267,26 +1267,3 @@ export const getCalculatedBenefits = createSelector(
     return calculatedBenefits;
   },
 );
-
-export const getSchoolLocationsCalculatedBenefits = (institution, props) => {
-  const countryIsInternational = isCountryInternational(
-    institution.physicalCountry,
-  );
-  const beneficiaryLocationQuestion =
-    !environment.isProduction() && countryIsInternational ? 'other' : null;
-
-  const schoolLocationCalculator = {
-    ...this.props.calculator,
-    classesOutsideUS: !environment.isProduction() && countryIsInternational,
-    beneficiaryLocationQuestion,
-  };
-
-  const schoolLocationState = {
-    constants: { constants: this.props.constants },
-    eligibility: this.props.eligibility,
-    profile: { attributes: institution },
-    calculator: schoolLocationCalculator,
-  };
-
-  return getCalculatedBenefits(schoolLocationState, props);
-};

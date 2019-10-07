@@ -1,3 +1,6 @@
+import environment from 'platform/utilities/environment';
+import { getCalculatedBenefits } from '../selectors/calculator';
+
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
@@ -34,4 +37,27 @@ export const locationInfo = (city, state, country) => {
     }
   }
   return address;
+};
+
+export const getSchoolLocationsCalculatedBenefits = (institution, props) => {
+  const countryIsInternational = isCountryInternational(
+    institution.physicalCountry,
+  );
+  const beneficiaryLocationQuestion =
+    !environment.isProduction() && countryIsInternational ? 'other' : null;
+
+  const schoolLocationCalculator = {
+    ...props.calculator,
+    classesOutsideUS: !environment.isProduction() && countryIsInternational,
+    beneficiaryLocationQuestion,
+  };
+
+  const schoolLocationState = {
+    constants: { constants: props.constants },
+    eligibility: props.eligibility,
+    profile: { attributes: institution },
+    calculator: schoolLocationCalculator,
+  };
+
+  return getCalculatedBenefits(schoolLocationState, props);
 };

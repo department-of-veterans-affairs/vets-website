@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getSchoolLocationsCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo } from '../../utils/helpers';
+import {
+  locationInfo,
+  getSchoolLocationsCalculatedBenefits,
+} from '../../utils/helpers';
 
 const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
