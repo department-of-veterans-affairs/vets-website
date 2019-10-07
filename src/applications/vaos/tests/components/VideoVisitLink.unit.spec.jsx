@@ -46,28 +46,22 @@ describe('Video visit', () => {
   });
 
   it('should enable video link if appointment is less than 30 minutes away', () => {
-    const pastAppointment = {
-      ...appointment,
-      startDate: moment()
-        .add(-20, 'minutes')
-        .format(),
-    };
+    appointment.startDate = moment()
+      .add(-20, 'minutes')
+      .format();
 
-    const tree = shallow(<VideoVisitLink appointment={pastAppointment} />);
+    const tree = shallow(<VideoVisitLink appointment={appointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     expect(tree.exists('.usa-button-disabled')).to.equal(false);
     tree.unmount();
   });
 
   it('should disable video link if appointment is over 4 hours away', () => {
-    const futureAppointment = {
-      ...appointment,
-      startDate: moment()
-        .add(245, 'minutes')
-        .format(),
-    };
+    appointment.startDate = moment()
+      .add(245, 'minutes')
+      .format();
 
-    const tree = shallow(<VideoVisitLink appointment={futureAppointment} />);
+    const tree = shallow(<VideoVisitLink appointment={appointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     expect(tree.exists('.usa-button-disabled')).to.equal(true);
     tree.unmount();
