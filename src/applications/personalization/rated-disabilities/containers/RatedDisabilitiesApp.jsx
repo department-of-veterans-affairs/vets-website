@@ -8,7 +8,6 @@ import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 // import RatedDisabilityHeader from '../components/RatedDisabilityHeader';
-import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 import RatedDisabilitiesHeader from '../components/RatedDisabilitiesHeader';
 
 class RatedDisabilitiesApp extends React.Component {
@@ -31,15 +30,13 @@ class RatedDisabilitiesApp extends React.Component {
           <RatedDisabilitiesHeader 
             headline="Your disability rating" 
             content="Review your total combined disability rating and find out what benefits you can get"/>
-          <TotalRatedDisabilities
-            totalDisabilityRating={this.props.totalDisabilityRating}
-            loading={this.props.loading}
-            error={this.props.error}
-          />
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
             user={this.props.user}
+            totalDisabilityRating={this.props.totalDisabilityRating}
+            loading={this.props.loading}
+            error={this.props.error}
           />
         </RequiredLoginView>
       </>
