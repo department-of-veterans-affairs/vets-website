@@ -59,6 +59,11 @@ class PhoneEditModal extends React.Component {
     this.props.onChange(newFieldValue, dirty);
   };
 
+  onCheckboxChange = event => {
+    const newFieldValue = { ...this.props.field.value, isTextPermitted: event };
+    this.props.onChange(newFieldValue, false);
+  };
+
   getInitialFormValues = () => {
     let defaultFieldValue;
 
@@ -111,9 +116,8 @@ class PhoneEditModal extends React.Component {
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
         isTextable={this.props.fieldName === FIELD_NAMES.MOBILE_PHONE}
         label="Send me text message (SMS) reminders for my VA health care appointments"
-        field={{ value: this.props.field.value.isTextPermitted, dirty: false }}
         checked={this.props.field.value.isTextPermitted}
-        onValueChange={this.onChange('isTextPermitted')}
+        onValueChange={this.onCheckboxChange}
       />
     </div>
   );
