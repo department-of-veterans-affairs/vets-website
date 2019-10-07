@@ -7,6 +7,7 @@ import { fetchRatedDisabilities } from '../actions';
 // Wonder if we can put RD data in platform...
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RatedDisabilityView from '../components/RatedDisabilityView';
+import RatedDisabilitiesHeader from '../components/RatedDisabilitiesHeader';
 
 class RatedDisabilitiesApp extends React.Component {
   render() {
@@ -20,6 +21,9 @@ class RatedDisabilitiesApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}
         >
+          <RatedDisabilitiesHeader 
+            headline="Your disability rating" 
+            content="Review your total combined disability rating and find out what benefits you can get"/>
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
