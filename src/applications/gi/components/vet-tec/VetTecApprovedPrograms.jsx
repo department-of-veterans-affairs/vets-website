@@ -9,31 +9,37 @@ import { formatCurrency } from '../../utils/helpers';
 class VetTecApprovedPrograms extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedProgram: props.preSelectedProgram };
+    if (!environment.isProduction()) {
+      this.state = { selectedProgram: props.preSelectedProgram };
+    }
   }
 
   componentDidUpdate() {
-    const program = this.props.institution.programs.find(
-      p => p.description === this.state.selectedProgram,
-    );
-    if (program) {
-      const field = 'vetTecProgram';
-      const value = {
-        vetTecTuitionFees: program.tuitionAmount,
-        vetTecProgramName: program.description,
-      };
-      this.props.calculatorInputChange({ field, value });
+    if (!environment.isProduction()) {
+      const program = this.props.institution.programs.find(
+        p => p.description === this.state.selectedProgram,
+      );
+      if (program) {
+        const field = 'vetTecProgram';
+        const value = {
+          vetTecTuitionFees: program.tuitionAmount,
+          vetTecProgramName: program.description,
+        };
+        this.props.calculatorInputChange({ field, value });
+      }
     }
   }
 
   handleInputChange = (event, index, vetTecProgramName) => {
-    const { name: field, value: vetTecTuitionFees } = event.target;
-    const value = {
-      vetTecTuitionFees,
-      vetTecProgramName,
-    };
-    this.setState({ selectedProgram: vetTecProgramName });
-    this.props.calculatorInputChange({ field, value });
+    if (!environment.isProduction()) {
+      const { name: field, value: vetTecTuitionFees } = event.target;
+      const value = {
+        vetTecTuitionFees,
+        vetTecProgramName,
+      };
+      this.setState({ selectedProgram: vetTecProgramName });
+      this.props.calculatorInputChange({ field, value });
+    }
   };
 
   render() {

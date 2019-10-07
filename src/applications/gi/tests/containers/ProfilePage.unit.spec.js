@@ -26,6 +26,9 @@ describe('<ProfilePage>', () => {
           type: 'FOR PROFIT',
         },
       },
+      params: {
+        preSelectedProgram: '',
+      },
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
     expect(tree.subTree('VetTecInstitutionProfile')).to.be.ok;
