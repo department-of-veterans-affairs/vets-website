@@ -21,9 +21,25 @@ describe('Contact Information', () => {
       />,
     );
 
-    const phoneNumber = tree.find('.review-card');
-    // console.log(phoneNumber.first().text());
-    expect(phoneNumber.length).to.equal(2);
+    const cards = tree.find('.review-card');
+    expect(cards.length).to.equal(2);
+
+    // Checking props, need to target nested rendered component?
+    const { formData } = tree.props();
+    const { phoneEmailCard, mailingAddress } = initialData;
+    expect(formData.phoneEmailCard).to.deep.equal({
+      primaryPhone: phoneEmailCard.primaryPhone,
+      phone: phoneEmailCard.phone,
+      emailAddress: phoneEmailCard.emailAddress,
+    });
+
+    expect(formData.mailingAddress).to.deep.equal({
+      addressLine1: mailingAddress.addressLine1,
+      city: mailingAddress.city,
+      countryCodeIso3: mailingAddress.countryCodeIso3,
+      state: mailingAddress.state,
+      zipCode: mailingAddress.zipCode,
+    });
 
     tree.unmount();
   });
