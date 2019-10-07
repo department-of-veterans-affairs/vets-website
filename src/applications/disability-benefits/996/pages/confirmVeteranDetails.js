@@ -22,19 +22,19 @@ const veteranDetailsDescription = data => {
           <strong>{`${fullName?.first || ''} ${fullName?.last || ''}`}</strong>
         </p>
         <p>
-          Social Security Number: <MaskedNumber number={last4SSN} />
+          Social Security number: <MaskedNumber number={last4SSN} />
         </p>
         <p>
           VA file number: <MaskedNumber number={last4VAFile} />
         </p>
         <p>
-          Date of birth:
+          Date of birth:{' '}
           <span className="dob">
             {dateOfBirth ? moment(dateOfBirth).format('L') : ''}
           </span>
         </p>
         <p>
-          Gender:
+          Gender:{' '}
           <span className="gender">{gender ? genderLabels[gender] : ''}</span>
         </p>
       </div>
