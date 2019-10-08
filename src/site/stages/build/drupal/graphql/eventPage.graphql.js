@@ -4,8 +4,6 @@
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const { cmsFeatureFlags } = global;
-
 module.exports = `
  fragment eventPage on NodeEvent {
     ${entityElementsFromPages}
@@ -17,7 +15,7 @@ module.exports = `
           image {
             alt
             title
-            derivative(style: CROP_7_2) {
+            derivative(style: _72MEDIUMTHUMBNAIL) {
               url
               width
               height
@@ -71,10 +69,6 @@ module.exports = `
       }
     }
     fieldEventRegistrationrequired
-    ${
-      cmsFeatureFlags.FEATURE_FIELD_ADDITIONAL_INFO
-        ? 'fieldAdditionalInformationAbo {processed}'
-        : 'fieldAdditionalInformationAbo'
-    }
+    fieldAdditionalInformationAbo {processed}
  }
 `;

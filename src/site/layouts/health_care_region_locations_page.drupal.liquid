@@ -17,7 +17,7 @@
                 <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">{% assign basePath = entityUrl.path | regionBasePath %}
                     {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
                 <section class="locations clearfix">
-                    <h2 id="main-locations" class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--4">Main locations</h2>
+                    <h2 id="main-locations" class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--3">Main locations</h2>
                     <div data-widget-type="facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}"></div>
                     <h2 id="community-clinic-locations" class="medium-screen:vads-u-margin-bottom--4">Health clinic locations</h2>
                     <div data-widget-type="facility-locations-list" data-facilities="{{ otherFacilities.entities | widgetFacilitiesList | escape }}"></div>

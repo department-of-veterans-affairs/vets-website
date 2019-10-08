@@ -165,7 +165,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const newState = calculatorReducer(previousState, action);
@@ -181,7 +181,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -218,7 +218,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -246,7 +246,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -274,7 +274,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -283,7 +283,7 @@ describe('calculator reducer', () => {
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'ZIP Code must be a five digit number',
+        beneficiaryZIPError: 'Zip code must be a 5-digit number',
         beneficiaryZIP: '1dd',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
@@ -302,7 +302,7 @@ describe('calculator reducer', () => {
         beneficiaryZIPError: '',
         beneficiaryZIPFetched: '88888',
         beneficiaryLocationBah: null,
-        housingAllowanceCity: 'Loading...',
+        housingAllowanceCity: '',
       };
 
       const action = {
@@ -311,7 +311,7 @@ describe('calculator reducer', () => {
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'ZIP Code must be a five digit number',
+        beneficiaryZIPError: 'Zip code must be a 5-digit number',
         beneficiaryZIP: '1111111',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,

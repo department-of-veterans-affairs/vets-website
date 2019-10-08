@@ -461,7 +461,7 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, selectedResult } = this.props;
+    const { currentQuery, selectedResult, showCommunityCares } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const externalLink =
       currentQuery.facilityType === LocationType.CC_PROVIDER
@@ -474,6 +474,7 @@ class VAMap extends Component {
             currentQuery={currentQuery}
             onChange={this.props.updateSearchQuery}
             onSubmit={this.handleSearch}
+            showCommunityCares={showCommunityCares}
             isMobile
           />
           <Tabs onSelect={this.centerMap}>

@@ -200,6 +200,11 @@ describe('vet360 reducer', () => {
     expect(state.transactionsAwaitingUpdate.length).to.eql(0);
   });
 
+  it('should set transaction status cleared', () => {
+    const state = vet360({}, { type: 'VET360_CLEAR_TRANSACTION_STATUS' });
+    expect(state.transactionStatus.length).to.eql(0);
+  });
+
   it('should set transaction cleared', () => {
     const state = vet360(
       {

@@ -1,0 +1,17 @@
+[ {
+  "institutionCode" : "983",
+  "city" : "Cheyenne",
+  "stateAbbrev" : "WY",
+  "authoritativeName" : "CHYSHR-Cheyenne VA Medical Center",
+  "rootStationCode" : "983",
+  "adminParent" : true,
+  "parentStationCode" : "983"
+}, {
+  "institutionCode" : "984",
+  "city" : "Dayton",
+  "stateAbbrev" : "OH",
+  "authoritativeName" : "DAYTSHR -Dayton VA Medical Center",
+  "rootStationCode" : "984",
+  "adminParent" : true,
+  "parentStationCode" : "984"
+} ]

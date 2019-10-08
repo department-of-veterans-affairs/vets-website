@@ -22,9 +22,13 @@
     {% endif %}
     <div class="va-pagination-inner">
       {% for page in paginator.inner %}
-        <a {% if page.class != "va-pagination-active" %} href="{{ page.href }}" {% endif %} class="{{ page.class }}" aria-label="Load page {{ page.label }}{{ paginator.ariaLabel }}">
+      {% if page.class != "va-pagination-active" %}
+        <a href="{{ page.href }}" class="{{ page.class }}" aria-label="Load page {{ page.label }}{{ paginator.ariaLabel }}">
           {{ page.label }}
         </a>
+        {% else %}
+        {{ page.label }}
+        {% endif %}
       {% endfor %}
     </div>
     {% if paginator.next != empty %}

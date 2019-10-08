@@ -1,57 +1,66 @@
-const jsdom = require('jsdom');
+/* eslint-disable no-param-reassign */
 const path = require('path');
+const crypto = require('crypto');
 
 const CSP_NONCE = '**CSP_NONCE**';
 
-function generateNewId(existingIds) {
-  const newId = Math.random()
-    .toString(36)
-    .replace(/[^a-z]+/g, '')
-    .substr(0, 10);
-  if (!existingIds.has(newId)) {
-    existingIds.add(newId);
-    return newId;
-  }
-  return generateNewId(existingIds);
+function idGeneratorFactory(fileName) {
+  let i = 0;
+  const existingIds = new Set();
+
+  return function idGenerator() {
+    const newId = crypto
+      .createHash('md5')
+      .update(fileName + i)
+      .digest('hex');
+    i++;
+    if (!existingIds.has(newId)) {
+      existingIds.add(newId);
+      return newId;
+    }
+    return idGenerator();
+  };
 }
 
 module.exports = (files, metalsmith, done) => {
-  Object.keys(files).forEach(file => {
-    if (path.extname(file) !== '.html') return;
+  Object.keys(files).forEach(fileName => {
+    if (path.extname(fileName) !== '.html') return;
 
-    const data = files[file];
-    const dom = new jsdom.JSDOM(data.contents.toString());
-    dom.window.document.querySelectorAll('script').forEach(scriptEl => {
-      if (scriptEl.textContent !== '') {
-        scriptEl.setAttribute('nonce', CSP_NONCE);
+    const { dom } = files[fileName];
+    dom('script').each((index, scriptEl) => {
+      const s = dom(scriptEl);
+      // Only add nonce to inline scripts
+      if (!s.attr('src')) {
+        s.attr('nonce', CSP_NONCE);
       }
     });
-    const ids = new Set();
+    const generateNewId = idGeneratorFactory(fileName);
     const clickHandlers = [];
-    dom.window.document.querySelectorAll('[onclick]').forEach(onclickEl => {
-      if (onclickEl.id === '') {
-        onclickEl.id = generateNewId(ids); // eslint-disable-line no-param-reassign
+    dom('[onclick]').each((index, onClickEl) => {
+      const o = dom(onClickEl);
+      if (!o.attr('id')) {
+        o.attr('id', generateNewId());
       }
-      const id = onclickEl.id;
-      const onclick = onclickEl.getAttribute('onclick');
+      const id = o.attr('id');
+      const onclick = o.attr('onclick');
 
       clickHandlers.push(
         `document.getElementById('${id}').addEventListener('click', function(ev) { ${onclick} });`,
       );
-      onclickEl.removeAttribute('onclick');
+      o.attr('onclick', null);
     });
 
-    const newScript = dom.window.document.createElement('script');
-    newScript.setAttribute('nonce', CSP_NONCE);
-    newScript.textContent = `
+    const scriptTag = `
+     <script>
       (function() {
         ${clickHandlers.join('\n')}
-      })();`;
+      })();
+     </script>`;
+    const newScript = dom(scriptTag);
+    newScript.attr('nonce', CSP_NONCE);
 
-    dom.window.document.body.appendChild(newScript);
-    data.contents = new Buffer(dom.serialize());
-    dom.window.close();
-    files[file] = data; // eslint-disable-line no-param-reassign
+    dom('body').append(newScript);
+    files[fileName].modified = true;
   });
   done();
 };

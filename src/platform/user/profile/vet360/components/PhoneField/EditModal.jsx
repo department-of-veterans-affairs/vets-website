@@ -1,10 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { merge } from 'lodash';
 
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Vet360EditModal from '../base/EditModal';
+
+import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
+import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
+
+import environment from 'platform/utilities/environment';
+
+import { FIELD_NAMES } from '../../constants';
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
@@ -27,7 +36,17 @@ class PhoneTextInput extends ErrorableTextInput {
   }
 }
 
-export default class PhoneEditModal extends React.Component {
+class ReceiveTextMessagesCheckbox extends ErrorableCheckbox {
+  render() {
+    const showCheckbox =
+      !environment.isProduction() &&
+      this.props.isEnrolledInVAHealthCare &&
+      this.props.isTextable;
+    return showCheckbox ? <ErrorableCheckbox {...this.props} /> : null;
+  }
+}
+
+class PhoneEditModal extends React.Component {
   // @todo Add propTypes
 
   onBlur = field => {
@@ -35,12 +54,14 @@ export default class PhoneEditModal extends React.Component {
   };
 
   onChange = field => ({ value, dirty }) => {
-    const newFieldValue = {
-      ...this.props.field.value,
-      [field]: value,
-    };
+    const newFieldValue = { ...this.props.field.value, [field]: value };
 
     this.props.onChange(newFieldValue, dirty);
+  };
+
+  onCheckboxChange = event => {
+    const newFieldValue = { ...this.props.field.value, isTextPermitted: event };
+    this.props.onChange(newFieldValue, false);
   };
 
   getInitialFormValues = () => {
@@ -57,6 +78,8 @@ export default class PhoneEditModal extends React.Component {
         countryCode: '1',
         extension: '',
         inputPhoneNumber: '',
+        isTextable: false,
+        isTextPermitted: false,
       };
     }
 
@@ -88,6 +111,14 @@ export default class PhoneEditModal extends React.Component {
         field={{ value: this.props.field.value.extension, dirty: false }}
         onValueChange={this.onChange('extension')}
       />
+
+      <ReceiveTextMessagesCheckbox
+        isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
+        isTextable={this.props.fieldName === FIELD_NAMES.MOBILE_PHONE}
+        label="Send me text message (SMS) reminders for my VA health care appointments"
+        checked={this.props.field.value.isTextPermitted}
+        onValueChange={this.onCheckboxChange}
+      />
     </div>
   );
 
@@ -102,3 +133,22 @@ export default class PhoneEditModal extends React.Component {
     );
   }
 }
+
+export function mapStateToProps(state, ownProps) {
+  const { fieldName } = ownProps;
+  return {
+    fieldName,
+    isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
+  };
+}
+
+const mapDispatchToProps = {
+  getEnrollmentStatus: getEnrollmentStatusAction,
+};
+
+const PhoneEditModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PhoneEditModal);
+
+export default PhoneEditModalContainer;

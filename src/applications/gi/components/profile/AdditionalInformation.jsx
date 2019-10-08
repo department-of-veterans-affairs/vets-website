@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import environment from 'platform/utilities/environment';
-
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
     const constants = this.props.constants;
 
-    return environment.isProduction() ? '2018' : constants.FISCALYEAR;
+    return constants.FISCALYEAR;
   }
   renderInstitutionSummary() {
     const { institution } = this.props;

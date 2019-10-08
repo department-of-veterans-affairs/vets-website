@@ -16,7 +16,7 @@ import {
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
-import StemScholarshipNotification from '../components/content/StemScholarshipNotification';
+import BenefitNotification from '../components/content/BenefitNotification';
 import LandingPageTypeOfInstitutionFilter from '../components/search/LandingPageTypeOfInstitutionFilter';
 import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
@@ -167,7 +167,7 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar />
-            <StemScholarshipNotification />
+            <BenefitNotification />
           </div>
         </div>
       </span>

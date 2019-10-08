@@ -5,9 +5,6 @@ const {
 } = require('./paragraph-fragments/listOfLinkTeasers.paragraph.graphql');
 const { FIELD_ALERT } = require('./block-fragments/alert.block.graphql');
 
-// Get current feature flags
-const { cmsFeatureFlags } = global;
-
 /**
  * The top-level page for a section of the website.
  * Examples include /health-care/, /disability/, etc.
@@ -28,11 +25,7 @@ module.exports = `
         ...listOfLinkTeasers
       }
     }
-    ${
-      cmsFeatureFlags.FEATURE_FIELD_LINKS
-        ? 'fieldLinks { title url { path } }'
-        : ''
-    }
+    fieldLinks { title url { path } }
     fieldSupportServices {
       ...on FieldNodeFieldSupportServices {
         entity {

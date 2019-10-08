@@ -1,9 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { openFormPage, updateFormData } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import FormButtons from '../components/FormButtons';
+
+import {
+  openFormPage,
+  updateFormData,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../actions/newAppointment.js';
+import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -58,7 +65,7 @@ const uiSchema = {
   },
 };
 
-const pageKey = 'contact-info';
+const pageKey = 'contactInfo';
 
 export class ContactInfoPage extends React.Component {
   componentDidMount() {
@@ -66,15 +73,15 @@ export class ContactInfoPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.router.push('/new-appointment');
+    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    this.props.router.push('/');
+    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
   };
 
   render() {
-    const { schema, data } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <SchemaForm
@@ -88,39 +95,24 @@ export class ContactInfoPage extends React.Component {
         }
         data={data}
       >
-        <div className="vads-l-row form-progress-buttons schemaform-buttons">
-          <div className="vads-l-col--6 vads-u-padding-right--2p5">
-            <ProgressButton
-              onButtonClick={this.goBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary vads-u-width--full"
-              beforeText="«"
-            />
-          </div>
-          <div className="vads-l-col--6">
-            <ProgressButton
-              submitButton
-              buttonText="Continue"
-              buttonClass="usa-button-primary"
-              afterText="»"
-            />
-          </div>
-        </div>
+        <FormButtons
+          onBack={this.goBack}
+          pageChangeInProgress={pageChangeInProgress}
+        />
       </SchemaForm>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    schema: state.newAppointment.pages[pageKey],
-    data: state.newAppointment.data,
-  };
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
   openFormPage,
   updateFormData,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
 };
 
 export default connect(

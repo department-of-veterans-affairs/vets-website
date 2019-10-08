@@ -24,7 +24,15 @@ export default class PhoneField extends React.Component {
   };
 
   convertNextValueToCleanData(value) {
-    const { id, countryCode, extension, phoneType, inputPhoneNumber } = value;
+    const {
+      id,
+      countryCode,
+      extension,
+      phoneType,
+      inputPhoneNumber,
+      isTextable,
+      isTextPermitted,
+    } = value;
 
     const strippedPhone = (inputPhoneNumber || '').replace(/[^\d]/g, '');
     const strippedExtension = (extension || '').replace(/[^a-zA-Z0-9]/g, '');
@@ -38,6 +46,8 @@ export default class PhoneField extends React.Component {
       phoneNumber: strippedPhone.substring(3),
       isInternational: countryCode !== USA.COUNTRY_CODE,
       inputPhoneNumber,
+      isTextable,
+      isTextPermitted,
     };
   }
 
@@ -59,6 +69,8 @@ export default class PhoneField extends React.Component {
         extension: cleanData.extension,
         phoneNumber: cleanData.phoneNumber,
         isInternational: false, // currently no international phone number support
+        isTextable: cleanData.isTextable,
+        isTextPermitted: cleanData.isTextPermitted,
         phoneType: PHONE_TYPE[fieldName],
       },
       e => !!e,
