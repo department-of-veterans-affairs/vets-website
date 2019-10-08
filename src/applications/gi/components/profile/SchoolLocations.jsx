@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  locationInfo,
-  getSchoolLocationsCalculatedBenefits,
-} from '../../utils/helpers';
+import { getCalculatedBenefits } from '../../selectors/calculator';
+import { locationInfo } from '../../utils/helpers';
 
 const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
 const DEFAULT_ROWS_VIEWABLE = 10;
@@ -67,10 +65,14 @@ export class SchoolLocations extends React.Component {
   };
 
   estimatedHousingRow = institution => {
-    const calculated = getSchoolLocationsCalculatedBenefits(
-      institution,
-      this.props,
-    );
+    const fakeState = {
+      constants: { constants: this.props.constants },
+      eligibility: this.props.eligibility,
+      profile: { attributes: institution },
+      calculator: this.props.calculator,
+    };
+
+    const calculated = getCalculatedBenefits(fakeState, this.props);
     return calculated.outputs.housingAllowance.value;
   };
 
