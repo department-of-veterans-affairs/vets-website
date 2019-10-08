@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
+import createCommonStore from 'platform/startup/store';
 import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
-import createCommonStore from '../../../../platform/startup/store';
 
 describe('<VetTecScoContact>', () => {
   it('should render', () => {
