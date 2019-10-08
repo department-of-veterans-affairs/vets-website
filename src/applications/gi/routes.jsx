@@ -18,7 +18,10 @@ const routes = {
   childRoutes: [
     { path: 'search', component: SearchPage },
     { path: 'profile/:facilityCode', component: ProfilePage },
-    { path: 'profile/:facilityCode/:programName', component: ProfilePage },
+    {
+      path: 'profile/:facilityCode/:preSelectedProgram',
+      component: ProfilePage,
+    },
     { ...legacyRoutes },
   ],
 };
