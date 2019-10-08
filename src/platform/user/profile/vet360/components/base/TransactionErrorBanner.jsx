@@ -7,6 +7,7 @@ import {
   hasMVIError,
   hasMVINotFoundError,
 } from '../../util/transactions';
+import {divIcon} from 'leaflet';
 
 export function GenericUpdateError(props) {
   return (
@@ -25,15 +26,21 @@ export function MVILookupFailError(props) {
   return (
     <AlertBox
       {...props}
+      className="vads-u-margin-bottom--4"
       status="error"
       headline="We’re having trouble matching your information to our Veteran records"
-      content={`
+      content={
+        <div>
+          <p>
             We’re sorry. We’re having trouble matching your information to our
             Veteran records, so we can’t give you access to tools for managing
             your health and benefits.
-          <a href=${facilityLocator.rootUrl}>
+          </p>
+          <a href={facilityLocator.rootUrl}>
             Find your nearest VA medical center
-          </a>`}
+          </a>
+        </div>
+      }
     />
   );
 }
@@ -42,8 +49,9 @@ export function MVIError(props) {
   return (
     <AlertBox
       {...props}
+      className="vads-u-margin-bottom--4"
       status="error"
-      headline=">We can’t access your contact information right now"
+      headline="We can’t access your contact information right now"
       content="We’re sorry. Something went wrong on our end. Please refresh this page or try again later."
     />
   );
