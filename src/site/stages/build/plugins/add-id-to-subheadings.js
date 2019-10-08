@@ -2,11 +2,7 @@
  * Add unique ID to H2s and H3s that aren't in WYSIWYG or accordion buttons
  */
 
-const usedHeaders = [];
-
-let currentId = 1;
-
-function createUniqueId(headingEl) {
+function createUniqueId(headingEl, headingOptions) {
   const headingString = headingEl.text();
   const length = 30;
   let anchor = headingString
@@ -17,13 +13,11 @@ function createUniqueId(headingEl) {
     .replace(/-+$/, '')
     .substring(0, length);
 
-  if (usedHeaders.includes(anchor)) {
-    if (!usedHeaders.includes(`${anchor}-${currentId}`)) {
-      anchor = `${anchor}-${currentId}`;
-      currentId++;
-    }
+  if (headingOptions.previousHeadings.includes(anchor)) {
+    anchor += `-${headingOptions.getHeadingId()}`;
   }
-  usedHeaders.push(anchor);
+
+  headingOptions.previousHeadings.push(anchor);
   return anchor;
 }
 
@@ -36,7 +30,16 @@ function generateHeadingIds() {
       if (fileName.endsWith('html')) {
         const { dom } = file;
         const tableOfContents = dom('#table-of-contents ul');
-        dom('h2, h3').each((i, el) => {
+
+        const headingOptions = {
+          previousHeadings: [],
+          previousId: 0,
+          getHeadingId() {
+            return ++this.previousId;
+          },
+        };
+
+        dom('h2, h3').each((index, el) => {
           const heading = dom(el);
           const parent = heading.parents();
           const isInAccordionButton = parent.hasClass('usa-accordion-button');
@@ -44,7 +47,7 @@ function generateHeadingIds() {
 
           // skip heading if it already has an id and skip heading if it's in an accordion button
           if (!heading.attr('id') && !isInAccordionButton) {
-            const headingID = createUniqueId(heading);
+            const headingID = createUniqueId(heading, headingOptions);
             heading.attr('id', headingID);
             idAdded = true;
           }
@@ -62,7 +65,7 @@ function generateHeadingIds() {
                   <a href="#${heading.attr(
                     'id',
                   )}" class="vads-u-text-decoration--none">
-                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i> 
+                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
                     ${heading.text()}
                   </a>
                 </li>`,

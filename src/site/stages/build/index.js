@@ -15,29 +15,30 @@ const getOptions = require('./options');
 const registerLiquidFilters = require('../../filters/liquid');
 const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
-const createBuildSettings = require('./plugins/create-build-settings');
-const createRedirects = require('./plugins/create-redirects');
-const createSitemaps = require('./plugins/create-sitemaps');
-const updateExternalLinks = require('./plugins/update-external-links');
-const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
-const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
-const checkBrokenLinks = require('./plugins/check-broken-links');
-const rewriteVaDomains = require('./plugins/rewrite-va-domains');
-const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
-const createDrupalDebugPage = require('./plugins/create-drupal-debug');
-const configureAssets = require('./plugins/configure-assets');
+const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
 const applyFragments = require('./plugins/apply-fragments');
+const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
+const checkForCMSUrls = require('./plugins/check-cms-urls');
+const configureAssets = require('./plugins/configure-assets');
+const createBuildSettings = require('./plugins/create-build-settings');
+const createDrupalDebugPage = require('./plugins/create-drupal-debug');
+const createEnvironmentFilter = require('./plugins/create-environment-filter');
 const createFeatureToggles = require('./plugins/create-feature-toggles');
 const createHeaderFooter = require('./plugins/create-header-footer');
-const createReactPages = require('./plugins/create-react-pages');
-const downloadDrupalAssets = require('./plugins/download-drupal-assets');
-const checkForCMSUrls = require('./plugins/check-cms-urls');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
-const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
+const createReactPages = require('./plugins/create-react-pages');
+const createRedirects = require('./plugins/create-redirects');
+const createSitemaps = require('./plugins/create-sitemaps');
+const downloadDrupalAssets = require('./plugins/download-drupal-assets');
+const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const parseHtml = require('./plugins/parse-html');
 const replaceContentsWithDom = require('./plugins/replace-contents-with-dom');
+const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
+const rewriteVaDomains = require('./plugins/rewrite-va-domains');
+const updateExternalLinks = require('./plugins/update-external-links');
+const updateRobots = require('./plugins/update-robots');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -213,6 +214,7 @@ function defaultBuild(BUILD_OPTIONS) {
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
   smith.use(createRedirects(BUILD_OPTIONS), 'Create redirects');
+  smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
 
   /**

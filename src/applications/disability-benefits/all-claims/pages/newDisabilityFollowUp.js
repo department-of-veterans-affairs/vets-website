@@ -12,6 +12,8 @@ import {
 
 import { validateLength } from '../../../../platform/forms/validations';
 
+import { NULL_CONDITION_STRING } from '../constants';
+
 const {
   cause,
   causedByDisability,
@@ -31,10 +33,20 @@ const getDisabilitiesList = createSelector(
   (ratedDisabilities = [], newDisabilities = [], currentIndex) => {
     const newDisabilitiesWithoutCurrent = newDisabilities
       .filter((item, index) => index !== currentIndex)
-      .map(item => capitalizeEachWord(item.condition));
+      .map(
+        item =>
+          typeof item.condition === 'string'
+            ? capitalizeEachWord(item.condition)
+            : NULL_CONDITION_STRING,
+      );
 
     return ratedDisabilities
-      .map(disability => capitalizeEachWord(disability.name))
+      .map(
+        disability =>
+          typeof disability.name === 'string'
+            ? capitalizeEachWord(disability.name)
+            : NULL_CONDITION_STRING,
+      )
       .concat(newDisabilitiesWithoutCurrent);
   },
 );

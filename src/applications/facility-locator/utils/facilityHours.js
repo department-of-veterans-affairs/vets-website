@@ -1,7 +1,8 @@
+// Dependencies
 import moment from 'moment';
 import { forIn, upperFirst } from 'lodash';
 
-export function buildHours(hours, shortDay = false) {
+export const buildHours = (hours, shortDay = false) => {
   const builtHours = [];
   const shortDays = {
     Monday: 'Mon',
@@ -31,4 +32,4 @@ export function buildHours(hours, shortDay = false) {
   });
 
   return builtHours;
-}
+};
