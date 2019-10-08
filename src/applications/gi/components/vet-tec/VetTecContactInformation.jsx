@@ -42,14 +42,14 @@ export const VetTecContactInformation = ({ institution }) => (
 
     {/* Production flag for 19534 */}
     {!environment.isProduction() &&
-      institution.schoolCertifyingOfficials[0] && (
+      institution.versionedSchoolCertifyingOfficials[0] && (
         <div>
           <div className="vads-u-margin-top--4">
             <h3>School certifying officials</h3>
           </div>
           <div className="vads-l-grid-container--full">
             <div className="vads-l-row">
-              {institution.schoolCertifyingOfficials.map(sco =>
+              {institution.versionedSchoolCertifyingOfficials.map(sco =>
                 VetTecScoContact(sco),
               )}
             </div>
