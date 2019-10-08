@@ -8,7 +8,10 @@ import {
 } from '../actions';
 
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
-import { normalizedAttributes } from './utility';
+import {
+  normalizedInstitutionAttributes,
+  normalizedProgramAttributes,
+} from './utility';
 
 const INITIAL_STATE = {
   facets: {
@@ -72,11 +75,10 @@ export default function(state = INITIAL_STATE, action) {
         ...action.err,
         inProgress: false,
       };
-    case PROGRAM_SEARCH_SUCCEEDED:
     case INSTITUTION_SEARCH_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const results = camelPayload.data.reduce((acc, result) => {
-        const attributes = normalizedAttributes(result.attributes);
+        const attributes = normalizedInstitutionAttributes(result.attributes);
         return [...acc, attributes];
       }, []);
       return {
@@ -86,6 +88,21 @@ export default function(state = INITIAL_STATE, action) {
         facets: normalizedFacets(camelPayload.meta.facets),
         count: camelPayload.meta.count,
         version: camelPayload.meta.version,
+        inProgress: false,
+      };
+    case PROGRAM_SEARCH_SUCCEEDED:
+      const programCamelPayload = camelCaseKeysRecursive(action.payload);
+      const programResults = programCamelPayload.data.reduce((acc, result) => {
+        const attributes = normalizedProgramAttributes(result.attributes);
+        return [...acc, attributes];
+      }, []);
+      return {
+        ...state,
+        results: programResults,
+        pagination: derivePaging(programCamelPayload.links),
+        facets: normalizedFacets(programCamelPayload.meta.facets),
+        count: programCamelPayload.meta.count,
+        version: programCamelPayload.meta.version,
         inProgress: false,
       };
     default:

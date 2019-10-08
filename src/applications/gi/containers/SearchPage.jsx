@@ -109,7 +109,7 @@ export class SearchPage extends React.Component {
     this.props.institutionFilterChange(institutionFilter);
 
     // prod flag for story 19734
-    if (environment.isProduction() && isVetTecSelected(institutionFilter)) {
+    if (!environment.isProduction() && isVetTecSelected(institutionFilter)) {
       this.props.fetchProgramSearchResults(query);
     } else {
       this.props.fetchInstitutionSearchResults(query);
