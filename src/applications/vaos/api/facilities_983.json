@@ -1,0 +1,76 @@
+[ {
+  "institution" : {
+    "institutionCode" : "983",
+    "name" : "CHYSHR-Cheyenne VA Medical Center",
+    "city" : "Cheyenne",
+    "stateAbbrev" : "WY",
+    "authoritativeName" : "CHYSHR-Cheyenne VA Medical Center",
+    "rootStationCode" : "983",
+    "adminParent" : true,
+    "parentStationCode" : "983"
+  },
+  "requestSupported" : true,
+  "directSchedulingSupported" : true,
+  "expressTimes" : null,
+  "institutionTimezone" : "America/Denver"
+}, {
+  "institution" : {
+    "institutionCode" : "983GB",
+    "name" : "CHYSHR-Sidney VA Clinic",
+    "city" : "Sidney",
+    "stateAbbrev" : "NE",
+    "authoritativeName" : "CHYSHR-Sidney VA Clinic",
+    "rootStationCode" : "983",
+    "adminParent" : false,
+    "parentStationCode" : "983"
+  },
+  "requestSupported" : true,
+  "directSchedulingSupported" : true,
+  "expressTimes" : null,
+  "institutionTimezone" : "America/Denver"
+}, {
+  "institution" : {
+    "institutionCode" : "983GC",
+    "name" : "CHYSHR-Fort Collins VA Clinic",
+    "city" : "Fort Collins",
+    "stateAbbrev" : "CO",
+    "authoritativeName" : "CHYSHR-Fort Collins VA Clinic",
+    "rootStationCode" : "983",
+    "adminParent" : false,
+    "parentStationCode" : "983"
+  },
+  "requestSupported" : true,
+  "directSchedulingSupported" : true,
+  "expressTimes" : null,
+  "institutionTimezone" : "America/Denver"
+}, {
+  "institution" : {
+    "institutionCode" : "983GD",
+    "name" : "CHYSHR-Loveland VA Clinic",
+    "city" : "Loveland",
+    "stateAbbrev" : "CO",
+    "authoritativeName" : "CHYSHR-Loveland VA Clinic",
+    "rootStationCode" : "983",
+    "adminParent" : false,
+    "parentStationCode" : "983"
+  },
+  "requestSupported" : true,
+  "directSchedulingSupported" : true,
+  "expressTimes" : null,
+  "institutionTimezone" : "America/Denver"
+}, {
+  "institution" : {
+    "institutionCode" : "983HK",
+    "name" : "CHYSHR-Wheatland VA Mobile Clinic",
+    "city" : "Cheyenne",
+    "stateAbbrev" : "WY",
+    "authoritativeName" : "CHYSHR-Wheatland VA Mobile Clinic",
+    "rootStationCode" : "983",
+    "adminParent" : false,
+    "parentStationCode" : "983"
+  },
+  "requestSupported" : true,
+  "directSchedulingSupported" : true,
+  "expressTimes" : null,
+  "institutionTimezone" : "America/Denver"
+} ]

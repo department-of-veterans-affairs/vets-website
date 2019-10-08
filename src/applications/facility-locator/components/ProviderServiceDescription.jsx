@@ -17,7 +17,7 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
     if (specialty && specialty.length < 1) return null;
 
     return (
-      <ul>
+      <ul className="vads-u-margin-top--1">
         {specialty.map(s => (
           <li key={s.name}>
             <u>{s.name}</u>: {s.desc}

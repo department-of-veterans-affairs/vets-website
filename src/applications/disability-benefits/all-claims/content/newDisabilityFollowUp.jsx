@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import { capitalizeEachWord } from '../utils';
+import { NULL_CONDITION_STRING } from '../constants';
 
 export class CauseTitle extends React.Component {
   constructor(props) {
@@ -31,13 +32,13 @@ export class CauseTitle extends React.Component {
           id="service-connected-modal"
         >
           <p>
-            To be eligible for disability benefits, you’ll need to show that
-            your condition was caused by an illness or injury connected to your
-            military service. You’ll need to show your condition is linked to
-            your service by submitting evidence, such as medical reports or lay
-            statements, with your claim. We may ask you to have a claim exam if
-            you don’t submit evidence or if we need more information to decide
-            your claim.
+            To be eligible for service-connected disability benefits, you’ll
+            need to show that your disability was caused by an event, injury, or
+            disease during your military service. You’ll need to show your
+            condition is linked to your service by submitting evidence, such as
+            medical reports or lay statements, with your claim. We may ask you
+            to have a claim exam if you don’t submit evidence or if we need more
+            information to decide your claim.
           </p>
         </Modal>
       </div>
@@ -47,6 +48,8 @@ export class CauseTitle extends React.Component {
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {capitalizeEachWord(formData.condition)}
+    {typeof formData.condition === 'string'
+      ? capitalizeEachWord(formData.condition)
+      : NULL_CONDITION_STRING}
   </legend>
 );

@@ -10,6 +10,7 @@ const _getErrorOutput = require('./helpers/getErrorOutput');
  * Metalsmith middleware for verifying HREF/SRC values in HTML files are valid file references.
  */
 function getMiddleware(
+  buildOptions,
   getBrokenLinks = _getBrokenLinks,
   applyIgnoredRoutes = _applyIgnoredRoutes,
   getErrorOutput = _getErrorOutput,
@@ -44,6 +45,11 @@ function getMiddleware(
 
     if (brokenPages.length > 0) {
       const errorOutput = getErrorOutput(brokenPages);
+
+      if (buildOptions['drupal-fail-fast']) {
+        done(errorOutput);
+        return;
+      }
 
       console.log(errorOutput);
     }

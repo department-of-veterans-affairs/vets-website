@@ -14,7 +14,7 @@ function getErrorOutput(brokenPages) {
   const csvBody = brokenPages
     .map(brokenPage =>
       brokenPage.linkErrors
-        .map(link => `${brokenPage.path},${link.html.replace('\n', '')}`)
+        .map(link => `${brokenPage.path},${link.html.replace(/\n/g, '')}`)
         .join('\n'),
     )
     .join('\n');

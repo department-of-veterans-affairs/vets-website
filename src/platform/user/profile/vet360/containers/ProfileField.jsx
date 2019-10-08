@@ -211,6 +211,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     data,
+    fieldName,
     field: selectEditedFormField(state, fieldName),
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
     isEmpty,

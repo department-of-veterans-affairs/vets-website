@@ -16,7 +16,7 @@ const LocationInfoBlock = ({ location }) => {
       {isProvider ? (
         <span>
           <Link to={`provider/${location.id}`}>
-            <h5>{name}</h5>
+            <h2 className="vads-u-font-size--h5">{name}</h2>
           </Link>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
@@ -26,7 +26,7 @@ const LocationInfoBlock = ({ location }) => {
       ) : (
         <span>
           <Link to={`facility/${location.id}`}>
-            <h5>{name}</h5>
+            <h2 className="vads-u-font-size--h5">{name}</h2>
           </Link>
           <FacilityTypeDescription location={location} />
         </span>

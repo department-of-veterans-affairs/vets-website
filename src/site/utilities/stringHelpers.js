@@ -3,6 +3,9 @@ const camelCase = require('lodash/fp/camelCase');
 const queryParamToBeChanged = [
   'CROP_FREEFORM',
   '_1_1_SQUARE_MEDIUM_THUMBNAIL',
+  '_21MEDIUMTHUMBNAIL',
+  '_32MEDIUMTHUMBNAIL',
+  '_72MEDIUMTHUMBNAIL',
   'CROP_7_2',
   'CROP_3_2',
   'CROP_2_1',

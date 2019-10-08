@@ -19,17 +19,23 @@ function configureAssets(smith, buildOptions) {
       livereload: true,
     });
 
-    smith.use(watchMetalSmith);
-    smith.use(webpackMetalsmithConnect.watchAssets(buildOptions));
+    smith.use(watchMetalSmith, 'Watch Metalsmith');
+    smith.use(
+      webpackMetalsmithConnect.watchAssets(buildOptions),
+      'Build and watch Webpack assets',
+    );
   } else {
     if (assetSource !== assetSources.LOCAL) {
-      smith.use(downloadAssets(buildOptions));
+      smith.use(downloadAssets(buildOptions), 'Download assets');
     } else {
-      smith.use(webpackMetalsmithConnect.compileAssets(buildOptions));
+      smith.use(
+        webpackMetalsmithConnect.compileAssets(buildOptions),
+        'Build Webpack assets',
+      );
     }
 
     if (!isDevBuild) {
-      smith.use(addAssetHashes());
+      smith.use(addAssetHashes(), 'Add asset hashes');
     }
   }
 }
