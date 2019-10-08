@@ -42,7 +42,7 @@ export const VetTecContactInformation = ({ institution }) => (
 
     {/* Production flag for 19534 */}
     {!environment.isProduction() &&
-      institution.versionedSchoolCertifyingOfficials[0] && (
+      institution.versionedSchoolCertifyingOfficials.length > 0 && (
         <div>
           <div className="vads-u-margin-top--4">
             <h3>School certifying officials</h3>
