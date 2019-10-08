@@ -1,22 +1,9 @@
-import {
-  getFormData,
-  getChosenFacilityInfo,
-  getTypeOfCare,
-} from './utils/selectors';
+import { getFormData } from './utils/selectors';
 
-import { CANCELLED_APPOINTMENT_SET } from './utils/constants';
-
-import {
-  getClinics,
-  checkPastVisits,
-  getRequestLimits,
-  getPastAppointments,
-} from './api';
+// import { CANCELLED_APPOINTMENT_SET } from './utils/constants';
 
 const AUDIOLOGY = '203';
-const DISABLED_LIMIT_VALUE = 0;
 const SLEEP_CARE = 'SLEEP';
-const DIRECT_SCHEDULE_TYPES = new Set(['323', '502']);
 
 function isCCAudiology(state) {
   return (
@@ -25,27 +12,34 @@ function isCCAudiology(state) {
   );
 }
 
-function buildApptHash(pastAppointments) {
-  return pastAppointments
-    .filter(
-      appt =>
-        appt.clinicId &&
-        !CANCELLED_APPOINTMENT_SET.has(
-          appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
-        ),
-    )
-    .reduce(
-      (map, next) => ({
-        ...map,
-        [next.clinicId]: (map[next.clinicId] || 0) + 1,
-      }),
-      {},
-    );
-}
+// function buildApptHash(pastAppointments) {
+//   return pastAppointments
+//     .filter(
+//       appt =>
+//         appt.clinicId &&
+//         !CANCELLED_APPOINTMENT_SET.has(
+//           appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
+//         ),
+//     )
+//     .reduce(
+//       (map, next) => ({
+//         ...map,
+//         [next.clinicId]: (map[next.clinicId] || 0) + 1,
+//       }),
+//       {},
+//     );
+// }
 
 export default {
   home: {
     url: '/',
+  },
+  typeOfAppointment: {
+    url: '/new-appointment',
+    // Temporary stub for typeOfAppointment which will eventually be first step
+    // Next will direct to type of care or provider once both flows are complete
+    next: 'typeOfFacility',
+    previous: 'home',
   },
   typeOfCare: {
     url: '/new-appointment',

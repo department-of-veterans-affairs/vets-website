@@ -5,7 +5,9 @@ import {
   getAppointmentTitle,
   getAppointmentLocation,
   getAppointmentDateTime,
+  isVideoVisit,
 } from '../utils/appointment';
+import VideoVisitLink from './VideoVisitLink';
 
 export default function ConfirmedAppointmentListItem({ appointment }) {
   return (
@@ -27,7 +29,11 @@ export default function ConfirmedAppointmentListItem({ appointment }) {
             {' '}
             Where{' '}
           </h3>
-          {getAppointmentLocation(appointment)}
+          {isVideoVisit(appointment) ? (
+            <VideoVisitLink appointment={appointment} />
+          ) : (
+            getAppointmentLocation(appointment)
+          )}
         </div>
       </div>
       <Link
