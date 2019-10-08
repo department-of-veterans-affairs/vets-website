@@ -12,9 +12,9 @@ export const TIME_TEXT = {
 };
 
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/Follow-Up',
-  'new-issue': 'New Issue',
-  'medication-concern': 'Medication Concern',
+  'routine-follow-up': 'Routine/follow-up',
+  'new-issue': 'New issue',
+  'medication-concern': 'Medication concern',
   other: 'Other',
 };
 
@@ -27,17 +27,12 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '160',
-    name: 'Clinical pharmacy primary care',
-    group: 'primary',
-  },
-  {
-    id: 'CR1',
-    name: 'Express care clinic',
+    name: 'Pharmacy',
     group: 'primary',
   },
   {
     id: '502',
-    name: 'Outpatient mental health',
+    name: 'Mental health',
     group: 'mentalHealth',
   },
   {
@@ -52,14 +47,9 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '203',
-    name: 'Audiology and speech',
+    name: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
     ccId: ['CCAUDHEAR', 'CCAUDRTNE'],
-  },
-  {
-    id: '349',
-    name: 'CPAP clinic',
-    group: 'specialty',
   },
   {
     id: '372',
@@ -90,9 +80,20 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
   },
   {
-    id: '143',
-    name: 'Sleep medicine and home sleep testing',
+    id: 'SLEEP',
+    name: 'Sleep medicine',
     group: 'specialty',
+  },
+];
+
+export const TYPES_OF_SLEEP_CARE = [
+  {
+    id: '349',
+    name: 'CPAP',
+  },
+  {
+    id: '143',
+    name: 'Home sleep study',
   },
 ];
 
@@ -118,7 +119,7 @@ export const LANGUAGES = [
     value: 'German',
   },
   {
-    id: 'italian)',
+    id: 'italian',
     text: 'Italian',
     value: 'Italian',
   },
@@ -159,6 +160,17 @@ export const LANGUAGES = [
   },
 ];
 
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    id: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    id: 'CCAUDHEAR',
+    name: 'Hearing aid support',
+  },
+];
+
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO-SHOW',
   'CANCELLED BY CLINIC',
@@ -169,3 +181,33 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY PATIENT & AUTO-REBOOK',
   'NO ACTION TAKEN',
 ]);
+
+export const TYPE_OF_VISIT = [
+  {
+    id: 'office',
+    name: 'Office visit',
+  },
+  {
+    id: 'phone',
+    name: 'Phone call',
+  },
+  {
+    id: 'telehealth',
+    name: 'Telehealth',
+  },
+];
+
+export const DISTANCES = [
+  {
+    id: '25',
+    name: 'Up to 25 miles',
+  },
+  {
+    id: '50',
+    name: 'Up to 50 miles',
+  },
+  {
+    id: '50+',
+    name: 'Further than 50 miles',
+  },
+];
