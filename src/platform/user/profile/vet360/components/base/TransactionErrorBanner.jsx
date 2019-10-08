@@ -31,7 +31,7 @@ export function MVILookupFailError(props) {
             We’re sorry. We’re having trouble matching your information to our
             Veteran records, so we can’t give you access to tools for managing
             your health and benefits.
-          <a href={facilityLocator.rootUrl}>
+          <a href=${facilityLocator.rootUrl}>
             Find your nearest VA medical center
           </a>`}
     />
