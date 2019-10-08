@@ -50,6 +50,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
     nullEntities: 0,
     emptyEntities: 0,
   };
+
   for (const page of pages) {
     // At this time, null values are returned for pages that are not yet published.
     // Once the Content-Preview server is up and running, then unpublished pages should
@@ -206,7 +207,7 @@ function getDrupalContent(buildOptions) {
       }
       drupalData = convertDrupalFilesToLocal(drupalData, files, buildOptions);
 
-      loadCachedDrupalFiles(buildOptions, files);
+      await loadCachedDrupalFiles(buildOptions, files);
       pipeDrupalPagesIntoMetalsmith(drupalData, files);
       log('Successfully piped Drupal content into Metalsmith!');
       buildOptions.drupalData = drupalData;
@@ -217,7 +218,10 @@ function getDrupalContent(buildOptions) {
       buildOptions.drupalError = drupalData;
       log(err.stack);
       log('Failed to pipe Drupal content into Metalsmith!');
-      if (buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) {
+      if (
+        buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST ||
+        buildOptions['drupal-fail-fast']
+      ) {
         done(err);
       } else {
         done();

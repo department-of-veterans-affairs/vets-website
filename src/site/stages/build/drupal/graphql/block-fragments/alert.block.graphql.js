@@ -3,9 +3,6 @@
  *
  */
 
-// Get current feature flags
-const { cmsFeatureFlags } = global;
-
 const FIELD_ALERT = `
 fieldAlert {
   entity {
@@ -19,11 +16,7 @@ fieldAlert {
 
 const alert = `
 fragment alert on BlockContentAlert {
-  ${
-    cmsFeatureFlags.FEATURE_FIELD_ALERT_DISMISSABLE
-      ? 'fieldAlertDismissable'
-      : ''
-  }
+  fieldAlertDismissable
   fieldAlertType
   fieldAlertTitle
   fieldReusability

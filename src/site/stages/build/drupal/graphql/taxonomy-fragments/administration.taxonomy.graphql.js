@@ -3,11 +3,8 @@
  * Appears on hub landing pages.
  */
 // Get current feature flags
-const { cmsFeatureFlags } = global;
 
-const fieldAministrationKey = cmsFeatureFlags.GRAPHQL_MODULE_UPDATE
-  ? 'FieldNodeLandingPageFieldAdministration'
-  : 'FieldNodeFieldAdministration';
+const fieldAministrationKey = 'FieldNodeLandingPageFieldAdministration';
 
 module.exports = `
     fragment administration on NodeLandingPage {

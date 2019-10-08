@@ -37,8 +37,7 @@
     ["module-resolver", {
       "root": "./src",
       "alias": {
-        "vet360": "./src/platform/user/profile/vet360",
-        "@profile360": "./src/applications/personalization/profile360"
+        "vet360": "./src/platform/user/profile/vet360"
       }
     }]
   ],

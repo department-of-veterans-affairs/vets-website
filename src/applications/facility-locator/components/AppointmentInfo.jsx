@@ -112,26 +112,30 @@ export default class AppointmentInfo extends Component {
           ),
         );
 
-      return [
-        <li key="specialty-care">Specialty care:</li>,
-        firstThree.map(k =>
-          renderStat(
-            startCase(k.replace(/([A-Z])/g, ' $1')),
-            healthAccessAttrs[k][existing ? 'established' : 'new'],
-            true,
-          ),
-        ),
-        lastToEnd.length > 0 && renderMoreTimes(),
-        <li key="show-more" className="show-more">
-          <button
-            onClick={onClick}
-            className={seeMoreClasses}
-            aria-expanded={this.state[showHideKey] ? 'true' : 'false'}
-          >
-            See {this.state[showHideKey] ? 'less' : 'more'}
-          </button>
-        </li>,
-      ];
+      return (
+        <li key="specialty-care">
+          Specialty care:
+          <ul className="vads-u-margin-top--1">
+            {firstThree.map(k =>
+              renderStat(
+                startCase(k.replace(/([A-Z])/g, ' $1')),
+                healthAccessAttrs[k][existing ? 'established' : 'new'],
+                true,
+              ),
+            )}
+            {lastToEnd.length > 0 && renderMoreTimes()}
+            <li key="show-more" className="show-more">
+              <button
+                onClick={onClick}
+                className={seeMoreClasses}
+                aria-expanded={this.state[showHideKey] ? 'true' : 'false'}
+              >
+                See {this.state[showHideKey] ? 'less' : 'more'}
+              </button>
+            </li>
+          </ul>
+        </li>
+      );
     };
 
     return (

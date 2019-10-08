@@ -1,11 +1,15 @@
 <div class="vads-u-display--flex vads-u-margin-bottom--4 vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-  {% if bio.fieldMedia != emtpy %}
-    <div class="vads-u-flex--auto medium-screen:vads-u-margin-right--3 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
-      {% assign image = bio.fieldMedia.entity.image %}
-      <img class="circular-profile-image bio-paragraph-image" src="{{ image.derivative.url }}" alt="{{ image.alt }}"
-        title="{{ image.title }}">
-    </div>
+  <div class="vads-u-flex--auto medium-screen:vads-u-margin-right--3 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
+  {% if bio.fieldMedia == emtpy %}
+    <span class="circular-profile-image bio-paragraph-image vads-u-position--relative vads-u-background-color--gray-lightest vads-u-display--block">
+      <span class="fas fa-user circular-profile-missing-icon"></span>
+    </span>
+  {% else %}
+    {% assign image = bio.fieldMedia.entity.image %}
+    <img class="circular-profile-image bio-paragraph-image" src="{{ image.derivative.url }}" alt="{{ image.alt }}"
+         title="{{ image.title }}">
   {% endif %}
+  </div>
   <div class="vads-u-flex--1">
 
     <p class="

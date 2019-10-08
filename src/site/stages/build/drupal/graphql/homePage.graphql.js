@@ -6,8 +6,6 @@ const menu = 'homepage-top-tasks-blocks';
 const hubListQueue = 'home_page_hub_list';
 const promoBlocksQueue = 'home_page_promos';
 
-const { cmsFeatureFlags } = global;
-
 const query = `
   homePageMenuQuery:menuByName(name: "${menu}") {
     name
@@ -84,4 +82,4 @@ const query = `
   }
 `;
 
-module.exports = cmsFeatureFlags.FEATURE_HOME_PAGE ? query : '';
+module.exports = query;

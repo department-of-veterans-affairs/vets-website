@@ -23,6 +23,14 @@ export const VET360_TRANSACTION_UPDATED = 'VET360_TRANSACTION_UPDATED';
 export const VET360_TRANSACTION_UPDATE_FAILED =
   'VET360_TRANSACTION_UPDATE_FAILED';
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
+export const VET360_CLEAR_TRANSACTION_STATUS =
+  'VET360_CLEAR_TRANSACTION_STATUS';
+
+export function clearTransactionStatus() {
+  return {
+    type: VET360_CLEAR_TRANSACTION_STATUS,
+  };
+}
 
 export function fetchTransactions() {
   return async dispatch => {

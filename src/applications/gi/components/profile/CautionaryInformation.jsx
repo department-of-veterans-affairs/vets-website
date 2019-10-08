@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -122,12 +121,8 @@ export class CautionaryInformation extends React.Component {
 
     const allComplaints = complaints.pop();
 
-    const cautionTableFix = environment.isProduction()
-      ? 'cautionary-information'
-      : 'cautionary-information-new';
-
     return (
-      <div className={cautionTableFix}>
+      <div className="cautionary-information">
         <div className="caution-flag">
           <AlertBox
             content={flagContent}

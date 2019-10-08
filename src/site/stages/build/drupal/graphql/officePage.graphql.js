@@ -3,8 +3,6 @@
  * Example: /pittsburgh-health-care/events/example-event
  */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
-// Get current feature flags
-const { cmsFeatureFlags } = global;
 
 module.exports = `
  fragment officePage on NodeOffice {
@@ -12,7 +10,7 @@ module.exports = `
     changed
     title
     fieldDescription
-    ${cmsFeatureFlags.FEATURE_FIELD_BODY ? 'fieldBody { processed }' : ''}
+    fieldBody { processed }
     reverseFieldOfficeNode {
       entities {
     ... on NodeEvent {
