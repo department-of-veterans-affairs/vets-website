@@ -52,11 +52,6 @@ function normalizedFacets(facets) {
   return { ...facets, state, type };
 }
 
-function normalizedProgramFacets(facets) {
-  const state = uppercaseKeys(facets.state);
-  return { ...facets, state };
-}
-
 function derivePaging(links) {
   const selfPage = links.self.match(/page=(\d+)/i);
   const currentPage = Number(selfPage === null ? 1 : selfPage[1]);
@@ -77,6 +72,7 @@ export default function(state = INITIAL_STATE, action) {
         ...action.err,
         inProgress: false,
       };
+    case PROGRAM_SEARCH_SUCCEEDED:
     case INSTITUTION_SEARCH_SUCCEEDED:
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const results = camelPayload.data.reduce((acc, result) => {
@@ -90,21 +86,6 @@ export default function(state = INITIAL_STATE, action) {
         facets: normalizedFacets(camelPayload.meta.facets),
         count: camelPayload.meta.count,
         version: camelPayload.meta.version,
-        inProgress: false,
-      };
-    case PROGRAM_SEARCH_SUCCEEDED:
-      const programCamelPayload = camelCaseKeysRecursive(action.payload);
-      const programResults = programCamelPayload.data.reduce((acc, result) => {
-        const attributes = normalizedAttributes(result.attributes);
-        return [...acc, attributes];
-      }, []);
-      return {
-        ...state,
-        results: programResults,
-        pagination: derivePaging(programCamelPayload.links),
-        facets: normalizedProgramFacets(programCamelPayload.meta.facets),
-        count: programCamelPayload.meta.count,
-        version: programCamelPayload.meta.version,
         inProgress: false,
       };
     default:

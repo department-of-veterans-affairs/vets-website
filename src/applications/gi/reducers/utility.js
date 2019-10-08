@@ -4,6 +4,9 @@ export const normalizedAttributes = attributes => {
   const name = attributes.name
     ? attributes.name.toUpperCase()
     : attributes.name;
+  const description = attributes.description
+    ? attributes.description.toUpperCase()
+    : attributes.description;
   const city = attributes.physicalCity
     ? attributes.physicalCity.toUpperCase()
     : attributes.physicalCity;
@@ -19,6 +22,7 @@ export const normalizedAttributes = attributes => {
   return {
     ...attributes,
     name,
+    description,
     city,
     state,
     country,
