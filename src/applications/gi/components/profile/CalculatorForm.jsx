@@ -593,7 +593,7 @@ class CalculatorForm extends React.Component {
       if (environment.isProduction() || !inputs.classesOutsideUS) {
         // Prod Flag for 19703
         const label =
-          this.isCountryInternational() && !environment.isProduction
+          this.isCountryInternational() && !environment.isProduction()
             ? "If you're taking classes in the U.S., enter the location's zip code"
             : "Please enter the zip code where you'll take your classes";
 
