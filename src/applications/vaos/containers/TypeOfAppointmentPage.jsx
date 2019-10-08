@@ -1,6 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { openFormPage, updateFormData } from '../actions/newAppointment.js';
+import {
+  openFormPage,
+  updateFormData,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
@@ -46,7 +51,7 @@ const uiSchema = {
   },
 };
 
-const pageKey = 'type-appointment';
+const pageKey = 'typeOfAppointment';
 
 export class TypeOfAppointmentPage extends React.Component {
   componentDidMount() {
@@ -54,11 +59,11 @@ export class TypeOfAppointmentPage extends React.Component {
   }
 
   goBack = () => {
-    this.props.router.push('/');
+    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    this.props.router.push('/new-appointment/type-of-care');
+    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
   };
 
   render() {
@@ -111,6 +116,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   openFormPage,
   updateFormData,
+  routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage,
 };
 
 export default connect(

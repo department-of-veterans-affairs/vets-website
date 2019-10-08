@@ -14,6 +14,13 @@ export default {
   home: {
     url: '/',
   },
+  typeOfAppointment: {
+    url: '/new-appointment',
+    // Temporary stub for typeOfAppointment which will eventually be first step
+    // Next will direct to type of care or provider once both flows are complete
+    next: 'typeOfFacility',
+    previous: 'home',
+  },
   typeOfCare: {
     url: '/new-appointment',
     next(state) {
