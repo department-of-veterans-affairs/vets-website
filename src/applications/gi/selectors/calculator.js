@@ -501,6 +501,8 @@ const getDerivedValues = createSelector(
       inputs.beneficiaryLocationQuestion === 'other' ||
       inputs.beneficiaryLocationQuestion === 'extension';
 
+    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists,
+    // then a localized rate has been fetched and should be used
     const useBeneficiaryLocationRate =
       extensionBeneficiaryLocationQuestion &&
       inputs.beneficiaryLocationBah !== null;
@@ -511,7 +513,7 @@ const getDerivedValues = createSelector(
       : constant.AVGVABAH;
 
     if (useBeneficiaryLocationRate) {
-      // sometimes there's no grandfathered rate for a zip code
+      // if beneficiary has indicated they are using the grandfathered rate, use it when available;
       bah =
         hasUsedGiBillBenefit && inputs.beneficiaryLocationGrandfatheredBah
           ? inputs.beneficiaryLocationGrandfatheredBah
