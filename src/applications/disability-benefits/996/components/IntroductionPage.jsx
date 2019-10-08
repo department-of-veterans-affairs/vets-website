@@ -91,7 +91,7 @@ class IntroductionPage extends React.Component {
                 style={{ paddingLeft: '0px' }}
               >
                 <OMBInfo
-                  resBurden={30}
+                  resBurden={15}
                   ombNumber="2900-0862"
                   expDate="02/28/2022"
                 />
