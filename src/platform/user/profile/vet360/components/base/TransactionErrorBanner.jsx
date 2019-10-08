@@ -26,22 +26,14 @@ export function MVILookupFailError(props) {
     <AlertBox
       {...props}
       status="error"
-      content={
-        <div>
-          <h4>
-            We’re having trouble matching your information to our Veteran
-            records
-          </h4>
-          <p>
+      headline="We’re having trouble matching your information to our Veteran records"
+      content={`
             We’re sorry. We’re having trouble matching your information to our
             Veteran records, so we can’t give you access to tools for managing
             your health and benefits.
-          </p>
           <a href={facilityLocator.rootUrl}>
             Find your nearest VA medical center
-          </a>
-        </div>
-      }
+          </a>`}
     />
   );
 }
@@ -51,15 +43,8 @@ export function MVIError(props) {
     <AlertBox
       {...props}
       status="error"
-      content={
-        <div>
-          <h4>We can’t access your contact information right now</h4>
-          <p>
-            We’re sorry. Something went wrong on our end. Please refresh this
-            page or try again later.
-          </p>
-        </div>
-      }
+      headline=">We can’t access your contact information right now"
+      content="We’re sorry. Something went wrong on our end. Please refresh this page or try again later."
     />
   );
 }
