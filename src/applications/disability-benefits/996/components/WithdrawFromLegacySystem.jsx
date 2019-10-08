@@ -37,7 +37,7 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
           title="Required opt-in"
         />
         <div style={{ marginLeft: '1.8em' }}>
-          I am widthdrawing this eligible appeal issues and any associated
+          I am withdrawing this eligible appeal issues and any associated
           hearing requests, from the legacy appeals system to seek review of
           those issues in VA's modernized review system. I understand that I
           cannot return to the legacy appeals process for the issue(s)
