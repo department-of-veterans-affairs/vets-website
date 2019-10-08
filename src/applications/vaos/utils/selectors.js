@@ -90,7 +90,20 @@ export function canScheduleAtChosenFacility(state) {
     return null;
   }
 
-  return Object.values(eligibility).every(value => value !== false);
+  const {
+    directPastVisit,
+    directTypes,
+    directClinics,
+    directPACT,
+    requestLimit,
+    requestPastVisit,
+  } = eligibility;
+
+  const directEligibile =
+    directTypes && directPastVisit && directPACT && directClinics;
+  const requestEligible = requestLimit && requestPastVisit;
+
+  return directEligibile || requestEligible;
 }
 
 export function getFacilityPageInfo(state, pageKey) {

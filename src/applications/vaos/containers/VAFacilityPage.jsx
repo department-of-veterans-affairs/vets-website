@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 
 import {
   openFacilityPage,
@@ -149,6 +149,15 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
+    const notEligibleAtChosenFacility =
+      data.vaFacility &&
+      data.vaFacility.startsWith(data.vaSystem) &&
+      !loadingEligibility &&
+      !canScheduleAtChosenFacility;
+
+    const disableSubmitButton =
+      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
+
     return (
       <div>
         {title}
@@ -164,23 +173,12 @@ export class VAFacilityPage extends React.Component {
           formContext={{ vaSystem: data.vaSystem }}
           data={data}
         >
-          {data.vaFacility &&
-            data.vaFacility.startsWith(data.vaSystem) &&
-            !loadingEligibility &&
-            !canScheduleAtChosenFacility && (
-              <AlertBox
-                eligibility={eligibility}
-                status="warning"
-                headline="Sorry, there are problems"
-              />
-            )}
+          {notEligibleAtChosenFacility && (
+            <EligibilityCheckMessage eligibility={eligibility} />
+          )}
           <FormButtons
             onBack={this.goBack}
-            disabled={
-              loadingFacilities ||
-              noValidVAFacilities ||
-              !canScheduleAtChosenFacility
-            }
+            disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
         </SchemaForm>

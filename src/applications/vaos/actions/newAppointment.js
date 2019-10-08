@@ -10,7 +10,7 @@ import {
   getClinics,
 } from '../api';
 
-import { DIRECT_SCHEDULE_TYPES } from '../utils/constants';
+import { DIRECT_SCHEDULE_TYPES, PRIMARY_CARE } from '../utils/constants';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -49,21 +49,24 @@ export function updateFormData(page, uiSchema, data) {
 }
 
 async function fetchFacilityEligibilityChecks(facilityId, typeOfCareId) {
-  let eligiblityChecks = [
+  let eligibilityChecks = [
     checkPastVisits(facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
   ];
 
   if (DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
-    eligiblityChecks = eligiblityChecks.concat([
+    eligibilityChecks = eligibilityChecks.concat([
       checkPastVisits(facilityId, typeOfCareId, 'direct'),
-      getPacTeam(facilityId),
       getClinics(facilityId, typeOfCareId),
     ]);
   }
 
+  if (typeOfCareId === PRIMARY_CARE) {
+    eligibilityChecks.push(getPacTeam(facilityId));
+  }
+
   const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
-    eligiblityChecks,
+    eligibilityChecks,
   );
   let eligibility = {
     requestPastVisit,
@@ -71,13 +74,19 @@ async function fetchFacilityEligibilityChecks(facilityId, typeOfCareId) {
   };
 
   if (directData?.length) {
-    const [directPastVisit, pacTeam, clinics] = directData;
+    const [directPastVisit, clinics, ...pacTeam] = directData;
     eligibility = {
       ...eligibility,
       directPastVisit,
-      pacTeam,
       clinics,
     };
+
+    if (pacTeam.length) {
+      eligibility = {
+        ...eligibility,
+        pacTeam: pacTeam[0],
+      };
+    }
   }
 
   return eligibility;
