@@ -7,7 +7,6 @@ import {
   hasMVIError,
   hasMVINotFoundError,
 } from '../../util/transactions';
-import {divIcon} from 'leaflet';
 
 export function GenericUpdateError(props) {
   return (
