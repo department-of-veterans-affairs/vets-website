@@ -45,7 +45,7 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
-  const genericError = {
+  const badWorkPhoneNumberError = {
     errors: [
       {
         title: 'Unprocessable Entity',
@@ -60,6 +60,68 @@ describe('<PaymentInformationEditModalError />', () => {
               severity: 'ERROR',
               text:
                 'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const badHomeAreaCodeError = {
+    errors: [
+      {
+        title: 'Unprocessable Entity',
+        detail: 'One or more unprocessable user payment properties',
+        code: '126',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text:
+                'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const badAddressError = {
+    errors: [
+      {
+        title: 'Unprocessable Entity',
+        detail: 'One or more unprocessable user payment properties',
+        code: '126',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text:
+                'Generic CnP payment update error. Update response: Update Failed: Required field not entered for mailing address update',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const genericError = {
+    errors: [
+      {
+        title: 'Unprocessable Entity',
+        detail: 'One or more unprocessable user payment properties',
+        code: '126',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text: 'This is a generic error that we do not recognize.',
             },
           ],
         },
@@ -91,7 +153,7 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
   });
 
-  it('renders the default error', () => {
+  it('renders the default error when it gets an unrecognized error message', () => {
     const wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: genericError }}
@@ -103,7 +165,7 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
   });
 
-  it('renders the invalid routing numaber error', () => {
+  it('renders the invalid routing number error', () => {
     const wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: checksumError }}
@@ -123,6 +185,40 @@ describe('<PaymentInformationEditModalError />', () => {
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+  });
+
+  it('renders an error message prompting the user to update their address', () => {
+    const wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: badAddressError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'Update your home and mailing addresses in your <a href="/profile/#contact-information">profile</a> and try again.',
+    );
+    wrapper.unmount();
+  });
+
+  it('renders the bad home phone number error messages', () => {
+    let wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: badWorkPhoneNumberError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'Update your work phone number in your <a href="/profile/#contact-information">profile</a> and try again.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: badHomeAreaCodeError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'Update your home phone number in your <a href="/profile/#contact-information">profile</a> and try again.',
     );
     wrapper.unmount();
   });
