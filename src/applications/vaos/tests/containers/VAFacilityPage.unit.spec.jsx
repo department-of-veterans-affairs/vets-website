@@ -188,10 +188,34 @@ describe('VAOS <VAFacilityPage>', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-
+    expect(form.find('input').length).to.not.equal(0);
     expect(form.find('button[type="submit"]').props().disabled).to.be.true;
     expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find('.usa-alert').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should display message if one facility not eligible', () => {
+    const openFormPage = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <VAFacilityPage
+        eligibility={{}}
+        singleValidVALocation
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
+        facility={{ institution: {} }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        data={{
+          vaSystem: '983',
+          vaFacility: '983',
+        }}
+      />,
+    );
+
+    expect(form.find('button[type="submit"]').props().disabled).to.be.true;
+    expect(form.find('input').length).to.equal(0);
     expect(form.find('.usa-alert').exists()).to.be.true;
     form.unmount();
   });

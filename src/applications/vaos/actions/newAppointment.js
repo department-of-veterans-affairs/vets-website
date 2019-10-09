@@ -4,13 +4,8 @@ import {
   getSystemIdentifiers,
   getSystemDetails,
   getFacilitiesBySystemAndTypeOfCare,
-  checkPastVisits,
-  getRequestLimits,
-  getPacTeam,
-  getClinics,
+  getEligibilityData,
 } from '../api';
-
-import { DIRECT_SCHEDULE_TYPES, PRIMARY_CARE } from '../utils/constants';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -46,50 +41,6 @@ export function updateFormData(page, uiSchema, data) {
     uiSchema,
     data,
   };
-}
-
-async function fetchFacilityEligibilityChecks(facilityId, typeOfCareId) {
-  let eligibilityChecks = [
-    checkPastVisits(facilityId, typeOfCareId, 'request'),
-    getRequestLimits(facilityId, typeOfCareId),
-  ];
-
-  if (DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
-    eligibilityChecks = eligibilityChecks.concat([
-      checkPastVisits(facilityId, typeOfCareId, 'direct'),
-      getClinics(facilityId, typeOfCareId),
-    ]);
-  }
-
-  if (typeOfCareId === PRIMARY_CARE) {
-    eligibilityChecks.push(getPacTeam(facilityId));
-  }
-
-  const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
-    eligibilityChecks,
-  );
-  let eligibility = {
-    requestPastVisit,
-    requestLimits,
-  };
-
-  if (directData?.length) {
-    const [directPastVisit, clinics, ...pacTeam] = directData;
-    eligibility = {
-      ...eligibility,
-      directPastVisit,
-      clinics,
-    };
-
-    if (pacTeam.length) {
-      eligibility = {
-        ...eligibility,
-        pacTeam: pacTeam[0],
-      };
-    }
-  }
-
-  return eligibility;
 }
 
 export function openFacilityPage(page, uiSchema, schema) {
@@ -135,7 +86,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       facilities?.length === 1 &&
       !newAppointment.eligibility[`${facilities[0].facilityId}_${typeOfCareId}`]
     ) {
-      eligibilityData = await fetchFacilityEligibilityChecks(
+      eligibilityData = await getEligibilityData(
         facilities[0].facilityId,
         typeOfCareId,
       );
@@ -199,7 +150,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         type: FORM_ELIGIBILITY_CHECKS,
       });
 
-      const eligibilityData = await fetchFacilityEligibilityChecks(
+      const eligibilityData = await getEligibilityData(
         data.vaFacility,
         typeOfCareId,
       );
