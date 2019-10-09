@@ -26,22 +26,51 @@ export class ConfirmedAppointmentListPage extends React.Component {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
             <div>
+              <Link to="appointments">
+                <i className="fas fa-angle-left" /> Back
+              </Link>
               <h1 className="vads-u-margin-bottom--4">
                 Confirmed appointments
               </h1>
               {status === FETCH_STATUS.loading && (
                 <LoadingIndicator message="Loading confirmed appointments" />
               )}
-              {status === FETCH_STATUS.succeeded && (
-                <ul className="usa-unstyled-list">
-                  {appointments.map(appt => (
-                    <ConfirmedAppointmentListItem
-                      key={getAppointmentId(appt)}
-                      appointment={appt}
-                    />
-                  ))}
-                </ul>
-              )}
+              {status === FETCH_STATUS.succeeded &&
+                appointments.length === 0 && (
+                  <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+                    <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+                      You don't have any confirmed appointments at this time.
+                    </h2>
+                    <p>
+                      You can schedule an appointment now, or you can call your{' '}
+                      <a href="/find-locations">VA Medical center</a> to
+                      schedule an appointment.
+                    </p>
+                    <p>
+                      You may have confirmed appointments.{' '}
+                      <Link to="appointments/pending">
+                        Go here to manage your pending appointments
+                      </Link>
+                      .
+                    </p>
+                    <Link to="new-appointment">
+                      <button type="button" className="usa-button">
+                        Schedule an appointment
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              {status === FETCH_STATUS.succeeded &&
+                appointments.length > 0 && (
+                  <ul className="usa-unstyled-list">
+                    {appointments.map(appt => (
+                      <ConfirmedAppointmentListItem
+                        key={getAppointmentId(appt)}
+                        appointment={appt}
+                      />
+                    ))}
+                  </ul>
+                )}
             </div>
           </div>
         </div>

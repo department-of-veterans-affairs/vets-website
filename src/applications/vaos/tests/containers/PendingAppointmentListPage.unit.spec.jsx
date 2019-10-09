@@ -52,7 +52,7 @@ describe('VAOS <PendingAppointmentListPage>', () => {
     expect(form.find('LoadingIndicator').exists()).to.be.false;
     expect(form.find('PendingAppointmentListItem').length).to.equal(0);
     expect(form.find('h2').text()).to.equal(
-      "You don't have any pending appointments at this time",
+      "You don't have any pending appointments at this time.",
     );
     form.unmount();
   });

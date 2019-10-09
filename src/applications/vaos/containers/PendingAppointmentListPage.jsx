@@ -37,12 +37,12 @@ export class PendingAppointmentListPage extends React.Component {
               appointments.length === 0 && (
                 <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
                   <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-                    You don't have any pending appointments at this time
+                    You don't have any pending appointments at this time.
                   </h2>
                   <p>
                     You can schedule an appointment now, or you can call your{' '}
-                    <Link to="">VA Medical center</Link> to shedule an
-                    appointment.
+                    <a href="/find-locations">VA Medical center</a> to schedule
+                    an appointment.
                   </p>
                   <p>
                     You may have confirmed appointments.{' '}
