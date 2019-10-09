@@ -1,6 +1,11 @@
-import { getFormData } from './utils/selectors';
+import {
+  getFormData,
+  getEligibilityStatus,
+  getClinicsForChosenFacility,
+} from './utils/selectors';
+import { getPastAppointments } from './api';
 
-// import { CANCELLED_APPOINTMENT_SET } from './utils/constants';
+import { CANCELLED_APPOINTMENT_SET } from './utils/constants';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -12,23 +17,23 @@ function isCCAudiology(state) {
   );
 }
 
-// function buildApptHash(pastAppointments) {
-//   return pastAppointments
-//     .filter(
-//       appt =>
-//         appt.clinicId &&
-//         !CANCELLED_APPOINTMENT_SET.has(
-//           appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
-//         ),
-//     )
-//     .reduce(
-//       (map, next) => ({
-//         ...map,
-//         [next.clinicId]: (map[next.clinicId] || 0) + 1,
-//       }),
-//       {},
-//     );
-// }
+function buildApptHash(pastAppointments) {
+  return pastAppointments
+    .filter(
+      appt =>
+        appt.clinicId &&
+        !CANCELLED_APPOINTMENT_SET.has(
+          appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
+        ),
+    )
+    .reduce(
+      (map, next) => ({
+        ...map,
+        [next.clinicId]: (map[next.clinicId] || 0) + 1,
+      }),
+      {},
+    );
+}
 
 export default {
   home: {
@@ -108,72 +113,31 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'visitType',
-    // async next(state, dispatch) {
-    //   const facility = getChosenFacilityInfo(state);
-    //   // const typeOfCareId = getTypeOfCare(state)?.id;
-    //   const canDirectSchedule = isDirectScheduleEligible(state);
-    //   const canRequest = isRequestEligible(state);
-    //
-    //   // const {
-    //   //   durationInMonths,
-    //   //   hasVisitedInPastMonths,
-    //   // } = await checkPastVisits(facility.institution.institutionCode, typeOfCareId, 'direct');
-    //   //
-    //   // if (
-    //   //   durationInMonths === DISABLED_LIMIT_VALUE ||
-    //   //   !hasVisitedInPastMonths
-    //   // ) {
-    //   //   return 'visitRequirements';
-    //   // }
-    //
-    //   // The facility page should prevent you from choosing
-    //   // a facility that doesn't have either requests or
-    //   // direct scheduling, so we only need to check one
-    //   // if (
-    //   //   !facility.directSchedulingSupported ||
-    //   //   !DIRECT_SCHEDULE_TYPES.has(typeOfCareId)
-    //   // ) {
-    //   //   const { requestLimit, numberOfRequests } = await getRequestLimits(
-    //   //     `/vaos/facilities/${
-    //   //       facility.institution.institutionCode
-    //   //     }/limits?typeOfCareId=${typeOfCareId}`,
-    //   //   );
-    //   //
-    //   //   if (
-    //   //     requestLimit === DISABLED_LIMIT_VALUE ||
-    //   //     numberOfRequests >= requestLimit
-    //   //   ) {
-    //   //     return 'requestLimits';
-    //   //   }
-    //   //
-    //   //   return 'visitType';
-    //   // }
-    //
-    //   if (canDirectSchedule) {
-    //     const [clinics, appointments] = await Promise.all([
-    //       getClinics(facility.institution.institutionCode),
-    //       getPastAppointments(),
-    //     ]);
-    //     const apptHash = buildApptHash(appointments);
-    //
-    //     if (clinics.some(clinic => !!apptHash[clinic.clinicId])) {
-    //       dispatch({
-    //         type: 'START_DIRECT_SCHEDULE_FLOW',
-    //         clinics,
-    //         appointments,
-    //       });
-    //
-    //       return 'clinicChoice';
-    //     }
-    //   } else if (canRequest) {
-    //     return 'visitType';
-    //   } else {
-    //     throw new Error('No valid options to continue through flow');
-    //   }
-    //
-    //   return null;
-    // },
+    async next(state, dispatch) {
+      const eligibilityStatus = getEligibilityStatus(state);
+      const clinics = getClinicsForChosenFacility(state);
+
+      if (eligibilityStatus.direct) {
+        const appointments = await getPastAppointments();
+        const apptHash = buildApptHash(appointments);
+
+        if (clinics.some(clinic => !!apptHash[clinic.clinicId])) {
+          dispatch({
+            type: 'START_DIRECT_SCHEDULE_FLOW',
+            appointments,
+            apptHash,
+          });
+
+          return 'clinicChoice';
+        }
+      }
+
+      if (eligibilityStatus.request) {
+        return 'reasonForAppointment';
+      }
+
+      throw new Error('Veteran not eligible for direct scheduling or requests');
+    },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },

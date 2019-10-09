@@ -83,11 +83,14 @@ export function getSchedulingEligibility(state) {
   );
 }
 
-export function canScheduleAtChosenFacility(state) {
+export function getEligibilityStatus(state) {
   const eligibility = getSchedulingEligibility(state);
 
   if (!eligibility) {
-    return null;
+    return {
+      direct: null,
+      request: null,
+    };
   }
 
   const {
@@ -99,11 +102,10 @@ export function canScheduleAtChosenFacility(state) {
     requestPastVisit,
   } = eligibility;
 
-  const directEligibile =
-    directTypes && directPastVisit && directPACT && directClinics;
-  const requestEligible = requestLimit && requestPastVisit;
-
-  return directEligibile || requestEligible;
+  return {
+    direct: directTypes && directPastVisit && directPACT && directClinics,
+    request: requestLimit && requestPastVisit,
+  };
 }
 
 export function getFacilityPageInfo(state, pageKey) {
@@ -113,6 +115,9 @@ export function getFacilityPageInfo(state, pageKey) {
   const eligibility =
     newAppointment.eligibility[`${formInfo.data.vaFacility}_${typeOfCareId}`] ||
     null;
+  const eligibilityStatus = getEligibilityStatus(state);
+  const canScheduleAtChosenFacility =
+    eligibilityStatus.direct || eligibilityStatus.request;
 
   return {
     ...formInfo,
@@ -121,7 +126,7 @@ export function getFacilityPageInfo(state, pageKey) {
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
     loadingEligibility: newAppointment.loadingEligibility,
     eligibility,
-    canScheduleAtChosenFacility: canScheduleAtChosenFacility(state),
+    canScheduleAtChosenFacility,
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVASystems:
       !formInfo.data.vaSystem &&
@@ -137,8 +142,16 @@ export function getChosenClinicInfo(state) {
   const clinics = getNewAppointment(state).clinics;
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    clinics[`${typeOfCareId}_${data.vaFacility}`]?.find(
+    clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.clinicId === data.clinicId,
     ) || null
   );
+}
+
+export function getClinicsForChosenFacility(state) {
+  const data = getFormData(state);
+  const clinics = getNewAppointment(state).clinics;
+  const typeOfCareId = getTypeOfCare(data)?.id;
+
+  return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
 }

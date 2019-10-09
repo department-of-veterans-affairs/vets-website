@@ -5,6 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
+import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
 
 import {
   openFacilityPage,
@@ -109,11 +110,36 @@ export class VAFacilityPage extends React.Component {
       canScheduleAtChosenFacility,
     } = this.props;
 
+    const notEligibleAtChosenFacility =
+      data.vaFacility &&
+      data.vaFacility.startsWith(data.vaSystem) &&
+      !loadingEligibility &&
+      !canScheduleAtChosenFacility;
+
     if (loadingSystems) {
       return (
         <div>
           {title}
           <LoadingIndicator message="Finding your VA facility..." />
+        </div>
+      );
+    }
+
+    if (singleValidVALocation && notEligibleAtChosenFacility) {
+      return (
+        <div>
+          {title}
+          <SingleFacilityEligibilityCheckMessage
+            eligibility={eligibility}
+            facility={facility}
+          />
+          <div className="vads-u-margin-top--2">
+            <FormButtons
+              onBack={this.goBack}
+              disabled
+              pageChangeInProgress={pageChangeInProgress}
+            />
+          </div>
         </div>
       );
     }
@@ -149,12 +175,6 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
-    const notEligibleAtChosenFacility =
-      data.vaFacility &&
-      data.vaFacility.startsWith(data.vaSystem) &&
-      !loadingEligibility &&
-      !canScheduleAtChosenFacility;
-
     const disableSubmitButton =
       loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
 
@@ -174,7 +194,9 @@ export class VAFacilityPage extends React.Component {
           data={data}
         >
           {notEligibleAtChosenFacility && (
-            <EligibilityCheckMessage eligibility={eligibility} />
+            <div className="vads-u-margin-top--2">
+              <EligibilityCheckMessage eligibility={eligibility} />
+            </div>
           )}
           <FormButtons
             onBack={this.goBack}

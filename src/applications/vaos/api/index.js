@@ -86,7 +86,7 @@ export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
       } else {
         resolve({
           durationInMonths: 12,
-          hasVisitedInPastMonths: !facilityId.includes('984'),
+          hasVisitedInPastMonths: facilityId !== '984',
         });
       }
     }, 500);

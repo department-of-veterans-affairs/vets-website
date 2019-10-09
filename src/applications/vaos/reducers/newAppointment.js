@@ -384,7 +384,8 @@ export default function formReducer(state = initialState, action) {
         ...state,
         clinics: {
           ...state.clinics,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action.clinics,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
+            .eligibilityData.clinics,
         },
         eligibility: {
           ...state.eligibility,
