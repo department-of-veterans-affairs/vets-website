@@ -1,4 +1,6 @@
 import { getFormData } from './utils/selectors';
+import { TYPES_OF_CARE } from './utils/constants';
+import { getCommunityCare } from './api';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -8,6 +10,16 @@ function isCCAudiology(state) {
     getFormData(state).facilityType === 'communityCare' &&
     getFormData(state).typeOfCareId === AUDIOLOGY
   );
+}
+
+function isCommunityCare(state) {
+  return TYPES_OF_CARE.filter(typeOfCare => typeOfCare.ccId !== undefined).find(
+    typeOfCare => typeOfCare.id === getFormData(state).typeOfCareId,
+  );
+}
+
+function isSleepCare(state) {
+  return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
 
 export default {
@@ -23,26 +35,27 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    next(state) {
-      if (getFormData(state).typeOfCareId === SLEEP_CARE) {
-        return 'typeOfSleepCare';
-      }
-      return 'typeOfFacility';
-    },
+    async next(state) {
+      let nextState = 'vaFacility';
 
-    // async next(state) {
-    //   try {
-    //     const data = await apiRequest('/vaos/community-care/eligibility');
-    //
-    //     if (isAllowedTypeOfCare(state) && isEligible(data.eligibility)) {
-    //       return 'typeOfFacility';
-    //     }
-    //
-    //     return 'vaLocation';
-    //   } catch (e) {
-    //     return 'vaLocation';
-    //   }
-    // },
+      if (isSleepCare(state)) {
+        nextState = 'typeOfSleepCare';
+      } else if (isCommunityCare(state)) {
+        try {
+          const data = await getCommunityCare(
+            '/vaos/community-care/eligibility',
+          );
+
+          if (data.isEligible) {
+            nextState = 'typeOfFacility';
+          }
+        } catch (e) {
+          return 'vaFacility';
+        }
+      }
+
+      return nextState;
+    },
     previous: 'home',
   },
   typeOfFacility: {
@@ -90,7 +103,14 @@ export default {
     url: '/new-appointment/va-facility',
     next: 'reasonForAppointment',
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
-    previous: 'typeOfFacility',
+    previous(state) {
+      let nextState = 'typeOfCare';
+
+      if (isCommunityCare(state)) {
+        nextState = 'typeOfFacility';
+      }
+      return nextState;
+    },
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',

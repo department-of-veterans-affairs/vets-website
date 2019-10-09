@@ -62,3 +62,15 @@ export function getFacilitiesBySystemAndTypeOfCare(typeOfCareId, facilityId) {
     }, TEST_TIMEOUT || 1000);
   });
 }
+
+export function getCommunityCare() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        isEligible: true,
+        reason: 'User is within x miles of facility',
+        effectiveDate: '2017-10-08T23:35:12-05:00',
+      });
+    }, TEST_TIMEOUT || 1500);
+  });
+}
