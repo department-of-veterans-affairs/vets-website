@@ -1,9 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import createCommonStore from 'platform/startup/store';
 
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
 import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
+import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
 
 const institution = {
   facilityCode: '2V000105',
@@ -75,6 +77,19 @@ describe('<VetTecContactInformation>', () => {
     const wrapper = shallow(
       <VetTecContactInformation institution={institution} />,
     );
+    const vdom = wrapper.html();
+    expect(vdom).to.not.be.undefined;
+    wrapper.unmount();
+  });
+});
+
+describe('<VetTecApprovedProgram>', () => {
+  it('should render', () => {
+    const defaultProps = {
+      store: createCommonStore(),
+      institution,
+    };
+    const wrapper = shallow(<VetTecApprovedPrograms {...defaultProps} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
     wrapper.unmount();
