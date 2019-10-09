@@ -83,14 +83,13 @@ export function openFacilityPage(page, uiSchema, schema) {
       );
     }
 
+    const facilityId =
+      newAppointment.data.vaFacility || facilities?.[0].facilityId;
     if (
-      facilities?.length === 1 &&
-      !newAppointment.eligibility[`${facilities[0].facilityId}_${typeOfCareId}`]
+      facilityId &&
+      !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
     ) {
-      eligibilityData = await getEligibilityData(
-        facilities[0].facilityId,
-        typeOfCareId,
-      );
+      eligibilityData = await getEligibilityData(facilityId, typeOfCareId);
     }
 
     dispatch({

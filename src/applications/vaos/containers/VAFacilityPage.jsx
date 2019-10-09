@@ -114,6 +114,7 @@ export class VAFacilityPage extends React.Component {
       data.vaFacility &&
       data.vaFacility.startsWith(data.vaSystem) &&
       !loadingEligibility &&
+      eligibility &&
       !canScheduleAtChosenFacility;
 
     if (loadingSystems) {
