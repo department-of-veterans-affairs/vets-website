@@ -3,8 +3,8 @@ import { createSelector } from 'reselect';
 
 import {
   formatCurrency,
-  isCountryInternational,
   isCountryUSA,
+  isCountryInternational,
 } from '../utils/helpers';
 import environment from 'platform/utilities/environment';
 
@@ -497,29 +497,30 @@ const getDerivedValues = createSelector(
     const totalHousingAllowance = monthlyRateFinal * termLength;
 
     let bah;
-    const extensionBeneficiaryLocationQuestion =
-      inputs.beneficiaryLocationQuestion === 'other' ||
-      inputs.beneficiaryLocationQuestion === 'extension';
-
-    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists,
-    // then a localized rate has been fetched and should be used
+    // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
     const useBeneficiaryLocationRate =
-      extensionBeneficiaryLocationQuestion &&
-      inputs.beneficiaryLocationBah !== null;
-    const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
+      inputs.beneficiaryLocationBah !== null &&
+      (inputs.beneficiaryLocationQuestion === 'extension' ||
+        inputs.beneficiaryLocationQuestion === 'other');
 
+    // if beneficiary has indicated they are using the grandfathered rate, use it when available;
+    const useGrandfatheredBeneficiaryLocationRate =
+      inputs.giBillBenefit === 'yes';
+
+    const hasUsedGiBillBenefit = inputs.giBillBenefit === 'yes';
     const avgBah = !hasUsedGiBillBenefit
       ? constant.AVGDODBAH
       : constant.AVGVABAH;
 
     if (useBeneficiaryLocationRate) {
-      // if beneficiary has indicated they are using the grandfathered rate, use it when available;
+      // sometimes there's no grandfathered rate for a zip code
       bah =
-        hasUsedGiBillBenefit && inputs.beneficiaryLocationGrandfatheredBah
+        useGrandfatheredBeneficiaryLocationRate &&
+        inputs.beneficiaryLocationGrandfatheredBah
           ? inputs.beneficiaryLocationGrandfatheredBah
           : inputs.beneficiaryLocationBah;
     } else {
-      // use the DOD rate
+      // use the DOD rate on staging
       bah =
         !hasUsedGiBillBenefit && institution.dodBah
           ? institution.dodBah
