@@ -83,7 +83,7 @@ class VetTecApprovedPrograms extends React.Component {
             </colgroup>
             <thead>
               <tr>
-                <th className="name-th" id="program-name-header">
+                <th className="vads-u-padding-left--5" id="program-name-header">
                   Program name
                 </th>
                 <th>Length</th>
