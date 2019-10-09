@@ -87,7 +87,7 @@ export function transform(form, formConfig) {
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
 
-  return apiRequest(`/vic/vic_submissions/${guid}`, { headers }, null, res => {
+  return apiRequest(`/vic/vic_submissions/${guid}`, { headers }).catch(res => {
     if (res instanceof Error) {
       Sentry.captureException(res);
       Sentry.captureMessage('vets_vic_poll_client_error');
