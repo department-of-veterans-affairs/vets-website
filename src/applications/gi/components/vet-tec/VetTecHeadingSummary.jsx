@@ -22,12 +22,14 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     institution.state,
     institution.country,
   );
+
+  const firstProgram = institution.programs[0];
   const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
-  const providerWebsitePresent = institution.programs[0].providerWebsite !== '';
+  const providerWebsitePresent = firstProgram.providerWebsite !== '';
   const phonePresent =
-    institution.programs[0].phoneAreaCode !== '' &&
-    institution.programs[0].phoneNumber !== '';
-  const schoolLocalePresent = institution.programs[0].schoolLocale !== '';
+    firstProgram.phoneAreaCode !== '' &&
+    firstProgram.phoneNumber !== '';
+  const schoolLocalePresent = firstProgram.schoolLocale !== '';
 
   return (
     <div className="heading row">
@@ -63,35 +65,35 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           </IconWithInfo>
           {/* Production flag for 19736 */}
           {!environment.isProduction() &&
-            institution.programs[0] && (
+            firstProgram && (
               <IconWithInfo icon="globe" present={providerWebsitePresent}>
                 <a
-                  href={institution.programs[0].providerWebsite}
+                  href={firstProgram.providerWebsite}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {institution.programs[0].providerWebsite}
+                  {firstProgram.providerWebsite}
                 </a>
               </IconWithInfo>
             )}
         </div>
         {/* Production flag for 19736 */}
         {!environment.isProduction() &&
-          institution.programs[0] && (
+          firstProgram && (
             <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="phone" present={phonePresent}>
                 <a
-                  href={`tel:+1${`${institution.programs[0].phoneAreaCode}-${
-                    institution.programs[0].phoneNumber
+                  href={`tel:+1${`${firstProgram.phoneAreaCode}-${
+                    firstProgram.phoneNumber
                   }`}`}
                 >
-                  {institution.programs[0].phoneAreaCode}
+                  {firstProgram.phoneAreaCode}
                   {'-'}
-                  {institution.programs[0].phoneNumber}
+                  {firstProgram.phoneNumber}
                 </a>
               </IconWithInfo>
               <IconWithInfo icon="map" present={schoolLocalePresent}>
-                {`${institution.programs[0].schoolLocale}  locale`}
+                {`${firstProgram.schoolLocale}  locale`}
               </IconWithInfo>
             </div>
           )}
