@@ -20,11 +20,16 @@ describe('VAOS <VAFacilityPage>', () => {
       },
     },
   };
+  const defaultData = {};
 
   it('should render loading', () => {
     const openFormPage = sinon.spy();
     const form = shallow(
-      <VAFacilityPage loadingSystems openFacilityPage={openFormPage} />,
+      <VAFacilityPage
+        loadingSystems
+        data={defaultData}
+        openFacilityPage={openFormPage}
+      />,
     );
 
     expect(form.find('LoadingIndicator').exists()).to.be.true;
@@ -35,7 +40,11 @@ describe('VAOS <VAFacilityPage>', () => {
   it('should render no systems message', () => {
     const openFormPage = sinon.spy();
     const form = shallow(
-      <VAFacilityPage noValidVASystems openFacilityPage={openFormPage} />,
+      <VAFacilityPage
+        data={defaultData}
+        noValidVASystems
+        openFacilityPage={openFormPage}
+      />,
     );
 
     expect(form.find('NoVASystems').exists()).to.be.true;
@@ -144,6 +153,7 @@ describe('VAOS <VAFacilityPage>', () => {
 
     const form = mount(
       <VAFacilityPage
+        canScheduleAtChosenFacility
         schema={defaultSchema}
         openFacilityPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
@@ -158,6 +168,31 @@ describe('VAOS <VAFacilityPage>', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should not continue if not eligible', () => {
+    const openFormPage = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <VAFacilityPage
+        eligibility={{}}
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        data={{
+          vaSystem: '983',
+          vaFacility: '983',
+        }}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+
+    expect(form.find('button[type="submit"]').props().disabled).to.be.true;
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(form.find('.usa-alert').exists()).to.be.true;
     form.unmount();
   });
 });
