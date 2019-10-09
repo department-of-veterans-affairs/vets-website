@@ -61,6 +61,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           <IconWithInfo icon="map-marker" present={addressPresent}>
             {formattedAddress}
           </IconWithInfo>
+          {/* Production flag for 19736 */}
           {!environment.isProduction() &&
             institution.programs[0] && (
               <IconWithInfo icon="globe" present={providerWebsitePresent}>
@@ -74,6 +75,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
               </IconWithInfo>
             )}
         </div>
+        {/* Production flag for 19736 */}
         {!environment.isProduction() &&
           institution.programs[0] && (
             <div className="usa-width-one-half medium-6 small-12 column">
