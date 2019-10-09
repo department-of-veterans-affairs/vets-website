@@ -86,17 +86,6 @@ export const TYPES_OF_CARE = [
   },
 ];
 
-export const AUDIOLOGY_TYPES_OF_CARE = [
-  {
-    id: 'CCAUDRTNE',
-    name: 'Routine hearing exam',
-  },
-  {
-    id: 'CCAUDHEAR',
-    name: 'Hearing aid support',
-  },
-];
-
 export const TYPES_OF_SLEEP_CARE = [
   {
     id: '349',
@@ -168,6 +157,17 @@ export const LANGUAGES = [
     id: 'other',
     text: 'Other',
     value: 'Other',
+  },
+];
+
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    id: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    id: 'CCAUDHEAR',
+    name: 'Hearing aid support',
   },
 ];
 
