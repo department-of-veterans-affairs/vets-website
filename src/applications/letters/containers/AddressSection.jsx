@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { focusElement } from '../../../platform/utilities/ui';
 
@@ -17,16 +18,14 @@ export class AddressSection extends React.Component {
   };
 
   render() {
-    const address = {};
+    const address = this.props.mailingAddress;
     const emptyAddress = isAddressEmpty(address);
     const { location } = this.props;
 
     let addressContent = (
       <div className="step-content">
         <p>Downloaded documents will list your address as:</p>
-        <div className="address-block">
-          <MailingAddress />
-        </div>
+        <MailingAddress />
         <p>
           When you download a letter, it will show this address. If this address is
           incorrect you may want to update it, but your letter will still be valid
@@ -64,4 +63,12 @@ export class AddressSection extends React.Component {
   }
 }
 
-export default AddressSection;
+function mapStateToProps(state) {
+  return {
+    mailingAddress: state.user.profile.vet360.mailingAddress,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+)(AddressSection);
