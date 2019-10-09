@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 class ClaimsDecision extends React.Component {
   render() {
-    const completedDate = this.props.completedDate;
+    const { completedDate, isLoggedIn } = this.props;
     return (
       <div className="usa-alert usa-alert-info claims-alert-status background-color-only">
         <h4 className="claims-alert-header">Your claim decision is ready</h4>
@@ -26,6 +26,7 @@ class ClaimsDecision extends React.Component {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>
+              isLoggedIn &&
               recordEvent({
                 event: 'ebenefits-navigation',
               })
@@ -78,6 +79,7 @@ class ClaimsDecision extends React.Component {
 
 ClaimsDecision.propTypes = {
   completedDate: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
 };
 
 export default ClaimsDecision;

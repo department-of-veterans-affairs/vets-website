@@ -64,6 +64,7 @@ export default function ButtonContainer(props) {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() =>
+            isLoggedIn &&
             recordEvent({
               event: 'ebenefits-navigation',
             })

@@ -7,6 +7,7 @@ import { renderLearnMoreLabel } from '../../utils/render';
 import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { isLoggedIn } from 'platform/user/selectors';
 
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -116,6 +117,7 @@ export class EligibilityForm extends React.Component {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
+                isLoggedIn &&
                 recordEvent({
                   event: 'ebenefits-navigation',
                 })
@@ -205,7 +207,9 @@ export class EligibilityForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => state.eligibility;
+const mapStateToProps = state => ({
+  isLoggedIn: isLoggedIn(state),
+});
 
 const mapDispatchToProps = {
   showModal,
