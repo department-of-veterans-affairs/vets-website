@@ -210,12 +210,9 @@ export function submit(form, formConfig) {
       })
       .then(photoSrc => {
         photo = photoSrc;
-        return apiRequest(
-          '/vic/vic_submissions',
-          apiRequestOptions,
-          onSuccess,
-          onFailure,
-        );
+        return apiRequest('/vic/vic_submissions', apiRequestOptions)
+          .then(onSuccess)
+          .catch(onFailure);
       });
   });
 }
