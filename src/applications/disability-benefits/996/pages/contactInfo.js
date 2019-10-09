@@ -8,19 +8,18 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
-import { ForwardingAddressViewField } from '../helpers';
-import { isInPast } from '../validations';
-
+import { addressUISchema } from '../../all-claims/utils';
+import { USA } from '../../all-claims/constants';
 import {
   contactInfoDescription,
   contactInfoUpdateHelp,
   phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
-import { USA } from '../../all-claims/constants';
-import { addressUISchema } from '../../all-claims/utils';
-import { errorMessages } from '../constants';
 
+import { ForwardingAddressViewField } from '../helpers';
 import ForwardingAddressDescription from '../components/ForwardingAddressDescription';
+import { isInPast } from '../validations';
+import { errorMessages } from '../constants';
 
 const hasForwardingAddress = formData =>
   _.get(formData, 'veteran[view:hasForwardingAddress]', false);
@@ -37,7 +36,10 @@ const {
 export const uiSchema = {
   veteran: {
     'ui:title': 'Contact Information',
-    'ui:description': contactInfoDescription,
+    'ui:description': () =>
+      contactInfoDescription({
+        formName: 'Higher-Level Review',
+      }),
     phoneEmailCard: {
       'ui:title': 'Phone & email',
       'ui:field': ReviewCardField,
