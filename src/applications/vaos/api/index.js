@@ -13,7 +13,6 @@ import mockPACT from './pact.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
-import { DIRECT_SCHEDULE_TYPES, PRIMARY_CARE } from '../utils/constants';
 
 export function getConfirmedAppointments() {
   return new Promise(resolve => {
@@ -127,48 +126,4 @@ export function getPacTeam(systemId) {
       }
     }, 750);
   });
-}
-
-export async function getEligibilityData(facilityId, typeOfCareId) {
-  let eligibilityChecks = [
-    checkPastVisits(facilityId, typeOfCareId, 'request'),
-    getRequestLimits(facilityId, typeOfCareId),
-  ];
-
-  if (DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
-    eligibilityChecks = eligibilityChecks.concat([
-      checkPastVisits(facilityId, typeOfCareId, 'direct'),
-      getClinics(facilityId, typeOfCareId),
-    ]);
-  }
-
-  if (typeOfCareId === PRIMARY_CARE) {
-    eligibilityChecks.push(getPacTeam(facilityId));
-  }
-
-  const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
-    eligibilityChecks,
-  );
-  let eligibility = {
-    requestPastVisit,
-    requestLimits,
-  };
-
-  if (directData?.length) {
-    const [directPastVisit, clinics, ...pacTeam] = directData;
-    eligibility = {
-      ...eligibility,
-      directPastVisit,
-      clinics,
-    };
-
-    if (pacTeam.length) {
-      eligibility = {
-        ...eligibility,
-        pacTeam: pacTeam[0],
-      };
-    }
-  }
-
-  return eligibility;
 }

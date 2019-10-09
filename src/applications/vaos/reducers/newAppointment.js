@@ -9,6 +9,11 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import {
+  getEligibilityStatus,
+  getEligibleFacilities,
+} from '../utils/eligibility';
+
+import {
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
   FORM_PAGE_CHANGE_STARTED,
@@ -21,12 +26,6 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
 } from '../actions/newAppointment';
-
-import {
-  DIRECT_SCHEDULE_TYPES,
-  PRIMARY_CARE,
-  DISABLED_LIMIT_VALUE,
-} from '../utils/constants';
 
 const initialState = {
   pages: {},
@@ -44,12 +43,6 @@ function getFacilities(state, typeOfCareId, vaSystem) {
   return state.facilities[`${typeOfCareId}_${vaSystem}`] || [];
 }
 
-function getAvailableFacilities(facilities) {
-  return facilities.filter(
-    facility => facility.requestSupported || facility.directSchedulingSupported,
-  );
-}
-
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
   return updateSchemaAndData(
@@ -63,7 +56,7 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   let newSchema = schema;
   let newData = data;
 
-  const availableFacilities = getAvailableFacilities(facilities);
+  const availableFacilities = getEligibleFacilities(facilities);
 
   if (
     availableFacilities.length > 1 ||
@@ -98,68 +91,6 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   }
 
   return { schema: newSchema, data: newData };
-}
-
-function getEligibilityStatus(vaFacility, typeOfCareId, eligibilityData) {
-  const eligibility = {
-    directTypes: true,
-    directPastVisit: true,
-    directPastVisitValue: null,
-    directPACT: true,
-    directClinics: true,
-    requestPastVisit: true,
-    requestPastVisitValue: null,
-    requestLimit: true,
-    requestLimitValue: null,
-  };
-
-  if (!DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
-    eligibility.directTypes = false;
-  } else {
-    if (
-      eligibilityData.directPastVisit.durationInMonths ===
-        DISABLED_LIMIT_VALUE ||
-      !eligibilityData.directPastVisit.hasVisitedInPastMonths
-    ) {
-      eligibility.directPastVisit = false;
-      eligibility.directPastVisitValue =
-        eligibilityData.directPastVisit.durationInMonths;
-    }
-
-    if (
-      typeOfCareId === PRIMARY_CARE &&
-      !eligibilityData.pacTeam.some(
-        provider => provider.facilityId === vaFacility.substring(0, 3),
-      )
-    ) {
-      eligibility.directPACT = false;
-    }
-
-    if (!eligibilityData.clinics.length) {
-      eligibility.directClinics = false;
-    }
-  }
-
-  if (
-    eligibilityData.requestPastVisit.durationInMonths ===
-      DISABLED_LIMIT_VALUE ||
-    !eligibilityData.requestPastVisit.hasVisitedInPastMonths
-  ) {
-    eligibility.requestPastVisit = false;
-    eligibility.requestPastVisitValue =
-      eligibilityData.requestPastVisit.durationInMonths;
-  }
-
-  if (
-    eligibilityData.requestLimits.requestLimit === DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestLimits.numberOfRequests >=
-      eligibilityData.requestLimits.requestLimit
-  ) {
-    eligibility.requestLimit = false;
-    eligibility.requestLimitValue = eligibilityData.requestLimits.requestLimit;
-  }
-
-  return eligibility;
 }
 
 export default function formReducer(state = initialState, action) {
