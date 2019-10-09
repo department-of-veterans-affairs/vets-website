@@ -50,7 +50,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your request for Higher-Level Review.',
   },
-  title: 'Higher-Level Review',
+  title: 'Request a Higher-Level Review',
+  subTitle: 'VA Form 20-0996',
   defaultDefinitions: {
     address,
     phone,
@@ -62,7 +63,7 @@ const formConfig = {
   },
   chapters: {
     veteranDetails: {
-      title: 'Personal information',
+      title: 'Veteran details',
       pages: {
         confirmVeteranDetails: {
           title: 'Confirm Veteran details',

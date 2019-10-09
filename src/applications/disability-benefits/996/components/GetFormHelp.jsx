@@ -3,8 +3,8 @@ import React from 'react';
 const GetFormHelp = () => (
   <p className="help-talk">
     For help filling out this form, or if the form isn't working right, please
-    call VA Benefits and Services at&nbsp;
-    <a className="nowrap" href="tel:18008271000">
+    call VA Benefits and Services at{' '}
+    <a className="nowrap" href="tel:800-827-1000">
       800-827-1000
     </a>
     .<br />

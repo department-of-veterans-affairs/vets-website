@@ -37,10 +37,12 @@ export class ConfirmationPage extends React.Component {
           <br />
           <i>Please print this page for your records.</i>
         </p>
-        <div className="inset">
+        <div className="inset" role="presentation">
           <h4>
             Higher-Level Review Claim
-            <span className="additional">(Form 20-0996)</span>
+            <span className="additional" role="presentation">
+              (Form 20-0996)
+            </span>
           </h4>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}
@@ -51,7 +53,9 @@ export class ConfirmationPage extends React.Component {
               <li>
                 <strong>Date received</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span role="presentation">
+                  {moment(response.timestamp).format('MMM D, YYYY')}
+                </span>
               </li>
             </ul>
           )}

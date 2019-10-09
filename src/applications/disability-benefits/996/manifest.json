@@ -1,5 +1,5 @@
 {
-  "appName": "Higher-Level Review",
+  "appName": "Request for Higher-Level Review",
   "entryFile": "./form-entry.jsx",
   "entryName": "0996-higher-level-review",
   "rootUrl": "/disability-benefits/apply/form-0996-higher-level-review",
@@ -13,7 +13,7 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
-        "name": "Higher-Level Review",
+        "name": "Request a Higher-Level Review",
         "path": "disability-benefits/apply/form-0996-higher-level-review"
       }
     ]

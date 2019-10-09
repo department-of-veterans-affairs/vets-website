@@ -14,11 +14,11 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
         Withdraw from legacy appeal system
       </h3>
       <p>
-        In order to request a Higher-Level Review, you need to opt out of the
-        Legacy Appeals system. Once you opt in to the new system, the decision
-        is permanent and you cannot return to the Legacy appeals system. The
-        switch triggers VA to formally withdraw the claimants' claim or appeal
-        from the old system and process it in the new system.
+        To request a Higher-Level Review, you'll need to opt out (withdraw) from
+        the old appeals process. This switch triggers us to formally withdraw
+        your claim or appeal from the old appeal system and process it under the
+        new system. Once you opt in to the new appeals process, the decision is
+        permanent and you can't return to the old appeals process.
       </p>
       <div>
         <ErrorableCheckbox
@@ -35,12 +35,11 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
           errorMessage={errorMessage}
           title="Required opt-in"
         />
-        <div style={{ marginLeft: '1.8em' }}>
-          I am withdrawing this eligible appeal issues and any associated
-          hearing requests, from the legacy appeals system to seek review of
-          those issues in VA's modernized review system. I understand that I
-          cannot return to the legacy appeals process for the issue(s)
-          withdrawn.
+        <div style={{ marginLeft: '1.8em' }} role="presentation">
+          I'm removing my claim and any related hearing requests from the old
+          appeals process, and I'm requesting these be reviewed under the new
+          appeals review process. I understand that this decision is permanent
+          and I can't return to the old appeals process.
         </div>
         <p>
           <a
