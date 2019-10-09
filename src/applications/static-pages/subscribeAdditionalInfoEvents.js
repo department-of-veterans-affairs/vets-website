@@ -1,19 +1,17 @@
-import { recordEventOnce } from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
+
+const recordExpand = () => recordEvent({ event: 'nav-additionalInfo-expand' });
+const recordCollapse = () =>
+  recordEvent({ event: 'nav-additionalInfo-collapse' });
 
 export default function subscribeAdditionalInfoAnalytics() {
   document.body.addEventListener(
-    '@department-of-veterans-affairs/formation/additional-info/button-clicked',
-    event => {
-      const eventName = event.detail.dataset && event.detail.dataset.analytics;
-      if (eventName) {
-        const key = 'additional-info-expander-label';
-        const analytic = {
-          event: eventName,
-          [key]: `Additional Info - ${event.detail.titleText}`,
-        };
+    '@department-of-veterans-affairs/formation/additional-info/expand',
+    recordExpand,
+  );
 
-        recordEventOnce(analytic, key);
-      }
-    },
+  document.body.addEventListener(
+    '@department-of-veterans-affairs/formation/additional-info/collapse',
+    recordCollapse,
   );
 }
