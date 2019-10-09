@@ -3,9 +3,9 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { getPastAppointments } from './api';
 
-import { CANCELLED_APPOINTMENT_SET } from './utils/constants';
+import { getPastAppointments } from './api';
+import { hasPastClinicsAvailable } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -14,20 +14,6 @@ function isCCAudiology(state) {
   return (
     getFormData(state).facilityType === 'communityCare' &&
     getFormData(state).typeOfCareId === AUDIOLOGY
-  );
-}
-
-function buildApptSet(pastAppointments) {
-  return new Set(
-    pastAppointments
-      .filter(
-        appt =>
-          appt.clinicId &&
-          !CANCELLED_APPOINTMENT_SET.has(
-            appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
-          ),
-      )
-      .map(appt => appt.clinicId),
   );
 }
 
@@ -115,9 +101,8 @@ export default {
 
       if (eligibilityStatus.direct) {
         const appointments = await getPastAppointments();
-        const pastClinicIds = buildApptSet(appointments);
 
-        if (clinics.some(clinic => pastClinicIds.has(clinic.clinicId))) {
+        if (hasPastClinicsAvailable(appointments, clinics)) {
           dispatch({
             // TODO: finish this action when building the clinc choice page
             type: 'START_DIRECT_SCHEDULE_FLOW',

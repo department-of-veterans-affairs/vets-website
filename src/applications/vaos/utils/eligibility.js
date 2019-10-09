@@ -2,6 +2,7 @@ import {
   DIRECT_SCHEDULE_TYPES,
   PRIMARY_CARE,
   DISABLED_LIMIT_VALUE,
+  CANCELLED_APPOINTMENT_SET,
 } from '../utils/constants';
 
 import {
@@ -125,4 +126,20 @@ export function getEligibleFacilities(facilities) {
   return facilities.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
+}
+
+export function hasPastClinicsAvailable(pastAppointments, clinics) {
+  const pastClinicIds = new Set(
+    pastAppointments
+      .filter(
+        appt =>
+          appt.clinicId &&
+          !CANCELLED_APPOINTMENT_SET.has(
+            appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
+          ),
+      )
+      .map(appt => appt.clinicId),
+  );
+
+  return clinics.some(clinic => pastClinicIds.has(clinic.clinicId));
 }
