@@ -123,6 +123,15 @@
 }
 
 .vet-tec-programs-table {
+  .name-col {
+    width: 70%;
+  }
+  .hours-col {
+    width: 15%;
+  }
+  .tuition-col {
+    width: 15%;
+  }
   thead {
     tr {
       th {
