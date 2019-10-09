@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 export default function ButtonContainer(props) {
   const {
     checkGuidanceStatus,
@@ -61,6 +63,11 @@ export default function ButtonContainer(props) {
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            recordEvent({
+              event: 'ebenefits-navigation',
+            })
+          }
         >
           Go to eBenefits
           <span className="button-icon"> »</span>

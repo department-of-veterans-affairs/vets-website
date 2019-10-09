@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 class ClaimsDecision extends React.Component {
   render() {
     const completedDate = this.props.completedDate;
@@ -23,6 +25,11 @@ class ClaimsDecision extends React.Component {
             href="https://www.ebenefits.va.gov"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              recordEvent({
+                event: 'ebenefits-navigation',
+              })
+            }
           >
             Check your disability page in eBenefits for your rating
           </a>

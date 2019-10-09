@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { pageNames } from './pageList';
+import recordEvent from 'platform/monitoring/record-event';
 
 const alertContent = (
   <>
@@ -10,6 +11,11 @@ const alertContent = (
     <a
       href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation"
       className="usa-button-primary va-button-primary"
+      onClick={() =>
+        recordEvent({
+          event: 'ebenefits-navigation',
+        })
+      }
     >
       Go to eBenefits
     </a>
