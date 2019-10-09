@@ -17,7 +17,7 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
   if (!eligibility.requestLimit) {
     message = (
       <>
-        However, there's already an oustanding request for an appointment at
+        However, there's already an outstanding request for an appointment at
         this facility for the chosen type of care.
       </>
     );

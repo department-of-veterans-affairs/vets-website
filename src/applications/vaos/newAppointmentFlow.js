@@ -17,22 +17,18 @@ function isCCAudiology(state) {
   );
 }
 
-function buildApptHash(pastAppointments) {
-  return pastAppointments
-    .filter(
-      appt =>
-        appt.clinicId &&
-        !CANCELLED_APPOINTMENT_SET.has(
-          appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
-        ),
-    )
-    .reduce(
-      (map, next) => ({
-        ...map,
-        [next.clinicId]: (map[next.clinicId] || 0) + 1,
-      }),
-      {},
-    );
+function buildApptSet(pastAppointments) {
+  return new Set(
+    pastAppointments
+      .filter(
+        appt =>
+          appt.clinicId &&
+          !CANCELLED_APPOINTMENT_SET.has(
+            appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
+          ),
+      )
+      .map(appt => appt.clinicId),
+  );
 }
 
 export default {
@@ -119,13 +115,13 @@ export default {
 
       if (eligibilityStatus.direct) {
         const appointments = await getPastAppointments();
-        const apptHash = buildApptHash(appointments);
+        const pastClinicIds = buildApptSet(appointments);
 
-        if (clinics.some(clinic => !!apptHash[clinic.clinicId])) {
+        if (clinics.some(clinic => pastClinicIds.has(clinic.clinicId))) {
           dispatch({
+            // TODO: finish this action when building the clinc choice page
             type: 'START_DIRECT_SCHEDULE_FLOW',
             appointments,
-            apptHash,
           });
 
           return 'clinicChoice';
