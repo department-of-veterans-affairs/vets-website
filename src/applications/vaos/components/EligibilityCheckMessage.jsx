@@ -20,8 +20,8 @@ export default function EligibilityCheckMessage({ eligibility }) {
         status="warning"
         headline="Sorry, you already have an outstanding request"
       >
-        There's already an oustanding request for an appointment at this
-        facility for the chosen type of care.
+        You have more outstanding requests than this facility allows for this
+        type of care.
       </AlertBox>
     );
   }

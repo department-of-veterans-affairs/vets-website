@@ -12,14 +12,19 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
         {eligibility.requestPastVisitValue} months.
       </>
     );
-  }
-
-  if (!eligibility.requestLimit) {
+  } else if (!eligibility.requestLimit) {
     message = (
       <>
-        However, there's already an outstanding request for an appointment at
-        this facility for the chosen type of care.
+        However, you have more outstanding requests than this facility allows
+        for this type of care.
       </>
+    );
+  } else {
+    return (
+      <AlertBox status="error" headline="Sorry, something went wrong">
+        Sorry, we're having trouble verifying that you can make an appointment
+        at a facility.
+      </AlertBox>
     );
   }
 
