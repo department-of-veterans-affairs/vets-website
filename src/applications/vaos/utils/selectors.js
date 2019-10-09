@@ -70,8 +70,8 @@ export function hasSingleValidVALocation(state) {
   return (
     !formInfo.schema?.properties.vaSystem &&
     !formInfo.schema?.properties.vaFacility &&
-    formInfo.data.vaSystem &&
-    formInfo.data.vaFacility
+    !!formInfo.data.vaSystem &&
+    !!formInfo.data.vaFacility
   );
 }
 
