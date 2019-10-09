@@ -39,6 +39,7 @@ const INITIAL_STATE = {
   buyUpAmount: 600,
   vetTecTuitionFees: null,
   vetTecScholarships: null,
+  vetTecProgramName: '',
   classesOutsideUS: false,
 };
 
@@ -68,6 +69,14 @@ export default function(state = INITIAL_STATE, action) {
       let newState = {
         [field]: convertedValue,
       };
+
+      if (field === 'vetTecProgram') {
+        newState = {
+          ...newState,
+          vetTecProgramName: value.vetTecProgramName,
+          vetTecTuitionFees: value.vetTecTuitionFees,
+        };
+      }
 
       if (field === 'yellowRibbonDegreeLevel') {
         if (value === 'customAmount') {
@@ -322,7 +331,6 @@ export default function(state = INITIAL_STATE, action) {
             ? 'no'
             : 'yes';
       }
-
       return {
         ...INITIAL_STATE,
         giBillBenefit,
