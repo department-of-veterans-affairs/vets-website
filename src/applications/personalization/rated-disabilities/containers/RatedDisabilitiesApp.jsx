@@ -27,20 +27,6 @@ class RatedDisabilitiesApp extends React.Component {
   }
 }
 
-// <div>
-//   {!this.props.profile.loading ? (
-//     <div>
-//       <h2>Your disability rating</h2>
-//       <h3>
-//         If you got a decision from us that confirms your disability
-//         rating, you may be able to get disability compensation or
-//         benefits. Review your rating and find out what benefits you
-//         can get.
-//       </h3>
-//     </div>
-//   ) : null}
-//   <CallToActionWidget appId="rated-disabilities" />
-// </div>
 const mapStateToProps = state => {
   const profile = selectProfile(state);
   const { loading } = profile;

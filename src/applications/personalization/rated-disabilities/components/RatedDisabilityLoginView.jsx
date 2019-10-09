@@ -34,18 +34,39 @@ const RatedDisabilityLoginView = ({ isLoading }) => (
         </div>
         <div>
           <h2>What if I have more questions?</h2>
-          <p>
+          <p className="rated-disabilities__text">
             Watch our videos to learn more about how VA disability ratings and
             compensation work:
           </p>
-          <a>Compensation 101: How did I get this rating? (Youtube)</a>
-          <a>Compensation 101: What is disability compensation? (Youtube)</a>
-          <a>Compensation 101: What is service? (Youtube)</a>
+          <a
+            href="https://www.youtube.com/watch?v=oM7oYzL2DCg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rated-disabilities__info-link"
+          >
+            Compensation 101: How did I get this rating? (Youtube)
+          </a>
+          <a
+            href="https://www.youtube.com/watch?v=T3RodE0nGFc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rated-disabilities__info-link"
+          >
+            Compensation 101: What is disability compensation? (Youtube)
+          </a>
+          <a
+            href="https://www.youtube.com/watch?v=h4vKqUlrdys"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rated-disabilities__info-link"
+          >
+            Compensation 101: What is service connection? (Youtube)
+          </a>
         </div>
         <p>
           If you need help understanding your benefits or accessing services,
-          please call us at 877-827-1000. We're here Monday through Friday,
-          8:00a.m. to 9:00p.m. ET.
+          please call us at <a href="tel:1-800-827-1000">800-827-1000</a>. We're
+          here Monday through Friday, 8:00a.m. to 9:00p.m. ET.
         </p>
       </>
     ) : null}
