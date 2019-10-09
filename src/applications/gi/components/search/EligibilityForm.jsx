@@ -117,7 +117,7 @@ export class EligibilityForm extends React.Component {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
-                isLoggedIn &&
+                this.props.isLoggedIn &&
                 recordEvent({
                   event: 'ebenefits-navigation',
                 })
