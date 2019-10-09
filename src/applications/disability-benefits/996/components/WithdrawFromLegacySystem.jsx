@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import CheckboxWidget from 'platform/forms-system/src/js/widgets/CheckboxWidget';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 export const WithdrawFromLegacySystem = ({ onContinue }) => {
@@ -11,9 +10,9 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
 
   return (
     <>
-      <h2 className="confirmation-page-title">
+      <h3 className="confirmation-page-title">
         Withdraw from legacy appeal system
-      </h2>
+      </h3>
       <p>
         In order to request a Higher-Level Review, you need to opt out of the
         Legacy Appeals system. Once you opt in to the new system, the decision
