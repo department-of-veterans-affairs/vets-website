@@ -59,7 +59,7 @@ export default function FieldTemplate(props) {
     );
   }
 
-  if (!environment.isProduction()) {
+  if (environment.isStaging()) {
     errorSpan = (
       <span
         style={{ display: errorStyle }}
