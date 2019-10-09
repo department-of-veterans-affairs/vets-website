@@ -1,4 +1,5 @@
 import { getAppointmentId } from './appointment';
+import { isEligible } from './eligibility';
 import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
@@ -74,7 +75,7 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
-export function getSchedulingEligibility(state) {
+export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
@@ -84,28 +85,8 @@ export function getSchedulingEligibility(state) {
 }
 
 export function getEligibilityStatus(state) {
-  const eligibility = getSchedulingEligibility(state);
-
-  if (!eligibility) {
-    return {
-      direct: null,
-      request: null,
-    };
-  }
-
-  const {
-    directPastVisit,
-    directTypes,
-    directClinics,
-    directPACT,
-    requestLimit,
-    requestPastVisit,
-  } = eligibility;
-
-  return {
-    direct: directTypes && directPastVisit && directPACT && directClinics,
-    request: requestLimit && requestPastVisit,
-  };
+  const eligibility = getEligibilityChecks(state);
+  return isEligible(eligibility);
 }
 
 export function getFacilityPageInfo(state, pageKey) {

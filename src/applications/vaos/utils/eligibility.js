@@ -56,7 +56,7 @@ export async function getEligibilityData(facilityId, typeOfCareId) {
   return eligibility;
 }
 
-export function getEligibilityStatus(
+export function getEligibilityChecks(
   vaFacility,
   typeOfCareId,
   eligibilityData,
@@ -122,13 +122,36 @@ export function getEligibilityStatus(
   return eligibility;
 }
 
+export function isEligible(eligibilityChecks) {
+  if (!eligibilityChecks) {
+    return {
+      direct: null,
+      request: null,
+    };
+  }
+
+  const {
+    directPastVisit,
+    directTypes,
+    directClinics,
+    directPACT,
+    requestLimit,
+    requestPastVisit,
+  } = eligibilityChecks;
+
+  return {
+    direct: directTypes && directPastVisit && directPACT && directClinics,
+    request: requestLimit && requestPastVisit,
+  };
+}
+
 export function getEligibleFacilities(facilities) {
   return facilities.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
 }
 
-export function hasPastClinicsAvailable(pastAppointments, clinics) {
+export function hasEligibleClinics(pastAppointments, clinics) {
   const pastClinicIds = new Set(
     pastAppointments
       .filter(

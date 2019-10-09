@@ -9,7 +9,7 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import {
-  getEligibilityStatus,
+  getEligibilityChecks,
   getEligibleFacilities,
 } from '../utils/eligibility';
 
@@ -201,7 +201,7 @@ export default function formReducer(state = initialState, action) {
 
       let eligibility = state.eligibility;
       if (action.eligibilityData) {
-        const facilityEligibility = getEligibilityStatus(
+        const facilityEligibility = getEligibilityChecks(
           newData.vaFacility,
           action.typeOfCareId,
           action.eligibilityData,
@@ -305,7 +305,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
-      const eligibility = getEligibilityStatus(
+      const eligibility = getEligibilityChecks(
         state.data.vaFacility,
         action.typeOfCareId,
         action.eligibilityData,

@@ -5,7 +5,7 @@ import {
 } from './utils/selectors';
 
 import { getPastAppointments } from './api';
-import { hasPastClinicsAvailable } from './utils/eligibility';
+import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -102,7 +102,7 @@ export default {
       if (eligibilityStatus.direct) {
         const appointments = await getPastAppointments();
 
-        if (hasPastClinicsAvailable(appointments, clinics)) {
+        if (hasEligibleClinics(appointments, clinics)) {
           dispatch({
             // TODO: finish this action when building the clinc choice page
             type: 'START_DIRECT_SCHEDULE_FLOW',
