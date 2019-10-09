@@ -109,6 +109,9 @@ describe('VAOS newAppointmentFlow', () => {
         state,
         dispatch,
       );
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        'START_DIRECT_SCHEDULE_FLOW',
+      );
       expect(nextState).to.equal('clinicChoice');
     });
     it('next should direct to request flow if not direct eligible', async () => {
