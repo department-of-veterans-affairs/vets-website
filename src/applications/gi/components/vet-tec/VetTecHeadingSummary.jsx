@@ -89,7 +89,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
                 </a>
               </IconWithInfo>
               <IconWithInfo icon="map" present={schoolLocalePresent}>
-                {institution.programs[0].schoolLocale + ' locale'}
+                {`${institution.programs[0].schoolLocale}  locale`}
               </IconWithInfo>
             </div>
           )}
