@@ -6,14 +6,17 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
-// import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-// import FormButtons from '../components/FormButtons';
+import { focusElement } from 'platform/utilities/ui';
 import Calendar from './../components/calendar/CalendarWidget';
 import { getFormPageInfo } from '../utils/selectors';
 
 const pageKey = 'dateTimeRequest';
 
 export class DateTimeRequestPage extends React.Component {
+  componentDidMount() {
+    focusElement('h1.vads-u-font-size--h2');
+  }
+
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
@@ -44,6 +47,8 @@ export class DateTimeRequestPage extends React.Component {
                 label: 'PM',
               },
             ],
+            required: true,
+            validationMessage: '',
           })}
         />
       </div>
