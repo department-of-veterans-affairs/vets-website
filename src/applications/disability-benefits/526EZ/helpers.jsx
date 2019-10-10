@@ -760,17 +760,16 @@ export const title10DatesRequired = formData =>
   get('view:isTitle10Activated', formData, false);
 
 export function fetchPaymentInformation() {
-  return apiRequest(
-    '/ppiu/payment_information',
-    {},
-    response =>
-      // Return only the bit the UI cares about
-      response.data.attributes.responses[0].paymentAccount,
-    () => {
+  return apiRequest('/ppiu/payment_information')
+    .then(
+      response =>
+        // Return only the bit the UI cares about
+        response.data.attributes.responses[0].paymentAccount,
+    )
+    .catch(() => {
       Sentry.captureMessage('vets_payment_information_fetch_failure');
       return Promise.reject();
-    },
-  );
+    });
 }
 
 export const PaymentDescription = () => (

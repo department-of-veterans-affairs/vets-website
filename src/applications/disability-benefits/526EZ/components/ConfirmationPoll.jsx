@@ -45,8 +45,8 @@ export class ConfirmationPoll extends React.Component {
 
     apiRequest(
       `/disability_compensation_form/submission_status/${this.props.jobId}`,
-      {},
-      response => {
+    )
+      .then(response => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
           return;
@@ -72,8 +72,8 @@ export class ConfirmationPoll extends React.Component {
           }
           setTimeout(this.poll, waitTime);
         }
-      },
-      response => {
+      })
+      .catch(response => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
           return;
@@ -84,8 +84,7 @@ export class ConfirmationPoll extends React.Component {
           // NOTE: I don't know that it'll always take this shape.
           failureCode: get('errors[0].status', response),
         });
-      },
-    );
+      });
   };
 
   render() {
