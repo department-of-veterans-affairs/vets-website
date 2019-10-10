@@ -48,7 +48,8 @@ export class DateTimeRequestPage extends React.Component {
               },
             ],
             required: true,
-            validationMessage: '',
+            validationMessage:
+              'Please select a preferred time or unselect this date to continue',
           })}
         />
       </div>

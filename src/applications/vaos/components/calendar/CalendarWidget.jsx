@@ -43,6 +43,7 @@ export default class CalendarWidget extends Component {
 
   componentWillMount() {
     const monthsToShowAtOnce = this.props.monthsToShowAtOnce;
+
     // Updates months to show at once if > default setting
     if (monthsToShowAtOnce > this.state.months.length) {
       const months = [];
