@@ -51,20 +51,24 @@ export class DateTimeSelectPage extends React.Component {
     const availableSlots = this.props.availableSlots[0].appointmentTimeSlot;
     const slotMap = {};
     const availableDatesArray = [];
+    const now = moment();
     for (let index = 0; index < availableSlots.length; index++) {
       const slot = availableSlots[index];
       let dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
       dateObj = dateObj.tz(institutionTimezone);
-      const dateString = dateObj.format('YYYY-MM-DD');
-      if (!availableDatesArray.includes(dateString)) {
-        availableDatesArray.push(dateString);
-      }
-      if (slotMap[dateString]) {
-        slotMap[dateString].times.push(dateObj);
-      } else {
-        slotMap[dateString] = {
-          times: [dateObj],
-        };
+
+      if (dateObj.isAfter(now)) {
+        const dateString = dateObj.format('YYYY-MM-DD');
+        if (!availableDatesArray.includes(dateString)) {
+          availableDatesArray.push(dateString);
+        }
+        if (slotMap[dateString]) {
+          slotMap[dateString].times.push(dateObj);
+        } else {
+          slotMap[dateString] = {
+            times: [dateObj],
+          };
+        }
       }
     }
 

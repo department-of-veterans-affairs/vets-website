@@ -42,7 +42,11 @@ export default class CalendarRow extends Component {
   isDisabled = date => {
     const { availableDates } = this.props;
     let disabled = false;
-    if (Array.isArray(availableDates) && !availableDates.includes(date)) {
+
+    if (
+      (Array.isArray(availableDates) && !availableDates.includes(date)) ||
+      moment(date).isBefore(moment().format('YYYY-MM-DD'))
+    ) {
       disabled = true;
     }
     return disabled;

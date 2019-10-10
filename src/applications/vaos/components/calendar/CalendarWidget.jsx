@@ -125,9 +125,9 @@ class CalendarWidget extends Component {
 
   renderMonth = (month, index) => (
     <>
-      <h3 className="vads-u-font-weight--bold vads-u-text-align--center vads-u-display--block vads-u-font-family--serif">
+      <h2 className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif">
         {month.format('MMMM YYYY')}
-      </h3>
+      </h2>
 
       {index === 0 && (
         <CalendarNavigation
