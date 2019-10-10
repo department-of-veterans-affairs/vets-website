@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import CalendarCell from './CalendarCell';
+import CalendarRadioOption from './CalendarRadioOption';
 
 export default class CalendarRow extends Component {
   static propTypes = {
@@ -15,22 +17,7 @@ export default class CalendarRow extends Component {
     selectedDates: PropTypes.object,
   };
 
-  getCssClasses = date => {
-    const cssClasses = ['vaos-calendar__calendar-day'];
-
-    if (this.isCurrentlySelected(date))
-      cssClasses.push('vaos-calendar__cell-current');
-
-    if (this.isInSelectedMap(date)) {
-      cssClasses.push('vaos-calendar__cell-selected');
-    }
-
-    return cssClasses;
-  };
-
   isCurrentlySelected = date => this.props.currentlySelectedDate === date;
-
-  isInSelectedMap = date => this.props.selectedDates[date] !== undefined;
 
   isDisabled = date => {
     const { availableDates } = this.props;
@@ -68,11 +55,14 @@ export default class CalendarRow extends Component {
     if (currentlySelectedDate && getSelectedDateOptions) {
       let showOptions = false;
 
+      let selectedCellIndex;
+
       for (let index = 0; index < cells.length; index++) {
         const cell = this.props.cells[index];
         if (cell !== null) {
           if (this.isCurrentlySelected(cell)) {
             showOptions = true;
+            selectedCellIndex = index;
           }
         }
       }
@@ -82,11 +72,23 @@ export default class CalendarRow extends Component {
 
         if (additionalOptions) {
           const fieldName = additionalOptions.fieldName;
+
+          let justify = 'vads-u-justify-content--flex-start';
+
+          // If list is items is won't fill row, align items closer to selected cell
+          if (additionalOptions?.options?.length < 4) {
+            if (selectedCellIndex === 2) {
+              justify = 'vads-u-justify-content--center';
+            } else if (selectedCellIndex === 3 || selectedCellIndex === 4) {
+              justify = 'vads-u-justify-content--flex-end';
+            }
+          }
+
           return (
             <div
               className={`vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2${
                 optionsError ? ' usa-input-error' : ''
-              }`}
+              } ${justify}`}
             >
               {optionsError && (
                 <span
@@ -97,30 +99,19 @@ export default class CalendarRow extends Component {
                 </span>
               )}
               {additionalOptions?.options.map((o, index) => (
-                <div
+                <CalendarRadioOption
                   key={`radio-${index}`}
-                  className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-border-color--primary"
-                >
-                  <input
-                    id={`radio-${index}`}
-                    type="radio"
-                    name={fieldName}
-                    value={o.value}
-                    checked={
-                      selectedDates[currentlySelectedDate][fieldName] ===
-                      o.value
-                    }
-                    onChange={e =>
-                      this.handleSelectOption(fieldName, e.target.value)
-                    }
-                  />
-                  <label
-                    className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-                    htmlFor={`radio-${index}`}
-                  >
-                    {o.label}
-                  </label>
-                </div>
+                  index={index}
+                  fieldName={fieldName}
+                  value={o.value}
+                  checked={
+                    selectedDates[currentlySelectedDate][fieldName] === o.value
+                  }
+                  onChange={e =>
+                    this.handleSelectOption(fieldName, e.target.value)
+                  }
+                  label={o.label}
+                />
               ))}
             </div>
           );
@@ -132,41 +123,22 @@ export default class CalendarRow extends Component {
   };
 
   render() {
-    const { cells, rowNumber } = this.props;
+    const { cells, rowNumber, selectedDates } = this.props;
 
     return (
       <div>
         <div className="vaos-calendar__calendar-week">
-          {cells.map((date, index) => {
-            if (date === null) {
-              return (
-                <button
-                  key={`row-${rowNumber}-cell-${index}`}
-                  className="vaos-calendar__calendar-day vads-u-visibility--hidden"
-                />
-              );
-            }
-
-            const cssClasses = this.getCssClasses(date);
-
-            return (
-              <button
-                key={`row-${rowNumber}-cell-${index}`}
-                id={`date-cell-${date}`}
-                className={cssClasses.join(' ')}
-                onClick={() => this.handleSelectDate(date)}
-                disabled={this.isDisabled(date)}
-              >
-                {this.isInSelectedMap(date) && (
-                  <i className="fas fa-check vads-u-color--white" />
-                )}
-                {moment(date).format('D')}
-                {this.isCurrentlySelected(date) && (
-                  <span className="vaos-calendar__cell-selected-triangle" />
-                )}
-              </button>
-            );
-          })}
+          {cells.map((date, index) => (
+            <CalendarCell
+              key={`row-${rowNumber}-cell-${index}`}
+              date={date}
+              formattedDate={moment(date).format('D')}
+              isCurrentlySelected={this.isCurrentlySelected(date)}
+              isInSelectedMap={selectedDates[date] !== undefined}
+              onClick={this.handleSelectDate}
+              disabled={this.isDisabled(date)}
+            />
+          ))}
         </div>
         {this.renderOptions()}
       </div>

@@ -79,7 +79,7 @@
         color: $color-base;
         background-color: $color-gray-lightest;
         border: 1px solid $color-base;
-        padding: 12px unset;
+        padding: 12px;
         margin: 8px auto;
 
         &.vaos-calendar__cell-selected {
@@ -124,6 +124,7 @@
       .vaos-calendar__option {
         width: 158px;
         border-radius: 5px;
+        padding: 10px 0;
 
         input[type="radio"] {
           width: unset;

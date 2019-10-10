@@ -4,7 +4,6 @@ import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import { getCalendarWeeks } from '../../utils/calendar';
-import { validate } from 'jsonschema';
 
 export default class CalendarWidget extends Component {
   static props = {
