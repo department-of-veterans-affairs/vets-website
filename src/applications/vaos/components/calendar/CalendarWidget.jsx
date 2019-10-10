@@ -80,7 +80,6 @@ class CalendarWidget extends Component {
   };
 
   handleSelectOption = data => {
-    debugger;
     const currentlySelectedDate = this.state.currentlySelectedDate;
     const selectedDates = { ...this.state.selectedDates };
     selectedDates[currentlySelectedDate][data.fieldName] = data.value;

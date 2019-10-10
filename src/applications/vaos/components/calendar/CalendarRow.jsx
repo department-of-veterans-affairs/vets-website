@@ -21,6 +21,37 @@ export default class CalendarRow extends Component {
     };
   }
 
+  getCssClasses = date => {
+    let cssClasses = [
+      'vaos-calendar__calendar-day',
+      'vads-u-color--base',
+      'vads-u-background-color--gray-lightest',
+      'vads-u-border--1px',
+      'vads-u-border-color--base',
+      'vads-u-padding-y--1p5',
+      'vads-u-font-weight--bold',
+      'vads-u-margin-y--1',
+    ];
+
+    if (this.isCurrentlySelected(date))
+      cssClasses.push('vaos-calendar__cell-current');
+
+    if (this.isInSelectedMap(date)) {
+      cssClasses = cssClasses.filter(
+        cssClass =>
+          ![
+            'vads-u-background-color--gray-lightest',
+            'vads-u-border--1px',
+            'vads-u-color--base',
+          ].includes(cssClass),
+      );
+      cssClasses.push('vaos-calendar__cell-selected');
+      cssClasses.push('vads-u-background-color--primary');
+    }
+
+    return cssClasses;
+  };
+
   isCurrentlySelected = date => this.props.currentlySelectedDate === date;
 
   isInSelectedMap = date => this.props.selectedDates[date] !== undefined;
@@ -64,21 +95,33 @@ export default class CalendarRow extends Component {
 
       if (showOptions) {
         const fieldName = additionalOptions.fieldName;
-        return additionalOptions?.options.map((o, index) => (
-          <div key={`radio-${index}`}>
-            <input
-              id={`radio-${index}`}
-              type="radio"
-              name={fieldName}
-              value={o.value}
-              checked={
-                selectedDates[currentlySelectedDate][fieldName] === o.value
-              }
-              onChange={this.handleSelectOption}
-            />
-            <label htmlFor={`radio-${index}`}>{o.label}</label>
+        return (
+          <div className="vaos-calendar__options vads-u-display--flex vads-u-margin-y--2">
+            {additionalOptions?.options.map((o, index) => (
+              <div
+                key={`radio-${index}`}
+                className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--3 vads-u-margin-right--1 vads-u-border-color--primary"
+              >
+                <input
+                  id={`radio-${index}`}
+                  type="radio"
+                  name={fieldName}
+                  value={o.value}
+                  checked={
+                    selectedDates[currentlySelectedDate][fieldName] === o.value
+                  }
+                  onChange={this.handleSelectOption}
+                />
+                <label
+                  className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
+                  htmlFor={`radio-${index}`}
+                >
+                  {o.label}
+                </label>
+              </div>
+            ))}
           </div>
-        ));
+        );
       }
       return null;
     }
@@ -92,8 +135,8 @@ export default class CalendarRow extends Component {
     return (
       <div>
         <div className="vaos-calendar__calendar-week">
-          {cells.map((c, index) => {
-            if (c === null) {
+          {cells.map((date, index) => {
+            if (date === null) {
               return (
                 <button
                   key={`row-${rowNumber}-cell-${index}`}
@@ -102,35 +145,26 @@ export default class CalendarRow extends Component {
               );
             }
 
-            const cssClasses = [
-              'vaos-calendar__calendar-day',
-              'vads-u-color--base',
-              'vads-u-background-color--gray-lightest',
-              'vads-u-border--1px',
-              'vads-u-border-color--base',
-              'vads-u-padding-y--1p5',
-              'vads-u-font-weight--bold',
-              'vads-u-margin-y--1',
-            ];
-
-            if (this.isCurrentlySelected(c))
-              cssClasses.push('vaos-calendar__cell-current');
-
-            if (this.isInSelectedMap(c))
-              cssClasses.push('vaos-calendar__cell-selected');
+            const cssClasses = this.getCssClasses(date);
 
             return (
               <button
                 key={`row-${rowNumber}-cell-${index}`}
                 className={cssClasses.join(' ')}
-                onClick={() => this.handleSelectDate(c)}
+                onClick={() => this.handleSelectDate(date)}
               >
-                {moment(c).format('D')}
+                {this.isInSelectedMap(date) && (
+                  <i className="fas fa-check vads-u-color--white" />
+                )}
+                {moment(date).format('D')}
+                {this.isCurrentlySelected(date) && (
+                  <span className="vaos-calendar__cell-selected-triangle" />
+                )}
               </button>
             );
           })}
         </div>
-        <div className="vaos-calendar__options">{this.renderOptions()}</div>
+        {this.renderOptions()}
       </div>
     );
   }
