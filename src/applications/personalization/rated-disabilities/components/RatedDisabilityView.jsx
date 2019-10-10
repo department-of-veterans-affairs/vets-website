@@ -28,8 +28,8 @@ class RatedDisabilityView extends React.Component {
     }
 
     return (
-      <div className="row">
-        <div>{content}</div>
+      <div className="vads-l-grid-container">
+        <div className="vads-l-row">{content}</div>
       </div>
     );
   }
