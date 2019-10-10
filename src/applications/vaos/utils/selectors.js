@@ -92,13 +92,7 @@ export function getEligibilityStatus(state) {
 export function getFacilityPageInfo(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
-  const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-  const eligibility =
-    newAppointment.eligibility[`${formInfo.data.vaFacility}_${typeOfCareId}`] ||
-    null;
   const eligibilityStatus = getEligibilityStatus(state);
-  const canScheduleAtChosenFacility =
-    eligibilityStatus.direct || eligibilityStatus.request;
 
   return {
     ...formInfo,
@@ -106,8 +100,9 @@ export function getFacilityPageInfo(state, pageKey) {
     loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
     loadingEligibility: newAppointment.loadingEligibility,
-    eligibility,
-    canScheduleAtChosenFacility,
+    eligibility: getEligibilityChecks(state),
+    canScheduleAtChosenFacility:
+      eligibilityStatus.direct || eligibilityStatus.request,
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVASystems:
       !formInfo.data.vaSystem &&
