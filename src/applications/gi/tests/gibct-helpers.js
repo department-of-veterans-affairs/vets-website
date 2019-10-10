@@ -102,7 +102,7 @@ const schools = {
   },
 };
 
-export const singleSchool = {
+const singleSchool = {
   data: {
     id: '1290',
     type: 'institutions',
