@@ -46,6 +46,7 @@ export default class CalendarRow extends Component {
       handleSelectOption,
       optionsError,
       selectedDates,
+      getSelectedDateOptions,
     } = this.props;
 
     if (
@@ -129,8 +130,43 @@ export default class CalendarRow extends Component {
             })}
           </div>
         );
+
+        if (additionalOptions) {
+          const fieldName = additionalOptions.fieldName;
+          return (
+            <div className="vaos-calendar__options vads-u-display--flex vads-u-margin-y--2">
+              {additionalOptions?.options.map((o, index) => (
+                <div
+                  key={`radio-${index}`}
+                  className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--3 vads-u-margin-right--1 vads-u-border-color--primary"
+                >
+                  <input
+                    id={`radio-${index}`}
+                    type="radio"
+                    name={fieldName}
+                    value={o.value}
+                    checked={
+                      selectedDates[currentlySelectedDate][fieldName] ===
+                      o.value
+                    }
+                    onChange={e =>
+                      this.handleSelectOption(fieldName, e.target.value)
+                    }
+                  />
+                  <label
+                    className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
+                    htmlFor={`radio-${index}`}
+                  >
+                    {o.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        return null;
       }
-      return null;
     }
     return null;
   };
