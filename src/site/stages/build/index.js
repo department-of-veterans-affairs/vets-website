@@ -17,6 +17,7 @@ const { getDrupalContent } = require('./drupal/metalsmith-drupal');
 const addDrupalPrefix = require('./plugins/add-drupal-prefix');
 const addNonceToScripts = require('./plugins/add-nonce-to-scripts');
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
+const addOnclickToAnchors = require('./plugins/add-onclick-to-anchors');
 const applyFragments = require('./plugins/apply-fragments');
 const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
@@ -232,6 +233,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(addNonceToScripts, 'Add nonce to script tags');
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
+  smith.use(addOnclickToAnchors(BUILD_OPTIONS), 'Add onclick for GA to a els');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
   smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
 
