@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
-import { getCalendarCells } from '../../utils/calendar';
+import { getCalendarCells, getCalendarWeeks } from '../../utils/calendar';
 
 class CalendarWidget extends Component {
   static defaultProps = {
@@ -101,35 +101,19 @@ class CalendarWidget extends Component {
     </div>
   );
 
-  renderWeeks = month => {
-    const cells = getCalendarCells(month);
-    const weeks = [];
-    let currentWeek = [];
-
-    for (let index = 0; index < cells.length; index++) {
-      if (index > 0 && index % 5 === 0) {
-        weeks.push(currentWeek);
-        currentWeek = [cells[index]];
-      } else {
-        currentWeek.push(cells[index]);
-      }
-    }
-
-    weeks.push(currentWeek);
-
-    return weeks.map((week, index) => (
+  renderWeeks = month =>
+    getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
         key={`row-${index}`}
-        cells={week}
+        dates={week}
         rowNumber={index}
-        additionalOptions={this.props.additionalOptions}
+        getSelectedDateOptions={this.props.getSelectedDateOptions}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
         selectedDates={this.state.selectedDates}
         currentlySelectedDate={this.state.currentlySelectedDate}
       />
     ));
-  };
 
   renderMonth = (month, index) => (
     <>
@@ -178,7 +162,7 @@ class CalendarWidget extends Component {
 CalendarWidget.props = {
   monthsToShowAtOnce: PropTypes.number,
   maxSelections: PropTypes.number,
-  additionalOptions: PropTypes.array,
+  getSelectedDateOptions: PropTypes.array,
 };
 
 export default CalendarWidget;

@@ -39,7 +39,7 @@ export function getWeekdays(momentDate) {
   return daysToShow;
 }
 
-export function getCalendarCells(momentDate) {
+function getCells(momentDate) {
   const cells = [
     ...getInitialBlankCells(momentDate),
     ...getWeekdays(momentDate),
@@ -49,4 +49,21 @@ export function getCalendarCells(momentDate) {
   while (cells.length % 5 !== 0) cells.push(null);
 
   return cells;
+}
+
+export function getCalendarWeeks(momentDate) {
+  const dateCells = getCells(momentDate);
+  const weeks = [];
+  let currentWeek = [];
+
+  for (let index = 0; index < dateCells.length; index++) {
+    if (index > 0 && index % 5 === 0) {
+      weeks.push(currentWeek);
+      currentWeek = [dateCells[index]];
+    } else {
+      currentWeek.push(dateCells[index]);
+    }
+  }
+  weeks.push(currentWeek);
+  return weeks;
 }

@@ -4,8 +4,8 @@ import moment from 'moment';
 
 export default class CalendarRow extends Component {
   static propTypes = {
-    additionalOptions: PropTypes.object,
-    cells: PropTypes.array.isRequired,
+    getSelectedDateOptions: PropTypes.func,
+    dates: PropTypes.array.isRequired,
     currentlySelectedDate: PropTypes.string,
     handleSelectDate: PropTypes.func.isRequired,
     handleSelectOption: PropTypes.func,
@@ -60,10 +60,10 @@ export default class CalendarRow extends Component {
     this.props.handleSelectDate(date);
   };
 
-  handleSelectOption = e => {
+  handleSelectOption = (fieldName, value) => {
     this.props.handleSelectOption({
-      fieldName: this.props.additionalOptions.fieldName,
-      value: e.target.value,
+      fieldName,
+      value,
     });
   };
 
@@ -77,15 +77,16 @@ export default class CalendarRow extends Component {
 
   renderOptions = () => {
     const {
-      additionalOptions,
       currentlySelectedDate,
       selectedDates,
+      getSelectedDateOptions,
     } = this.props;
-    if (additionalOptions) {
+
+    if (currentlySelectedDate && getSelectedDateOptions) {
       let showOptions = false;
 
-      for (let index = 0; index < this.props.cells.length; index++) {
-        const cell = this.props.cells[index];
+      for (let index = 0; index < this.props.dates.length; index++) {
+        const cell = this.props.dates[index];
         if (cell !== null) {
           if (this.isCurrentlySelected(cell)) {
             showOptions = true;
@@ -94,48 +95,58 @@ export default class CalendarRow extends Component {
       }
 
       if (showOptions) {
-        const fieldName = additionalOptions.fieldName;
-        return (
-          <div className="vaos-calendar__options vads-u-display--flex vads-u-margin-y--2">
-            {additionalOptions?.options.map((o, index) => (
-              <div
-                key={`radio-${index}`}
-                className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--3 vads-u-margin-right--1 vads-u-border-color--primary"
-              >
-                <input
-                  id={`radio-${index}`}
-                  type="radio"
-                  name={fieldName}
-                  value={o.value}
-                  checked={
-                    selectedDates[currentlySelectedDate][fieldName] === o.value
-                  }
-                  onChange={this.handleSelectOption}
-                />
-                <label
-                  className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-                  htmlFor={`radio-${index}`}
-                >
-                  {o.label}
-                </label>
-              </div>
-            ))}
-          </div>
+        const additionalOptions = this.props.getSelectedDateOptions(
+          currentlySelectedDate,
         );
+
+        if (additionalOptions) {
+          const fieldName = additionalOptions.fieldName;
+          return (
+            <div className="vaos-calendar__options vads-u-display--flex vads-u-margin-y--2">
+              {additionalOptions?.options.map((o, index) => (
+                <div
+                  key={`radio-${index}`}
+                  className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--3 vads-u-margin-right--1 vads-u-border-color--primary"
+                >
+                  <input
+                    id={`radio-${index}`}
+                    type="radio"
+                    name={fieldName}
+                    value={o.value}
+                    checked={
+                      selectedDates[currentlySelectedDate][fieldName] ===
+                      o.value
+                    }
+                    onChange={e =>
+                      this.handleSelectOption(fieldName, e.target.value)
+                    }
+                  />
+                  <label
+                    className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
+                    htmlFor={`radio-${index}`}
+                  >
+                    {o.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        return null;
       }
-      return null;
     }
 
     return null;
   };
 
   render() {
-    const { cells, rowNumber } = this.props;
+    const { dates, rowNumber } = this.props;
 
     return (
       <div>
         <div className="vaos-calendar__calendar-week">
-          {cells.map((date, index) => {
+          {dates.map((date, index) => {
             if (date === null) {
               return (
                 <button
