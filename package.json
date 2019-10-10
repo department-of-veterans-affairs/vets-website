@@ -257,6 +257,7 @@
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-sitemap": "^1.0.0",
     "moment": "^2.15.1",
+    "moment-timezone": "^0.5.26",
     "number-to-words": "^1.2.4",
     "prop-types": "^15.6.1",
     "raven": "^2.6.4",
