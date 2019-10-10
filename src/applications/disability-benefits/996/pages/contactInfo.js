@@ -56,6 +56,7 @@ export const uiSchema = {
         },
         'ui:options': {
           widgetClassNames: 'va-input-medium-large',
+          inputType: 'tel',
         },
       },
       emailAddress: {
@@ -63,6 +64,9 @@ export const uiSchema = {
         'ui:errorMessages': {
           pattern: errorMessages.email,
           required: errorMessages.email,
+        },
+        'ui:options': {
+          inputType: 'email',
         },
       },
     },
