@@ -1,9 +1,9 @@
 import { ratedDisabilities } from './rated-disabilities';
-import { totalRating  } from './total-disabilities';
+import { totalRating } from './total-disabilities';
 
 const rootReducer = {
-  ratedDisabilities: ratedDisabilities,
-  totalRating: totalRating,
+  ratedDisabilities,
+  totalRating,
 };
 
 export default rootReducer;

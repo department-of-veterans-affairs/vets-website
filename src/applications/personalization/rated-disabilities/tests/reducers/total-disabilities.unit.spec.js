@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import totalRating from '../../reducers';
 
 const initialState = {
-    loading: true, // app starts in loading state
-    error: false,
-    totalDisabilityRating: null,
-}
-  
-  describe('totalRating reducer', () => {
-    it('should return the initial state', () => {
-      const state = totalRating.totalRating(initialState, {});
-      expect(state.loading).to.equal(true);
-    });
+  loading: true, // app starts in loading state
+  error: false,
+  totalDisabilityRating: null,
+};
+
+describe('totalRating reducer', () => {
+  it('should return the initial state', () => {
+    const state = totalRating.totalRating(initialState, {});
+    expect(state.loading).to.equal(true);
+  });
 
   /*
     it('should handle a succesful call for rated disabilities', () => {
@@ -43,5 +43,4 @@ const initialState = {
       expect(state.ratedDisabilities[0].code).to.equal('500');
     });
     */
-  });
-  
+});

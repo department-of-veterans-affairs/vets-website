@@ -6,7 +6,11 @@ import TotalRatedDisabilities from '../../components/TotalRatedDisabilities';
 describe('<TotalRatedDisabilities />', () => {
   it('Should Render', () => {
     const wrapper = shallow(
-      <TotalRatedDisabilities loading={false} error={false} totalDisabilityRating={80} />,
+      <TotalRatedDisabilities
+        loading={false}
+        error={false}
+        totalDisabilityRating={80}
+      />,
     );
     expect(
       wrapper
@@ -19,35 +23,26 @@ describe('<TotalRatedDisabilities />', () => {
 
   it('displays a loading indicator while loading', () => {
     const wrapper = shallow(
-      <TotalRatedDisabilities loading={true} error={false} totalDisabilityRating={80} />
+      <TotalRatedDisabilities
+        loading
+        error={false}
+        totalDisabilityRating={80}
+      />,
     );
-    expect(
-      wrapper
-      .find('.loading-indicator-container')
-    ).to.exist;
+    expect(wrapper.find('.loading-indicator-container')).to.exist;
+    wrapper.unmount();
   });
 
   it('displays an error message when there is an error prop', () => {
     const wrapper = shallow(
-      <TotalRatedDisabilities loading={false} error={true} totalDisabilityRating={80} />
+      <TotalRatedDisabilities
+        loading={false}
+        error
+        totalDisabilityRating={80}
+      />,
     );
 
-    expect(
-      wrapper
-      .find('.usa-alert-error')
-    ).to.exist;
-
-  });
-
-  it('displays the total disability rating', () => {
-    const wrapper = shallow(
-      <TotalRatedDisabilities loading={false} error={false} totalDisabilityRating={80} />
-    );
-
-    expect(
-      wrapper
-      .find('.total-rating')
-      .text(),
-      ).to.contain('80%');
+    expect(wrapper.find('.usa-alert-error')).to.exist;
+    wrapper.unmount();
   });
 });

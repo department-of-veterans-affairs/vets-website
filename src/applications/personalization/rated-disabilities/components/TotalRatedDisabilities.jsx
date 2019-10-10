@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator
-  from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import PercetnageCalloutBox from '../components/PercentageCalloutBox';
 
 const TotalRatedDisabilities = props => {
-  const { loading,totalDisabilityRating, error } = props;
+  const { loading, totalDisabilityRating, error } = props;
   let content;
   // If the data from the parent is loading, show a loading indicator
   // If there is an error, display an error message,
@@ -42,14 +42,15 @@ const TotalRatedDisabilities = props => {
   } else if (!totalDisabilityRating) {
     const message = (
       <span>
-        <p>
-          We don't have a disability rating for you in our system.
-        </p>
+        <p>We don't have a disability rating for you in our system.</p>
         <h4>Want to add disabilities?</h4>
         <p>
-          If you believe you have disabilities related to your military service, you can submit a claim to update your disability rating.
+          If you believe you have disabilities related to your military service,
+          you can submit a claim to update your disability rating.
         </p>
-        <a href="#" className="usa-link">Submit a new claim</a>
+        <a href="#" className="usa-link">
+          Submit a new claim
+        </a>
       </span>
     );
     content = (
@@ -65,25 +66,41 @@ const TotalRatedDisabilities = props => {
       <span>
         <div className="vads-l-grid-container">
           <div className="vads-l-row">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--8">
-              <h3>Total combined disability</h3>
+            <div className="vads-l-col--12">
+              <h1>Your disability rating</h1>
+            </div>
+          </div>
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--9 vads-u-padding-right--1p5">
               <p>
-                Your final degree of disability is {totalDisabilityRating}
-                %. This percentage determines the amount of benefit pay you will
-                receive.
+                <strong>
+                  Your combined disability rating is {totalDisabilityRating}%
+                </strong>
+                . This rating determines the amount of compensation you'll get.
+                The {''}
+                <a href="#"> individual disability ratings </a>
+                {''}
+                below are what we used to calculate your combines disability
+                rating.
+              </p>
+              <p>
+                This rating does not include any pending disabilities you may
+                have applied for. You can check the status of your disability
+                claims or appeals with the Claim Status Tool.You can also view
+                your uploaded documents or request help with a claim or appeal.
               </p>
               <p>
                 <a href="https://www.youtube.com/watch?v=oM7oYzL2DCg">
-                  Compensation 101: How did I get this rating?
+                  Check your claims or appeals
                 </a>
               </p>
             </div>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--4">
-              <div className="vads-u-background-color--gray-lightest">
-                <p className="vads-u-font-size--2xl vads-u-font-family--sans total-rating">
-                  {totalDisabilityRating}%
-                </p>
-              </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3">
+              <PercetnageCalloutBox
+                value={totalDisabilityRating}
+                isPercentage
+                label="Your combined VA disability rating"
+              />
             </div>
           </div>
           <div className="vads-l-row">

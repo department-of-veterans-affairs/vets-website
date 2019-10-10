@@ -12,14 +12,14 @@ class RatedDisabilityView extends React.Component {
   };
 
   render() {
-    const { 
-      fetchRatedDisabilities, 
-      ratedDisabilities, 
+    const {
+      fetchRatedDisabilities,
+      ratedDisabilities,
       user,
       totalDisabilityRating,
       loading,
       error,
-       } = this.props;
+    } = this.props;
 
     let content;
 
