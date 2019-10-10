@@ -104,8 +104,7 @@ export default {
 
         if (hasEligibleClinics(appointments, clinics)) {
           dispatch({
-            // TODO: finish this action when building the clinc choice page
-            type: 'START_DIRECT_SCHEDULE_FLOW',
+            type: 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
             appointments,
           });
 
@@ -121,6 +120,11 @@ export default {
     },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
+  },
+  clinicChoice: {
+    url: '/new-appointment/clinics',
+    previous: 'vaFacility',
+    next: 'reasonForAppointment',
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',

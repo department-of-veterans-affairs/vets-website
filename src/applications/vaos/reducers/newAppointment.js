@@ -25,7 +25,11 @@ import {
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_CLINIC_PAGE_OPENED,
+  START_DIRECT_SCHEDULE_FLOW,
 } from '../actions/newAppointment';
+
+import { getTypeOfCare } from '../utils/selectors';
 
 const initialState = {
   pages: {},
@@ -323,6 +327,66 @@ export default function formReducer(state = initialState, action) {
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
         },
         loadingEligibility: false,
+      };
+    }
+    case START_DIRECT_SCHEDULE_FLOW: {
+      const pastAppointmentDateMap = new Map();
+
+      action.appointments.forEach(appt => {
+        const apptTime = appt.vdsAppointments?.[0].appointmentTime;
+        const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
+        if (!latestApptTime || latestApptTime > apptTime) {
+          pastAppointmentDateMap.set(appt.clinicId, apptTime);
+        }
+      });
+
+      return {
+        ...state,
+        pastAppointmentDateMap,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED: {
+      let newSchema = action.schema;
+      const clinics = state.clinics[
+        `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
+      ].filter(clinic => state.pastAppointmentDateMap.has(clinic.clinicId));
+
+      if (clinics.length === 1) {
+        newSchema = {
+          ...newSchema,
+          properties: {
+            clinicId: {
+              type: 'string',
+              title: `Would you like to make an appointment at ${
+                clinics[0].clinicFriendlyLocationName
+              }?`,
+              enum: [clinics[0].clinicId, 'NONE'],
+              enumNames: [
+                'Yes, make my appointment here',
+                'No, I need a different location',
+              ],
+            },
+          },
+        };
+      }
+
+      const { data, schema } = setupFormData(
+        state.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        facilityDetails: {
+          ...state.facilityDetails,
+          [state.data.vaFacility]: action.facilityDetails,
+        },
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
       };
     }
     default:

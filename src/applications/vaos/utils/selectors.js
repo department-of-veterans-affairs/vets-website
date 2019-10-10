@@ -131,3 +131,14 @@ export function getClinicsForChosenFacility(state) {
 
   return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
 }
+
+export function getClinicPageInfo(state, pageKey) {
+  const formPageInfo = getFormPageInfo(state, pageKey);
+  const facilityDetails = getNewAppointment(state).facilityDetails;
+
+  return {
+    ...formPageInfo,
+    facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
+    typeOfCare: getTypeOfCare(formPageInfo.data),
+  };
+}

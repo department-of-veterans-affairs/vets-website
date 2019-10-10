@@ -1,3 +1,6 @@
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+
 // Mock Data
 import confirmed from './confirmed.json';
 import pending from './requests.json';
@@ -13,6 +16,13 @@ import mockPACT from './pact.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
+function getStagingId(facilityId) {
+  if (!environment.isProduction() && facilityId.startsWith('983')) {
+    return facilityId.replace('983', '442');
+  }
+
+  return facilityId;
+}
 
 export function getConfirmedAppointments() {
   return new Promise(resolve => {
@@ -127,4 +137,10 @@ export function getPacTeam(systemId) {
       }
     }, 750);
   });
+}
+
+export function getFacilityInfo(facilityId) {
+  return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
+    resp => resp.data,
+  );
 }
