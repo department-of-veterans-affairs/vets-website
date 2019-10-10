@@ -1,12 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { formatCurrency } from '../../utils/helpers';
-import {
-  renderCautionFlag,
-  renderSchoolClosingFlag,
-  renderPreferredProviderFlag,
-} from '../../utils/render';
+import { formatCurrency, locationInfo } from '../../utils/helpers';
+import { renderPreferredProviderFlag } from '../../utils/render';
 
 class VetTecProgramSearchResult extends React.Component {
   render() {
@@ -34,8 +30,6 @@ class VetTecProgramSearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="outer">
-          {renderSchoolClosingFlag(this.props.result)}
-          {renderCautionFlag(this.props.result)}
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
@@ -46,8 +40,9 @@ class VetTecProgramSearchResult extends React.Component {
                   <p className="institution-name vads-u-font-weight--bold">
                     {institutionName}
                   </p>
-                  <p className="institution-location">{`${city}, ${state ||
-                    country}`}</p>
+                  <p className="institution-location">
+                    {locationInfo(city, state, country)}
+                  </p>
                 </div>
               </div>
               <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">

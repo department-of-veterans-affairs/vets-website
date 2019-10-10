@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import VetTecProgramSearchResult from '../../components/vet-tec/VetTecProgramSearchResult';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, locationInfo } from '../../utils/helpers';
 
 const defaultProps = {
   result: {
@@ -29,8 +29,12 @@ describe('<VetTecProgramSearchResult>', () => {
     expect(wrapper.find('.institution-name').text()).to.eq(
       defaultProps.result.institutionName,
     );
-    expect(wrapper.find('.institution-location').text()).to.contain(
-      defaultProps.result.city,
+    expect(wrapper.find('.institution-location').text()).to.eq(
+      locationInfo(
+        defaultProps.result.city,
+        defaultProps.result.state,
+        defaultProps.result.country,
+      ),
     );
     expect(wrapper.find('.institution-location').text()).to.contain(
       defaultProps.result.state,
