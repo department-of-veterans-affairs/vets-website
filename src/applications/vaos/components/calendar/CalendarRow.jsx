@@ -47,6 +47,7 @@ export default class CalendarRow extends Component {
       optionsError,
       selectedDates,
       getSelectedDateOptions,
+      optionsError,
     } = this.props;
 
     if (
