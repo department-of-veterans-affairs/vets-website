@@ -4,7 +4,7 @@
 
 const mock = require('../../../platform/testing/e2e/mock-helpers');
 
-export const schools = {
+const schools = {
   data: [
     {
       id: '1290',
@@ -114,7 +114,6 @@ export const singleSchool = {
       state: 'DC',
       zip: '20002',
       country: 'USA',
-      physicalCountry: 'USA',
       bah: 2301.0,
       cross: null,
       flight: false,
@@ -210,7 +209,7 @@ export const singleSchool = {
   },
 };
 
-export const calculatorConstants = {
+const calculatorConstants = {
   data: [
     {
       id: '45',
@@ -466,7 +465,7 @@ const autocomplete = {
 };
 
 // Create API routes
-export const initApplicationMock = () => {
+function initApplicationMock() {
   mock(null, {
     path: '/v0/gi/institutions/search',
     verb: 'get',
@@ -490,4 +489,10 @@ export const initApplicationMock = () => {
     verb: 'get',
     value: autocomplete,
   });
+}
+
+module.exports = {
+  calculatorConstants,
+  schools,
+  initApplicationMock,
 };
