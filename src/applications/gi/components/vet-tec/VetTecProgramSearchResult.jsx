@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { estimatedBenefits } from '../../selectors/vetTecEstimator';
 import { formatCurrency } from '../../utils/helpers';
 import {
   renderCautionFlag,
@@ -10,7 +8,7 @@ import {
   renderPreferredProviderFlag,
 } from '../../utils/render';
 
-export class VetTecProgramSearchResult extends React.Component {
+class VetTecProgramSearchResult extends React.Component {
   estimate = ({ qualifier, value, range }) => {
     if (qualifier === 'per month range') {
       return (
@@ -34,7 +32,7 @@ export class VetTecProgramSearchResult extends React.Component {
       state,
       country,
       tuitionAmount,
-      lengthInHours,
+      lengthInWeeks,
       vaBah,
       dodBah,
     } = result;
@@ -58,10 +56,11 @@ export class VetTecProgramSearchResult extends React.Component {
                   <Link to={linkTo}>{description}</Link>
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
-                  <p className="institution-name">{institutionName}</p>
-                  <p>
-                    {city}, {state || country}
+                  <p className="institution-name vads-u-font-weight--bold">
+                    {institutionName}
                   </p>
+                  <p className="institution-location">{`${city}, ${state ||
+                    country}`}</p>
                 </div>
               </div>
               <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
@@ -77,7 +76,9 @@ export class VetTecProgramSearchResult extends React.Component {
                         className="fa fa-graduation-cap fa-search-result"
                       />
                       Tuition:
-                      <div>{formatCurrency(tuitionAmount)}</div>
+                      <div className="programTuition">
+                        {formatCurrency(tuitionAmount)}
+                      </div>
                     </h4>
                   </div>
                 </div>
@@ -89,15 +90,17 @@ export class VetTecProgramSearchResult extends React.Component {
                         className="fa fa-home fa-search-result"
                       />
                       Housing <span>(monthly):</span>
-                      <div>{formatCurrency(housing)}</div>
+                      <div className="programHousingAllowance">
+                        {formatCurrency(housing)}
+                      </div>
                     </h4>
                   </div>
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className="view-details columns">
-                <div className="info-flag">{lengthInHours} hours</div>
+              <div className="view-details columns vads-u-display--inline-block">
+                <div className="info-flag">{`${lengthInWeeks} weeks`}</div>
                 <Link to={linkTo}>View details ›</Link>
               </div>
             </div>
@@ -108,13 +111,4 @@ export class VetTecProgramSearchResult extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  estimated: estimatedBenefits(state, props),
-});
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VetTecProgramSearchResult);
+export default VetTecProgramSearchResult;

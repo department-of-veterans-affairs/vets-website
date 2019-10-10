@@ -79,7 +79,7 @@
     }
 
     .view-details {
-      display: inline-block;
+      display: block;
 
       @include media-maxwidth($small-screen) {
         margin-top: 1.6rem;
@@ -103,7 +103,6 @@
       margin: 0;
     }
 
-    p.institution-name,
     p.locality {
       font-weight: bold;
     }
