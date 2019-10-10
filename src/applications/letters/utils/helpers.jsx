@@ -17,7 +17,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   const requestUrl =
     resource[0] === '/' ? [baseUrl, resource].join('') : resource;
 
-  return commonApiClient(requestUrl, optionalSettings, success, error);
+  return commonApiClient(requestUrl, optionalSettings)
+    .then(success)
+    .catch(error);
 }
 
 export const addressUpdateUnavailable = (
