@@ -9,19 +9,6 @@ import {
 } from '../../utils/render';
 
 class VetTecProgramSearchResult extends React.Component {
-  estimate = ({ qualifier, value, range }) => {
-    if (qualifier === 'per month range') {
-      return (
-        <span>
-          {formatCurrency(range.start)} - {formatCurrency(range.end)}
-        </span>
-      );
-    } else if (qualifier === null) {
-      return value;
-    }
-    return <span>{formatCurrency(value)}</span>;
-  };
-
   render() {
     const { version, result } = this.props;
     const {
