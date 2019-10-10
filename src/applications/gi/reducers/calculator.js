@@ -40,6 +40,7 @@ const INITIAL_STATE = {
   vetTecTuitionFees: null,
   vetTecScholarships: null,
   vetTecProgramName: '',
+  classesOutsideUS: false,
 };
 
 export default function(state = INITIAL_STATE, action) {
