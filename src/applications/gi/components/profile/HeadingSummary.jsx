@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
-import { formatNumber } from '../../utils/helpers';
+import { formatNumber, locationInfo } from '../../utils/helpers';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -21,6 +21,8 @@ class HeadingSummary extends React.Component {
   render() {
     const it = this.props.institution;
     it.type = it.type && it.type.toLowerCase();
+    const formattedAddress = locationInfo(it.city, it.state, it.country);
+    const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
 
     const schoolSize = enrollment => {
       if (!enrollment) return 'Unknown';
@@ -81,8 +83,8 @@ class HeadingSummary extends React.Component {
           </div>
           <div>
             <div className="usa-width-one-half medium-6 small-12 column">
-              <IconWithInfo icon="map-marker" present={it.city && it.country}>
-                {it.city}, {it.state || it.country}
+              <IconWithInfo icon="map-marker" present={addressPresent}>
+                {formattedAddress}
               </IconWithInfo>
               <IconWithInfo icon="globe" present={it.website}>
                 <a href={it.website} target="_blank" rel="noopener noreferrer">

@@ -57,7 +57,7 @@ class CalculatedDisabilityRating extends React.Component {
           for your official rating.
         </p>
         <a
-          href="https://www.benefits.va.gov/compensation/rates-index.asp"
+          href="/disability/compensation-rates/"
           target="_blank"
           rel="noopener noreferrer"
         >

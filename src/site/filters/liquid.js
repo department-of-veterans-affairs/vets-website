@@ -19,23 +19,17 @@ module.exports = function registerFilters() {
   liquid.filters.humanizeTimestamp = dt =>
     moment.unix(dt).format('MMMM D, YYYY');
 
+  function prettyTimeFormatted(dt, format) {
+    const date = moment(dt).format(format);
+    return date.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
+  }
+
   liquid.filters.timeZone = (dt, tz, format) => {
     if (dt && tz) {
-      const tzOffset = new Date(dt).getTimezoneOffset(tz) * 60000;
-      const dtDate = new Date(
-        dt.toLocaleString('en-US', {
-          timeZone: tz,
-        }),
-      ).getTime();
-
-      const diffToMoment = dtDate - tzOffset;
-
-      const prettyTime = moment(diffToMoment).format(format);
-      const prettyTimeFormatted = prettyTime
-        .replace(/AM/g, 'a.m.')
-        .replace(/PM/g, 'p.m.');
-
-      return prettyTimeFormatted;
+      const timeZoneDate = new Date(dt).toLocaleString('en-US', {
+        timeZone: tz,
+      });
+      return prettyTimeFormatted(timeZoneDate, format);
     }
     return dt;
   };
@@ -47,13 +41,7 @@ module.exports = function registerFilters() {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
 
-  liquid.filters.formatDate = (dt, format) => {
-    const prettyTime = moment(dt).format(format);
-    const prettyTimeFormatted = prettyTime
-      .replace(/AM/g, 'a.m.')
-      .replace(/PM/g, 'p.m.');
-    return prettyTimeFormatted;
-  };
+  liquid.filters.formatDate = (dt, format) => prettyTimeFormatted(dt, format);
 
   liquid.filters.drupalToVaPath = content => {
     let replaced = content;

@@ -16,8 +16,17 @@ export function isCommunityCare(appt) {
   return !!appt.appointmentRequestId;
 }
 
+export function isGFEVideoVisit(appt) {
+  return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
+}
+
 export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments;
+  return !!appt.vvsAppointments || isGFEVideoVisit(appt);
+}
+
+export function getVideoVisitLink(appt) {
+  return appt.vvsAppointments?.[0]?.patients?.patient[0]?.virtualMeetingRoom
+    ?.url;
 }
 
 function getStagingId(facilityId) {
