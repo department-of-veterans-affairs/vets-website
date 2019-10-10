@@ -53,3 +53,45 @@
     max-width: none;
   }
 }
+
+.vaos-calendar {
+  display: flex;
+  .vaos-calendar__calendars {
+    flex: 1;
+
+    .vaos-calendar__weekday-container {
+      display: flex;
+      justify-content: space-between;
+  
+      .vaos-calendar__weekday {
+        width: 20%;
+      }
+    }
+  
+    .vaos-calendar__calendar-week {
+      display: flex;
+      justify-content: space-between;
+  
+      .vaos-calendar__calendar-day {
+        border-radius: 5px;
+        width: 18%;
+        text-align: center;
+
+        &.vaos-calendar__cell-selected {
+          background: blue !important;
+        }
+      }
+    }
+  }
+
+  .vaos-calendar__nav-links  {
+    margin-top: -30px;
+
+    button {
+      background: none;
+      &:disabled {
+        color: $color-gray-light !important;
+      }
+    }
+  }
+}
