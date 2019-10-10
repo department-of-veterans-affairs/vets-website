@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import _ from 'lodash';
 import moment from 'moment';
+import RatedDisabilityListItem from './RatedDisabilityListItem';
 
-class RatedDisabilityTable extends React.Component {
+class RatedDisabilityList extends React.Component {
   static propTypes = {
     fetchRatedDisabilities: PropTypes.func.isRequired,
     ratedDisabilities: PropTypes.shape({
@@ -113,23 +113,17 @@ class RatedDisabilityTable extends React.Component {
     return (
       <div className="vads-u-width--full">
         <h2 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin-y--1">
-          Your rated disabilities
+          Individual disability ratings
         </h2>
-        <SortableTable
-          className="va-table"
-          currentSort={{ value: 'String', order: 'ASC' }}
-          fields={[
-            { label: 'Disability', value: 'name' },
-            { label: 'Rating', value: 'ratingPercentage' },
-            { label: 'Decision', value: 'decisionText' },
-            { label: 'Related To', value: 'relatedTo' },
-            { label: 'Effective Date', value: 'effectiveDate' },
-          ]}
-          data={[...formattedDisabilities]}
-        />
+        {formattedDisabilities.map(disability => (
+          <RatedDisabilityListItem
+            ratedDisability={disability}
+            key={disability.ratingDecisionId}
+          />
+        ))}
       </div>
     );
   }
 }
 
-export default RatedDisabilityTable;
+export default RatedDisabilityList;

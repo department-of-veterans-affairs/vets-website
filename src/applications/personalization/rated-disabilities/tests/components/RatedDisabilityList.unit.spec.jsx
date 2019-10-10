@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import RatedDisabilityTable from '../../components/RatedDisabilityTable';
+import RatedDisabilityTable from '../../components/RatedDisabilityList';
 
 describe('<RatedDisabilityTable/>', () => {
   const ratedDisabilities = {
