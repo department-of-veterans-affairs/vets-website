@@ -121,8 +121,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
       });
 
       facilities = await getFacilitiesBySystemAndTypeOfCare(
-        typeOfCareId,
         data.vaSystem,
+        typeOfCareId,
       );
 
       dispatch({

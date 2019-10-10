@@ -63,10 +63,11 @@ export function getSystemDetails() {
   });
 }
 
-export function getFacilitiesBySystemAndTypeOfCare(typeOfCareId, facilityId) {
+// eslint-disable-next-line no-unused-vars
+export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   return new Promise(resolve => {
     setTimeout(() => {
-      if (facilityId === '984') {
+      if (systemId === '984') {
         resolve(mockFacility984Data);
       } else {
         resolve(mockFacility983Data);
