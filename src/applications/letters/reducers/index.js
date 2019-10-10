@@ -237,5 +237,5 @@ function letters(state = initialState, action) {
 
 export default {
   letters,
-  vet360
+  vet360,
 };

@@ -33,11 +33,7 @@ export class Main extends React.Component {
   render() {
     let appContent;
 
-    switch (
-      this.appAvailability(
-        this.props.lettersAvailability
-      )
-    ) {
+    switch (this.appAvailability(this.props.lettersAvailability)) {
       case available:
         appContent = this.props.children;
         break;
@@ -77,7 +73,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   // getBenefitSummaryOptions,
   // getLetterList,
-  getLetterListAndBSLOptions
+  getLetterListAndBSLOptions,
 };
 
 export default connect(

@@ -38,11 +38,7 @@ const emptyAddress = {
 describe('<AddressSection>', () => {
   it('should enable the View Letters button with default props', () => {
     const tree = shallow(<AddressSection {...defaultProps} />);
-    expect(
-      tree
-        .find('button')
-        .prop('disabled')
-    ).to.be.false;
+    expect(tree.find('button').prop('disabled')).to.be.false;
     tree.unmount();
   });
 
@@ -56,11 +52,7 @@ describe('<AddressSection>', () => {
         .first()
         .text(),
     ).to.equal("We don't have a valid address on file for you");
-    expect(
-      tree
-        .find('button')
-        .prop('disabled')
-    ).to.be.true;
+    expect(tree.find('button').prop('disabled')).to.be.true;
     tree.unmount();
   });
 });

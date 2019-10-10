@@ -22,14 +22,14 @@ export class AddressSection extends React.Component {
     const emptyAddress = isAddressEmpty(address);
     const { location } = this.props;
 
-    let addressContent = (
+    const addressContent = (
       <div className="step-content">
         <p>Downloaded documents will list your address as:</p>
         <MailingAddress />
         <p>
-          When you download a letter, it will show this address. If this address is
-          incorrect you may want to update it, but your letter will still be valid
-          even with the incorrect address.
+          When you download a letter, it will show this address. If this address
+          is incorrect you may want to update it, but your letter will still be
+          valid even with the incorrect address.
         </p>
       </div>
     );
@@ -69,6 +69,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-)(AddressSection);
+export default connect(mapStateToProps)(AddressSection);
