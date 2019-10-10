@@ -10,17 +10,10 @@ export default class CalendarRow extends Component {
     getSelectedDateOptions: PropTypes.func,
     handleSelectDate: PropTypes.func.isRequired,
     handleSelectOption: PropTypes.func,
+    optionsError: PropTypes.string,
     rowNumber: PropTypes.number.isRequired,
     selectedDates: PropTypes.object,
   };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showOptions: false,
-    };
-  }
 
   getCssClasses = date => {
     const cssClasses = ['vaos-calendar__calendar-day'];
@@ -53,7 +46,7 @@ export default class CalendarRow extends Component {
   };
 
   handleSelectDate = date => {
-    this.props.handleSelectDate(date);
+    this.props.handleSelectDate(date, this.props.rowNumber);
   };
 
   handleSelectOption = (fieldName, value) => {
@@ -63,25 +56,19 @@ export default class CalendarRow extends Component {
     });
   };
 
-  showOptions = () => {
-    this.setState({ showOptions: true });
-  };
-
-  hideOptions = () => {
-    this.setState({ showOptions: false });
-  };
-
   renderOptions = () => {
     const {
+      cells,
       currentlySelectedDate,
       selectedDates,
       getSelectedDateOptions,
+      optionsError,
     } = this.props;
 
     if (currentlySelectedDate && getSelectedDateOptions) {
       let showOptions = false;
 
-      for (let index = 0; index < this.props.cells.length; index++) {
+      for (let index = 0; index < cells.length; index++) {
         const cell = this.props.cells[index];
         if (cell !== null) {
           if (this.isCurrentlySelected(cell)) {
@@ -91,14 +78,24 @@ export default class CalendarRow extends Component {
       }
 
       if (showOptions) {
-        const additionalOptions = this.props.getSelectedDateOptions(
-          currentlySelectedDate,
-        );
+        const additionalOptions = getSelectedDateOptions(currentlySelectedDate);
 
         if (additionalOptions) {
           const fieldName = additionalOptions.fieldName;
           return (
-            <div className="vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2">
+            <div
+              className={`vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2${
+                optionsError ? ' usa-input-error' : ''
+              }`}
+            >
+              {optionsError && (
+                <span
+                  className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
+                  role="alert"
+                >
+                  <span className="sr-only">Error</span> {optionsError}
+                </span>
+              )}
               {additionalOptions?.options.map((o, index) => (
                 <div
                   key={`radio-${index}`}
@@ -155,6 +152,7 @@ export default class CalendarRow extends Component {
             return (
               <button
                 key={`row-${rowNumber}-cell-${index}`}
+                id={`date-cell-${date}`}
                 className={cssClasses.join(' ')}
                 onClick={() => this.handleSelectDate(date)}
                 disabled={this.isDisabled(date)}

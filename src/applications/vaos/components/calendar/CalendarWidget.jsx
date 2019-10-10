@@ -4,8 +4,17 @@ import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import { getCalendarWeeks } from '../../utils/calendar';
+import { validate } from 'jsonschema';
 
-class CalendarWidget extends Component {
+export default class CalendarWidget extends Component {
+  static props = {
+    // TODO: add "showWeekends" prop
+    availableDates: PropTypes.array,
+    monthsToShowAtOnce: PropTypes.number,
+    maxSelections: PropTypes.number,
+    getSelectedDateOptions: PropTypes.array,
+  };
+
   static defaultProps = {
     monthsToShowAtOnce: 1,
     maxSelections: 1,
@@ -20,12 +29,15 @@ class CalendarWidget extends Component {
       currentDate,
       months: [currentDate],
       currentlySelectedDate: null,
+      currentRowIndex: null,
       selectedDates: {},
+      optionsError: null,
     };
   }
 
   componentWillMount() {
     const monthsToShowAtOnce = this.props.monthsToShowAtOnce;
+
     // Updates months to show at once if > default setting
     if (monthsToShowAtOnce > this.state.months.length) {
       const months = [];
@@ -53,35 +65,74 @@ class CalendarWidget extends Component {
     this.setState({ months: updatedMonths });
   };
 
-  handleSelectDate = date => {
+  isValid = date => {
+    let isValid = true;
+
+    if (this.props.getSelectedDateOptions) {
+      const additionalOptions = this.props.getSelectedDateOptions(date);
+      if (
+        additionalOptions.required &&
+        this.state.selectedDates?.[date]?.[additionalOptions.fieldName] ===
+          undefined
+      ) {
+        isValid = false;
+        document.getElementById(`date-cell-${date}`).focus();
+        this.setState({ optionsError: additionalOptions.validationMessage });
+      } else {
+        this.setState({ optionsError: null });
+      }
+    }
+
+    return isValid;
+  };
+
+  handleSelectDate = (date, currentRowIndex) => {
     const { maxSelections } = this.props;
     const selectedDates = { ...this.state.selectedDates };
     const currentlySelectedDate = this.state.currentlySelectedDate;
+    const isInSelectedMap = selectedDates[date] !== undefined;
 
-    const alreadySelected = selectedDates[date] !== undefined;
+    if (maxSelections > 1) {
+      if (isInSelectedMap) {
+        if (currentlySelectedDate === date) {
+          // If already in map, "unselect" and remove from map
+          delete selectedDates[date];
+          this.setState({
+            currentlySelectedDate: null,
+            currentRowIndex: null,
+            selectedDates,
+            optionsError: null,
+          });
+        } else if (
+          !currentlySelectedDate ||
+          (currentlySelectedDate && this.isValid(currentlySelectedDate))
+        ) {
+          this.setState({
+            currentlySelectedDate: date,
+            currentRowIndex,
+          });
+        }
+      } else if (
+        Object.keys(selectedDates).length < maxSelections &&
+        (!currentlySelectedDate ||
+          (currentlySelectedDate && this.isValid(currentlySelectedDate)))
+      ) {
+        selectedDates[date] = {};
 
-    if (alreadySelected) {
-      if (currentlySelectedDate === date && maxSelections > 1) {
-        delete selectedDates[date];
         this.setState({
-          currentlySelectedDate: null,
+          currentlySelectedDate: date,
           selectedDates,
+          currentRowIndex,
         });
-      } else {
-        this.setState({ currentlySelectedDate: date });
       }
-    } else if (
-      maxSelections === 1 ||
-      (maxSelections > 1 && Object.keys(selectedDates).length < maxSelections)
-    ) {
-      if (maxSelections === 1 && currentlySelectedDate) {
-        delete selectedDates[currentlySelectedDate];
-      }
+    } else {
+      delete selectedDates[currentlySelectedDate];
       selectedDates[date] = {};
 
       this.setState({
         currentlySelectedDate: date,
         selectedDates,
+        currentRowIndex,
       });
     }
   };
@@ -90,7 +141,7 @@ class CalendarWidget extends Component {
     const currentlySelectedDate = this.state.currentlySelectedDate;
     const selectedDates = { ...this.state.selectedDates };
     selectedDates[currentlySelectedDate][data.fieldName] = data.value;
-    this.setState({ selectedDates });
+    this.setState({ selectedDates, optionsError: null });
   };
 
   renderWeekdayLabels = () => (
@@ -120,6 +171,9 @@ class CalendarWidget extends Component {
         handleSelectOption={this.handleSelectOption}
         selectedDates={this.state.selectedDates}
         currentlySelectedDate={this.state.currentlySelectedDate}
+        optionsError={
+          this.state.currentRowIndex === index ? this.state.optionsError : null
+        }
       />
     ));
 
@@ -163,12 +217,3 @@ class CalendarWidget extends Component {
     );
   }
 }
-
-CalendarWidget.props = {
-  availableDates: PropTypes.array,
-  monthsToShowAtOnce: PropTypes.number,
-  maxSelections: PropTypes.number,
-  getSelectedDateOptions: PropTypes.array,
-};
-
-export default CalendarWidget;
