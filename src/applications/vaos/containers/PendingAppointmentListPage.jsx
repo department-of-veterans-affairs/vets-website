@@ -41,8 +41,14 @@ export class PendingAppointmentListPage extends React.Component {
                   </h2>
                   <p>
                     You can schedule an appointment now, or you can call your{' '}
-                    <a href="/find-locations">VA Medical center</a> to schedule
-                    an appointment.
+                    <a
+                      href="/find-locations"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      VA Medical center
+                    </a>{' '}
+                    to schedule an appointment.
                   </p>
                   <p>
                     You may have confirmed appointments.{' '}
