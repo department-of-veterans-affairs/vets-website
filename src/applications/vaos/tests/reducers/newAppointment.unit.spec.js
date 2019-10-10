@@ -11,7 +11,7 @@ import {
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
-  // FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -340,6 +340,33 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
       expect(newState.loadingEligibility).to.be.true;
+    });
+
+    it('should set eligibility and clinic info on state', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId: '323',
+        eligibilityData: {
+          clinics: [],
+          directPastVisit: {},
+          requestPastVisit: {},
+          requestLimits: {},
+          pacTeam: [],
+        },
+      };
+      const state = {
+        ...defaultState,
+        data: {
+          ...defaultState.data,
+          vaFacility: '983',
+        },
+      };
+
+      const newState = newAppointmentReducer(state, action);
+      expect(newState.clinics['983_323']).to.equal(
+        action.eligibilityData.clinics,
+      );
+      expect(newState.eligibility['983_323']).to.not.be.undefined;
     });
   });
 });
