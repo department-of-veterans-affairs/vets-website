@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import CalculatorForm from '../../components/profile/CalculatorForm';
+import { singleSchool } from '../gibct-helpers';
 
 const props = {
   eligibility: {
@@ -11,7 +12,9 @@ const props = {
   },
 
   profile: {
+    ...singleSchool.data,
     attributes: {
+      ...singleSchool.data.attributes,
       facilityCode: '11900146',
       facilityMap: {
         main: {
