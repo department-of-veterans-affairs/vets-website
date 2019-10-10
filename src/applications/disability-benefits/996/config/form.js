@@ -20,7 +20,7 @@ import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 import {
   uiSchema as contactInfoUiSchema,
   schema as contactInfoSchema,
-} from '../pages/contactInfo';
+} from '../pages/contactInformation';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
@@ -79,7 +79,7 @@ const formConfig = {
             veteran: initialData,
           },
         },
-        confirmContactInfo: {
+        confirmContactInformation: {
           title: 'Contact information',
           path: 'veteran-details/contact-information',
           uiSchema: contactInfoUiSchema,
