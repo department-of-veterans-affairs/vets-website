@@ -17,12 +17,9 @@ export default class FacilityListWidget extends React.Component {
 
   componentDidMount() {
     const facilityIds = Object.keys(this.props.facilities);
-    this.request = apiRequest(
-      `/facilities/va?ids=${facilityIds}`,
-      null,
-      this.handleFacilitiesSuccess,
-      this.handleFacilitiesError,
-    );
+    this.request = apiRequest(`/facilities/va?ids=${facilityIds}`)
+      .then(this.handleFacilitiesSuccess)
+      .catch(this.handleFacilitiesError);
   }
 
   handleFacilitiesSuccess = facilities => {
