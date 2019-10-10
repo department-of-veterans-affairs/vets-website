@@ -18,7 +18,7 @@ export class AddressSection extends React.Component {
   };
 
   render() {
-    const address = this.props.mailingAddress;
+    const address = this.props.savedAddress;
     const emptyAddress = isAddressEmpty(address);
     const { location } = this.props;
 
@@ -65,7 +65,7 @@ export class AddressSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    mailingAddress: state.user.profile.vet360.mailingAddress,
+    savedAddress: state.user.profile.vet360.mailingAddress,
   };
 }
 
