@@ -23,11 +23,11 @@ export class EligibilityForm extends React.Component {
     { value: 'purple heart', label: 'Purple Heart Service: 100%' },
   ];
 
-  renderLearnMoreLabel = ({ text, modal, learnMoreMessage }) =>
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
       modal,
-      learnMoreMessage,
+      ariaLabel,
       showModal: this.props.showModal,
       component: this,
     });
@@ -70,7 +70,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
-            learnMoreMessage: 'Learn more about GI Bill benefits',
+            ariaLabel: 'Learn more about GI Bill benefits',
           })}
           name="giBillChapter"
           options={[
@@ -125,8 +125,8 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
-            learnMoreMessage:
-              '“Learn more about cumulative Post-9/11 active duty service”',
+            ariaLabel:
+              'Learn more about cumulative Post-9/11 active duty service',
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
