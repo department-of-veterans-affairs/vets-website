@@ -46,6 +46,7 @@ export default class CalendarRow extends Component {
       handleSelectOption,
       optionsError,
       selectedDates,
+      getSelectedDateOptions,
     } = this.props;
 
     if (
@@ -130,7 +131,6 @@ export default class CalendarRow extends Component {
           </div>
         );
       }
-      return null;
     }
     return null;
   };

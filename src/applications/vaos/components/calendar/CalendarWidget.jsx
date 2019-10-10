@@ -279,7 +279,7 @@ export default class CalendarWidget extends Component {
         cells={week}
         availableDates={this.props.availableDates}
         rowNumber={index}
-        additionalOptions={this.props.additionalOptions}
+        getSelectedDateOptions={this.props.getSelectedDateOptions}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
         selectedDates={this.props.selectedDates || []}

@@ -32,7 +32,7 @@ export class DateTimeRequestPage extends React.Component {
           monthsToShowAtOnce={2}
           multiSelect
           maxSelections={3}
-          additionalOptions={{
+          getSelectedDateOptions={() => ({
             fieldName: 'optionTime',
             options: [
               {
@@ -44,7 +44,7 @@ export class DateTimeRequestPage extends React.Component {
                 label: 'PM',
               },
             ],
-          }}
+          })}
         />
       </div>
     );
