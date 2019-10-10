@@ -5,25 +5,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
 
 // Quick fix for table styling
-table {
-    margin: 0;
-    background-color: #f1f1f1;
-}
-tr {
-    background: #f1f1f1 !important;
-}
 
-tr td:first-child {
-    width: 20%;
-    font-weight: 700;
-}
-
-td,
-th {
-    border: none;
-    background: #f1f1f1;
-    padding: 5px 0 2px;
-}
 
 .rated-disability-item-container {
     background-color: #f1f1f1;
@@ -31,8 +13,10 @@ th {
     padding: 1em;
 }
 
-@media (max-width: $small-screen) {
-    tr td:first-child {
-        width: 50%;
-    }
+.disability-item-label {
+    font-weight: 700;
+    margin: 0;
+}
+.disability-item-desc {
+    margin: 0;
 }

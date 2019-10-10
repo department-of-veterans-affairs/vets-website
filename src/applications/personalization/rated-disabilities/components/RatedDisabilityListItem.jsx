@@ -11,30 +11,46 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
   } = ratedDisability;
   return (
     <div className="rated-disability-item-container">
-      <table>
-        <tbody>
-          <tr>
-            <td>Disability</td>
-            <td>{name}</td>
-          </tr>
-          <tr>
-            <td>Decision</td>
-            <td>{decisionText}</td>
-          </tr>
-          <tr>
-            <td>Related to</td>
-            <td>{relatedTo}</td>
-          </tr>
-          <tr>
-            <td>Effective Date</td>
-            <td>{effectiveDate}</td>
-          </tr>
-          <tr>
-            <td>Decision</td>
-            <td>{ratingPercentage}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="vads-l-row">
+        <div className="vads-l-col--4 medium-screen:vads-l-col--3">
+          <p className="disability-item-label">Disability</p>
+        </div>
+        <div className="vads-l-col--8 medium-screeen:vads-l-col--9">
+          <p className="disability-item-desc">{name}</p>
+        </div>
+      </div>
+      <div className="vads-l-row">
+        <div className="vads-l-col--4 medium-screen:vads-l-col--3">
+          <p className="disability-item-label">Decision</p>
+        </div>
+        <div className="vads-l-col--8 medium-screeen:vads-l-col--9">
+          <p className="disability-item-desc">{decisionText}</p>
+        </div>
+      </div>
+      <div className="vads-l-row">
+        <div className="vads-l-col--4 medium-screen:vads-l-col--3">
+          <p className="disability-item-label">Related To</p>
+        </div>
+        <div className="vads-l-col--8 medium-screeen:vads-l-col--9">
+          <p className="disability-item-desc">{relatedTo}</p>
+        </div>
+      </div>
+      <div className="vads-l-row">
+        <div className="vads-l-col--4 medium-screen:vads-l-col--3">
+          <p className="disability-item-label">Effective Date</p>
+        </div>
+        <div className="vads-l-col--8 medium-screeen:vads-l-col--9">
+          <p className="disability-item-desc">{effectiveDate}</p>
+        </div>
+      </div>
+      <div className="vads-l-row">
+        <div className="vads-l-col--4 medium-screen:vads-l-col--3">
+          <p className="disability-item-label">Rating</p>
+        </div>
+        <div className="vads-l-col--8 medium-screeen:vads-l-col--9">
+          <p className="disability-item-desc">{ratingPercentage}</p>
+        </div>
+      </div>
     </div>
   );
 };
