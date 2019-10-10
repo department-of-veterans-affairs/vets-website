@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
-import { getCalendarCells, getCalendarWeeks } from '../../utils/calendar';
+import { getCalendarWeeks } from '../../utils/calendar';
 
 class CalendarWidget extends Component {
   static defaultProps = {
@@ -61,7 +61,7 @@ class CalendarWidget extends Component {
     const alreadySelected = selectedDates[date] !== undefined;
 
     if (alreadySelected) {
-      if (currentlySelectedDate === date) {
+      if (currentlySelectedDate === date && maxSelections > 1) {
         delete selectedDates[date];
         this.setState({
           currentlySelectedDate: null,
@@ -70,8 +70,15 @@ class CalendarWidget extends Component {
       } else {
         this.setState({ currentlySelectedDate: date });
       }
-    } else if (Object.keys(selectedDates).length < maxSelections) {
+    } else if (
+      maxSelections === 1 ||
+      (maxSelections > 1 && Object.keys(selectedDates).length < maxSelections)
+    ) {
+      if (maxSelections === 1 && currentlySelectedDate) {
+        delete selectedDates[currentlySelectedDate];
+      }
       selectedDates[date] = {};
+
       this.setState({
         currentlySelectedDate: date,
         selectedDates,
@@ -105,7 +112,8 @@ class CalendarWidget extends Component {
     getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
         key={`row-${index}`}
-        dates={week}
+        cells={week}
+        availableDates={this.props.availableDates}
         rowNumber={index}
         getSelectedDateOptions={this.props.getSelectedDateOptions}
         handleSelectDate={this.handleSelectDate}
@@ -117,12 +125,9 @@ class CalendarWidget extends Component {
 
   renderMonth = (month, index) => (
     <>
-      <span
-        className="vads-u-font-weight--bold vads-u-text-align--center vads-u-display--block vads-u-font-family--serif
-"
-      >
+      <h3 className="vads-u-font-weight--bold vads-u-text-align--center vads-u-display--block vads-u-font-family--serif">
         {month.format('MMMM YYYY')}
-      </span>
+      </h3>
 
       {index === 0 && (
         <CalendarNavigation
@@ -160,6 +165,7 @@ class CalendarWidget extends Component {
 }
 
 CalendarWidget.props = {
+  availableDates: PropTypes.array,
   monthsToShowAtOnce: PropTypes.number,
   maxSelections: PropTypes.number,
   getSelectedDateOptions: PropTypes.array,

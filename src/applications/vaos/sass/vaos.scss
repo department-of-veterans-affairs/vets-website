@@ -76,10 +76,17 @@
       .vaos-calendar__calendar-day {
         border-radius: 5px;
         width: 18%;
-        text-align: center;
+        color: $color-base;
+        background-color: $color-gray-lightest;
+        border: 1px solid $color-base;
+        padding: 12px unset;
+        margin: 8px auto;
 
         &.vaos-calendar__cell-selected {
           position: relative;
+          background-color: $color-primary;
+          border-color: $color-primary;
+          color: $color-white;
         }
 
         .fa-check {
@@ -104,11 +111,18 @@
             border-radius: 0 0 0 0.25em;
           }
         }
+
+        &:disabled {
+          background-color: $color-gray-lightest;
+          border-color: $color-gray-lightest;
+          color: $color-gray-light;
+        }
       }
     }
 
     .vaos-calendar__options {
       .vaos-calendar__option {
+        width: 158px;
         border-radius: 5px;
 
         input[type="radio"] {

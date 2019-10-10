@@ -6,38 +6,73 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
-import { PURPOSE_TEXT } from '../utils/constants';
+import slots from './../api/slots.json';
+import Calendar from './../components/calendar/CalendarWidget';
+import { focusElement } from 'platform/utilities/ui';
+import moment from 'moment-timezone';
 
-const initialSchema = {
-  type: 'object',
-  required: ['reasonForAppointment'],
-  properties: {
-    reasonForAppointment: {
-      type: 'string',
-      enum: ['routine-follow-up', 'new-issue', 'medication-concern'],
-    },
-  },
-};
+const pageKey = 'dateTimeSelect';
 
-const uiSchema = {
-  reasonForAppointment: {
-    'ui:widget': 'radio',
-    'ui:options': {
-      hideLabelText: true,
-      labels: PURPOSE_TEXT,
-    },
-  },
-};
+const institutionTimezone = 'America/Denver';
 
-const pageKey = 'reasonForAppointment';
+export class DateTimeSelectPage extends React.Component {
+  constructor(props) {
+    super(props);
 
-export class ReasonForAppointmentPage extends React.Component {
-  componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.state = {
+      slotMap: {},
+      avaialbleDatesArray: [],
+    };
   }
+
+  componentDidMount() {
+    focusElement('h1.vads-u-font-size--h2');
+    this.mapSlots();
+  }
+
+  getSelectedDateOptions = selectedDateTime => {
+    const data = this.state.slotMap[selectedDateTime];
+    if (data?.times?.length) {
+      return {
+        fieldName: 'datetime',
+        options: data.times.map(t => ({
+          value: t.format(),
+          label: t.format('h:mm A z'),
+        })),
+        required: true,
+      };
+    }
+
+    return null;
+  };
+
+  mapSlots = () => {
+    const availableSlots = this.props.availableSlots[0].appointmentTimeSlot;
+    const slotMap = {};
+    const availableDatesArray = [];
+    for (let index = 0; index < availableSlots.length; index++) {
+      const slot = availableSlots[index];
+      let dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
+      dateObj = dateObj.tz(institutionTimezone);
+      const dateString = dateObj.format('YYYY-MM-DD');
+      if (!availableDatesArray.includes(dateString)) {
+        availableDatesArray.push(dateString);
+      }
+      if (slotMap[dateString]) {
+        slotMap[dateString].times.push(dateObj);
+      } else {
+        slotMap[dateString] = {
+          times: [dateObj],
+        };
+      }
+    }
+
+    this.setState({
+      slotMap,
+      availableDatesArray,
+    });
+  };
 
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
@@ -48,37 +83,24 @@ export class ReasonForAppointmentPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
-
     return (
       <div className="vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
-          Why do you want to make an
-          <br /> appointment?
+          What date and time would you like to make an appointment?
         </h1>
-        <SchemaForm
-          name="Reason for appointment"
-          title="Reason for appointment"
-          schema={schema || initialSchema}
-          uiSchema={uiSchema}
-          onSubmit={this.goForward}
-          onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
-          }
-          data={data}
-        >
-          <FormButtons
-            onBack={this.goBack}
-            pageChangeInProgress={pageChangeInProgress}
-          />
-        </SchemaForm>
+        <Calendar
+          availableDates={this.state.availableDatesArray}
+          monthsToShowAtOnce={2}
+          maxSelections={1}
+          getSelectedDateOptions={this.getSelectedDateOptions}
+        />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  return { ...getFormPageInfo(state, pageKey), availableSlots: slots };
 }
 
 const mapDispatchToProps = {
@@ -91,4 +113,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReasonForAppointmentPage);
+)(DateTimeSelectPage);

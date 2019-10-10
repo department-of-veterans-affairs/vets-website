@@ -4,9 +4,10 @@ import moment from 'moment';
 
 export default class CalendarRow extends Component {
   static propTypes = {
-    getSelectedDateOptions: PropTypes.func,
-    dates: PropTypes.array.isRequired,
+    availableDates: PropTypes.array,
+    cells: PropTypes.array.isRequired,
     currentlySelectedDate: PropTypes.string,
+    getSelectedDateOptions: PropTypes.func,
     handleSelectDate: PropTypes.func.isRequired,
     handleSelectOption: PropTypes.func,
     rowNumber: PropTypes.number.isRequired,
@@ -22,31 +23,13 @@ export default class CalendarRow extends Component {
   }
 
   getCssClasses = date => {
-    let cssClasses = [
-      'vaos-calendar__calendar-day',
-      'vads-u-color--base',
-      'vads-u-background-color--gray-lightest',
-      'vads-u-border--1px',
-      'vads-u-border-color--base',
-      'vads-u-padding-y--1p5',
-      'vads-u-font-weight--bold',
-      'vads-u-margin-y--1',
-    ];
+    const cssClasses = ['vaos-calendar__calendar-day'];
 
     if (this.isCurrentlySelected(date))
       cssClasses.push('vaos-calendar__cell-current');
 
     if (this.isInSelectedMap(date)) {
-      cssClasses = cssClasses.filter(
-        cssClass =>
-          ![
-            'vads-u-background-color--gray-lightest',
-            'vads-u-border--1px',
-            'vads-u-color--base',
-          ].includes(cssClass),
-      );
       cssClasses.push('vaos-calendar__cell-selected');
-      cssClasses.push('vads-u-background-color--primary');
     }
 
     return cssClasses;
@@ -55,6 +38,15 @@ export default class CalendarRow extends Component {
   isCurrentlySelected = date => this.props.currentlySelectedDate === date;
 
   isInSelectedMap = date => this.props.selectedDates[date] !== undefined;
+
+  isDisabled = date => {
+    const { availableDates } = this.props;
+    let disabled = false;
+    if (Array.isArray(availableDates) && !availableDates.includes(date)) {
+      disabled = true;
+    }
+    return disabled;
+  };
 
   handleSelectDate = date => {
     this.props.handleSelectDate(date);
@@ -85,8 +77,8 @@ export default class CalendarRow extends Component {
     if (currentlySelectedDate && getSelectedDateOptions) {
       let showOptions = false;
 
-      for (let index = 0; index < this.props.dates.length; index++) {
-        const cell = this.props.dates[index];
+      for (let index = 0; index < this.props.cells.length; index++) {
+        const cell = this.props.cells[index];
         if (cell !== null) {
           if (this.isCurrentlySelected(cell)) {
             showOptions = true;
@@ -102,11 +94,11 @@ export default class CalendarRow extends Component {
         if (additionalOptions) {
           const fieldName = additionalOptions.fieldName;
           return (
-            <div className="vaos-calendar__options vads-u-display--flex vads-u-margin-y--2">
+            <div className="vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2">
               {additionalOptions?.options.map((o, index) => (
                 <div
                   key={`radio-${index}`}
-                  className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--3 vads-u-margin-right--1 vads-u-border-color--primary"
+                  className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1p5 vads-u-padding-x--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-border-color--primary"
                 >
                   <input
                     id={`radio-${index}`}
@@ -132,21 +124,19 @@ export default class CalendarRow extends Component {
             </div>
           );
         }
-
         return null;
       }
     }
-
     return null;
   };
 
   render() {
-    const { dates, rowNumber } = this.props;
+    const { cells, rowNumber } = this.props;
 
     return (
       <div>
         <div className="vaos-calendar__calendar-week">
-          {dates.map((date, index) => {
+          {cells.map((date, index) => {
             if (date === null) {
               return (
                 <button
@@ -163,6 +153,7 @@ export default class CalendarRow extends Component {
                 key={`row-${rowNumber}-cell-${index}`}
                 className={cssClasses.join(' ')}
                 onClick={() => this.handleSelectDate(date)}
+                disabled={this.isDisabled(date)}
               >
                 {this.isInSelectedMap(date) && (
                   <i className="fas fa-check vads-u-color--white" />
