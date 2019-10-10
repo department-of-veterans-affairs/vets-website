@@ -19,17 +19,22 @@ class RatedDisabilityView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
-          <RatedDisabilityList
-            fetchRatedDisabilities={fetchRatedDisabilities}
-            ratedDisabilities={ratedDisabilities}
-          />
+          <>
+            <RatedDisabilityList
+              fetchRatedDisabilities={fetchRatedDisabilities}
+              ratedDisabilities={ratedDisabilities}
+            />
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
+              <h3>Side Bar here</h3>
+            </div>
+          </>
         );
       }
     }
 
     return (
       <div className="vads-l-grid-container">
-        <div className="vads-l-row">{content}</div>
+        <div className="vads-l-row vads-u-margin-x--neg2p5">{content}</div>
       </div>
     );
   }

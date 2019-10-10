@@ -111,7 +111,7 @@ class RatedDisabilityList extends React.Component {
     );
 
     return (
-      <div className="vads-u-width--full">
+      <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
         <h2 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin-y--1">
           Individual disability ratings
         </h2>
