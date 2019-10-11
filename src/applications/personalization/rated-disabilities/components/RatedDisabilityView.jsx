@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RatedDisabilityTable from './RatedDisabilityTable';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
+import RatedDisabilitiesSidebar from '../components/RatedDisabilitiesSidebar';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
@@ -40,7 +41,7 @@ class RatedDisabilityView extends React.Component {
               />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              Sidebar goes here
+              <RatedDisabilitiesSidebar />
             </div>
           </>
         );
