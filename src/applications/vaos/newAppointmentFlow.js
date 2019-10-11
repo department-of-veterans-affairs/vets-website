@@ -125,7 +125,14 @@ export default {
   clinicChoice: {
     url: '/new-appointment/clinics',
     previous: 'vaFacility',
-    next: 'reasonForAppointment',
+    next(state) {
+      if (getFormData(state).clinicId === 'NONE') {
+        // When there's an appointment time page, go there instead
+        return 'reasonForAppointment';
+      }
+
+      return 'reasonForAppointment';
+    },
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
