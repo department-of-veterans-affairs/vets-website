@@ -85,16 +85,9 @@ export function convertSelectedDatesObjToArray(selectedDatesObj) {
 }
 
 export function convertSelectedDatesArrayToObj(selectedDatesArray) {
-  const selectedDateObj = {};
-  for (let index = 0; index < selectedDatesArray.length; index++) {
-    const dateObj = selectedDatesArray[index];
-    const date = dateObj.date;
-    selectedDateObj[date] = {};
-    Object.keys(dateObj).forEach(key => {
-      if (key !== 'date') {
-        selectedDateObj[date][key] = dateObj[key];
-      }
-    });
-  }
-  return selectedDateObj;
+  return selectedDatesArray.reduce((obj, item) => {
+    const result = { ...obj };
+    result[item.date] = item;
+    return result;
+  }, {});
 }

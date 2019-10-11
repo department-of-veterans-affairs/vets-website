@@ -17,9 +17,9 @@ export default class CalendarRow extends Component {
     selectedDates: PropTypes.object,
   };
 
-  isCurrentlySelected = date => this.props.currentlySelectedDate === date;
-
   isDisabled = date => {
+    // If user provides an array of availableDates, disable dates that are not
+    // in the array.  Otherwise, assume all dates <= today are valid
     const { availableDates } = this.props;
     let disabled = false;
 
@@ -32,98 +32,83 @@ export default class CalendarRow extends Component {
     return disabled;
   };
 
-  handleSelectDate = date => {
-    this.props.handleSelectDate(date, this.props.rowNumber);
-  };
-
-  handleSelectOption = (fieldName, value) => {
-    this.props.handleSelectOption({
-      fieldName,
-      value,
-    });
-  };
-
   renderOptions = () => {
     const {
       cells,
       currentlySelectedDate,
-      selectedDates,
       getSelectedDateOptions,
+      handleSelectOption,
       optionsError,
+      selectedDates,
     } = this.props;
 
-    if (currentlySelectedDate && getSelectedDateOptions) {
-      let showOptions = false;
+    if (
+      currentlySelectedDate &&
+      cells.includes(currentlySelectedDate) &&
+      getSelectedDateOptions
+    ) {
+      const additionalOptions = getSelectedDateOptions(currentlySelectedDate);
 
-      let selectedCellIndex;
+      if (additionalOptions) {
+        const selectedCellIndex = cells.indexOf(currentlySelectedDate);
+        const fieldName = additionalOptions.fieldName;
 
-      for (let index = 0; index < cells.length; index++) {
-        const cell = this.props.cells[index];
-        if (cell !== null) {
-          if (this.isCurrentlySelected(cell)) {
-            showOptions = true;
-            selectedCellIndex = index;
+        let justify = 'vads-u-justify-content--flex-start';
+
+        // If list of items is won't fill row, align items closer to selected cell
+        if (additionalOptions?.options?.length < 4) {
+          if (selectedCellIndex === 2) {
+            justify = 'vads-u-justify-content--center';
+          } else if (selectedCellIndex === 3 || selectedCellIndex === 4) {
+            justify = 'vads-u-justify-content--flex-end';
           }
         }
+
+        return (
+          <div
+            className={`vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2${
+              optionsError ? ' usa-input-error' : ''
+            } ${justify}`}
+          >
+            {optionsError && (
+              <span
+                className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
+                role="alert"
+              >
+                <span className="sr-only">Error</span> {optionsError}
+              </span>
+            )}
+            {additionalOptions?.options.map((o, index) => (
+              <CalendarRadioOption
+                key={`radio-${index}`}
+                index={index}
+                fieldName={fieldName}
+                value={o.value}
+                checked={
+                  selectedDates[currentlySelectedDate][fieldName] === o.value
+                }
+                onChange={e =>
+                  handleSelectOption({ fieldName, value: e.target.value })
+                }
+                label={o.label}
+              />
+            ))}
+          </div>
+        );
       }
-
-      if (showOptions) {
-        const additionalOptions = getSelectedDateOptions(currentlySelectedDate);
-
-        if (additionalOptions) {
-          const fieldName = additionalOptions.fieldName;
-
-          let justify = 'vads-u-justify-content--flex-start';
-
-          // If list is items is won't fill row, align items closer to selected cell
-          if (additionalOptions?.options?.length < 4) {
-            if (selectedCellIndex === 2) {
-              justify = 'vads-u-justify-content--center';
-            } else if (selectedCellIndex === 3 || selectedCellIndex === 4) {
-              justify = 'vads-u-justify-content--flex-end';
-            }
-          }
-
-          return (
-            <div
-              className={`vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2${
-                optionsError ? ' usa-input-error' : ''
-              } ${justify}`}
-            >
-              {optionsError && (
-                <span
-                  className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
-                  role="alert"
-                >
-                  <span className="sr-only">Error</span> {optionsError}
-                </span>
-              )}
-              {additionalOptions?.options.map((o, index) => (
-                <CalendarRadioOption
-                  key={`radio-${index}`}
-                  index={index}
-                  fieldName={fieldName}
-                  value={o.value}
-                  checked={
-                    selectedDates[currentlySelectedDate][fieldName] === o.value
-                  }
-                  onChange={e =>
-                    this.handleSelectOption(fieldName, e.target.value)
-                  }
-                  label={o.label}
-                />
-              ))}
-            </div>
-          );
-        }
-        return null;
-      }
+      return null;
     }
     return null;
   };
 
   render() {
-    const { cells, rowNumber, selectedDates } = this.props;
+    const {
+      cells,
+      currentlySelectedDate,
+      handleSelectDate,
+      rowNumber,
+      selectedDates,
+    } = this.props;
 
     return (
       <div>
@@ -133,9 +118,9 @@ export default class CalendarRow extends Component {
               key={`row-${rowNumber}-cell-${index}`}
               date={date}
               formattedDate={moment(date).format('D')}
-              isCurrentlySelected={this.isCurrentlySelected(date)}
+              isCurrentlySelected={currentlySelectedDate === date}
               isInSelectedMap={selectedDates[date] !== undefined}
-              onClick={this.handleSelectDate}
+              onClick={() => handleSelectDate(date, rowNumber)}
               disabled={this.isDisabled(date)}
             />
           ))}

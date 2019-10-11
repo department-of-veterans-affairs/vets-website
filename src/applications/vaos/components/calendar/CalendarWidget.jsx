@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
+import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 import {
   getCalendarWeeks,
   // convertSelectedDatesObjToArray,
@@ -16,6 +17,7 @@ export default class CalendarWidget extends Component {
     monthsToShowAtOnce: PropTypes.number,
     maxSelections: PropTypes.number,
     getSelectedDateOptions: PropTypes.array,
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -120,7 +122,9 @@ export default class CalendarWidget extends Component {
         (!currentlySelectedDate ||
           (currentlySelectedDate && this.isValid(currentlySelectedDate)))
       ) {
-        selectedDates[date] = {};
+        selectedDates[date] = {
+          date,
+        };
 
         this.setState({
           currentlySelectedDate: date,
@@ -128,9 +132,11 @@ export default class CalendarWidget extends Component {
           currentRowIndex,
         });
       }
-    } else {
+    } else if (date !== currentlySelectedDate) {
       delete selectedDates[currentlySelectedDate];
-      selectedDates[date] = {};
+      selectedDates[date] = {
+        date,
+      };
 
       this.setState({
         currentlySelectedDate: date,
@@ -146,21 +152,6 @@ export default class CalendarWidget extends Component {
     selectedDates[currentlySelectedDate][data.fieldName] = data.value;
     this.setState({ selectedDates, optionsError: null });
   };
-
-  renderWeekdayLabels = () => (
-    <div className="vaos-calendar__weekday-container">
-      {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map(
-        (day, index) => (
-          <div
-            key={`weekday-${index}`}
-            className="vaos-calendar__weekday vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0p5"
-          >
-            {day}
-          </div>
-        ),
-      )}
-    </div>
-  );
 
   renderWeeks = month =>
     getCalendarWeeks(month).map((week, index) => (
@@ -198,7 +189,7 @@ export default class CalendarWidget extends Component {
         />
       )}
       <hr className="vads-u-margin-y--1" />
-      {this.renderWeekdayLabels()}
+      <CalendarWeekdayHeader />
       {this.renderWeeks(month)}
     </>
   );
