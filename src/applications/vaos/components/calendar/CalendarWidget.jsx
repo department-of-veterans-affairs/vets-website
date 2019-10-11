@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
-import { getCalendarWeeks } from '../../utils/calendar';
+import {
+  getCalendarWeeks,
+  // convertSelectedDatesObjToArray,
+  // convertSelectedDatesArrayToObj,
+} from '../../utils/calendar';
 
 export default class CalendarWidget extends Component {
   static props = {
