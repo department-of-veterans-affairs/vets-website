@@ -130,6 +130,7 @@ export default class CalendarRow extends Component {
           </div>
         );
       }
+      return null;
     }
     return null;
   };
