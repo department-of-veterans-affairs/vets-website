@@ -130,7 +130,13 @@ export default {
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next: 'visitType',
-    previous: 'vaFacility',
+    previous(state) {
+      if (getFormData(state).clinicId) {
+        return 'clinicChoice';
+      }
+
+      return 'vaFacility';
+    },
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',
