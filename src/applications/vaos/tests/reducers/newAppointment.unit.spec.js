@@ -12,6 +12,9 @@ import {
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  // START_DIRECT_SCHEDULE_FLOW,
+  // FORM_CLINIC_PAGE_OPENED,
+  // FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';

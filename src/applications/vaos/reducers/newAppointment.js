@@ -25,8 +25,9 @@ import {
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-  FORM_CLINIC_PAGE_OPENED,
   START_DIRECT_SCHEDULE_FLOW,
+  FORM_CLINIC_PAGE_OPENED,
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
 } from '../actions/newAppointment';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -42,6 +43,8 @@ const initialState = {
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingEligibility: false,
+  loadingFacilityDetails: false,
+  pastAppointments: null,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -337,6 +340,12 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_CLINIC_PAGE_OPENED: {
+      return {
+        ...state,
+        loadingFacilityDetails: true,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
       let newSchema = action.schema;
       const pastAppointmentDateMap = new Map();
       state.pastAppointments.forEach(appt => {
@@ -399,6 +408,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         data,
+        loadingFacilityDetails: false,
         facilityDetails: {
           ...state.facilityDetails,
           [state.data.vaFacility]: action.facilityDetails,

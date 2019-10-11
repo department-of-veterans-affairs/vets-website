@@ -134,12 +134,14 @@ export function getClinicsForChosenFacility(state) {
 
 export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
-  const facilityDetails = getNewAppointment(state).facilityDetails;
+  const newAppointment = getNewAppointment(state);
+  const facilityDetails = newAppointment.facilityDetails;
 
   return {
     ...formPageInfo,
     facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
+    loadingFacilityDetails: newAppointment.loadingFacilityDetails,
   };
 }

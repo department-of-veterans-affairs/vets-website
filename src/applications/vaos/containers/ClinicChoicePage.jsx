@@ -53,10 +53,13 @@ export class ClinicChoicePage extends React.Component {
       facilityDetails,
       typeOfCare,
       clinics,
+      loadingFacilityDetails,
     } = this.props;
 
-    if (!schema) {
-      return <LoadingIndicator>Loading your clinic choices</LoadingIndicator>;
+    if (!schema || loadingFacilityDetails) {
+      return (
+        <LoadingIndicator message="Loading your facility and clinic info" />
+      );
     }
 
     return (
