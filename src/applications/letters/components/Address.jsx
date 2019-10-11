@@ -99,7 +99,7 @@ class Address extends React.Component {
         />
         <ErrorableTextInput
           errorMessage={errorMessages.addressTwo}
-          label="Street address (optional)"
+          label="Street address"
           name="addressTwo"
           autocomplete="address-line2"
           charMax={35}
@@ -109,7 +109,7 @@ class Address extends React.Component {
         />
         <ErrorableTextInput
           errorMessage={errorMessages.addressThree}
-          label="Street address (optional)"
+          label="Street address"
           name="addressThree"
           autocomplete="address-line3"
           charMax={35}

@@ -1,4 +1,5 @@
 import './sass/rated-disabilities.scss';
+import './sass/circular-progress.scss';
 import 'platform/polyfills';
 
 import startApp from 'platform/startup';
