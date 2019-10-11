@@ -364,6 +364,8 @@ export default function formReducer(state = initialState, action) {
         `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
       ].filter(clinic => pastAppointmentDateMap.has(clinic.clinicId));
 
+      // clinics.sort()
+
       if (clinics.length === 1) {
         newSchema = {
           ...newSchema,
