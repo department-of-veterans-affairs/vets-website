@@ -110,7 +110,7 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(dispatch.firstCall.args[0].type).to.equal(
-        'START_DIRECT_SCHEDULE_FLOW',
+        'newAppointment/START_DIRECT_SCHEDULE_FLOW',
       );
       expect(nextState).to.equal('clinicChoice');
     });
