@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 
 /*
  * This is the template for each field (which in the schema library means label + widget)
@@ -47,11 +47,11 @@ export default function FieldTemplate(props) {
   let errorSpanId;
   let errorSpan;
   let errorClass;
-  let errorStyle = 'none';
+  // let errorStyle = 'none';
   if (hasErrors) {
     errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
     errorSpanId = `${id}-error-message`;
-    errorStyle = 'block';
+    // errorStyle = 'block';
     errorSpan = (
       <span className="usa-input-error-message" role="alert" id={errorSpanId}>
         <span className="sr-only">Error</span> {rawErrors[0]}
@@ -59,6 +59,7 @@ export default function FieldTemplate(props) {
     );
   }
 
+  /*
   if (environment.isStaging()) {
     errorSpan = (
       <span
@@ -71,6 +72,7 @@ export default function FieldTemplate(props) {
       </span>
     );
   }
+  */
 
   const containerClassNames = classNames(
     'schemaform-field-template',
