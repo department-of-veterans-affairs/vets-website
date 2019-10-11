@@ -31,8 +31,8 @@ export class DateTimeSelectPage extends React.Component {
     this.mapSlots();
   }
 
-  getSelectedDateOptions = selectedDateTime => {
-    const data = this.state.slotMap[selectedDateTime];
+  getSelectedDateOptions = selectedDate => {
+    const data = this.state.slotMap[selectedDate];
     if (data?.times?.length) {
       return {
         fieldName: 'datetime',
