@@ -48,7 +48,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
           <p className="disability-item-label">Rating</p>
         </div>
         <div className="vads-l-col--8 medium-screeen:vads-l-col--9">
-          <p className="disability-item-desc">{ratingPercentage}</p>
+          <p className="disability-item-desc">{ratingPercentage}%</p>
         </div>
       </div>
     </div>
