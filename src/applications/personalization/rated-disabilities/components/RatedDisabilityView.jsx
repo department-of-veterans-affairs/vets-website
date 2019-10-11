@@ -21,7 +21,6 @@ class RatedDisabilityView extends React.Component {
         content = (
           <>
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-              Total Rated Disabilities will go here
               <RatedDisabilityList
                 fetchRatedDisabilities={fetchRatedDisabilities}
                 ratedDisabilities={ratedDisabilities}
