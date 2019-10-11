@@ -71,7 +71,7 @@ class Address extends React.Component {
           onBlur={() => this.props.onBlur('addressLine1')}
         />
         <ErrorableTextInput
-          label="Street address (optional)"
+          label="Street address"
           name="addressLine2"
           autocomplete="address-line2"
           charMax={100}
@@ -80,7 +80,7 @@ class Address extends React.Component {
           onBlur={() => this.props.onBlur('addressLine2')}
         />
         <ErrorableTextInput
-          label="Street address (optional)"
+          label="Street address"
           name="addressLine3"
           autocomplete="address-line3"
           charMax={100}

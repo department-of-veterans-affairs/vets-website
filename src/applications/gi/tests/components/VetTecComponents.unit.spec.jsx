@@ -21,7 +21,7 @@ const institution = {
   physicalAddress2: 'Address line 2',
   physicalAddress3: 'Address line 3',
   programs: [],
-  schoolCertifyingOfficials: [
+  versionedSchoolCertifyingOfficials: [
     {
       priority: 'PRIMARY',
       firstName: 'ADM',
@@ -61,7 +61,7 @@ describe('<VetTecScoContact>', () => {
 
   it('return the contact information for an SCO', () => {
     const wrapper = shallow(
-      VetTecScoContact(institution.schoolCertifyingOfficials[1]),
+      VetTecScoContact(institution.versionedSchoolCertifyingOfficials[1]),
     );
 
     expect(wrapper.text().includes('MARTIN INDIATSI')).to.be.true;
