@@ -196,8 +196,8 @@ export default class CalendarWidget extends Component {
 
   render() {
     return (
-      <div className="vaos-calendar vads-u-margin-top--4">
-        <div className="vaos-calendar__calendars">
+      <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
+        <div className="vaos-calendar__calendars vads-u-flex--1">
           {this.state.months.map((month, index) => (
             <div
               key={`month-${index}`}
