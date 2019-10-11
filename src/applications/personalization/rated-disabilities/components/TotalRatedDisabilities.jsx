@@ -76,8 +76,8 @@ const TotalRatedDisabilities = props => {
                 <strong>
                   Your combined disability rating is {totalDisabilityRating}%
                 </strong>
-                . This rating determines the amount of compensation you'll get.
-                The {''}
+                . This rating determines the amount of disability compensation
+                you'll get. The {''}
                 <a href="#"> individual disability ratings </a>
                 {''}
                 below are what we used to calculate your combines disability
