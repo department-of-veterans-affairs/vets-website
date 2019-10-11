@@ -10,7 +10,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
     relatedTo,
   } = ratedDisability;
   return (
-    <div className="rated-disability-item-container">
+    <div className="rated-disability-item-container vads-l-col--12">
       <div className="vads-l-row">
         <div className="vads-l-col--4 medium-screen:vads-l-col--3">
           <p className="disability-item-label">Disability</p>

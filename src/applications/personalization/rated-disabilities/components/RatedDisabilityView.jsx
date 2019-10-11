@@ -20,12 +20,15 @@ class RatedDisabilityView extends React.Component {
       if (user.profile.status === 'OK') {
         content = (
           <>
-            <RatedDisabilityList
-              fetchRatedDisabilities={fetchRatedDisabilities}
-              ratedDisabilities={ratedDisabilities}
-            />
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
-              <h3>Side Bar here</h3>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+              Total Rated Disabilities will go here
+              <RatedDisabilityList
+                fetchRatedDisabilities={fetchRatedDisabilities}
+                ratedDisabilities={ratedDisabilities}
+              />
+            </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--4">
+              Sidebar goes here
             </div>
           </>
         );

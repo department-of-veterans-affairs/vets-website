@@ -111,15 +111,12 @@ class RatedDisabilityList extends React.Component {
     );
 
     return (
-      <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+      <div className="vads-l-row">
         <h2 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin-y--1">
           Individual disability ratings
         </h2>
-        {formattedDisabilities.map(disability => (
-          <RatedDisabilityListItem
-            ratedDisability={disability}
-            key={disability.ratingDecisionId}
-          />
+        {formattedDisabilities.map((disability, index) => (
+          <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>
     );
