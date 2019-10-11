@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RatedDisabilityTable from './RatedDisabilityTable';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
