@@ -3,6 +3,13 @@ import { expect } from 'chai';
 import newAppointmentFlow from '../newAppointmentFlow';
 
 describe('VAOS newAppointmentFlow', () => {
+  describe('type of appointment page', () => {
+    expect(newAppointmentFlow.typeOfAppointment.next).to.equal(
+      'typeOfFacility',
+    );
+    expect(newAppointmentFlow.typeOfAppointment.previous).to.equal('home');
+  });
+
   describe('type of facility page', () => {
     it('next should choose audiology decision page if CC and audiology chosen', () => {
       const state = {

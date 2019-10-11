@@ -5,8 +5,8 @@ import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
-    fetchRatedDisabilities: PropTypes.func.isRequired,
-    ratedDisabilities: PropTypes.shape({
+      fetchRatedDisabilities: PropTypes.func.isRequired,
+      ratedDisabilities: PropTypes.shape({
       ratedDisabilities: PropTypes.array,
     }),
   };
@@ -27,6 +27,18 @@ class RatedDisabilityView extends React.Component {
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
+          <>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+              Total Rated Disabilities will go here
+              <RatedDisabilityTable
+                fetchRatedDisabilities={fetchRatedDisabilities}
+                ratedDisabilities={ratedDisabilities}
+              />
+            </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--4">
+              Sidebar goes here
+            </div>
+          </>
           <span>
             <TotalRatedDisabilities
               totalDisabilityRating={totalDisabilityRating}
@@ -43,8 +55,8 @@ class RatedDisabilityView extends React.Component {
     }
 
     return (
-      <div className="row">
-        <div>{content}</div>
+      <div className="vads-l-grid-container">
+        <div className="vads-l-row">{content}</div>
       </div>
     );
   }

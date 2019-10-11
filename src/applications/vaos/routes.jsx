@@ -16,6 +16,7 @@ import TypeOfFacilityPage from './containers/TypeOfFacilityPage';
 import ContactInfoPage from './containers/ContactInfoPage';
 import VAFacilityPage from './containers/VAFacilityPage';
 import TypeOfVisitPage from './containers/TypeOfVisitPage';
+import ReviewPage from './containers/ReviewPage';
 import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
 
 const routes = (
@@ -38,6 +39,7 @@ const routes = (
         path="community-care-preferences"
         component={CommunityCarePreferencesPage}
       />
+      <Route path="review" component={ReviewPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />
     <Route path="appointments/pending" component={PendingAppointmentListPage} />
