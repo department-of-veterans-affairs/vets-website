@@ -303,10 +303,43 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case START_DIRECT_SCHEDULE_FLOW: {
-      const pastAppointmentDateMap = new Map();
+    case FORM_ELIGIBILITY_CHECKS: {
+      return {
+        ...state,
+        loadingEligibility: true,
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
+      const eligibility = getEligibilityChecks(
+        state.data.vaFacility,
+        action.typeOfCareId,
+        action.eligibilityData,
+      );
 
-      action.appointments.forEach(appt => {
+      return {
+        ...state,
+        clinics: {
+          ...state.clinics,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
+            .eligibilityData.clinics,
+        },
+        eligibility: {
+          ...state.eligibility,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
+        },
+        loadingEligibility: false,
+      };
+    }
+    case START_DIRECT_SCHEDULE_FLOW: {
+      return {
+        ...state,
+        pastAppointments: action.appointments,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED: {
+      let newSchema = action.schema;
+      const pastAppointmentDateMap = new Map();
+      state.pastAppointments.forEach(appt => {
         const apptTime = appt.startDate;
         const facilityId = state.data.vaFacility;
         const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
@@ -318,16 +351,9 @@ export default function formReducer(state = initialState, action) {
         }
       });
 
-      return {
-        ...state,
-        pastAppointmentDateMap,
-      };
-    }
-    case FORM_CLINIC_PAGE_OPENED: {
-      let newSchema = action.schema;
       const clinics = state.clinics[
         `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
-      ].filter(clinic => state.pastAppointmentDateMap.has(clinic.clinicId));
+      ].filter(clinic => pastAppointmentDateMap.has(clinic.clinicId));
 
       if (clinics.length === 1) {
         newSchema = {
@@ -381,33 +407,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
-      };
-    }
-    case FORM_ELIGIBILITY_CHECKS: {
-      return {
-        ...state,
-        loadingEligibility: true,
-      };
-    }
-    case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
-      const eligibility = getEligibilityChecks(
-        state.data.vaFacility,
-        action.typeOfCareId,
-        action.eligibilityData,
-      );
-
-      return {
-        ...state,
-        clinics: {
-          ...state.clinics,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
-            .eligibilityData.clinics,
-        },
-        eligibility: {
-          ...state.eligibility,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
-        },
-        loadingEligibility: false,
       };
     }
     default:

@@ -86,6 +86,24 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   });
 }
 
+export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (directOrRequest === 'direct') {
+        resolve({
+          durationInMonths: 24,
+          hasVisitedInPastMonths: !facilityId.includes('984'),
+        });
+      } else {
+        resolve({
+          durationInMonths: 12,
+          hasVisitedInPastMonths: facilityId !== '984',
+        });
+      }
+    }, 500);
+  });
+}
+
 export function getRequestLimits(facilityId) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -118,24 +136,6 @@ export function getPacTeam(systemId) {
         resolve([]);
       }
     }, 750);
-  });
-}
-
-export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (directOrRequest === 'direct') {
-        resolve({
-          durationInMonths: 24,
-          hasVisitedInPastMonths: !facilityId.includes('984'),
-        });
-      } else {
-        resolve({
-          durationInMonths: 12,
-          hasVisitedInPastMonths: facilityId !== '984',
-        });
-      }
-    }, 500);
   });
 }
 
