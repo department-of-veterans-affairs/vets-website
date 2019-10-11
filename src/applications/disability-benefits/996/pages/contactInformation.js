@@ -18,7 +18,7 @@ import {
 
 import { ForwardingAddressViewField } from '../helpers';
 import ForwardingAddressDescription from '../components/ForwardingAddressDescription';
-import { isInPast } from '../validations';
+import { checkDateRange } from '../validations';
 import { errorMessages } from '../constants';
 
 const hasForwardingAddress = formData =>
@@ -134,9 +134,7 @@ export const uiSchema = {
                 required: errorMessages.forwardStartDate,
               },
             },
-            to: {
-              'ui:validations': [isInPast],
-            },
+            'ui:validations': [checkDateRange],
           },
         ),
         country: {
