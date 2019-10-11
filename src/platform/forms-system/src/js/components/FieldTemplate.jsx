@@ -67,7 +67,7 @@ export default function FieldTemplate(props) {
         role="alert"
         id={errorSpanId}
       >
-        <span className="sr-only">Error</span> {rawErrors[0]}
+        <span className="sr-only">Error</span> {hasErrors && rawErrors[0]}
       </span>
     );
   }
