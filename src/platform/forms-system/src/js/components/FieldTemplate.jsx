@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 
 /*
  * This is the template for each field (which in the schema library means label + widget)
@@ -47,6 +47,7 @@ export default function FieldTemplate(props) {
   let errorSpanId;
   let errorSpan;
   let errorClass;
+
   if (hasErrors) {
     errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
     errorSpanId = `${id}-error-message`;
@@ -62,12 +63,6 @@ export default function FieldTemplate(props) {
       'vads-u-display--block': hasErrors,
       'vads-u-display--none': !hasErrors,
     });
-
-    errorSpan = (
-      <span className={errorSpanClass} role="alert" id={errorSpanId}>
-        <span className="sr-only">Error</span> {rawErrors[0]}
-      </span>
-    );
   }
 
   const containerClassNames = classNames(
