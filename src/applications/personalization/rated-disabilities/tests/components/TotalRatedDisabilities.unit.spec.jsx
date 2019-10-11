@@ -16,7 +16,7 @@ describe('<TotalRatedDisabilities />', () => {
       wrapper
         .find('div')
         .first()
-        .hasClass('vads-l-grid-container'),
+        .hasClass('total-rated-disabilities'),
     ).to.be.true;
     wrapper.unmount();
   });

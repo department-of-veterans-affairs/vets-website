@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RatedDisabilityTable from './RatedDisabilityTable';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
@@ -29,7 +30,11 @@ class RatedDisabilityView extends React.Component {
         content = (
           <>
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-              Total Rated Disabilities will go here
+              <TotalRatedDisabilities
+                totalDisabilityRating={totalDisabilityRating}
+                loading={loading}
+                error={error}
+              />
               <RatedDisabilityTable
                 fetchRatedDisabilities={fetchRatedDisabilities}
                 ratedDisabilities={ratedDisabilities}
@@ -39,17 +44,6 @@ class RatedDisabilityView extends React.Component {
               Sidebar goes here
             </div>
           </>
-          <span>
-            <TotalRatedDisabilities
-              totalDisabilityRating={totalDisabilityRating}
-              loading={loading}
-              error={error}
-            />
-            <RatedDisabilityTable
-              fetchRatedDisabilities={fetchRatedDisabilities}
-              ratedDisabilities={ratedDisabilities}
-            />
-          </span>
         );
       }
     }

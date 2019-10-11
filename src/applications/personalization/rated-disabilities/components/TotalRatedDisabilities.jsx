@@ -64,7 +64,7 @@ const TotalRatedDisabilities = props => {
   } else {
     content = (
       <span>
-        <div className="vads-l-grid-container">
+        <div className="total-rated-disabilities">
           <div className="vads-l-row">
             <div className="vads-l-col--12">
               <h1>Your disability rating</h1>
