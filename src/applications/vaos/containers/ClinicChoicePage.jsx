@@ -59,33 +59,42 @@ export class ClinicChoicePage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Where do you want an appointment?
-        </h1>
-        Your last {typeOfCare.name} appointment was at:
-        {facilityDetails && (
-          <p>
-            <strong>{facilityDetails.attributes.name}</strong>
-            <br />
-            {facilityDetails.attributes.address.physical.address1}
-            <br />
-            {facilityDetails.attributes.address.physical.address2}
-            <br />
-            {facilityDetails.attributes.address.physical.city},{' '}
-            {facilityDetails.attributes.address.physical.state}{' '}
-            {facilityDetails.attributes.address.physical.zip}
-          </p>
+        {schema.properties.clinicId.enum.length === 2 && (
+          <>
+            <h1 className="vads-u-font-size--h2">
+              Make an appointment at your last clinic
+            </h1>
+            Your last {typeOfCare.name} appointment was at:
+            {facilityDetails && (
+              <p>
+                <strong>{facilityDetails.attributes.name}</strong>
+                <br />
+                {facilityDetails.attributes.address.physical.address1}
+                <br />
+                {facilityDetails.attributes.address.physical.address2}
+                <br />
+                {facilityDetails.attributes.address.physical.city},{' '}
+                {facilityDetails.attributes.address.physical.state}{' '}
+                {facilityDetails.attributes.address.physical.zip}
+              </p>
+            )}
+            {!facilityDetails && (
+              <p>
+                <strong>Green Team Clinic1</strong>
+                <br />
+                CHYSHR-Cheyenne VA Medical Center
+                <br />
+                421 North Main Street
+                <br />
+                Leeds, MA 01053-9764
+              </p>
+            )}
+          </>
         )}
-        {!facilityDetails && (
-          <p>
-            <strong>Green Team Clinic1</strong>
-            <br />
-            CHYSHR-Cheyenne VA Medical Center
-            <br />
-            421 North Main Street
-            <br />
-            Leeds, MA 01053-9764
-          </p>
+        {schema.properties.clinicId.enum.length > 2 && (
+          <h1 className="vads-u-font-size--h2">
+            Where do you want an appointment?
+          </h1>
         )}
         <SchemaForm
           name="Clinic choice"

@@ -1,3 +1,4 @@
+import React from 'react';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -357,14 +358,40 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${
-                clinics[0].clinicFriendlyLocationName
-              }?`,
+              title: `Would you like to make an appointment at ${clinics[0]
+                .clinicFriendlyLocationName || clinics[0].clinicName}?`,
               enum: [clinics[0].clinicId, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
                 'No, I need a different location',
               ],
+            },
+          },
+        };
+      } else {
+        newSchema = {
+          ...newSchema,
+          properties: {
+            clinicId: {
+              type: 'string',
+              title:
+                'Select a location where you were seen before or a different VA location.',
+              enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
+              enumNames: clinics
+                .map(clinic => (
+                  <>
+                    <strong>
+                      {clinic.clinicFriendlyLocationName || clinic.clinicName}
+                    </strong>
+                    <br />
+                    CHYSHR-Cheyenne VA Medical Center
+                    <br />
+                    421 North Main Street
+                    <br />
+                    Leeds, MA 01053-9764
+                  </>
+                ))
+                .concat('I need a different location'),
             },
           },
         };
