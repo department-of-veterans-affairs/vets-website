@@ -19,7 +19,7 @@ import {
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import { getScrollOptions } from '../../../platform/utilities/ui';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
 import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
@@ -53,6 +53,13 @@ export class SearchPage extends React.Component {
 
     if (currentlyInProgress !== prevProps.search.inProgress) {
       scroller.scrollTo('searchPage', getScrollOptions());
+    }
+
+    if (
+      !currentlyInProgress &&
+      !_.isEqual(this.props.search.results, prevProps.search.results)
+    ) {
+      focusElement('.search-results-count > h1');
     }
   }
 
@@ -226,9 +233,9 @@ export class SearchPage extends React.Component {
   };
 
   renderSearchResultsHeader = search => (
-    <h1>
-      {!search.inProgress && `${(search.count || 0).toLocaleString()} `}
-      Search Results
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} Search Results`}
     </h1>
   );
 
@@ -238,7 +245,7 @@ export class SearchPage extends React.Component {
         {renderVetTecLogo(classNames('vettec-logo'))}
       </div>
       <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
-        <div className="vads-l-col--10">
+        <div className="vads-l-col--10 search-results-count">
           {this.renderSearchResultsHeader(this.props.search)}
         </div>
         <div className="vads-l-col--2">
@@ -268,7 +275,9 @@ export class SearchPage extends React.Component {
 
   renderInstitutionSearchForm = (searchResults, filtersClass) => (
     <div>
-      {this.renderSearchResultsHeader(this.props.search)}
+      <div className="vads-l-col--10 search-results-count">
+        {this.renderSearchResultsHeader(this.props.search)}
+      </div>
       <InstitutionSearchForm
         filtersClass={filtersClass}
         search={this.props.search}

@@ -11,9 +11,11 @@ import createFacilityPage from './facilities/createFacilityPage';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
+import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
+import renderHomepageBanner from './renderHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -42,12 +44,14 @@ Sentry.withScope(scope => {
 
 subscribeAdditionalInfoEvents();
 
+subscribeAccordionEvents();
+
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
   applyHeading: 'How do I apply?',
   additionalText: 'You can apply online right now.',
   applyLink: '/pension/how-to-apply/',
-  applyText: 'Apply for Veterans pension benefits',
+  applyText: 'Apply for Veterans Pension benefits',
   widgetType: widgetTypes.PENSION_APP_STATUS,
 });
 
@@ -87,6 +91,7 @@ createBasicFacilityListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {
+  renderHomepageBanner();
   createMyVALoginWidget(store);
 }
 

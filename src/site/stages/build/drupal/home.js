@@ -17,10 +17,28 @@ function addHomeContent(contentData, files) {
       },
     } = contentData;
 
+    // Liquid does not have a good modulo operator, so we let the template know when to end a row.
+    const hubs = homePageHubListQuery.itemsOfEntitySubqueueHomePageHubList.map(
+      (hub, i) => {
+        // We want 3 cards per row.
+        if ((i + 1) % 3 === 0) {
+          hub = {
+            ...hub,
+            endRow: true,
+          };
+        }
+        return hub;
+      },
+    );
+
     homeEntityObj = {
       ...homeEntityObj,
+      // Since homepage is not an independent node, we don't have a source for metatags. So we need to hard-code these for now.
+      title: 'VA.gov Home',
+      description:
+        'Apply for and manage the VA benefits and services you’ve earned as a Veteran, Servicemember, or family member—like health care, disability, education, and more.',
       cards: homePageMenuQuery.links.slice(0, menuLength), // Top Tasks menu. We have a hard limit.
-      hubs: homePageHubListQuery.itemsOfEntitySubqueueHomePageHubList, // Full hub list.
+      hubs, // Full hub list.
       promos: homePagePromoBlockQuery.itemsOfEntitySubqueueHomePagePromos, // Promo blocks.
     };
 

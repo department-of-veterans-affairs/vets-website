@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { estimatedBenefits } from '../../selectors/vetTecEstimator';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, locationInfo } from '../../utils/helpers';
 import {
   renderCautionFlag,
   renderSchoolClosingFlag,
@@ -49,7 +49,7 @@ export class SearchResult extends React.Component {
                 </h2>
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="locality">
-                    {city}, {state || country}
+                    {locationInfo(city, state, country)}
                   </p>
                 </div>
               </div>
@@ -61,7 +61,10 @@ export class SearchResult extends React.Component {
                 <div className="row">
                   <div className="columns">
                     <h4>
-                      <i className="fa fa-graduation-cap fa-search-result" />
+                      <i
+                        aria-hidden="true"
+                        className="fa fa-graduation-cap fa-search-result"
+                      />
                       Tuition:
                       <div>{tuition}</div>
                     </h4>
@@ -70,7 +73,10 @@ export class SearchResult extends React.Component {
                 <div className="row">
                   <div className="columns">
                     <h4>
-                      <i className="fa fa-home fa-search-result" />
+                      <i
+                        aria-hidden="true"
+                        className="fa fa-home fa-search-result"
+                      />
                       Housing <span>(monthly):</span>
                       <div>{housing}</div>
                     </h4>

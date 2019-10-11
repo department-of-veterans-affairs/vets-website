@@ -120,16 +120,18 @@ class SetPreferences extends React.Component {
       return (
         <div>
           <h3>I want to:</h3>
-          <div className="preferences-grid">
-            {availableBenefits.map((benefit, benefitIndex) => (
-              <PreferenceOption
-                key={benefitIndex}
-                item={benefit}
-                onChange={this.handlePreferenceToggle}
-                checked={!!dashboard[benefit.code]}
-              />
-            ))}
-          </div>
+          <fieldset aria-labelledby="group-header">
+            <div className="preferences-grid">
+              {availableBenefits.map((benefit, benefitIndex) => (
+                <PreferenceOption
+                  key={benefitIndex}
+                  item={benefit}
+                  onChange={this.handlePreferenceToggle}
+                  checked={!!dashboard[benefit.code]}
+                />
+              ))}
+            </div>
+          </fieldset>
           {saveStatus === LOADING_STATES.error && SaveFailedMessageComponent}
           <div>
             <LoadingButton
@@ -156,7 +158,7 @@ class SetPreferences extends React.Component {
           <h1 id="dashboard-title" tabIndex="-1">
             Find VA benefits
           </h1>
-          <p className="va-introtext">
+          <p className="va-introtext" id="group-header">
             Tell us which benefits you’re interested in, so we can help you
             apply. Select one or more of the types of benefits below, and we’ll
             help you get started.

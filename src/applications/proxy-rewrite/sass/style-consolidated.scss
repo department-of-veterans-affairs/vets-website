@@ -136,7 +136,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 }
 
 .slider .prev, .slider .next, #slider-controls {
-  z-index: $low-layer;
+  z-index: $low-layer !important;
 }
 // ----- Patches to elements outside of .consolidated ----- //
 

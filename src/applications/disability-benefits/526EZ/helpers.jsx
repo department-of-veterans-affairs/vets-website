@@ -26,7 +26,7 @@ import {
   VA_FORM4142_URL,
   SERVICE_CONNECTION_TYPES,
   disabilityActionTypes,
-  NULL_CONDITION_STRING
+  NULL_CONDITION_STRING,
 } from '../all-claims/constants';
 
 /**
@@ -304,13 +304,18 @@ export const supportingEvidenceOrientation = (
 
 export const disabilityNameTitle = ({ formData }) => (
   <legend className="schemaform-block-title schemaform-title-underline">
-    {typeof formData.name === 'string' ? capitalizeEachWord(formData.name) : NULL_CONDITION_STRING}
+    {typeof formData.name === 'string'
+      ? capitalizeEachWord(formData.name)
+      : NULL_CONDITION_STRING}
   </legend>
 );
 
 export const facilityDescription = ({ formData }) => (
   <p>
-    Please tell us where VA treated you for {typeof formData.name === 'string' ? capitalizeEachWord(formData.name) : NULL_CONDITION_STRING}{' '}
+    Please tell us where VA treated you for{' '}
+    {typeof formData.name === 'string'
+      ? capitalizeEachWord(formData.name)
+      : NULL_CONDITION_STRING}{' '}
     <strong>after you got your disability rating</strong>.
   </p>
 );
@@ -318,7 +323,10 @@ export const facilityDescription = ({ formData }) => (
 export const vaMedicalRecordsIntro = ({ formData }) => (
   <p>
     First we’ll ask you about your VA medical records that show your{' '}
-    {typeof formData.name === 'string' ? capitalizeEachWord(formData.name) : NULL_CONDITION_STRING} has gotten worse.
+    {typeof formData.name === 'string'
+      ? capitalizeEachWord(formData.name)
+      : NULL_CONDITION_STRING}{' '}
+    has gotten worse.
   </p>
 );
 
@@ -326,10 +334,13 @@ export const privateRecordsChoice = ({ formData }) => (
   <div>
     <h4>About private medical records</h4>
     <p>
-      You said you were treated for {typeof formData.name === 'string' ? capitalizeEachWord(formData.name) : NULL_CONDITION_STRING} by a
-      private doctor. If you have your private medical records, you can upload
-      them to your application. If you want us to get them for you, you’ll need
-      to authorize their release.
+      You said you were treated for{' '}
+      {typeof formData.name === 'string'
+        ? capitalizeEachWord(formData.name)
+        : NULL_CONDITION_STRING}{' '}
+      by a private doctor. If you have your private medical records, you can
+      upload them to your application. If you want us to get them for you,
+      you’ll need to authorize their release.
     </p>
   </div>
 );
@@ -340,7 +351,10 @@ export const privateMedicalRecordsIntro = ({ formData }) => (
   <p>
     {firstOrNowString(formData['view:selectableEvidenceTypes'])} we’ll ask you
     about your private medical records that show your{' '}
-    {typeof formData.name === 'string' ? capitalizeEachWord(formData.name) : NULL_CONDITION_STRING} has gotten worse.
+    {typeof formData.name === 'string'
+      ? capitalizeEachWord(formData.name)
+      : NULL_CONDITION_STRING}{' '}
+    has gotten worse.
   </p>
 );
 
@@ -695,7 +709,9 @@ const evidenceTypesDescription = disabilityName => (
 
 export const getEvidenceTypesDescription = (form, index) => {
   const { name } = form.disabilities[index];
-  return evidenceTypesDescription(typeof name === 'string' ? capitalizeEachWord(name) : NULL_CONDITION_STRING);
+  return evidenceTypesDescription(
+    typeof name === 'string' ? capitalizeEachWord(name) : NULL_CONDITION_STRING,
+  );
 };
 
 /**

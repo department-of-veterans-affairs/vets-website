@@ -1,7 +1,11 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
-import { formatCurrency } from '../utils/helpers';
+import {
+  formatCurrency,
+  isCountryUSA,
+  isCountryInternational,
+} from '../utils/helpers';
 import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
@@ -11,6 +15,11 @@ const getEligibilityDetails = state => state.eligibility;
 const getInstitution = state => state.profile.attributes;
 
 const getFormInputs = state => state.calculator;
+
+const getInstitutionType = institution =>
+  institution.type
+    ? institution.type.toLowerCase()
+    : institution.institutionTypeName.toLowerCase();
 
 const getDerivedValues = createSelector(
   getConstants,
@@ -74,7 +83,7 @@ const getDerivedValues = createSelector(
     const serviceDischarge = cumulativeService === 'service discharge';
     const purpleHeart = cumulativeService === 'purple heart';
 
-    const institutionType = institution.type.toLowerCase();
+    const institutionType = getInstitutionType(institution);
     const isOJT = institutionType === 'ojt';
     const isFlight = institutionType === 'flight';
     const isCorrespondence = institutionType === 'correspondence';
@@ -186,7 +195,7 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = constant.FLTTFCAP;
     } else if (isCorrespondence) {
       tuitionFeesCap = constant.CORRESPONDTFCAP;
-    } else if (isPublic && institutionCountry === 'usa') {
+    } else if (isPublic && isCountryUSA(institutionCountry)) {
       tuitionFeesCap =
         inputs.inState === 'yes'
           ? +inputs.tuitionFees
@@ -490,8 +499,9 @@ const getDerivedValues = createSelector(
     let bah;
     // if beneficiary has indicated they are using a localized rate and beneficiaryLocationBah exists, then a localized rate has been fetched and should be used
     const useBeneficiaryLocationRate =
-      inputs.beneficiaryLocationQuestion === 'no' &&
-      inputs.beneficiaryLocationBah !== null;
+      inputs.beneficiaryLocationBah !== null &&
+      (inputs.beneficiaryLocationQuestion === 'extension' ||
+        inputs.beneficiaryLocationQuestion === 'other');
 
     // if beneficiary has indicated they are using the grandfathered rate, use it when available;
     const useGrandfatheredBeneficiaryLocationRate =
@@ -572,7 +582,10 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (institutionCountry !== 'usa') {
+    } else if (
+      isCountryInternational(institutionCountry) &&
+      !useBeneficiaryLocationRate
+    ) {
       housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
@@ -634,7 +647,10 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (institutionCountry !== 'usa') {
+    } else if (
+      isCountryInternational(institutionCountry) &&
+      !useBeneficiaryLocationRate
+    ) {
       housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
@@ -698,7 +714,10 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (institutionCountry !== 'usa') {
+    } else if (
+      isCountryInternational(institutionCountry) &&
+      !useBeneficiaryLocationRate
+    ) {
       housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);
@@ -912,7 +931,7 @@ export const getCalculatedBenefits = createSelector(
 
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
-    const institutionType = institution.type.toLowerCase();
+    const institutionType = getInstitutionType(institution);
     const isOJT = institutionType === 'ojt';
 
     calculatedBenefits.inputs = {

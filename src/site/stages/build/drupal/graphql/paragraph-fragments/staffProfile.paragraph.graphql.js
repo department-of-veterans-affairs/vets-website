@@ -16,6 +16,10 @@ module.exports = `
         fieldDescription
         fieldEmailAddress
         fieldPhoneNumber
+        
+        fieldBody {
+          processed
+        }
 
         fieldOffice {
           entity {

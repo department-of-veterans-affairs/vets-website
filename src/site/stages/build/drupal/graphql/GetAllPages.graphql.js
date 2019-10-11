@@ -18,12 +18,11 @@ const bioPage = require('./bioPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
+const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
+const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
 
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
+const { cmsFeatureFlags } = global;
 
 // String Helpers
 const {
@@ -80,17 +79,21 @@ module.exports = `
     ${alertsQuery}
     ${outreachAssetsQuery}
     ${homePageQuery}
+    ${
+      cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
+        ? `${allSideNavMachineNamesQuery}`
+        : ''
+    }
+    ${menuLinksQuery}
   }
 `;
 
-if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
-  const query = module.exports;
+const query = module.exports;
 
-  let regString = '';
-  queryParamToBeChanged.forEach(param => {
-    regString += `${param}|`;
-  });
+let regString = '';
+queryParamToBeChanged.forEach(param => {
+  regString += `${param}|`;
+});
 
-  const regex = new RegExp(`${regString}`, 'g');
-  module.exports = query.replace(regex, updateQueryString);
-}
+const regex = new RegExp(`${regString}`, 'g');
+module.exports = query.replace(regex, updateQueryString);

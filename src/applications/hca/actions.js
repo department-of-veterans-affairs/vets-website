@@ -140,9 +140,9 @@ export function getEnrollmentStatus(formData) {
         formData.firstName &&
         formData.firstName.toLowerCase() === 'pat'
       ) {
-        callFake404(dispatch);
+        return callFake404(dispatch);
       }
-      callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
+      return callFakeSuccess(dispatch, HCA_ENROLLMENT_STATUSES.enrolled);
     }
     return callAPI(dispatch, formData);
   };

@@ -3,17 +3,8 @@
  * Appears on hub landing pages.
  */
 // Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../../utilities/featureFlags');
 
-let fieldAministrationKey;
-if (enabledFeatureFlags[featureFlags.GRAPHQL_MODULE_UPDATE]) {
-  fieldAministrationKey = 'FieldNodeLandingPageFieldAdministration';
-} else {
-  fieldAministrationKey = 'FieldNodeFieldAdministration';
-}
+const fieldAministrationKey = 'FieldNodeLandingPageFieldAdministration';
 
 module.exports = `
     fragment administration on NodeLandingPage {

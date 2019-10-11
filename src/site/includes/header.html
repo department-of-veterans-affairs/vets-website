@@ -63,6 +63,7 @@
 
 <script type="text/javascript">
   window.VetsGov = window.VetsGov || {};
+  window.featureToggles = {{ featureToggles }};
   window.VetsGov.headerFooter = {{ headerFooterData }};
 </script>
 
@@ -77,16 +78,12 @@
 
 {% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
 
-{% if path == '' and banner and banner.visible %}
-  <div class="usa-alert-full-width usa-alert-full-width-{{ banner.type }}">
-    <div aria-live="polite" role="alert" class="usa-alert usa-alert-{{ banner.type }}">
-      <div class="usa-alert-body">
-        <h3 class="usa-alert-heading">{{ banner.title }}</h3>
-        <div class="usa-alert-text">
-          {{ banner.content }}
-        </div>
-      </div>
-    </div>
+{% if path == '' or path == '/' %}
+  <div id="homepage-banner">
+    <!--
+      Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js
+    -->
   </div>
 {% endif %}
+
 <script async src="/js/incompatible-browser.js"></script>

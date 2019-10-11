@@ -4,5 +4,9 @@
   "entryName": "verify",
   "rootUrl": "/verify",
   "noRouting": true,
-  "production": true
+  "production": true,
+  "template": {
+    "title": "Verify",
+    "layout": "page-react.html"
+  }
 }

@@ -1,3 +1,5 @@
+$color-close-button: rgba($color-base, .8);
+
 [id=msg-compose] {
   // Overrides USWDS positioning
   .usa-input-error {
@@ -322,7 +324,7 @@ button.msg-btn-save {
 }
 
 .msg-attachment-close {
-  color: rgba($color-base, .8);
+  color: $color-close-button;
   background: transparent;
   font-size: 1.25em;
   margin: 0;

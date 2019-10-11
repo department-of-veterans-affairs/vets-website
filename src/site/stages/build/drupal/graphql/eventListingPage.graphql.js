@@ -21,6 +21,15 @@ module.exports = `
                 entityUrl {
                   path
                 }
+                uid {
+                  targetId
+                  ... on FieldNodeUid {
+                    entity {
+                      name
+                      timezone
+                    }
+                  }
+                }
                 fieldDate {
                   startDate
                   value

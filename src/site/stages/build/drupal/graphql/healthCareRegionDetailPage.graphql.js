@@ -23,12 +23,6 @@ const DOWNLOADABLE_FILE_PARAGRAPH = '... downloadableFile';
 const MEDIA_PARAGRAPH = '... embeddedImage';
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-// Get current feature flags
-const {
-  featureFlags,
-  enabledFeatureFlags,
-} = require('./../../../../utilities/featureFlags');
-
 module.exports = `
   fragment healthCareRegionDetailPage on NodeHealthCareRegionDetailPage {
     title
@@ -36,29 +30,15 @@ module.exports = `
     entityBundle
     changed
     fieldIntroText
-    ${
-      enabledFeatureFlags[featureFlags.FEATURE_REGION_DETAIL_PAGE_TOC]
-        ? 'fieldTableOfContentsBoolean'
-        : ''
+    fieldTableOfContentsBoolean
+    fieldFeaturedContent {
+      entity {
+        entityType
+        entityBundle
+        ${WYSIWYG}
+        ${QA}
+      }
     }
-
-    ${
-      enabledFeatureFlags[
-        featureFlags.FEATURE_REGION_DETAIL_PAGE_FEATURED_CONTENT
-      ]
-        ? `
-          fieldFeaturedContent {
-            entity {
-              entityType
-              entityBundle
-              ${WYSIWYG}
-              ${QA}
-            }
-          }
-        `
-        : ''
-    }
-
     fieldContentBlock {
       entity {
         entityType
@@ -73,27 +53,13 @@ module.exports = `
         ${REACT_WIDGET}
         ${NUMBER_CALLOUT}
         ${TABLE}
-        ${ALERT_PARAGRAPH}        
-        ${
-          enabledFeatureFlags[featureFlags.FEATURE_DOWNLOADABLE_FILE]
-            ? `
-                ${DOWNLOADABLE_FILE_PARAGRAPH}        
-                ${MEDIA_PARAGRAPH}
-
-              `
-            : ''
-        }        
+        ${ALERT_PARAGRAPH}
+        ${DOWNLOADABLE_FILE_PARAGRAPH}
+        ${MEDIA_PARAGRAPH}
       }
     }
     ${FIELD_RELATED_LINKS}
-
-    ${
-      enabledFeatureFlags[
-        featureFlags.FEATURE_HEALTH_CARE_REGION_DETAIL_PAGE_FIELD_ALERT
-      ]
-        ? FIELD_ALERT
-        : ''
-    }
+    ${FIELD_ALERT}
     fieldMedia {
       entity {
         entityId
@@ -117,6 +83,14 @@ module.exports = `
         }
         ...on MediaVideo {
           fieldMediaVideoEmbedField
+        }
+      }
+    }
+    fieldOffice {
+      entity {
+        ...on NodeHealthCareRegionPage {
+          title
+          fieldNicknameForThisFacility
         }
       }
     }

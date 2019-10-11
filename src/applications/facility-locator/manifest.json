@@ -1,0 +1,12 @@
+{
+  "appName": "Facility Locator",
+  "entryFile": "./facility-locator-entry.jsx",
+  "entryName": "facilities",
+  "rootUrl": "/find-locations",
+  "template": {
+    "title": "Find VA Locations",
+    "layout": "page-react.html",
+    "description": "Find a VA medical center, clinic, hospital, national cemetery, or VA benefit office near you. You can search by city, state, zip code, or service. You'll get wait times and directions.",
+    "keywords": "VA location by zip code, VA clinic, VA near me"
+  }
+}

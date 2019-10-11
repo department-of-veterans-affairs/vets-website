@@ -1,8 +1,13 @@
 // import React, { useState, useEffect } from 'react';
 import { FlipperClient } from 'platform/utilities/feature-toggles/flipper-client';
+import {
+  TOGGLE_VALUES_SET,
+  FETCH_TOGGLE_VALUES_STARTED,
+  FETCH_TOGGLE_VALUES_SUCCEEDED,
+} from 'platform/site-wide/feature-toggles/actionTypes';
 import environments from 'platform/utilities/environment';
 
-const { fetchToggleValues } = new FlipperClient();
+const { fetchToggleValues } = new FlipperClient({ host: environments.API_URL });
 
 function makeEnvironmentToggleValues(env = environments) {
   return {
@@ -15,33 +20,49 @@ function makeEnvironmentToggleValues(env = environments) {
 }
 
 function getBootstrappedToggleValues() {
-  return {
-    facilityLocatorShowCommunityCares: true,
-  };
+  // the featureToggles are bootstrapped into the static html
+  // and use these bootstrapped values for the initial page render
+
+  return window.featureToggles ? window.featureToggles : {};
 }
+
+// TODO: add helper to that gets loading state of feature toggles
 
 const initialToggleValues = {
   ...makeEnvironmentToggleValues(),
   ...getBootstrappedToggleValues(),
 };
 
+let updateFeatureToggleValuesFunc = () => {};
+
+// for use only in tests
+const updateFeatureToggleValue = newToggleValues =>
+  updateFeatureToggleValuesFunc(newToggleValues);
+
 async function connectFeatureToggle(
   dispatch,
   toggleValues = initialToggleValues,
 ) {
+  // create toggle overriding function for tests
+  updateFeatureToggleValuesFunc = newToggleValues =>
+    dispatch({
+      type: TOGGLE_VALUES_SET,
+      newToggleValues,
+    });
+
+  // set state with default toggle values
   dispatch({
-    type: 'FETCH_TOGGLE_VALUES_STARTED',
+    type: FETCH_TOGGLE_VALUES_STARTED,
     payload: toggleValues,
   });
 
-  if (!environments.isProduction()) {
-    const newToggleValues = await fetchToggleValues();
+  // fetch toggle values from service and update state
+  const newToggleValues = await fetchToggleValues();
 
-    dispatch({
-      type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
-      payload: newToggleValues,
-    });
-  }
+  dispatch({
+    type: FETCH_TOGGLE_VALUES_SUCCEEDED,
+    payload: newToggleValues,
+  });
 }
 
 // TODO: remove or refactor
@@ -141,6 +162,7 @@ const FeatureToggle = ({ children, ...props }) => {
 
 export {
   connectFeatureToggle,
+  updateFeatureToggleValue,
   // FeatureToggle,
   // subscribeToToggleUpdates,
   // withFeatureToggleProvider,

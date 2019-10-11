@@ -7,7 +7,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
 
-import facilityLocator from '../../facility-locator/manifest';
+import facilityLocator from '../../facility-locator/manifest.json';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

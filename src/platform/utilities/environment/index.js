@@ -4,40 +4,13 @@
  */
 
 import ENVIRONMENTS from '../../../site/constants/environments';
+import ENVIRONMENT_CONFIGURATIONS from '../../../site/constants/environments-configs';
 
 // __BUILDTYPE__ is defined as a global variable in our Webpack config, ultimately used
 // to indicate the name of our current environment as passed from our build script. This should
 // be the only reference to this value throughout our client-side code. Other modules should
 // instead import this module and interface with it instead.
 const BUILDTYPE = __BUILDTYPE__;
-
-const ENVIRONMENT_CONFIGURATIONS = {
-  [ENVIRONMENTS.VAGOVPROD]: {
-    BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
-    BASE_URL: 'https://www.va.gov',
-    API_URL: 'https://api.va.gov',
-  },
-
-  [ENVIRONMENTS.VAGOVSTAGING]: {
-    BUILDTYPE: ENVIRONMENTS.VAGOVSTAGING,
-    BASE_URL: 'https://staging.va.gov',
-    API_URL: 'https://staging-api.va.gov',
-  },
-
-  [ENVIRONMENTS.VAGOVDEV]: {
-    BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
-    BASE_URL: 'https://dev.va.gov',
-    API_URL: 'https://dev-api.va.gov',
-  },
-
-  [ENVIRONMENTS.LOCALHOST]: {
-    BUILDTYPE: ENVIRONMENTS.LOCALHOST,
-    BASE_URL: `http://${location.hostname}${
-      location.port ? `:${location.port}` : ''
-    }`,
-    API_URL: `http://${location.hostname}:3000`,
-  },
-};
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
 const isPort80 = location.port === '' || location.port === 80;

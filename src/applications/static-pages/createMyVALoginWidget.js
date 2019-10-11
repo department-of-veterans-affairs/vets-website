@@ -1,5 +1,5 @@
 import { isLoggedIn } from '../../platform/user/selectors';
-import { rootUrl } from '../../applications/personalization/dashboard/manifest.js';
+import { rootUrl } from '../../applications/personalization/dashboard/manifest.json';
 
 export default function createMyVALoginWidget(store) {
   const root = document.getElementById('myva-login');

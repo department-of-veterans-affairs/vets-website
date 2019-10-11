@@ -3,5 +3,10 @@
   "entryFile": "./claims-status-entry.jsx",
   "entryName": "claims-status",
   "rootUrl": "/track-claims",
-  "production": true
+  "production": true,
+  "template": {
+    "title": "Track Claims",
+    "layout": "page-react.html",
+    "description": "Track the status of your VA claims and appeals."
+  }
 }

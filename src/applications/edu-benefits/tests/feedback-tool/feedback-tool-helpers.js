@@ -41,7 +41,11 @@ function completeRelationshipInformation(client, data) {
 function completeApplicantInformation(client, data) {
   client
     .fillName('root_fullName', data.fullName)
-    .selectDropdown('root_serviceAffiliation', data.serviceAffiliation);
+    .selectDropdown('root_serviceAffiliation', data.serviceAffiliation)
+    .fill(
+      'input[name=root_socialSecurityNumberLastFour]',
+      data.socialSecurityNumberLastFour,
+    );
 }
 
 function completeServiceInformation(client, data) {
@@ -63,7 +67,7 @@ function completeContactInformation(client, data) {
 }
 
 function completeBenefitInformation(client) {
-  client.fillCheckbox('#root_educationDetails_programs_TATU');
+  client.fillCheckbox('#root_educationDetails_programs_chapter33');
 }
 
 function completeSchoolInformation(client, data) {

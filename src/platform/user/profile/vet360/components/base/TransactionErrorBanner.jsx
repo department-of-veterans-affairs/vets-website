@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import facilityLocator from 'applications/facility-locator/manifest';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 
 import {
   hasGenericUpdateError,
@@ -12,16 +12,11 @@ export function GenericUpdateError(props) {
   return (
     <AlertBox
       {...props}
+      className="vads-u-margin-bottom--4"
       status="error"
-      content={
-        <div>
-          <h4>Your recent profile update didn’t save</h4>
-          <p>
-            We’re sorry. Something went wrong on our end and we couldn’t save
-            the recent updates you made to your profile. Please try again later.
-          </p>
-        </div>
-      }
+      headline="Your recent profile update didn’t save"
+      content="We’re sorry. Something went wrong on our end and we couldn’t save the
+      recent updates you made to your profile. Please try again later."
     />
   );
 }
@@ -30,13 +25,11 @@ export function MVILookupFailError(props) {
   return (
     <AlertBox
       {...props}
+      className="vads-u-margin-bottom--4"
       status="error"
+      headline="We’re having trouble matching your information to our Veteran records"
       content={
         <div>
-          <h4>
-            We’re having trouble matching your information to our Veteran
-            records
-          </h4>
           <p>
             We’re sorry. We’re having trouble matching your information to our
             Veteran records, so we can’t give you access to tools for managing
@@ -55,16 +48,10 @@ export function MVIError(props) {
   return (
     <AlertBox
       {...props}
+      className="vads-u-margin-bottom--4"
       status="error"
-      content={
-        <div>
-          <h4>We can’t access your contact information right now</h4>
-          <p>
-            We’re sorry. Something went wrong on our end. Please refresh this
-            page or try again later.
-          </p>
-        </div>
-      }
+      headline="We can’t access your contact information right now"
+      content="We’re sorry. Something went wrong on our end. Please refresh this page or try again later."
     />
   );
 }

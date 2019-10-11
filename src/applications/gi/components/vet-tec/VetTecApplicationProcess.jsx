@@ -6,7 +6,9 @@ const VetTecApplicationProcess = () => (
       'columns vads-u-margin-top--neg1p5 vads-u-margin-x--neg1p5 medium-screen:vads-l-col--10'
     }
   >
-    <h4>Enrolling in VET TEC is a two-step process:</h4>
+    <h3 className="vads-u-font-size--h4">
+      Enrolling in VET TEC is a two-step process:
+    </h3>
     <p>
       First, you’ll need to apply for Veteran Employment Through Technology
       Education Courses (VET TEC). You’ll get a Certificate of Eligibility (COE)
@@ -38,7 +40,9 @@ const VetTecApplicationProcess = () => (
         Learn more about VET TEC programs
       </a>
     </p>
-    <h4>Have questions about the VET TEC program or how to apply?</h4>
+    <h3 className="vads-u-font-size--h4">
+      Have questions about the VET TEC program or how to apply?
+    </h3>
     <div>
       <ul className="vet-tec-application-process-list">
         <li>

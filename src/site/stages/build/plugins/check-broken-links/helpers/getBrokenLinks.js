@@ -8,7 +8,7 @@ const _isBrokenLink = require('./isBrokenLink');
  * @param {Set<string>} allPaths The paths of all files in the website. Used to confirm the existence of a file.
  */
 function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
-  const $ = cheerio.load(file.contents);
+  const $ = file.dom;
   const elements = $('a, img');
   const currentPath = file.path;
 
@@ -21,6 +21,10 @@ function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
 
     if ($node.is('a')) {
       target = $node.attr('href');
+
+      if (target === undefined) {
+        return;
+      }
     } else if ($node.is('img')) {
       target = $node.attr('src') || $node.attr('data-src');
     }

@@ -114,10 +114,7 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { 
-  PTSD_INCIDENT_ITERATION, 
-  NULL_CONDITION_STRING 
-} from '../constants';
+import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
 
 import migrations from '../migrations';
 
@@ -306,7 +303,10 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
-          title: formData => typeof formData.condition === 'string' ? capitalizeEachWord(formData.condition) : NULL_CONDITION_STRING,
+          title: formData =>
+            typeof formData.condition === 'string'
+              ? capitalizeEachWord(formData.condition)
+              : NULL_CONDITION_STRING,
           depends: hasNewDisabilities,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
@@ -331,7 +331,10 @@ const formConfig = {
         },
         // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
-          title: formData => typeof formData.condition === 'string' ? capitalizeEachWord(formData.condition) : NULL_CONDITION_STRING,
+          title: formData =>
+            typeof formData.condition === 'string'
+              ? capitalizeEachWord(formData.condition)
+              : NULL_CONDITION_STRING,
           path: 'new-disabilities/ptsd-intro',
           depends: hasNewPtsdDisability,
           uiSchema: newPTSDFollowUp.uiSchema,

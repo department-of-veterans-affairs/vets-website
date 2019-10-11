@@ -223,4 +223,10 @@ SchemaForm.propTypes = {
   hideTitle: PropTypes.bool,
 };
 
+SchemaForm.defaultProps = {
+  // This is required when running tests, but we'd prefer not to force
+  // everyone to be aware of it when writing tests that use SchemaForm
+  safeRenderCompletion: navigator.userAgent === 'node.js',
+};
+
 export default SchemaForm;

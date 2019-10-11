@@ -67,6 +67,10 @@ export function getWarningHeadline(enrollmentStatus) {
         'Our records show you chose to cancel or decline VA health care';
       break;
 
+    case HCA_ENROLLMENT_STATUSES.nonMilitary:
+      content = 'We see that you aren’t a Veteran or service member';
+      break;
+
     default:
       break;
   }
@@ -139,6 +143,7 @@ export function getWarningStatus(
   let content = null;
   switch (enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.deceased:
+    case HCA_ENROLLMENT_STATUSES.nonMilitary:
       content = null;
       break;
 
@@ -169,6 +174,7 @@ export function getWarningExplanation(enrollmentStatus) {
     case HCA_ENROLLMENT_STATUSES.ineligOther:
     case HCA_ENROLLMENT_STATUSES.ineligOver65:
     case HCA_ENROLLMENT_STATUSES.ineligRefusedCopay:
+    case HCA_ENROLLMENT_STATUSES.nonMilitary:
       content = null;
       break;
 
@@ -257,11 +263,11 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>We can’t accept an application for this Veteran.</p>
           <p>
             If this information is incorrect, please call our enrollment case
-            management team at 877-222-VETS (
+            management team at{' '}
             <a className="help-phone-number-link" href="tel:1-877-222-8387">
               877-222-8387
             </a>
-            ).
+            .
           </p>
         </>
       );
@@ -338,11 +344,10 @@ function wrapJSXInKeyedFragment(arrayOfJSX) {
 export function getFAQContent(enrollmentStatus) {
   const callOurTeam = (
     <>
-      call our enrollment case management team at 877-222-VETS (
+      call our enrollment case management team at{' '}
       <a className="help-phone-number-link" href="tel:1-877-222-8387">
         877-222-8387
       </a>
-      )
     </>
   );
 
@@ -493,6 +498,34 @@ export function getFAQContent(enrollmentStatus) {
         <a href="https://www.va.gov/discharge-upgrade-instructions/#other-options">
           Learn more about the Character of Discharge review process
         </a>
+      </p>
+    </>
+  );
+
+  const faqBlock10 = (
+    <>
+      <h4>Can I apply for VA health care?</h4>
+      <p>
+        The health care application on this page is only for Veterans or service
+        members who have received their separation orders and are within one
+        year of their separation. If you are a family member or caregiver
+        submitting a health care application on behalf of a Veteran or service
+        member, then you can use this tool to help get them VA health care.
+      </p>
+      <p>
+        If you’re not helping a Veteran or service member sign up, you may be
+        eligible for your own VA health care benefits.
+      </p>
+      <p>
+        <a href="https://www.va.gov/health-care/family-caregiver-benefits/">
+          Learn about health care for spouses, dependents, and family caregivers
+        </a>
+      </p>
+      <p>
+        <strong>
+          Note: If you are a Veteran or service member receiving this message in
+          error, please {callOurTeam}. {ourHours}.
+        </strong>
       </p>
     </>
   );
@@ -684,6 +717,7 @@ export function getFAQContent(enrollmentStatus) {
       faqBlockMentalHealthCare,
       faqBlockReapply2,
     ]),
+    [HCA_ENROLLMENT_STATUSES.nonMilitary]: wrapJSXInKeyedFragment([faqBlock10]),
     [HCA_ENROLLMENT_STATUSES.pendingMt]: wrapJSXInKeyedFragment([
       faqBlock6,
       faqBlockReapply5,
@@ -874,11 +908,10 @@ export function getAlertContent(
   const whatShouldIDo1 = (
     <p key="what-should-i-do-1">
       If you have questions, please call our enrollment case management team at
-      1-877-222-VETS (
       <a className="help-phone-number-link" href="tel:1-877-222-8387">
         877-222-8387
       </a>
-      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   );
   // this block will also be used for character of discharge status

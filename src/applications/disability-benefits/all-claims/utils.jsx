@@ -35,7 +35,7 @@ import {
   USA,
   TYPO_THRESHOLD,
   itfStatuses,
-  NULL_CONDITION_STRING
+  NULL_CONDITION_STRING,
 } from './constants';
 
 /**
@@ -221,7 +221,10 @@ export const disabilityIsSelected = disability => disability['view:selected'];
 export const sippableId = str => (str || 'blank').toLowerCase();
 
 const createCheckboxSchema = (schema, disabilityName) => {
-  const capitalizedDisabilityName = typeof disabilityName === 'string' ? capitalizeEachWord(disabilityName) : NULL_CONDITION_STRING;
+  const capitalizedDisabilityName =
+    typeof disabilityName === 'string'
+      ? capitalizeEachWord(disabilityName)
+      : NULL_CONDITION_STRING;
   return _.set(
     // As an array like this to prevent periods in the name being interpreted as nested objects
     [sippableId(disabilityName)],
@@ -388,13 +391,13 @@ export const addressUISchema = (
       },
     },
     addressLine2: {
-      'ui:title': 'Street address (optional)',
+      'ui:title': 'Street address',
       'ui:errorMessages': {
         pattern: 'Please fill in a valid address',
       },
     },
     addressLine3: {
-      'ui:title': 'Street address (optional)',
+      'ui:title': 'Street address',
       'ui:errorMessages': {
         pattern: 'Please fill in a valid address',
       },

@@ -200,7 +200,7 @@
 
   &-icon {
     font-size: 1.5em;
-    display:inline-block;
+    display: inline-block;
     position: relative;
     &::before {
       position: absolute;
@@ -212,7 +212,6 @@
     &.fa-user-circle {
       font-size: 1.5em;
       padding-right: .3em;
-      
     }
   }
 

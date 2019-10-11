@@ -42,10 +42,13 @@ const HCAEnrollmentStatusFAQ = ({
   showingReapplyForHealthCareContent,
   showReapplyContent,
 }) => {
-  const applyAllowed = enrollmentStatus === HCA_ENROLLMENT_STATUSES.activeDuty;
+  const applyAllowed = new Set([
+    HCA_ENROLLMENT_STATUSES.activeDuty,
+    HCA_ENROLLMENT_STATUSES.nonMilitary,
+  ]).has(enrollmentStatus);
   const reapplyAllowed =
+    !applyAllowed &&
     new Set([
-      HCA_ENROLLMENT_STATUSES.activeDuty,
       HCA_ENROLLMENT_STATUSES.deceased,
       HCA_ENROLLMENT_STATUSES.enrolled,
     ]).has(enrollmentStatus) === false;

@@ -7,7 +7,7 @@
 
         <!-- HEALTH -->
         <li role="none">
-          <button aria-controls="vetnav-health" role="button" aria-haspopup="true" class="vetnav-level1 vetnav-trigger" onClick="window.dataLayer.push({ event: 'nav-header-top-level' });">Health and Benefits</button>
+          <button aria-controls="vetnav-health" role="button" aria-haspopup="true" class="vetnav-level1 vetnav-trigger" onClick="recordEvent({ event: 'nav-header-top-level' });">Health and Benefits</button>
           <div id="vetnav-health" class="vetnav-panel" role="none" hidden>
             <ul role="menu" aria-label="Health">
               <li>
@@ -97,12 +97,12 @@
         <!-- ABOUT VA -->
         <!-- first menu item; triggers submenu -->
         <li>
-          <button class="vetnav-level1 vetnav-trigger" role="button" aria-haspopup="true" aria-controls="vetnav-about-va" onClick="window.dataLayer.push({ event: 'nav-header-top-level' });">About VA</button>
+          <button class="vetnav-level1 vetnav-trigger" role="button" aria-haspopup="true" aria-controls="vetnav-about-va" onClick="recordEvent({ event: 'nav-header-top-level' });">About VA</button>
           <!-- menu container -->
           <div id="vetnav-about" class="vetnav-panel" role="none" hidden>
             <ul role="menu" aria-label="About VA">
               <li>
-                <button class="vetnav-level2 vetnav-trigger" role="button" aria-haspopup="true" aria-controls="vetnav-inside-va" onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Inside VA</button>
+                <button class="vetnav-level2 vetnav-trigger" role="button" aria-haspopup="true" aria-controls="vetnav-inside-va" onClick="recordEvent({ event: 'nav-header-second-level' });">Inside VA</button>
 
                 <!-- submenu panel -->
                 <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-about-va" role="menu" aria-label="Inside VA" hidden>
@@ -123,7 +123,7 @@
               <!-- end menu item -->
 
               <li>
-                <button class="vetnav-level2 vetnav-trigger" role="button" aria-haspopup="true" aria-controls="vetnav-budget-performance" onClick="window.dataLayer.push({ event: 'nav-header-second-level' });">Budget and Performance</button>
+                <button class="vetnav-level2 vetnav-trigger" role="button" aria-haspopup="true" aria-controls="vetnav-budget-performance" onClick="recordEvent({ event: 'nav-header-second-level' });">Budget and Performance</button>
 
                 <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-about-va" role="menu" aria-label="Budget and Performance" hidden>
                   <!-- submenu trigger -->

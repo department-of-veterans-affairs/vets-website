@@ -103,7 +103,6 @@ export class DefinitionTester extends React.Component {
     return (
       <SchemaForm
         onBlur={this.debouncedAutoSave}
-        safeRenderCompletion
         reviewMode={this.props.reviewMode}
         name="test"
         title={this.props.title || 'test'}

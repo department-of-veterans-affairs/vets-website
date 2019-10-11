@@ -94,7 +94,7 @@ app.get('/health', (req, res) => {
 
 app.get('/preview', async (req, res, next) => {
   try {
-    const smith = createPipieline({
+    const smith = await createPipieline({
       ...options,
       port: process.env.PORT || 3001,
     });
@@ -151,7 +151,7 @@ app.get('/preview', async (req, res, next) => {
       }
 
       res.send(`
-        <p>This page isn't ready to be previewed yet. 
+        <p>This page isn't ready to be previewed yet.
           This may mean development is still in progress or that there's an issue with the preview server.
         </p>
       `);

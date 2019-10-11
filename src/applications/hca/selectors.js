@@ -12,6 +12,7 @@ const nonActiveInESRStatuses = new Set([
   HCA_ENROLLMENT_STATUSES.activeDuty,
   HCA_ENROLLMENT_STATUSES.canceledDeclined,
   HCA_ENROLLMENT_STATUSES.deceased,
+  HCA_ENROLLMENT_STATUSES.nonMilitary,
 ]);
 
 // top-level selectors

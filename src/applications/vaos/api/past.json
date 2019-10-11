@@ -1,0 +1,28 @@
+[{
+  "id": "123",
+  "facilityId": "888",
+  "facility": {
+    "id": "888",
+    "name": "Washington VA Medical Center",
+    "type": "VAMC",
+    "address": "50 Irving St NW",
+    "city": "Washington",
+    "state": "DC",
+    "directScheduleEnabled": true,
+    "parentSiteCode": 688
+  },
+  "dateTime": "2019-08-29T12:00:00Z",
+  "reason": "Routine/Follow-up",
+  "type": "Office Visit",
+  "contactNumber": "+1-908-477-1720",
+  "preferredContactTime": "evening",
+  "status": "booked",
+  "pactTeam": {
+    "teamSid": "1400018881",
+    "teamName": "Green-four",
+    "staff": [{
+      "name": "McBride, Samantha M",
+      "title": "Registered Nurse (RN)"
+    }]
+  }
+}]

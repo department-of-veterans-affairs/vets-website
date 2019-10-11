@@ -15,6 +15,18 @@ export function libraryNumCards() {
   return { first, last };
 }
 
+export function libraryClickAccessFocus() {
+  const focusItem = document.getElementById('pager-focus');
+  focusItem.focus();
+}
+
+export function libraryClickAccessTrigger() {
+  const pagerClickers = document.getElementsByClassName('pager-focus-item');
+  Array.prototype.slice.call(pagerClickers).forEach(element => {
+    element.addEventListener('click', libraryClickAccessFocus);
+  });
+}
+
 export function libraryAnchorStop(e) {
   if (e !== undefined) {
     e.preventDefault();
@@ -61,7 +73,7 @@ export function libraryCount() {
 export function libraryCurrent() {
   let increment = 1;
   let numVal;
-  cards.forEach(element => {
+  Array.prototype.slice.call(cards).forEach(element => {
     if (
       !element.classList.contains('hide-topic') &&
       !element.classList.contains('hide-type')
@@ -98,25 +110,25 @@ export function libraryPagerGen() {
     const diff = pages - activePage;
     let pagerHtml;
     // This is our active page / pager button.
-    pagerHtml = `<a href="#${activePage}" aria-label="Page ${activePage}" aria-current="true" id="va-pagination-active-num" class="va-pagination-active a-page-numbers">
+    pagerHtml = `<a href="#${activePage}" aria-label="Page ${activePage}" aria-current="true" id="va-pagination-active-num" class="va-pagination-active a-page-numbers pager-focus-item">
     ${activePage}</a>`;
     // If we have more than one page, add a button in front of active button.
     if (diff > 1 && (numCards.first === undefined || numCards.first > 9)) {
       pagerHtml += `<a href="#${activePage + 1}" aria-label="Page ${activePage +
-        1}" class="pager-numbers" aria-label="Load page
+        1}" class="pager-numbers pager-focus-item" aria-label="Load page
       ${activePage + 1}">${activePage + 1}</a>`;
     }
     // If we have more than two pages, add second page
     // button in front of active button.
     if (diff > 2 && (numCards.first === undefined || numCards.first > 9)) {
       pagerHtml += `<a href="#${activePage + 2}" aria-label="Page ${activePage +
-        2}" class="pager-numbers" aria-label="Load page
+        2}" class="pager-numbers pager-focus-item" aria-label="Load page
       ${activePage + 2}">${activePage + 2}</a>`;
     }
     // If we have more than three pages, add a third button and ellipses to
     // link to last page.
     if (diff > 3 && (numCards.first === undefined || numCards.first > 9)) {
-      pagerHtml += `.... <a href="#${pages}" aria-label="Page ${pages}" class="pager-numbers" aria-label="Load page
+      pagerHtml += `.... <a href="#${pages}" aria-label="Page ${pages}" class="pager-numbers pager-focus-item" aria-label="Load page
       ${pages}"> ${pages}</a>`;
     }
     document.getElementById('pager-nums-insert').innerHTML = pagerHtml;
@@ -124,7 +136,7 @@ export function libraryPagerGen() {
     // Prevent 508 compliant anchor links from making page jump
     const pagingAnchors = document.querySelectorAll('.va-button-link');
     if (pagingAnchors) {
-      pagingAnchors.forEach(element => {
+      Array.prototype.slice.call(pagingAnchors).forEach(element => {
         element.addEventListener('click', libraryAnchorStop);
       });
     }
@@ -135,6 +147,7 @@ export function libraryReset() {
   libraryPagerGen();
   libraryCurrent();
   libraryCount();
+  libraryClickAccessTrigger();
 }
 
 export function libraryFilters(el) {
@@ -201,7 +214,7 @@ export function libraryFilters(el) {
         element.classList.remove(`hide-${selectSwitch}`);
       },
     );
-    cards.forEach(element => {
+    Array.prototype.slice.call(cards).forEach(element => {
       element.classList.remove('pager-hide');
     });
   } else if (el.srcElement.value === 'select') {
