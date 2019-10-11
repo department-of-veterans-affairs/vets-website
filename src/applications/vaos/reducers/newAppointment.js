@@ -303,33 +303,6 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_ELIGIBILITY_CHECKS: {
-      return {
-        ...state,
-        loadingEligibility: true,
-      };
-    }
-    case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
-      const eligibility = getEligibilityChecks(
-        state.data.vaFacility,
-        action.typeOfCareId,
-        action.eligibilityData,
-      );
-
-      return {
-        ...state,
-        clinics: {
-          ...state.clinics,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
-            .eligibilityData.clinics,
-        },
-        eligibility: {
-          ...state.eligibility,
-          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
-        },
-        loadingEligibility: false,
-      };
-    }
     case START_DIRECT_SCHEDULE_FLOW: {
       const pastAppointmentDateMap = new Map();
 
@@ -408,6 +381,33 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS: {
+      return {
+        ...state,
+        loadingEligibility: true,
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
+      const eligibility = getEligibilityChecks(
+        state.data.vaFacility,
+        action.typeOfCareId,
+        action.eligibilityData,
+      );
+
+      return {
+        ...state,
+        clinics: {
+          ...state.clinics,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
+            .eligibilityData.clinics,
+        },
+        eligibility: {
+          ...state.eligibility,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
+        },
+        loadingEligibility: false,
       };
     }
     default:

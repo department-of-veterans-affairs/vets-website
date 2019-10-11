@@ -164,6 +164,26 @@ export function updateFacilityPageData(page, uiSchema, data) {
         typeOfCareId,
         eligibilityData,
       });
+    } else if (
+      previousNewAppointmentState.data.vaFacility !== data.vaFacility &&
+      !previousNewAppointmentState.eligibility[
+        `${data.vaFacility}_${typeOfCareId}`
+      ]
+    ) {
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS,
+      });
+
+      const eligibilityData = await getEligibilityData(
+        data.vaFacility,
+        typeOfCareId,
+      );
+
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId,
+        eligibilityData,
+      });
     }
   };
 }
