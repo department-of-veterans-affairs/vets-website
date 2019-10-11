@@ -10,6 +10,10 @@ import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary'
 
 const institution = {
   facilityCode: '2V000105',
+  city: 'LOS ANGELES',
+  state: 'CA',
+  zip: '90045',
+  country: 'USA',
   facilityMap: {
     main: {
       institution: {},
