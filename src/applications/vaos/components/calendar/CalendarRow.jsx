@@ -19,7 +19,7 @@ export default class CalendarRow extends Component {
 
   isDisabled = date => {
     // If user provides an array of availableDates, disable dates that are not
-    // in the array.  Otherwise, assume all dates <= today are valid
+    // in the array.  Otherwise, assume all dates >= today are valid
     const { availableDates } = this.props;
     let disabled = false;
 
