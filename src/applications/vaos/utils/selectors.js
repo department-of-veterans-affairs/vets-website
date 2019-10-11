@@ -1,4 +1,5 @@
 import { getAppointmentId } from './appointment';
+import { isEligible } from './eligibility';
 import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
@@ -69,20 +70,39 @@ export function hasSingleValidVALocation(state) {
   return (
     !formInfo.schema?.properties.vaSystem &&
     !formInfo.schema?.properties.vaFacility &&
-    formInfo.data.vaSystem &&
-    formInfo.data.vaFacility
+    !!formInfo.data.vaSystem &&
+    !!formInfo.data.vaFacility
   );
+}
+
+export function getEligibilityChecks(state) {
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  return (
+    newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
+  );
+}
+
+export function getEligibilityStatus(state) {
+  const eligibility = getEligibilityChecks(state);
+  return isEligible(eligibility);
 }
 
 export function getFacilityPageInfo(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
+  const eligibilityStatus = getEligibilityStatus(state);
 
   return {
     ...formInfo,
     facility: getChosenFacilityInfo(state),
     loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
+    loadingEligibility: newAppointment.loadingEligibility,
+    eligibility: getEligibilityChecks(state),
+    canScheduleAtChosenFacility:
+      eligibilityStatus.direct || eligibilityStatus.request,
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVASystems:
       !formInfo.data.vaSystem &&
@@ -98,8 +118,16 @@ export function getChosenClinicInfo(state) {
   const clinics = getNewAppointment(state).clinics;
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    clinics[`${typeOfCareId}_${data.vaFacility}`]?.find(
+    clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.clinicId === data.clinicId,
     ) || null
   );
+}
+
+export function getClinicsForChosenFacility(state) {
+  const data = getFormData(state);
+  const clinics = getNewAppointment(state).clinics;
+  const typeOfCareId = getTypeOfCare(data)?.id;
+
+  return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
 }
