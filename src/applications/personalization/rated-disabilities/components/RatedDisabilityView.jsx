@@ -5,8 +5,8 @@ import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
-      fetchRatedDisabilities: PropTypes.func.isRequired,
-      ratedDisabilities: PropTypes.shape({
+    fetchRatedDisabilities: PropTypes.func.isRequired,
+    ratedDisabilities: PropTypes.shape({
       ratedDisabilities: PropTypes.array,
     }),
   };
