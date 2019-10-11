@@ -140,6 +140,23 @@ export function getPacTeam(systemId) {
 }
 
 export function getFacilityInfo(facilityId) {
+  if (environment.isLocalhost()) {
+    return Promise.resolve({
+      attributes: {
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+            address2: null,
+            address3: null,
+          },
+        },
+      },
+    });
+  }
   return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
     resp => resp.data,
   );

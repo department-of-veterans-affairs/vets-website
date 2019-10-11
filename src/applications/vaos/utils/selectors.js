@@ -140,5 +140,6 @@ export function getClinicPageInfo(state, pageKey) {
     ...formPageInfo,
     facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
+    clinics: getClinicsForChosenFacility(state),
   };
 }

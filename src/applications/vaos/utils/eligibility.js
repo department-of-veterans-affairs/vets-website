@@ -151,11 +151,12 @@ export function getEligibleFacilities(facilities) {
   );
 }
 
-export function hasEligibleClinics(pastAppointments, clinics) {
+export function hasEligibleClinics(facilityId, pastAppointments, clinics) {
   const pastClinicIds = new Set(
     pastAppointments
       .filter(
         appt =>
+          appt.facilityId === facilityId &&
           appt.clinicId &&
           !CANCELLED_APPOINTMENT_SET.has(
             appt.vdsAppointments?.[0].currentStatus || 'FUTURE',

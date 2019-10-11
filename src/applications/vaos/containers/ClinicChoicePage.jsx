@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import FacilityAddress from '../components/FacilityAddress';
 
 import {
   openClinicPage,
@@ -51,6 +52,7 @@ export class ClinicChoicePage extends React.Component {
       pageChangeInProgress,
       facilityDetails,
       typeOfCare,
+      clinics,
     } = this.props;
 
     if (!schema) {
@@ -62,39 +64,36 @@ export class ClinicChoicePage extends React.Component {
         {schema.properties.clinicId.enum.length === 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Make an appointment at your last clinic
+              Make a {typeOfCare.name} appointment at your last clinic
             </h1>
-            Your last {typeOfCare.name} appointment was at:
+            Your last {typeOfCare.name} appointment was at{' '}
+            {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
             {facilityDetails && (
               <p>
-                <strong>{facilityDetails.attributes.name}</strong>
-                <br />
-                {facilityDetails.attributes.address.physical.address1}
-                <br />
-                {facilityDetails.attributes.address.physical.address2}
-                <br />
-                {facilityDetails.attributes.address.physical.city},{' '}
-                {facilityDetails.attributes.address.physical.state}{' '}
-                {facilityDetails.attributes.address.physical.zip}
-              </p>
-            )}
-            {!facilityDetails && (
-              <p>
-                <strong>Green Team Clinic1</strong>
-                <br />
-                CHYSHR-Cheyenne VA Medical Center
-                <br />
-                421 North Main Street
-                <br />
-                Leeds, MA 01053-9764
+                <FacilityAddress
+                  name={facilityDetails.attributes.name}
+                  address={facilityDetails.attributes.address.physical}
+                />
               </p>
             )}
           </>
         )}
         {schema.properties.clinicId.enum.length > 2 && (
-          <h1 className="vads-u-font-size--h2">
-            Where do you want an appointment?
-          </h1>
+          <>
+            <h1 className="vads-u-font-size--h2">
+              Select your VA clinic for your {typeOfCare.name} appointment
+            </h1>
+            In the last 24 months you have had {typeOfCare.name} appointments in
+            the following clinics, located at:
+            {facilityDetails && (
+              <p>
+                <FacilityAddress
+                  name={facilityDetails.attributes.name}
+                  address={facilityDetails.attributes.address.physical}
+                />
+              </p>
+            )}
+          </>
         )}
         <SchemaForm
           name="Clinic choice"

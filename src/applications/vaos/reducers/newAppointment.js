@@ -1,4 +1,3 @@
-import React from 'react';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -36,6 +35,7 @@ const initialState = {
   pages: {},
   data: {},
   facilities: {},
+  facilityDetails: {},
   clinics: {},
   eligibility: {},
   systems: null,
@@ -334,9 +334,13 @@ export default function formReducer(state = initialState, action) {
       const pastAppointmentDateMap = new Map();
 
       action.appointments.forEach(appt => {
-        const apptTime = appt.vdsAppointments?.[0].appointmentTime;
+        const apptTime = appt.startDate;
+        const facilityId = state.data.vaFacility;
         const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
-        if (!latestApptTime || latestApptTime > apptTime) {
+        if (
+          appt.facilityId === facilityId &&
+          (!latestApptTime || latestApptTime > apptTime)
+        ) {
           pastAppointmentDateMap.set(appt.clinicId, apptTime);
         }
       });
@@ -358,12 +362,11 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${clinics[0]
-                .clinicFriendlyLocationName || clinics[0].clinicName}?`,
+              title: 'Would you like to make an appointment at this clinic?',
               enum: [clinics[0].clinicId, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
-                'No, I need a different location',
+                'No, I need a different clinic',
               ],
             },
           },
@@ -375,23 +378,14 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'Select a location where you were seen before or a different VA location.',
+                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
               enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
               enumNames: clinics
-                .map(clinic => (
-                  <>
-                    <strong>
-                      {clinic.clinicFriendlyLocationName || clinic.clinicName}
-                    </strong>
-                    <br />
-                    CHYSHR-Cheyenne VA Medical Center
-                    <br />
-                    421 North Main Street
-                    <br />
-                    Leeds, MA 01053-9764
-                  </>
-                ))
-                .concat('I need a different location'),
+                .map(
+                  clinic =>
+                    clinic.clinicFriendlyLocationName || clinic.clinicName,
+                )
+                .concat('I need a different clinic'),
             },
           },
         };

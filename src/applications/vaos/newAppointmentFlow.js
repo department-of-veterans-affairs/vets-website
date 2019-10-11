@@ -98,11 +98,12 @@ export default {
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
       const clinics = getClinicsForChosenFacility(state);
+      const facilityId = getFormData(state).vaFacility;
 
       if (eligibilityStatus.direct) {
         const appointments = await getPastAppointments();
 
-        if (hasEligibleClinics(appointments, clinics)) {
+        if (hasEligibleClinics(facilityId, appointments, clinics)) {
           dispatch({
             type: 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
             appointments,
