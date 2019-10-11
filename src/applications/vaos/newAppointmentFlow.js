@@ -1,4 +1,11 @@
-import { getFormData } from './utils/selectors';
+import {
+  getFormData,
+  getEligibilityStatus,
+  getClinicsForChosenFacility,
+} from './utils/selectors';
+
+import { getPastAppointments } from './api';
+import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -88,7 +95,30 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'reasonForAppointment',
+    async next(state, dispatch) {
+      const eligibilityStatus = getEligibilityStatus(state);
+      const clinics = getClinicsForChosenFacility(state);
+
+      if (eligibilityStatus.direct) {
+        const appointments = await getPastAppointments();
+
+        if (hasEligibleClinics(appointments, clinics)) {
+          dispatch({
+            // TODO: finish this action when building the clinc choice page
+            type: 'START_DIRECT_SCHEDULE_FLOW',
+            appointments,
+          });
+
+          return 'clinicChoice';
+        }
+      }
+
+      if (eligibilityStatus.request) {
+        return 'reasonForAppointment';
+      }
+
+      throw new Error('Veteran not eligible for direct scheduling or requests');
+    },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },

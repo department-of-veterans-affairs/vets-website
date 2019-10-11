@@ -23,7 +23,6 @@ describe('VAOS <ConfirmedAppointmentListPage>', () => {
   it('should render confirmed appointments', () => {
     const fetchConfirmedAppointments = sinon.spy();
     const appointments = [{}, {}];
-
     const form = shallow(
       <ConfirmedAppointmentListPage
         fetchConfirmedAppointments={fetchConfirmedAppointments}
@@ -35,6 +34,26 @@ describe('VAOS <ConfirmedAppointmentListPage>', () => {
     expect(fetchConfirmedAppointments.called).to.be.true;
     expect(form.find('LoadingIndicator').exists()).to.be.false;
     expect(form.find('ConfirmedAppointmentListItem').length).to.equal(2);
+    form.unmount();
+  });
+
+  it('should render message when no confirmed appointments', () => {
+    const fetchConfirmedAppointments = sinon.spy();
+    const appointments = [];
+    const form = shallow(
+      <ConfirmedAppointmentListPage
+        fetchConfirmedAppointments={fetchConfirmedAppointments}
+        status="succeeded"
+        appointments={appointments}
+      />,
+    );
+
+    expect(fetchConfirmedAppointments.called).to.be.true;
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('ConfirmedAppointmentListItem').length).to.equal(0);
+    expect(form.find('h2').text()).to.equal(
+      "You don't have any confirmed appointments at this time.",
+    );
     form.unmount();
   });
 });
