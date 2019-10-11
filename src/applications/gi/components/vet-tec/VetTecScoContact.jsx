@@ -3,7 +3,10 @@ import React from 'react';
 export const VetTecScoContact = sco => {
   if (sco) {
     return (
-      <div className="vads-l-col--12 medium-screen:vads-l-col--6 vads-u-margin-bottom--1">
+      <div
+        key={`${sco.email}`}
+        className="vads-l-col--12 medium-screen:vads-l-col--6 vads-u-margin-bottom--1"
+      >
         <div>
           {sco.firstName} {sco.lastName}
         </div>

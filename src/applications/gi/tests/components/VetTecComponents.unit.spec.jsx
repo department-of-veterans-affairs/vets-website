@@ -29,7 +29,7 @@ const institution = {
       phoneNumber: '333-3333',
     },
   ],
-  schoolCertifyingOfficials: [
+  versionedSchoolCertifyingOfficials: [
     {
       priority: 'PRIMARY',
       firstName: 'ADM',
@@ -69,7 +69,7 @@ describe('<VetTecScoContact>', () => {
 
   it('return the contact information for an SCO', () => {
     const wrapper = shallow(
-      VetTecScoContact(institution.schoolCertifyingOfficials[1]),
+      VetTecScoContact(institution.versionedSchoolCertifyingOfficials[1]),
     );
 
     expect(wrapper.text().includes('MARTIN INDIATSI')).to.be.true;
