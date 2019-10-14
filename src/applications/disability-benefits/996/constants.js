@@ -12,5 +12,6 @@ export const errorMessages = {
   zipCode: 'Please enter your zip code',
   forwardStartDate: 'Please enter an effective start date',
   startDateInPast: 'Start date must be in the future',
+  endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
 };

@@ -39,6 +39,22 @@ describe('From Date validations', () => {
     expect(errorMessage).to.equal(errorMessages.startDateInPast);
   });
 
+  it('should prevent end dates before today', () => {
+    let errorMessage = '';
+    const errors = {
+      to: {
+        addError: message => {
+          errorMessage = message;
+        },
+      },
+    };
+    const dates = {
+      to: addXMonths(today, -1),
+    };
+    checkDateRange(errors, dates);
+    expect(errorMessage).to.equal(errorMessages.endDateInPast);
+  });
+
   it('should allow end dates after the start date', () => {
     let errorMessage = '';
     const errors = {
