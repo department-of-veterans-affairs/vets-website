@@ -33,13 +33,11 @@ export default {
 
     // Checkbox state
     'view:hasForwardingAddress': true,
-
-    effectiveDates: {
-      from: addXMonths(today, 6),
-      to: addXMonths(today, 12),
-    },
-
     fowardingAddress: {
+      effectiveDates: {
+        from: addXMonths(today, 6),
+        to: addXMonths(today, 12),
+      },
       addressLine1: '1600 Pennsylvania Ave',
       city: 'Washington',
       country: 'USA',

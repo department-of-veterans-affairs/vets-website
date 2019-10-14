@@ -425,12 +425,6 @@
           "maxLength": 80,
           "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
         },
-        "alternateEmailAddress": {
-          "type": "string",
-          "format": "email",
-          "maxLength": 80,
-          "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-        },
         "mailingAddress": {
           "$ref": "#/definitions/address"
         },

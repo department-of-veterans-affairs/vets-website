@@ -5,13 +5,13 @@ import { AddressViewField } from '../all-claims/utils';
 
 export const ForwardingAddressViewField = ({ formData }) => (
   <>
-    <EffectiveDateViewField formData={formData.effectiveDates} />
-    <AddressViewField formData={formData.forwardingAddress} />
+    <EffectiveDateViewField formData={formData} />
+    <AddressViewField formData={formData} />
   </>
 );
 
 const EffectiveDateViewField = ({ formData }) => {
-  const { from, to } = formData;
+  const { from, to } = formData.effectiveDates;
   const dateFormat = 'MMM D, YYYY';
   const fromDateString = moment(from).format(dateFormat);
   return to ? (
