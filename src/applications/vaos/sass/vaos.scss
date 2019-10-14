@@ -87,6 +87,11 @@
         }
 
         &.vaos-calendar__cell-current {
+          position: relative;
+          background-color: $color-primary;
+          border-color: $color-primary;
+          color: $color-white;
+          
           .vaos-calendar__cell-selected-triangle {
             display: block;
             height: 20px;
@@ -116,7 +121,7 @@
         border-radius: 5px;
         padding: 10px 0;
 
-        input[type="radio"] {
+        input[type="radio"], input[type="checkbox"] {
           width: unset;
         }
 

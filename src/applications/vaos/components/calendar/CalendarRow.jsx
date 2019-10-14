@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import CalendarCell from './CalendarCell';
 import CalendarRadioOption from './CalendarRadioOption';
+import CalendarCheckboxOption from './CalendarCheckboxOption';
+import {
+  isDateInSelectedArray,
+  isDateOptionPairInSelectedArray,
+} from './../../utils/calendar';
 
 export default class CalendarRow extends Component {
   static propTypes = {
@@ -14,7 +19,7 @@ export default class CalendarRow extends Component {
     handleSelectOption: PropTypes.func,
     optionsError: PropTypes.string,
     rowNumber: PropTypes.number.isRequired,
-    selectedDates: PropTypes.object,
+    selectedDates: PropTypes.array,
   };
 
   isCellDisabled = date => {
@@ -36,7 +41,7 @@ export default class CalendarRow extends Component {
     const {
       cells,
       currentlySelectedDate,
-      getSelectedDateOptions,
+      additionalOptions,
       handleSelectOption,
       optionsError,
       selectedDates,
@@ -45,18 +50,20 @@ export default class CalendarRow extends Component {
     if (
       currentlySelectedDate &&
       cells.includes(currentlySelectedDate) &&
-      getSelectedDateOptions
+      additionalOptions
     ) {
-      const additionalOptions = getSelectedDateOptions(currentlySelectedDate);
+      const selectedDateOptions = additionalOptions?.getOptionsByDate(
+        currentlySelectedDate,
+      );
 
-      if (additionalOptions) {
+      if (selectedDateOptions) {
         const selectedCellIndex = cells.indexOf(currentlySelectedDate);
         const fieldName = additionalOptions.fieldName;
 
         let justify = 'vads-u-justify-content--flex-start';
 
         // If list of items is won't fill row, align items closer to selected cell
-        if (additionalOptions?.options?.length < 4) {
+        if (selectedDateOptions.length < 4) {
           if (selectedCellIndex === 2) {
             justify = 'vads-u-justify-content--center';
           } else if (selectedCellIndex === 3 || selectedCellIndex === 4) {
@@ -78,21 +85,39 @@ export default class CalendarRow extends Component {
                 <span className="sr-only">Error</span> {optionsError}
               </span>
             )}
-            {additionalOptions?.options.map((o, index) => (
-              <CalendarRadioOption
-                key={`radio-${index}`}
-                index={index}
-                fieldName={fieldName}
-                value={o.value}
-                checked={
-                  selectedDates[currentlySelectedDate][fieldName] === o.value
-                }
-                onChange={e =>
-                  handleSelectOption({ fieldName, value: e.target.value })
-                }
-                label={o.label}
-              />
-            ))}
+            {selectedDateOptions.map((o, index) => {
+              const dateObj = {
+                date: currentlySelectedDate,
+                [fieldName]: o.value,
+              };
+              const checked = isDateOptionPairInSelectedArray(
+                dateObj,
+                selectedDates,
+                fieldName,
+              );
+
+              return additionalOptions?.maxSelections > 1 ? (
+                <CalendarCheckboxOption
+                  key={`checkbox-${index}`}
+                  index={index}
+                  fieldName={fieldName}
+                  value={o.value}
+                  checked={checked}
+                  onChange={() => handleSelectOption(dateObj)}
+                  label={o.label}
+                />
+              ) : (
+                <CalendarRadioOption
+                  key={`radio-${index}`}
+                  index={index}
+                  fieldName={fieldName}
+                  value={o.value}
+                  checked={checked}
+                  onChange={() => handleSelectOption(dateObj)}
+                  label={o.label}
+                />
+              );
+            })}
           </div>
         );
       }
@@ -118,7 +143,7 @@ export default class CalendarRow extends Component {
               key={`row-${rowNumber}-cell-${index}`}
               date={date}
               isCurrentlySelected={currentlySelectedDate === date}
-              isInSelectedMap={selectedDates[date] !== undefined}
+              inSelectedArray={isDateInSelectedArray(date, selectedDates)}
               onClick={() => handleSelectDate(date, rowNumber)}
               disabled={this.isCellDisabled(date)}
             />

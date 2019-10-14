@@ -4,7 +4,7 @@ import moment from 'moment';
 const CalendarCell = ({
   date,
   isCurrentlySelected,
-  isInSelectedMap,
+  inSelectedArray,
   disabled,
   onClick,
 }) => {
@@ -20,7 +20,7 @@ const CalendarCell = ({
 
   const cssClasses = ['vaos-calendar__calendar-day'];
   if (isCurrentlySelected) cssClasses.push('vaos-calendar__cell-current');
-  if (isInSelectedMap) cssClasses.push('vaos-calendar__cell-selected');
+  if (inSelectedArray) cssClasses.push('vaos-calendar__cell-selected');
 
   return (
     <button
@@ -32,7 +32,7 @@ const CalendarCell = ({
       aria-label={ariaDate}
       aria-expanded={isCurrentlySelected}
     >
-      {isInSelectedMap && <i className="fas fa-check vads-u-color--white" />}
+      {inSelectedArray && <i className="fas fa-check vads-u-color--white" />}
       {dateDay}
       {isCurrentlySelected && (
         <span className="vaos-calendar__cell-selected-triangle" />
