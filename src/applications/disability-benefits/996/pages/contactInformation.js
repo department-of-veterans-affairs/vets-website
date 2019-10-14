@@ -9,26 +9,20 @@ import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNu
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import { addressUISchema } from '../../all-claims/utils';
-import { USA } from '../../all-claims/constants';
 import {
   contactInfoDescription,
   contactInfoUpdateHelp,
   phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
 
-import { ForwardingAddressViewField } from '../helpers';
+import { hasForwardingAddress, forwardingCountryIsUSA } from '../helpers';
 import {
+  ForwardingAddressViewField,
   ForwardingAddressDescription,
   forwardingAddressCheckboxLabel,
 } from '../content/ForwardingAddress';
 import { checkDateRange } from '../validations';
 import { errorMessages } from '../constants';
-
-const hasForwardingAddress = formData =>
-  formData?.veteran?.['view:hasForwardingAddress'] || false;
-
-const forwardingCountryIsUSA = formData =>
-  formData?.veteran?.forwardingAddress?.country === USA;
 
 const {
   mailingAddress,

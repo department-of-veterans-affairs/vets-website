@@ -1,16 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
-import { AddressViewField } from '../all-claims/utils';
+import { USA } from '../all-claims/constants';
 
-export const ForwardingAddressViewField = ({ formData }) => (
-  <>
-    <EffectiveDateViewField formData={formData} />
-    <AddressViewField formData={formData} />
-  </>
-);
-
-const EffectiveDateViewField = ({ formData }) => {
+export const EffectiveDateViewField = ({ formData }) => {
   const { from, to } = formData.effectiveDates;
   const dateFormat = 'MMM D, YYYY';
   const fromDateString = moment(from).format(dateFormat);
@@ -23,6 +16,12 @@ const EffectiveDateViewField = ({ formData }) => {
     <p>We’ll use this address starting on {fromDateString}:</p>
   );
 };
+
+export const hasForwardingAddress = formData =>
+  formData?.veteran?.['view:hasForwardingAddress'] || false;
+
+export const forwardingCountryIsUSA = formData =>
+  formData?.veteran?.forwardingAddress?.country === USA;
 
 // For testing
 export const isValidDate = date => date instanceof Date && isFinite(date);

@@ -1,4 +1,6 @@
 import React from 'react';
+import { AddressViewField } from '../../all-claims/utils';
+import { EffectiveDateViewField } from '../helpers';
 
 export const forwardingAddressCheckboxLabel =
   'My address will be changing soon.';
@@ -11,4 +13,11 @@ export const ForwardingAddressDescription = () => (
     <br />
     <br />
   </p>
+);
+
+export const ForwardingAddressViewField = ({ formData }) => (
+  <>
+    <EffectiveDateViewField formData={formData} />
+    <AddressViewField formData={formData} />
+  </>
 );
