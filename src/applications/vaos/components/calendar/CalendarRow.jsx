@@ -17,7 +17,7 @@ export default class CalendarRow extends Component {
     selectedDates: PropTypes.object,
   };
 
-  isDisabled = date => {
+  isCellDisabled = date => {
     // If user provides an array of availableDates, disable dates that are not
     // in the array.  Otherwise, assume all dates >= today are valid
     const { availableDates } = this.props;
@@ -121,7 +121,7 @@ export default class CalendarRow extends Component {
               isCurrentlySelected={currentlySelectedDate === date}
               isInSelectedMap={selectedDates[date] !== undefined}
               onClick={() => handleSelectDate(date, rowNumber)}
-              disabled={this.isDisabled(date)}
+              disabled={this.isCellDisabled(date)}
             />
           ))}
         </div>
