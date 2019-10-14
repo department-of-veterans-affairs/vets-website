@@ -19,7 +19,7 @@ describe('Confirm Veteran Details', () => {
         definitions={formConfig.defaultDefinitions}
         schema={confirmVeteranDetails.schema}
         uiSchema={confirmVeteranDetails.uiSchema}
-        data={initialData.veteran}
+        data={initialData}
         formData={initialData}
       />,
     );
