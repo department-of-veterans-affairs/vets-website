@@ -104,27 +104,3 @@ export function removeDateOptionPairFromSelectedArray(
       (d.date === dateObj.date && d[fieldName] !== dateObj[fieldName]),
   );
 }
-
-export function convertSelectedDatesObjToArray(selectedDatesObj) {
-  const selectedDates = [];
-
-  Object.keys(selectedDatesObj).forEach(dateKey => {
-    const dateObj = {
-      date: dateKey,
-    };
-    Object.keys(selectedDatesObj[dateKey]).forEach(key => {
-      dateObj[key] = selectedDatesObj[dateKey][key];
-    });
-    selectedDates.push(dateObj);
-  });
-
-  return selectedDates;
-}
-
-export function convertSelectedDatesArrayToObj(selectedDatesArray) {
-  return selectedDatesArray.reduce((obj, item) => {
-    const result = { ...obj };
-    result[item.date] = item;
-    return result;
-  }, {});
-}
