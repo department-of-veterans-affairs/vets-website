@@ -33,7 +33,7 @@ export default {
 
     // Checkbox state
     'view:hasForwardingAddress': true,
-    fowardingAddress: {
+    forwardingAddress: {
       effectiveDates: {
         from: addXMonths(today, 6),
         to: addXMonths(today, 12),

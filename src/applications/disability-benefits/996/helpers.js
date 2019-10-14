@@ -30,7 +30,8 @@ export const isValidDate = date => date instanceof Date && isFinite(date);
 // Add X months to date (for testing forwarding address)
 export const addXMonths = (origDate, numberOfMonths) => {
   const date = new Date(origDate);
-  return new Date(date.setMonth(date.getMonth() + numberOfMonths));
+  const modDate = new Date(date.setMonth(date.getMonth() + numberOfMonths));
+  return modDate.toISOString().split('T')[0];
 };
 
 // phoneEmailViewField formatting uses "name: value", e.g.

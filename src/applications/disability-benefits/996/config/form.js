@@ -70,10 +70,10 @@ const formConfig = {
         },
         confirmContactInformation: {
           title: 'Contact information',
-          path: 'veteran-details/contact-information',
+          path: 'contact-information',
           uiSchema: contactInfoUiSchema,
           schema: contactInfoSchema,
-          initialData: initialData.veteran,
+          initialData,
         },
       },
     },
