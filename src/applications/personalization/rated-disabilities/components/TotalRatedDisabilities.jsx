@@ -7,7 +7,7 @@ import PercetnageCalloutBox from '../components/PercentageCalloutBox';
 const TotalRatedDisabilities = props => {
   const { loading, totalDisabilityRating, error } = props;
   let content;
-  // If the data from the parent is loading, show a loading indicator
+  // If the data from the parent is loading ( loading prop ), show a loading indicator
   // If there is an error, display an error message,
   // If there is no rating, display a no rating message
   // If there is a rating, display the rating and content
@@ -76,8 +76,8 @@ const TotalRatedDisabilities = props => {
                 <strong>
                   Your combined disability rating is {totalDisabilityRating}%
                 </strong>
-                . This rating determines the amount of compensation you'll get.
-                The {''}
+                . This rating determines the amount of disability compensation
+                you'll get. The {''}
                 <a href="#"> individual disability ratings </a>
                 {''}
                 below are what we used to calculate your combines disability
@@ -95,24 +95,12 @@ const TotalRatedDisabilities = props => {
                 </a>
               </p>
             </div>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3 medium-screen:vads-u-padding-top--3">
               <PercetnageCalloutBox
                 value={totalDisabilityRating}
                 isPercentage
                 label="Your combined VA disability rating"
               />
-            </div>
-          </div>
-          <div className="vads-l-row">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--8">
-              <h3>What if I disagree with my rating?</h3>
-              <p>
-                If you disagree with your rating, you can file an appeal. You'll
-                need to do this within 1 year of getting your decision notice.
-              </p>
-              <p>
-                <a href="#">Learn how to file an appeal</a>
-              </p>
             </div>
           </div>
         </div>

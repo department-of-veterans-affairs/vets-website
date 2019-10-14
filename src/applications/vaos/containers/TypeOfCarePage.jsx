@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
-import { TYPES_OF_CARE } from '../utils/constants';
+import { TYPES_OF_CARE, DIRECT_SCHEDULE_TYPES } from '../utils/constants';
+import { getPastAppointments } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareField from '../components/TypeOfCareField';
 import {
@@ -41,6 +42,18 @@ export class TypeOfCarePage extends React.Component {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
 
+  onChange = newData => {
+    // When someone chooses a type of care that can be direct scheduled,
+    // kick off the past appointments fetch, which takes a while
+    if (DIRECT_SCHEDULE_TYPES.has(newData.typeOfCareId)) {
+      // This could get called multiple times, but the function is memoized
+      // and returns the previous promise if it eixsts
+      getPastAppointments();
+    }
+
+    this.props.updateFormData(pageKey, uiSchema, newData);
+  };
+
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
@@ -63,9 +76,7 @@ export class TypeOfCarePage extends React.Component {
           schema={schema || initialSchema}
           uiSchema={uiSchema}
           onSubmit={this.goForward}
-          onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
-          }
+          onChange={this.onChange}
           data={data}
         >
           <FormButtons
