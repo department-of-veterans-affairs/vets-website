@@ -4,8 +4,6 @@ import { checkDateRange } from '../../validations';
 import { addXMonths } from '../../helpers';
 import { errorMessages } from '../../constants';
 
-const today = new Date();
-
 describe('From Date validations', () => {
   it('should allow start dates after today', () => {
     let errorMessage = '';
@@ -17,7 +15,7 @@ describe('From Date validations', () => {
       },
     };
     const dates = {
-      from: addXMonths(today, 1),
+      from: addXMonths(1),
     };
     checkDateRange(errors, dates);
     expect(errorMessage).to.equal('');
@@ -33,7 +31,7 @@ describe('From Date validations', () => {
       },
     };
     const dates = {
-      from: addXMonths(today, -1),
+      from: addXMonths(-1),
     };
     checkDateRange(errors, dates);
     expect(errorMessage).to.equal(errorMessages.startDateInPast);
@@ -49,7 +47,7 @@ describe('From Date validations', () => {
       },
     };
     const dates = {
-      to: addXMonths(today, -1),
+      to: addXMonths(-1),
     };
     checkDateRange(errors, dates);
     expect(errorMessage).to.equal(errorMessages.endDateInPast);
@@ -65,8 +63,8 @@ describe('From Date validations', () => {
       },
     };
     const dates = {
-      from: addXMonths(today, 2),
-      to: addXMonths(today, 3),
+      from: addXMonths(2),
+      to: addXMonths(3),
     };
     checkDateRange(errors, dates);
     expect(errorMessage).to.equal('');
@@ -82,8 +80,8 @@ describe('From Date validations', () => {
       },
     };
     const dates = {
-      from: addXMonths(today, 2),
-      to: addXMonths(today, -1),
+      from: addXMonths(2),
+      to: addXMonths(-1),
     };
     checkDateRange(errors, dates);
     expect(errorMessage).to.equal(errorMessages.endDateBeforeStart);

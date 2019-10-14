@@ -1,8 +1,6 @@
 // Test data for HLR
 import { addXMonths } from '../../helpers';
 
-const today = new Date();
-
 export default {
   veteran: {
     fullName: { first: 'MIKE', last: 'WAZOWSKI' },
@@ -35,8 +33,8 @@ export default {
     'view:hasForwardingAddress': true,
     forwardingAddress: {
       effectiveDates: {
-        from: addXMonths(today, 6),
-        to: addXMonths(today, 12),
+        from: addXMonths(6),
+        to: addXMonths(12),
       },
       addressLine1: '1600 Pennsylvania Ave',
       city: 'Washington',

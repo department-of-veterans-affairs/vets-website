@@ -27,16 +27,7 @@ export const forwardingCountryIsUSA = formData =>
 export const isValidDate = date => date instanceof Date && isFinite(date);
 
 // Add X months to date (for testing forwarding address)
-export const addXMonths = (origDate, numberOfMonths) => {
-  const date = new Date(origDate);
-  const modDate = new Date(date.setMonth(date.getMonth() + numberOfMonths));
-  return modDate.toISOString().split('T')[0];
-};
-
-// phoneEmailViewField formatting uses "name: value", e.g.
-// Primary phone: ###-###-####
-// Email address: abc@abc.com
-export const extractValueFromText = text => {
-  const [, result] = text.split(':');
-  return result?.trim() || '';
-};
+export const addXMonths = numberOfMonths =>
+  moment()
+    .add(numberOfMonths, 'months')
+    .format('YYYY-MM-DD');
