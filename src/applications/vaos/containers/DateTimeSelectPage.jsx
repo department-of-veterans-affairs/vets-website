@@ -34,14 +34,10 @@ export class DateTimeSelectPage extends React.Component {
   getSelectedDateOptions = selectedDate => {
     const data = this.state.slotMap[selectedDate];
     if (data?.times?.length) {
-      return {
-        fieldName: 'datetime',
-        options: data.times.map(t => ({
-          value: t.format(),
-          label: t.format('h:mm A z'),
-        })),
-        required: true,
-      };
+      return data.times.map(t => ({
+        value: t.format(),
+        label: t.format('h:mm A z'),
+      }));
     }
 
     return null;
@@ -96,7 +92,12 @@ export class DateTimeSelectPage extends React.Component {
           availableDates={this.state.availableDatesArray}
           monthsToShowAtOnce={2}
           maxSelections={1}
-          getSelectedDateOptions={this.getSelectedDateOptions}
+          additionalOptions={{
+            fieldName: 'datetime',
+            required: true,
+            maxSelections: 1,
+            getOptionsByDate: this.getSelectedDateOptions,
+          }}
         />
       </div>
     );

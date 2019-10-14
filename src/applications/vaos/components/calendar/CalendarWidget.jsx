@@ -124,8 +124,6 @@ export default class CalendarWidget extends Component {
     this.setState({ months: updatedMonths });
   };
 
-  shouldDisableNextButton = () => {};
-
   isValid = date => {
     let isValid = true;
     const { additionalOptions } = this.props.additionalOptions;
@@ -281,7 +279,7 @@ export default class CalendarWidget extends Component {
         cells={week}
         availableDates={this.props.availableDates}
         rowNumber={index}
-        getSelectedDateOptions={this.props.getSelectedDateOptions}
+        additionalOptions={this.props.additionalOptions}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
         selectedDates={this.props.selectedDates || []}

@@ -35,9 +35,13 @@ export class DateTimeRequestPage extends React.Component {
           monthsToShowAtOnce={2}
           multiSelect
           maxSelections={3}
-          getSelectedDateOptions={() => ({
+          additionalOptions={{
             fieldName: 'optionTime',
-            options: [
+            required: true,
+            maxSelections: 2,
+            validationMessage:
+              'Please select a preferred time or unselect this date to continue',
+            getOptionsByDate: () => [
               {
                 value: 'AM',
                 label: 'AM',
@@ -47,10 +51,7 @@ export class DateTimeRequestPage extends React.Component {
                 label: 'PM',
               },
             ],
-            required: true,
-            validationMessage:
-              'Please select a preferred time or unselect this date to continue',
-          })}
+          }}
         />
       </div>
     );
