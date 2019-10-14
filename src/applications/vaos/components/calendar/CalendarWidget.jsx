@@ -124,6 +124,8 @@ export default class CalendarWidget extends Component {
     this.setState({ months: updatedMonths });
   };
 
+  shouldDisableNextButton = () => {};
+
   isValid = date => {
     let isValid = true;
     const { additionalOptions } = this.props.additionalOptions;
@@ -175,7 +177,6 @@ export default class CalendarWidget extends Component {
 
         onChange({
           currentlySelectedDate: date,
-          selectedDates,
           currentRowIndex,
         });
       }
