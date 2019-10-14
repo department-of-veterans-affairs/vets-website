@@ -57,7 +57,7 @@ export default function FieldTemplate(props) {
     );
   }
 
-  if (environment.isDev()) {
+  if (environment.isDev() || environment.isLocalhost) {
     const errorSpanClass = classNames('usa-input-error-message', {
       'vads-u-display--block': hasErrors,
       'vads-u-display--none': !hasErrors,
