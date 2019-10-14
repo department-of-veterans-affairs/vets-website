@@ -13,12 +13,13 @@ const { confirmVeteranDetails } = formConfig.chapters.veteranDetails.pages;
 
 describe('Confirm Veteran Details', () => {
   it('should render Veteran details (Name, last 4 SSN & VA File, gender)', () => {
+    const veteran = initialData.veteran;
     const tree = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={confirmVeteranDetails.schema}
         uiSchema={confirmVeteranDetails.uiSchema}
-        data={initialData}
+        data={initialData.veteran}
         formData={initialData}
       />,
     );
@@ -27,21 +28,19 @@ describe('Confirm Veteran Details', () => {
       .find('strong')
       .first()
       .text();
-    const dataName = `${initialData.fullName.first} ${
-      initialData.fullName.last
-    }`;
+    const dataName = `${veteran.fullName.first} ${veteran.fullName.last}`;
     expect(fullName).to.equal(dataName);
 
     const maskedLast4 = tree.find('MaskedNumber');
     expect(maskedLast4.length).to.equal(2);
-    expect(maskedLast4.first().props().number).to.equal(initialData.last4SSN);
-    expect(maskedLast4.last().props().number).to.equal(initialData.last4VAFile);
+    expect(maskedLast4.first().props().number).to.equal(veteran.last4SSN);
+    expect(maskedLast4.last().props().number).to.equal(veteran.last4VAFile);
 
     const dob = tree.find('.dob').text();
-    expect(dob).to.equal(moment(initialData.dateOfBirth).format('L'));
+    expect(dob).to.equal(moment(veteran.dateOfBirth).format('L'));
 
     const gender = tree.find('.gender').text();
-    expect(gender).to.equal(genderLabels[initialData.gender]);
+    expect(gender).to.equal(genderLabels[veteran.gender]);
 
     tree.unmount();
   });

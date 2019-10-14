@@ -66,16 +66,14 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
-          initialData: {
-            veteran: initialData,
-          },
+          initialData,
         },
         confirmContactInformation: {
           title: 'Contact information',
           path: 'veteran-details/contact-information',
           uiSchema: contactInfoUiSchema,
           schema: contactInfoSchema,
-          initialData,
+          initialData: initialData.veteran,
         },
       },
     },
