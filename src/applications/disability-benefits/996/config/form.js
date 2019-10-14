@@ -10,7 +10,7 @@ import fullSchema from '../20-0996-schema.json';
 // import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../content/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

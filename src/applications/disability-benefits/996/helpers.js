@@ -1,29 +1,42 @@
 import React from 'react';
+import moment from 'moment';
 
-import { DateWidget } from 'platform/forms-system/src/js/review/widgets';
 import { AddressViewField } from '../all-claims/utils';
 
-export const ForwardingAddressViewField = ({ formData }) => {
-  const { effectiveDates } = formData;
-  return (
-    <div>
-      <EffectiveDateViewField formData={effectiveDates} />
-      <AddressViewField formData={formData} />
-    </div>
+export const ForwardingAddressViewField = ({ formData }) => (
+  <>
+    <EffectiveDateViewField formData={formData.effectiveDates} />
+    <AddressViewField formData={formData.forwardingAddress} />
+  </>
+);
+
+const EffectiveDateViewField = ({ formData }) => {
+  const { from, to } = formData;
+  const dateFormat = 'MMM D, YYYY';
+  const fromDateString = moment(from).format(dateFormat);
+  return to ? (
+    <p>
+      We’ll use this address starting on {fromDateString} until{' '}
+      {moment(to).format(dateFormat)}:
+    </p>
+  ) : (
+    <p>We’ll use this address starting on {fromDateString}:</p>
   );
 };
 
-const EffectiveDateViewField = ({ formData }) => (
-  <p>
-    We will use this address starting on{' '}
-    <DateWidget value={formData} options={{ monthYear: false }} />:
-  </p>
-);
-
+// For testing
 export const isValidDate = date => date instanceof Date && isFinite(date);
 
 // Add X months to date (for testing forwarding address)
 export const addXMonths = (origDate, numberOfMonths) => {
   const date = new Date(origDate);
   return new Date(date.setMonth(date.getMonth() + numberOfMonths));
+};
+
+// phoneEmailViewField formatting uses "name: value", e.g.
+// Primary phone: ###-###-####
+// Email address: abc@abc.com
+export const extractValueFromText = text => {
+  const [, result] = text.split(':');
+  return result?.trim() || '';
 };

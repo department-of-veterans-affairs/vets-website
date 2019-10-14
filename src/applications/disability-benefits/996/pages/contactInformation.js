@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 // import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import fullSchema from '../20-0996-schema.json';
@@ -17,14 +17,18 @@ import {
 } from '../../all-claims/content/contactInformation';
 
 import { ForwardingAddressViewField } from '../helpers';
-import ForwardingAddressDescription from '../components/ForwardingAddressDescription';
+import {
+  ForwardingAddressDescription,
+  forwardingAddressCheckboxLabel,
+} from '../content/ForwardingAddress';
 import { checkDateRange } from '../validations';
 import { errorMessages } from '../constants';
 
 const hasForwardingAddress = formData =>
-  _.get(formData, 'veteran[view:hasForwardingAddress]', false);
+  formData?.veteran?.['view:hasForwardingAddress'] || false;
+
 const forwardingCountryIsUSA = formData =>
-  _.get(formData, 'veteran.forwardingAddress.country', '') === USA;
+  formData?.veteran?.forwardingAddress?.country === USA;
 
 const {
   mailingAddress,
@@ -70,7 +74,7 @@ export const uiSchema = {
         },
       },
     },
-    mailingAddress: _.merge(
+    mailingAddress: merge(
       addressUISchema('veteran.mailingAddress', 'Mailing address', true),
       {
         addressLine1: {
@@ -100,13 +104,13 @@ export const uiSchema = {
       },
     ),
     'view:hasForwardingAddress': {
-      'ui:title': 'My address will be changing soon.',
+      'ui:title': forwardingAddressCheckboxLabel,
     },
-    forwardingAddress: _.merge(
-      addressUISchema('veteran.forwardingAddress', 'Forwarding address'),
+    forwardingAddress: merge(
+      addressUISchema('veteran.forwardingAddress', 'Forwarding address', true),
       {
         'ui:order': [
-          'dateRange',
+          'effectiveDates',
           'country',
           'addressLine1',
           'addressLine2',
@@ -120,12 +124,12 @@ export const uiSchema = {
           viewComponent: ForwardingAddressViewField,
           expandUnder: 'view:hasForwardingAddress',
         },
-        dateRange: _.merge(
+        effectiveDates: merge(
           {},
           dateRangeUI(
             'Start date',
             'End date',
-            'End date must be after start date',
+            errorMessages.endDateBeforeStart,
           ),
           {
             from: {

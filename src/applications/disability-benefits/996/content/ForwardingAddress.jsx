@@ -1,6 +1,9 @@
 import React from 'react';
 
-const ForwardingAddressDescription = () => (
+export const forwardingAddressCheckboxLabel =
+  'My address will be changing soon.';
+
+export const ForwardingAddressDescription = () => (
   <p className="help-talk">
     If you give us a temporary or forwarding address, we'll look at the dates
     you provide to see if we need to use this address when contacting you about
@@ -9,5 +12,3 @@ const ForwardingAddressDescription = () => (
     <br />
   </p>
 );
-
-export default ForwardingAddressDescription;
