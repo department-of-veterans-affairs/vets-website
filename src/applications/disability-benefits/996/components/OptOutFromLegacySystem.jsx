@@ -8,7 +8,7 @@ import {
 } from '../content/OptOutOldAppeals';
 import { errorMessages } from '../constants';
 
-export const WithdrawFromLegacySystem = ({ onContinue }) => {
+export const OptOutFromLegacySystem = ({ onContinue }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -17,7 +17,7 @@ export const WithdrawFromLegacySystem = ({ onContinue }) => {
       {OptOutDescription}
       <div>
         <ErrorableCheckbox
-          id="withdraw-from-legacy-system"
+          id="opt-out-from-legacy-system"
           label={OptInCheckBoxLabel}
           onValueChange={checked => {
             setIsChecked(checked);

@@ -10,7 +10,7 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { focusElement } from 'platform/utilities/ui';
 
-import { WithdrawFromLegacySystem } from './WithdrawFromLegacySystem';
+import { OptOutFromLegacySystem } from './OptOutFromLegacySystem';
 
 import { BASE_URL } from '../constants';
 
@@ -66,8 +66,8 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
         {isLoggedIn && this.state.isInLegacySystem ? (
-          <WithdrawFromLegacySystem
-            appId="withdraw-from-legacy-appeal-system"
+          <OptOutFromLegacySystem
+            appId="opt-out-from-legacy-appeal-system"
             onContinue={() => this.userWithdrewFromLegacySystem()}
           />
         ) : (

@@ -5,12 +5,13 @@
 - Update `IntroductionPage.jsx`
   - [ ] Replace placeholder `isInLegacySystem` with value from API
   - [ ] Add code to update `isInLegacySystem` (or whatever it's named).
--  Update `WithdrawFromLegacySystem.jsx`
-  - [ ] Consider converting the `WithdrawFromLegacySystem` component into a
+-  Update `OptOutFromLegacySystem.jsx`
+  - [ ] Consider converting the `OptOutFromLegacySystem` component into a
         standalone form with it's own form schema - suggested by Erik Hansen.
 - Update `form.js`
   - Add `submitUrl`.
   - Update `formConfig.submit` (`confirmationNumber`?)
+- [ ] Add flipper UI switch.
 
 ### Build Template & Introduction Page (Step 0)
 
