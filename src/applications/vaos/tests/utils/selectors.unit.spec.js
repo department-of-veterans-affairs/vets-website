@@ -4,6 +4,9 @@ import {
   selectPendingAppointment,
   selectConfirmedAppointment,
   getFormPageInfo,
+  getChosenClinicInfo,
+  getTypeOfCare,
+  getClinicsForChosenFacility,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -73,6 +76,70 @@ describe('VAOS selectors', () => {
       );
       expect(pageInfo.data).to.equal(state.newAppointment.data);
       expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
+    });
+  });
+
+  describe('getChosenClinicInfo', () => {
+    it('should return a stored clinic object', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+            vaFacility: '688GB',
+            clinicId: '124',
+          },
+          clinics: {
+            '688GB_323': [
+              {
+                clinicId: '123',
+              },
+              {
+                clinicId: '124',
+              },
+            ],
+          },
+        },
+      };
+      const clinic = getChosenClinicInfo(state);
+      expect(clinic.clinicId).to.equal(state.newAppointment.data.clinicId);
+    });
+  });
+
+  describe('getTypeOfCare', () => {
+    it('get audiology type of care', () => {
+      const data = {
+        typeOfCareId: '203',
+        audiologyType: 'CCAUDHEAR',
+        facilityType: 'communityCare',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('CCAUDHEAR');
+    });
+  });
+
+  describe('getClinicsForChosenFacility', () => {
+    it('should return relevant clinics list', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+            vaFacility: '688GB',
+          },
+          clinics: {
+            '688GB_323': [
+              {
+                clinicId: '123',
+              },
+              {
+                clinicId: '124',
+              },
+            ],
+          },
+        },
+      };
+      const clinics = getClinicsForChosenFacility(state);
+      expect(clinics).to.equal(state.newAppointment.clinics['688GB_323']);
     });
   });
 });

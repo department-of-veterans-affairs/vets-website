@@ -10,10 +10,12 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
+  FORM_ELIGIBILITY_CHECKS,
+  FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
 } from '../../actions/newAppointment';
 
-import systems from '../../actions/facilities.json';
-import facilities983 from '../../actions/facilities_983.json';
+import systems from '../../api/facilities.json';
+import facilities983 from '../../api/facilities_983.json';
 
 const defaultState = {
   data: {},
@@ -328,6 +330,43 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
       expect(newState.data.vaFacility).to.equal('983');
+    });
+  });
+  describe('fetch eligibility checks reducers', () => {
+    it('should set loading state for eligibility', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.loadingEligibility).to.be.true;
+    });
+
+    it('should set eligibility and clinic info on state', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId: '323',
+        eligibilityData: {
+          clinics: [],
+          directPastVisit: {},
+          requestPastVisit: {},
+          requestLimits: {},
+          pacTeam: [],
+        },
+      };
+      const state = {
+        ...defaultState,
+        data: {
+          ...defaultState.data,
+          vaFacility: '983',
+        },
+      };
+
+      const newState = newAppointmentReducer(state, action);
+      expect(newState.clinics['983_323']).to.equal(
+        action.eligibilityData.clinics,
+      );
+      expect(newState.eligibility['983_323']).to.not.be.undefined;
     });
   });
 });

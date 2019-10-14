@@ -19,7 +19,6 @@ import {
   FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
   SET_DISMISSED_HCA_NOTIFICATION,
 } from '../actions';
-import { beforeEach } from 'mocha';
 
 function setFetchResponse(stub, data) {
   const response = new Response(null, {

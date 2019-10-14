@@ -7,6 +7,7 @@ import {
 } from '../actions';
 
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+import { normalizedAttributes } from './utility';
 
 const INITIAL_STATE = {
   facets: {
@@ -33,23 +34,6 @@ const INITIAL_STATE = {
   inProgress: false,
   filterOpened: false,
 };
-
-function normalizedAttributes(attributes) {
-  const name = attributes.name
-    ? attributes.name.toUpperCase()
-    : attributes.name;
-  let city = attributes.physicalCity || attributes.city;
-  city = city ? city.toUpperCase() : city;
-  const state = attributes.state
-    ? attributes.state.toUpperCase()
-    : attributes.state;
-  return {
-    ...attributes,
-    name,
-    city,
-    state,
-  };
-}
 
 function uppercaseKeys(obj) {
   return Object.keys(obj).reduce(

@@ -14,9 +14,11 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
+  FORM_ELIGIBILITY_CHECKS,
+  FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
 } from '../../actions/newAppointment';
-import systems from '../../actions/facilities.json';
-import facilities983 from '../../actions/facilities_983.json';
+import systems from '../../api/facilities.json';
+import facilities983 from '../../api/facilities_983.json';
 
 const testFlow = {
   page1: {
@@ -107,12 +109,13 @@ describe('VAOS newAppointment actions', () => {
     const defaultState = {
       newAppointment: {
         data: {
-          typeOfCareId: 323,
+          typeOfCareId: '323',
         },
         pages: {},
         loadingSystems: false,
         systems: null,
         facilities: {},
+        eligibility: {},
       },
     };
 
@@ -135,7 +138,8 @@ describe('VAOS newAppointment actions', () => {
         page: 'vaFacility',
         uiSchema: {},
         systems,
-        facilities: undefined,
+        facilities: null,
+        eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
@@ -161,6 +165,7 @@ describe('VAOS newAppointment actions', () => {
         uiSchema: {},
         systems,
         facilities: facilities983,
+        eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
@@ -247,6 +252,51 @@ describe('VAOS newAppointment actions', () => {
         facilities: facilities983,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
+    });
+
+    it('should fetch eligibility info if facility is selected', async () => {
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaSystem: '983',
+          },
+          facilities: {
+            '323_983': facilities983,
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...previousState.newAppointment.data,
+          vaFacility: '983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.lastCall.args[0];
+      const eligibilityData = succeededAction.eligibilityData;
+      expect(succeededAction.typeOfCareId).to.equal(
+        defaultState.newAppointment.data.typeOfCareId,
+      );
+      expect(eligibilityData.clinics.length).to.equal(4);
+      expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
     });
   });
 });

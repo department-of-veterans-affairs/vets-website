@@ -13,6 +13,8 @@ import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 import environment from 'platform/utilities/environment';
 
+import { FIELD_NAMES } from '../../constants';
+
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
   //   const wrapper = document.createElement('div');
@@ -57,10 +59,9 @@ class PhoneEditModal extends React.Component {
     this.props.onChange(newFieldValue, dirty);
   };
 
-  onCheckboxChange = field => value => {
-    const newFieldValue = { ...this.props.field.value, [field]: value };
-
-    this.props.onChange(newFieldValue, true);
+  onCheckboxChange = event => {
+    const newFieldValue = { ...this.props.field.value, isTextPermitted: event };
+    this.props.onChange(newFieldValue, false);
   };
 
   getInitialFormValues = () => {
@@ -113,11 +114,10 @@ class PhoneEditModal extends React.Component {
 
       <ReceiveTextMessagesCheckbox
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
-        isTextable={this.props.field.value.phoneType === 'MOBILE'}
-        label="Receive text messages (SMS) for VA health care appointment reminders."
-        field={{ value: this.props.field.value.isTextPermitted, dirty: false }}
+        isTextable={this.props.fieldName === FIELD_NAMES.MOBILE_PHONE}
+        label="Send me text message (SMS) reminders for my VA health care appointments"
         checked={this.props.field.value.isTextPermitted}
-        onValueChange={this.onCheckboxChange('isTextPermitted')}
+        onValueChange={this.onCheckboxChange}
       />
     </div>
   );
@@ -134,8 +134,10 @@ class PhoneEditModal extends React.Component {
   }
 }
 
-export function mapStateToProps(state) {
+export function mapStateToProps(state, ownProps) {
+  const { fieldName } = ownProps;
   return {
+    fieldName,
     isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
   };
 }

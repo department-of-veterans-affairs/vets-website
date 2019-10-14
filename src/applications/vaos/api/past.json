@@ -1,0 +1,22 @@
+[
+  {
+    "startDate": "2019-09-11T15:00:00Z",
+    "clinicId": "308",
+    "facilityId": "983",
+    "patientIcn": "1012845331V153043",
+    "vdsAppointments": [
+      {
+        "appointmentLength": "60",
+        "appointmentTime": "2019-09-11T15:00:00Z",
+        "clinic": {
+          "name": "CASSIDY PC",
+          "askForCheckIn": false,
+          "facilityCode": "983"
+        },
+        "patientId": "7216691",
+        "type": "REGULAR",
+        "currentStatus": "NO ACTION TAKEN/TODAY"
+      }
+    ]
+  }
+]

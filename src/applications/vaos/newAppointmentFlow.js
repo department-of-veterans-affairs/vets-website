@@ -1,6 +1,14 @@
-import { getFormData } from './utils/selectors';
+import {
+  getFormData,
+  getEligibilityStatus,
+  getClinicsForChosenFacility,
+} from './utils/selectors';
+
+import { getPastAppointments } from './api';
+import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
+const SLEEP_CARE = 'SLEEP';
 
 function isCCAudiology(state) {
   return (
@@ -13,9 +21,22 @@ export default {
   home: {
     url: '/',
   },
+  typeOfAppointment: {
+    url: '/new-appointment',
+    // Temporary stub for typeOfAppointment which will eventually be first step
+    // Next will direct to type of care or provider once both flows are complete
+    next: 'typeOfFacility',
+    previous: 'home',
+  },
   typeOfCare: {
     url: '/new-appointment',
-    next: 'typeOfFacility',
+    next(state) {
+      if (getFormData(state).typeOfCareId === SLEEP_CARE) {
+        return 'typeOfSleepCare';
+      }
+      return 'typeOfFacility';
+    },
+
     // async next(state) {
     //   try {
     //     const data = await apiRequest('/vaos/community-care/eligibility');
@@ -46,6 +67,11 @@ export default {
     },
     previous: 'typeOfCare',
   },
+  typeOfSleepCare: {
+    url: '/new-appointment/choose-sleep-care',
+    next: 'typeOfFacility',
+    previous: 'typeOfCare',
+  },
   audiologyCareType: {
     url: '/new-appointment/audiology',
     next: 'ccProvider',
@@ -69,18 +95,52 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'visitType',
+    async next(state, dispatch) {
+      const eligibilityStatus = getEligibilityStatus(state);
+      const clinics = getClinicsForChosenFacility(state);
+
+      if (eligibilityStatus.direct) {
+        const appointments = await getPastAppointments();
+
+        if (hasEligibleClinics(appointments, clinics)) {
+          dispatch({
+            // TODO: finish this action when building the clinc choice page
+            type: 'START_DIRECT_SCHEDULE_FLOW',
+            appointments,
+          });
+
+          return 'clinicChoice';
+        }
+      }
+
+      if (eligibilityStatus.request) {
+        return 'reasonForAppointment';
+      }
+
+      throw new Error('Veteran not eligible for direct scheduling or requests');
+    },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },
+  reasonForAppointment: {
+    url: '/new-appointment/reason-appointment',
+    next: 'visitType',
+    previous: 'vaFacility',
+  },
   visitType: {
     url: '/new-appointment/choose-visit-type',
-    previous: 'vaFacility',
+    previous: 'reasonForAppointment',
+    // Update this when reasonForAppointment is merged
     next: 'contactInfo',
+  },
+  appointmentTime: {
+    url: '/new-appointment/appointment-time',
+    next: 'contactInfo',
+    previous: 'vaFacility',
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    next: 'home',
+    next: 'review',
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
         return 'ccProvider';
@@ -88,5 +148,8 @@ export default {
 
       return 'visitType';
     },
+  },
+  review: {
+    url: '/new-appointment/review',
   },
 };

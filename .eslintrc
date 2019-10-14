@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
@@ -29,6 +29,7 @@
     // Override airbnb style.
     "camelcase": [2, { "properties": "always" }],
     "va-enzyme/unmount": 2,
+    "fp/no-proxy": 2, // IE 11 has not polyfill for Proxy 
     "func-names": 2,
     "import/no-extraneous-dependencies": 0,
     "no-console": 2,
