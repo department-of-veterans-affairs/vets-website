@@ -1,7 +1,7 @@
 import React from 'react';
 
 const RatedDisabilitiesSidebar = () => (
-  <div className="medium-screen:vads-u-padding-left--4">
+  <div className="medium-screen:vads-u-padding-left--4 medium-screen:vads-u-padding-top--2">
     <div>
       <p className="vads-u-display--inline-block vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--lg vads-u-border-bottom--3px vads-u-border-color--primary">
         How did I get this rating?
