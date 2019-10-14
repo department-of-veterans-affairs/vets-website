@@ -25,14 +25,7 @@ import {
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 
-const {
-  address,
-  phone,
-  date,
-  dateRange,
-  // dateRangeFromRequired,
-  // dateRangeAllRequired,
-} = fullSchema.definitions;
+const { address, phone, date, effectiveDates } = fullSchema.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -56,9 +49,7 @@ const formConfig = {
     address,
     phone,
     date,
-    dateRange,
-    // dateRange1FromRequired,
-    // dateRangeAllRequired,
+    effectiveDates,
     veteranDetailsDescription,
   },
   chapters: {

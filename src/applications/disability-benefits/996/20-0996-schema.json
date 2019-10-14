@@ -398,7 +398,7 @@
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
     },
-    "dateRange": {
+    "effectiveDates": {
       "type": "object",
       "properties": {
         "from": {
@@ -408,35 +408,6 @@
           "$ref": "#/definitions/date"
         }
       }
-    },
-    "dateRangeFromRequired": {
-      "type": "object",
-      "properties": {
-        "from": {
-          "$ref": "#/definitions/date"
-        },
-        "to": {
-          "$ref": "#/definitions/date"
-        }
-      },
-      "required": [
-        "from"
-      ]
-    },
-    "dateRangeAllRequired": {
-      "type": "object",
-      "properties": {
-        "from": {
-          "$ref": "#/definitions/date"
-        },
-        "to": {
-          "$ref": "#/definitions/date"
-        }
-      },
-      "required": [
-        "from",
-        "to"
-      ]
     }
   },
   "properties": {
@@ -846,8 +817,8 @@
               "type": "string",
               "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
             },
-            "dateRange": {
-              "$ref": "#/definitions/dateRange"
+            "effectiveDates": {
+              "$ref": "#/definitions/effectiveDates"
             }
           }
         }
