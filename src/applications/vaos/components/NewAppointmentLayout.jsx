@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 import Breadcrumbs from './Breadcrumbs';
 import { useScrollAndFocus } from '../utils/scrollAndFocus';
 
 export default function NewAppointmentLayout({ children }) {
   useScrollAndFocus();
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
-      <Element name="topScrollElement" />
       <Breadcrumbs>
         <Link to="new-appointment">New appointment</Link>
       </Breadcrumbs>
