@@ -96,6 +96,7 @@ app.get('/preview', async (req, res, next) => {
   try {
     const smith = await createPipieline({
       ...options,
+      isPreview: true,
       port: process.env.PORT || 3001,
     });
 
