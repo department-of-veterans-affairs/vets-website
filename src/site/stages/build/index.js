@@ -38,6 +38,7 @@ const createOutreachAssetsData = require('./plugins/create-outreach-assets-data'
 const addSubheadingsIds = require('./plugins/add-id-to-subheadings');
 const parseHtml = require('./plugins/parse-html');
 const replaceContentsWithDom = require('./plugins/replace-contents-with-dom');
+const injectAxeCore = require('./plugins/inject-axe-core');
 
 function defaultBuild(BUILD_OPTIONS) {
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
@@ -231,6 +232,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
+  smith.use(injectAxeCore(BUILD_OPTIONS), 'Inject axe-core for accessibility');
   smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
 
   /* eslint-disable no-console */
