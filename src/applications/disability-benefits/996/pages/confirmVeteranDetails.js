@@ -11,7 +11,7 @@ const veteranDetailsDescription = data => {
     last4VAFile,
     gender,
     dateOfBirth,
-  } = data?.formData;
+  } = data?.formData?.veteran;
 
   return (
     <>
