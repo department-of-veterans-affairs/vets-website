@@ -21,7 +21,7 @@ const CalendarNavigation = ({
       onClick={nextOnClick}
       disabled={nextDisabled}
     >
-      <span className="vads-u-color--link-default">Next</span>
+      Next
       <i className="fas fa-chevron-right vads-u-margin-left--0p5" />
     </button>
   </div>
