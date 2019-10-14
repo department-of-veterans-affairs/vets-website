@@ -1,8 +1,8 @@
 import React from 'react';
+import moment from 'moment';
 
 const CalendarCell = ({
   date,
-  formattedDate,
   isCurrentlySelected,
   isInSelectedMap,
   disabled,
@@ -14,6 +14,10 @@ const CalendarCell = ({
     );
   }
 
+  const momentDate = moment(date);
+  const dateDay = momentDate.format('D');
+  const ariaDate = momentDate.format('dddd, MMMM Do');
+
   const cssClasses = ['vaos-calendar__calendar-day'];
   if (isCurrentlySelected) cssClasses.push('vaos-calendar__cell-current');
   if (isInSelectedMap) cssClasses.push('vaos-calendar__cell-selected');
@@ -24,9 +28,12 @@ const CalendarCell = ({
       className={cssClasses.join(' ')}
       onClick={() => onClick(date)}
       disabled={disabled}
+      aria-disabled={disabled}
+      aria-label={ariaDate}
+      aria-expanded={isCurrentlySelected}
     >
       {isInSelectedMap && <i className="fas fa-check vads-u-color--white" />}
-      {formattedDate}
+      {dateDay}
       {isCurrentlySelected && (
         <span className="vaos-calendar__cell-selected-triangle" />
       )}

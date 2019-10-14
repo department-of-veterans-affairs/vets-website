@@ -117,7 +117,6 @@ export default class CalendarRow extends Component {
             <CalendarCell
               key={`row-${rowNumber}-cell-${index}`}
               date={date}
-              formattedDate={moment(date).format('D')}
               isCurrentlySelected={currentlySelectedDate === date}
               isInSelectedMap={selectedDates[date] !== undefined}
               onClick={() => handleSelectDate(date, rowNumber)}
