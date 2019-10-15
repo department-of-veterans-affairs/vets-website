@@ -11,6 +11,7 @@
     "layout": "page-react.html",
     "description": "Apply online to request a higher-level review.",
     "includeBreadcrumbs": true,
+    "vagovprod": false,
     "breadcrumbs_override": [
       {
         "name": "Request a Higher-Level Review",
