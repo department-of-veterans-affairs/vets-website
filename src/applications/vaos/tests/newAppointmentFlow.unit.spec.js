@@ -110,7 +110,7 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(dispatch.firstCall.args[0].type).to.equal(
-        'START_DIRECT_SCHEDULE_FLOW',
+        'newAppointment/START_DIRECT_SCHEDULE_FLOW',
       );
       expect(nextState).to.equal('clinicChoice');
     });
@@ -138,6 +138,37 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(nextState).to.equal('reasonForAppointment');
+    });
+  });
+  describe('clinic choice page', () => {
+    it('should go to next direct schedule page if user chose a clinic', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            clinicId: '123',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.clinicChoice.next(state);
+
+      // TODO: this should go to appointment time page when it exists
+      expect(nextState).to.equal('reasonForAppointment');
+    });
+  });
+  describe('reason for appointment page', () => {
+    it('should go back to clinic page if use chose NONE before', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            clinicId: 'NONE',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
+
+      expect(nextState).to.equal('clinicChoice');
     });
   });
 });
