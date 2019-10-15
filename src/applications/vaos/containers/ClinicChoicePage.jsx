@@ -4,6 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import FacilityAddress from '../components/FacilityAddress';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 import {
   openClinicPage,
@@ -36,6 +37,17 @@ const pageKey = 'clinicChoice';
 export class ClinicChoicePage extends React.Component {
   componentDidMount() {
     this.props.openClinicPage(pageKey, uiSchema, initialSchema);
+  }
+
+  componentDidUpdate(oldProps) {
+    const previouslyLoading =
+      !oldProps.schema || oldProps.loadingFacilityDetails;
+    const currentlyLoading =
+      !this.props.schema || this.props.loadingFacilityDetails;
+
+    if (previouslyLoading && !currentlyLoading) {
+      scrollAndFocus();
+    }
   }
 
   goBack = () => {
