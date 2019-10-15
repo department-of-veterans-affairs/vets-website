@@ -1,23 +1,7 @@
-import startCase from 'lodash/startCase';
-
 const E2eHelpers = require('../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../platform/testing/e2e/timeouts.js');
 const LettersHelpers = require('./letters-helpers.js');
 const Auth = require('../../../platform/testing/e2e/auth');
-
-const newAddress = LettersHelpers.newAddress.data.attributes.address;
-const oldAddress = LettersHelpers.address.data.attributes.address;
-const oldAddressOne = startCase(oldAddress.addressOne.toLowerCase());
-const oldAddressTwo = oldAddress.addressTwo
-  ? `, ${startCase(oldAddress.addressTwo.toLowerCase())}`
-  : '';
-const oldAddressThree = oldAddress.addressThree
-  ? `, ${startCase(oldAddress.addressThree.toLowerCase())}`
-  : '';
-const oldStreetAddress = oldAddressOne + oldAddressTwo + oldAddressThree;
-const oldCityStateZIP = `${oldAddress.militaryPostOfficeTypeCode}, ${
-  oldAddress.militaryStateCode
-} ${oldAddress.zipCode}`;
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const token = Auth.getUserToken();
