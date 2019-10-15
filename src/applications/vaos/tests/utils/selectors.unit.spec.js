@@ -7,6 +7,7 @@ import {
   getChosenClinicInfo,
   getTypeOfCare,
   getClinicsForChosenFacility,
+  getClinicPageInfo,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -140,6 +141,34 @@ describe('VAOS selectors', () => {
       };
       const clinics = getClinicsForChosenFacility(state);
       expect(clinics).to.equal(state.newAppointment.clinics['688GB_323']);
+    });
+  });
+
+  describe('getClinicPageInfo', () => {
+    it('should return info needed for then clinic page', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '323',
+          },
+          pageChangeInProgress: false,
+          clinics: {},
+        },
+      };
+      const pageInfo = getClinicPageInfo(state, 'clinicChoice');
+
+      expect(pageInfo.pageChangeInProgress).to.equal(
+        state.newAppointment.pageChangeInProgress,
+      );
+      expect(pageInfo.data).to.equal(state.newAppointment.data);
+      expect(pageInfo.schema).to.equal(state.newAppointment.pages.clinicChoice);
+      expect(pageInfo.typeOfCare).to.deep.equal({
+        id: '323',
+        ccId: 'CCPRMYRTNE',
+        group: 'primary',
+        name: 'Primary care',
+      });
     });
   });
 });
