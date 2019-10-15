@@ -9,13 +9,22 @@ const axeSource = module.children.find(
 ).exports.source;
 
 function injectAxeCore(buildOptions) {
-  const isEnabled = !!buildOptions.accessibility;
-
-  if (!isEnabled) {
-    return () => {};
-  }
-
   return (files, metalsmith, done) => {
+    // Always write the Axe-Core script, so that the CMS Preview Server
+    // has access to it in all environments.
+    const axeCoreFileName = 'js/axe-core.js';
+    files[axeCoreFileName] = {
+      path: axeCoreFileName,
+      contents: Buffer.from(axeSource),
+    };
+
+    const isEnabled = !!buildOptions.accessibility;
+
+    if (!isEnabled) {
+      done();
+      return;
+    }
+
     for (const fileName of Object.keys(files)) {
       if (path.extname(fileName) !== '.html') continue;
 
@@ -23,7 +32,7 @@ function injectAxeCore(buildOptions) {
       const { dom } = file;
 
       const axeCoreScript = dom(
-        `<script type="text/javascript">${axeSource}</script>`,
+        `<script type="text/javascript" src="/${axeCoreFileName}"></script>`,
       );
 
       const executeAxeCheckScript = dom(
@@ -32,6 +41,8 @@ function injectAxeCore(buildOptions) {
 
       dom('body').append(axeCoreScript);
       dom('body').append(executeAxeCheckScript);
+
+      file.modified = true;
     }
 
     done();
