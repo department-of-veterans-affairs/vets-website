@@ -107,19 +107,7 @@ module.exports = env => {
           },
         },
         {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              // Speed up compilation.
-              cacheDirectory: '.babelcache',
-              // Also see .babelrc
-            },
-          },
-        },
-        {
-          test: /\.jsx$/,
+          test: /\.jsx?$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
