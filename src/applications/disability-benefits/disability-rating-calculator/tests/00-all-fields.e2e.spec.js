@@ -4,7 +4,7 @@ const Timeouts = require('platform/testing/e2e/timeouts.js');
 const inputs = require('./utils/inputs.json');
 const DrcE2eHelpers = require('./drc-helpers.js');
 
-const drcPagePath = '/disability/about-disability-ratings-beta/';
+const drcPagePath = '/disability/about-disability-ratings/';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const componentSelector =
