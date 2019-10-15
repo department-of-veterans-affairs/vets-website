@@ -63,13 +63,6 @@ const configGenerator = (buildOptions, apps) => {
     module: {
       rules: [
         {
-          test: /manifest\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: path.resolve(__dirname, 'manifest-loader.js'),
-          },
-        },
-        {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
