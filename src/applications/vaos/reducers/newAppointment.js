@@ -367,13 +367,15 @@ export default function formReducer(state = initialState, action) {
       // clinics.sort()
 
       if (clinics.length === 1) {
+        const clinic = clinics[0];
         newSchema = {
           ...newSchema,
           properties: {
             clinicId: {
               type: 'string',
-              title: 'Would you like to make an appointment at this clinic?',
-              enum: [clinics[0].clinicId, 'NONE'],
+              title: `Would you like to make an appointment at ${clinic.clinicFriendlyLocationName ||
+                clinic.clinicName}?`,
+              enum: [clinic.clinicId, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
                 'No, I need a different clinic',
