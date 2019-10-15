@@ -34,6 +34,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'protocol', type: String, defaultValue: 'http' },
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
+  { name: 'accessibility', type: Boolean, defaultValue: true },
   {
     name: 'drupal-address',
     type: String,
@@ -96,7 +97,6 @@ app.get('/preview', async (req, res, next) => {
   try {
     const smith = await createPipieline({
       ...options,
-      isPreview: true,
       port: process.env.PORT || 3001,
     });
 

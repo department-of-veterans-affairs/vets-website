@@ -3,17 +3,15 @@
 require('axe-core');
 
 const path = require('path');
-const ENVIRONMENTS = require('../../../constants/environments');
 
 const axeSource = module.children.find(
   el => el.filename.indexOf('axe-core') !== -1,
 ).exports.source;
 
 function injectAxeCore(buildOptions) {
-  const shouldExecute =
-    buildOptions.buildtype === ENVIRONMENTS.LOCALHOST || buildOptions.isPreview;
+  const isEnabled = !!buildOptions.accessibility;
 
-  if (!shouldExecute) {
+  if (!isEnabled) {
     return () => {};
   }
 
