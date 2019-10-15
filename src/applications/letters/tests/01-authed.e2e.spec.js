@@ -33,55 +33,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.axeCheck('.main');
 
-  // Checking if full name has rendered
-  client.expect
-    .element('h5.letters-address')
-    .text.to.contain('William Shakespeare');
-
-  // Checking if address has rendered correctly
-  client.expect.element('.street').text.to.contain(oldStreetAddress);
-  client.expect.element('.city-state').text.to.contain(oldCityStateZIP);
-
-  // Open, check visibility, and close address help modal
-  client.expect.element('#address-help').to.not.be.present;
-  client
-    .click('.address-help-btn')
-    .waitForElementVisible('#address-help', Timeouts.normal)
-    .click('.va-modal-close')
-    .expect.element('#address-help').to.not.be.present;
-
-  // Update address and cancel
-  client
-    .click('.usa-button-secondary')
-    .expect.element('select')
-    .to.be.present.before(Timeouts.normal);
-
-  client
-    .setValue('select[name="country"]', 'United Kingdom')
-    .clearValue('input[name="city"]')
-    .fill('input[name="city"]', 'Stratford-upon-Avon')
-    .click('.usa-button-secondary')
-    .waitForElementVisible('.city-state', Timeouts.normal)
-    .expect.element('.city-state')
-    .text.to.contain(oldCityStateZIP);
-
-  // Update address and save
-  client
-    .click('.usa-button-secondary')
-    .expect.element('select')
-    .to.be.present.before(Timeouts.normal);
-
-  client
-    .clearValue('input[name="city"]')
-    .fill('input[name="city"]', newAddress.city)
-    .setValue('select[name="state"]', newAddress.stateCode)
-    .clearValue('input[name="postalCode"]')
-    .fill('input[name="postalCode"]', newAddress.zipCode)
-    .click('.main .usa-button-primary') // submits new data
-    .waitForElementVisible('.city-state', Timeouts.normal)
-    .expect.element('.city-state')
-    .text.to.contain('Chicago, Illinois 60602');
-
   client
     .click('.view-letters-button')
     .expect.element('.usa-accordion-bordered')
