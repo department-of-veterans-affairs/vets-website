@@ -39,6 +39,7 @@ export class KeywordSearch extends React.Component {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
       this.handleFetchSuggestion({ searchQuery });
     }
+    this.props.validateSearchQuery(searchQuery);
   };
 
   handleFetchSuggestion({ value }) {
@@ -58,19 +59,14 @@ export class KeywordSearch extends React.Component {
     const { suggestions, searchTerm } = this.props.autocomplete;
     let errorSpan = '';
     let errorSpanId = undefined;
-    const searchClassName = this.props.searchErrorMessage
-      ? ' usa-input-error'
-      : 'keyword-search';
-
-    const searchLabelClassName = this.props.searchErrorMessage
-      ? 'usa-input-error-label'
-      : 'institution-search-label';
-
-    if (this.props.searchErrorMessage && this.props.searchErrorMessage !== '') {
+    let searchClassName = 'keyword-search';
+    if (this.props.searchError) {
+      searchClassName = 'usa-input-error';
       errorSpanId = `${this.inputId}-error-message`;
       errorSpan = (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-          <span className="sr-only">Error</span> {this.props.searchErrorMessage}
+          <span className="sr-only">Error</span>
+          Please enter a city, school, or employer name.
         </span>
       );
     }
@@ -101,13 +97,13 @@ export class KeywordSearch extends React.Component {
             highlightedIndex,
             selectedItem,
           }) => (
-            <div className={searchLabelClassName}>
+            <div>
               <input
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleChange,
                   onKeyUp: this.handleKeyUp,
-                  'aria-labelledby': { searchLabelClassName },
+                  'aria-labelledby': 'institution-search-label',
                 })}
               />
               {isOpen && (
@@ -148,7 +144,8 @@ KeywordSearch.propTypes = {
   onFetchAutocompleteSuggestions: PropTypes.func,
   onFilterChange: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
-  searchErrorMessage: PropTypes.string,
+  searchError: PropTypes.bool,
+  validateSearchQuery: PropTypes.func,
 };
 
 export default KeywordSearch;

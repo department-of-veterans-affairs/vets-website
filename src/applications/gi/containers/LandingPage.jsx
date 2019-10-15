@@ -27,7 +27,7 @@ export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchError: '',
+      searchError: false,
     };
   }
   componentDidMount() {
@@ -36,26 +36,26 @@ export class LandingPage extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    if (
-      this.props.filters.category === 'vettec' ||
-      this.props.autocomplete.searchTerm
-    ) {
-      this.setState({ searchError: '' });
-      this.handleFilterChange('name', this.props.autocomplete.searchTerm);
-    } else {
-      this.setState({
-        searchError: 'Please enter a city, school, or employer name.',
-      });
-    }
+    this.handleFilterChange('name', this.props.autocomplete.searchTerm);
   };
 
   handleFilterChange = (field, value) => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
     if (isVetTecSelected(this.props.filters)) {
+      this.setState({
+        searchError: false,
+      });
       this.search(value);
     } else if (value) {
+      this.setState({
+        searchError: false,
+      });
       this.search(value);
+    } else {
+      this.setState({
+        searchError: true,
+      });
     }
   };
 
@@ -95,7 +95,6 @@ export class LandingPage extends React.Component {
 
       if (filters.vetTecProvider) {
         this.props.updateAutocompleteSearchTerm('');
-        this.setState({ searchError: '' });
       }
     }
     filters[field] = value;
@@ -128,9 +127,19 @@ export class LandingPage extends React.Component {
     this.props.eligibilityChange(e);
   };
 
-  render() {
-    const errorMessage = this.state.searchError;
+  validateSearchQuery = searchQuery => {
+    if (searchQuery === '') {
+      this.setState({
+        searchError: true,
+      });
+    } else {
+      this.setState({
+        searchError: false,
+      });
+    }
+  };
 
+  render() {
     return (
       <span className="landing-page">
         <div className="row">
@@ -172,7 +181,8 @@ export class LandingPage extends React.Component {
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm
                   }
-                  searchErrorMessage={errorMessage}
+                  searchError={this.state.searchError}
+                  validateSearchQuery={this.validateSearchQuery}
                 />
               )}
               <button
