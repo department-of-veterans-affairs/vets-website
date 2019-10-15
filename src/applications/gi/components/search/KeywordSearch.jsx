@@ -56,8 +56,26 @@ export class KeywordSearch extends React.Component {
 
   render() {
     const { suggestions, searchTerm } = this.props.autocomplete;
+    let errorSpan = '';
+    let errorSpanId = undefined;
+    const searchClassName = this.props.searchErrorMessage
+      ? ' usa-input-error'
+      : 'keyword-search';
+
+    const searchLabelClassName = this.props.searchErrorMessage
+      ? 'usa-input-error-label'
+      : 'institution-search-label';
+
+    if (this.props.searchErrorMessage && this.props.searchErrorMessage !== '') {
+      errorSpanId = `${this.inputId}-error-message`;
+      errorSpan = (
+        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+          <span className="sr-only">Error</span> {this.props.searchErrorMessage}
+        </span>
+      );
+    }
     return (
-      <div className="keyword-search">
+      <div className={searchClassName}>
         <label
           id="institution-search-label"
           className="institution-search-label"
@@ -65,6 +83,7 @@ export class KeywordSearch extends React.Component {
         >
           {this.props.label}
         </label>
+        {errorSpan}
         <Downshift
           inputValue={searchTerm}
           onSelect={item => this.handleSuggestionSelected(item)}
@@ -82,13 +101,13 @@ export class KeywordSearch extends React.Component {
             highlightedIndex,
             selectedItem,
           }) => (
-            <div>
+            <div className={searchLabelClassName}>
               <input
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleChange,
                   onKeyUp: this.handleKeyUp,
-                  'aria-labelledby': 'institution-search-label',
+                  'aria-labelledby': { searchLabelClassName },
                 })}
               />
               {isOpen && (
@@ -129,6 +148,7 @@ KeywordSearch.propTypes = {
   onFetchAutocompleteSuggestions: PropTypes.func,
   onFilterChange: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
+  searchErrorMessage: PropTypes.string,
 };
 
 export default KeywordSearch;

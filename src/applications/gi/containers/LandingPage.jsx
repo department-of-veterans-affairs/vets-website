@@ -24,13 +24,29 @@ import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
 export class LandingPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchError: '',
+    };
+  }
   componentDidMount() {
     this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.handleFilterChange('name', this.props.autocomplete.searchTerm);
+    if (
+      this.props.filters.category === 'vettec' ||
+      this.props.autocomplete.searchTerm
+    ) {
+      this.setState({ searchError: '' });
+      this.handleFilterChange('name', this.props.autocomplete.searchTerm);
+    } else {
+      this.setState({
+        searchError: 'Please enter a city, school, or employer name.',
+      });
+    }
   };
 
   handleFilterChange = (field, value) => {
@@ -79,6 +95,7 @@ export class LandingPage extends React.Component {
 
       if (filters.vetTecProvider) {
         this.props.updateAutocompleteSearchTerm('');
+        this.setState({ searchError: '' });
       }
     }
     filters[field] = value;
@@ -112,6 +129,8 @@ export class LandingPage extends React.Component {
   };
 
   render() {
+    const errorMessage = this.state.searchError;
+
     return (
       <span className="landing-page">
         <div className="row">
@@ -153,6 +172,7 @@ export class LandingPage extends React.Component {
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm
                   }
+                  searchErrorMessage={errorMessage}
                 />
               )}
               <button
