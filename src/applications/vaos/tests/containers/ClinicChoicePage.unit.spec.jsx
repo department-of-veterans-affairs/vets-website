@@ -59,10 +59,10 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('h1').text()).to.equal(
-      'Make a Primary care appointment at your last clinic',
+      'Make a primary care appointment at your last clinic',
     );
     expect(form.text()).to.contain(
-      'Your last Primary care appointment was at Friendly name',
+      'Your last primary care appointment was at Friendly name',
     );
     form.unmount();
   });
@@ -91,10 +91,10 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('h1').text()).to.equal(
-      'Select your VA clinic for your Primary care appointment',
+      'Select your VA clinic for your primary care appointment',
     );
     expect(form.text()).to.contain(
-      'In the last 24 months you have had Primary care appointments in the following clinics, located at',
+      'In the last 24 months you have had primary care appointments in the following clinics, located at',
     );
     form.unmount();
   });

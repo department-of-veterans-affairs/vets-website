@@ -16,7 +16,6 @@ import mockPACT from './pact.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
-
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
     return facilityId.replace('983', '442');

@@ -12,6 +12,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getClinicPageInfo } from '../utils/selectors';
+import { formatTypeOfCare } from '../utils/formatters';
 
 const initialSchema = {
   type: 'object',
@@ -62,14 +63,16 @@ export class ClinicChoicePage extends React.Component {
       );
     }
 
+    const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+
     return (
       <div>
         {schema.properties.clinicId.enum.length === 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Make a {typeOfCare.name} appointment at your last clinic
+              Make a {typeOfCareLabel} appointment at your last clinic
             </h1>
-            Your last {typeOfCare.name} appointment was at{' '}
+            Your last {typeOfCareLabel} appointment was at{' '}
             {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
             {facilityDetails && (
               <p>
@@ -84,9 +87,9 @@ export class ClinicChoicePage extends React.Component {
         {schema.properties.clinicId.enum.length > 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Select your VA clinic for your {typeOfCare.name} appointment
+              Select your VA clinic for your {typeOfCareLabel} appointment
             </h1>
-            In the last 24 months you have had {typeOfCare.name} appointments in
+            In the last 24 months you have had {typeOfCareLabel} appointments in
             the following clinics, located at:
             {facilityDetails && (
               <p>
