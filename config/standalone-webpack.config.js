@@ -100,13 +100,6 @@ module.exports = env => {
     module: {
       rules: [
         {
-          test: /manifest\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: path.resolve(__dirname, 'manifest-loader.js'),
-          },
-        },
-        {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           use: {
