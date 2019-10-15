@@ -1,6 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+// possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
 const INVALID_ROUTING_NUMBER_KEY =
   'payment.accountRoutingNumber.invalidCheckSum';
@@ -89,7 +90,7 @@ function hasErrorMessageKey(errors, errorKey) {
 function hasErrorMessageText(errors, errorText) {
   return errors.some(err =>
     err.meta.messages.some(message =>
-      message.text.toLowerCase().includes(errorText),
+      message.text.toLowerCase().includes(errorText.toLowerCase()),
     ),
   );
 }
@@ -99,7 +100,17 @@ function hasFlaggedForFraudError(errors) {
 }
 
 function hasInvalidRoutingNumberError(errors) {
-  return hasErrorMessageKey(errors, INVALID_ROUTING_NUMBER_KEY);
+  let result = false;
+  if (hasErrorMessageKey(errors, INVALID_ROUTING_NUMBER_KEY)) {
+    result = true;
+  }
+  if (
+    hasErrorMessageKey(errors, GENERIC_ERROR_KEY) &&
+    hasErrorMessageText(errors, 'Invalid Routing Number')
+  ) {
+    result = true;
+  }
+  return result;
 }
 
 function hasInvalidAddressError(errors) {

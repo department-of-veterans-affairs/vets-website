@@ -25,6 +25,27 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
+  const invalidRoutingNumberError = {
+    errors: [
+      {
+        code: '126',
+        detail: 'One or more unprocessable user payment properties',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text:
+                'Generic CnP payment update error. Update response: Update Failed: Invalid Routing Number',
+            },
+          ],
+        },
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        title: 'Unprocessable Entity',
+      },
+    ],
+  };
   const accountFlaggedError = {
     errors: [
       {
@@ -166,9 +187,19 @@ describe('<PaymentInformationEditModalError />', () => {
   });
 
   it('renders the invalid routing number error', () => {
-    const wrapper = shallow(
+    let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: checksumError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We couldn’t find a bank linked to this routing number. Please check your bank’s 9-digit routing number and enter it again.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: invalidRoutingNumberError }}
       />,
     );
     expect(wrapper.html()).to.contain(
