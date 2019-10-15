@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
+import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
 
 import {
   openFacilityPage,
@@ -99,17 +101,46 @@ export class VAFacilityPage extends React.Component {
       pageChangeInProgress,
       loadingSystems,
       loadingFacilities,
+      loadingEligibility,
       facility,
       singleValidVALocation,
       noValidVASystems,
       noValidVAFacilities,
+      eligibility,
+      canScheduleAtChosenFacility,
     } = this.props;
+
+    const notEligibleAtChosenFacility =
+      data.vaFacility &&
+      data.vaFacility.startsWith(data.vaSystem) &&
+      !loadingEligibility &&
+      eligibility &&
+      !canScheduleAtChosenFacility;
 
     if (loadingSystems) {
       return (
         <div>
           {title}
           <LoadingIndicator message="Finding your VA facility..." />
+        </div>
+      );
+    }
+
+    if (singleValidVALocation && notEligibleAtChosenFacility) {
+      return (
+        <div>
+          {title}
+          <SingleFacilityEligibilityCheckMessage
+            eligibility={eligibility}
+            facility={facility}
+          />
+          <div className="vads-u-margin-top--2">
+            <FormButtons
+              onBack={this.goBack}
+              disabled
+              pageChangeInProgress={pageChangeInProgress}
+            />
+          </div>
         </div>
       );
     }
@@ -145,6 +176,9 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
+    const disableSubmitButton =
+      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
+
     return (
       <div>
         {title}
@@ -160,10 +194,15 @@ export class VAFacilityPage extends React.Component {
           formContext={{ vaSystem: data.vaSystem }}
           data={data}
         >
+          {notEligibleAtChosenFacility && (
+            <div className="vads-u-margin-top--2">
+              <EligibilityCheckMessage eligibility={eligibility} />
+            </div>
+          )}
           <FormButtons
             onBack={this.goBack}
-            disabled={loadingFacilities || noValidVAFacilities}
-            pageChangeInProgress={pageChangeInProgress}
+            disabled={disableSubmitButton}
+            pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
         </SchemaForm>
       </div>
