@@ -16,12 +16,6 @@ function injectAxeCore(buildOptions) {
   }
 
   return (files, metalsmith, done) => {
-    const axeCoreFileName = 'js/axe-core.js';
-    files[axeCoreFileName] = {
-      path: axeCoreFileName,
-      contents: Buffer.from(axeSource),
-    };
-
     for (const fileName of Object.keys(files)) {
       if (path.extname(fileName) !== '.html') continue;
 
@@ -29,7 +23,7 @@ function injectAxeCore(buildOptions) {
       const { dom } = file;
 
       const axeCoreScript = dom(
-        `<script type="text/javascript" src="/${axeCoreFileName}"></script>`,
+        `<script type="text/javascript">${axeSource}</script>`,
       );
 
       const executeAxeCheckScript = dom(
