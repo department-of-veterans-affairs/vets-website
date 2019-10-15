@@ -2,12 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
-import {
-  locationInfo,
-  websiteInfo,
-  phoneInfo,
-  localeInfo,
-} from '../../utils/helpers';
+import { locationInfo, headerInfo, phoneInfo } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
@@ -28,14 +23,14 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     institution.country,
   );
   const firstProgram = institution.programs[0];
-  const providerWebsite = websiteInfo(
+  const providerWebsite = headerInfo(
     firstProgram && firstProgram.providerWebsite,
   );
   const providerPhone = phoneInfo(
     firstProgram && firstProgram.phoneAreaCode,
     firstProgram && firstProgram.phoneNumber,
   );
-  const schoolLocale = localeInfo(firstProgram && firstProgram.schoolLocale);
+  const schoolLocale = headerInfo(firstProgram && firstProgram.schoolLocale);
 
   const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
   const providerWebsitePresent = providerWebsite !== '';

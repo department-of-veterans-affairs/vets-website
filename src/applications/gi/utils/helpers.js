@@ -36,14 +36,6 @@ export const locationInfo = (city, state, country) => {
   return address;
 };
 
-export const websiteInfo = website => {
-  let providerWebsite = '';
-  if (website) {
-    providerWebsite = website;
-  }
-  return providerWebsite;
-};
-
 export const phoneInfo = (areaCode, phoneNumber) => {
   let providerPhone = '';
   if (areaCode && phoneNumber) {
@@ -52,10 +44,10 @@ export const phoneInfo = (areaCode, phoneNumber) => {
   return providerPhone;
 };
 
-export const localeInfo = locale => {
-  let providerLocale = '';
-  if (locale) {
-    providerLocale = locale;
+export const headerInfo = info => {
+  let providerInformation = '';
+  if (info) {
+    providerInformation = info;
   }
-  return providerLocale;
+  return providerInformation;
 };
