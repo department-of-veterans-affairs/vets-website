@@ -8,6 +8,14 @@
     margin-top: 1em;
   }
 
+  .accordion-button-text {
+    font-size: 1.35em;
+  }
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
+
   .link-header {
     h3,
     h4,
@@ -33,13 +41,8 @@
     margin-top: 0;
   }
 
-  li button.usa-accordion-button {
+  button.usa-accordion-button {
     text-align: left;
-
-    h2 {
-      font-size: 1.35em;
-      padding: 0;
-    }
   }
 
   .calculate-your-benefits {
@@ -48,7 +51,6 @@
     }
 
     button {
-      color: $color-primary;
       margin: 0.5em 0;
       padding: 1rem 2rem;
     }
