@@ -43,11 +43,3 @@ export const phoneInfo = (areaCode, phoneNumber) => {
   }
   return providerPhone;
 };
-
-export const headerInfo = info => {
-  let providerInformation = '';
-  if (info) {
-    providerInformation = info;
-  }
-  return providerInformation;
-};

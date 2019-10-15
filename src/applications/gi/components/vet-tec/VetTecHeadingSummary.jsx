@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
-import { locationInfo, headerInfo, phoneInfo } from '../../utils/helpers';
+import { locationInfo, phoneInfo } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
@@ -22,20 +22,25 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     institution.state,
     institution.country,
   );
-  const firstProgram = institution.programs[0];
-  const providerWebsite = headerInfo(
-    firstProgram && firstProgram.providerWebsite,
-  );
+
+  const firstProgram = institution.programs[0]
+    ? institution.programs[0]
+    : {
+        providerWebsite: '',
+        phoneAreaCode: '',
+        phoneNumber: '',
+        schoolLocale: '',
+      };
+
   const providerPhone = phoneInfo(
-    firstProgram && firstProgram.phoneAreaCode,
-    firstProgram && firstProgram.phoneNumber,
+    firstProgram.phoneAreaCode,
+    firstProgram.phoneNumber,
   );
-  const schoolLocale = headerInfo(firstProgram && firstProgram.schoolLocale);
 
   const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
-  const providerWebsitePresent = providerWebsite !== '';
+  const providerWebsitePresent = firstProgram.providerWebsite !== '';
   const phonePresent = providerPhone !== '';
-  const schoolLocalePresent = schoolLocale !== '';
+  const schoolLocalePresent = firstProgram.schoolLocale !== '';
 
   return (
     <div className="heading row">
@@ -73,11 +78,11 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           {!environment.isProduction() && (
             <IconWithInfo icon="globe" present={providerWebsitePresent}>
               <a
-                href={providerWebsite}
+                href={firstProgram.providerWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {providerWebsite}
+                {firstProgram.providerWebsite}
               </a>
             </IconWithInfo>
           )}
@@ -89,7 +94,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
               <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
             </IconWithInfo>
             <IconWithInfo icon="map" present={schoolLocalePresent}>
-              {`${schoolLocale}  locale`}
+              {`${firstProgram.schoolLocale}  locale`}
             </IconWithInfo>
           </div>
         )}
