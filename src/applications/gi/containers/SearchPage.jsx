@@ -206,7 +206,7 @@ export class SearchPage extends React.Component {
                 return (
                   <VetTecProgramSearchResult
                     version={this.props.location.query.version}
-                    key={result.facilityCode}
+                    key={`${result.facilityCode}-${result.description}`}
                     result={result}
                   />
                 );
