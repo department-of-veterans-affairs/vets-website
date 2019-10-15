@@ -1,0 +1,37 @@
+import { expect } from 'chai';
+
+import { totalRating } from '../../reducers/total-disabilities';
+
+const initialState = {
+  loading: true, // app starts in loading state
+  error: false,
+  totalDisabilityRating: null,
+};
+
+describe('totalDisabilities reducer', () => {
+  it('should return the initial state', () => {
+    const state = totalRating(initialState, {});
+    expect(state.loading).to.equal(true);
+    expect(state.error).to.equal(false);
+    expect(state.totalDisabilityRating).to.equal(null);
+  });
+
+  it('should handle an error from the API call', () => {
+    const state = totalRating(initialState, {
+      type: 'FETCH_TOTAL_RATING_FAILED',
+    });
+
+    expect(state.loading).to.equal(false);
+    expect(state.error).to.equal(true);
+    expect(state.totalDisabilityRating).to.equal(null);
+  });
+
+  it('should handle a successful API call', () => {
+    const state = totalRating(initialState, {
+      type: 'FETCH_TOTAL_RATING_SUCCESS',
+    });
+
+    expect(state.loading).to.equal(false);
+    expect(state.error).to.equal(false);
+  });
+});
