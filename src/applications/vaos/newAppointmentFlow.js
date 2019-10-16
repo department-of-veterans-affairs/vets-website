@@ -19,7 +19,8 @@ function isCCAudiology(state) {
 
 function isCommunityCare(state) {
   return TYPES_OF_CARE.find(
-    typeOfCare => typeOfCare.id === getFormData(state).typeOfCareId,
+    typeOfCare =>
+      typeOfCare.id === getFormData(state).typeOfCareId && typeOfCare.ccId,
   );
 }
 

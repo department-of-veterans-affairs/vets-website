@@ -75,6 +75,7 @@ describe('VAOS newAppointmentFlow', () => {
           typeOfCareId: '323',
           vaSystem: '983',
           vaFacility: '983',
+          facilityType: undefined,
         },
         clinics: {
           '983_323': [
@@ -139,6 +140,30 @@ describe('VAOS newAppointmentFlow', () => {
       );
       expect(nextState).to.equal('reasonForAppointment');
     });
+    it('should return to type of care page if user is CC eligible ', () => {
+      const state = {
+        ...defaultState,
+      };
+      const nextState = newAppointmentFlow.vaFacility.previous(state);
+      expect(nextState).to.equal('typeOfCare');
+    });
+    it('should return to page prior to typeOfFacility if user is CC eligible ', () => {
+      const state = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            typeOfCareId: '323',
+            vaSystem: '983',
+            vaFacility: '983',
+            facilityType: 'vamc',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.vaFacility.previous(state);
+      expect(nextState).to.equal('typeOfFacility');
+    });
   });
   describe('clinic choice page', () => {
     it('should go to next direct schedule page if user chose a clinic', () => {
@@ -169,6 +194,93 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
 
       expect(nextState).to.equal('clinicChoice');
+    });
+  });
+  describe('type of care page', () => {
+    it('should choose VA facility page', async () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '000',
+          },
+        },
+      };
+
+      const nextState = await newAppointmentFlow.typeOfCare.next(state);
+      expect(nextState).to.equal('vaFacility');
+    });
+    it('should choose Sleep care page', async () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: 'SLEEP',
+          },
+        },
+      };
+
+      const nextState = await newAppointmentFlow.typeOfCare.next(state);
+      expect(nextState).to.equal('typeOfSleepCare');
+    });
+    it('should choose type of facility page when eligible for CC', async () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+          },
+        },
+      };
+
+      const nextState = await newAppointmentFlow.typeOfCare.next(state);
+      expect(nextState).to.equal('typeOfFacility');
+    });
+  });
+  describe('ccProvider page', () => {
+    it('should return to type of facility page', () => {
+      const state = {
+        newAppointment: {
+          data: {},
+        },
+      };
+      expect(newAppointmentFlow.ccProvider.previous(state)).to.equal(
+        'typeOfFacility',
+      );
+    });
+    it('should return to choose audiology care type page', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+            typeOfCareId: '203',
+          },
+        },
+      };
+      expect(newAppointmentFlow.ccProvider.previous(state)).to.equal(
+        'audiologyCareType',
+      );
+    });
+  });
+  describe('constact info page', () => {
+    it('should return to choose visit type page', () => {
+      const state = {
+        newAppointment: {
+          data: {},
+        },
+      };
+      expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
+        'visitType',
+      );
+    });
+    it('should return to choose CC provider page', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+        },
+      };
+      expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
+        'ccProvider',
+      );
     });
   });
 });
