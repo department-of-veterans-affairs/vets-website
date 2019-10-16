@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CheckboxGroup from '../CheckboxGroup';
 import { renderLearnMoreLabel } from '../../utils/render';
 import recordEvent from 'platform/monitoring/record-event';
-import { ARIA_LABELS } from '../../constants';
+import { ariaLabels } from '../../constants';
 
 class VetTecFilterBy extends React.Component {
   static propTypes = {
@@ -33,7 +33,7 @@ class VetTecFilterBy extends React.Component {
       text: label,
       modal: 'preferredProvider',
       showModal: this.props.showModal,
-      ariaLabel: ARIA_LABELS.preferredProviderLearnMore,
+      ariaLabel: ariaLabels.preferredProviderLearnMore,
       component: this,
     });
   };

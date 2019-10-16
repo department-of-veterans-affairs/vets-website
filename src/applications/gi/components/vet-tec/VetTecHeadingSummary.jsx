@@ -3,7 +3,7 @@ import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 import { locationInfo } from '../../utils/helpers';
-import { ARIA_LABELS } from '../../constants';
+import { ariaLabels } from '../../constants';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -40,7 +40,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             >
               <span>Preferred Provider </span>
               <button
-                aria-label={ARIA_LABELS.preferredProviderLearnMore}
+                aria-label={ariaLabels.preferredProviderLearnMore}
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={() => showModal('preferredProviders')}
