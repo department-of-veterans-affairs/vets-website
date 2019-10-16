@@ -40,6 +40,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
 .disability-item-spacer {
 
+    margin: 0 5px;
+
     @media screen and (max-width: $medium-screen) {
         display: none;
     }
