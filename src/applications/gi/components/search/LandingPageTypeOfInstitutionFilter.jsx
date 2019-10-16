@@ -28,7 +28,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
         <span className="vads-u-padding-top--1 vads-u-margin-left--0p5 learnMoreLabel">
           {' '}
           <button
-            aria-label="VET TEC training providers only learn more"
+            aria-label="Learn more about the VET TEC program"
             type="button"
             className="va-button-link learn-more-button"
             onClick={() => this.props.showModal('vetTec')}

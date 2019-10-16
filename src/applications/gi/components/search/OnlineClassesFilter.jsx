@@ -18,6 +18,8 @@ class OnlineClassesFilter extends React.Component {
           modal: 'onlineOnlyDistanceLearning',
           showModal: this.props.showModal,
           component: this,
+          ariaLabel:
+            'Learn more about how we calculate your housing allowance based on where you take classes',
         })}
         name="onlineClasses"
         options={[
