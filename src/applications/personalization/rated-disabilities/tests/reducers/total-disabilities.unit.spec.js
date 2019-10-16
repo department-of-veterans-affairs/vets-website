@@ -33,5 +33,16 @@ describe('totalDisabilities reducer', () => {
 
     expect(state.loading).to.equal(false);
     expect(state.error).to.equal(false);
+    expect(state.totalDisabilityRating).to.not.equal(null);
+  });
+
+  it('should return the state if a type is not matched', () => {
+    const state = totalRating(initialState, {
+      type: 'BLERG',
+    });
+
+    expect(state.loading).to.equal(true);
+    expect(state.error).to.equal(false);
+    expect(state.totalDisabilityRating).to.equal(null);
   });
 });
