@@ -29,6 +29,7 @@ describe('<KeywordSearch>', () => {
 
   it('should open suggestion list when input is filled with text', () => {
     const onChange = sinon.spy();
+    const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
         label="test"
@@ -42,6 +43,7 @@ describe('<KeywordSearch>', () => {
         onFetchAutocompleteSuggestions={() => {}}
         onFilterChange={() => {}}
         onUpdateAutocompleteSearchTerm={() => {}}
+        validateSearchQuery={validateSearchQuery}
       />,
     );
 
@@ -58,6 +60,7 @@ describe('<KeywordSearch>', () => {
   it('should call on select when an suggestion is selected', () => {
     const onChange = sinon.spy();
     const onFilterChange = sinon.spy();
+    const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
         label="test"
@@ -71,6 +74,7 @@ describe('<KeywordSearch>', () => {
         onFetchAutocompleteSuggestions={() => {}}
         onFilterChange={onFilterChange}
         onUpdateAutocompleteSearchTerm={() => {}}
+        validateSearchQuery={validateSearchQuery}
       />,
     );
 
