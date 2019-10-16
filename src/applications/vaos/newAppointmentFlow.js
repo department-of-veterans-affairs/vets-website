@@ -13,7 +13,7 @@ function isCCAudiology(state) {
 }
 
 function isCommunityCare(state) {
-  return TYPES_OF_CARE.filter(typeOfCare => typeOfCare.ccId !== undefined).find(
+  return TYPES_OF_CARE.find(
     typeOfCare => typeOfCare.id === getFormData(state).typeOfCareId,
   );
 }
@@ -106,7 +106,10 @@ export default {
     previous(state) {
       let nextState = 'typeOfCare';
 
-      if (isCommunityCare(state)) {
+      if (
+        isCommunityCare(state) &&
+        getFormData(state).facilityType !== undefined
+      ) {
         nextState = 'typeOfFacility';
       }
       return nextState;
