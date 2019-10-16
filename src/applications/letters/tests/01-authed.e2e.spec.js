@@ -30,7 +30,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // -- Go to letters list -- //
 
   client
-    .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address	
+    .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address
     .click('.view-letters-button')
     .assert.urlContains('/letters/letter-list')
     .waitForElementVisible('.step-content', Timeouts.normal)
