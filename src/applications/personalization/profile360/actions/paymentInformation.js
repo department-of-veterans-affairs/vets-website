@@ -68,6 +68,31 @@ export function savePaymentInformation(fields) {
       apiRequestOptions,
     );
 
+    // Leaving this here for the time being while we wrap up the error handling
+    // const response = {
+    //   error: {
+    //     errors: [
+    //       {
+    //         title: 'Unprocessable Entity',
+    //         detail: 'One or more unprocessable user payment properties',
+    //         code: '126',
+    //         source: 'EVSS::PPIU::Service',
+    //         status: '422',
+    //         meta: {
+    //           messages: [
+    //             {
+    //               key: 'cnp.payment.generic.error.message',
+    //               severity: 'ERROR',
+    //               text:
+    //                 'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
+    //             },
+    //           ],
+    //         },
+    //       },
+    //     ],
+    //   },
+    // };
+
     if (response.error || response.errors) {
       recordEvent({
         event: 'profile-edit-failure',
