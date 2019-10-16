@@ -50,16 +50,17 @@ function GenericError() {
 function UpdateAddressError({ closeModal }) {
   return (
     <p>
-      Update your home and mailing addresses in your{' '}
+      We’re sorry. We couldn’t update your direct deposit bank information
+      because your address is missing or invalid. Please go back to{' '}
       <a
         href="/profile/#contact-information"
         onClick={() => {
           closeModal();
         }}
       >
-        profile
+        your profile
       </a>{' '}
-      and try again.
+      and fill in this required information.
     </p>
   );
 }
@@ -67,16 +68,18 @@ function UpdateAddressError({ closeModal }) {
 function UpdatePhoneNumberError({ closeModal, phoneNumberType = 'home' }) {
   return (
     <p>
-      Update your {phoneNumberType} phone number in your{' '}
+      We’re sorry. We couldn’t update your direct deposit bank information
+      because your {phoneNumberType} phone number is missing or invalid. Please
+      go back to{' '}
       <a
         href="/profile/#contact-information"
         onClick={() => {
           closeModal();
         }}
       >
-        profile
+        your profile
       </a>{' '}
-      and try again.
+      and fill in this required information.
     </p>
   );
 }
@@ -181,7 +184,11 @@ export default function PaymentInformationEditModalError({
   }
 
   return (
-    <AlertBox status="error" isVisible>
+    <AlertBox
+      status="error"
+      headline="We couldn’t update your bank information"
+      isVisible
+    >
       {content}
     </AlertBox>
   );

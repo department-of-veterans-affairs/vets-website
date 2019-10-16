@@ -84,7 +84,7 @@ export function savePaymentInformation(fields) {
     //               key: 'cnp.payment.generic.error.message',
     //               severity: 'ERROR',
     //               text:
-    //                 'Generic CnP payment update error. Update response: Update Failed: Required field not entered for phone number update',
+    //                 'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
     //             },
     //           ],
     //         },

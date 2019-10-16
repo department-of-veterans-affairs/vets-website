@@ -227,19 +227,19 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'Update your home and mailing addresses in your <a href="/profile/#contact-information">profile</a> and try again.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your address is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });
 
-  it('renders the bad home phone number error messages', () => {
+  it('renders the bad phone number error messages', () => {
     let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: badWorkPhoneNumberError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'Update your work phone number in your <a href="/profile/#contact-information">profile</a> and try again.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
 
@@ -249,7 +249,7 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'Update your home phone number in your <a href="/profile/#contact-information">profile</a> and try again.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });
