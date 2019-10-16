@@ -27,11 +27,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .expect.element('.va-button-primary')
     .to.be.present.before(Timeouts.normal);
 
-  client
-    .click('div.step-content > p:nth-child(3) > a') // link to go back to confirm-address
-    .expect.element('.city-state')
-    .to.be.present.before(Timeouts.normal);
-
   // -- Go to letters list -- //
 
   client
