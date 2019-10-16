@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { debounce } from 'lodash';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL } from '../../constants';
@@ -20,7 +20,7 @@ export class KeywordSearch extends React.Component {
     const { onFilterChange, autocomplete } = this.props;
     if ((e.which || e.keyCode) === 13) {
       e.target.blur();
-      onFilterChange('name', autocomplete.searchTerm);
+      onFilterChange(autocomplete.searchTerm);
     }
   };
 
@@ -52,7 +52,7 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    this.props.onFilterChange('name', searchQuery);
+    this.props.onFilterChange(searchQuery);
   };
 
   render() {

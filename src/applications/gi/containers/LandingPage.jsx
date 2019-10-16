@@ -36,26 +36,17 @@ export class LandingPage extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.handleFilterChange('name', this.props.autocomplete.searchTerm);
+    this.handleFilterChange(this.props.autocomplete.searchTerm);
   };
 
-  handleFilterChange = (field, value) => {
+  handleFilterChange = value => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
-    if (isVetTecSelected(this.props.filters)) {
-      this.setState({
-        searchError: false,
-      });
+    this.setState({
+      searchError: !(isVetTecSelected(this.props.filters) || value),
+    });
+    if (isVetTecSelected(this.props.filters) || value) {
       this.search(value);
-    } else if (value) {
-      this.setState({
-        searchError: false,
-      });
-      this.search(value);
-    } else {
-      this.setState({
-        searchError: true,
-      });
     }
   };
 
@@ -128,15 +119,9 @@ export class LandingPage extends React.Component {
   };
 
   validateSearchQuery = searchQuery => {
-    if (searchQuery === '') {
-      this.setState({
-        searchError: true,
-      });
-    } else {
-      this.setState({
-        searchError: false,
-      });
-    }
+    this.setState({
+      searchError: searchQuery === '',
+    });
   };
 
   render() {
