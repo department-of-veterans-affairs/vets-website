@@ -4,9 +4,15 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
-import { formatCurrency } from '../../utils/helpers';
+import {
+  formatCurrency,
+  isCountryInternational,
+  locationInfo,
+} from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
+import environment from 'platform/utilities/environment';
+import Checkbox from '../Checkbox';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -15,6 +21,7 @@ class CalculatorForm extends React.Component {
       invalidZip: '',
     };
   }
+
   getExtensions = () => {
     const { profile } = this.props;
     const facilityMap = profile.attributes.facilityMap;
@@ -32,29 +39,25 @@ class CalculatorForm extends React.Component {
     return extensions;
   };
 
+  isCountryInternational = () =>
+    isCountryInternational(this.props.profile.attributes.physicalCountry);
+
   createExtensionOption = extension => {
     const {
       facilityCode,
       physicalCity,
       physicalState,
+      physicalCountry,
       physicalZip,
       institution,
     } = extension;
-    const extensionOption = {
-      value: `${facilityCode}-${physicalZip}`,
-      label: institution,
-    };
 
-    if (physicalCity && physicalState) {
-      extensionOption.label = `${
-        extensionOption.label
-      } (${physicalCity}, ${physicalState})`;
-    } else if (physicalCity) {
-      extensionOption.label = `${extensionOption.label} (${physicalCity})`;
-    } else if (physicalState) {
-      extensionOption.label = `${extensionOption.label} (${physicalState})`;
-    }
-    return extensionOption;
+    const address = locationInfo(physicalCity, physicalState, physicalCountry);
+
+    return {
+      value: `${facilityCode}-${physicalZip}`,
+      label: `${institution} ${address}`,
+    };
   };
 
   handleBeneficiaryZIPCodeChanged = event => {
@@ -77,6 +80,16 @@ class CalculatorForm extends React.Component {
       }
       this.handleInputChange(event);
     }
+  };
+
+  handleHasClassesOutsideUSChange = e => {
+    this.handleBeneficiaryZIPCodeChanged({ value: '' });
+    this.handleCheckboxChange(e);
+  };
+
+  handleCheckboxChange = e => {
+    const { name: field, checked: value } = e.target;
+    this.props.onInputChange({ field, value });
   };
 
   handleInputChange = event => {
@@ -521,7 +534,9 @@ class CalculatorForm extends React.Component {
     const extensions = this.getExtensions();
 
     let amountInput;
+    let internationalCheckbox;
     let extensionSelector;
+    let zipcodeLocation;
     let extensionOptions = [];
     const zipcodeRadioOptions = [
       {
@@ -571,15 +586,45 @@ class CalculatorForm extends React.Component {
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
-      amountInput = (
+      // Prod Flag for 19703
+      if (environment.isProduction() || !inputs.classesOutsideUS) {
+        // Prod Flag for 19703
+        const label =
+          this.isCountryInternational() && !environment.isProduction()
+            ? "If you're taking classes in the U.S., enter the location's zip code"
+            : "Please enter the zip code where you'll take your classes";
+
+        amountInput = (
+          <div>
+            <ErrorableTextInput
+              errorMessage={errorMessageCheck}
+              label={label}
+              name="beneficiaryZIPCode"
+              field={{ value: inputs.beneficiaryZIP }}
+              onValueChange={this.handleBeneficiaryZIPCodeChanged}
+              charMax={5}
+            />
+          </div>
+        );
+
+        zipcodeLocation = (
+          <p aria-live="polite" aria-atomic="true">
+            <span className="sr-only">Your zip code is located in</span>
+            <strong>{inputs.housingAllowanceCity}</strong>
+          </p>
+        );
+      }
+      // Prod Flag for 19703
+      internationalCheckbox = !environment.isProduction() && (
         <div>
-          <ErrorableTextInput
-            errorMessage={errorMessageCheck}
-            label="Please enter the zip code where you'll take your classes"
-            name="beneficiaryZIPCode"
-            field={{ value: inputs.beneficiaryZIP }}
-            onValueChange={this.handleBeneficiaryZIPCodeChanged}
-            charMax={5}
+          <Checkbox
+            label={
+              "I'll be taking classes outside of the U.S. and U.S. territories"
+            }
+            onChange={this.handleHasClassesOutsideUSChange}
+            checked={inputs.classesOutsideUS}
+            name={'classesOutsideUS'}
+            id={'classesOutsideUS'}
           />
         </div>
       );
@@ -615,10 +660,8 @@ class CalculatorForm extends React.Component {
         />
         {extensionSelector}
         {amountInput}
-        <p aria-live="polite" aria-atomic="true">
-          <span className="sr-only">Your zip code is located in</span>
-          <strong>{inputs.housingAllowanceCity}</strong>
-        </p>
+        {zipcodeLocation}
+        {internationalCheckbox}
       </div>
     );
   };

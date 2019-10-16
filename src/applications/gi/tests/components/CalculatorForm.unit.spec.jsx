@@ -13,6 +13,13 @@ const props = {
   profile: {
     attributes: {
       facilityCode: '11900146',
+      institution: 'MAIN FACILITY',
+      physicalCity: 'Test',
+      physicalState: 'TN',
+      physicalCountry: 'USA',
+      physicalZip: '12345',
+      country: 'USA',
+      dodBah: '100',
       facilityMap: {
         main: {
           institution: {

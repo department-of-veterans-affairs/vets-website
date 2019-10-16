@@ -1,6 +1,11 @@
-import { getFormData } from './utils/selectors';
+import {
+  getFormData,
+  getEligibilityStatus,
+  getClinicsForChosenFacility,
+} from './utils/selectors';
 import { TYPES_OF_CARE } from './utils/constants';
-import { getCommunityCare } from './api';
+import { getCommunityCare, getPastAppointments } from './api';
+import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -101,24 +106,62 @@ export default {
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
-    next: 'reasonForAppointment',
+    async next(state, dispatch) {
+      const eligibilityStatus = getEligibilityStatus(state);
+      const clinics = getClinicsForChosenFacility(state);
+      const facilityId = getFormData(state).vaFacility;
+
+      if (eligibilityStatus.direct) {
+        const appointments = await getPastAppointments();
+
+        if (hasEligibleClinics(facilityId, appointments, clinics)) {
+          dispatch({
+            type: 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
+            appointments,
+          });
+
+          return 'clinicChoice';
+        }
+      }
+
+      if (eligibilityStatus.request) {
+        return 'reasonForAppointment';
+      }
+
+      throw new Error('Veteran not eligible for direct scheduling or requests');
+    },
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous(state) {
       let nextState = 'typeOfCare';
 
-      if (
-        isCommunityCare(state) &&
-        getFormData(state).facilityType !== undefined
-      ) {
+      if (getFormData(state).facilityType) {
         nextState = 'typeOfFacility';
       }
       return nextState;
     },
   },
+  clinicChoice: {
+    url: '/new-appointment/clinics',
+    previous: 'vaFacility',
+    next(state) {
+      if (getFormData(state).clinicId === 'NONE') {
+        // When there's an appointment time page, go there instead
+        return 'reasonForAppointment';
+      }
+
+      return 'reasonForAppointment';
+    },
+  },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next: 'visitType',
-    previous: 'vaFacility',
+    previous(state) {
+      if (getFormData(state).clinicId) {
+        return 'clinicChoice';
+      }
+
+      return 'vaFacility';
+    },
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',

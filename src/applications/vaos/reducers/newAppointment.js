@@ -9,6 +9,11 @@ import {
 } from 'platform/forms-system/src/js/state/helpers';
 
 import {
+  getEligibilityChecks,
+  getEligibleFacilities,
+} from '../utils/eligibility';
+
+import {
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
   FORM_PAGE_CHANGE_STARTED,
@@ -18,26 +23,32 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
+  FORM_ELIGIBILITY_CHECKS,
+  FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  START_DIRECT_SCHEDULE_FLOW,
+  FORM_CLINIC_PAGE_OPENED,
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
 } from '../actions/newAppointment';
+
+import { getTypeOfCare } from '../utils/selectors';
 
 const initialState = {
   pages: {},
   data: {},
   facilities: {},
+  facilityDetails: {},
   clinics: {},
+  eligibility: {},
   systems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
+  loadingEligibility: false,
+  loadingFacilityDetails: false,
+  pastAppointments: null,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
   return state.facilities[`${typeOfCareId}_${vaSystem}`] || [];
-}
-
-function getAvailableFacilities(facilities) {
-  return facilities.filter(
-    facility => facility.requestSupported || facility.directSchedulingSupported,
-  );
 }
 
 function setupFormData(data, schema, uiSchema) {
@@ -53,7 +64,7 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   let newSchema = schema;
   let newData = data;
 
-  const availableFacilities = getAvailableFacilities(facilities);
+  const availableFacilities = getEligibleFacilities(facilities);
 
   if (
     availableFacilities.length > 1 ||
@@ -196,6 +207,20 @@ export default function formReducer(state = initialState, action) {
         action.uiSchema,
       );
 
+      let eligibility = state.eligibility;
+      if (action.eligibilityData) {
+        const facilityEligibility = getEligibilityChecks(
+          newData.vaFacility,
+          action.typeOfCareId,
+          action.eligibilityData,
+        );
+
+        eligibility = {
+          ...state.eligibility,
+          [`${newData.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+        };
+      }
+
       return {
         ...state,
         systems,
@@ -209,6 +234,7 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+        eligibility,
       };
     }
     case FORM_FETCH_CHILD_FACILITIES: {
@@ -277,6 +303,123 @@ export default function formReducer(state = initialState, action) {
         pages: {
           ...state.pages,
           vaFacility: schema,
+        },
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS: {
+      return {
+        ...state,
+        loadingEligibility: true,
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
+      const eligibility = getEligibilityChecks(
+        state.data.vaFacility,
+        action.typeOfCareId,
+        action.eligibilityData,
+      );
+
+      return {
+        ...state,
+        clinics: {
+          ...state.clinics,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: action
+            .eligibilityData.clinics,
+        },
+        eligibility: {
+          ...state.eligibility,
+          [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
+        },
+        loadingEligibility: false,
+      };
+    }
+    case START_DIRECT_SCHEDULE_FLOW: {
+      return {
+        ...state,
+        pastAppointments: action.appointments,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED: {
+      return {
+        ...state,
+        loadingFacilityDetails: true,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
+      let newSchema = action.schema;
+      const pastAppointmentDateMap = new Map();
+      state.pastAppointments.forEach(appt => {
+        const apptTime = appt.startDate;
+        const facilityId = state.data.vaFacility;
+        const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
+        if (
+          appt.facilityId === facilityId &&
+          (!latestApptTime || latestApptTime > apptTime)
+        ) {
+          pastAppointmentDateMap.set(appt.clinicId, apptTime);
+        }
+      });
+
+      const clinics = state.clinics[
+        `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
+      ].filter(clinic => pastAppointmentDateMap.has(clinic.clinicId));
+
+      // clinics.sort()
+
+      if (clinics.length === 1) {
+        const clinic = clinics[0];
+        newSchema = {
+          ...newSchema,
+          properties: {
+            clinicId: {
+              type: 'string',
+              title: `Would you like to make an appointment at ${clinic.clinicFriendlyLocationName ||
+                clinic.clinicName}?`,
+              enum: [clinic.clinicId, 'NONE'],
+              enumNames: [
+                'Yes, make my appointment here',
+                'No, I need a different clinic',
+              ],
+            },
+          },
+        };
+      } else {
+        newSchema = {
+          ...newSchema,
+          properties: {
+            clinicId: {
+              type: 'string',
+              title:
+                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
+              enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
+              enumNames: clinics
+                .map(
+                  clinic =>
+                    clinic.clinicFriendlyLocationName || clinic.clinicName,
+                )
+                .concat('I need a different clinic'),
+            },
+          },
+        };
+      }
+
+      const { data, schema } = setupFormData(
+        state.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        loadingFacilityDetails: false,
+        facilityDetails: {
+          ...state.facilityDetails,
+          [state.data.vaFacility]: action.facilityDetails,
+        },
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
         },
       };
     }

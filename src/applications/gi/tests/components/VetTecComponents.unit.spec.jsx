@@ -1,9 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import createCommonStore from 'platform/startup/store';
 
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
 import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
+import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
 
 const institution = {
   facilityCode: '2V000105',
@@ -19,7 +21,7 @@ const institution = {
   physicalAddress2: 'Address line 2',
   physicalAddress3: 'Address line 3',
   programs: [],
-  schoolCertifyingOfficials: [
+  versionedSchoolCertifyingOfficials: [
     {
       priority: 'PRIMARY',
       firstName: 'ADM',
@@ -59,7 +61,7 @@ describe('<VetTecScoContact>', () => {
 
   it('return the contact information for an SCO', () => {
     const wrapper = shallow(
-      VetTecScoContact(institution.schoolCertifyingOfficials[1]),
+      VetTecScoContact(institution.versionedSchoolCertifyingOfficials[1]),
     );
 
     expect(wrapper.text().includes('MARTIN INDIATSI')).to.be.true;
@@ -75,6 +77,19 @@ describe('<VetTecContactInformation>', () => {
     const wrapper = shallow(
       <VetTecContactInformation institution={institution} />,
     );
+    const vdom = wrapper.html();
+    expect(vdom).to.not.be.undefined;
+    wrapper.unmount();
+  });
+});
+
+describe('<VetTecApprovedProgram>', () => {
+  it('should render', () => {
+    const defaultProps = {
+      store: createCommonStore(),
+      institution,
+    };
+    const wrapper = shallow(<VetTecApprovedPrograms {...defaultProps} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
     wrapper.unmount();

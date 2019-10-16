@@ -1,7 +1,11 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
-import { formatCurrency } from '../utils/helpers';
+import {
+  formatCurrency,
+  isCountryUSA,
+  isCountryInternational,
+} from '../utils/helpers';
 import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
@@ -191,7 +195,7 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = constant.FLTTFCAP;
     } else if (isCorrespondence) {
       tuitionFeesCap = constant.CORRESPONDTFCAP;
-    } else if (isPublic && institutionCountry === 'usa') {
+    } else if (isPublic && isCountryUSA(institutionCountry)) {
       tuitionFeesCap =
         inputs.inState === 'yes'
           ? +inputs.tuitionFees
@@ -523,6 +527,11 @@ const getDerivedValues = createSelector(
           : institution.bah;
     }
 
+    const hasClassesOutsideUS =
+      (isCountryInternational(institutionCountry) &&
+        !useBeneficiaryLocationRate) ||
+      inputs.classesOutsideUS;
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (
       isOJT &&
@@ -578,7 +587,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (institutionCountry !== 'usa') {
+    } else if (hasClassesOutsideUS) {
       housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
@@ -640,7 +649,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (institutionCountry !== 'usa') {
+    } else if (hasClassesOutsideUS) {
       housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
@@ -704,7 +713,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (institutionCountry !== 'usa') {
+    } else if (hasClassesOutsideUS) {
       housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);

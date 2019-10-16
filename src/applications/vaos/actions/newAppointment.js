@@ -4,7 +4,10 @@ import {
   getSystemIdentifiers,
   getSystemDetails,
   getFacilitiesBySystemAndTypeOfCare,
+  getFacilityInfo,
 } from '../api';
+
+import { getEligibilityData } from '../utils/eligibility';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -20,6 +23,14 @@ export const FORM_FETCH_CHILD_FACILITIES =
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
+export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
+export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
+  'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
+export const FORM_CLINIC_PAGE_OPENED = 'newAppointment/FORM_CLINIC_PAGE_OPENED';
+export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
+  'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+export const START_DIRECT_SCHEDULE_FLOW =
+  'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -43,7 +54,8 @@ export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
     let systems = newAppointment.systems;
-    let facilities;
+    let facilities = null;
+    let eligibilityData = null;
 
     // If we have the VA systems in our state, we don't need to
     // fetch them again
@@ -77,6 +89,15 @@ export function openFacilityPage(page, uiSchema, schema) {
       );
     }
 
+    const facilityId =
+      newAppointment.data.vaFacility || facilities?.[0].facilityId;
+    if (
+      facilityId &&
+      !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
+    ) {
+      eligibilityData = await getEligibilityData(facilityId, typeOfCareId);
+    }
+
     dispatch({
       type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
       page,
@@ -85,6 +106,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       systems,
       facilities,
       typeOfCareId,
+      eligibilityData,
     });
   };
 }
@@ -105,8 +127,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
       });
 
       facilities = await getFacilitiesBySystemAndTypeOfCare(
-        typeOfCareId,
         data.vaSystem,
+        typeOfCareId,
       );
 
       dispatch({
@@ -124,7 +146,53 @@ export function updateFacilityPageData(page, uiSchema, data) {
         uiSchema,
         typeOfCareId,
       });
+    } else if (
+      previousNewAppointmentState.data.vaFacility !== data.vaFacility &&
+      !previousNewAppointmentState.eligibility[
+        `${data.vaFacility}_${typeOfCareId}`
+      ]
+    ) {
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS,
+      });
+
+      const eligibilityData = await getEligibilityData(
+        data.vaFacility,
+        typeOfCareId,
+      );
+
+      dispatch({
+        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+        typeOfCareId,
+        eligibilityData,
+      });
     }
+  };
+}
+
+export function openClinicPage(page, uiSchema, schema) {
+  return async (dispatch, getState) => {
+    let facilityDetails;
+
+    dispatch({
+      type: FORM_CLINIC_PAGE_OPENED,
+    });
+
+    try {
+      facilityDetails = await getFacilityInfo(
+        getState().newAppointment.data.vaFacility,
+      );
+    } catch (e) {
+      facilityDetails = null;
+    }
+
+    dispatch({
+      type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+      page,
+      uiSchema,
+      schema,
+      facilityDetails,
+    });
   };
 }
 

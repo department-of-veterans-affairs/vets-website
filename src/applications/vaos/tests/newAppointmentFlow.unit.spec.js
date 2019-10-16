@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import newAppointmentFlow from '../newAppointmentFlow';
 
@@ -65,6 +66,109 @@ describe('VAOS newAppointmentFlow', () => {
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
       expect(nextState).to.equal('vaFacility');
+    });
+  });
+  describe('va facility page', () => {
+    const defaultState = {
+      newAppointment: {
+        data: {
+          typeOfCareId: '323',
+          vaSystem: '983',
+          vaFacility: '983',
+        },
+        clinics: {
+          '983_323': [
+            {
+              clinicId: '308',
+            },
+          ],
+        },
+        eligibility: {
+          '983_323': {},
+        },
+      },
+    };
+    it('next should choose clinic choice page if eligible', async () => {
+      const state = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          eligibility: {
+            '983_323': {
+              directTypes: true,
+              directPastVisit: true,
+              directPACT: true,
+              directClinics: true,
+            },
+          },
+        },
+      };
+      const dispatch = sinon.spy();
+
+      const nextState = await newAppointmentFlow.vaFacility.next(
+        state,
+        dispatch,
+      );
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        'newAppointment/START_DIRECT_SCHEDULE_FLOW',
+      );
+      expect(nextState).to.equal('clinicChoice');
+    });
+    it('next should direct to request flow if not direct eligible', async () => {
+      const state = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          eligibility: {
+            '983_323': {
+              directTypes: true,
+              directPastVisit: false,
+              directPACT: true,
+              directClinics: true,
+              requestPastVisit: true,
+              requestLimit: true,
+            },
+          },
+        },
+      };
+      const dispatch = sinon.spy();
+
+      const nextState = await newAppointmentFlow.vaFacility.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('reasonForAppointment');
+    });
+  });
+  describe('clinic choice page', () => {
+    it('should go to next direct schedule page if user chose a clinic', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            clinicId: '123',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.clinicChoice.next(state);
+
+      // TODO: this should go to appointment time page when it exists
+      expect(nextState).to.equal('reasonForAppointment');
+    });
+  });
+  describe('reason for appointment page', () => {
+    it('should go back to clinic page if use chose NONE before', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            clinicId: 'NONE',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
+
+      expect(nextState).to.equal('clinicChoice');
     });
   });
 });
