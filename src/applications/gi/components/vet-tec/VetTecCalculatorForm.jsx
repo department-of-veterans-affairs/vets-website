@@ -57,7 +57,7 @@ class VetTecCalculatorForm extends React.Component {
         Tuition and fees for program
       </label>{' '}
       <button
-        aria-label={ariaLabels.tuitionAndFeesLearnMor}
+        aria-label={ariaLabels.tuitionAndFeesLearnMore}
         type="button"
         className="va-button-link learn-more-button"
         onClick={() => onShowModal('tuitionAndFees')}
