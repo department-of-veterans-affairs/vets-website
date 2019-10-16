@@ -39,9 +39,7 @@ class RatedDisabilityView extends React.Component {
                 ratedDisabilities={ratedDisabilities}
               />
             </div>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              Sidebar goes here
-            </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col--4" />
           </>
         );
       }
