@@ -58,13 +58,15 @@ export class KeywordSearch extends React.Component {
   render() {
     const { suggestions, searchTerm } = this.props.autocomplete;
     let errorSpan = '';
-    let errorSpanId = undefined;
     let searchClassName = 'keyword-search';
     if (this.props.searchError) {
       searchClassName = 'usa-input-error';
-      errorSpanId = `${this.inputId}-error-message`;
       errorSpan = (
-        <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+        <span
+          className="usa-input-error-message"
+          role="alert"
+          id="search-error-message"
+        >
           <span className="sr-only">Error</span>
           Please enter a city, school, or employer name.
         </span>
