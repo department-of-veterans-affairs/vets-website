@@ -71,7 +71,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
-            ariaLabel: 'Learn more about GI Bill benefits',
+            ariaLabel: ariaLabels.giBillBenefitsLearnMore,
           })}
           name="giBillChapter"
           options={[
@@ -126,8 +126,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
-            ariaLabel:
-              'Learn more about cumulative Post-9/11 active duty service',
+            ariaLabel: ariaLabels.post911Chapter33LearnMore,
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
