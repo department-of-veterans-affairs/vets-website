@@ -12,6 +12,8 @@ export default function NoClaims() {
         claim but haven’t finished it yet, go to{' '}
         <a
           href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() =>
             recordEvent({
               event: 'ebenefits-navigation',
