@@ -3,6 +3,21 @@ import * as Sentry from '@sentry/browser';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 
+function refreshSSOeSession() {
+  // TODO replace arbitrary resource fetch with more intentional enpoint
+  fetch('https://eauth.va.gov/favicon.ico', {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then(() => {})
+    .catch(err => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', err);
+        Sentry.captureMessage(`SSOe error: ${err.message}`);
+      });
+    });
+}
+
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
   if (fetch.displayName !== 'stub') {
@@ -18,6 +33,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
+        refreshSSOeSession();
       }
       return response;
     });
