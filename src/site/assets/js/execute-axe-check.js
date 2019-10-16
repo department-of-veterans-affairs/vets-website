@@ -9,16 +9,16 @@ function processAxeCheckResults(error, results) {
 
   var bannerEl = document.createElement('div');
 
-  var details = '<details class="vads-u-background-color--gold-lighter vads-u-padding--1">';
-  details += '<summary>There are (' + results.violations.length + ') accessibility issues on this page.</summary>';
+  var details = '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--primary-darker vads-u-border-bottom--2px vads-u-padding--1">';
+  details += '<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (' + results.violations.length + ') accessibility issues on this page.</h4></summary>';
 
-  var violationsList = '<ul class="usa-unstyled-list vads-u-padding-y--2 vads-u-padding-x--6">';
+  var violationsList = '<ul class="usa-unstyled-list vads-u-border-color--primary-darker vads-u-border-top--1px vads-u-padding-x--6 vads-u-padding-y--2">';
 
   results.violations.forEach(function(violation) {
     var violationEl = '<li class="vads-u-margin-y--1">';
 
     violationEl += '<details>';
-    violationEl += '<summary>' + violation.help + '</summary>';
+    violationEl += '<summary><strong>' + violation.help + '</strong></summary>';
     violationEl += '<ul class="usa-unstyled-list vads-u-padding-y--1 vads-u-padding-x--2">';
 
     violationEl += '<li><strong>Description</strong>: ' + violation.description + '</li>';
