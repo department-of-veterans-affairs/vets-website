@@ -16,4 +16,6 @@ export const ariaLabels = Object.freeze({
   tuitionAndFeesLearnMore:
     'Learn more about the tuition and fees covered by VET TEC',
   scholarshipsLearnMore: 'Learn more about what to include for scholarships',
+  paysToProviderLearnMore:
+    'Learn more about how we pay VET TEC providers for your participation in the program',
 });
