@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { showModal, hideModal } from '../../actions';
 import { renderLearnMoreLabel } from '../../utils/render';
+import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
@@ -139,8 +140,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Completed an enlistment of:',
             modal: 'enlistmentService',
-            ariaLabel:
-              'Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits',
+            ariaLabel: ariaLabels.montgomeryGIBillLearnMore,
           })}
           name="enlistmentService"
           options={[
@@ -156,8 +156,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Length of longest active duty tour:',
             modal: 'consecutiveService',
-            ariaLabel:
-              'Learn more about how the length of your REAP active-duty service affects your benefits',
+            ariaLabel: ariaLabels.reapActiveDutyLearnMore,
           })}
           name="consecutiveService"
           options={[
