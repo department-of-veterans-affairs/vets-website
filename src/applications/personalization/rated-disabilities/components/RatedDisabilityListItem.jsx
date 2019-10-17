@@ -10,36 +10,37 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
     relatedTo,
   } = ratedDisability;
   return (
-    <div className="rated-disability-item-container vads-l-col--12">
+    <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
       <div className="vads-l-row">
         <div className="vads-l-col--9 medium-screen:vads-l-col--9 small-desktop-screen:vads-l-col--9">
-          <p className="disability-item-name">{name}</p>
+          <p className="vads-u-font-weight--bold vads-u-margin-top--0p25 vads-u-margin-bottom--0 vads-u-margin-x--0 vads-u-font-size--base">
+            {name}
+          </p>
         </div>
         <div className="vads-l-col--3 medium-screen:vads-l-col--3 small-desktop-screen:vads-l-col--3">
-          <p className="disability-item-percentage">{ratingPercentage}%</p>
+          <p className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-text-align--right vads-u-margin--0">
+            {ratingPercentage}%
+          </p>
         </div>
       </div>
       <div className="vads-l-row vads-u-margin-y--0p5">
-        <div className="vads-l-col--3 medium-screen:vads-l-col--3 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--12">
-          <p className="disability-item-desc">
+        <div className="vads-l-col--12 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <p className="vads-u-margin--0">
             {decisionText === 'Service Connected' ? (
               <i className="fas fa-medal vads-u-margin-right--0p5" />
             ) : null}
-            <span className="disability-item-label">{decisionText}</span>{' '}
+            <span className="vads-u-font-weight--bold">{decisionText}</span>{' '}
           </p>
-        </div>
-        <div className="vads-l-col--9 medium-screen:vads-l-col--9 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--12">
-          <p className="disability-item-desc">
-            <span className="disability-item-spacer"> | </span>
-            Related To: {relatedTo}
+          <p className="vads-u-display--none small-screen:vads-u-display--inline vads-u-margin-x--0p5 vads-u-margin-y--0">
+            {' '}
+            |{' '}
           </p>
+          <p className="vads-u-margin--0">Related To: {relatedTo}</p>
         </div>
       </div>
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--12">
-          <p className="disability-item-desc">
-            Effective date: {effectiveDate}
-          </p>
+          <p className="vads-u-margin--0">Effective date: {effectiveDate}</p>
         </div>
       </div>
     </div>

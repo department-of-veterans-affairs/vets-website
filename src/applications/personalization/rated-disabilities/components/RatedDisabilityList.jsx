@@ -115,9 +115,11 @@ class RatedDisabilityList extends React.Component {
         <h2 className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-margin-y--1">
           Individual disability ratings
         </h2>
-        {formattedDisabilities.map((disability, index) => (
-          <RatedDisabilityListItem ratedDisability={disability} key={index} />
-        ))}
+        <div className="vads-u-border-top--1px vads-l-row">
+          {formattedDisabilities.map((disability, index) => (
+            <RatedDisabilityListItem ratedDisability={disability} key={index} />
+          ))}
+        </div>
       </div>
     );
   }
