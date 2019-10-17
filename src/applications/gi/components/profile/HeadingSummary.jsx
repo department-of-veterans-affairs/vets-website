@@ -5,6 +5,7 @@ import _ from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber, locationInfo } from '../../utils/helpers';
+import { ariaLabels } from '../../constants';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -75,6 +76,7 @@ class HeadingSummary extends React.Component {
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={this.props.onLearnMore}
+                aria-label={ariaLabels.learnMore.numberOfStudents}
               >
                 Learn more
               </button>

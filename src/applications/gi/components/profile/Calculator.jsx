@@ -108,9 +108,12 @@ export class Calculator extends React.Component {
     const { perTerm } = this.props.calculated.outputs;
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, title, terms } = this.props.calculated.outputs.perTerm[
-        section
-      ];
+      const {
+        visible,
+        title,
+        learnMoreAriaLabel,
+        terms,
+      } = this.props.calculated.outputs.perTerm[section];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
@@ -120,7 +123,12 @@ export class Calculator extends React.Component {
           <div className="link-header">
             <h4>{title}</h4>
             &nbsp;(
-            <a href={learnMoreLink} target="_blank" rel="noopener noreferrer">
+            <a
+              href={learnMoreLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={learnMoreAriaLabel}
+            >
               Learn more
             </a>
             )
