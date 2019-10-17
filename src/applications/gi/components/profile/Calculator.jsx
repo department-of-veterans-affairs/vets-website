@@ -127,7 +127,7 @@ export class Calculator extends React.Component {
               href={learnMoreLink}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={learnMoreAriaLabel}
+              aria-label={learnMoreAriaLabel || ''}
             >
               Learn more
             </a>
