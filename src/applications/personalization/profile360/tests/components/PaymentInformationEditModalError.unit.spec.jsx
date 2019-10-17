@@ -25,6 +25,26 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
+  const restrictionIndicatorsPresentError = {
+    errors: [
+      {
+        code: '126',
+        detail: 'One or more unprocessable user payment properties',
+        meta: {
+          messages: [
+            {
+              key: 'payment.restriction.indicators.present',
+              severity: 'ERROR',
+              text: 'Cannot perform an update due to restriction indicators',
+            },
+          ],
+        },
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        title: 'Unprocessable Entity',
+      },
+    ],
+  };
   const invalidRoutingNumberError = {
     errors: [
       {
@@ -228,7 +248,7 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
   });
 
-  it('renders the flagged account error', () => {
+  it('renders the flagged/locked account error', () => {
     let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: accountFlaggedError }}
@@ -242,6 +262,16 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: routingNumberFlaggedError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: restrictionIndicatorsPresentError }}
       />,
     );
     expect(wrapper.html()).to.contain(

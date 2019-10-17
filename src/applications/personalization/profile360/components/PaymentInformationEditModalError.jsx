@@ -3,11 +3,13 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
-const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
-  'cnp.payment.routing.number.fraud.message';
+const GENERIC_ERROR_KEY = 'cnp.payment.generic.error.message';
 const INVALID_ROUTING_NUMBER_KEY =
   'payment.accountRoutingNumber.invalidCheckSum';
-const GENERIC_ERROR_KEY = 'cnp.payment.generic.error.message';
+const PAYMENT_RESTRICTIONS_PRESENT_KEY =
+  'payment.restriction.indicators.present';
+const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
+  'cnp.payment.routing.number.fraud.message';
 
 function FlaggedAccount() {
   return (
@@ -103,6 +105,7 @@ function hasErrorMessageText(errors, errorText) {
 function hasFlaggedForFraudError(errors) {
   return (
     hasErrorMessageKey(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
+    hasErrorMessageKey(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
     hasErrorMessageKey(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY)
   );
 }
