@@ -71,7 +71,7 @@ describe('IntroductionPage', () => {
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
     const callToActionWidget = tree.find('Connect(CallToActionWidget)');
-    expect(callToActionWidget.length).to.equal(1);
+    expect(callToActionWidget.length).to.equal(2);
     expect(callToActionWidget.first().props().appId).to.equal(
       'higher-level-review',
     );
