@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function FeaturesWarning() {
   return (
@@ -11,6 +12,11 @@ export default function FeaturesWarning() {
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
+          onClick={() =>
+            recordEvent({
+              event: 'ebenefits-navigation',
+            })
+          }
         >
           eBenefits
         </a>

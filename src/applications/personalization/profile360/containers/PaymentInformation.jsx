@@ -56,6 +56,11 @@ const AdditionalInfos = props => (
           rel="noopener noreferrer"
           target="_blank"
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
+          onClick={() =>
+            recordEvent({
+              event: 'ebenefits-navigation',
+            })
+          }
         >
           Go to eBenefits to change your information
         </a>
