@@ -4,9 +4,10 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import RatedDisabilityTable from '../../components/RatedDisabilityList';
+import RatedDisabilityList from '../../components/RatedDisabilityList';
+import RatedDisabilityListItem from '../../components/RatedDisabilityListItem';
 
-describe('<RatedDisabilityTable/>', () => {
+describe('<RatedDisabilityList/>', () => {
   const ratedDisabilities = {
     ratedDisabilities: [
       {
@@ -30,12 +31,9 @@ describe('<RatedDisabilityTable/>', () => {
   };
   const fetchRatedDisabilities = () => {};
   it('should render', () => {
-    const stub = sinon.stub(
-      RatedDisabilityTable.prototype,
-      'componentDidMount',
-    );
+    const stub = sinon.stub(RatedDisabilityList.prototype, 'componentDidMount');
     const wrapper = shallow(
-      <RatedDisabilityTable
+      <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
         componentDidMount={stub}
@@ -45,14 +43,14 @@ describe('<RatedDisabilityTable/>', () => {
       wrapper
         .find('div')
         .first()
-        .hasClass('vads-u-width--full'),
+        .hasClass('vads-l-row'),
     ).to.be.true;
     expect(stub.calledOnce).to.be.true;
     wrapper.unmount();
   });
   it('should convert disability data into a readable format', () => {
     const wrapper = shallow(
-      <RatedDisabilityTable
+      <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
       />,
@@ -69,29 +67,26 @@ describe('<RatedDisabilityTable/>', () => {
     wrapper.unmount();
   });
 
-  it('should display rated disabilities in a table', () => {
-    const spy = sinon.spy(RatedDisabilityTable.prototype, 'formalizeData');
+  it('should render a rated disabilities list', () => {
+    const spy = sinon.spy(RatedDisabilityList.prototype, 'formalizeData');
     const wrapper = shallow(
-      <RatedDisabilityTable
+      <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
       />,
     );
-    // we don't need to fully test SortableTable because it has its own unit tests.
-    // instead we can check the header that gets rendered in the same div,
-    // and use .dive() to check the presence of data passed in to SortableTable.
     const disability = ratedDisabilities.ratedDisabilities[0].name;
+    // shallow render the child component.
+    const list = wrapper.find(RatedDisabilityListItem).shallow();
     expect(
       wrapper
         .find('h2')
         .first()
         .text(),
-    ).to.contain('Your rated disabilities');
+    ).to.contain('Individual disability ratings');
     expect(
-      wrapper
-        .find('.va-table')
-        .dive()
-        .find('td')
+      list
+        .find('p')
         .first()
         .text(),
     ).to.contain(disability);
@@ -108,11 +103,11 @@ describe('<RatedDisabilityTable/>', () => {
       ],
     };
     const spy = sinon.spy(
-      RatedDisabilityTable.prototype,
+      RatedDisabilityList.prototype,
       'noDisabilityRatingContent',
     );
     const wrapper = shallow(
-      <RatedDisabilityTable
+      <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
