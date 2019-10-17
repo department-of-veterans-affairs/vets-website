@@ -98,14 +98,14 @@ export default {
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
       const clinics = getClinicsForChosenFacility(state);
+      const facilityId = getFormData(state).vaFacility;
 
       if (eligibilityStatus.direct) {
         const appointments = await getPastAppointments();
 
-        if (hasEligibleClinics(appointments, clinics)) {
+        if (hasEligibleClinics(facilityId, appointments, clinics)) {
           dispatch({
-            // TODO: finish this action when building the clinc choice page
-            type: 'START_DIRECT_SCHEDULE_FLOW',
+            type: 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
             appointments,
           });
 
@@ -122,10 +122,28 @@ export default {
     // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous: 'typeOfFacility',
   },
+  clinicChoice: {
+    url: '/new-appointment/clinics',
+    previous: 'vaFacility',
+    next(state) {
+      if (getFormData(state).clinicId === 'NONE') {
+        // When there's an appointment time page, go there instead
+        return 'reasonForAppointment';
+      }
+
+      return 'reasonForAppointment';
+    },
+  },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next: 'visitType',
-    previous: 'vaFacility',
+    previous(state) {
+      if (getFormData(state).clinicId) {
+        return 'clinicChoice';
+      }
+
+      return 'vaFacility';
+    },
   },
   visitType: {
     url: '/new-appointment/choose-visit-type',

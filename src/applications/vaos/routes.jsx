@@ -17,6 +17,7 @@ import ContactInfoPage from './containers/ContactInfoPage';
 import VAFacilityPage from './containers/VAFacilityPage';
 import TypeOfVisitPage from './containers/TypeOfVisitPage';
 import ReviewPage from './containers/ReviewPage';
+import ClinicChoicePage from './containers/ClinicChoicePage';
 import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
 
 const routes = (
@@ -39,6 +40,7 @@ const routes = (
         path="community-care-preferences"
         component={CommunityCarePreferencesPage}
       />
+      <Route path="clinics" component={ClinicChoicePage} />
       <Route path="review" component={ReviewPage} />
     </Route>
     <Route path="appointments" component={AppointmentListsPage} />

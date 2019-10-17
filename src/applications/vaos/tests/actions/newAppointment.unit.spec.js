@@ -6,6 +6,7 @@ import {
   routeToPageInFlow,
   openFacilityPage,
   updateFacilityPageData,
+  openClinicPage,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -16,6 +17,8 @@ import {
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_CLINIC_PAGE_OPENED,
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
@@ -297,6 +300,41 @@ describe('VAOS newAppointment actions', () => {
       );
       expect(eligibilityData.clinics.length).to.equal(4);
       expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
+    });
+  });
+  describe('openClinicPage', () => {
+    it('should fetch facility info', async () => {
+      const dispatch = sinon.spy();
+      const previousState = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+          },
+          pages: {},
+          loadingSystems: false,
+          systems: null,
+          facilities: {},
+          eligibility: {},
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openClinicPage(
+        'clinicChoice',
+        {},
+        {
+          ...previousState.newAppointment.data,
+          vaFacility: '983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CLINIC_PAGE_OPENED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+      );
+      expect(dispatch.secondCall.args[0].facilityDetails).to.not.be.undefined;
     });
   });
 });
