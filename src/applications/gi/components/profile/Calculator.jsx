@@ -52,7 +52,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showEligibilityForm;
 
     return (
-      <div className="eligibility-details">
+      <div aria-live="off" className="eligibility-details">
         <button
           aria-expanded={expanded}
           onClick={this.toggleEligibilityForm}
@@ -60,7 +60,7 @@ export class Calculator extends React.Component {
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
-        <div>
+        <div aria-live="off">
           {expanded ? (
             <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
           ) : null}
@@ -78,7 +78,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showCalculatorForm;
 
     return (
-      <div className="calculator-inputs">
+      <div aria-live="off" className="calculator-inputs">
         <button
           aria-expanded={expanded}
           onClick={this.toggleCalculatorForm}

@@ -124,11 +124,17 @@ export class CautionaryInformation extends React.Component {
     return (
       <div className="cautionary-information">
         <div className="caution-flag">
-          <AlertBox
-            content={flagContent}
-            isVisible={!!it.cautionFlag}
-            status="warning"
-          />
+          {it.cautionFlag && (
+            <AlertBox
+              content={
+                <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
+                  View cautionary information about this school
+                </a>
+              }
+              headline="This school has cautionary warnings"
+              status="warning"
+            />
+          )}
         </div>
 
         <div className="student-complaints">
