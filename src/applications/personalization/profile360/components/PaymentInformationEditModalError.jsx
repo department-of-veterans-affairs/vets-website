@@ -16,14 +16,16 @@ function FlaggedAccount() {
     <>
       <p>
         We’re sorry. You can’t change your direct deposit information right now
-        because we’ve locked your account. We do this to protect your bank
-        account information and prevent fraud when we think there may be a
-        security issue.
+        because we’ve locked the ability to edit this information. We do this to
+        protect your bank account information and prevent fraud when we think
+        there may be a security issue.
       </p>
       <p>
-        If you have any questions, please call us at{' '}
-        <span className="no-wrap">800-827-1000</span> (TTY:
-        <span className="no-wrap">800-829-4833</span>
+        To request that we unlock this function, please call us at{' '}
+        <span className="no-wrap">
+          <a href="tel:1-800-827-1000">800-827-1000</a>
+        </span>{' '}
+        (TTY: <span className="no-wrap">800-829-4833</span>
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>

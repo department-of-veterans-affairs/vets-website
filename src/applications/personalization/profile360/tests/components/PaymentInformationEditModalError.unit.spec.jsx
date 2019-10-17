@@ -255,7 +255,7 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
     );
     wrapper.unmount();
 
@@ -265,7 +265,7 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
     );
     wrapper.unmount();
 
@@ -275,7 +275,7 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
     );
     wrapper.unmount();
   });
