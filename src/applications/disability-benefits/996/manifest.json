@@ -1,5 +1,5 @@
 {
-  "appName": "Higher-Level Review",
+  "appName": "Request for Higher-Level Review",
   "entryFile": "./form-entry.jsx",
   "entryName": "0996-higher-level-review",
   "rootUrl": "/disability-benefits/apply/form-0996-higher-level-review",
@@ -11,9 +11,10 @@
     "layout": "page-react.html",
     "description": "Apply online to request a higher-level review.",
     "includeBreadcrumbs": true,
+    "vagovprod": false,
     "breadcrumbs_override": [
       {
-        "name": "Higher-Level Review",
+        "name": "Request a Higher-Level Review",
         "path": "disability-benefits/apply/form-0996-higher-level-review"
       }
     ]

@@ -6,3 +6,101 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+/* Global */
+.nowrap {
+  white-space: nowrap;
+}
+
+/* Fix margins around the form back & continue buttons */
+.input-section,
+.row.form-progress-buttons {
+  margin-bottom: 1em;
+}
+
+/* Veteran details block (step 1) */
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+
+  .masked-number {
+    position: relative;
+    display: inline-block;
+    width: 0.6em;
+
+    &:after {
+      content: "\2022";
+      font-size: 2em;
+      position: absolute;
+      top: -0.95em;
+    }
+  }
+}
+
+/* Contact information review cards & forwarding address block */
+.schemaform-block,
+.review-card--title {
+  margin-top: .5em;
+}
+
+.form-expanding-group .schemaform-block {
+  background-color: $color-gray-lightest;
+  padding: 2em 1em;
+}
+
+/* */
+.usa-button-primary.update-button,
+.usa-button-secondary.edit-button {
+  margin-top: 1em;
+  width: auto;
+}
+
+/* ReviewCardField styles (copied from 526ez form)
+ * shouldn't this be centralized?
+ */
+.review-card {
+  .review-card--header {
+    background-color: $color-gray-lightest;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .review-card--title {
+      margin: 0;
+      display: inline-block;
+    }
+
+    .edit-button {
+      width: 8rem;
+      margin-right: 0;
+    }
+  }
+
+  .review-card--body {
+    padding: 1.5rem;
+    border: 2px solid $color-gray-lightest;
+    /* Remove the top border because it looks like it just extends the header */
+    border-top: none;
+    margin-bottom: 1em;
+
+    .review-card--title {
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .update-button {
+      margin-top: 1rem;
+      width: 15rem;
+    }
+
+    /* Remove blue border (with this, it's not consistent across the site) */
+    .blue-bar-block {
+      border-left: none;
+      padding-left: 0;
+    }
+  }
+}
