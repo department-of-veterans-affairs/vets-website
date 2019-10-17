@@ -51,7 +51,7 @@ function UpdateAddressError({ closeModal }) {
   return (
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
-      because your address is missing or invalid. Please go back to{' '}
+      because your mailing address is missing or invalid. Please go back to{' '}
       <a
         href="/profile/#contact-information"
         onClick={() => {
