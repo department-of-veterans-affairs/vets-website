@@ -80,32 +80,32 @@ describe('IntroductionPage', () => {
     global.window = oldWindow;
   });
 
-  it('should render WithdrawFromLegacySystem', () => {
+  it('should render OptOutFromLegacySystem', () => {
     const oldWindow = global.window;
     global.window = globalWin;
 
     const props = { ...defaultProps, ...showLegacyComponent };
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const withdrawFromLegacySystem = tree.find('WithdrawFromLegacySystem');
-    expect(withdrawFromLegacySystem.length).to.equal(1);
-    expect(withdrawFromLegacySystem.first().props().appId).to.equal(
-      'withdraw-from-legacy-appeal-system',
+    const optOutFromLegacySystem = tree.find('OptOutFromLegacySystem');
+    expect(optOutFromLegacySystem.length).to.equal(1);
+    expect(optOutFromLegacySystem.first().props().appId).to.equal(
+      'opt-out-from-legacy-appeal-system',
     );
     tree.unmount();
 
     global.window = oldWindow;
   });
 
-  it('should not render WithdrawFromLegacySystem if withdrawn', () => {
+  it('should not render OptOutFromLegacySystem if withdrawn', () => {
     const oldWindow = global.window;
     global.window = globalWin;
 
     const props = { ...defaultProps, ...doNotShowLegacyComponent };
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const withdrawFromLegacySystem = tree.find('WithdrawFromLegacySystem');
-    expect(withdrawFromLegacySystem.length).to.equal(0);
+    const optOutFromLegacySystem = tree.find('OptOutFromLegacySystem');
+    expect(optOutFromLegacySystem.length).to.equal(0);
     tree.unmount();
 
     global.window = oldWindow;
