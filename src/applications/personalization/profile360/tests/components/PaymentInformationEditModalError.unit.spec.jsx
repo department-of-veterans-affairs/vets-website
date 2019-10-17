@@ -66,6 +66,26 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
+  const routingNumberFlaggedError = {
+    errors: [
+      {
+        title: 'Potential Fraud',
+        detail: 'Routing number related to potential fraud',
+        code: '135',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.routing.number.fraud.message',
+              severity: 'ERROR',
+              text: 'Routing number related to potential fraud',
+            },
+          ],
+        },
+      },
+    ],
+  };
   const badWorkPhoneNumberError = {
     errors: [
       {
@@ -209,9 +229,19 @@ describe('<PaymentInformationEditModalError />', () => {
   });
 
   it('renders the flagged account error', () => {
-    const wrapper = shallow(
+    let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: accountFlaggedError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: routingNumberFlaggedError }}
       />,
     );
     expect(wrapper.html()).to.contain(
