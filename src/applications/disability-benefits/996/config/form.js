@@ -18,6 +18,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // Pages
 import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 import {
+  contestedIssuesDescription,
+  contestedIssuesTitle,
+} from '../content/contestedIssues';
+import {
   uiSchema as contactInfoUiSchema,
   schema as contactInfoSchema,
 } from '../pages/contactInformation';
@@ -79,14 +83,18 @@ const formConfig = {
       },
     },
     selectContestedIssues: {
-      title: 'Issues selected',
+      title: 'Contested issues',
       pages: {
         contestedIssues: {
-          path: 'select-your-contested-issues',
-          title: 'Select your contested issues',
+          path: 'contested-issues',
           uiSchema: {
+            'ui:title': contestedIssuesTitle,
             myIssues: {
-              'ui:title': 'My issues',
+              'ui:title': contestedIssuesDescription,
+              'ui:required': () => true,
+              // uiSchema: contestedIssuesUiSchema,
+              // schema: contestedIssuesSchema,
+              initialData,
             },
           },
           schema: {
