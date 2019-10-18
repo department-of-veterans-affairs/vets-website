@@ -1,0 +1,92 @@
+.va-sidenav {
+  background: $color-white;
+  border: 1px solid $color-gray-lighter;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  margin: 0 20px 0 0;
+
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  a, button {
+    background: none;
+    border-radius: none;
+    color: $color-gray-dark;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .fa {
+    color: $color-primary;
+  }
+
+  .line {
+    background: $color-gray-lighter;
+    height: 1px;
+    margin: 10px 23px;
+  }
+
+  .va-sidenav-toggle-expand {
+    align-items: center;
+    background: $color-gray-lightest;
+    border-radius: 4px;
+    color: $color-primary;
+    display: flex;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
+  }
+
+  .va-sidenav-item-label {
+    align-items: center;
+    border-radius: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 23px;
+    transition: background 0.5s ease;
+    width: 100%;
+
+    &.selected {
+      a, button {
+        color: $color-gray-dark;
+      }
+
+      &.va-sidenav-item-label-duplicate {
+        text-decoration: underline;
+      }
+    }
+
+    &:hover {
+      background: #f8f8f8; // I could not find the color in our design utilities.
+    }
+  }
+
+  .va-sidenav-level-2 {
+    a, button {
+      color: $color-primary;
+      font-weight: normal;
+      letter-spacing: 0;
+      line-height: 1.38;
+      text-transform: none;
+    }
+  }
+}

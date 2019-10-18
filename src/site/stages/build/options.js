@@ -50,6 +50,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'no-drupal-proxy', type: Boolean, defaultValue: false },
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
+  { name: 'accessibility', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { srSubstitute } from '../../all-claims/utils';
 import { accountTitleLabels } from '../constants';
 import { PaymentDescription, editNote } from '../helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 const PaymentView = response => {
   const {
@@ -64,6 +65,11 @@ const PaymentView = response => {
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                recordEvent({
+                  event: 'ebenefits-navigation',
+                })
+              }
             >
               Go to eBenefits
             </a>
