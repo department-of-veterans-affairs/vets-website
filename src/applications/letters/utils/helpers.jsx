@@ -12,6 +12,8 @@ import {
   MILITARY_STATES,
 } from './constants';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
   const requestUrl =
@@ -78,6 +80,11 @@ export const recordsNotFound = (
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.ebenefits.va.gov/ebenefits/download-letters"
+            onClick={() =>
+              recordEvent({
+                event: 'ebenefits-navigation',
+              })
+            }
           >
             If you’re a dependent, please go to eBenefits to look for your
             letters.

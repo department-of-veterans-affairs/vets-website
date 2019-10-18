@@ -10,11 +10,9 @@ import CallToActionWidget from 'platform/site-wide/cta-widget';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { focusElement } from 'platform/utilities/ui';
 
-import { WithdrawFromLegacySystem } from './WithdrawFromLegacySystem';
+import { OptOutFromLegacySystem } from './OptOutFromLegacySystem';
 
 import { BASE_URL } from '../constants';
-
-// import { VerifiedAlert } from '../helpers';
 
 class IntroductionPage extends React.Component {
   constructor(props) {
@@ -37,6 +35,7 @@ class IntroductionPage extends React.Component {
     ) {
       window.location.replace(`${BASE_URL}/introduction`);
     }
+
     focusElement('.va-nav-breadcrumbs-list');
   }
 
@@ -63,12 +62,12 @@ class IntroductionPage extends React.Component {
     const isLoggedIn = user.login?.currentlyLoggedIn;
 
     return (
-      <div className="schemaform-intro">
+      <div id="form0996" className="schemaform-intro" role="presentation">
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
         {isLoggedIn && this.state.isInLegacySystem ? (
-          <WithdrawFromLegacySystem
-            appId="withdraw-from-legacy-appeal-system"
+          <OptOutFromLegacySystem
+            appId="opt-out-from-legacy-appeal-system"
             onContinue={() => this.userWithdrewFromLegacySystem()}
           />
         ) : (
@@ -92,14 +91,12 @@ class IntroductionPage extends React.Component {
                 style={{ paddingLeft: '0px' }}
               >
                 <OMBInfo
-                  resBurden={30}
+                  resBurden={15}
                   ombNumber="2900-0862"
                   expDate="02/28/2022"
                 />
               </div>
             </CallToActionWidget>
-            <br />
-            <br />
           </>
         )}
       </div>
