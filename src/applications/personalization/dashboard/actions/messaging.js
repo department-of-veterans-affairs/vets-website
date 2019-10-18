@@ -28,12 +28,9 @@ export function fetchFolder(id, query = {}) {
 
       Promise.all(
         [folderUrl, messagesUrl].map(url =>
-          apiRequest(
-            `${baseUrl}${url}`,
-            null,
-            response => response,
-            errorHandler,
-          ),
+          apiRequest(`${baseUrl}${url}`)
+            .then(response => response)
+            .catch(errorHandler),
         ),
       )
         .then(data =>
@@ -55,12 +52,12 @@ export function fetchRecipients() {
   return dispatch => {
     dispatch({ type: LOADING_RECIPIENTS });
 
-    apiRequest(
-      `${baseUrl}${url}`,
-      null,
-      recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
-      response =>
+    apiRequest(`${baseUrl}${url}`)
+      .then(recipients =>
+        dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
+      )
+      .catch(response =>
         dispatch({ type: FETCH_RECIPIENTS_FAILURE, errors: response.errors }),
-    );
+      );
   };
 }
