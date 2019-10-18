@@ -76,15 +76,15 @@ const TotalRatedDisabilities = props => {
                 <strong>
                   Your combined disability rating is {totalDisabilityRating}%
                 </strong>
-                . This rating does not include any pending disabilities you may
-                have applied for. You can check the status of your disability
+                . This rating does not include disabilities for your claims that
+                are still pending. You can check the status of your disability
                 claims or appeals with the Claim Status tool.
               </p>
               <a href="/claim-or-appeal-status/">
                 Check your claims or appeals
               </a>
             </div>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3 medium-screen:vads-u-padding-top--2p5">
+            <div className="vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3 medium-screen:vads-u-padding-top--2p5">
               <PercetnageCalloutBox
                 value={totalDisabilityRating}
                 isPercentage
