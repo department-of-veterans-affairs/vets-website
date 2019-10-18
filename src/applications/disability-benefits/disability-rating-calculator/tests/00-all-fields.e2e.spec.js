@@ -1,11 +1,10 @@
 const E2eHelpers = require('platform/testing/e2e/helpers');
 const Timeouts = require('platform/testing/e2e/timeouts.js');
-const ENVIRONMENTS = require('site/constants/environments');
 
 const inputs = require('./utils/inputs.json');
 const DrcE2eHelpers = require('./drc-helpers.js');
 
-const drcPagePath = '/disability/about-disability-ratings-beta/';
+const drcPagePath = '/disability/about-disability-ratings/';
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const componentSelector =
@@ -29,8 +28,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .waitForElementPresent(componentSelector, Timeouts.slow);
 
   // Test row deletion.
-  // TODO: Once Design Team has spec'ed out the relevant UX,
-  // cover edge-case for deleting row AFTER calculating combined-rating.
   DrcE2eHelpers.fillRatings(client, rowDeletionTestInput);
   client
     .waitForElementVisible(`.row-3 ${deleteRowBtnSelector}`, Timeouts.normal)
@@ -84,7 +81,3 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.end();
 });
-
-module.exports['@disabled'] =
-  process.env.BUILDTYPE === ENVIRONMENTS.VAGOVPROD &&
-  drcPagePath.includes('-beta');
