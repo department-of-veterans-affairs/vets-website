@@ -83,10 +83,7 @@ class CalculatorForm extends React.Component {
   };
 
   handleHasClassesOutsideUSChange = e => {
-    const { checked } = e.target;
-    if (!checked) {
-      this.handleBeneficiaryZIPCodeChanged({ value: '' });
-    }
+    this.handleBeneficiaryZIPCodeChanged({ value: '' });
     this.handleCheckboxChange(e);
   };
 

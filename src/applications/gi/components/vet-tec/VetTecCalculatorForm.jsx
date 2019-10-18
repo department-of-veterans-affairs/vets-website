@@ -28,7 +28,7 @@ class VetTecCalculatorForm extends React.Component {
         Scholarships (excluding Pell)
       </label>{' '}
       <button
-        aria-label="scholarships (excluding Pell) learn more"
+        aria-label="Learn more about scholarships (excluding Pell)"
         type="button"
         className="va-button-link learn-more-button"
         onClick={() => onShowModal('scholarships')}
@@ -56,7 +56,7 @@ class VetTecCalculatorForm extends React.Component {
         Tuition and fees for program
       </label>{' '}
       <button
-        aria-label="tuition and fees learn more"
+        aria-label="Learn more about tuition and fees"
         type="button"
         className="va-button-link learn-more-button"
         onClick={() => onShowModal('tuitionAndFees')}

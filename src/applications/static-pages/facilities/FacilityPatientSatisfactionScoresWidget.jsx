@@ -22,16 +22,16 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
     return (
       <div>
         <p>
-          Veteran-reported satisfaction scores come from the Consumer Assessment
-          of Health and Systems survey, which measures satisfaction of nearly
-          150,000 Veterans across the U.S. every 6 months.
+          VA measures Veteran satisfaction with getting timely appointments at
+          each of our health facilities. We use a health care industry standard,
+          the Consumer Assessment of Health and Systems survey, to collect
+          feedback from 150,000 Veterans across the United States every 6
+          months.
         </p>
-        <h3 className="vads-u-font-size--md">
-          Urgent care appointments at this location
-        </h3>
+        <h3 className="vads-u-font-size--md">Urgent care appointments</h3>
         <p>
-          Veterans who say they usually or always get an appointment when they
-          need care right away.
+          Percentage of Veterans who say they usually or always get an
+          appointment when they need it.
         </p>
         <div className="usa-grid-full">
           <div className="vads-u-display--flex">
@@ -60,12 +60,10 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           </div>
         </div>
 
-        <h3 className="vads-u-font-size--md">
-          Routine care appointments at this location
-        </h3>
+        <h3 className="vads-u-font-size--md">Routine care appointments</h3>
         <p>
-          Veterans who say they usually or always get an appointment when they
-          need it.
+          Percentage of Veterans who say they usually or always get an
+          appointment when they need it.
         </p>
         <div className="usa-grid-full">
           <div className="vads-u-display--flex">
@@ -97,7 +95,12 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
           </div>
         </div>
         <p id="facility-patient-satisfaction-scores-effective-date">
-          Last updated: {formatDateLong(facility.feedback.health.effectiveDate)}
+          Current as of {formatDateLong(facility.feedback.health.effectiveDate)}
+        </p>
+        <p>
+          <a href="https://www.accesstocare.va.gov/">
+            Learn more about Veteran satisfaction with access to care
+          </a>
         </p>
       </div>
     );

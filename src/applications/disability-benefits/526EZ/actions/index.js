@@ -14,15 +14,12 @@ export function fetchITF() {
   return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
 
-    return apiRequest(
-      '/intent_to_file',
-      null,
-      ({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }),
-      () => {
+    return apiRequest('/intent_to_file')
+      .then(({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }))
+      .catch(() => {
         Sentry.captureMessage('itf_fetch_failed');
         dispatch({ type: ITF_FETCH_FAILED });
-      },
-    );
+      });
   };
 }
 
@@ -30,14 +27,11 @@ export function createITF() {
   return dispatch => {
     dispatch({ type: ITF_CREATION_INITIATED });
 
-    return apiRequest(
-      '/intent_to_file/compensation',
-      { method: 'POST' },
-      ({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }),
-      () => {
+    return apiRequest('/intent_to_file/compensation', { method: 'POST' })
+      .then(({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }))
+      .catch(() => {
         Sentry.captureMessage('itf_creation_failed');
         dispatch({ type: ITF_CREATION_FAILED });
-      },
-    );
+      });
   };
 }

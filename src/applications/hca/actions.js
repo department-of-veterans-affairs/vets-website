@@ -96,12 +96,11 @@ function callAPI(dispatch, formData = {}) {
     'userAttributes[veteranSocialSecurityNumber]': formData.ssn,
   });
 
-  return apiRequest(
-    url,
-    null,
-    data => dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, data }),
-    ({ errors }) => dispatch({ type: FETCH_ENROLLMENT_STATUS_FAILED, errors }),
-  );
+  return apiRequest(url)
+    .then(data => dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, data }))
+    .catch(({ errors }) =>
+      dispatch({ type: FETCH_ENROLLMENT_STATUS_FAILED, errors }),
+    );
 }
 
 // make either a mocked or real call to the
@@ -153,17 +152,16 @@ export function getDismissedHCANotification() {
     dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED });
     const url = `/notifications/dismissed_statuses/form_10_10ez`;
 
-    return apiRequest(
-      url,
-      null,
-      response =>
+    return apiRequest(url)
+      .then(response =>
         dispatch({
           type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
           response,
         }),
-      ({ errors }) =>
+      )
+      .catch(({ errors }) =>
         dispatch({ type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED, errors }),
-    );
+      );
   };
 }
 
