@@ -46,8 +46,12 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
         <div>
           <h3>Patient wait times</h3>
           <p>
-            The average number of days to receive care for this service if you
-            make an appointment today.
+            We’ll work with you to schedule an appointment with the shortest
+            wait time. In some cases, we may schedule your appointment at
+            another VA medical center or clinic, or refer you to a non-VA
+            medical provider in your community. For urgent health issues, we
+            offer same-day appointments, telehealth visits, or walk-in express
+            care.
           </p>
           <div className="usa-grid-full">
             <div className="vads-u-display--flex">
@@ -85,10 +89,12 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                 Last updated:{' '}
                 {formatDateLong(facility.access.health.effectiveDate)}
               </p>
+            </div>
+            <div className="vads-l-row">
               <p className="vads-u-margin--0">
-                These wait times may not always reflect the actual wait for
-                services. Call us if you would like to make an appointment or
-                have questions about accessing this service.
+                <a href="https://www.accesstocare.va.gov/">
+                  Learn more about VA appointment wait times
+                </a>
               </p>
             </div>
           </div>
