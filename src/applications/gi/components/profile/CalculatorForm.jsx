@@ -752,7 +752,7 @@ class CalculatorForm extends React.Component {
   render() {
     if (!this.props.displayedInputs) return null;
     return (
-      <div className="calculator-form">
+      <div className="calculator-form" role="dialog">
         {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}

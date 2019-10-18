@@ -78,7 +78,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showCalculatorForm;
 
     return (
-      <div aria-live="off" className="calculator-inputs">
+      <div className="calculator-inputs">
         <button
           aria-expanded={expanded}
           onClick={this.toggleCalculatorForm}
@@ -86,7 +86,7 @@ export class Calculator extends React.Component {
         >
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
-        <div>
+        <div aria-live="off">
           {expanded ? (
             <CalculatorForm
               profile={profile}
@@ -164,7 +164,10 @@ export class Calculator extends React.Component {
           {this.renderCalculatorForm()}
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
+        <div
+          role="dialog"
+          className="usa-width-one-half medium-6 columns your-estimated-benefits"
+        >
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow
