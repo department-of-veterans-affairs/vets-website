@@ -39,7 +39,7 @@ export const introExplanationText = (
     </ul>
     <p>
       If you have hearing loss, please call TTY at{' '}
-      <a href="tel:1-800-799-4889">800-799-4889.</a>
+      <a href="tel:1-800-799-4889">800-799-4889</a>.
     </p>
   </div>
 );
