@@ -97,6 +97,18 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   });
 }
 
+export function getCommunityCare() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        isEligible: true,
+        reason: 'User is within x miles of facility',
+        effectiveDate: '2017-10-08T23:35:12-05:00',
+      });
+    }, TEST_TIMEOUT || 1500);
+  });
+}
+
 // GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
 // eslint-disable-next-line no-unused-vars
 export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {

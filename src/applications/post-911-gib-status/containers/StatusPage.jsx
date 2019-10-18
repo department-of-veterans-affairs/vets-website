@@ -60,6 +60,11 @@ class StatusPage extends React.Component {
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
+            onClick={() =>
+              recordEvent({
+                event: 'ebenefits-navigation',
+              })
+            }
           >
             you can see your payment history on eBenefits
           </a>
