@@ -156,6 +156,11 @@ class SideNav extends Component {
     const parentMostNavItem = find(navItemsLookup, item => !item.parentID);
     const parentMostID = get(parentMostNavItem, 'id');
 
+    // Escape early if we have no nav items to render.
+    if (!parentMostID) {
+      return null;
+    }
+
     return (
       <ul className="usa-width-one-fourth va-sidenav">
         {/* Render all the items recursively. */}

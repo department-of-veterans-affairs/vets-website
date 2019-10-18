@@ -47,13 +47,13 @@ describe('<SideNav>', () => {
 
   it('should not render when there are no nav items to show', () => {
     const wrapper = shallow(<SideNav />);
-    expect(wrapper.find('SideNav').length).to.equal(0);
+    expect(wrapper.type()).to.equal(null);
     wrapper.unmount();
   });
 
   it('should render when there are nav items', () => {
     const wrapper = shallow(<SideNav {...defaultProps} />);
-    expect(wrapper.find('SideNav').length).to.equal(1);
+    expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
   });
 });

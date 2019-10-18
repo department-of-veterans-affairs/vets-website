@@ -19,7 +19,6 @@ const deriveNavItemsLookup = options => {
   each(items, (item, index) => {
     // Derive item properties.
     const description = get(item, 'description', '');
-    const expanded = get(item, 'expanded', false);
     const href = get(item, 'url.path', '');
     const id = uniqueId();
     const label = get(item, 'label', '');
@@ -28,7 +27,7 @@ const deriveNavItemsLookup = options => {
     // Construct the formatted item.
     const formattedItem = {
       description,
-      expanded,
+      expanded: false,
       hasChildren: !isEmpty(nestedItems),
       href,
       id,
