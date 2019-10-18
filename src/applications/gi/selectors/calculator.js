@@ -527,6 +527,11 @@ const getDerivedValues = createSelector(
           : institution.bah;
     }
 
+    const hasClassesOutsideUS =
+      (isCountryInternational(institutionCountry) &&
+        !useBeneficiaryLocationRate) ||
+      inputs.classesOutsideUS;
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (
       isOJT &&
@@ -582,10 +587,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (
-      isCountryInternational(institutionCountry) &&
-      !useBeneficiaryLocationRate
-    ) {
+    } else if (hasClassesOutsideUS) {
       housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm1 = termLength * rop * (tier * bah + kickerBenefit);
@@ -647,10 +649,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (
-      isCountryInternational(institutionCountry) &&
-      !useBeneficiaryLocationRate
-    ) {
+    } else if (hasClassesOutsideUS) {
       housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm2 = termLength * rop * (tier * bah + kickerBenefit);
@@ -714,10 +713,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-    } else if (
-      isCountryInternational(institutionCountry) &&
-      !useBeneficiaryLocationRate
-    ) {
+    } else if (hasClassesOutsideUS) {
       housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
       housingAllowTerm3 = termLength * rop * (tier * bah + kickerBenefit);

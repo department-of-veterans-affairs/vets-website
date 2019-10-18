@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RatedDisabilityTable from './RatedDisabilityTable';
-import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
+import RatedDisabilityList from './RatedDisabilityList';
+import TotalRatedDisabilities from './TotalRatedDisabilities';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
@@ -34,7 +34,7 @@ class RatedDisabilityView extends React.Component {
                 loading={loading}
                 error={error}
               />
-              <RatedDisabilityTable
+              <RatedDisabilityList
                 fetchRatedDisabilities={fetchRatedDisabilities}
                 ratedDisabilities={ratedDisabilities}
               />

@@ -12,6 +12,9 @@ import {
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  START_DIRECT_SCHEDULE_FLOW,
+  FORM_CLINIC_PAGE_OPENED,
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -367,6 +370,140 @@ describe('VAOS reducer: newAppointment', () => {
         action.eligibilityData.clinics,
       );
       expect(newState.eligibility['983_323']).to.not.be.undefined;
+    });
+  });
+  describe('open clinic page reducers', () => {
+    it('should save past appointments to state', () => {
+      const action = {
+        type: START_DIRECT_SCHEDULE_FLOW,
+        appointments: [],
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.pastAppointments).to.equal(action.appointments);
+    });
+    it('should set facility detail loading', () => {
+      const action = {
+        type: FORM_CLINIC_PAGE_OPENED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.loadingFacilityDetails).to.be.true;
+    });
+    it('should set single clinic list in schema', () => {
+      const state = {
+        ...defaultState,
+        pastAppointments: [
+          {
+            clinicId: '455',
+            facilityId: '983',
+          },
+        ],
+        clinics: {
+          '983_323': [
+            {
+              clinicId: '455',
+              facilityId: '983',
+            },
+            {
+              clinicId: '456',
+              facilityId: '983',
+            },
+          ],
+        },
+        data: {
+          ...defaultState.data,
+          typeOfCareId: '323',
+          vaSystem: '983',
+          vaFacility: '983',
+        },
+      };
+
+      const action = {
+        type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+        page: 'clinicChoice',
+        schema: {
+          type: 'object',
+          properties: {},
+        },
+        uiSchema: {},
+        facilityDetails: {},
+      };
+
+      const newState = newAppointmentReducer(state, action);
+
+      expect(newState.loadingFacilityDetails).to.be.false;
+      expect(
+        newState.pages.clinicChoice.properties.clinicId.enum,
+      ).to.deep.equal(['455', 'NONE']);
+      expect(
+        newState.pages.clinicChoice.properties.clinicId.enumNames,
+      ).to.deep.equal([
+        'Yes, make my appointment here',
+        'No, I need a different clinic',
+      ]);
+    });
+    it('should set multi clinic list in schema', () => {
+      const state = {
+        ...defaultState,
+        pastAppointments: [
+          {
+            clinicId: '455',
+            facilityId: '983',
+          },
+          {
+            clinicId: '456',
+            facilityId: '983',
+          },
+        ],
+        clinics: {
+          '983_323': [
+            {
+              clinicId: '455',
+              facilityId: '983',
+              clinicFriendlyLocationName: 'Testing',
+            },
+            {
+              clinicId: '456',
+              facilityId: '983',
+              clinicName: 'Testing real name',
+            },
+          ],
+        },
+        data: {
+          ...defaultState.data,
+          typeOfCareId: '323',
+          vaSystem: '983',
+          vaFacility: '983',
+        },
+      };
+
+      const action = {
+        type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+        page: 'clinicChoice',
+        schema: {
+          type: 'object',
+          properties: {},
+        },
+        uiSchema: {},
+        facilityDetails: {},
+      };
+
+      const newState = newAppointmentReducer(state, action);
+
+      expect(newState.loadingFacilityDetails).to.be.false;
+      expect(
+        newState.pages.clinicChoice.properties.clinicId.enum,
+      ).to.deep.equal(['455', '456', 'NONE']);
+      expect(
+        newState.pages.clinicChoice.properties.clinicId.enumNames,
+      ).to.deep.equal([
+        'Testing',
+        'Testing real name',
+        'I need a different clinic',
+      ]);
     });
   });
 });
