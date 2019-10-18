@@ -3,23 +3,29 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
+const GENERIC_ERROR_KEY = 'cnp.payment.generic.error.message';
 const INVALID_ROUTING_NUMBER_KEY =
   'payment.accountRoutingNumber.invalidCheckSum';
-const GENERIC_ERROR_KEY = 'cnp.payment.generic.error.message';
+const PAYMENT_RESTRICTIONS_PRESENT_KEY =
+  'payment.restriction.indicators.present';
+const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
+  'cnp.payment.routing.number.fraud.message';
 
 function FlaggedAccount() {
   return (
     <>
       <p>
         We’re sorry. You can’t change your direct deposit information right now
-        because we’ve locked your account. We do this to protect your bank
-        account information and prevent fraud when we think there may be a
-        security issue.
+        because we’ve locked the ability to edit this information. We do this to
+        protect your bank account information and prevent fraud when we think
+        there may be a security issue.
       </p>
       <p>
-        If you have any questions, please call us at{' '}
-        <span className="no-wrap">800-827-1000</span> (TTY:
-        <span className="no-wrap">800-829-4833</span>
+        To request that we unlock this function, please call us at{' '}
+        <span className="no-wrap">
+          <a href="tel:1-800-827-1000">800-827-1000</a>
+        </span>{' '}
+        (TTY: <span className="no-wrap">800-829-4833</span>
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
@@ -51,7 +57,7 @@ function UpdateAddressError({ closeModal }) {
   return (
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
-      because your address is missing or invalid. Please go back to{' '}
+      because your mailing address is missing or invalid. Please go back to{' '}
       <a
         href="/profile/#contact-information"
         onClick={() => {
@@ -99,7 +105,11 @@ function hasErrorMessageText(errors, errorText) {
 }
 
 function hasFlaggedForFraudError(errors) {
-  return hasErrorMessageKey(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY);
+  return (
+    hasErrorMessageKey(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
+    hasErrorMessageKey(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
+    hasErrorMessageKey(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY)
+  );
 }
 
 function hasInvalidRoutingNumberError(errors) {
