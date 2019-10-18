@@ -22,6 +22,7 @@ const addAssetHashes = require('../build/plugins/add-asset-hashes');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 const parseHtml = require('../build/plugins/parse-html');
 const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
+const injectAxeCore = require('../build/plugins/inject-axe-core');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -143,6 +144,7 @@ async function createPipeline(options) {
   smith.use(addNonceToScripts);
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
+  smith.use(injectAxeCore(BUILD_OPTIONS));
   smith.use(replaceContentsWithDom);
 
   // For prod builds, we need to add asset hashes, but since this is a live
