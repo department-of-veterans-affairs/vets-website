@@ -30,6 +30,9 @@ export const incidentSupportText = (
         Send a text message to <a href="sms:838255">838255</a>.
       </li>
     </ul>
-    <p>If you have hearing loss, please call TTY at 800-799-4889.</p>
+    <p>
+      If you have hearing loss, please call TTY at{' '}
+      <a href="tel:1-800-799-4889">800-799-4889.</a>
+    </p>
   </div>
 );
