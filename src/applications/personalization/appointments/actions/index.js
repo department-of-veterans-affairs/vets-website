@@ -10,20 +10,18 @@ export function fetchAppointments() {
       type: FETCH_APPOINTMENTS,
     });
 
-    return apiRequest(
-      '/appointments',
-      null,
-      res =>
+    return apiRequest('/appointments')
+      .then(res =>
         dispatch({
           type: FETCH_APPOINTMENTS_SUCCESS,
           data: res.data.attributes.appointments,
         }),
-      err => {
+      )
+      .catch(err => {
         dispatch({
           type: FETCH_APPOINTMENTS_FAILURE,
           err,
         });
-      },
-    );
+      });
   };
 }

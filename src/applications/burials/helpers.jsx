@@ -8,27 +8,22 @@ import { apiRequest } from '../../platform/utilities/api';
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
 
-  return apiRequest(
-    `/burial_claims/${guid}`,
-    {
-      headers,
-      mode: 'cors',
-    },
-    null,
-    res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
-        Sentry.captureMessage('vets_burial_poll_client_error');
+  return apiRequest(`/burial_claims/${guid}`, {
+    headers,
+    mode: 'cors',
+  }).catch(res => {
+    if (res instanceof Error) {
+      Sentry.captureException(res);
+      Sentry.captureMessage('vets_burial_poll_client_error');
 
-        // keep polling because we know they submitted earlier
-        // and this is likely a network error
-        return Promise.resolve();
-      }
+      // keep polling because we know they submitted earlier
+      // and this is likely a network error
+      return Promise.resolve();
+    }
 
-      // if we get here, it's likely that we hit a server error
-      return Promise.reject(res);
-    },
-  );
+    // if we get here, it's likely that we hit a server error
+    return Promise.reject(res);
+  });
 }
 
 const POLLING_INTERVAL = 1000;
@@ -117,7 +112,9 @@ export function submit(form, formConfig) {
     return Promise.reject(respOrError);
   };
 
-  return apiRequest('/burial_claims', apiRequestOptions, onSuccess, onFailure);
+  return apiRequest('/burial_claims', apiRequestOptions)
+    .then(onSuccess)
+    .catch(onFailure);
 }
 export const serviceRecordNotification = (
   <div className="usa-alert usa-alert-warning background-color-only">

@@ -14,12 +14,9 @@ export default class OtherFacilityListWidget extends React.Component {
   }
 
   componentDidMount() {
-    this.request = apiRequest(
-      `/facilities/va?ids=${this.props.facilities}`,
-      null,
-      this.handleFacilitiesSuccess,
-      this.handleFacilitiesError,
-    );
+    this.request = apiRequest(`/facilities/va?ids=${this.props.facilities}`)
+      .then(this.handleFacilitiesSuccess)
+      .catch(this.handleFacilitiesError);
   }
 
   handleFacilitiesSuccess = facilities => {
