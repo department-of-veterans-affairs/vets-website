@@ -1,4 +1,4 @@
-import { getData } from '../util';
+import { getData, createEventDataObjectWithErrors } from '../util';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const PAYMENT_INFORMATION_FETCH_STARTED =
@@ -94,11 +94,8 @@ export function savePaymentInformation(fields) {
     // };
 
     if (response.error || response.errors) {
-      recordEvent({
-        event: 'profile-edit-failure',
-        'profile-action': 'save-failure',
-        'profile-section': 'direct-deposit-information',
-      });
+      const eventData = createEventDataObjectWithErrors(response.errors);
+      recordEvent(eventData);
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_FAILED,
         response,
