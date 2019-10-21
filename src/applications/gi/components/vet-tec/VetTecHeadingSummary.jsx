@@ -7,7 +7,6 @@ import { locationInfo, phoneInfo } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
 
-
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
   return (
