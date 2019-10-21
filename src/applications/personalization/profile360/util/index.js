@@ -99,7 +99,7 @@ export function hasInvalidWorkPhoneNumberError(errors) {
 // function when an errors occurs while trying to save/update a user's direct
 // deposit payment information. The value of the `error-key` prop will change
 // depending on the content of the `errors` array.
-export function createEventDataObjectWithErrors(errors) {
+export function createDirectDepositAnalyticsDataObject(errors) {
   const key = 'error-key';
   const eventDataObject = {
     event: 'profile-edit-failure',

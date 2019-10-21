@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createEventDataObjectWithErrors } from '../../util';
+import { createDirectDepositAnalyticsDataObject } from '../../util';
 
 describe('profile utils', () => {
   const defaultDataObject = {
@@ -29,15 +29,15 @@ describe('profile utils', () => {
   };
   describe('createEventDataObjectWithErrors', () => {
     it('returns the correct data when passed nothing', () => {
-      const eventDataObject = createEventDataObjectWithErrors();
+      const eventDataObject = createDirectDepositAnalyticsDataObject();
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
     it('returns the correct data when passed nothing', () => {
-      const eventDataObject = createEventDataObjectWithErrors([]);
+      const eventDataObject = createDirectDepositAnalyticsDataObject([]);
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
     it('returns the correct data when a bad address error is passed', () => {
-      const eventDataObject = createEventDataObjectWithErrors([
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -59,7 +59,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(badAddressDataObject);
     });
     it('returns the correct data when a work phone number error is passed', () => {
-      const eventDataObject = createEventDataObjectWithErrors([
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',
@@ -81,7 +81,7 @@ describe('profile utils', () => {
       expect(eventDataObject).to.deep.equal(badWorkPhoneDataObject);
     });
     it('returns the correct data when a day phone number error is passed', () => {
-      const eventDataObject = createEventDataObjectWithErrors([
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
         {
           title: 'Unprocessable Entity',
           detail: 'One or more unprocessable user payment properties',

@@ -1,4 +1,4 @@
-import { getData, createEventDataObjectWithErrors } from '../util';
+import { getData, createDirectDepositAnalyticsDataObject } from '../util';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const PAYMENT_INFORMATION_FETCH_STARTED =
@@ -95,7 +95,7 @@ export function savePaymentInformation(fields) {
 
     if (response.error || response.errors) {
       const errors = response?.error?.errors || [];
-      const analyticsData = createEventDataObjectWithErrors(errors);
+      const analyticsData = createDirectDepositAnalyticsDataObject(errors);
       recordEvent(analyticsData);
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_FAILED,
