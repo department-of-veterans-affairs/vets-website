@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { EBEN_526_URL, BDD_INFO_URL } from '../../constants';
 import { activeServicePeriods } from '../utils';
 
@@ -17,7 +18,15 @@ export default ({ formData }) => {
   let content;
   const eBenLink = (
     <div style={{ marginBottom: '1em' }}>
-      <a className="usa-button-primary va-button-primary" href={EBEN_526_URL}>
+      <a
+        className="usa-button-primary va-button-primary"
+        href={EBEN_526_URL}
+        onClick={() =>
+          recordEvent({
+            event: 'ebenefits-navigation',
+          })
+        }
+      >
         Go to eBenefits
       </a>
     </div>

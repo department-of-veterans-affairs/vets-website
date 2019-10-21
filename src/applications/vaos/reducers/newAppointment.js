@@ -25,18 +25,26 @@ import {
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  START_DIRECT_SCHEDULE_FLOW,
+  FORM_CLINIC_PAGE_OPENED,
+  FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
 } from '../actions/newAppointment';
+
+import { getTypeOfCare } from '../utils/selectors';
 
 const initialState = {
   pages: {},
   data: {},
   facilities: {},
+  facilityDetails: {},
   clinics: {},
   eligibility: {},
   systems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingEligibility: false,
+  loadingFacilityDetails: false,
+  pastAppointments: null,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -323,6 +331,96 @@ export default function formReducer(state = initialState, action) {
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
         },
         loadingEligibility: false,
+      };
+    }
+    case START_DIRECT_SCHEDULE_FLOW: {
+      return {
+        ...state,
+        pastAppointments: action.appointments,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED: {
+      return {
+        ...state,
+        loadingFacilityDetails: true,
+      };
+    }
+    case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
+      let newSchema = action.schema;
+      const pastAppointmentDateMap = new Map();
+      state.pastAppointments.forEach(appt => {
+        const apptTime = appt.startDate;
+        const facilityId = state.data.vaFacility;
+        const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
+        if (
+          appt.facilityId === facilityId &&
+          (!latestApptTime || latestApptTime > apptTime)
+        ) {
+          pastAppointmentDateMap.set(appt.clinicId, apptTime);
+        }
+      });
+
+      const clinics = state.clinics[
+        `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
+      ].filter(clinic => pastAppointmentDateMap.has(clinic.clinicId));
+
+      // clinics.sort()
+
+      if (clinics.length === 1) {
+        const clinic = clinics[0];
+        newSchema = {
+          ...newSchema,
+          properties: {
+            clinicId: {
+              type: 'string',
+              title: `Would you like to make an appointment at ${clinic.clinicFriendlyLocationName ||
+                clinic.clinicName}?`,
+              enum: [clinic.clinicId, 'NONE'],
+              enumNames: [
+                'Yes, make my appointment here',
+                'No, I need a different clinic',
+              ],
+            },
+          },
+        };
+      } else {
+        newSchema = {
+          ...newSchema,
+          properties: {
+            clinicId: {
+              type: 'string',
+              title:
+                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
+              enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
+              enumNames: clinics
+                .map(
+                  clinic =>
+                    clinic.clinicFriendlyLocationName || clinic.clinicName,
+                )
+                .concat('I need a different clinic'),
+            },
+          },
+        };
+      }
+
+      const { data, schema } = setupFormData(
+        state.data,
+        newSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        loadingFacilityDetails: false,
+        facilityDetails: {
+          ...state.facilityDetails,
+          [state.data.vaFacility]: action.facilityDetails,
+        },
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
       };
     }
     default:

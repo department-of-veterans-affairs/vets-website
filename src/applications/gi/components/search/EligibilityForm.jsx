@@ -6,6 +6,9 @@ import { renderLearnMoreLabel } from '../../utils/render';
 
 import Dropdown from '../Dropdown';
 
+import recordEvent from 'platform/monitoring/record-event';
+import { isLoggedIn } from 'platform/user/selectors';
+
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
     { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
@@ -23,10 +26,11 @@ export class EligibilityForm extends React.Component {
     { value: 'purple heart', label: 'Purple Heart Service: 100%' },
   ];
 
-  renderLearnMoreLabel = ({ text, modal }) =>
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
     renderLearnMoreLabel({
       text,
       modal,
+      ariaLabel,
       showModal: this.props.showModal,
       component: this,
     });
@@ -69,6 +73,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
+            ariaLabel: 'Learn more about GI Bill benefits',
           })}
           name="giBillChapter"
           options={[
@@ -113,6 +118,12 @@ export class EligibilityForm extends React.Component {
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                this.props.isLoggedIn &&
+                recordEvent({
+                  event: 'ebenefits-navigation',
+                })
+              }
             >
               visit this site
             </a>
@@ -123,6 +134,8 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
+            ariaLabel:
+              'Learn more about cumulative Post-9/11 active duty service',
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
@@ -198,7 +211,10 @@ export class EligibilityForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => state.eligibility;
+const mapStateToProps = state => ({
+  ...state.eligibility,
+  isLoggedIn: isLoggedIn(state),
+});
 
 const mapDispatchToProps = {
   showModal,

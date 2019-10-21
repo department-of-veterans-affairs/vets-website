@@ -196,7 +196,7 @@ export function getClaimsV2(poll = pollRequest) {
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
-      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      pollingInterval: window.VetsGov.pollTimeout || 5000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
       target: '/evss_claims_async',
@@ -255,7 +255,7 @@ export function getClaimDetail(id, router, poll = pollRequest) {
           claim: response.data,
           meta: response.meta,
         }),
-      pollingInterval: window.VetsGov.pollTimeout || 1000,
+      pollingInterval: window.VetsGov.pollTimeout || 5000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
       target: `/evss_claims_async/${id}`,

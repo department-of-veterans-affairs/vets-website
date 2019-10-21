@@ -64,12 +64,13 @@ export const forwardingAddressDescription = () => (
   </p>
 );
 
-export const contactInfoDescription = () => (
+export const contactInfoDescription = ({
+  formName = 'disability claim',
+} = {}) => (
   <p>
     This is the contact information we have on file for you. We’ll send any
-    important information about your disability claim to this address. Any
-    updates you make here to your contact information will only apply to this
-    application.
+    important information about your {formName} to this address. Any updates you
+    make here to your contact information will only apply to this application.
   </p>
 );
 

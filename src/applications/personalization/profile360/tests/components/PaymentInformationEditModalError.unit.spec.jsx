@@ -25,6 +25,47 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
+  const restrictionIndicatorsPresentError = {
+    errors: [
+      {
+        code: '126',
+        detail: 'One or more unprocessable user payment properties',
+        meta: {
+          messages: [
+            {
+              key: 'payment.restriction.indicators.present',
+              severity: 'ERROR',
+              text: 'Cannot perform an update due to restriction indicators',
+            },
+          ],
+        },
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        title: 'Unprocessable Entity',
+      },
+    ],
+  };
+  const invalidRoutingNumberError = {
+    errors: [
+      {
+        code: '126',
+        detail: 'One or more unprocessable user payment properties',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text:
+                'Generic CnP payment update error. Update response: Update Failed: Invalid Routing Number',
+            },
+          ],
+        },
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        title: 'Unprocessable Entity',
+      },
+    ],
+  };
   const accountFlaggedError = {
     errors: [
       {
@@ -45,7 +86,27 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
-  const genericError = {
+  const routingNumberFlaggedError = {
+    errors: [
+      {
+        title: 'Potential Fraud',
+        detail: 'Routing number related to potential fraud',
+        code: '135',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.routing.number.fraud.message',
+              severity: 'ERROR',
+              text: 'Routing number related to potential fraud',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const badWorkPhoneNumberError = {
     errors: [
       {
         title: 'Unprocessable Entity',
@@ -60,6 +121,68 @@ describe('<PaymentInformationEditModalError />', () => {
               severity: 'ERROR',
               text:
                 'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const badHomeAreaCodeError = {
+    errors: [
+      {
+        title: 'Unprocessable Entity',
+        detail: 'One or more unprocessable user payment properties',
+        code: '126',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text:
+                'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const badAddressError = {
+    errors: [
+      {
+        title: 'Unprocessable Entity',
+        detail: 'One or more unprocessable user payment properties',
+        code: '126',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text:
+                'Generic CnP payment update error. Update response: Update Failed: Required field not entered for mailing address update',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const genericError = {
+    errors: [
+      {
+        title: 'Unprocessable Entity',
+        detail: 'One or more unprocessable user payment properties',
+        code: '126',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.generic.error.message',
+              severity: 'ERROR',
+              text: 'This is a generic error that we do not recognize.',
             },
           ],
         },
@@ -91,7 +214,7 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
   });
 
-  it('renders the default error', () => {
+  it('renders the default error when it gets an unrecognized error message', () => {
     const wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: genericError }}
@@ -103,8 +226,8 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
   });
 
-  it('renders the invalid routing numaber error', () => {
-    const wrapper = shallow(
+  it('renders the invalid routing number error', () => {
+    let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: checksumError }}
       />,
@@ -113,16 +236,80 @@ describe('<PaymentInformationEditModalError />', () => {
       'We couldn’t find a bank linked to this routing number. Please check your bank’s 9-digit routing number and enter it again.',
     );
     wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: invalidRoutingNumberError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We couldn’t find a bank linked to this routing number. Please check your bank’s 9-digit routing number and enter it again.',
+    );
+    wrapper.unmount();
   });
 
-  it('renders the flagged account error', () => {
-    const wrapper = shallow(
+  it('renders the flagged/locked account error', () => {
+    let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: accountFlaggedError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: routingNumberFlaggedError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: restrictionIndicatorsPresentError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+  });
+
+  it('renders an error message prompting the user to update their address', () => {
+    const wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: badAddressError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
+    );
+    wrapper.unmount();
+  });
+
+  it('renders the bad phone number error messages', () => {
+    let wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: badWorkPhoneNumberError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: badHomeAreaCodeError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });

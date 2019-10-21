@@ -2,8 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
+
 import { locationInfo, phoneInfo } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
+import { ariaLabels } from '../../constants';
+
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -58,7 +61,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             >
               <span>Preferred Provider </span>
               <button
-                aria-label="preferred provider learn more"
+                aria-label={ariaLabels.preferredProviderLearnMore}
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={() => showModal('preferredProviders')}

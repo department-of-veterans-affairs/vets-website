@@ -121,6 +121,7 @@ class PaymentInformationEditModal extends React.Component {
           {!!this.props.responseError && (
             <PaymentInformationEditModalError
               responseError={this.props.responseError}
+              closeModal={this.props.onClose}
             />
           )}
         </div>

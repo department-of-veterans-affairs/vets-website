@@ -24,12 +24,9 @@ export function fetchLatestTerms(termsName) {
   return dispatch => {
     dispatch({ type: FETCHING_LATEST_TERMS });
 
-    apiRequest(
-      LATEST_TC_URI(termsName),
-      null,
-      ({ data }) => dispatch({ type: FETCH_LATEST_TERMS_SUCCESS, data }),
-      errors => dispatch({ type: FETCH_LATEST_TERMS_FAILURE, errors }),
-    );
+    apiRequest(LATEST_TC_URI(termsName))
+      .then(({ data }) => dispatch({ type: FETCH_LATEST_TERMS_SUCCESS, data }))
+      .catch(errors => dispatch({ type: FETCH_LATEST_TERMS_FAILURE, errors }));
   };
 }
 
@@ -37,12 +34,9 @@ export function fetchTermsAcceptance(termsName) {
   return dispatch => {
     dispatch({ type: FETCHING_TERMS_ACCEPTANCE });
 
-    apiRequest(
-      TC_ACCEPTANCE_URI(termsName),
-      null,
-      () => dispatch({ type: FETCH_TERMS_ACCEPTANCE_SUCCESS }),
-      () => dispatch({ type: FETCH_TERMS_ACCEPTANCE_FAILURE }),
-    );
+    apiRequest(TC_ACCEPTANCE_URI(termsName))
+      .then(() => dispatch({ type: FETCH_TERMS_ACCEPTANCE_SUCCESS }))
+      .catch(() => dispatch({ type: FETCH_TERMS_ACCEPTANCE_FAILURE }));
   };
 }
 
@@ -56,14 +50,11 @@ export function acceptTerms(termsName) {
       body: JSON.stringify({ name: termsName }),
     };
 
-    apiRequest(
-      TC_ACCEPTANCE_URI(termsName),
-      settings,
-      () => {
+    apiRequest(TC_ACCEPTANCE_URI(termsName), settings)
+      .then(() => {
         recordEvent({ event: 'terms-accepted' });
         dispatch({ type: ACCEPT_LATEST_TERMS_SUCCESS });
-      },
-      errors => dispatch({ type: ACCEPT_LATEST_TERMS_FAILURE, errors }),
-    );
+      })
+      .catch(errors => dispatch({ type: ACCEPT_LATEST_TERMS_FAILURE, errors }));
   };
 }
