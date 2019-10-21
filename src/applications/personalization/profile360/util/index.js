@@ -96,8 +96,9 @@ export function hasInvalidWorkPhoneNumberError(errors) {
 }
 
 // Helper that creates and returns an object to pass to the recordEvent()
-// function. The value of the `error-key` prop will change depending on the
-// content of the `errors` array.
+// function when an errors occurs while trying to save/update a user's direct
+// deposit payment information. The value of the `error-key` prop will change
+// depending on the content of the `errors` array.
 export function createEventDataObjectWithErrors(errors) {
   const key = 'error-key';
   const eventDataObject = {
