@@ -1,11 +1,11 @@
 version: "2"         # required to adjust maintainability checks
 checks:
   argument-count:
-    enabled: false
+    enabled: true
   complex-logic:
-    enabled: false
+    enabled: true
   file-lines:
-    enabled: false
+    enabled: true
   method-complexity:
     enabled: false
   method-count:
@@ -17,12 +17,12 @@ checks:
   return-statements:
     enabled: false
   similar-code:
-    enabled: false
+    enabled: true
   identical-code:
-    enabled: false
+    enabled: true
 plugins:
   eslint:
-    enabled: false
+    enabled: true
 exclude_patterns:
 - 'config/'
 - 'db/'
