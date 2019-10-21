@@ -52,9 +52,9 @@ class CheckboxGroup extends React.Component {
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
           <div>
-            <legend id={`${this.inputId}-legend`} className="gibct-legend">
+            <span id={`${this.inputId}-legend`} className="gibct-legend">
               {this.props.label}
-            </legend>
+            </span>
             {this.renderOptions()}
           </div>
         </fieldset>
