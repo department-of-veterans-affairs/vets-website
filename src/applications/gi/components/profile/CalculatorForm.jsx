@@ -13,6 +13,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
+import recordEvent from 'platform/monitoring/record-event';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class CalculatorForm extends React.Component {
       );
       ({ extensions } = matchedBranch);
     }
+
     return extensions;
   };
 
@@ -63,6 +65,13 @@ class CalculatorForm extends React.Component {
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
+      if (event.value.length === 5) {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctExtensionSearchZipcode',
+          'gibct-form-value': event.value,
+        });
+      }
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
       this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
@@ -70,8 +79,15 @@ class CalculatorForm extends React.Component {
   };
 
   handleExtensionChange = event => {
+    this.handleExtensionRadioSelection;
+    const { profile } = this.props;
     const value = event.target.value;
     const zipCode = value.slice(value.indexOf('-') + 1);
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'gibctExtensionCampusDropdown',
+      'gibct-form-value': profile.attributes.facilityMap.main,
+    });
     if (!event.dirty) {
       if (event.target.value !== 'other') {
         this.props.onBeneficiaryZIPCodeChanged(zipCode);
@@ -83,6 +99,11 @@ class CalculatorForm extends React.Component {
   };
 
   handleHasClassesOutsideUSChange = e => {
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'gibctInternationalCheckbox',
+      'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
+    });
     this.handleBeneficiaryZIPCodeChanged({ value: '' });
     this.handleCheckboxChange(e);
   };
@@ -90,6 +111,14 @@ class CalculatorForm extends React.Component {
   handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
     this.props.onInputChange({ field, value });
+  };
+
+  handleExtensionRadioSelection = () => {
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'gibctExtensionCampusSelection',
+      'gibct-form-value': 'An extension campus',
+    });
   };
 
   handleInputChange = event => {
