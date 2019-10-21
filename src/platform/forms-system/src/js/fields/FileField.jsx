@@ -246,6 +246,7 @@ export default class FileField extends React.Component {
                 id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
                 className="usa-button usa-button-secondary"
+                aria-label={uiSchema['ui:title'] || schema.title}
               >
                 <span
                   role="button"
