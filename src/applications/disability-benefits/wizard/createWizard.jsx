@@ -4,17 +4,14 @@ import { Provider } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 const disabilityForms = new Set([VA_FORM_IDS.FORM_21_526EZ]);
-
 export default function createDisabilityIncreaseApplicationStatus(
   store,
   widgetType,
 ) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(
-      /* webpackChunkName: "disability-application-status" */
-      './wizard-entry'
-    ).then(module => {
+    import(/* webpackChunkName: "disability-application-status" */
+    './wizard-entry').then(module => {
       const { ApplicationStatus, Wizard, pages } = module.default;
       ReactDOM.render(
         <Provider store={store}>
