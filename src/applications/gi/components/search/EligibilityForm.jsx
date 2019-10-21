@@ -212,6 +212,7 @@ export class EligibilityForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  ...state.eligibility,
   isLoggedIn: isLoggedIn(state),
 });
 
