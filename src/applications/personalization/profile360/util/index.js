@@ -10,6 +10,11 @@ const PAYMENT_RESTRICTIONS_PRESENT_KEY =
 const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
   'cnp.payment.routing.number.fraud.message';
 
+const GA_ERROR_KEY_BAD_ADDRESS = 'mailing-address-error';
+const GA_ERROR_KEY_BAD_HOME_PHONE = 'home-phone-error';
+const GA_ERROR_KEY_BAD_WORK_PHONE = 'work-phone-error';
+const GA_ERROR_KEY_DEFAULT = 'other-error';
+
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);
@@ -94,14 +99,21 @@ export function hasInvalidWorkPhoneNumberError(errors) {
 // function. The value of the `error-key` prop will change depending on the
 // content of the `errors` array.
 export function createEventDataObjectWithErrors(errors = []) {
-  const value = {
+  const key = 'error-key';
+  const eventDataObject = {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
     'profile-section': 'direct-deposit-information',
-    'error-key': 'other-error',
+    [key]: GA_ERROR_KEY_DEFAULT,
   };
   if (errors && errors.length) {
-    value['error-key'] = 'blah';
+    if (hasInvalidAddressError(errors)) {
+      eventDataObject[key] = GA_ERROR_KEY_BAD_ADDRESS;
+    } else if (hasInvalidHomePhoneNumberError(errors)) {
+      eventDataObject[key] = GA_ERROR_KEY_BAD_HOME_PHONE;
+    } else if (hasInvalidWorkPhoneNumberError(errors)) {
+      eventDataObject[key] = GA_ERROR_KEY_BAD_WORK_PHONE;
+    }
   }
-  return value;
+  return eventDataObject;
 }
