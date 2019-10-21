@@ -11,8 +11,10 @@ export default function createDisabilityIncreaseApplicationStatus(
 ) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "disability-application-status" */
-    './wizard-entry').then(module => {
+    import(
+      /* webpackChunkName: "disability-application-status" */
+      './wizard-entry'
+    ).then(module => {
       const { ApplicationStatus, Wizard, pages } = module.default;
       ReactDOM.render(
         <Provider store={store}>
@@ -25,18 +27,21 @@ export default function createDisabilityIncreaseApplicationStatus(
             stayAfterDelete
             applyRender={() => (
               <div itemScope itemType="http://schema.org/Question">
-                <h2 itemProp="name">How do I file my claim?</h2>
+                <h2 itemProp="name">How do I file my claim online?</h2>
                 <div
                   itemProp="acceptedAnswer"
                   itemScope
                   itemType="http://schema.org/Answer"
                 >
                   <div itemProp="text">
-                    <p>You can file online right now.</p>
+                    <p>
+                      It depends on your situation. Answer a few questions, and
+                      we&apos;ll guide you to the right place.
+                    </p>
                     <Wizard
                       pages={pages}
                       expander
-                      buttonText="File a disability compensation claim"
+                      buttonText="Let's get started"
                     />
                   </div>
                 </div>
