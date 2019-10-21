@@ -80,7 +80,7 @@ export default class CalendarWidget extends Component {
 
     // If no available dates array provided, set max to 45 days from now
     return moment()
-      .add(45, 'days')
+      .add(90, 'days')
       .format('YYYYMM');
   };
 

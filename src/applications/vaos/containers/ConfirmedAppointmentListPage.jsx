@@ -17,6 +17,14 @@ export class ConfirmedAppointmentListPage extends React.Component {
   render() {
     const { appointments, status } = this.props;
 
+    const scheduleButton = (
+      <Link to="new-appointment">
+        <button type="button" className="usa-button">
+          Schedule an appointment
+        </button>
+      </Link>
+    );
+
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         <Breadcrumbs>
@@ -68,14 +76,16 @@ export class ConfirmedAppointmentListPage extends React.Component {
                 )}
               {status === FETCH_STATUS.succeeded &&
                 appointments.length > 0 && (
-                  <ul className="usa-unstyled-list">
-                    {appointments.map(appt => (
-                      <ConfirmedAppointmentListItem
-                        key={getAppointmentId(appt)}
-                        appointment={appt}
-                      />
-                    ))}
-                  </ul>
+                  <div>
+                    <ul className="usa-unstyled-list">
+                      {appointments.map(appt => (
+                        <ConfirmedAppointmentListItem
+                          key={getAppointmentId(appt)}
+                          appointment={appt}
+                        />
+                      ))}
+                    </ul>
+                  </div>
                 )}
             </div>
           </div>
