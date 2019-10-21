@@ -94,8 +94,9 @@ export function savePaymentInformation(fields) {
     // };
 
     if (response.error || response.errors) {
-      const eventData = createEventDataObjectWithErrors(response.errors);
-      recordEvent(eventData);
+      const errors = response?.error?.errors || [];
+      const analyticsData = createEventDataObjectWithErrors(errors);
+      recordEvent(analyticsData);
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_FAILED,
         response,
