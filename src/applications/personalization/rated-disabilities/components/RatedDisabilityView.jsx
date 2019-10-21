@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import RatedDisabilityList from './RatedDisabilityList';
+import TotalRatedDisabilities from './TotalRatedDisabilities';
 import RatedDisabilityTable from './RatedDisabilityTable';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 import RatedDisabilitiesSidebar from '../components/RatedDisabilitiesSidebar';
@@ -35,7 +37,7 @@ class RatedDisabilityView extends React.Component {
                 loading={loading}
                 error={error}
               />
-              <RatedDisabilityTable
+              <RatedDisabilityList
                 fetchRatedDisabilities={fetchRatedDisabilities}
                 ratedDisabilities={ratedDisabilities}
               />

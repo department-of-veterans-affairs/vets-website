@@ -1,25 +1,27 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import LandingPage from '../../components/LandingPage';
 
 describe('VAOS <LandingPage>', () => {
   it('should render links to view appts and to create a new one', () => {
-    const tree = shallow(<LandingPage />);
+    const tree = mount(<LandingPage />);
 
     expect(
       tree
-        .find('Link')
+        .find('.usa-unstyled-list')
+        .find('a')
         .at(0)
-        .props().to,
-    ).to.equal('new-appointment');
+        .text(),
+    ).to.contain('Create a new appointment');
     expect(
       tree
-        .find('Link')
+        .find('.usa-unstyled-list')
+        .find('a')
         .at(1)
-        .props().to,
-    ).to.equal('appointments');
+        .text(),
+    ).to.contain('View your appointments');
 
     tree.unmount();
   });

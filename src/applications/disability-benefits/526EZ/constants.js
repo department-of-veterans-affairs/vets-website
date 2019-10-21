@@ -1,5 +1,3 @@
-export const E_BENEFITS_URL = 'https://www.ebenefits.va.gov/ebenefits/homepage';
-
 export const itfStatuses = {
   active: 'active',
   expired: 'expired',

@@ -6,9 +6,11 @@ import '../monitoring/sentry.js';
 import './legacy/menu'; // Used in the footer.
 import './moment-setup';
 import './popups';
+import './wysiwyg-analytics-setup';
 import addMenuListeners from './accessible-menus';
 import startUserNavWidget from './user-nav';
 import startMegaMenuWidget from './mega-menu';
+import startSideNav from './side-nav';
 import startMetrics from '../monitoring/frontend-metrics';
 import startMobileMenuButton from './mobile-menu-button';
 import startAnnouncementWidget from './announcements';
@@ -49,6 +51,7 @@ export default function startSitewideComponents(commonStore) {
   startUserNavWidget(commonStore);
   startAnnouncementWidget(commonStore);
   startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
+  startSideNav(window.sideNav, commonStore);
   startMobileMenuButton(commonStore);
   startVAFooter(
     window.VetsGov.headerFooter.footerData,
