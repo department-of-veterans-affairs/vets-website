@@ -24,13 +24,15 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
     const appointmentWaitTimesHeader = tree.find('h3');
-    expect(appointmentWaitTimesHeader.text()).to.contain('Patient wait times');
+    expect(appointmentWaitTimesHeader.text()).to.contain(
+      'Average number of days to get an appointment',
+    );
 
     const facilityAppointmentWaitTimesEffectiveDate = tree.find(
       '#facility-primaryCare-appointment-wait-times-effective-date',
     );
     expect(facilityAppointmentWaitTimesEffectiveDate.text()).to.contain(
-      'Last updated: April 22, 2019',
+      'Current as of: April 22, 2019',
     );
 
     const newPatientWaitTime = tree.find(

@@ -94,7 +94,10 @@ export class FacilityPatientSatisfactionScoresWidget extends React.Component {
             )}
           </div>
         </div>
-        <p id="facility-patient-satisfaction-scores-effective-date">
+        <p
+          className="vads-u-padding-top--1"
+          id="facility-patient-satisfaction-scores-effective-date"
+        >
           Current as of {formatDateLong(facility.feedback.health.effectiveDate)}
         </p>
         <p>
