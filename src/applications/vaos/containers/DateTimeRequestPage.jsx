@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   openFormPage,
   updateFormData,
@@ -7,14 +8,48 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
-import Calendar from './../components/calendar/CalendarWidget';
+import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
+import DateTimeRequestField from './../components/DateTimeRequestField';
 
 const pageKey = 'dateTimeRequest';
+
+const initialSchema = {
+  type: 'object',
+  required: ['selectedDates'],
+  properties: {
+    selectedDates: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          date: {
+            type: 'string',
+          },
+          optionTime: {
+            type: 'string',
+            enum: ['AM', 'PM'],
+          },
+        },
+      },
+    },
+  },
+};
+
+const uiSchema = {
+  selectedDates: {
+    'ui:field': DateTimeRequestField,
+    'ui:title': 'What date and time would you like to make an appointment?',
+    'ui:options': {
+      hideLabelText: true,
+    },
+  },
+};
 
 export class DateTimeRequestPage extends React.Component {
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
+    this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
@@ -26,33 +61,29 @@ export class DateTimeRequestPage extends React.Component {
   };
 
   render() {
+    const { schema, data, pageChangeInProgress } = this.props;
+
     return (
       <div className="vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
           What date and time would you like to make an appointment?
         </h1>
-        <Calendar
-          monthsToShowAtOnce={2}
-          multiSelect
-          maxSelections={3}
-          additionalOptions={{
-            fieldName: 'optionTime',
-            required: true,
-            maxSelections: 2,
-            validationMessage:
-              'Please select a preferred time or unselect this date to continue',
-            getOptionsByDate: () => [
-              {
-                value: 'AM',
-                label: 'AM',
-              },
-              {
-                value: 'PM',
-                label: 'PM',
-              },
-            ],
-          }}
-        />
+        <SchemaForm
+          name="Type of care"
+          title="Type of care"
+          schema={schema || initialSchema}
+          uiSchema={uiSchema}
+          onSubmit={this.goForward}
+          onChange={newData =>
+            this.props.updateFormData(pageKey, uiSchema, newData)
+          }
+          data={data}
+        >
+          <FormButtons
+            onBack={this.goBack}
+            pageChangeInProgress={pageChangeInProgress}
+          />
+        </SchemaForm>
       </div>
     );
   }
