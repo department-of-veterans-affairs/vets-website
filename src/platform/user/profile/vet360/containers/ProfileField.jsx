@@ -167,7 +167,12 @@ class Vet360ProfileField extends React.Component {
     };
 
     return (
-      <div className="vet360-profile-field" data-field-name={fieldName}>
+      <div
+        className="vet360-profile-field"
+        aria-atomic="false"
+        aria-live="polite"
+        data-field-name={fieldName}
+      >
         <Vet360ProfileFieldHeading
           onEditClick={this.isEditLinkVisible() && this.onEdit}
         >
