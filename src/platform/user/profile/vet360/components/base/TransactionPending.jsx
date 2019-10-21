@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import environment from 'platform/utilities/environment';
+
 export default class Vet360TransactionPending extends React.Component {
   static propTypes = {
     title: PropTypes.string,
@@ -27,7 +29,10 @@ export default class Vet360TransactionPending extends React.Component {
       </span>
     );
 
-    if (this.props.title.toLowerCase() === 'mobile phone number') {
+    if (
+      !environment.isProduction() &&
+      this.props.title.toLowerCase() === 'mobile phone number'
+    ) {
       content = (
         <span>
           We’re working on saving your new {this.props.title.toLowerCase()} and
