@@ -10,7 +10,7 @@ import {
   mapStateToProps,
 } from '../../containers/ReceiveTextMessages';
 
-import { API_ROUTES, FIELD_NAMES } from '../../constants';
+import { FIELD_NAMES } from '../../constants';
 
 describe('<ReceiveTextMessages/>', () => {
   let props = null;
@@ -18,40 +18,25 @@ describe('<ReceiveTextMessages/>', () => {
   beforeEach(() => {
     props = {
       getEnrollmentStatus() {},
-      createTransaction() {},
-      clearTransactionStatus() {},
       componentDidMount() {},
-      onChange() {},
-      isSuccessVisible() {},
       profile: {
         verified: true,
         vet360: { mobilePhone: { isTextPermitted: false } },
       },
-      hideCheckbox: false,
-      transaction: {},
-      transactionSuccess: false,
-      analyticsSectionName: '',
-      apiRoute: API_ROUTES.TELEPHONES,
+      hideMessage: false,
     };
   });
 
-  it('renders nothing when conditions do not allow checkbox to be rendered', () => {
-    props.hideCheckbox = true;
+  it('renders nothing when conditions do not allow message to be rendered', () => {
+    props.hideMessage = true;
     const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
     expect(component.text()).to.be.equal('');
     component.unmount();
   });
 
-  it('renders content when conditions do allow checkbox to be rendered', () => {
+  it('renders content when conditions do allow message to be rendered', () => {
     const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
     expect(component.text()).to.not.be.equal('');
-    component.unmount();
-  });
-
-  it('renders the checkbox when conditions do allow checkbox to be rendered', () => {
-    const component = enzyme.shallow(<ReceiveTextMessages {...props} />);
-    const errorableCheckbox = component.find('ErrorableCheckbox');
-    expect(errorableCheckbox, 'the checkbox rendered').to.have.lengthOf(1);
     component.unmount();
   });
 
@@ -100,31 +85,25 @@ describe('<ReceiveTextMessages/>', () => {
       const result = mapStateToProps(state, ownProps);
       expect(result.profile.vet360.mobilePhone).to.be.equal(mobilePhone);
       expect(result.profile).to.be.equal(state.user.profile);
-      expect(result.hideCheckbox).not.to.be.null;
-      expect(result.transaction).to.be.null;
-      expect(result.transactionSuccess).to.be.false;
-      expect(result.analyticsSectionName).to.be.equal('mobile-telephone');
-      expect(result.apiRoute).to.be.equal('/profile/telephones');
+      expect(result.hideMessage).not.to.be.null;
     });
-    it('returns hideCheckbox as true when user is not enrolled in va healthcare', () => {
+
+    it('returns hideMessage as true when user is not enrolled in va healthcare', () => {
       state.hcaEnrollmentStatus = null;
       const result = mapStateToProps(state, ownProps);
-      expect(result.hideCheckbox).to.be.true;
+      expect(result.hideMessage).to.be.true;
     });
-    it('returns hideCheckbox as true when user does not have a mobile phone', () => {
+
+    it('returns hideMessage as true when user does not have a mobile phone', () => {
       state.user.profile.vet360.mobilePhone = null;
       const result = mapStateToProps(state, ownProps);
-      expect(result.hideCheckbox).to.be.true;
+      expect(result.hideMessage).to.be.true;
     });
-    it('returns hideCheckbox as true when users mobile phone is not textable', () => {
+
+    it('returns hideMessage as true when users mobile phone is not textable', () => {
       state.user.profile.vet360.mobilePhone.isTextPermitted = false;
       const result = mapStateToProps(state, ownProps);
-      expect(result.hideCheckbox).to.be.true;
-    });
-    it('returns transactionSuccess as true when transactionStatus equals COMPLETED_SUCCESS', () => {
-      state.vet360.transactionStatus = 'COMPLETED_SUCCESS';
-      const result = mapStateToProps(state, ownProps);
-      expect(result.transactionSuccess).to.be.true;
+      expect(result.hideMessage).to.be.true;
     });
   });
 });
