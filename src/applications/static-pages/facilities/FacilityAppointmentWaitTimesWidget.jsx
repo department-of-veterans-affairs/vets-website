@@ -44,7 +44,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (serviceExists) {
       return (
         <div>
-          <h3>Patient wait times</h3>
+          <h3>Average number of days to get an appointment</h3>
           <p>
             We’ll work with you to schedule an appointment with the shortest
             wait time. In some cases, we may schedule your appointment at
@@ -86,8 +86,10 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   service,
                 )}-appointment-wait-times-effective-date`}
               >
-                Last updated:{' '}
-                {formatDateLong(facility.access.health.effectiveDate)}
+                <p className="vads-u-padding-top--1">
+                  Current as of:{' '}
+                  {formatDateLong(facility.access.health.effectiveDate)}
+                </p>
               </p>
             </div>
             <div className="vads-l-row">
