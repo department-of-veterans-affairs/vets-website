@@ -102,37 +102,39 @@ class SideNav extends Component {
             {labelElement}
 
             {/* Expand/Collapse Button */}
-            {hasChildren && isDeeperThanSecondLevel && (
-              <button
-                aria-label={`Expand "${label}"`}
-                className="va-sidenav-toggle-expand"
-              >
-                <i
-                  className={classNames({
-                    fa: true,
-                    'fa-chevron-down': expanded,
-                    'fa-chevron-up': !expanded,
-                  })}
-                />
-              </button>
-            )}
+            {hasChildren &&
+              isDeeperThanSecondLevel && (
+                <button
+                  aria-label={`Expand "${label}"`}
+                  className="va-sidenav-toggle-expand"
+                >
+                  <i
+                    className={classNames({
+                      fa: true,
+                      'fa-chevron-down': expanded,
+                      'fa-chevron-up': !expanded,
+                    })}
+                  />
+                </button>
+              )}
           </button>
 
           {/* Duplicate Line + Label when Expanded */}
-          {expanded && isSecondLevel && (
-            <>
-              <div className="line" />
-              <div
-                className={classNames({
-                  'va-sidenav-item-label': true,
-                  'va-sidenav-item-label-duplicate': true,
-                  selected: isSelected,
-                })}
-              >
-                {labelElement}
-              </div>
-            </>
-          )}
+          {expanded &&
+            isSecondLevel && (
+              <>
+                <div className="line" />
+                <div
+                  className={classNames({
+                    'va-sidenav-item-label': true,
+                    'va-sidenav-item-label-duplicate': true,
+                    selected: isSelected,
+                  })}
+                >
+                  {labelElement}
+                </div>
+              </>
+            )}
 
           {/* Child Items */}
           {expanded && <ul>{this.renderChildItems(id, depth + 1)}</ul>}
