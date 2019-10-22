@@ -37,9 +37,6 @@ export default class CalendarWidget extends Component {
       currentDate,
       months: [currentDate],
       maxMonth: this.getMaxMonth(),
-      currentlySelectedDate: null,
-      currentRowIndex: null,
-      selectedDates: [],
       optionsError: null,
     };
   }
@@ -148,9 +145,10 @@ export default class CalendarWidget extends Component {
   };
 
   handleMultiSelect = (date, currentRowIndex) => {
-    const { maxSelections } = this.props;
-    let selectedDates = [...this.state.selectedDates];
-    const currentlySelectedDate = this.state.currentlySelectedDate;
+    const { maxSelections, currentlySelectedDate, onChange } = this.props;
+    let selectedDates = this.props.selectedDates
+      ? [...this.props.selectedDates]
+      : [];
     const isInSelectedArray = isDateInSelectedArray(date, selectedDates);
 
     if (isInSelectedArray) {
@@ -158,17 +156,26 @@ export default class CalendarWidget extends Component {
         // If already in array, "unselect" and remove from map
         selectedDates = removeDateFromSelectedArray(date, selectedDates);
         this.setState({
-          currentlySelectedDate: null,
           currentRowIndex: null,
-          selectedDates,
           optionsError: null,
+        });
+
+        onChange({
+          currentlySelectedDate: null,
+          selectedDates,
+          currentRowIndex,
         });
       } else if (
         !currentlySelectedDate ||
         (currentlySelectedDate && this.isValid(currentlySelectedDate))
       ) {
         this.setState({
+          currentRowIndex,
+        });
+
+        onChange({
           currentlySelectedDate: date,
+          selectedDates,
           currentRowIndex,
         });
       }
@@ -186,13 +193,22 @@ export default class CalendarWidget extends Component {
         selectedDates,
         currentRowIndex,
       });
+
+      onChange({
+        currentlySelectedDate: date,
+        selectedDates,
+        currentRowIndex,
+      });
     }
   };
 
   handleSelectDate = (date, currentRowIndex) => {
-    let selectedDates = [...this.state.selectedDates];
-    let currentlySelectedDate = this.state.currentlySelectedDate;
-    const { maxSelections, additionalOptions } = this.props;
+    let selectedDates = this.props.selectedDates
+      ? [...this.props.selectedDates]
+      : [];
+    let currentlySelectedDate = this.props.currentlySelectedDate;
+
+    const { maxSelections, additionalOptions, onChange } = this.props;
 
     if (maxSelections > 1) {
       this.handleMultiSelect(date, currentRowIndex);
@@ -204,17 +220,30 @@ export default class CalendarWidget extends Component {
         selectedDates = [];
         currentlySelectedDate = null;
       }
-      this.setState({
-        currentlySelectedDate,
-        selectedDates,
-        currentRowIndex,
-      });
+      this.setState(
+        {
+          currentRowIndex,
+        },
+        () =>
+          onChange({
+            currentlySelectedDate,
+            selectedDates,
+            currentRowIndex,
+          }),
+      );
     }
   };
 
   handleSelectOption = dateObj => {
-    let selectedDates = [...this.state.selectedDates];
-    const { maxSelections, additionalOptions } = this.props;
+    let selectedDates = [...this.props.selectedDates];
+
+    const {
+      maxSelections,
+      additionalOptions,
+      onChange,
+      currentlySelectedDate,
+    } = this.props;
+
     const maxOptionSelections = additionalOptions.maxSelections;
     const fieldName = additionalOptions.fieldName;
     const alreadySelected = isDateOptionPairInSelectedArray(
@@ -235,7 +264,13 @@ export default class CalendarWidget extends Component {
     } else {
       selectedDates = [dateObj];
     }
-    this.setState({ selectedDates, optionsError: null });
+    this.setState({ optionsError: null }, () =>
+      onChange({
+        currentlySelectedDate,
+        selectedDates,
+        currentRowIndex: this.state.currentRowIndex,
+      }),
+    );
   };
 
   renderWeeks = month =>
@@ -248,8 +283,8 @@ export default class CalendarWidget extends Component {
         additionalOptions={this.props.additionalOptions}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
-        selectedDates={this.state.selectedDates}
-        currentlySelectedDate={this.state.currentlySelectedDate}
+        selectedDates={this.props.selectedDates || []}
+        currentlySelectedDate={this.props.currentlySelectedDate}
         optionsError={
           this.state.currentRowIndex === index ? this.state.optionsError : null
         }

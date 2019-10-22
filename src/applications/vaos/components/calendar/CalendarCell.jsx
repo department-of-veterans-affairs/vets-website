@@ -31,6 +31,7 @@ const CalendarCell = ({
       aria-disabled={disabled}
       aria-label={ariaDate}
       aria-expanded={isCurrentlySelected}
+      type="button"
     >
       {inSelectedArray && <i className="fas fa-check vads-u-color--white" />}
       {dateDay}

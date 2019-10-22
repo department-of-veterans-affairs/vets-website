@@ -12,23 +12,34 @@ import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
 import DateTimeRequestField from './../components/DateTimeRequestField';
 
-const pageKey = 'dateTimeRequest';
+const pageKey = 'requestDateTime';
 
 const initialSchema = {
   type: 'object',
-  required: ['selectedDates'],
+  required: ['calendarData'],
   properties: {
-    selectedDates: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          date: {
-            type: 'string',
-          },
-          optionTime: {
-            type: 'string',
-            enum: ['AM', 'PM'],
+    calendarData: {
+      type: 'object',
+      properties: {
+        currentlySelectedDate: {
+          type: 'string',
+        },
+        currentRowIndex: {
+          type: 'number',
+        },
+        selectedDates: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              date: {
+                type: 'string',
+              },
+              optionTime: {
+                type: 'string',
+                enum: ['AM', 'PM'],
+              },
+            },
           },
         },
       },
@@ -37,7 +48,7 @@ const initialSchema = {
 };
 
 const uiSchema = {
-  selectedDates: {
+  calendarData: {
     'ui:field': DateTimeRequestField,
     'ui:title': 'What date and time would you like to make an appointment?',
     'ui:options': {
@@ -69,14 +80,13 @@ export class DateTimeRequestPage extends React.Component {
           What date and time would you like to make an appointment?
         </h1>
         <SchemaForm
-          name="Type of care"
-          title="Type of care"
+          name="Request appointment"
+          title="Request appointment"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
-          onSubmit={this.goForward}
-          onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
-          }
+          onChange={newData => {
+            this.props.updateFormData(pageKey, uiSchema, newData);
+          }}
           data={data}
         >
           <FormButtons
