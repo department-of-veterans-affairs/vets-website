@@ -7,7 +7,7 @@ const path = require('path');
  */
 const contentDir = path.join(
   __dirname,
-  '../../../../../cms-tome-sync-export/content/',
+  '../../../../../tome-sync-output/content/',
 );
 
 /**
