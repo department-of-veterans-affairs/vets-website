@@ -9,7 +9,7 @@ const CalendarNavigation = ({
 }) => (
   <div className="vaos-calendar__nav-links vads-u-display--flex vads-u-justify-content--space-between">
     <button
-      className="vads-u-font-weight--normal vads-u-padding--0 vads-u-color--link-default"
+      className="vads-u-display--flex vads-u-font-weight--normal vads-u-padding--0 vads-u-color--link-default"
       onClick={prevOnClick}
       disabled={prevDisabled}
       aria-disabled={prevDisabled}
@@ -18,7 +18,7 @@ const CalendarNavigation = ({
       Previous
     </button>
     <button
-      className="vads-u-font-weight--normal vads-u-padding--0 vads-u-color--link-default"
+      className="vads-u-display--flex vads-u-justify-content--flex-end vads-u-font-weight--normal vads-u-padding--0 vads-u-color--link-default"
       onClick={nextOnClick}
       disabled={nextDisabled}
       aria-disabled={nextDisabled}
