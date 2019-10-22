@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { find, filter, get, startsWith, map, orderBy } from 'lodash';
+import { find, filter, get, map, orderBy } from 'lodash';
 
 class SideNav extends Component {
   static propTypes = {
@@ -60,10 +60,8 @@ class SideNav extends Component {
       const hasChildren = get(item, 'hasChildren', false);
       const href = get(item, 'href');
       const id = get(item, 'id');
+      const isSelected = get(item, 'isSelected');
       const label = get(item, 'label', '');
-
-      // Derive if the nav item is selected and the selected class.
-      const isSelected = startsWith(window.location.pathname, href);
 
       // Derive the depth booleans.
       const isFirstLevel = depth === 1;
@@ -104,39 +102,37 @@ class SideNav extends Component {
             {labelElement}
 
             {/* Expand/Collapse Button */}
-            {hasChildren &&
-              isDeeperThanSecondLevel && (
-                <button
-                  aria-label={`Expand "${label}"`}
-                  className="va-sidenav-toggle-expand"
-                >
-                  <i
-                    className={classNames({
-                      fa: true,
-                      'fa-chevron-down': expanded,
-                      'fa-chevron-up': !expanded,
-                    })}
-                  />
-                </button>
-              )}
+            {hasChildren && isDeeperThanSecondLevel && (
+              <button
+                aria-label={`Expand "${label}"`}
+                className="va-sidenav-toggle-expand"
+              >
+                <i
+                  className={classNames({
+                    fa: true,
+                    'fa-chevron-down': expanded,
+                    'fa-chevron-up': !expanded,
+                  })}
+                />
+              </button>
+            )}
           </button>
 
           {/* Duplicate Line + Label when Expanded */}
-          {expanded &&
-            isSecondLevel && (
-              <>
-                <div className="line" />
-                <div
-                  className={classNames({
-                    'va-sidenav-item-label': true,
-                    'va-sidenav-item-label-duplicate': true,
-                    selected: isSelected,
-                  })}
-                >
-                  {labelElement}
-                </div>
-              </>
-            )}
+          {expanded && isSecondLevel && (
+            <>
+              <div className="line" />
+              <div
+                className={classNames({
+                  'va-sidenav-item-label': true,
+                  'va-sidenav-item-label-duplicate': true,
+                  selected: isSelected,
+                })}
+              >
+                {labelElement}
+              </div>
+            </>
+          )}
 
           {/* Child Items */}
           {expanded && <ul>{this.renderChildItems(id, depth + 1)}</ul>}
