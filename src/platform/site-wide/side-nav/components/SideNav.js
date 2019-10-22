@@ -92,7 +92,7 @@ class SideNav extends Component {
       // Derive the label element.
       const labelElement = href ? (
         <a
-          className="va-sidenav-item-label-text"
+          className="va-sidenav-item-label-link"
           href={href}
           rel="noopener noreferrer"
         >
@@ -104,7 +104,7 @@ class SideNav extends Component {
 
       return (
         <li className={`va-sidenav-level-${depth}`} key={id}>
-          <button
+          <div
             aria-label={label}
             className={classNames({
               'va-sidenav-item-label': true,
@@ -132,7 +132,7 @@ class SideNav extends Component {
                   />
                 </button>
               )}
-          </button>
+          </div>
 
           {/* Duplicate Line + Label when Expanded */}
           {expanded &&
