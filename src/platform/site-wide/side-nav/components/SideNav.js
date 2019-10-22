@@ -6,7 +6,18 @@ import { find, filter, get, map, orderBy } from 'lodash';
 
 class SideNav extends Component {
   static propTypes = {
-    navItemsLookup: PropTypes.object.isRequired,
+    navItemsLookup: PropTypes.objectOf(PropTypes.shape({
+      depth: PropTypes.number.isRequired,
+      description: PropTypes.string,
+      expanded: PropTypes.bool.isRequired,
+      hasChildren: PropTypes.bool.isRequired,
+      href: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      order: PropTypes.number.isRequired,
+      parentID: PropTypes.string.isRequired,
+      isSelected: PropTypes.bool.isRequired,
+    })).isRequired,
   };
 
   constructor(props) {
