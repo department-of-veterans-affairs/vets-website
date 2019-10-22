@@ -4,13 +4,40 @@ const environments = require('../../../constants/environments');
 
 const FILE_MANIFEST_FILENAME = 'generated/file-manifest.json';
 
-const TEAMSITE_INJECTION_BUNDLE_FILES = [
-  'proxy-rewrite.entry.js',
-  'styleConsolidated.css',
-  'static-pages.css',
-  'vendor.entry.js',
-  'polyfills.entry.js',
-];
+function copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary) {
+  // TeamSite pages such as "benefits.va.gov" have hardcoded references to certain
+  // JavaScript bundles so that we can inject our header/footer into pages outside
+  // of our source. Therefore, we can't apply a hash to those bundles.
+  const teamsiteInjectionBundles = {
+    'proxy-rewrite.js': 'generated/proxy-rewrite.entry.js',
+    'vendor.js': 'generated/vendor.entry.js',
+    'polyfills.js': 'generated/polyfills.entry.js',
+    'styleConsolidated.css': 'generated/styleConsolidated.css',
+    'static-pages.css': 'generated/static-pages.css',
+  };
+
+  for (const fileManifestKey of Object.keys(teamsiteInjectionBundles)) {
+    const teamSitePath = teamsiteInjectionBundles[fileManifestKey];
+    const hashedFileName = entryNamesDictionary.get(fileManifestKey);
+
+    if (!hashedFileName) {
+      if (buildOptions.entry) {
+        // A command arg was passed to build only certain areas of the site, so
+        // it makes that it would be missing.
+        continue;
+      } else {
+        throw new Error('Missing Webpack assets required for TeamSite!');
+      }
+    }
+
+    const hashedFileNameWithoutLeadingSlash = hashedFileName.slice(1);
+    const file = files[hashedFileNameWithoutLeadingSlash];
+
+    if (!file) continue;
+
+    files[teamSitePath] = file;
+  }
+}
 
 function addAssetHashes(buildOptions) {
   const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
@@ -51,14 +78,7 @@ function addAssetHashes(buildOptions) {
       });
     }
 
-    for (const unhashedFileName of TEAMSITE_INJECTION_BUNDLE_FILES) {
-      const hashedFileName = entryNamesDictionary.get(unhashedFileName);
-      const file = files[hashedFileName];
-
-      if (!file) continue;
-
-      files[`generated/${unhashedFileName}`] = file;
-    }
+    copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary);
 
     done();
   };

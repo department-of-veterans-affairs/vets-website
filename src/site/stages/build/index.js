@@ -232,7 +232,10 @@ function defaultBuild(BUILD_OPTIONS) {
    * Convert onclick event handles into nonced script tags
    */
   smith.use(addNonceToScripts, 'Add nonce to script tags');
-  smith.use(addAssetHashes(BUILD_OPTIONS), 'Add asset hashes');
+  smith.use(
+    addAssetHashes(BUILD_OPTIONS),
+    'Add hashes to Webpack assets for browser cache-busting',
+  );
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
