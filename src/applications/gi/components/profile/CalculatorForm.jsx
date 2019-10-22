@@ -79,7 +79,6 @@ class CalculatorForm extends React.Component {
   };
 
   handleExtensionChange = event => {
-    this.handleExtensionRadioSelection();
     const value = event.target.value;
     const zipCode = value.slice(value.indexOf('-') + 1);
 
@@ -113,17 +112,21 @@ class CalculatorForm extends React.Component {
     this.props.onInputChange({ field, value });
   };
 
-  handleExtensionRadioSelection = () => {
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': 'gibctExtensionCampusSelection',
-      'gibct-form-value': 'An extension campus',
-    });
-  };
-
   handleInputChange = event => {
     const { name: field, value } = event.target;
+    const { profile } = this.props;
     this.props.onInputChange({ field, value });
+
+    if (value === 'extension' || value === profile.attributes.name) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'gibctExtensionCampusSelection',
+        'gibct-form-value':
+          value === 'extension'
+            ? 'An extension campus'
+            : profile.attributes.name,
+      });
+    }
   };
 
   resetBuyUp = event => {
@@ -569,7 +572,7 @@ class CalculatorForm extends React.Component {
     let extensionOptions = [];
     const zipcodeRadioOptions = [
       {
-        value: 'yes',
+        value: profile.attributes.name,
         label: profile.attributes.name,
       },
     ];
