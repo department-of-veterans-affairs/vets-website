@@ -28,7 +28,7 @@ const blackList = new Set([
   'access_scheme',
   'bundle',
   // Temporarily ignore the following properties because they were
-  // causing circular dependencies. Once we get reader functions based
+  // causing circular references. Once we get reader functions based
   // on individual node / entity types, we can remove these from here.
   // See the jsdoc on getEntityProperties for more information.
   'field_facility_location',
@@ -92,20 +92,20 @@ const getEntityProperties = (entityType, entity) =>
  * @param {String} uuid - The UUID of the entity; corresponds to the
  *                        name of the file.
  * @param {Array<String>} parents - A list of parent entities; used to
- *                                  avoid circular dependencies.
+ *                                  avoid circular references.
  *
  * @return {Object} - The entity with all the references filled in with
  *                    the body of the referenced entities.
  */
 const assembler = (entityType, uuid, parents = []) => {
-  // Avoid circular dependencies
+  // Avoid circular references
   if (parents.includes(id(entityType, uuid))) {
     /* eslint-disable no-console */
     console.log(`I'm my own grandpa! (${id(entityType, uuid)})`);
     console.log(`  Parents:\n    ${parents.join('\n    ')}`);
     /* eslint-enable no-console */
 
-    // If we find a circular dependency, it needs to be addressed;
+    // If we find a circular references, it needs to be addressed;
     // just quit
     process.exit(1);
   }
