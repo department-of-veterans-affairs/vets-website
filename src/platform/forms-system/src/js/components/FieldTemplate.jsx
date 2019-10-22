@@ -47,32 +47,15 @@ export default function FieldTemplate(props) {
   let errorSpanId;
   let errorSpan;
   let errorClass;
-  // let errorStyle = 'none';
   if (hasErrors) {
     errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
     errorSpanId = `${id}-error-message`;
-    // errorStyle = 'block';
     errorSpan = (
       <span className="usa-input-error-message" role="alert" id={errorSpanId}>
         <span className="sr-only">Error</span> {rawErrors[0]}
       </span>
     );
   }
-
-  /*
-  if (environment.isStaging()) {
-    errorSpan = (
-      <span
-        style={{ display: errorStyle }}
-        className="usa-input-error-message"
-        role="alert"
-        id={errorSpanId}
-      >
-        <span className="sr-only">Error</span> {rawErrors[0]}
-      </span>
-    );
-  }
-  */
 
   const containerClassNames = classNames(
     'schemaform-field-template',

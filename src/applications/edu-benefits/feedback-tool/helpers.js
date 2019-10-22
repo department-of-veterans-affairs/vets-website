@@ -50,12 +50,9 @@ export function fetchInstitutions({ institutionQuery, page, onDone, onError }) {
     page,
   });
 
-  return apiRequest(
-    fetchUrl,
-    null,
-    payload => onDone(payload),
-    error => onError(error),
-  );
+  return apiRequest(fetchUrl)
+    .then(payload => onDone(payload))
+    .catch(error => onError(error));
 }
 
 // Helper to remove the facility code. Needed if the code was set via the
@@ -93,7 +90,7 @@ export function transform(
 function checkStatus(guid) {
   const headers = { 'Content-Type': 'application/json' };
 
-  return apiRequest(`/gi_bill_feedbacks/${guid}`, { headers }, null, res => {
+  return apiRequest(`/gi_bill_feedbacks/${guid}`, { headers }).catch(res => {
     if (res instanceof Error) {
       Sentry.captureException(res);
       Sentry.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
@@ -173,12 +170,9 @@ export function submit(form, formConfig) {
     return Promise.reject(respOrError);
   };
 
-  return apiRequest(
-    '/gi_bill_feedbacks',
-    apiRequestOptions,
-    onSuccess,
-    onFailure,
-  );
+  return apiRequest('/gi_bill_feedbacks', apiRequestOptions)
+    .then(onSuccess)
+    .catch(onFailure);
 }
 
 /**

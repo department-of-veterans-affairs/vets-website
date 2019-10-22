@@ -36,21 +36,18 @@ export function fetchUserSelectedBenefits() {
     dispatch({
       type: FETCH_USER_PREFERENCES_STARTED,
     });
-    return apiRequest(
-      '/user/preferences',
-      null,
-      response => {
+    return apiRequest('/user/preferences')
+      .then(response => {
         dispatch({
           type: FETCH_USER_PREFERENCES_SUCCEEDED,
           payload: response,
         });
-      },
-      () => {
+      })
+      .catch(() => {
         dispatch({
           type: FETCH_USER_PREFERENCES_FAILED,
         });
-      },
-    );
+      });
   };
 }
 
@@ -64,21 +61,18 @@ export function fetchAvailableBenefits() {
       type: FETCH_ALL_BENEFITS_STARTED,
     });
 
-    return apiRequest(
-      '/user/preferences/choices/benefits',
-      null,
-      response => {
+    return apiRequest('/user/preferences/choices/benefits')
+      .then(response => {
         dispatch({
           type: FETCH_ALL_BENEFITS_SUCCEEDED,
           payload: response,
         });
-      },
-      () => {
+      })
+      .catch(() => {
         dispatch({
           type: FETCH_ALL_BENEFITS_FAILED,
         });
-      },
-    );
+      });
   };
 }
 
@@ -114,10 +108,8 @@ export function savePreferences(benefitsData) {
 
     const method = 'POST';
     const headers = { 'Content-Type': 'application/json' };
-    return apiRequest(
-      '/user/preferences',
-      { headers, method, body },
-      () => {
+    return apiRequest('/user/preferences', { headers, method, body })
+      .then(() => {
         dispatch({
           type: SAVE_USER_PREFERENCES_SUCCEEDED,
         });
@@ -139,13 +131,12 @@ export function savePreferences(benefitsData) {
         const dismissedAlerts = getDismissedBenefitAlerts();
 
         dispatch(setDismissedBenefitAlerts(dismissedAlerts));
-      },
-      () => {
+      })
+      .catch(() => {
         dispatch({
           type: SAVE_USER_PREFERENCES_FAILED,
         });
-      },
-    );
+      });
   };
 }
 
@@ -157,21 +148,21 @@ export function deletePreferences() {
 
     const method = 'DELETE';
     const headers = { 'Content-Type': 'application/json' };
-    return apiRequest(
-      '/user/preferences/benefits/delete_all',
-      { headers, method },
-      () => {
+    return apiRequest('/user/preferences/benefits/delete_all', {
+      headers,
+      method,
+    })
+      .then(() => {
         dispatch({
           type: SAVE_USER_PREFERENCES_SUCCEEDED,
         });
         // TODO: make sure that benefit-related alerts are removed/hidden?
-      },
-      () => {
+      })
+      .catch(() => {
         dispatch({
           type: SAVE_USER_PREFERENCES_FAILED,
         });
-      },
-    );
+      });
   };
 }
 

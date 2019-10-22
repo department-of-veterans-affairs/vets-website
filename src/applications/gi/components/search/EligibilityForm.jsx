@@ -7,6 +7,9 @@ import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
+import recordEvent from 'platform/monitoring/record-event';
+import { isLoggedIn } from 'platform/user/selectors';
+
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
     { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
@@ -116,6 +119,12 @@ export class EligibilityForm extends React.Component {
               href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                this.props.isLoggedIn &&
+                recordEvent({
+                  event: 'ebenefits-navigation',
+                })
+              }
             >
               visit this site
             </a>
@@ -204,7 +213,10 @@ export class EligibilityForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => state.eligibility;
+const mapStateToProps = state => ({
+  ...state.eligibility,
+  isLoggedIn: isLoggedIn(state),
+});
 
 const mapDispatchToProps = {
   showModal,

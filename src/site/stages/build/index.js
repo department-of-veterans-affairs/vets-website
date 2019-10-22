@@ -29,12 +29,12 @@ const createFeatureToggles = require('./plugins/create-feature-toggles');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const createReactPages = require('./plugins/create-react-pages');
-const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
 const parseHtml = require('./plugins/parse-html');
 const replaceContentsWithDom = require('./plugins/replace-contents-with-dom');
+const injectAxeCore = require('./plugins/inject-axe-core');
 const rewriteDrupalPages = require('./plugins/rewrite-drupal-pages');
 const rewriteVaDomains = require('./plugins/rewrite-va-domains');
 const updateExternalLinks = require('./plugins/update-external-links');
@@ -213,7 +213,6 @@ function defaultBuild(BUILD_OPTIONS) {
   configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
-  smith.use(createRedirects(BUILD_OPTIONS), 'Create redirects');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
 
@@ -233,6 +232,7 @@ function defaultBuild(BUILD_OPTIONS) {
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');
+  smith.use(injectAxeCore(BUILD_OPTIONS), 'Inject axe-core for accessibility');
   smith.use(replaceContentsWithDom, 'Save the changes from the modified DOM');
 
   /* eslint-disable no-console */

@@ -11,7 +11,7 @@ describe('<RatedDisabilityView/>', () => {
       status: 'OK',
     },
   };
-  const ratedDisabilities = [];
+  const ratedDisabilities = { ratedDisabilities: [] };
   const fetchRatedDisabilities = sinon.stub();
 
   it('should render', () => {

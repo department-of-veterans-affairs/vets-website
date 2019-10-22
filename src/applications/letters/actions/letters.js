@@ -45,17 +45,15 @@ export function cancelEditingAddress() {
 }
 
 export function getLetterList(dispatch) {
-  return apiRequest(
-    '/v0/letters',
-    null,
-    response => {
+  return apiRequest('/v0/letters')
+    .then(response => {
       recordEvent({ event: 'letter-list-success' });
       return dispatch({
         type: GET_LETTERS_SUCCESS,
         data: response,
       });
-    },
-    response => {
+    })
+    .catch(response => {
       recordEvent({ event: 'letter-list-failure' });
       const status = getStatus(response);
       if (status === '403') {
@@ -82,28 +80,24 @@ export function getLetterList(dispatch) {
         );
       });
       return Promise.reject();
-    },
-  );
+    });
 }
 
 export function getBenefitSummaryOptions(dispatch) {
-  return apiRequest(
-    '/v0/letters/beneficiary',
-    null,
-    response => {
+  return apiRequest('/v0/letters/beneficiary')
+    .then(response => {
       recordEvent({ event: 'letter-get-bsl-success' });
       return dispatch({
         type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS,
         data: response,
       });
-    },
-    response => {
+    })
+    .catch(response => {
       recordEvent({ event: 'letter-get-bsl-failure' });
       dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_FAILURE });
       const status = getStatus(response);
       throw new Error(`vets_letters_error_getBenefitSummaryOptions: ${status}`);
-    },
-  );
+    });
 }
 
 // Call getLetterList then getBenefitSummaryOptions
@@ -121,10 +115,8 @@ export function getAddressFailure() {
 
 export function getMailingAddress() {
   return dispatch =>
-    apiRequest(
-      '/v0/address',
-      null,
-      response => {
+    apiRequest('/v0/address')
+      .then(response => {
         recordEvent({ event: 'letter-get-address-success' });
         const responseCopy = Object.assign({}, response);
         // translate military address properties to generic properties for use in front end
@@ -135,8 +127,8 @@ export function getMailingAddress() {
           type: GET_ADDRESS_SUCCESS,
           data: responseCopy,
         });
-      },
-      response => {
+      })
+      .catch(response => {
         const status = getStatus(response);
         Sentry.withScope(scope => {
           scope.setFingerprint(['{{ default }}', status]);
@@ -145,8 +137,7 @@ export function getMailingAddress() {
           );
         });
         return dispatch(getAddressFailure());
-      },
-    );
+      });
 }
 
 export function getLetterPdfFailure(letterType) {
@@ -198,10 +189,8 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
       //  a user interaction.
       downloadWindow = window.open();
     }
-    return apiRequest(
-      `/v0/letters/${letterType}`,
-      settings,
-      response => {
+    return apiRequest(`/v0/letters/${letterType}`, settings)
+      .then(response => {
         let downloadUrl;
         response.blob().then(blob => {
           if (isIE) {
@@ -231,8 +220,8 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           'letter-type': letterType,
         });
         return dispatch({ type: GET_LETTER_PDF_SUCCESS, data: letterType });
-      },
-      response => {
+      })
+      .catch(response => {
         const status = getStatus(response);
         Sentry.withScope(scope => {
           scope.setFingerprint(['{{ default }}', status]);
@@ -243,8 +232,7 @@ export function getLetterPdf(letterType, letterName, letterOptions) {
           );
         });
         return dispatch(getLetterPdfFailure(letterType));
-      },
-    );
+      });
   };
 }
 
@@ -293,10 +281,8 @@ export function saveAddress(address) {
   recordEvent({ event: 'letter-update-address-submit' });
   return dispatch => {
     dispatch(saveAddressPending());
-    return apiRequest(
-      '/v0/address',
-      settings,
-      response => {
+    return apiRequest('/v0/address', settings)
+      .then(response => {
         // translate military address properties back to front end address
         const responseAddress = toGenericAddress(
           response.data.attributes.address,
@@ -307,8 +293,8 @@ export function saveAddress(address) {
           );
         }
         return dispatch(saveAddressSuccess(responseAddress));
-      },
-      response => {
+      })
+      .catch(response => {
         const status = getStatus(response);
         Sentry.withScope(scope => {
           scope.setFingerprint(['{{ default }}', status]);
@@ -317,24 +303,21 @@ export function saveAddress(address) {
           );
         });
         return dispatch(saveAddressFailure());
-      },
-    );
+      });
   };
 }
 
 export function getAddressCountries() {
   return dispatch =>
-    apiRequest(
-      '/v0/address/countries',
-      null,
-      response => {
+    apiRequest('/v0/address/countries')
+      .then(response => {
         recordEvent({ event: 'letter-get-address-countries-success' });
         return dispatch({
           type: GET_ADDRESS_COUNTRIES_SUCCESS,
           countries: response,
         });
-      },
-      response => {
+      })
+      .catch(response => {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-countries-failure' });
         Sentry.withScope(scope => {
@@ -344,23 +327,20 @@ export function getAddressCountries() {
           );
         });
         return dispatch({ type: GET_ADDRESS_COUNTRIES_FAILURE });
-      },
-    );
+      });
 }
 
 export function getAddressStates() {
   return dispatch =>
-    apiRequest(
-      '/v0/address/states',
-      null,
-      response => {
+    apiRequest('/v0/address/states')
+      .then(response => {
         recordEvent({ event: 'letter-get-address-states-success' });
         return dispatch({
           type: GET_ADDRESS_STATES_SUCCESS,
           states: response,
         });
-      },
-      response => {
+      })
+      .catch(response => {
         const status = getStatus(response);
         recordEvent({ event: 'letter-get-address-states-success' });
         Sentry.withScope(scope => {
@@ -370,6 +350,5 @@ export function getAddressStates() {
           );
         });
         return dispatch({ type: GET_ADDRESS_STATES_FAILURE });
-      },
-    );
+      });
 }
