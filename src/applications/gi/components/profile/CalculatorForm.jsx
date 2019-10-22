@@ -80,18 +80,13 @@ class CalculatorForm extends React.Component {
 
   handleExtensionChange = event => {
     this.handleExtensionRadioSelection();
-    const { profile } = this.props;
     const value = event.target.value;
     const zipCode = value.slice(value.indexOf('-') + 1);
-
-    //console.log('event', event);
-    console.log('ET', event.target);
-    console.log(event.target.options[event.target.selectedIndex].text);
 
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': 'gibctExtensionCampusDropdown',
-      'gibct-form-value': value,
+      'gibct-form-value': event.target.options[event.target.selectedIndex].text,
     });
     if (!event.dirty) {
       if (event.target.value !== 'other') {
@@ -100,7 +95,6 @@ class CalculatorForm extends React.Component {
         this.props.onBeneficiaryZIPCodeChanged('');
       }
       this.handleInputChange(event);
-      console.log(event);
     }
   };
 
