@@ -42,7 +42,7 @@ const blackList = new Set([
  *
  * @param {String} type - The type of entity; corresponds to the file
  *                        name.
- * @param {String} uui  - The uuid of the entity; corresponds to the
+ * @param {String} uuid  - The uuid of the entity; corresponds to the
  *                        file name.
  */
 const id = (type, uuid) => `${type}.${uuid}`;
