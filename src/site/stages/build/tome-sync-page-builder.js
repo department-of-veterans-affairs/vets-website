@@ -48,15 +48,15 @@ const blackList = new Set([
 const id = (type, uuid) => `${type}.${uuid}`;
 
 /**
- * Take the entityName, return the contents of the file.
- *
- * Later, we can keep a counter for how many times we open a
+ * Note: Later, we can keep a counter for how many times we open a
  * particular file to see if we can gain anything from caching the
  * contents.
  * @param {String} entityType - The type of entity; corresponds to the
  *                              name of the file.
  * @param {String} uuid - The UUID of the entity; corresponds to the
  *                        name of the file.
+ *
+ * @return {Object} - The contents of the file.
  */
 const fetchEntity = (type, uuid) =>
   JSON.parse(
