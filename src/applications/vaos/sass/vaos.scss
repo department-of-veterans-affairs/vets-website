@@ -68,9 +68,12 @@
         width: 18%;
         color: $color-base;
         background-color: $color-gray-lightest;
-        border: 1px solid $color-base;
+        border: 1px solid $color-gray-medium;
         padding: 12px;
-        margin: 8px auto;
+        margin: 8px;
+        @media (max-width: $small-screen) {
+          margin: 4px;
+        }
 
         &.vaos-calendar__cell-selected {
           position: relative;
@@ -117,18 +120,24 @@
 
     .vaos-calendar__options {
       .vaos-calendar__option {
-        width: 158px;
+        width: 18%;
+        max-width: 117px;
         border-radius: 5px;
-        padding: 10px 0;
+        padding: 12px;
+        margin: 8px;
 
         input[type="radio"], input[type="checkbox"] {
           width: unset;
         }
 
-        label {
-          &:before {
-            margin-top: 0;
-          }
+        input[type=radio] + label::before {
+          margin-top: 0;
+          box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
+        }
+
+        input[type=checkbox] + label::before {
+          margin-top: 0;
+          box-shadow: 0 0 0 1px $color-primary;
         }
       }
     }

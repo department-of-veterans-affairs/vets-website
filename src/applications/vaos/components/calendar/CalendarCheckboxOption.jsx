@@ -8,7 +8,7 @@ const CalendarCheckboxOption = ({
   onChange,
   label,
 }) => (
-  <div className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1 vads-u-padding-x--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-border-color--primary">
+  <div className="vaos-calendar__option vads-u-display--flex vads-u-border--1px vads-u-justify-content--center vads-u-align-items--center vads-u-padding-y--1 vads-u-padding-x--0 vads-u-border-color--primary">
     <input
       id={`checkbox-${index}`}
       type="checkbox"
