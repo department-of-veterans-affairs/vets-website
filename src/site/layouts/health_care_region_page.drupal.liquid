@@ -1,122 +1,123 @@
 {% comment %}
 Example data:
 "entityUrl": {
-  "breadcrumb": [
-    {
-      "url": {
-        "path": "/",
-        "routed": true
-      },
-      "text": "Home"
-    }
-  ],
-  "path": "/pittsburgh-health-care"
+"breadcrumb": [
+{
+"url": {
+"path": "/",
+"routed": true
+},
+"text": "Home"
+}
+],
+"path": "/pittsburgh-health-care"
 },
 "entityId": "83",
 "entityBundle": "health_care_region_page",
 "entityPublished": true,
 "title": "Pittsburgh Health Care System",
 "fieldMedia": {
-  "entity": {
-    "image": {
-      "alt": "U Drive",
-      "title": "",
-      "derivative": {
-        "url": "http://vagovcms.lndo.site/sites/default/files/styles/crop_2_1/public/2019-02/university-drive-consolidation-building2.jpg?itok=Gb4BrUjw",
-        "width": 480,
-        "height": 330
-      }
-    }
-  }
+"entity": {
+"image": {
+"alt": "U Drive",
+"title": "",
+"derivative": {
+"url":
+"http://vagovcms.lndo.site/sites/default/files/styles/crop_2_1/public/2019-02/university-drive-consolidation-building2.jpg?itok=Gb4BrUjw",
+"width": 480,
+"height": 330
+}
+}
+}
 },
 "fieldIntroText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit....
 "fieldRelatedLinks": {
-  "entity": {
-    "parentFieldName": "field_related_links",
-    "fieldTitle": "Popular in Pittsburgh",
-    "fieldVaParagraphs": [
-      {
-        "entity": {
-          "fieldLink": {
-            "uri": "internal:#",
-            "title": "Phone Directory",
-            "options": null
-          },
-          "fieldLinkSummary": null
-        }
-      },
-      {
-        "entity": {
-          "fieldLink": {
-            "uri": "internal:#",
-            "title": "Billing and insurance",
-            "options": null
-          },
-          "fieldLinkSummary": null
-        }
-      },
-      {
-        "entity": {
-          "fieldLink": {
-            "uri": "internal:#",
-            "title": "Patient advocates",
-            "options": null
-          },
-          "fieldLinkSummary": null
-        }
-      },
-      {
-        "entity": {
-          "fieldLink": {
-            "uri": "internal:#",
-            "title": "Library",
-            "options": null
-          },
-          "fieldLinkSummary": null
-        }
-      }
-    ]
-  }
+"entity": {
+"parentFieldName": "field_related_links",
+"fieldTitle": "Popular in Pittsburgh",
+"fieldVaParagraphs": [
+{
+"entity": {
+"fieldLink": {
+"uri": "internal:#",
+"title": "Phone Directory",
+"options": null
+},
+"fieldLinkSummary": null
+}
+},
+{
+"entity": {
+"fieldLink": {
+"uri": "internal:#",
+"title": "Billing and insurance",
+"options": null
+},
+"fieldLinkSummary": null
+}
+},
+{
+"entity": {
+"fieldLink": {
+"uri": "internal:#",
+"title": "Patient advocates",
+"options": null
+},
+"fieldLinkSummary": null
+}
+},
+{
+"entity": {
+"fieldLink": {
+"uri": "internal:#",
+"title": "Library",
+"options": null
+},
+"fieldLinkSummary": null
+}
+}
+]
+}
 },
 "localFacilities": {
-  "entities": [
-    {
-      "title": "Fayette County VA Clinic",
-      "fieldFacilityLocatorApiId": "vha_646ge"
-    },
-    {
-      "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
-      "fieldFacilityLocatorApiId": "vha_646A4"
-    },
-    {
-      "title": "Pittsburgh VA Medical Center-University Drive",
-      "fieldFacilityLocatorApiId": "vha_646"
-    },
-    {
-      "title": "Washington County VA Clinic",
-      "fieldFacilityLocatorApiId": "vha_646gd"
-    }
-  ]
+"entities": [
+{
+"title": "Fayette County VA Clinic",
+"fieldFacilityLocatorApiId": "vha_646ge"
+},
+{
+"title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+"fieldFacilityLocatorApiId": "vha_646A4"
+},
+{
+"title": "Pittsburgh VA Medical Center-University Drive",
+"fieldFacilityLocatorApiId": "vha_646"
+},
+{
+"title": "Washington County VA Clinic",
+"fieldFacilityLocatorApiId": "vha_646gd"
+}
+]
 },
 "newsStoryTeasers": {
-  "entities": [
-    {
-      "title": "Test Story",
-      "fieldIntroText": "This is a story",
-      "fieldMedia": null,
-      "entityUrl": {
-        "path": "/test-story"
-      }
-    },
-    {
-      "title": "Test Story 2",
-      "fieldIntroText": null,
-      "fieldMedia": null,
-      "entityUrl": {
-        "path": "/test-story-2"
-      }
-    }
-  ]
+"entities": [
+{
+"title": "Test Story",
+"fieldIntroText": "This is a story",
+"fieldMedia": null,
+"entityUrl": {
+"path": "/test-story"
+}
+},
+{
+"title": "Test Story 2",
+"fieldIntroText": null,
+"fieldMedia": null,
+"entityUrl": {
+"path": "/test-story-2"
+}
+}
+]
 }
 {% endcomment %}
 {% include "src/site/includes/header.html" with drupalTags = true %}
@@ -126,130 +127,187 @@ Example data:
 <div id="content" class="interior">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
-    {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
-    <div class="usa-width-three-fourths">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      <div class="usa-width-three-fourths">
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
         {% if !entityPublished %}
-        <div class="usa-alert usa-alert-info" >
+        <div class="usa-alert usa-alert-info">
           <div class="usa-alert-body">
             <p class="usa-alert-text">You are viewing a draft.</p>
           </div>
         </div>
-      {% endif %}
+        {% endif %}
 
-      <article class="usa-content">
-        <h1>{{ title }}</h1>
-        {% assign image = fieldMedia.entity.image %}
+        <article class="usa-content">
+          <h1>{{ title }}</h1>
+          {% assign image = fieldMedia.entity.image %}
 
-        <div class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
-          <img src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
-        </div>
+          <div
+            class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
+            <img src="{{ image.derivative.url }}" alt="{{ image.alt }}"
+              title="{{ image.title }}" width="100%">
+          </div>
 
-        <div class="usa-grid usa-grid-full vads-u-margin-top--0 vads-u-margin-bottom--3">{% assign basePath = entityUrl.path | regionBasePath %}
-            {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}</div>
+          <div
+            class="usa-grid usa-grid-full vads-u-margin-top--0 vads-u-margin-bottom--3">
+            {% assign basePath = entityUrl.path | regionBasePath %}
+            {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}
+          </div>
 
-        {% if fieldIntroText != empty %}
+          {% if fieldIntroText != empty %}
           <div class="va-introtext">
             <p class="vads-u-margin-bottom--0">{{ fieldIntroText }}</p>
           </div>
-        {% endif %}
+          {% endif %}
 
-        <section>
-          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 medium-screen:vads-u-margin-bottom--2p5">Locations</h2>
-          <div data-widget-type="basic-facility-locations-list" data-facilities="{{ mainFacilities.entities | widgetFacilitiesList | escape }}" data-path="{{ entityUrl.path }}"></div>
-          <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md" href="{{ entityUrl.path }}/locations">
-            See all locations <i class="fa fa-chevron-right va-l-font-size--12px">&nbsp;</i>
-          </a>
-        </section>
+          <section>
+            <h2
+              class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 medium-screen:vads-u-margin-bottom--2p5">
+              Locations</h2>
+            {% for main in mainFacilities.entities %}
+            {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = main %}
+            {% endfor %} <a
+              onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md"
+              href="{{ entityUrl.path }}/locations">
+              See all locations <i
+                class="fa fa-chevron-right va-l-font-size--12px">&nbsp;</i>
+            </a>
+          </section>
 
-        <!-- "Manage your health online" section -->
-        <section>
-          <h3>Manage your health online</h3>
-          <div class="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
-            <div class="vads-u-margin-right--0 medium-screen:vads-u-margin-right--3">
-              <div class="vads-facility-hub-cta">
-                <a onClick="recordEvent({ event: 'cta-hub-link-click' });" href="/health-care/refill-track-prescriptions/" class="vads-u-height--full vads-u-width--full">
-                  <i class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
-                  <span class="vads-facility-hub-cta-label">Refill and track your prescriptions<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                </a>
+          <!-- "Manage your health online" section -->
+          <section>
+            <h3>Manage your health online</h3>
+            <div
+              class="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
+              <div
+                class="vads-u-margin-right--0 medium-screen:vads-u-margin-right--3">
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/refill-track-prescriptions/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class=" fa fa-prescription-bottle vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Refill and track
+                      your prescriptions<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/secure-messaging/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="far fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Send a secure
+                      message to your health care team<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div
+                  class="vads-facility-hub-cta vads-u-border-color--primary-alt-light medium-screen:vads-u-border-bottom--1px">
+
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/schedule-view-va-appointments/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="far fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Schedule and view
+                      your appointments<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
               </div>
-              <div class="vads-facility-hub-cta">
-                <a onClick="recordEvent({ event: 'cta-hub-link-click' });" href="/health-care/secure-messaging/" class="vads-u-height--full vads-u-width--full">
-                  <i class="far fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
-                  <span class="vads-facility-hub-cta-label">Send a secure message to your health care team<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                </a>
-              </div>
-              <div class="vads-facility-hub-cta vads-u-border-color--primary-alt-light medium-screen:vads-u-border-bottom--1px">
-
-                <a onClick="recordEvent({ event: 'cta-hub-link-click' });" href="/health-care/schedule-view-va-appointments/" class="vads-u-height--full vads-u-width--full">
-                  <i class="far fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
-                  <span class="vads-facility-hub-cta-label">Schedule and view your appointments<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                </a>
+              <div>
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/get-medical-records/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Download your VA
+                      medical records (Blue Button)<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/view-test-and-lab-results/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">View your lab and
+                      test results<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div
+                  class="vads-facility-hub-cta vads-facility-hub-cta-last-line vads-u-border-top--1px vads-u-border-color--primary-alt-light">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/order-hearing-aid-batteries-prosthetic-socks/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Order hearing aid
+                      batteries and prosthetic socks<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
               </div>
             </div>
-            <div>
-              <div class="vads-facility-hub-cta">
-                <a onClick="recordEvent({ event: 'cta-hub-link-click' });" href="/health-care/get-medical-records/" class="vads-u-height--full vads-u-width--full">
-                  <i class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
-                  <span class="vads-facility-hub-cta-label">Download your VA medical records (Blue Button)<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                </a>
-              </div>
-              <div class="vads-facility-hub-cta">
-                <a onClick="recordEvent({ event: 'cta-hub-link-click' });" href="/health-care/view-test-and-lab-results/" class="vads-u-height--full vads-u-width--full">
-                  <i class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
-                  <span class="vads-facility-hub-cta-label">View your lab and test results<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                </a>
-              </div>
-              <div class="vads-facility-hub-cta vads-facility-hub-cta-last-line vads-u-border-top--1px vads-u-border-color--primary-alt-light">
-                <a onClick="recordEvent({ event: 'cta-hub-link-click' });" href="/health-care/order-hearing-aid-batteries-prosthetic-socks/" class="vads-u-height--full vads-u-width--full">
-                  <i class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
-                  <span class="vads-facility-hub-cta-label">Order hearing aid batteries and prosthetic socks<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
-                </a>
-              </div>
-            </div>
+          </section>
+
+
+          <!-- List of links section -->
+          <div class="vads-u-margin-top--5">
+            {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
           </div>
-        </section>
-
-
-        <!-- List of links section -->
-        <div class="vads-u-margin-top--5">
-          {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
-        </div>
 
           <!-- Stories -->
-        <section>
-          <h2 class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">Stories</h2>
-          {% for story in newsStoryTeasers.entities %}
+          <section>
+            <h2
+              class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">
+              Stories</h2>
+            {% for story in newsStoryTeasers.entities %}
             {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
-          {% endfor %}
-          <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/stories">
-            See all stories <i class="fa fa-chevron-right va-l-font-size--12px"></i>
-          </a>
-        </section>
+            {% endfor %}
+            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
+              href="{{ entityUrl.path }}/stories">
+              See all stories <i
+                class="fa fa-chevron-right va-l-font-size--12px"></i>
+            </a>
+          </section>
 
-        <!-- Events -->
-        <section>
-          <h2 class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">Events</h2>
-          <div class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          {% for event in eventTeasers.entities %}
-            <div class="region-grid event">
-            {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+          <!-- Events -->
+          <section>
+            <h2
+              class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
+              Events</h2>
+            <div
+              class="usa-grid usa-grid-full region-list vads-u-margin-bottom--2 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+              {% for event in eventTeasers.entities %}
+              <div class="region-grid event">
+                {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+              </div>
+              {% endfor %}
             </div>
-          {% endfor %}
-          </div>
-          <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0" href="{{ entityUrl.path }}/events">
-            See all events <i class="fa fa-chevron-right va-l-font-size--12px"></i>
-          </a>
-        </section>
+            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
+              href="{{ entityUrl.path }}/events">
+              See all events <i
+                class="fa fa-chevron-right va-l-font-size--12px"></i>
+            </a>
+          </section>
 
-        <!-- Social Links -->
-        {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
+          <!-- Social Links -->
+          {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty %}
           {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldNicknameForThisFacility %}
-        {% endif %}
+          {% endif %}
 
-    </article>
+        </article>
+      </div>
     </div>
-  </div>
-</main>
-{% include "src/site/includes/footer.html" %}
-{% include "src/site/includes/debug.drupal.liquid" %}
+  </main>
+  {% include "src/site/includes/footer.html" %}
+  {% include "src/site/includes/debug.drupal.liquid" %}
