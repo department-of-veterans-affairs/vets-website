@@ -1,5 +1,5 @@
 // Dependencies
-import { each, get, uniqueId, isEmpty, trimEnd } from 'lodash';
+import { each, get, uniqueId, isEmpty, set, trimEnd } from 'lodash';
 
 /* Recursive function that expands all `parentID`s.
   @param {Object}, options:
@@ -25,7 +25,7 @@ const expandParentIDs = options => {
   }
 
   // Update the nav item to expanded.
-  navItem.expanded = true;
+  set(navItem, 'expanded', true);
 
   // Stop recursing if we went through all the parents.
   if (!parentID) {

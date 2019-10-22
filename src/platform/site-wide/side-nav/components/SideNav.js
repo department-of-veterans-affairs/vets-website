@@ -23,9 +23,13 @@ class SideNav extends Component {
     const navItem = get(navItemsLookup, `[${id}]`);
     const hasChildren = get(navItem, 'hasChildren');
     const expanded = get(navItem, 'expanded');
+    const depth = get(navItem, 'depth');
 
-    // Escape early if the nav item has no children.
-    if (!hasChildren) {
+    // Determine if the nav item is top-level.
+    const isTopNavItem = depth < 2;
+
+    // Escape early if the item has no children or is not collapsible.
+    if (!hasChildren || isTopNavItem) {
       return;
     }
 
