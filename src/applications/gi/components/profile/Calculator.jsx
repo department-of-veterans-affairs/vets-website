@@ -165,8 +165,8 @@ export class Calculator extends React.Component {
         </div>
         <div className="medium-1 columns">&nbsp;</div>
         <div
-          role="dialog"
           className="usa-width-one-half medium-6 columns your-estimated-benefits"
+          role="dialog"
         >
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
