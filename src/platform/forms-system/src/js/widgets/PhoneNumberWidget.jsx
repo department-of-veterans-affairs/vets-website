@@ -10,6 +10,11 @@ export default class PhoneNumberWidget extends React.Component {
     super(props);
     this.state = { val: props.value };
   }
+  componentDidUpdate(previousProps) {
+    if (previousProps.value !== this.props.value) {
+      this.handleChange(this.props.value);
+    }
+  }
   handleChange = val => {
     let stripped;
     if (val) {
