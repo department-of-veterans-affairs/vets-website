@@ -1,78 +1,73 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import {
-  openFormPage,
+  openSelectAppointmentPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo } from '../utils/selectors';
-import slots from './../api/slots.json';
-import Calendar from './../components/calendar/CalendarWidget';
 import { focusElement } from 'platform/utilities/ui';
-import moment from 'moment-timezone';
+import FormButtons from '../components/FormButtons';
+import { getDateTimeSelect } from '../utils/selectors';
+import DateTimeSelectField from '../components/DateTimeSelectField';
 
-const pageKey = 'dateTimeSelect';
+const pageKey = 'selectDateTime';
 
-const institutionTimezone = 'America/Denver';
+const initialSchema = {
+  type: 'object',
+  required: ['calendarData'],
+  properties: {
+    calendarData: {
+      type: 'object',
+      properties: {
+        currentlySelectedDate: {
+          type: 'string',
+        },
+        currentRowIndex: {
+          type: 'number',
+        },
+        selectedDates: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              date: {
+                type: 'string',
+              },
+              datetime: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+const uiSchema = {
+  // 'ui:validations': [
+  //   (errors, pageData) => {
+  //     errors.calendarData.addError('Error');
+  //     debugger;
+  //   },
+  // ],
+  calendarData: {
+    'ui:field': DateTimeSelectField,
+    'ui:title': 'What date and time would you like to make an appointment?',
+    'ui:options': {
+      hideLabelText: true,
+    },
+  },
+};
 
 export class DateTimeSelectPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      slotMap: {},
-      avaialbleDatesArray: [],
-    };
-  }
-
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
-    this.mapSlots();
+    this.props.openSelectAppointmentPage(pageKey, uiSchema, initialSchema);
   }
-
-  getSelectedDateOptions = selectedDate => {
-    const data = this.state.slotMap[selectedDate];
-    if (data?.times?.length) {
-      return data.times.map(t => ({
-        value: t.format(),
-        label: t.format('h:mm A z'),
-      }));
-    }
-
-    return null;
-  };
-
-  mapSlots = () => {
-    const availableSlots = this.props.availableSlots[0].appointmentTimeSlot;
-    const slotMap = {};
-    const availableDatesArray = [];
-    const now = moment();
-    for (let index = 0; index < availableSlots.length; index++) {
-      const slot = availableSlots[index];
-      let dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
-      dateObj = dateObj.tz(institutionTimezone);
-
-      if (dateObj.isAfter(now)) {
-        const dateString = dateObj.format('YYYY-MM-DD');
-        if (!availableDatesArray.includes(dateString)) {
-          availableDatesArray.push(dateString);
-        }
-        if (slotMap[dateString]) {
-          slotMap[dateString].times.push(dateObj);
-        } else {
-          slotMap[dateString] = {
-            times: [dateObj],
-          };
-        }
-      }
-    }
-
-    this.setState({
-      slotMap,
-      availableDatesArray,
-    });
-  };
 
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
@@ -83,33 +78,61 @@ export class DateTimeSelectPage extends React.Component {
   };
 
   render() {
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      availableSlots,
+      availableDates,
+      loadingAppointmentSlots,
+    } = this.props;
+
+    const title = (
+      <h1 className="vads-u-font-size--h2">
+        What date and time would you like to make an appointment?
+      </h1>
+    );
+
+    if (loadingAppointmentSlots) {
+      return (
+        <div>
+          {title}
+          <LoadingIndicator message="Finding appointment availability..." />
+        </div>
+      );
+    }
+
     return (
-      <div className="vaos-form__detailed-radio">
-        <h1 className="vads-u-font-size--h2">
-          What date and time would you like to make an appointment?
-        </h1>
-        <Calendar
-          availableDates={this.state.availableDatesArray}
-          monthsToShowAtOnce={2}
-          maxSelections={1}
-          additionalOptions={{
-            fieldName: 'datetime',
-            required: true,
-            maxSelections: 1,
-            getOptionsByDate: this.getSelectedDateOptions,
+      <div>
+        {title}
+        <SchemaForm
+          name="Schedule appointment"
+          title="Schedule appointment"
+          schema={schema || initialSchema}
+          uiSchema={uiSchema}
+          onSubmit={this.goForward}
+          onChange={newData => {
+            this.props.updateFormData(pageKey, uiSchema, newData);
           }}
-        />
+          formContext={{ availableSlots, availableDates }}
+          data={data}
+        >
+          <FormButtons
+            onBack={this.goBack}
+            pageChangeInProgress={pageChangeInProgress}
+          />
+        </SchemaForm>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { ...getFormPageInfo(state, pageKey), availableSlots: slots };
+  return getDateTimeSelect(state, pageKey);
 }
 
 const mapDispatchToProps = {
-  openFormPage,
+  openSelectAppointmentPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,

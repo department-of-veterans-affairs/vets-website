@@ -1,10 +1,12 @@
 import newAppointmentFlow from '../newAppointmentFlow';
 import { getTypeOfCare } from '../utils/selectors';
+import moment from 'moment';
 import {
   getSystemIdentifiers,
   getSystemDetails,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
+  getAvailableSlots,
 } from '../api';
 
 import { getEligibilityData } from '../utils/eligibility';
@@ -31,6 +33,10 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
+export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
+  'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
+export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
+  'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -53,9 +59,9 @@ export function updateFormData(page, uiSchema, data) {
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
-    let systems = newAppointment.systems;
     let facilities = null;
     let eligibilityData = null;
+    let systems = newAppointment.systems;
 
     // If we have the VA systems in our state, we don't need to
     // fetch them again
@@ -192,6 +198,51 @@ export function openClinicPage(page, uiSchema, schema) {
       uiSchema,
       schema,
       facilityDetails,
+    });
+  };
+}
+
+export function openSelectAppointmentPage(page, uiSchema, schema) {
+  return async (dispatch, getState) => {
+    let slots;
+    let mappedSlots = [];
+
+    dispatch({
+      type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+    });
+
+    try {
+      const response = await getAvailableSlots(
+        getState().newAppointment.data.clinicId,
+      );
+
+      slots = response[0]?.appointmentTimeSlot;
+
+      const now = moment();
+
+      for (let index = 0; index < slots.length; index++) {
+        const slot = slots[index];
+        const dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
+
+        if (dateObj.isAfter(now)) {
+          mappedSlots.push({
+            date: dateObj.format('YYYY-MM-DD'),
+            datetime: dateObj.format(),
+          });
+        }
+      }
+
+      mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
+    } catch (e) {
+      mappedSlots = null;
+    }
+
+    dispatch({
+      type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+      page,
+      uiSchema,
+      schema,
+      availableSlots: mappedSlots,
     });
   };
 }
