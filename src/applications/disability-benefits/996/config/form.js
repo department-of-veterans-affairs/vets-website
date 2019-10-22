@@ -24,6 +24,7 @@ import {
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
+import { errorMessages } from '../constants';
 
 const { address, phone, date, effectiveDates } = fullSchema.definitions;
 
@@ -33,15 +34,15 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'hlr-0996-',
+
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_20_0996,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to request a Higher-Level Review.',
-    noAuth:
-      'Please sign in again to continue your request for Higher-Level Review.',
+    notFound: errorMessages.savedFormNotFound,
+    noAuth: errorMessages.savedFormNoAuth,
   },
   title: 'Request a Higher-Level Review',
   subTitle: 'VA Form 20-0996',
