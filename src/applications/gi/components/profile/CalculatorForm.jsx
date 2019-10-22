@@ -521,6 +521,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
             modal: 'calcKicker',
+            ariaLabel: ariaLabels.learnMore.kickerEligible,
           })}
           name="kickerEligible"
           options={[
@@ -529,7 +530,6 @@ class CalculatorForm extends React.Component {
           ]}
           value={this.props.inputs.kickerEligible}
           onChange={this.handleInputChange}
-          ariaLabel={ariaLabels.learnMore.kickerEligible}
         />
         {amountInput}
       </div>
