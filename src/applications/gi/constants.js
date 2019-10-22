@@ -2,7 +2,6 @@
 export const WAIT_INTERVAL = 333;
 
 export const ariaLabels = Object.freeze({
-
   giBillBenefitsLearnMore:
     'Learn more about VA education and training programs',
   post911Chapter33LearnMore: 'Learn more about Cumulative Post-9/11 service',
