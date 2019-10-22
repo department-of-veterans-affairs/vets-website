@@ -126,12 +126,12 @@ const assembler = (entityType, uuid, parents = []) => {
 
     // Properties with target_uuids are always arrays from tome-sync
     if (Array.isArray(prop)) {
-      prop.forEach(item => {
+      prop.forEach((item, index) => {
         const { target_uuid: targetUuid, target_type: targetType } = item;
 
         // We found a reference! Override it with the expanded entity.
         if (targetUuid && targetType) {
-          entity[key] = assembler(
+          entity[key][index] = assembler(
             targetType,
             targetUuid,
             parents.concat([id(entityType, uuid)]),
