@@ -54,7 +54,6 @@ class HeadingSummary extends React.Component {
                   </p>
                 }
                 headline="This school is closing soon"
-                isVisible={!!it.schoolClosing}
                 status="warning"
               />
             )}
