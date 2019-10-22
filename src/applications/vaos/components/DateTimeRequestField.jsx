@@ -7,7 +7,8 @@ const DateTimeRequestField = ({ onChange, formData }) => (
     multiSelect
     maxSelections={3}
     onChange={onChange}
-    formData={formData}
+    currentlySelectedDate={formData?.currentlySelectedDate}
+    selectedDates={formData?.selectedDates}
     additionalOptions={{
       fieldName: 'optionTime',
       required: true,

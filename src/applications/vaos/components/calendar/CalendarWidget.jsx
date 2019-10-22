@@ -175,6 +175,7 @@ export default class CalendarWidget extends Component {
 
         onChange({
           currentlySelectedDate: date,
+          selectedDates,
           currentRowIndex,
         });
       }

@@ -33,8 +33,8 @@ const routes = (
       <Route path="choose-visit-type" component={TypeOfVisitPage} />
       <Route path="choose-sleep-care" component={TypeOfSleepCarePage} />
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
-      <Route path="request-date-time" component={DateTimeRequestPage} />
-      <Route path="select-date-time" component={DateTimeSelectPage} />
+      <Route path="request-date" component={DateTimeRequestPage} />
+      <Route path="schedule-date" component={DateTimeSelectPage} />
       <Route
         path="community-care-provider"
         component={CommunityCareProviderPage}
