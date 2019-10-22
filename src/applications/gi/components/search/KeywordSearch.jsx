@@ -138,6 +138,7 @@ export class KeywordSearch extends React.Component {
 KeywordSearch.defaultProps = {
   label: 'Enter a city, school or employer name',
   onFilterChange: () => {},
+  validateSearchQuery: () => {},
 };
 
 KeywordSearch.propTypes = {
