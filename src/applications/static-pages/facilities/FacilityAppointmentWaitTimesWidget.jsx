@@ -86,17 +86,15 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   service,
                 )}-appointment-wait-times-effective-date`}
               >
-                <p className="vads-u-padding-top--1">
-                  Current as of:{' '}
+                <p className="vads-u-padding-top--2">
+                  Current as of{' '}
                   {formatDateLong(facility.access.health.effectiveDate)}
                 </p>
-              </p>
-            </div>
-            <div className="vads-l-row">
-              <p className="vads-u-margin--0">
-                <a href="https://www.accesstocare.va.gov/">
-                  Learn more about VA appointment wait times
-                </a>
+                <p className="vads-u-margin--0">
+                  <a href="https://www.accesstocare.va.gov/">
+                    Learn more about VA appointment wait times
+                  </a>
+                </p>
               </p>
             </div>
           </div>
