@@ -250,7 +250,7 @@ class PreferencesWidget extends React.Component {
             />
           )}
         </ReactCSSTransitionGroup>
-        <div aria-live="polite">{this.renderContent()}</div>
+        {this.renderContent()}
       </div>
     );
   }
