@@ -62,16 +62,20 @@ class CalculatorForm extends React.Component {
     };
   };
 
+  isFullZipcode = zipCode => {
+    if (zipCode.length === 5) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'gibctExtensionSearchZipCode',
+        'gibct-form-value': zipCode,
+      });
+    }
+  };
+
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
-      if (event.value.length === 5) {
-        recordEvent({
-          event: 'gibct-form-change',
-          'gibct-form-field': 'gibctExtensionSearchZipCode',
-          'gibct-form-value': event.value,
-        });
-      }
+      this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
       this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
