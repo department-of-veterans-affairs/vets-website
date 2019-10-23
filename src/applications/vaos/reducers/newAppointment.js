@@ -351,7 +351,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         loadingAppointmentSlots: true,
-        availableDates: [],
         availableSlots: [],
       };
     }

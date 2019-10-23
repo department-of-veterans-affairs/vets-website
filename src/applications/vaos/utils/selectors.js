@@ -71,6 +71,7 @@ export function getDateTimeSelect(state, pageKey) {
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
+
   const availableDates = availableSlots?.reduce((acc, s) => {
     if (!acc.includes(s.date)) {
       acc.push(s.date);
@@ -94,7 +95,7 @@ export function getDateTimeSelect(state, pageKey) {
       timezone = now.tz(institutionTimezone).format('z');
     }
   }
-
+  debugger;
   return {
     ...formInfo,
     facility: getChosenFacilityInfo(state),
