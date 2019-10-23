@@ -1,8 +1,13 @@
 # menu_link_content
 
-## Tome returned **786** records.
+Tome returned **786** records.
 
-## GraphQL
+
+## Missing properties in Tome:
+
+1.
+
+## Example GraphQL response
 
 ```json
 {
@@ -26,7 +31,7 @@
 },
 ```
 
-## Tome
+## Example Tome data
 
 ```json
 {
@@ -113,7 +118,3 @@
     ]
 }
 ```
-
-## Missing properties in Tome:
-
-1.

@@ -1,16 +1,19 @@
 # consumer
 
-## Missing properties in Tome:
-
-## Tome returned **1** record.
+Tome returned **1** record.
 
 **This does not seem like it's used currently.**
 
-## GraphQL
+
+## Missing properties in Tome:
+
+1.
+
+## Example GraphQL response
 
 **[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**
 
-## Tome
+## Example Tome data
 
 ```json
 {

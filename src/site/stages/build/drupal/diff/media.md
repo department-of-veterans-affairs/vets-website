@@ -1,8 +1,13 @@
 # media
 
-## Tome returned **539** records.
+Tome returned **539** records.
 
-## GraphQL
+
+## Missing properties in Tome:
+
+1.
+
+## Example GraphQL response
 
 ```json
 {
@@ -13,7 +18,7 @@
 }
 ```
 
-## Tome
+## Example Tome data
 
 ```json
 {
@@ -120,7 +125,3 @@
     ]
 }
 ```
-
-## Missing properties in Tome:
-
-1.

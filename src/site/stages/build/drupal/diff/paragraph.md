@@ -1,8 +1,13 @@
 # paragraph
 
-## Tome returned **4762** records.
+Tome returned **4762** records.
 
-## GraphQL
+
+## Missing properties in Tome:
+
+1.
+
+## Example GraphQL response
 
 **WARNING:** There are multiple types of `paragraph`s, here's a few:
 
@@ -33,7 +38,7 @@
 },
 ```
 
-## Tome
+## Example Tome data
 
 ```json
 {
@@ -94,7 +99,3 @@
     ]
 }
 ```
-
-## Missing properties in Tome:
-
-1.

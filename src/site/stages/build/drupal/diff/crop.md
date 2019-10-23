@@ -1,8 +1,13 @@
 # crop
 
-## Tome returned **64** records.
+Tome returned **64** records.
 
-## GraphQL
+
+## Missing properties in Tome:
+
+1.
+
+## Example GraphQL response
 
 **WARNING:** Uncertain which is the data structure that matches the Tome data structure.
 
@@ -54,7 +59,7 @@
 }
 ```
 
-## Tome
+## Example Tome data
 
 ```json
 {
@@ -136,7 +141,3 @@
     "moderation_state": []
 }
 ```
-
-## Missing properties in Tome:
-
-1.

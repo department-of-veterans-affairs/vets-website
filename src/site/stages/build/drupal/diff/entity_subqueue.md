@@ -1,14 +1,19 @@
 # entity_subqueue
 
-## Tome returned **2** records.
+Tome returned **2** records.
 
 **This does not seem like it's used currently.**
 
-## GraphQL
+
+## Missing properties in Tome:
+
+1.
+
+## Example GraphQL response
 
 **[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**
 
-## Tome
+## Example Tome data
 
 ```json
 {
@@ -100,7 +105,3 @@
     ]
 }
 ```
-
-## Missing properties in Tome:
-
-1.
