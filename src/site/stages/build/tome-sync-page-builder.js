@@ -46,7 +46,7 @@ const blackList = new Set([
  * @param {String} uuid - The uuid of the entity; corresponds to the
  *                        file name.
  */
-const id = (type, uuid) => `${type}.${uuid}`;
+const toId = (type, uuid) => `${type}.${uuid}`;
 
 /**
  * Note: Later, we can keep a counter for how many times we open a
@@ -83,9 +83,9 @@ const fetchEntity = (type, uuid) =>
  */
 const assembler = (entityType, uuid, parents = []) => {
   // Avoid circular references
-  if (parents.includes(id(entityType, uuid))) {
+  if (parents.includes(toId(entityType, uuid))) {
     /* eslint-disable no-console */
-    console.log(`I'm my own grandpa! (${id(entityType, uuid)})`);
+    console.log(`I'm my own grandpa! (${toId(entityType, uuid)})`);
     console.log(`  Parents:\n    ${parents.join('\n    ')}`);
     /* eslint-enable no-console */
 
@@ -113,7 +113,7 @@ const assembler = (entityType, uuid, parents = []) => {
           entity[key][index] = assembler(
             targetType,
             targetUuid,
-            parents.concat([id(entityType, uuid)]),
+            parents.concat([toId(entityType, uuid)]),
           );
         }
       });
