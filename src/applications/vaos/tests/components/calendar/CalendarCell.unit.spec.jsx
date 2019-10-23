@@ -30,4 +30,11 @@ describe('VAOS <CalendarCell>', () => {
     expect(cell.props().disabled).to.equal(true);
     tree.unmount();
   });
+
+  it('should blank if date is null', () => {
+    const tree = shallow(<CalendarCell date={null} />);
+    const cell = tree.find('.vads-u-visibility--hidden');
+    expect(cell.length).to.equal(1);
+    tree.unmount();
+  });
 });
