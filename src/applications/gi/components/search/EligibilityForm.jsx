@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { showModal, hideModal } from '../../actions';
 import { renderLearnMoreLabel } from '../../utils/render';
+import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
@@ -37,7 +38,7 @@ export class EligibilityForm extends React.Component {
 
   render() {
     return (
-      <div className="eligibility-form">
+      <div className="eligibility-form" role="dialog">
         <h2>Your eligibility</h2>
         <Dropdown
           label="What is your military status?"
@@ -73,7 +74,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
-            ariaLabel: 'Learn more about GI Bill benefits',
+            ariaLabel: ariaLabels.giBillBenefitsLearnMore,
           })}
           name="giBillChapter"
           options={[
@@ -134,8 +135,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
-            ariaLabel:
-              'Learn more about cumulative Post-9/11 active duty service',
+            ariaLabel: ariaLabels.post911Chapter33LearnMore,
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
@@ -148,6 +148,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Completed an enlistment of:',
             modal: 'enlistmentService',
+            ariaLabel: ariaLabels.montgomeryGIBillLearnMore,
           })}
           name="enlistmentService"
           options={[
@@ -163,6 +164,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Length of longest active duty tour:',
             modal: 'consecutiveService',
+            ariaLabel: ariaLabels.reapActiveDutyLearnMore,
           })}
           name="consecutiveService"
           options={[

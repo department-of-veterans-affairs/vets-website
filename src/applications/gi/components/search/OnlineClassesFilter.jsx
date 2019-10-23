@@ -2,6 +2,7 @@ import React from 'react';
 import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
+import { ariaLabels } from '../../constants';
 
 class OnlineClassesFilter extends React.Component {
   static propTypes = {
@@ -18,6 +19,7 @@ class OnlineClassesFilter extends React.Component {
           modal: 'onlineOnlyDistanceLearning',
           showModal: this.props.showModal,
           component: this,
+          ariaLabel: ariaLabels.housingAllowanceLearnMore,
         })}
         name="onlineClasses"
         options={[
