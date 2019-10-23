@@ -68,7 +68,9 @@ export class DateTimeRequestPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    if (this.props.data.calendarData?.selectedDates?.length) {
+      this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    }
   };
 
   render() {
@@ -88,6 +90,7 @@ export class DateTimeRequestPage extends React.Component {
           title="Request appointment"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
+          onSubmit={this.goForward}
           onChange={newData => {
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
