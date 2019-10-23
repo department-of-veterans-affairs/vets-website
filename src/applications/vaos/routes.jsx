@@ -19,8 +19,6 @@ import TypeOfVisitPage from './containers/TypeOfVisitPage';
 import ReviewPage from './containers/ReviewPage';
 import ClinicChoicePage from './containers/ClinicChoicePage';
 import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
-import DateTimeRequestPage from './containers/DateTimeRequestPage';
-import DateTimeSelectPage from './containers/DateTimeSelectPage';
 
 const routes = (
   <Route path="/">
@@ -33,8 +31,6 @@ const routes = (
       <Route path="choose-visit-type" component={TypeOfVisitPage} />
       <Route path="choose-sleep-care" component={TypeOfSleepCarePage} />
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
-      <Route path="request-date" component={DateTimeRequestPage} />
-      <Route path="schedule-date" component={DateTimeSelectPage} />
       <Route
         path="community-care-provider"
         component={CommunityCareProviderPage}
