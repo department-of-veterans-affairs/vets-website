@@ -1,6 +1,9 @@
 import React from 'react';
 import isMobile from 'ismobilejs';
 
+/**
+ * Renders days of week table header
+ */
 const days = isMobile.phone
   ? ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
   : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
