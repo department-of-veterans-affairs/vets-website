@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import CalendarWidget from './calendar/CalendarWidget';
 import moment from 'moment';
 
 class DateTimeSelectField extends Component {
+  static propTypes = {
+    formContext: PropTypes.object,
+    formData: PropTypes.object,
+    onChange: PropTypes.func,
+  };
+
   getOptionsByDate = selectedDate => {
     const options = [];
     const availableSlots = this.props.formContext.availableSlots;

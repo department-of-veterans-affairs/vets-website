@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CalendarWidget from './calendar/CalendarWidget';
 
 const DateTimeRequestField = ({ onChange, formData }) => (
@@ -28,5 +29,10 @@ const DateTimeRequestField = ({ onChange, formData }) => (
     }}
   />
 );
+
+DateTimeRequestField.propTypes = {
+  formData: PropTypes.object,
+  onChange: PropTypes.func,
+};
 
 export default DateTimeRequestField;
