@@ -77,7 +77,7 @@ const pageKey = 'vaFacility';
 
 const title = (
   <h1 className="vads-u-font-size--h2">
-    Choose a VA location for your apppointment
+    Choose a VA location for your appointment
   </h1>
 );
 
