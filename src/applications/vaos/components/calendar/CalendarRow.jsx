@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
 import CalendarCell from './CalendarCell';
 import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
@@ -60,23 +61,31 @@ export default class CalendarRow extends Component {
         const selectedCellIndex = cells.indexOf(currentlySelectedDate);
         const fieldName = additionalOptions.fieldName;
 
-        let justify = 'vads-u-justify-content--flex-start';
+        const maxCellsPerRow = 4;
+        const middleCellIndex = 2;
+        const beginningCellIndex = [0, 1];
+        const endCellIndexes = [3, 4];
 
-        // If list of items is won't fill row, align items closer to selected cell
-        if (selectedDateOptions.length < 4) {
-          if (selectedCellIndex === 2) {
-            justify = 'vads-u-justify-content--center';
-          } else if (selectedCellIndex === 3 || selectedCellIndex === 4) {
-            justify = 'vads-u-justify-content--flex-end';
-          }
-        }
+        // // If list of items is won't fill row, align items closer to selected cell
+        const cssClasses = classNames(
+          'vaos-calendar__options',
+          selectedDateOptions.length < maxCellsPerRow
+            ? {
+                'usa-input-error': optionsError,
+                'vads-u-justify-content--flex-start': beginningCellIndex.includes(
+                  selectedCellIndex,
+                ),
+                'vads-u-justify-content--center':
+                  selectedCellIndex === middleCellIndex,
+                'vads-u-justify-content--flex-end': endCellIndexes.includes(
+                  selectedCellIndex,
+                ),
+              }
+            : null,
+        );
 
         return (
-          <div
-            className={`vaos-calendar__options vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-y--2${
-              optionsError ? ' usa-input-error' : ''
-            } ${justify}`}
-          >
+          <div className={cssClasses}>
             {optionsError && (
               <span
                 className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"

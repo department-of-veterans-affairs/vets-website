@@ -124,6 +124,12 @@
   }
 }
 
+.vaos-calendar__options {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
 .vaos-calendar__option {
   display: flex;
   justify-content: center;

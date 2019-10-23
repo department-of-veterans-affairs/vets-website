@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import classNames from 'classnames';
 
 const CalendarCell = ({
   date,
@@ -18,17 +19,17 @@ const CalendarCell = ({
   const dateDay = momentDate.format('D');
   const ariaDate = momentDate.format('dddd, MMMM Do');
 
-  const cssClasses = ['vaos-calendar__calendar-day'];
-  if (isCurrentlySelected) cssClasses.push('vaos-calendar__cell-current');
-  if (inSelectedArray) cssClasses.push('vaos-calendar__cell-selected');
+  const cssClasses = classNames('vaos-calendar__calendar-day', {
+    'vaos-calendar__cell-current': isCurrentlySelected,
+    'vaos-calendar__cell-selected': inSelectedArray,
+  });
 
   return (
     <button
       id={`date-cell-${date}`}
-      className={cssClasses.join(' ')}
+      className={cssClasses}
       onClick={() => onClick(date)}
       disabled={disabled}
-      aria-disabled={disabled}
       aria-label={ariaDate}
       aria-expanded={isCurrentlySelected}
       type="button"
