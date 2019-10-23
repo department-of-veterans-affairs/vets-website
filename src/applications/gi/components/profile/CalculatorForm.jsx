@@ -98,13 +98,14 @@ class CalculatorForm extends React.Component {
   };
 
   handleHasClassesOutsideUSChange = e => {
+    this.handleBeneficiaryZIPCodeChanged({ value: '' });
+    this.handleCheckboxChange(e);
+
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': 'gibctInternationalCheckbox',
       'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
     });
-    this.handleBeneficiaryZIPCodeChanged({ value: '' });
-    this.handleCheckboxChange(e);
   };
 
   handleCheckboxChange = e => {
