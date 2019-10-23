@@ -1,10 +1,10 @@
-# selection_association
+# section_association
+
+**This does not seem like it's used currently. Tome returned 28 `section_association` records.**
 
 ## GraphQL
 
-```json
-
-```
+**[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**
 
 ## Tome
 

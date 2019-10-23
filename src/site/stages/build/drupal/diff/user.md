@@ -1,10 +1,10 @@
 # user
 
+**This does not seem like it's used currently. Tome returned 84 `user` records.**
+
 ## GraphQL
 
-```json
-
-```
+**[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**
 
 ## Tome
 

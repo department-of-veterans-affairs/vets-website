@@ -3,7 +3,167 @@
 ## GraphQL
 
 ```json
-
+{
+  "entityBundle": "person_profile",
+  "entityId": "1000",
+  "entityPublished": true,
+  "title": "Ramon Rivera",
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "/pittsburgh-health-care",
+          "routed": true
+        },
+        "text": "VA Pittsburgh health care"
+      }
+    ],
+    "path": "/pittsburgh-health-care/staff-profiles/ramon-rivera"
+  },
+  "entityMetatags": [
+    {
+      "__typename": "MetaValue",
+      "key": "title",
+      "value": "Ramon Rivera | VA Pittsburgh health care | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:card",
+      "value": "summary_large_image"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:site_name",
+      "value": "Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:title",
+      "value": "Ramon Rivera | VA Pittsburgh health care | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:site",
+      "value": "@DeptVetAffairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:title",
+      "value": "Ramon Rivera | VA Pittsburgh health care | Veterans Affairs"
+    }
+  ],
+  "fieldNameFirst": "Ramon",
+  "fieldLastName": "Rivera",
+  "fieldSuffix": "LSW",
+  "fieldDescription": "Suicide Prevention Case Manager",
+  "fieldEmailAddress": null,
+  "fieldPhoneNumber": "412-360-6515",
+  "fieldCompleteBiography": null,
+  "fieldOffice": {
+    "entity": {
+      "entityLabel": "VA Pittsburgh health care",
+      "entityType": "node",
+      "entityBundle": "health_care_region_page",
+      "entityId": "318",
+      "entityPublished": true,
+      "title": "VA Pittsburgh health care",
+      "entityUrl": {
+        "breadcrumb": [
+          {
+            "url": {
+              "path": "/",
+              "routed": true
+            },
+            "text": "Home"
+          },
+          {
+            "url": {
+              "path": "",
+              "routed": true
+            },
+            "text": "VA Pittsburgh health care"
+          }
+        ],
+        "path": "/pittsburgh-health-care"
+      },
+      "entityMetatags": [
+        {
+          "__typename": "MetaValue",
+          "key": "title",
+          "value": "VA Pittsburgh Health Care | Veterans Affairs"
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:card",
+          "value": "summary_large_image"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:site_name",
+          "value": "Veterans Affairs"
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:description",
+          "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "description",
+          "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:title",
+          "value": "VA Pittsburgh health care | Veterans Affairs"
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:site",
+          "value": "@DeptVetAffairs"
+        },
+        {
+          "__typename": "MetaLink",
+          "key": "image_src",
+          "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:title",
+          "value": "VA Pittsburgh health care | Veterans Affairs"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:description",
+          "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:image",
+          "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:image",
+          "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
+        }
+      ],
+      "fieldNicknameForThisFacility": "VA Pittsburgh"
+    }
+  },
+  "fieldIntroText": null,
+  "fieldPhotoAllowHiresDownload": false,
+  "fieldMedia": null,
+  "fieldBody": null,
+  "changed": 1569277337
+},
 ```
 
 ## Tome

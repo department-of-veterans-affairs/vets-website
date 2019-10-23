@@ -1,10 +1,10 @@
 # taxonomy_term
 
+**This does not seem like it's used currently. Tome returned 150 `taxonomy_term` records.**
+
 ## GraphQL
 
-```json
-
-```
+**[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**
 
 ## Tome
 

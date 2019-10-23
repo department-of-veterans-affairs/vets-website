@@ -17,3 +17,4 @@
 ## Assumptions
 
 1. Each model included in the Tome response **always** has the same key-value pairs for that particular model.
+  - This is certainly `invalid`. Many of the `paragraph` instances do **not** have the same key-value pairs.

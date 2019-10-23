@@ -4,19 +4,23 @@
 
 ```json
 {
-  "entityId": "933",
-  "entityLabel": "National Cemetery Administration",
-  "menuName": "header-megamenu",
-  "parent": "menu_link_content:2ff60fae-2cb7-4bb9-a2e5-c7fcf1c4bb59",
-  "weight": 2,
-  "link": {
-    "url": {
-      "path": "https://www.cem.va.gov/"
-    }
+  "label": "Schedule a burial",
+  "expanded": false,
+  "description": null,
+  "url": {
+    "path": "/burials-memorials/plan-a-burial"
   },
-  "fieldPromoReference": null,
-  "title": "National Cemetery Administration",
-  "uuid": "e193ae66-e17c-4f37-a3fb-5b3fd3e1db1f"
+  "links": [
+    {
+      "label": "Military funeral honors",
+      "expanded": false,
+      "description": null,
+      "url": {
+        "path": "https://www.cem.va.gov/CEM/military_funeral_honors.asp"
+      },
+      "links": []
+    }
+  ]
 },
 ```
 

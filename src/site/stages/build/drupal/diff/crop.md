@@ -2,8 +2,54 @@
 
 ## GraphQL
 
-```json
+**WARNING:** Uncertain which is the data structure that matches the Tome data structure.
 
+```json
+{
+  "__typename": "MetaLink",
+  "key": "image_src",
+  "value": "https://dev.cms.va.gov/sites/default/files/2019-09/doctor-year2019-decker-480_0.jpg"
+},
+```
+
+```json
+{
+  "__typename": "MetaValue",
+  "key": "twitter:image",
+  "value": "https://dev.cms.va.gov/sites/default/files/2019-09/doctor-year2019-decker-480_0.jpg"
+},
+```
+
+```json
+{
+  "__typename": "MetaProperty",
+  "key": "og:image",
+  "value": "https://dev.cms.va.gov/sites/default/files/2019-09/doctor-year2019-decker-480_0.jpg"
+}
+```
+
+```json
+{
+  "image": {
+    "alt": "Dr. Brooke Decker",
+    "title": "",
+    "derivative": {
+      "url": "https://dev.cms.va.gov/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/doctor-year2019-decker-480_0.jpg?itok=p2xcTS8n",
+      "width": 480,
+      "height": 240
+    }
+  }
+}
+```
+
+```json
+{
+  "derivative": {
+    "url": "https://dev.cms.va.gov/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/doctor-year2019-decker-480_0.jpg?itok=p2xcTS8n",
+    "width": 480,
+    "height": 240
+  }
+}
 ```
 
 ## Tome

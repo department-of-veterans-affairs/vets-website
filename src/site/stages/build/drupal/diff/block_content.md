@@ -3,7 +3,18 @@
 ## GraphQL
 
 ```json
-
+{
+  "entity": {
+    "fieldLink": {
+      "url": {
+        "path": "/records/download-va-letters"
+      },
+      "title": "Confirm your VA benefit status",
+      "options": []
+    },
+    "fieldLinkSummary": "Download letters like your eligibility or award letter for certain benefits."
+  }
+}
 ```
 
 ## Tome

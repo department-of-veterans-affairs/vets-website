@@ -3,7 +3,17 @@
 ## GraphQL
 
 ```json
-
+{
+  "entity": {
+    "entityBundle": "video",
+    "fieldMediaVideoEmbedField": "https://www.youtube.com/watch?time_continue=1&v=qRYoUL6BNdc",
+    "thumbnail": {
+      "derivative": {
+        "url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/qRYoUL6BNdc.jpg?itok=mutTJ3Cb"
+      }
+    }
+  }
+}
 ```
 
 ## Tome
