@@ -79,6 +79,10 @@ export class DateTimeRequestPage extends React.Component {
         <h1 className="vads-u-font-size--h2">
           What date and time would you like to make an appointment?
         </h1>
+        <p>
+          You may choose up to three dates. A scheduling clerk will contact you
+          to coordinate the best time for you.
+        </p>
         <SchemaForm
           name="Request appointment"
           title="Request appointment"

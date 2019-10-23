@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
 import {
   openSelectAppointmentPage,
   updateFormData,
@@ -79,6 +80,7 @@ export class DateTimeSelectPage extends React.Component {
       availableSlots,
       availableDates,
       loadingAppointmentSlots,
+      timezone,
     } = this.props;
 
     const title = (
@@ -99,6 +101,10 @@ export class DateTimeSelectPage extends React.Component {
     return (
       <div>
         {title}
+        <p>
+          Please select a desired date and time for your appointment.
+          {timezone && ` Appointment times are displayed in ${timezone}.`}
+        </p>
         <SchemaForm
           name="Schedule appointment"
           title="Schedule appointment"
