@@ -59,9 +59,9 @@ export function updateFormData(page, uiSchema, data) {
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
+    let systems = newAppointment.systems;
     let facilities = null;
     let eligibilityData = null;
-    let systems = newAppointment.systems;
 
     // If we have the VA systems in our state, we don't need to
     // fetch them again
