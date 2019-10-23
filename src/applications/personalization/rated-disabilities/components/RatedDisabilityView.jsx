@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import RatedDisabilityList from './RatedDisabilityList';
 
 class RatedDisabilityView extends React.Component {
@@ -36,6 +37,19 @@ class RatedDisabilityView extends React.Component {
 
     return (
       <div className="vads-l-grid-container">
+        <Breadcrumbs>
+          {[
+            <a href="/" key="1">
+              Home
+            </a>,
+            <a href="/disability/check-disability-rating/" key="2">
+              Disabilities
+            </a>,
+            <a href="/disability/check-disability-rating/rating" key="3">
+              Disability Ratings
+            </a>,
+          ]}
+        </Breadcrumbs>
         <div className="vads-l-row vads-u-margin-x--neg2p5">{content}</div>
       </div>
     );
