@@ -34,13 +34,8 @@
 <meta name="msapplication-TileColor" content="#144073">
 
 <!-- CSS -->
-<link rel="stylesheet"
-  data-entry-name="style.css"
-  href="/generated/style.css">
-
-<link rel="stylesheet"
-  data-entry-name="{{ entryname | default: 'static-pages' }}.css"
-  href="/generated/{{ entryname | default: 'static-pages' }}.css">
+<link rel="stylesheet" data-entry-name="style.css">
+<link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
 
 <!-- Old IE -->
 
@@ -48,17 +43,9 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<script defer nomodule
-  data-entry-name="polyfills.js"
-  src="/generated/polyfills.entry.js"></script>
-
-<script defer
-  data-entry-name="vendor.js"
-  src="/generated/vendor.entry.js"></script>
-
-<script defer
-  data-entry-name="{{ entryname | default: 'static-pages' }}.js"
-  src="/generated/{{ entryname | default: 'static-pages' }}.entry.js"></script>
+<script defer nomodule data-entry-name="polyfills.js"></script>
+<script defer data-entry-name="vendor.js"></script>
+<script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
 
 <!--
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.
