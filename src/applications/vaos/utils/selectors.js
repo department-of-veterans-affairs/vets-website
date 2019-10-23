@@ -95,10 +95,9 @@ export function getDateTimeSelect(state, pageKey) {
       timezone = now.tz(institutionTimezone).format('z');
     }
   }
-  debugger;
+
   return {
     ...formInfo,
-    facility: getChosenFacilityInfo(state),
     timezone,
     availableSlots,
     availableDates,
