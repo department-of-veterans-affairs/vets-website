@@ -81,7 +81,7 @@ const readEntity = (type, uuid) =>
  * @return {Object} - The entity with all the references filled in with
  *                    the body of the referenced entities.
  */
-const assembler = (entityType, uuid, parents = []) => {
+const assembleEntityTree = (entityType, uuid, parents = []) => {
   // Avoid circular references
   if (parents.includes(toId(entityType, uuid))) {
     /* eslint-disable no-console */
@@ -110,7 +110,7 @@ const assembler = (entityType, uuid, parents = []) => {
 
         // We found a reference! Override it with the expanded entity.
         if (targetUuid && targetType) {
-          entity[key][index] = assembler(
+          entity[key][index] = assembleEntityTree(
             targetType,
             targetUuid,
             parents.concat([toId(entityType, uuid)]),
@@ -132,7 +132,9 @@ const getAllNodes = () =>
     .filter(name => name.startsWith('node'))
     .map(name => name.split('.').slice(0, 2));
 
-const files = getAllNodes().map(([type, uuid]) => assembler(type, uuid));
+const files = getAllNodes().map(([type, uuid]) =>
+  assembleEntityTree(type, uuid),
+);
 
 // eslint-disable-next-line no-console
 console.log(files.length);
