@@ -18,7 +18,7 @@ describe('VAOS <CalendarNavigation>', () => {
     const tree = shallow(<CalendarNavigation prevDisabled nextDisabled />);
     const items = tree.find('button');
     expect(items.at(0).props().disabled).to.equal(true);
-    expect(items.at(2).props().disabled).to.equal(true);
+    expect(items.at(1).props().disabled).to.equal(true);
     tree.unmount();
   });
 });
