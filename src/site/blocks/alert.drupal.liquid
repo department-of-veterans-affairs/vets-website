@@ -43,19 +43,7 @@
         createAdditionalInfoWidget.js to add toggle functionality to info alerts
       {% endcomment %}
 
-      {% if alert.fieldAlertTitle contains 'homeless' %}
-        {% assign analyticsId = 'nav-crisis-homelessness-expander' %}
-      {% elsif expander.fieldTextExpander contains 'support' %}
-        {% assign analyticsId = 'nav-crisis-get-support-247' %}
-      {% elsif expander.fieldTextExpander contains 'care now' %}
-        {% assign analyticsId = 'nav-crisis-get-care-now' %}
-      {% else %}
-        {% comment %}
-          Nothing required!
-        {% endcomment %}
-      {% endif %}
-
-      <div data-analytics="{{ analyticsId }}" class="form-expanding-group borderless-alert additional-info-container">
+      <div data-alert-box-title="{{ alert.fieldAlertTitle }}" data-label="{{ expander.fieldTextExpander }}" class="form-expanding-group borderless-alert additional-info-container">
         <div class="additional-info-title">{{ expander.fieldTextExpander }}</div>
 
         {% if expander.fieldWysiwyg %}

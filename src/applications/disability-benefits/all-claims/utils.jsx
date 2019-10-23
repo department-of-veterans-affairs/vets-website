@@ -191,23 +191,21 @@ export function queryForFacilities(input = '') {
     name_part: input, // eslint-disable-line camelcase
   });
 
-  return apiRequest(
-    url,
-    {},
-    response =>
+  return apiRequest(url)
+    .then(response =>
       response.data.map(facility => ({
         id: facility.id,
         label: facility.attributes.name,
       })),
-    error => {
+    )
+    .catch(error => {
       Sentry.withScope(scope => {
         scope.setExtra('input', input);
         scope.setExtra('error', error);
         Sentry.captureMessage('Error querying for facilities');
       });
       return [];
-    },
-  );
+    });
 }
 
 export const disabilityIsSelected = disability => disability['view:selected'];

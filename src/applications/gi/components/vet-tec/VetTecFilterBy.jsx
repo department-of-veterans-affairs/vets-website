@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CheckboxGroup from '../CheckboxGroup';
 import { renderLearnMoreLabel } from '../../utils/render';
 import recordEvent from 'platform/monitoring/record-event';
+import { ariaLabels } from '../../constants';
 
 class VetTecFilterBy extends React.Component {
   static propTypes = {
@@ -21,27 +22,27 @@ class VetTecFilterBy extends React.Component {
     this.props.handleFilterChange(field, value);
   };
 
-  renderPreferredProviderLabel = () => {
-    const label = (
-      <div className="preferred-flag">
-        Preferred Provider&nbsp;&nbsp;
-        <i className="fa fa-star vads-u-color--gold" />
-      </div>
-    );
-    return renderLearnMoreLabel({
-      text: label,
+  renderPreferredProviderLabel = () =>
+    renderLearnMoreLabel({
       modal: 'preferredProvider',
       showModal: this.props.showModal,
+      ariaLabel: ariaLabels.preferredProviderLearnMore,
       component: this,
     });
-  };
 
   render() {
+    const label = (
+      <span className="preferred-flag">
+        Preferred Provider&nbsp;&nbsp;
+        <i className="fa fa-star vads-u-color--gold" />
+      </span>
+    );
     const options = [
       {
         name: 'preferredProvider',
         checked: this.props.filters.preferredProvider,
-        label: this.renderPreferredProviderLabel(),
+        label,
+        learnMore: this.renderPreferredProviderLabel(),
       },
     ];
 
