@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import CalendarCheckboxOption from '../../../components/calendar/CalendarCheckboxOption';
 
 describe('VAOS <CalendarCheckboxOption>', () => {
-  it('should render a radio button with proper label and values', () => {
+  it('should render a checkbox with proper label and values', () => {
     const tree = shallow(
       <CalendarCheckboxOption
         index={0}
