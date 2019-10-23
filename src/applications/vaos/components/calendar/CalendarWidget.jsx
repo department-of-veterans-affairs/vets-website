@@ -318,7 +318,7 @@ export default class CalendarWidget extends Component {
         )}
         <hr className="vads-u-margin-y--1" />
         <CalendarWeekdayHeader />
-        {this.renderWeeks(month)}
+        <div role="rowgroup">{this.renderWeeks(month)}</div>
       </>
     );
   };
@@ -335,6 +335,7 @@ export default class CalendarWidget extends Component {
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
+                  role="table"
                 >
                   {this.renderMonth(month, index)}
                 </div>

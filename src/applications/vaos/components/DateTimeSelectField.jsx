@@ -36,6 +36,7 @@ class DateTimeSelectField extends Component {
           required: true,
           maxSelections: 1,
           getOptionsByDate: this.getOptionsByDate,
+          legend: 'Select from the following appointment times',
         }}
         onChange={this.props.onChange}
       />

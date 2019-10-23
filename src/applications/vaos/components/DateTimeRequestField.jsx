@@ -25,6 +25,7 @@ const DateTimeRequestField = ({ onChange, formData }) => (
           label: 'PM',
         },
       ],
+      legend: 'Do you prefer a morning (AM) or an afternoon (PM) appointment?',
     }}
   />
 );
