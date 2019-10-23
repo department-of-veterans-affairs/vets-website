@@ -69,6 +69,12 @@ export function getDateTimeSelect(state, pageKey) {
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = getNewAppointment(state).availableSlots;
+  const availableDates = availableSlots?.reduce((acc, s) => {
+    if (!acc.includes(s.date)) {
+      acc.push(s.date);
+    }
+    return acc;
+  }, []);
   const newAppointment = getNewAppointment(state);
   const vaFacility = data.vaFacility;
   let timezone;
@@ -93,7 +99,7 @@ export function getDateTimeSelect(state, pageKey) {
     facility: getChosenFacilityInfo(state),
     timezone,
     availableSlots,
-    availableDates: availableSlots?.map(s => s.date),
+    availableDates,
     loadingAppointmentSlots: getNewAppointment(state).loadingAppointmentSlots,
   };
 }
