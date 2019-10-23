@@ -17,20 +17,24 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Pages
 import veteranDetailsDescription from '../pages/confirmVeteranDetails';
-import {
-  contestedIssuesDescription,
-  contestedIssuesTitle,
-} from '../content/contestedIssues';
-import {
-  uiSchema as contactInfoUiSchema,
-  schema as contactInfoSchema,
-} from '../pages/contactInformation';
+
+import contactInfo from '../pages/contactInformation';
+import contestedIssues from '../pages/contestedIssues';
+
+import { contestedIssuesNotesPreamble } from '../content/contestedIssues';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
 
-const { address, phone, date, effectiveDates } = fullSchema.definitions;
+const {
+  address,
+  phone,
+  date,
+  effectiveDates,
+  ratedDisabilities,
+  specialIssues,
+} = fullSchema.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -56,6 +60,8 @@ const formConfig = {
     date,
     effectiveDates,
     veteranDetailsDescription,
+    ratedDisabilities,
+    specialIssues,
   },
   chapters: {
     veteranDetails: {
@@ -76,35 +82,31 @@ const formConfig = {
         confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
-          uiSchema: contactInfoUiSchema,
-          schema: contactInfoSchema,
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
           initialData,
         },
       },
     },
-    selectContestedIssues: {
+    contestedIssues: {
       title: 'Contested issues',
       pages: {
         contestedIssues: {
+          title: ' ',
           path: 'contested-issues',
+          uiSchema: contestedIssues.uiSchema,
+          schema: contestedIssues.schema,
+          initialData,
+        },
+        contestedIssuesNotesPreamble: {
+          title: ' ',
+          path: 'contested-issues-start',
           uiSchema: {
-            'ui:title': contestedIssuesTitle,
-            myIssues: {
-              'ui:title': contestedIssuesDescription,
-              'ui:required': () => true,
-              // uiSchema: contestedIssuesUiSchema,
-              // schema: contestedIssuesSchema,
-              initialData,
-            },
+            'ui:description': contestedIssuesNotesPreamble,
           },
           schema: {
             type: 'object',
-            properties: {
-              myIssues: {
-                type: 'string',
-                enum: ['First issue', 'Second issue'],
-              },
-            },
+            properties: {},
           },
         },
       },

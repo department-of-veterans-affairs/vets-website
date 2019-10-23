@@ -56,6 +56,34 @@ export default {
       state: 'DC',
       zipCode: '20500',
     },
+
+    // Rated disabilities modified from 526EZ all-claims
+    contestedIssues: [
+      {
+        name: 'Tinnitus',
+        note: 'Rinnging in the ears. More intese in right ear.',
+        ratedDisabilityId: '0',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 10,
+        disabilityActionType: 'NONE',
+        'view:selected': false,
+      },
+      {
+        name: 'Headaches',
+        note: 'Acute chronic head pain',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        decisionCode: 'SVCCONNCTED',
+        decisionText: 'Service Connected',
+        ratingPercentage: 50,
+        disabilityActionType: 'NONE',
+        'view:selected': false,
+      },
+    ],
   },
 };
 

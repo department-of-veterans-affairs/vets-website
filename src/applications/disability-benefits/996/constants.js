@@ -19,3 +19,5 @@ export const errorMessages = {
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
 };
+
+export const NULL_CONDITION_STRING = 'Unknown Condition';
