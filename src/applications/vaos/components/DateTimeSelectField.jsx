@@ -12,7 +12,7 @@ class DateTimeSelectField extends Component {
 
   getOptionsByDate = selectedDate => {
     const options = [];
-    const availableSlots = this.props.formContext.availableSlots;
+    const availableSlots = this.props.formContext?.availableSlots || [];
     for (let index = 0; index < availableSlots.length; index++) {
       const slot = availableSlots[index];
       if (slot.date === selectedDate) {

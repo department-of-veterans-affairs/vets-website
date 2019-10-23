@@ -351,6 +351,8 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         loadingAppointmentSlots: true,
+        availableDates: [],
+        availableSlots: [],
       };
     }
     case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED: {
@@ -363,7 +365,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         loadingAppointmentSlots: false,
-        availableDates: action.availableDates,
         availableSlots: action.availableSlots,
         data,
         pages: {
