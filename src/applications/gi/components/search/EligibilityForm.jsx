@@ -16,8 +16,9 @@ export class EligibilityForm extends React.Component {
     { value: '0.9', label: '30 months: 90% (includes BASIC)' },
     { value: '0.8', label: '24 months: 80% (includes BASIC)' },
     { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
-    { value: '0.6', label: '6 months: 60% (excludes BASIC)' },
-    { value: '0.5', label: '90 days: 50% (excludes BASIC)' },
+    { value: '0.6', label: '12 months: 60% (excludes BASIC)' },
+    { value: '0.5', label: '6 months: 50% (excludes BASIC)' },
+    { value: '0.4', label: '90 days: 40% (excludes BASIC)' },
     { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
     { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
     {
