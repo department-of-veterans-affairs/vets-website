@@ -97,8 +97,8 @@ class ReceiveTextMessages extends React.Component {
             checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
             label={
               <span>
-                Send me text message (SMS) reminders for my VA health care
-                appointments
+                Please check the box if you want to receive text message (SMS)
+                reminders for your VA health care appointments.
               </span>
             }
             onValueChange={this.onChange}
