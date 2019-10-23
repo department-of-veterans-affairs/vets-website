@@ -70,7 +70,7 @@ function getEntryNamesDictionary(buildOptions, files) {
   return entryNamesDictionary;
 }
 
-function addAssetHashes(buildOptions) {
+function processEntryNames(buildOptions) {
   return (files, metalsmith, done) => {
     const entryNamesDictionary = getEntryNamesDictionary(buildOptions, files);
 
@@ -100,4 +100,4 @@ function addAssetHashes(buildOptions) {
   };
 }
 
-module.exports = addAssetHashes;
+module.exports = processEntryNames;
