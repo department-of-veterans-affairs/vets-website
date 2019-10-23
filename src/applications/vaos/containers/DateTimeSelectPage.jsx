@@ -48,12 +48,6 @@ const initialSchema = {
 };
 
 const uiSchema = {
-  // 'ui:validations': [
-  //   (errors, pageData) => {
-  //     errors.calendarData.addError('Error');
-  //     debugger;
-  //   },
-  // ],
   calendarData: {
     'ui:field': DateTimeSelectField,
     'ui:title': 'What date and time would you like to make an appointment?',
