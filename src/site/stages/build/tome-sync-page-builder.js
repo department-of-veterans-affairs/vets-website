@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { getModifiedEntity } = require('./page-builder/helpers');
 
 /**
  * This assumes the tome-sync output is sibling to the vets-website
@@ -66,23 +67,6 @@ const fetchEntity = (type, uuid) =>
   );
 
 /**
- * Takes the type of entity and entity itself, returns an array of
- * properties that we want to keep for this entity.
- *
- * @param {String} entityType - The type of entity; corresponds to the
- *                              name of the file.
- * @param {Object} entity - The contents of the entity itself before
- *                          reference expansion.
- *
- * @return {Array<String>} - A list of properties of the entity to
- *                           keep.
- */
-const getEntityProperties = (entityType, entity) =>
-  // TODO: Change this to check the entity type and subtype and return
-  // a customized list.
-  Object.keys(entity);
-
-/**
  * Takes an entity type and uuid, reads the corresponding file,
  * searches for references to other entities, and replaces the
  * references with the contents of those entities recursively.
@@ -110,19 +94,14 @@ const assembler = (entityType, uuid, parents = []) => {
     process.exit(1);
   }
 
-  const entity = fetchEntity(entityType, uuid);
-
-  // TODO: Once we get the list of properties, the object we return
-  // should have _only_ those properties.
-  const propList = getEntityProperties(entityType, entity);
+  const entity = getModifiedEntity(entityType, fetchEntity(entityType, uuid));
 
   // Iterate over all non-blacklisted properties in an entity, look
   // for references to other identities recursively, and replace the
   // reference with the entity contents.
-  for (const key of propList) {
+  for (const [key, prop] of Object.entries(entity)) {
     // eslint-disable-next-line no-continue
     if (blackList.has(key)) continue;
-    const prop = entity[key];
 
     // Properties with target_uuids are always arrays from tome-sync
     if (Array.isArray(prop)) {
@@ -157,3 +136,5 @@ const files = getAllNodes().map(([type, uuid]) => assembler(type, uuid));
 
 // eslint-disable-next-line no-console
 console.log(files.length);
+
+// console.log(JSON.stringify(files[0], null, 2));
