@@ -1,4 +1,31 @@
 /**
+ * When reading through entity properties, ignore these.
+ */
+const blackList = new Set([
+  'type',
+  'revision_uid',
+  'revision_user',
+  'user_id',
+  'items',
+  'owner_id',
+  'parent',
+  'role_id',
+  'roles',
+  'uid',
+  'vid',
+  'access_scheme',
+  'bundle',
+  // Temporarily ignore the following properties because they were
+  // causing circular references. Once we get reader functions based
+  // on individual node / entity types, we can remove these from here.
+  // See the jsdoc on getEntityProperties for more information.
+  'field_facility_location',
+  'field_regional_health_service',
+  'field_region_page',
+  'field_office',
+]);
+
+/**
  * Get the content model type of an entity. This is used for
  * determining how to handle specific entities. For example, in some
  * node entities, we want to ignore certain properties to avoid
@@ -12,9 +39,8 @@
  *
  * @return {String} - The content model type
  */
-// eslint-disable-next-line no-unused-vars
 function getContentModelType(entityType, entity) {
-  return entity.type[0].target_id;
+  return entity.type ? entity.type[0].target_id : entityType;
 }
 
 /**
@@ -22,9 +48,7 @@ function getContentModelType(entityType, entity) {
  * transformation and returns a new entity with only the desired
  * properties based on the content model type.
  *
- * @param {String} entityType - The type of entity; corresponds to
- *                              the name of the file. We may not end
- *                              up using this.
+ * @param {String} contentModelType - The type of content model.
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
@@ -32,18 +56,20 @@ function getContentModelType(entityType, entity) {
  * @return {Object} - The entity with only the desired properties
  *                    for the specific content model type.
  */
-function getFilteredEntity(entityType, entity) {
+function getFilteredEntity(contentModelType, entity) {
   // TODO: Filter properties based on content model type
-  return entity;
+  return Object.keys(entity).reduce((newEntity, key) => {
+    // eslint-disable-next-line no-param-reassign
+    if (!blackList.has(key)) newEntity[key] = entity[key];
+    return newEntity;
+  }, {});
 }
 
 /**
  * Takes the entity type and entity contents and returns a new
  * entity with modified data to fit the content model.
  *
- * @param {String} entityType - The type of entity; corresponds to
- *                              the name of the file. We may not end
- *                              up using this.
+ * @param {String} contentModelType - The type of content model.
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
@@ -71,9 +97,10 @@ module.exports = {
    * @return {Object} - The new entity.
    */
   getModifiedEntity(entityType, entity) {
-    // TODO: Filter unwanted properties
-    // TODO: Modify the data (e.g. change property names and casing to
-    //       fit the content model expected in the templates)
-    return transformEntity(entityType, getFilteredEntity(entityType, entity));
+    const contentModelType = getContentModelType(entityType, entity);
+    return transformEntity(
+      contentModelType,
+      getFilteredEntity(contentModelType, entity),
+    );
   },
 };

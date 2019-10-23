@@ -12,33 +12,6 @@ const contentDir = path.join(
 );
 
 /**
- * When reading through entity properties, ignore these.
- */
-const blackList = new Set([
-  'type',
-  'revision_uid',
-  'revision_user',
-  'user_id',
-  'items',
-  'owner_id',
-  'parent',
-  'role_id',
-  'roles',
-  'uid',
-  'vid',
-  'access_scheme',
-  'bundle',
-  // Temporarily ignore the following properties because they were
-  // causing circular references. Once we get reader functions based
-  // on individual node / entity types, we can remove these from here.
-  // See the jsdoc on getEntityProperties for more information.
-  'field_facility_location',
-  'field_regional_health_service',
-  'field_region_page',
-  'field_office',
-]);
-
-/**
  * Use to consistently reference to an entity.
  *
  * @param {String} type - The type of entity; corresponds to the file
@@ -100,9 +73,6 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
   // for references to other identities recursively, and replace the
   // reference with the entity contents.
   for (const [key, prop] of Object.entries(entity)) {
-    // eslint-disable-next-line no-continue
-    if (blackList.has(key)) continue;
-
     // Properties with target_uuids are always arrays from tome-sync
     if (Array.isArray(prop)) {
       prop.forEach((item, index) => {
