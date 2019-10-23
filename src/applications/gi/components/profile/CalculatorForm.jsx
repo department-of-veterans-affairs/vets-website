@@ -68,7 +68,7 @@ class CalculatorForm extends React.Component {
       if (event.value.length === 5) {
         recordEvent({
           event: 'gibct-form-change',
-          'gibct-form-field': 'gibctExtensionSearchZipcode',
+          'gibct-form-field': 'gibctExtensionSearchZipCode',
           'gibct-form-value': event.value,
         });
       }
