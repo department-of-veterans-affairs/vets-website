@@ -126,13 +126,13 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
 /**
  * Get all the starting nodes
  */
-const getAllNodes = () =>
+const readAllNodeNames = () =>
   fs
     .readdirSync(contentDir)
     .filter(name => name.startsWith('node'))
     .map(name => name.split('.').slice(0, 2));
 
-const files = getAllNodes().map(([type, uuid]) =>
+const files = readAllNodeNames().map(([type, uuid]) =>
   assembleEntityTree(type, uuid),
 );
 
