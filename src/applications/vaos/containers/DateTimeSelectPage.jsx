@@ -69,7 +69,9 @@ export class DateTimeSelectPage extends React.Component {
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    if (this.props.data.calendarData?.selectedDates?.length) {
+      this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    }
   };
 
   render() {
