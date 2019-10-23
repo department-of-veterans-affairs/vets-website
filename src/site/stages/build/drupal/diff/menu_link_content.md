@@ -1,5 +1,7 @@
 # menu_link_content
 
+## Tome returned **786** records.
+
 ## GraphQL
 
 ```json

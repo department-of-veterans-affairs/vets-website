@@ -1,5 +1,7 @@
 # redirect
 
+## Tome returned **249** records.
+
 **WARNING:** I am STUMPED on this one. I find instances of the `redirect_redirect` url being used, but it always has more data that resembles `menu_link_content` or other models. My guess is it is used, however, as Tome had 249 `redirect` records.
 
 ## GraphQL

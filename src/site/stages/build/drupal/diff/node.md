@@ -1,5 +1,7 @@
 # node
 
+## Tome returned **774** records.
+
 ## GraphQL
 
 ```json

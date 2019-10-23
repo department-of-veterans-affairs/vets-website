@@ -2,6 +2,8 @@
 
 ## Missing properties in Tome:
 
+## Tome returned **1** record.
+
 **This does not seem like it's used currently.**
 
 ## GraphQL

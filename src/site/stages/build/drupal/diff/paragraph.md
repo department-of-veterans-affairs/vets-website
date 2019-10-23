@@ -1,5 +1,7 @@
 # paragraph
 
+## Tome returned **4762** records.
+
 ## GraphQL
 
 **WARNING:** There are multiple types of `paragraph`s, here's a few:

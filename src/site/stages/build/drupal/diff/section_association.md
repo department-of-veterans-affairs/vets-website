@@ -1,6 +1,8 @@
 # section_association
 
-**This does not seem like it's used currently. Tome returned 28 `section_association` records.**
+## Tome returned **28** records.
+
+**This does not seem like it's used currently.**
 
 ## GraphQL
 

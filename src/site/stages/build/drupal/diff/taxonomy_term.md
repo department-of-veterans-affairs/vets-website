@@ -1,6 +1,8 @@
 # taxonomy_term
 
-**This does not seem like it's used currently. Tome returned 150 `taxonomy_term` records.**
+## Tome returned **150** records.
+
+**This does not seem like it's used currently.**
 
 ## GraphQL
 

@@ -1,5 +1,7 @@
 # crop
 
+## Tome returned **64** records.
+
 ## GraphQL
 
 **WARNING:** Uncertain which is the data structure that matches the Tome data structure.

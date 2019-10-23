@@ -1,5 +1,7 @@
 # entity_subqueue
 
+## Tome returned **2** records.
+
 **This does not seem like it's used currently.**
 
 ## GraphQL

@@ -1,6 +1,8 @@
 # user
 
-**This does not seem like it's used currently. Tome returned 84 `user` records.**
+## Tome returned **84** records.
+
+**This does not seem like it's used currently.**
 
 ## GraphQL
 

@@ -1,5 +1,7 @@
 # block_content
 
+## Tome returned **28** records.
+
 ## GraphQL
 
 ```json
