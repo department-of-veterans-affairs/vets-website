@@ -9,7 +9,7 @@ function copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary) {
   // TeamSite pages such as "benefits.va.gov" have hardcoded references to certain
   // JavaScript bundles so that we can inject our header/footer into pages outside
   // of our source. Therefore, we can't apply a hash to those bundles.
-  const teamsiteInjectionBundles = {
+  const teamSiteInjectionBundles = {
     'proxy-rewrite.js': 'generated/proxy-rewrite.entry.js',
     'vendor.js': 'generated/vendor.entry.js',
     'polyfills.js': 'generated/polyfills.entry.js',
@@ -17,8 +17,9 @@ function copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary) {
     'static-pages.css': 'generated/static-pages.css',
   };
 
-  for (const fileManifestKey of Object.keys(teamsiteInjectionBundles)) {
-    const teamSitePath = teamsiteInjectionBundles[fileManifestKey];
+  for (const [fileManifestKey, teamSitePath] of Object.entries(
+    teamSiteInjectionBundles,
+  )) {
     const hashedFileName = entryNamesDictionary.get(fileManifestKey);
 
     if (!hashedFileName) {
