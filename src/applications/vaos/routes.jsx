@@ -34,7 +34,7 @@ const routes = (
       <Route path="choose-sleep-care" component={TypeOfSleepCarePage} />
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
       <Route path="request-date" component={DateTimeRequestPage} />
-      <Route path="schedule-date" component={DateTimeSelectPage} />
+      <Route path="select-date" component={DateTimeSelectPage} />
       <Route
         path="community-care-provider"
         component={CommunityCareProviderPage}

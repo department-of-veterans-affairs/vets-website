@@ -156,7 +156,7 @@ export default {
     },
   },
   selectDateTime: {
-    url: '/new-appointment/schedule-date',
+    url: '/new-appointment/select-date',
     next: 'reasonForAppointment',
     previous: 'clinicChoice',
   },
