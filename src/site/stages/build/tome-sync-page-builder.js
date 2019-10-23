@@ -59,7 +59,7 @@ const toId = (type, uuid) => `${type}.${uuid}`;
  *
  * @return {Object} - The contents of the file.
  */
-const fetchEntity = (type, uuid) =>
+const readEntity = (type, uuid) =>
   JSON.parse(
     fs
       .readFileSync(path.join(contentDir, `${type}.${uuid}.json`))
@@ -94,7 +94,7 @@ const assembler = (entityType, uuid, parents = []) => {
     process.exit(1);
   }
 
-  const entity = getModifiedEntity(entityType, fetchEntity(entityType, uuid));
+  const entity = getModifiedEntity(entityType, readEntity(entityType, uuid));
 
   // Iterate over all non-blacklisted properties in an entity, look
   // for references to other identities recursively, and replace the
