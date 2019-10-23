@@ -92,7 +92,9 @@ function addAssetHashes(buildOptions) {
       });
     }
 
-    copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary);
+    if (!buildOptions.isPreviewServer) {
+      copyAssetsToTeamSitePaths(buildOptions, files, entryNamesDictionary);
+    }
 
     done();
   };
