@@ -66,7 +66,7 @@ export default class CalendarRow extends Component {
         const beginningCellIndex = [0, 1];
         const endCellIndexes = [3, 4];
 
-        // // If list of items is won't fill row, align items closer to selected cell
+        // If list of items is won't fill row, align items closer to selected cell
         const cssClasses = classNames(
           'vaos-calendar__options',
           selectedDateOptions.length < maxCellsPerRow
