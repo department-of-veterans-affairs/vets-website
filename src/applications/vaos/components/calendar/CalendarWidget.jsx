@@ -19,7 +19,7 @@ export default class CalendarWidget extends Component {
     availableDates: PropTypes.array,
     monthsToShowAtOnce: PropTypes.number,
     maxSelections: PropTypes.number,
-    getSelectedDateOptions: PropTypes.array,
+    additionalOptions: PropTypes.object,
     onChange: PropTypes.func,
   };
 
