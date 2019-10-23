@@ -64,6 +64,19 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getDateTimeSelect(state, pageKey) {
+  const formInfo = getFormPageInfo(state, pageKey);
+  const availableSlots = getNewAppointment(state).availableSlots;
+
+  return {
+    ...formInfo,
+    facility: getChosenFacilityInfo(state),
+    availableSlots,
+    availableDates: availableSlots?.map(s => s.date),
+    loadingAppointmentSlots: getNewAppointment(state).loadingAppointmentSlots,
+  };
+}
+
 export function hasSingleValidVALocation(state) {
   const formInfo = getFormPageInfo(state, 'vaFacility');
 
