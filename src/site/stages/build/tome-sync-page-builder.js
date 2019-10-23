@@ -1,43 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const { getModifiedEntity } = require('./page-builder/helpers');
-
-/**
- * This assumes the tome-sync output is sibling to the vets-website
- * directory.
- */
-const contentDir = path.join(
-  __dirname,
-  '../../../../../tome-sync-output/content/',
-);
-
-/**
- * Use to consistently reference to an entity.
- *
- * @param {String} type - The type of entity; corresponds to the file
- *                        name.
- * @param {String} uuid - The uuid of the entity; corresponds to the
- *                        file name.
- */
-const toId = (type, uuid) => `${type}.${uuid}`;
-
-/**
- * Note: Later, we can keep a counter for how many times we open a
- * particular file to see if we can gain anything from caching the
- * contents.
- * @param {String} entityType - The type of entity; corresponds to the
- *                              name of the file.
- * @param {String} uuid - The UUID of the entity; corresponds to the
- *                        name of the file.
- *
- * @return {Object} - The contents of the file.
- */
-const readEntity = (type, uuid) =>
-  JSON.parse(
-    fs
-      .readFileSync(path.join(contentDir, `${type}.${uuid}.json`))
-      .toString('utf8'),
-  );
+const {
+  getModifiedEntity,
+  toId,
+  readEntity,
+  readAllNodeNames,
+} = require('./page-builder/helpers');
 
 /**
  * Takes an entity type and uuid, reads the corresponding file,
@@ -92,15 +58,6 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
 
   return entity;
 };
-
-/**
- * Get all the starting nodes
- */
-const readAllNodeNames = () =>
-  fs
-    .readdirSync(contentDir)
-    .filter(name => name.startsWith('node'))
-    .map(name => name.split('.').slice(0, 2));
 
 const files = readAllNodeNames().map(([type, uuid]) =>
   assembleEntityTree(type, uuid),
