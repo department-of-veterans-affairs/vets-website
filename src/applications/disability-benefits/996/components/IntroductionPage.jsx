@@ -94,20 +94,32 @@ class IntroductionPage extends React.Component {
               process.
             </p>
             <aside className="process schemaform-process">
-              <h4>
-                Follow the steps below to apply for Request a Higher-Level
-                Review.
-              </h4>
+              <h4>Follow the steps below to Request a Higher-Level Review.</h4>
               <br />
               <ol>
                 <li className="process-step list-one">
                   <h5>Prepare</h5>
                   <h6>To fill out this application, you’ll need your:</h6>
                   <ul>
-                    <li>Primary address</li>
-                    <li>Decisions that you want to be reviewed</li>
+                    <li>
+                      Primary address (or forwarding address if you'll be moving
+                      soon)
+                    </li>
+                    <li>
+                      List of issues you disagree with and the VA decision date
+                      for each
+                    </li>
                     <li>Representative's contact information (optional)</li>
                   </ul>
+                  <p>
+                    When you request a Higher-Level Review, you won't be able to
+                    submit new evidence. If you have new evidence to submit,
+                    you'll need to select another review option.{' '}
+                    <a href="/decision-reviews">
+                      Learn more about review options
+                    </a>
+                    .
+                  </p>
                   <p>
                     <strong>
                       What if I need help filling out my application?
@@ -117,14 +129,18 @@ class IntroductionPage extends React.Component {
                     If you need help requesting a Higher-Level Review, you can
                     contact a VA regional office and ask to speak to a
                     counselor. To find the nearest regional office, please call{' '}
-                    <a href="tel:1-800-827-1000">800-827-1000</a>.
+                    <a href="tel:1-800-827-1000">800-827-1000</a> or{' '}
+                    <a href="/find-locations">
+                      visit our facility locator tool
+                    </a>
+                    .
                   </p>
                   <p>
                     An accredited representative, like a Veterans Service
-                    Officer (VSO), can help you fill out your claim.
+                    Officer (VSO), can help you request a decision review.
                   </p>
                   <a href="/decision-reviews/get-help-with-review-request">
-                    Get help requesting a Higher-Level Review
+                    Get help requesting a decision review
                   </a>
                   .
                 </li>
