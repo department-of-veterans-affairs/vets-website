@@ -51,19 +51,13 @@ const ignoredPromoProps = [
   'field_owner',
 ];
 
+const ignoreMap = {
+  page: ignoredPageProps,
+  promo: ignoredPromoProps,
+};
+
 function getFilterType(contentModelType) {
-  let ignoredProps = [];
-  switch (contentModelType) {
-    case 'page':
-      ignoredProps = ignoredPageProps;
-      break;
-    case 'promo':
-      ignoredProps = ignoredPromoProps;
-      break;
-    default:
-      break;
-  }
-  return new Set(ignoredProps);
+  return new Set(ignoreMap[contentModelType]);
 }
 
 /**
