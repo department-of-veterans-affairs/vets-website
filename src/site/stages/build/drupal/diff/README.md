@@ -2,11 +2,11 @@
 
 [block_content](./block_content.md)
 
-[consumer](./consumer.md)
+[~~consumer~~ (not used)](./consumer.md)
 
 [crop](./crop.md)
 
-[entity_subqueue](./entity_subqueue.md)
+[~~entity_subqueue~~ (not used)](./entity_subqueue.md)
 
 [file](./file.md)
 
@@ -18,11 +18,11 @@
 
 [paragraph](./paragraph.md)
 
-[redirect](./redirect.md)
+[~~redirect~~ (not used)](./redirect.md)
 
-[section_association](./section_association.md)
+[~~section_association~~ (not used)](./section_association.md)
 
-[taxonomy_term](./taxonomy_term.md)
+[~~taxonomy_term~~ (not used)](./taxonomy_term.md)
 
 [user](./user.md)
 
