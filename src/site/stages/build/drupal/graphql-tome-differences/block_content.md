@@ -2,11 +2,14 @@
 
 Tome returned **28** records.
 
-
 ## Missing properties in Tome:
 
-1. `"fieldLinkSummary": "Download letters like your eligibility or award letter for certain benefits."` (This is found from the reference `field_promo_link`, which means it's not missing! Yay! 😎)
-1. `"url": { "path": "/records/download-va-letters" },`
+None. 😎
+
+## All `target_id`s
+
+1. `promo`
+1. `alert`
 
 ## Example GraphQL response
 
