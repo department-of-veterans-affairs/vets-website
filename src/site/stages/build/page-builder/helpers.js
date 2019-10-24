@@ -37,6 +37,31 @@ const blackList = new Set([
   'field_office',
 ]);
 
+const pageFilter = new Set([
+  'langcode',
+  'revision_timestamp',
+  'revision_uuid',
+  'revision_log',
+  'status',
+  'field_plainlanguage_date',
+  'promote',
+  'created',
+  'default_langcode',
+  'revision_translation_affected',
+]);
+
+function getFilterType(contentModelType) {
+  let entityFilter = new Set();
+  switch (contentModelType) {
+    case 'page':
+      entityFilter = pageFilter;
+      break;
+    default:
+      break;
+  }
+  return entityFilter;
+}
+
 /**
  * Get the content model type of an entity. This is used for
  * determining how to handle specific entities. For example, in some
@@ -70,9 +95,11 @@ function getContentModelType(entityType, entity) {
  */
 function getFilteredEntity(contentModelType, entity) {
   // TODO: Filter properties based on content model type
+  const entityTypeFilter = getFilterType(contentModelType);
+  const entityFilter = new Set([...blackList, ...entityTypeFilter]);
   return Object.keys(entity).reduce((newEntity, key) => {
     // eslint-disable-next-line no-param-reassign
-    if (!blackList.has(key)) newEntity[key] = entity[key];
+    if (!entityFilter.has(key)) newEntity[key] = entity[key];
     return newEntity;
   }, {});
 }
