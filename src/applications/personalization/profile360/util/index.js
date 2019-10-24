@@ -24,37 +24,35 @@ export async function getData(apiRoute, options) {
   }
 }
 
-function hasErrorMessageKey(errors, errorKey) {
+function hasErrorMessage(errors, errorKey, errorText) {
+  if (errorText) {
+    return errors.some(err =>
+      err.meta.messages.some(
+        message =>
+          message.key === errorKey &&
+          message.text.toLowerCase().includes(errorText.toLowerCase()),
+      ),
+    );
+  }
   return errors.some(err =>
     err.meta.messages.some(message => message.key === errorKey),
   );
 }
 
-function hasErrorMessageText(errors, errorText) {
-  return errors.some(err =>
-    err.meta.messages.some(message =>
-      message.text.toLowerCase().includes(errorText.toLowerCase()),
-    ),
-  );
-}
-
 export function hasFlaggedForFraudError(errors) {
   return (
-    hasErrorMessageKey(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
-    hasErrorMessageKey(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
-    hasErrorMessageKey(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY)
+    hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
+    hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
+    hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY)
   );
 }
 
 export function hasInvalidRoutingNumberError(errors) {
   let result = false;
-  if (hasErrorMessageKey(errors, INVALID_ROUTING_NUMBER_KEY)) {
+  if (hasErrorMessage(errors, INVALID_ROUTING_NUMBER_KEY)) {
     result = true;
   }
-  if (
-    hasErrorMessageKey(errors, GENERIC_ERROR_KEY) &&
-    hasErrorMessageText(errors, 'Invalid Routing Number')
-  ) {
+  if (hasErrorMessage(errors, GENERIC_ERROR_KEY, 'Invalid Routing Number')) {
     result = true;
   }
   return result;
@@ -62,10 +60,7 @@ export function hasInvalidRoutingNumberError(errors) {
 
 export function hasInvalidAddressError(errors) {
   let result = false;
-  if (
-    hasErrorMessageKey(errors, GENERIC_ERROR_KEY) &&
-    hasErrorMessageText(errors, 'address update')
-  ) {
+  if (hasErrorMessage(errors, GENERIC_ERROR_KEY, 'address update')) {
     result = true;
   }
   return result;
@@ -74,9 +69,8 @@ export function hasInvalidAddressError(errors) {
 export function hasInvalidHomePhoneNumberError(errors) {
   let result = false;
   if (
-    hasErrorMessageKey(errors, GENERIC_ERROR_KEY) &&
-    (hasErrorMessageText(errors, 'night phone number') ||
-      hasErrorMessageText(errors, 'night area number'))
+    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'night phone number') ||
+    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'night area number')
   ) {
     result = true;
   }
@@ -86,9 +80,8 @@ export function hasInvalidHomePhoneNumberError(errors) {
 export function hasInvalidWorkPhoneNumberError(errors) {
   let result = false;
   if (
-    hasErrorMessageKey(errors, GENERIC_ERROR_KEY) &&
-    (hasErrorMessageText(errors, 'day phone number') ||
-      hasErrorMessageText(errors, 'day area number'))
+    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day phone number') ||
+    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day area number')
   ) {
     result = true;
   }
