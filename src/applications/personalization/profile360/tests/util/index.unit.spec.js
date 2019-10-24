@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { createDirectDepositAnalyticsDataObject } from '../../util';
+import {
+  createDirectDepositAnalyticsDataObject,
+  hasFlaggedForFraudError,
+  hasInvalidHomePhoneNumberError,
+} from '../../util';
 
 describe('profile utils', () => {
   const defaultDataObject = {
@@ -101,6 +105,53 @@ describe('profile utils', () => {
         },
       ]);
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
+    });
+  });
+
+  describe('PaymentInformation error parsing methods', () => {
+    it('hasFlaggedForFraudError returns true on error', () => {
+      const errors = [
+        {
+          title: 'Account Flagged',
+          detail: 'The account has been flagged',
+          code: '136',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.flashes.on.record.message',
+                severity: 'ERROR',
+                text: 'Flashes on record',
+              },
+            ],
+          },
+        },
+      ];
+      expect(hasFlaggedForFraudError(errors)).to.equal(true);
+    });
+
+    it('hasInvalidHomePhoneNumberError returns false if text does not contain night phone', () => {
+      const errors = [
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.generic.error.message',
+                severity: 'ERROR',
+                text:
+                  'Generic CnP payment update error. Update response: Update Failed: Some other random error',
+              },
+            ],
+          },
+        },
+      ];
+      expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
     });
   });
 });
