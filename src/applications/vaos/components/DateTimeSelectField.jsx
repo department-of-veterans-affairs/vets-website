@@ -11,17 +11,16 @@ class DateTimeSelectField extends Component {
   };
 
   getOptionsByDate = selectedDate => {
-    const options = [];
-    const availableSlots = this.props.formContext?.availableSlots || [];
-    for (let index = 0; index < availableSlots.length; index++) {
-      const slot = availableSlots[index];
+    const availableSlots = this.props.formContext.availableSlots || [];
+    const options = availableSlots.reduce((acc, slot) => {
       if (slot.date === selectedDate) {
-        options.push({
+        acc.push({
           value: slot.datetime,
           label: moment(slot.datetime).format('h:mm A'),
         });
       }
-    }
+      return acc;
+    }, []);
 
     return options;
   };
