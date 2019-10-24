@@ -15,6 +15,10 @@ const blackList = new Set([
   'vid',
   'access_scheme',
   'bundle',
+  'langcode',
+  'status',
+  'default_langcode',
+  'revision_translation_affected',
   // Temporarily ignore the following properties because they were
   // causing circular references. Once we get reader functions based
   // on individual node / entity types, we can remove these from here.
@@ -27,17 +31,13 @@ const blackList = new Set([
 
 const ignoredPageProps = [
   'uuid',
-  'langcode',
   'revision_timestamp',
   'revision_uuid',
   'revision_log',
-  'status',
   'field_plainlanguage_date',
   'promote',
   'created',
   'sticky',
-  'default_langcode',
-  'revision_translation_affected',
 ];
 
 function getFilterType(contentModelType) {
