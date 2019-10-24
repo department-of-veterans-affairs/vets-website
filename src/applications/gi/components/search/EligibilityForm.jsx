@@ -74,7 +74,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
-            ariaLabel: ariaLabels.giBillBenefitsLearnMore,
+            ariaLabel: ariaLabels.learnMore.giBillBenefits,
           })}
           name="giBillChapter"
           options={[
@@ -135,7 +135,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
-            ariaLabel: ariaLabels.post911Chapter33LearnMore,
+            ariaLabel: ariaLabels.learnMore.post911Chapter33,
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
@@ -148,7 +148,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Completed an enlistment of:',
             modal: 'enlistmentService',
-            ariaLabel: ariaLabels.montgomeryGIBillLearnMore,
+            ariaLabel: ariaLabels.learnMore.montgomeryGIBill,
           })}
           name="enlistmentService"
           options={[
@@ -164,7 +164,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Length of longest active duty tour:',
             modal: 'consecutiveService',
-            ariaLabel: ariaLabels.reapActiveDutyLearnMore,
+            ariaLabel: ariaLabels.learnMore.reapActiveDuty,
           })}
           name="consecutiveService"
           options={[
