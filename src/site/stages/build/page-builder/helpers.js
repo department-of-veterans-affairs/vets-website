@@ -38,6 +38,7 @@ const blackList = new Set([
 ]);
 
 const ignoredPageProps = [
+  'uuid',
   'langcode',
   'revision_timestamp',
   'revision_uuid',
@@ -46,6 +47,7 @@ const ignoredPageProps = [
   'field_plainlanguage_date',
   'promote',
   'created',
+  'sticky',
   'default_langcode',
   'revision_translation_affected',
 ];
