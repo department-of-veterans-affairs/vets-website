@@ -6,9 +6,14 @@ import createCommonStore from 'platform/startup/store';
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
 import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
 import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
+import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
 
 const institution = {
   facilityCode: '2V000105',
+  city: 'LOS ANGELES',
+  state: 'CA',
+  zip: '90045',
+  country: 'USA',
   facilityMap: {
     main: {
       institution: {},
@@ -20,7 +25,14 @@ const institution = {
   physicalAddress1: '6060 CENTER DRIVE #950',
   physicalAddress2: 'Address line 2',
   physicalAddress3: 'Address line 3',
-  programs: [],
+  programs: [
+    {
+      schoolLocale: 'City',
+      providerWebsite: 'https://galvanize.edu',
+      phoneAreaCode: '843',
+      phoneNumber: '333-3333',
+    },
+  ],
   versionedSchoolCertifyingOfficials: [
     {
       priority: 'PRIMARY',
@@ -90,6 +102,20 @@ describe('<VetTecApprovedProgram>', () => {
       institution,
     };
     const wrapper = shallow(<VetTecApprovedPrograms {...defaultProps} />);
+    const vdom = wrapper.html();
+    expect(vdom).to.not.be.undefined;
+    wrapper.unmount();
+  });
+});
+
+describe('<VetTecHeadingSummary>', () => {
+  it('should render', () => {
+    const defaultProps = {
+      store: createCommonStore(),
+      institution,
+    };
+
+    const wrapper = shallow(<VetTecHeadingSummary {...defaultProps} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
     wrapper.unmount();

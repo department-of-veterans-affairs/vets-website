@@ -35,3 +35,11 @@ export const locationInfo = (city, state, country) => {
   }
   return address;
 };
+
+export const phoneInfo = (areaCode, phoneNumber) => {
+  let providerPhone = '';
+  if (areaCode && phoneNumber) {
+    providerPhone = `${areaCode}-${phoneNumber}`;
+  }
+  return providerPhone;
+};

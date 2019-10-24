@@ -1,5 +1,4 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import environment from 'platform/utilities/environment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 const submitForm = (form, formConfig) => {
@@ -20,7 +19,6 @@ const submitForm = (form, formConfig) => {
   };
 
   const submitUrl =
-    !environment.isProduction() &&
     form.data.isEdithNourseRogersScholarship === true
       ? formConfig.submitUrl.replace('1995', '1995s')
       : formConfig.submitUrl;

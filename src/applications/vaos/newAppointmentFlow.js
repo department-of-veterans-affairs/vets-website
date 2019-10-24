@@ -126,7 +126,7 @@ export default {
       }
 
       if (eligibilityStatus.request) {
-        return 'reasonForAppointment';
+        return 'requestDateTime';
       }
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
@@ -150,8 +150,20 @@ export default {
         return 'reasonForAppointment';
       }
 
-      return 'reasonForAppointment';
+      // fetch appointment slots
+
+      return 'selectDateTime';
     },
+  },
+  selectDateTime: {
+    url: '/new-appointment/select-date',
+    next: 'reasonForAppointment',
+    previous: 'clinicChoice',
+  },
+  requestDateTime: {
+    url: '/new-appointment/request-date',
+    next: 'reasonForAppointment',
+    previous: 'vaFacility',
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',

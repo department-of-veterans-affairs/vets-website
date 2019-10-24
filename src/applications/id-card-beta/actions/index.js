@@ -12,20 +12,19 @@ export function registerBeta() {
       method: 'POST',
     };
 
-    apiRequest(
-      '/beta_registration/veteran_id_card',
-      settings,
-      response =>
+    apiRequest('/beta_registration/veteran_id_card', settings)
+      .then(response =>
         dispatch({
           type: BETA_REGISTER_SUCCESS,
           username: response.user,
           stats: 'succeeded',
         }),
-      () =>
+      )
+      .catch(() =>
         dispatch({
           type: BETA_REGISTER_FAILURE,
           stats: 'failed',
         }),
-    );
+      );
   };
 }

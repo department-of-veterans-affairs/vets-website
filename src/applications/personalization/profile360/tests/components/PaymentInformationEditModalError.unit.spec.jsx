@@ -25,6 +25,26 @@ describe('<PaymentInformationEditModalError />', () => {
       },
     ],
   };
+  const restrictionIndicatorsPresentError = {
+    errors: [
+      {
+        code: '126',
+        detail: 'One or more unprocessable user payment properties',
+        meta: {
+          messages: [
+            {
+              key: 'payment.restriction.indicators.present',
+              severity: 'ERROR',
+              text: 'Cannot perform an update due to restriction indicators',
+            },
+          ],
+        },
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        title: 'Unprocessable Entity',
+      },
+    ],
+  };
   const invalidRoutingNumberError = {
     errors: [
       {
@@ -60,6 +80,26 @@ describe('<PaymentInformationEditModalError />', () => {
               key: 'cnp.payment.flashes.on.record.message',
               severity: 'ERROR',
               text: 'Flashes on record',
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const routingNumberFlaggedError = {
+    errors: [
+      {
+        title: 'Potential Fraud',
+        detail: 'Routing number related to potential fraud',
+        code: '135',
+        source: 'EVSS::PPIU::Service',
+        status: '422',
+        meta: {
+          messages: [
+            {
+              key: 'cnp.payment.routing.number.fraud.message',
+              severity: 'ERROR',
+              text: 'Routing number related to potential fraud',
             },
           ],
         },
@@ -208,14 +248,34 @@ describe('<PaymentInformationEditModalError />', () => {
     wrapper.unmount();
   });
 
-  it('renders the flagged account error', () => {
-    const wrapper = shallow(
+  it('renders the flagged/locked account error', () => {
+    let wrapper = shallow(
       <PaymentInformationEditModalError
         responseError={{ error: accountFlaggedError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked your account. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: routingNumberFlaggedError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+    );
+    wrapper.unmount();
+
+    wrapper = shallow(
+      <PaymentInformationEditModalError
+        responseError={{ error: restrictionIndicatorsPresentError }}
+      />,
+    );
+    expect(wrapper.html()).to.contain(
+      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
     );
     wrapper.unmount();
   });
@@ -227,7 +287,7 @@ describe('<PaymentInformationEditModalError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your address is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/#contact-information">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });

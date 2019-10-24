@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { debounce } from 'lodash';
-import recordEvent from '../../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL } from '../../constants';
@@ -20,7 +20,7 @@ export class KeywordSearch extends React.Component {
     const { onFilterChange, autocomplete } = this.props;
     if ((e.which || e.keyCode) === 13) {
       e.target.blur();
-      onFilterChange('name', autocomplete.searchTerm);
+      onFilterChange(autocomplete.searchTerm);
     }
   };
 
@@ -39,6 +39,7 @@ export class KeywordSearch extends React.Component {
       this.props.onUpdateAutocompleteSearchTerm(searchQuery);
       this.handleFetchSuggestion({ searchQuery });
     }
+    this.props.validateSearchQuery(searchQuery);
   };
 
   handleFetchSuggestion({ value }) {
@@ -51,13 +52,28 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    this.props.onFilterChange('name', searchQuery);
+    this.props.onFilterChange(searchQuery);
   };
 
   render() {
     const { suggestions, searchTerm } = this.props.autocomplete;
+    let errorSpan = '';
+    let searchClassName = 'keyword-search';
+    if (this.props.searchError) {
+      searchClassName = 'usa-input-error';
+      errorSpan = (
+        <span
+          className="usa-input-error-message"
+          role="alert"
+          id="search-error-message"
+        >
+          <span className="sr-only">Error</span>
+          Please enter a city, school, or employer name.
+        </span>
+      );
+    }
     return (
-      <div className="keyword-search">
+      <div className={searchClassName}>
         <label
           id="institution-search-label"
           className="institution-search-label"
@@ -65,6 +81,7 @@ export class KeywordSearch extends React.Component {
         >
           {this.props.label}
         </label>
+        {errorSpan}
         <Downshift
           inputValue={searchTerm}
           onSelect={item => this.handleSuggestionSelected(item)}
@@ -121,6 +138,7 @@ export class KeywordSearch extends React.Component {
 KeywordSearch.defaultProps = {
   label: 'Enter a city, school or employer name',
   onFilterChange: () => {},
+  validateSearchQuery: () => {},
 };
 
 KeywordSearch.propTypes = {
@@ -129,6 +147,8 @@ KeywordSearch.propTypes = {
   onFetchAutocompleteSuggestions: PropTypes.func,
   onFilterChange: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
+  searchError: PropTypes.bool,
+  validateSearchQuery: PropTypes.func,
 };
 
 export default KeywordSearch;

@@ -10,6 +10,7 @@ import {
 import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
 import PropTypes from 'prop-types';
+import { ariaLabels } from '../../constants';
 
 export class VetTecCalculator extends React.Component {
   constructor(props) {
@@ -72,7 +73,7 @@ export class VetTecCalculator extends React.Component {
           <div>
             <span>VA pays to provider: </span>
             <button
-              aria-label="pay to provider learn more"
+              aria-label={ariaLabels.learnMore.paysToProvider}
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('payToProvider')}

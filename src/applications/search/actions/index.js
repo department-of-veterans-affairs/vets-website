@@ -8,30 +8,25 @@ export function fetchSearchResults(query, page) {
   return dispatch => {
     dispatch({ type: FETCH_SEARCH_RESULTS, query });
 
-    const settings = {
-      method: 'GET',
-    };
-
     let queryString = `/search?query=${encodeURIComponent(query)}`;
 
     if (page) {
       queryString = queryString.concat(`&page=${page}`);
     }
 
-    apiRequest(
-      queryString,
-      settings,
-      response =>
+    apiRequest(queryString)
+      .then(response =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_SUCCESS,
           results: response.data.attributes.body,
           meta: response.meta,
         }),
-      error =>
+      )
+      .catch(error =>
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
           errors: error.errors,
         }),
-    );
+      );
   };
 }

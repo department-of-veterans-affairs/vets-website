@@ -31,21 +31,20 @@ export function loadPrescriptions(options) {
       type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY',
     });
 
-    apiRequest(
-      `${environment.API_URL}/v0/prescriptions${url}`,
-      null,
-      data =>
+    apiRequest(`${environment.API_URL}/v0/prescriptions${url}`)
+      .then(data =>
         dispatch({
           type: 'LOAD_PRESCRIPTIONS_SUCCESS',
           active: options.active,
           data,
         }),
-      response =>
+      )
+      .catch(response =>
         dispatch({
           type: 'LOAD_PRESCRIPTIONS_FAILURE',
           active: options.active,
           errors: response.errors,
         }),
-    );
+      );
   };
 }

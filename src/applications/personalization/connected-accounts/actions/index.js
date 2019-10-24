@@ -19,12 +19,11 @@ export function loadConnectedAccounts() {
   return async dispatch => {
     dispatch({ type: 'LOADING_CONNECTED_ACCOUNTS' });
 
-    return apiRequest(
-      grantsUrl,
-      null,
-      ({ data }) => dispatch({ type: FINISHED_CONNECTED_ACCOUNTS, data }),
-      ({ errors }) => dispatch({ type: ERROR_CONNECTED_ACCOUNTS, errors }),
-    );
+    return apiRequest(grantsUrl)
+      .then(({ data }) => dispatch({ type: FINISHED_CONNECTED_ACCOUNTS, data }))
+      .catch(({ errors }) =>
+        dispatch({ type: ERROR_CONNECTED_ACCOUNTS, errors }),
+      );
   };
 }
 
@@ -32,13 +31,13 @@ export function deleteConnectedAccount(accountId) {
   return async dispatch => {
     dispatch({ type: DELETING_CONNECTED_ACCOUNT, accountId });
 
-    return apiRequest(
-      `${grantsUrl}/${accountId}`,
-      { method: 'DELETE' },
-      () => dispatch({ type: FINISHED_DELETING_CONNECTED_ACCOUNT, accountId }),
-      ({ errors }) =>
+    return apiRequest(`${grantsUrl}/${accountId}`, { method: 'DELETE' })
+      .then(() =>
+        dispatch({ type: FINISHED_DELETING_CONNECTED_ACCOUNT, accountId }),
+      )
+      .catch(({ errors }) =>
         dispatch({ type: ERROR_DELETING_CONNECTED_ACCOUNT, accountId, errors }),
-    );
+      );
   };
 }
 

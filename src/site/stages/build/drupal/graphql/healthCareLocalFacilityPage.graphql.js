@@ -21,6 +21,17 @@ module.exports = `
         }
       }
     }
+    fieldAddress {
+      addressLine1
+      locality
+      administrativeArea
+      postalCode
+    }
+    fieldPhoneNumber
+    fieldMentalHealthPhone
+    fieldFacilityHours {
+      value
+    }
     fieldMainLocation
     fieldMedia {
       entity {

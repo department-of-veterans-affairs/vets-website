@@ -20,12 +20,11 @@ export function fetchMHVAccount() {
   return dispatch => {
     dispatch({ type: FETCHING_MHV_ACCOUNT });
 
-    apiRequest(
-      baseUrl,
-      null,
-      ({ data }) => dispatch({ type: FETCH_MHV_ACCOUNT_SUCCESS, data }),
-      ({ errors }) => dispatch({ type: FETCH_MHV_ACCOUNT_FAILURE, errors }),
-    );
+    apiRequest(baseUrl)
+      .then(({ data }) => dispatch({ type: FETCH_MHV_ACCOUNT_SUCCESS, data }))
+      .catch(({ errors }) =>
+        dispatch({ type: FETCH_MHV_ACCOUNT_FAILURE, errors }),
+      );
   };
 }
 
@@ -34,15 +33,12 @@ export function createMHVAccount() {
     dispatch({ type: CREATING_MHV_ACCOUNT });
     recordEvent({ event: 'register-mhv-create-attempt' });
 
-    return apiRequest(
-      baseUrl,
-      { method: 'POST' },
-      ({ data }) => {
+    return apiRequest(baseUrl, { method: 'POST' })
+      .then(({ data }) => {
         recordEvent({ event: 'register-mhv-create-success' });
         return dispatch({ type: CREATE_MHV_ACCOUNT_SUCCESS, data });
-      },
-      () => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE }),
-    );
+      })
+      .catch(() => dispatch({ type: CREATE_MHV_ACCOUNT_FAILURE }));
   };
 }
 

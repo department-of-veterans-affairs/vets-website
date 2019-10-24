@@ -52,7 +52,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showEligibilityForm;
 
     return (
-      <div className="eligibility-details">
+      <div aria-live="off" className="eligibility-details">
         <button
           aria-expanded={expanded}
           onClick={this.toggleEligibilityForm}
@@ -60,7 +60,7 @@ export class Calculator extends React.Component {
         >
           {expanded ? 'Hide' : 'Edit'} eligibility details
         </button>
-        <div>
+        <div aria-live="off">
           {expanded ? (
             <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
           ) : null}
@@ -86,7 +86,7 @@ export class Calculator extends React.Component {
         >
           {expanded ? 'Hide' : 'Edit'} calculator fields
         </button>
-        <div>
+        <div aria-live="off">
           {expanded ? (
             <CalculatorForm
               profile={profile}
@@ -108,9 +108,12 @@ export class Calculator extends React.Component {
     const { perTerm } = this.props.calculated.outputs;
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, title, terms } = this.props.calculated.outputs.perTerm[
-        section
-      ];
+      const {
+        visible,
+        title,
+        learnMoreAriaLabel,
+        terms,
+      } = this.props.calculated.outputs.perTerm[section];
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
@@ -120,7 +123,12 @@ export class Calculator extends React.Component {
           <div className="link-header">
             <h4>{title}</h4>
             &nbsp;(
-            <a href={learnMoreLink} target="_blank" rel="noopener noreferrer">
+            <a
+              href={learnMoreLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={learnMoreAriaLabel || ''}
+            >
               Learn more
             </a>
             )
@@ -164,7 +172,10 @@ export class Calculator extends React.Component {
           {this.renderCalculatorForm()}
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
+        <div
+          className="usa-width-one-half medium-6 columns your-estimated-benefits"
+          role="dialog"
+        >
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow
