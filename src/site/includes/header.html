@@ -20,6 +20,7 @@
 
 <script src="/js/record-event.js"></script>
 <script src="/js/settings.js"></script>
+
 {% include 'src/site/includes/google-analytics' %}
 
 <!-- Icons -->
@@ -33,13 +34,8 @@
 <meta name="msapplication-TileColor" content="#144073">
 
 <!-- CSS -->
-<link rel="stylesheet" href="/generated/style.css">
-{% if entryname %}
-<link rel="stylesheet" href="/generated/{{ entryname }}.css">
-
-{% else %}
-<link rel="stylesheet" href="/generated/static-pages.css">
-{% endif %}
+<link rel="stylesheet" data-entry-name="style.css">
+<link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
 
 <!-- Old IE -->
 
@@ -47,13 +43,9 @@
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<script defer nomodule src="/generated/polyfills.entry.js"></script>
-<script defer src="/generated/vendor.entry.js"></script>
-{% if entryname %}
-<script defer src="/generated/{{ entryname }}.entry.js"></script>
-{% else %}
-<script defer src="/generated/static-pages.entry.js"></script>
-{% endif %}
+<script defer nomodule data-entry-name="polyfills.js"></script>
+<script defer data-entry-name="vendor.js"></script>
+<script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
 
 <!--
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.

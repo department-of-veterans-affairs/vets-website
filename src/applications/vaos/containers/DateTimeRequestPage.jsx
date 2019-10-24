@@ -10,7 +10,7 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
-import DateTimeRequestField from './../components/DateTimeRequestField';
+import DateTimeRequestField from '../components/DateTimeRequestField';
 
 const pageKey = 'requestDateTime';
 

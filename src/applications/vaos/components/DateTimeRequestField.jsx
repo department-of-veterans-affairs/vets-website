@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CalendarWidget from './calendar/CalendarWidget';
 
 const DateTimeRequestField = ({ onChange, formData }) => (
@@ -25,9 +26,13 @@ const DateTimeRequestField = ({ onChange, formData }) => (
           label: 'PM',
         },
       ],
-      legend: 'Do you prefer a morning (AM) or an afternoon (PM) appointment?',
     }}
   />
 );
+
+DateTimeRequestField.propTypes = {
+  formData: PropTypes.object,
+  onChange: PropTypes.func,
+};
 
 export default DateTimeRequestField;

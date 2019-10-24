@@ -5,7 +5,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
 } from './constants';
-import moment from './../utils/moment-tz';
+import moment from './moment-tz';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -66,16 +66,24 @@ export function getChosenFacilityInfo(state) {
 }
 
 export function getDateTimeSelect(state, pageKey) {
+  const newAppointment = getNewAppointment(state);
+  const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
-  const availableSlots = getNewAppointment(state).availableSlots;
-  const newAppointment = getNewAppointment(state);
+  const availableSlots = newAppointment.availableSlots;
+
+  const availableDates = availableSlots?.reduce((acc, s) => {
+    if (!acc.includes(s.date)) {
+      acc.push(s.date);
+    }
+    return acc;
+  }, []);
   const vaFacility = data.vaFacility;
   let timezone;
 
   const typeOfCareId = getTypeOfCare(data)?.id;
   const facilities =
-    newAppointment.facilities[`${typeOfCareId}_${data.vaFacility}`] || null;
+    newAppointment.facilities[`${typeOfCareId}_${vaFacility}`] || null;
 
   if (facilities) {
     const institutionTimezone = facilities.filter(
@@ -90,11 +98,10 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    facility: getChosenFacilityInfo(state),
     timezone,
     availableSlots,
-    availableDates: availableSlots?.map(s => s.date),
-    loadingAppointmentSlots: getNewAppointment(state).loadingAppointmentSlots,
+    availableDates,
+    loadingAppointmentSlots,
   };
 }
 

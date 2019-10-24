@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import backendServices from '../../../platform/user/profile/constants/backendServices';
 import RequiredLoginView from '../../../platform/user/authorization/components/RequiredLoginView';
-import CallHRC from '../../../platform/static-data/CallHRC';
 import DowntimeNotification, {
   externalServices,
 } from '../../../platform/monitoring/DowntimeNotification';
@@ -21,9 +20,9 @@ function AppContent({ children, isDataAvailable }) {
       <div className="row">
         <div className="small-12 columns">
           <h4>
-            We weren’t able to find information about your Post-9/11 GI Bill
-            Benefit Status. If you think you should be able to access this
-            information, please <CallHRC />
+            If none of the above situations applies to you, and you think your
+            Statement of Benefits should be here, please call the GI Bill
+            Hotline at <a href="tel:18884424551">888-442-4551</a>.
           </h4>
           <br />
         </div>

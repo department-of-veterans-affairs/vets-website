@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import CalendarWidget from './calendar/CalendarWidget';
 import moment from 'moment';
 
 class DateTimeSelectField extends Component {
+  static propTypes = {
+    formContext: PropTypes.object,
+    formData: PropTypes.object,
+    onChange: PropTypes.func,
+  };
+
   getOptionsByDate = selectedDate => {
-    const options = [];
-    const availableSlots = this.props.formContext.availableSlots;
-    for (let index = 0; index < availableSlots.length; index++) {
-      const slot = availableSlots[index];
+    const availableSlots = this.props.formContext.availableSlots || [];
+    const options = availableSlots.reduce((acc, slot) => {
       if (slot.date === selectedDate) {
-        options.push({
+        acc.push({
           value: slot.datetime,
           label: moment(slot.datetime).format('h:mm A'),
         });
       }
-    }
+      return acc;
+    }, []);
 
     return options;
   };
@@ -36,7 +41,6 @@ class DateTimeSelectField extends Component {
           required: true,
           maxSelections: 1,
           getOptionsByDate: this.getOptionsByDate,
-          legend: 'Select from the following appointment times',
         }}
         onChange={this.props.onChange}
       />

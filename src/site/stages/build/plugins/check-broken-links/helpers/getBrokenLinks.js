@@ -9,7 +9,7 @@ const _isBrokenLink = require('./isBrokenLink');
  */
 function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
   const $ = file.dom;
-  const elements = $('a, img');
+  const elements = $('a, img, script');
   const currentPath = file.path;
 
   const linkErrors = [];
@@ -27,6 +27,13 @@ function getBrokenLinks(file, allPaths, isBrokenLink = _isBrokenLink) {
       }
     } else if ($node.is('img')) {
       target = $node.attr('src') || $node.attr('data-src');
+    } else if ($node.is('script')) {
+      target = $node.attr('src');
+
+      const isInlineScript = target === undefined && !!$node.html().trim();
+      if (isInlineScript) {
+        return;
+      }
     }
 
     const isBroken = isBrokenLink(target, currentPath, allPaths);

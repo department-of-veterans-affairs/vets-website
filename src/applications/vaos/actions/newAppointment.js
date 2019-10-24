@@ -216,21 +216,20 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
         getState().newAppointment.data.clinicId,
       );
 
-      slots = response[0]?.appointmentTimeSlot;
+      slots = response[0]?.appointmentTimeSlot || [];
 
       const now = moment();
 
-      for (let index = 0; index < slots.length; index++) {
-        const slot = slots[index];
+      mappedSlots = slots.reduce((acc, slot) => {
         const dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
-
         if (dateObj.isAfter(now)) {
-          mappedSlots.push({
+          acc.push({
             date: dateObj.format('YYYY-MM-DD'),
             datetime: dateObj.format(),
           });
         }
-      }
+        return acc;
+      }, []);
 
       mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
     } catch (e) {
