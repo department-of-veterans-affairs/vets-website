@@ -88,7 +88,12 @@ function processEntryNames(buildOptions) {
         const hashedEntryName = entryNamesDictionary.get(entryName);
         const entryExists = files[hashedEntryName.slice(1)];
 
-        if (!buildOptions.watch && !entryExists) {
+        if (
+          !buildOptions.watch &&
+          !buildOptions.isPreviewServer &&
+          !buildOptions.entry &&
+          !entryExists
+        ) {
           throw new Error(`Entry Name "${entryName}" was not found.`);
         }
 
