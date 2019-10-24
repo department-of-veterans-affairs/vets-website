@@ -19,8 +19,8 @@ export const contestedIssuesDescription = (
 
 export const contestedIssuesNotesPreamble = (
   <p>
-    Now we're going to ask you some follow-up questions about the issues you're
-    requesting a Higher-Level Review. We'll go through them one by one.
+    Now we’re going to ask you some follow-up questions about the issues you’re
+    requesting a Higher-Level Review. We’ll go through them one by one.
   </p>
 );
 
@@ -50,19 +50,19 @@ export const disabilityOption = ({ name, note, ratingPercentage }) => {
 };
 
 export const disabilitiesExplanation = (
-  <AdditionalInfo triggerText="Don't see the issue you're looking for?">
+  <AdditionalInfo triggerText="Don’t see the issue you’re looking for?">
     There are several reasons your issue or decision might not appear in the
     list above:
     <ul>
       <li>
-        If we made the decision over a year ago, it's not eligible for a
+        If we made the decision over a year ago, it’s not eligible for a
         Higher-Level Review.
       </li>
       <li>
         The decision might be for another benefit type, like health care,
-        insurance, or education. Decisions for these benefit types won't appear
+        insurance, or education. Decisions for these benefit types won’t appear
         on this list. If you want to request Higher-Level Review for benefit
-        types other than compensation or pension, you'll need to fill out a{' '}
+        types other than compensation or pension, you’ll need to fill out a{' '}
         <a href="https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf">
           Decision Review Request: Higher-Level Review (VA Form 20-0996)
         </a>
@@ -70,7 +70,7 @@ export const disabilitiesExplanation = (
       </li>
       <li>
         The issue or decision might not be in our system. Please refer to your
-        decision letter about what form you'll need to submit to request a
+        decision letter about what form you’ll need to submit to request a
         Higher-Level Review.
         <p>
           <button className="usa-button-secondary btn-see-all-issues">
@@ -92,8 +92,8 @@ export const ratedDisabilitiesAlert = ({ formContext }) => {
       status="error"
       className="contested-issues-error"
       headline="Please choose a disability"
-      content={`You need to choose the rated disability you're requesting for a
-        Higher-Level Review. We can't process your request without a selected
+      content={`You need to choose the rated disability you’re requesting for a
+        Higher-Level Review. We can’t process your request without a selected
         disability.`}
     />
   );

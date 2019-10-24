@@ -86,11 +86,11 @@ class IntroductionPage extends React.Component {
             </CallToActionWidget>
             <p>
               After you click the button to start the Higher-Level Review
-              application, you'll need to opt out (withdraw) from the old
+              application, you’ll need to opt out (withdraw) from the old
               appeals process. This switch triggers us to formally withdraw your
               claim or appeal from the old appeal system and process it under
               the new system. Once you opt in to the new appeals process, the
-              decision is permanent and you can't return to the old appeals
+              decision is permanent and you can’t return to the old appeals
               process.
             </p>
             <aside className="process schemaform-process">
@@ -106,7 +106,7 @@ class IntroductionPage extends React.Component {
                   <ul>
                     <li>Primary address</li>
                     <li>Decisions that you want to be reviewed</li>
-                    <li>Representative's contact information (optional)</li>
+                    <li>Representative’s contact information (optional)</li>
                   </ul>
                   <p>
                     <strong>
