@@ -71,9 +71,9 @@ export class ConfirmedAppointmentListPage extends React.Component {
                 )}
               {status === FETCH_STATUS.succeeded &&
                 appointments.length > 0 && (
-                  <div class="vads-l-row vads-u-justify-content--flex-end">
+                  <div className="vads-l-row vads-u-justify-content--flex-end">
                     <div>{scheduleButton}</div>
-                    <div class="vads-l-row vads-u-display--block vads-u-justify-content--flex-start">
+                    <div className="vads-l-row vads-u-display--block vads-u-justify-content--flex-start">
                       <ul className="usa-unstyled-list">
                         {appointments.map(appt => (
                           <ConfirmedAppointmentListItem
