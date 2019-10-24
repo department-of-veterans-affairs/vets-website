@@ -86,11 +86,9 @@ export default class CalendarRow extends Component {
 
         return (
           <fieldset>
-            <legend
-              aria-hidden="true"
-              className="vads-u-display--none"
-              aria-describedby={additionalOptions.legend}
-            />
+            <legend className="vads-u-visibility--screen-reader">
+              {additionalOptions.legend}
+            </legend>
             <div className={cssClasses}>
               {optionsError && (
                 <span

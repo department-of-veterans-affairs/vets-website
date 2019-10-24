@@ -299,12 +299,15 @@ export default class CalendarWidget extends Component {
       .format('YYYYMM');
 
     const prevDisabled =
-      months[0].format('MMYYY') === currentDate.format('MMYYY');
+      months[0].format('YYYYMM') === currentDate.format('YYYYMM');
     const nextDisabled = nextMonthToDisplay > maxMonth;
 
     return (
       <>
-        <h2 className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif">
+        <h2
+          id={`h2-${month.format('YYYY-MM')}`}
+          className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
+        >
           {month.format('MMMM YYYY')}
         </h2>
 
@@ -335,6 +338,7 @@ export default class CalendarWidget extends Component {
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
+                  aria-describedby={`h2-${month.format('YYYY-MM')}`}
                   role="table"
                 >
                   {this.renderMonth(month, index)}
