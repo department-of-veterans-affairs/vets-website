@@ -37,7 +37,7 @@ const blackList = new Set([
   'field_office',
 ]);
 
-const pageFilter = new Set([
+const ignoredPageProps = [
   'langcode',
   'revision_timestamp',
   'revision_uuid',
@@ -48,18 +48,18 @@ const pageFilter = new Set([
   'created',
   'default_langcode',
   'revision_translation_affected',
-]);
+];
 
 function getFilterType(contentModelType) {
-  let entityFilter = new Set();
+  let ignoredProps = [];
   switch (contentModelType) {
     case 'page':
-      entityFilter = pageFilter;
+      ignoredProps = ignoredPageProps;
       break;
     default:
       break;
   }
-  return entityFilter;
+  return new Set(ignoredProps);
 }
 
 /**
