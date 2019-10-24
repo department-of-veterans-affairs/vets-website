@@ -5,23 +5,11 @@ Tome returned **4762** records.
 
 ## Missing properties in Tome:
 
-1.
+None, _I think_. 🔍
 
 ## Example GraphQL response
 
-**WARNING:** There are multiple types of `paragraph`s, here's a few:
-
-```json
-{
-  "entity": {
-    "entityType": "paragraph",
-    "entityBundle": "wysiwyg",
-    "fieldWysiwyg": {
-      "processed": "<h2>Care we provide at VA Pittsburgh</h2>\n\n<p>Our patient advocates work hard to make sure you receive the best possible care. They offer help with:</p>\n\n<ul><li>Patient concerns with the care team</li>\n\t<li>Advocating for patient and family rights</li>\n\t<li>Specialist advocacy for Former Prisoners of War, Minority Veterans, and OEF/OIF/OND transitioning Veterans</li>\n</ul>"
-    }
-  }
-}
-```
+**WARNING:** There are multiple types of `paragraph`s, here's the one that looked most similar:
 
 ```json
 {

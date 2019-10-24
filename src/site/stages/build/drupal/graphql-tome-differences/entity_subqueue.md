@@ -7,7 +7,7 @@ Tome returned **2** records.
 
 ## Missing properties in Tome:
 
-1.
+N/A
 
 ## Example GraphQL response
 

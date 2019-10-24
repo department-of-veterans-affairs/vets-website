@@ -5,11 +5,51 @@ Tome returned **64** records.
 
 ## Missing properties in Tome:
 
-1.
+If the match is with the below example GraphQL response, then there are **no missing properties in Tome**.
+
+```json
+{
+  "derivative": {
+    "url": "https://dev.cms.va.gov/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/doctor-year2019-decker-480_0.jpg?itok=p2xcTS8n",
+    "width": 480,
+    "height": 240
+  }
+}
+```
+
+Otherwise, we are missing one or more of these:
+
+`"__typename": "MetaLink",`
+
+`"__typename": "MetaValue",`
+
+`"__typename": "MetaProperty",`
+
+`"key": "image_src",`
+
+`"key": "twitter:image",`
+
+`"key": "og:image",`
+
+`"alt": "Dr. Brooke Decker",`
+
+`"title": "",`
 
 ## Example GraphQL response
 
 **WARNING:** Uncertain which is the data structure that matches the Tome data structure.
+
+**Ranked from highest confidence to lowest in regards to matching the Tome data.**
+
+```json
+{
+  "derivative": {
+    "url": "https://dev.cms.va.gov/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/doctor-year2019-decker-480_0.jpg?itok=p2xcTS8n",
+    "width": 480,
+    "height": 240
+  }
+}
+```
 
 ```json
 {
@@ -45,16 +85,6 @@ Tome returned **64** records.
       "width": 480,
       "height": 240
     }
-  }
-}
-```
-
-```json
-{
-  "derivative": {
-    "url": "https://dev.cms.va.gov/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/doctor-year2019-decker-480_0.jpg?itok=p2xcTS8n",
-    "width": 480,
-    "height": 240
   }
 }
 ```

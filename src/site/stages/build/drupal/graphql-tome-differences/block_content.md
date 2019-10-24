@@ -5,7 +5,8 @@ Tome returned **28** records.
 
 ## Missing properties in Tome:
 
-1.
+1. `"fieldLinkSummary": "Download letters like your eligibility or award letter for certain benefits."`
+1. `"url": { "path": "/records/download-va-letters" },`
 
 ## Example GraphQL response
 
