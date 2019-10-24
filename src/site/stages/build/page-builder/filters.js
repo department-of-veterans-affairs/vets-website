@@ -40,11 +40,25 @@ const ignoredPageProps = [
   'sticky',
 ];
 
+const ignoredPromoProps = [
+  'revision_created',
+  'revision_log',
+  'changed',
+  'reusable',
+  'moderation_state',
+  'field_image',
+  'field_instructions',
+  'field_owner',
+];
+
 function getFilterType(contentModelType) {
   let ignoredProps = [];
   switch (contentModelType) {
     case 'page':
       ignoredProps = ignoredPageProps;
+      break;
+    case 'promo':
+      ignoredProps = ignoredPromoProps;
       break;
     default:
       break;
