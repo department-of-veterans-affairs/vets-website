@@ -1,4 +1,4 @@
-# GraphQL response vs. Tome data by Model
+# (GraphQL response vs. Tome data) by entity
 
 [block_content](./block_content.md)
 
@@ -28,5 +28,5 @@
 
 ## Assumptions
 
-- Each model included in the Tome response **always** has the same key-value pairs for that particular model.
+- Each entity included in the Tome response **always** has the same key-value pairs for that particular entity.
   - This is `invalid`. Many of the `paragraph` instances do **not** have the same key-value pairs.

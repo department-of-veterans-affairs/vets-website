@@ -5,7 +5,9 @@ Tome returned **774** records.
 
 ## Missing properties in Tome:
 
-1.
+1. `"entityId": "1000",`
+1. We might be missing `entityUrl.breadcrumb` (found in the GraphQL response), it's not clear how that's currently derived.
+1. We might be missing `entityMetatags`, it's not clear how they are currently derived.
 
 ## Example GraphQL response
 
