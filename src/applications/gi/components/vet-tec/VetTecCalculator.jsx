@@ -73,7 +73,7 @@ export class VetTecCalculator extends React.Component {
           <div>
             <span>VA pays to provider: </span>
             <button
-              aria-label={ariaLabels.paysToProviderLearnMore}
+              aria-label={ariaLabels.learnMore.paysToProvider}
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('payToProvider')}

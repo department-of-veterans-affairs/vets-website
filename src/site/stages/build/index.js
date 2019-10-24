@@ -22,6 +22,7 @@ const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const configureAssets = require('./plugins/configure-assets');
+const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
@@ -229,6 +230,10 @@ function defaultBuild(BUILD_OPTIONS) {
    * Convert onclick event handles into nonced script tags
    */
   smith.use(addNonceToScripts, 'Add nonce to script tags');
+  smith.use(
+    processEntryNames(BUILD_OPTIONS),
+    'Process [data-entry-name] attributes into Webpack asset paths',
+  );
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');

@@ -18,8 +18,8 @@ class OnlineClassesFilter extends React.Component {
           text: 'How do you want to take classes?',
           modal: 'onlineOnlyDistanceLearning',
           showModal: this.props.showModal,
+          ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
           component: this,
-          ariaLabel: ariaLabels.housingAllowanceLearnMore,
         })}
         name="onlineClasses"
         options={[
