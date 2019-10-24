@@ -1,7 +1,9 @@
-import _, { snakeCase } from 'lodash';
+import _ from 'lodash';
+import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
+import { snakeCaseKeys } from '../utils/helpers';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -155,12 +157,10 @@ export function institutionFilterChange(filter) {
 }
 
 export function fetchInstitutionSearchResults(query = {}) {
-  const queryString = Object.keys(query).reduce((str, key) => {
-    const sep = str ? '&' : '';
-    return `${str}${sep}${snakeCase(key)}=${query[key]}`;
-  }, '');
-
-  const url = `${api.url}/institutions/search?${queryString}`;
+  const url = appendQuery(
+    `${api.url}/institution_programs/search`,
+    snakeCaseKeys(query),
+  );
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -179,12 +179,10 @@ export function fetchInstitutionSearchResults(query = {}) {
 }
 
 export function fetchProgramSearchResults(query = {}) {
-  const queryString = Object.keys(query).reduce((str, key) => {
-    const sep = str ? '&' : '';
-    return `${str}${sep}${snakeCase(key)}=${query[key]}`;
-  }, '');
-
-  const url = `${api.url}/institution_programs/search?${queryString}`;
+  const url = appendQuery(
+    `${api.url}/institution_programs/search`,
+    snakeCaseKeys(query),
+  );
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });

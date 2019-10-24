@@ -27,9 +27,8 @@ export const normalizedInstitutionAttributes = attributes => {
 };
 
 export const normalizedProgramAttributes = attributes => {
-  const description = attributes.description
-    ? attributes.description.toUpperCase()
-    : attributes.description;
+  const description =
+    attributes.description && attributes.description.toUpperCase();
   const city = attributes.city
     ? attributes.city.toUpperCase()
     : attributes.city;
