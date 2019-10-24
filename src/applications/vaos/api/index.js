@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import confirmed from './confirmed.json';
 import pending from './requests.json';
 import past from './past.json';
+import slots from './slots.json';
 
 import mockSystems from './systems.json';
 import mockFacilityData from './facilities.json';
@@ -197,4 +198,12 @@ export function getFacilityInfo(facilityId) {
   return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
     resp => resp.data,
   );
+}
+
+export function getAvailableSlots() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(slots);
+    }, 500);
+  });
 }
