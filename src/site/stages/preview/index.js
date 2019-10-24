@@ -9,7 +9,6 @@ const permalinks = require('metalsmith-permalinks');
 const registerLiquidFilters = require('../../filters/liquid');
 
 const getOptions = require('../build/options');
-const environments = require('../../constants/environments');
 const createBuildSettings = require('../build/plugins/create-build-settings');
 const updateExternalLinks = require('../build/plugins/update-external-links');
 const createEnvironmentFilter = require('../build/plugins/create-environment-filter');
@@ -18,7 +17,7 @@ const leftRailNavResetLevels = require('../build/plugins/left-rail-nav-reset-lev
 const rewriteVaDomains = require('../build/plugins/rewrite-va-domains');
 const rewriteAWSUrls = require('../build/plugins/rewrite-cms-aws-urls');
 const applyFragments = require('../build/plugins/apply-fragments');
-const addAssetHashes = require('../build/plugins/add-asset-hashes');
+const processEntryNames = require('../build/plugins/process-entry-names');
 const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 const parseHtml = require('../build/plugins/parse-html');
 const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
@@ -27,9 +26,6 @@ const injectAxeCore = require('../build/plugins/inject-axe-core');
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
   const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
-  const isDevBuild = [environments.LOCALHOST, environments.VAGOVDEV].includes(
-    BUILD_OPTIONS.buildtype,
-  );
 
   registerLiquidFilters();
 
@@ -142,16 +138,11 @@ async function createPipeline(options) {
   Convert onclick event handles into nonced script tags
   */
   smith.use(addNonceToScripts);
+  smith.use(processEntryNames(BUILD_OPTIONS));
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
   smith.use(injectAxeCore(BUILD_OPTIONS));
   smith.use(replaceContentsWithDom);
-
-  // For prod builds, we need to add asset hashes, but since this is a live
-  // request, we're not doing a webpack build.
-  if (!isDevBuild) {
-    smith.use(addAssetHashes(true));
-  }
 
   return smith;
 }
