@@ -60,7 +60,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             >
               <span>Preferred Provider </span>
               <button
-                aria-label={ariaLabels.preferredProviderLearnMore}
+                aria-label={ariaLabels.learnMore.preferredProvider}
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={() => showModal('preferredProviders')}
