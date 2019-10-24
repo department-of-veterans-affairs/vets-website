@@ -24,7 +24,7 @@ export async function getData(apiRoute, options) {
   }
 }
 
-function hasErrorMessage(errors, errorKey, errorText) {
+const hasErrorMessage = (errors, errorKey, errorText) => {
   if (errorText) {
     return errors.some(err =>
       err.meta.messages.some(
@@ -37,62 +37,33 @@ function hasErrorMessage(errors, errorKey, errorText) {
   return errors.some(err =>
     err.meta.messages.some(message => message.key === errorKey),
   );
-}
+};
 
-export function hasFlaggedForFraudError(errors) {
-  return (
-    hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
-    hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
-    hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY)
-  );
-}
+export const hasFlaggedForFraudError = errors =>
+  hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
+  hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
+  hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY);
 
-export function hasInvalidRoutingNumberError(errors) {
-  let result = false;
-  if (hasErrorMessage(errors, INVALID_ROUTING_NUMBER_KEY)) {
-    result = true;
-  }
-  if (hasErrorMessage(errors, GENERIC_ERROR_KEY, 'Invalid Routing Number')) {
-    result = true;
-  }
-  return result;
-}
+export const hasInvalidRoutingNumberError = errors =>
+  hasErrorMessage(errors, INVALID_ROUTING_NUMBER_KEY) ||
+  hasErrorMessage(errors, GENERIC_ERROR_KEY, 'Invalid Routing Number');
 
-export function hasInvalidAddressError(errors) {
-  let result = false;
-  if (hasErrorMessage(errors, GENERIC_ERROR_KEY, 'address update')) {
-    result = true;
-  }
-  return result;
-}
+export const hasInvalidAddressError = errors =>
+  hasErrorMessage(errors, GENERIC_ERROR_KEY, 'address update');
 
-export function hasInvalidHomePhoneNumberError(errors) {
-  let result = false;
-  if (
-    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'night phone number') ||
-    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'night area number')
-  ) {
-    result = true;
-  }
-  return result;
-}
+export const hasInvalidHomePhoneNumberError = errors =>
+  hasErrorMessage(errors, GENERIC_ERROR_KEY, 'night phone number') ||
+  hasErrorMessage(errors, GENERIC_ERROR_KEY, 'night area number');
 
-export function hasInvalidWorkPhoneNumberError(errors) {
-  let result = false;
-  if (
-    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day phone number') ||
-    hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day area number')
-  ) {
-    result = true;
-  }
-  return result;
-}
+export const hasInvalidWorkPhoneNumberError = errors =>
+  hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day phone number') ||
+  hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day area number');
 
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an errors occurs while trying to save/update a user's direct
 // deposit payment information. The value of the `error-key` prop will change
 // depending on the content of the `errors` array.
-export function createDirectDepositAnalyticsDataObject(errors) {
+export const createDirectDepositAnalyticsDataObject = errors => {
   const key = 'error-key';
   const eventDataObject = {
     event: 'profile-edit-failure',
@@ -110,4 +81,4 @@ export function createDirectDepositAnalyticsDataObject(errors) {
     }
   }
   return eventDataObject;
-}
+};
