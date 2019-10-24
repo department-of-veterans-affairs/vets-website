@@ -24,7 +24,7 @@
 
 [~~taxonomy_term~~ (not used)](./taxonomy_term.md)
 
-[user](./user.md)
+[~~user~~ (not used)](./user.md)
 
 ## Assumptions
 
