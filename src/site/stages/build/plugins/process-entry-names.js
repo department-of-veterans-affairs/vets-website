@@ -90,10 +90,9 @@ function processEntryNames(buildOptions) {
 
         if (!buildOptions.watch && !entryExists) {
           throw new Error(`Entry Name "${entryName}" was not found.`);
-        } else {
-          $el.attr(attribute, hashedEntryName);
         }
 
+        $el.attr(attribute, hashedEntryName);
         file.modified = true;
       });
     }
