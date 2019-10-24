@@ -86,8 +86,13 @@ function processEntryNames(buildOptions) {
         const entryName = $el.data('entryName');
         const attribute = $el.is('script') ? 'src' : 'href';
         const hashedEntryName = entryNamesDictionary.get(entryName);
+        const entryExists = files[hashedEntryName.slice(1)];
 
-        $el.attr(attribute, hashedEntryName);
+        if (!buildOptions.watch && !entryExists) {
+          throw new Error(`Entry Name "${entryName}" was not found.`);
+        } else {
+          $el.attr(attribute, hashedEntryName);
+        }
 
         file.modified = true;
       });
