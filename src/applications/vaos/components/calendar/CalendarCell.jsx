@@ -11,10 +11,9 @@ const CalendarCell = ({
 }) => {
   if (date === null) {
     return (
-      <div
-        role="cell"
-        className="vaos-calendar__calendar-day vads-u-visibility--hidden"
-      />
+      <div role="cell" className="vaos-calendar__calendar-day">
+        <button className=" vads-u-visibility--hidden" />
+      </div>
     );
   }
 
