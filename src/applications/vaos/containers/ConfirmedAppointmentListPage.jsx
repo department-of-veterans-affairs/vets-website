@@ -18,7 +18,11 @@ export class ConfirmedAppointmentListPage extends React.Component {
     const { appointments, status } = this.props;
     const scheduleButton = (
       <Link to="new-appointment">
-        <button type="button" className="usa-button" name="newAppointment">
+        <button
+          type="button"
+          className="usa-button vads-u-margin-x--0 vads-u-margin-bottom--1p5"
+          name="newAppointment"
+        >
           Schedule an appointment
         </button>
       </Link>
