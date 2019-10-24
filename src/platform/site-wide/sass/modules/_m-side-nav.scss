@@ -45,6 +45,21 @@
     margin: 10px 23px;
   }
 
+  .va-sidenav-item-label-text {
+    background: none;
+    border-radius: none;
+    color: $color-gray-dark;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
   .va-sidenav-toggle-expand {
     align-items: center;
     background: $color-gray-lightest;

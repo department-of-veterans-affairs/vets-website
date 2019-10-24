@@ -24,21 +24,28 @@ import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
 export class LandingPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchError: false,
+    };
+  }
   componentDidMount() {
     this.props.setPageTitle(`GI Bill® Comparison Tool: VA.gov`);
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.handleFilterChange('name', this.props.autocomplete.searchTerm);
+    this.handleFilterChange(this.props.autocomplete.searchTerm);
   };
 
-  handleFilterChange = (field, value) => {
+  handleFilterChange = value => {
     // Only search upon blur, keyUp, suggestion selection
     // if the search term is not empty.
-    if (isVetTecSelected(this.props.filters)) {
-      this.search(value);
-    } else if (value) {
+    this.setState({
+      searchError: !(isVetTecSelected(this.props.filters) || value),
+    });
+    if (isVetTecSelected(this.props.filters) || value) {
       this.search(value);
     }
   };
@@ -111,6 +118,12 @@ export class LandingPage extends React.Component {
     this.props.eligibilityChange(e);
   };
 
+  validateSearchQuery = searchQuery => {
+    this.setState({
+      searchError: searchQuery === '',
+    });
+  };
+
   render() {
     return (
       <span className="landing-page">
@@ -153,6 +166,8 @@ export class LandingPage extends React.Component {
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm
                   }
+                  searchError={this.state.searchError}
+                  validateSearchQuery={this.validateSearchQuery}
                 />
               )}
               <button
