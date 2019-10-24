@@ -99,7 +99,7 @@ class ReceiveTextMessages extends React.Component {
             label={
               <span>
                 Please check the box if you want to receive text message (SMS)
-                reminders for my VA health care appointments
+                reminders for your VA health care appointments.
               </span>
             }
             onValueChange={this.onChange}
