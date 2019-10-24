@@ -61,14 +61,22 @@ module.exports = env => {
   const buildOptions = Object.assign(
     {},
     {
-      buildtype: 'localhost',
       api: '',
+      buildtype: 'localhost',
+      host: 'localhost',
+      port: 3001,
+      watch: false,
     },
     env,
   );
   // Assign additional defaults which reference other properties
   Object.assign(buildOptions, {
-    destination: path.resolve('../', 'build', buildOptions.buildtype),
+    destination: path.resolve(
+      __dirname,
+      '../',
+      'build',
+      buildOptions.buildtype,
+    ),
   });
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
@@ -222,6 +230,21 @@ module.exports = env => {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
+    devServer: {
+      contentBase: path.join(__dirname, `../build/${buildOptions.buildtype}`),
+      port: buildOptions.port,
+      host: buildOptions.host,
+      stats: {
+        assets: false,
+        builtAt: true,
+        children: false,
+        chunks: false,
+        colors: true,
+        entrypoints: false,
+        hash: false,
+        modules: false,
+      },
+    },
   };
 
   if (!buildOptions.watch) {
