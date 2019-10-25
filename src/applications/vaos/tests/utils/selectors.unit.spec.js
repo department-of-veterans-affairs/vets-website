@@ -11,7 +11,6 @@ import {
   getDateTimeSelect,
   getReasonForAppointment,
 } from '../../utils/selectors';
-import { REASON_MAX_CHAR_DEFAULT } from '../../actions/newAppointment';
 
 describe('VAOS selectors', () => {
   describe('selectPendingAppointment', () => {
