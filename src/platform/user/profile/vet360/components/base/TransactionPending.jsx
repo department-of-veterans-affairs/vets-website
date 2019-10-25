@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
 
-export default class Vet360TransactionPending extends React.Component {
+import { profileShowNotifications } from '../../selectors';
+
+class Vet360TransactionPending extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     refreshTransaction: PropTypes.func.isRequired,
@@ -61,3 +64,14 @@ export default class Vet360TransactionPending extends React.Component {
     );
   }
 }
+
+export function mapStateToProps(state) {
+  return {
+    showNotifications: profileShowNotifications(state),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Vet360TransactionPending);

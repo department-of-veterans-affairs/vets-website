@@ -6,6 +6,13 @@ import { isVet360Configured } from './util/local-vet360';
 
 import { isFailedTransaction, isPendingTransaction } from './util/transactions';
 
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
+export const profileShowNotifications = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.profileShowNotifications];
+
 export function selectIsVet360AvailableForUser(state) {
   if (!isVet360Configured()) return true; // returns true if on localhost
   return state.user.profile.services.includes(backendServices.VET360);

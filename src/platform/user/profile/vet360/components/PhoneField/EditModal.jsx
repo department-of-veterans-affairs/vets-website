@@ -11,9 +11,9 @@ import Vet360EditModal from '../base/EditModal';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
-import environment from 'platform/utilities/environment';
-
 import { FIELD_NAMES } from '../../constants';
+
+import { profileShowNotifications } from '../../selectors';
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
@@ -39,7 +39,7 @@ class PhoneTextInput extends ErrorableTextInput {
 class ReceiveTextMessagesCheckbox extends ErrorableCheckbox {
   render() {
     const showCheckbox =
-      !environment.isProduction() &&
+      this.props.showNotifications &&
       this.props.isEnrolledInVAHealthCare &&
       this.props.isTextable;
     return showCheckbox ? <ErrorableCheckbox {...this.props} /> : null;
@@ -139,6 +139,7 @@ export function mapStateToProps(state, ownProps) {
   return {
     fieldName,
     isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
+    showNotifications: profileShowNotifications(state),
   };
 }
 
