@@ -30,6 +30,7 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+  FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
 } from '../actions/newAppointment';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -370,6 +371,12 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR: {
+      return {
+        ...state,
+        reasonRemainingChar: action.remainingCharacters,
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {

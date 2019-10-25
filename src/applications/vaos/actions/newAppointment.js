@@ -37,6 +37,10 @@ export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
+export const FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR =
+  'newAppointment/FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR';
+
+export const REASON_MAX_CHAR_DEFAULT = 150;
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -176,6 +180,25 @@ export function updateFacilityPageData(page, uiSchema, data) {
   };
 }
 
+export function updateReasonForAppointmentData(page, uiSchema, data) {
+  return async dispatch => {
+    let additionalInfo = data.reasonAdditionalInfo || '';
+
+    // Max length for reason
+    const maxTextAreaLength =
+      REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
+    additionalInfo = additionalInfo.substr(0, maxTextAreaLength);
+
+    const remainingCharacters = maxTextAreaLength - additionalInfo.length;
+    dispatch({
+      type: FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+      remainingCharacters,
+    });
+
+    dispatch(updateFormData(page, uiSchema, { ...data, additionalInfo }));
+  };
+}
+
 export function openClinicPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     let facilityDetails;
@@ -245,6 +268,16 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
     });
   };
 }
+
+// export function submitDirectSchedule(page, uiSchema, schema) {
+//   // TODO: combine reason for appointment
+//   // TODO: parse selected date
+// }
+
+// export function submitAppointmentRequest(page, uiSchema, schema) {
+//   // TODO: combine reason for appointment
+//   // TODO: parse selected date into options
+// }
 
 export function routeToPageInFlow(flow, router, current, action) {
   return async (dispatch, getState) => {
