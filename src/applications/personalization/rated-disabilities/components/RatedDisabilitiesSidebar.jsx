@@ -10,7 +10,13 @@ const RatedDisabilitiesSidebar = () => (
         Your total disability rating is based on evidence you provide, the
         results of your VA claim exam, and information from other sources.
       </p>
-      <a href="#">Compensation 101: How did I get this rating (Youtube)</a>
+      <a
+        href="https://www.youtube.com/watch?v=oM7oYzL2DCg"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Compensation 101: How did I get this rating (YouTube)
+      </a>
     </div>
 
     <div className="vads-u-margin-top--2p5">

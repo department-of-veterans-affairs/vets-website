@@ -76,7 +76,7 @@ const TotalRatedDisabilities = props => {
                 <strong>
                   Your combined disability rating is {totalDisabilityRating}%
                 </strong>
-                . This rating does not include disabilities for your claims that
+                . This rating doesn't include disabilities for your claims that
                 are still pending. You can check the status of your disability
                 claims or appeals with the Claim Status tool.
               </p>
