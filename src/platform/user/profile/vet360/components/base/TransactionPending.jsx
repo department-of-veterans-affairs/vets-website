@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import environment from 'platform/utilities/environment';
-
 import { profileShowNotifications } from '../../selectors';
 
 class Vet360TransactionPending extends React.Component {
@@ -33,7 +31,7 @@ class Vet360TransactionPending extends React.Component {
     );
 
     if (
-      !environment.isProduction() &&
+      this.props.showNotifications &&
       this.props.title.toLowerCase() === 'mobile phone number'
     ) {
       content = (

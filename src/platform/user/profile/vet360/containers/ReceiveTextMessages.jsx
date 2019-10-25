@@ -131,7 +131,7 @@ export function mapStateToProps(state, ownProps) {
     profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
   const isVerified = showNotifications && profileState.verified;
   const hideCheckbox =
-    showNotifications ||
+    !showNotifications ||
     isEmpty ||
     !isTextable ||
     !isEnrolledInVAHealthCare(state) ||

@@ -113,6 +113,7 @@ class PhoneEditModal extends React.Component {
       />
 
       <ReceiveTextMessagesCheckbox
+        showNotifications={this.props.showNotifications}
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
         isTextable={this.props.fieldName === FIELD_NAMES.MOBILE_PHONE}
         label="Send me text message (SMS) reminders for my VA health care appointments"
@@ -138,8 +139,8 @@ export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
   return {
     fieldName,
-    isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
     showNotifications: profileShowNotifications(state),
+    isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
   };
 }
 
