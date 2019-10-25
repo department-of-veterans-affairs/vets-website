@@ -32,7 +32,6 @@ const blackList = new Set([
 const ignoredPageProps = [
   'uuid',
   'revision_timestamp',
-  'revision_uuid',
   'revision_log',
   'field_plainlanguage_date',
   'promote',
