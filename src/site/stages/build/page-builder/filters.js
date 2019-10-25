@@ -51,10 +51,32 @@ const ignoredPromoProps = [
   'field_owner',
 ];
 
+const ignoredParagraphProps = ['behavior_settings', 'created'];
+
+/* eslint-disable camelcase */
 const ignoreMap = {
   page: ignoredPageProps,
   promo: ignoredPromoProps,
+  alert: ignoredParagraphProps,
+  collapsible_panel: ignoredParagraphProps,
+  collapsible_panel_item: ignoredParagraphProps,
+  downloadable_file: ignoredParagraphProps,
+  expandable_text: ignoredParagraphProps,
+  health_care_local_facility_servi: ignoredParagraphProps,
+  link_teaser: ignoredParagraphProps,
+  list_of_link_teasers: ignoredParagraphProps,
+  media: ignoredParagraphProps,
+  number_callout: ignoredParagraphProps,
+  process: ignoredParagraphProps,
+  q_a: ignoredParagraphProps,
+  q_a_section: ignoredParagraphProps,
+  react_widget: ignoredParagraphProps,
+  spanish_translation_summary: ignoredParagraphProps,
+  staff_profile: ignoredParagraphProps,
+  table: ignoredParagraphProps,
+  wysiwyg: ignoredParagraphProps,
 };
+/* eslint-enable camelcase */
 
 function getFilterType(contentModelType) {
   return new Set(ignoreMap[contentModelType]);
