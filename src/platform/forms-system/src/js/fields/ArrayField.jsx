@@ -310,6 +310,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 className="float-left"
                                 onClick={() => this.handleUpdate(index)}
+                                aria-label={`Update ${title}`}
                               >
                                 Update
                               </button>
