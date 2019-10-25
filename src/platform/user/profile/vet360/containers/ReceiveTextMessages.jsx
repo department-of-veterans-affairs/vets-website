@@ -55,12 +55,13 @@ class ReceiveTextMessages extends React.Component {
     const payload = this.props.profile.vet360.mobilePhone;
     payload.isTextPermitted = event;
     const method = payload.id ? 'PUT' : 'POST';
+    const smsAction = payload.isTextPermitted ? 'smsOptin' : 'smsOptout';
     this.props.createTransaction(
       this.props.apiRoute,
       method,
       this.props.fieldName,
       payload,
-      this.props.analyticsSectionName,
+      VET360.ANALYTICS_FIELD_MAP[smsAction],
     );
   };
 
@@ -97,8 +98,8 @@ class ReceiveTextMessages extends React.Component {
             checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
             label={
               <span>
-                Send me text message (SMS) reminders for my VA health care
-                appointments
+                Please check the box if you want to receive text message (SMS)
+                reminders for your VA health care appointments.
               </span>
             }
             onValueChange={this.onChange}
@@ -142,7 +143,6 @@ export function mapStateToProps(state, ownProps) {
     isVerified,
     transaction,
     transactionSuccess,
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     apiRoute: VET360.API_ROUTES.TELEPHONES,
   };
 }

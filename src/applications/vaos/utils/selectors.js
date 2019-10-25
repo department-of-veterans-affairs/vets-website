@@ -5,6 +5,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
 } from './constants';
+import moment from './moment-tz';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -62,6 +63,46 @@ export function getChosenFacilityInfo(state) {
       facility => facility.institution.institutionCode === data.vaFacility,
     ) || null
   );
+}
+
+export function getDateTimeSelect(state, pageKey) {
+  const newAppointment = getNewAppointment(state);
+  const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
+  const data = getFormData(state);
+  const formInfo = getFormPageInfo(state, pageKey);
+  const availableSlots = newAppointment.availableSlots;
+
+  const availableDates = availableSlots?.reduce((acc, s) => {
+    if (!acc.includes(s.date)) {
+      acc.push(s.date);
+    }
+    return acc;
+  }, []);
+  const vaFacility = data.vaFacility;
+  let timezone;
+
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  const facilities =
+    newAppointment.facilities[`${typeOfCareId}_${vaFacility}`] || null;
+
+  if (facilities) {
+    const institutionTimezone = facilities.filter(
+      f => f.institution?.institutionCode === vaFacility,
+    )[0]?.institutionTimezone;
+
+    if (institutionTimezone) {
+      const now = moment();
+      timezone = now.tz(institutionTimezone).format('z');
+    }
+  }
+
+  return {
+    ...formInfo,
+    timezone,
+    availableSlots,
+    availableDates,
+    loadingAppointmentSlots,
+  };
 }
 
 export function hasSingleValidVALocation(state) {

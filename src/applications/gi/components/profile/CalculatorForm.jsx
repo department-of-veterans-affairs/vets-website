@@ -14,6 +14,7 @@ import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
 import recordEvent from 'platform/monitoring/record-event';
+import { ariaLabels } from '../../constants';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -144,13 +145,14 @@ class CalculatorForm extends React.Component {
     }
   };
 
-  renderLearnMoreLabel = ({ text, modal }) => (
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
     <span>
       {text} (
       <button
         type="button"
         className="va-button-link learn-more-button"
         onClick={this.props.onShowModal.bind(this, modal)}
+        aria-label={ariaLabel || ''}
       >
         Learn more
       </button>
@@ -182,6 +184,7 @@ class CalculatorForm extends React.Component {
             text:
               'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
             modal: 'whenUsedGiBill',
+            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
           })}
           name="giBillBenefit"
           options={[
@@ -205,6 +208,7 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'In-state tuition and fees per year',
             modal: 'calcInStateTuition',
+            ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
           })}
         </label>
         <input
@@ -227,6 +231,7 @@ class CalculatorForm extends React.Component {
           type="button"
           className="va-button-link learn-more-button vads-u-margin-left--0p5"
           onClick={this.props.onShowModal.bind(this, 'calcTuition')}
+          aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
         >
           (Learn more)
         </button>
@@ -287,6 +292,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
             modal: 'calcYr',
+            ariaLabel: ariaLabels.learnMore.yellowRibbonProgram,
           })}
           name="yellowRibbonRecipient"
           options={[
@@ -363,6 +369,7 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'Scholarships (excluding Pell)',
             modal: 'calcScholarships',
+            ariaLabel: ariaLabels.learnMore.calcScholarships,
           })}
         </label>
         <input
@@ -440,6 +447,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Enrolled',
             modal: 'calcEnrolled',
+            ariaLabel: ariaLabels.learnMore.calcEnrolled,
           })}
           name={name}
           alt="Enrolled"
@@ -505,6 +513,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'School Calendar',
             modal: 'calcSchoolCalendar',
+            ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
           })}
           name="calendar"
           alt="School calendar"
@@ -549,6 +558,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
             modal: 'calcKicker',
+            ariaLabel: ariaLabels.learnMore.kickerEligible,
           })}
           name="kickerEligible"
           options={[
@@ -674,8 +684,6 @@ class CalculatorForm extends React.Component {
             <span>
               {'Where will you take the majority of your classes? '}
               <button
-                aria-live="polite"
-                aria-atomic="true"
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={onShowModal.bind(
@@ -752,6 +760,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will be working',
             modal: 'calcWorking',
+            ariaLabel: ariaLabels.learnMore.calcWorking,
           })}
           name="working"
           alt="Will be working"
@@ -791,7 +800,7 @@ class CalculatorForm extends React.Component {
   render() {
     if (!this.props.displayedInputs) return null;
     return (
-      <div className="calculator-form">
+      <div className="calculator-form" role="dialog">
         {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}

@@ -95,7 +95,6 @@ function applyDefaultOptions(options) {
     },
     layouts,
     collections: require('./data/collections.json'),
-    redirects: require('./data/vagovRedirects.json'),
     watchPaths: {
       [`${contentRoot}/**/*`]: '**/*.{md,html}',
       [`${includes}/**/*`]: '**/*.{md,html}',

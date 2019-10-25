@@ -65,8 +65,8 @@ function generateHeadingIds() {
                   <a href="#${heading.attr(
                     'id',
                   )}" onClick="recordEvent({ event: 'nav-jumplink-click' });"
-              class="vads-u-text-decoration--none">
-                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-right--1"></i>
+              class="vads-u-display--flex vads-u-text-decoration--none">
+                    <i class="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"></i>
                     ${heading.text()}
                   </a>
                 </li>`,
