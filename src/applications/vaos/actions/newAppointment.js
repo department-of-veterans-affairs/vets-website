@@ -270,13 +270,13 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 }
 
 // export function submitDirectSchedule(page, uiSchema, schema) {
-//   // TODO: combine reason for appointment
+//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
 //   // TODO: parse selected date
 // }
 
 // export function submitAppointmentRequest(page, uiSchema, schema) {
-//   // TODO: combine reason for appointment
-//   // TODO: parse selected date into options
+//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
+//   // TODO: parse selected date into optionTime
 // }
 
 export function routeToPageInFlow(flow, router, current, action) {
