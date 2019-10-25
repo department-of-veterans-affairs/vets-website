@@ -182,20 +182,20 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
 export function updateReasonForAppointmentData(page, uiSchema, data) {
   return async dispatch => {
-    let additionalInfo = data.reasonAdditionalInfo || '';
+    let reasonAdditionalInfo = data.reasonAdditionalInfo || '';
 
     // Max length for reason
     const maxTextAreaLength =
       REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
-    additionalInfo = additionalInfo.substr(0, maxTextAreaLength);
+    reasonAdditionalInfo = reasonAdditionalInfo.substr(0, maxTextAreaLength);
 
-    const remainingCharacters = maxTextAreaLength - additionalInfo.length;
+    const remainingCharacters = maxTextAreaLength - reasonAdditionalInfo.length;
     dispatch({
       type: FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
       remainingCharacters,
     });
 
-    dispatch(updateFormData(page, uiSchema, { ...data, additionalInfo }));
+    dispatch(updateFormData(page, uiSchema, { ...data, reasonAdditionalInfo }));
   };
 }
 
