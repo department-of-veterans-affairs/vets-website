@@ -58,6 +58,37 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
+/**
+ * The dev server requires settings.js for building the
+ * redirects. This loads the settings for use in the watch commands.
+ *
+ * This does NOT recreate the full settings like
+ * create-build-settings.js does. This is currently only meant to fill
+ * out the URL rewrites for the webpack-dev-server.
+ *
+ * @return {Object} settings
+ */
+function getSettings() {
+  const settings = {};
+  const manifests = getAppManifests(path.join(__dirname, '../'));
+  settings.applications = manifests
+    .map(
+      m =>
+        // Some manifests don't have a rootUrl
+        m.rootUrl && {
+          contentProps: [
+            {
+              path: path.join('.', m.rootUrl),
+            },
+          ],
+        },
+    )
+    // Filter out empty entries
+    .filter(a => !!a);
+
+  return settings;
+}
+
 module.exports = env => {
   const buildOptions = Object.assign(
     {},
@@ -79,6 +110,8 @@ module.exports = env => {
       buildOptions.buildtype,
     ),
   });
+  buildOptions.settings = getSettings();
+
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [
