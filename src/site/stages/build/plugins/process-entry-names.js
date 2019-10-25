@@ -87,11 +87,8 @@ function processEntryNames(buildOptions) {
         const entryName = $el.data('entryName');
         const attribute = $el.is('script') ? 'src' : 'href';
 
-        // Derive the hashed entry name and make sure it exists.
-        const hashedEntryName = entryNamesDictionary.get(entryName);
-        if (!hashedEntryName) {
-          throw new Error(`Entry Name "${entryName}" was not found.`);
-        }
+        // Derive the hashed entry name.
+        const hashedEntryName = entryNamesDictionary.get(entryName) || [];
 
         // Ensure we have valid options and that the entry exists.
         const entryExists = files[hashedEntryName.slice(1)];
