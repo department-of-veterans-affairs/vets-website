@@ -87,7 +87,8 @@ export default class CalendarRow extends Component {
         return (
           <fieldset>
             <legend className="vads-u-visibility--screen-reader">
-              {additionalOptions.legend}
+              {additionalOptions.legend ||
+                'Please select an option for this date'}
             </legend>
             <div className={cssClasses}>
               {optionsError && (
