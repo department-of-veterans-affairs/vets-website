@@ -15,7 +15,8 @@ export const selectVet360EmailAddress = state =>
 const createPhoneNumberStringFromData = (phoneNumberData = {}) => {
   const areaCode = phoneNumberData.areaCode || '';
   const phoneNumber = phoneNumberData.phoneNumber || '';
-  // in some test data the extension is set to '0000'
+  // in some test data the extension is set to '0000' and we want to treat that
+  // as a null extension
   const extension =
     phoneNumberData.extension === '0000'
       ? undefined
