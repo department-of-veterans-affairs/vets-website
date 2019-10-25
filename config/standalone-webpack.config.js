@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const BUCKETS = require('../src/site/constants/buckets');
+const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const {
   getAppManifests,
@@ -230,21 +231,7 @@ module.exports = env => {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
-    devServer: {
-      contentBase: path.join(__dirname, `../build/${buildOptions.buildtype}`),
-      port: buildOptions.port,
-      host: buildOptions.host,
-      stats: {
-        assets: false,
-        builtAt: true,
-        children: false,
-        chunks: false,
-        colors: true,
-        entrypoints: false,
-        hash: false,
-        modules: false,
-      },
-    },
+    devServer: generateWebpackDevConfig(buildOptions),
   };
 
   if (!buildOptions.watch) {
