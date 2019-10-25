@@ -153,5 +153,33 @@ describe('profile utils', () => {
       ];
       expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
     });
+
+    it('should return false with multiple errors with text not matching desired error conditions', () => {
+      const errors = [
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.generic.error.message',
+                severity: 'ERROR',
+                text: "some error we don't know about",
+              },
+              {
+                key: 'unknown.key',
+                severity: 'ERROR',
+                text:
+                  'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
+              },
+            ],
+          },
+        },
+      ];
+      expect(hasInvalidHomePhoneNumberError(errors)).to.equal(false);
+    });
   });
 });
