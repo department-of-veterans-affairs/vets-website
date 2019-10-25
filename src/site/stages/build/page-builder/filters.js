@@ -2,6 +2,7 @@
  * When reading through entity properties, ignore these.
  */
 const blackList = new Set([
+  'uuid',
   'type',
   'revision_uid',
   'revision_user',
@@ -30,7 +31,6 @@ const blackList = new Set([
 ]);
 
 const ignoredPageProps = [
-  'uuid',
   'revision_timestamp',
   'revision_log',
   'field_plainlanguage_date',
