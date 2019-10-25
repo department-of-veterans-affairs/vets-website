@@ -85,49 +85,55 @@ export default class CalendarRow extends Component {
         );
 
         return (
-          <div className={cssClasses}>
-            {optionsError && (
-              <span
-                className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
-                role="alert"
-              >
-                <span className="sr-only">Error</span> {optionsError}
-              </span>
-            )}
-            {selectedDateOptions.map((o, index) => {
-              const dateObj = {
-                date: currentlySelectedDate,
-                [fieldName]: o.value,
-              };
-              const checked = isDateOptionPairInSelectedArray(
-                dateObj,
-                selectedDates,
-                fieldName,
-              );
+          <fieldset>
+            <legend className="vads-u-visibility--screen-reader">
+              {additionalOptions.legend ||
+                'Please select an option for this date'}
+            </legend>
+            <div className={cssClasses}>
+              {optionsError && (
+                <span
+                  className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
+                  role="alert"
+                >
+                  <span className="sr-only">Error</span> {optionsError}
+                </span>
+              )}
+              {selectedDateOptions.map((o, index) => {
+                const dateObj = {
+                  date: currentlySelectedDate,
+                  [fieldName]: o.value,
+                };
+                const checked = isDateOptionPairInSelectedArray(
+                  dateObj,
+                  selectedDates,
+                  fieldName,
+                );
 
-              return additionalOptions?.maxSelections > 1 ? (
-                <CalendarCheckboxOption
-                  key={`checkbox-${index}`}
-                  index={index}
-                  fieldName={fieldName}
-                  value={o.value}
-                  checked={checked}
-                  onChange={() => handleSelectOption(dateObj)}
-                  label={o.label}
-                />
-              ) : (
-                <CalendarRadioOption
-                  key={`radio-${index}`}
-                  index={index}
-                  fieldName={fieldName}
-                  value={o.value}
-                  checked={checked}
-                  onChange={() => handleSelectOption(dateObj)}
-                  label={o.label}
-                />
-              );
-            })}
-          </div>
+                return additionalOptions?.maxSelections > 1 ? (
+                  <CalendarCheckboxOption
+                    key={`checkbox-${index}`}
+                    index={index}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                  />
+                ) : (
+                  <CalendarRadioOption
+                    key={`radio-${index}`}
+                    index={index}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                  />
+                );
+              })}
+            </div>
+          </fieldset>
         );
       }
       return null;
@@ -146,7 +152,10 @@ export default class CalendarRow extends Component {
 
     return (
       <div>
-        <div className="vaos-calendar__calendar-week vads-u-display--flex vads-u-justify-content--space-between">
+        <div
+          className="vaos-calendar__calendar-week vads-u-display--flex vads-u-justify-content--space-between"
+          role="row"
+        >
           {cells.map((date, index) => (
             <CalendarCell
               key={`row-${rowNumber}-cell-${index}`}

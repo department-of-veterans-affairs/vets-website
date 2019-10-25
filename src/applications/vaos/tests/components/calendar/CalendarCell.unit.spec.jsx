@@ -16,8 +16,8 @@ describe('VAOS <CalendarCell>', () => {
     );
     const cell = tree.find('button#date-cell-2018-10-04');
     expect(cell.length).to.equal(1);
-    expect(cell.hasClass('vaos-calendar__cell-current')).to.equal(true);
-    expect(cell.hasClass('vaos-calendar__cell-selected')).to.equal(true);
+    expect(tree.find('.vaos-calendar__cell-current').length).to.equal(1);
+    expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(1);
     expect(cell.text()).to.equal('4');
     tree.unmount();
   });
@@ -25,8 +25,8 @@ describe('VAOS <CalendarCell>', () => {
   it('should render differently if disabled', () => {
     const tree = shallow(<CalendarCell date="2018-10-04" disabled />);
     const cell = tree.find('button#date-cell-2018-10-04');
-    expect(cell.hasClass('vaos-calendar__cell-current')).to.equal(false);
-    expect(cell.hasClass('vaos-calendar__cell-selected')).to.equal(false);
+    expect(tree.find('.vaos-calendar__cell-current').length).to.equal(0);
+    expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(0);
     expect(cell.props().disabled).to.equal(true);
     tree.unmount();
   });
