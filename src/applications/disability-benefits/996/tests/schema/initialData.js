@@ -61,26 +61,30 @@ export default {
     contestedIssues: [
       {
         name: 'Tinnitus',
-        note: 'Rinnging in the ears. More intese in right ear.',
+        description: `Rinnging in the ears. More intese in right ear. Lorem
+          ipsum dolor sit amet, consectetur adipiscing elit.`,
         ratedDisabilityId: '0',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
-        decisionCode: 'SVCCONNCTED',
-        decisionText: 'Service Connected',
         ratingPercentage: 10,
-        disabilityActionType: 'NONE',
-        'view:selected': false,
+        useSameOffice: true,
+        additionalNote: `Lorem ipsum dolor sit amet, consectetur adipiscing
+          elit. Nam finibus pulvinar erat, ac luctus felis porttitor eget.
+          Aenean luctus urna libero, tincidunt mollis ante cursus sed. Fusce a
+          vehicula est, eget dignissim purus. Vestibulum quis placerat sapien.
+          Vestibulum gravida libero quis lectus auctor, ut vehicula turpis
+          maximus. Donec ultrices eu orci tincidunt elementum. Phasellus eros
+          eros, ornare vel urna ut, luctus maximus nisl. Integer consectetur mi
+          eu diam consectetur, vitae imperdiet nulla iaculis.`,
+        'view:selected': true,
       },
       {
         name: 'Headaches',
-        note: 'Acute chronic head pain',
+        description: 'Acute chronic head pain',
         ratedDisabilityId: '1',
         ratingDecisionId: '63655',
         diagnosticCode: 5238,
-        decisionCode: 'SVCCONNCTED',
-        decisionText: 'Service Connected',
         ratingPercentage: 50,
-        disabilityActionType: 'NONE',
         'view:selected': false,
       },
     ],

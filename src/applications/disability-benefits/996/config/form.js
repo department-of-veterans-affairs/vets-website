@@ -21,7 +21,7 @@ import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 import contactInfo from '../pages/contactInformation';
 import contestedIssues from '../pages/contestedIssues';
 
-import { contestedIssuesNotesPreamble } from '../content/contestedIssues';
+import { contestedIssuesNotesStart } from '../content/contestedIssues';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
@@ -33,7 +33,6 @@ const {
   date,
   effectiveDates,
   ratedDisabilities,
-  specialIssues,
 } = fullSchema.definitions;
 
 const formConfig = {
@@ -61,7 +60,6 @@ const formConfig = {
     effectiveDates,
     veteranDetailsDescription,
     ratedDisabilities,
-    specialIssues,
   },
   chapters: {
     veteranDetails: {
@@ -98,61 +96,18 @@ const formConfig = {
           schema: contestedIssues.schema,
           initialData,
         },
-        contestedIssuesNotesPreamble: {
+        contestedIssuesNotesStart: {
           title: ' ',
-          path: 'contested-issues-start',
+          path: 'contested-issues/start',
           uiSchema: {
-            'ui:description': contestedIssuesNotesPreamble,
+            'ui:description': contestedIssuesNotesStart,
           },
           schema: {
             type: 'object',
             properties: {},
           },
         },
-      },
-    },
-    addNotes: {
-      title: 'Optional Notes',
-      pages: {
-        addNotes: {
-          path: 'add-notes',
-          title: 'Add notes (optional)',
-          uiSchema: {
-            addNote: {
-              'ui:title': 'Notes (optional)',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              addNote: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      },
-    },
-    requestOriginalJurisdiction: {
-      title: 'Original jurisdiction',
-      pages: {
-        requestJurisdiction: {
-          path: 'request-original-jurisdiction',
-          title: 'Request original jurisdiction',
-          uiSchema: {
-            jurisdiction: {
-              'ui:title': 'Name of Original Regional Office',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              jurisdiction: {
-                type: 'string',
-              },
-            },
-          },
-        },
+        // contestedIssueNote: {},
       },
     },
     requestInformalConference: {

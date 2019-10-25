@@ -17,7 +17,7 @@ export const contestedIssuesDescription = (
   </>
 );
 
-export const contestedIssuesNotesPreamble = (
+export const contestedIssuesNotesStart = (
   <p>
     Now we’re going to ask you some follow-up questions about the issues you’re
     requesting a Higher-Level Review. We’ll go through them one by one.
@@ -31,7 +31,7 @@ export const contestedIssuesNotesPreamble = (
  * @property {String} ratingPercentage
  * @param {Disability} disability
  */
-export const disabilityOption = ({ name, note, ratingPercentage }) => {
+export const disabilityOption = ({ name, description, ratingPercentage }) => {
   // May need to throw an error to Sentry if any of these doesn't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showRatingPercentage = Number.isInteger(ratingPercentage);
@@ -39,7 +39,7 @@ export const disabilityOption = ({ name, note, ratingPercentage }) => {
   return (
     <div className="widget-content">
       <h4>{typeof name === 'string' ? name : NULL_CONDITION_STRING}</h4>
-      <span>{note}</span>
+      <span>{description}</span>
       {showRatingPercentage && (
         <p>
           Current rating: <strong>{ratingPercentage}%</strong>
