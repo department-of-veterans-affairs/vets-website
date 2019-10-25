@@ -133,6 +133,13 @@ class CalculatorForm extends React.Component {
             : profile.attributes.name,
       });
     }
+    if (value === 'other') {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'gibctOtherCampusLocation ',
+        'gibct-form-value': 'other location',
+      });
+    }
   };
 
   resetBuyUp = event => {
