@@ -142,8 +142,14 @@
     margin-bottom: 1em;
   }
 
-  label, .widget-content {
+  label {
     display: inline-block;
+  }
+
+  /* long descriptions cause the content to shift down, using flex to fix it */
+  .widget-content {
+    display: flex;
+    flex-direction: column;
   }
 
   h4 {

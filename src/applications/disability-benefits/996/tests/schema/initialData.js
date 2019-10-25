@@ -58,6 +58,7 @@ export default {
     },
 
     // Rated disabilities modified from 526EZ all-claims
+    // Leave 'view:selected' set to false for unit testing
     contestedIssues: [
       {
         name: 'Tinnitus',
@@ -76,7 +77,7 @@ export default {
           maximus. Donec ultrices eu orci tincidunt elementum. Phasellus eros
           eros, ornare vel urna ut, luctus maximus nisl. Integer consectetur mi
           eu diam consectetur, vitae imperdiet nulla iaculis.`,
-        'view:selected': true,
+        'view:selected': false,
       },
       {
         name: 'Headaches',
