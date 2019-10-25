@@ -270,7 +270,6 @@ class ArrayField extends React.Component {
                                 type="button"
                                 className="usa-button-secondary float-right"
                                 onClick={() => this.handleRemove(index)}
-                                aria-label={`Remove ${uiOptions.itemName}`}
                               >
                                 Remove
                               </button>

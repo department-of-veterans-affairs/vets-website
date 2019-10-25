@@ -321,7 +321,6 @@ export default class ArrayField extends React.Component {
                               className="usa-button-secondary float-right"
                               type="button"
                               onClick={() => this.handleRemove(index)}
-                              aria-label={`Remove ${title}`}
                             >
                               Remove
                             </button>
