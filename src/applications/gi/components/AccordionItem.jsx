@@ -20,14 +20,16 @@ class AccordionItem extends React.Component {
     const expanded = this.state.expanded;
     return (
       <li>
-        <button
-          onClick={this.toggle}
-          className="usa-accordion-button"
-          aria-expanded={expanded}
-          aria-controls={this.id}
-        >
-          <h2>{this.props.button}</h2>
-        </button>
+        <h2 className="accordion-button-wrapper">
+          <button
+            onClick={this.toggle}
+            className="usa-accordion-button"
+            aria-expanded={expanded}
+            aria-controls={this.id}
+          >
+            <span className="accordion-button-text">{this.props.button}</span>
+          </button>
+        </h2>
         <div
           id={this.id}
           className="usa-accordion-content"
