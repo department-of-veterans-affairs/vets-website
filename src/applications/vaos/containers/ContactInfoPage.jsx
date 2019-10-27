@@ -2,11 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import {
-  selectVet360EmailAddress,
-  selectVet360HomePhoneString,
-  selectVet360MobilePhoneString,
-} from 'platform/user/selectors';
 import FormButtons from '../components/FormButtons';
 
 import {
@@ -75,39 +70,7 @@ const pageKey = 'contactInfo';
 export class ContactInfoPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
-    this.prefillForm();
   }
-
-  componentDidUpdate(prevProps) {
-    if (
-      (!prevProps.homePhone && this.props.homePhone) ||
-      (!prevProps.mobilePhone && this.props.mobilePhone) ||
-      (!prevProps.emailAddress && this.props.emailAddress)
-    ) {
-      this.prefillForm();
-    }
-  }
-
-  prefillForm = () => {
-    const phoneNumber = this.props.mobilePhone || this.props.homePhone;
-    // only prefill the phone number if it isn't already set
-    if (phoneNumber && !this.props.data.phoneNumber) {
-      this.props.updateFormData(pageKey, uiSchema, {
-        ...this.props.data,
-        phoneNumber,
-      });
-    }
-    // The following is disabled since we don't yet have email address on this page.
-    // When it's enabled it'll be best to refactor this to make a single call to
-    // updateFormData.
-    // // only prefill the email address if it isn't already set
-    // if (this.props.emailAddress && !this.props.data.emailAddress) {
-    //   this.props.updateFormData(pageKey, uiSchema, {
-    //     ...this.props.data,
-    //     emailAddress: this.props.emailAddress,
-    //   });
-    // }
-  };
 
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
@@ -142,13 +105,7 @@ export class ContactInfoPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const formPageInfo = getFormPageInfo(state, pageKey);
-  return {
-    ...formPageInfo,
-    emailAddress: selectVet360EmailAddress(state),
-    homePhone: selectVet360HomePhoneString(state),
-    mobilePhone: selectVet360MobilePhoneString(state),
-  };
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
