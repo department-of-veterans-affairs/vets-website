@@ -5,39 +5,11 @@ Tome returned **64** records.
 
 ## Missing properties in Tome:
 
-If the match is with the below example GraphQL response, then there are **no missing properties in Tome**.
+None. 😎
 
-```json
-{
-  "derivative": {
-    "url": "https://dev.cms.va.gov/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/doctor-year2019-decker-480_0.jpg?itok=p2xcTS8n",
-    "width": 480,
-    "height": 240
-  }
-}
-```
+## All optional key-value pairs:
 
-Otherwise, we are missing one or more of these:
-
-`"__typename": "MetaLink",`
-
-`"__typename": "MetaValue",`
-
-`"__typename": "MetaProperty",`
-
-`"key": "image_src",`
-
-`"key": "twitter:image",`
-
-`"key": "og:image",`
-
-`"alt": "Dr. Brooke Decker",`
-
-`"title": "",`
-
-## All `target_id`s
-
-1.
+None.
 
 ## Example GraphQL response
 

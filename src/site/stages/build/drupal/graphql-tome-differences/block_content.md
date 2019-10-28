@@ -6,10 +6,23 @@ Tome returned **28** records.
 
 None. 😎
 
-## All `target_id`s
+## All optional key-value pairs:
 
-1. `promo`
-1. `alert`
+- target_id: `alert`
+  - `field_alert_content` | Entity reference revisions
+  - `field_alert_dismissable` | Boolean
+  - `field_alert_title` | Text (plain)
+  - `field_alert_type` | List (text)
+  - `field_is_this_a_header_alert_` | List (text)
+  - `field_owner` | Entity reference
+  - `field_alert_frequency` | List (text)
+  - `field_reusability` | List (text)
+  - `field_node_reference` | Entity reference
+- target_id: `promo`
+  - `field_image` | Entity reference
+  - `field_instructions` | Markup
+  - `field_promo_link` | Entity reference revisions
+  - `field_owner` | Entity reference
 
 ## Example GraphQL response
 

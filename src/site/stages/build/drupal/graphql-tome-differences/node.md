@@ -9,9 +9,197 @@ Tome returned **774** records.
 1. We might be missing `entityUrl.breadcrumb` (found in the GraphQL response), it's not clear how that's currently derived.
 1. We might be missing `entityMetatags`, it's not clear how they are currently derived.
 
-## All `target_id`s
+## All optional key-value pairs:
 
-1.
+- target_id: `health_care_region_detail_page`
+  - `field_administration` | Entity reference
+  - `field_content_block` | Entity reference revisions
+  - `field_description` | Text (plain)
+  - `field_intro_text` | Text (plain, long)
+  - `field_meta_tags` | Meta tags
+  - `field_meta_title` | Text (plain)
+  - `field_office` | Entity reference
+  - `field_related_links` | Entity reference revisions
+- target_id: `documentation_page`
+  - `field_content_block` | Entity reference revisions
+- target_id: `event`
+  - `field_additional_information_abo` | Text (formatted, long)
+  - `field_address` | Address
+  - `field_administration` | Entity reference
+  - `field_body` | Text (formatted, long)
+  - `field_date` | Date range
+  - `field_description` | Text (plain)
+  - `field_event_cost` | Text (plain)
+  - `field_event_cta` | List (text)
+  - `field_event_registrationrequired` | Boolean
+  - `field_facility_location` | Entity reference
+  - `field_featured` | Boolean
+  - `field_link` | Link
+  - `field_location_humanreadable` | Text (plain)
+  - `field_location_type` | List (text)
+  - `field_media` | Entity reference
+  - `field_meta_tags` | Meta tags
+  - `field_office` | Entity reference
+  - `field_order` | List (integer)
+  - `field_url_of_an_online_event` | Link
+- target_id: `event_listing`
+  - `field_administration` | Entity reference
+  - `field_description` | Text (plain)
+  - `field_intro_text` | Text (plain, long)
+  - `field_meta_tags` | Meta tags
+  - `field_meta_title` | Text (plain)
+  - `field_office` | Entity reference
+- target_id: `press_release`
+  - `field_address` | Address
+  - `field_administration` | Entity reference
+  - `field_intro_text` | Text (plain, long)
+  - `field_meta_tags` | Meta tags
+  - `field_office` | Entity reference
+  - `field_pdf_version` | Entity reference
+  - `field_press_release_contact` | Entity reference
+  - `field_press_release_downloads` | Entity reference
+  - `field_press_release_fulltext` | Text (formatted, long)
+  - `field_release_date` | Date
+- target_id: `office`
+  - `field_administration` | Entity reference
+  - `field_body` | Text (formatted, long)
+  - `field_description` | Text (plain)
+  - `field_meta_tags` | Meta tags
+  - `field_meta_title` | Text (plain)
+- target_id: `outreach_asset` (e.g. `Publication`)
+  - `field_administration` | Entity reference
+  - `field_administration` | Entity reference
+  - `field_benefits` | List (text)
+  - `field_description` | Text (plain)
+  - `field_description` | Text (plain)
+  - `field_format` | List (text)
+  - `field_intro_text` | Text (plain, long)
+  - `field_media` | Entity reference
+  - `field_meta_tags` | Meta tags
+  - `field_meta_tags` | Meta tags
+  - `field_meta_title` | Text (plain)
+  - `field_office` | Entity reference
+  - `field_office` | Entity reference
+- target_id: `person_profile` (e.g. `Staff profile`)
+  - `field_administration` | Entity reference
+  - `field_body` | Text (formatted, long)
+  - `field_complete_biography` | File
+  - `field_description` | Text (plain)
+  - `field_email_address` | Email
+  - `field_intro_text` | Text (plain, long)
+  - `field_last_name` | Text (plain)
+  - `field_media` | Entity reference
+  - `field_meta_tags` | Meta tags
+  - `field_name_first` | Text (plain)
+  - `field_office` | Entity reference
+  - `field_phone_number` | Telephone number
+  - `field_photo_allow_hires_download` | Boolean
+  - `field_suffix` | Text (plain)
+- target_id: `news_story`
+  - `field_administration` | Entity reference
+  - `field_author` | Entity reference
+  - `field_featured` | Boolean
+  - `field_full_story` | Text (formatted, long)
+  - `field_image_caption` | Text (plain, long)
+  - `field_intro_text` | Text (plain, long)
+  - `field_media` | Entity reference
+  - `field_meta_tags` | Meta tags
+  - `field_office` | Entity reference
+  - `field_order` | List (integer)
+- target_id: `support_service`
+  - `field_administration` | Entity reference
+  - `field_link` | Link
+  - `field_office` | Entity reference
+  - `field_page_last_built` | Date
+  - `field_phone_number` | Telephone number
+- target_id: `health_care_region_page` (e.g. `VAMC system`)
+  - `field_administration` | Entity reference
+  - `field_appointments_online` | Boolean
+  - `field_clinical_health_care_servi` | Text (formatted, long)
+  - `field_clinical_health_services` | Entity reference
+  - `field_description` | Text (plain)
+  - `field_email_subscription_links` | Link
+  - `field_email_subscription` | Link
+  - `field_facebook` | Link
+  - `field_featured_content_healthser` | Entity reference revisions
+  - `field_flickr` | Link
+  - `field_instagram` | Link
+  - `field_intro_text_events_page` | Text (formatted, long)
+  - `field_intro_text_leadership` | Text (plain, long)
+  - `field_intro_text_news_stories` | Text (formatted, long)
+  - `field_intro_text_press_releases` | Text (plain, long)
+  - `field_intro_text` | Text (plain, long)
+  - `field_leadership` | Entity reference
+  - `field_link_facility_emerg_list` | Link
+  - `field_link_facility_news_list` | Link
+  - `field_links` | Link
+  - `field_locations_intro_blurb` | Text (formatted, long)
+  - `field_media` | Entity reference
+  - `field_meta_tags` | Meta tags
+  - `field_meta_title` | Text (plain)
+  - `field_nickname_for_this_facility` | Text (plain)
+  - `field_operating_status` | Link
+  - `field_other_va_locations` | Text (plain)
+  - `field_press_release_blurb` | Text (formatted, long)
+  - `field_related_links` | Entity reference revisions
+  - `field_sign_up_for_emergency_emai` | Link
+  - `field_twitter` | Link
+- target_id: `full_width_banner_alert` (e.g. `VAMC system banner alert with situational updates`)
+  - `field_administration` | Entity reference
+  - `field_alert_dismissable` | Boolean
+  - `field_alert_email_updates_button` | Boolean
+  - `field_alert_find_facilities_cta` | Boolean
+  - `field_alert_inheritance_subpages` | Boolean
+  - `field_alert_operating_status_cta` | Boolean
+  - `field_alert_type` | List (text)
+  - `field_banner_alert_situationinfo` | Text (formatted, long)
+  - `field_banner_alert_vamcs` | Entity reference
+  - `field_body` | Text (formatted, long)
+  - `field_operating_status_sendemail` | Boolean
+  - `field_situation_updates` | Entity reference revisions
+- target_id: `health_care_local_facility` (e.g. `VAMC facility`)
+  - `field_address` | Address
+  - `field_administration` | Entity reference
+  - `field_description` | Text (plain)
+  - `field_email_subscription` | Link
+  - `field_facebook` | Link
+  - `field_facility_hours` | Table Field
+  - `field_facility_locator_api_id` | Text (plain)
+  - `field_flickr` | Link
+  - `field_instagram` | Link
+  - `field_intro_text` | Text (plain, long)
+  - `field_local_health_care_service_` | Entity reference
+  - `field_location_services` | Entity reference revisions
+  - `field_main_location` | Boolean
+  - `field_media` | Entity reference
+  - `field_mental_health_phone` | Telephone number
+  - `field_meta_tags` | Meta tags
+  - `field_meta_title` | Text (plain)
+  - `field_nickname_for_this_facility` | Text (plain)
+  - `field_operating_status_facility` | List (text)
+  - `field_operating_status_more_info` | Text (plain, long)
+  - `field_phone_number` | Telephone number
+  - `field_region_page` | Entity reference
+  - `field_twitter` | Link
+- target_id: `health_care_local_health_service` (e.g. `VAMC facility health service`)
+  - `field_administration` | Entity reference
+  - `field_body` | Text (formatted, long)
+  - `field_facility_location` | Entity reference
+  - `field_regional_health_service` | Entity reference
+- target_id: `regional_health_care_service_des` (e.g. `VAMC system health service`)
+  - `field_administration` | Entity reference
+  - `field_body` | Text (formatted, long)
+  - `field_local_health_care_service_` | Entity reference
+  - `field_region_page` | Entity reference
+  - `field_service_name_and_descripti` | Entity reference
+- target_id: `vamc_operating_status_and_alerts` (e.g. `VAMC system operating status`)
+  - `field_administration` | Entity reference
+  - `field_banner_alert` | Entity reference
+  - `field_facility_operating_status` | Entity reference
+  - `field_links` | Link
+  - `field_meta_tags` | Meta tags
+  - `field_office` | Entity reference
+  - `field_operating_status_emerg_inf` | Text (formatted, long)
 
 ## Example GraphQL response
 

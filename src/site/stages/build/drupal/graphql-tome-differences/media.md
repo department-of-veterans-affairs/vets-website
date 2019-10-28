@@ -2,14 +2,27 @@
 
 Tome returned **539** records.
 
-
 ## Missing properties in Tome:
 
 None. 😎
 
-## All `target_id`s
+## All optional key-value pairs:
 
-1.
+- target_id: `document`
+  - `field_document` | File
+  - `field_media_submission_guideline` | Markup
+  - `field_owner` | Entity reference
+  - `field_media_in_library` | Boolean
+- target_id: `image`
+  - `image` |	Image
+  - `field_media_submission_guideline` |	Markup
+  - `field_owner` |	Entity reference
+  - `field_media_in_library` |	Boolean
+- target_id: `video`
+  - `field_media_submission_guideline` |	Markup
+  - `field_owner` |	Entity reference
+  - `field_media_in_library` |	Boolean
+  - `field_media_video_embed_field` |	Video Embed
 
 ## Example GraphQL response
 

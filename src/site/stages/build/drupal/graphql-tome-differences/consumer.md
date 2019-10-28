@@ -9,9 +9,9 @@ Tome returned **1** record.
 
 N/A
 
-## All `target_id`s
+## All optional key-value pairs:
 
-1.
+None.
 
 ## Example GraphQL response
 

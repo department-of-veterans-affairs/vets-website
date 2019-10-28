@@ -1,5 +1,7 @@
 # (GraphQL response vs. Tome data) by entity
 
+## Entities
+
 [block_content](./block_content.md)
 
 [~~consumer~~ (not used)](./consumer.md)
@@ -25,6 +27,11 @@
 [~~taxonomy_term~~ (not used)](./taxonomy_term.md)
 
 [~~user~~ (not used)](./user.md)
+
+## Terminology
+
+- `Content type` [mentioned in the CMS](https://docs.google.com/spreadsheets/d/1vL8rqLqcEVfESnJJK_GWQ7nf3BPe4SSevYYblisBTOI/edit#gid=943298572) equates to a `node` entity.
+- Most key-value pairs on entities that start with `field_` are **matched to a specific `target_id`** and/or are **optional**.
 
 ## Assumptions
 

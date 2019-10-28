@@ -4,14 +4,27 @@ Tome returned **150** records.
 
 **This does not seem like it's used currently.**
 
-
 ## Missing properties in Tome:
 
-N/A
+None. 😎
 
-## All `target_id`s
+## All optional key-value pairs:
 
-1.
+- target_id: `administration` (e.g. `Sections`)
+  - `field_acronym` | Text (plain)
+  - `field_description` | Text (plain)
+  - `field_intro_text` | Text (plain, long)
+  - `field_link` | Link
+  - `field_email_updates_link_text` | Text (plain)
+  - `field_metatags` | Meta tags
+  - `field_social_media_links` | Social Media Links Field
+  - `field_email_updates_url` | Text (plain)
+- target_id: `health_care_service_taxonomy` (e.g. `VHA health service taxonomy`)
+  - `field_commonly_treated_condition` | Text (plain)
+  - `field_health_service_api_id` | Text (plain)
+  - `field_owner` | Entity reference
+  - `field_also_known_as` | Text (plain)
+  - `field_vha_healthservice_stopcode` | Number (integer)
 
 ## Example GraphQL response
 

@@ -4,14 +4,13 @@ Tome returned **28** records.
 
 **This does not seem like it's used currently.**
 
-
 ## Missing properties in Tome:
 
-N/A
+None. 😎
 
-## All `target_id`s
+## All optional key-value pairs:
 
-1.
+None.
 
 ## Example GraphQL response
 
