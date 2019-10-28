@@ -158,7 +158,7 @@ export function institutionFilterChange(filter) {
 
 export function fetchInstitutionSearchResults(query = {}) {
   const url = appendQuery(
-    `${api.url}/institution_programs/search`,
+    `${api.url}/institutions/search`,
     snakeCaseKeys(query),
   );
 
