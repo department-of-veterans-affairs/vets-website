@@ -3,7 +3,7 @@
  */
 
 const whitelists = {
-  global: ['title', 'changed'],
+  global: ['title'],
   page: [
     'field_intro_text',
     'field_description',
