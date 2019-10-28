@@ -20,10 +20,6 @@ None. 😎
 
 None.
 
-## Example GraphQL response
-
-**[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**
-
 ## Example Tome data
 
 ```json
@@ -106,3 +102,7 @@ None.
     ]
 }
 ```
+
+## Example GraphQL response
+
+**[Unable to locate...](../../../../../../.cache/localhost/drupal/pages.json)**

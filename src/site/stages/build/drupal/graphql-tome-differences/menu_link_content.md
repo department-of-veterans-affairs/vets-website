@@ -32,30 +32,6 @@ Tome returned **786** records.
 
 None.
 
-## Example GraphQL response
-
-```json
-{
-  "label": "Schedule a burial",
-  "expanded": false,
-  "description": null,
-  "url": {
-    "path": "/burials-memorials/plan-a-burial"
-  },
-  "links": [
-    {
-      "label": "Military funeral honors",
-      "expanded": false,
-      "description": null,
-      "url": {
-        "path": "https://www.cem.va.gov/CEM/military_funeral_honors.asp"
-      },
-      "links": []
-    }
-  ]
-},
-```
-
 ## Example Tome data
 
 ```json
@@ -142,4 +118,28 @@ None.
         }
     ]
 }
+```
+
+## Example GraphQL response
+
+```json
+{
+  "label": "Schedule a burial",
+  "expanded": false,
+  "description": null,
+  "url": {
+    "path": "/burials-memorials/plan-a-burial"
+  },
+  "links": [
+    {
+      "label": "Military funeral honors",
+      "expanded": false,
+      "description": null,
+      "url": {
+        "path": "https://www.cem.va.gov/CEM/military_funeral_honors.asp"
+      },
+      "links": []
+    }
+  ]
+},
 ```

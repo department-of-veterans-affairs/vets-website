@@ -39,23 +39,6 @@ None. 😎
   - `field_promo_link` | Entity reference revisions
   - `field_owner` | Entity reference
 
-## Example GraphQL response
-
-```json
-{
-  "entity": {
-    "fieldLink": {
-      "url": {
-        "path": "/records/download-va-letters"
-      },
-      "title": "Confirm your VA benefit status",
-      "options": []
-    },
-    "fieldLinkSummary": "Download letters like your eligibility or award letter for certain benefits."
-  }
-}
-```
-
 ## Example Tome data
 
 ```json
@@ -145,5 +128,22 @@ None. 😎
             "target_uuid": "69620159-bb03-45bc-915e-35147050d1d8"
         }
     ]
+}
+```
+
+## Example GraphQL response
+
+```json
+{
+  "entity": {
+    "fieldLink": {
+      "url": {
+        "path": "/records/download-va-letters"
+      },
+      "title": "Confirm your VA benefit status",
+      "options": []
+    },
+    "fieldLinkSummary": "Download letters like your eligibility or award letter for certain benefits."
+  }
 }
 ```

@@ -27,22 +27,6 @@ If it's different, then we are missing it in the Tome data.
 
 None.
 
-## Example GraphQL response
-
-```json
-{
-  "entity": {
-    "entityBundle": "video",
-    "fieldMediaVideoEmbedField": "https://www.youtube.com/watch?time_continue=1&v=qRYoUL6BNdc",
-    "thumbnail": {
-      "derivative": {
-        "url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/qRYoUL6BNdc.jpg?itok=mutTJ3Cb"
-      }
-    }
-  }
-}
-```
-
 ## Example Tome data
 
 ```json
@@ -100,5 +84,21 @@ None.
             "format": "Y-m-d\\TH:i:sP"
         }
     ]
+}
+```
+
+## Example GraphQL response
+
+```json
+{
+  "entity": {
+    "entityBundle": "video",
+    "fieldMediaVideoEmbedField": "https://www.youtube.com/watch?time_continue=1&v=qRYoUL6BNdc",
+    "thumbnail": {
+      "derivative": {
+        "url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/qRYoUL6BNdc.jpg?itok=mutTJ3Cb"
+      }
+    }
+  }
 }
 ```

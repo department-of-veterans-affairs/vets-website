@@ -47,17 +47,6 @@ None. 😎
   - `field_media_in_library` |	Boolean
   - `field_media_video_embed_field` |	Video Embed
 
-## Example GraphQL response
-
-```json
-{
-  "entity": {
-    "filename": "rsec-3checklist_for_continuing_review-_9-21-2009.docx",
-    "url": "https://dev.cms.va.gov/sites/default/files/2019-08/rsec-3checklist_for_continuing_review-_9-21-2009.docx"
-  }
-}
-```
-
 ## Example Tome data
 
 ```json
@@ -163,5 +152,16 @@ None. 😎
             "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
         }
     ]
+}
+```
+
+## Example GraphQL response
+
+```json
+{
+  "entity": {
+    "filename": "rsec-3checklist_for_continuing_review-_9-21-2009.docx",
+    "url": "https://dev.cms.va.gov/sites/default/files/2019-08/rsec-3checklist_for_continuing_review-_9-21-2009.docx"
+  }
 }
 ```

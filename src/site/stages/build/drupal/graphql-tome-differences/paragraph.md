@@ -91,25 +91,6 @@ None. 😎
 - target_id: `wysiwyg` (e.g. `WYSIWYG`)
   - `field_wysiwyg` | Text (formatted, long)
 
-## Example GraphQL response
-
-**WARNING:** There are multiple types of `paragraph`s, here's the one that looked most similar:
-
-```json
-{
-  "entity": {
-    "fieldLink": {
-      "url": {
-        "path": "https://www.va.gov/HEALTH/patientadvocate/"
-      },
-      "title": "VA's patient advocacy program",
-      "options": []
-    },
-    "fieldLinkSummary": "Learn more about how patient advocates support Veterans at VA and what the process of working with one is like."
-  }
-},
-```
-
 ## Example Tome data
 
 ```json
@@ -170,4 +151,21 @@ None. 😎
         }
     ]
 }
+```
+
+## Example GraphQL response
+
+```json
+{
+  "entity": {
+    "fieldLink": {
+      "url": {
+        "path": "https://www.va.gov/HEALTH/patientadvocate/"
+      },
+      "title": "VA's patient advocacy program",
+      "options": []
+    },
+    "fieldLinkSummary": "Learn more about how patient advocates support Veterans at VA and what the process of working with one is like."
+  }
+},
 ```
