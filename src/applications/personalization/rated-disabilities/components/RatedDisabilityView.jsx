@@ -50,21 +50,28 @@ class RatedDisabilityView extends React.Component {
     }
 
     return (
-      <div className="vads-l-grid-container">
-        <Breadcrumbs>
-          {[
-            <a href="/" key="1">
-              Home
-            </a>,
-            <a href="/disability/check-disability-rating/" key="2">
-              Disabilities
-            </a>,
-            <a href="/disability/check-disability-rating/rating" key="3">
-              Disability Ratings
-            </a>,
-          ]}
-        </Breadcrumbs>
-        <div className="vads-l-row vads-u-margin-x--neg2p5">{content}</div>
+      <div>
+        <div className="medium-screen:vads-u-padding-left--1p5 large-screen:vads-u-padding-left--6">
+          <Breadcrumbs>
+            {[
+              <a href="/" key="1">
+                Home
+              </a>,
+              <a href="/disability" key="2">
+                Disability Benefits
+              </a>,
+              <a href="/disability/check-disability-rating" key="3">
+                View your VA disability rating
+              </a>,
+              <a href="/disability/check-disability-rating/rating" key="4">
+                Your VA disability rating
+              </a>,
+            ]}
+          </Breadcrumbs>
+        </div>
+        <div className="vads-l-grid-container">
+          <div className="vads-l-row">{content}</div>
+        </div>
       </div>
     );
   }
