@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { profileShowNotifications } from '../../selectors';
+import { profileShowReceiveTextNotifications } from 'vet360/selectors';
 
 class Vet360TransactionPending extends React.Component {
   static propTypes = {
@@ -31,7 +31,7 @@ class Vet360TransactionPending extends React.Component {
     );
 
     if (
-      this.props.showNotifications &&
+      this.props.showReceiveTextNotifications &&
       this.props.title.toLowerCase() === 'mobile phone number'
     ) {
       content = (
@@ -65,7 +65,7 @@ class Vet360TransactionPending extends React.Component {
 
 export function mapStateToProps(state) {
   return {
-    showNotifications: profileShowNotifications(state),
+    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }
 

@@ -13,7 +13,7 @@ import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 import { FIELD_NAMES } from '../../constants';
 
-import { profileShowNotifications } from '../../selectors';
+import { profileShowReceiveTextNotifications } from '../../selectors';
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
@@ -39,7 +39,7 @@ class PhoneTextInput extends ErrorableTextInput {
 class ReceiveTextMessagesCheckbox extends ErrorableCheckbox {
   render() {
     const showCheckbox =
-      this.props.showNotifications &&
+      this.props.showReceiveTextNotifications &&
       this.props.isEnrolledInVAHealthCare &&
       this.props.isTextable;
     return showCheckbox ? <ErrorableCheckbox {...this.props} /> : null;
@@ -113,7 +113,7 @@ class PhoneEditModal extends React.Component {
       />
 
       <ReceiveTextMessagesCheckbox
-        showNotifications={this.props.showNotifications}
+        showReceiveTextNotifications={this.props.showReceiveTextNotifications}
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
         isTextable={this.props.fieldName === FIELD_NAMES.MOBILE_PHONE}
         label="Send me text message (SMS) reminders for my VA health care appointments"
@@ -139,7 +139,7 @@ export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
   return {
     fieldName,
-    showNotifications: profileShowNotifications(state),
+    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
     isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
   };
 }

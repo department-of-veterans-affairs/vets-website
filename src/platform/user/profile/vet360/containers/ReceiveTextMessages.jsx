@@ -9,7 +9,7 @@ import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
 import {
   selectVet360Transaction,
-  profileShowNotifications,
+  profileShowReceiveTextNotifications,
 } from '../selectors';
 
 import {
@@ -123,15 +123,17 @@ export function mapStateToProps(state, ownProps) {
   const { transaction } = selectVet360Transaction(state, fieldName);
   const hasError = !!(transaction && isFailedTransaction(transaction));
   const isPending = !!(transaction && isPendingTransaction(transaction));
-  const showNotifications = profileShowNotifications(state);
+  const showReceiveTextNotifications = profileShowReceiveTextNotifications(
+    state,
+  );
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable =
     !isEmpty &&
     profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
-  const isVerified = showNotifications && profileState.verified;
+  const isVerified = showReceiveTextNotifications && profileState.verified;
   const hideCheckbox =
-    !showNotifications ||
+    !showReceiveTextNotifications ||
     isEmpty ||
     !isTextable ||
     !isEnrolledInVAHealthCare(state) ||

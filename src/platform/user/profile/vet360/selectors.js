@@ -10,8 +10,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-export const profileShowNotifications = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.profileShowNotifications];
+export const profileShowReceiveTextNotifications = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.profileShowReceiveTextNotifications];
 
 export function selectIsVet360AvailableForUser(state) {
   if (!isVet360Configured()) return true; // returns true if on localhost
