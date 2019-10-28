@@ -78,7 +78,7 @@ const ignoreMap = {
 /* eslint-enable camelcase */
 
 function getFilterType(contentModelType) {
-  return new Set(ignoreMap[contentModelType]);
+  return ignoreMap[contentModelType] || [];
 }
 
 /**
