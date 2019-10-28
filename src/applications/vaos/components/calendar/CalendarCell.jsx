@@ -11,7 +11,9 @@ const CalendarCell = ({
 }) => {
   if (date === null) {
     return (
-      <button className="vaos-calendar__calendar-day vads-u-visibility--hidden" />
+      <div role="cell" className="vaos-calendar__calendar-day">
+        <button className=" vads-u-visibility--hidden" />
+      </div>
     );
   }
 
@@ -25,21 +27,22 @@ const CalendarCell = ({
   });
 
   return (
-    <button
-      id={`date-cell-${date}`}
-      className={cssClasses}
-      onClick={() => onClick(date)}
-      disabled={disabled}
-      aria-label={ariaDate}
-      aria-expanded={isCurrentlySelected}
-      type="button"
-    >
-      {inSelectedArray && <i className="fas fa-check vads-u-color--white" />}
-      {dateDay}
-      {isCurrentlySelected && (
-        <span className="vaos-calendar__cell-selected-triangle" />
-      )}
-    </button>
+    <div role="cell" className={cssClasses}>
+      <button
+        id={`date-cell-${date}`}
+        onClick={() => onClick(date)}
+        disabled={disabled}
+        aria-label={ariaDate}
+        aria-expanded={isCurrentlySelected}
+        type="button"
+      >
+        {inSelectedArray && <i className="fas fa-check vads-u-color--white" />}
+        {dateDay}
+        {isCurrentlySelected && (
+          <span className="vaos-calendar__cell-selected-triangle" />
+        )}
+      </button>
+    </div>
   );
 };
 

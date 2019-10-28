@@ -56,4 +56,21 @@ describe('VAOS <ConfirmedAppointmentListPage>', () => {
     );
     form.unmount();
   });
+
+  it('should render button to schedule a new appointment', () => {
+    const fetchConfirmedAppointments = sinon.spy();
+    const appointments = [];
+    const form = shallow(
+      <ConfirmedAppointmentListPage
+        fetchConfirmedAppointments={fetchConfirmedAppointments}
+        status="succeeded"
+        appointments={appointments}
+      />,
+    );
+
+    expect(fetchConfirmedAppointments.called).to.be.true;
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('button').text()).to.equal('Schedule an appointment');
+    form.unmount();
+  });
 });
