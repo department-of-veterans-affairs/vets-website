@@ -13,6 +13,7 @@ import mockFacility984Data from './facilities_984.json';
 
 import mockClinicList from './clinicList983.json';
 import mockPACT from './pact.json';
+import sitesSupportingVAR from './sites-supporting-var.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
@@ -197,4 +198,12 @@ export function getFacilityInfo(facilityId) {
   return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
     resp => resp.data,
   );
+}
+
+export function getSitesSupportingVAR() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(sitesSupportingVAR);
+    }, TEST_TIMEOUT || 1500);
+  });
 }

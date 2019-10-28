@@ -5,6 +5,7 @@ import {
   getSystemDetails,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
+  getSitesSupportingVAR,
 } from '../api';
 
 import { getEligibilityData } from '../utils/eligibility';
@@ -31,6 +32,11 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
+
+export const FORM_PAGE_TYPE_OF_FACILITY_OPEN =
+  'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN';
+export const FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED =
+  'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -107,6 +113,63 @@ export function openFacilityPage(page, uiSchema, schema) {
       facilities,
       typeOfCareId,
       eligibilityData,
+    });
+  };
+}
+
+export function openTypeOfFacilityPage(page, uiSchema, schema, router) {
+  const self = this;
+  return async (dispatch, getState) => {
+    const newAppointment = getState().newAppointment;
+    let systems = newAppointment.systems;
+
+    // fetch systems
+    if (!systems) {
+      dispatch({
+        type: FORM_PAGE_TYPE_OF_FACILITY_OPEN,
+        page,
+        uiSchema,
+        schema,
+      });
+
+      const identifiers = await getSystemIdentifiers();
+      const systemIds = identifiers
+        .filter(id => id.assigningAuthority.startsWith('dfn'))
+        .map(id => id.assigningCode);
+
+      systems = await getSystemDetails(systemIds);
+    }
+
+    // compare systems
+    const communityCareSites = await getSitesSupportingVAR();
+    const x = communityCareSites.find(site =>
+      systems.find(userSite => userSite.assigningCode === site._id),
+    );
+    if (x === undefined) {
+      dispatch(
+        updateFormData(page, uiSchema, {
+          facilityType: 'vamc',
+          vaFacility: '',
+          typeOfCareId: '323',
+        }),
+      );
+      // eslint-disable-next-line no-use-before-define
+      self.routeToNextAppointmentPage(router, 'vaFacility');
+    }
+
+    // check if any systems are cc eligible
+    // if not, route to next page, and set facilityType as 'vamc'
+    //    updateFormData(page, uiSchema, {facilityType: "vamc"})
+    //    routeToNextAppointmentPage(router, page)
+    // else
+    //    do nothing
+    //
+
+    dispatch({
+      type: FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
+      page,
+      uiSchema,
+      schema,
     });
   };
 }

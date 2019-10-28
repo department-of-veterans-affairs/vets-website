@@ -28,6 +28,8 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+  FORM_PAGE_TYPE_OF_FACILITY_OPEN,
+  FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
 } from '../actions/newAppointment';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -421,6 +423,35 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_PAGE_TYPE_OF_FACILITY_OPEN: {
+      const { data, schema } = setupFormData(
+        state.data,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+        checkIfCCEnabled: true,
+      };
+
+      // return {
+      //   ...state,
+      //   pageChangeInProgress: true,
+      // };
+    }
+    case FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED: {
+      return {
+        ...state,
+        // pageChangeInProgress: false,
+        checkIfCCEnabled: false,
       };
     }
     default:
