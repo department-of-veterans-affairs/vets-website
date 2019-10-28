@@ -2,13 +2,31 @@
 
 Tome returned **786** records.
 
-
 ## Missing properties in Tome:
 
 1. `"url": { "path": "/burials-memorials/plan-a-burial" },`
 1. The whole `links` key-value pair and its nested properties.
 
 **WARNING:** The above missing properties makes me think that the **Example GraphQL response below may not be a match for the Example Tome data.**
+
+## All standard key-value pairs:
+
+- `bundle`
+- `changed`
+- `default_langcode`
+- `description`
+- `enabled`
+- `expanded`
+- `external`
+- `langcode`
+- `link`
+- `menu_name`
+- `parent`
+- `rediscover`
+- `title`
+- `uuid`
+- `view_mode`
+- `weight`
 
 ## All optional key-value pairs:
 

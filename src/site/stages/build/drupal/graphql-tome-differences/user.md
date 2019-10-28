@@ -8,6 +8,24 @@ Tome returned **84** records.
 
 None. 😎
 
+## All standard key-value pairs:
+
+- `changed`
+- `created`
+- `default_langcode`
+- `langcode`
+- `mail`
+- `name`
+- `path`
+- `preferred_admin_langcode`
+- `preferred_langcode`
+- `revision_log_settings`
+- `roles`
+- `status`
+- `timezone`
+- `uid`
+- `uuid`
+
 ## All optional key-value pairs:
 
 None.

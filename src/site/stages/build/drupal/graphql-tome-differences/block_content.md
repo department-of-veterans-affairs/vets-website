@@ -6,6 +6,21 @@ Tome returned **28** records.
 
 None. 😎
 
+## All standard key-value pairs:
+- `changed`
+- `default_langcode`
+- `info`
+- `langcode`
+- `moderation_state`
+- `reusable`
+- `revision_created`
+- `revision_log`
+- `revision_translation_affected`
+- `revision_user`
+- `status`
+- `type`
+- `uuid`
+
 ## All optional key-value pairs:
 
 - target_id: `alert`

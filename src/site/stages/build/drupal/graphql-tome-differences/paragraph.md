@@ -6,6 +6,19 @@ Tome returned **4762** records.
 
 None. 😎
 
+## All standard key-value pairs:
+
+- `behavior_settings`
+- `created`
+- `default_langcode`
+- `field_link_summary`
+- `field_link`
+- `langcode`
+- `revision_translation_affected`
+- `status`
+- `type`
+- `uuid`
+
 ## All optional key-value pairs:
 
 - target_id: `collapsible_panel` (e.g. `Accordion group`)

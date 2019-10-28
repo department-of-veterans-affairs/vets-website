@@ -9,6 +9,27 @@ Tome returned **774** records.
 1. We might be missing `entityUrl.breadcrumb` (found in the GraphQL response), it's not clear how that's currently derived.
 1. We might be missing `entityMetatags`, it's not clear how they are currently derived.
 
+## All standard key-value pairs:
+
+- `changed`
+- `created`
+- `default_langcode`
+- `langcode`
+- `menu_link`
+- `moderation_state`
+- `path`
+- `promote`
+- `revision_log`
+- `revision_timestamp`
+- `revision_translation_affected`
+- `revision_uid`
+- `status`
+- `sticky`
+- `title`
+- `type`
+- `uid`
+- `uuid`
+
 ## All optional key-value pairs:
 
 - target_id: `health_care_region_detail_page`

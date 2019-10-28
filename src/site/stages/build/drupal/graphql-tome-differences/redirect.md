@@ -8,6 +8,18 @@ Tome returned **249** records.
 
 None. 😎
 
+## All standard key-value pairs:
+
+- `created`
+- `hash`
+- `language`
+- `redirect_redirect`
+- `redirect_source`
+- `status_code`
+- `type`
+- `uid`
+- `uuid`
+
 ## All optional key-value pairs:
 
 None.

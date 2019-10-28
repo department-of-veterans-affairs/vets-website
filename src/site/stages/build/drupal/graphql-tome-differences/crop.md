@@ -2,10 +2,28 @@
 
 Tome returned **64** records.
 
-
 ## Missing properties in Tome:
 
 None. 😎
+
+## All standard key-value pairs:
+
+- `default_langcode`
+- `entity_id`
+- `entity_type`
+- `height`
+- `langcode`
+- `moderation_state`
+- `revision_log`
+- `revision_timestamp`
+- `revision_translation_affected`
+- `revision_uid`
+- `type`
+- `uri`
+- `uuid`
+- `width`
+- `x`
+- `y`
 
 ## All optional key-value pairs:
 

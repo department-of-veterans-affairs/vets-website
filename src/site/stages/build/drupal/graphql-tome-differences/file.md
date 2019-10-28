@@ -2,7 +2,6 @@
 
 Tome returned **606** records.
 
-
 ## Missing properties in Tome:
 
 `"url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/qRYoUL6BNdc.jpg?itok=mutTJ3Cb"`
@@ -10,6 +9,19 @@ Tome returned **606** records.
 We have the URL above, we just don't have the query param `?itok=mutTJ3Cb` and I'm not sure if that's different or the same for each public video thumbnail.
 
 If it's different, then we are missing it in the Tome data.
+
+## All standard key-value pairs:
+
+- `changed`
+- `created`
+- `filemime`
+- `filename`
+- `filesize`
+- `langcode`
+- `status`
+- `uid`
+- `uri`
+- `uuid`
 
 ## All optional key-value pairs:
 

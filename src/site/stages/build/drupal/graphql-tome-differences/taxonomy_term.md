@@ -8,6 +8,20 @@ Tome returned **150** records.
 
 None. 😎
 
+## All standard key-value pairs:
+
+- `changed`
+- `default_langcode`
+- `description`
+- `langcode`
+- `name`
+- `parent`
+- `path`
+- `status`
+- `uuid`
+- `vid`
+- `weight`
+
 ## All optional key-value pairs:
 
 - target_id: `administration` (e.g. `Sections`)

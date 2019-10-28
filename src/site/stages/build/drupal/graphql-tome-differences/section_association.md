@@ -8,6 +8,14 @@ Tome returned **28** records.
 
 None. 😎
 
+## All standard key-value pairs:
+
+- `access_scheme`
+- `role_id`
+- `section_id`
+- `user_id`
+- `uuid`
+
 ## All optional key-value pairs:
 
 None.

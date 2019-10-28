@@ -4,10 +4,26 @@ Tome returned **1** record.
 
 **This does not seem like it's used currently.**
 
-
 ## Missing properties in Tome:
 
-N/A
+None. 😎
+
+## All standard key-value pairs:
+
+- `confidential`
+- `default_langcode`
+- `description`
+- `image`
+- `is_default`
+- `label`
+- `langcode`
+- `owner_id`
+- `redirect`
+- `roles`
+- `secret`
+- `third_party`
+- `user_id`
+- `uuid`
 
 ## All optional key-value pairs:
 

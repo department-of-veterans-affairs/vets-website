@@ -6,6 +6,29 @@ Tome returned **539** records.
 
 None. 😎
 
+## All standard key-value pairs:
+
+- `bundle`
+- `changed`
+- `created`
+- `default_langcode`
+- `field_document`
+- `field_media_in_library`
+- `field_media_submission_guideline`
+- `field_owner`
+- `langcode`
+- `moderation_state`
+- `name`
+- `path`
+- `revision_created`
+- `revision_log_message`
+- `revision_translation_affected`
+- `revision_user`
+- `status`
+- `thumbnail`
+- `uid`
+- `uuid`
+
 ## All optional key-value pairs:
 
 - target_id: `document`

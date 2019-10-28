@@ -4,10 +4,20 @@ Tome returned **2** records.
 
 **This does not seem like it's used currently.**
 
-
 ## Missing properties in Tome:
 
-N/A
+None. 😎
+
+## All standard key-value pairs:
+
+- `changed`
+- `created`
+- `items`
+- `langcode`
+- `queue`
+- `title`
+- `uid`
+- `uuid`
 
 ## All optional key-value pairs:
 
