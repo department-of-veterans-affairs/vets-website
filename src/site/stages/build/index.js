@@ -22,6 +22,7 @@ const checkBrokenLinks = require('./plugins/check-broken-links');
 const checkCollections = require('./plugins/check-collections');
 const checkForCMSUrls = require('./plugins/check-cms-urls');
 const configureAssets = require('./plugins/configure-assets');
+const processEntryNames = require('./plugins/process-entry-names');
 const createBuildSettings = require('./plugins/create-build-settings');
 const createDrupalDebugPage = require('./plugins/create-drupal-debug');
 const createEnvironmentFilter = require('./plugins/create-environment-filter');
@@ -29,7 +30,6 @@ const createFeatureToggles = require('./plugins/create-feature-toggles');
 const createHeaderFooter = require('./plugins/create-header-footer');
 const createOutreachAssetsData = require('./plugins/create-outreach-assets-data');
 const createReactPages = require('./plugins/create-react-pages');
-const createRedirects = require('./plugins/create-redirects');
 const createSitemaps = require('./plugins/create-sitemaps');
 const downloadDrupalAssets = require('./plugins/download-drupal-assets');
 const leftRailNavResetLevels = require('./plugins/left-rail-nav-reset-levels');
@@ -214,7 +214,6 @@ function defaultBuild(BUILD_OPTIONS) {
   configureAssets(smith, BUILD_OPTIONS);
 
   smith.use(createSitemaps(BUILD_OPTIONS), 'Create sitemap');
-  smith.use(createRedirects(BUILD_OPTIONS), 'Create redirects');
   smith.use(updateRobots(BUILD_OPTIONS), 'Update robots.txt');
   smith.use(checkForCMSUrls(BUILD_OPTIONS), 'Check for CMS URLs');
 
@@ -231,6 +230,10 @@ function defaultBuild(BUILD_OPTIONS) {
    * Convert onclick event handles into nonced script tags
    */
   smith.use(addNonceToScripts, 'Add nonce to script tags');
+  smith.use(
+    processEntryNames(BUILD_OPTIONS),
+    'Process [data-entry-name] attributes into Webpack asset paths',
+  );
   smith.use(updateExternalLinks(BUILD_OPTIONS), 'Update external links');
   smith.use(addSubheadingsIds(BUILD_OPTIONS), 'Add IDs to subheadings');
   smith.use(checkBrokenLinks(BUILD_OPTIONS), 'Check for broken links');

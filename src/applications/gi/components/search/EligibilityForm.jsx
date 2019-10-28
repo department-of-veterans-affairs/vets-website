@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { showModal, hideModal } from '../../actions';
 import { renderLearnMoreLabel } from '../../utils/render';
+import { ariaLabels } from '../../constants';
 
 import Dropdown from '../Dropdown';
 
@@ -15,8 +16,9 @@ export class EligibilityForm extends React.Component {
     { value: '0.9', label: '30 months: 90% (includes BASIC)' },
     { value: '0.8', label: '24 months: 80% (includes BASIC)' },
     { value: '0.7', label: '18 months: 70% (excludes BASIC)' },
-    { value: '0.6', label: '6 months: 60% (excludes BASIC)' },
-    { value: '0.5', label: '90 days: 50% (excludes BASIC)' },
+    { value: '0.6', label: '12 months: 60% (excludes BASIC)' },
+    { value: '0.5', label: '6 months: 50% (excludes BASIC)' },
+    { value: '0.4', label: '90 days: 40% (excludes BASIC)' },
     { value: '0.0', label: 'Less than 90 days 0% (excludes BASIC)' },
     { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' }, // notice not 1.0
     {
@@ -37,7 +39,7 @@ export class EligibilityForm extends React.Component {
 
   render() {
     return (
-      <div className="eligibility-form">
+      <div className="eligibility-form" role="dialog">
         <h2>Your eligibility</h2>
         <Dropdown
           label="What is your military status?"
@@ -73,7 +75,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',
             modal: 'giBillChapter',
-            ariaLabel: 'Learn more about GI Bill benefits',
+            ariaLabel: ariaLabels.learnMore.giBillBenefits,
           })}
           name="giBillChapter"
           options={[
@@ -134,8 +136,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Cumulative Post-9/11 active duty service',
             modal: 'cumulativeService',
-            ariaLabel:
-              'Learn more about cumulative Post-9/11 active duty service',
+            ariaLabel: ariaLabels.learnMore.post911Chapter33,
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
@@ -148,6 +149,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Completed an enlistment of:',
             modal: 'enlistmentService',
+            ariaLabel: ariaLabels.learnMore.montgomeryGIBill,
           })}
           name="enlistmentService"
           options={[
@@ -163,6 +165,7 @@ export class EligibilityForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Length of longest active duty tour:',
             modal: 'consecutiveService',
+            ariaLabel: ariaLabels.learnMore.reapActiveDuty,
           })}
           name="consecutiveService"
           options={[
@@ -212,6 +215,7 @@ export class EligibilityForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  ...state.eligibility,
   isLoggedIn: isLoggedIn(state),
 });
 

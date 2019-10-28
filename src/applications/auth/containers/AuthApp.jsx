@@ -134,7 +134,9 @@ export class AuthApp extends React.Component {
 
   // Fetch the user to get the login policy and validate the session.
   validateSession = () => {
-    apiRequest('/user', null, this.handleAuthSuccess, this.handleAuthError);
+    apiRequest('/user')
+      .then(this.handleAuthSuccess)
+      .catch(this.handleAuthError);
   };
 
   renderError = () => {

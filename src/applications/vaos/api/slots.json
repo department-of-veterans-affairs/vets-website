@@ -1,0 +1,852 @@
+[ {
+    "clinicId" : "2276",
+    "clinicName" : "DC/PACT GREEN FOUR",
+    "appointmentLength" : "30",
+    "clinicDisplayStartTime" : "7",
+    "displayIncrements" : "2",
+    "stopCode" : "282",
+    "askForCheckIn" : false,
+    "maxOverbooksPerDay" : "2",
+    "hasUserAccessToClinic" : true,
+    "primaryStopCode" : "323",
+    "secondaryStopCode" : "",
+    "listSize" : 139,
+    "objectType" : "AppointmentTimeSlots",
+    "link" : [ ],
+    "empty" : false,
+    "appointmentTimeSlot" : [ {
+      "startDateTime" : "09/17/2019 08:30:00",
+      "endDateTime" : "09/17/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/17/2019 09:30:00",
+      "endDateTime" : "09/17/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/17/2019 11:00:00",
+      "endDateTime" : "09/17/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/17/2019 11:30:00",
+      "endDateTime" : "09/17/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/19/2019 09:00:00",
+      "endDateTime" : "09/19/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/19/2019 09:30:00",
+      "endDateTime" : "09/19/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/19/2019 10:00:00",
+      "endDateTime" : "09/19/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/19/2019 10:30:00",
+      "endDateTime" : "09/19/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/19/2019 11:00:00",
+      "endDateTime" : "09/19/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/19/2019 11:30:00",
+      "endDateTime" : "09/19/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/20/2019 08:30:00",
+      "endDateTime" : "09/20/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/20/2019 09:00:00",
+      "endDateTime" : "09/20/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/20/2019 09:30:00",
+      "endDateTime" : "09/20/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/30/2019 08:30:00",
+      "endDateTime" : "09/30/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/30/2019 09:00:00",
+      "endDateTime" : "09/30/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/30/2019 09:30:00",
+      "endDateTime" : "09/30/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "09/30/2019 10:00:00",
+      "endDateTime" : "09/30/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/01/2019 08:30:00",
+      "endDateTime" : "10/01/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/01/2019 09:00:00",
+      "endDateTime" : "10/01/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/01/2019 09:30:00",
+      "endDateTime" : "10/01/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/01/2019 10:00:00",
+      "endDateTime" : "10/01/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/01/2019 10:30:00",
+      "endDateTime" : "10/01/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/01/2019 11:30:00",
+      "endDateTime" : "10/01/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/03/2019 09:00:00",
+      "endDateTime" : "10/03/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/03/2019 09:30:00",
+      "endDateTime" : "10/03/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/03/2019 10:00:00",
+      "endDateTime" : "10/03/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/03/2019 10:30:00",
+      "endDateTime" : "10/03/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/03/2019 11:00:00",
+      "endDateTime" : "10/03/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/03/2019 11:30:00",
+      "endDateTime" : "10/03/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/04/2019 08:30:00",
+      "endDateTime" : "10/04/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/04/2019 09:00:00",
+      "endDateTime" : "10/04/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/04/2019 09:30:00",
+      "endDateTime" : "10/04/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/04/2019 10:00:00",
+      "endDateTime" : "10/04/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/04/2019 10:30:00",
+      "endDateTime" : "10/04/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 08:30:00",
+      "endDateTime" : "10/07/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 10:00:00",
+      "endDateTime" : "10/07/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 13:30:00",
+      "endDateTime" : "10/07/2019 14:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 14:00:00",
+      "endDateTime" : "10/07/2019 14:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 14:30:00",
+      "endDateTime" : "10/07/2019 15:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 15:00:00",
+      "endDateTime" : "10/07/2019 15:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/07/2019 15:30:00",
+      "endDateTime" : "10/07/2019 16:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 08:30:00",
+      "endDateTime" : "10/08/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 09:00:00",
+      "endDateTime" : "10/08/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 09:30:00",
+      "endDateTime" : "10/08/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 10:00:00",
+      "endDateTime" : "10/08/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 10:30:00",
+      "endDateTime" : "10/08/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 11:00:00",
+      "endDateTime" : "10/08/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/08/2019 11:30:00",
+      "endDateTime" : "10/08/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/10/2019 09:00:00",
+      "endDateTime" : "10/10/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/10/2019 09:30:00",
+      "endDateTime" : "10/10/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/10/2019 10:00:00",
+      "endDateTime" : "10/10/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/10/2019 10:30:00",
+      "endDateTime" : "10/10/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/11/2019 08:30:00",
+      "endDateTime" : "10/11/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/11/2019 09:00:00",
+      "endDateTime" : "10/11/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/11/2019 09:30:00",
+      "endDateTime" : "10/11/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/11/2019 10:00:00",
+      "endDateTime" : "10/11/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/11/2019 10:30:00",
+      "endDateTime" : "10/11/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 08:30:00",
+      "endDateTime" : "10/15/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 09:00:00",
+      "endDateTime" : "10/15/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 09:30:00",
+      "endDateTime" : "10/15/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 10:00:00",
+      "endDateTime" : "10/15/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 10:30:00",
+      "endDateTime" : "10/15/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 11:00:00",
+      "endDateTime" : "10/15/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/15/2019 11:30:00",
+      "endDateTime" : "10/15/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/17/2019 09:00:00",
+      "endDateTime" : "10/17/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/17/2019 09:30:00",
+      "endDateTime" : "10/17/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/17/2019 10:00:00",
+      "endDateTime" : "10/17/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/17/2019 10:30:00",
+      "endDateTime" : "10/17/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/17/2019 11:00:00",
+      "endDateTime" : "10/17/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/17/2019 11:30:00",
+      "endDateTime" : "10/17/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/18/2019 08:30:00",
+      "endDateTime" : "10/18/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/18/2019 09:00:00",
+      "endDateTime" : "10/18/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/18/2019 09:30:00",
+      "endDateTime" : "10/18/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/18/2019 10:00:00",
+      "endDateTime" : "10/18/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/18/2019 10:30:00",
+      "endDateTime" : "10/18/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 08:30:00",
+      "endDateTime" : "10/21/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 09:00:00",
+      "endDateTime" : "10/21/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 10:00:00",
+      "endDateTime" : "10/21/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 13:30:00",
+      "endDateTime" : "10/21/2019 14:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 14:00:00",
+      "endDateTime" : "10/21/2019 14:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 14:30:00",
+      "endDateTime" : "10/21/2019 15:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 15:00:00",
+      "endDateTime" : "10/21/2019 15:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/21/2019 15:30:00",
+      "endDateTime" : "10/21/2019 16:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 08:30:00",
+      "endDateTime" : "10/22/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 09:00:00",
+      "endDateTime" : "10/22/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 09:30:00",
+      "endDateTime" : "10/22/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 10:00:00",
+      "endDateTime" : "10/22/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 10:30:00",
+      "endDateTime" : "10/22/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 11:00:00",
+      "endDateTime" : "10/22/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/22/2019 11:30:00",
+      "endDateTime" : "10/22/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/24/2019 09:00:00",
+      "endDateTime" : "10/24/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/24/2019 09:30:00",
+      "endDateTime" : "10/24/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/24/2019 10:00:00",
+      "endDateTime" : "10/24/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/24/2019 10:30:00",
+      "endDateTime" : "10/24/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/25/2019 08:30:00",
+      "endDateTime" : "10/25/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/25/2019 09:00:00",
+      "endDateTime" : "10/25/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/25/2019 09:30:00",
+      "endDateTime" : "10/25/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/25/2019 10:00:00",
+      "endDateTime" : "10/25/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/25/2019 10:30:00",
+      "endDateTime" : "10/25/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 08:30:00",
+      "endDateTime" : "10/28/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 09:00:00",
+      "endDateTime" : "10/28/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 09:30:00",
+      "endDateTime" : "10/28/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 10:00:00",
+      "endDateTime" : "10/28/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 13:00:00",
+      "endDateTime" : "10/28/2019 13:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 13:30:00",
+      "endDateTime" : "10/28/2019 14:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/28/2019 14:00:00",
+      "endDateTime" : "10/28/2019 14:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/29/2019 09:00:00",
+      "endDateTime" : "10/29/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/29/2019 09:30:00",
+      "endDateTime" : "10/29/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/29/2019 10:00:00",
+      "endDateTime" : "10/29/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/29/2019 10:30:00",
+      "endDateTime" : "10/29/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/29/2019 11:00:00",
+      "endDateTime" : "10/29/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/29/2019 11:30:00",
+      "endDateTime" : "10/29/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/31/2019 09:00:00",
+      "endDateTime" : "10/31/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/31/2019 09:30:00",
+      "endDateTime" : "10/31/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/31/2019 10:00:00",
+      "endDateTime" : "10/31/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/31/2019 10:30:00",
+      "endDateTime" : "10/31/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/31/2019 11:00:00",
+      "endDateTime" : "10/31/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "10/31/2019 11:30:00",
+      "endDateTime" : "10/31/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/01/2019 08:30:00",
+      "endDateTime" : "11/01/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/01/2019 09:00:00",
+      "endDateTime" : "11/01/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/01/2019 09:30:00",
+      "endDateTime" : "11/01/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/01/2019 10:00:00",
+      "endDateTime" : "11/01/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/01/2019 10:30:00",
+      "endDateTime" : "11/01/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 08:30:00",
+      "endDateTime" : "11/04/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 09:00:00",
+      "endDateTime" : "11/04/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 09:30:00",
+      "endDateTime" : "11/04/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 10:00:00",
+      "endDateTime" : "11/04/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 13:30:00",
+      "endDateTime" : "11/04/2019 14:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 14:00:00",
+      "endDateTime" : "11/04/2019 14:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 14:30:00",
+      "endDateTime" : "11/04/2019 15:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 15:00:00",
+      "endDateTime" : "11/04/2019 15:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/04/2019 15:30:00",
+      "endDateTime" : "11/04/2019 16:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 08:30:00",
+      "endDateTime" : "11/05/2019 09:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 09:00:00",
+      "endDateTime" : "11/05/2019 09:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 09:30:00",
+      "endDateTime" : "11/05/2019 10:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 10:00:00",
+      "endDateTime" : "11/05/2019 10:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 10:30:00",
+      "endDateTime" : "11/05/2019 11:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 11:00:00",
+      "endDateTime" : "11/05/2019 11:30:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    }, {
+      "startDateTime" : "11/05/2019 11:30:00",
+      "endDateTime" : "11/05/2019 12:00:00",
+      "bookingStatus" : "1",
+      "remainingAllowedOverBookings" : "2",
+      "availability" : true
+    } ]
+  } ]

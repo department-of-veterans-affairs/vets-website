@@ -6,6 +6,7 @@ import {
   isCountryUSA,
   isCountryInternational,
 } from '../utils/helpers';
+import { ariaLabels } from '../constants';
 import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
@@ -986,6 +987,7 @@ export const getCalculatedBenefits = createSelector(
         tuitionFees: {
           visible: true,
           title: 'Tuition and fees',
+          learnMoreAriaLabel: ariaLabels.learnMore.tuitionFees,
           terms: [
             {
               label: derived.nameOfTerm1,
@@ -1055,6 +1057,7 @@ export const getCalculatedBenefits = createSelector(
         housingAllowance: {
           visible: true,
           title: 'Housing allowance',
+          learnMoreAriaLabel: ariaLabels.learnMore.housingAllowance,
           terms: [
             {
               label: derived.nameOfTerm1,
@@ -1089,6 +1092,7 @@ export const getCalculatedBenefits = createSelector(
         bookStipend: {
           visible: true,
           title: 'Book stipend',
+          learnMoreAriaLabel: ariaLabels.learnMore.bookStipend,
           terms: [
             {
               label: derived.nameOfTerm1,

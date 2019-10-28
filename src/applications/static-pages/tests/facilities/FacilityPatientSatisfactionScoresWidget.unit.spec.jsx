@@ -26,7 +26,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
       '#facility-patient-satisfaction-scores-effective-date',
     );
     expect(facilityPatientSatisfactionScoresEffectiveDate.text()).to.contain(
-      'Last updated: May 22, 2018',
+      'Current as of May 22, 2018',
     );
 
     const primaryUrgentScore = tree.find(

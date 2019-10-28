@@ -11,6 +11,7 @@ describe('<RatedDisabilityApp/>', () => {
     loginUrl: '',
     verifyUrl: '',
     fetchRatedDisabilities: sinon.stub(),
+    fetchTotalDisabilityRating: sinon.stub(),
   };
   it('should render a RequiredLoginView', () => {
     const wrapper = shallow(
