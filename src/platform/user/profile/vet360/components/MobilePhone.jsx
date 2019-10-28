@@ -34,3 +34,5 @@ export default connect(
   mapStateToProps,
   null,
 )(MobilePhone);
+
+export { MobilePhone };
