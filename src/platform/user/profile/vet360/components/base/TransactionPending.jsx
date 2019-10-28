@@ -73,3 +73,5 @@ export default connect(
   mapStateToProps,
   null,
 )(Vet360TransactionPending);
+
+export { Vet360TransactionPending };
