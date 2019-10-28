@@ -16,14 +16,16 @@ const whitelists = {
   ],
 };
 
+const missingFilters = new Set();
+
 function getFilterType(contentModelType) {
-  let whitelist = whitelists[contentModelType];
-  if (!whitelist) {
+  const whitelist = whitelists[contentModelType];
+  if (!whitelist && !missingFilters.has(contentModelType)) {
+    missingFilters.add(contentModelType);
     // eslint-disable-next-line no-console
     console.warn(`No filter for target_id ${contentModelType}`);
-    whitelist = [];
   }
-  return whitelist;
+  return whitelist || [];
 }
 
 /**
