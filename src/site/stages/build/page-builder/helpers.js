@@ -45,11 +45,14 @@ function toCamel(obj) {
       camelKey = key.replace(/([_][a-z])/gi, gap =>
         gap.toUpperCase().replace('_', ''),
       );
-      // eslint-disable-next-line no-param-reassign
-      newObj[camelKey] = prop;
+    } else {
+      camelKey = key;
     }
+
+    // eslint-disable-next-line no-param-reassign
+    newObj[camelKey] = prop;
     return newObj;
-  });
+  }, {});
 }
 
 /**
