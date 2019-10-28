@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { API_ROUTES, FIELD_NAMES } from '../../constants';
+import { API_ROUTES, FIELD_NAMES } from 'vet360/constants';
 
 import { isValidEmail } from 'platform/forms/validations';
 
-import Vet360ProfileField from '../../containers/ProfileField';
-import EmailEditModal from './EditModal';
+import Vet360ProfileField from 'vet360/containers/ProfileField';
+import EmailEditModal from './EmailEditModal';
 
-import EmailView from './View';
+import EmailView from './EmailView';
 
 export default class EmailField extends React.Component {
   static propTypes = {

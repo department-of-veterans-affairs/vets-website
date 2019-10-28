@@ -3,7 +3,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 
 import Vet360EditModal from '../base/EditModal';
 
-export default class EditEmailModal extends React.Component {
+export default class EmailEditModal extends React.Component {
   onChange = ({ value: emailAddress, dirty }) => {
     const newFieldValue = { ...this.props.field.value, emailAddress };
     this.props.onChange(newFieldValue, dirty);
