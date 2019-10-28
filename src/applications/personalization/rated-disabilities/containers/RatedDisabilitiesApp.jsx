@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { fetchRatedDisabilities } from '../actions';
+import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
 
 // Wonder if we can put RD data in platform...
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 
 class RatedDisabilitiesApp extends React.Component {
+  componentDidMount() {
+    this.props.fetchTotalDisabilityRating();
+  }
+
   render() {
     const { ratedDisabilities } = this.props.ratedDisabilities;
     return (
@@ -24,6 +28,9 @@ class RatedDisabilitiesApp extends React.Component {
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
             user={this.props.user}
+            totalDisabilityRating={this.props.totalDisabilityRating}
+            loading={this.props.loading}
+            error={this.props.error}
           />
         </RequiredLoginView>
       </>
@@ -34,10 +41,14 @@ class RatedDisabilitiesApp extends React.Component {
 const mapStateToProps = state => ({
   user: state.user,
   ratedDisabilities: state.ratedDisabilities,
+  loading: state.totalRating.loading,
+  error: state.totalRating.error,
+  totalDisabilityRating: state.totalRating.totalDisabilityRating,
 });
 
 const mapDispatchToProps = {
   fetchRatedDisabilities,
+  fetchTotalDisabilityRating,
 };
 
 export default connect(
