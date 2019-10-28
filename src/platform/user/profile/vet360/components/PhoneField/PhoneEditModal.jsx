@@ -11,7 +11,7 @@ import Vet360EditModal from '../base/EditModal';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
-import { FIELD_NAMES } from '../../constants';
+import { FIELD_NAMES } from 'vet360/constants';
 
 import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
