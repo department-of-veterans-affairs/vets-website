@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-
+import {
+  FETCH_TOTAL_RATING_SUCCEEDED,
+  FETCH_TOTAL_RATING_FAILED,
+} from '../../actions';
 import { totalRating } from '../../reducers/total-disabilities';
 
 const initialState = {
@@ -18,7 +21,7 @@ describe('totalDisabilities reducer', () => {
 
   it('should handle an error from the API call', () => {
     const state = totalRating(initialState, {
-      type: 'FETCH_TOTAL_RATING_FAILED',
+      type: FETCH_TOTAL_RATING_FAILED,
     });
 
     expect(state.loading).to.equal(false);
@@ -28,7 +31,7 @@ describe('totalDisabilities reducer', () => {
 
   it('should handle a successful API call', () => {
     const state = totalRating(initialState, {
-      type: 'FETCH_TOTAL_RATING_SUCCEEDED',
+      type: FETCH_TOTAL_RATING_SUCCEEDED,
     });
 
     expect(state.loading).to.equal(false);
