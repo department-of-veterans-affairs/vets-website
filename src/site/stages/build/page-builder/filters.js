@@ -1,84 +1,31 @@
 /**
  * When reading through entity properties, ignore these.
  */
-const blackList = new Set([
-  'uuid',
-  'type',
-  'revision_uid',
-  'revision_user',
-  'user_id',
-  'items',
-  'owner_id',
-  'parent',
-  'role_id',
-  'roles',
-  'uid',
-  'vid',
-  'access_scheme',
-  'bundle',
-  'langcode',
-  'status',
-  'default_langcode',
-  'revision_translation_affected',
-  // Temporarily ignore the following properties because they were
-  // causing circular references. Once we get reader functions based
-  // on individual node / entity types, we can remove these from here.
-  // See the jsdoc on getEntityProperties for more information.
-  'field_facility_location',
-  'field_regional_health_service',
-  'field_region_page',
-  'field_office',
-]);
 
-const ignoredPageProps = [
-  'revision_timestamp',
-  'revision_log',
-  'field_plainlanguage_date',
-  'promote',
-  'created',
-  'sticky',
-];
-
-const ignoredPromoProps = [
-  'revision_created',
-  'revision_log',
-  'changed',
-  'reusable',
-  'moderation_state',
-  'field_image',
-  'field_instructions',
-  'field_owner',
-];
-
-const ignoredParagraphProps = ['behavior_settings', 'created'];
-
-/* eslint-disable camelcase */
-const ignoreMap = {
-  page: ignoredPageProps,
-  promo: ignoredPromoProps,
-  alert: ignoredParagraphProps,
-  collapsible_panel: ignoredParagraphProps,
-  collapsible_panel_item: ignoredParagraphProps,
-  downloadable_file: ignoredParagraphProps,
-  expandable_text: ignoredParagraphProps,
-  health_care_local_facility_servi: ignoredParagraphProps,
-  link_teaser: ignoredParagraphProps,
-  list_of_link_teasers: ignoredParagraphProps,
-  media: ignoredParagraphProps,
-  number_callout: ignoredParagraphProps,
-  process: ignoredParagraphProps,
-  q_a: ignoredParagraphProps,
-  q_a_section: ignoredParagraphProps,
-  react_widget: ignoredParagraphProps,
-  spanish_translation_summary: ignoredParagraphProps,
-  staff_profile: ignoredParagraphProps,
-  table: ignoredParagraphProps,
-  wysiwyg: ignoredParagraphProps,
+const whitelists = {
+  global: ['title'],
+  page: [
+    'field_intro_text',
+    'field_description',
+    'field_featured_content',
+    'field_content_block',
+    'field_alert',
+    'field_related_links',
+    'field_administration',
+    'field_page_last_built',
+  ],
 };
-/* eslint-enable camelcase */
+
+const missingFilters = new Set();
 
 function getFilterType(contentModelType) {
-  return new Set(ignoreMap[contentModelType]);
+  const whitelist = whitelists[contentModelType];
+  if (!whitelist && !missingFilters.has(contentModelType)) {
+    missingFilters.add(contentModelType);
+    // eslint-disable-next-line no-console
+    console.warn(`No filter for target_id ${contentModelType}`);
+  }
+  return whitelist || [];
 }
 
 /**
@@ -97,10 +44,10 @@ function getFilterType(contentModelType) {
 function getFilteredEntity(contentModelType, entity) {
   // TODO: Filter properties based on content model type
   const entityTypeFilter = getFilterType(contentModelType);
-  const entityFilter = new Set([...blackList, ...entityTypeFilter]);
+  const entityFilter = new Set([...whitelists.global, ...entityTypeFilter]);
   return Object.keys(entity).reduce((newEntity, key) => {
     // eslint-disable-next-line no-param-reassign
-    if (!entityFilter.has(key)) newEntity[key] = entity[key];
+    if (entityFilter.has(key)) newEntity[key] = entity[key];
     return newEntity;
   }, {});
 }
