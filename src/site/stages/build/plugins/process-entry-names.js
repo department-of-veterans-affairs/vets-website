@@ -82,12 +82,16 @@ function processEntryNames(buildOptions) {
       if (!dom) continue;
 
       dom('script[data-entry-name],link[data-entry-name]').each((index, el) => {
+        // Derive the element properties.
         const $el = dom(el);
         const entryName = $el.data('entryName');
         const attribute = $el.is('script') ? 'src' : 'href';
-        const hashedEntryName = entryNamesDictionary.get(entryName);
-        const entryExists = files[hashedEntryName.slice(1)];
 
+        // Derive the hashed entry name.
+        const hashedEntryName = entryNamesDictionary.get(entryName) || [];
+
+        // Ensure we have valid options and that the entry exists.
+        const entryExists = files[hashedEntryName.slice(1)];
         if (
           !buildOptions.watch &&
           !buildOptions.isPreviewServer &&
@@ -97,6 +101,7 @@ function processEntryNames(buildOptions) {
           throw new Error(`Entry Name "${entryName}" was not found.`);
         }
 
+        // Link the element to the hashed entry name.
         $el.attr(attribute, hashedEntryName);
         file.modified = true;
       });
