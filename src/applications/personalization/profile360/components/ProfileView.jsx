@@ -21,7 +21,10 @@ import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
-import { profileShowDirectDeposit } from '../selectors';
+import {
+  profileShowDirectDeposit,
+  profileShowReceiveTextNotifications,
+} from '../selectors';
 
 const ProfileTOC = ({ militaryInformation, showDirectDeposit }) => (
   <>
@@ -115,7 +118,11 @@ class ProfileView extends React.Component {
                 showDirectDeposit={showDirectDeposit}
               />
               <div id="contact-information" />
-              <ContactInformation />
+              <ContactInformation
+                showReceiveTextNotifications={
+                  this.props.showReceiveTextNotifications
+                }
+              />
               {showDirectDeposit && (
                 <>
                   <div id="direct-deposit" />
@@ -186,6 +193,7 @@ class ProfileView extends React.Component {
 function mapStateToProps(state) {
   return {
     showDirectDeposit: profileShowDirectDeposit(state),
+    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }
 
