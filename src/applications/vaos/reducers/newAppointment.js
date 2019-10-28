@@ -31,6 +31,7 @@ import {
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+  REASON_MAX_CHAR_DEFAULT,
 } from '../actions/newAppointment';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -48,6 +49,7 @@ const initialState = {
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
+  reasonRemainingChar: REASON_MAX_CHAR_DEFAULT,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {

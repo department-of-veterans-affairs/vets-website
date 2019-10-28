@@ -6,7 +6,6 @@ import {
   TYPES_OF_SLEEP_CARE,
 } from './constants';
 import moment from './moment-tz';
-import { REASON_MAX_CHAR_DEFAULT } from '../actions/newAppointment';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -168,12 +167,10 @@ export function getChosenClinicInfo(state) {
 
 export function getReasonForAppointment(state, pageKey) {
   const formInfo = getFormPageInfo(state, pageKey);
-  const remainingChar = getNewAppointment(state).reasonRemainingChar;
+  const reasonRemainingChar = getNewAppointment(state).reasonRemainingChar;
   return {
     ...formInfo,
-    reasonRemainingChar: !isNaN(remainingChar)
-      ? remainingChar
-      : REASON_MAX_CHAR_DEFAULT,
+    reasonRemainingChar,
   };
 }
 
