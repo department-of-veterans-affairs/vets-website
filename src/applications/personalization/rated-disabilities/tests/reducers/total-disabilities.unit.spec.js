@@ -28,7 +28,7 @@ describe('totalDisabilities reducer', () => {
 
   it('should handle a successful API call', () => {
     const state = totalRating(initialState, {
-      type: 'FETCH_TOTAL_RATING_SUCCESS',
+      type: 'FETCH_TOTAL_RATING_SUCCEEDED',
     });
 
     expect(state.loading).to.equal(false);

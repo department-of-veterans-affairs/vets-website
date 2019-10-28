@@ -5,7 +5,7 @@ export const FETCH_RATED_DISABILITIES_SUCCESS =
 export const FETCH_RATED_DISABILITIES_FAILED =
   'FETCH_RATED_DISABILITIES_FAILED';
 
-export const FETCH_TOTAL_RATING_SUCCESS = 'FETCH_TOTAL_RATING_SUCCESS';
+export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
 export function fetchRatedDisabilities() {
@@ -38,12 +38,12 @@ export function fetchTotalDisabilityRating() {
     if (response.errors) {
       // record event here
       dispatch({
-        type: FETCH_TOTAL_RATING_SUCCESS,
+        type: FETCH_TOTAL_RATING_SUCCEEDED,
         response,
       });
     } else {
       dispatch({
-        type: FETCH_TOTAL_RATING_SUCCESS,
+        type: FETCH_TOTAL_RATING_SUCCEEDED,
         response,
       });
     }

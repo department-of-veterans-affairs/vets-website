@@ -1,5 +1,5 @@
 import {
-  FETCH_TOTAL_RATING_SUCCESS,
+  FETCH_TOTAL_RATING_SUCCEEDED,
   FETCH_TOTAL_RATING_FAILED,
 } from '../actions/index';
 
@@ -17,7 +17,7 @@ export function totalRating(state = initialState, action) {
         loading: false,
         error: true,
       };
-    case FETCH_TOTAL_RATING_SUCCESS:
+    case FETCH_TOTAL_RATING_SUCCEEDED:
       return {
         ...state,
         loading: false,
