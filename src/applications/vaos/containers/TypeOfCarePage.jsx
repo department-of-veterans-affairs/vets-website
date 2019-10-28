@@ -1,6 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import {
+  selectVet360EmailAddress,
+  selectVet360HomePhoneString,
+  selectVet360MobilePhoneString,
+} from 'platform/user/selectors';
 
 import { TYPES_OF_CARE, DIRECT_SCHEDULE_TYPES } from '../utils/constants';
 import { getPastAppointments } from '../api';
@@ -40,6 +45,7 @@ const pageKey = 'typeOfCare';
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.prefillContactInfo();
   }
 
   onChange = newData => {
@@ -52,6 +58,31 @@ export class TypeOfCarePage extends React.Component {
     }
 
     this.props.updateFormData(pageKey, uiSchema, newData);
+  };
+
+  prefillContactInfo = () => {
+    const phoneNumber = this.props.mobilePhone || this.props.homePhone;
+    // only prefill the phone number if it isn't already set. So if the user has
+    // explicitly set a phone number and then gone back to the start of the New
+    // Appointment flow (without a hard refresh), this prefill won't rerun,
+    // overwriting what they have manually entered
+    if (phoneNumber && !this.props.data.phoneNumber) {
+      this.props.updateFormData(pageKey, uiSchema, {
+        ...this.props.data,
+        phoneNumber,
+      });
+    }
+    // The following is disabled since we don't yet have email address on the
+    // Contact Info page.. When it's enabled it'll be best to refactor this
+    // function to make a single call to updateFormData rather than one for
+    // phone number and one for email address.
+    // // only prefill the email address if it isn't already set
+    // if (this.props.emailAddress && !this.props.data.emailAddress) {
+    //   this.props.updateFormData(pageKey, uiSchema, {
+    //     ...this.props.data,
+    //     emailAddress: this.props.emailAddress,
+    //   });
+    // }
   };
 
   goBack = () => {
@@ -90,7 +121,13 @@ export class TypeOfCarePage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  const formPageInfo = getFormPageInfo(state, pageKey);
+  return {
+    ...formPageInfo,
+    emailAddress: selectVet360EmailAddress(state),
+    homePhone: selectVet360HomePhoneString(state),
+    mobilePhone: selectVet360MobilePhoneString(state),
+  };
 }
 
 const mapDispatchToProps = {

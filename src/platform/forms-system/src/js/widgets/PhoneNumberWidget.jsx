@@ -2,14 +2,16 @@ import React from 'react';
 import TextWidget from './TextWidget';
 
 /*
- * Handles removing dashes from SSNs by keeping the user input in local state
- * and saving the transformed version instead
+ * Handles removing dashes, parentheses, and the letter `x` from phone numbers
+ * by keeping the user input in local state and saving the transformed version
+ * instead
  */
 export default class PhoneNumberWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = { val: props.value };
   }
+
   handleChange = val => {
     let stripped;
     if (val) {
