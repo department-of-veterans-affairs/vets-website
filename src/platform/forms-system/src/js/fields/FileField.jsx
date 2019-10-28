@@ -162,6 +162,7 @@ export default class FileField extends React.Component {
                         onClick={() => {
                           this.cancelUpload(index);
                         }}
+                        aria-label="Cancel Upload"
                       >
                         Cancel
                       </button>
@@ -256,6 +257,7 @@ export default class FileField extends React.Component {
                     }
                   }}
                   tabIndex="0"
+                  aria-label={uiSchema['ui:title'] || schema.title}
                 >
                   {buttonText}
                 </span>
