@@ -103,7 +103,6 @@ describe('<ReceiveTextMessages/>', () => {
       expect(result.hideCheckbox).not.to.be.null;
       expect(result.transaction).to.be.null;
       expect(result.transactionSuccess).to.be.false;
-      expect(result.analyticsSectionName).to.be.equal('mobile-telephone');
       expect(result.apiRoute).to.be.equal('/profile/telephones');
     });
     it('returns hideCheckbox as true when user is not enrolled in va healthcare', () => {
