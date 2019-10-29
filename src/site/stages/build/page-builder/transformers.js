@@ -5,6 +5,11 @@ function pageTransform(entity) {
   transformed.title = transformed.title[0].value;
 
   transformed.fieldIntroText = transformed.fieldIntroText[0].value;
+  transformed.changed = new Date(transformed.changed[0].value).getTime() / 1000;
+  transformed.fieldPageLastBuilt = new Date(
+    transformed.fieldPageLastBuilt[0].value,
+  ).toUTCString();
+
   return entity;
 }
 
