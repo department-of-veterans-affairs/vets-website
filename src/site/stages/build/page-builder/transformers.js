@@ -8,6 +8,7 @@ function pageTransform(entity) {
   // collapse title
   // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
   transformed.title = transformed.title[0].value;
+  transformed.entityBundle = 'page';
 
   transformed.fieldIntroText = transformed.fieldIntroText[0].value;
   transformed.changed = new Date(transformed.changed[0].value).getTime() / 1000;
