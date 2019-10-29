@@ -24,7 +24,7 @@ import MVIError from './MVIError';
 import {
   profileShowDirectDeposit,
   profileShowReceiveTextNotifications,
-} from '../selectors';
+} from 'applications/personalization/profile360/selectors';
 
 const ProfileTOC = ({ militaryInformation, showDirectDeposit }) => (
   <>

@@ -13,7 +13,7 @@ import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
 import { FIELD_NAMES } from '../../constants';
 
-import { profileShowReceiveTextNotifications } from '../../selectors';
+import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {

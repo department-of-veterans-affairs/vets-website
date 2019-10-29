@@ -7,10 +7,8 @@ import { selectProfile } from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
-import {
-  selectVet360Transaction,
-  profileShowReceiveTextNotifications,
-} from '../selectors';
+import { selectVet360Transaction } from 'platform/user/profile/vet360/selectors';
+import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 import {
   isPendingTransaction,

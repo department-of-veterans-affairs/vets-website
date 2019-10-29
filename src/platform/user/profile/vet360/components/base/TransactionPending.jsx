@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { profileShowReceiveTextNotifications } from 'vet360/selectors';
+import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 class Vet360TransactionPending extends React.Component {
   static propTypes = {
