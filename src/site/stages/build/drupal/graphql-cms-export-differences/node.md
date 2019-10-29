@@ -1,8 +1,8 @@
 # node
 
-Tome returned **774** records.
+CMS export returned **774** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 1. `"entityId": "1000",`
 1. We might be missing `entityUrl.breadcrumb` (found in the GraphQL response), it's not clear how that's currently derived.
@@ -240,7 +240,7 @@ Tome returned **774** records.
   - `field_office` | Entity reference
   - `field_operating_status_emerg_inf` | Text (formatted, long)
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

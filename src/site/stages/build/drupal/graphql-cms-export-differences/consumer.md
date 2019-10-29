@@ -1,10 +1,10 @@
 # consumer
 
-Tome returned **1** record.
+CMS export returned **1** record.
 
 **This does not seem like it's used currently.**
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -33,7 +33,7 @@ None.
 
 None.
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

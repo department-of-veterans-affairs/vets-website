@@ -1,4 +1,4 @@
-# (GraphQL response vs. Tome data) by entity
+# (GraphQL response vs. CMS export data) by entity
 
 ## Entities and their `target_id`s
 
@@ -86,5 +86,5 @@
 
 ## Assumptions
 
-- Each entity included in the Tome response **always** has the same key-value pairs for that particular entity.
+- Each entity included in the CMS export **always** has the same key-value pairs for that particular entity.
   - This is `invalid`. Many of the entities have various `target_id`s and each `target_id` typically has unique key-value pairs. This is now outlined in each entity's markdown file.

@@ -1,8 +1,8 @@
 # crop
 
-Tome returned **64** records.
+CMS export returned **64** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -33,7 +33,7 @@ None.
 
 None.
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {
@@ -118,9 +118,9 @@ None.
 
 ## Example GraphQL response
 
-**WARNING:** Uncertain which is the data structure that matches the Tome data structure.
+**WARNING:** Uncertain which is the data structure that matches the CMS export data structure.
 
-**Ranked from highest confidence to lowest in regards to matching the Tome data.**
+**Ranked from highest confidence to lowest in regards to matching the CMS export data.**
 
 ```json
 {

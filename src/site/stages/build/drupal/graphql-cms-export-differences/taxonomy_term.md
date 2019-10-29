@@ -1,10 +1,10 @@
 # taxonomy_term
 
-Tome returned **150** records.
+CMS export returned **150** records.
 
 **This does not seem like it's used currently.**
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -45,7 +45,7 @@ None. 😎
   - `field_also_known_as` | Text (plain)
   - `field_vha_healthservice_stopcode` | Number (integer)
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

@@ -1,8 +1,8 @@
 # paragraph
 
-Tome returned **4762** records.
+CMS export returned **4762** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -114,7 +114,7 @@ None. 😎
 - target_id: `wysiwyg` (e.g. `WYSIWYG`)
   - `field_wysiwyg` | Text (formatted, long)
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

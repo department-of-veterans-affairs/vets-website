@@ -1,10 +1,10 @@
 # section_association
 
-Tome returned **28** records.
+CMS export returned **28** records.
 
 **This does not seem like it's used currently.**
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -24,7 +24,7 @@ None.
 
 None.
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

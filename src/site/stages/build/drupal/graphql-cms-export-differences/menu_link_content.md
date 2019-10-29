@@ -1,13 +1,13 @@
 # menu_link_content
 
-Tome returned **786** records.
+CMS export returned **786** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 1. `"url": { "path": "/burials-memorials/plan-a-burial" },`
 1. The whole `links` key-value pair and its nested properties.
 
-**WARNING:** The above missing properties indicate that the **Example GraphQL response below may not be a match for the Example Tome data.**
+**WARNING:** The above missing properties indicate that the **Example GraphQL response below may not be a match for the Example CMS export data.**
 
 ## `target_id`s:
 
@@ -36,7 +36,7 @@ None.
 
 None.
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

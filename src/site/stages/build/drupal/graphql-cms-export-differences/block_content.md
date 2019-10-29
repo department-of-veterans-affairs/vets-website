@@ -1,8 +1,8 @@
 # block_content
 
-Tome returned **28** records.
+CMS export returned **28** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -44,7 +44,7 @@ None. 😎
   - `field_promo_link` | Entity reference revisions
   - `field_owner` | Entity reference
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

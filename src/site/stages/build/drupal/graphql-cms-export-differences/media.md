@@ -1,8 +1,8 @@
 # media
 
-Tome returned **539** records.
+CMS export returned **539** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 None. 😎
 
@@ -53,7 +53,7 @@ None. 😎
   - `field_media_in_library` |	Boolean
   - `field_media_video_embed_field` |	Video Embed
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {

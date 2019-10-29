@@ -1,14 +1,14 @@
 # file
 
-Tome returned **606** records.
+CMS export returned **606** records.
 
-## Missing properties in Tome:
+## Missing properties in CMS export:
 
 `"url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/qRYoUL6BNdc.jpg?itok=mutTJ3Cb"`
 
 We have the URL above, we just don't have the query param `?itok=mutTJ3Cb` and it's not certain if that's different or the same for each public video thumbnail.
 
-If it's different, then we are missing it in the Tome data.
+If it's different, then we are missing it in the CMS export data.
 
 ## `target_id`s:
 
@@ -31,7 +31,7 @@ None.
 
 None.
 
-## Example Tome data
+## Example CMS export data
 
 ```json
 {
