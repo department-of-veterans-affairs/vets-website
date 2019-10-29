@@ -1,3 +1,15 @@
+function pageTransform(entity) {
+  const transformed = entity;
+  // collapse title
+  // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
+  transformed.title = transformed.title[0].value;
+  return entity;
+}
+
+const transformers = {
+  page: pageTransform,
+};
+
 // Recursively replaces all snake_case properties in an object
 // with camelCased properties
 function toCamel(obj) {
@@ -40,11 +52,11 @@ function toCamel(obj) {
 function transformEntity(entityType, entity) {
   // TODO: Perform transformations based on the content model type
 
+  const entityTransformer = transformers[entityType];
+
   const transformed = toCamel(entity);
-  // collapse title
-  // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
-  transformed.title = transformed.title[0].value;
-  return transformed;
+
+  return entityTransformer(transformed);
 }
 
 module.exports = {
