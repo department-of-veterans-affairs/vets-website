@@ -7,7 +7,7 @@ Tome returned **786** records.
 1. `"url": { "path": "/burials-memorials/plan-a-burial" },`
 1. The whole `links` key-value pair and its nested properties.
 
-**WARNING:** The above missing properties makes me think that the **Example GraphQL response below may not be a match for the Example Tome data.**
+**WARNING:** The above missing properties indicate that the **Example GraphQL response below may not be a match for the Example Tome data.**
 
 ## All standard key-value pairs:
 

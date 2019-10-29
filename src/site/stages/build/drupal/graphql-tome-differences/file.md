@@ -6,7 +6,7 @@ Tome returned **606** records.
 
 `"url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/qRYoUL6BNdc.jpg?itok=mutTJ3Cb"`
 
-We have the URL above, we just don't have the query param `?itok=mutTJ3Cb` and I'm not sure if that's different or the same for each public video thumbnail.
+We have the URL above, we just don't have the query param `?itok=mutTJ3Cb` and it's not certain if that's different or the same for each public video thumbnail.
 
 If it's different, then we are missing it in the Tome data.
 

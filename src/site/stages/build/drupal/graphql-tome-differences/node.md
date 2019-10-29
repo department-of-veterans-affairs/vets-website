@@ -2,7 +2,6 @@
 
 Tome returned **774** records.
 
-
 ## Missing properties in Tome:
 
 1. `"entityId": "1000",`
