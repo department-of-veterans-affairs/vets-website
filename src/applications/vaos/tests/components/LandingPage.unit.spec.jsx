@@ -21,7 +21,7 @@ describe('VAOS <LandingPage>', () => {
         .find('a')
         .at(1)
         .text(),
-    ).to.contain('View your appointments');
+    ).to.contain('View or cancel appointments');
 
     tree.unmount();
   });
