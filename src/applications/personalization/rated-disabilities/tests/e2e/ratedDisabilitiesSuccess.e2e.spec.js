@@ -25,7 +25,7 @@ function begin(browser) {
       Auth.logIn(
         token,
         browser,
-        '/disability/my-rated-disabilities',
+        '/disability/check-disability-rating/rating',
         3,
       ).waitForElementVisible('.vads-u-font-size--h3', Timeouts.verySlow);
     });

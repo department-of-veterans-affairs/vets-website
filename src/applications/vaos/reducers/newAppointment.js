@@ -28,6 +28,8 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
 } from '../actions/newAppointment';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -343,6 +345,31 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         loadingFacilityDetails: true,
+      };
+    }
+    case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED: {
+      return {
+        ...state,
+        loadingAppointmentSlots: true,
+        availableSlots: [],
+      };
+    }
+    case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED: {
+      const { data, schema } = setupFormData(
+        state.data,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        loadingAppointmentSlots: false,
+        availableSlots: action.availableSlots,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {

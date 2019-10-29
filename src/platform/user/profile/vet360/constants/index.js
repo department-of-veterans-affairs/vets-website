@@ -73,6 +73,8 @@ export const ANALYTICS_FIELD_MAP = {
   email: 'email',
   mailingAddress: 'mailing-address',
   residentialAddress: 'home-address',
+  smsOptin: 'sms-optin',
+  smsOptout: 'sms-optout',
 };
 
 export const API_ROUTES = {

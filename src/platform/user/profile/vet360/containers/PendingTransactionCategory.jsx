@@ -26,7 +26,9 @@ function Vet360PendingTransactionCategory({
   }
 
   const refreshAllTransactions = () => {
-    transactions.forEach(dispatchRefreshTransaction);
+    transactions.forEach(transaction => {
+      dispatchRefreshTransaction(transaction);
+    });
   };
 
   return (

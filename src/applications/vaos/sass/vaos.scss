@@ -33,7 +33,7 @@
   text-transform: uppercase;
 }
 
-.vaos-form__checkbox > .schemaform-label {
+.vaos-form__checkbox>.schemaform-label {
   margin-top: 0;
 }
 
@@ -51,5 +51,126 @@
   legend {
     margin-bottom: 30px;
     max-width: none;
+  }
+}
+
+
+.vaos-calendar__weekday {
+  width: 20%;
+}
+
+
+.vaos-calendar__calendar-day {
+  width: 18%;
+  margin: 8px;
+  max-width: 117px;
+
+  button {
+    width: 100%;
+    color: $color-base;
+    background-color: $color-gray-lightest;
+    border: 1px solid $color-gray-medium;
+    border-radius: 5px;
+    padding: 12px;
+  }
+
+  &.vaos-calendar__cell-selected button {
+    position: relative;
+    background-color: $color-primary;
+    border-color: $color-primary;
+    color: $color-white;
+
+  }
+
+  .fa-check {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    font-size: 10px;
+  }
+
+  &.vaos-calendar__cell-current button {
+    position: relative;
+    background-color: $color-primary;
+    border-color: $color-primary;
+    color: $color-white;
+
+    .vaos-calendar__cell-selected-triangle {
+      display: block;
+      height: 20px;
+      width: 20px;
+      background-color: inherit;
+      border: inherit;
+      position: absolute;
+      bottom: -10px;
+      left: calc(50% - 10px);
+      clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+      transform: rotate(-45deg);
+      border-radius: 0 0 0 0.25em;
+    }
+  }
+
+  button:disabled {
+    background-color: $color-gray-lightest;
+    border-color: $color-gray-lightest;
+    color: $color-gray-light;
+  }
+}
+
+.vaos-calendar__nav-links {
+  margin-top: -30px;
+
+  button {
+    background: none;
+
+    &:disabled {
+      color: $color-gray-light !important;
+    }
+  }
+}
+
+.vaos-calendar__options {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.vaos-calendar__option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color-primary;
+  width: 18%;
+  max-width: 117px;
+  border-radius: 5px;
+  padding: 8px 0;
+  margin: 8px;
+
+
+  input[type="radio"], input[type="checkbox"] {
+    width: unset;
+  }
+
+  input[type=radio] + label::before {
+    margin-top: 0;
+    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
+  }
+
+  input[type=checkbox] + label::before {
+    margin-top: 0;
+    box-shadow: 0 0 0 1px $color-primary;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .vaos-calendar__calendar-day {
+    margin: 4px;
+  }
+
+  .vaos-calendar__option {
+    max-width: unset;
+    width: 47%;
+    padding: 8px;
+    margin: 4px;
   }
 }

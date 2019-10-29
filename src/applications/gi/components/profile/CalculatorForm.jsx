@@ -13,6 +13,8 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
+import recordEvent from 'platform/monitoring/record-event';
+import { ariaLabels } from '../../constants';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -36,6 +38,7 @@ class CalculatorForm extends React.Component {
       );
       ({ extensions } = matchedBranch);
     }
+
     return extensions;
   };
 
@@ -60,9 +63,20 @@ class CalculatorForm extends React.Component {
     };
   };
 
+  isFullZipcode = zipCode => {
+    if (zipCode.length === 5) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'gibctExtensionSearchZipCode',
+        'gibct-form-value': zipCode,
+      });
+    }
+  };
+
   handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       this.props.onBeneficiaryZIPCodeChanged(event.value);
+      this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
       this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
@@ -72,6 +86,12 @@ class CalculatorForm extends React.Component {
   handleExtensionChange = event => {
     const value = event.target.value;
     const zipCode = value.slice(value.indexOf('-') + 1);
+
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'gibctExtensionCampusDropdown',
+      'gibct-form-value': event.target.options[event.target.selectedIndex].text,
+    });
     if (!event.dirty) {
       if (event.target.value !== 'other') {
         this.props.onBeneficiaryZIPCodeChanged(zipCode);
@@ -85,6 +105,12 @@ class CalculatorForm extends React.Component {
   handleHasClassesOutsideUSChange = e => {
     this.handleBeneficiaryZIPCodeChanged({ value: '' });
     this.handleCheckboxChange(e);
+
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'gibctInternationalCheckbox',
+      'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
+    });
   };
 
   handleCheckboxChange = e => {
@@ -94,7 +120,19 @@ class CalculatorForm extends React.Component {
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
+    const { profile } = this.props;
     this.props.onInputChange({ field, value });
+
+    if (value === 'extension' || value === profile.attributes.name) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'gibctExtensionCampusSelection',
+        'gibct-form-value':
+          value === 'extension'
+            ? 'An extension campus'
+            : profile.attributes.name,
+      });
+    }
   };
 
   resetBuyUp = event => {
@@ -107,13 +145,14 @@ class CalculatorForm extends React.Component {
     }
   };
 
-  renderLearnMoreLabel = ({ text, modal }) => (
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
     <span>
       {text} (
       <button
         type="button"
         className="va-button-link learn-more-button"
         onClick={this.props.onShowModal.bind(this, modal)}
+        aria-label={ariaLabel || ''}
       >
         Learn more
       </button>
@@ -145,6 +184,7 @@ class CalculatorForm extends React.Component {
             text:
               'Did you use your Post-9/11 GI Bill benefits for tuition, housing, or books for a term that started before January 1, 2018?',
             modal: 'whenUsedGiBill',
+            ariaLabel: ariaLabels.learnMore.whenUsedGiBill,
           })}
           name="giBillBenefit"
           options={[
@@ -168,6 +208,7 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'In-state tuition and fees per year',
             modal: 'calcInStateTuition',
+            ariaLabel: ariaLabels.learnMore.inStateTuitionFeesPerYear,
           })}
         </label>
         <input
@@ -190,6 +231,7 @@ class CalculatorForm extends React.Component {
           type="button"
           className="va-button-link learn-more-button vads-u-margin-left--0p5"
           onClick={this.props.onShowModal.bind(this, 'calcTuition')}
+          aria-label={ariaLabels.learnMore.tuitionFeesPerYear}
         >
           (Learn more)
         </button>
@@ -250,6 +292,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will you be a Yellow Ribbon recipient?',
             modal: 'calcYr',
+            ariaLabel: ariaLabels.learnMore.yellowRibbonProgram,
           })}
           name="yellowRibbonRecipient"
           options={[
@@ -326,6 +369,7 @@ class CalculatorForm extends React.Component {
           {this.renderLearnMoreLabel({
             text: 'Scholarships (excluding Pell)',
             modal: 'calcScholarships',
+            ariaLabel: ariaLabels.learnMore.calcScholarships,
           })}
         </label>
         <input
@@ -403,6 +447,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Enrolled',
             modal: 'calcEnrolled',
+            ariaLabel: ariaLabels.learnMore.calcEnrolled,
           })}
           name={name}
           alt="Enrolled"
@@ -468,6 +513,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'School Calendar',
             modal: 'calcSchoolCalendar',
+            ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
           })}
           name="calendar"
           alt="School calendar"
@@ -512,6 +558,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Eligible for kicker bonus?',
             modal: 'calcKicker',
+            ariaLabel: ariaLabels.learnMore.kickerEligible,
           })}
           name="kickerEligible"
           options={[
@@ -540,7 +587,7 @@ class CalculatorForm extends React.Component {
     let extensionOptions = [];
     const zipcodeRadioOptions = [
       {
-        value: 'yes',
+        value: profile.attributes.name,
         label: profile.attributes.name,
       },
     ];
@@ -713,6 +760,7 @@ class CalculatorForm extends React.Component {
           label={this.renderLearnMoreLabel({
             text: 'Will be working',
             modal: 'calcWorking',
+            ariaLabel: ariaLabels.learnMore.calcWorking,
           })}
           name="working"
           alt="Will be working"
