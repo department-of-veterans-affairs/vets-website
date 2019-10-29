@@ -31,175 +31,185 @@ const {
   phone,
 } = fullSchema.properties.veteran.properties;
 
-export const uiSchema = {
-  veteran: {
-    'ui:title': 'Contact Information',
-    'ui:description': () =>
-      contactInfoDescription({
-        formName: 'Higher-Level Review',
-      }),
-    phoneEmailCard: {
-      'ui:title': 'Phone & email',
-      'ui:field': ReviewCardField,
-      'ui:options': {
-        viewComponent: phoneEmailViewField,
-      },
-      phone: {
-        'ui:title': 'Phone number',
-        'ui:widget': PhoneNumberWidget,
-        'ui:reviewWidget': PhoneNumberReviewWidget,
-        'ui:errorMessages': {
-          pattern: errorMessages.phone,
-          required: errorMessages.phone,
-        },
+const contactInfo = {
+  uiSchema: {
+    veteran: {
+      'ui:title': 'Contact Information',
+      'ui:description': () =>
+        contactInfoDescription({
+          formName: 'Higher-Level Review',
+        }),
+      phoneEmailCard: {
+        'ui:title': 'Phone & email',
+        'ui:field': ReviewCardField,
         'ui:options': {
-          widgetClassNames: 'va-input-medium-large',
-          inputType: 'tel',
+          viewComponent: phoneEmailViewField,
         },
-      },
-      emailAddress: {
-        'ui:title': 'Email address',
-        'ui:errorMessages': {
-          pattern: errorMessages.email,
-          required: errorMessages.email,
-        },
-        'ui:options': {
-          inputType: 'email',
-        },
-      },
-    },
-    mailingAddress: merge(
-      addressUISchema('veteran.mailingAddress', 'Mailing address', true),
-      {
-        addressLine1: {
+        phone: {
+          'ui:title': 'Phone number',
+          'ui:widget': PhoneNumberWidget,
+          'ui:reviewWidget': PhoneNumberReviewWidget,
           'ui:errorMessages': {
-            pattern: errorMessages.address1,
-            required: errorMessages.address1,
+            pattern: errorMessages.phone,
+            required: errorMessages.phone,
+          },
+          'ui:options': {
+            widgetClassNames: 'va-input-medium-large',
+            inputType: 'tel',
           },
         },
-        city: {
+        emailAddress: {
+          'ui:title': 'Email address',
           'ui:errorMessages': {
-            pattern: errorMessages.city,
-            required: errorMessages.city,
+            pattern: errorMessages.email,
+            required: errorMessages.email,
           },
-        },
-        state: {
-          'ui:errorMessages': {
-            pattern: errorMessages.state,
-            required: errorMessages.state,
-          },
-        },
-        zipCode: {
-          'ui:errorMessages': {
-            pattern: errorMessages.zipCode,
-            required: errorMessages.zipCode,
+          'ui:options': {
+            inputType: 'email',
           },
         },
       },
-    ),
-    'view:hasForwardingAddress': {
-      'ui:title': forwardingAddressCheckboxLabel,
-    },
-    forwardingAddress: merge(
-      addressUISchema('veteran.forwardingAddress', 'Forwarding address', true),
-      {
-        'ui:order': [
-          'effectiveDates',
-          'country',
-          'addressLine1',
-          'addressLine2',
-          'addressLine3',
-          'city',
-          'state',
-          'zipCode',
-        ],
-        'ui:description': ForwardingAddressDescription,
-        'ui:options': {
-          viewComponent: ForwardingAddressViewField,
-          expandUnder: 'view:hasForwardingAddress',
-        },
-        effectiveDates: merge(
-          {},
-          dateRangeUI(
-            'Start date',
-            'End date',
-            errorMessages.endDateBeforeStart,
-          ),
-          {
-            from: {
-              'ui:required': hasForwardingAddress,
-              'ui:errorMessages': {
-                required: errorMessages.forwardStartDate,
-              },
+      mailingAddress: merge(
+        addressUISchema('veteran.mailingAddress', 'Mailing address', true),
+        {
+          addressLine1: {
+            'ui:errorMessages': {
+              pattern: errorMessages.address1,
+              required: errorMessages.address1,
             },
-            'ui:validations': [checkDateRange],
           },
+          city: {
+            'ui:errorMessages': {
+              pattern: errorMessages.city,
+              required: errorMessages.city,
+            },
+          },
+          state: {
+            'ui:errorMessages': {
+              pattern: errorMessages.state,
+              required: errorMessages.state,
+            },
+          },
+          zipCode: {
+            'ui:errorMessages': {
+              pattern: errorMessages.zipCode,
+              required: errorMessages.zipCode,
+            },
+          },
+        },
+      ),
+      'view:hasForwardingAddress': {
+        'ui:title': forwardingAddressCheckboxLabel,
+      },
+      forwardingAddress: merge(
+        addressUISchema(
+          'veteran.forwardingAddress',
+          'Forwarding address',
+          true,
         ),
-        country: {
-          'ui:required': hasForwardingAddress,
-        },
-        addressLine1: {
-          'ui:required': hasForwardingAddress,
-          'ui:errorMessages': {
-            pattern: errorMessages.address1,
-            required: errorMessages.address1,
+        {
+          'ui:order': [
+            'effectiveDates',
+            'country',
+            'addressLine1',
+            'addressLine2',
+            'addressLine3',
+            'city',
+            'state',
+            'zipCode',
+          ],
+          'ui:description': ForwardingAddressDescription,
+          'ui:options': {
+            viewComponent: ForwardingAddressViewField,
+            expandUnder: 'view:hasForwardingAddress',
+          },
+          effectiveDates: merge(
+            {},
+            dateRangeUI(
+              'Start date',
+              'End date',
+              errorMessages.endDateBeforeStart,
+            ),
+            {
+              from: {
+                'ui:required': hasForwardingAddress,
+                'ui:errorMessages': {
+                  required: errorMessages.forwardStartDate,
+                },
+              },
+              'ui:validations': [checkDateRange],
+            },
+          ),
+          country: {
+            'ui:required': hasForwardingAddress,
+          },
+          addressLine1: {
+            'ui:required': hasForwardingAddress,
+            'ui:errorMessages': {
+              pattern: errorMessages.address1,
+              required: errorMessages.address1,
+            },
+          },
+          city: {
+            'ui:required': hasForwardingAddress,
+            'ui:errorMessages': {
+              pattern: errorMessages.city,
+              required: errorMessages.city,
+            },
+          },
+          state: {
+            'ui:required': formData =>
+              hasForwardingAddress(formData) &&
+              forwardingCountryIsUSA(formData),
+            'ui:errorMessages': {
+              pattern: errorMessages.state,
+              required: errorMessages.state,
+            },
+          },
+          zipCode: {
+            'ui:required': formData =>
+              hasForwardingAddress(formData) &&
+              forwardingCountryIsUSA(formData),
+            'ui:errorMessages': {
+              pattern: errorMessages.zipCode,
+              required: errorMessages.zipCode,
+            },
           },
         },
-        city: {
-          'ui:required': hasForwardingAddress,
-          'ui:errorMessages': {
-            pattern: errorMessages.city,
-            required: errorMessages.city,
+      ),
+      'view:contactInfoDescription': {
+        'ui:description': contactInfoUpdateHelp,
+      },
+    },
+  },
+
+  schema: {
+    type: 'object',
+    properties: {
+      veteran: {
+        type: 'object',
+        properties: {
+          phoneEmailCard: {
+            type: 'object',
+            required: ['phone', 'emailAddress'],
+            properties: {
+              phone,
+              emailAddress,
+            },
           },
-        },
-        state: {
-          'ui:required': formData =>
-            hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
-          'ui:errorMessages': {
-            pattern: errorMessages.state,
-            required: errorMessages.state,
+          mailingAddress,
+          'view:hasForwardingAddress': {
+            type: 'boolean',
           },
-        },
-        zipCode: {
-          'ui:required': formData =>
-            hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
-          'ui:errorMessages': {
-            pattern: errorMessages.zipCode,
-            required: errorMessages.zipCode,
+          forwardingAddress,
+          'view:contactInfoDescription': {
+            type: 'object',
+            properties: {},
           },
         },
       },
-    ),
-    'view:contactInfoDescription': {
-      'ui:description': contactInfoUpdateHelp,
     },
   },
 };
 
-export const schema = {
-  type: 'object',
-  properties: {
-    veteran: {
-      type: 'object',
-      properties: {
-        phoneEmailCard: {
-          type: 'object',
-          required: ['phone', 'emailAddress'],
-          properties: {
-            phone,
-            emailAddress,
-          },
-        },
-        mailingAddress,
-        'view:hasForwardingAddress': {
-          type: 'boolean',
-        },
-        forwardingAddress,
-        'view:contactInfoDescription': {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
-  },
-};
+export default contactInfo;

@@ -1,8 +1,22 @@
 // Test data for HLR
 import { addXMonths } from '../../helpers';
+import { selectors } from '../../constants';
+
+// FLAG for testing
+const legacyOptInApproved = false;
+const optOutStepVisible = !legacyOptInApproved;
 
 export default {
   veteran: {
+    // Show opt out step if true; set to false if veteran.legacyOptInApproved is
+    // already true
+    [selectors.optOutStepVisible]: optOutStepVisible,
+    // `legacyOptInApproved` is set to true:
+    // - if the veteran does not have any appeals in the legacy system
+    // - if the veteran does have a legacy appeal, but only set _after_ the
+    //  veteran submits the new form
+    legacyOptInApproved,
+
     fullName: { first: 'MIKE', last: 'WAZOWSKI' },
     // full SSN isn't necessary
     last4SSN: '4321',
@@ -42,6 +56,39 @@ export default {
       state: 'DC',
       zipCode: '20500',
     },
+
+    // Rated disabilities modified from 526EZ all-claims
+    // Leave 'view:selected' set to false for unit testing
+    contestedIssues: [
+      {
+        name: 'Tinnitus',
+        description: `Rinnging in the ears. More intese in right ear. Lorem
+          ipsum dolor sit amet, consectetur adipiscing elit.`,
+        ratedDisabilityId: '0',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        ratingPercentage: 10,
+        useSameOffice: true,
+        additionalNote: `Lorem ipsum dolor sit amet, consectetur adipiscing
+          elit. Nam finibus pulvinar erat, ac luctus felis porttitor eget.
+          Aenean luctus urna libero, tincidunt mollis ante cursus sed. Fusce a
+          vehicula est, eget dignissim purus. Vestibulum quis placerat sapien.
+          Vestibulum gravida libero quis lectus auctor, ut vehicula turpis
+          maximus. Donec ultrices eu orci tincidunt elementum. Phasellus eros
+          eros, ornare vel urna ut, luctus maximus nisl. Integer consectetur mi
+          eu diam consectetur, vitae imperdiet nulla iaculis.`,
+        'view:selected': false,
+      },
+      {
+        name: 'Headaches',
+        description: 'Acute chronic head pain',
+        ratedDisabilityId: '1',
+        ratingDecisionId: '63655',
+        diagnosticCode: 5238,
+        ratingPercentage: 50,
+        'view:selected': false,
+      },
+    ],
   },
 };
 
