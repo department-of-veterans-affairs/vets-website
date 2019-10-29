@@ -6,6 +6,29 @@ Tome returned **4762** records.
 
 None. 😎
 
+## `target_id`s:
+
+  - `collapsible_panel` (e.g. `Accordion group`)
+  - `collapsible_panel_item` (e.g. `Accordion Item`)
+  - `spanish_translation_summary` (e.g. `Additional information`)
+  - `address` (e.g. `Address`)
+  - `alert` (e.g. `Alert`)
+  - `media` (e.g. `Embedded image`)
+  - `expandable_text` (e.g. `Expandable Text`)
+  - `link_teaser` (e.g. `Link teaser`)
+  - `downloadable_file` (e.g. `Link to file or video`)
+  - `list_of_link_teasers` (e.g. `List of link teasers`)
+  - `number_callout` (e.g. `Number callout`)
+  - `process` (e.g. `Process list`)
+  - `q_a` (e.g. `Q&A`)
+  - `q_a_section` (e.g. `Q&A Section`)
+  - `react_widget` (e.g. `React Widget`)
+  - `situation_update` (e.g. `Situation update`)
+  - `staff_profile` (e.g. `Staff profile`)
+  - `table` (e.g. `Table`)
+  - `health_care_local_facility_servi` (e.g. `VAMC facility service (non-healthcare service)`)
+  - `wysiwyg` (e.g. `WYSIWYG`)
+
 ## All standard key-value pairs:
 
 - `behavior_settings`

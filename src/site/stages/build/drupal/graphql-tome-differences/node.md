@@ -8,6 +8,25 @@ Tome returned **774** records.
 1. We might be missing `entityUrl.breadcrumb` (found in the GraphQL response), it's not clear how that's currently derived.
 1. We might be missing `entityMetatags`, it's not clear how they are currently derived.
 
+## `target_id`s:
+
+- `health_care_region_detail_page`
+- `documentation_page`
+- `event`
+- `event_listing`
+- `press_release`
+- `office`
+- `outreach_asset` (e.g. `Publication`)
+- `person_profile` (e.g. `Staff profile`)
+- `news_story`
+- `support_service`
+- `health_care_region_page` (e.g. `VAMC system`)
+- `full_width_banner_alert` (e.g. `VAMC system banner alert with situational updates`)
+- `health_care_local_facility` (e.g. `VAMC facility`)
+- `health_care_local_health_service` (e.g. `VAMC facility health service`)
+- `regional_health_care_service_des` (e.g. `VAMC system health service`)
+- `vamc_operating_status_and_alerts` (e.g. `VAMC system operating status`)
+
 ## All standard key-value pairs:
 
 - `changed`

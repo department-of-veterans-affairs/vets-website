@@ -9,6 +9,10 @@ Tome returned **786** records.
 
 **WARNING:** The above missing properties indicate that the **Example GraphQL response below may not be a match for the Example Tome data.**
 
+## `target_id`s:
+
+None.
+
 ## All standard key-value pairs:
 
 - `bundle`

@@ -6,6 +6,11 @@ Tome returned **28** records.
 
 None. 😎
 
+## `target_id`s:
+
+- `alert`
+- `promo`
+
 ## All standard key-value pairs:
 - `changed`
 - `default_langcode`

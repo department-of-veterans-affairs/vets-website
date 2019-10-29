@@ -6,6 +6,12 @@ Tome returned **539** records.
 
 None. 😎
 
+## `target_id`s:
+
+- `document`
+- `image`
+- `video`
+
 ## All standard key-value pairs:
 
 - `bundle`
