@@ -165,6 +165,15 @@ export function getChosenClinicInfo(state) {
   );
 }
 
+export function getReasonForAppointment(state, pageKey) {
+  const formInfo = getFormPageInfo(state, pageKey);
+  const reasonRemainingChar = getNewAppointment(state).reasonRemainingChar;
+  return {
+    ...formInfo,
+    reasonRemainingChar,
+  };
+}
+
 export function getClinicsForChosenFacility(state) {
   const data = getFormData(state);
   const clinics = getNewAppointment(state).clinics;

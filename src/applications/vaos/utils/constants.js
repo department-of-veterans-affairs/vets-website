@@ -15,7 +15,7 @@ export const PURPOSE_TEXT = {
   'routine-follow-up': 'Routine/follow-up',
   'new-issue': 'New issue',
   'medication-concern': 'Medication concern',
-  other: 'Other',
+  other: 'My reason is not listed here',
 };
 
 export const TYPES_OF_CARE = [
