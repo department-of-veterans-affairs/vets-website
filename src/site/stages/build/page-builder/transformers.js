@@ -53,6 +53,8 @@ const transformers = {
   page: pageTransform,
 };
 
+const missingTransformers = new Set();
+
 /**
  * Takes the entity type and entity contents and returns a new
  * entity with modified data to fit the content model.
@@ -68,7 +70,14 @@ const transformers = {
 function transformEntity(entityType, entity) {
   // TODO: Perform transformations based on the content model type
 
-  const entityTransformer = transformers[entityType];
+  let entityTransformer = transformers[entityType];
+
+  if (!entityTransformer && !missingTransformers.has(entityType)) {
+    missingTransformers.add(entityType);
+    // eslint-disable-next-line no-console
+    console.warn(`No transformer for target_id ${entityType}`);
+  }
+  entityTransformer = entityTransformer || (() => entity);
 
   // Convert all snake_case keys to camelCase
   const transformed = _.mapKeys(entity, (v, k) => _.camelCase(k));
