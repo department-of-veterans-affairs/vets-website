@@ -56,6 +56,28 @@ const transformers = {
 const missingTransformers = new Set();
 
 /**
+ * Returns the proper function for transforming a specific entity type.
+ * If no transformer exists for the entity type, it returns a function
+ * that will return the entity unmodified, and it will log a warning.
+ *
+ * @param {String} entityType - The type of the entity
+ * @return {Function} - A function that accepts an entity and transforms it
+ */
+function getEntityTransformer(entityType) {
+  let entityTransformer = entity => entity;
+
+  if (entityType in transformers) {
+    entityTransformer = transformers[entityType];
+  } else if (!missingTransformers.has(entityType)) {
+    missingTransformers.add(entityType);
+    // eslint-disable-next-line no-console
+    console.warn(`No transformer for target_id ${entityType}`);
+  }
+
+  return entityTransformer;
+}
+
+/**
  * Takes the entity type and entity contents and returns a new
  * entity with modified data to fit the content model.
  *
@@ -70,14 +92,7 @@ const missingTransformers = new Set();
 function transformEntity(entityType, entity) {
   // TODO: Perform transformations based on the content model type
 
-  let entityTransformer = transformers[entityType];
-
-  if (!entityTransformer && !missingTransformers.has(entityType)) {
-    missingTransformers.add(entityType);
-    // eslint-disable-next-line no-console
-    console.warn(`No transformer for target_id ${entityType}`);
-  }
-  entityTransformer = entityTransformer || (() => entity);
+  const entityTransformer = getEntityTransformer(entityType);
 
   // Convert all snake_case keys to camelCase
   const transformed = _.mapKeys(entity, (v, k) => _.camelCase(k));
