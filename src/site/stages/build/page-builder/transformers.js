@@ -1,3 +1,16 @@
+/**
+ * A very specific helper function that expects to receive an
+ * array with one item which is an object with a single `value` property
+ *
+ */
+function arrayCollapse(arr) {
+  return arr.reduce((value, item) => {
+    // eslint-disable-next-line no-param-reassign
+    value = item.value;
+    return value;
+  }, null);
+}
+
 function pageTransform(entity) {
   const transformed = entity;
   const {
@@ -11,13 +24,13 @@ function pageTransform(entity) {
   } = entity;
   // collapse title
   // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
-  transformed.title = title[0].value;
+  transformed.title = arrayCollapse(title);
   transformed.entityBundle = 'page';
 
-  transformed.fieldIntroText = fieldIntroText[0].value;
-  transformed.changed = new Date(changed[0].value).getTime() / 1000;
+  transformed.fieldIntroText = arrayCollapse(fieldIntroText);
+  transformed.changed = new Date(arrayCollapse(changed)).getTime() / 1000;
   transformed.fieldPageLastBuilt = new Date(
-    fieldPageLastBuilt[0].value,
+    arrayCollapse(fieldPageLastBuilt),
   ).toUTCString();
 
   transformed.entityPublished = published === 'published';
