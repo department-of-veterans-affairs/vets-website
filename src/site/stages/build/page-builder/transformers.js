@@ -38,15 +38,11 @@ function pageTransform(entity) {
   transformed.entityPublished = published === 'published';
   delete transformed.moderationState;
 
-  if (Array.isArray(fieldDescription) && fieldDescription.length === 0) {
+  if (_.isEmpty(fieldDescription)) {
     transformed.fieldDescription = null;
   }
 
-  if (
-    Array.isArray(fieldAlert) &&
-    fieldAlert.length === 1 &&
-    fieldAlert[0].length === 0
-  ) {
+  if (_.isEmpty(_.flatten(fieldAlert))) {
     transformed.fieldAlert = { entity: null };
   }
 
