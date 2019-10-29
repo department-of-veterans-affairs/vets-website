@@ -69,7 +69,12 @@ function toCamel(obj) {
  */
 function transformEntity(entityType, entity) {
   // TODO: Perform transformations based on the content model type
-  return toCamel(entity);
+
+  const transformed = toCamel(entity);
+  // collapse title
+  // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
+  transformed.title = transformed.title[0].value;
+  return transformed;
 }
 
 module.exports = {
