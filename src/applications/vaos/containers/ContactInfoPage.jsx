@@ -18,7 +18,7 @@ const initialSchema = {
   properties: {
     phoneNumber: {
       type: 'string',
-      minLength: 10,
+      pattern: '^[0-9]{10}$',
     },
     bestTimeToCall: {
       type: 'object',

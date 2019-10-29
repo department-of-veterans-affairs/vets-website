@@ -17,15 +17,23 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Pages
 import veteranDetailsDescription from '../pages/confirmVeteranDetails';
-import {
-  uiSchema as contactInfoUiSchema,
-  schema as contactInfoSchema,
-} from '../pages/contactInformation';
+
+import contactInfo from '../pages/contactInformation';
+import contestedIssues from '../pages/contestedIssues';
+
+import { contestedIssuesNotesStart } from '../content/contestedIssues';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
+import { errorMessages } from '../constants';
 
-const { address, phone, date, effectiveDates } = fullSchema.definitions;
+const {
+  address,
+  phone,
+  date,
+  effectiveDates,
+  ratedDisabilities,
+} = fullSchema.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -33,15 +41,15 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'hlr-0996-',
+
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_20_0996,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to request a Higher-Level Review.',
-    noAuth:
-      'Please sign in again to continue your request for Higher-Level Review.',
+    notFound: errorMessages.savedFormNotFound,
+    noAuth: errorMessages.savedFormNoAuth,
   },
   title: 'Request a Higher-Level Review',
   subTitle: 'VA Form 20-0996',
@@ -51,6 +59,7 @@ const formConfig = {
     date,
     effectiveDates,
     veteranDetailsDescription,
+    ratedDisabilities,
   },
   chapters: {
     veteranDetails: {
@@ -71,77 +80,34 @@ const formConfig = {
         confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
-          uiSchema: contactInfoUiSchema,
-          schema: contactInfoSchema,
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
           initialData,
         },
       },
     },
-    selectContestedIssues: {
-      title: 'Issues selected',
+    contestedIssues: {
+      title: 'Contested issues',
       pages: {
         contestedIssues: {
-          path: 'select-your-contested-issues',
-          title: 'Select your contested issues',
+          title: ' ',
+          path: 'contested-issues',
+          uiSchema: contestedIssues.uiSchema,
+          schema: contestedIssues.schema,
+          initialData,
+        },
+        contestedIssuesNotesStart: {
+          title: ' ',
+          path: 'contested-issues/start',
           uiSchema: {
-            myIssues: {
-              'ui:title': 'My issues',
-            },
+            'ui:description': contestedIssuesNotesStart,
           },
           schema: {
             type: 'object',
-            properties: {
-              myIssues: {
-                type: 'string',
-                enum: ['First issue', 'Second issue'],
-              },
-            },
+            properties: {},
           },
         },
-      },
-    },
-    addNotes: {
-      title: 'Optional Notes',
-      pages: {
-        addNotes: {
-          path: 'add-notes',
-          title: 'Add notes (optional)',
-          uiSchema: {
-            addNote: {
-              'ui:title': 'Notes (optional)',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              addNote: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      },
-    },
-    requestOriginalJurisdiction: {
-      title: 'Original jurisdiction',
-      pages: {
-        requestJurisdiction: {
-          path: 'request-original-jurisdiction',
-          title: 'Request original jurisdiction',
-          uiSchema: {
-            jurisdiction: {
-              'ui:title': 'Name of Original Regional Office',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              jurisdiction: {
-                type: 'string',
-              },
-            },
-          },
-        },
+        // contestedIssueNote: {},
       },
     },
     requestInformalConference: {

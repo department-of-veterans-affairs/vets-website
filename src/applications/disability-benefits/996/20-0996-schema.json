@@ -408,6 +408,40 @@
           "$ref": "#/definitions/date"
         }
       }
+    },
+    "ratedDisabilities": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "ratedDisabilityId": {
+            "type": "string"
+          },
+          "ratingDecisionId": {
+            "type": "string"
+          },
+          "diagnosticCode": {
+            "type": "number"
+          },
+          "useSameOffice": {
+            "type": "boolean"
+          },
+          "additionalNote": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
     }
   },
   "properties": {
@@ -815,6 +849,9 @@
               "$ref": "#/definitions/effectiveDates"
             }
           }
+        },
+        "ratedDisabilities": {
+          "$ref": "#/definitions/ratedDisabilities"
         }
       }
     }

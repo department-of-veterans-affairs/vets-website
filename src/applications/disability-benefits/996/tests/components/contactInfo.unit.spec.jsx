@@ -7,7 +7,7 @@ import moment from 'moment';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { schema, uiSchema } from '../../pages/contactInformation';
+import contactInfo from '../../pages/contactInformation';
 
 import {
   STATE_VALUES,
@@ -23,13 +23,13 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           mailingAddress: {},
           phoneEmailCard: {},
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 
@@ -44,7 +44,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             mailingAddress: {
@@ -54,7 +54,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
     // country, state
@@ -68,7 +68,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             mailingAddress: {
@@ -78,7 +78,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 
@@ -93,7 +93,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             mailingAddress: {
@@ -104,7 +104,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 
@@ -122,7 +122,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             mailingAddress: {
@@ -133,7 +133,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 
@@ -150,7 +150,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -167,7 +167,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
         onSubmit={onSubmit}
       />,
     );
@@ -183,7 +183,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -200,7 +200,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
         onSubmit={onSubmit}
       />,
     );
@@ -215,7 +215,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             'view:hasForwardingAddress': true,
@@ -231,7 +231,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 
@@ -247,7 +247,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -275,7 +275,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
         onSubmit={onSubmit}
       />,
     );
@@ -291,7 +291,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -319,7 +319,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
         onSubmit={onSubmit}
       />,
     );
@@ -335,7 +335,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -363,7 +363,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
         onSubmit={onSubmit}
       />,
     );
@@ -379,7 +379,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -408,7 +408,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
         }}
         formData={{}}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
         onSubmit={onSubmit}
       />,
     );
@@ -424,7 +424,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -449,7 +449,7 @@ describe('Higher-Level Review 0996 contact information', () => {
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 
@@ -464,7 +464,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
-        schema={schema}
+        schema={contactInfo.schema}
         data={{
           veteran: {
             phoneEmailCard: {
@@ -493,7 +493,7 @@ describe('Higher-Level Review 0996 contact information', () => {
         }}
         formData={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}
+        uiSchema={contactInfo.uiSchema}
       />,
     );
 

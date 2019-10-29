@@ -6,6 +6,7 @@
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "build": "node --max-old-space-size=4096 script/build.js",
+    "build-webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/standalone-webpack.config.js",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "prebuild": "node script/prebuild.js",
@@ -57,6 +58,7 @@
     "test:integration:nightwatch:docker": "docker-compose -p e2e up -d && docker-compose -p e2e run --user=node --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod -e WEB_HOST=staging.va.gov -e WEB_PORT=80 vets-website --no-color run nightwatch:docker -- --tag integration && docker-compose -p e2e stop",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node --max-old-space-size=4096 script/build.js --watch",
+    "watch-webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack-dev-server --config config/standalone-webpack.config.js --env.watch=true",
     "watch:css-sourcemaps": "node --max-old-space-size=8192 script/build.js --watch --local-css-sourcemaps",
     "watch:static": "npm run watch -- --entry static-pages"
   },
@@ -208,6 +210,7 @@
     "url-loader": "^0.6.2",
     "webpack": "^4.32.2",
     "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.5.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "winston": "^2.2.0",

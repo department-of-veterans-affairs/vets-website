@@ -11,7 +11,6 @@ import {
 } from '../../utils/helpers';
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
-import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
 import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels } from '../../constants';
@@ -131,6 +130,13 @@ class CalculatorForm extends React.Component {
           value === 'extension'
             ? 'An extension campus'
             : profile.attributes.name,
+      });
+    }
+    if (value === 'other') {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'gibctOtherCampusLocation ',
+        'gibct-form-value': 'other location',
       });
     }
   };
@@ -633,13 +639,10 @@ class CalculatorForm extends React.Component {
       const errorMessageCheck =
         errorMessage !== '' ? errorMessage : inputs.beneficiaryZIPError;
 
-      // Prod Flag for 19703
-      if (environment.isProduction() || !inputs.classesOutsideUS) {
-        // Prod Flag for 19703
-        const label =
-          this.isCountryInternational() && !environment.isProduction()
-            ? "If you're taking classes in the U.S., enter the location's zip code"
-            : "Please enter the zip code where you'll take your classes";
+      if (!inputs.classesOutsideUS) {
+        const label = this.isCountryInternational()
+          ? "If you're taking classes in the U.S., enter the location's zip code"
+          : "Please enter the zip code where you'll take your classes";
 
         amountInput = (
           <div>
@@ -661,8 +664,8 @@ class CalculatorForm extends React.Component {
           </p>
         );
       }
-      // Prod Flag for 19703
-      internationalCheckbox = !environment.isProduction() && (
+
+      internationalCheckbox = (
         <div>
           <Checkbox
             label={

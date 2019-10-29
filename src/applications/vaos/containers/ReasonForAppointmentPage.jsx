@@ -2,22 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   openFormPage,
-  updateFormData,
+  updateReasonForAppointmentData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import { getFormPageInfo } from '../utils/selectors';
+import { getReasonForAppointment } from '../utils/selectors';
 import { PURPOSE_TEXT } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
-  required: ['reasonForAppointment'],
+  required: ['reasonForAppointment', 'reasonAdditionalInfo'],
   properties: {
     reasonForAppointment: {
       type: 'string',
-      enum: ['routine-follow-up', 'new-issue', 'medication-concern'],
+      enum: ['routine-follow-up', 'new-issue', 'medication-concern', 'other'],
+    },
+    reasonAdditionalInfo: {
+      type: 'string',
     },
   },
 };
@@ -28,6 +31,14 @@ const uiSchema = {
     'ui:options': {
       hideLabelText: true,
       labels: PURPOSE_TEXT,
+    },
+  },
+  reasonAdditionalInfo: {
+    'ui:title': 'Provide additional details for your appointment.',
+    'ui:widget': 'textarea',
+    'ui:options': {
+      rows: 5,
+      hideIf: formData => !formData.reasonForAppointment,
     },
   },
 };
@@ -48,10 +59,15 @@ export class ReasonForAppointmentPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      reasonRemainingChar,
+    } = this.props;
 
     return (
-      <div className="vaos-form__detailed-radio">
+      <div>
         <h1 className="vads-u-font-size--h2">
           Why do you want to make an
           <br /> appointment?
@@ -63,10 +79,19 @@ export class ReasonForAppointmentPage extends React.Component {
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={newData =>
-            this.props.updateFormData(pageKey, uiSchema, newData)
+            this.props.updateReasonForAppointmentData(
+              pageKey,
+              uiSchema,
+              newData,
+            )
           }
           data={data}
         >
+          {data.reasonForAppointment && (
+            <div className="vads-u-font-style--italic vads-u-margin-top--neg3 vads-u-margin-bottom--2p5">
+              {reasonRemainingChar} characters remaining
+            </div>
+          )}
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
@@ -78,12 +103,12 @@ export class ReasonForAppointmentPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  return getReasonForAppointment(state, pageKey);
 }
 
 const mapDispatchToProps = {
   openFormPage,
-  updateFormData,
+  updateReasonForAppointmentData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };

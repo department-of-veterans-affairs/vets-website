@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RatedDisabilityList from './RatedDisabilityList';
+import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
+import RatedDisabilitiesSidebar from '../components/RatedDisabilitiesSidebar';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
@@ -11,7 +13,14 @@ class RatedDisabilityView extends React.Component {
   };
 
   render() {
-    const { fetchRatedDisabilities, ratedDisabilities, user } = this.props;
+    const {
+      fetchRatedDisabilities,
+      ratedDisabilities,
+      user,
+      totalDisabilityRating,
+      loading,
+      error,
+    } = this.props;
 
     let content;
 
@@ -21,13 +30,18 @@ class RatedDisabilityView extends React.Component {
         content = (
           <>
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+              <TotalRatedDisabilities
+                totalDisabilityRating={totalDisabilityRating}
+                loading={loading}
+                error={error}
+              />
               <RatedDisabilityList
                 fetchRatedDisabilities={fetchRatedDisabilities}
                 ratedDisabilities={ratedDisabilities}
               />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              Sidebar goes here
+              <RatedDisabilitiesSidebar />
             </div>
           </>
         );
@@ -35,8 +49,8 @@ class RatedDisabilityView extends React.Component {
     }
 
     return (
-      <div className="vads-l-grid-container">
-        <div className="vads-l-row vads-u-margin-x--neg2p5">{content}</div>
+      <div className="vads-l-grid-container vads-u-padding-bottom--4">
+        <div className="vads-l-row">{content}</div>
       </div>
     );
   }

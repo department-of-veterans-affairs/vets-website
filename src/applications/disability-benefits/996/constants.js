@@ -2,8 +2,12 @@
 export const BASE_URL =
   '/disability-benefits/apply/form-0996-higher-level-review';
 
+export const selectors = {
+  optOutStepVisible: 'view:optOutStep',
+};
+
 export const errorMessages = {
-  optOutCheckbox: 'Please check the above box to proceed',
+  optOutCheckbox: 'You must opt in to the new appeals process to proceed',
   phone: 'Please enter your 10-digit phone number (with or without dashes)',
   email: 'Please enter your email address using this format: X@X.com',
   address1: 'Please enter your street address',
@@ -15,3 +19,5 @@ export const errorMessages = {
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
 };
+
+export const NULL_CONDITION_STRING = 'Unknown Condition';
