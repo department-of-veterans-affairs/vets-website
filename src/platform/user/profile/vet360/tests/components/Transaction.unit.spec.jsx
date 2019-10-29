@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import Vet360Transaction from '../../components/base/Transaction';
+import Vet360TransactionPending from '../../components/base/TransactionPending';
 import { TRANSACTION_STATUS } from '../../constants';
 
 describe('<Vet360Transaction/>', () => {
@@ -19,13 +20,21 @@ describe('<Vet360Transaction/>', () => {
   it('renders', () => {
     const component = enzyme.shallow(
       <Vet360Transaction {...props}>
-        <div>Children</div>
+        <div className="content">Children</div>
       </Vet360Transaction>,
     );
 
     expect(component.html(), 'renders children components').to.contain(
       'Children',
     );
+    expect(
+      component.find('div.content'),
+      'renders children components',
+    ).to.have.lengthOf(1);
+    expect(
+      component.find(Vet360TransactionPending),
+      'does not render a transaction-pending message',
+    ).to.have.lengthOf(0);
 
     component.setProps({
       transaction: {
@@ -47,15 +56,14 @@ describe('<Vet360Transaction/>', () => {
         },
       },
     });
-
     expect(
-      component.find('Vet360TransactionPending'),
+      component.find(Vet360TransactionPending),
       'renders a transaction-pending message',
     ).to.have.lengthOf(1);
     expect(
-      component.html(),
-      'does not render children components when there is a pending transaction',
-    ).to.not.contain('Children');
+      component.find('div.content'),
+      'does not render children components',
+    ).to.have.lengthOf(0);
     component.unmount();
   });
 });
