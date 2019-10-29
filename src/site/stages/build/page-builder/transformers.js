@@ -1,6 +1,10 @@
 function pageTransform(entity) {
   const transformed = entity;
-  const { fieldAlert, fieldDescription } = entity;
+  const {
+    fieldAlert,
+    fieldDescription,
+    moderationState: [{ value: published }],
+  } = entity;
   // collapse title
   // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
   transformed.title = transformed.title[0].value;
@@ -10,6 +14,9 @@ function pageTransform(entity) {
   transformed.fieldPageLastBuilt = new Date(
     transformed.fieldPageLastBuilt[0].value,
   ).toUTCString();
+
+  transformed.entityPublished = published === 'published';
+  delete transformed.moderationState;
 
   if (Array.isArray(fieldDescription) && fieldDescription.length === 0) {
     transformed.fieldDescription = null;

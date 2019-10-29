@@ -14,6 +14,7 @@ const whitelists = {
     'field_administration',
     'field_page_last_built',
     'changed',
+    'moderation_state',
   ],
 };
 
