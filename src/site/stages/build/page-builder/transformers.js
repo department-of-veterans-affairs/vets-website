@@ -1,19 +1,23 @@
 function pageTransform(entity) {
   const transformed = entity;
   const {
+    title,
+    changed,
+    fieldIntroText,
+    fieldPageLastBuilt,
     fieldAlert,
     fieldDescription,
     moderationState: [{ value: published }],
   } = entity;
   // collapse title
   // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
-  transformed.title = transformed.title[0].value;
+  transformed.title = title[0].value;
   transformed.entityBundle = 'page';
 
-  transformed.fieldIntroText = transformed.fieldIntroText[0].value;
-  transformed.changed = new Date(transformed.changed[0].value).getTime() / 1000;
+  transformed.fieldIntroText = fieldIntroText[0].value;
+  transformed.changed = new Date(changed[0].value).getTime() / 1000;
   transformed.fieldPageLastBuilt = new Date(
-    transformed.fieldPageLastBuilt[0].value,
+    fieldPageLastBuilt[0].value,
   ).toUTCString();
 
   transformed.entityPublished = published === 'published';
