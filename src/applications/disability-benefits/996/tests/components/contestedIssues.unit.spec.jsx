@@ -27,7 +27,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     form.unmount();
   });
 
-  it('successfully submits when at least one condition is selected', done => {
+  xit('successfully submits when at least one condition is selected', done => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
