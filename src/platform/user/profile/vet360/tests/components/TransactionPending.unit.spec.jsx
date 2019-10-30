@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Vet360TransactionPending from '../../components/base/TransactionPending';
+import { Vet360TransactionPending } from '../../components/base/TransactionPending';
 
 describe('<Vet360TransactionPending/>', () => {
   let props = null;

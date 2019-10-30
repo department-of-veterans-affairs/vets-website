@@ -47,6 +47,8 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
   );
 };
 
-export default RatedDisabilityListItem;
+RatedDisabilityListItem.propTypes = {
+  ratedDisability: PropTypes.object.isRequired,
+};
 
-RatedDisabilityListItem.propTypes = PropTypes.object;
+export default RatedDisabilityListItem;

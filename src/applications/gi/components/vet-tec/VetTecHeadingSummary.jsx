@@ -40,9 +40,11 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
   );
 
   const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
-  const providerWebsitePresent = firstProgram.providerWebsite !== '';
+  const providerWebsitePresent =
+    firstProgram.providerWebsite && firstProgram.providerWebsite !== '';
   const phonePresent = providerPhone !== '';
-  const schoolLocalePresent = firstProgram.schoolLocale !== '';
+  const schoolLocalePresent =
+    firstProgram.schoolLocale && firstProgram.schoolLocale !== '';
 
   return (
     <div className="heading row">

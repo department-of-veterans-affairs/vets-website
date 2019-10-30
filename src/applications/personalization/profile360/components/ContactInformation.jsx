@@ -39,7 +39,9 @@ export default class ContactInformation extends React.Component {
         categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}
       >
         <HomePhone />
-        <MobilePhone />
+        <MobilePhone
+          showReceiveTextNotifications={this.props.showReceiveTextNotifications}
+        />
         <WorkPhone />
         <FaxNumber />
       </Vet360PendingTransactionCategory>

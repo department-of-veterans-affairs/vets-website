@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import environment from 'platform/utilities/environment';
+import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
-export default class Vet360TransactionPending extends React.Component {
+class Vet360TransactionPending extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     refreshTransaction: PropTypes.func.isRequired,
@@ -30,7 +31,7 @@ export default class Vet360TransactionPending extends React.Component {
     );
 
     if (
-      !environment.isProduction() &&
+      this.props.showReceiveTextNotifications &&
       this.props.title.toLowerCase() === 'mobile phone number'
     ) {
       content = (
@@ -61,3 +62,16 @@ export default class Vet360TransactionPending extends React.Component {
     );
   }
 }
+
+export function mapStateToProps(state) {
+  return {
+    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Vet360TransactionPending);
+
+export { Vet360TransactionPending };
