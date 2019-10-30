@@ -33,10 +33,12 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
     process.exit(1);
   }
 
-  const entity = getModifiedEntity(entityType, readEntity(entityType, uuid));
+  const rawEntity = readEntity(entityType, uuid);
 
-  // Iterate over all non-blacklisted properties in an entity, look
-  // for references to other identities recursively, and replace the
+  const entity = getModifiedEntity(entityType, rawEntity);
+
+  // Iterate over all whitelisted properties in an entity, look for
+  // references to other identities recursively, and replace the
   // reference with the entity contents.
   for (const [key, prop] of Object.entries(entity)) {
     // Properties with target_uuids are always arrays from tome-sync
