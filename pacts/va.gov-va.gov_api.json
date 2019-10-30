@@ -1,0 +1,50 @@
+{
+  "consumer": {
+    "name": "VA.gov"
+  },
+  "provider": {
+    "name": "VA.gov API"
+  },
+  "interactions": [
+    {
+      "description": "an application for health care",
+      "request": {
+        "method": "POST",
+        "path": "/v0/health_care_applications",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Key-Inflection": "camel"
+        },
+        "body": {
+          "asyncCompatible": true,
+          "form": "{\"isEssentialAcaCoverage\":false,\"vaMedicalFacility\":\"523GC\",\"wantsInitialVaContact\":false,\"isCoveredByHealthInsurance\":false,\"isMedicaidEligible\":true,\"isEnrolledMedicarePartA\":false,\"deductibleMedicalExpenses\":0,\"deductibleFuneralExpenses\":0,\"deductibleEducationExpenses\":0,\"veteranGrossIncome\":50000,\"veteranNetIncome\":0,\"veteranOtherIncome\":0,\"dependents\":[],\"gender\":\"F\",\"maritalStatus\":\"Never Married\",\"isSpanishHispanicLatino\":false,\"discloseFinancialInformation\":true,\"vaCompensationType\":\"lowDisability\",\"lastServiceBranch\":\"air force\",\"lastEntryDate\":\"1970-01-01\",\"lastDischargeDate\":\"1990-01-01\",\"dischargeType\":\"honorable\",\"veteranAddress\":{\"street\":\"123 Cambridge St\",\"city\":\"Boston\",\"postalCode\":\"02182\",\"country\":\"USA\",\"state\":\"MA\"},\"veteranDateOfBirth\":\"1900-01-01\",\"veteranSocialSecurityNumber\":\"012349232\",\"veteranFullName\":{\"first\":\"First\",\"last\":\"Last\"},\"privacyAgreementAccepted\":true}"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "formSubmissionId": 3806115661,
+          "timestamp": "2015-08-06T16:53:10.123+01:00"
+        },
+        "matchingRules": {
+          "$.body.formSubmissionId": {
+            "match": "type"
+          },
+          "$.body.timestamp": {
+            "match": "regex",
+            "regex": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d{3,}([+-][0-2]\\d:[0-5]\\d|Z)$"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
