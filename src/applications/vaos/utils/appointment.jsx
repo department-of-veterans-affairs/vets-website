@@ -1,6 +1,52 @@
 import React from 'react';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
+import { APPOINTMENT_TYPES } from './constants';
+
+const today = moment();
+
+export function getAppointmentType(appt) {
+  if (appt.optionDate1) {
+    return APPOINTMENT_TYPES.request;
+  } else if (appt.appointmentRequestId) {
+    return APPOINTMENT_TYPES.ccAppointnment;
+  } else if (appt.startDate) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+
+  return null;
+}
+
+export function parseVAorCCDate(item) {
+  // This means it's a CC appt, which has a different date format
+  if (item.appointmentTime) {
+    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
+  }
+
+  return moment(item.startDate);
+}
+
+export function parseRequestDate(optionDate) {
+  return moment(optionDate, 'MM/DD/YYYY');
+}
+
+export function filterFutureConfirmedAppointments(appt) {
+  const date = parseVAorCCDate(appt);
+  return date.isValid() && date.isAfter(today);
+}
+
+export function filterFutureRequests(request) {
+  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
+  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
+  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
+
+  return (
+    ['Submitted', 'Cancelled'].includes(request.status) &&
+    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
+      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
+      (optionDate3.isValid() && optionDate3.isAfter(today)))
+  );
+}
 
 export function getAppointmentId(appt) {
   if (appt.appointmentRequestId) {
@@ -37,7 +83,7 @@ export function getStagingId(facilityId) {
   return facilityId;
 }
 
-function titleCase(str) {
+export function titleCase(str) {
   return str
     .toLowerCase()
     .split(' ')
@@ -45,27 +91,30 @@ function titleCase(str) {
     .join(' ');
 }
 
+export function getClinicName(appt) {
+  if (isCommunityCare(appt)) {
+    return appt.providerPractice;
+  }
+  return appt.clinicFriendlyName || appt.vdsAppointments[0]?.clinic?.name;
+}
+
 export function getAppointmentTitle(appt) {
   if (isCommunityCare(appt)) {
-    return `Community Care visit - ${appt.providerPractice}`;
+    return `Community Care appointment`;
   } else if (isVideoVisit(appt)) {
-    const providers = appt.vvsAppointments[0]?.providers?.provider
-      .map(provider =>
-        titleCase(`${provider.name.firstName} ${provider.name.lastName}`),
-      )
-      .join(', ');
-    return `Video visit - ${providers}`;
+    return `VA Video Connect`;
   }
 
-  return `VA visit - ${appt.clinicFriendlyName ||
-    appt.vdsAppointments[0]?.clinic?.name}`;
+  return 'VA visit';
 }
 
 export function getAppointmentLocation(appt) {
   if (isCommunityCare(appt)) {
     return (
       <>
-        {appt.providerPractice}
+        <span className="vads-u-font-weight--bold">
+          {appt.providerPractice}
+        </span>
         <br />
         {appt.address.street}
         <br />
@@ -101,14 +150,7 @@ export function getAppointmentDateTime(appt) {
     return null;
   }
 
-  return (
-    <ul className="usa-unstyled-list">
-      <li className="vads-u-margin-bottom--1">
-        {parsedDate.format('MMMM D, YYYY')}
-      </li>
-      <li className="vads-u-margin-bottom--1">
-        {parsedDate.format('hh:mm a')}
-      </li>
-    </ul>
-  );
+  return `${parsedDate.format('MMMM D, YYYY')} at ${parsedDate.format(
+    'hh:mm a zz',
+  )}`;
 }

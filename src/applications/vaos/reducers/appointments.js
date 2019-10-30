@@ -1,4 +1,7 @@
 import {
+  FETCH_FUTURE_APPOINTMENTS,
+  FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+  FETCH_FUTURE_APPOINTMENTS_FAILED,
   FETCH_CONFIRMED_APPOINTMENTS,
   FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
   FETCH_CONFIRMED_APPOINTMENTS_FAILED,
@@ -15,10 +18,22 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from '../actions/appointments';
 
-import { FETCH_STATUS, CANCELLED_APPOINTMENT_SET } from '../utils/constants';
-import moment from 'moment';
+import {
+  getAppointmentType,
+  parseVAorCCDate,
+  parseRequestDate,
+  filterFutureConfirmedAppointments,
+  filterFutureRequests,
+} from '../utils/appointment';
+import {
+  FETCH_STATUS,
+  CANCELLED_APPOINTMENT_SET,
+  APPOINTMENT_TYPES,
+} from '../utils/constants';
 
 const initialState = {
+  future: null,
+  futureStatus: FETCH_STATUS.notStarted,
   confirmed: null,
   confirmedStatus: FETCH_STATUS.notStarted,
   pending: null,
@@ -30,17 +45,51 @@ const initialState = {
   appointmentToCancel: null,
 };
 
-function parseVAorCCDate(item) {
-  // This means it's a CC appt, which has a different date format
-  if (item.appointmentTime) {
-    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  }
-
-  return moment(item.startDate);
-}
-
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
+    case FETCH_FUTURE_APPOINTMENTS:
+      return {
+        ...state,
+        futureStatus: FETCH_STATUS.loading,
+      };
+    case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
+      const confirmed = action.data[0] || {
+        vaAppointments: [],
+        ccAppointments: [],
+      };
+      const requests = action.data[1]?.appointmentRequests || [];
+      const futureAppointments = [
+        ...confirmed.vaAppointments.filter(filterFutureConfirmedAppointments),
+        ...confirmed.ccAppointments.filter(filterFutureConfirmedAppointments),
+        ...requests.filter(filterFutureRequests),
+      ];
+
+      futureAppointments.sort((a, b) => {
+        const aDate =
+          getAppointmentType(a) === APPOINTMENT_TYPES.request
+            ? parseRequestDate(a.optionDate1)
+            : parseVAorCCDate(a);
+
+        const bDate =
+          getAppointmentType(b) === APPOINTMENT_TYPES.request
+            ? parseRequestDate(b.optionDate1)
+            : parseVAorCCDate(b);
+
+        return aDate.isBefore(bDate) ? -1 : 1;
+      });
+
+      return {
+        ...state,
+        future: futureAppointments,
+        futureStatus: FETCH_STATUS.succeeded,
+      };
+    }
+    case FETCH_FUTURE_APPOINTMENTS_FAILED:
+      return {
+        ...state,
+        futureStatus: FETCH_STATUS.failed,
+        future: null,
+      };
     case FETCH_CONFIRMED_APPOINTMENTS:
       return {
         ...state,
@@ -83,8 +132,8 @@ export default function appointmentsReducer(state = initialState, action) {
         pendingStatus: FETCH_STATUS.loading,
       };
     case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
-      const pending = action.data.appointmentRequests.filter(
-        req => req.status === 'Submitted',
+      const pending = action.data.appointmentRequests.filter(req =>
+        ['Submitted', 'Cancelled'].includes(req.status),
       );
       pending.sort((a, b) => {
         if (a.appointmentType < b.appointmentType) {
