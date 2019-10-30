@@ -1,10 +1,10 @@
 {
-  "appName": "Claims Status",
+  "appName": "Discharge Wizard",
   "entryFile": "./discharge-wizard-entry.jsx",
   "entryName": "discharge-upgrade-instructions",
   "rootUrl": "/discharge-upgrade-instructions",
   "template": {
-    "layout": "page-react-sidebar.html",
+    "layout": "page-react.html",
     "title": "How To Apply For A Discharge Upgrade",
     "heading": "How to apply for a discharge upgrade",
     "display_title": "Discharge upgrade",
@@ -12,6 +12,7 @@
     "keywords": "upgrade discharge, military discharge upgrade, discharge upgrade",
     "order": 6,
     "spoke": "Get records",
-    "collection": "records"
+    "collection": "records",
+    "includeBreadcrumbs": true
   }
 }
