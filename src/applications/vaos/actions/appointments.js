@@ -5,6 +5,12 @@ import {
   getPastAppointments,
 } from '../api';
 
+export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
+export const FETCH_FUTURE_APPOINTMENTS_FAILED =
+  'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
+export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
+  'vaos/FETCH_FUTURE_APPOINTMENTS_SUCCEEDED';
+
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
 export const FETCH_PENDING_APPOINTMENTS_FAILED =
   'vaos/FETCH_PENDING_APPOINTMENTS_FAILED';
@@ -22,6 +28,32 @@ export const FETCH_PAST_APPOINTMENTS_FAILED =
   'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
 export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
+
+export function fetchFutureAppointments() {
+  return async (dispatch, getState) => {
+    if (getState().appointments.confirmedStatus === FETCH_STATUS.notStarted) {
+      dispatch({
+        type: FETCH_FUTURE_APPOINTMENTS,
+      });
+
+      try {
+        const data = await Promise.all([
+          getConfirmedAppointments(),
+          getPendingAppointments(),
+        ]);
+        dispatch({
+          type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+          data,
+        });
+      } catch (e) {
+        dispatch({
+          type: FETCH_FUTURE_APPOINTMENTS_FAILED,
+          data: e,
+        });
+      }
+    }
+  };
+}
 
 export function fetchConfirmedAppointments() {
   return (dispatch, getState) => {

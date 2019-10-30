@@ -5,6 +5,12 @@ export const FETCH_STATUS = {
   failed: 'failed',
 };
 
+export const APPOINTMENT_TYPES = {
+  vaAppointment: 'vaAppointment',
+  ccAppointnment: 'ccAppointment',
+  request: 'request',
+};
+
 export const TIME_TEXT = {
   AM: 'in the morning',
   PM: 'in the afternoon',

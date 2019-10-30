@@ -21,7 +21,7 @@ const VideoVisitLink = ({ appointment }) => {
     const disableVideoLink = diff < -30 || diff > 240;
 
     return (
-      <div className="vads-u-display--block">
+      <div className="vads-u-display--flex">
         <a
           href={videoLink}
           target="_blank"
@@ -30,10 +30,10 @@ const VideoVisitLink = ({ appointment }) => {
             disableVideoLink ? ' usa-button-disabled' : ''
           }`}
         >
-          Join meeting
+          Join
         </a>
         {disableVideoLink && (
-          <span className="vads-u-display--block">
+          <span className="vads-u-display--block vads-u-font-style--italic">
             You can join 30 minutes prior to your appointment
           </span>
         )}
