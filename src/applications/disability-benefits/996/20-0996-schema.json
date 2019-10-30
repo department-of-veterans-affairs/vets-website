@@ -390,6 +390,14 @@
         }
       }
     },
+    "name": {
+      "type": "string",
+      "maxLength": 30,
+      "pattern": "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$"
+    },
+    "fullName": {
+      "type": "string"
+    },
     "phone": {
       "type": "string",
       "pattern": "^\\d{10}$"
@@ -442,6 +450,31 @@
         }
       },
       "minItems": 1
+    },
+    "informalConferenceChoice": {
+      "type": "boolean"
+    },
+    "contactRepresentativeChoice": {
+      "type": "boolean"
+    },
+    "scheduleTimes": {
+      "type": "object",
+      "minItems": 1,
+      "maxItems": 2,
+      "properties": {
+        "time0800to1000": {
+          "type": "boolean"
+        },
+        "time1000to1200": {
+          "type": "boolean"
+        },
+        "time1230to1400": {
+          "type": "boolean"
+        },
+        "time1400to1630": {
+          "type": "boolean"
+        }
+      }
     }
   },
   "properties": {
@@ -852,6 +885,23 @@
         },
         "ratedDisabilities": {
           "$ref": "#/definitions/ratedDisabilities"
+        },
+        "informalConferenceChoice": {
+          "$ref": "#/defintions/informalConferenceChoice"
+        },
+        "contactRepresentativeChoice": {
+          "$ref": "#/definitions/contactRepresentativeChoice"
+        },
+        "representative": {
+          "fullName": {
+            "$ref": "#/definitions/fullName"
+          },
+          "phone": {
+            "$ref": "#/definitions/phone"
+          }
+        },
+        "scheduleTimes": {
+          "$ref": "#/definitions/scheduleTimes"
         }
       }
     }

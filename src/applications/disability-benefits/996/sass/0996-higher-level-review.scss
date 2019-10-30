@@ -7,13 +7,13 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.schemaform-intro {
+  padding: 0 0 2rem 0;
+}
+
 /* Global */
 .nowrap {
   white-space: nowrap;
-}
-
-#form0996 {
-  padding: 0 0 2rem 0;
 }
 
 /* Fix margins around the form back & continue buttons */
@@ -22,7 +22,8 @@
   margin-bottom: 1em;
 }
 
-/* Veteran details block (step 1) */
+/* Step 1a */
+/* Veteran details block */
 .blue-bar-block {
   border-left: 7px solid $color-primary;
   padding-left: 1em;
@@ -45,15 +46,11 @@
   }
 }
 
+/* Step 1b */
 /* Contact information review cards & forwarding address block */
 .schemaform-block,
 .review-card--title {
   margin-top: .5em;
-}
-
-.form-expanding-group .schemaform-block {
-  background-color: $color-gray-lightest;
-  padding: 2em 1em;
 }
 
 /* */
@@ -64,8 +61,8 @@
 }
 
 /* ReviewCardField styles (copied from 526ez form)
- * shouldn't this be centralized?
- */
+  * shouldn't this be centralized?
+  */
 .review-card {
   .review-card--header {
     background-color: $color-gray-lightest;
@@ -109,6 +106,7 @@
   }
 }
 
+/* Step 2a */
 /*** Contested issues block ***/
 .usa-button-secondary.btn-see-all-issues {
   width: auto;
@@ -118,6 +116,7 @@
 #root_veteran_contestedIssues-label {
   display: none;
 }
+
 .schemaform-first-field > .usa-input-error {
   padding-top: 0;
 }
@@ -167,5 +166,32 @@
     > div *:last-child {
       margin-bottom: 0em;
     }
+  }
+}
+
+/* Step 3 */
+/* Informal conference */
+article[data-location="request-informal-conference"] {
+  .form-expanding-group-open {
+    .schemaform-field-template,
+    .schemaform-field-container {
+      margin-top: 1em;
+    }
+  }
+
+  /* Info alert icon color */
+  .usa-alert-info:before {
+    color: #00a6d2;
+  }
+
+  /* Remove extra spacing between form elements */
+  #root_veteran_view\:contactRepresentativeInformation_view\:InformalConferenceTimes-label + div {
+    fieldset {
+      margin-top: 0;
+    }
+  }
+
+  .form-checkbox label {
+    margin-top: 1em;
   }
 }

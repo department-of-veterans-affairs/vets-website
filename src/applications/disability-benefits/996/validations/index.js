@@ -1,3 +1,5 @@
+import fullSchema from '../20-0996-schema.json';
+
 import { isValidDate } from '../helpers';
 import { errorMessages } from '../constants';
 
@@ -33,4 +35,31 @@ export const requireRatedDisability = (err, fieldData /* , formData */) => {
     // need to add an error message here.
     err.addError('');
   }
+};
+
+const conferenceTimes = {
+  min: fullSchema.definitions.scheduleTimes.minItems,
+  max: fullSchema.definitions.scheduleTimes.maxItems,
+};
+
+export const checkConferenceTimes = (errors, values = {}) => {
+  const times =
+    Object.keys(values || {}).reduce((acc, time) => {
+      if (values[time]) {
+        acc.push(time);
+      }
+      return acc;
+    }, []) || [];
+
+  if (errors) {
+    if (times.length < conferenceTimes.min) {
+      errors.addError(errorMessages.InformalConferenceTimesMin);
+    } else if (times.length > conferenceTimes.max) {
+      errors.addError(errorMessages.InformalConferenceTimesMax);
+    }
+    return errors;
+  }
+  return (
+    times.length >= conferenceTimes.min && times.length <= conferenceTimes.max
+  );
 };

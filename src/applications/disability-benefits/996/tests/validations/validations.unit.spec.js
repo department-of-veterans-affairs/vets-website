@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { checkDateRange } from '../../validations';
+import { checkDateRange, checkConferenceTimes } from '../../validations';
 import { addXMonths } from '../../helpers';
 import { errorMessages } from '../../constants';
 
@@ -85,5 +85,61 @@ describe('From Date validations', () => {
     };
     checkDateRange(errors, dates);
     expect(errorMessage).to.equal(errorMessages.endDateBeforeStart);
+  });
+});
+
+describe('Informal conference time validation', () => {
+  it('should show an error if no times are selected', () => {
+    let errorMessage = '';
+    const errors = {
+      addError: message => {
+        errorMessage = message;
+      },
+    };
+    const times = {
+      a: undefined,
+      b: undefined,
+      c: undefined,
+      d: undefined,
+    };
+    checkConferenceTimes(errors, times);
+    expect(errorMessage).to.equal(errorMessages.InformalConferenceTimesMin);
+    expect(checkConferenceTimes(null, times)).to.be.false;
+  });
+
+  it('should show an error if too many times are selected', () => {
+    let errorMessage = '';
+    const errors = {
+      addError: message => {
+        errorMessage = message;
+      },
+    };
+    const times = {
+      a: true,
+      b: true,
+      c: true,
+      d: true,
+    };
+    checkConferenceTimes(errors, times);
+    expect(errorMessage).to.equal(errorMessages.InformalConferenceTimesMax);
+    expect(checkConferenceTimes(null, times)).to.be.false;
+  });
+
+  it('should not show an error if a single time is selected', () => {
+    let errorMessage = '';
+    const errors = {
+      addError: message => {
+        errorMessage = message;
+      },
+    };
+    const times = {
+      a: undefined,
+      b: true,
+      c: undefined,
+      d: undefined,
+    };
+    checkConferenceTimes(errors, times);
+    expect(errorMessage).to.equal('');
+    expect(checkConferenceTimes(null, times)).to.be.true;
   });
 });

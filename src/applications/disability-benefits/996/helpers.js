@@ -31,3 +31,7 @@ export const addXMonths = numberOfMonths =>
   moment()
     .add(numberOfMonths, 'months')
     .format('YYYY-MM-DD');
+
+export const getRepresentativeChoice = formData =>
+  formData?.veteran?.informalConferenceChoice === true &&
+  formData?.veteran?.contactRepresentativeChoice;
