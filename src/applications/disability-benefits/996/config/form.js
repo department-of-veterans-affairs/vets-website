@@ -13,6 +13,8 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
+// import { capitalizeEachWord } from '../../all-claims/utils';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
