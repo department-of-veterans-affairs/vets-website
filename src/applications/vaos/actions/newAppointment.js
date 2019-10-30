@@ -38,6 +38,43 @@ export const FORM_PAGE_TYPE_OF_FACILITY_OPEN =
 export const FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED';
 
+export function routeToPageInFlow(flow, router, current, action) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_CHANGE_STARTED,
+    });
+
+    const nextAction = flow[current][action];
+    let nextPage;
+
+    if (typeof nextAction === 'string') {
+      nextPage = flow[nextAction];
+    } else {
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextPage = flow[nextStateKey];
+    }
+
+    if (nextPage?.url) {
+      router.push(nextPage.url);
+      dispatch({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+      });
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
+    } else {
+      throw new Error('Tried to route to page that does not exist');
+    }
+  };
+}
+
+export function routeToNextAppointmentPage(router, current) {
+  return routeToPageInFlow(newAppointmentFlow, router, current, 'next');
+}
+
+export function routeToPreviousAppointmentPage(router, current) {
+  return routeToPageInFlow(newAppointmentFlow, router, current, 'previous');
+}
+
 export function openFormPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_OPENED,
@@ -117,7 +154,13 @@ export function openFacilityPage(page, uiSchema, schema) {
   };
 }
 
-export function openTypeOfFacilityPage(page, uiSchema, schema, router) {
+export function openTypeOfFacilityPage(
+  page,
+  uiSchema,
+  schema,
+  typeOfCareId,
+  router,
+) {
   const self = this;
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
@@ -140,30 +183,23 @@ export function openTypeOfFacilityPage(page, uiSchema, schema, router) {
       systems = await getSystemDetails(systemIds);
     }
 
-    // compare systems
+    // Check if user registered systems support comminity care...
     const communityCareSites = await getSitesSupportingVAR();
-    const x = communityCareSites.find(site =>
-      systems.find(userSite => userSite.assigningCode === site._id),
+    const communityCareSite = communityCareSites.find(site =>
+      systems.find(userSite => userSite.institutionCode === site._id),
     );
-    if (x === undefined) {
+
+    // Reroute to VA medical facility page if user registered systems don't support comminity care.
+    if (communityCareSite === undefined) {
       dispatch(
         updateFormData(page, uiSchema, {
           facilityType: 'vamc',
-          vaFacility: '',
-          typeOfCareId: '323',
+          typeOfCareId: getState().newAppointment.data.typeOfCareId,
         }),
       );
-      // eslint-disable-next-line no-use-before-define
-      self.routeToNextAppointmentPage(router, 'vaFacility');
-    }
 
-    // check if any systems are cc eligible
-    // if not, route to next page, and set facilityType as 'vamc'
-    //    updateFormData(page, uiSchema, {facilityType: "vamc"})
-    //    routeToNextAppointmentPage(router, page)
-    // else
-    //    do nothing
-    //
+      self.routeToNextAppointmentPage(router, 'typeOfFacility');
+    }
 
     dispatch({
       type: FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
@@ -257,41 +293,4 @@ export function openClinicPage(page, uiSchema, schema) {
       facilityDetails,
     });
   };
-}
-
-export function routeToPageInFlow(flow, router, current, action) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
-    });
-
-    const nextAction = flow[current][action];
-    let nextPage;
-
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
-    } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
-    }
-
-    if (nextPage?.url) {
-      router.push(nextPage.url);
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-      });
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
-  };
-}
-
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newAppointmentFlow, router, current, 'next');
-}
-
-export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPageInFlow(newAppointmentFlow, router, current, 'previous');
 }

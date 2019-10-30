@@ -64,6 +64,7 @@ export class TypeOfFacilityPage extends React.Component {
       pageKey,
       uiSchema,
       initialSchema,
+      this.props.data.typeOfCareId,
       this.props.router,
     );
   }
