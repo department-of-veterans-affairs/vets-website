@@ -144,83 +144,66 @@ class PaymentInformation extends React.Component {
     });
   };
 
-  renderSetupButton(label, gaProfileSection) {
-    return (
-      <button
-        className="va-button-link"
-        onClick={() => this.handleLinkClick('add', gaProfileSection)}
-      >{`Please add your ${label}`}</button>
-    );
-  }
-
   render() {
-    if (!this.props.isEligible) {
-      return null;
-    }
-
-    if (this.props.isLoading) {
-      return <LoadingIndicator message="Loading payment information..." />;
-    }
-
-    const { paymentInformation } = this.props;
+    const {
+      isEligible,
+      isLoading,
+      multifactorEnabled,
+      paymentInformation,
+    } = this.props;
     const directDepositIsSetUp =
       paymentInformation &&
       get('responses[0].paymentAccount.accountNumber', paymentInformation);
 
     let content = null;
 
-    if (!this.props.multifactorEnabled) {
+    if (!isEligible) {
+      return content;
+    }
+
+    if (isLoading) {
+      return <LoadingIndicator message="Loading payment information..." />;
+    }
+
+    if (!multifactorEnabled) {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
+    } else if (!directDepositIsSetUp) {
+      // we might eventually want to return some helpful contenct explaining how
+      // a vet could go about setting up direct deposit
+      return null;
     } else {
-      const paymentAccount = paymentInformation.responses[0].paymentAccount;
-
-      content = (
-        <>
-          <div className="vet360-profile-field">
-            <ProfileFieldHeading
-              onEditClick={
-                directDepositIsSetUp &&
-                (() => this.handleLinkClick('edit', 'bank-name'))
-              }
-            >
-              Bank name
-            </ProfileFieldHeading>
-            {directDepositIsSetUp
-              ? paymentAccount.financialInstitutionName
-              : this.renderSetupButton('bank name', 'bank-name')}
-          </div>
-          <div className="vet360-profile-field">
-            <ProfileFieldHeading
-              onEditClick={
-                directDepositIsSetUp &&
-                (() => this.handleLinkClick('edit', 'account-number'))
-              }
-            >
-              Account number
-            </ProfileFieldHeading>
-            {directDepositIsSetUp
-              ? paymentAccount.accountNumber
-              : this.renderSetupButton('account number', 'account-number')}
-          </div>
-          <div className="vet360-profile-field">
-            <ProfileFieldHeading
-              onEditClick={
-                directDepositIsSetUp &&
-                (() => this.handleLinkClick('edit', 'account-type'))
-              }
-            >
-              Account type
-            </ProfileFieldHeading>
-            {directDepositIsSetUp
-              ? paymentAccount.accountType
-              : this.renderSetupButton(
-                  'account type (checking or savings)',
-                  'account-type',
-                )}
-          </div>
-          {directDepositIsSetUp && (
+      const paymentAccount = paymentInformation?.responses[0]?.paymentAccount;
+      if (paymentAccount) {
+        content = (
+          <>
+            <div className="vet360-profile-field">
+              <ProfileFieldHeading
+                onEditClick={() => this.handleLinkClick('edit', 'bank-name')}
+              >
+                Bank name
+              </ProfileFieldHeading>
+              {paymentAccount.financialInstitutionName}
+            </div>
+            <div className="vet360-profile-field">
+              <ProfileFieldHeading
+                onEditClick={() =>
+                  this.handleLinkClick('edit', 'account-number')
+                }
+              >
+                Account number
+              </ProfileFieldHeading>
+              {paymentAccount.accountNumber}
+            </div>
+            <div className="vet360-profile-field">
+              <ProfileFieldHeading
+                onEditClick={() => this.handleLinkClick('edit', 'account-type')}
+              >
+                Account type
+              </ProfileFieldHeading>
+              {paymentAccount.accountType}
+            </div>
             <p>
               <strong>Note:</strong> If you think you’ve been the victim of bank
               fraud, please call us at{' '}
@@ -228,19 +211,19 @@ class PaymentInformation extends React.Component {
               <span className="no-wrap">800-829-4833</span>
               ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
             </p>
-          )}
 
-          <PaymentInformationEditModal
-            onClose={this.props.editModalToggled}
-            onSubmit={this.handleDirectDepositUpdateSubmit}
-            isEditing={this.props.paymentInformationUiState.isEditing}
-            isSaving={this.props.paymentInformationUiState.isSaving}
-            fields={this.props.paymentInformationUiState.editModalForm}
-            editModalFieldChanged={this.props.editModalFieldChanged}
-            responseError={this.props.paymentInformationUiState.responseError}
-          />
-        </>
-      );
+            <PaymentInformationEditModal
+              onClose={this.props.editModalToggled}
+              onSubmit={this.handleDirectDepositUpdateSubmit}
+              isEditing={this.props.paymentInformationUiState.isEditing}
+              isSaving={this.props.paymentInformationUiState.isSaving}
+              fields={this.props.paymentInformationUiState.editModalForm}
+              editModalFieldChanged={this.props.editModalFieldChanged}
+              responseError={this.props.paymentInformationUiState.responseError}
+            />
+          </>
+        );
+      }
     }
 
     return (

@@ -56,6 +56,34 @@ describe('<PaymentInformation/>', () => {
     wrapper.unmount();
   });
 
+  it('does not render if the user has not previously set up direct deposit', () => {
+    const fetchPaymentInformation = sinon.spy();
+    const props = {
+      ...defaultProps,
+      fetchPaymentInformation,
+      paymentInformation: {
+        responses: [],
+      },
+    };
+    const wrapper = shallow(<PaymentInformation {...props} />);
+    expect(wrapper.text()).to.be.empty;
+    expect(fetchPaymentInformation.called).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('renders nothing if the accountNumber is empty', () => {
+    const props = set(
+      'paymentInformation.responses[0].paymentAccount.accountNumber',
+      '',
+      defaultProps,
+    );
+    const wrapper = shallow(<PaymentInformation {...props} />);
+
+    expect(wrapper.text()).to.be.empty;
+
+    wrapper.unmount();
+  });
+
   it('renders a prompt to enable 2FA is the user does not have it enabled already', () => {
     const props = { ...defaultProps, multifactorEnabled: false };
     const wrapper = shallow(<PaymentInformation {...props} />);
@@ -67,28 +95,6 @@ describe('<PaymentInformation/>', () => {
     const props = set('paymentInformation', { error: {} }, defaultProps);
     const wrapper = shallow(<PaymentInformation {...props} />);
     expect(wrapper.find('LoadFail')).to.have.lengthOf(1);
-    wrapper.unmount();
-  });
-
-  it('renders the correct content if the accountNumber is empty', () => {
-    const props = set(
-      'paymentInformation.responses[0].paymentAccount.accountNumber',
-      '',
-      defaultProps,
-    );
-    const wrapper = shallow(<PaymentInformation {...props} />);
-
-    expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
-    expect(wrapper.find(PaymentInformationEditModal)).to.have.lengthOf(1);
-    const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
-    profileFieldHeadings.forEach(node => {
-      expect(node.props().onEditClick).to.equal('');
-    });
-    wrapper.find('.vet360-profile-field').forEach(node => {
-      expect(node.text()).to.contain('Please add your');
-    });
-    expect(wrapper.find('p')).to.have.length(0);
-
     wrapper.unmount();
   });
 
