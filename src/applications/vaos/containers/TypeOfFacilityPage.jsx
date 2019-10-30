@@ -59,7 +59,6 @@ const pageKey = 'typeOfFacility';
 
 export class TypeOfFacilityPage extends React.Component {
   componentDidMount() {
-    // this.props.openFormPage(pageKey, uiSchema, initialSchema);
     this.props.openTypeOfFacilityPage(
       pageKey,
       uiSchema,
@@ -115,7 +114,6 @@ export class TypeOfFacilityPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  // debugger;
   return {
     ...getFormPageInfo(state, pageKey),
     checkIfCCEnabled: state.newAppointment?.checkIfCCEnabled,

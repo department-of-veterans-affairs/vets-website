@@ -198,7 +198,9 @@ export function openTypeOfFacilityPage(
         }),
       );
 
-      self.routeToNextAppointmentPage(router, 'typeOfFacility');
+      if (self) {
+        self.routeToNextAppointmentPage(router, 'typeOfFacility');
+      }
     }
 
     dispatch({
