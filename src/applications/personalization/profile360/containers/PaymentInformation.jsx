@@ -175,55 +175,51 @@ class PaymentInformation extends React.Component {
       return null;
     } else {
       const paymentAccount = paymentInformation?.responses[0]?.paymentAccount;
-      if (paymentAccount) {
-        content = (
-          <>
-            <div className="vet360-profile-field">
-              <ProfileFieldHeading
-                onEditClick={() => this.handleLinkClick('edit', 'bank-name')}
-              >
-                Bank name
-              </ProfileFieldHeading>
-              {paymentAccount.financialInstitutionName}
-            </div>
-            <div className="vet360-profile-field">
-              <ProfileFieldHeading
-                onEditClick={() =>
-                  this.handleLinkClick('edit', 'account-number')
-                }
-              >
-                Account number
-              </ProfileFieldHeading>
-              {paymentAccount.accountNumber}
-            </div>
-            <div className="vet360-profile-field">
-              <ProfileFieldHeading
-                onEditClick={() => this.handleLinkClick('edit', 'account-type')}
-              >
-                Account type
-              </ProfileFieldHeading>
-              {paymentAccount.accountType}
-            </div>
-            <p>
-              <strong>Note:</strong> If you think you’ve been the victim of bank
-              fraud, please call us at{' '}
-              <span className="no-wrap">800-827-1000</span> (TTY:{' '}
-              <span className="no-wrap">800-829-4833</span>
-              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-            </p>
+      content = (
+        <>
+          <div className="vet360-profile-field">
+            <ProfileFieldHeading
+              onEditClick={() => this.handleLinkClick('edit', 'bank-name')}
+            >
+              Bank name
+            </ProfileFieldHeading>
+            {paymentAccount.financialInstitutionName}
+          </div>
+          <div className="vet360-profile-field">
+            <ProfileFieldHeading
+              onEditClick={() => this.handleLinkClick('edit', 'account-number')}
+            >
+              Account number
+            </ProfileFieldHeading>
+            {paymentAccount.accountNumber}
+          </div>
+          <div className="vet360-profile-field">
+            <ProfileFieldHeading
+              onEditClick={() => this.handleLinkClick('edit', 'account-type')}
+            >
+              Account type
+            </ProfileFieldHeading>
+            {paymentAccount.accountType}
+          </div>
+          <p>
+            <strong>Note:</strong> If you think you’ve been the victim of bank
+            fraud, please call us at{' '}
+            <span className="no-wrap">800-827-1000</span> (TTY:{' '}
+            <span className="no-wrap">800-829-4833</span>
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+          </p>
 
-            <PaymentInformationEditModal
-              onClose={this.props.editModalToggled}
-              onSubmit={this.handleDirectDepositUpdateSubmit}
-              isEditing={this.props.paymentInformationUiState.isEditing}
-              isSaving={this.props.paymentInformationUiState.isSaving}
-              fields={this.props.paymentInformationUiState.editModalForm}
-              editModalFieldChanged={this.props.editModalFieldChanged}
-              responseError={this.props.paymentInformationUiState.responseError}
-            />
-          </>
-        );
-      }
+          <PaymentInformationEditModal
+            onClose={this.props.editModalToggled}
+            onSubmit={this.handleDirectDepositUpdateSubmit}
+            isEditing={this.props.paymentInformationUiState.isEditing}
+            isSaving={this.props.paymentInformationUiState.isSaving}
+            fields={this.props.paymentInformationUiState.editModalForm}
+            editModalFieldChanged={this.props.editModalFieldChanged}
+            responseError={this.props.paymentInformationUiState.responseError}
+          />
+        </>
+      );
     }
 
     return (
