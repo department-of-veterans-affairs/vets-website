@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { flatten, isEmpty, mapKeys, camelCase } = require('lodash');
 
 /**
  * A very specific helper function that expects to receive an
@@ -38,11 +38,11 @@ function pageTransform(entity) {
   transformed.entityPublished = published === 'published';
   delete transformed.moderationState;
 
-  if (_.isEmpty(fieldDescription)) {
+  if (isEmpty(fieldDescription)) {
     transformed.fieldDescription = null;
   }
 
-  if (_.isEmpty(_.flatten(fieldAlert))) {
+  if (isEmpty(flatten(fieldAlert))) {
     transformed.fieldAlert = { entity: null };
   }
 
@@ -95,7 +95,7 @@ function transformEntity(entityType, entity) {
   const entityTransformer = getEntityTransformer(entityType);
 
   // Convert all snake_case keys to camelCase
-  const transformed = _.mapKeys(entity, (v, k) => _.camelCase(k));
+  const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
   return entityTransformer(transformed);
 }
