@@ -91,10 +91,10 @@ module.exports = {
    *
    * @return {Object} - The contents of the file.
    */
-  readEntity(type, uuid) {
+  readEntity(entityType, uuid) {
     return JSON.parse(
       fs
-        .readFileSync(path.join(contentDir, `${type}.${uuid}.json`))
+        .readFileSync(path.join(contentDir, `${entityType}.${uuid}.json`))
         .toString('utf8'),
     );
   },

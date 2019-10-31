@@ -18,13 +18,6 @@ const assembleEntityTree = (entity, parents = []) => {
   const targetID = get(entity, 'type[0].target_id');
   const uuid = get(entity, 'uuid[0].value');
 
-  // Escape early if we are missing required entity properties.
-  // if (!uuid || !targetID) {
-  //   throw new Error(
-  //     `Missing targetID or uuid for entity. (targetID|uuid) ${targetID} | ${uuid}`,
-  //   );
-  // }
-
   // Avoid circular references
   if (parents.includes(toId(targetID, uuid))) {
     /* eslint-disable no-console */
