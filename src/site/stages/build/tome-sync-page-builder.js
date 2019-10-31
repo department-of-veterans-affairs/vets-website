@@ -1,12 +1,7 @@
 // Dependencies
 const { get } = require('lodash');
 // Relative
-const {
-  getModifiedEntity,
-  toId,
-  readEntity,
-  readAllNodeNames,
-} = require('./page-builder/helpers');
+const { getModifiedEntity, toId } = require('./page-builder/helpers');
 
 /**
  * Takes an entity type and uuid, reads the corresponding file,
@@ -62,15 +57,4 @@ const assembleEntityTree = (entity, parents = []) => {
   return modifiedEntity;
 };
 
-const files = readAllNodeNames()
-  .map(entityDetails => readEntity(...entityDetails))
-  .map(entity => assembleEntityTree(entity));
-
-// eslint-disable-next-line no-console
-console.log(files.length);
-
-// console.log(JSON.stringify(files[0], null, 2));
-
-module.exports = {
-  assembleEntityTree,
-};
+module.exports = assembleEntityTree;
