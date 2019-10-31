@@ -8,6 +8,12 @@ import {
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  CANCEL_APPOINTMENT,
+  CANCEL_APPOINTMENT_CONFIRMED,
+  CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+  CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+  CANCEL_APPOINTMENT_CONTINUED,
+  CANCEL_APPOINTMENT_ABORTED,
 } from '../actions/appointments';
 
 import { FETCH_STATUS, CANCELLED_APPOINTMENT_SET } from '../utils/constants';
@@ -20,6 +26,9 @@ const initialState = {
   pendingStatus: FETCH_STATUS.notStarted,
   past: null,
   pastStatus: FETCH_STATUS.notStarted,
+  showCancelModal: false,
+  cancelAppointmentStatus: FETCH_STATUS.notStarted,
+  appointmentToCancel: null,
 };
 
 function parseVAorCCDate(item) {
@@ -115,6 +124,50 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         pastStatus: FETCH_STATUS.failed,
         past: null,
+      };
+    case CANCEL_APPOINTMENT:
+      return {
+        ...state,
+        showCancelModal: true,
+        appointmentToCancel: action.appointment,
+        cancelAppointmentStatus: FETCH_STATUS.notStarted,
+      };
+    case CANCEL_APPOINTMENT_CONFIRMED:
+      return {
+        ...state,
+        showCancelModal: true,
+        cancelAppointmentStatus: FETCH_STATUS.loading,
+      };
+    case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
+      const confirmed = state.confirmed.filter(
+        appt => appt !== state.appointmentToCancel,
+      );
+      return {
+        ...state,
+        showCancelModal: true,
+        confirmed,
+        cancelAppointmentStatus: FETCH_STATUS.succeeded,
+      };
+    }
+    case CANCEL_APPOINTMENT_CONFIRMED_FAILED:
+      return {
+        ...state,
+        showCancelModal: true,
+        cancelAppointmentStatus: FETCH_STATUS.failed,
+      };
+    case CANCEL_APPOINTMENT_CONTINUED:
+      return {
+        ...state,
+        showCancelModal: false,
+        appointmentToCancel: null,
+        cancelAppointmentStatus: FETCH_STATUS.notStarted,
+      };
+    case CANCEL_APPOINTMENT_ABORTED:
+      return {
+        ...state,
+        showCancelModal: false,
+        appointmentToCancel: null,
+        cancelAppointmentStatus: FETCH_STATUS.notStarted,
       };
     default:
       return state;

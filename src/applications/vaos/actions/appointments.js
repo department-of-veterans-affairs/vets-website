@@ -1,8 +1,12 @@
+import moment from 'moment';
 import { FETCH_STATUS } from '../utils/constants';
+
 import {
   getConfirmedAppointments,
   getPendingAppointments,
   getPastAppointments,
+  getCancelReasons,
+  updateAppointment,
 } from '../api';
 
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -22,6 +26,14 @@ export const FETCH_PAST_APPOINTMENTS_FAILED =
   'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
 export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
+export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
+export const CANCEL_APPOINTMENT_CONFIRMED = 'vaos/CANCEL_APPOINTMENT_CONFIRMED';
+export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
+  'vaos/CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED';
+export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
+  'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
+export const CANCEL_APPOINTMENT_CONTINUED = 'vaos/CANCEL_APPOINTMENT_CONTINUED';
+export const CANCEL_APPOINTMENT_ABORTED = 'vaos/CANCEL_APPOINTMENT_ABORTED';
 
 export function fetchConfirmedAppointments() {
   return (dispatch, getState) => {
@@ -69,5 +81,77 @@ export function fetchPastAppointments() {
         data,
       });
     });
+  };
+}
+
+const UNABLE_TO_KEEP_APPT = '5';
+const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
+
+export function cancelAppointment(appointment) {
+  return {
+    type: CANCEL_APPOINTMENT,
+    appointment,
+  };
+}
+
+export function confirmCancelAppointment() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: CANCEL_APPOINTMENT_CONFIRMED,
+      });
+
+      const appointment = getState().appointments.appointmentToCancel;
+      const cancelData = {
+        appointmentTime: moment(appointment.startDate).format(
+          'MM/DD/YYYY HH:mm:ss',
+        ),
+        clinicId: appointment.clinicId,
+        remarks: '',
+        clinicName: appointment.vdsAppointments[0].clinic.name,
+        cancelCode: 'PC',
+      };
+
+      const cancelReasons = await getCancelReasons(
+        appointment.facilityId.substr(0, 3),
+      );
+
+      if (cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
+        await updateAppointment({
+          ...cancelData,
+          cancelReason: '5',
+        });
+      } else if (cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))) {
+        const cancelReason = cancelReasons.find(reason =>
+          VALID_CANCEL_CODES.has(reason),
+        );
+        await updateAppointment({
+          ...cancelData,
+          cancelReason: cancelReason.number,
+        });
+      } else {
+        throw new Error('Unable to find valid cancel reason');
+      }
+
+      dispatch({
+        type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+      });
+    } catch (e) {
+      dispatch({
+        type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+      });
+    }
+  };
+}
+
+export function cancelAppointmentContinue() {
+  return {
+    type: CANCEL_APPOINTMENT_CONTINUED,
+  };
+}
+
+export function cancelAppointmentAbort() {
+  return {
+    type: CANCEL_APPOINTMENT_ABORTED,
   };
 }

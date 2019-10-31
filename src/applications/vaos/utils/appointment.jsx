@@ -29,7 +29,7 @@ export function getVideoVisitLink(appt) {
     ?.url;
 }
 
-function getStagingId(facilityId) {
+export function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
     return facilityId.replace('983', '442');
   }

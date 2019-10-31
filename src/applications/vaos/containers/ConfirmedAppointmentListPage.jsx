@@ -3,11 +3,15 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { focusElement } from 'platform/utilities/ui';
-import { fetchConfirmedAppointments } from '../actions/appointments';
+import {
+  fetchConfirmedAppointments,
+  cancelAppointment,
+} from '../actions/appointments';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import { FETCH_STATUS } from '../utils/constants';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getAppointmentId } from '../utils/appointment';
+import CancelAppointment from './CancelAppointment';
 
 export class ConfirmedAppointmentListPage extends React.Component {
   componentDidMount() {
@@ -83,6 +87,7 @@ export class ConfirmedAppointmentListPage extends React.Component {
                           <ConfirmedAppointmentListItem
                             key={getAppointmentId(appt)}
                             appointment={appt}
+                            cancelAppointment={this.props.cancelAppointment}
                           />
                         ))}
                       </ul>
@@ -92,6 +97,7 @@ export class ConfirmedAppointmentListPage extends React.Component {
             </div>
           </div>
         </div>
+        <CancelAppointment />
       </div>
     );
   }
@@ -106,6 +112,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchConfirmedAppointments,
+  cancelAppointment,
 };
 
 export default connect(
