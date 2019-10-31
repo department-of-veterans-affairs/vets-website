@@ -4,28 +4,28 @@ module.exports = {
   type: 'object',
   properties: {
     title: {
-      $ref: '/GenericNestedString',
+      $ref: 'GenericNestedString',
     },
     field_intro_text: {
-      $ref: '/GenericNestedString',
+      $ref: 'GenericNestedString',
     },
     field_description: {
-      $ref: '/GenericNestedString',
+      $ref: 'GenericNestedString',
     },
     field_featured_content: {
-      $ref: '/EntityReferenceArray',
+      $ref: 'EntityReferenceArray',
     },
     field_content_block: {
-      $ref: '/EntityReferenceArray',
+      $ref: 'EntityReferenceArray',
     },
     field_alert: {
-      $ref: '/EntityReferenceArray',
+      $ref: 'EntityReferenceArray',
     },
     field_related_links: {
-      $ref: '/EntityReferenceArray',
+      $ref: 'EntityReferenceArray',
     },
     field_administration: {
-      $ref: '/EntityReferenceArray',
+      $ref: 'EntityReferenceArray',
     },
     field_page_last_built: {
       type: 'array',

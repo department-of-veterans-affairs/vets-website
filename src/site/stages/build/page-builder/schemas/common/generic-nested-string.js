@@ -1,5 +1,5 @@
 module.exports = {
-  id: '/GenericNestedString',
+  id: 'GenericNestedString',
   type: 'array',
   items: {
     type: 'object',
