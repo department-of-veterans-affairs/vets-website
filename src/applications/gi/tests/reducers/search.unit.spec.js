@@ -40,11 +40,11 @@ describe('search reducer', () => {
     expect(state.errorMessage).to.eql('error message');
   });
 
-  it('should set correct state on success', () => {
+  it('should set correct state on institution search success', () => {
     const state = searchReducer(
       { inProgress: true },
       {
-        type: 'SEARCH_SUCCEEDED',
+        type: 'INSTITUTION_SEARCH_SUCCEEDED',
         payload: {
           data: [
             {
@@ -76,6 +76,51 @@ describe('search reducer', () => {
     expect(state.inProgress).to.eql(false);
     expect(state.results.length).to.eql(1);
     expect(state.results[0].name).to.eql('RESULT_NAME');
+    expect(state.facets.state.STATEFACETKEY).to.eql('value');
+    expect(state.facets.type.TYPEFACETKEY).to.eql('value');
+    expect(state.count).to.eql(1);
+    expect(state.version).to.eql(1);
+    expect(state.pagination.currentPage).to.eql(1);
+    expect(state.pagination.totalPages).to.eql(1);
+    expect(state.pagination.perPage).to.eql(10);
+  });
+
+  it('should set correct state on program search success', () => {
+    const state = searchReducer(
+      { inProgress: true },
+      {
+        type: 'PROGRAM_SEARCH_SUCCEEDED',
+        payload: {
+          data: [
+            {
+              attributes: {
+                description: 'result_name',
+              },
+            },
+          ],
+          links: {
+            self: 'url/to/data',
+            last: 'url/to/data?page=1&per_page=10',
+          },
+          meta: {
+            count: 1,
+            version: 1,
+            facets: {
+              state: {
+                stateFacetKey: 'value',
+              },
+              type: {
+                typeFacetKey: 'value',
+              },
+            },
+          },
+        },
+      },
+    );
+
+    expect(state.inProgress).to.eql(false);
+    expect(state.results.length).to.eql(1);
+    expect(state.results[0].description).to.eql('RESULT_NAME');
     expect(state.facets.state.STATEFACETKEY).to.eql('value');
     expect(state.facets.type.TYPEFACETKEY).to.eql('value');
     expect(state.count).to.eql(1);
