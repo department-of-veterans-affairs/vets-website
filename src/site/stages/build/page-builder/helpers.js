@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { getFilteredEntity } = require('./filters');
-const { transformEntity } = require('./transformers');
+const { transformEntity } = require('./transform');
 
 /**
  * This assumes the tome-sync output is sibling to the vets-website
