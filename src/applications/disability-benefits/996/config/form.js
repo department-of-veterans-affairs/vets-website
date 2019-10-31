@@ -11,6 +11,7 @@ import fullSchema from '../20-0996-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -61,6 +62,7 @@ const formConfig = {
     veteranDetailsDescription,
     ratedDisabilities,
   },
+  preSubmitInfo,
   chapters: {
     veteranDetails: {
       title: 'Veteran details',
