@@ -22,13 +22,16 @@ export class AppointmentListsPage extends Component {
 
     let content;
 
-    if (futureStatus === FETCH_STATUS.loading) {
+    const loading = futureStatus === FETCH_STATUS.loading;
+    const hasAppointments = FETCH_STATUS.succeeded && future.length > 0;
+
+    if (loading) {
       content = (
         <div className="vads-u-margin-y--8">
           <LoadingIndicator setFocus message="Loading your appointments..." />
         </div>
       );
-    } else {
+    } else if (hasAppointments) {
       content = future?.map((appt, index) => {
         const type = getAppointmentType(appt);
 
@@ -50,6 +53,9 @@ export class AppointmentListsPage extends Component {
             return null;
         }
       });
+    } else {
+      // TODO: show no appointments message
+      content = 'No appointments';
     }
 
     return (
