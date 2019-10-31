@@ -1,21 +1,26 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import sinon from 'sinon';
+import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils';
+
+import { $, $$ } from '../../helpers';
 
 import formConfig from '../../config/form';
 import informalConference from '../../pages/informalConference';
-import initialData from '../schema/initialData';
 
 const { schema, uiSchema } = informalConference;
-const nextStep = '4';
 
 // TO-DO: Test scheduleTimes validation... not working currently
 
 describe('Higher-Level Review 0996 informal conference', () => {
   it('should render informal conference form', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -25,13 +30,13 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
+    const formDOM = getFormDOM(form);
     // Yes/No choice for informal conference
-    expect(form.find('input[type="radio"]').length).to.equal(2);
-    form.unmount();
+    expect($$('input[type="radio"]', formDOM).length).to.equal(2);
   });
 
   it('should show the call representative choice', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -45,16 +50,15 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
+    const formDOM = getFormDOM(form);
     // Yes/No choice for informal conference & call representative
-    expect(form.find('input[type="radio"]').length).to.equal(4);
-    expect(
-      form.find('#root_veteran_informalConferenceChoiceYes').props().checked,
-    ).to.be.true;
-    form.unmount();
+    expect($$('input[type="radio"]', formDOM).length).to.equal(4);
+    expect($('#root_veteran_informalConferenceChoiceYes', formDOM).checked).to
+      .be.true;
   });
 
   it('should show the call representative name & phone inputs and time checkboxes', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -69,15 +73,15 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
+    const formDOM = getFormDOM(form);
     // 4 Radio: Yes/No choice for informal conference & call representative
     // 2 inputs (text + tel): rep name & phone
     // 4 checkboxes - time period
-    expect(form.find('input').length).to.equal(10);
-    form.unmount();
+    expect($$('input', formDOM).length).to.equal(10);
   });
 
   it('should show the call representative name & phone info', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -96,15 +100,13 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    expect(form.find('input[type="text"]').props().value).to.equal('John Doe');
-    expect(form.find('input[type="tel"]').props().value).to.equal(
-      '800 555-1212',
-    );
-    form.unmount();
+    const formDOM = getFormDOM(form);
+    expect($('input[type="text"]', formDOM).value).to.equal('John Doe');
+    expect($('input[type="tel"]', formDOM).value).to.equal('800 555-1212');
   });
 
   it('should show the time checkboxes', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -119,45 +121,42 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
+    const formDOM = getFormDOM(form);
     // 4 Radio: Yes/No choice for informal conference & call representative
     // 4 checkboxes - time period
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
+    expect($$('input', formDOM).length).to.equal(8);
   });
 
   /* Successful submits */
   it('successfully submits when no informal conference is selected', () => {
-    const form = mount(
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
-        data={initialData}
+        data={{
+          veteran: {
+            informalConferenceChoice: false,
+          },
+        }}
         formData={{}}
         uiSchema={uiSchema}
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    form
-      .find('input#root_veteran_informalConferenceChoiceNo')
-      .props()
-      .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-
-    setTimeout(() => {
-      // Check header content to see if we're on the next step
-      const text = form.find('.form-process-step.current').text();
-      expect(text).to.equal(nextStep);
-      form.unmount();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('successfully submits when a conference & time is selected', () => {
-    const form = mount(
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
         data={{
           veteran: {
@@ -173,27 +172,18 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    form
-      .find('input#root_veteran_informalConferenceChoiceYes')
-      .props()
-      .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-
-    setTimeout(() => {
-      // Check header content to see if we're on the next step
-      const text = form.find('.form-process-step.current').text();
-      expect(text).to.equal(nextStep);
-      form.unmount();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('successfully submits when a conference w/rep & time is selected', () => {
-    const form = mount(
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
         data={{
           veteran: {
@@ -213,28 +203,19 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    form
-      .find('input#root_veteran_informalConferenceChoiceYes')
-      .props()
-      .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-
-    setTimeout(() => {
-      // Check header content to see if we're on the next step
-      const text = form.find('.form-process-step.current').text();
-      expect(text).to.equal(nextStep);
-      form.unmount();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   /* Unsuccessful submits */
   it('prevents submit when informal conference is not selected', () => {
-    const form = mount(
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
         data={{}}
         formData={{}}
@@ -242,27 +223,18 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    // form
-    //   .find('input#root_veteran_informalConferenceChoiceYes')
-    //   .props()
-    //   .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-
-    setTimeout(() => {
-      // Check header content to see if we're on the next step
-      const text = form.find('.form-process-step.current').text();
-      expect(text).to.not.equal(nextStep);
-      form.unmount();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect(onSubmit.called).not.to.be.true;
   });
 
   it('prevents submit when call rep is not selected', () => {
-    const form = mount(
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
         data={{
           veteran: {
@@ -274,27 +246,21 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    form
-      .find('input#root_veteran_informalConferenceChoiceYes')
-      .props()
-      .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-
-    setTimeout(() => {
-      // Check header content to see if we're on the next step
-      const text = form.find('.form-process-step.current').text();
-      expect(text).to.not.equal(nextStep);
-      form.unmount();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    // *****************
+    // Once scheduleTimes error messages are working, this should be .equal(2)
+    // *****************
+    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect(onSubmit.called).not.to.be.true;
   });
 
   it('prevents submit when no time is selected', () => {
-    const form = mount(
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
         data={{
           veteran: {
@@ -308,22 +274,39 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    form
-      .find('input#root_veteran_informalConferenceChoiceYes')
-      .props()
-      .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect(onSubmit.called).not.to.be.true;
+  });
 
-    // Choose at least one time period error message
-    expect(form.find('.usa-input-error').length).to.equal(1);
+  it('prevents submit when excessive times are selected', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        schema={schema}
+        data={{
+          veteran: {
+            informalConferenceChoice: true,
+            contactRepresentativeChoice: false,
+            scheduleTimes: {
+              time0800to1000: true,
+              time1000to1200: true,
+              time1230to1400: true,
+              time1400to1630: true,
+            },
+          },
+        }}
+        formData={{}}
+        uiSchema={uiSchema}
+      />,
+    );
 
-    setTimeout(() => {
-      // Check header content to see if we're on the next step
-      const text = form.find('.form-process-step.current').text();
-      expect(text).to.not.equal(nextStep);
-      form.unmount();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect(onSubmit.called).not.to.be.true;
   });
 });

@@ -35,3 +35,7 @@ export const addXMonths = numberOfMonths =>
 export const getRepresentativeChoice = formData =>
   formData?.veteran?.informalConferenceChoice === true &&
   formData?.veteran?.contactRepresentativeChoice;
+
+// testing
+export const $ = (selector, DOM) => DOM.querySelector(selector);
+export const $$ = (selector, DOM) => DOM.querySelectorAll(selector);
