@@ -11,7 +11,7 @@ import { fetchFutureAppointments } from '../actions/appointments';
 import { getAppointmentType } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 
-export class AppointmentListsPage extends Component {
+export class AppointmentsPage extends Component {
   componentDidMount() {
     focusElement('.vads-l-col--12 > h1');
     this.props.fetchFutureAppointments();
@@ -82,7 +82,7 @@ export class AppointmentListsPage extends Component {
   }
 }
 
-AppointmentListsPage.propTypes = {
+AppointmentsPage.propTypes = {
   fetchFutureAppointments: PropTypes.func.isRequired,
 };
 
@@ -97,4 +97,4 @@ export default connect(
   {
     fetchFutureAppointments,
   },
-)(AppointmentListsPage);
+)(AppointmentsPage);
