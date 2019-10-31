@@ -1,5 +1,3 @@
-import fullSchema from '../20-0996-schema.json';
-
 import { isValidDate } from '../helpers';
 import { errorMessages } from '../constants';
 
@@ -38,11 +36,12 @@ export const requireRatedDisability = (err, fieldData /* , formData */) => {
 };
 
 const conferenceTimes = {
-  min: fullSchema.definitions.scheduleTimes.minItems,
-  max: fullSchema.definitions.scheduleTimes.maxItems,
+  min: 1,
+  max: 2,
 };
 
-export const checkConferenceTimes = (errors, values = {}) => {
+export const checkConferenceTimes = (errors, values = {}, formData) => {
+  let result = '';
   const times =
     Object.keys(values || {}).reduce((acc, time) => {
       if (values[time]) {
@@ -51,15 +50,18 @@ export const checkConferenceTimes = (errors, values = {}) => {
       return acc;
     }, []) || [];
 
-  if (errors) {
+  if (formData?.veteran?.informalConferenceChoice === true && errors) {
+    // validation
     if (times.length < conferenceTimes.min) {
-      errors.addError(errorMessages.InformalConferenceTimesMin);
+      errors.addError(errorMessages.informalConferenceTimesMin);
     } else if (times.length > conferenceTimes.max) {
-      errors.addError(errorMessages.InformalConferenceTimesMax);
+      errors.addError(errorMessages.informalConferenceTimesMax);
     }
-    return errors;
+  } else {
+    // visibility
+    result =
+      times.length >= conferenceTimes.min &&
+      times.length <= conferenceTimes.max;
   }
-  return (
-    times.length >= conferenceTimes.min && times.length <= conferenceTimes.max
-  );
+  return result;
 };

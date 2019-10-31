@@ -4,13 +4,19 @@ import { checkDateRange, checkConferenceTimes } from '../../validations';
 import { addXMonths } from '../../helpers';
 import { errorMessages } from '../../constants';
 
+const mockFormData = {
+  veteran: {
+    informalConferenceChoice: true,
+  },
+};
+
 describe('From Date validations', () => {
   it('should allow start dates after today', () => {
     let errorMessage = '';
     const errors = {
       from: {
         addError: message => {
-          errorMessage = message;
+          errorMessage = message || '';
         },
       },
     };
@@ -26,7 +32,7 @@ describe('From Date validations', () => {
     const errors = {
       from: {
         addError: message => {
-          errorMessage = message;
+          errorMessage = message || '';
         },
       },
     };
@@ -42,7 +48,7 @@ describe('From Date validations', () => {
     const errors = {
       to: {
         addError: message => {
-          errorMessage = message;
+          errorMessage = message || '';
         },
       },
     };
@@ -58,7 +64,7 @@ describe('From Date validations', () => {
     const errors = {
       to: {
         addError: message => {
-          errorMessage = message;
+          errorMessage = message || '';
         },
       },
     };
@@ -75,7 +81,7 @@ describe('From Date validations', () => {
     const errors = {
       to: {
         addError: message => {
-          errorMessage = message;
+          errorMessage = message || '';
         },
       },
     };
@@ -93,7 +99,7 @@ describe('Informal conference time validation', () => {
     let errorMessage = '';
     const errors = {
       addError: message => {
-        errorMessage = message;
+        errorMessage = message || '';
       },
     };
     const times = {
@@ -102,8 +108,8 @@ describe('Informal conference time validation', () => {
       c: undefined,
       d: undefined,
     };
-    checkConferenceTimes(errors, times);
-    expect(errorMessage).to.equal(errorMessages.InformalConferenceTimesMin);
+    checkConferenceTimes(errors, times, mockFormData);
+    expect(errorMessage).to.equal(errorMessages.informalConferenceTimesMin);
     expect(checkConferenceTimes(null, times)).to.be.false;
   });
 
@@ -111,7 +117,7 @@ describe('Informal conference time validation', () => {
     let errorMessage = '';
     const errors = {
       addError: message => {
-        errorMessage = message;
+        errorMessage = message || '';
       },
     };
     const times = {
@@ -120,8 +126,8 @@ describe('Informal conference time validation', () => {
       c: true,
       d: true,
     };
-    checkConferenceTimes(errors, times);
-    expect(errorMessage).to.equal(errorMessages.InformalConferenceTimesMax);
+    checkConferenceTimes(errors, times, mockFormData);
+    expect(errorMessage).to.equal(errorMessages.informalConferenceTimesMax);
     expect(checkConferenceTimes(null, times)).to.be.false;
   });
 
@@ -129,7 +135,7 @@ describe('Informal conference time validation', () => {
     let errorMessage = '';
     const errors = {
       addError: message => {
-        errorMessage = message;
+        errorMessage = message || '';
       },
     };
     const times = {
@@ -138,7 +144,7 @@ describe('Informal conference time validation', () => {
       c: undefined,
       d: undefined,
     };
-    checkConferenceTimes(errors, times);
+    checkConferenceTimes(errors, times, mockFormData);
     expect(errorMessage).to.equal('');
     expect(checkConferenceTimes(null, times)).to.be.true;
   });

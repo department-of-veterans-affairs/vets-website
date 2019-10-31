@@ -459,8 +459,6 @@
     },
     "scheduleTimes": {
       "type": "object",
-      "minItems": 1,
-      "maxItems": 2,
       "properties": {
         "time0800to1000": {
           "type": "boolean"
