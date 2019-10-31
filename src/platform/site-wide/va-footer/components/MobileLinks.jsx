@@ -1,5 +1,4 @@
 import React from 'react';
-import recordEvent from '../../../../platform/monitoring/record-event';
 
 import { FOOTER_COLUMNS } from '../helpers';
 
