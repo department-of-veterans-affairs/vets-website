@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {
   clearAutocompleteSuggestions,
-  fetchInstitutionAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
   fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
@@ -107,7 +107,13 @@ export class SearchPage extends React.Component {
     });
 
     this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchSearchResults(query);
+
+    // prod flag for story 19734
+    if (!environment.isProduction() && isVetTecSelected(institutionFilter)) {
+      this.props.fetchProgramSearchResults(query);
+    } else {
+      this.props.fetchInstitutionSearchResults(query);
+    }
   };
 
   handlePageSelect = page => {
@@ -273,9 +279,7 @@ export class SearchPage extends React.Component {
         autocomplete={this.props.autocomplete}
         location={this.props.location}
         clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={
-          this.props.fetchInstitutionAutocompleteSuggestions
-        }
+        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
         handleFilterChange={this.handleFilterChange}
         updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
         filters={this.props.filters}
@@ -299,9 +303,7 @@ export class SearchPage extends React.Component {
         autocomplete={this.props.autocomplete}
         location={this.props.location}
         clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={
-          this.props.fetchInstitutionAutocompleteSuggestions
-        }
+        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
         handleFilterChange={this.handleFilterChange}
         updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
         filters={this.props.filters}
@@ -351,7 +353,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
-  fetchInstitutionAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
   fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,

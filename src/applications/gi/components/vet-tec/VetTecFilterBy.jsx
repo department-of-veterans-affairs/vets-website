@@ -53,6 +53,7 @@ class VetTecFilterBy extends React.Component {
           onChange={this.handleFilterChange}
           options={options}
         />
+        <div>Filter by provider</div>
       </div>
     );
   }

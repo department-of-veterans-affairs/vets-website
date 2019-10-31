@@ -196,7 +196,6 @@ export class ProgramSearchPage extends React.Component {
     const filtersClass = classNames(
       'filters-sidebar',
       'small-12',
-      'usa-width-one-fourth',
       'medium-3',
       'columns',
       'mobile-vettec-logo',
