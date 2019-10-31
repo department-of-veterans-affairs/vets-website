@@ -129,7 +129,7 @@ class VetTecSearchForm extends React.Component {
             <h2>Refine search</h2>
             <KeywordSearch
               autocomplete={this.props.autocomplete}
-              label="City, school, or training provider"
+              label="City, VET TEC program or provider"
               location={this.props.location}
               onClearAutocompleteSuggestions={
                 this.props.clearAutocompleteSuggestions
