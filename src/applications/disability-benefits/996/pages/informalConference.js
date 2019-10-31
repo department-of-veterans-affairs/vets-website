@@ -89,35 +89,25 @@ const informalConference = {
         },
       },
       scheduleTimes: {
-        'ui:title': ' ',
-        'ui:description': InformalConferenceTimes,
-        // TO-DO: determine why...
-        // *** ui:required & ui:errorMessages are ignored! ***
-        'ui:required': () => true,
-        // formData => {
-        //   const result = formData?.veteran?.informalConferenceChoice;
-        //   console.log('req?', result)
-        //   return result === true;
-        // },
+        'ui:title': InformalConferenceTimes,
+        'ui:required': formData =>
+          formData?.veteran?.informalConferenceChoice === true,
         'ui:errorMessages': {
           required: errorMessages.informalConferenceTimesMin,
         },
-        // 'ui:validations': [checkConferenceTimes],
-        time0800to1000: InformalConferenceTimeLabels('time0800to1000'),
-        time1000to1200: InformalConferenceTimeLabels('time1000to1200'),
-        time1230to1400: InformalConferenceTimeLabels('time1230to1400'),
-        time1400to1630: InformalConferenceTimeLabels('time1400to1630'),
+        'ui:validations': [checkConferenceTimes],
         'ui:options': {
+          showFieldLabel: true,
           hideIf: formData =>
             // This value may initialize as an object; so we can't use
             // !== 'boolean'
             !(typeof getRepresentativeChoice(formData) === 'boolean'),
           expandUnder: 'informalConferenceChoice',
-          // updateSchema: (formData, schema, uiSchema) => {
-          //   // console.log('updateSchmea', formData, schema, uiSchema);
-          //   return schema;
-          // },
         },
+        time0800to1000: InformalConferenceTimeLabels('time0800to1000'),
+        time1000to1200: InformalConferenceTimeLabels('time1000to1200'),
+        time1230to1400: InformalConferenceTimeLabels('time1230to1400'),
+        time1400to1630: InformalConferenceTimeLabels('time1400to1630'),
       },
       'view:alert': {
         'ui:title': ' ',

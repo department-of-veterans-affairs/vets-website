@@ -16,8 +16,6 @@ import informalConference from '../../pages/informalConference';
 
 const { schema, uiSchema } = informalConference;
 
-// TO-DO: Test scheduleTimes validation... not working currently
-
 describe('Higher-Level Review 0996 informal conference', () => {
   it('should render informal conference form', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -175,6 +173,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     const formDOM = getFormDOM(form);
     submitForm(form);
     expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect($$('.usa-alert-info', formDOM).length).to.equal(1);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -206,6 +205,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     const formDOM = getFormDOM(form);
     submitForm(form);
     expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect($$('.usa-alert-info', formDOM).length).to.equal(1);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -248,9 +248,6 @@ describe('Higher-Level Review 0996 informal conference', () => {
 
     const formDOM = getFormDOM(form);
     submitForm(form);
-    // *****************
-    // Once scheduleTimes error messages are working, this should be .equal(2)
-    // *****************
     expect($$('.usa-input-error', formDOM).length).to.equal(1);
     expect(onSubmit.called).not.to.be.true;
   });
@@ -277,6 +274,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     const formDOM = getFormDOM(form);
     submitForm(form);
     expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect($$('.usa-alert-info', formDOM).length).to.equal(0);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -307,6 +305,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     const formDOM = getFormDOM(form);
     submitForm(form);
     expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect($$('.usa-alert-info', formDOM).length).to.equal(0);
     expect(onSubmit.called).not.to.be.true;
   });
 });

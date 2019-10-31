@@ -96,7 +96,7 @@ export default {
       fullName: 'Fred Flintstone',
       phone: '8005551212',
     },
-    scheduleTimes: [],
+    scheduleTimes: {},
   },
 };
 
