@@ -20,6 +20,10 @@ const initialSchema = {
       type: 'string',
       pattern: '^[0-9]{10}$',
     },
+    email: {
+      type: 'string',
+      format: 'email',
+    },
     bestTimeToCall: {
       type: 'object',
       properties: {
@@ -42,6 +46,9 @@ const uiSchema = {
   'ui:description':
     'A scheduling clerk will contact you to coordinate an appointment date',
   phoneNumber: phoneUI('Phone number'),
+  email: {
+    'ui:title': 'Email',
+  },
   bestTimeToCall: {
     'ui:title': 'Best times for VA to call',
     morning: {
