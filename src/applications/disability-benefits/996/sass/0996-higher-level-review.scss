@@ -185,9 +185,17 @@ article[data-location="request-informal-conference"] {
   }
 
   /* Remove extra spacing between form elements */
-  #root_veteran_view\:contactRepresentativeInformation_view\:InformalConferenceTimes-label + div {
-    fieldset {
+  .form-expanding-group .usa-input-error {
+    margin-top: 0;
+  }
+
+  #root_veteran_scheduleTimes-label {
+    p {
       margin-top: 0;
+    }
+
+    .schemaform-required-span {
+      display: none;
     }
   }
 
