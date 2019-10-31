@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { APPOINTMENT_TYPES } from './constants';
+import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
 
 const today = moment();
 
@@ -153,4 +153,36 @@ export function getAppointmentDateTime(appt) {
   return `${parsedDate.format('MMMM D, YYYY')} at ${parsedDate.format(
     'hh:mm a zz',
   )}`;
+}
+
+export function getRequestDateOptions(appt) {
+  const validOptions = [
+    parseRequestDate(appt.optionDate1),
+    parseRequestDate(appt.optionDate2),
+    parseRequestDate(appt.optionDate3),
+  ];
+  return validOptions.reduce((formatted, option, index) => {
+    if (option.isValid()) {
+      formatted.push(
+        <li key={`${appt.uniqueId}-option-${index}`}>
+          {option.format('MMMM D, YYYY')}{' '}
+          {TIME_TEXT[appt[`optionTime${index + 1}`]]}
+        </li>,
+      );
+    }
+    return formatted;
+  }, []);
+}
+
+export function getRequestTimeToCall(appt) {
+  const times = appt.bestTimetoCall.map(t => t.toLowerCase());
+  if (times.length === 1) {
+    return `Call ${times[0]}`;
+  } else if (times.length === 2) {
+    return `Call ${times[0]} or ${times[1]}`;
+  } else if (times.length === 3) {
+    return `Call ${times[0]}, ${times[1]}, or ${times[2]}`;
+  }
+
+  return null;
 }
