@@ -71,7 +71,7 @@ class VetTecProgramSearchResult extends React.Component {
                       Housing <span>(monthly):</span>
                       <div className="programHousingAllowance">
                         {`${formatCurrency(
-                          constants.AVGDODBAH,
+                          constants.AVGDODBAH / 2,
                         )} - ${formatCurrency(dodBah)}`}
                       </div>
                     </h4>

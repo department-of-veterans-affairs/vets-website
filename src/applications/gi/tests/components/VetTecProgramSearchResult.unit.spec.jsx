@@ -46,9 +46,9 @@ describe('<VetTecProgramSearchResult>', () => {
       formatCurrency(defaultProps.result.tuitionAmount),
     );
     expect(wrapper.find('.programHousingAllowance').text()).to.eq(
-      `${formatCurrency(defaultProps.constants.AVGDODBAH)} - ${formatCurrency(
-        defaultProps.result.dodBah,
-      )}`,
+      `${formatCurrency(
+        defaultProps.constants.AVGDODBAH / 2,
+      )} - ${formatCurrency(defaultProps.result.dodBah)}`,
     );
     expect(wrapper.find('.info-flag').text()).to.eq('2 weeks');
     expect(wrapper.find('.preferred-flag')).to.have.lengthOf(0);
