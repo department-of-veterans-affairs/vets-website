@@ -12,7 +12,6 @@ export default function MobileLinks({ links, visible }) {
       <ul className="usa-accordion va-footer-accordion">
         <li>
           <button
-            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
             className="usa-button-unstyled usa-accordion-button va-footer-button"
             aria-controls="veteran-contact"
             itemProp="name"
