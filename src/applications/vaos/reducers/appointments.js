@@ -12,8 +12,7 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-  CANCEL_APPOINTMENT_CONTINUED,
-  CANCEL_APPOINTMENT_ABORTED,
+  CANCEL_APPOINTMENT_CLOSED,
 } from '../actions/appointments';
 
 import { FETCH_STATUS, CANCELLED_APPOINTMENT_SET } from '../utils/constants';
@@ -155,14 +154,7 @@ export default function appointmentsReducer(state = initialState, action) {
         showCancelModal: true,
         cancelAppointmentStatus: FETCH_STATUS.failed,
       };
-    case CANCEL_APPOINTMENT_CONTINUED:
-      return {
-        ...state,
-        showCancelModal: false,
-        appointmentToCancel: null,
-        cancelAppointmentStatus: FETCH_STATUS.notStarted,
-      };
-    case CANCEL_APPOINTMENT_ABORTED:
+    case CANCEL_APPOINTMENT_CLOSED:
       return {
         ...state,
         showCancelModal: false,

@@ -6,21 +6,12 @@ import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import {
   confirmCancelAppointment,
-  cancelAppointmentContinue,
-  cancelAppointmentAbort,
+  closeCancelAppointment,
 } from '../actions/appointments';
 import { FETCH_STATUS } from '../utils/constants';
 import { getStagingId } from '../utils/appointment';
 
-export class CancelAppointment extends React.Component {
-  closeModal = () => {
-    if (this.props.cancelAppointmentStatus !== FETCH_STATUS.succeeded) {
-      this.props.cancelAppointmentAbort();
-    }
-
-    this.props.cancelAppointmentContinue();
-  };
-
+export class CancelAppointmentModal extends React.Component {
   render() {
     const {
       showCancelModal,
@@ -41,7 +32,7 @@ export class CancelAppointment extends React.Component {
           id="cancelAppt"
           status="warning"
           visible
-          onClose={this.closeModal}
+          onClose={this.props.closeCancelAppointment}
           title="Do you want to cancel your appointment?"
         >
           If you want to reschedule, you will have to cancel this one and create
@@ -54,7 +45,7 @@ export class CancelAppointment extends React.Component {
               Yes, cancel
             </LoadingButton>
             <button
-              onClick={this.props.cancelAppointmentAbort}
+              onClick={this.props.closeCancelAppointment}
               disabled={cancelAppointmentStatus === FETCH_STATUS.loading}
             >
               No, take me back
@@ -75,7 +66,7 @@ export class CancelAppointment extends React.Component {
         >
           Your provider has been notified of your cancellation
           <p className="vads-u-margin-top--2">
-            <button onClick={this.props.cancelAppointmentContinue}>
+            <button onClick={this.props.closeCancelAppointment}>
               Continue
             </button>
           </p>
@@ -142,11 +133,10 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   confirmCancelAppointment,
-  cancelAppointmentContinue,
-  cancelAppointmentAbort,
+  closeCancelAppointment,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CancelAppointment);
+)(CancelAppointmentModal);

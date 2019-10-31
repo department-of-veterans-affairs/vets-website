@@ -32,8 +32,7 @@ export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED';
 export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
-export const CANCEL_APPOINTMENT_CONTINUED = 'vaos/CANCEL_APPOINTMENT_CONTINUED';
-export const CANCEL_APPOINTMENT_ABORTED = 'vaos/CANCEL_APPOINTMENT_ABORTED';
+export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 
 export function fetchConfirmedAppointments() {
   return (dispatch, getState) => {
@@ -144,14 +143,8 @@ export function confirmCancelAppointment() {
   };
 }
 
-export function cancelAppointmentContinue() {
+export function closeCancelAppointment() {
   return {
-    type: CANCEL_APPOINTMENT_CONTINUED,
-  };
-}
-
-export function cancelAppointmentAbort() {
-  return {
-    type: CANCEL_APPOINTMENT_ABORTED,
+    type: CANCEL_APPOINTMENT_CLOSED,
   };
 }
