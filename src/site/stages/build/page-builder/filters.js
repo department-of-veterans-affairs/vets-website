@@ -13,6 +13,7 @@ const whitelists = {
     'field_related_links',
     'field_administration',
     'field_page_last_built',
+    'metatag',
     'changed',
     'moderation_state',
   ],
