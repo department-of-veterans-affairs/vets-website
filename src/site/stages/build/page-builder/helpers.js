@@ -47,6 +47,8 @@ function transformEntity(entityType, entity) {
 }
 
 module.exports = {
+  getContentModelType,
+
   /**
    * Takes the type of entity and entity itself, returns the entity
    * after transformations. Note: The entity will only contain a subset
