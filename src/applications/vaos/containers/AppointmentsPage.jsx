@@ -23,7 +23,7 @@ export class AppointmentsPage extends Component {
     let content;
 
     const loading = futureStatus === FETCH_STATUS.loading;
-    const hasAppointments = FETCH_STATUS.succeeded && future.length > 0;
+    const hasAppointments = FETCH_STATUS.succeeded && future?.length > 0;
 
     if (loading) {
       content = (
