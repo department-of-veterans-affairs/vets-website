@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { HCA_ENROLLMENT_STATUSES } from 'applications/hca//constants';
+import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
 
 import {
   ReceiveTextMessages,

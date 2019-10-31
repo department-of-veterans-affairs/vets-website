@@ -11,9 +11,9 @@ import Vet360EditModal from '../base/EditModal';
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
 
-import environment from 'platform/utilities/environment';
-
 import { FIELD_NAMES } from '../../constants';
+
+import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
@@ -39,7 +39,7 @@ class PhoneTextInput extends ErrorableTextInput {
 class ReceiveTextMessagesCheckbox extends ErrorableCheckbox {
   render() {
     const showCheckbox =
-      !environment.isProduction() &&
+      this.props.showReceiveTextNotifications &&
       this.props.isEnrolledInVAHealthCare &&
       this.props.isTextable;
     return showCheckbox ? <ErrorableCheckbox {...this.props} /> : null;
@@ -113,6 +113,7 @@ class PhoneEditModal extends React.Component {
       />
 
       <ReceiveTextMessagesCheckbox
+        showReceiveTextNotifications={this.props.showReceiveTextNotifications}
         isEnrolledInVAHealthCare={this.props.isEnrolledInVAHealthCare}
         isTextable={this.props.fieldName === FIELD_NAMES.MOBILE_PHONE}
         label="Send me text message (SMS) reminders for my VA health care appointments"
@@ -138,6 +139,7 @@ export function mapStateToProps(state, ownProps) {
   const { fieldName } = ownProps;
   return {
     fieldName,
+    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
     isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
   };
 }

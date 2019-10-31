@@ -9,17 +9,18 @@ import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentP
 describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
 
     const form = mount(
       <ReasonForAppointmentPage
         openFormPage={openFormPage}
-        updateFormData={updateFormData}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
         data={{}}
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('textarea').length).to.equal(1);
     form.unmount();
   });
 
@@ -39,14 +40,14 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(router.push.called).to.be.false;
     form.unmount();
   });
 
-  it('should call updateFormData after change', () => {
+  it('should call updateReasonForAppointmentData after change', () => {
     const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
@@ -54,7 +55,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     const form = mount(
       <ReasonForAppointmentPage
         openFormPage={openFormPage}
-        updateFormData={updateFormData}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
         router={router}
         data={{}}
       />,
@@ -62,9 +63,9 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     selectRadio(form, 'root_reasonForAppointment', 'routine-follow-up');
 
-    expect(updateFormData.firstCall.args[2].reasonForAppointment).to.equal(
-      'routine-follow-up',
-    );
+    expect(
+      updateReasonForAppointmentData.firstCall.args[2].reasonForAppointment,
+    ).to.equal('routine-follow-up');
     form.unmount();
   });
 
@@ -78,6 +79,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{
           reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'test',
         }}
       />,
     );
