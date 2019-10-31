@@ -1,7 +1,7 @@
 // Dependencies
 const { get } = require('lodash');
 // Relative
-const { getModifiedEntity, toId } = require('./page-builder/helpers');
+const { getModifiedEntity, toId } = require('./helpers');
 
 /**
  * Takes an entity type and uuid, reads the corresponding file,
@@ -19,14 +19,11 @@ const assembleEntityTree = (entity, parents = []) => {
   const uuid = get(entity, 'uuid[0].value');
 
   // Escape early if we are missing required entity properties.
-  if (!uuid || !targetID) {
-    throw new Error(
-      'Missing targetID or uuid for entity. (targetID|uuid|entity)',
-      targetID,
-      uuid,
-      entity,
-    );
-  }
+  // if (!uuid || !targetID) {
+  //   throw new Error(
+  //     `Missing targetID or uuid for entity. (targetID|uuid) ${targetID} | ${uuid}`,
+  //   );
+  // }
 
   // Avoid circular references
   if (parents.includes(toId(targetID, uuid))) {

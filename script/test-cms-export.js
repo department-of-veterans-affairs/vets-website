@@ -1,11 +1,8 @@
-// Relative
-const {
-  assembleEntityTree,
-} = require('../src/site/stages/build/tome-sync-page-builder');
+const assembleEntityTree = require('../src/site/stages/build/process-cms-exports');
 const {
   readAllNodeNames,
   readEntity,
-} = require('../src/site/stages/build/page-builder/helpers');
+} = require('../src/site/stages/build/process-cms-exports/helpers');
 
 const files = readAllNodeNames()
   .map(entityDetails => readEntity(...entityDetails))
