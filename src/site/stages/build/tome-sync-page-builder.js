@@ -1,3 +1,6 @@
+// Dependencies
+const { get } = require('lodash');
+// Relative
 const {
   getModifiedEntity,
   toId,
@@ -10,21 +13,20 @@ const {
  * searches for references to other entities, and replaces the
  * references with the contents of those entities recursively.
  *
- * @param {String} entityType - The type of entity; corresponds to the
- *                              name of the file.
- * @param {String} uuid - The UUID of the entity; corresponds to the
- *                        name of the file.
- * @param {Array<String>} parents - A list of parent entities; used to
- *                                  avoid circular references.
+ * @param {Object} entity - The entity object.
  *
  * @return {Object} - The entity with all the references filled in with
  *                    the body of the referenced entities.
  */
-const assembleEntityTree = (entityType, uuid, parents = []) => {
+const assembleEntityTree = (entity, parents = []) => {
+  // Derive entity properties.
+  const targetID = get(entity, 'type[0].target_id');
+  const uuid = get(entity, 'uuid[0].value');
+
   // Avoid circular references
-  if (parents.includes(toId(entityType, uuid))) {
+  if (parents.includes(toId(targetID, uuid))) {
     /* eslint-disable no-console */
-    console.log(`I'm my own grandpa! (${toId(entityType, uuid)})`);
+    console.log(`I'm my own grandpa! (${toId(targetID, uuid)})`);
     console.log(`  Parents:\n    ${parents.join('\n    ')}`);
     /* eslint-enable no-console */
 
@@ -33,12 +35,13 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
     process.exit(1);
   }
 
-  const entity = getModifiedEntity(entityType, readEntity(entityType, uuid));
+  // This is where we would transform the entity to match the GraphQL response.
+  const modifiedEntity = getModifiedEntity(targetID, entity);
 
   // Iterate over all non-blacklisted properties in an entity, look
   // for references to other identities recursively, and replace the
   // reference with the entity contents.
-  for (const [key, prop] of Object.entries(entity)) {
+  for (const [key, prop] of Object.entries(modifiedEntity)) {
     // Properties with target_uuids are always arrays from tome-sync
     if (Array.isArray(prop)) {
       prop.forEach((item, index) => {
@@ -46,24 +49,28 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
 
         // We found a reference! Override it with the expanded entity.
         if (targetUuid && targetType) {
-          entity[key][index] = assembleEntityTree(
+          modifiedEntity[key][index] = assembleEntityTree(
             targetType,
             targetUuid,
-            parents.concat([toId(entityType, uuid)]),
+            parents.concat([toId(targetID, uuid)]),
           );
         }
       });
     }
   }
 
-  return entity;
+  return modifiedEntity;
 };
 
-const files = readAllNodeNames().map(([type, uuid]) =>
-  assembleEntityTree(type, uuid),
-);
+const files = readAllNodeNames()
+  .map(entityDetails => readEntity(...entityDetails))
+  .map(entity => assembleEntityTree(entity));
 
 // eslint-disable-next-line no-console
 console.log(files.length);
 
 // console.log(JSON.stringify(files[0], null, 2));
+
+module.exports = {
+  assembleEntityTree,
+};
