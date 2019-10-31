@@ -1,22 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import {
-  confirmCancelAppointment,
-  closeCancelAppointment,
-} from '../actions/appointments';
 import { FETCH_STATUS } from '../utils/constants';
 import { getStagingId } from '../utils/appointment';
 
-export class CancelAppointmentModal extends React.Component {
+export default class CancelAppointmentModal extends React.Component {
   render() {
     const {
       showCancelModal,
       appointmentToCancel,
       cancelAppointmentStatus,
+      onClose,
+      onConfirm,
     } = this.props;
 
     if (!showCancelModal) {
@@ -32,7 +29,7 @@ export class CancelAppointmentModal extends React.Component {
           id="cancelAppt"
           status="warning"
           visible
-          onClose={this.props.closeCancelAppointment}
+          onClose={onClose}
           title="Do you want to cancel your appointment?"
         >
           If you want to reschedule, you will have to cancel this one and create
@@ -40,12 +37,12 @@ export class CancelAppointmentModal extends React.Component {
           <p className="vads-u-margin-top--2">
             <LoadingButton
               isLoading={cancelAppointmentStatus === FETCH_STATUS.loading}
-              onClick={this.props.confirmCancelAppointment}
+              onClick={onConfirm}
             >
               Yes, cancel
             </LoadingButton>
             <button
-              onClick={this.props.closeCancelAppointment}
+              onClick={onClose}
               disabled={cancelAppointmentStatus === FETCH_STATUS.loading}
             >
               No, take me back
@@ -61,14 +58,12 @@ export class CancelAppointmentModal extends React.Component {
           id="cancelAppt"
           status="success"
           visible
-          onClose={this.closeModal}
+          onClose={onClose}
           title="You have canceled your appointment"
         >
           Your provider has been notified of your cancellation
           <p className="vads-u-margin-top--2">
-            <button onClick={this.props.closeCancelAppointment}>
-              Continue
-            </button>
+            <button onClick={this.props.onClose}>Continue</button>
           </p>
         </Modal>
       );
@@ -80,17 +75,14 @@ export class CancelAppointmentModal extends React.Component {
           id="cancelAppt"
           status="error"
           visible
-          onClose={this.closeModal}
+          onClose={onClose}
           title="We could not cancel this appointment"
         >
           Something went wrong when we tried to cancel your appointment.
           <h4>What you can do</h4>
           It may have just been a blip and you can try again.
           <p>
-            <button
-              onClick={this.props.confirmCancelAppointment}
-              className="va-button-link"
-            >
+            <button onClick={onConfirm} className="va-button-link">
               Try to cancel again
             </button>
           </p>
@@ -116,27 +108,3 @@ export class CancelAppointmentModal extends React.Component {
     return null;
   }
 }
-
-function mapStateToProps(state) {
-  const {
-    appointmentToCancel,
-    showCancelModal,
-    cancelAppointmentStatus,
-  } = state.appointments;
-
-  return {
-    appointmentToCancel,
-    showCancelModal,
-    cancelAppointmentStatus,
-  };
-}
-
-const mapDispatchToProps = {
-  confirmCancelAppointment,
-  closeCancelAppointment,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CancelAppointmentModal);

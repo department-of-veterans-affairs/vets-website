@@ -195,3 +195,17 @@ export function getClinicPageInfo(state, pageKey) {
     loadingFacilityDetails: newAppointment.loadingFacilityDetails,
   };
 }
+
+export function getCancelInfo(state) {
+  const {
+    appointmentToCancel,
+    showCancelModal,
+    cancelAppointmentStatus,
+  } = state.appointments;
+
+  return {
+    appointmentToCancel,
+    showCancelModal,
+    cancelAppointmentStatus,
+  };
+}
