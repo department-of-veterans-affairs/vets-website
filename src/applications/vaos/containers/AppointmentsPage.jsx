@@ -31,17 +31,24 @@ export class AppointmentListsPage extends Component {
     } else {
       content = future?.map((appt, index) => {
         const type = getAppointmentType(appt);
-        if (type === APPOINTMENT_TYPES.request) {
-          return <AppointmentRequestListItem appointment={appt} />;
-        }
 
-        return (
-          <ConfirmedAppointmentListItem
-            key={index}
-            appointment={appt}
-            type={type}
-          />
-        );
+        switch (type) {
+          case APPOINTMENT_TYPES.request:
+            return (
+              <AppointmentRequestListItem key={index} appointment={appt} />
+            );
+          case APPOINTMENT_TYPES.ccAppointnment:
+          case APPOINTMENT_TYPES.vaAppointment:
+            return (
+              <ConfirmedAppointmentListItem
+                key={index}
+                appointment={appt}
+                type={type}
+              />
+            );
+          default:
+            return null;
+        }
       });
     }
 
@@ -51,8 +58,16 @@ export class AppointmentListsPage extends Component {
           <Link to="appointments">Your appointments</Link>
         </Breadcrumbs>
         <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
-            <h1>VA Appointments</h1>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
+            <div className="vaos-appts__top">
+              <h1 className="vads-u-flex--1">VA Appointments</h1>
+              <Link to="/new-appointment">
+                <button className="usa-button vads-u-margin--0">
+                  <i className="fas fa-plus vads-u-display--inline-block vads-u-margin-right--1 vads-u-font-size--sm" />
+                  New appointment
+                </button>
+              </Link>
+            </div>
             <ul className="usa-unstyled-list">{content}</ul>
           </div>
         </div>

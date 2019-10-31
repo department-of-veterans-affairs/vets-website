@@ -26,23 +26,19 @@ export default function ConfirmedAppointmentListItem({
   }
 
   return (
-    <li className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+    <li className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3">
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
-        {canceled ? (
-          <div>
+        <div className="vads-u-flex--1">
+          {canceled ? (
             <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />
-            <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
-              Canceled
-            </span>
-          </div>
-        ) : (
-          <div>
+          ) : (
             <i className="fas fa-check-circle vads-u-color--green" />
-            <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
-              Confirmed
-            </span>
-          </div>
-        )}
+          )}
+          <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
+            {canceled ? 'Canceled' : 'Confirmed'}
+          </span>
+        </div>
+
         {canceled && !!appointment.vdsAppointments ? null : (
           <button
             onClick={() => cancelAppointment(appointment)}
@@ -52,11 +48,7 @@ export default function ConfirmedAppointmentListItem({
           </button>
         )}
       </div>
-      <h2
-        className={`vads-u-margin--0 vads-u-margin-${
-          canceled ? 'y' : 'bottom'
-        }--2 vads-u-font-size--lg`}
-      >
+      <h2 className="vaos-appts__date-time vads-u-font-size--lg">
         {getAppointmentDateTime(appointment)}
       </h2>
 
@@ -66,17 +58,20 @@ export default function ConfirmedAppointmentListItem({
         </div>
       ) : null}
 
-      <div>
-        {isVideoVisit(appointment) ? (
-          <VideoVisitLink appointment={appointment} />
-        ) : (
-          <>
-            <div className="vads-u-font-weight--bold">
-              {getClinicName(appointment)}
-            </div>
-            <div>{getAppointmentLocation(appointment)}</div>
-          </>
-        )}
+      <div className="vaos-appts__split-section">
+        <div className="vads-u-flex--1">
+          {isVideoVisit(appointment) ? (
+            <VideoVisitLink appointment={appointment} />
+          ) : (
+            <>
+              <div className="vads-u-font-weight--bold">
+                {getClinicName(appointment)}
+              </div>
+              <div>{getAppointmentLocation(appointment)}</div>
+            </>
+          )}
+        </div>
+        <div className="vads-u-flex--1">&nbsp;</div>
       </div>
     </li>
   );

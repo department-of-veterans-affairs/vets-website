@@ -21,14 +21,14 @@ const VideoVisitLink = ({ appointment }) => {
     const disableVideoLink = diff < -30 || diff > 240;
 
     return (
-      <div className="vads-u-display--flex">
+      <div className="vaos-appts__video-visit vads-u-display--flex">
         <a
           href={videoLink}
           target="_blank"
           rel="noopener noreferrer"
           className={`vaos-appts__video-link usa-button${
             disableVideoLink ? ' usa-button-disabled' : ''
-          }`}
+          } vads-u-margin--0 vads-u-margin-right--1p5`}
         >
           Join
         </a>
