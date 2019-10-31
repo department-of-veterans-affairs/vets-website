@@ -63,11 +63,14 @@ export const InformalConferenceTimeLabels = key => {
   return { 'ui:title': label };
 };
 
-export const AttemptsInfoAlert = (
+export const AttemptsInfoAlert = ({ isRep }) => (
   <AlertBox
     status="info"
-    headline="We’ll make two attempts to call you"
-    content={`A senior reviewer will try to call by phone two times. If no one
-      answers, we’ll leave a voice mail.`}
+    headline={`We’ll make two attempts to call you${
+      isRep ? 'r representative' : ''
+    }`}
+    content={`A senior reviewer will try to call ${
+      isRep ? 'your representative' : 'you'
+    } by phone twice. If no one answers, we’ll leave a voice mail.`}
   />
 );

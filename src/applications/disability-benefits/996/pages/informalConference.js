@@ -1,5 +1,3 @@
-// import React from 'react';
-
 import fullSchema from '../20-0996-schema.json';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
@@ -44,6 +42,8 @@ const informalConference = {
         'ui:required': formData =>
           formData?.veteran?.informalConferenceChoice === true,
         'ui:options': {
+          hideIf: formData =>
+            formData?.veteran?.informalConferenceChoice !== true,
           expandUnder: 'informalConferenceChoice',
         },
         'ui:errorMessages': {
@@ -120,8 +120,21 @@ const informalConference = {
         },
       },
       'view:alert': {
-        'ui:title': '',
-        'ui:description': AttemptsInfoAlert,
+        'ui:title': ' ',
+        'view:contactYou': {
+          'ui:title': ' ',
+          'ui:description': AttemptsInfoAlert,
+          'ui:options': {
+            hideIf: formData => getRepresentativeChoice(formData) === true,
+          },
+        },
+        'view:contactRepresentative': {
+          'ui:title': '',
+          'ui:description': () => AttemptsInfoAlert({ isRep: true }),
+          'ui:options': {
+            hideIf: formData => getRepresentativeChoice(formData) === false,
+          },
+        },
         'ui:options': {
           hideIf: formData =>
             !checkConferenceTimes(null, formData?.veteran?.scheduleTimes),
@@ -161,7 +174,16 @@ const informalConference = {
           scheduleTimes,
           'view:alert': {
             type: 'object',
-            properties: {},
+            properties: {
+              'view:contactYou': {
+                type: 'object',
+                properties: {},
+              },
+              'view:contactRepresentative': {
+                type: 'object',
+                properties: {},
+              },
+            },
           },
         },
       },
