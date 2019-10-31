@@ -31,3 +31,7 @@ export const addXMonths = numberOfMonths =>
   moment()
     .add(numberOfMonths, 'months')
     .format('YYYY-MM-DD');
+
+// testing
+export const $ = (selector, DOM) => DOM.querySelector(selector);
+export const $$ = (selector, DOM) => DOM.querySelectorAll(selector);
