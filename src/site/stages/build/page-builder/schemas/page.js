@@ -43,9 +43,9 @@ module.exports = {
     'field_description',
     'field_featured_content',
     'field_content_block',
-    // 'field_alert',
+    'field_alert',
     'field_related_links',
     'field_administration',
-    // 'field_page_last_built',
+    'field_page_last_built',
   ],
 };
