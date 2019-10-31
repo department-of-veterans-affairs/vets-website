@@ -50,7 +50,7 @@ const uiSchema = {
         update your contact information here, but the updates will only apply to
         this tool.
       </p>
-      <p className="vads-u-margin-top--2">
+      <p className="vads-u-margin-y--2">
         If you want to update your contact information for all your VA accounts,
         please{' '}
         <a href="/profile" target="_blank" rel="noopener noreferrer">
