@@ -30,7 +30,6 @@ const assembleEntityTree = (entity, parents = []) => {
     process.exit(1);
   }
 
-  // This is where we would transform the entity to match the GraphQL response.
   const modifiedEntity = getModifiedEntity(targetID, entity);
 
   // Iterate over all non-blacklisted properties in an entity, look
