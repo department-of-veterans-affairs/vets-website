@@ -119,7 +119,7 @@ export function confirmCancelAppointment() {
       if (cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
         await updateAppointment({
           ...cancelData,
-          cancelReason: '5',
+          cancelReason: UNABLE_TO_KEEP_APPT,
         });
       } else if (cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))) {
         const cancelReason = cancelReasons.find(reason =>
