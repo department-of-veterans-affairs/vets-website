@@ -23,6 +23,7 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
+  FORM_VA_SYSTEM_CC_ENABLED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
@@ -308,6 +309,12 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_VA_SYSTEM_CC_ENABLED: {
+      return {
+        ...state,
+        isSystemCCEnabled: true,
+      };
+    }
     case FORM_ELIGIBILITY_CHECKS: {
       return {
         ...state,
@@ -439,19 +446,13 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
-        checkIfCCEnabled: true,
+        pageChangeInProgress: true,
       };
-
-      // return {
-      //   ...state,
-      //   pageChangeInProgress: true,
-      // };
     }
     case FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED: {
       return {
         ...state,
-        // pageChangeInProgress: false,
-        checkIfCCEnabled: false,
+        pageChangeInProgress: false,
       };
     }
     default:

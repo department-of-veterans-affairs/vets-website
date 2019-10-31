@@ -24,6 +24,8 @@ export const FORM_FETCH_CHILD_FACILITIES =
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
+export const FORM_VA_SYSTEM_CC_ENABLED =
+  'newAppointment/FORM_VA_SYSTEM_CC_ENABLED';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
 export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
@@ -89,6 +91,13 @@ export function updateFormData(page, uiSchema, data) {
     type: FORM_DATA_UPDATED,
     page,
     uiSchema,
+    data,
+  };
+}
+
+export function updateSystemCCEnable(data) {
+  return {
+    type: FORM_VA_SYSTEM_CC_ENABLED,
     data,
   };
 }
@@ -161,7 +170,6 @@ export function openTypeOfFacilityPage(
   typeOfCareId,
   router,
 ) {
-  const self = this;
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
     let systems = newAppointment.systems;
@@ -198,17 +206,18 @@ export function openTypeOfFacilityPage(
         }),
       );
 
-      if (self) {
-        self.routeToNextAppointmentPage(router, 'typeOfFacility');
-      }
-    }
+      dispatch(routeToNextAppointmentPage(router, 'typeOfFacility'));
+    } else {
+      // Set flag...
+      dispatch(updateSystemCCEnable());
 
-    dispatch({
-      type: FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
-      page,
-      uiSchema,
-      schema,
-    });
+      dispatch({
+        type: FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
+        page,
+        uiSchema,
+        schema,
+      });
+    }
   };
 }
 

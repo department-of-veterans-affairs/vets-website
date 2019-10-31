@@ -36,7 +36,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
         updateFormData={updateFormData}
         openTypeOfFacilityPage={openTypeOfFacilityPage}
         data={{}}
-        checkIfCCEnabled
+        pageChangeInProgress
       />,
     );
     expect(form.find('LoadingIndicator').exists()).to.be.true;

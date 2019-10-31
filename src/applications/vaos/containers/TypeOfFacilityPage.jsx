@@ -77,9 +77,9 @@ export class TypeOfFacilityPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress, checkIfCCEnabled } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
-    if (checkIfCCEnabled) {
+    if (pageChangeInProgress) {
       return (
         <div>
           <LoadingIndicator message="Finding your VA facility..." />
@@ -116,7 +116,7 @@ export class TypeOfFacilityPage extends React.Component {
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    checkIfCCEnabled: state.newAppointment?.checkIfCCEnabled,
+    pageChangeInProgress: state.newAppointment?.pageChangeInProgress,
   };
 }
 

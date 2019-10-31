@@ -158,6 +158,7 @@ describe('VAOS newAppointmentFlow', () => {
             vaFacility: '983',
             facilityType: 'vamc',
           },
+          isSystemCCEnabled: true,
         },
       };
 

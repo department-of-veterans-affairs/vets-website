@@ -1,5 +1,6 @@
 import {
   getFormData,
+  getNewAppointment,
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
@@ -135,7 +136,11 @@ export default {
     previous(state) {
       let nextState = 'typeOfCare';
 
-      if (getFormData(state).facilityType) {
+      // Return to typeOFFacility page if facility is CC enabled
+      if (
+        getFormData(state).facilityType &&
+        getNewAppointment(state).isSystemCCEnabled
+      ) {
         nextState = 'typeOfFacility';
       }
       return nextState;
