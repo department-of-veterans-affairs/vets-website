@@ -92,8 +92,8 @@ export default class CancelAppointmentModal extends React.Component {
               appointmentToCancel.vdsAppointments[0].clinic.name}
             <br />
             <a
-              targe="_blank"
-              rel="noopener nofollow"
+              target="_blank"
+              rel="noopener noreferrer"
               href={`/find-locations/facility/vha_${getStagingId(
                 appointmentToCancel.facilityId,
               )}`}

@@ -13,7 +13,7 @@ import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentList
 import { FETCH_STATUS } from '../utils/constants';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getAppointmentId } from '../utils/appointment';
-import CancelAppointmentModal from './CancelAppointmentModal';
+import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo } from '../utils/selectors';
 
 export class ConfirmedAppointmentListPage extends React.Component {

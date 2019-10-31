@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS } from '../utils/constants';
 
 import {
@@ -136,6 +137,7 @@ export function confirmCancelAppointment() {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
     } catch (e) {
+      Sentry.captureException(e);
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
