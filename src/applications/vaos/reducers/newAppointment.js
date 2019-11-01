@@ -333,7 +333,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS: {
       return {
         ...state,
-        hasCCEnabledSystems: action.CCEnabled,
+        hasCCEnabledSystems: action.hasCCEnabledSystems,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
