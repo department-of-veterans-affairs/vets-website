@@ -95,7 +95,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   openFormPage,
-
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
