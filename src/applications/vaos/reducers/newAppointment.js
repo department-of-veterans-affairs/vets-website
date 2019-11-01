@@ -453,23 +453,6 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_PAGE_TYPE_OF_FACILITY_OPEN: {
-      const { data, schema } = setupFormData(
-        state.data,
-        action.schema,
-        action.uiSchema,
-      );
-
-      return {
-        ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
-        },
-        pageChangeInProgress: true,
-      };
-    }
     case FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED: {
       return {
         ...state,

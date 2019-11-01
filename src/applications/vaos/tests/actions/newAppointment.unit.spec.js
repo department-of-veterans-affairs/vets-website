@@ -5,7 +5,6 @@ import set from 'platform/utilities/data/set';
 import {
   routeToPageInFlow,
   openFacilityPage,
-  openTypeOfFacilityPage,
   updateFacilityPageData,
   openClinicPage,
   FORM_DATA_UPDATED,
@@ -20,7 +19,6 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_PAGE_TYPE_OF_FACILITY_OPEN,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
