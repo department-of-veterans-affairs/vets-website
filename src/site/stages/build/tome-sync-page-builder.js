@@ -46,6 +46,9 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
     console.warn(`${errors.map(e => JSON.stringify(e, null, 2))}`);
     console.warn(`-------------------`);
     /* eslint-enable no-console */
+
+    // Abort! (We may want to change this later)
+    process.exit(1);
   }
 
   const entity = getModifiedEntity(entityType, rawEntity);
