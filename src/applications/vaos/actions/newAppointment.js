@@ -41,11 +41,6 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 
-export const FORM_PAGE_TYPE_OF_FACILITY_OPEN =
-  'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN';
-export const FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED =
-  'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED';
-
 export function openFormPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_OPENED,
