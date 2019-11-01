@@ -12,7 +12,7 @@ import {
 const {
   useSameOffice,
   additionalNote,
-} = fullSchema.definitions.ratedDisabilities.items.properties;
+} = fullSchema.definitions.contestedIssues.items.properties;
 
 const contestedIssueFollowup = {
   uiSchema: {

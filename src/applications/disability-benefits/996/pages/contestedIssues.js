@@ -6,14 +6,14 @@ import {
   contestedIssuesDescription,
   disabilityOption,
   disabilitiesExplanation,
-  ratedDisabilitiesAlert,
+  contestedIssuesAlert,
 } from '../content/contestedIssues';
 
 import { requireRatedDisability } from '../validations';
 
-const { ratedDisabilities } = fullSchema.properties.veteran.properties;
+const { contestedIssues } = fullSchema.properties.veteran.properties;
 
-const contestedIssues = {
+const contestedIssuesPage = {
   uiSchema: {
     veteran: {
       'ui:title': contestedIssuesTitle,
@@ -34,8 +34,8 @@ const contestedIssues = {
         'ui:validations': [requireRatedDisability],
         'ui:required': () => true,
       },
-      'view:ratedDisabilitiesAlert': {
-        'ui:description': ratedDisabilitiesAlert,
+      'view:contestedIssuesAlert': {
+        'ui:description': contestedIssuesAlert,
         'ui:options': {
           hideIf: formData => {
             const hasSelection = formData.veteran.contestedIssues?.some(
@@ -57,8 +57,8 @@ const contestedIssues = {
       veteran: {
         type: 'object',
         properties: {
-          contestedIssues: ratedDisabilities,
-          'view:ratedDisabilitiesAlert': {
+          contestedIssues,
+          'view:contestedIssuesAlert': {
             type: 'object',
             properties: {},
           },
@@ -72,4 +72,4 @@ const contestedIssues = {
   },
 };
 
-export default contestedIssues;
+export default contestedIssuesPage;

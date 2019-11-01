@@ -22,7 +22,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 
 import contactInfo from '../pages/contactInformation';
-import contestedIssues from '../pages/contestedIssues';
+import contestedIssuesPage from '../pages/contestedIssues';
 
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
 
@@ -39,7 +39,7 @@ const {
   phone,
   date,
   effectiveDates,
-  ratedDisabilities,
+  contestedIssues,
   informalConferenceChoice,
   contactRepresentativeChoice,
   representative,
@@ -71,11 +71,12 @@ const formConfig = {
     phone,
     date,
     effectiveDates,
-    ratedDisabilities,
+    contestedIssues,
     informalConferenceChoice,
     contactRepresentativeChoice,
     representative,
     scheduleTimes,
+    veteranDetailsDescription,
   },
   preSubmitInfo,
   chapters: {
@@ -109,8 +110,8 @@ const formConfig = {
         contestedIssues: {
           title: ' ',
           path: 'contested-issues',
-          uiSchema: contestedIssues.uiSchema,
-          schema: contestedIssues.schema,
+          uiSchema: contestedIssuesPage.uiSchema,
+          schema: contestedIssuesPage.schema,
           initialData,
         },
         contestedIssuesNotesStart: {

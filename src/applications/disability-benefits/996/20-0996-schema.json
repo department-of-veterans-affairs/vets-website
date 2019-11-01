@@ -417,7 +417,7 @@
         }
       }
     },
-    "ratedDisabilities": {
+    "contestedIssues": {
       "type": "array",
       "maxItems": 100,
       "items": {
@@ -881,8 +881,8 @@
             }
           }
         },
-        "ratedDisabilities": {
-          "$ref": "#/definitions/ratedDisabilities"
+        "contestedIssues": {
+          "$ref": "#/definitions/contestedIssues"
         },
         "informalConferenceChoice": {
           "$ref": "#/defintions/informalConferenceChoice"
