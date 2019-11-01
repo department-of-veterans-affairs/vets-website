@@ -31,8 +31,9 @@ export function fetchRatedDisabilities() {
 
 export function fetchTotalDisabilityRating() {
   return async dispatch => {
-    const response = await getData(
-      '/disability_compensation_form/rated_disabilities',
+    // Attempt to hit EVSS directly to view response data structure
+    const response = fetch(
+      'https://int.ebenefits.va.gov:444/VONAPP2/wss-common-services-web-11.6/rest/ratingInfoService/11.6/findRatingInfoPID',
     );
 
     if (response.errors) {
