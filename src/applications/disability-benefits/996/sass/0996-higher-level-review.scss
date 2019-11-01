@@ -22,6 +22,17 @@
   margin-bottom: 1em;
 }
 
+/* Intro page */
+aside.process {
+  /* fix gaps around the sign-in block */
+  padding-bottom: 0;
+
+  &+ .usa-alert-continue {
+    margin-top: 0;
+    margin-bottom: 2em;
+  }
+}
+
 /* Step 1a */
 /* Veteran details block */
 .blue-bar-block {
