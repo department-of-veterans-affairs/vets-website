@@ -21,7 +21,6 @@ import {
   FORM_FETCH_USER_SYSTEMS,
   FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
   FORM_UPDATE_FACILITY_TYPE,
-  FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -32,7 +31,6 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
 } from '../actions/newAppointment';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -170,18 +168,13 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         systems: action.systems,
+        loadingSystems: false,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
         data: { ...state.data, facilityType: action.facilityType },
-      };
-    }
-    case FORM_PAGE_FACILITY_OPEN: {
-      return {
-        ...state,
-        loadingSystems: true,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
@@ -450,12 +443,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
-      };
-    }
-    case FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED: {
-      return {
-        ...state,
-        pageChangeInProgress: false,
       };
     }
     default:

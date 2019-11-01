@@ -82,12 +82,12 @@ export function getUserSystems() {
         .map(id => id.assigningCode);
       systems = await getSystemDetails(systemIds);
 
-      dispatch({
+      return dispatch({
         type: FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
         systems,
       });
     } catch (error) {
-      dispatch({
+      return dispatch({
         type: FORM_FETCH_USER_SYSTEMS_FAILED,
         error,
       });
@@ -112,16 +112,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     // If we have the VA systems in our state, we don't need to
     // fetch them again
     if (!systems) {
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN,
-      });
-
-      const identifiers = await getSystemIdentifiers();
-      const systemIds = identifiers
-        .filter(id => id.assigningAuthority.startsWith('dfn'))
-        .map(id => id.assigningCode);
-
-      systems = await getSystemDetails(systemIds);
+      systems = (await dispatch(getUserSystems())).systems;
     }
 
     const canShowFacilities =
