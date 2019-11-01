@@ -1,7 +1,7 @@
 import GiBillApp from './containers/GiBillApp';
 import LandingPage from './containers/LandingPage';
 import SearchPage from './containers/SearchPage';
-import ProgramSearchPage from './containers/ProgramSearchPage';
+import VetTecSearchPage from './containers/VetTecSearchPage';
 import ProfilePage from './containers/ProfilePage';
 
 const legacyRoutes = {
@@ -18,7 +18,7 @@ const routes = {
   indexRoute: { component: LandingPage },
   childRoutes: [
     { path: 'search', component: SearchPage },
-    { path: 'programSearch', component: ProgramSearchPage },
+    { path: 'programSearch', component: VetTecSearchPage },
     { path: 'profile/:facilityCode', component: ProfilePage },
     {
       path: 'profile/:facilityCode/:preSelectedProgram',
