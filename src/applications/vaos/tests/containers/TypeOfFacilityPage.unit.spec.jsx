@@ -25,7 +25,6 @@ describe('VAOS <TypeOfFacilityPage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
-    const openTypeOfFacilityPage = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
