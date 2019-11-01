@@ -9,7 +9,7 @@ export function getAppointmentType(appt) {
   if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.appointmentRequestId) {
-    return APPOINTMENT_TYPES.ccAppointnment;
+    return APPOINTMENT_TYPES.ccAppointment;
   } else if (appt.startDate) {
     return APPOINTMENT_TYPES.vaAppointment;
   }
