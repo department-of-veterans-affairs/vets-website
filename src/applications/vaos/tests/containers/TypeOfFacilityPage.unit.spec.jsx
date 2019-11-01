@@ -10,36 +10,16 @@ describe('VAOS <TypeOfFacilityPage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const openTypeOfFacilityPage = sinon.spy();
 
     const form = mount(
       <TypeOfFacilityPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        openTypeOfFacilityPage={openTypeOfFacilityPage}
         data={{}}
       />,
     );
 
     expect(form.find('input').length).to.equal(2);
-    form.unmount();
-  });
-
-  it('should render loading indicator', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const openTypeOfFacilityPage = sinon.spy();
-
-    const form = mount(
-      <TypeOfFacilityPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        openTypeOfFacilityPage={openTypeOfFacilityPage}
-        data={{}}
-        pageChangeInProgress
-      />,
-    );
-    expect(form.find('LoadingIndicator').exists()).to.be.true;
     form.unmount();
   });
 
@@ -53,7 +33,6 @@ describe('VAOS <TypeOfFacilityPage>', () => {
     const form = mount(
       <TypeOfFacilityPage
         openFormPage={openFormPage}
-        openTypeOfFacilityPage={openTypeOfFacilityPage}
         router={router}
         data={{}}
       />,
@@ -69,7 +48,6 @@ describe('VAOS <TypeOfFacilityPage>', () => {
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const openTypeOfFacilityPage = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
@@ -78,7 +56,6 @@ describe('VAOS <TypeOfFacilityPage>', () => {
       <TypeOfFacilityPage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
-        openTypeOfFacilityPage={openTypeOfFacilityPage}
         router={router}
         data={{}}
       />,
@@ -95,13 +72,11 @@ describe('VAOS <TypeOfFacilityPage>', () => {
   it('should submit with valid data', () => {
     const openFormPage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
-    const openTypeOfFacilityPage = sinon.spy();
 
     const form = mount(
       <TypeOfFacilityPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        openTypeOfFacilityPage={openTypeOfFacilityPage}
         data={{ facilityType: 'communityCare' }}
       />,
     );
