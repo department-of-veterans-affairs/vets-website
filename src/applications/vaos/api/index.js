@@ -67,7 +67,9 @@ export const getPastAppointments = (() => {
 // GET /vaos/systems
 export async function getSystemIdentifiers() {
   if (environment.isLocalhost() || navigator.userAgent === 'node.js') {
-    return import('./systems.json').then(module => module.default);
+    return import('./systems.json').then(
+      module => (module.default ? module.default : module),
+    );
   }
 
   const response = await fetch(
