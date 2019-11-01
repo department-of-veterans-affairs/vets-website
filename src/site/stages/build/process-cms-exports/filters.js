@@ -18,7 +18,7 @@ const whitelists = {
 
 const missingFilters = new Set();
 
-function getFilterType(contentModelType) {
+function getFilter(contentModelType) {
   const whitelist = whitelists[contentModelType];
   if (!whitelist && !missingFilters.has(contentModelType)) {
     missingFilters.add(contentModelType);
@@ -43,7 +43,7 @@ function getFilterType(contentModelType) {
  */
 function getFilteredEntity(contentModelType, entity) {
   // TODO: Filter properties based on content model type
-  const entityTypeFilter = getFilterType(contentModelType);
+  const entityTypeFilter = getFilter(contentModelType);
   const entityFilter = new Set([...whitelists.global, ...entityTypeFilter]);
   return Object.keys(entity).reduce((newEntity, key) => {
     // eslint-disable-next-line no-param-reassign
@@ -54,4 +54,5 @@ function getFilteredEntity(contentModelType, entity) {
 
 module.exports = {
   getFilteredEntity,
+  getFilter,
 };
