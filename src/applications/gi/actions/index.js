@@ -1,7 +1,9 @@
-import _, { snakeCase } from 'lodash';
+import _ from 'lodash';
+import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
+import { snakeCaseKeys } from '../utils/helpers';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -22,7 +24,8 @@ export const AUTOCOMPLETE_TERM_CHANGED = 'AUTOCOMPLETE_TERM_CHANGED';
 export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
-export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
+export const INSTITUTION_SEARCH_SUCCEEDED = 'INSTITUTION_SEARCH_SUCCEEDED';
+export const PROGRAM_SEARCH_SUCCEEDED = 'PROGRAM_SEARCH_SUCCEEDED';
 export const FETCH_BAH_STARTED = 'FETCH_BAH_STARTED';
 export const FETCH_BAH_FAILED = 'FETCH_BAH_FAILED';
 export const FETCH_BAH_SUCCEEDED = 'FETCH_BAH_SUCCEEDED';
@@ -153,13 +156,11 @@ export function institutionFilterChange(filter) {
   return { type: INSTITUTION_FILTER_CHANGED, filter };
 }
 
-export function fetchSearchResults(query = {}) {
-  const queryString = Object.keys(query).reduce((str, key) => {
-    const sep = str ? '&' : '';
-    return `${str}${sep}${snakeCase(key)}=${query[key]}`;
-  }, '');
-
-  const url = `${api.url}/institutions/search?${queryString}`;
+export function fetchInstitutionSearchResults(query = {}) {
+  const url = appendQuery(
+    `${api.url}/institutions/search`,
+    snakeCaseKeys(query),
+  );
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -167,7 +168,30 @@ export function fetchSearchResults(query = {}) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        payload => withPreview(dispatch, { type: SEARCH_SUCCEEDED, payload }),
+        payload =>
+          withPreview(dispatch, {
+            type: INSTITUTION_SEARCH_SUCCEEDED,
+            payload,
+          }),
+        err => dispatch({ type: SEARCH_FAILED, err }),
+      );
+  };
+}
+
+export function fetchProgramSearchResults(query = {}) {
+  const url = appendQuery(
+    `${api.url}/institution_programs/search`,
+    snakeCaseKeys(query),
+  );
+
+  return dispatch => {
+    dispatch({ type: SEARCH_STARTED, query });
+
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        payload =>
+          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload }),
         err => dispatch({ type: SEARCH_FAILED, err }),
       );
   };

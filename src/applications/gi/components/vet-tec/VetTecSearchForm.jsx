@@ -6,6 +6,7 @@ import { addAllOption } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
+import environment from 'platform/utilities/environment';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -144,7 +145,8 @@ class VetTecSearchForm extends React.Component {
 
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
-            {this.renderLearningFormat()}
+            {/* prod flag for story 19734 */}
+            {environment.isProduction() && this.renderLearningFormat()}
             {this.renderFilterBy()}
           </div>
           <div className="results-button">

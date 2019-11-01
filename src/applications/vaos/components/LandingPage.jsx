@@ -13,9 +13,6 @@ export default function LandingPage() {
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
           <div>
             <h1>VA Appointments</h1>
-            <h2 className="vads-u-font-size--sm vads-u-font-family--sans vads-u-font-weight--normal">
-              Get started
-            </h2>
             <ul className="usa-unstyled-list">
               <li className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
                 <Link
@@ -47,7 +44,7 @@ export default function LandingPage() {
                   </div>
                   <div className="vads-u-flex--1">
                     <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-font-size--lg">
-                      View your appointments
+                      View or cancel appointments
                     </h3>
                     View confirmed, pending, or past appointments
                   </div>
