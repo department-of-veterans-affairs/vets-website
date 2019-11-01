@@ -124,7 +124,7 @@ const formConfig = {
             properties: {},
           },
         },
-        // contestedIssueNote: {},
+        // contestedIssueFollowup: {},
       },
     },
     informalConference: {

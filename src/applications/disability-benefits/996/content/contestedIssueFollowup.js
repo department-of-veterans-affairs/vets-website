@@ -30,7 +30,7 @@ export const contestedIssueOfficeChoiceAlert = () => (
   />
 );
 
-export const contestedIssueNoteDescription = (
+export const contestedIssueFollowupDescription = (
   <>
     Please add anything you want the reviewer to consider when going over your
     request. For example, why do you think the decision should be changed, or
@@ -38,7 +38,7 @@ export const contestedIssueNoteDescription = (
   </>
 );
 
-export const contestedIssueNoteEvidenceInfo = (
+export const contestedIssueFollowupEvidenceInfo = (
   <AdditionalInfo triggerText="What if I have new and relevant evidence?">
     <p>
       You can't submit new evidence with a Higher-Level Review. If you want to

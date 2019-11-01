@@ -5,16 +5,16 @@ import fullSchema from '../20-0996-schema.json';
 import {
   contestedIssueOfficeTitle,
   // contestedIssueOfficeChoiceAlert,
-  // contestedIssueNoteDescription,
-  // contestedIssueNoteEvidenceInfo,
-} from '../content/contestedIssueNote';
+  // contestedIssueFollowupDescription,
+  // contestedIssueFollowupEvidenceInfo,
+} from '../content/contestedIssueFollowup';
 
 const {
   useSameOffice,
   additionalNote,
 } = fullSchema.definitions.ratedDisabilities.items.properties;
 
-const contestedIssueNote = {
+const contestedIssueFollowup = {
   uiSchema: {
     'ui:title': 'test1',
     veteran: {
@@ -39,12 +39,12 @@ const contestedIssueNote = {
           // },
           // additionalNote: {
           //   'ui:title': ' ',
-          //   'ui:description': contestedIssueNoteDescription,
+          //   'ui:description': contestedIssueFollowupDescription,
           //   'ui:widget': 'textarea',
           //   'ui:validations': [validateLength(400)],
           // },
           // 'view:evidenceInfo': {
-          //   'ui:description': contestedIssueNoteEvidenceInfo,
+          //   'ui:description': contestedIssueFollowupEvidenceInfo,
           // },
         },
       },
@@ -81,4 +81,4 @@ const contestedIssueNote = {
   },
 };
 
-export default contestedIssueNote;
+export default contestedIssueFollowup;
