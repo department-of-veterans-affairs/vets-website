@@ -41,10 +41,12 @@ export const contestedIssueNoteDescription = (
 export const contestedIssueNoteEvidenceInfo = (
   <AdditionalInfo triggerText="What if I have new and relevant evidence?">
     <p>
-      When you request a Higher-Level Review, you're asking for another review
-      of the same evidence. If you want to include new evidence, you'll need to
-      select a different review option, such as a Board Appeal or Supplemental
-      Claim.
+      You can't submit new evidence with a Higher-Level Review. If you want to
+      submit new evidence, you'll need to file a Supplemental Claim or request a
+      Board Appeal.
+    </p>
+    <p>
+      <a href="/decision-reviews">Learn more about other review options</a>
     </p>
   </AdditionalInfo>
 );
