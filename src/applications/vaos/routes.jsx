@@ -21,9 +21,10 @@ import ClinicChoicePage from './containers/ClinicChoicePage';
 import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
 import DateTimeRequestPage from './containers/DateTimeRequestPage';
 import DateTimeSelectPage from './containers/DateTimeSelectPage';
+import VAOSApp from './containers/VAOSApp';
 
 const routes = (
-  <Route path="/">
+  <Route path="/" component={VAOSApp}>
     <IndexRoute component={LandingPage} />
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <Route path="reason-appointment" component={ReasonForAppointmentPage} />

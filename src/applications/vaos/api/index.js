@@ -66,12 +66,31 @@ export const getPastAppointments = (() => {
 })();
 
 // GET /vaos/systems
-export function getSystemIdentifiers() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(mockSystems);
-    }, TEST_TIMEOUT || 600);
-  });
+export async function getSystemIdentifiers() {
+  if (environment.isLocalhost()) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(mockSystems);
+      }, TEST_TIMEOUT || 600);
+    });
+  }
+
+  const response = await fetch(
+    `${environment.API_URL}/services/vaos/v0/systems`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-Key-Inflection': 'camel',
+      },
+    },
+  );
+
+  if (response.ok) {
+    return response.json();
+  }
+
+  throw new Error(response.status);
 }
 
 // GET /vaos/facilities
