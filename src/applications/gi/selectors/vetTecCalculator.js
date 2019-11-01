@@ -44,7 +44,6 @@ export const getCalculatedBenefits = createSelector(
         outOfPocketFees = 0;
       }
     }
-
     return {
       outputs: {
         vetTecTuitionFees: formatCurrencyNullTBD(
@@ -55,8 +54,8 @@ export const getCalculatedBenefits = createSelector(
         quarterVetTecPayment: formatCurrencyNullTBD(quarterPaysToProviderValue),
         halfVetTecPayment: formatCurrencyNullTBD(halfPaysToProviderValue),
         outOfPocketTuitionFees: formatCurrencyNullTBD(outOfPocketFees),
-        inPersonRate: `${formatCurrency(institution.dodBah)}/mo`,
-        onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}/mo`,
+        inPersonRate: `${formatCurrency(institution.dodBah)}`,
+        onlineRate: `${formatCurrency(constants.AVGDODBAH * 0.5)}`,
       },
     };
   },
