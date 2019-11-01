@@ -112,9 +112,10 @@ export function openFacilityPage(page, uiSchema, schema) {
     // If we have the VA systems in our state, we don't need to
     // fetch them again
     if (!systems) {
-      systems = (await dispatch(getUserSystems())).systems;
+      await dispatch(getUserSystems());
+      systems = getState().newAppointment.systems;
     }
-
+    debugger;
     const canShowFacilities =
       newAppointment.data.vaSystem || systems?.length === 1;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
@@ -124,6 +125,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     ];
 
     if (canShowFacilities && !hasExistingFacilities) {
+      debugger;
       const systemId =
         newAppointment.data.vaSystem || systems[0].institutionCode;
       facilities = await getFacilitiesBySystemAndTypeOfCare(

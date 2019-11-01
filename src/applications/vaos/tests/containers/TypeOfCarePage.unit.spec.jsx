@@ -10,11 +10,13 @@ describe('VAOS <TypeOfCarePage>', () => {
   it('should render', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
+    const getUserSystems = sinon.spy();
 
     const form = mount(
       <TypeOfCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
+        getUserSystems={getUserSystems}
         data={{}}
       />,
     );
@@ -26,12 +28,18 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should not submit empty form', () => {
     const openFormPage = sinon.spy();
+    const getUserSystems = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
 
     const form = mount(
-      <TypeOfCarePage openFormPage={openFormPage} router={router} data={{}} />,
+      <TypeOfCarePage
+        openFormPage={openFormPage}
+        getUserSystems={getUserSystems}
+        router={router}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -44,6 +52,7 @@ describe('VAOS <TypeOfCarePage>', () => {
   it('should call updateFormData after change', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
+    const getUserSystems = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
@@ -52,6 +61,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       <TypeOfCarePage
         openFormPage={openFormPage}
         updateFormData={updateFormData}
+        getUserSystems={getUserSystems}
         router={router}
         data={{}}
       />,
@@ -66,10 +76,12 @@ describe('VAOS <TypeOfCarePage>', () => {
   it('should submit with valid data', () => {
     const openFormPage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
+    const getUserSystems = sinon.spy();
 
     const form = mount(
       <TypeOfCarePage
         openFormPage={openFormPage}
+        getUserSystems={getUserSystems}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{ typeOfCareId: '323' }}
       />,
