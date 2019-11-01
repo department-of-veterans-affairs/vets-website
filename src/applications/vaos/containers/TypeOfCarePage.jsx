@@ -8,7 +8,6 @@ import FormButtons from '../components/FormButtons';
 import TypeOfCareField from '../components/TypeOfCareField';
 import {
   openFormPage,
-  getUserSystems,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -41,7 +40,6 @@ const pageKey = 'typeOfCare';
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
-    this.props.getUserSystems();
   }
 
   onChange = newData => {
@@ -97,7 +95,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   openFormPage,
-  getUserSystems,
+
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,

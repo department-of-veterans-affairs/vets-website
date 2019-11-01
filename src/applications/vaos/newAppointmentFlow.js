@@ -11,6 +11,7 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
+  getUserSystems,
   updateFacilityType,
   updateHasCCEnabledSystems,
 } from './actions/newAppointment';
@@ -58,7 +59,7 @@ export default {
       } else if (isCommunityCare(state)) {
         try {
           // Check if user registered systems support comminity care...
-          const systems = getNewAppointment(state).systems;
+          const systems = (await dispatch(getUserSystems())).systems;
           const communityCareSites = await getSitesSupportingVAR();
           const communityCareSite = communityCareSites.find(site =>
             systems.find(userSite => userSite.institutionCode === site._id),
