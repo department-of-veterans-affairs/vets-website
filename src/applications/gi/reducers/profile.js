@@ -4,7 +4,7 @@ import {
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCEEDED,
 } from '../actions';
-import { normalizedAttributes } from './utility';
+import { normalizedInstitutionAttributes } from './utility';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import _ from 'lodash';
 
@@ -34,7 +34,7 @@ export default function(state = INITIAL_STATE, action) {
         'zipRatesPayload.data.attributes.mhaRateGrandfathered',
       );
       const attributes = {
-        ...normalizedAttributes({
+        ...normalizedInstitutionAttributes({
           ...camelPayload.data.attributes,
           ...camelPayload.data.links,
         }),

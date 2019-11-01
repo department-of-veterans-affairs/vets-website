@@ -1,3 +1,5 @@
+import { snakeCase } from 'lodash';
+
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
@@ -43,3 +45,12 @@ export const phoneInfo = (areaCode, phoneNumber) => {
   }
   return providerPhone;
 };
+
+export const snakeCaseKeys = query =>
+  Object.keys(query).reduce(
+    (queryParams, key) => ({
+      ...queryParams,
+      [snakeCase(key)]: query[key],
+    }),
+    {},
+  );
