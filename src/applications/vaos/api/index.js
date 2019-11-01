@@ -7,7 +7,6 @@ import pending from './requests.json';
 import past from './past.json';
 import slots from './slots.json';
 
-import mockSystems from './systems.json';
 import mockFacilityData from './facilities.json';
 import mockFacility983Data from './facilities_983.json';
 import mockFacility984Data from './facilities_984.json';
@@ -68,11 +67,7 @@ export const getPastAppointments = (() => {
 // GET /vaos/systems
 export async function getSystemIdentifiers() {
   if (environment.isLocalhost() || navigator.userAgent === 'node.js') {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(mockSystems);
-      }, TEST_TIMEOUT || 600);
-    });
+    return import('./systems.json').then(module => module.default);
   }
 
   const response = await fetch(
