@@ -9,17 +9,15 @@ const schemas = {
 const missingSchemas = new Set();
 
 /**
- * @param {String} entityType - The type of entity; corresponds to the
- *                              name of the file.
  * @param {Object} entity - The entity before reference expansion
  * @return {Array<Object>} - An array of all the validation errors.
  *                           Empty if none are found. This may
  *                           actually only find the first validation
  *                           error, not all errors.
  */
-const validateEntity = (entityType, entity) => {
+const validateEntity = entity => {
   // Find the validation object
-  const contentModelType = getContentModelType(entityType, entity);
+  const contentModelType = getContentModelType(entity);
   const schema = schemas[contentModelType];
 
   // Check for missing validation

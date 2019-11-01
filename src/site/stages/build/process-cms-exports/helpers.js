@@ -25,8 +25,8 @@ const contentDir = path.join(
  *
  * @return {String} - The content model type
  */
-function getContentModelType(entityType, entity) {
-  return entity.type ? entity.type[0].target_id : entityType;
+function getContentModelType(entity) {
+  return entity.type ? entity.type[0].target_id : entity.baseType;
 }
 
 /**
@@ -41,7 +41,7 @@ function getContentModelType(entityType, entity) {
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
  */
-function transformEntity(entityType, entity) {
+function transformEntity(entity) {
   // TODO: Perform transformations based on the content model type
   return entity;
 }
@@ -54,16 +54,13 @@ module.exports = {
    * after transformations. Note: The entity will only contain a subset
    * of all the original properties based on type and subtype.
    *
-   * @param {String} entityType - The type of entity; corresponds to
-   *                              the name of the file. We may not end
-   *                              up using this.
    * @param {Object} entity - The contents of the entity itself before
    *                          reference expansion.
    *
    * @return {Object} - The new entity.
    */
-  getModifiedEntity(entityType, entity) {
-    const contentModelType = getContentModelType(entityType, entity);
+  getModifiedEntity(entity) {
+    const contentModelType = getContentModelType(entity);
     return transformEntity(
       contentModelType,
       getFilteredEntity(contentModelType, entity),
@@ -73,32 +70,35 @@ module.exports = {
   /**
    * Use to consistently reference to an entity.
    *
-   * @param {String} type - The type of entity; corresponds to the file
-   *                        name.
-   * @param {String} uuid - The uuid of the entity; corresponds to the
-   *                        file name.
+   * @param {Object} entity - The contents of the entity itself before
+   *                          reference expansion.
    */
-  toId(type, uuid) {
-    return `${type}.${uuid}`;
+  toId(entity) {
+    return `${entity.baseType}.${entity.uuid}`;
   },
 
   /**
    * Note: Later, we can keep a counter for how many times we open a
    * particular file to see if we can gain anything from caching the
    * contents.
-   * @param {String} entityType - The type of entity; corresponds to the
+   * @param {String} baseType - The type of entity; corresponds to the
    *                              name of the file.
    * @param {String} uuid - The UUID of the entity; corresponds to the
    *                        name of the file.
    *
    * @return {Object} - The contents of the file.
    */
-  readEntity(entityType, uuid) {
-    return JSON.parse(
+  readEntity(baseType, uuid) {
+    const entity = JSON.parse(
       fs
-        .readFileSync(path.join(contentDir, `${entityType}.${uuid}.json`))
+        .readFileSync(path.join(contentDir, `${baseType}.${uuid}.json`))
         .toString('utf8'),
     );
+    // Add what we already know about the entity
+    entity.baseType = baseType;
+    // Overrides the UUID property in the contents of the entity
+    entity.uuid = uuid;
+    return entity;
   },
 
   /**
