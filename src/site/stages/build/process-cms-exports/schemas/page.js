@@ -37,6 +37,9 @@ module.exports = {
         },
       },
     },
+    metatag: {
+      type: 'object',
+    },
   },
   required: getFilter('page'),
 };
