@@ -10,21 +10,22 @@ CMS export returned **774** records.
 
 ## `target_id`s:
 
-- `health_care_region_detail_page`
 - `documentation_page`
-- `event`
 - `event_listing`
-- `press_release`
-- `office`
-- `outreach_asset` (e.g. `Publication`)
-- `person_profile` (e.g. `Staff profile`)
-- `news_story`
-- `support_service`
-- `health_care_region_page` (e.g. `VAMC system`)
+- `event`
 - `full_width_banner_alert` (e.g. `VAMC system banner alert with situational updates`)
 - `health_care_local_facility` (e.g. `VAMC facility`)
 - `health_care_local_health_service` (e.g. `VAMC facility health service`)
+- `health_care_region_detail_page`
+- `health_care_region_page` (e.g. `VAMC system`)
+- `news_story`
+- `office`
+- `outreach_asset` (e.g. `Publication`)
+- `page`
+- `person_profile` (e.g. `Staff profile`)
+- `press_release`
 - `regional_health_care_service_des` (e.g. `VAMC system health service`)
+- `support_service`
 - `vamc_operating_status_and_alerts` (e.g. `VAMC system operating status`)
 
 ## All standard key-value pairs:
@@ -105,6 +106,18 @@ CMS export returned **774** records.
   - `field_description` | Text (plain)
   - `field_meta_tags` | Meta tags
   - `field_meta_title` | Text (plain)
+- target_id: `page`
+  - `field_administration`
+  - `field_alert`
+  - `field_content_block`
+  - `field_description`
+  - `field_featured_content`
+  - `field_intro_text`
+  - `field_meta_tags`
+  - `field_meta_title`
+  - `field_page_last_built`
+  - `field_plainlanguage_date`
+  - `field_related_links`
 - target_id: `outreach_asset` (e.g. `Publication`)
   - `field_administration` | Entity reference
   - `field_administration` | Entity reference
