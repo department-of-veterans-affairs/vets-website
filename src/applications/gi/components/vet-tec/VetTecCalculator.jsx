@@ -11,7 +11,7 @@ import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../../constants';
-import environment from '../../../../platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export class VetTecCalculator extends React.Component {
   constructor(props) {
@@ -22,10 +22,14 @@ export class VetTecCalculator extends React.Component {
       scholarships: 0,
     };
   }
+
   // PROD FLAG CT 116 19868
 
   indentVaPaysToProvider = () =>
     environment.isProduction() ? '' : 'vads-u-margin-left--2p5';
+
+  housingAllowanceClassName =
+    'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
 
   renderCalculatorForm = () => {
     const {
@@ -152,7 +156,7 @@ export class VetTecCalculator extends React.Component {
             <div className="small-8 columns">
               <div>In person rate:</div>
             </div>
-            <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
+            <div className={this.housingAllowanceClassName}>
               <div>{`${outputs.inPersonRate}/mo`}</div>
             </div>
           </div>
@@ -161,7 +165,7 @@ export class VetTecCalculator extends React.Component {
             <div className="small-8 columns">
               <div>Online rate:</div>
             </div>
-            <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
+            <div className={this.housingAllowanceClassName}>
               <div>{`${outputs.onlineRate}/mo`}</div>
             </div>
           </div>
@@ -172,7 +176,7 @@ export class VetTecCalculator extends React.Component {
             <div className="small-8 columns">
               <div>In person rate (monthly):</div>
             </div>
-            <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
+            <div className={this.housingAllowanceClassName}>
               <div>{outputs.inPersonRate}</div>
             </div>
           </div>
@@ -181,7 +185,7 @@ export class VetTecCalculator extends React.Component {
             <div className="small-8 columns">
               <div>Online rate (monthly):</div>
             </div>
-            <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
+            <div className={this.housingAllowanceClassName}>
               <div>{outputs.onlineRate}</div>
             </div>
           </div>

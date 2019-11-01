@@ -4,12 +4,19 @@ import environment from 'platform/utilities/environment';
 class VetTecApplicationProcess extends React.Component {
   providersWebsiteLink = () => {
     const programs = this.props.institution.programs;
-    return programs[0].providerWebsite === null ? (
-      <p>
-        To learn more about available programs, visit the training provider's
-        website.
-      </p>
-    ) : (
+
+    if (
+      programs[0].providerWebsite === null ||
+      programs[0].providerWebsite === ''
+    ) {
+      return (
+        <p>
+          To learn more about available programs, visit the training provider's
+          website.
+        </p>
+      );
+    }
+    return (
       <p>
         To learn more about available programs,{' '}
         <a
@@ -61,7 +68,8 @@ class VetTecApplicationProcess extends React.Component {
             VA-approved training provider you'd like to attend.
           </p>
         )}
-        {environment.isProduction() ? (
+        {// PROD FLAG CT 116 STORY 19868
+        environment.isProduction() ? (
           <p>
             <a
               href={
