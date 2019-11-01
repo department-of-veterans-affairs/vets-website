@@ -6,7 +6,7 @@ import { renderPreferredProviderFlag } from '../../utils/render';
 
 class VetTecProgramSearchResult extends React.Component {
   render() {
-    const { version, result } = this.props;
+    const { version, result, constants } = this.props;
     const {
       facilityCode,
       description,
@@ -16,11 +16,8 @@ class VetTecProgramSearchResult extends React.Component {
       country,
       tuitionAmount,
       lengthInWeeks,
-      vaBah,
       dodBah,
     } = result;
-
-    const housing = Math.min(dodBah, vaBah);
 
     const linkTo = {
       pathname: `profile/${facilityCode}/${description}`,
@@ -32,7 +29,7 @@ class VetTecProgramSearchResult extends React.Component {
         <div className="outer">
           <div className="inner">
             <div className="row">
-              <div className="small-12 usa-width-seven-twelfths medium-7 columns">
+              <div className="small-12 medium-6 columns">
                 <h2>
                   <Link to={linkTo}>{description}</Link>
                 </h2>
@@ -45,7 +42,7 @@ class VetTecProgramSearchResult extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
+              <div className="small-12 medium-6 columns estimated-benefits">
                 {renderPreferredProviderFlag(this.props.result)}
                 <h3 className="vads-u-padding-top--1p5">
                   You may be eligible for up to:
@@ -73,7 +70,9 @@ class VetTecProgramSearchResult extends React.Component {
                       />
                       Housing <span>(monthly):</span>
                       <div className="programHousingAllowance">
-                        {formatCurrency(housing)}
+                        {`${formatCurrency(
+                          constants.AVGDODBAH / 2,
+                        )} - ${formatCurrency(dodBah)}`}
                       </div>
                     </h4>
                   </div>
