@@ -162,13 +162,19 @@ export class ProgramSearchPage extends React.Component {
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map(result => (
-              <VetTecProgramSearchResult
-                version={this.props.location.query.version}
-                key={`${result.facilityCode}-${result.description}`}
-                result={result}
-              />
-            ))}
+            {search.results
+              .filter(
+                result =>
+                  this.props.filters.provider.length === 0 ||
+                  this.props.filters.provider.includes(result.institutionName),
+              )
+              .map(result => (
+                <VetTecProgramSearchResult
+                  version={this.props.location.query.version}
+                  key={`${result.facilityCode}-${result.description}`}
+                  result={result}
+                />
+              ))}
           </div>
 
           <Pagination
@@ -232,6 +238,7 @@ export class ProgramSearchPage extends React.Component {
               this.props.fetchProgramAutocompleteSuggestions
             }
             handleFilterChange={this.handleFilterChange}
+            handleProviderFilterChange={this.props.institutionFilterChange}
             updateAutocompleteSearchTerm={
               this.props.updateAutocompleteSearchTerm
             }
