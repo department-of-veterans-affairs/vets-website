@@ -40,7 +40,7 @@
 
 .vaos-appts__status-text {
   display: flex;
-  margin-left: 8px;
+  margin: 0 0 0 8px;
 
   @media (max-width: $small-screen) {
     margin-top: -4px;
@@ -86,8 +86,14 @@
   margin-bottom: map-get($spacers, 0p5);
   font-size: $base-font-size;
   font-family: $font-sans;
+}
 
-
+.vaos-appts__expand-link {
+  padding: 0;
+  background: none;
+  color: $color-base;
+  font-weight: normal;
+  font-size: $base-font-size;
 }
 
 .vaos-appts__expand-link .fas {

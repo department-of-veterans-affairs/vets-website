@@ -37,7 +37,10 @@ export default function ConfirmedAppointmentListItem({ appointment, type }) {
 
         {canceled ? null : (
           <div>
-            <button className="usa-button-secondary vads-u-margin--0 vads-u-flex--0">
+            <button
+              aria-label="Cancel appointment"
+              className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"
+            >
               Cancel
             </button>
           </div>
@@ -53,21 +56,27 @@ export default function ConfirmedAppointmentListItem({ appointment, type }) {
         </div>
       ) : null}
 
-      <div className="vaos-appts__split-section">
-        <div className="vads-u-flex--1">
-          {isVideoVisit(appointment) ? (
-            <VideoVisitLink appointment={appointment} />
-          ) : (
-            <>
-              <div className="vads-u-font-weight--bold">
-                {getClinicName(appointment)}
-              </div>
-              <div>{getAppointmentLocation(appointment)}</div>
-            </>
-          )}
+      <dl className="vads-u-margin--0">
+        <div className="vaos-appts__split-section">
+          <div className="vads-u-flex--1">
+            {isVideoVisit(appointment) ? (
+              <dd>
+                <VideoVisitLink appointment={appointment} />
+              </dd>
+            ) : (
+              <>
+                <div className="vads-u-font-weight--bold">
+                  <dt>{getClinicName(appointment)}</dt>
+                </div>
+                <div>
+                  <dd>{getAppointmentLocation(appointment)}</dd>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="vads-u-flex--1">&nbsp;</div>
         </div>
-        <div className="vads-u-flex--1">&nbsp;</div>
-      </div>
+      </dl>
     </li>
   );
 }
