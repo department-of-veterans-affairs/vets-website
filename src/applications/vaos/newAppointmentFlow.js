@@ -52,6 +52,7 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
+      const newAppointment = getNewAppointment(state);
       let nextState = 'vaFacility';
 
       if (isSleepCare(state)) {
@@ -59,7 +60,10 @@ export default {
       } else if (isCommunityCare(state)) {
         try {
           // Check if user registered systems support comminity care...
-          const systems = (await dispatch(getUserSystems())).systems;
+          let systems = newAppointment.systems;
+          if (!systems) {
+            systems = (await dispatch(getUserSystems())).systems;
+          }
           const communityCareSites = await getSitesSupportingVAR();
           const communityCareSite = communityCareSites.find(site =>
             systems.find(userSite => userSite.institutionCode === site._id),

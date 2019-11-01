@@ -251,7 +251,7 @@ export function routeToPageInFlow(flow, router, current, action) {
     if (typeof nextAction === 'string') {
       nextPage = flow[nextAction];
     } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
+      const nextStateKey = await nextAction(getState(), dispatch, getState);
       nextPage = flow[nextStateKey];
     }
 
