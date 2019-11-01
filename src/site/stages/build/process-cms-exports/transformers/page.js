@@ -8,6 +8,7 @@ function createMetaTag(type, key, value) {
     value,
   };
 }
+
 function pageTransform(entity) {
   const transformed = entity;
   const {

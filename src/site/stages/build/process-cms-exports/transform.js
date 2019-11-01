@@ -42,8 +42,6 @@ function getEntityTransformer(entityType) {
  *                    the specific content model type.
  */
 function transformEntity(entityType, entity) {
-  // TODO: Perform transformations based on the content model type
-
   const entityTransformer = getEntityTransformer(entityType);
 
   // Convert all snake_case keys to camelCase
