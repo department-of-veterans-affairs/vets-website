@@ -20,7 +20,7 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_FETCH_USER_SYSTEMS,
   FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
-  FORM_SET_FACILITY_TYPE,
+  FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -173,7 +173,7 @@ export default function formReducer(state = initialState, action) {
         systems: action.systems,
       };
     }
-    case FORM_SET_FACILITY_TYPE: {
+    case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
         data: { ...state.data, facilityType: action.facilityType },

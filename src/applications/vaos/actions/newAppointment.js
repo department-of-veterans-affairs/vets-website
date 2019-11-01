@@ -20,7 +20,8 @@ export const FORM_FETCH_USER_SYSTEMS_SUCCEEDED =
   'newAppointment/FORM_FETCH_USER_SYSTEMS_SUCCEEDED';
 export const FORM_FETCH_USER_SYSTEMS_FAILED =
   'newAppointment/FORM_FETCH_USER_SYSTEMS_FAILED';
-export const FORM_SET_FACILITY_TYPE = 'newAppointment/FORM_SET_FACILITY_TYPE';
+export const FORM_UPDATE_FACILITY_TYPE =
+  'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
@@ -101,7 +102,7 @@ export function getUserSystems() {
 
 export function updateFacilityType(facilityType) {
   return {
-    type: FORM_SET_FACILITY_TYPE,
+    type: FORM_UPDATE_FACILITY_TYPE,
     facilityType,
   };
 }
