@@ -7,7 +7,7 @@ export const FETCH_STATUS = {
 
 export const APPOINTMENT_TYPES = {
   vaAppointment: 'vaAppointment',
-  ccAppointnment: 'ccAppointment',
+  ccAppointment: 'ccAppointment',
   request: 'request',
 };
 

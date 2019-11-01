@@ -40,7 +40,7 @@ export class AppointmentsPage extends Component {
             return (
               <AppointmentRequestListItem key={index} appointment={appt} />
             );
-          case APPOINTMENT_TYPES.ccAppointnment:
+          case APPOINTMENT_TYPES.ccAppointment:
           case APPOINTMENT_TYPES.vaAppointment:
             return (
               <ConfirmedAppointmentListItem
@@ -54,8 +54,29 @@ export class AppointmentsPage extends Component {
         }
       });
     } else {
-      // TODO: show no appointments message
-      content = 'No appointments';
+      content = (
+        <li className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+            You don't have any appointments.
+          </h2>
+          <p>
+            You can schedule an appointment now, or you can call your{' '}
+            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+              VA Medical center
+            </a>{' '}
+            to schedule an appointment.
+          </p>
+          <Link to="new-appointment">
+            <button
+              type="button"
+              className="usa-button vads-u-margin-x--0 vads-u-margin-bottom--1p5"
+              name="newAppointment"
+            >
+              Schedule an appointment
+            </button>
+          </Link>
+        </li>
+      );
     }
 
     return (
