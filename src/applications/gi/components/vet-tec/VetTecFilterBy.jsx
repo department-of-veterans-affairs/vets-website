@@ -95,6 +95,7 @@ class VetTecFilterBy extends React.Component {
           onChange={this.handleFilterChange}
           options={options}
         />
+        {/* prod flag for CT-116 - #19864 */}
         {!environment.isProduction() && this.renderProviderFilters()}
       </div>
     );
