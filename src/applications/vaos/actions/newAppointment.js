@@ -5,7 +5,6 @@ import {
   getSystemDetails,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
-  getSitesSupportingVAR,
 } from '../api';
 
 import { getEligibilityData } from '../utils/eligibility';
@@ -16,6 +15,12 @@ export const FORM_PAGE_CHANGE_STARTED =
   'newAppointment/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_FETCH_USER_SYSTEMS = 'newAppointment/FORM_FETCH_USER_SYSTEMS';
+export const FORM_FETCH_USER_SYSTEMS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_USER_SYSTEMS_SUCCEEDED';
+export const FORM_FETCH_USER_SYSTEMS_FAILED =
+  'newAppointment/FORM_FETCH_USER_SYSTEMS_FAILED';
+export const FORM_SET_FACILITY_TYPE = 'newAppointment/FORM_SET_FACILITY_TYPE';
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
@@ -24,8 +29,8 @@ export const FORM_FETCH_CHILD_FACILITIES =
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
-export const FORM_VA_SYSTEM_CC_ENABLED =
-  'newAppointment/FORM_VA_SYSTEM_CC_ENABLED';
+export const FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS =
+  'newAppointment/FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
 export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
@@ -39,43 +44,6 @@ export const FORM_PAGE_TYPE_OF_FACILITY_OPEN =
   'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN';
 export const FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED';
-
-export function routeToPageInFlow(flow, router, current, action) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
-    });
-
-    const nextAction = flow[current][action];
-    let nextPage;
-
-    if (typeof nextAction === 'string') {
-      nextPage = flow[nextAction];
-    } else {
-      const nextStateKey = await nextAction(getState(), dispatch);
-      nextPage = flow[nextStateKey];
-    }
-
-    if (nextPage?.url) {
-      router.push(nextPage.url);
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-      });
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
-  };
-}
-
-export function routeToNextAppointmentPage(router, current) {
-  return routeToPageInFlow(newAppointmentFlow, router, current, 'next');
-}
-
-export function routeToPreviousAppointmentPage(router, current) {
-  return routeToPageInFlow(newAppointmentFlow, router, current, 'previous');
-}
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -95,10 +63,46 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function updateSystemCCEnable(data) {
+export function updateHasCCEnabledSystems(hasCCEnabledSystems) {
   return {
-    type: FORM_VA_SYSTEM_CC_ENABLED,
-    data,
+    type: FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS,
+    hasCCEnabledSystems,
+  };
+}
+
+export function getUserSystems() {
+  return async dispatch => {
+    let systems;
+
+    dispatch({
+      type: FORM_FETCH_USER_SYSTEMS,
+      systems,
+    });
+
+    try {
+      const identifiers = await getSystemIdentifiers();
+      const systemIds = identifiers
+        .filter(id => id.assigningAuthority.startsWith('dfn'))
+        .map(id => id.assigningCode);
+      systems = await getSystemDetails(systemIds);
+
+      dispatch({
+        type: FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
+        systems,
+      });
+    } catch (error) {
+      dispatch({
+        type: FORM_FETCH_USER_SYSTEMS_FAILED,
+        error,
+      });
+    }
+  };
+}
+
+export function updateFacilityType(facilityType) {
+  return {
+    type: FORM_SET_FACILITY_TYPE,
+    facilityType,
   };
 }
 
@@ -160,64 +164,6 @@ export function openFacilityPage(page, uiSchema, schema) {
       typeOfCareId,
       eligibilityData,
     });
-  };
-}
-
-export function openTypeOfFacilityPage(
-  page,
-  uiSchema,
-  schema,
-  typeOfCareId,
-  router,
-) {
-  return async (dispatch, getState) => {
-    const newAppointment = getState().newAppointment;
-    let systems = newAppointment.systems;
-
-    // fetch systems
-    if (!systems) {
-      dispatch({
-        type: FORM_PAGE_TYPE_OF_FACILITY_OPEN,
-        page,
-        uiSchema,
-        schema,
-      });
-
-      const identifiers = await getSystemIdentifiers();
-      const systemIds = identifiers
-        .filter(id => id.assigningAuthority.startsWith('dfn'))
-        .map(id => id.assigningCode);
-
-      systems = await getSystemDetails(systemIds);
-    }
-
-    // Check if user registered systems support comminity care...
-    const communityCareSites = await getSitesSupportingVAR();
-    const communityCareSite = communityCareSites.find(site =>
-      systems.find(userSite => userSite.institutionCode === site._id),
-    );
-
-    // Reroute to VA medical facility page if user registered systems don't support comminity care.
-    if (communityCareSite === undefined) {
-      dispatch(
-        updateFormData(page, uiSchema, {
-          facilityType: 'vamc',
-          typeOfCareId: getState().newAppointment.data.typeOfCareId,
-        }),
-      );
-
-      dispatch(routeToNextAppointmentPage(router, 'typeOfFacility'));
-    } else {
-      // Set flag...
-      dispatch(updateSystemCCEnable());
-
-      dispatch({
-        type: FORM_PAGE_TYPE_OF_FACILITY_OPEN_SUCCEEDED,
-        page,
-        uiSchema,
-        schema,
-      });
-    }
   };
 }
 
@@ -304,4 +250,41 @@ export function openClinicPage(page, uiSchema, schema) {
       facilityDetails,
     });
   };
+}
+
+export function routeToPageInFlow(flow, router, current, action) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FORM_PAGE_CHANGE_STARTED,
+    });
+
+    const nextAction = flow[current][action];
+    let nextPage;
+
+    if (typeof nextAction === 'string') {
+      nextPage = flow[nextAction];
+    } else {
+      const nextStateKey = await nextAction(getState(), dispatch);
+      nextPage = flow[nextStateKey];
+    }
+
+    if (nextPage?.url) {
+      router.push(nextPage.url);
+      dispatch({
+        type: FORM_PAGE_CHANGE_COMPLETED,
+      });
+    } else if (nextPage) {
+      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
+    } else {
+      throw new Error('Tried to route to page that does not exist');
+    }
+  };
+}
+
+export function routeToNextAppointmentPage(router, current) {
+  return routeToPageInFlow(newAppointmentFlow, router, current, 'next');
+}
+
+export function routeToPreviousAppointmentPage(router, current) {
+  return routeToPageInFlow(newAppointmentFlow, router, current, 'previous');
 }

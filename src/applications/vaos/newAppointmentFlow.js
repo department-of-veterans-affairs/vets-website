@@ -5,7 +5,15 @@ import {
   getClinicsForChosenFacility,
 } from './utils/selectors';
 import { TYPES_OF_CARE } from './utils/constants';
-import { getCommunityCare, getPastAppointments } from './api';
+import {
+  getCommunityCare,
+  getPastAppointments,
+  getSitesSupportingVAR,
+} from './api';
+import {
+  updateFacilityType,
+  updateHasCCEnabledSystems,
+} from './actions/newAppointment';
 import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
@@ -42,19 +50,32 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    async next(state) {
+    async next(state, dispatch) {
       let nextState = 'vaFacility';
 
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
       } else if (isCommunityCare(state)) {
         try {
-          const data = await getCommunityCare(
-            '/vaos/community-care/eligibility',
+          // Check if user registered systems support comminity care...
+          const systems = getNewAppointment(state).systems;
+          const communityCareSites = await getSitesSupportingVAR();
+          const communityCareSite = communityCareSites.find(site =>
+            systems.find(userSite => userSite.institutionCode === site._id),
           );
+          // Reroute to VA facility page if user registered systems don't support community care.
+          if (communityCareSite === undefined) {
+            dispatch(updateFacilityType('vaFacility'));
+            dispatch(updateHasCCEnabledSystems(false));
+          } else {
+            dispatch(updateHasCCEnabledSystems(true));
+            const data = await getCommunityCare(
+              '/vaos/community-care/eligibility',
+            );
 
-          if (data.isEligible) {
-            nextState = 'typeOfFacility';
+            if (data.isEligible) {
+              nextState = 'typeOfFacility';
+            }
           }
         } catch (e) {
           return 'vaFacility';
@@ -139,7 +160,7 @@ export default {
       // Return to typeOFFacility page if facility is CC enabled
       if (
         getFormData(state).facilityType &&
-        getNewAppointment(state).isSystemCCEnabled
+        getNewAppointment(state).hasCCEnabledSystems
       ) {
         nextState = 'typeOfFacility';
       }

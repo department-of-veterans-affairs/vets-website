@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import {
   openFormPage,
   updateFormData,
-  openTypeOfFacilityPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
@@ -59,13 +57,7 @@ const pageKey = 'typeOfFacility';
 
 export class TypeOfFacilityPage extends React.Component {
   componentDidMount() {
-    this.props.openTypeOfFacilityPage(
-      pageKey,
-      uiSchema,
-      initialSchema,
-      this.props.data.typeOfCareId,
-      this.props.router,
-    );
+    this.props.openFormPage(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
@@ -78,14 +70,6 @@ export class TypeOfFacilityPage extends React.Component {
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
-
-    if (pageChangeInProgress) {
-      return (
-        <div>
-          <LoadingIndicator message="Finding your VA facility..." />
-        </div>
-      );
-    }
 
     return (
       <div className="vaos-form__facility-type vaos-form__detailed-radio">
@@ -114,15 +98,11 @@ export class TypeOfFacilityPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    ...getFormPageInfo(state, pageKey),
-    pageChangeInProgress: state.newAppointment?.pageChangeInProgress,
-  };
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
   openFormPage,
-  openTypeOfFacilityPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,

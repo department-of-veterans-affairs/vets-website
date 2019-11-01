@@ -18,12 +18,15 @@ import {
   FORM_PAGE_OPENED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
+  FORM_FETCH_USER_SYSTEMS,
+  FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
+  FORM_SET_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
-  FORM_VA_SYSTEM_CC_ENABLED,
+  FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
@@ -156,6 +159,24 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: false,
+      };
+    }
+    case FORM_FETCH_USER_SYSTEMS: {
+      return {
+        ...state,
+        loadingSystems: true,
+      };
+    }
+    case FORM_FETCH_USER_SYSTEMS_SUCCEEDED: {
+      return {
+        ...state,
+        systems: action.systems,
+      };
+    }
+    case FORM_SET_FACILITY_TYPE: {
+      return {
+        ...state,
+        data: { ...state.data, facilityType: action.facilityType },
       };
     }
     case FORM_PAGE_FACILITY_OPEN: {
@@ -309,10 +330,10 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_VA_SYSTEM_CC_ENABLED: {
+    case FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS: {
       return {
         ...state,
-        isSystemCCEnabled: true,
+        hasCCEnabledSystems: action.CCEnabled,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {

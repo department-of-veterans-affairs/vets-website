@@ -304,65 +304,7 @@ describe('VAOS newAppointment actions', () => {
       expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
     });
   });
-  describe('openTypeOfFacility', () => {
-    const defaultSchema = {
-      type: 'object',
-      properties: {
-        vaSystem: {
-          type: 'string',
-          enum: [],
-        },
-        vaFacility: {
-          type: 'string',
-          enum: [],
-        },
-      },
-    };
-    const defaultState = {
-      newAppointment: {
-        data: {
-          facilityType: 'vamc',
-          typeOfCareId: '983',
-        },
-        pages: {},
-        loadingSystems: false,
-        systems: null,
-        facilities: {},
-        eligibility: {},
-      },
-    };
 
-    it('should fetch systems', async () => {
-      const dispatch = sinon.spy();
-      const router = sinon.spy();
-      const getState = () => defaultState;
-
-      const thunk = openTypeOfFacilityPage(
-        'typeOfFacility',
-        {},
-        defaultSchema,
-        '983',
-        router,
-      );
-      await thunk(dispatch, getState);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_PAGE_TYPE_OF_FACILITY_OPEN,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-
-      const succeededAction = dispatch.secondCall.args[0];
-      expect(succeededAction).to.deep.equal({
-        data: {
-          facilityType: 'vamc',
-          typeOfCareId: '983',
-        },
-        page: 'typeOfFacility',
-        type: 'newAppointment/FORM_DATA_UPDATED',
-        uiSchema: {},
-      });
-    });
-  });
   describe('openClinicPage', () => {
     it('should fetch facility info', async () => {
       const dispatch = sinon.spy();
