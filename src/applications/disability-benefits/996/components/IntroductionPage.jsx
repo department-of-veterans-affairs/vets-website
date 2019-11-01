@@ -62,7 +62,7 @@ class IntroductionPage extends React.Component {
     const isLoggedIn = user.login?.currentlyLoggedIn;
 
     return (
-      <article id="form0996" className="schemaform-intro">
+      <article className="schemaform-intro">
         <FormTitle title="Request a Higher-Level Review" />
         <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
         {isLoggedIn && this.state.isInLegacySystem ? (
