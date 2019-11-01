@@ -73,7 +73,7 @@ export class LandingPage extends React.Component {
       this.props.router.push({ pathname: 'search', query });
     } else if (isVetTecSelected(this.props.filters)) {
       delete query.vetTecProvider;
-      this.props.router.push({ pathname: 'programSearch', query });
+      this.props.router.push({ pathname: 'program-search', query });
     } else {
       this.props.router.push({ pathname: 'search', query });
     }

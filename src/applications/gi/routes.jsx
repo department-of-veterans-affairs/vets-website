@@ -18,7 +18,7 @@ const routes = {
   indexRoute: { component: LandingPage },
   childRoutes: [
     { path: 'search', component: SearchPage },
-    { path: 'programSearch', component: VetTecSearchPage },
+    { path: 'program-search', component: VetTecSearchPage },
     { path: 'profile/:facilityCode', component: ProfilePage },
     {
       path: 'profile/:facilityCode/:preSelectedProgram',
