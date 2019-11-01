@@ -18,12 +18,14 @@ CMS export returned **774** records.
 - `health_care_local_health_service` (e.g. `VAMC facility health service`)
 - `health_care_region_detail_page`
 - `health_care_region_page` (e.g. `VAMC system`)
+- `landing_page`
 - `news_story`
 - `office`
 - `outreach_asset` (e.g. `Publication`)
 - `page`
 - `person_profile` (e.g. `Staff profile`)
 - `press_release`
+- `publication_listing`
 - `regional_health_care_service_des` (e.g. `VAMC system health service`)
 - `support_service`
 - `vamc_operating_status_and_alerts` (e.g. `VAMC system operating status`)
@@ -89,35 +91,29 @@ CMS export returned **774** records.
   - `field_meta_tags` | Meta tags
   - `field_meta_title` | Text (plain)
   - `field_office` | Entity reference
-- target_id: `press_release`
-  - `field_address` | Address
-  - `field_administration` | Entity reference
-  - `field_intro_text` | Text (plain, long)
-  - `field_meta_tags` | Meta tags
-  - `field_office` | Entity reference
-  - `field_pdf_version` | Entity reference
-  - `field_press_release_contact` | Entity reference
-  - `field_press_release_downloads` | Entity reference
-  - `field_press_release_fulltext` | Text (formatted, long)
-  - `field_release_date` | Date
+- target_id: `landing_page`
+  - `field_administration`
+  - `field_alert`
+  - `field_description`
+  - `field_home_page_hub_label`
+  - `field_intro_text`
+  - `field_links`
+  - `field_meta_tags`
+  - `field_meta_title`
+  - `field_page_last_built`
+  - `field_plainlanguage_date`
+  - `field_promo`
+  - `field_related_links`
+  - `field_spokes`
+  - `field_support_services`
+  - `field_teaser_text`
+  - `field_title_icon`
 - target_id: `office`
   - `field_administration` | Entity reference
   - `field_body` | Text (formatted, long)
   - `field_description` | Text (plain)
   - `field_meta_tags` | Meta tags
   - `field_meta_title` | Text (plain)
-- target_id: `page`
-  - `field_administration`
-  - `field_alert`
-  - `field_content_block`
-  - `field_description`
-  - `field_featured_content`
-  - `field_intro_text`
-  - `field_meta_tags`
-  - `field_meta_title`
-  - `field_page_last_built`
-  - `field_plainlanguage_date`
-  - `field_related_links`
 - target_id: `outreach_asset` (e.g. `Publication`)
   - `field_administration` | Entity reference
   - `field_administration` | Entity reference
@@ -132,6 +128,36 @@ CMS export returned **774** records.
   - `field_meta_title` | Text (plain)
   - `field_office` | Entity reference
   - `field_office` | Entity reference
+- target_id: `page`
+  - `field_administration`
+  - `field_alert`
+  - `field_content_block`
+  - `field_description`
+  - `field_featured_content`
+  - `field_intro_text`
+  - `field_meta_tags`
+  - `field_meta_title`
+  - `field_page_last_built`
+  - `field_plainlanguage_date`
+  - `field_related_links`
+- target_id: `press_release`
+  - `field_address` | Address
+  - `field_administration` | Entity reference
+  - `field_intro_text` | Text (plain, long)
+  - `field_meta_tags` | Meta tags
+  - `field_office` | Entity reference
+  - `field_pdf_version` | Entity reference
+  - `field_press_release_contact` | Entity reference
+  - `field_press_release_downloads` | Entity reference
+  - `field_press_release_fulltext` | Text (formatted, long)
+  - `field_release_date` | Date
+- target_id: `publication_listing`
+  - `field_administration`
+  - `field_description`
+  - `field_intro_text`
+  - `field_meta_tags`
+  - `field_meta_title`
+  - `field_office`
 - target_id: `person_profile` (e.g. `Staff profile`)
   - `field_administration` | Entity reference
   - `field_body` | Text (formatted, long)
