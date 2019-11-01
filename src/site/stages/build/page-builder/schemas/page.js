@@ -19,7 +19,7 @@ module.exports = {
       $ref: 'EntityReferenceArray',
     },
     field_alert: {
-      $ref: 'EntityReferenceArray',
+      type: 'array',
     },
     field_related_links: {
       $ref: 'EntityReferenceArray',
@@ -32,7 +32,7 @@ module.exports = {
       items: {
         type: 'object',
         properties: {
-          value: { type: 'string', format: 'date-time' },
+          value: { type: 'string', format: 'custom-date-time' },
         },
       },
     },
