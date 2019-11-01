@@ -11,6 +11,7 @@ const RatedDisabilitiesSidebar = () => (
     </p>
     <a
       href="https://www.youtube.com/watch?v=oM7oYzL2DCg"
+      aria-label="view information on how you recieved the rating you did on YouTube"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -28,8 +29,11 @@ const RatedDisabilitiesSidebar = () => (
       What if I have questions?
     </h3>
     <p>
-      You can call us at <a href="tel:800-827-1000">800-827-1000</a>. We're here
-      Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      You can call us at
+      <a aria-label="call 800-827-1000" href="tel:800-827-1000">
+        800-827-1000
+      </a>
+      . We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
     </p>
   </div>
 );
