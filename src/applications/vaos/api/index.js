@@ -67,7 +67,7 @@ export const getPastAppointments = (() => {
 
 // GET /vaos/systems
 export async function getSystemIdentifiers() {
-  if (environment.isLocalhost()) {
+  if (environment.isLocalhost() || navigator.userAgent === 'node.js') {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(mockSystems);
