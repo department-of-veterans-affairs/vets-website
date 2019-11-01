@@ -57,7 +57,7 @@ export class AppointmentsPage extends Component {
       content = (
         <li className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
           <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-            You don't have any appointments.
+            You don’t have any appointments.
           </h2>
           <p>
             You can schedule an appointment now, or you can call your{' '}
