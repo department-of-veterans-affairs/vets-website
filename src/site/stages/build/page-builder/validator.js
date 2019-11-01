@@ -1,4 +1,6 @@
-const { Validator } = require('jsonschema');
+const Ajv = require('ajv');
+
+const ajv = new Ajv();
 
 const {
   entityReference,
@@ -6,15 +8,17 @@ const {
 } = require('./schemas/common/entity-reference');
 const genericNestedString = require('./schemas/common/generic-nested-string');
 
-// Set up formats
-Validator.prototype.customFormats.uuid = input =>
-  /[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/.test(input);
+// Custom formats
+ajv.addFormat('custom-date-time', /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
 
-const v = new Validator();
+// Common $ref schemas
+ajv.addSchema(entityReference, 'EntityReference');
+ajv.addSchema(entityReferenceArray, 'EntityReferenceArray');
+ajv.addSchema(genericNestedString, 'GenericNestedString');
 
-// Add schema references
-v.addSchema(entityReference, '/EntityReference');
-v.addSchema(entityReferenceArray, '/EntityReferenceArray');
-v.addSchema(genericNestedString, '/GenericNestedString');
-
-module.exports = v;
+module.exports = (entity, schema) => {
+  const validate = ajv.compile(schema);
+  const valid = validate(entity);
+  // if (!valid) console.log(validate);
+  return valid ? [] : validate.errors;
+};

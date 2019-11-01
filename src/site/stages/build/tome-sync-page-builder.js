@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+
 const {
   getModifiedEntity,
   toId,
@@ -37,12 +39,13 @@ const assembleEntityTree = (entityType, uuid, parents = []) => {
 
   const rawEntity = readEntity(entityType, uuid);
 
-  const result = validateEntity(entityType, rawEntity);
-  if (!result.valid) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `${toId(entityType, uuid)} is invalid:\n  ${result.errors.join('\n  ')}`,
-    );
+  const errors = validateEntity(entityType, rawEntity);
+  if (errors.length) {
+    /* eslint-disable no-console */
+    console.warn(chalk.yellow(`${toId(entityType, uuid)} is invalid:`));
+    console.warn(`${errors.map(e => JSON.stringify(e, null, 2))}`);
+    console.warn(`-------------------`);
+    /* eslint-enable no-console */
   }
 
   const entity = getModifiedEntity(entityType, rawEntity);

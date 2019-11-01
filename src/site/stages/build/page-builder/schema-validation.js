@@ -1,4 +1,4 @@
-const validator = require('./validator');
+const validate = require('./validator');
 const { getContentModelType } = require('./helpers');
 const page = require('./schemas/page');
 
@@ -12,9 +12,10 @@ const missingSchemas = new Set();
  * @param {String} entityType - The type of entity; corresponds to the
  *                              name of the file.
  * @param {Object} entity - The entity before reference expansion
- * @return {Boolean} - True if the entity is valid
- * @throws {Exception} - An exception with the list of validation
- *                       errors if there are any
+ * @return {Array<Object>} - An array of all the validation errors.
+ *                           Empty if none are found. This may
+ *                           actually only find the first validation
+ *                           error, not all errors.
  */
 const validateEntity = (entityType, entity) => {
   // Find the validation object
@@ -30,10 +31,10 @@ const validateEntity = (entityType, entity) => {
       console.warn(`Missing schema for ${contentModelType}`);
     }
     // Assume it's valid
-    return { valid: true };
+    return [];
   }
 
-  return validator.validate(entity, schema);
+  return validate(entity, schema);
 };
 
 module.exports = validateEntity;
