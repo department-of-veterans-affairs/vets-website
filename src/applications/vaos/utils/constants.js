@@ -89,11 +89,11 @@ export const TYPES_OF_CARE = [
 export const TYPES_OF_SLEEP_CARE = [
   {
     id: '349',
-    name: 'CPAP',
+    name: 'Continuous Positive Airway Pressure (CPAP)',
   },
   {
     id: '143',
-    name: 'Home sleep study',
+    name: 'Sleep medicine and home sleep testing',
   },
 ];
 
