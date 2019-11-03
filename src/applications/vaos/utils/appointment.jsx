@@ -112,10 +112,6 @@ export function getAppointmentLocation(appt) {
   if (isCommunityCare(appt)) {
     return (
       <>
-        <span className="vads-u-font-weight--bold">
-          {appt.providerPractice}
-        </span>
-        <br />
         {appt.address.street}
         <br />
         {appt.address.city}, {appt.address.state} {appt.address.zipCode}
@@ -151,7 +147,7 @@ export function getAppointmentDateTime(appt) {
   }
 
   return `${parsedDate.format('MMMM D, YYYY')} at ${parsedDate.format(
-    'hh:mm a zz',
+    'h:mm a zz',
   )}`;
 }
 
