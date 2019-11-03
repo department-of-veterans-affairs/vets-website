@@ -28,7 +28,7 @@ export default function ConfirmedAppointmentListItem({
   return (
     <li className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3">
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
-        <div className="vads-u-flex--1">
+        <div className="vaos-appts__status vads-u-flex--1">
           {canceled ? (
             <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />
           ) : (
