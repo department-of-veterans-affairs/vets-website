@@ -2,78 +2,217 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
+import { FETCH_STATUS } from '../../utils/constants';
 
-import { AppointmentListsPage } from '../../containers/AppointmentListsPage';
+import { AppointmentsPage } from '../../containers/AppointmentsPage';
 
-describe('VAOS <AppointmentListsPage>', () => {
-  it('should render a loading indicator', () => {
+describe('VAOS <AppointmentsPage>', () => {
+  it('should fetch future appointments', () => {
     const defaultProps = {
       appointments: {
-        pendingLoading: true,
-        confirmedLoading: true,
-        pastLoading: true,
+        future: [],
+        futureStatus: FETCH_STATUS.loading,
       },
     };
 
-    const fetchConfirmedAppointments = sinon.spy();
-    const fetchPendingAppointments = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
 
     const tree = shallow(
-      <AppointmentListsPage
-        fetchConfirmedAppointments={fetchConfirmedAppointments}
-        fetchPendingAppointments={fetchPendingAppointments}
+      <AppointmentsPage
+        fetchFutureAppointments={fetchFutureAppointments}
         {...defaultProps}
       />,
     );
-    expect(fetchConfirmedAppointments.called).to.be.true;
-    expect(fetchPendingAppointments.called).to.be.true;
+    expect(fetchFutureAppointments.called).to.be.true;
+    expect(tree.find('LoadingIndicator').length).to.equal(1);
     tree.unmount();
   });
 
-  it('should render 3 appointments types and badge counts for each', () => {
-    const defaultProps = {
-      appointments: {
-        pending: [
-          {
-            id: 1,
+  it('should render 3 appointments', () => {
+    const appointments = {
+      futureStatus: FETCH_STATUS.succeeded,
+      future: [
+        {
+          startDate: '2019-12-11T15:00:00Z',
+          clinicId: '455',
+          facilityId: '983',
+          patientIcn: '1012845331V153043',
+          vdsAppointments: [
+            {
+              appointmentLength: '60',
+              appointmentTime: '2019-12-11T15:00:00Z',
+              clinic: {
+                name: 'CASSIDY PC',
+                askForCheckIn: false,
+                facilityCode: '983',
+              },
+              patientId: '7216691',
+              type: 'REGULAR',
+              currentStatus: 'NO ACTION TAKEN/TODAY',
+            },
+          ],
+        },
+        {
+          appointmentRequestId: '8a4885896a22f88f016a2c8834b1005d',
+          patientIdentifier: {
+            uniqueId: '1012845331V153043',
+            assigningAuthority: 'ICN',
           },
-          { id: 2 },
-        ],
-        pendingLoading: false,
-        confirmed: [
-          {
-            id: 1,
+          distanceEligibleConfirmed: true,
+          name: {
+            firstName: '',
+            lastName: '',
           },
-        ],
-        confirmedLoading: false,
-        past: [],
-        pastLoading: false,
-      },
+          providerPractice: 'Atlantic Medical Care',
+          providerPhone: '(407) 555-1212',
+          address: {
+            street: '123 Main Street',
+            city: 'Orlando',
+            state: 'FL',
+            zipCode: '32826',
+          },
+          instructionsToVeteran:
+            'Please arrive 15 minutes ahead of appointment.',
+          appointmentTime: '11/25/2019 13:30:00',
+          timeZone: '-04:00 EDT',
+        },
+        {
+          dataIdentifier: {
+            uniqueId: '8a48912a6c2409b9016c9a9afff101ee',
+            systemId: 'var',
+          },
+          patientIdentifier: {
+            uniqueId: '1012845331V153043',
+            assigningAuthority: 'ICN',
+          },
+          surrogateIdentifier: {},
+          lastUpdatedDate: '12/16/2019 13:14:16',
+          optionDate1: '11/01/2019',
+          optionTime1: 'AM',
+          optionDate2: 'No Date Selected',
+          optionTime2: 'No Time Selected',
+          optionDate3: 'No Date Selected',
+          optionTime3: 'No Time Selected',
+          status: 'Cancelled',
+          appointmentType: 'Outpatient Mental Health',
+          visitType: 'Office Visit',
+          facility: {
+            name: 'CHYSHR-Cheyenne VA Medical Center',
+            facilityCode: '983',
+            state: 'WY',
+            city: 'Cheyenne',
+            parentSiteCode: '983',
+            objectType: 'Facility',
+            link: [],
+          },
+          email: 'samatha.girla@va.gov',
+          textMessagingAllowed: false,
+          phoneNumber: '(703) 652-0000',
+          purposeOfVisit: 'New Issue',
+          providerId: '0',
+          secondRequest: false,
+          secondRequestSubmitted: false,
+          patient: {
+            displayName: 'MORRISON, JUDY',
+            firstName: 'JUDY',
+            lastName: 'MORRISON',
+            dateOfBirth: 'Apr 01, 1953',
+            patientIdentifier: {
+              uniqueId: '1259897978',
+            },
+            ssn: '796061976',
+            inpatient: false,
+            textMessagingAllowed: false,
+            id: '1259897978',
+            objectType: 'Patient',
+            link: [],
+          },
+          bestTimetoCall: ['Morning'],
+          appointmentRequestDetailCode: [
+            {
+              appointmentRequestDetailCodeId:
+                '8a48e78f6c8bfe02016c9bda173c005c',
+              createdDate: '12/16/2019 13:14:16',
+              detailCode: {
+                code: 'DETCODE22',
+                providerMessage: 'Cancelled - Cancelled at Veteran Request',
+                veteranMessage:
+                  'Your appointment request has been cancelled at your request.',
+                objectType: 'VARDetailCode',
+                link: [],
+              },
+              userId: '1013004612',
+              objectType: 'VARAppointmentRequestDetailCode',
+              link: [],
+            },
+          ],
+          hasVeteranNewMessage: true,
+          hasProviderNewMessage: false,
+          providerSeenAppointmentRequest: true,
+          requestedPhoneCall: false,
+          typeOfCareId: '502',
+          friendlyLocationName: 'CHYSHR-Cheyenne VA Medical Center',
+          patientId: '1259897978',
+          appointmentRequestId: '8a48912a6c2409b9016c9a9afff101ee',
+          date: '2019-08-16T07:25:44.000+0000',
+          assigningAuthority: 'ICN',
+          uniqueId: '8a48912a6c2409b9016c9a9afff101ee',
+          systemId: 'var',
+          objectType: 'VARAppointmentRequest',
+          selfUri:
+            '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c9a9afff101ee',
+          selfLink: {
+            rel: 'self',
+            href:
+              '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c9a9afff101ee',
+            objectType: 'AtomLink',
+          },
+          link: [
+            {
+              rel: 'self',
+              href:
+                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c9a9afff101ee',
+              objectType: 'AtomLink',
+            },
+            {
+              rel: 'related',
+              title: 'appointment-request-messages',
+              href:
+                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c9a9afff101ee/messages',
+              objectType: 'AtomLink',
+            },
+            {
+              rel: 'related',
+              title: 'appointment-request-new-message-flag',
+              href:
+                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c9a9afff101ee/messages/read',
+              objectType: 'AtomLink',
+            },
+            {
+              rel: 'related',
+              title: 'appointment-request-provider-seen-flag',
+              href:
+                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c9a9afff101ee/appointment/provider-read',
+              objectType: 'AtomLink',
+            },
+          ],
+          createdDate: '12/16/2019 07:25:44',
+        },
+      ],
     };
 
-    const fetchConfirmedAppointments = sinon.spy();
-    const fetchPendingAppointments = sinon.spy();
+    const fetchFutureAppointments = sinon.spy();
 
     const tree = shallow(
-      <AppointmentListsPage
-        fetchConfirmedAppointments={fetchConfirmedAppointments}
-        fetchPendingAppointments={fetchPendingAppointments}
-        {...defaultProps}
+      <AppointmentsPage
+        fetchFutureAppointments={fetchFutureAppointments}
+        appointments={appointments}
       />,
     );
 
-    const headers = tree.find('h2.vads-u-font-size--lg');
-    expect(headers.length).to.equal(3);
-    expect(headers.at(0).text()).to.have.string('Confirmed appointments');
-    expect(headers.at(1).text()).to.have.string('Pending appointments');
-    expect(headers.at(2).text()).to.have.string('Appointment history');
-
-    const badges = tree.find('span.vaos-appt-list__badge');
-    expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(badges.length).to.equal(2);
-    expect(badges.at(0).text()).to.have.string('1');
-    expect(badges.at(1).text()).to.have.string('2');
-
+    expect(tree.find('ConfirmedAppointmentListItem').length).to.equal(2);
+    expect(tree.find('AppointmentRequestListItem').length).to.equal(1);
+    expect(tree.find('.usa-button').length).to.equal(1);
     tree.unmount();
   });
 });
