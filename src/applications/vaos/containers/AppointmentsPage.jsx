@@ -32,7 +32,7 @@ export class AppointmentsPage extends Component {
         </div>
       );
     } else if (hasAppointments) {
-      content = future?.map((appt, index) => {
+      content = future.map((appt, index) => {
         const type = getAppointmentType(appt);
 
         switch (type) {
