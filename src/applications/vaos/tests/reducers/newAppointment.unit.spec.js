@@ -5,8 +5,6 @@ import {
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
-  FORM_FETCH_USER_SYSTEMS,
-  FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -100,28 +98,6 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.pageChangeInProgress).to.be.false;
-  });
-
-  describe('fetch user systems', () => {
-    it('should set loadingSystems to true', () => {
-      const action = {
-        type: FORM_FETCH_USER_SYSTEMS,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.loadingSystems).to.be.true;
-    });
-
-    it('should set loadingSystems to false when complete', () => {
-      const action = {
-        type: FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.loadingSystems).to.be.false;
-    });
   });
 
   describe('open facility page reducer', () => {

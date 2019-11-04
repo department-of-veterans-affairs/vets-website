@@ -18,8 +18,6 @@ import {
   FORM_PAGE_OPENED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
-  FORM_FETCH_USER_SYSTEMS,
-  FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -156,19 +154,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: false,
-      };
-    }
-    case FORM_FETCH_USER_SYSTEMS: {
-      return {
-        ...state,
-        loadingSystems: true,
-      };
-    }
-    case FORM_FETCH_USER_SYSTEMS_SUCCEEDED: {
-      return {
-        ...state,
-        systems: action.systems,
-        loadingSystems: false,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {

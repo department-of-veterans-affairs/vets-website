@@ -15,11 +15,6 @@ export const FORM_PAGE_CHANGE_STARTED =
   'newAppointment/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
-export const FORM_FETCH_USER_SYSTEMS = 'newAppointment/FORM_FETCH_USER_SYSTEMS';
-export const FORM_FETCH_USER_SYSTEMS_SUCCEEDED =
-  'newAppointment/FORM_FETCH_USER_SYSTEMS_SUCCEEDED';
-export const FORM_FETCH_USER_SYSTEMS_FAILED =
-  'newAppointment/FORM_FETCH_USER_SYSTEMS_FAILED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
@@ -66,32 +61,6 @@ export function updateHasCCEnabledSystems(hasCCEnabledSystems) {
   };
 }
 
-export function getUserSystems() {
-  return async dispatch => {
-    let systems;
-
-    dispatch({
-      type: FORM_FETCH_USER_SYSTEMS,
-      systems,
-    });
-
-    try {
-      const userSystemIds = await getSystemIdentifiers();
-      systems = await getSystemDetails(userSystemIds);
-
-      return dispatch({
-        type: FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
-        systems,
-      });
-    } catch (error) {
-      return dispatch({
-        type: FORM_FETCH_USER_SYSTEMS_FAILED,
-        error,
-      });
-    }
-  };
-}
-
 export function updateFacilityType(facilityType) {
   return {
     type: FORM_UPDATE_FACILITY_TYPE,
@@ -109,8 +78,8 @@ export function openFacilityPage(page, uiSchema, schema) {
     // If we have the VA systems in our state, we don't need to
     // fetch them again
     if (!systems) {
-      await dispatch(getUserSystems());
-      systems = getState().newAppointment.systems;
+      const userSystemIds = await getSystemIdentifiers();
+      systems = await getSystemDetails(userSystemIds);
     }
     const canShowFacilities =
       newAppointment.data.vaSystem || systems?.length === 1;

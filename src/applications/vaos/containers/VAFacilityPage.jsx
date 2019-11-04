@@ -6,6 +6,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 import {
   openFacilityPage,
@@ -83,6 +84,7 @@ const title = (
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
+    scrollAndFocus();
     this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
   }
 

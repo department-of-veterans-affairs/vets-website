@@ -60,13 +60,13 @@ export default {
         try {
           // Check if user registered systems support community care...
           const userSystemIds = await getSystemIdentifiers();
-          const communityCareSites = await getSitesSupportingVAR();
-          const communityCareSite = communityCareSites.find(site =>
-            userSystemIds.find(userSystemId => userSystemId === site._id),
+          const ccSites = await getSitesSupportingVAR();
+          const userHasCCEnabledSystems = ccSites.some(site =>
+            userSystemIds.some(userSystemId => userSystemId === site._id),
           );
 
           // Reroute to VA facility page if none of the user's registered systems support community care.
-          if (communityCareSite === undefined) {
+          if (!userHasCCEnabledSystems) {
             dispatch(updateFacilityType('vaFacility'));
             dispatch(updateHasCCEnabledSystems(false));
           } else {
