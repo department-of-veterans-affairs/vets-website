@@ -39,38 +39,34 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1 tabIndex={-1}>{it.name}</h1>
-          <div>
-            {it.schoolClosing && (
-              <AlertBox
-                content={
-                  <p>
-                    Are you enrolled in this school?{' '}
-                    <a
-                      href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Find out if you qualify to have your benefits restored.
-                    </a>
-                  </p>
-                }
-                headline="This school is closing soon"
-                status="warning"
-              />
-            )}
-          </div>
+          <AlertBox
+            content={
+              <p>
+                Are you enrolled in this school?{' '}
+                <a
+                  href="https://www.benefits.va.gov/GIBILL/FGIB/Restoration.asp"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Find out if you qualify to have your benefits restored.
+                </a>
+              </p>
+            }
+            headline="This school is closing soon"
+            isVisible={!!it.schoolClosing}
+            status="warning"
+          />
           <div className="caution-flag">
-            {it.cautionFlag && (
-              <AlertBox
-                content={
-                  <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
-                    View cautionary information about this school
-                  </a>
-                }
-                headline="This school has cautionary warnings"
-                status="warning"
-              />
-            )}
+            <AlertBox
+              content={
+                <a href="#viewWarnings" onClick={this.props.onViewWarnings}>
+                  View cautionary information about this school
+                </a>
+              }
+              headline="This school has cautionary warnings"
+              isVisible={!!it.cautionFlag}
+              status="warning"
+            />
           </div>
           <div className="column">
             <p>

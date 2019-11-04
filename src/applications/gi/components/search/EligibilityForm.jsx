@@ -39,7 +39,7 @@ export class EligibilityForm extends React.Component {
 
   render() {
     return (
-      <div className="eligibility-form" role="dialog">
+      <div className="eligibility-form">
         <h2>Your eligibility</h2>
         <Dropdown
           label="What is your military status?"
