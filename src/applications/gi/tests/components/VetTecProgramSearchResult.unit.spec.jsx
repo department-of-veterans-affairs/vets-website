@@ -18,7 +18,9 @@ const defaultProps = {
     programType: 'NCD',
     state: 'IL',
     tuitionAmount: 10000,
-    vaBah: 1998,
+  },
+  constants: {
+    AVGDODBAH: 1000,
   },
 };
 
@@ -44,29 +46,18 @@ describe('<VetTecProgramSearchResult>', () => {
       formatCurrency(defaultProps.result.tuitionAmount),
     );
     expect(wrapper.find('.programHousingAllowance').text()).to.eq(
-      formatCurrency(defaultProps.result.dodBah),
+      `${formatCurrency(
+        defaultProps.constants.AVGDODBAH / 2,
+      )} - ${formatCurrency(defaultProps.result.dodBah)}`,
     );
     expect(wrapper.find('.info-flag').text()).to.eq('2 weeks');
     expect(wrapper.find('.preferred-flag')).to.have.lengthOf(0);
     wrapper.unmount();
   });
 
-  it('should display lowest housing allowance provider', () => {
-    const props = {
-      result: {
-        ...defaultProps.result,
-        vaBah: 500,
-      },
-    };
-    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
-    expect(wrapper.find('.programHousingAllowance').text()).to.eq(
-      formatCurrency(500),
-    );
-    wrapper.unmount();
-  });
-
   it('should display preferred provider', () => {
     const props = {
+      ...defaultProps,
       result: {
         ...defaultProps.result,
         preferredProvider: true,
