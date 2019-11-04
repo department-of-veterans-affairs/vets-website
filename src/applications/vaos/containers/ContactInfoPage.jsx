@@ -64,19 +64,19 @@ const uiSchema = {
   bestTimeToCall: {
     'ui:title': 'Best times for us to call you',
     morning: {
-      'ui:title': 'Morning (8 a.m. to noon)',
+      'ui:title': 'Morning (8 a.m. – noon)',
       'ui:options': {
         widgetClassNames: 'vaos-form__checkbox',
       },
     },
     afternoon: {
-      'ui:title': 'Afternoon (noon - 4 p.m.)',
+      'ui:title': 'Afternoon (noon – 4 p.m.)',
       'ui:options': {
         widgetClassNames: 'vaos-form__checkbox',
       },
     },
     evening: {
-      'ui:title': 'Evening (4 p.m. to 8 p.m.)',
+      'ui:title': 'Evening (4 p.m. – 8 p.m.)',
       'ui:options': {
         widgetClassNames: 'vaos-form__checkbox',
       },
