@@ -41,5 +41,5 @@ module.exports = {
       type: 'object',
     },
   },
-  required: getFilter('page'),
+  required: getFilter('node-page'),
 };
