@@ -60,10 +60,6 @@ export default {
       } else if (isCommunityCare(state)) {
         try {
           // Check if user registered systems support comminity care...
-          // let systems = newAppointment.systems;
-          // if (!systems) {
-          //   systems = (await dispatch(getUserSystems())).systems;
-          // }
           const communityCareSites = await getSitesSupportingVAR();
           const communityCareSite = communityCareSites.find(site =>
             userSystemIds.find(userSystemId => userSystemId === site._id),
