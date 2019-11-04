@@ -15,6 +15,151 @@ export const VetTecContactInformation = ({ institution }) => {
     SCO => SCO.priority === 'SECONDARY',
   );
 
+  const renderPhysicalAddress = () => (
+    <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--3">
+        <h4 className="contact-heading">Physical address</h4>
+      </div>
+      <div className="vads-l-col--9">
+        <div>
+          {institution.physicalAddress1 && (
+            <div>{institution.physicalAddress1}</div>
+          )}
+          {institution.physicalAddress2 && (
+            <div>{institution.physicalAddress2}</div>
+          )}
+          {institution.physicalAddress3 && (
+            <div>{institution.physicalAddress3}</div>
+          )}
+          <div>
+            {institution.physicalCity}, {institution.physicalState}{' '}
+            {institution.physicalZip}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderMailingAddress = () => (
+    <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--3">
+        <h4 className="contact-heading">Mailing address</h4>
+      </div>
+      <div className="vads-l-col--9 ">
+        <div>
+          {institution.address1 && <div>{institution.address1}</div>}
+          {institution.address2 && <div>{institution.address2}</div>}
+          {institution.address3 && <div>{institution.address3}</div>}
+          <div>
+            {institution.city}, {institution.state} {institution.zip}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderProviderEmail = () => (
+    <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--3">
+        <h4 className="contact-heading">Email address</h4>
+      </div>
+      <div className="vads-l-col--9 ">
+        <div>
+          <a href={`mailto:${firstProgram.providerEmailAddress}`}>
+            {firstProgram.providerEmailAddress}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderProviderPhone = () => (
+    <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--3">
+        <h4 className="contact-heading">Phone number</h4>
+      </div>
+      <div className="vads-l-col--9 ">
+        <div>
+          <a
+            href={`tel:+1${`${phoneInfo(
+              firstProgram.phoneAreaCode,
+              firstProgram.phoneNumber,
+            )}`}`}
+          >
+            {phoneInfo(firstProgram.phoneAreaCode, firstProgram.phoneNumber)}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSCOHeader = () =>
+    institution.versionedSchoolCertifyingOfficials &&
+    institution.versionedSchoolCertifyingOfficials.length > 0 && (
+      <h3>School certifying officials</h3>
+    );
+
+  const renderPrimarySCOs = () =>
+    primarySCOs &&
+    primarySCOs.length > 0 && (
+      <div className="vads-l-row vads-u-margin-y--4">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--3">
+          <h4 className="contact-heading">Primary</h4>
+        </div>
+        <div className="vads-l-col--9">
+          <div className="vads-l-grid-container--full">
+            <div className="vads-l-row">
+              {primarySCOs.map(sco => VetTecScoContact(sco))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+  const renderSecondarySCOs = () =>
+    secondarySCOs &&
+    secondarySCOs.length > 0 && (
+      <div className="vads-l-row vads-u-margin-y--4">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--3">
+          <h4 className="contact-heading">Secondary</h4>
+        </div>
+        <div className="vads-l-col--9">
+          <div className="vads-l-grid-container--full">
+            <div className="vads-l-row">
+              {secondarySCOs.map(sco => VetTecScoContact(sco))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+  const renderSCOContactInfoSection = () => (
+    <div>
+      <div>{renderSCOHeader()}</div>
+      <div>{renderPrimarySCOs()}</div>
+      <div>{renderSecondarySCOs()}</div>
+    </div>
+  );
+
+  const renderContactDetails = () => (
+    <div>
+      <div>{institution.physicalAddress1 && renderPhysicalAddress()}</div>
+      <div>{institution.address1 && renderMailingAddress()}</div>
+      <div>
+        {firstProgram &&
+          firstProgram.providerEmailAddress &&
+          renderProviderEmail()}
+      </div>
+      <div>
+        {firstProgram &&
+          firstProgram.phoneAreaCode &&
+          firstProgram.phoneNumber &&
+          renderProviderPhone()}
+      </div>
+      <div>{renderSCOContactInfoSection()}</div>
+    </div>
+  );
+
   /* Production flag for 19871 */
   if (environment.isProduction()) {
     return (
@@ -53,124 +198,7 @@ export const VetTecContactInformation = ({ institution }) => {
       </div>
     );
   }
-  return (
-    <div>
-      {institution.physicalAddress1 && (
-        <div className="vads-l-row vads-u-margin-y--4">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-            <h4 className="contact-heading">Physical address</h4>
-          </div>
-          <div className="vads-l-col--9">
-            <div>
-              {institution.physicalAddress1 && (
-                <div>{institution.physicalAddress1}</div>
-              )}
-              {institution.physicalAddress2 && (
-                <div>{institution.physicalAddress2}</div>
-              )}
-              {institution.physicalAddress3 && (
-                <div>{institution.physicalAddress3}</div>
-              )}
-              <div>
-                {institution.physicalCity}, {institution.physicalState}{' '}
-                {institution.physicalZip}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {institution.physicalAddress1 && (
-        <div className="vads-l-row vads-u-margin-y--4">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-            <h4 className="contact-heading">Mailing address</h4>
-          </div>
-          <div className="vads-l-col--9 ">
-            <div>
-              {institution.address1 && <div>{institution.address1}</div>}
-              {institution.address2 && <div>{institution.address2}</div>}
-              {institution.address3 && <div>{institution.address3}</div>}
-              <div>
-                {institution.city}, {institution.state} {institution.zip}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {firstProgram &&
-        firstProgram.providerEmailAddress && (
-          <div className="vads-l-row vads-u-margin-y--4">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-              <h4 className="contact-heading">Email address</h4>
-            </div>
-            <div className="vads-l-col--9 ">
-              <div>
-                <a href={`mailto:${firstProgram.providerEmailAddress}`}>
-                  {firstProgram.providerEmailAddress}
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      {firstProgram &&
-        firstProgram.phoneAreaCode &&
-        firstProgram.phoneNumber && (
-          <div className="vads-l-row vads-u-margin-y--4">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-              <h4 className="contact-heading">Phone number</h4>
-            </div>
-            <div className="vads-l-col--9 ">
-              <div>
-                <a
-                  href={`tel:+1${`${phoneInfo(
-                    firstProgram.phoneAreaCode,
-                    firstProgram.phoneNumber,
-                  )}`}`}
-                >
-                  {phoneInfo(
-                    firstProgram.phoneAreaCode,
-                    firstProgram.phoneNumber,
-                  )}
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      {institution.versionedSchoolCertifyingOfficials &&
-        institution.versionedSchoolCertifyingOfficials.length > 0 && (
-          <h3>School certifying officials</h3>
-        )}
-      {primarySCOs &&
-        primarySCOs.length > 0 && (
-          <div className="vads-l-row vads-u-margin-y--4">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-              <h4 className="contact-heading">Primary</h4>
-            </div>
-            <div className="vads-l-col--9">
-              <div className="vads-l-grid-container--full">
-                <div className="vads-l-row">
-                  {primarySCOs.map(sco => VetTecScoContact(sco))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      {secondarySCOs &&
-        secondarySCOs.length > 0 && (
-          <div className="vads-l-row vads-u-margin-y--4">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-              <h4 className="contact-heading">Secondary</h4>
-            </div>
-            <div className="vads-l-col--9">
-              <div className="vads-l-grid-container--full">
-                <div className="vads-l-row">
-                  {secondarySCOs.map(sco => VetTecScoContact(sco))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-    </div>
-  );
+  return renderContactDetails();
 };
 
 VetTecContactInformation.propTypes = {
