@@ -1,12 +1,14 @@
 import fullSchema from '../20-0996-schema.json';
 
-// import { validateLength } from 'platform/forms/validations';
+import { validateLength } from 'platform/forms/validations';
 
+import { errorMessages } from '../constants';
 import {
+  contestedIssueNameTitle,
   contestedIssueOfficeTitle,
-  // contestedIssueOfficeChoiceAlert,
-  // contestedIssueFollowupDescription,
-  // contestedIssueFollowupEvidenceInfo,
+  contestedIssueOfficeChoiceAlert,
+  contestedIssueFollowupDescription,
+  contestedIssueFollowupEvidenceInfo,
 } from '../content/contestedIssueFollowup';
 
 const {
@@ -16,36 +18,31 @@ const {
 
 const contestedIssueFollowup = {
   uiSchema: {
-    'ui:title': 'test1',
-    veteran: {
-      'ui:title': 'add contested issue note',
-      contestedIssues: {
-        items: {
-          'ui:title': 'Yes',
-          useSameOffice: {
-            'ui:title': contestedIssueOfficeTitle,
-            'ui:widget': 'yesNo',
+    'ui:title': 'Conested issue followup',
+    contestedIssues: {
+      items: {
+        'ui:title': contestedIssueNameTitle,
+        useSameOffice: {
+          'ui:title': contestedIssueOfficeTitle,
+          'ui:widget': 'yesNo',
+        },
+        'view:contestedIssueSameOffice': {
+          'ui:description': contestedIssueOfficeChoiceAlert,
+          'ui:options': {
+            hideIf: (formData, index) =>
+              formData?.contestedIssues?.[index]?.useSameOffice !== false,
           },
-          // 'view:contestedIssueSameOffice': {
-          //   'ui:description': contestedIssueSameOfficeInfo,
-          //   // 'ui:options': {
-          //   //   hideIf: formData => {
-          //   //     const hasSelection = formData.veteran.contestedIssues?.some(
-          //   //       entry => entry['view:selected'],
-          //   //     );
-          //   //     return hasSelection;
-          //   //   },
-          //   // },
-          // },
-          // additionalNote: {
-          //   'ui:title': ' ',
-          //   'ui:description': contestedIssueFollowupDescription,
-          //   'ui:widget': 'textarea',
-          //   'ui:validations': [validateLength(400)],
-          // },
-          // 'view:evidenceInfo': {
-          //   'ui:description': contestedIssueFollowupEvidenceInfo,
-          // },
+        },
+        additionalNote: {
+          'ui:title': ' ',
+          'ui:description': contestedIssueFollowupDescription,
+          'ui:widget': 'textarea',
+          'ui:validations': [
+            validateLength(400, errorMessages.contestedIssueCommentLength),
+          ],
+        },
+        'view:evidenceInfo': {
+          'ui:description': contestedIssueFollowupEvidenceInfo,
         },
       },
     },
@@ -54,25 +51,20 @@ const contestedIssueFollowup = {
   schema: {
     type: 'object',
     properties: {
-      veteran: {
-        type: 'object',
-        properties: {
-          contestedIssues: {
-            type: 'array',
-            items: {
+      contestedIssues: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            useSameOffice,
+            'view:contestedIssueSameOffice': {
               type: 'object',
-              properties: {
-                useSameOffice,
-                'view:contestedIssueSameOffice': {
-                  type: 'object',
-                  properties: {},
-                },
-                additionalNote,
-                'view:evidenceInfo': {
-                  type: 'object',
-                  properties: {},
-                },
-              },
+              properties: {},
+            },
+            additionalNote,
+            'view:evidenceInfo': {
+              type: 'object',
+              properties: {},
             },
           },
         },

@@ -23,6 +23,7 @@ import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
+import contestedIssueFollowup from '../pages/contestedIssueFollowup';
 
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
 
@@ -31,6 +32,7 @@ import informalConference from '../pages/informalConference';
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
+import { hasSelectedIssues } from '../helpers';
 
 const {
   name,
@@ -125,7 +127,17 @@ const formConfig = {
             properties: {},
           },
         },
-        contestedIssueFollowup: {},
+        'view:contestedIssueFollowup': {
+          title: 'issue followup',
+          path: 'contested-issues/:index',
+          depends: () => hasSelectedIssues,
+          showPagePerItem: true,
+          itemFilter: item => item?.['view:selected'],
+          arrayPath: 'contestedIssues',
+          uiSchema: contestedIssueFollowup.uiSchema,
+          schema: contestedIssueFollowup.schema,
+          initialData,
+        },
       },
     },
     informalConference: {

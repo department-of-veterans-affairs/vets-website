@@ -1,6 +1,9 @@
 import React from 'react';
+
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { capitalizeEachWord } from '../../all-claims/utils.jsx';
+import { NULL_CONDITION_STRING } from '../constants';
 
 export const contestedIssueOfficeTitle = (
   <>
@@ -11,18 +14,17 @@ export const contestedIssueOfficeTitle = (
 
 export const contestedIssueOfficeChoiceAlert = () => (
   <AlertBox
-    status="information"
+    status="info"
     className="contested-issues-information"
     headline="We will try to fulfill your request"
     content={
       <>
-        Please note that decisions on certain types of issues are processed at
-        only a single VA office or facility. Accordingly, some issues cannot be
-        reviewed at an office other than the office that decided your issue(s).
-        For a list of these issue types visit
-        <a href="/decision-reviews">VA.gov/decision-reviews</a>.
+        Some issues can only be reviewed at the office that issued your prior
+        decision. And some decisions are only processed at one VA office or
+        facility.
+        <br />
         <p>
-          If we cannot fulfill your request, we will notify you at the time the
+          If we can’t fulfill your request, we will notify you at the time the
           Higher-Level Review decision is made.
         </p>
       </>
@@ -41,12 +43,20 @@ export const contestedIssueFollowupDescription = (
 export const contestedIssueFollowupEvidenceInfo = (
   <AdditionalInfo triggerText="What if I have new and relevant evidence?">
     <p>
-      You can't submit new evidence with a Higher-Level Review. If you want to
-      submit new evidence, you'll need to file a Supplemental Claim or request a
+      You can’t submit new evidence with a Higher-Level Review. If you want to
+      submit new evidence, you’ll need to file a Supplemental Claim or request a
       Board Appeal.
     </p>
     <p>
       <a href="/decision-reviews">Learn more about other review options</a>
     </p>
   </AdditionalInfo>
+);
+
+export const contestedIssueNameTitle = ({ formData }) => (
+  <legend className="schemaform-block-title schemaform-title-underline">
+    {typeof formData.name === 'string'
+      ? capitalizeEachWord(formData.name)
+      : NULL_CONDITION_STRING}
+  </legend>
 );
