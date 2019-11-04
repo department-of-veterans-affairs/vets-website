@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import moment from 'moment';
 import { getVideoVisitLink, isGFEVideoVisit } from '../utils/appointment';
 
@@ -19,6 +20,13 @@ const VideoVisitLink = ({ appointment }) => {
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     const disableVideoLink = diff < -30 || diff > 240;
+    const linkClasses = classNames(
+      'vaos-appts__video-link',
+      'usa-button',
+      'vads-u-margin--0',
+      'vads-u-margin-right--1p5',
+      { 'usa-button-disabled': disableVideoLink },
+    );
 
     return (
       <div className="vaos-appts__video-visit vads-u-display--flex">
@@ -26,9 +34,7 @@ const VideoVisitLink = ({ appointment }) => {
           href={videoLink}
           target="_blank"
           rel="noopener noreferrer"
-          className={`vaos-appts__video-link usa-button${
-            disableVideoLink ? ' usa-button-disabled' : ''
-          } vads-u-margin--0 vads-u-margin-right--1p5`}
+          className={linkClasses}
         >
           Join
         </a>
