@@ -43,7 +43,7 @@ export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 
 export function fetchFutureAppointments() {
   return async (dispatch, getState) => {
-    if (getState().appointments.confirmedStatus === FETCH_STATUS.notStarted) {
+    if (getState().appointments.futureStatus === FETCH_STATUS.notStarted) {
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS,
       });
