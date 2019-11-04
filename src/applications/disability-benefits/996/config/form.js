@@ -24,16 +24,24 @@ import contestedIssues from '../pages/contestedIssues';
 
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
 
+import informalConference from '../pages/informalConference';
+
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
 
 const {
+  name,
+  fullName,
   address,
   phone,
   date,
   effectiveDates,
   ratedDisabilities,
+  informalConferenceChoice,
+  contactRepresentativeChoice,
+  representative,
+  scheduleTimes,
 } = fullSchema.definitions;
 
 const formConfig = {
@@ -55,12 +63,17 @@ const formConfig = {
   title: 'Request a Higher-Level Review',
   subTitle: 'VA Form 20-0996',
   defaultDefinitions: {
+    name,
+    fullName,
     address,
     phone,
     date,
     effectiveDates,
-    veteranDetailsDescription,
     ratedDisabilities,
+    informalConferenceChoice,
+    contactRepresentativeChoice,
+    representative,
+    scheduleTimes,
   },
   preSubmitInfo,
   chapters: {
@@ -112,27 +125,15 @@ const formConfig = {
         // contestedIssueNote: {},
       },
     },
-    requestInformalConference: {
-      title: 'Informal conference',
+    informalConference: {
+      title: 'Request an informal conference',
       pages: {
         requestConference: {
           path: 'request-informal-conference',
           title: 'Request an informal conference',
-          uiSchema: {
-            conference: {
-              'ui:title': 'Would you like to request an Informal Conference?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              conference: {
-                type: 'boolean',
-                default: true,
-              },
-            },
-          },
+          uiSchema: informalConference.uiSchema,
+          schema: informalConference.schema,
+          initialData,
         },
       },
     },

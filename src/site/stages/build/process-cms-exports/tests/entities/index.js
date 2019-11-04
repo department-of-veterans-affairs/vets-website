@@ -26,6 +26,7 @@ module.exports = {
     news_story: require('./node/news_story.json'),
     office: require('./node/office.json'),
     outreach_asset: require('./node/outreach_asset.json'),
+    page: require('./node/page.json'),
     person_profile: require('./node/person_profile.json'),
     press_release: require('./node/press_release.json'),
     regional_health_care_service_des: require('./node/regional_health_care_service_des.json'),
