@@ -61,7 +61,7 @@ export function sortFutureList(a, b) {
     : parseVAorCCDate(b);
 
   if (aDate.isSame(bDate)) {
-    // If same date, requests should show after
+    // If same date, requests should show after confirmed
     if (aIsRequest && !bIsRequest) {
       return 1;
     } else if (bIsRequest && !aIsRequest) {
