@@ -114,7 +114,7 @@ const formConfig = {
           schema: contestedIssuesPage.schema,
           initialData,
         },
-        contestedIssuesNotesStart: {
+        'view:contestedIssueFollowupStart': {
           title: ' ',
           path: 'contested-issues/start',
           uiSchema: {
@@ -125,7 +125,7 @@ const formConfig = {
             properties: {},
           },
         },
-        // contestedIssueFollowup: {},
+        contestedIssueFollowup: {},
       },
     },
     informalConference: {

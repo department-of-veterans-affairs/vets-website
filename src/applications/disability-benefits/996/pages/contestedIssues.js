@@ -11,62 +11,52 @@ import {
 
 import { requireRatedDisability } from '../validations';
 
-const { contestedIssues } = fullSchema.properties.veteran.properties;
+const { contestedIssues } = fullSchema.properties;
 
 const contestedIssuesPage = {
   uiSchema: {
-    veteran: {
-      'ui:title': contestedIssuesTitle,
-      title: {
-        className: 'contested-issues-wrap',
+    'ui:title': contestedIssuesTitle,
+    contestedIssues: {
+      'ui:title': ' ',
+      'ui:description': contestedIssuesDescription,
+      'ui:field': 'StringField',
+      'ui:widget': SelectArrayItemsWidget,
+      'ui:options': {
+        showFieldLabel: 'label',
+        label: disabilityOption,
+        widgetClassNames: 'widget-outline',
+        keepInPageOnReview: true,
       },
-      contestedIssues: {
-        'ui:title': ' ',
-        'ui:description': contestedIssuesDescription,
-        'ui:field': 'StringField',
-        'ui:widget': SelectArrayItemsWidget,
-        'ui:options': {
-          showFieldLabel: 'label',
-          label: disabilityOption,
-          widgetClassNames: 'widget-outline',
-          keepInPageOnReview: true,
-        },
-        'ui:validations': [requireRatedDisability],
-        'ui:required': () => true,
-      },
-      'view:contestedIssuesAlert': {
-        'ui:description': contestedIssuesAlert,
-        'ui:options': {
-          hideIf: formData => {
-            const hasSelection = formData.veteran.contestedIssues?.some(
-              entry => entry['view:selected'],
-            );
-            return hasSelection;
-          },
+      'ui:validations': [requireRatedDisability],
+      'ui:required': () => true,
+    },
+    'view:contestedIssuesAlert': {
+      'ui:description': contestedIssuesAlert,
+      'ui:options': {
+        hideIf: formData => {
+          const hasSelection = formData.contestedIssues?.some(
+            entry => entry['view:selected'],
+          );
+          return hasSelection;
         },
       },
-      'view:disabilitiesExplanation': {
-        'ui:description': disabilitiesExplanation,
-      },
+    },
+    'view:disabilitiesExplanation': {
+      'ui:description': disabilitiesExplanation,
     },
   },
 
   schema: {
     type: 'object',
     properties: {
-      veteran: {
+      contestedIssues,
+      'view:contestedIssuesAlert': {
         type: 'object',
-        properties: {
-          contestedIssues,
-          'view:contestedIssuesAlert': {
-            type: 'object',
-            properties: {},
-          },
-          'view:disabilitiesExplanation': {
-            type: 'object',
-            properties: {},
-          },
-        },
+        properties: {},
+      },
+      'view:disabilitiesExplanation': {
+        type: 'object',
+        properties: {},
       },
     },
   },
