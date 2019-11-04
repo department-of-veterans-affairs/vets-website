@@ -10,6 +10,11 @@ import {
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  CANCEL_APPOINTMENT,
+  CANCEL_APPOINTMENT_CONFIRMED,
+  CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+  CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+  CANCEL_APPOINTMENT_CLOSED,
 } from '../../actions/appointments';
 
 import { FETCH_STATUS } from '../../utils/constants';
@@ -121,5 +126,70 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.pendingStatus).to.equal(FETCH_STATUS.failed);
+  });
+
+  describe('cancel appointment', () => {
+    it('should display modal', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT,
+        appointment: {},
+      };
+      const newState = appointmentsReducer(initialState, action);
+
+      expect(newState.showCancelModal).to.be.true;
+      expect(newState.cancelAppointmentStatus).to.equal(
+        FETCH_STATUS.notStarted,
+      );
+      expect(newState.appointmentToCancel).to.equal(action.appointment);
+    });
+
+    it('should set status to loading', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT_CONFIRMED,
+      };
+      const newState = appointmentsReducer(initialState, action);
+
+      expect(newState.showCancelModal).to.be.true;
+      expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.loading);
+    });
+
+    it('should set status to succeeded and remove appt', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+      };
+      const appt = {};
+      const state = {
+        ...initialState,
+        confirmed: [appt],
+        appointmentToCancel: appt,
+      };
+      const newState = appointmentsReducer(state, action);
+
+      expect(newState.showCancelModal).to.be.true;
+      expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.confirmed.length).to.equal(0);
+    });
+
+    it('should set status to failed', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+      };
+      const newState = appointmentsReducer(initialState, action);
+
+      expect(newState.showCancelModal).to.be.true;
+      expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.failed);
+    });
+
+    it('should close modal', () => {
+      const action = {
+        type: CANCEL_APPOINTMENT_CLOSED,
+      };
+      const newState = appointmentsReducer(initialState, action);
+
+      expect(newState.showCancelModal).to.be.false;
+      expect(newState.cancelAppointmentStatus).to.equal(
+        FETCH_STATUS.notStarted,
+      );
+    });
   });
 });
