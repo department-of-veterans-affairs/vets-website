@@ -204,8 +204,10 @@ class PaymentInformation extends React.Component {
           <p>
             <strong>Note:</strong> If you think you’ve been the victim of bank
             fraud, please call us at{' '}
-            <span className="no-wrap">800-827-1000</span> (TTY:{' '}
-            <span className="no-wrap">800-829-4833</span>
+            <a href="tel:1-800-827-1000" className="no-wrap">
+              800-827-1000
+            </a>{' '}
+            (TTY: <span className="no-wrap">800-829-4833</span>
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
           </p>
 
