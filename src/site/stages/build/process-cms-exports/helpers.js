@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { getFilteredEntity } = require('./filters');
+const { transformEntity } = require('./transform');
 
 /**
  * This assumes the tome-sync output is sibling to the vets-website
@@ -27,23 +28,6 @@ const contentDir = path.join(
  */
 function getContentModelType(entityType, entity) {
   return entity.type ? entity.type[0].target_id : entityType;
-}
-
-/**
- * Takes the entity type and entity contents and returns a new
- * entity with modified data to fit the content model.
- *
- * @param {String} contentModelType - The type of content model.
- * @param {Object} entity - The contents of the entity itself before
- *                          reference expansion and property
- *                          transformation.
- *
- * @return {Object} - The entity with modified properties based on
- *                    the specific content model type.
- */
-function transformEntity(entityType, entity) {
-  // TODO: Perform transformations based on the content model type
-  return entity;
 }
 
 module.exports = {
