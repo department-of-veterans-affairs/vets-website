@@ -9,7 +9,7 @@ export function getAppointmentType(appt) {
   if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.appointmentRequestId) {
-    return APPOINTMENT_TYPES.ccAppointnment;
+    return APPOINTMENT_TYPES.ccAppointment;
   } else if (appt.startDate) {
     return APPOINTMENT_TYPES.vaAppointment;
   }
@@ -92,10 +92,16 @@ export function titleCase(str) {
 }
 
 export function getClinicName(appt) {
-  if (isCommunityCare(appt)) {
-    return appt.providerPractice;
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return appt.providerPractice;
+    case APPOINTMENT_TYPES.request:
+      return appt.friendlyLocationName || appt.facility.name;
+    default:
+      return appt.clinicFriendlyName || appt.vdsAppointments?.[0].clinic?.name;
   }
-  return appt.clinicFriendlyName || appt.vdsAppointments[0]?.clinic?.name;
 }
 
 export function getAppointmentTitle(appt) {
@@ -109,7 +115,13 @@ export function getAppointmentTitle(appt) {
 }
 
 export function getAppointmentLocation(appt) {
-  if (isCommunityCare(appt)) {
+  if (isVideoVisit(appt)) {
+    return 'Video conference';
+  }
+
+  const type = getAppointmentType(appt);
+
+  if (type === APPOINTMENT_TYPES.ccAppointment) {
     return (
       <>
         {appt.address.street}
@@ -117,13 +129,16 @@ export function getAppointmentLocation(appt) {
         {appt.address.city}, {appt.address.state} {appt.address.zipCode}
       </>
     );
-  } else if (isVideoVisit(appt)) {
-    return 'Video conference';
   }
+
+  const facilityId =
+    type === APPOINTMENT_TYPES.request
+      ? appt.facility.facilityCode
+      : appt.facilityId;
 
   return (
     <a
-      href={`/find-locations/facility/vha_${getStagingId(appt.facilityId)}`}
+      href={`/find-locations/facility/vha_${getStagingId(facilityId)}`}
       rel="noopener noreferrer"
       target="_blank"
     >

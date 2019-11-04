@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   titleCase,
+  getClinicName,
+  getAppointmentLocation,
   getRequestDateOptions,
   getRequestTimeToCall,
 } from '../utils/appointment';
@@ -68,13 +70,10 @@ export default class AppointmentRequestListItem extends React.Component {
             </span>
           </div>
           <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-            <span className="vads-u-font-weight--bold">
-              <dt>
-                {appointment.friendlyLocationName || appointment.facility.name}
-              </dt>
-              <dd />
-            </span>
-            {appointment.facility.city}, {appointment.facility.state}
+            <dt className="vads-u-font-weight--bold">
+              {getClinicName(appointment)}
+            </dt>
+            <dd>{getAppointmentLocation(appointment)}</dd>
           </div>
           <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
           {showMore ? (

@@ -40,7 +40,7 @@ export class AppointmentsPage extends Component {
             return (
               <AppointmentRequestListItem key={index} appointment={appt} />
             );
-          case APPOINTMENT_TYPES.ccAppointnment:
+          case APPOINTMENT_TYPES.ccAppointment:
           case APPOINTMENT_TYPES.vaAppointment:
             return (
               <ConfirmedAppointmentListItem

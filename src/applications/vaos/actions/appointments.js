@@ -57,10 +57,10 @@ export function fetchFutureAppointments() {
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
         });
-      } catch (e) {
+      } catch (error) {
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_FAILED,
-          data: e,
+          error,
         });
       }
     }
