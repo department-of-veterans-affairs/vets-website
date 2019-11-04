@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const get = require('lodash/get');
 
 /**
  * This assumes the tome-sync output is sibling to the vets-website
@@ -22,7 +23,11 @@ const contentDir = path.join(
  * @return {String} - The content model type like 'node-page'
  */
 function getContentModelType(entity) {
-  return [entity.baseType, entity.type && entity.type[0].target_id].join('-');
+  const subType =
+    get(entity, 'type[0].target_id') ||
+    get(entity, 'bundle[0].target_id') ||
+    get(entity, 'vid[0].target_id');
+  return [entity.baseType, subType].filter(x => x).join('-');
 }
 
 module.exports = {
