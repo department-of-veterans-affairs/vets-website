@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
+import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 import {
   routeToPageInFlow,
@@ -24,6 +29,7 @@ import {
   REASON_MAX_CHAR_DEFAULT,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
+import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 
 const testFlow = {
@@ -124,6 +130,15 @@ describe('VAOS newAppointment actions', () => {
         eligibility: {},
       },
     };
+
+    before(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+    });
+
+    after(() => {
+      resetFetch();
+    });
 
     it('should fetch systems', async () => {
       const dispatch = sinon.spy();
