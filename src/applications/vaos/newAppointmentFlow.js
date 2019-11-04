@@ -7,11 +7,11 @@ import {
 import { TYPES_OF_CARE } from './utils/constants';
 import {
   getCommunityCare,
+  getSystemIdentifiers,
   getPastAppointments,
   getSitesSupportingVAR,
 } from './api';
 import {
-  getUserSystems,
   updateFacilityType,
   updateHasCCEnabledSystems,
 } from './actions/newAppointment';
@@ -52,21 +52,21 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      const newAppointment = getNewAppointment(state);
+      // const newAppointment = getNewAppointment(state);
       let nextState = 'vaFacility';
-
+      const userSystemIds = await getSystemIdentifiers();
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
       } else if (isCommunityCare(state)) {
         try {
           // Check if user registered systems support comminity care...
-          let systems = newAppointment.systems;
-          if (!systems) {
-            systems = (await dispatch(getUserSystems())).systems;
-          }
+          // let systems = newAppointment.systems;
+          // if (!systems) {
+          //   systems = (await dispatch(getUserSystems())).systems;
+          // }
           const communityCareSites = await getSitesSupportingVAR();
           const communityCareSite = communityCareSites.find(site =>
-            systems.find(userSite => userSite.institutionCode === site._id),
+            userSystemIds.find(userSystemId => userSystemId === site._id),
           );
           // Reroute to VA facility page if user registered systems don't support community care.
           if (communityCareSite === undefined) {

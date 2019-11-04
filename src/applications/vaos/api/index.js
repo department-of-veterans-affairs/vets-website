@@ -66,13 +66,24 @@ export const getPastAppointments = (() => {
 })();
 
 // GET /vaos/systems
-export function getSystemIdentifiers() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(mockSystems);
-    }, TEST_TIMEOUT || 600);
-  });
-}
+export const getSystemIdentifiers = (() => {
+  let promise = null;
+
+  return () => {
+    if (!promise) {
+      promise = new Promise(resolve => {
+        setTimeout(() => {
+          resolve(
+            mockSystems
+              .filter(id => id.assigningAuthority.startsWith('dfn'))
+              .map(id => id.assigningCode),
+          );
+        }, TEST_TIMEOUT || 600);
+      });
+    }
+    return promise;
+  };
+})();
 
 // GET /vaos/facilities
 // eslint-disable-next-line no-unused-vars

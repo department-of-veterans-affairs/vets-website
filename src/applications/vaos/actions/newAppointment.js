@@ -76,11 +76,8 @@ export function getUserSystems() {
     });
 
     try {
-      const identifiers = await getSystemIdentifiers();
-      const systemIds = identifiers
-        .filter(id => id.assigningAuthority.startsWith('dfn'))
-        .map(id => id.assigningCode);
-      systems = await getSystemDetails(systemIds);
+      const userSystemIds = await getSystemIdentifiers();
+      systems = await getSystemDetails(userSystemIds);
 
       return dispatch({
         type: FORM_FETCH_USER_SYSTEMS_SUCCEEDED,
