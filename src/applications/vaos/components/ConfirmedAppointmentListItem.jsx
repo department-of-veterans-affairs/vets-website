@@ -25,6 +25,11 @@ export default function ConfirmedAppointmentListItem({
     );
   }
 
+  const allowCancel =
+    !canceled &&
+    type !== APPOINTMENT_TYPES.ccAppointment &&
+    !isVideoVisit(appointment);
+
   return (
     <li className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3">
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
@@ -39,7 +44,7 @@ export default function ConfirmedAppointmentListItem({
           </span>
         </div>
 
-        {!canceled && (
+        {allowCancel && (
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"
