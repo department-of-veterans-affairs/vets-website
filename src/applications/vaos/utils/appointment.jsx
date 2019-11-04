@@ -48,6 +48,32 @@ export function filterFutureRequests(request) {
   );
 }
 
+export function sortFutureList(a, b) {
+  const aIsRequest = getAppointmentType(a) === APPOINTMENT_TYPES.request;
+  const bIsRequest = getAppointmentType(b) === APPOINTMENT_TYPES.request;
+
+  const aDate = aIsRequest
+    ? parseRequestDate(a.optionDate1)
+    : parseVAorCCDate(a);
+
+  const bDate = bIsRequest
+    ? parseRequestDate(b.optionDate1)
+    : parseVAorCCDate(b);
+
+  if (aDate.isSame(bDate)) {
+    // If same date, requests should show after
+    if (aIsRequest && !bIsRequest) {
+      return 1;
+    } else if (bIsRequest && !aIsRequest) {
+      return -1;
+    }
+
+    return 0;
+  }
+
+  return aDate.isBefore(bDate) ? -1 : 1;
+}
+
 export function getAppointmentId(appt) {
   if (appt.appointmentRequestId) {
     return appt.appointmentRequestId;
@@ -135,7 +161,7 @@ export function getAppointmentLocation(appt) {
     type === APPOINTMENT_TYPES.request
       ? appt.facility.facilityCode
       : appt.facilityId;
-  debugger;
+
   return (
     <a
       href={`/find-locations/facility/vha_${getStagingId(facilityId)}`}

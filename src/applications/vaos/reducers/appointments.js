@@ -19,17 +19,12 @@ import {
 } from '../actions/appointments';
 
 import {
-  getAppointmentType,
   parseVAorCCDate,
-  parseRequestDate,
   filterFutureConfirmedAppointments,
   filterFutureRequests,
+  sortFutureList,
 } from '../utils/appointment';
-import {
-  FETCH_STATUS,
-  CANCELLED_APPOINTMENT_SET,
-  APPOINTMENT_TYPES,
-} from '../utils/constants';
+import { FETCH_STATUS, CANCELLED_APPOINTMENT_SET } from '../utils/constants';
 
 const initialState = {
   future: null,
@@ -64,19 +59,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...requests.filter(filterFutureRequests),
       ];
 
-      futureAppointments.sort((a, b) => {
-        const aDate =
-          getAppointmentType(a) === APPOINTMENT_TYPES.request
-            ? parseRequestDate(a.optionDate1)
-            : parseVAorCCDate(a);
-
-        const bDate =
-          getAppointmentType(b) === APPOINTMENT_TYPES.request
-            ? parseRequestDate(b.optionDate1)
-            : parseVAorCCDate(b);
-
-        return aDate.isBefore(bDate) ? -1 : 1;
-      });
+      futureAppointments.sort(sortFutureList);
 
       return {
         ...state,
