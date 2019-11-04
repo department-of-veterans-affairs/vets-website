@@ -34,3 +34,34 @@ export const requireRatedDisability = (err, fieldData /* , formData */) => {
     err.addError('');
   }
 };
+
+const conferenceTimes = {
+  min: 1,
+  max: 2,
+};
+
+export const checkConferenceTimes = (errors, values = {}, formData) => {
+  let result = '';
+  const times =
+    Object.keys(values || {}).reduce((acc, time) => {
+      if (values[time]) {
+        acc.push(time);
+      }
+      return acc;
+    }, []) || [];
+
+  if (formData?.veteran?.informalConferenceChoice === true && errors) {
+    // validation
+    if (times.length < conferenceTimes.min) {
+      errors.addError(errorMessages.informalConferenceTimesMin);
+    } else if (times.length > conferenceTimes.max) {
+      errors.addError(errorMessages.informalConferenceTimesMax);
+    }
+  } else {
+    // visibility
+    result =
+      times.length >= conferenceTimes.min &&
+      times.length <= conferenceTimes.max;
+  }
+  return result;
+};

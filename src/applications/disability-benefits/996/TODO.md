@@ -80,4 +80,5 @@
 - [ ] Clear production flag in `config/form.js`.
 - [ ] Delete this to-do file.
 - [ ] Add e2e tests (only executes on production pages?)
-
+- [ ] Notify `#vsp-contact-center-support` about release and go over
+      troubleshooting any issues
