@@ -7,6 +7,7 @@ import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
 import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
 import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
 import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
+import VetTecPrograms from '../../components/vet-tec/VetTecPrograms';
 
 const institution = {
   facilityCode: '2V000105',
@@ -116,6 +117,22 @@ describe('<VetTecHeadingSummary>', () => {
     };
 
     const wrapper = shallow(<VetTecHeadingSummary {...defaultProps} />);
+    const vdom = wrapper.html();
+    expect(vdom).to.not.be.undefined;
+    wrapper.unmount();
+  });
+});
+
+describe('<VetTecPrograms>', () => {
+  const onShowModal = () => {};
+  it('should render', () => {
+    const defaultProps = {
+      store: createCommonStore(),
+      institution,
+      onShowModal,
+    };
+
+    const wrapper = shallow(<VetTecPrograms {...defaultProps} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
     wrapper.unmount();
