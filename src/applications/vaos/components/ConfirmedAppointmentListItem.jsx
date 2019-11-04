@@ -39,7 +39,7 @@ export default function ConfirmedAppointmentListItem({
           </span>
         </div>
 
-        {canceled && !!appointment.vdsAppointments ? null : (
+        {!canceled && (
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"

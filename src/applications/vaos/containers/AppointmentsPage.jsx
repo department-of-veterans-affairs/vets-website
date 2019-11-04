@@ -7,9 +7,16 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
-import { fetchFutureAppointments } from '../actions/appointments';
+import {
+  fetchFutureAppointments,
+  cancelAppointment,
+  confirmCancelAppointment,
+  closeCancelAppointment,
+} from '../actions/appointments';
 import { getAppointmentType } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import CancelAppointmentModal from '../components/CancelAppointmentModal';
+import { getCancelInfo } from '../utils/selectors';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
@@ -18,7 +25,8 @@ export class AppointmentsPage extends Component {
   }
 
   render() {
-    const { future, futureStatus } = this.props.appointments;
+    const { appointments, cancelInfo } = this.props;
+    const { future, futureStatus } = appointments;
 
     let content;
 
@@ -38,7 +46,11 @@ export class AppointmentsPage extends Component {
         switch (type) {
           case APPOINTMENT_TYPES.request:
             return (
-              <AppointmentRequestListItem key={index} appointment={appt} />
+              <AppointmentRequestListItem
+                key={index}
+                appointment={appt}
+                cancelAppointment={this.props.cancelAppointment}
+              />
             );
           case APPOINTMENT_TYPES.ccAppointment:
           case APPOINTMENT_TYPES.vaAppointment:
@@ -47,6 +59,7 @@ export class AppointmentsPage extends Component {
                 key={index}
                 appointment={appt}
                 type={type}
+                cancelAppointment={this.props.cancelAppointment}
               />
             );
           default:
@@ -98,6 +111,11 @@ export class AppointmentsPage extends Component {
             <ul className="usa-unstyled-list">{content}</ul>
           </div>
         </div>
+        <CancelAppointmentModal
+          {...cancelInfo}
+          onConfirm={this.props.confirmCancelAppointment}
+          onClose={this.props.closeCancelAppointment}
+        />
       </div>
     );
   }
@@ -110,12 +128,18 @@ AppointmentsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     appointments: state.appointments,
+    cancelInfo: getCancelInfo(state),
   };
 }
 
+const mapDispatchToProps = {
+  fetchFutureAppointments,
+  cancelAppointment,
+  confirmCancelAppointment,
+  closeCancelAppointment,
+};
+
 export default connect(
   mapStateToProps,
-  {
-    fetchFutureAppointments,
-  },
+  mapDispatchToProps,
 )(AppointmentsPage);

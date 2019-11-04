@@ -21,7 +21,7 @@ export default class AppointmentRequestListItem extends React.Component {
   }
 
   render() {
-    const { appointment } = this.props;
+    const { appointment, cancelAppointment } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
 
@@ -56,6 +56,7 @@ export default class AppointmentRequestListItem extends React.Component {
             <div>
               <button
                 className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"
+                onClick={() => cancelAppointment(appointment)}
                 aria-label="Cancel appointment"
               >
                 Cancel
