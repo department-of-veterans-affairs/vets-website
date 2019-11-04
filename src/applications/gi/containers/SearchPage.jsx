@@ -208,6 +208,7 @@ export class SearchPage extends React.Component {
                     version={this.props.location.query.version}
                     key={`${result.facilityCode}-${result.description}`}
                     result={result}
+                    constants={this.props.constants}
                   />
                 );
               }
@@ -346,6 +347,7 @@ SearchPage.defaultProps = {};
 
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
+  constants: state.constants.constants,
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
