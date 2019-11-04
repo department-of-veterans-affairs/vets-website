@@ -1,7 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { getFilteredEntity } = require('./filters');
-const { transformEntity } = require('./transform');
 
 /**
  * This assumes the tome-sync output is sibling to the vets-website
@@ -32,24 +30,6 @@ function getContentModelType(entity) {
 
 module.exports = {
   getContentModelType,
-
-  /**
-   * Takes the type of entity and entity itself, returns the entity
-   * after transformations. Note: The entity will only contain a subset
-   * of all the original properties based on type and subtype.
-   *
-   * @param {Object} entity - The contents of the entity itself before
-   *                          reference expansion.
-   *
-   * @return {Object} - The new entity.
-   */
-  getModifiedEntity(entity) {
-    const contentModelType = getContentModelType(entity);
-    return transformEntity(
-      contentModelType,
-      getFilteredEntity(contentModelType, entity),
-    );
-  },
 
   /**
    * Use to consistently reference to an entity.

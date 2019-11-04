@@ -1,3 +1,5 @@
+const { getContentModelType } = require('./helpers');
+
 /**
  * When reading through entity properties, ignore these.
  */
@@ -36,7 +38,6 @@ function getFilter(contentModelType) {
  * transformation and returns a new entity with only the desired
  * properties based on the content model type.
  *
- * @param {String} contentModelType - The type of content model.
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
@@ -44,7 +45,8 @@ function getFilter(contentModelType) {
  * @return {Object} - The entity with only the desired properties
  *                    for the specific content model type.
  */
-function getFilteredEntity(contentModelType, entity) {
+function getFilteredEntity(entity) {
+  const contentModelType = getContentModelType(entity);
   // TODO: Filter properties based on content model type
   const entityTypeFilter = getFilter(contentModelType);
   const entityFilter = new Set([...whitelists.global, ...entityTypeFilter]);

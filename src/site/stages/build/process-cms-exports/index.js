@@ -1,6 +1,8 @@
 const chalk = require('chalk');
 
-const { getModifiedEntity, toId } = require('./helpers');
+const { getFilteredEntity } = require('./filters');
+const { transformEntity } = require('./transform');
+const { toId } = require('./helpers');
 
 const validateEntity = require('./schema-validation');
 
@@ -39,12 +41,12 @@ const assembleEntityTree = (entity, parents = []) => {
     process.exit(1);
   }
 
-  const modifiedEntity = getModifiedEntity(entity);
+  const filteredEntity = getFilteredEntity(entity);
 
   // Iterate over all whitelisted properties in an entity, look for
   // references to other identities recursively, and replace the
   // reference with the entity contents.
-  for (const [key, prop] of Object.entries(modifiedEntity)) {
+  for (const [key, prop] of Object.entries(filteredEntity)) {
     // Properties with target_uuids are always arrays from tome-sync
     if (Array.isArray(prop)) {
       prop.forEach((item, index) => {
@@ -52,7 +54,7 @@ const assembleEntityTree = (entity, parents = []) => {
 
         // We found a reference! Override it with the expanded entity.
         if (targetUuid && targetType) {
-          modifiedEntity[key][index] = assembleEntityTree(
+          filteredEntity[key][index] = assembleEntityTree(
             targetType,
             targetUuid,
             parents.concat([toId(entity)]),
@@ -62,7 +64,7 @@ const assembleEntityTree = (entity, parents = []) => {
     }
   }
 
-  return modifiedEntity;
+  return transformEntity(filteredEntity);
 };
 
 module.exports = assembleEntityTree;
