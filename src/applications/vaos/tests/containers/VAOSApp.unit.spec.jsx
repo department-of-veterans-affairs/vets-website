@@ -23,7 +23,7 @@ describe('VAOS <VAOSApp>', () => {
       tree
         .find('RequiredLoginView')
         .dive()
-        .find('DowntimeNotification')
+        .find('Connect(DowntimeNotification)')
         .exists(),
     ).to.be.true;
     tree.unmount();
