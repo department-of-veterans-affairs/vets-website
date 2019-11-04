@@ -61,7 +61,7 @@ export class VetTecSearchPage extends React.Component {
     }
   }
 
-  updateSearchResults = () => {
+  getQueryFilterFields = () => {
     const booleanFilterParams = ['preferredProvider'];
 
     const stringFilterParams = ['version', 'country', 'state', 'type'];
@@ -83,8 +83,16 @@ export class VetTecSearchPage extends React.Component {
       institutionFilter[filterKey] = filterValue === 'true';
     });
 
-    this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchProgramSearchResults(query);
+    return {
+      institutionFilter,
+      query,
+    };
+  };
+
+  updateSearchResults = () => {
+    const queryFilterFields = this.getQueryFilterFields();
+    this.props.institutionFilterChange(queryFilterFields.institutionFilter);
+    this.props.fetchProgramSearchResults(queryFilterFields.query);
   };
 
   handlePageSelect = page => {
@@ -96,7 +104,11 @@ export class VetTecSearchPage extends React.Component {
 
   handleProviderFilterChange = provider => {
     scroller.scrollTo('searchPage', getScrollOptions());
-    this.props.institutionFilterChange(provider);
+
+    this.props.institutionFilterChange({
+      ...this.getQueryFilterFields().institutionFilter,
+      ...provider,
+    });
   };
 
   handleFilterChange = (field, value) => {
