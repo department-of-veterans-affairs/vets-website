@@ -2,7 +2,7 @@ const chalk = require('chalk');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
-const { toId } = require('./helpers');
+const { toId, readEntity } = require('./helpers');
 
 const validateEntity = require('./schema-validation');
 
@@ -55,8 +55,7 @@ const assembleEntityTree = (entity, parents = []) => {
         // We found a reference! Override it with the expanded entity.
         if (targetUuid && targetType) {
           filteredEntity[key][index] = assembleEntityTree(
-            targetType,
-            targetUuid,
+            readEntity(targetType, targetUuid),
             parents.concat([toId(entity)]),
           );
         }
