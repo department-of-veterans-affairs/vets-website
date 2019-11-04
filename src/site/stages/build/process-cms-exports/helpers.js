@@ -31,6 +31,7 @@ function getContentModelType(entity) {
 }
 
 module.exports = {
+  contentDir,
   getContentModelType,
 
   /**
@@ -54,10 +55,10 @@ module.exports = {
    *
    * @return {Object} - The contents of the file.
    */
-  readEntity(baseType, uuid) {
+  readEntity(dir, baseType, uuid) {
     const entity = JSON.parse(
       fs
-        .readFileSync(path.join(contentDir, `${baseType}.${uuid}.json`))
+        .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
         .toString('utf8'),
     );
     // Add what we already know about the entity
