@@ -68,6 +68,7 @@ export const totalRatingMessage = totalDisabilityRating => (
           <a
             href="/claim-or-appeal-status/"
             arial-label="check your claims or appeals status"
+            title="check your claims or appeals status"
           >
             Check your claims or appeals
           </a>
