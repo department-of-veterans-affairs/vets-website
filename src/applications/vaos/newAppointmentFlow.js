@@ -52,19 +52,20 @@ export default {
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      // const newAppointment = getNewAppointment(state);
       let nextState = 'vaFacility';
-      const userSystemIds = await getSystemIdentifiers();
+
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
       } else if (isCommunityCare(state)) {
         try {
-          // Check if user registered systems support comminity care...
+          // Check if user registered systems support community care...
+          const userSystemIds = await getSystemIdentifiers();
           const communityCareSites = await getSitesSupportingVAR();
           const communityCareSite = communityCareSites.find(site =>
             userSystemIds.find(userSystemId => userSystemId === site._id),
           );
-          // Reroute to VA facility page if user registered systems don't support community care.
+
+          // Reroute to VA facility page if none of the user's registered systems support community care.
           if (communityCareSite === undefined) {
             dispatch(updateFacilityType('vaFacility'));
             dispatch(updateHasCCEnabledSystems(false));
