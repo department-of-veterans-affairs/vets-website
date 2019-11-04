@@ -687,6 +687,8 @@ class CalculatorForm extends React.Component {
             <span>
               {'Where will you take the majority of your classes? '}
               <button
+                aria-live="polite"
+                aria-atomic="true"
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={onShowModal.bind(
@@ -803,7 +805,7 @@ class CalculatorForm extends React.Component {
   render() {
     if (!this.props.displayedInputs) return null;
     return (
-      <div className="calculator-form" role="dialog">
+      <div className="calculator-form">
         {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}

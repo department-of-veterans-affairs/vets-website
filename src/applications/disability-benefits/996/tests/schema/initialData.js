@@ -89,6 +89,14 @@ export default {
         'view:selected': false,
       },
     ],
+
+    informalConferenceChoice: null,
+    contactRepresentativeChoice: null,
+    representative: {
+      fullName: 'Fred Flintstone',
+      phone: '8005551212',
+    },
+    scheduleTimes: {},
   },
 };
 
