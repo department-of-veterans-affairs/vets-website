@@ -167,20 +167,26 @@ export function getAppointmentDateTime(appt) {
 }
 
 export function getRequestDateOptions(appt) {
-  const validOptions = [
-    parseRequestDate(appt.optionDate1),
-    parseRequestDate(appt.optionDate2),
-    parseRequestDate(appt.optionDate3),
-  ];
-  return validOptions.reduce((formatted, option, index) => {
-    if (option.isValid()) {
-      formatted.push(
-        <li key={`${appt.uniqueId}-option-${index}`}>
-          {option.format('MMMM D, YYYY')}{' '}
-          {TIME_TEXT[appt[`optionTime${index + 1}`]]}
-        </li>,
-      );
-    }
+  const options = [
+    { date: parseRequestDate(appt.optionDate1), optionTime: appt.optionTime1 },
+    { date: parseRequestDate(appt.optionDate2), optionTime: appt.optionTime2 },
+    { date: parseRequestDate(appt.optionDate3), optionTime: appt.optionTime3 },
+  ]
+    .filter(o => o.date.isValid())
+    .sort((a, b) => {
+      if (a.date.isSame(b.date)) {
+        return a.optionTime === 'AM' ? -1 : 1;
+      }
+
+      return a.date.isBefore(b.date) ? -1 : 1;
+    });
+
+  return options.reduce((formatted, option, index) => {
+    formatted.push(
+      <li key={`${appt.uniqueId}-option-${index}`}>
+        {option.date.format('MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
+      </li>,
+    );
     return formatted;
   }, []);
 }
