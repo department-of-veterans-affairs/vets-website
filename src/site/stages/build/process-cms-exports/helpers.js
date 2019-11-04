@@ -16,16 +16,13 @@ const contentDir = path.join(
  * node entities, we want to ignore certain properties to avoid
  * circular references.
  *
- * @param {String} entityType - The type of entity; corresponds to
- *                              the name of the file. We may not end
- *                              up using this.
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion.
  *
- * @return {String} - The content model type
+ * @return {String} - The content model type like 'node-page'
  */
 function getContentModelType(entity) {
-  return entity.type ? entity.type[0].target_id : entity.baseType;
+  return [entity.baseType, entity.type && entity.type[0].target_id].join('-');
 }
 
 module.exports = {
