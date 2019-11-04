@@ -3,18 +3,12 @@ import sinon from 'sinon';
 
 import {
   fetchFutureAppointments,
-  fetchConfirmedAppointments,
-  fetchPendingAppointments,
   fetchPastAppointments,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-  FETCH_PENDING_APPOINTMENTS,
-  FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-  FETCH_CONFIRMED_APPOINTMENTS,
-  FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   CANCEL_APPOINTMENT,
@@ -62,66 +56,6 @@ describe('VAOS actions: appointments', () => {
         );
         expect(dispatchSpy.secondCall.args[0].type).to.eql(
           FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-        );
-        done();
-      }
-    };
-
-    thunk(dispatch, getState);
-  });
-
-  it('should fetch confirmed appointments', done => {
-    const confirmed = [];
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(confirmed) }),
-      }),
-    });
-    const thunk = fetchConfirmedAppointments();
-    const dispatchSpy = sinon.spy();
-    const getState = () => ({
-      appointments: {
-        confirmedStatus: 'notStarted',
-      },
-    });
-    const dispatch = action => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(
-          FETCH_CONFIRMED_APPOINTMENTS,
-        );
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(
-          FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-        );
-        done();
-      }
-    };
-
-    thunk(dispatch, getState);
-  });
-
-  it('should fetch pending appointments', done => {
-    const pending = [];
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(pending) }),
-      }),
-    });
-    const thunk = fetchPendingAppointments();
-    const dispatchSpy = sinon.spy();
-    const getState = () => ({
-      appointments: {
-        pendingStatus: 'notStarted',
-      },
-    });
-    const dispatch = action => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(
-          FETCH_PENDING_APPOINTMENTS,
-        );
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(
-          FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
         );
         done();
       }
