@@ -32,6 +32,10 @@ export const addXMonths = numberOfMonths =>
     .add(numberOfMonths, 'months')
     .format('YYYY-MM-DD');
 
+export const getRepresentativeChoice = formData =>
+  formData?.veteran?.informalConferenceChoice === true &&
+  formData?.veteran?.contactRepresentativeChoice;
+
 // testing
 export const $ = (selector, DOM) => DOM.querySelector(selector);
 export const $$ = (selector, DOM) => DOM.querySelectorAll(selector);
