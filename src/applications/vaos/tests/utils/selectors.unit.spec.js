@@ -182,7 +182,7 @@ describe('VAOS selectors', () => {
         },
       };
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.equal('MDT');
+      expect(data.timezone).to.be.oneOf(['MST', 'MDT']);
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
     });
