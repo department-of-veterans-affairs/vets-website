@@ -214,11 +214,6 @@ describe('VAOS newAppointmentFlow', () => {
           data: {
             typeOfCareId: '203',
           },
-          systems: [
-            {
-              institutionCode: 1,
-            },
-          ],
         },
       };
 
@@ -228,28 +223,6 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(nextState).to.equal('vaFacility');
-    });
-
-    it('next should be typeOfFacility page if user systems is in sites supporting CC', async () => {
-      const state = {
-        newAppointment: {
-          data: {
-            typeOfCareId: '203',
-          },
-          systems: [
-            {
-              institutionCode: '608',
-            },
-          ],
-        },
-      };
-
-      const dispatch = sinon.spy();
-      const nextState = await newAppointmentFlow.typeOfCare.next(
-        state,
-        dispatch,
-      );
-      expect(nextState).to.equal('typeOfFacility');
     });
 
     it('should choose Sleep care page', async () => {
