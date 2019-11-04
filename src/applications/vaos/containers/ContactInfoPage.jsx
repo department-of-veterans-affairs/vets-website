@@ -14,7 +14,7 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['phoneNumber'],
+  required: ['phoneNumber', 'email'],
   properties: {
     phoneNumber: {
       type: 'string',
@@ -34,34 +34,56 @@ const initialSchema = {
         },
       },
     },
+    email: {
+      type: 'string',
+      format: 'email',
+    },
   },
 };
 
 const uiSchema = {
-  'ui:title': 'Where can we call to confirm your appointment?',
-  'ui:description':
-    'A scheduling clerk will contact you to coordinate an appointment date',
+  'ui:description': (
+    <>
+      <p>
+        This is the contact information we have on file for you. We’ll use this
+        information to contact you about scheduling your appointment. You can
+        update your contact information here, but the updates will only apply to
+        this tool.
+      </p>
+      <p className="vads-u-margin-y--2">
+        If you want to update your contact information for all your VA accounts,
+        please{' '}
+        <a href="/profile" target="_blank" rel="noopener noreferrer">
+          go to your profile page
+        </a>
+        .
+      </p>
+    </>
+  ),
   phoneNumber: phoneUI('Phone number'),
   bestTimeToCall: {
-    'ui:title': 'Best times for VA to call',
+    'ui:title': 'Best times for us to call you',
     morning: {
-      'ui:title': 'Morning (8 a.m. to noon EST)',
+      'ui:title': 'Morning (8 a.m. – noon)',
       'ui:options': {
         widgetClassNames: 'vaos-form__checkbox',
       },
     },
     afternoon: {
-      'ui:title': 'Afternoon (noon - 4 p.m. EST)',
+      'ui:title': 'Afternoon (noon – 4 p.m.)',
       'ui:options': {
         widgetClassNames: 'vaos-form__checkbox',
       },
     },
     evening: {
-      'ui:title': 'Evening (4 p.m. to 8 p.m. EST)',
+      'ui:title': 'Evening (4 p.m. – 8 p.m.)',
       'ui:options': {
         widgetClassNames: 'vaos-form__checkbox',
       },
     },
+  },
+  email: {
+    'ui:title': 'Email address',
   },
 };
 
@@ -84,22 +106,26 @@ export class ContactInfoPage extends React.Component {
     const { schema, data, pageChangeInProgress } = this.props;
 
     return (
-      <SchemaForm
-        name="Contact info"
-        title="Contact info"
-        schema={schema || initialSchema}
-        uiSchema={uiSchema}
-        onSubmit={this.goForward}
-        onChange={newData =>
-          this.props.updateFormData(pageKey, uiSchema, newData)
-        }
-        data={data}
-      >
-        <FormButtons
-          onBack={this.goBack}
-          pageChangeInProgress={pageChangeInProgress}
-        />
-      </SchemaForm>
+      <div>
+        <h1 className="vads-u-font-size--h2">Contact information</h1>
+
+        <SchemaForm
+          name="Contact info"
+          title="Contact info"
+          schema={schema || initialSchema}
+          uiSchema={uiSchema}
+          onSubmit={this.goForward}
+          onChange={newData =>
+            this.props.updateFormData(pageKey, uiSchema, newData)
+          }
+          data={data}
+        >
+          <FormButtons
+            onBack={this.goBack}
+            pageChangeInProgress={pageChangeInProgress}
+          />
+        </SchemaForm>
+      </div>
     );
   }
 }

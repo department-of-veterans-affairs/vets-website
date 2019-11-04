@@ -19,7 +19,7 @@ describe('VAOS <ContactInfoPage>', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
 
@@ -35,7 +35,7 @@ describe('VAOS <ContactInfoPage>', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(router.push.called).to.be.false;
     form.unmount();
   });
@@ -70,7 +70,7 @@ describe('VAOS <ContactInfoPage>', () => {
       <ContactInfoPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ phoneNumber: '5555555555' }}
+        data={{ phoneNumber: '5555555555', email: 'fake@va.gov' }}
       />,
     );
 
