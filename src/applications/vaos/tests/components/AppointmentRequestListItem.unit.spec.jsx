@@ -19,6 +19,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       facility: {
         city: 'Northampton',
         state: 'MA',
+        facilityCode: '983',
       },
       appointmentRequestId: 'guid',
     };
@@ -63,6 +64,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       facility: {
         city: 'Northampton',
         state: 'MA',
+        facilityCode: '983',
       },
       appointmentRequestId: 'guid',
     };

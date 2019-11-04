@@ -135,7 +135,7 @@ export function getAppointmentLocation(appt) {
     type === APPOINTMENT_TYPES.request
       ? appt.facility.facilityCode
       : appt.facilityId;
-
+  debugger;
   return (
     <a
       href={`/find-locations/facility/vha_${getStagingId(facilityId)}`}
