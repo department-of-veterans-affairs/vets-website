@@ -47,7 +47,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
         .find('h2')
         .text()
         .trim(),
-    ).to.equal('December 11, 2019 at 8:00 a.m.');
+    ).to.contain('December 11, 2019');
   });
 
   it('should display clinic name', () => {

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from '../../utils/moment-tz';
 
 import {
   selectPendingAppointment,
@@ -181,8 +182,12 @@ describe('VAOS selectors', () => {
           availableSlots,
         },
       };
+
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.equal('MDT');
+      const timezone = moment
+        .tz(state.newAppointment.facilities['323_983'][0].institutionTimezone)
+        .format('z');
+      expect(data.timezone).to.equal(timezone);
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
     });
