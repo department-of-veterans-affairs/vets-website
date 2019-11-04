@@ -52,7 +52,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showEligibilityForm;
 
     return (
-      <div className="eligibility-details">
+      <div aria-live="off" className="eligibility-details">
         <button
           aria-expanded={expanded}
           onClick={this.toggleEligibilityForm}
@@ -62,7 +62,11 @@ export class Calculator extends React.Component {
         </button>
         <div>
           {expanded ? (
-            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
+            <form>
+              <EligibilityForm
+                eligibilityChange={this.props.eligibilityChange}
+              />
+            </form>
           ) : null}
         </div>
       </div>
