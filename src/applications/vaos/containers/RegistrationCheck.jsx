@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import Breadcrumbs from '../components/Breadcrumbs';
 import { FETCH_STATUS } from '../utils/constants';
 import { checkRegistration } from '../actions/registration';
 
@@ -22,27 +23,39 @@ export class RegistrationCheck extends React.Component {
     }
 
     return (
-      <AlertBox
-        status="error"
-        headline="Sorry, we couldn't find a VHA facility registration"
-      >
-        <p>
-          To use this app to schedule or request an appointment at a VA
-          facility, or to request community care assistance, you need to be:
-        </p>
-        <ol>
-          <li>Actively enrolled in VA Healthcare, and</li>
-          <li>Registered with a VA health care facility</li>
-        </ol>
-        <p>
-          If you need to register, or you believe this is an error, please
-          contact your{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            local facility's
-          </a>{' '}
-          registration office.
-        </p>
-      </AlertBox>
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        <Breadcrumbs />
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
+            <AlertBox
+              status="error"
+              headline="Sorry, we couldn't find a VHA facility registration"
+            >
+              <p>
+                To use this app to schedule or request an appointment at a VA
+                facility, or to request community care assistance, you need to
+                be:
+              </p>
+              <ol>
+                <li>Actively enrolled in VA Healthcare, and</li>
+                <li>Registered with a VA health care facility</li>
+              </ol>
+              <p>
+                If you need to register, or you believe this is an error, please
+                contact your{' '}
+                <a
+                  href="/find-locations"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  local facility's
+                </a>{' '}
+                registration office.
+              </p>
+            </AlertBox>
+          </div>
+        </div>
+      </div>
     );
   }
 }
