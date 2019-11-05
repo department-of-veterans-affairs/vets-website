@@ -18,6 +18,14 @@ export const errorMessages = {
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
+  informalConferenceContactChoice: 'Please choose an option',
+  informalContactVARepresentative: 'Please choose an option',
+  informalConferenceContactName: 'Please enter a name',
+  informalConferenceContactPhone: 'Please provide a number',
+  informalConferenceContactPhonePattern:
+    'Phone numbers must be 10 digits (dashes allowed)',
+  informalConferenceTimesMin: 'Please choose at least one time period',
+  informalConferenceTimesMax: 'You can choose up to two time periods',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

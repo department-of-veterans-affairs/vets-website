@@ -1,8 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import sinon from 'sinon';
+import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  submitForm,
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils';
+
+import { $, $$ } from '../../helpers';
+
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
@@ -13,7 +21,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
   } = formConfig.chapters.contestedIssues.pages.contestedIssues;
 
   it('renders the contested issue selection field', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -21,42 +29,33 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input[type="checkbox"]').length).to.equal(
+    const formDOM = getFormDOM(form);
+    expect($$('input[type="checkbox"]', formDOM).length).to.equal(
       initialData.veteran.contestedIssues.length,
     );
-    form.unmount();
   });
 
-  xit('successfully submits when at least one condition is selected', done => {
-    const form = mount(
+  it('successfully submits when at least one condition is selected', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
       />,
     );
 
-    // Simulating a click event doesn't trigger onChange, so we have to call it
-    // explicitly
-    form
-      .find('input#root_veteran_contestedIssues_0')
-      .props()
-      .onChange({ target: { checked: true } });
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-
-    setTimeout(() => {
-      // Check step 2b content
-      const text = form.find('contestedIssuesNotesStart').text();
-      expect(text.includes('one by one')).to.be.true;
-      form.unmount();
-      done();
-    }, 500);
+    const formDOM = getFormDOM(form);
+    formDOM.setCheckbox('#root_veteran_contestedIssues_0', true);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('prevents submission when no conditions selected', () => {
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -65,14 +64,14 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    form.unmount();
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('.usa-input-error', formDOM).length).to.equal(1);
   });
 
   it('renders the information about each disability', () => {
     const issues = initialData.veteran.contestedIssues;
-    const form = mount(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -81,17 +80,13 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
       />,
     );
 
-    const labels = form.find('input[type="checkbox"] + label');
-    labels.forEach((label, index) => {
-      expect(label.find('h4').text()).to.equal(issues[index].name);
-      expect(label.find('span').text()).to.equal(issues[index].description);
-      expect(
-        label
-          .find('p')
-          .last()
-          .text(),
-      ).to.equal(`Current rating: ${issues[index].ratingPercentage}%`);
+    const formDOM = getFormDOM(form);
+    $$('input[type="checkbox"] + label', formDOM).forEach((label, index) => {
+      expect($('h4', label).textContent).to.equal(issues[index].name);
+      expect($('span', label).textContent).to.equal(issues[index].description);
+      expect($('.widget-content p', label).textContent).to.equal(
+        `Current rating: ${issues[index].ratingPercentage}%`,
+      );
     });
-    form.unmount();
   });
 });

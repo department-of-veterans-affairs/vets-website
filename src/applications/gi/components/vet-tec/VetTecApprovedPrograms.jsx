@@ -11,35 +11,33 @@ class VetTecApprovedPrograms extends React.Component {
     super(props);
     if (!environment.isProduction()) {
       this.state = { selectedProgram: props.preSelectedProgram };
+      this.setProgramFields(props.preSelectedProgram);
     }
   }
 
   componentDidUpdate() {
     if (!environment.isProduction()) {
-      const program = this.props.institution.programs.find(
-        p => p.description === this.state.selectedProgram,
-      );
-      if (program) {
-        const field = 'vetTecProgram';
-        const value = {
-          vetTecTuitionFees: program.tuitionAmount,
-          vetTecProgramName: program.description,
-        };
-        this.props.calculatorInputChange({ field, value });
-      }
+      this.setProgramFields(this.state.selectedProgram);
     }
   }
 
-  handleInputChange = (event, index, vetTecProgramName) => {
-    if (!environment.isProduction()) {
-      const { name: field, value: vetTecTuitionFees } = event.target;
+  setProgramFields = programName => {
+    const program = this.props.institution.programs.find(
+      p => p.description === programName,
+    );
+    if (program) {
+      const field = 'vetTecProgram';
       const value = {
-        vetTecTuitionFees,
-        vetTecProgramName,
+        vetTecTuitionFees: program.tuitionAmount,
+        vetTecProgramName: program.description,
       };
-      this.setState({ selectedProgram: vetTecProgramName });
       this.props.calculatorInputChange({ field, value });
     }
+  };
+
+  handleInputChange = (event, index, vetTecProgramName) => {
+    this.setState({ selectedProgram: vetTecProgramName });
+    this.setProgramFields(vetTecProgramName);
   };
 
   render() {
@@ -56,7 +54,7 @@ class VetTecApprovedPrograms extends React.Component {
                 checked={program.description === this.state.selectedProgram}
                 className="gids-radio-buttons-input"
                 type="radio"
-                value={program.tuitionAmount}
+                value={program.description}
                 onChange={e =>
                   this.handleInputChange(e, index, program.description)
                 }
@@ -67,7 +65,12 @@ class VetTecApprovedPrograms extends React.Component {
               </label>
             </div>
           </td>
-          <td>{`${program.lengthInHours} hours`}</td>
+          {// PROD FLAG CT 116 STORY 19868
+          environment.isProduction() ? (
+            <td>{`${program.lengthInHours} hours`}</td>
+          ) : (
+            <td>{`${program.lengthInWeeks} weeks`}</td>
+          )}
           <td>{formatCurrency(program.tuitionAmount)}</td>
         </tr>
       ));

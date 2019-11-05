@@ -1,0 +1,95 @@
+import React from 'react';
+import { Link } from 'react-router';
+
+import { formatCurrency, locationInfo } from '../../utils/helpers';
+import { renderPreferredProviderFlag } from '../../utils/render';
+
+class VetTecProgramSearchResult extends React.Component {
+  render() {
+    const { version, result, constants } = this.props;
+    const {
+      facilityCode,
+      description,
+      institutionName,
+      city,
+      state,
+      country,
+      tuitionAmount,
+      lengthInWeeks,
+      dodBah,
+    } = result;
+
+    const linkTo = {
+      pathname: `profile/${facilityCode}/${description}`,
+      query: version ? { version } : {},
+    };
+
+    return (
+      <div className="search-result">
+        <div className="outer">
+          <div className="inner">
+            <div className="row">
+              <div className="small-12 medium-6 columns">
+                <h2>
+                  <Link to={linkTo}>{description}</Link>
+                </h2>
+                <div style={{ position: 'relative', bottom: 0 }}>
+                  <p className="institution-name vads-u-font-weight--bold">
+                    {institutionName}
+                  </p>
+                  <p className="institution-location">
+                    {locationInfo(city, state, country)}
+                  </p>
+                </div>
+              </div>
+              <div className="small-12 medium-6 columns estimated-benefits">
+                {renderPreferredProviderFlag(this.props.result)}
+                <h3 className="vads-u-padding-top--1p5">
+                  You may be eligible for up to:
+                </h3>
+                <div className="row">
+                  <div className="columns">
+                    <h4>
+                      <i
+                        aria-hidden="true"
+                        className="fa fa-graduation-cap fa-search-result"
+                      />
+                      Tuition:
+                      <div className="programTuition">
+                        {formatCurrency(tuitionAmount)}
+                      </div>
+                    </h4>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="columns">
+                    <h4>
+                      <i
+                        aria-hidden="true"
+                        className="fa fa-home fa-search-result"
+                      />
+                      Housing <span>(monthly):</span>
+                      <div className="programHousingAllowance">
+                        {`${formatCurrency(
+                          constants.AVGDODBAH / 2,
+                        )} - ${formatCurrency(dodBah)}`}
+                      </div>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="view-details columns vads-u-display--inline-block">
+                <div className="info-flag">{`${lengthInWeeks} weeks`}</div>
+                <Link to={linkTo}>View details ›</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default VetTecProgramSearchResult;
