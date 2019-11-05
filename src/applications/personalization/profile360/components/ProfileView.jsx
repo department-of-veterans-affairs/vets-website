@@ -21,16 +21,20 @@ import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
-import { profileShowDirectDeposit } from '../selectors';
+import {
+  directDepositIsSetUp as directDepositIsSetUpSelector,
+  profileShowDirectDeposit,
+  profileShowReceiveTextNotifications,
+} from 'applications/personalization/profile360/selectors';
 
-const ProfileTOC = ({ militaryInformation, showDirectDeposit }) => (
+const ProfileTOC = ({ militaryInformation, showDirectDepositLink }) => (
   <>
     <h2 className="vads-u-font-size--h3">On this page</h2>
     <ul>
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      {showDirectDeposit && <PaymentInformationTOCItem />}
+      {showDirectDepositLink && <PaymentInformationTOCItem />}
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
@@ -85,7 +89,9 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
-      showDirectDeposit,
+      directDepositIsSetUp,
+      showDirectDepositFeature,
+      showReceiveTextNotifications,
     } = this.props;
 
     let content;
@@ -112,11 +118,13 @@ class ProfileView extends React.Component {
               />
               <ProfileTOC
                 militaryInformation={militaryInformation}
-                showDirectDeposit={showDirectDeposit}
+                showDirectDepositLink={directDepositIsSetUp}
               />
               <div id="contact-information" />
-              <ContactInformation />
-              {showDirectDeposit && (
+              <ContactInformation
+                showReceiveTextNotifications={showReceiveTextNotifications}
+              />
+              {showDirectDepositFeature && (
                 <>
                   <div id="direct-deposit" />
                   <PaymentInformation />
@@ -185,7 +193,9 @@ class ProfileView extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    showDirectDeposit: profileShowDirectDeposit(state),
+    directDepositIsSetUp: directDepositIsSetUpSelector(state),
+    showDirectDepositFeature: profileShowDirectDeposit(state),
+    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }
 

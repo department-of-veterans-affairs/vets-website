@@ -14,7 +14,6 @@ import {
 } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
-import get from 'platform/utilities/data/get';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ProfileFieldHeading from 'vet360/components/base/ProfileFieldHeading';
@@ -29,6 +28,11 @@ import {
   editModalToggled,
   editModalFieldChanged,
 } from '../actions/paymentInformation';
+import {
+  directDepositAccountInformation,
+  directDepositInformation,
+  directDepositIsSetUp as directDepositIsSetUpSelector,
+} from '../selectors';
 
 const AdditionalInfos = props => (
   <>
@@ -144,91 +148,68 @@ class PaymentInformation extends React.Component {
     });
   };
 
-  renderSetupButton(label, gaProfileSection) {
-    return (
-      <button
-        className="va-button-link"
-        onClick={() => this.handleLinkClick('add', gaProfileSection)}
-      >{`Please add your ${label}`}</button>
-    );
-  }
-
   render() {
-    if (!this.props.isEligible) {
-      return null;
-    }
-
-    if (this.props.isLoading) {
-      return <LoadingIndicator message="Loading payment information..." />;
-    }
-
-    const { paymentInformation } = this.props;
-    const directDepositIsSetUp =
-      paymentInformation &&
-      get('responses[0].paymentAccount.accountNumber', paymentInformation);
+    const {
+      directDepositIsSetUp,
+      isEligible,
+      isLoading,
+      multifactorEnabled,
+      paymentInformation,
+      paymentAccount,
+    } = this.props;
 
     let content = null;
 
-    if (!this.props.multifactorEnabled) {
+    if (!isEligible) {
+      return content;
+    }
+
+    if (isLoading) {
+      return <LoadingIndicator message="Loading payment information..." />;
+    }
+
+    if (!multifactorEnabled) {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
+    } else if (!directDepositIsSetUp) {
+      return null;
     } else {
-      const paymentAccount = paymentInformation.responses[0].paymentAccount;
-
       content = (
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={
-                directDepositIsSetUp &&
-                (() => this.handleLinkClick('edit', 'bank-name'))
-              }
+              onEditClick={() => this.handleLinkClick('edit', 'bank-name')}
             >
               Bank name
             </ProfileFieldHeading>
-            {directDepositIsSetUp
-              ? paymentAccount.financialInstitutionName
-              : this.renderSetupButton('bank name', 'bank-name')}
+            {paymentAccount.financialInstitutionName}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={
-                directDepositIsSetUp &&
-                (() => this.handleLinkClick('edit', 'account-number'))
-              }
+              onEditClick={() => this.handleLinkClick('edit', 'account-number')}
             >
               Account number
             </ProfileFieldHeading>
-            {directDepositIsSetUp
-              ? paymentAccount.accountNumber
-              : this.renderSetupButton('account number', 'account-number')}
+            {paymentAccount.accountNumber}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={
-                directDepositIsSetUp &&
-                (() => this.handleLinkClick('edit', 'account-type'))
-              }
+              onEditClick={() => this.handleLinkClick('edit', 'account-type')}
             >
               Account type
             </ProfileFieldHeading>
-            {directDepositIsSetUp
-              ? paymentAccount.accountType
-              : this.renderSetupButton(
-                  'account type (checking or savings)',
-                  'account-type',
-                )}
+            {paymentAccount.accountType}
           </div>
-          {directDepositIsSetUp && (
-            <p>
-              <strong>Note:</strong> If you think you’ve been the victim of bank
-              fraud, please call us at{' '}
-              <span className="no-wrap">800-827-1000</span> (TTY:{' '}
-              <span className="no-wrap">800-829-4833</span>
-              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-            </p>
-          )}
+          <p>
+            <strong>Note:</strong> If you think you’ve been the victim of bank
+            fraud, please call us at{' '}
+            <a href="tel:1-800-827-1000" className="no-wrap">
+              800-827-1000
+            </a>{' '}
+            (TTY: <span className="no-wrap">800-829-4833</span>
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+          </p>
 
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
@@ -267,13 +248,15 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => ({
+  directDepositIsSetUp: directDepositIsSetUpSelector(state),
   multifactorEnabled: isMultifactorEnabled(state),
   isEligible: isEvssAvailable(state),
   isLoading:
     isEvssAvailable(state) &&
     isMultifactorEnabled(state) &&
-    !state.vaProfile.paymentInformation,
-  paymentInformation: state.vaProfile.paymentInformation,
+    !directDepositInformation(state),
+  paymentAccount: directDepositAccountInformation(state),
+  paymentInformation: directDepositInformation(state),
   paymentInformationUiState: state.vaProfile.paymentInformationUiState,
 });
 

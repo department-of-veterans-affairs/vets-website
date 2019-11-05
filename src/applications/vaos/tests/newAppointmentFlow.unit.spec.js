@@ -138,7 +138,7 @@ describe('VAOS newAppointmentFlow', () => {
         state,
         dispatch,
       );
-      expect(nextState).to.equal('reasonForAppointment');
+      expect(nextState).to.equal('requestDateTime');
     });
     it('should return to type of care page if none of user Systems is cc enabled', () => {
       const state = {
@@ -189,7 +189,7 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.clinicChoice.next(state);
 
       // TODO: this should go to appointment time page when it exists
-      expect(nextState).to.equal('reasonForAppointment');
+      expect(nextState).to.equal('selectDateTime');
     });
   });
   describe('reason for appointment page', () => {

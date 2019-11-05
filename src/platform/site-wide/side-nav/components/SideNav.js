@@ -2,11 +2,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { find, filter, get, startsWith, map, orderBy } from 'lodash';
+import { find, filter, get, map, orderBy } from 'lodash';
 
 class SideNav extends Component {
   static propTypes = {
-    navItemsLookup: PropTypes.object.isRequired,
+    navItemsLookup: PropTypes.objectOf(
+      PropTypes.shape({
+        depth: PropTypes.number.isRequired,
+        description: PropTypes.string,
+        expanded: PropTypes.bool.isRequired,
+        hasChildren: PropTypes.bool.isRequired,
+        href: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        order: PropTypes.number.isRequired,
+        parentID: PropTypes.string.isRequired,
+        isSelected: PropTypes.bool.isRequired,
+      }),
+    ).isRequired,
   };
 
   constructor(props) {
@@ -23,9 +36,13 @@ class SideNav extends Component {
     const navItem = get(navItemsLookup, `[${id}]`);
     const hasChildren = get(navItem, 'hasChildren');
     const expanded = get(navItem, 'expanded');
+    const depth = get(navItem, 'depth');
 
-    // Escape early if the nav item has no children.
-    if (!hasChildren) {
+    // Determine if the nav item is top-level.
+    const isTopNavItem = depth < 2;
+
+    // Escape early if the item has no children or is not collapsible.
+    if (!hasChildren || isTopNavItem) {
       return;
     }
 
@@ -60,10 +77,8 @@ class SideNav extends Component {
       const hasChildren = get(item, 'hasChildren', false);
       const href = get(item, 'href');
       const id = get(item, 'id');
+      const isSelected = get(item, 'isSelected');
       const label = get(item, 'label', '');
-
-      // Derive if the nav item is selected and the selected class.
-      const isSelected = startsWith(window.location.pathname, href);
 
       // Derive the depth booleans.
       const isFirstLevel = depth === 1;
@@ -79,7 +94,7 @@ class SideNav extends Component {
       // Derive the label element.
       const labelElement = href ? (
         <a
-          className="va-sidenav-item-label-text"
+          className="va-sidenav-item-label-link"
           href={href}
           rel="noopener noreferrer"
         >
@@ -91,7 +106,7 @@ class SideNav extends Component {
 
       return (
         <li className={`va-sidenav-level-${depth}`} key={id}>
-          <button
+          <div
             aria-label={label}
             className={classNames({
               'va-sidenav-item-label': true,
@@ -119,7 +134,7 @@ class SideNav extends Component {
                   />
                 </button>
               )}
-          </button>
+          </div>
 
           {/* Duplicate Line + Label when Expanded */}
           {expanded &&

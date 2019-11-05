@@ -28,7 +28,7 @@ function begin(browser) {
       Auth.logIn(
         token,
         browser,
-        '/disability/my-rated-disabilities',
+        '/disability/check-disability-rating/rating',
         3,
       ).waitForElementVisible('.usa-alert-heading', Timeouts.verySlow);
     });

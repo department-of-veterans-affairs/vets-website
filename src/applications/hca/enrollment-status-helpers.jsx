@@ -74,7 +74,7 @@ export function getWarningHeadline(enrollmentStatus) {
     default:
       break;
   }
-  return <h4 className="usa-alert-heading">{content}</h4>;
+  return <h2 className="usa-alert-heading">{content}</h2>;
 }
 
 export function getEnrollmentDetails(

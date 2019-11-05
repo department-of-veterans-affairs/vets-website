@@ -11,7 +11,14 @@ import PaymentInformationEditModal from '../../components/PaymentInformationEdit
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 describe('<PaymentInformation/>', () => {
+  const paymentAccount = {
+    accountNumber: '123',
+    accountType: 'Checking',
+    financialInstitutionName: 'My bank',
+    financialInstitutionRoutingNumber: '123456789',
+  };
   const defaultProps = {
+    directDepositIsSetUp: true,
     multifactorEnabled: true,
     isLoading: false,
     isEligible: true,
@@ -19,6 +26,7 @@ describe('<PaymentInformation/>', () => {
     savePaymentInformation() {},
     editModalToggled() {},
     editModalFieldChanged() {},
+    paymentAccount,
     paymentInformationUiState: {
       isEditing: false,
       isSaving: false,
@@ -26,12 +34,7 @@ describe('<PaymentInformation/>', () => {
     paymentInformation: {
       responses: [
         {
-          paymentAccount: {
-            accountNumber: '123',
-            accountType: 'Checking',
-            financialInstitutionName: 'My bank',
-            financialInstitutionRoutingNumber: '123456789',
-          },
+          paymentAccount,
         },
       ],
     },
@@ -56,6 +59,18 @@ describe('<PaymentInformation/>', () => {
     wrapper.unmount();
   });
 
+  it('renders nothing if the user has not already set up direct deposit', () => {
+    const props = {
+      ...defaultProps,
+      directDepositIsSetUp: false,
+    };
+    const wrapper = shallow(<PaymentInformation {...props} />);
+
+    expect(wrapper.text()).to.be.empty;
+
+    wrapper.unmount();
+  });
+
   it('renders a prompt to enable 2FA is the user does not have it enabled already', () => {
     const props = { ...defaultProps, multifactorEnabled: false };
     const wrapper = shallow(<PaymentInformation {...props} />);
@@ -67,28 +82,6 @@ describe('<PaymentInformation/>', () => {
     const props = set('paymentInformation', { error: {} }, defaultProps);
     const wrapper = shallow(<PaymentInformation {...props} />);
     expect(wrapper.find('LoadFail')).to.have.lengthOf(1);
-    wrapper.unmount();
-  });
-
-  it('renders the correct content if the accountNumber is empty', () => {
-    const props = set(
-      'paymentInformation.responses[0].paymentAccount.accountNumber',
-      '',
-      defaultProps,
-    );
-    const wrapper = shallow(<PaymentInformation {...props} />);
-
-    expect(wrapper.find(DowntimeNotification)).to.have.lengthOf(1);
-    expect(wrapper.find(PaymentInformationEditModal)).to.have.lengthOf(1);
-    const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
-    profileFieldHeadings.forEach(node => {
-      expect(node.props().onEditClick).to.equal('');
-    });
-    wrapper.find('.vet360-profile-field').forEach(node => {
-      expect(node.text()).to.contain('Please add your');
-    });
-    expect(wrapper.find('p')).to.have.length(0);
-
     wrapper.unmount();
   });
 

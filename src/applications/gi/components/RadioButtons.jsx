@@ -135,7 +135,7 @@ class RadioButtons extends React.Component {
       <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <fieldset>
           <div>
-            <legend
+            <span
               id={`${this.inputId}-legend`}
               className={
                 this.props.errorMessage
@@ -145,7 +145,7 @@ class RadioButtons extends React.Component {
             >
               {this.props.label}
               {requiredSpan}
-            </legend>
+            </span>
             {errorSpan}
             {this.renderOptions()}
             {toolTip}

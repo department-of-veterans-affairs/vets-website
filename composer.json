@@ -1,6 +1,6 @@
 {
     "name": "va-gov/web",
-    "description": "Front-end for VA.gov. This repositroy contains the code that generates the VA.gov website. It contains a Metalsmith static site builder that uses a Drupal CMS for content. This file is here to publish releases to Packagist, so that the CMS CI system can install it and update it using standard composer processes, and so that we can run tests across both systems. See https://github.com/department-of-veterans-affairs/va.gov-cms for the CMS repo, and stand by for more documentation.",
+    "description": "Front-end for VA.gov. This repository contains the code that generates the www.va.gov website. It contains a Metalsmith static site builder that uses a Drupal CMS for content. This file is here to publish releases to https://packagist.org/packages/va-gov/web, so that the CMS CI system can install it and update it using standard composer processes, and so that we can run tests across both systems. See https://github.com/department-of-veterans-affairs/va.gov-cms for the CMS repo, and stand by for more documentation.",
     "type": "node-project",
     "require": {
     },

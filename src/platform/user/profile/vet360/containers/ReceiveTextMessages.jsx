@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
 import { selectProfile } from 'platform/user/selectors';
 
 import * as VET360 from '../constants';
 import { createTransaction, clearTransactionStatus } from '../actions';
-import { selectVet360Transaction } from '../selectors';
+import { selectVet360Transaction } from 'platform/user/profile/vet360/selectors';
+import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
 
 import {
   isPendingTransaction,
@@ -55,12 +55,13 @@ class ReceiveTextMessages extends React.Component {
     const payload = this.props.profile.vet360.mobilePhone;
     payload.isTextPermitted = event;
     const method = payload.id ? 'PUT' : 'POST';
+    const smsAction = payload.isTextPermitted ? 'smsOptin' : 'smsOptout';
     this.props.createTransaction(
       this.props.apiRoute,
       method,
       this.props.fieldName,
       payload,
-      this.props.analyticsSectionName,
+      VET360.ANALYTICS_FIELD_MAP[smsAction],
     );
   };
 
@@ -97,8 +98,8 @@ class ReceiveTextMessages extends React.Component {
             checked={!!this.props.profile.vet360.mobilePhone.isTextPermitted}
             label={
               <span>
-                Send me text message (SMS) reminders for my VA health care
-                appointments
+                Please check the box if you want to receive text message (SMS)
+                reminders for your VA health care appointments.
               </span>
             }
             onValueChange={this.onChange}
@@ -120,14 +121,17 @@ export function mapStateToProps(state, ownProps) {
   const { transaction } = selectVet360Transaction(state, fieldName);
   const hasError = !!(transaction && isFailedTransaction(transaction));
   const isPending = !!(transaction && isPendingTransaction(transaction));
+  const showReceiveTextNotifications = profileShowReceiveTextNotifications(
+    state,
+  );
   const profileState = selectProfile(state);
   const isEmpty = !profileState.vet360.mobilePhone;
   const isTextable =
     !isEmpty &&
     profileState.vet360.mobilePhone.phoneType === VET360.PHONE_TYPE.mobilePhone;
-  const isVerified = !environment.isProduction() && profileState.verified;
+  const isVerified = showReceiveTextNotifications && profileState.verified;
   const hideCheckbox =
-    environment.isProduction() ||
+    !showReceiveTextNotifications ||
     isEmpty ||
     !isTextable ||
     !isEnrolledInVAHealthCare(state) ||
@@ -142,7 +146,6 @@ export function mapStateToProps(state, ownProps) {
     isVerified,
     transaction,
     transactionSuccess,
-    analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
     apiRoute: VET360.API_ROUTES.TELEPHONES,
   };
 }

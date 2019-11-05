@@ -11,21 +11,38 @@ import fullSchema from '../20-0996-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Pages
 import veteranDetailsDescription from '../pages/confirmVeteranDetails';
-import {
-  uiSchema as contactInfoUiSchema,
-  schema as contactInfoSchema,
-} from '../pages/contactInformation';
+
+import contactInfo from '../pages/contactInformation';
+import contestedIssues from '../pages/contestedIssues';
+
+import { contestedIssuesNotesStart } from '../content/contestedIssues';
+
+import informalConference from '../pages/informalConference';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
+import { errorMessages } from '../constants';
 
-const { address, phone, date, effectiveDates } = fullSchema.definitions;
+const {
+  name,
+  fullName,
+  address,
+  phone,
+  date,
+  effectiveDates,
+  ratedDisabilities,
+  informalConferenceChoice,
+  contactRepresentativeChoice,
+  representative,
+  scheduleTimes,
+} = fullSchema.definitions;
 
 const formConfig = {
   urlPrefix: '/',
@@ -33,25 +50,32 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'hlr-0996-',
+
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_20_0996,
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to request a Higher-Level Review.',
-    noAuth:
-      'Please sign in again to continue your request for Higher-Level Review.',
+    notFound: errorMessages.savedFormNotFound,
+    noAuth: errorMessages.savedFormNoAuth,
   },
   title: 'Request a Higher-Level Review',
   subTitle: 'VA Form 20-0996',
   defaultDefinitions: {
+    name,
+    fullName,
     address,
     phone,
     date,
     effectiveDates,
-    veteranDetailsDescription,
+    ratedDisabilities,
+    informalConferenceChoice,
+    contactRepresentativeChoice,
+    representative,
+    scheduleTimes,
   },
+  preSubmitInfo,
   chapters: {
     veteranDetails: {
       title: 'Veteran details',
@@ -71,100 +95,45 @@ const formConfig = {
         confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
-          uiSchema: contactInfoUiSchema,
-          schema: contactInfoSchema,
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
           initialData,
         },
       },
     },
-    selectContestedIssues: {
-      title: 'Issues selected',
+    contestedIssues: {
+      title: 'Contested issues',
       pages: {
         contestedIssues: {
-          path: 'select-your-contested-issues',
-          title: 'Select your contested issues',
+          title: ' ',
+          path: 'contested-issues',
+          uiSchema: contestedIssues.uiSchema,
+          schema: contestedIssues.schema,
+          initialData,
+        },
+        contestedIssuesNotesStart: {
+          title: ' ',
+          path: 'contested-issues/start',
           uiSchema: {
-            myIssues: {
-              'ui:title': 'My issues',
-            },
+            'ui:description': contestedIssuesNotesStart,
           },
           schema: {
             type: 'object',
-            properties: {
-              myIssues: {
-                type: 'string',
-                enum: ['First issue', 'Second issue'],
-              },
-            },
+            properties: {},
           },
         },
+        // contestedIssueNote: {},
       },
     },
-    addNotes: {
-      title: 'Optional Notes',
-      pages: {
-        addNotes: {
-          path: 'add-notes',
-          title: 'Add notes (optional)',
-          uiSchema: {
-            addNote: {
-              'ui:title': 'Notes (optional)',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              addNote: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      },
-    },
-    requestOriginalJurisdiction: {
-      title: 'Original jurisdiction',
-      pages: {
-        requestJurisdiction: {
-          path: 'request-original-jurisdiction',
-          title: 'Request original jurisdiction',
-          uiSchema: {
-            jurisdiction: {
-              'ui:title': 'Name of Original Regional Office',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              jurisdiction: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      },
-    },
-    requestInformalConference: {
-      title: 'Informal conference',
+    informalConference: {
+      title: 'Request an informal conference',
       pages: {
         requestConference: {
           path: 'request-informal-conference',
           title: 'Request an informal conference',
-          uiSchema: {
-            conference: {
-              'ui:title': 'Would you like to request an Informal Conference?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              conference: {
-                type: 'boolean',
-                default: true,
-              },
-            },
-          },
+          uiSchema: informalConference.uiSchema,
+          schema: informalConference.schema,
+          initialData,
         },
       },
     },

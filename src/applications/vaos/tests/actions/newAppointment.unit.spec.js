@@ -6,6 +6,7 @@ import {
   routeToPageInFlow,
   openFacilityPage,
   updateFacilityPageData,
+  updateReasonForAppointmentData,
   openClinicPage,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
@@ -18,6 +19,8 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+  FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+  REASON_MAX_CHAR_DEFAULT,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
@@ -329,6 +332,34 @@ describe('VAOS newAppointment actions', () => {
         FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       );
       expect(dispatch.secondCall.args[0].facilityDetails).to.not.be.undefined;
+    });
+  });
+
+  describe('reasonForAppointment', () => {
+    it('update values and calculates remaining characters for additional info', async () => {
+      const reasonForAppointment = 'new-issue';
+      const reasonAdditionalInfo = 'test';
+
+      const dispatch = sinon.spy();
+      const thunk = updateReasonForAppointmentData(
+        'reasonForAppointment',
+        {},
+        {
+          reasonForAppointment,
+          reasonAdditionalInfo,
+        },
+      );
+      await thunk(dispatch);
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+      );
+      expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
+        REASON_MAX_CHAR_DEFAULT -
+          reasonForAppointment.length -
+          1 -
+          reasonAdditionalInfo.length,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
     });
   });
 });

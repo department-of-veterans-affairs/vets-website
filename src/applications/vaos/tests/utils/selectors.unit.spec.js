@@ -8,6 +8,8 @@ import {
   getTypeOfCare,
   getClinicsForChosenFacility,
   getClinicPageInfo,
+  getDateTimeSelect,
+  getReasonForAppointment,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -141,6 +143,71 @@ describe('VAOS selectors', () => {
       };
       const clinics = getClinicsForChosenFacility(state);
       expect(clinics).to.equal(state.newAppointment.clinics['688GB_323']);
+    });
+  });
+
+  describe('getDateTimeSelect', () => {
+    it('should return available dates data and timezone', () => {
+      const availableSlots = [
+        {
+          date: '2019-10-24',
+          datetime: '2019-10-24T09:00:00-07:00',
+        },
+        {
+          date: '2019-10-24',
+          datetime: '2019-10-24T09:30:00-07:00',
+        },
+      ];
+
+      const state = {
+        newAppointment: {
+          pages: {
+            selectDateTime: {},
+          },
+          data: {
+            typeOfCareId: '323',
+            vaFacility: '983',
+          },
+          facilities: {
+            '323_983': [
+              {
+                institution: {
+                  institutionCode: '983',
+                },
+                institutionTimezone: 'America/Denver',
+              },
+            ],
+          },
+          availableSlots,
+        },
+      };
+      const data = getDateTimeSelect(state, 'selectDateTime');
+      expect(data.timezone).to.be.oneOf(['MST', 'MDT']);
+      expect(data.availableDates).to.eql(['2019-10-24']);
+      expect(data.availableSlots).to.eql(availableSlots);
+    });
+  });
+
+  describe('getReasonForAppointment', () => {
+    it('should return reason data and remaining characters for textarea', () => {
+      const data = {
+        reasonForAppointment: 'new-issue',
+        reasonAdditionalInfo: 'test',
+      };
+
+      const state = {
+        newAppointment: {
+          pages: {
+            reasonForAppointment: {},
+          },
+          data,
+          reasonRemainingChar: 130,
+        },
+      };
+
+      const pageInfo = getReasonForAppointment(state, 'reasonForAppointment');
+      expect(pageInfo.data).to.eql(data);
+      expect(pageInfo.reasonRemainingChar).to.equal(130);
     });
   });
 

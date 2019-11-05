@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import CallHRC from 'platform/static-data/CallHRC';
 
 export default function IntroPageSummary() {
   return (
@@ -162,7 +161,8 @@ export default function IntroPageSummary() {
             </ul>
             <p>
               If none of the above situations applies to you, and you think your
-              Statement of Benefits should be here, please <CallHRC />
+              Statement of Benefits should be here, please call the GI Bill
+              Hotline at <a href="tel:18884424551">888-442-4551</a>.
             </p>
           </div>
         </div>

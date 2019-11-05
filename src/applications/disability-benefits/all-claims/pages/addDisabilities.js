@@ -73,6 +73,9 @@ export const uiSchema = {
       'view:descriptionInfo': {
         'ui:description': descriptionInfo,
       },
+      'ui:options': {
+        ariaLabelForEditButtonOnReview: 'Edit New condition',
+      },
     },
   },
   // This object only shows up when the user tries to continue without claiming either a rated or new condition

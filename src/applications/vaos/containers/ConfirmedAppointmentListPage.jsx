@@ -3,11 +3,18 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { focusElement } from 'platform/utilities/ui';
-import { fetchConfirmedAppointments } from '../actions/appointments';
+import {
+  fetchConfirmedAppointments,
+  cancelAppointment,
+  confirmCancelAppointment,
+  closeCancelAppointment,
+} from '../actions/appointments';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import { FETCH_STATUS } from '../utils/constants';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getAppointmentId } from '../utils/appointment';
+import CancelAppointmentModal from '../components/CancelAppointmentModal';
+import { getCancelInfo } from '../utils/selectors';
 
 export class ConfirmedAppointmentListPage extends React.Component {
   componentDidMount() {
@@ -15,7 +22,18 @@ export class ConfirmedAppointmentListPage extends React.Component {
     focusElement('h1');
   }
   render() {
-    const { appointments, status } = this.props;
+    const { appointments, status, cancelInfo } = this.props;
+    const scheduleButton = (
+      <Link to="new-appointment">
+        <button
+          type="button"
+          className="usa-button vads-u-margin-x--0 vads-u-margin-bottom--1p5"
+          name="newAppointment"
+        >
+          Schedule an appointment
+        </button>
+      </Link>
+    );
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
@@ -59,27 +77,34 @@ export class ConfirmedAppointmentListPage extends React.Component {
                       </Link>
                       .
                     </p>
-                    <Link to="new-appointment">
-                      <button type="button" className="usa-button">
-                        Schedule an appointment
-                      </button>
-                    </Link>
+                    {scheduleButton}
                   </div>
                 )}
               {status === FETCH_STATUS.succeeded &&
                 appointments.length > 0 && (
-                  <ul className="usa-unstyled-list">
-                    {appointments.map(appt => (
-                      <ConfirmedAppointmentListItem
-                        key={getAppointmentId(appt)}
-                        appointment={appt}
-                      />
-                    ))}
-                  </ul>
+                  <div className="vads-l-row vads-u-justify-content--flex-end">
+                    <div>{scheduleButton}</div>
+                    <div className="vads-l-row vads-u-display--block vads-u-justify-content--flex-start">
+                      <ul className="usa-unstyled-list">
+                        {appointments.map(appt => (
+                          <ConfirmedAppointmentListItem
+                            key={getAppointmentId(appt)}
+                            appointment={appt}
+                            cancelAppointment={this.props.cancelAppointment}
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 )}
             </div>
           </div>
         </div>
+        <CancelAppointmentModal
+          {...cancelInfo}
+          onConfirm={this.props.confirmCancelAppointment}
+          onClose={this.props.closeCancelAppointment}
+        />
       </div>
     );
   }
@@ -89,11 +114,15 @@ function mapStateToProps(state) {
   return {
     appointments: state.appointments.confirmed,
     status: state.appointments.confirmedStatus,
+    cancelInfo: getCancelInfo(state),
   };
 }
 
 const mapDispatchToProps = {
   fetchConfirmedAppointments,
+  cancelAppointment,
+  confirmCancelAppointment,
+  closeCancelAppointment,
 };
 
 export default connect(

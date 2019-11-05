@@ -40,9 +40,11 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
   );
 
   const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
-  const providerWebsitePresent = firstProgram.providerWebsite !== '';
+  const providerWebsitePresent =
+    firstProgram.providerWebsite && firstProgram.providerWebsite !== '';
   const phonePresent = providerPhone !== '';
-  const schoolLocalePresent = firstProgram.schoolLocale !== '';
+  const schoolLocalePresent =
+    firstProgram.schoolLocale && firstProgram.schoolLocale !== '';
 
   return (
     <div className="heading row">
@@ -60,7 +62,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             >
               <span>Preferred Provider </span>
               <button
-                aria-label={ariaLabels.preferredProviderLearnMore}
+                aria-label={ariaLabels.learnMore.preferredProvider}
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={() => showModal('preferredProviders')}

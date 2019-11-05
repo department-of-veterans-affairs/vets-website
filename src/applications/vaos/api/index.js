@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import confirmed from './confirmed.json';
 import pending from './requests.json';
 import past from './past.json';
+import slots from './slots.json';
 
 import mockSystems from './systems.json';
 import mockFacilityData from './facilities.json';
@@ -13,6 +14,7 @@ import mockFacility984Data from './facilities_984.json';
 
 import mockClinicList from './clinicList983.json';
 import mockPACT from './pact.json';
+import mockCancelReasons from './cancel_reasons.json';
 import sitesSupportingVAR from './sites-supporting-var.json';
 
 // This wil go away once we stop mocking api calls
@@ -216,5 +218,33 @@ export function getSitesSupportingVAR() {
     setTimeout(() => {
       resolve(sitesSupportingVAR);
     }, TEST_TIMEOUT || 1500);
+  });
+}
+
+export function getAvailableSlots() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(slots);
+    }, 500);
+  });
+}
+
+// GET /vaos/facilities/{facilityId}/cancel-reasons
+// eslint-disable-next-line no-unused-vars
+export function getCancelReasons(systemId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockCancelReasons.cancelReasonsList);
+    }, 500);
+  });
+}
+
+// PUT /vaos/appointments
+// eslint-disable-next-line no-unused-vars
+export function updateAppointment(appt) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
   });
 }

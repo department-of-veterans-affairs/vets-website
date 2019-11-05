@@ -3,23 +3,24 @@
 ### After API available
 
 - Update `IntroductionPage.jsx`
-  - [ ] Replace placeholder `isInLegacySystem` with value from API
-  - [ ] Add code to update `isInLegacySystem` (or whatever it's named).
+  - [x] Replace placeholder `isInLegacySystem` with value from API
+  - [x] Add code to update `isInLegacySystem` (or whatever it's named).
 -  Update `OptOutFromLegacySystem.jsx`
-  - [ ] Consider converting the `OptOutFromLegacySystem` component into a
+  - [x] Consider converting the `OptOutFromLegacySystem` component into a
         standalone form with it's own form schema - suggested by Erik Hansen.
 - Update `form.js`
-  - Add `submitUrl`.
-  - Update `formConfig.submit` (`confirmationNumber`?)
+  - [ ] Add `submitUrl`.
+  - [ ] Update `formConfig.submit` (`confirmationNumber`?)
 - [ ] Add flipper UI switch.
+- [ ] Check if we're using an approved route for the form:
+  `/disability-benefits/apply/form-0996-higher-level-review/`; see
+  https://github.com/department-of-veterans-affairs/va.gov-team/issues/1984
 
 ### Build Template & Introduction Page (Step 0)
 
 - [x] Build template.
 - [x] Include saved form data component.
-- [ ] Update checkbox error message (needs content approval).
-- [ ] Given multiple entry points, where should the "Back" button lead? Is it
-      bad form to use `history.back()`?
+- [x] Update checkbox error message (needs content approval).
 - [ ] URL destination for the "Learn more about the review options" link?
       Currently it is pointing to `/decision-reviews`.
 - [ ] Destination or component that opens when the "See all your contested
@@ -32,33 +33,27 @@
 - [x] Auto-fill contact info review (collapsed with edit button? - talk to design)
 - [ ] Add tests
 
-### Select your contested issues (Step 2)
+### Select your contested issues (Step 2a & b)
 
 - [ ] Build form `selectContestedIssues` in `config/form.js`
 - [ ] Get eligible issues API call?
 - [ ] Desination of "See all your issues" click?
 - [ ] Add tests
 
-### Add notes (Step 3)
+### Same jurisdiction & add notes (Step 2c)
 
 - [ ] Build form `addNotes` in `config/form.js`
-- [ ] Awaiting design on if notes should be a textarea (not a blocker)
-- [ ] Always show "You can't submit any evidence"?
+- [ ] Choose same regional office yes/no
+- [ ] Add note for reviewer
 - [ ] Add tests
 
-### Request original jurisdiction (Step 4)
-
-- [ ] Build form `requestOriginalJurisdiction` in `config/form.js`
-- [ ] Blocked by design on how to deal with choosing regional office.
-- [ ] Add tests
-
-### Request an informal conference (Step 5)
+### Request an informal conference (Step 3)
 
 - [ ] Build form `requestAnInformalConference` in `config/form.js`
 - [ ] Awaiting design on "Weekday" dropdown content
 - [ ] Add tests
 
-### Submit your application (Step 6)
+### Submit your application (Step 4)
 
 - [ ] Build form in ?? (wording appears to be "Review and submit your
       application", can it be changed to match the design?)
@@ -70,6 +65,12 @@
 - [ ] Is there a design? This page was automaticaly added by the form builder.
 - [ ] Add tests
 
+### Swap order of intro & opt out page
+
+- [ ] Opt out page should only be visible if user has a legacy appeal
+- [ ] Consider updating JSON form schema library to accept an option to add an
+      opt out/in page after the introduction page
+
 ### Before Production
 - [ ] Check for, and remove, all console logs.
 - [ ] Move `20-0996-schema.json` to `vets-json-schema` repo.
@@ -79,3 +80,5 @@
 - [ ] Clear production flag in `config/form.js`.
 - [ ] Delete this to-do file.
 - [ ] Add e2e tests (only executes on production pages?)
+- [ ] Notify `#vsp-contact-center-support` about release and go over
+      troubleshooting any issues

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatCurrency } from '../../utils/helpers';
+import { ariaLabels } from '../../constants';
 
 class VetTecCalculatorForm extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class VetTecCalculatorForm extends React.Component {
         Scholarships (excluding Pell)
       </label>{' '}
       <button
-        aria-label="Learn more about scholarships (excluding Pell)"
+        aria-label={ariaLabels.learnMore.scholarships}
         type="button"
         className="va-button-link learn-more-button"
         onClick={() => onShowModal('scholarships')}
@@ -56,7 +57,7 @@ class VetTecCalculatorForm extends React.Component {
         Tuition and fees for program
       </label>{' '}
       <button
-        aria-label="Learn more about tuition and fees"
+        aria-label={ariaLabels.learnMore.tuitionAndFees}
         type="button"
         className="va-button-link learn-more-button"
         onClick={() => onShowModal('tuitionAndFees')}

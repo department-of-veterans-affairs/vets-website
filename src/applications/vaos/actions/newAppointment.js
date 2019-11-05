@@ -1,10 +1,12 @@
 import newAppointmentFlow from '../newAppointmentFlow';
 import { getTypeOfCare } from '../utils/selectors';
+import moment from 'moment';
 import {
   getSystemIdentifiers,
   getSystemDetails,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
+  getAvailableSlots,
 } from '../api';
 
 import { getEligibilityData } from '../utils/eligibility';
@@ -35,6 +37,14 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
+export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
+  'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
+export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
+  'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
+export const FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR =
+  'newAppointment/FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR';
+
+export const REASON_MAX_CHAR_DEFAULT = 150;
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -179,6 +189,25 @@ export function updateFacilityPageData(page, uiSchema, data) {
   };
 }
 
+export function updateReasonForAppointmentData(page, uiSchema, data) {
+  return async dispatch => {
+    let reasonAdditionalInfo = data.reasonAdditionalInfo || '';
+
+    // Max length for reason
+    const maxTextAreaLength =
+      REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
+    reasonAdditionalInfo = reasonAdditionalInfo.substr(0, maxTextAreaLength);
+
+    const remainingCharacters = maxTextAreaLength - reasonAdditionalInfo.length;
+    dispatch({
+      type: FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+      remainingCharacters,
+    });
+
+    dispatch(updateFormData(page, uiSchema, { ...data, reasonAdditionalInfo }));
+  };
+}
+
 export function openClinicPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     let facilityDetails;
@@ -204,6 +233,60 @@ export function openClinicPage(page, uiSchema, schema) {
     });
   };
 }
+
+export function openSelectAppointmentPage(page, uiSchema, schema) {
+  return async (dispatch, getState) => {
+    let slots;
+    let mappedSlots = [];
+
+    dispatch({
+      type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+    });
+
+    try {
+      const response = await getAvailableSlots(
+        getState().newAppointment.data.clinicId,
+      );
+
+      slots = response[0]?.appointmentTimeSlot || [];
+
+      const now = moment();
+
+      mappedSlots = slots.reduce((acc, slot) => {
+        const dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
+        if (dateObj.isAfter(now)) {
+          acc.push({
+            date: dateObj.format('YYYY-MM-DD'),
+            datetime: dateObj.format(),
+          });
+        }
+        return acc;
+      }, []);
+
+      mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
+    } catch (e) {
+      mappedSlots = null;
+    }
+
+    dispatch({
+      type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+      page,
+      uiSchema,
+      schema,
+      availableSlots: mappedSlots,
+    });
+  };
+}
+
+// export function submitDirectSchedule(page, uiSchema, schema) {
+//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
+//   // TODO: parse selected date
+// }
+
+// export function submitAppointmentRequest(page, uiSchema, schema) {
+//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
+//   // TODO: parse selected date into optionTime
+// }
 
 export function routeToPageInFlow(flow, router, current, action) {
   return async (dispatch, getState) => {
