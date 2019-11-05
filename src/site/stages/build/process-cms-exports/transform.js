@@ -3,7 +3,7 @@ const { getContentModelType } = require('./helpers');
 const pageTransform = require('./transformers/page');
 
 const transformers = {
-  page: pageTransform,
+  'node-page': pageTransform,
 };
 
 const missingTransformers = new Set();
