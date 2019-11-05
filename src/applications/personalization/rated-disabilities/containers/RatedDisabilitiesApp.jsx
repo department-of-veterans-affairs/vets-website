@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
-
-// Wonder if we can put RD data in platform...
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 
@@ -24,14 +25,19 @@ class RatedDisabilitiesApp extends React.Component {
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}
         >
-          <RatedDisabilityView
-            fetchRatedDisabilities={this.props.fetchRatedDisabilities}
-            ratedDisabilities={ratedDisabilities}
-            user={this.props.user}
-            totalDisabilityRating={this.props.totalDisabilityRating}
-            loading={this.props.loading}
-            error={this.props.error}
-          />
+          <DowntimeNotification
+            appTitle="Rated Disabilities"
+            dependencies={[externalServices.evss]}
+          >
+            <RatedDisabilityView
+              fetchRatedDisabilities={this.props.fetchRatedDisabilities}
+              ratedDisabilities={ratedDisabilities}
+              user={this.props.user}
+              totalDisabilityRating={this.props.totalDisabilityRating}
+              loading={this.props.loading}
+              error={this.props.error}
+            />
+          </DowntimeNotification>
         </RequiredLoginView>
       </>
     );
