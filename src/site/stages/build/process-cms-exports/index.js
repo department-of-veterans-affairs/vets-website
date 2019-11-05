@@ -2,7 +2,7 @@ const chalk = require('chalk');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
-const { toId, readEntity } = require('./helpers');
+const { typeProperties, toId, readEntity } = require('./helpers');
 
 const validateEntity = require('./schema-validation');
 
@@ -48,6 +48,9 @@ const entityAssemblerFactory = contentDir => {
     // references to other identities recursively, and replace the
     // reference with the entity contents.
     for (const [key, prop] of Object.entries(filteredEntity)) {
+      // eslint-disable-next-line no-continue
+      if (typeProperties.includes(key)) continue;
+
       // Properties with target_uuids are always arrays from tome-sync
       if (Array.isArray(prop)) {
         prop.forEach((item, index) => {
