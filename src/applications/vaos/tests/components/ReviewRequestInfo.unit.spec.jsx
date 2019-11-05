@@ -75,7 +75,13 @@ describe('VAOS <ReviewRequestInfo>', () => {
       institutionTimezone: 'America/Denver',
     };
 
-    const tree = shallow(<ReviewRequestInfo data={data} facility={facility} />);
+    const tree = shallow(
+      <ReviewRequestInfo
+        data={data}
+        facility={facility}
+        vaCityState="Cheyenne, WY"
+      />,
+    );
 
     expect(tree.find('h2').length).to.equal(7);
 
@@ -84,7 +90,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     expect(text).not.to.contain('CHYSHR-Sidney VA Clinic');
     expect(text).to.contain('Jane Doe');
     expect(text).to.contain('5555555555');
-    expect(text).to.contain('Up to 25 miles');
+    expect(text).to.contain('Cheyenne, WY');
     expect(text).to.contain('English');
 
     expect(tree.find('AlertBox').exists()).to.be.true;

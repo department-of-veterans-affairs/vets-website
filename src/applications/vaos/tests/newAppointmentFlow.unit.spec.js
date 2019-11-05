@@ -208,11 +208,11 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
   describe('type of care page', () => {
-    it('next should be vaFacility page if user systems not in sites supporting CC', async () => {
+    it('next should be vaFacility page if no CC support', async () => {
       const state = {
         newAppointment: {
           data: {
-            typeOfCareId: '203',
+            typeOfCareId: '372',
           },
         },
       };
