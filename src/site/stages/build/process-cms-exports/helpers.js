@@ -12,6 +12,12 @@ const contentDir = path.join(
 );
 
 /**
+ * The sub-type can be found in a few different properties, depending
+ * on the entity
+ */
+const typeProperties = ['type', 'bundle', 'vid'];
+
+/**
  * Get the content model type of an entity. This is used for
  * determining how to handle specific entities. For example, in some
  * node entities, we want to ignore certain properties to avoid
@@ -23,15 +29,16 @@ const contentDir = path.join(
  * @return {String} - The content model type like 'node-page'
  */
 function getContentModelType(entity) {
-  const subType =
-    get(entity, 'type[0].target_id') ||
-    get(entity, 'bundle[0].target_id') ||
-    get(entity, 'vid[0].target_id');
+  const subType = typeProperties.reduce(
+    (foundType, tp) => foundType || get(entity, `${tp}[0].target_id`),
+    null,
+  );
   return [entity.baseType, subType].filter(x => x).join('-');
 }
 
 module.exports = {
   contentDir,
+  typeProperties,
   getContentModelType,
 
   /**
