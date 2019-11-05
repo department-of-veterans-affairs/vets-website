@@ -474,7 +474,7 @@ export default function formReducer(state = initialState, action) {
       if (state.ccEnabledSystems.length === 1) {
         formData = {
           ...formData,
-          communityCareSystemId: state.ccEnabledSystems,
+          communityCareSystemId: state.ccEnabledSystems[0],
         };
         initialSchema = unset(
           'properties.communityCareSystemId',
