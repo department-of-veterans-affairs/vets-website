@@ -48,6 +48,7 @@ export class AppointmentsPage extends Component {
             return (
               <AppointmentRequestListItem
                 key={index}
+                index={index}
                 appointment={appt}
                 cancelAppointment={this.props.cancelAppointment}
               />
@@ -57,6 +58,7 @@ export class AppointmentsPage extends Component {
             return (
               <ConfirmedAppointmentListItem
                 key={index}
+                index={index}
                 appointment={appt}
                 type={type}
                 cancelAppointment={this.props.cancelAppointment}

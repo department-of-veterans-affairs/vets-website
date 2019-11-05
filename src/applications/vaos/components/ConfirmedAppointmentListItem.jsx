@@ -3,6 +3,7 @@ import {
   getClinicName,
   getAppointmentTitle,
   getAppointmentLocation,
+  getAppointmentDate,
   getAppointmentDateTime,
   isVideoVisit,
   isCommunityCare,
@@ -16,6 +17,7 @@ import VideoVisitLink from './VideoVisitLink';
 export default function ConfirmedAppointmentListItem({
   appointment,
   type,
+  index,
   cancelAppointment,
 }) {
   let canceled = false;
@@ -31,7 +33,10 @@ export default function ConfirmedAppointmentListItem({
     !isVideoVisit(appointment);
 
   return (
-    <li className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3">
+    <li
+      aria-labelledby={`card-${index}`}
+      className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3"
+    >
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
         <div className="vaos-appts__status vads-u-flex--1">
           {canceled ? (
@@ -39,8 +44,12 @@ export default function ConfirmedAppointmentListItem({
           ) : (
             <i className="fas fa-check-circle vads-u-color--green" />
           )}
-          <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
+          <span
+            id={`card-${index}`}
+            className="vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-left--1 vads-u-display--inline-block"
+          >
             {canceled ? 'Canceled' : 'Confirmed'}
+            <span className="sr-only"> appointment</span>
           </span>
         </div>
 
@@ -51,6 +60,10 @@ export default function ConfirmedAppointmentListItem({
             className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"
           >
             Cancel
+            <span className="sr-only">
+              {' '}
+              appointment on {getAppointmentDate(appointment)}
+            </span>
           </button>
         )}
       </div>
@@ -60,31 +73,28 @@ export default function ConfirmedAppointmentListItem({
 
       {isCommunityCare(appointment) || isVideoVisit(appointment) ? (
         <div className="vads-u-font-weight--bold vads-u-margin-bottom--1">
-          {getAppointmentTitle(appointment)}
+          <dl>
+            <dt>{getAppointmentTitle(appointment)}</dt>
+            <dd />
+          </dl>
         </div>
       ) : null}
 
-      <dl className="vads-u-margin--0">
-        <div className="vaos-appts__split-section">
-          <div className="vads-u-flex--1">
-            {isVideoVisit(appointment) ? (
-              <dd>
-                <VideoVisitLink appointment={appointment} />
-              </dd>
-            ) : (
-              <>
-                <div className="vads-u-font-weight--bold">
-                  <dt>{getClinicName(appointment)}</dt>
-                </div>
-                <div>
-                  <dd>{getAppointmentLocation(appointment)}</dd>
-                </div>
-              </>
-            )}
-          </div>
-          <div className="vads-u-flex--1">&nbsp;</div>
+      <div className="vaos-appts__split-section">
+        <div className="vads-u-flex--1">
+          {isVideoVisit(appointment) ? (
+            <VideoVisitLink appointment={appointment} />
+          ) : (
+            <dl className="vads-u-margin--0">
+              <dt className="vads-u-font-weight--bold">
+                {getClinicName(appointment)}
+              </dt>
+              <dd>{getAppointmentLocation(appointment)}</dd>
+            </dl>
+          )}
         </div>
-      </dl>
+        <div className="vads-u-flex--1">&nbsp;</div>
+      </div>
     </li>
   );
 }

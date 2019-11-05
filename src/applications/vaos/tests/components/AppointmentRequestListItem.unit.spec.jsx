@@ -40,9 +40,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     const toggleExpand = tree.find('.vaos-appts__expand-link');
     toggleExpand.simulate('click');
 
-    const preferredDates = tree.find(
-      '.vaos-appts__preferred-dates > dd > ul > li',
-    );
+    const preferredDates = tree.find('.vaos-appts__preferred-dates li');
 
     expect(preferredDates.at(0).text()).to.equal(
       'May 22, 2019 in the afternoon',

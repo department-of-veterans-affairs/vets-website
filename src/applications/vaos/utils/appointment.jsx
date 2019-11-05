@@ -173,23 +173,39 @@ export function getAppointmentLocation(appt) {
   );
 }
 
-export function getAppointmentDateTime(appt) {
-  let parsedDate;
+function getParsedMomentDate(appt) {
   if (isCommunityCare(appt)) {
-    parsedDate = moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
+    return moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
   } else if (isVideoVisit(appt)) {
-    parsedDate = moment(appt.vvsAppointments[0].dateTime);
-  } else {
-    parsedDate = moment(appt.startDate);
+    return moment(appt.vvsAppointments[0].dateTime);
   }
+  return moment(appt.startDate);
+}
+
+export function getAppointmentDate(appt) {
+  const parsedDate = getParsedMomentDate(appt);
 
   if (!parsedDate.isValid()) {
     return null;
   }
 
-  return `${parsedDate.format('MMMM D, YYYY')} at ${parsedDate.format(
-    'h:mm a zz',
-  )}`;
+  return parsedDate.format('MMMM D, YYYY');
+}
+
+export function getAppointmentDateTime(appt) {
+  const parsedDate = getParsedMomentDate(appt);
+
+  if (!parsedDate.isValid()) {
+    return null;
+  }
+
+  return (
+    <>
+      {parsedDate.format('MMMM D, YYYY')} at {parsedDate.format('h:mm')}
+      <span aria-hidden="true"> {parsedDate.format('a zz')}</span>
+      <span className="sr-only">{parsedDate.format('a zz')}</span>
+    </>
+  );
 }
 
 export function getRequestDateOptions(appt) {

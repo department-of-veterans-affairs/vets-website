@@ -38,7 +38,12 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   });
 
   it('should have a status of "confirmed"', () => {
-    expect(tree.find('.vaos-appts__status span').text()).to.equal('Confirmed');
+    expect(
+      tree
+        .find('.vaos-appts__status span')
+        .at(0)
+        .text(),
+    ).to.contain('Confirmed');
   });
 
   it('should have an h2 with date', () => {
@@ -51,13 +56,13 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   });
 
   it('should display clinic name', () => {
-    expect(tree.find('.vaos-appts__split-section dt').text()).to.equal(
+    expect(tree.find('.vaos-appts__split-section dt').text()).to.contain(
       'C&P BEV AUDIO FTC1',
     );
   });
 
   it('should have a link to facility info', () => {
-    expect(tree.find('.vaos-appts__split-section a').text()).to.equal(
+    expect(tree.find('.vaos-appts__split-section a').text()).to.contain(
       'View facility information',
     );
   });
@@ -81,7 +86,12 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   );
 
   it('should have a status of "confirmed"', () => {
-    expect(tree.find('.vaos-appts__status span').text()).to.equal('Confirmed');
+    expect(
+      tree
+        .find('.vaos-appts__status span')
+        .at(0)
+        .text(),
+    ).to.contain('Confirmed');
   });
 
   it('should have an h2 with date', () => {
@@ -90,7 +100,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
         .find('h2')
         .text()
         .trim(),
-    ).to.equal('May 22, 2019 at 10:00 a.m.');
+    ).to.contain('May 22, 2019 at 10:00 a.m.');
   });
 
   it('should display clinic name', () => {
@@ -100,7 +110,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   });
 
   it('should display clinic address', () => {
-    expect(tree.find('.vaos-appts__split-section dd').text()).to.equal(
+    expect(tree.find('.vaos-appts__split-section dd').text()).to.contain(
       '123 second stNorthampton, MA 22222',
     );
   });
