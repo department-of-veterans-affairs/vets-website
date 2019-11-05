@@ -16,7 +16,14 @@ const fileNames = readAllNodeNames();
 const entities = map(fileNames, entityDetails =>
   readEntity(contentDir, ...entityDetails),
 );
-const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
+
+// Assemble all the nodes
+// const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
+
+// Assemble only the first node for debugging
+const modifiedEntities = map([entities[0]], entity =>
+  assembleEntityTree(entity),
+);
 
 // eslint-disable-next-line
 console.log('Number of files:', modifiedEntities.length);
