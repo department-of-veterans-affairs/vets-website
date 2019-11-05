@@ -47,8 +47,11 @@ function getFilter(contentModelType) {
  */
 function getFilteredEntity(entity) {
   const contentModelType = getContentModelType(entity);
-  // TODO: Filter properties based on content model type
   const entityTypeFilter = getFilter(contentModelType);
+
+  // There is no filter; return the raw entity
+  if (!entityTypeFilter.length) return entity;
+
   const entityFilter = new Set([...whitelists.global, ...entityTypeFilter]);
   return Object.keys(entity).reduce((newEntity, key) => {
     // eslint-disable-next-line no-param-reassign
