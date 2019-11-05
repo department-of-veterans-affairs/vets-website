@@ -13,6 +13,8 @@ import mockFacility984Data from './facilities_984.json';
 
 import mockClinicList from './clinicList983.json';
 import mockPACT from './pact.json';
+import mockCancelReasons from './cancel_reasons.json';
+import sitesSupportingVAR from './sites-supporting-var.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
@@ -65,30 +67,37 @@ export const getPastAppointments = (() => {
 })();
 
 // GET /vaos/systems
-export async function getSystemIdentifiers() {
-  if (environment.isLocalhost()) {
-    return import('./systems.json').then(
-      module => (module.default ? module.default : module),
-    );
-  }
+export const getSystemIdentifiers = (() => {
+  let promise = null;
 
-  const response = await fetch(
-    `${environment.API_URL}/services/vaos/v0/systems`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'X-Key-Inflection': 'camel',
-      },
-    },
-  );
+  return () => {
+    if (promise) {
+      return promise;
+    }
 
-  if (response.ok) {
-    return response.json();
-  }
+    if (environment.isLocalhost()) {
+      promise = import('./systems.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = fetch(`${environment.API_URL}/services/vaos/v0/systems`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'X-Key-Inflection': 'camel',
+        },
+      }).then(resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
 
-  throw new Error(response.status);
-}
+        throw new Error(resp.status);
+      });
+    }
+
+    return promise;
+  };
+})();
 
 // GET /vaos/facilities
 // eslint-disable-next-line no-unused-vars
@@ -216,10 +225,48 @@ export function getFacilityInfo(facilityId) {
   );
 }
 
+export function getSitesSupportingVAR() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(sitesSupportingVAR);
+    }, TEST_TIMEOUT || 1500);
+  });
+}
+
 export function getAvailableSlots() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(slots);
+    }, 500);
+  });
+}
+
+// GET /vaos/facilities/{facilityId}/cancel-reasons
+// eslint-disable-next-line no-unused-vars
+export function getCancelReasons(systemId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockCancelReasons.cancelReasonsList);
+    }, 500);
+  });
+}
+
+// PUT /vaos/appointments
+// eslint-disable-next-line no-unused-vars
+export function updateAppointment(appt) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
+}
+
+// PUT /vaos/requests
+// eslint-disable-next-line no-unused-vars
+export function updateRequest(appt) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
     }, 500);
   });
 }

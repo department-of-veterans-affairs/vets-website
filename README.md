@@ -34,6 +34,7 @@ Once you have the site set up locally, these are some common commands you might 
 | run all linters                          | `npm run lint`                           |
 | run only javascript linter               | `npm run lint:js`                        |
 | run only sass linter                     | `npm run lint:sass`                      |
+| run lint on JS and fix anything that changed | `npm run lint:js:changed:fix`      |
 | run automated accessibility tests        | `npm run build && npm run test:accessibility` |
 | run visual regression testing            | Start the site. Generate your baseline image set using `npm run test:visual:baseline`. Make your changes. Then run `npm run test:visual`.  |
 | test for broken links                    | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
