@@ -16,12 +16,12 @@ const missingTransformers = new Set();
  * @param {String} entityType - The type of the entity
  * @return {Function} - A function that accepts an entity and transforms it
  */
-function getEntityTransformer(entityType) {
-  let entityTransformer = entity => entity;
+function getEntityTransformer(entityType, verbose = true) {
+  let entityTransformer;
 
   if (entityType in transformers) {
     entityTransformer = transformers[entityType];
-  } else if (!missingTransformers.has(entityType)) {
+  } else if (verbose && !missingTransformers.has(entityType)) {
     missingTransformers.add(entityType);
     // eslint-disable-next-line no-console
     console.warn(`No transformer for target_id ${entityType}`);
