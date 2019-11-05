@@ -32,7 +32,7 @@ const VetTecInstitutionProfile = ({
           <VetTecCalculator showModal={showModal} />
         </AccordionItem>
         <AccordionItem button="Application process">
-          <VetTecApplicationProcess />
+          <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
         <AccordionItem button="Contact details">
           <VetTecContactInformation institution={institution} />

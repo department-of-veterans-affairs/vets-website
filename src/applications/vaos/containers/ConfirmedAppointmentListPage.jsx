@@ -3,11 +3,18 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { focusElement } from 'platform/utilities/ui';
-import { fetchConfirmedAppointments } from '../actions/appointments';
+import {
+  fetchConfirmedAppointments,
+  cancelAppointment,
+  confirmCancelAppointment,
+  closeCancelAppointment,
+} from '../actions/appointments';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import { FETCH_STATUS } from '../utils/constants';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getAppointmentId } from '../utils/appointment';
+import CancelAppointmentModal from '../components/CancelAppointmentModal';
+import { getCancelInfo } from '../utils/selectors';
 
 export class ConfirmedAppointmentListPage extends React.Component {
   componentDidMount() {
@@ -15,7 +22,7 @@ export class ConfirmedAppointmentListPage extends React.Component {
     focusElement('h1');
   }
   render() {
-    const { appointments, status } = this.props;
+    const { appointments, status, cancelInfo } = this.props;
     const scheduleButton = (
       <Link to="new-appointment">
         <button
@@ -83,6 +90,7 @@ export class ConfirmedAppointmentListPage extends React.Component {
                           <ConfirmedAppointmentListItem
                             key={getAppointmentId(appt)}
                             appointment={appt}
+                            cancelAppointment={this.props.cancelAppointment}
                           />
                         ))}
                       </ul>
@@ -92,6 +100,11 @@ export class ConfirmedAppointmentListPage extends React.Component {
             </div>
           </div>
         </div>
+        <CancelAppointmentModal
+          {...cancelInfo}
+          onConfirm={this.props.confirmCancelAppointment}
+          onClose={this.props.closeCancelAppointment}
+        />
       </div>
     );
   }
@@ -101,11 +114,15 @@ function mapStateToProps(state) {
   return {
     appointments: state.appointments.confirmed,
     status: state.appointments.confirmedStatus,
+    cancelInfo: getCancelInfo(state),
   };
 }
 
 const mapDispatchToProps = {
   fetchConfirmedAppointments,
+  cancelAppointment,
+  confirmCancelAppointment,
+  closeCancelAppointment,
 };
 
 export default connect(

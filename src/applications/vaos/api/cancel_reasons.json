@@ -1,0 +1,38 @@
+{
+  "selfLink" : {
+    "rel" : "self",
+    "objectType" : "AtomLink"
+  },
+  "objectType" : "CancelReasons",
+  "link" : [ {
+    "rel" : "self",
+    "objectType" : "AtomLink"
+  } ],
+  "empty" : false,
+  "cancelReasonsList" : [ {
+    "number" : "1",
+    "text" : "WEATHER",
+    "type" : "B",
+    "inactive" : false
+  }, {
+    "number" : "5",
+    "text" : "UNABLE TO KEEP APPOINTMENT",
+    "type" : "B",
+    "inactive" : false
+  }, {
+    "number" : "6",
+    "text" : "DEATH IN FAMILY",
+    "type" : "P",
+    "inactive" : false
+  }, {
+    "number" : "11",
+    "text" : "OTHER",
+    "type" : "B",
+    "inactive" : false
+  }, {
+    "number" : "12",
+    "text" : "TRANSFER OPT CARE TO OTHER VA",
+    "type" : "B",
+    "inactive" : false
+  } ]
+}

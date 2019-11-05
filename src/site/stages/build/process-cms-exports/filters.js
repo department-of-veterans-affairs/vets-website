@@ -1,3 +1,5 @@
+const { getContentModelType } = require('./helpers');
+
 /**
  * When reading through entity properties, ignore these.
  */
@@ -21,7 +23,7 @@ const whitelists = {
 
 const missingFilters = new Set();
 
-function getFilterType(contentModelType) {
+function getFilter(contentModelType) {
   const whitelist = whitelists[contentModelType];
   if (!whitelist && !missingFilters.has(contentModelType)) {
     missingFilters.add(contentModelType);
@@ -36,7 +38,6 @@ function getFilterType(contentModelType) {
  * transformation and returns a new entity with only the desired
  * properties based on the content model type.
  *
- * @param {String} contentModelType - The type of content model.
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
@@ -44,9 +45,10 @@ function getFilterType(contentModelType) {
  * @return {Object} - The entity with only the desired properties
  *                    for the specific content model type.
  */
-function getFilteredEntity(contentModelType, entity) {
+function getFilteredEntity(entity) {
+  const contentModelType = getContentModelType(entity);
   // TODO: Filter properties based on content model type
-  const entityTypeFilter = getFilterType(contentModelType);
+  const entityTypeFilter = getFilter(contentModelType);
   const entityFilter = new Set([...whitelists.global, ...entityTypeFilter]);
   return Object.keys(entity).reduce((newEntity, key) => {
     // eslint-disable-next-line no-param-reassign
@@ -57,4 +59,5 @@ function getFilteredEntity(contentModelType, entity) {
 
 module.exports = {
   getFilteredEntity,
+  getFilter,
 };
