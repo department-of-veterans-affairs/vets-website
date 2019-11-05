@@ -233,6 +233,18 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = await newAppointmentFlow.typeOfCare.next(state);
       expect(nextState).to.equal('typeOfFacility');
     });
+    it('should choose VA Facility page', async () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '123',
+          },
+        },
+      };
+
+      const nextState = await newAppointmentFlow.typeOfCare.next(state);
+      expect(nextState).to.equal('vaFacility');
+    });
   });
   describe('ccProvider page', () => {
     it('should return to type of facility page', () => {

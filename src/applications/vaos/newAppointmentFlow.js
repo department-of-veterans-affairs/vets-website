@@ -9,6 +9,7 @@ import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const NUTRITION_FOOD = '123';
 
 function isCCAudiology(state) {
   return (
@@ -26,6 +27,10 @@ function isCommunityCare(state) {
 
 function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
+}
+
+function isNutrition(state) {
+  return getFormData(state).typeOfCareId === NUTRITION_FOOD;
 }
 
 export default {
@@ -46,6 +51,8 @@ export default {
 
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
+      } else if (isNutrition(state)) {
+        nextState = 'vaFacility';
       } else if (isCommunityCare(state)) {
         try {
           const data = await getCommunityCare(
