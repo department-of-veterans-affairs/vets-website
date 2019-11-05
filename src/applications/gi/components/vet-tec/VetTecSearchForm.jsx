@@ -27,6 +27,11 @@ class VetTecSearchForm extends React.Component {
     eligibility: PropTypes.object.isRequired,
   };
 
+  searchLabel = () =>
+    environment.isProduction()
+      ? 'City, school, or employer'
+      : 'City, VET TEC program or provider';
+
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
     this.props.handleFilterChange(field, value);
@@ -132,7 +137,7 @@ class VetTecSearchForm extends React.Component {
             <h2>Refine search</h2>
             <KeywordSearch
               autocomplete={this.props.autocomplete}
-              label="City, VET TEC program or provider"
+              label={this.searchLabel()}
               location={this.props.location}
               onClearAutocompleteSuggestions={
                 this.props.clearAutocompleteSuggestions
