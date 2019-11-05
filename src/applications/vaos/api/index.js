@@ -228,3 +228,13 @@ export function updateAppointment(appt) {
     }, 500);
   });
 }
+
+// PUT /vaos/requests
+// eslint-disable-next-line no-unused-vars
+export function updateRequest(appt) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
+}

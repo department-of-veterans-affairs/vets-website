@@ -8,6 +8,7 @@ import {
   getPastAppointments,
   getCancelReasons,
   updateAppointment,
+  updateRequest,
 } from '../api';
 
 export const FETCH_PENDING_APPOINTMENTS = 'vaos/FETCH_PENDING_APPOINTMENTS';
@@ -94,6 +95,8 @@ export function cancelAppointment(appointment) {
   };
 }
 
+const BOOKED_REQUEST = 'Booked';
+const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     try {
@@ -102,35 +105,47 @@ export function confirmCancelAppointment() {
       });
 
       const appointment = getState().appointments.appointmentToCancel;
-      const cancelData = {
-        appointmentTime: moment(appointment.startDate).format(
-          'MM/DD/YYYY HH:mm:ss',
-        ),
-        clinicId: appointment.clinicId,
-        remarks: '',
-        clinicName: appointment.vdsAppointments[0].clinic.name,
-        cancelCode: 'PC',
-      };
 
-      const cancelReasons = await getCancelReasons(
-        appointment.facilityId.substr(0, 3),
-      );
-
-      if (cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
-        await updateAppointment({
-          ...cancelData,
-          cancelReason: UNABLE_TO_KEEP_APPT,
-        });
-      } else if (cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))) {
-        const cancelReason = cancelReasons.find(reason =>
-          VALID_CANCEL_CODES.has(reason),
-        );
-        await updateAppointment({
-          ...cancelData,
-          cancelReason: cancelReason.number,
+      if (appointment.status === BOOKED_REQUEST) {
+        await updateRequest({
+          ...appointment,
+          status: CANCELLED_REQUEST,
         });
       } else {
-        throw new Error('Unable to find valid cancel reason');
+        const cancelData = {
+          appointmentTime: moment(appointment.startDate).format(
+            'MM/DD/YYYY HH:mm:ss',
+          ),
+          clinicId: appointment.clinicId,
+          remarks: '',
+          clinicName: appointment.vdsAppointments[0].clinic.name,
+          cancelCode: 'PC',
+        };
+
+        const cancelReasons = await getCancelReasons(
+          appointment.facilityId.substr(0, 3),
+        );
+
+        if (
+          cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)
+        ) {
+          await updateAppointment({
+            ...cancelData,
+            cancelReason: UNABLE_TO_KEEP_APPT,
+          });
+        } else if (
+          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))
+        ) {
+          const cancelReason = cancelReasons.find(reason =>
+            VALID_CANCEL_CODES.has(reason),
+          );
+          await updateAppointment({
+            ...cancelData,
+            cancelReason: cancelReason.number,
+          });
+        } else {
+          throw new Error('Unable to find valid cancel reason');
+        }
       }
 
       dispatch({
