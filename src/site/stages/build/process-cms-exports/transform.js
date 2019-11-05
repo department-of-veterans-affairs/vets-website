@@ -52,4 +52,5 @@ function transformEntity(entity) {
 
 module.exports = {
   transformEntity,
+  getEntityTransformer,
 };
