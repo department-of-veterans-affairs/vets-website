@@ -1,10 +1,7 @@
 {% comment %}
 =====================
-Level 2 Index (Merger)
+Education SCO (Merger)
 =====================
-
-Used for index pages in top-level paths (e.g. hubpages /health-care/index.html)
-
 {% endcomment %}
 
 <main>
@@ -34,6 +31,8 @@ Used for index pages in top-level paths (e.g. hubpages /health-care/index.html)
           {% if crosslinks != empty %}
             {% include "src/site/components/merger-crosslinks.html" %}
           {% endif %}
+
+          {% include "src/site/includes/last-update.html" %}
 
         </article>
       </div>
