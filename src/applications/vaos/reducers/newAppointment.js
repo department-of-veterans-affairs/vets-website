@@ -23,7 +23,7 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
-  FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS,
+  FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
@@ -47,7 +47,7 @@ const initialState = {
   clinics: {},
   eligibility: {},
   systems: null,
-  ccEnabledSystems: ['983', '984'],
+  ccEnabledSystems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingEligibility: false,
@@ -315,10 +315,10 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS: {
+    case FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS: {
       return {
         ...state,
-        hasCCEnabledSystems: action.hasCCEnabledSystems,
+        ccEnabledSystems: action.ccEnabledSystems,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -478,7 +478,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
       let formData = state.data;
       let initialSchema = action.schema;
-      if (state.ccEnabledSystems.length === 1) {
+      if (state.ccEnabledSystems?.length === 1) {
         formData = {
           ...formData,
           communityCareSystemId: state.ccEnabledSystems[0],

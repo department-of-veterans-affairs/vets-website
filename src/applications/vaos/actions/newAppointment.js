@@ -27,8 +27,8 @@ export const FORM_FETCH_CHILD_FACILITIES =
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
-export const FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS =
-  'newAppointment/FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS';
+export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
+  'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
 export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
@@ -68,10 +68,10 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
-export function updateHasCCEnabledSystems(hasCCEnabledSystems) {
+export function updateCCEnabledSystems(ccEnabledSystems) {
   return {
-    type: FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS,
-    hasCCEnabledSystems,
+    type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
+    ccEnabledSystems,
   };
 }
 

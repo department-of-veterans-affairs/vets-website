@@ -13,7 +13,7 @@ import {
 } from './api';
 import {
   updateFacilityType,
-  updateHasCCEnabledSystems,
+  updateCCEnabledSystems,
 } from './actions/newAppointment';
 import { hasEligibleClinics } from './utils/eligibility';
 
@@ -61,24 +61,23 @@ export default {
           // Check if user registered systems support community care...
           const userSystemIds = await getSystemIdentifiers();
           const ccSites = await getSitesSupportingVAR();
-          const userHasCCEnabledSystems = ccSites.some(site =>
-            userSystemIds.some(userSystemId => userSystemId === site._id),
+          const ccEnabledSystems = userSystemIds.filter(id =>
+            ccSites.some(site => site._id === id),
           );
+          dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
           // Reroute to VA facility page if none of the user's registered systems support community care.
-          if (!userHasCCEnabledSystems) {
-            dispatch(updateFacilityType('vaFacility'));
-            dispatch(updateHasCCEnabledSystems(false));
-          } else {
-            dispatch(updateHasCCEnabledSystems(true));
+          if (ccEnabledSystems.length) {
             const data = await getCommunityCare(
               '/vaos/community-care/eligibility',
             );
 
             if (data.isEligible) {
-              nextState = 'typeOfFacility';
+              return 'typeOfFacility';
             }
           }
+
+          dispatch(updateFacilityType('vaFacility'));
         } catch (e) {
           return 'vaFacility';
         }

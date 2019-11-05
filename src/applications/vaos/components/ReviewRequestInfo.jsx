@@ -3,12 +3,7 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import {
-  TYPE_OF_VISIT,
-  DISTANCES,
-  LANGUAGES,
-  PURPOSE_TEXT,
-} from '../utils/constants';
+import { TYPE_OF_VISIT, LANGUAGES, PURPOSE_TEXT } from '../utils/constants';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -33,7 +28,7 @@ function formatBestTime(bestTime) {
   return 'Anytime during the day';
 }
 
-export default function ReviewRequestInfo({ data, facility }) {
+export default function ReviewRequestInfo({ data, facility, vaCityState }) {
   const isCommunityCare = data.facilityType === 'communityCare';
 
   return (
@@ -85,7 +80,7 @@ export default function ReviewRequestInfo({ data, facility }) {
                   <span className="vads-u-padding-right--1">
                     {prov.firstName} {prov.lastName}
                   </span>{' '}
-                  <Link to={newAppointmentFlow.ccProvider.url}>Edit</Link>
+                  <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
                   <br />
                   {prov.phone}
                   <br />
@@ -97,19 +92,18 @@ export default function ReviewRequestInfo({ data, facility }) {
           {!data.hasCommunityCareProvider && (
             <>
               <span className="vads-u-padding-right--1">Not specified</span>{' '}
-              <Link to={newAppointmentFlow.ccProvider.url}>Edit</Link>
+              <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
             </>
           )}
-          <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-            Distance preference
-          </h2>
-          <span className="vads-u-padding-right--1">
-            {
-              DISTANCES.find(dist => dist.id === data.distanceWillingToTravel)
-                ?.name
-            }
-          </span>
-          <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+          {!!vaCityState && (
+            <>
+              <h2 className="vaos-appts__block-label vads-u-margin-top--2">
+                Closest VA location
+              </h2>
+              <span className="vads-u-padding-right--1">{vaCityState}</span>
+              <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+            </>
+          )}
           <h2 className="vaos-appts__block-label vads-u-margin-top--2">
             Language preference
           </h2>

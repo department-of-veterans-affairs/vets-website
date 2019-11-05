@@ -37,7 +37,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('ccProvider');
+      expect(nextState).to.equal('ccPreferences');
     });
 
     it('next should choose audiology options page if CC and audiology is chosen', () => {
@@ -238,14 +238,14 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('typeOfSleepCare');
     });
   });
-  describe('ccProvider page', () => {
+  describe('ccPreferences page', () => {
     it('should return to type of facility page', () => {
       const state = {
         newAppointment: {
           data: {},
         },
       };
-      expect(newAppointmentFlow.ccProvider.previous(state)).to.equal(
+      expect(newAppointmentFlow.ccPreferences.previous(state)).to.equal(
         'typeOfFacility',
       );
     });
@@ -258,12 +258,12 @@ describe('VAOS newAppointmentFlow', () => {
           },
         },
       };
-      expect(newAppointmentFlow.ccProvider.previous(state)).to.equal(
+      expect(newAppointmentFlow.ccPreferences.previous(state)).to.equal(
         'audiologyCareType',
       );
     });
   });
-  describe('constact info page', () => {
+  describe('contact info page', () => {
     it('should return to choose visit type page', () => {
       const state = {
         newAppointment: {
@@ -283,7 +283,7 @@ describe('VAOS newAppointmentFlow', () => {
         },
       };
       expect(newAppointmentFlow.contactInfo.previous(state)).to.equal(
-        'ccProvider',
+        'ccPreferences',
       );
     });
   });
