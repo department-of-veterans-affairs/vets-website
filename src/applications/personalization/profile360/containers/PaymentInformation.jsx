@@ -14,7 +14,6 @@ import {
 } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
-import get from 'platform/utilities/data/get';
 import recordEvent from 'platform/monitoring/record-event';
 
 import ProfileFieldHeading from 'vet360/components/base/ProfileFieldHeading';
@@ -29,6 +28,11 @@ import {
   editModalToggled,
   editModalFieldChanged,
 } from '../actions/paymentInformation';
+import {
+  directDepositAccountInformation,
+  directDepositInformation,
+  directDepositIsSetUp as directDepositIsSetUpSelector,
+} from '../selectors';
 
 const AdditionalInfos = props => (
   <>
@@ -146,14 +150,13 @@ class PaymentInformation extends React.Component {
 
   render() {
     const {
+      directDepositIsSetUp,
       isEligible,
       isLoading,
       multifactorEnabled,
       paymentInformation,
+      paymentAccount,
     } = this.props;
-    const directDepositIsSetUp =
-      paymentInformation &&
-      get('responses[0].paymentAccount.accountNumber', paymentInformation);
 
     let content = null;
 
@@ -170,11 +173,8 @@ class PaymentInformation extends React.Component {
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
     } else if (!directDepositIsSetUp) {
-      // we might eventually want to return some helpful contenct explaining how
-      // a vet could go about setting up direct deposit
       return null;
     } else {
-      const paymentAccount = paymentInformation?.responses[0]?.paymentAccount;
       content = (
         <>
           <div className="vet360-profile-field">
@@ -248,13 +248,15 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => ({
+  directDepositIsSetUp: directDepositIsSetUpSelector(state),
   multifactorEnabled: isMultifactorEnabled(state),
   isEligible: isEvssAvailable(state),
   isLoading:
     isEvssAvailable(state) &&
     isMultifactorEnabled(state) &&
-    !state.vaProfile.paymentInformation,
-  paymentInformation: state.vaProfile.paymentInformation,
+    !directDepositInformation(state),
+  paymentAccount: directDepositAccountInformation(state),
+  paymentInformation: directDepositInformation(state),
   paymentInformationUiState: state.vaProfile.paymentInformationUiState,
 });
 

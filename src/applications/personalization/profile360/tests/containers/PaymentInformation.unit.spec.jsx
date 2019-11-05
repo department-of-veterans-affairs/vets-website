@@ -11,7 +11,14 @@ import PaymentInformationEditModal from '../../components/PaymentInformationEdit
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 describe('<PaymentInformation/>', () => {
+  const paymentAccount = {
+    accountNumber: '123',
+    accountType: 'Checking',
+    financialInstitutionName: 'My bank',
+    financialInstitutionRoutingNumber: '123456789',
+  };
   const defaultProps = {
+    directDepositIsSetUp: true,
     multifactorEnabled: true,
     isLoading: false,
     isEligible: true,
@@ -19,6 +26,7 @@ describe('<PaymentInformation/>', () => {
     savePaymentInformation() {},
     editModalToggled() {},
     editModalFieldChanged() {},
+    paymentAccount,
     paymentInformationUiState: {
       isEditing: false,
       isSaving: false,
@@ -26,12 +34,7 @@ describe('<PaymentInformation/>', () => {
     paymentInformation: {
       responses: [
         {
-          paymentAccount: {
-            accountNumber: '123',
-            accountType: 'Checking',
-            financialInstitutionName: 'My bank',
-            financialInstitutionRoutingNumber: '123456789',
-          },
+          paymentAccount,
         },
       ],
     },
@@ -56,27 +59,11 @@ describe('<PaymentInformation/>', () => {
     wrapper.unmount();
   });
 
-  it('does not render if the user has not previously set up direct deposit', () => {
-    const fetchPaymentInformation = sinon.spy();
+  it('renders nothing if the user has not already set up direct deposit', () => {
     const props = {
       ...defaultProps,
-      fetchPaymentInformation,
-      paymentInformation: {
-        responses: [],
-      },
+      directDepositIsSetUp: false,
     };
-    const wrapper = shallow(<PaymentInformation {...props} />);
-    expect(wrapper.text()).to.be.empty;
-    expect(fetchPaymentInformation.called).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('renders nothing if the accountNumber is empty', () => {
-    const props = set(
-      'paymentInformation.responses[0].paymentAccount.accountNumber',
-      '',
-      defaultProps,
-    );
     const wrapper = shallow(<PaymentInformation {...props} />);
 
     expect(wrapper.text()).to.be.empty;

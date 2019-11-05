@@ -65,7 +65,12 @@ class VetTecApprovedPrograms extends React.Component {
               </label>
             </div>
           </td>
-          <td>{`${program.lengthInHours} hours`}</td>
+          {// PROD FLAG CT 116 STORY 19868
+          environment.isProduction() ? (
+            <td>{`${program.lengthInHours} hours`}</td>
+          ) : (
+            <td>{`${program.lengthInWeeks} weeks`}</td>
+          )}
           <td>{formatCurrency(program.tuitionAmount)}</td>
         </tr>
       ));

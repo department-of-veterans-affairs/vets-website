@@ -9,7 +9,10 @@ import {
 } from '../utils/appointment';
 import VideoVisitLink from './VideoVisitLink';
 
-export default function ConfirmedAppointmentListItem({ appointment }) {
+export default function ConfirmedAppointmentListItem({
+  appointment,
+  cancelAppointment,
+}) {
   return (
     <li className="vads-u-border-left--5px vads-u-border-color--green vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
       <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
@@ -42,6 +45,9 @@ export default function ConfirmedAppointmentListItem({ appointment }) {
       >
         View details <i className="fas fa-angle-right" />
       </Link>
+      {!!appointment.vdsAppointments && (
+        <button onClick={() => cancelAppointment(appointment)}>Cancel</button>
+      )}
     </li>
   );
 }
