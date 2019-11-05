@@ -159,6 +159,27 @@ describe('VAOS actions: appointments', () => {
       });
     });
 
+    it('should cancel request', async () => {
+      const state = {
+        appointments: {
+          appointmentToCancel: {
+            status: 'Booked',
+          },
+        },
+      };
+      const dispatch = sinon.spy();
+      const thunk = confirmCancelAppointment();
+
+      await thunk(dispatch, () => state);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        CANCEL_APPOINTMENT_CONFIRMED,
+      );
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
+      });
+    });
+
     it('should send fail action if cancel fails', async () => {
       const state = {
         appointments: {

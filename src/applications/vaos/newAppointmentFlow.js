@@ -1,10 +1,20 @@
 import {
   getFormData,
+  getNewAppointment,
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
 import { TYPES_OF_CARE } from './utils/constants';
-import { getCommunityCare, getPastAppointments } from './api';
+import {
+  getCommunityCare,
+  getSystemIdentifiers,
+  getPastAppointments,
+  getSitesSupportingVAR,
+} from './api';
+import {
+  updateFacilityType,
+  updateHasCCEnabledSystems,
+} from './actions/newAppointment';
 import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
@@ -41,19 +51,33 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    async next(state) {
+    async next(state, dispatch) {
       let nextState = 'vaFacility';
 
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
       } else if (isCommunityCare(state)) {
         try {
-          const data = await getCommunityCare(
-            '/vaos/community-care/eligibility',
+          // Check if user registered systems support community care...
+          const userSystemIds = await getSystemIdentifiers();
+          const ccSites = await getSitesSupportingVAR();
+          const userHasCCEnabledSystems = ccSites.some(site =>
+            userSystemIds.some(userSystemId => userSystemId === site._id),
           );
 
-          if (data.isEligible) {
-            nextState = 'typeOfFacility';
+          // Reroute to VA facility page if none of the user's registered systems support community care.
+          if (!userHasCCEnabledSystems) {
+            dispatch(updateFacilityType('vaFacility'));
+            dispatch(updateHasCCEnabledSystems(false));
+          } else {
+            dispatch(updateHasCCEnabledSystems(true));
+            const data = await getCommunityCare(
+              '/vaos/community-care/eligibility',
+            );
+
+            if (data.isEligible) {
+              nextState = 'typeOfFacility';
+            }
           }
         } catch (e) {
           return 'vaFacility';
@@ -135,7 +159,11 @@ export default {
     previous(state) {
       let nextState = 'typeOfCare';
 
-      if (getFormData(state).facilityType) {
+      // Return to typeOFFacility page if facility is CC enabled
+      if (
+        getFormData(state).facilityType &&
+        getNewAppointment(state).hasCCEnabledSystems
+      ) {
         nextState = 'typeOfFacility';
       }
       return nextState;
