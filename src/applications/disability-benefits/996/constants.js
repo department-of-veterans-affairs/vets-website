@@ -7,7 +7,8 @@ export const selectors = {
 };
 
 export const errorMessages = {
-  optOutCheckbox: 'You must opt in to the new appeals process to proceed',
+  optOutCheckbox:
+    'You need to opt out of the old appeals process to continue with your request',
   phone: 'Please enter your 10-digit phone number (with or without dashes)',
   email: 'Please enter your email address using this format: X@X.com',
   address1: 'Please enter your street address',

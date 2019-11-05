@@ -16,7 +16,7 @@ export const OptOutDescription = (
 );
 
 export const OptInCheckBoxLabel = (
-  <strong>I choose opt in to the new appeals systems</strong>
+  <strong>I choose to opt in to the new appeals systems</strong>
 );
 
 export const OptInCheckboxDescription = (
