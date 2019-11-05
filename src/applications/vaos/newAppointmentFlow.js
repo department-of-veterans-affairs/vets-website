@@ -187,7 +187,7 @@ export default {
     next: 'review',
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
-        return 'ccProvider';
+        return 'ccPreferences';
       }
 
       return 'visitType';

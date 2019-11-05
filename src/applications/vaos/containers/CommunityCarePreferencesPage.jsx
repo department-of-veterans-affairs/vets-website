@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../components/FormButtons';
@@ -7,7 +8,7 @@ import * as address from '../utils/address';
 import { LANGUAGES } from './../utils/constants';
 
 import {
-  openFormPage,
+  openCommunityCarePreferencesPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -16,11 +17,11 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['preferredLanguage', 'hasCommunityCareProvider', 'systemId'],
+  required: ['preferredLanguage', 'hasCommunityCareProvider'],
   properties: {
-    systemId: {
+    communityCareSystemId: {
       type: 'string',
-      // enum: [],
+      enum: [],
     },
     preferredLanguage: {
       type: 'string',
@@ -54,8 +55,9 @@ const initialSchema = {
 
 const addressUISchema = address.uiSchema();
 const uiSchema = {
-  systemId: {
+  communityCareSystemId: {
     'ui:title': 'What is the closest city and state for your appointment?',
+    'ui:widget': 'radio',
   },
   preferredLanguage: {
     'ui:title':
@@ -117,7 +119,11 @@ const pageKey = 'ccPreferences';
 
 export class CommunityCarePreferencesPage extends React.Component {
   componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.props.openCommunityCarePreferencesPage(
+      pageKey,
+      uiSchema,
+      initialSchema,
+    );
   }
 
   goBack = () => {
@@ -129,42 +135,49 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const { schema, data, pageChangeInProgress, loading } = this.props;
 
     return (
-      <>
+      <div>
         <h1 className="vads-u-font-size--h2">
           Share your community care provider preferences
         </h1>
-        {!!schema && (
-          <SchemaForm
-            name="ccProvider"
-            title="Community Care provider"
-            schema={schema}
-            uiSchema={uiSchema}
-            onSubmit={this.goForward}
-            onChange={newData =>
-              this.props.updateFormData(pageKey, uiSchema, newData)
-            }
-            data={data}
-          >
-            <FormButtons
-              onBack={this.goBack}
-              pageChangeInProgress={pageChangeInProgress}
-            />
-          </SchemaForm>
+        {(!schema || loading) && (
+          <LoadingIndicator message="Loading Community Care facilities" />
         )}
-      </>
+        {!!schema &&
+          !loading && (
+            <SchemaForm
+              name="ccPreferences"
+              title="Community Care preferences"
+              schema={schema}
+              uiSchema={uiSchema}
+              onSubmit={this.goForward}
+              onChange={newData =>
+                this.props.updateFormData(pageKey, uiSchema, newData)
+              }
+              data={data}
+            >
+              <FormButtons
+                onBack={this.goBack}
+                pageChangeInProgress={pageChangeInProgress}
+              />
+            </SchemaForm>
+          )}
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  return {
+    ...getFormPageInfo(state, pageKey),
+    loading: state.newAppointment.loadingSystems,
+  };
 }
 
 const mapDispatchToProps = {
-  openFormPage,
+  openCommunityCarePreferencesPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
