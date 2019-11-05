@@ -96,7 +96,10 @@ export const VetTecContactInformation = ({ institution }) => {
   const renderSCOHeader = () =>
     institution.versionedSchoolCertifyingOfficials &&
     institution.versionedSchoolCertifyingOfficials.length > 0 && (
-      <h3>School certifying officials</h3>
+      <div>
+        <h3>School certifying officials</h3>
+        <hr />
+      </div>
     );
 
   const renderPrimarySCOs = () =>
@@ -137,6 +140,10 @@ export const VetTecContactInformation = ({ institution }) => {
     <div>
       <div>{renderSCOHeader()}</div>
       <div>{renderPrimarySCOs()}</div>
+      {primarySCOs &&
+        primarySCOs.length > 0 &&
+        secondarySCOs &&
+        secondarySCOs.length > 0 && <hr />}
       <div>{renderSecondarySCOs()}</div>
     </div>
   );
