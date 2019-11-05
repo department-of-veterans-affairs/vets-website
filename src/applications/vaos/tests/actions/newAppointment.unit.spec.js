@@ -11,7 +11,6 @@ import {
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
-  FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -119,25 +118,20 @@ describe('VAOS newAppointment actions', () => {
         },
         pages: {},
         loadingSystems: false,
-        systems: null,
+        systems,
         facilities: {},
         eligibility: {},
       },
     };
 
-    it('should fetch systems', async () => {
+    it('should reuse systems systems if already in state', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_PAGE_FACILITY_OPEN);
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-      );
-
-      const succeededAction = dispatch.secondCall.args[0];
+      const succeededAction = dispatch.lastCall.args[0];
       expect(succeededAction).to.deep.equal({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
@@ -150,7 +144,7 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
-    it('should fetch systems and facilities if system was selected already', async () => {
+    it('should fetch facilities if system was selected already', async () => {
       const dispatch = sinon.spy();
       const state = set('newAppointment.data.vaSystem', '983', defaultState);
       const getState = () => state;
@@ -158,12 +152,11 @@ describe('VAOS newAppointment actions', () => {
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
 
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_PAGE_FACILITY_OPEN);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.firstCall.args[0].type).to.equal(
         FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
       );
 
-      const succeededAction = dispatch.secondCall.args[0];
+      const succeededAction = dispatch.firstCall.args[0];
       expect(succeededAction).to.deep.equal({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         schema: defaultSchema,
