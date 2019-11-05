@@ -57,12 +57,6 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
   },
   {
-    id: '123',
-    name: 'Nutrition and food',
-    group: 'specialty',
-    ccId: 'CCNUTRN',
-  },
-  {
     id: '407',
     name: 'Opthamology',
     group: 'specialty',
@@ -72,12 +66,6 @@ export const TYPES_OF_CARE = [
     name: 'Optometry',
     group: 'specialty',
     ccId: 'CCOPT',
-  },
-  {
-    id: 'tbd',
-    name: 'Podiatry',
-    ccId: 'CCPOD',
-    group: 'specialty',
   },
   {
     id: 'SLEEP',
