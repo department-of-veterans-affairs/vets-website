@@ -2,7 +2,7 @@ import fullSchema from '../20-0996-schema.json';
 
 import { validateLength } from 'platform/forms/validations';
 
-import { errorMessages } from '../constants';
+import { errorMessages, NULL_CONDITION_STRING } from '../constants';
 import {
   contestedIssueNameTitle,
   contestedIssueOfficeTitle,
@@ -20,6 +20,11 @@ const contestedIssueFollowup = {
   uiSchema: {
     'ui:title': 'Conested issue followup',
     contestedIssues: {
+      'ui:options': {
+        viewField: ({ formData }) => formData?.name || NULL_CONDITION_STRING,
+        reviewTitle: 'Contested Issues',
+        itemName: 'Contested Issue',
+      },
       items: {
         'ui:title': contestedIssueNameTitle,
         useSameOffice: {
