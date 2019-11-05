@@ -72,7 +72,7 @@ export default {
       }
 
       if (getFormData(state).facilityType === 'communityCare') {
-        return 'ccProvider';
+        return 'ccPreferences';
       }
 
       return 'vaFacility';
@@ -86,12 +86,12 @@ export default {
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'ccProvider',
+    next: 'ccPreferences',
     previous: 'typeOfFacility',
   },
-  ccProvider: {
-    url: '/new-appointment/community-care-provider',
-    next: 'ccPreferences',
+  ccPreferences: {
+    url: '/new-appointment/community-care-preferences',
+    next: 'contactInfo',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -99,11 +99,6 @@ export default {
 
       return 'typeOfFacility';
     },
-  },
-  ccPreferences: {
-    url: '/new-appointment/community-care-preferences',
-    next: 'contactInfo',
-    previous: 'ccProvider',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',

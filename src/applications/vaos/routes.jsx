@@ -5,7 +5,6 @@ import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentListsPage from './containers/AppointmentListsPage';
 import ReasonForAppointmentPage from './containers/ReasonForAppointmentPage';
 import TypeOfCarePage from './containers/TypeOfCarePage';
-import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
 import CommunityCarePreferencesPage from './containers/CommunityCarePreferencesPage';
 import PendingAppointmentListPage from './containers/PendingAppointmentListPage';
 import PendingAppointmentDetailPage from './containers/PendingAppointmentDetailPage';
@@ -35,10 +34,6 @@ const routes = (
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
       <Route path="request-date" component={DateTimeRequestPage} />
       <Route path="select-date" component={DateTimeSelectPage} />
-      <Route
-        path="community-care-provider"
-        component={CommunityCareProviderPage}
-      />
       <Route path="va-facility" component={VAFacilityPage} />
       <Route
         path="community-care-preferences"
