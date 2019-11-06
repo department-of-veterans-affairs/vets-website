@@ -57,6 +57,12 @@ describe('VAOS <ReviewRequestInfo>', () => {
         firstName: 'Jane',
         lastName: 'Doe',
         phone: '5555555555',
+        address: {
+          street: '123 Test',
+          city: 'Northampton',
+          state: 'MA',
+          postalCode: '01060',
+        },
       },
     };
     const facility = {
