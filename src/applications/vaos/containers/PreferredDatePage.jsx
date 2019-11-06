@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import FormButtons from '../components/FormButtons';
 import {
   openFormPage,
@@ -14,6 +15,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 
 const initialSchema = {
   type: 'object',
+  format: 'date',
   required: ['preferredDate'],
   properties: {
     preferredDate: {
@@ -29,15 +31,7 @@ const uiSchema = {
     'ui:options': {
       hideLabelText: true,
     },
-    'ui:validations': [
-      (errors, preferredDate) => {
-        if (moment(preferredDate).isBefore(moment(), 'day')) {
-          errors.addError(
-            'Please select a date that is either today or in the future',
-          );
-        }
-      },
-    ],
+    'ui:validations': [validateCurrentOrFutureDate],
   },
 };
 
