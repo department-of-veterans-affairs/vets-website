@@ -37,7 +37,7 @@ export class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset" role="presentation">
-          <h4 style={{ marginTop: 0 }}>
+          <h4 className="vads-u-margin-top--0">
             Higher-Level Review Claim{' '}
             <span className="additional" role="presentation">
               (Form 20-0996)
