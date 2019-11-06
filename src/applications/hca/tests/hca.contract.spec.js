@@ -67,6 +67,7 @@ describe('HCA API', () => {
 
   const interactions = {
     SUBMISSION_WITHOUT_ATTACHMENTS: {
+      state: 'enrollment service is up',
       uponReceiving: 'an application for health care',
       withRequest: {
         method: 'POST',

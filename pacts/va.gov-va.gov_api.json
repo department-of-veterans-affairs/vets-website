@@ -8,6 +8,7 @@
   "interactions": [
     {
       "description": "an application for health care",
+      "providerState": "enrollment service is up",
       "request": {
         "method": "POST",
         "path": "/v0/health_care_applications",
