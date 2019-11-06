@@ -15,11 +15,11 @@ import AdditionalInfo from '@department-of-veterans-affairs/formation-react/Addi
 
 const initialSchema = {
   type: 'object',
-  format: 'date',
   required: ['preferredDate'],
   properties: {
     preferredDate: {
       type: 'string',
+      format: 'date',
     },
   },
 };
