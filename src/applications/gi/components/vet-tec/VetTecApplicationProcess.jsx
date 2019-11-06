@@ -151,6 +151,7 @@ class VetTecApplicationProcess extends React.Component {
   );
 
   render() {
+    // PROD FLAG CT 116 STORY 19920
     return environment.isProduction() ? (
       this.renderProduction()
     ) : (
