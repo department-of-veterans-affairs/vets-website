@@ -91,4 +91,13 @@ describe('VAOS <ReviewRequestInfo>', () => {
 
     tree.unmount();
   });
+
+  it('should render aria labels for Edit links', () => {
+    const tree = shallow(<ReviewRequestInfo data={{}} />);
+
+    expect(tree.find('[aria-label]').length).to.equal(7);
+    expect(tree.find('[aria-label="edit type of care"]').exists()).to.be.true;
+
+    tree.unmount();
+  });
 });
