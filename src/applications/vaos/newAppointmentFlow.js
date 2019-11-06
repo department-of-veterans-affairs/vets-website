@@ -4,7 +4,7 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { TYPES_OF_CARE } from './utils/constants';
+import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
@@ -12,6 +12,8 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
+  START_DIRECT_SCHEDULE_FLOW,
+  START_REQUEST_FLOW,
   updateFacilityType,
   updateHasCCEnabledSystems,
 } from './actions/newAppointment';
@@ -141,7 +143,7 @@ export default {
 
         if (hasEligibleClinics(facilityId, appointments, clinics)) {
           dispatch({
-            type: 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
+            type: START_DIRECT_SCHEDULE_FLOW,
             appointments,
           });
 
@@ -150,7 +152,10 @@ export default {
       }
 
       if (eligibilityStatus.request) {
-        return 'requestDateTime';
+        dispatch({
+          type: START_REQUEST_FLOW,
+        });
+        return 'preferredDate';
       }
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
@@ -180,18 +185,33 @@ export default {
 
       // fetch appointment slots
 
-      return 'selectDateTime';
+      return 'preferredDate';
+    },
+  },
+  preferredDate: {
+    url: '/new-appointment/preferred-date',
+    next(state) {
+      if (getNewAppointment(state).flowType === FLOW_TYPES.direct) {
+        return 'selectDateTime';
+      }
+      return 'requestDateTime';
+    },
+    previous(state) {
+      if (state.flowType === FLOW_TYPES.direct) {
+        return 'clinicChoice';
+      }
+      return 'vaFacility';
     },
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
     next: 'reasonForAppointment',
-    previous: 'clinicChoice',
+    previous: 'preferredDate',
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
     next: 'reasonForAppointment',
-    previous: 'vaFacility',
+    previous: 'preferredDate',
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
