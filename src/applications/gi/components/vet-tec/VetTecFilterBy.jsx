@@ -46,7 +46,7 @@ class VetTecFilterBy extends React.Component {
     renderLearnMoreLabel({
       modal: 'preferredProvider',
       showModal: this.props.showModal,
-      ariaLabel: ariaLabels.preferredProvider,
+      ariaLabel: ariaLabels.learnMore.preferredProvider,
       component: this,
     });
 
@@ -75,7 +75,7 @@ class VetTecFilterBy extends React.Component {
   render() {
     const label = (
       <span className="preferred-flag">
-        Preferred provider&nbsp;&nbsp;
+        Preferred providers&nbsp;&nbsp;
         <i className="fa fa-star vads-u-color--gold" />
       </span>
     );
