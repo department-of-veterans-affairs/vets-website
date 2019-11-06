@@ -53,13 +53,11 @@ describe('VAOS <ReviewRequestInfo>', () => {
         afternoon: true,
       },
       hasCommunityCareProvider: true,
-      communityCareProviders: [
-        {
-          firstName: 'Jane',
-          lastName: 'Doe',
-          phone: '5555555555',
-        },
-      ],
+      communityCareProvider: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        phone: '5555555555',
+      },
     };
     const facility = {
       institution: {

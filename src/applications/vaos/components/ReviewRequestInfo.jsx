@@ -74,20 +74,17 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
             Provider preference
           </h2>
           {data.hasCommunityCareProvider && (
-            <ul className="usa-unstyled-list">
-              {data.communityCareProviders.map(prov => (
-                <li key={prov.phone} className="vads-u-margin-bottom--2">
-                  <span className="vads-u-padding-right--1">
-                    {prov.firstName} {prov.lastName}
-                  </span>{' '}
-                  <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
-                  <br />
-                  {prov.phone}
-                  <br />
-                  {prov.practiceName}
-                </li>
-              ))}
-            </ul>
+            <div className="vads-u-margin-bottom--2">
+              <span className="vads-u-padding-right--1">
+                {data.communityCareProvider.firstName}{' '}
+                {data.communityCareProvider.lastName}
+              </span>{' '}
+              <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+              <br />
+              {data.communityCareProvider.phone}
+              <br />
+              {data.communityCareProvider.practiceName}
+            </div>
           )}
           {!data.hasCommunityCareProvider && (
             <>
