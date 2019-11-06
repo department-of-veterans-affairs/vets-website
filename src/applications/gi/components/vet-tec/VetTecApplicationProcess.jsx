@@ -56,34 +56,21 @@ class VetTecApplicationProcess extends React.Component {
           Apply for VET TEC (VA Form 22-0994)
         </a>
       </p>
-      {// PROD FLAG CT 116 STORY 19868
-      environment.isProduction() ? (
-        <p>
-          After you’ve been approved for VET TEC, apply to the program you’d
-          like to attend.
-        </p>
-      ) : (
-        <p>
-          Then, after you've been approved for VET TEC, apply to the VA-approved
-          training provider you'd like to attend.
-        </p>
-      )}
-      {// PROD FLAG CT 116 STORY 19868
-      environment.isProduction() ? (
-        <p>
-          <a
-            href={
-              '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn more about VET TEC programs
-          </a>
-        </p>
-      ) : (
-        this.providersWebsiteLink()
-      )}
+      <p>
+        After you’ve been approved for VET TEC, apply to the program you’d like
+        to attend.
+      </p>
+      <p>
+        <a
+          href={
+            '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/'
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more about VET TEC programs
+        </a>
+      </p>
       <h3 className="vads-u-font-size--h4">
         Have questions about the VET TEC program or how to apply?
       </h3>
