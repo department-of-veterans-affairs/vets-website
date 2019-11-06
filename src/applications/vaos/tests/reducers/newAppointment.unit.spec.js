@@ -5,7 +5,6 @@ import {
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
-  FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -100,6 +99,7 @@ describe('VAOS reducer: newAppointment', () => {
 
     expect(newState.pageChangeInProgress).to.be.false;
   });
+
   describe('open facility page reducer', () => {
     const defaultOpenPageAction = {
       type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
@@ -121,20 +121,9 @@ describe('VAOS reducer: newAppointment', () => {
       typeOfCareId: '323',
     };
 
-    it('should set loading state when facility page opens', () => {
-      const action = {
-        type: FORM_PAGE_FACILITY_OPEN,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.loadingSystems).to.be.true;
-    });
-
     it('should set systems when facility page is done loading', () => {
       const currentState = {
         ...defaultState,
-        loadingSystems: true,
       };
       const action = {
         ...defaultOpenPageAction,
@@ -143,7 +132,6 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.loadingSystems).to.be.false;
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
         properties: {

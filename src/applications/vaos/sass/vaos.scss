@@ -12,14 +12,73 @@
   padding: 14px 0 0 17px;
 }
 
-.vaos-appt-list__badge {
-  display: inline-flex;
-  border-radius: 100%;
-  height: 22px;
-  width: 22px;
-  font-weight: bold;
-  justify-content: center;
+.vaos-appts__top {
+  display: flex;
   align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+  }
+
+  @media (max-width: $small-screen) {
+    flex-direction: column;
+    align-items: flex-end;
+
+    h1 {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.vaos-appts__status {
+  @media (max-width: $small-screen) {
+    display: flex;
+  }
+}
+
+.vaos-appts__status-text {
+  display: flex;
+  margin: 0 0 0 8px;
+
+  @media (max-width: $small-screen) {
+    margin-top: -4px;
+    flex-direction: column;
+  }
+}
+
+.vaos-appts__date-time {
+  margin: 0 0 16px;
+
+  @media (max-width: $small-screen) {
+    margin: 16px 0;
+  }
+}
+
+.vaos-appts__split-section {
+  display: flex;
+
+  @media (max-width: $small-screen) {
+    flex-direction: column;
+
+    .vaos-appts__preferred-dates {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.vaos-appts__video-visit {
+  align-items: center;
+
+  @media (max-width: $small-screen) {
+    align-items: flex-start;
+    flex-direction: column;
+
+    a {
+      margin: 0 0 4px !important;
+    }
+  }
 }
 
 .vaos-appts__block-label {
@@ -27,6 +86,20 @@
   margin-bottom: map-get($spacers, 0p5);
   font-size: $base-font-size;
   font-family: $font-sans;
+}
+
+.vaos-appts__expand-link {
+  padding: 0;
+  background: none;
+  color: $color-base;
+  font-weight: normal;
+  font-size: $base-font-size;
+}
+
+.vaos-appts__expand-link .fas {
+  font-size: 12px;
+  display: inline-block;
+  margin-left: 7px;
 }
 
 .vaos-form__title {
@@ -147,16 +220,17 @@
   margin: 8px;
 
 
-  input[type="radio"], input[type="checkbox"] {
+  input[type="radio"],
+  input[type="checkbox"] {
     width: unset;
   }
 
-  input[type=radio] + label::before {
+  input[type=radio]+label::before {
     margin-top: 0;
     box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
   }
 
-  input[type=checkbox] + label::before {
+  input[type=checkbox]+label::before {
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
   }

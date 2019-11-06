@@ -13,3 +13,4 @@ const modifiedEntities = map(entities, entity => assembleEntityTree(entity));
 
 // eslint-disable-next-line
 console.log('Number of files:', modifiedEntities.length);
+// console.log('First node:', modifiedEntities[0]);

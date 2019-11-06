@@ -8,6 +8,7 @@ import VetTecContactInformation from '../../components/vet-tec/VetTecContactInfo
 import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
 import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
 import VetTecPrograms from '../../components/vet-tec/VetTecPrograms';
+import VetTecApplicationProcess from '../../components/vet-tec/VetTecApplicationProcess';
 
 const institution = {
   facilityCode: '2V000105',
@@ -89,6 +90,17 @@ describe('<VetTecContactInformation>', () => {
   it('should render', () => {
     const wrapper = shallow(
       <VetTecContactInformation institution={institution} />,
+    );
+    const vdom = wrapper.html();
+    expect(vdom).to.not.be.undefined;
+    wrapper.unmount();
+  });
+});
+
+describe('<VetTecApplicationProcess>', () => {
+  it('should render', () => {
+    const wrapper = shallow(
+      <VetTecApplicationProcess institution={institution} />,
     );
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;

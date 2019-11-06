@@ -40,7 +40,7 @@ const VetTecInstitutionProfile = ({
         )}
 
         <AccordionItem button="Application process">
-          <VetTecApplicationProcess />
+          <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
         <AccordionItem button="Contact details">
           <VetTecContactInformation institution={institution} />
