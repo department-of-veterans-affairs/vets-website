@@ -196,7 +196,7 @@ export default {
   requestDateTime: {
     url: '/new-appointment/request-date',
     next: 'reasonForAppointment',
-    previous: 'preferredDate',
+    previous: 'vaFacility',
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
