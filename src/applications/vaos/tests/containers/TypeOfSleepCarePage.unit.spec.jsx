@@ -85,4 +85,28 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
     expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
+
+  it('should render label name', () => {
+    const openFormPage = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <TypeOfSleepCarePage
+        openFormPage={openFormPage}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+      />,
+    );
+    const labels = form.find(
+      'span.vads-u-display--block.vads-u-font-size--lg.vads-u-font-weight--bold',
+    );
+
+    expect(labels.length).to.equal(2);
+    expect(labels.at(0).text()).to.have.string(
+      'Continuous Positive Airway Pressure (CPAP)',
+    );
+    expect(labels.at(1).text()).to.have.string(
+      'Sleep medicine and home sleep testing',
+    );
+    form.unmount();
+  });
 });
