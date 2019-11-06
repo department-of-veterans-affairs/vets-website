@@ -213,8 +213,14 @@ article[data-location="request-informal-conference"] {
   }
 
   /* Remove extra spacing between form elements */
-  .form-expanding-group .usa-input-error {
-    margin-top: 0;
+  .form-expanding-group {
+    .usa-input-error {
+      margin-top: 0;
+    }
+
+    .schemaform-block-header {
+      margin-bottom: 0;
+    }
   }
 
   #root_scheduleTimes-label {
