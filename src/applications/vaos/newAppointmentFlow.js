@@ -4,7 +4,7 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
+import { TYPES_OF_CARE } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
@@ -13,7 +13,6 @@ import {
 } from './api';
 import {
   START_DIRECT_SCHEDULE_FLOW,
-  START_REQUEST_FLOW,
   updateFacilityType,
   updateHasCCEnabledSystems,
 } from './actions/newAppointment';
@@ -152,10 +151,7 @@ export default {
       }
 
       if (eligibilityStatus.request) {
-        dispatch({
-          type: START_REQUEST_FLOW,
-        });
-        return 'preferredDate';
+        return 'requestDateTime';
       }
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
@@ -184,24 +180,13 @@ export default {
       }
 
       // fetch appointment slots
-
       return 'preferredDate';
     },
   },
   preferredDate: {
     url: '/new-appointment/preferred-date',
-    next(state) {
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
-        return 'selectDateTime';
-      }
-      return 'requestDateTime';
-    },
-    previous(state) {
-      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
-        return 'clinicChoice';
-      }
-      return 'vaFacility';
-    },
+    next: 'selectDateTime',
+    previous: 'clinicChoice',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',

@@ -203,11 +203,6 @@ export const TYPE_OF_VISIT = [
   },
 ];
 
-export const FLOW_TYPES = {
-  DIRECT: 'direct',
-  REQUEST: 'request',
-};
-
 export const DISTANCES = [
   {
     id: '25',

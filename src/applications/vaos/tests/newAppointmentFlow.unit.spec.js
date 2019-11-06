@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { FLOW_TYPES } from '../utils/constants';
 
 import newAppointmentFlow from '../newAppointmentFlow';
 
@@ -139,7 +138,7 @@ describe('VAOS newAppointmentFlow', () => {
         state,
         dispatch,
       );
-      expect(nextState).to.equal('preferredDate');
+      expect(nextState).to.equal('requestDateTime');
     });
     it('should return to type of care page if none of user Systems is cc enabled', () => {
       const state = {
@@ -194,48 +193,14 @@ describe('VAOS newAppointmentFlow', () => {
   });
 
   describe('preferred date page', () => {
-    it('should go to select date page if flow type is direct schedule', () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-        },
-      };
-
-      const nextState = newAppointmentFlow.preferredDate.next(state);
-      expect(nextState).to.equal('selectDateTime');
+    it('should go to select date page', () => {
+      expect(newAppointmentFlow.preferredDate.next).to.equal('selectDateTime');
     });
 
-    it('should go to request date page if flow type is request', () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.REQUEST,
-        },
-      };
-
-      const nextState = newAppointmentFlow.preferredDate.next(state);
-      expect(nextState).to.equal('requestDateTime');
-    });
-
-    it('should go back to to clinic choice page if flow type is direct schedule', () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-        },
-      };
-
-      const nextState = newAppointmentFlow.preferredDate.previous(state);
-      expect(nextState).to.equal('clinicChoice');
-    });
-
-    it('should go back to to va facility page if flow type is request', () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.REQUEST,
-        },
-      };
-
-      const nextState = newAppointmentFlow.preferredDate.previous(state);
-      expect(nextState).to.equal('vaFacility');
+    it('should go back to to clinic choice page', () => {
+      expect(newAppointmentFlow.preferredDate.previous).to.equal(
+        'clinicChoice',
+      );
     });
   });
 
