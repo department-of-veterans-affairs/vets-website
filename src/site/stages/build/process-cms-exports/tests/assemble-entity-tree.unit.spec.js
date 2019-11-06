@@ -19,6 +19,8 @@ const transformedEntitiesList = fs.readdirSync(transformedEntitiesDir);
 describe('CMS export', () => {
   describe('transformers:', () => {
     const excluded = ['helpers.js'];
+
+    // Each transformer should be tested
     fs.readdirSync(transformersDir)
       .filter(fileName => !excluded.includes(fileName))
       .forEach(fileName => {
