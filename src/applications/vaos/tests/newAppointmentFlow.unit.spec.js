@@ -26,7 +26,7 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('audiologyCareType');
     });
 
-    it('next should choose contact info page if CC chosen', () => {
+    it('next should choose date page if CC chosen', () => {
       const state = {
         newAppointment: {
           data: {
@@ -37,7 +37,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('ccPreferences');
+      expect(nextState).to.equal('requestDateTime');
     });
 
     it('next should choose audiology options page if CC and audiology is chosen', () => {
@@ -168,7 +168,7 @@ describe('VAOS newAppointmentFlow', () => {
             vaFacility: '983',
             facilityType: 'vamc',
           },
-          hasCCEnabledSystems: true,
+          ccEnabledSystems: ['983'],
         },
       };
 
@@ -193,18 +193,31 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
   describe('reason for appointment page', () => {
-    it('should go back to clinic page if use chose NONE before', () => {
+    it('should go back to date page if not CC', () => {
       const state = {
         newAppointment: {
           data: {
-            clinicId: 'NONE',
+            facilityType: 'vamc',
           },
         },
       };
 
       const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
 
-      expect(nextState).to.equal('clinicChoice');
+      expect(nextState).to.equal('requestDateTime');
+    });
+    it('should go back to preferences page if CC', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
+
+      expect(nextState).to.equal('ccPreferences');
     });
   });
   describe('type of care page', () => {
