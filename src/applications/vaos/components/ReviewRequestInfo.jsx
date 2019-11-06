@@ -80,10 +80,28 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
                 {data.communityCareProvider.lastName}
               </span>{' '}
               <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+              {!!data.communityCareProvider.practiceName && (
+                <>
+                  <br />
+                  {data.communityCareProvider.practiceName}
+                </>
+              )}
               <br />
               {data.communityCareProvider.phone}
-              <br />
-              {data.communityCareProvider.practiceName}
+              <p>
+                {data.communityCareProvider.address.street}
+                {!!data.communityCareProvider.address.street2 && (
+                  <>
+                    <br />
+                    {data.communityCareProvider.address.street2}
+                  </>
+                )}
+                <br />
+                {data.communityCareProvider.address.city},{' '}
+                {data.communityCareProvider.address.state}{' '}
+                {data.communityCareProvider.address.postalCode}
+                <br />
+              </p>
             </div>
           )}
           {!data.hasCommunityCareProvider && (
