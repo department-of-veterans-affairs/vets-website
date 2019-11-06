@@ -191,13 +191,13 @@ export default {
   preferredDate: {
     url: '/new-appointment/preferred-date',
     next(state) {
-      if (getNewAppointment(state).flowType === FLOW_TYPES.direct) {
+      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
         return 'selectDateTime';
       }
       return 'requestDateTime';
     },
     previous(state) {
-      if (state.flowType === FLOW_TYPES.direct) {
+      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
         return 'clinicChoice';
       }
       return 'vaFacility';
