@@ -20,7 +20,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     );
 
     expect(form.find('fieldset').length).to.equal(3);
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
 
