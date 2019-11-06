@@ -117,10 +117,11 @@ export class VetTecPrograms extends React.Component {
   }
 
   render() {
+    const showAvailablePrograms =
+      this.programs.findIndex(program => program.available === true) !== -1;
     return (
       <div className="programs row">
-        {this.programs.findIndex(program => program.available === true) !==
-          -1 && (
+        {showAvailablePrograms && (
           <div className="usa-width-one-half medium-6 large-6 column">
             <h3>Available at this campus</h3>
             {this.programs.map(
