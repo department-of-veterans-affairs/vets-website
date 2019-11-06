@@ -10,7 +10,6 @@ function createMetaTag(type, key, value) {
 }
 
 function pageTransform(entity) {
-  const transformed = entity;
   const {
     title,
     changed,
@@ -21,19 +20,27 @@ function pageTransform(entity) {
     moderationState: [{ value: published }],
     metatag: { value: metaTags },
   } = entity;
-  // collapse title
-  // Question: Can we always assume that title is an array of one item, with that item being an object with a `value` key?
-  transformed.title = getDrupalValue(title);
-  transformed.entityBundle = 'page';
 
-  transformed.fieldIntroText = getDrupalValue(fieldIntroText);
-  transformed.changed = new Date(getDrupalValue(changed)).getTime() / 1000;
-  transformed.fieldPageLastBuilt = new Date(
-    getDrupalValue(fieldPageLastBuilt),
-  ).toUTCString();
+  const transformed = Object.assign({}, entity, {
+    title: getDrupalValue(title),
+    entityBundle: 'page',
 
-  transformed.entityPublished = published === 'published';
-  delete transformed.moderationState;
+    fieldIntroText: getDrupalValue(fieldIntroText),
+    changed: new Date(getDrupalValue(changed)).getTime() / 1000,
+    fieldPageLastBuilt: new Date(
+      getDrupalValue(fieldPageLastBuilt),
+    ).toUTCString(),
+
+    entityPublished: published === 'published',
+    entityMetaTags: [
+      createMetaTag('MetaValue', 'title', metaTags.title),
+      createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
+      createMetaTag('MetaProperty', 'og:site_name', metaTags.og_site_name),
+      createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
+      createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+    ],
+  });
 
   if (isEmpty(fieldDescription)) {
     transformed.fieldDescription = null;
@@ -43,14 +50,7 @@ function pageTransform(entity) {
     transformed.fieldAlert = { entity: null };
   }
 
-  transformed.entityMetaTags = [
-    createMetaTag('MetaValue', 'title', metaTags.title),
-    createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
-    createMetaTag('MetaProperty', 'og:site_name', metaTags.og_site_name),
-    createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
-    createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
-    createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
-  ];
+  delete transformed.moderationState;
   delete transformed.metatag;
 
   return entity;
