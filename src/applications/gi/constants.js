@@ -12,9 +12,8 @@ export const ariaLabels = Object.freeze({
       'Learn more about how the length of your REAP active-duty service affects your benefits',
     vetTecProgram: 'Learn more about the VET TEC program',
     tuitionAndFees: 'Learn more about the tuition and fees covered by VET TEC',
-    scholarships: 'Learn more about what to include for scholarships',
-    paysToProvider:
-      'Learn more about how we pay VET TEC providers for your participation in the program',
+    scholarships: 'Learn more about what types of scholarships to include',
+    paysToProvider: 'Learn more about how we pay providers',
     numberOfStudents:
       'Learn more about how we calculate the number of GI Bill students',
     tuitionFeesPerYear:
