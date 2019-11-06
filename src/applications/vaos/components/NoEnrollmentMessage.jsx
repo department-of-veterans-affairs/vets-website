@@ -1,11 +1,11 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-export default function NoRegistrationMessage() {
+export default function NoEnrollmentMessage() {
   return (
     <AlertBox
       status="error"
-      headline="Sorry, we couldn't find a record of your enrollment with the Veterans Health Administration"
+      headline="Sorry, we couldn’t find a record of your enrollment with the Veterans Health Administration"
     >
       <p>
         To use this app to schedule or request an appointment at a VA facility,

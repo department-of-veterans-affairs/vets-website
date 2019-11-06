@@ -5,7 +5,7 @@ export default function NoRegistrationMessage() {
   return (
     <AlertBox
       status="error"
-      headline="Sorry, we couldn't find any VHA facility registrations for you"
+      headline="Sorry, we couldn’t find any VHA facility registrations for you"
     >
       <p>
         To use this app to schedule or request an appointment at a VA facility,
