@@ -1,0 +1,63 @@
+{
+    "uuid": [
+        {
+            "value": "0307bf30-4675-4dde-8c4a-bcf0b2590e18"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "process",
+            "target_type": "paragraphs_type",
+            "target_uuid": "94287bee-efbe-43e3-8198-8bb3e4e8be97"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-07-12T16:48:36+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [],
+    "field_steps": [
+        {
+            "value": " <p>Sign in to your eBenefits account.<\/p> ",
+            "format": "rich_text"
+        },
+        {
+            "value": " <p>Select <strong>Apply<\/strong>.<\/p> ",
+            "format": "rich_text"
+        },
+        {
+            "value": " <p>Click <strong>Vocational Rehabilitation and Employment Benefits<\/strong>.<\/p> ",
+            "format": "rich_text"
+        },
+        {
+            "value": " <p>Select the Vocational Rehabilitation and Employment benefit you\u2019re applying for.<\/p> ",
+            "format": "rich_text"
+        },
+        {
+            "value": " <p>If you\u2019re eligible, we\u2019ll invite you to an orientation session at your nearest VA regional benefit office.<\/p> ",
+            "format": "rich_text"
+        }
+    ]
+}
