@@ -352,12 +352,12 @@ export function validateCurrentOrFutureDate(
   errorMessages = {},
 ) {
   const {
-    futureDate = 'Please provide a valid current or future date',
+    pastDate = 'Please provide a valid current or future date',
   } = errorMessages;
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrFutureDate(day, month, year)) {
-    errors.addError(futureDate);
+    errors.addError(pastDate);
   }
 }
 
