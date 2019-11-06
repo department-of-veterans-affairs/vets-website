@@ -16,6 +16,7 @@ import ClinicChoicePage from './containers/ClinicChoicePage';
 import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
 import DateTimeRequestPage from './containers/DateTimeRequestPage';
 import DateTimeSelectPage from './containers/DateTimeSelectPage';
+import ConfirmationPage from './containers/ConfirmationPage';
 
 const routes = (
   <Route path="/">
@@ -37,6 +38,7 @@ const routes = (
       />
       <Route path="clinics" component={ClinicChoicePage} />
       <Route path="review" component={ReviewPage} />
+      <Route path="confirmation" component={ConfirmationPage} />
     </Route>
     <Route path="appointments" component={AppointmentsPage} />
   </Route>

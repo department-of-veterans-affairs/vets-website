@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -7,46 +8,43 @@ import {
   getChosenClinicInfo,
   getChosenVACityState,
 } from '../utils/selectors';
-import ReviewDirectScheduleInfo from '../components/ReviewDirectScheduleInfo';
-import ReviewRequestInfo from '../components/ReviewRequestInfo';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
+import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
-export class ReviewPage extends React.Component {
+export class ConfirmationPage extends React.Component {
   render() {
     const { data, facility, clinic, vaCityState } = this.props;
 
     return (
       <div>
         {data.isDirectSchedule && (
-          <ReviewDirectScheduleInfo
+          <ConfirmationDirectScheduleInfo
             data={data}
             facility={facility}
             clinic={clinic}
           />
         )}
         {!data.isDirectSchedule && (
-          <ReviewRequestInfo
+          <ConfirmationRequestInfo
             data={data}
             facility={facility}
             vaCityState={vaCityState}
           />
         )}
         <div className="vads-u-margin-y--2">
-          <LoadingButton
-            onClick={() => this.props.router.push('/new-appointment/confirmation')}
-            className="usa-button usa-button-primary"
-          >
-            {data.isDirectSchedule
-              ? 'Confirm appointment'
-              : 'Request appointment'}
-          </LoadingButton>
+          <Link to="appointments" className="usa-button vads-u-padding-right--2">
+            View your appointments
+          </Link>
+          <Link to="new-appointment" className="usa-button">
+            New appointment
+          </Link>
         </div>
       </div>
     );
   }
 }
 
-ReviewPage.propTypes = {
+ConfirmationPage.propTypes = {
   data: PropTypes.object.isRequired,
   facility: PropTypes.object,
   clinic: PropTypes.object,
@@ -61,4 +59,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ReviewPage);
+export default connect(mapStateToProps)(ConfirmationPage);
