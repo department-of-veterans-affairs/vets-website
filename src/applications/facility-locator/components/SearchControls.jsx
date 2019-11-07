@@ -136,6 +136,7 @@ class SearchControls extends Component {
               onChange={this.handleQueryChange}
               value={currentQuery.searchString}
               title="Your location: Street, City, State or Zip"
+              required
             />
           </div>
           <div className="columns medium-3-5">
