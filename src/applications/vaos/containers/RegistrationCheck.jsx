@@ -32,8 +32,8 @@ export class RegistrationCheck extends React.Component {
     if (status === FETCH_STATUS.failed) {
       errorMessage = (
         <AlertBox status="error" headline="Sorry, something went wrong">
-          Sorry, we ran into an error when trying to check your VHA facility
-          registration. Please try again later.
+          We're sorry, we ran into an error when trying to find your VA medical
+          facility registrations. Please try again later.
         </AlertBox>
       );
     } else if (!isEnrolled) {
