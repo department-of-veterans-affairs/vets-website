@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
+import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
-import newAppointmentFlow from '../newAppointmentFlow';
 import { TYPE_OF_VISIT, LANGUAGES, PURPOSE_TEXT } from '../utils/constants';
 
 function formatBestTime(bestTime) {
@@ -40,7 +39,7 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
         scheduler will contact you to schedule the first available appointment.
       </AlertBox>
       <AlertBox backgroundOnly status="info">
-        <h2 className="vaos-appts__block-label vads-u-margin-top--2">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           {isCommunityCare ? 'Community Care' : 'VA'} appointment request —{' '}
           {getTypeOfCare(data)?.name}
         </h2>
@@ -48,21 +47,42 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
         <hr />
         <div className="vads-u-display--flex">
           <div className="vads-u-flex--1">
-            <dl>
-              <dt>{facility?.institution.authoritativeName}</dt>
+            <dl className="vads-u-margin-y--0">
+              <dt>
+                <strong>{facility?.institution.authoritativeName}</strong>
+              </dt>
               <dd>
                 {facility?.institution.city},{' '}
                 {facility?.institution.stateAbbrev}
               </dd>
-              <dt>Your preferred date and time</dt>
-              <dd />
+              <dt>
+                <strong>Your preferred date and time</strong>
+              </dt>
+              <dd>
+                <ul>
+                  {data.calendarData.selectedDates.map(
+                    ({ date, optionTime }) => (
+                      <li key={`${date}-${optionTime}`}>
+                        {moment(date).format('MMMM D, YYYY')}{' '}
+                        {optionTime === 'AM'
+                          ? 'in the morning'
+                          : 'in the afternoon'}
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </dd>
             </dl>
           </div>
           <div className="vads-u-flex--1">
-            <dl>
-              <dt>{PURPOSE_TEXT[data.reasonForAppointment]}</dt>
+            <dl className="vads-u-margin-y--0">
+              <dt>
+                <strong>{PURPOSE_TEXT[data.reasonForAppointment]}</strong>
+              </dt>
               <dd>{data.reasonAdditionalInfo}</dd>
-              <dt>Your contact details</dt>
+              <dt>
+                <strong>Your contact details</strong>
+              </dt>
               <dd>
                 {data.email}
                 <br />

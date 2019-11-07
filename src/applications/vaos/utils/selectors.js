@@ -212,7 +212,7 @@ export function getCancelInfo(state) {
 
 export function getChosenVACityState(state) {
   const schema =
-    state.newAppointment.pages.ccPreferences.properties.communityCareSystemId;
+    state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;
 
   if (schema?.enum?.length > 1) {
     const index = schema.enum.indexOf(
