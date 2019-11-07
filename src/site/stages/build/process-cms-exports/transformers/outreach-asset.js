@@ -1,15 +1,24 @@
-const { get } = require('lodash');
+const { getDrupalValue } = require('./helpers');
 
 const transform = entity => {
+  const {
+    changed,
+    status,
+    title,
+    fieldBenefits,
+    fieldDescription,
+    fieldFormat,
+  } = entity;
+
   const modifiedEntity = {};
 
   // Derive the raw entity properties.
-  const changed = get(entity, 'changed[0].value');
-  const status = get(entity, 'status[0].value');
-  const title = get(entity, 'title[0].value');
-  const fieldBenefits = get(entity, 'field_benefits[0].value');
-  const fieldDescription = get(entity, 'field_description[0].value');
-  const fieldFormat = get(entity, 'field_format[0].value');
+  modifiedEntity.changed = getDrupalValue(changed);
+  modifiedEntity.status = getDrupalValue(status);
+  modifiedEntity.title = getDrupalValue(title);
+  modifiedEntity.fieldBenefits = getDrupalValue(fieldBenefits);
+  modifiedEntity.fieldDescription = getDrupalValue(fieldDescription);
+  modifiedEntity.fieldFormat = getDrupalValue(fieldFormat);
 
   // Add changed.
   modifiedEntity.changed = new Date(changed).getTime() / 1000;
