@@ -6,24 +6,6 @@ import { Link } from 'react-router';
 import { PRIMARY_CARE } from '../utils/constants';
 import newAppointmentFlow from '../newAppointmentFlow';
 
-export const Actions = ({ eligibleForRequests, onClickRequest }) => (
-  <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
-    {eligibleForRequests && (
-      <>
-        <Link to={newAppointmentFlow.requestDateTime.url}>
-          <button className="usa-button-secondary" onClick={onClickRequest}>
-            Request earlier appointment
-          </button>
-        </Link>
-        <span className="vads-u-display--inline-block vads-u-margin-x--2 vads-u-font-weight--bold">
-          OR
-        </span>
-      </>
-    )}
-    <span>Call your VA facility directly</span>
-  </div>
-);
-
 export const WaitTimeAlert = ({
   preferredDate,
   nextAvailableApptDate,
@@ -36,10 +18,21 @@ export const WaitTimeAlert = ({
   const momentPreferredDate = moment(preferredDate);
 
   const actions = (
-    <Actions
-      eligibleForRequests={eligibleForRequests}
-      onClickRequest={onClickRequest}
-    />
+    <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
+      {eligibleForRequests && (
+        <>
+          <Link to={newAppointmentFlow.requestDateTime.url}>
+            <button className="usa-button-secondary" onClick={onClickRequest}>
+              Request earlier appointment
+            </button>
+          </Link>
+          <span className="vads-u-display--inline-block vads-u-margin-x--2 vads-u-font-weight--bold">
+            OR
+          </span>
+        </>
+      )}
+      <span>Call your VA facility directly</span>
+    </div>
   );
 
   if (today.isSame(momentPreferredDate, 'day')) {
@@ -69,10 +62,9 @@ export const WaitTimeAlert = ({
 
   // If Preferred date >5 days away, and next avail appointment is >20 (mental health)
   // or 28 (other ToCs) days away from the preferred date,
-  const momentNextAvailApptDate = moment(nextAvailableApptDate);
   const nextAvailableDateWarningLimit = typeOfCareId === PRIMARY_CARE ? 20 : 28;
   const durationBetweenNowAndNextAvailable = moment
-    .duration(momentNextAvailApptDate.diff(today))
+    .duration(moment(nextAvailableApptDate).diff(today))
     .asDays();
 
   if (
@@ -107,6 +99,10 @@ export const WaitTimeAlert = ({
 
 WaitTimeAlert.propTypes = {
   preferredDate: PropTypes.string.isRequired,
+  nextAvailableApptDate: PropTypes.string,
+  typeOfCareId: PropTypes.string.isRequired,
+  eligibleForRequests: PropTypes.bool,
+  onClickRequest: PropTypes.func,
 };
 
 export default WaitTimeAlert;
