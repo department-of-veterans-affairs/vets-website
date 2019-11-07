@@ -5,7 +5,7 @@ export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',
     post911Chapter33: 'Learn more about Cumulative Post-9/11 service',
-    preferredProvider: 'Learn more about VET TEC Preferred Providers',
+    preferredProvider: 'Learn more about Preferred providers',
     montgomeryGIBill:
       'Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits',
     reapActiveDuty:
