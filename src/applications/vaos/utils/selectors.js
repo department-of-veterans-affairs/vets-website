@@ -65,6 +65,12 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getPreferredDate(state, pageKey) {
+  const data = getFormData(state);
+  const typeOfCare = getTypeOfCare(data)?.name;
+  return { ...getFormPageInfo(state, pageKey), typeOfCare };
+}
+
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
   const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;

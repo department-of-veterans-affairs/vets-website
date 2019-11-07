@@ -242,10 +242,22 @@ describe('VAOS newAppointmentFlow', () => {
 
       const nextState = newAppointmentFlow.clinicChoice.next(state);
 
-      // TODO: this should go to appointment time page when it exists
-      expect(nextState).to.equal('selectDateTime');
+      expect(nextState).to.equal('preferredDate');
     });
   });
+
+  describe('preferred date page', () => {
+    it('should go to select date page', () => {
+      expect(newAppointmentFlow.preferredDate.next).to.equal('selectDateTime');
+    });
+
+    it('should go back to to clinic choice page', () => {
+      expect(newAppointmentFlow.preferredDate.previous).to.equal(
+        'clinicChoice',
+      );
+    });
+  });
+
   describe('reason for appointment page', () => {
     it('should go visit page if not CC', () => {
       const state = {

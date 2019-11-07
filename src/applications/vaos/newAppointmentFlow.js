@@ -12,6 +12,7 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
+  START_DIRECT_SCHEDULE_FLOW,
   updateFacilityType,
   updateCCEnabledSystems,
 } from './actions/newAppointment';
@@ -135,7 +136,7 @@ export default {
 
         if (hasEligibleClinics(facilityId, appointments, clinics)) {
           dispatch({
-            type: 'newAppointment/START_DIRECT_SCHEDULE_FLOW',
+            type: START_DIRECT_SCHEDULE_FLOW,
             appointments,
           });
 
@@ -173,14 +174,18 @@ export default {
       }
 
       // fetch appointment slots
-
-      return 'selectDateTime';
+      return 'preferredDate';
     },
+  },
+  preferredDate: {
+    url: '/new-appointment/preferred-date',
+    next: 'selectDateTime',
+    previous: 'clinicChoice',
   },
   selectDateTime: {
     url: '/new-appointment/select-date',
     next: 'reasonForAppointment',
-    previous: 'clinicChoice',
+    previous: 'preferredDate',
   },
   requestDateTime: {
     url: '/new-appointment/request-date',
