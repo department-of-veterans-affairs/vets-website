@@ -1,8 +1,9 @@
 const { mapKeys, camelCase } = require('lodash');
+const { getContentModelType } = require('./helpers');
 const pageTransform = require('./transformers/page');
 
 const transformers = {
-  page: pageTransform,
+  'node-page': pageTransform,
 };
 
 const missingTransformers = new Set();
@@ -15,12 +16,12 @@ const missingTransformers = new Set();
  * @param {String} entityType - The type of the entity
  * @return {Function} - A function that accepts an entity and transforms it
  */
-function getEntityTransformer(entityType) {
-  let entityTransformer = entity => entity;
+function getEntityTransformer(entityType, verbose = true) {
+  let entityTransformer;
 
   if (entityType in transformers) {
     entityTransformer = transformers[entityType];
-  } else if (!missingTransformers.has(entityType)) {
+  } else if (verbose && !missingTransformers.has(entityType)) {
     missingTransformers.add(entityType);
     // eslint-disable-next-line no-console
     console.warn(`No transformer for target_id ${entityType}`);
@@ -33,7 +34,6 @@ function getEntityTransformer(entityType) {
  * Takes the entity type and entity contents and returns a new
  * entity with modified data to fit the content model.
  *
- * @param {String} contentModelType - The type of content model.
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
@@ -41,15 +41,16 @@ function getEntityTransformer(entityType) {
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
  */
-function transformEntity(entityType, entity) {
-  const entityTransformer = getEntityTransformer(entityType);
+function transformEntity(entity) {
+  const entityTransformer = getEntityTransformer(getContentModelType(entity));
 
   // Convert all snake_case keys to camelCase
   const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
-  return entityTransformer(transformed);
+  return entityTransformer ? entityTransformer(transformed) : transformed;
 }
 
 module.exports = {
   transformEntity,
+  getEntityTransformer,
 };

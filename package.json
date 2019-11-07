@@ -109,7 +109,7 @@
     "@babel/register": "^7.0.0",
     "@department-of-veterans-affairs/generator-vets-website": "^3.3.1",
     "@sentry/browser": "^5.4.0",
-    "ajv": "^4.7.1",
+    "ajv": "^6.10.2",
     "append-query": "2.0.1",
     "autoprefixer": "^9.5.1",
     "axe-core": "^2.6.0",
@@ -225,7 +225,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/formation": "^6.8.0",
-    "@department-of-veterans-affairs/formation-react": "^4.10.2",
+    "@department-of-veterans-affairs/formation-react": "^4.10.3",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "blob-polyfill": "^2.0.20171115",

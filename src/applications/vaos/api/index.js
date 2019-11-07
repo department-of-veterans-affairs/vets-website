@@ -14,6 +14,8 @@ import mockFacility984Data from './facilities_984.json';
 
 import mockClinicList from './clinicList983.json';
 import mockPACT from './pact.json';
+import mockCancelReasons from './cancel_reasons.json';
+import sitesSupportingVAR from './sites-supporting-var.json';
 
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
@@ -66,13 +68,24 @@ export const getPastAppointments = (() => {
 })();
 
 // GET /vaos/systems
-export function getSystemIdentifiers() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(mockSystems);
-    }, TEST_TIMEOUT || 600);
-  });
-}
+export const getSystemIdentifiers = (() => {
+  let promise = null;
+
+  return () => {
+    if (!promise) {
+      promise = new Promise(resolve => {
+        setTimeout(() => {
+          resolve(
+            mockSystems
+              .filter(id => id.assigningAuthority.startsWith('dfn'))
+              .map(id => id.assigningCode),
+          );
+        }, TEST_TIMEOUT || 600);
+      });
+    }
+    return promise;
+  };
+})();
 
 // GET /vaos/facilities
 // eslint-disable-next-line no-unused-vars
@@ -200,10 +213,48 @@ export function getFacilityInfo(facilityId) {
   );
 }
 
+export function getSitesSupportingVAR() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(sitesSupportingVAR);
+    }, TEST_TIMEOUT || 1500);
+  });
+}
+
 export function getAvailableSlots() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(slots);
+    }, 500);
+  });
+}
+
+// GET /vaos/facilities/{facilityId}/cancel-reasons
+// eslint-disable-next-line no-unused-vars
+export function getCancelReasons(systemId) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockCancelReasons.cancelReasonsList);
+    }, 500);
+  });
+}
+
+// PUT /vaos/appointments
+// eslint-disable-next-line no-unused-vars
+export function updateAppointment(appt) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
+}
+
+// PUT /vaos/requests
+// eslint-disable-next-line no-unused-vars
+export function updateRequest(appt) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
     }, 500);
   });
 }

@@ -11,6 +11,7 @@ import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../../constants';
+import environment from 'platform/utilities/environment';
 
 export class VetTecCalculator extends React.Component {
   constructor(props) {
@@ -21,6 +22,14 @@ export class VetTecCalculator extends React.Component {
       scholarships: 0,
     };
   }
+
+  // PROD FLAG CT 116 19868
+
+  indentVaPaysToProvider = () =>
+    environment.isProduction() ? '' : 'vads-u-margin-left--2p5';
+
+  housingAllowanceClassName =
+    'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
 
   renderCalculatorForm = () => {
     const {
@@ -86,7 +95,7 @@ export class VetTecCalculator extends React.Component {
           <div>{outputs.vaPaysToProvider}</div>
         </div>
       </div>
-      <div>
+      <div className={this.indentVaPaysToProvider()}>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
             <div>Upon enrollment in program (25%):</div>
@@ -132,7 +141,7 @@ export class VetTecCalculator extends React.Component {
       <div className="link-header">
         <h4 className="vads-u-font-size--h5">Housing allowance</h4>{' '}
         <button
-          aria-label="housing allowance learn more"
+          aria-label={ariaLabels.learnMore.housingAllowance}
           type="button"
           className="va-button-link learn-more-button"
           onClick={() => showModal('housingAllowance')}
@@ -140,24 +149,48 @@ export class VetTecCalculator extends React.Component {
           (Learn more)
         </button>
       </div>
+      {// PROD FLAG CT 116 STORY 19868
+      environment.isProduction() ? (
+        <div>
+          <div className="row calculator-result">
+            <div className="small-8 columns">
+              <div>In person rate:</div>
+            </div>
+            <div className={this.housingAllowanceClassName}>
+              <div>{`${outputs.inPersonRate}/mo`}</div>
+            </div>
+          </div>
 
-      <div className="row calculator-result">
-        <div className="small-8 columns">
-          <div>In person rate:</div>
+          <div className="row calculator-result">
+            <div className="small-8 columns">
+              <div>Online rate:</div>
+            </div>
+            <div className={this.housingAllowanceClassName}>
+              <div>{`${outputs.onlineRate}/mo`}</div>
+            </div>
+          </div>
         </div>
-        <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
-          <div>{outputs.inPersonRate}</div>
-        </div>
-      </div>
+      ) : (
+        <div>
+          <div className="row calculator-result">
+            <div className="small-8 columns">
+              <div>In-person monthly rate:</div>
+            </div>
+            <div className={this.housingAllowanceClassName}>
+              <div>{outputs.inPersonRate}</div>
+            </div>
+          </div>
 
-      <div className="row calculator-result">
-        <div className="small-8 columns">
-          <div>Online rate:</div>
+          <div className="row calculator-result">
+            <div className="small-8 columns">
+              <div>Online monthly rate:</div>
+            </div>
+            <div className={this.housingAllowanceClassName}>
+              <div>{outputs.onlineRate}</div>
+            </div>
+          </div>
         </div>
-        <div className="small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7">
-          <div>{outputs.onlineRate}</div>
-        </div>
-      </div>
+      )}
     </div>
   );
 

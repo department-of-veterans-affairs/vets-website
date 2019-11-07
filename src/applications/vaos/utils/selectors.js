@@ -65,6 +65,12 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getPreferredDate(state, pageKey) {
+  const data = getFormData(state);
+  const typeOfCare = getTypeOfCare(data)?.name;
+  return { ...getFormPageInfo(state, pageKey), typeOfCare };
+}
+
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
   const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
@@ -194,4 +200,33 @@ export function getClinicPageInfo(state, pageKey) {
     clinics: getClinicsForChosenFacility(state),
     loadingFacilityDetails: newAppointment.loadingFacilityDetails,
   };
+}
+
+export function getCancelInfo(state) {
+  const {
+    appointmentToCancel,
+    showCancelModal,
+    cancelAppointmentStatus,
+  } = state.appointments;
+
+  return {
+    appointmentToCancel,
+    showCancelModal,
+    cancelAppointmentStatus,
+  };
+}
+
+export function getChosenVACityState(state) {
+  const schema =
+    state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;
+
+  if (schema?.enum?.length > 1) {
+    const index = schema.enum.indexOf(
+      state.newAppointment.data.communityCareSystemId,
+    );
+
+    return schema.enumNames[index];
+  }
+
+  return null;
 }

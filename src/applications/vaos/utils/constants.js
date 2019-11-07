@@ -5,6 +5,12 @@ export const FETCH_STATUS = {
   failed: 'failed',
 };
 
+export const APPOINTMENT_TYPES = {
+  vaAppointment: 'vaAppointment',
+  ccAppointment: 'ccAppointment',
+  request: 'request',
+};
+
 export const TIME_TEXT = {
   AM: 'in the morning',
   PM: 'in the afternoon',
@@ -12,7 +18,7 @@ export const TIME_TEXT = {
 };
 
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/follow-up',
+  'routine-follow-up': 'Routine/Follow-up',
   'new-issue': 'New issue',
   'medication-concern': 'Medication concern',
   other: 'My reason is not listed here',
@@ -89,11 +95,11 @@ export const TYPES_OF_CARE = [
 export const TYPES_OF_SLEEP_CARE = [
   {
     id: '349',
-    name: 'CPAP',
+    name: 'Continuous Positive Airway Pressure (CPAP)',
   },
   {
     id: '143',
-    name: 'Home sleep study',
+    name: 'Sleep medicine and home sleep testing',
   },
 ];
 

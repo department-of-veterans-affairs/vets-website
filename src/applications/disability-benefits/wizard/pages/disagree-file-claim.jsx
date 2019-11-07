@@ -6,8 +6,7 @@ const alertContent = (
   <>
     <p>
       If you disagree with a VA decision we made over a year ago, you need to
-      file a Supplemental Claim (VA Form 20-0995). You shouldn&apos;t file a
-      disability claim.
+      file a Supplemental Claim (VA Form 20-0995).
     </p>
     <a href="/decision-reviews/supplemental-claim/">
       Find out how to file a Supplemental Claim

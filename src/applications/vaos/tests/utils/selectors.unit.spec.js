@@ -10,6 +10,7 @@ import {
   getClinicPageInfo,
   getDateTimeSelect,
   getReasonForAppointment,
+  getPreferredDate,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -146,6 +147,30 @@ describe('VAOS selectors', () => {
     });
   });
 
+  describe('getPreferredDate', () => {
+    it('should return info needed for form pages', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '323',
+          },
+          pageChangeInProgress: false,
+        },
+      };
+      const preferredDate = getPreferredDate(state, 'testPage');
+
+      expect(preferredDate.pageChangeInProgress).to.equal(
+        state.newAppointment.pageChangeInProgress,
+      );
+      expect(preferredDate.data).to.equal(state.newAppointment.data);
+      expect(preferredDate.schema).to.equal(
+        state.newAppointment.pages.preferredDate,
+      );
+      expect(preferredDate.typeOfCare).to.equal('Primary care');
+    });
+  });
+
   describe('getDateTimeSelect', () => {
     it('should return available dates data and timezone', () => {
       const availableSlots = [
@@ -181,6 +206,7 @@ describe('VAOS selectors', () => {
           availableSlots,
         },
       };
+
       const data = getDateTimeSelect(state, 'selectDateTime');
       expect(data.timezone).to.be.oneOf(['MST', 'MDT']);
       expect(data.availableDates).to.eql(['2019-10-24']);

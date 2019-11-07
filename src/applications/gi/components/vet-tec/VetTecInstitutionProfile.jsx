@@ -9,6 +9,8 @@ import VetTecHeadingSummary from './VetTecHeadingSummary';
 import VetTecContactInformation from './VetTecContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
+import VetTecPrograms from './VetTecPrograms';
 
 const VetTecInstitutionProfile = ({
   institution,
@@ -31,8 +33,14 @@ const VetTecInstitutionProfile = ({
         <AccordionItem button="Estimate your benefits">
           <VetTecCalculator showModal={showModal} />
         </AccordionItem>
+        {!environment.isProduction() && (
+          <AccordionItem button="Veteran programs">
+            <VetTecPrograms institution={institution} onShowModal={showModal} />
+          </AccordionItem>
+        )}
+
         <AccordionItem button="Application process">
-          <VetTecApplicationProcess />
+          <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
         <AccordionItem button="Contact details">
           <VetTecContactInformation institution={institution} />

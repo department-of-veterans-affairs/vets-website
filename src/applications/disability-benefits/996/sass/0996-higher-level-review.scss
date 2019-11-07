@@ -113,7 +113,7 @@
 }
 
 // hide Required label (added to description)
-#root_veteran_contestedIssues-label {
+#root_contestedIssues-label {
   display: none;
 }
 
@@ -169,6 +169,23 @@
   }
 }
 
+/* Step 2c */
+article[data-location^="contested-issues/"] {
+  /* Info alert icon color */
+  .usa-alert-info:before {
+    color: #00a6d2;
+  }
+
+  /* Add space above AdditionalInfo block */
+  .form-expanding-group {
+    margin-top: 2em;
+  }
+
+  .usa-input-error label {
+    font-weight: bold;
+  }
+}
+
 /* Step 3 */
 /* Informal conference */
 article[data-location="request-informal-conference"] {
@@ -189,7 +206,7 @@ article[data-location="request-informal-conference"] {
     margin-top: 0;
   }
 
-  #root_veteran_scheduleTimes-label {
+  #root_scheduleTimes-label {
     p {
       margin-top: 0;
     }

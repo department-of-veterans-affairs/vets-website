@@ -1,59 +1,76 @@
-// Dependencies
-const { get } = require('lodash');
-// Relative
-const { getModifiedEntity, toId } = require('./helpers');
+const chalk = require('chalk');
 
-/**
- * Takes an entity type and uuid, reads the corresponding file,
- * searches for references to other entities, and replaces the
- * references with the contents of those entities recursively.
- *
- * @param {Object} entity - The entity object.
- *
- * @return {Object} - The entity with all the references filled in with
- *                    the body of the referenced entities.
- */
-const assembleEntityTree = (entity, parents = []) => {
-  // Derive entity properties.
-  const targetID = get(entity, 'type[0].target_id');
-  const uuid = get(entity, 'uuid[0].value');
+const { getFilteredEntity } = require('./filters');
+const { transformEntity } = require('./transform');
+const { typeProperties, toId, readEntity } = require('./helpers');
 
-  // Avoid circular references
-  if (parents.includes(toId(targetID, uuid))) {
-    /* eslint-disable no-console */
-    console.log(`I'm my own grandpa! (${toId(targetID, uuid)})`);
-    console.log(`  Parents:\n    ${parents.join('\n    ')}`);
-    /* eslint-enable no-console */
+const validateEntity = require('./schema-validation');
 
-    // If we find a circular references, it needs to be addressed;
-    // just quit
-    process.exit(1);
-  }
+const entityAssemblerFactory = contentDir => {
+  /**
+   * Takes an entity type and uuid, reads the corresponding file,
+   * searches for references to other entities, and replaces the
+   * references with the contents of those entities recursively.
+   *
+   * @param {Object} entity - The entity object.
+   *
+   * @return {Object} - The entity with all the references filled in with
+   *                    the body of the referenced entities.
+   */
+  const assembleEntityTree = (entity, parents = []) => {
+    // Avoid circular references
+    if (parents.includes(toId(entity))) {
+      /* eslint-disable no-console */
+      console.log(`I'm my own grandpa! (${toId(entity)})`);
+      console.log(`  Parents:\n    ${parents.join('\n    ')}`);
+      /* eslint-enable no-console */
 
-  const modifiedEntity = getModifiedEntity(targetID, entity);
-
-  // Iterate over all non-blacklisted properties in an entity, look
-  // for references to other identities recursively, and replace the
-  // reference with the entity contents.
-  for (const [key, prop] of Object.entries(modifiedEntity)) {
-    // Properties with target_uuids are always arrays from tome-sync
-    if (Array.isArray(prop)) {
-      prop.forEach((item, index) => {
-        const { target_uuid: targetUuid, target_type: targetType } = item;
-
-        // We found a reference! Override it with the expanded entity.
-        if (targetUuid && targetType) {
-          modifiedEntity[key][index] = assembleEntityTree(
-            targetType,
-            targetUuid,
-            parents.concat([toId(targetID, uuid)]),
-          );
-        }
-      });
+      // If we find a circular references, it needs to be addressed;
+      // just quit
+      process.exit(1);
     }
-  }
 
-  return modifiedEntity;
+    const errors = validateEntity(entity);
+    if (errors.length) {
+      /* eslint-disable no-console */
+      console.warn(chalk.yellow(`${toId(entity)} is invalid:`));
+      console.warn(`${errors.map(e => JSON.stringify(e, null, 2))}`);
+      console.warn(`-------------------`);
+      /* eslint-enable no-console */
+
+      // Abort! (We may want to change this later)
+      process.exit(1);
+    }
+
+    const filteredEntity = getFilteredEntity(entity);
+
+    // Iterate over all whitelisted properties in an entity, look for
+    // references to other identities recursively, and replace the
+    // reference with the entity contents.
+    for (const [key, prop] of Object.entries(filteredEntity)) {
+      // eslint-disable-next-line no-continue
+      if (typeProperties.includes(key)) continue;
+
+      // Properties with target_uuids are always arrays from tome-sync
+      if (Array.isArray(prop)) {
+        prop.forEach((item, index) => {
+          const { target_uuid: targetUuid, target_type: targetType } = item;
+
+          // We found a reference! Override it with the expanded entity.
+          if (targetUuid && targetType) {
+            filteredEntity[key][index] = assembleEntityTree(
+              readEntity(contentDir, targetType, targetUuid),
+              parents.concat([toId(entity)]),
+            );
+          }
+        });
+      }
+    }
+
+    return transformEntity(filteredEntity);
+  };
+
+  return assembleEntityTree;
 };
 
-module.exports = assembleEntityTree;
+module.exports = entityAssemblerFactory;
