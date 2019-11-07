@@ -110,7 +110,7 @@ export class DateTimeSelectPage extends React.Component {
         {title}
         <WaitTimeAlert
           preferredDate={preferredDate}
-          nextAvailableApptDate={availableDates?.[0]}
+          nextAvailableApptDate="2020-01-20"
           typeOfCareId={typeOfCareId}
           eligibleForRequests={eligibleForRequests}
           onClickRequest={this.props.startRequestAppointmentFlow}

@@ -40,7 +40,7 @@ export const WaitTimeAlert = ({
       <>
         <p>
           The earliest appointment we can schedule for you is{' '}
-          {moment(nextAvailableApptDate).format('MMM Do, YYYY')}. If this is an
+          {moment(nextAvailableApptDate).format('MMM D, YYYY')}. If this is an
           emergency, please use Urgent Care or the Veteran's Crisis Line.
         </p>
         <p>
