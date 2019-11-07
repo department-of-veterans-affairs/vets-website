@@ -24,20 +24,24 @@ class RatedDisabilityList extends React.Component {
     let status;
     switch (errorCode) {
       case '500':
-        headline = 'Rated disabilities error';
+        headline = "We're sorry, something went wrong on our end";
         status = 'error';
         content = (
           <>
             <p>
-              We are sorry. An error occurred when accessing your disability
-              rating information.
+              Please refresh this page or check back later. You can also sign
+              out of VA.gov and try signing back into this page.
             </p>
-            <h4>What you can do</h4>
             <p>
-              Sign out of VA.gov, then log back in to try this page again. If
-              the error continues, please call the VA.gov Help Desk at
-              1-855-574-7286 (TTY:1-800-829-4833). We're here Monday-Friday,
-              8:00 a.m. - 8:00 p.m. (ET).
+              If you get this error again, please call VA.gov help desk at{' '}
+              <a
+                href="tel"
+                aria-label="Dial the telephone number 800-827-1000"
+                title="Dial the telephone number 800-827-1000"
+              >
+                855-574-7286
+              </a>{' '}
+              (TTY:711). We're here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
             </p>
           </>
         );
