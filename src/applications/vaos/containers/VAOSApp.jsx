@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { selectUser } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import RegistrationCheck from './RegistrationCheck';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -22,7 +23,7 @@ export function VAOSApp({ user, children }) {
         appTitle="VA online scheduling"
         dependencies={[externalServices.mvi, externalServices.vaos]}
       >
-        {children}
+        <RegistrationCheck>{children}</RegistrationCheck>
       </DowntimeNotification>
     </RequiredLoginView>
   );

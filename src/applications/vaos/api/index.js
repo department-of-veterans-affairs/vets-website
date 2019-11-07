@@ -71,7 +71,7 @@ export const getSystemIdentifiers = (() => {
   let promise = null;
 
   return () => {
-    if (promise) {
+    if (promise && navigator.userAgent !== 'node.js') {
       return promise;
     }
 
