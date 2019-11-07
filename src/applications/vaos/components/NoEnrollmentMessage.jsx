@@ -5,19 +5,24 @@ export default function NoEnrollmentMessage() {
   return (
     <AlertBox
       status="error"
-      headline="Sorry, we couldn’t find a record of your enrollment with the Veterans Health Administration"
+      headline="We’re sorry. We can’t find a record of your VA health care enrollment"
     >
       <p>
-        To use this app to schedule or request an appointment at a VA facility,
-        or to request community care assistance, you need to be:
+        To schedule an appointment online or to request Community Care
+        assistance, you need to be:
       </p>
       <ol>
-        <li>Actively enrolled in VA health care, and</li>
-        <li>Registered with a VA health care facility</li>
+        <li>
+          Enrolled in VA health care, <strong>and</strong>
+        </li>
+        <li>
+          Registered with at least 1 VA medical center that accepts VA online
+          scheduling
+        </li>
       </ol>
       <p>
         <a href="/health-care/apply">
-          Learn more about applying for VA health care
+          Find out how to apply for VA health care benefits
         </a>
       </p>
     </AlertBox>

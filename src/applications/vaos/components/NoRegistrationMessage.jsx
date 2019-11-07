@@ -5,22 +5,25 @@ export default function NoRegistrationMessage() {
   return (
     <AlertBox
       status="error"
-      headline="Sorry, we couldn’t find any VHA facility registrations for you"
+      headline="We’re sorry. We can’t find any VA medical facility registrations for you"
     >
       <p>
-        To use this app to schedule or request an appointment at a VA facility,
-        or to request community care assistance, you need to be:
+        To schedule an appointment online or to request Community Care
+        assistance, you need to be:
       </p>
       <ol>
-        <li>Actively enrolled in VA health care, and</li>
-        <li>Registered with a VA health care facility</li>
+        <li>
+          Enrolled in VA health care, <strong>and</strong>
+        </li>
+        <li>
+          Registered with at least 1 VA medical center that accepts VA online
+          scheduling
+        </li>
       </ol>
       <p>
-        If you need to register, or you believe this is an error, please contact
-        your{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-          local facility's
-        </a>{' '}
+        To register with a facility, or if you think this message is an error,
+        contact{' '}
+        <a href="/find-locations">your local VA health care facility’s</a>{' '}
         registration office.
       </p>
     </AlertBox>
