@@ -13,7 +13,7 @@ const transformers = fs
   .readdirSync(transformersDir)
   .filter(name => name.endsWith('.js'))
   .reduce((t, fileName) => {
-    const contentModelType = fileName.slice(0, -3); // Take of the '.js'
+    const contentModelType = path.parse(fileName).name;
     // eslint-disable-next-line no-param-reassign
     t[contentModelType] = require(path.join(transformersDir, fileName));
     return t;
