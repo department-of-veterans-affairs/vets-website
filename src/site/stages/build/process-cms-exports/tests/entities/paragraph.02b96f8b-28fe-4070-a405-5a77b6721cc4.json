@@ -1,0 +1,66 @@
+{
+    "uuid": [
+        {
+            "value": "02b96f8b-28fe-4070-a405-5a77b6721cc4"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "collapsible_panel",
+            "target_type": "paragraphs_type",
+            "target_uuid": "9d342344-615c-4c0b-b4c8-991d7ec4d20c"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-10-25T00:21:06+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "field_collapsible_panel_bordered": [
+        {
+            "value": false
+        }
+    ],
+    "field_collapsible_panel_expand": [
+        {
+            "value": false
+        }
+    ],
+    "field_collapsible_panel_multi": [
+        {
+            "value": false
+        }
+    ],
+    "field_va_paragraphs": [
+        {
+            "target_type": "paragraph",
+            "target_uuid": "a4227c4c-b7af-4dc2-9881-c27c8bb63282"
+        }
+    ]
+}

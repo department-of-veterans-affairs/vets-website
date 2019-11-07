@@ -24,7 +24,7 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
-  FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS,
+  FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
@@ -35,6 +35,8 @@ import {
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
   REASON_MAX_CHAR_DEFAULT,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../actions/newAppointment';
 
 import { FLOW_TYPES } from '../utils/constants';
@@ -51,6 +53,7 @@ const initialState = {
   clinics: {},
   eligibility: {},
   systems: null,
+  ccEnabledSystems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingEligibility: false,
@@ -318,10 +321,10 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS: {
+    case FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS: {
       return {
         ...state,
-        hasCCEnabledSystems: action.hasCCEnabledSystems,
+        ccEnabledSystems: action.ccEnabledSystems,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -471,6 +474,51 @@ export default function formReducer(state = initialState, action) {
           ...state.facilityDetails,
           [state.data.vaFacility]: action.facilityDetails,
         },
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN: {
+      return {
+        ...state,
+        loadingSystems: true,
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
+      let formData = state.data;
+      let initialSchema = action.schema;
+      if (state.ccEnabledSystems?.length === 1) {
+        formData = {
+          ...formData,
+          communityCareSystemId: state.ccEnabledSystems[0],
+        };
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
+      } else {
+        initialSchema = set(
+          'properties.communityCareSystemId.enum',
+          action.systems.map(system => system.institutionCode),
+          initialSchema,
+        );
+        initialSchema.properties.communityCareSystemId.enumNames = action.systems.map(
+          system => `${system.city}, ${system.stateAbbrev}`,
+        );
+        initialSchema.required.push('communityCareSystemId');
+      }
+      const { data, schema } = setupFormData(
+        formData,
+        initialSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        loadingSystems: false,
+        data,
         pages: {
           ...state.pages,
           [action.page]: schema,

@@ -219,3 +219,18 @@ export function getCancelInfo(state) {
     cancelAppointmentStatus,
   };
 }
+
+export function getChosenVACityState(state) {
+  const schema =
+    state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;
+
+  if (schema?.enum?.length > 1) {
+    const index = schema.enum.indexOf(
+      state.newAppointment.data.communityCareSystemId,
+    );
+
+    return schema.enumNames[index];
+  }
+
+  return null;
+}

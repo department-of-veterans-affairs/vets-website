@@ -13,6 +13,7 @@ const INITIAL_STATE = Object.freeze({
   typeName: 'ALL',
   vetTecProvider: false,
   preferredProvider: false,
+  provider: [],
 });
 
 export default function(state = INITIAL_STATE, action) {

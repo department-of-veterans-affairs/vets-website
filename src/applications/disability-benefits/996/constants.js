@@ -26,6 +26,8 @@ export const errorMessages = {
     'Phone numbers must be 10 digits (dashes allowed)',
   informalConferenceTimesMin: 'Please choose at least one time period',
   informalConferenceTimesMax: 'You can choose up to two time periods',
+  contestedIssueCommentLength:
+    'Please enter no more than 400 characters in this field',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

@@ -78,7 +78,7 @@ class VetTecCalculatorForm extends React.Component {
     return (
       <div className="calculator-form">
         <p>
-          Use the fields below to modify your tuition and fees or to include a
+          Use the fields below to update your tuition and fees or to add a
           scholarship.
         </p>
         {this.renderTuitionFees(this.props.onShowModal)}

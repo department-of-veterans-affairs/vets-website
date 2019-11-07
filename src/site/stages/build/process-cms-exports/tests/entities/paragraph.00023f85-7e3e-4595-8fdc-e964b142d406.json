@@ -1,0 +1,57 @@
+{
+    "uuid": [
+        {
+            "value": "00023f85-7e3e-4595-8fdc-e964b142d406"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "link_teaser",
+            "target_type": "paragraphs_type",
+            "target_uuid": "072db7a4-476e-41a6-ab49-c44184281451"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-03-19T22:39:21+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "field_link": [
+        {
+            "uri": "entity:node\/703",
+            "title": "VA health care copay rates for 2019",
+            "options": []
+        }
+    ],
+    "field_link_summary": [
+        {
+            "value": "Review copay rates for outpatient care, hospital stays, medications, and other health services."
+        }
+    ]
+}

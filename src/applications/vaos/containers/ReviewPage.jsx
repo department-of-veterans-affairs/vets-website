@@ -5,6 +5,7 @@ import {
   getFormData,
   getChosenFacilityInfo,
   getChosenClinicInfo,
+  getChosenVACityState,
 } from '../utils/selectors';
 import ReviewDirectScheduleInfo from '../components/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/ReviewRequestInfo';
@@ -12,7 +13,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export class ReviewPage extends React.Component {
   render() {
-    const { data, facility, clinic } = this.props;
+    const { data, facility, clinic, vaCityState } = this.props;
 
     return (
       <div>
@@ -24,7 +25,11 @@ export class ReviewPage extends React.Component {
           />
         )}
         {!data.isDirectSchedule && (
-          <ReviewRequestInfo data={data} facility={facility} />
+          <ReviewRequestInfo
+            data={data}
+            facility={facility}
+            vaCityState={vaCityState}
+          />
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
@@ -52,6 +57,7 @@ function mapStateToProps(state) {
     data: getFormData(state),
     facility: getChosenFacilityInfo(state),
     clinic: getChosenClinicInfo(state),
+    vaCityState: getChosenVACityState(state),
   };
 }
 
