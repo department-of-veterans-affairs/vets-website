@@ -188,6 +188,11 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO ACTION TAKEN',
 ]);
 
+export const FLOW_TYPES = {
+  DIRECT: 'direct',
+  REQUEST: 'request',
+};
+
 export const TYPE_OF_VISIT = [
   {
     id: 'office',

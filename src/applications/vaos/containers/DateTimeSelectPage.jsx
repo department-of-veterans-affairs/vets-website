@@ -13,6 +13,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
 import DateTimeSelectField from '../components/DateTimeSelectField';
+import WaitTimeAlert from '../components/WaitTimeAlert';
 
 const pageKey = 'selectDateTime';
 
@@ -83,6 +84,9 @@ export class DateTimeSelectPage extends React.Component {
       availableDates,
       loadingAppointmentSlots,
       timezone,
+      typeOfCareId,
+      preferredDate,
+      eligibleForRequests,
     } = this.props;
 
     const title = (
@@ -103,6 +107,12 @@ export class DateTimeSelectPage extends React.Component {
     return (
       <div>
         {title}
+        <WaitTimeAlert
+          preferredDate={preferredDate}
+          nextAvailableApptDate={availableDates?.[0]}
+          typeOfCareId={typeOfCareId}
+          eligibleForRequests={eligibleForRequests}
+        />
         <p>
           Please select a desired date and time for your appointment.
           {timezone && ` Appointment times are displayed in ${timezone}.`}
