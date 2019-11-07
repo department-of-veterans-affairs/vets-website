@@ -96,7 +96,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     const tree = shallow(<ReviewRequestInfo data={{}} />);
 
     expect(tree.find('[aria-label]').length).to.equal(7);
-    expect(tree.find('[aria-label="edit type of care"]').exists()).to.be.true;
+    expect(tree.find('[aria-label="Edit type of care"]').exists()).to.be.true;
 
     tree.unmount();
   });

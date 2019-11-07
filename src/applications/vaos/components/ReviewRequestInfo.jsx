@@ -46,7 +46,7 @@ export default function ReviewRequestInfo({ data, facility }) {
         {getTypeOfCare(data)?.name}
       </span>
       <Link
-        aria-label="edit type of care"
+        aria-label="Edit type of care"
         to={newAppointmentFlow.typeOfCare.url}
       >
         Edit
@@ -62,7 +62,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             {facility?.institution.authoritativeName}
           </span>
           <Link
-            aria-label="edit location of appointment"
+            aria-label="Edit location of appointment"
             to={newAppointmentFlow.vaFacility.url}
           >
             Edit
@@ -76,7 +76,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             {PURPOSE_TEXT[data.reasonForAppointment]}{' '}
           </span>
           <Link
-            aria-label="edit purpose of appointment"
+            aria-label="Edit purpose of appointment"
             to={newAppointmentFlow.reasonForAppointment.url}
           >
             Edit
@@ -86,7 +86,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             {TYPE_OF_VISIT.find(v => v.id === data.visitType)?.name}{' '}
           </span>
           <Link
-            aria-label="edit how to be seen"
+            aria-label="Edit how to be seen"
             to={newAppointmentFlow.visitType.url}
           >
             Edit
@@ -106,7 +106,7 @@ export default function ReviewRequestInfo({ data, facility }) {
                     {prov.firstName} {prov.lastName}
                   </span>{' '}
                   <Link
-                    aria-label="edit provider preference"
+                    aria-label="Edit provider preference"
                     to={newAppointmentFlow.ccProvider.url}
                   >
                     Edit
@@ -123,7 +123,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             <>
               <span className="vads-u-padding-right--1">Not specified</span>{' '}
               <Link
-                aria-label="edit provider information"
+                aria-label="Edit provider information"
                 to={newAppointmentFlow.ccProvider.url}
               >
                 Edit
@@ -140,7 +140,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             }
           </span>
           <Link
-            aria-label="edit distance preference"
+            aria-label="Edit distance preference"
             to={newAppointmentFlow.ccPreferences.url}
           >
             Edit
@@ -152,7 +152,7 @@ export default function ReviewRequestInfo({ data, facility }) {
             {LANGUAGES.find(lang => lang.id === data.preferredLanguage)?.text}
           </span>
           <Link
-            aria-label="edit language preference"
+            aria-label="Edit language preference"
             to={newAppointmentFlow.ccPreferences.url}
           >
             Edit
@@ -162,7 +162,7 @@ export default function ReviewRequestInfo({ data, facility }) {
       <AlertBox status="info" headline="Where and when we’ll call you">
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">Email</h2>
         <span className="vads-u-padding-right--1">{data.email} </span>
-        <Link aria-label="edit email" to={newAppointmentFlow.contactInfo.url}>
+        <Link aria-label="Edit email" to={newAppointmentFlow.contactInfo.url}>
           Edit
         </Link>
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">
@@ -170,7 +170,7 @@ export default function ReviewRequestInfo({ data, facility }) {
         </h2>
         <span className="vads-u-padding-right--1">{data.phoneNumber} </span>
         <Link
-          aria-label="edit phone number"
+          aria-label="Edit phone number"
           to={newAppointmentFlow.contactInfo.url}
         >
           Edit
@@ -182,7 +182,7 @@ export default function ReviewRequestInfo({ data, facility }) {
           {formatBestTime(data.bestTimeToCall)}{' '}
         </span>
         <Link
-          aria-label="edit call back time"
+          aria-label="Edit call back time"
           to={newAppointmentFlow.contactInfo.url}
         >
           Edit
