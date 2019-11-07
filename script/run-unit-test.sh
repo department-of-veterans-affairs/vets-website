@@ -14,7 +14,7 @@ if [[ -z "$1" ]] || [[ $1 == -* ]]; then
   exit $?
 fi
 
-BABEL_ENV=test $MOCHA --opts src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js "$@"
+BABEL_ENV=test $MOCHA --opts src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js --recursive "$@"
 # Stop that bloody npm error messaging after failed tests
 # NOTE: This is only to cut down on the visual clutter when running a single test.
 #  This WILL be the wrong status if the test actually failed, so don't rely on it.

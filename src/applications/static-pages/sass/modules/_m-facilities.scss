@@ -34,6 +34,22 @@ $duo-tone-lighten: #000;
   mix-blend-mode: screen;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* Cheat to restrict to IE10+ CSS styles. */
+  .duotone::before, .duotone::after {
+    width: 0%;
+    height: 0%;
+  }
+}
+
+@supports (-ms-ime-align: auto) {
+  /* Cheat to restrict to IE Edge CSS styles. */
+  .duotone::before, .duotone::after {
+    width: 0%;
+    height: 0%;
+  }
+}
+
 .usa-accordion > ul li ul.usa-unstyled-list,
 .usa-accordion-bordered > ul li ul.usa-unstyled-list {
   list-style: none;
