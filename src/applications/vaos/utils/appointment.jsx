@@ -77,7 +77,7 @@ export function sortFutureList(a, b) {
 export function getAppointmentId(appt) {
   if (appt.appointmentRequestId) {
     return appt.appointmentRequestId;
-  } else if (appt.vvsAppointments) {
+  } else if (appt.vvsAppointments.length) {
     return appt.vvsAppointments[0].id;
   }
 
@@ -89,16 +89,15 @@ export function isCommunityCare(appt) {
 }
 
 export function isGFEVideoVisit(appt) {
-  return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
+  return appt.vvsAppointments[0]?.appointmentKind === 'MOBILE_GFE';
 }
 
 export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments || isGFEVideoVisit(appt);
+  return !!appt.vvsAppointments.length || isGFEVideoVisit(appt);
 }
 
 export function getVideoVisitLink(appt) {
-  return appt.vvsAppointments?.[0]?.patients?.patient[0]?.virtualMeetingRoom
-    ?.url;
+  return appt.vvsAppointments[0]?.patients?.[0]?.virtualMeetingRoom?.url;
 }
 
 export function getStagingId(facilityId) {
@@ -126,7 +125,7 @@ export function getClinicName(appt) {
     case APPOINTMENT_TYPES.request:
       return appt.friendlyLocationName || appt.facility.name;
     default:
-      return appt.clinicFriendlyName || appt.vdsAppointments?.[0].clinic?.name;
+      return appt.clinicFriendlyName || appt.vdsAppointments[0]?.clinic?.name;
   }
 }
 
@@ -202,8 +201,8 @@ export function getAppointmentDateTime(appt) {
   return (
     <>
       {parsedDate.format('MMMM D, YYYY')} at {parsedDate.format('h:mm')}
-      <span aria-hidden="true"> {parsedDate.format('a zz')}</span>
-      <span className="sr-only">{parsedDate.format('a zz')}</span>
+      <span aria-hidden="true"> {parsedDate.format('a')}</span>
+      <span className="sr-only">{parsedDate.format('a')}</span>
     </>
   );
 }
