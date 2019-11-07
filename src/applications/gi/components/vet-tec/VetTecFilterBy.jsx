@@ -11,6 +11,7 @@ class VetTecFilterBy extends React.Component {
   static propTypes = {
     showModal: PropTypes.func.isRequired,
     filters: PropTypes.object.isRequired,
+    providers: PropTypes.object.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
     handleProviderFilterChange: PropTypes.func.isRequired,
   };
@@ -25,18 +26,15 @@ class VetTecFilterBy extends React.Component {
     this.props.handleFilterChange(field, value);
   };
 
-  handleProviderFilterChange = domEvent => {
-    if (
-      domEvent.target.checked &&
-      !this.props.filters.provider.includes(domEvent.target.name)
-    ) {
+  handleProviderFilterChange = (name, checked) => {
+    if (!checked) {
       this.props.handleProviderFilterChange({
-        provider: [...this.props.filters.provider, domEvent.target.name],
+        provider: [...this.props.filters.provider, name],
       });
     } else {
       this.props.handleProviderFilterChange({
         provider: this.props.filters.provider.filter(
-          name => name !== domEvent.target.name,
+          providerName => providerName !== name,
         ),
       });
     }
@@ -59,7 +57,12 @@ class VetTecFilterBy extends React.Component {
             checked={this.props.filters.provider.includes(key)}
             name={key}
             label={`${key} (${this.props.providers[key]})`}
-            onChange={this.handleProviderFilterChange}
+            onChange={() =>
+              this.handleProviderFilterChange(
+                key,
+                this.props.filters.provider.includes(key),
+              )
+            }
           />
         </div>
       ));
