@@ -86,13 +86,15 @@ export const getSystemIdentifiers = (() => {
         headers: {
           'X-Key-Inflection': 'camel',
         },
-      }).then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
+      })
+        .then(resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
 
-        throw new Error(resp.status);
-      });
+          throw new Error(resp.status);
+        })
+        .then(json => json.data.map(item => item.attributes));
     }
 
     return promise;
