@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
+import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 import {
   routeToPageInFlow,
@@ -26,6 +31,7 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
+import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 
 const testFlow = {
@@ -126,6 +132,15 @@ describe('VAOS newAppointment actions', () => {
         eligibility: {},
       },
     };
+
+    before(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+    });
+
+    after(() => {
+      resetFetch();
+    });
 
     it('should reuse systems systems if already in state', async () => {
       const dispatch = sinon.spy();

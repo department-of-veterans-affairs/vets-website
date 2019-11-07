@@ -1,13 +1,5 @@
 const { flatten, isEmpty } = require('lodash');
-const { getDrupalValue } = require('./helpers');
-
-function createMetaTag(type, key, value) {
-  return {
-    type,
-    key,
-    value,
-  };
-}
+const { getDrupalValue, createMetaTag } = require('./helpers');
 
 function pageTransform(entity) {
   const transformed = entity;
