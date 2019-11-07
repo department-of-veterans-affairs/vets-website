@@ -29,10 +29,18 @@ export const WaitTimeAlert = ({
   nextAvailableApptDate,
   typeOfCareId,
   eligibleForRequests,
+  onClickRequest,
 }) => {
   const today = moment();
   const todayPlusFiveDays = moment().add(5, 'days');
   const momentPreferredDate = moment(preferredDate);
+
+  const actions = (
+    <Actions
+      eligibleForRequests={eligibleForRequests}
+      onClickRequest={onClickRequest}
+    />
+  );
 
   if (today.isSame(momentPreferredDate, 'day')) {
     const content = (
@@ -47,7 +55,7 @@ export const WaitTimeAlert = ({
           appointment, but you will not be able to directly schedule it. Or you
           can pick one of these available dates.
         </p>
-        <Actions eligibleForRequests={eligibleForRequests} />
+        {actions}
       </>
     );
     return (
@@ -83,7 +91,7 @@ export const WaitTimeAlert = ({
           you seen sooner, but we cannot directly schedule an appointment sooner
           than those you see here.
         </p>
-        <Actions eligibleForRequests />
+        {actions}
       </>
     );
     return (

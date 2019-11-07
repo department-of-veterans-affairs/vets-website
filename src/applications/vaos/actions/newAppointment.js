@@ -80,9 +80,10 @@ export function updateFacilityType(facilityType) {
   };
 }
 
-export function startDirectScheduleFlow() {
+export function startDirectScheduleFlow(appointments) {
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
+    appointments,
   };
 }
 

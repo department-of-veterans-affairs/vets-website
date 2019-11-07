@@ -142,14 +142,13 @@ export default {
         const appointments = await getPastAppointments();
 
         if (hasEligibleClinics(facilityId, appointments, clinics)) {
-          dispatch(startDirectScheduleFlow);
-
+          dispatch(startDirectScheduleFlow(appointments));
           return 'clinicChoice';
         }
       }
 
       if (eligibilityStatus.request) {
-        dispatch(startRequestAppointmentFlow);
+        dispatch(startRequestAppointmentFlow());
         return 'requestDateTime';
       }
 

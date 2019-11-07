@@ -7,6 +7,7 @@ import {
   openSelectAppointmentPage,
   updateFormData,
   routeToNextAppointmentPage,
+  startRequestAppointmentFlow,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
@@ -112,6 +113,7 @@ export class DateTimeSelectPage extends React.Component {
           nextAvailableApptDate={availableDates?.[0]}
           typeOfCareId={typeOfCareId}
           eligibleForRequests={eligibleForRequests}
+          onClickRequest={this.props.startRequestAppointmentFlow}
         />
         <p>
           Please select a desired date and time for your appointment.
@@ -146,6 +148,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   openSelectAppointmentPage,
   updateFormData,
+  startRequestAppointmentFlow,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 };
