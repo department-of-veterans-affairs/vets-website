@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { Link } from 'react-router';
-import { PRIMARY_CARE } from '../utils/constants';
+import { MENTAL_HEALTH } from '../utils/constants';
 import newAppointmentFlow from '../newAppointmentFlow';
 
 export const WaitTimeAlert = ({
@@ -14,7 +14,6 @@ export const WaitTimeAlert = ({
   onClickRequest,
 }) => {
   const today = moment();
-  const todayPlusFiveDays = moment().add(5, 'days');
   const momentPreferredDate = moment(preferredDate);
 
   const actions = (
@@ -35,6 +34,7 @@ export const WaitTimeAlert = ({
     </div>
   );
 
+  // If preferred date is today, show urgent care warning
   if (today.isSame(momentPreferredDate, 'day')) {
     const content = (
       <>
@@ -61,15 +61,16 @@ export const WaitTimeAlert = ({
   }
 
   // If Preferred date >5 days away, and next avail appointment is >20 (mental health)
-  // or 28 (other ToCs) days away from the preferred date,
-  const nextAvailableDateWarningLimit = typeOfCareId === PRIMARY_CARE ? 20 : 28;
+  // or 28 (other ToCs) days away from the preferred date, show request alert
+  const nextAvailableDateWarningLimit =
+    typeOfCareId === MENTAL_HEALTH ? 20 : 28;
   const durationBetweenNowAndNextAvailable = moment
     .duration(moment(nextAvailableApptDate).diff(today))
     .asDays();
 
   if (
     nextAvailableApptDate &&
-    momentPreferredDate.isAfter(todayPlusFiveDays, 'day') &&
+    momentPreferredDate.isAfter(moment().add(5, 'days'), 'day') &&
     durationBetweenNowAndNextAvailable > nextAvailableDateWarningLimit
   ) {
     const content = (

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import moment from 'moment';
-import { PRIMARY_CARE } from '../../utils/constants';
+import { MENTAL_HEALTH } from '../../utils/constants';
 
 import { WaitTimeAlert } from '../../components/WaitTimeAlert';
 
@@ -14,7 +14,7 @@ describe('Wait Time Alert', () => {
       <WaitTimeAlert
         preferredDate={today}
         nextAvailableApptDate={today}
-        typeOfCareId={PRIMARY_CARE}
+        typeOfCareId={MENTAL_HEALTH}
       />,
     );
 
@@ -23,7 +23,7 @@ describe('Wait Time Alert', () => {
     tree.unmount();
   });
 
-  it('should render an info alert if primary care, preferred date is > 5 days and next available date is > 20 days away', () => {
+  it('should render an info alert if type of care is mental health, preferred date is > 5 days and next available date is > 20 days away', () => {
     const preferredDate = moment()
       .add(6, 'days')
       .format('YYYY-MM-DD');
@@ -35,7 +35,7 @@ describe('Wait Time Alert', () => {
       <WaitTimeAlert
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
-        typeOfCareId={PRIMARY_CARE}
+        typeOfCareId={MENTAL_HEALTH}
         eligibleForRequests
       />,
     );
@@ -45,7 +45,7 @@ describe('Wait Time Alert', () => {
     tree.unmount();
   });
 
-  it('should not render an info alert if primary care, preferred date is > 5 days and next available date is < 20 days away', () => {
+  it('should not render an info alert if type of care is mental health, preferred date is > 5 days and next available date is < 20 days away', () => {
     const preferredDate = moment()
       .add(6, 'days')
       .format('YYYY-MM-DD');
@@ -57,7 +57,7 @@ describe('Wait Time Alert', () => {
       <WaitTimeAlert
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
-        typeOfCareId={PRIMARY_CARE}
+        typeOfCareId={MENTAL_HEALTH}
         eligibleForRequests
       />,
     );
@@ -66,7 +66,7 @@ describe('Wait Time Alert', () => {
     tree.unmount();
   });
 
-  it('should not render an info alert if primary care, preferred date is < 5 days and next available date is > 20 days away', () => {
+  it('should not render an info alert if type of care is mental health, preferred date is < 5 days and next available date is > 20 days away', () => {
     const preferredDate = moment()
       .add(3, 'days')
       .format('YYYY-MM-DD');
@@ -78,7 +78,7 @@ describe('Wait Time Alert', () => {
       <WaitTimeAlert
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
-        typeOfCareId={PRIMARY_CARE}
+        typeOfCareId={MENTAL_HEALTH}
         eligibleForRequests
       />,
     );
@@ -86,7 +86,7 @@ describe('Wait Time Alert', () => {
     expect(tree.exists('AlertBox')).to.equal(false);
     tree.unmount();
   });
-  it('should render an info alert if not primary care, preferred date is > 5 days and next available date is > 28 days away', () => {
+  it('should render an info alert if type of care is not mental, preferred date is > 5 days and next available date is > 28 days away', () => {
     const preferredDate = moment()
       .add(6, 'days')
       .format('YYYY-MM-DD');
@@ -108,7 +108,7 @@ describe('Wait Time Alert', () => {
     tree.unmount();
   });
 
-  it('should not render an info alert if not primary care, preferred date is > 5 days and next available date is < 20 days away', () => {
+  it('should not render an info alert if type of care is not mental, preferred date is > 5 days and next available date is < 20 days away', () => {
     const preferredDate = moment()
       .add(6, 'days')
       .format('YYYY-MM-DD');
@@ -129,7 +129,7 @@ describe('Wait Time Alert', () => {
     tree.unmount();
   });
 
-  it('should not render an info alert if not primary care, preferred date is < 5 days and next available date is > 20 days away', () => {
+  it('should not render an info alert if type of care is not mental, preferred date is < 5 days and next available date is > 20 days away', () => {
     const preferredDate = moment()
       .add(3, 'days')
       .format('YYYY-MM-DD');
