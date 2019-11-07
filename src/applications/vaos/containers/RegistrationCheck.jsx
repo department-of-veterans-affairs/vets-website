@@ -20,17 +20,26 @@ export class RegistrationCheck extends React.Component {
       return <LoadingIndicator message="Check your VA registration" />;
     }
 
-    if (status === FETCH_STATUS.failed) {
-      return (
-        <AlertBox status="error" headline="Sorry, something went wrong">
-          Sorry, we ran into an error when trying to check your VHA facility
-          registration. Please try again later.
-        </AlertBox>
-      );
+    if (
+      status === FETCH_STATUS.succeeded &&
+      isEnrolled &&
+      hasRegisteredSystems
+    ) {
+      return children;
     }
 
-    if (isEnrolled && hasRegisteredSystems) {
-      return children;
+    let errorMessage;
+    if (status === FETCH_STATUS.failed) {
+      errorMessage = (
+        <AlertBox status="error" headline="Sorry, something went wrong">
+          We're sorry, we ran into an error when trying to find your VA medical
+          facility registrations. Please try again later.
+        </AlertBox>
+      );
+    } else if (!isEnrolled) {
+      errorMessage = <NoEnrollmentMessage />;
+    } else {
+      errorMessage = <NoRegistrationMessage />;
     }
 
     return (
@@ -38,8 +47,7 @@ export class RegistrationCheck extends React.Component {
         <Breadcrumbs />
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
-            {!isEnrolled && <NoEnrollmentMessage />}
-            {isEnrolled && !hasRegisteredSystems && <NoRegistrationMessage />}
+            {errorMessage}
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ describe('VAOS actions: registration', () => {
     expect(dispatchSpy.firstCall.args[0].type).to.equal(REGISTRATION_CHECK);
     expect(dispatchSpy.secondCall.args[0]).to.deep.equal({
       type: REGISTRATION_CHECK_SUCCEEDED,
-      systemIds: systems,
+      systemIds: systems.data.map(item => item.attributes),
     });
   });
 
