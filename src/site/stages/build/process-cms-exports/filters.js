@@ -20,6 +20,14 @@ const whitelists = {
     'moderation_state',
   ],
   'paragraph-wysiwyg': ['field_wysiwyg'],
+  'node-outreach-asset': [
+    'changed',
+    'field_benefits',
+    'field_description',
+    'field_format',
+    'field_office',
+    'status',
+  ],
 };
 
 const missingFilters = new Set();
