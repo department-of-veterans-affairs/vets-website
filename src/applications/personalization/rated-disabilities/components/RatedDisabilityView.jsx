@@ -13,6 +13,10 @@ class RatedDisabilityView extends React.Component {
     }),
   };
 
+  componentDidMount() {
+    this.props.fetchTotalDisabilityRating();
+  }
+
   render() {
     const {
       fetchRatedDisabilities,

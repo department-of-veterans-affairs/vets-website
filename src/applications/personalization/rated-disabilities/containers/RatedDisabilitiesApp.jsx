@@ -9,10 +9,6 @@ import RequiredLoginView from 'platform/user/authorization/components/RequiredLo
 import RatedDisabilityView from '../components/RatedDisabilityView';
 
 class RatedDisabilitiesApp extends React.Component {
-  componentDidMount() {
-    this.props.fetchTotalDisabilityRating();
-  }
-
   render() {
     const { ratedDisabilities } = this.props.ratedDisabilities;
     return (
@@ -26,6 +22,7 @@ class RatedDisabilitiesApp extends React.Component {
         >
           <RatedDisabilityView
             fetchRatedDisabilities={this.props.fetchRatedDisabilities}
+            fetchTotalDisabilityRating={this.props.fetchTotalDisabilityRating}
             ratedDisabilities={ratedDisabilities}
             user={this.props.user}
             totalDisabilityRating={this.props.totalDisabilityRating}
