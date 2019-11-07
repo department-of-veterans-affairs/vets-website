@@ -1,10 +1,20 @@
 import {
   getFormData,
+  getNewAppointment,
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
 import { TYPES_OF_CARE } from './utils/constants';
-import { getCommunityCare, getPastAppointments } from './api';
+import {
+  getCommunityCare,
+  getSystemIdentifiers,
+  getPastAppointments,
+  getSitesSupportingVAR,
+} from './api';
+import {
+  updateFacilityType,
+  updateCCEnabledSystems,
+} from './actions/newAppointment';
 import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
@@ -41,20 +51,33 @@ export default {
   },
   typeOfCare: {
     url: '/new-appointment',
-    async next(state) {
+    async next(state, dispatch) {
       let nextState = 'vaFacility';
 
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
       } else if (isCommunityCare(state)) {
         try {
-          const data = await getCommunityCare(
-            '/vaos/community-care/eligibility',
+          // Check if user registered systems support community care...
+          const userSystemIds = await getSystemIdentifiers();
+          const ccSites = await getSitesSupportingVAR();
+          const ccEnabledSystems = userSystemIds.filter(id =>
+            ccSites.some(site => site._id === id),
           );
+          dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
-          if (data.isEligible) {
-            nextState = 'typeOfFacility';
+          // Reroute to VA facility page if none of the user's registered systems support community care.
+          if (ccEnabledSystems.length) {
+            const data = await getCommunityCare(
+              '/vaos/community-care/eligibility',
+            );
+
+            if (data.isEligible) {
+              return 'typeOfFacility';
+            }
           }
+
+          dispatch(updateFacilityType('vaFacility'));
         } catch (e) {
           return 'vaFacility';
         }
@@ -72,7 +95,7 @@ export default {
       }
 
       if (getFormData(state).facilityType === 'communityCare') {
-        return 'ccProvider';
+        return 'ccPreferences';
       }
 
       return 'vaFacility';
@@ -86,12 +109,12 @@ export default {
   },
   audiologyCareType: {
     url: '/new-appointment/audiology',
-    next: 'ccProvider',
+    next: 'ccPreferences',
     previous: 'typeOfFacility',
   },
-  ccProvider: {
-    url: '/new-appointment/community-care-provider',
-    next: 'ccPreferences',
+  ccPreferences: {
+    url: '/new-appointment/community-care-preferences',
+    next: 'contactInfo',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -99,11 +122,6 @@ export default {
 
       return 'typeOfFacility';
     },
-  },
-  ccPreferences: {
-    url: '/new-appointment/community-care-preferences',
-    next: 'contactInfo',
-    previous: 'ccProvider',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
@@ -135,7 +153,11 @@ export default {
     previous(state) {
       let nextState = 'typeOfCare';
 
-      if (getFormData(state).facilityType) {
+      // Return to typeOFFacility page if facility is CC enabled
+      if (
+        getFormData(state).facilityType &&
+        getNewAppointment(state).hasCCEnabledSystems
+      ) {
         nextState = 'typeOfFacility';
       }
       return nextState;
@@ -192,7 +214,7 @@ export default {
     next: 'review',
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
-        return 'ccProvider';
+        return 'ccPreferences';
       }
 
       return 'visitType';

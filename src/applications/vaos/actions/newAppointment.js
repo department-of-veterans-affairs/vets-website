@@ -17,6 +17,8 @@ export const FORM_PAGE_CHANGE_STARTED =
   'newAppointment/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
+export const FORM_UPDATE_FACILITY_TYPE =
+  'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
@@ -25,6 +27,8 @@ export const FORM_FETCH_CHILD_FACILITIES =
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
+export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
+  'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
 export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
@@ -39,6 +43,10 @@ export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
 export const FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR';
+export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
+  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
+export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
+  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
 
 export const REASON_MAX_CHAR_DEFAULT = 150;
 
@@ -60,6 +68,20 @@ export function updateFormData(page, uiSchema, data) {
   };
 }
 
+export function updateCCEnabledSystems(ccEnabledSystems) {
+  return {
+    type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
+    ccEnabledSystems,
+  };
+}
+
+export function updateFacilityType(facilityType) {
+  return {
+    type: FORM_UPDATE_FACILITY_TYPE,
+    facilityType,
+  };
+}
+
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
@@ -70,18 +92,9 @@ export function openFacilityPage(page, uiSchema, schema) {
     // If we have the VA systems in our state, we don't need to
     // fetch them again
     if (!systems) {
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN,
-      });
-
-      const identifiers = await getSystemIdentifiers();
-      const systemIds = identifiers
-        .filter(id => id.assigningAuthority.startsWith('dfn'))
-        .map(id => id.assigningCode);
-
-      systems = await getSystemDetails(systemIds);
+      const userSystemIds = await getSystemIdentifiers();
+      systems = await getSystemDetails(userSystemIds);
     }
-
     const canShowFacilities =
       newAppointment.data.vaSystem || systems?.length === 1;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
@@ -265,6 +278,30 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       uiSchema,
       schema,
       availableSlots: mappedSlots,
+    });
+  };
+}
+
+export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
+  return async (dispatch, getState) => {
+    const newAppointment = getState().newAppointment;
+    const systemIds = newAppointment.ccEnabledSystems;
+    let systems = null;
+
+    dispatch({
+      type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+    });
+
+    if (systemIds.length > 1) {
+      systems = await getSystemDetails(systemIds);
+    }
+
+    dispatch({
+      type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+      page,
+      uiSchema,
+      schema,
+      systems,
     });
   };
 }

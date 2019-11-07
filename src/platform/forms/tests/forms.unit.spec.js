@@ -123,13 +123,13 @@ describe('form:', () => {
         expect(form.defaultDefinitions).to.be.an('object');
       });
 
-      if (form.introduction !== 'undefined') {
+      if (form.introduction) {
         it('should have introduction function', () => {
           expect(form.introduction).to.be.a('function');
         });
       }
 
-      if (form.prefillEnabled !== 'undefined') {
+      if (form.prefillEnabled) {
         it('should have prefillEnabled boolean', () => {
           expect(form.prefillEnabled).to.be.a('boolean');
         });

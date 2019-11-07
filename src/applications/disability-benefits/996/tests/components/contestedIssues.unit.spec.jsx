@@ -31,7 +31,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     );
     const formDOM = getFormDOM(form);
     expect($$('input[type="checkbox"]', formDOM).length).to.equal(
-      initialData.veteran.contestedIssues.length,
+      initialData.contestedIssues.length,
     );
   });
 
@@ -48,7 +48,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     );
 
     const formDOM = getFormDOM(form);
-    formDOM.setCheckbox('#root_veteran_contestedIssues_0', true);
+    formDOM.setCheckbox('#root_contestedIssues_0', true);
     submitForm(form);
     expect($$('.usa-input-error', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -70,7 +70,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
   });
 
   it('renders the information about each disability', () => {
-    const issues = initialData.veteran.contestedIssues;
+    const issues = initialData.contestedIssues;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}

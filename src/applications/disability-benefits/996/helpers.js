@@ -18,10 +18,13 @@ export const EffectiveDateViewField = ({ formData }) => {
 };
 
 export const hasForwardingAddress = formData =>
-  formData?.veteran?.['view:hasForwardingAddress'] || false;
+  formData?.['view:hasForwardingAddress'] || false;
 
 export const forwardingCountryIsUSA = formData =>
-  formData?.veteran?.forwardingAddress?.country === USA;
+  formData?.forwardingAddress?.country === USA;
+
+export const hasSelectedIssues = formData =>
+  formData?.contestedIssues?.some(entry => entry['view:selected']);
 
 // For testing
 export const isValidDate = date => date instanceof Date && isFinite(date);
@@ -33,8 +36,8 @@ export const addXMonths = numberOfMonths =>
     .format('YYYY-MM-DD');
 
 export const getRepresentativeChoice = formData =>
-  formData?.veteran?.informalConferenceChoice === true &&
-  formData?.veteran?.contactRepresentativeChoice;
+  formData?.informalConferenceChoice === true &&
+  formData?.contactRepresentativeChoice;
 
 // testing
 export const $ = (selector, DOM) => DOM.querySelector(selector);

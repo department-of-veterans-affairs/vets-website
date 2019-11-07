@@ -1,0 +1,425 @@
+{
+  "title": [
+    {
+      "value": "Principles of Excellence program"
+    }
+  ],
+  "changed": [
+    {
+      "value": "2019-09-24T22:22:26+00:00",
+      "format": "Y-m-d\\TH:i:sP"
+    }
+  ],
+  "moderationState": [
+    {
+      "value": "published"
+    }
+  ],
+  "metatag": {
+    "value": {
+      "title": "Principles Of Excellence Program | Veterans Affairs",
+      "twitter_cards_type": "summary_large_image",
+      "og_site_name": "Veterans Affairs",
+      "twitter_cards_description": "Learn about guidelines for programs that receive federal funding through programs like the GI Bill. Some foreign schools, high schools, internships, residencies, and apprenticeships don't have to follow these guidelines.",
+      "description": "Learn about guidelines for programs that receive federal funding through programs like the GI Bill. Some foreign schools, high schools, internships, residencies, and apprenticeships don't have to follow these guidelines.",
+      "twitter_cards_title": "Principles of Excellence program | Veterans Affairs",
+      "twitter_cards_site": "@DeptVetAffairs",
+      "og_title": "Principles of Excellence program | Veterans Affairs",
+      "og_description": "Learn about guidelines for programs that receive federal funding through programs like the GI Bill. Some foreign schools, high schools, internships, residencies, and apprenticeships don't have to follow these guidelines."
+    }
+  },
+  "fieldAdministration": [
+    {
+      "uuid": "43901d82-efe9-4dc0-a581-71e081516651",
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "vid": [
+        {
+          "target_id": "administration",
+          "target_type": "taxonomy_vocabulary",
+          "target_uuid": "645055c5-e567-4683-b6db-459ce04522ce"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "name": [
+        {
+          "value": "Education benefits hub"
+        }
+      ],
+      "description": [
+        {
+          "value": null,
+          "format": null
+        }
+      ],
+      "weight": [
+        {
+          "value": 4
+        }
+      ],
+      "parent": [
+        {
+          "uuid": "790141c3-7bbf-4930-ae51-f9f2acf1c72a",
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "vid": [
+            {
+              "target_id": "administration",
+              "target_type": "taxonomy_vocabulary",
+              "target_uuid": "645055c5-e567-4683-b6db-459ce04522ce"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "name": [
+            {
+              "value": "VBA Benefits Hubs"
+            }
+          ],
+          "description": [
+            {
+              "value": null,
+              "format": null
+            }
+          ],
+          "weight": [
+            {
+              "value": 0
+            }
+          ],
+          "parent": [
+            {
+              "uuid": "2c331a6d-b525-4f0c-8bea-4ecde41c7ef0",
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "vid": [
+                {
+                  "target_id": "administration",
+                  "target_type": "taxonomy_vocabulary",
+                  "target_uuid": "645055c5-e567-4683-b6db-459ce04522ce"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "name": [
+                {
+                  "value": "Veterans Benefits Administration"
+                }
+              ],
+              "description": [
+                {
+                  "value": null,
+                  "format": null
+                }
+              ],
+              "weight": [
+                {
+                  "value": 50
+                }
+              ],
+              "parent": [
+                {
+                  "target_id": null
+                }
+              ],
+              "changed": [
+                {
+                  "value": "2019-09-25T00:04:26+00:00",
+                  "format": "Y-m-d\\TH:i:sP"
+                }
+              ],
+              "defaultLangcode": [
+                {
+                  "value": true
+                }
+              ],
+              "metatag": {
+                "value": {
+                  "title": "Veterans Benefits Administration | Veterans Affairs",
+                  "canonical_url": "http://default/section/veterans-benefits-administration",
+                  "twitter_cards_type": "summary_large_image",
+                  "og_site_name": "Veterans Affairs",
+                  "twitter_cards_title": "| Veterans Affairs",
+                  "twitter_cards_site": "@DeptVetAffairs",
+                  "og_title": "| Veterans Affairs"
+                }
+              },
+              "path": [
+                {
+                  "alias": "/section/veterans-benefits-administration",
+                  "langcode": "en",
+                  "pathauto": 1
+                }
+              ],
+              "fieldAcronym": [
+                {
+                  "value": "VBA"
+                }
+              ],
+              "fieldDescription": [],
+              "fieldEmailUpdatesLinkText": [
+                {
+                  "value": "Veterans benefits email updates"
+                }
+              ],
+              "fieldEmailUpdatesUrl": [
+                {
+                  "value": "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new"
+                }
+              ],
+              "fieldIntroText": [],
+              "fieldLink": [
+                {
+                  "uri": "https://www.benefits.va.gov/benefits",
+                  "title": null,
+                  "options": []
+                }
+              ],
+              "fieldMetatags": [],
+              "fieldSocialMediaLinks": [
+                {
+                  "platform": null,
+                  "value": null,
+                  "platform_values": {
+                    "facebook": {
+                      "value": "VeteransBenefits"
+                    },
+                    "instagram": {
+                      "value": "vabenefits/"
+                    },
+                    "linkedin": {
+                      "value": "company/department-of-veterans-affairs/"
+                    },
+                    "twitter": {
+                      "value": "VAVetBenefits"
+                    },
+                    "youtube": {
+                      "value": "vavetbenefits"
+                    },
+                    "youtube_channel": {
+                      "value": ""
+                    }
+                  }
+                }
+              ],
+              "baseType": "taxonomy_term"
+            }
+          ],
+          "changed": [
+            {
+              "value": "2019-04-18T20:11:08+00:00",
+              "format": "Y-m-d\\TH:i:sP"
+            }
+          ],
+          "defaultLangcode": [
+            {
+              "value": true
+            }
+          ],
+          "metatag": {
+            "value": {
+              "title": "VBA Benefits Hubs | Veterans Affairs",
+              "canonical_url": "http://default/section/vba-benefits-hubs",
+              "twitter_cards_type": "summary_large_image",
+              "og_site_name": "Veterans Affairs",
+              "twitter_cards_title": "| Veterans Affairs",
+              "twitter_cards_site": "@DeptVetAffairs",
+              "og_title": "| Veterans Affairs"
+            }
+          },
+          "path": [
+            {
+              "alias": "/section/vba-benefits-hubs",
+              "langcode": "en",
+              "pathauto": 1
+            }
+          ],
+          "fieldAcronym": [],
+          "fieldDescription": [],
+          "fieldEmailUpdatesLinkText": [],
+          "fieldEmailUpdatesUrl": [],
+          "fieldIntroText": [],
+          "fieldLink": [],
+          "fieldMetatags": [],
+          "fieldSocialMediaLinks": [
+            {
+              "platform": null,
+              "value": null,
+              "platform_values": {
+                "facebook": {
+                  "value": ""
+                },
+                "instagram": {
+                  "value": ""
+                },
+                "linkedin": {
+                  "value": ""
+                },
+                "twitter": {
+                  "value": ""
+                },
+                "youtube": {
+                  "value": ""
+                },
+                "youtube_channel": {
+                  "value": ""
+                }
+              }
+            }
+          ],
+          "baseType": "taxonomy_term"
+        }
+      ],
+      "changed": [
+        {
+          "value": "2019-04-24T01:34:50+00:00",
+          "format": "Y-m-d\\TH:i:sP"
+        }
+      ],
+      "defaultLangcode": [
+        {
+          "value": true
+        }
+      ],
+      "metatag": {
+        "value": {
+          "title": "Education benefits hub | Veterans Affairs",
+          "canonical_url": "http://default/section/veterans-benefits-administration/education-benefits-hub",
+          "twitter_cards_type": "summary_large_image",
+          "og_site_name": "Veterans Affairs",
+          "twitter_cards_title": "| Veterans Affairs",
+          "twitter_cards_site": "@DeptVetAffairs",
+          "og_title": "| Veterans Affairs"
+        }
+      },
+      "path": [
+        {
+          "alias": "/section/veterans-benefits-administration/education-benefits-hub",
+          "langcode": "en",
+          "pathauto": 1
+        }
+      ],
+      "fieldAcronym": [],
+      "fieldDescription": [],
+      "fieldEmailUpdatesLinkText": [],
+      "fieldEmailUpdatesUrl": [],
+      "fieldIntroText": [],
+      "fieldLink": [],
+      "fieldMetatags": [],
+      "fieldSocialMediaLinks": [
+        {
+          "platform": null,
+          "value": null,
+          "platform_values": {
+            "facebook": {
+              "value": ""
+            },
+            "instagram": {
+              "value": ""
+            },
+            "linkedin": {
+              "value": ""
+            },
+            "twitter": {
+              "value": ""
+            },
+            "youtube": {
+              "value": ""
+            },
+            "youtube_channel": {
+              "value": ""
+            }
+          }
+        }
+      ],
+      "baseType": "taxonomy_term"
+    }
+  ],
+  "fieldAlert": [],
+  "fieldContentBlock": [
+    {
+      "uuid": "b9fe6ba2-f4cb-4d97-99f1-0d9654e1e125",
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "wysiwyg",
+          "target_type": "paragraphs_type",
+          "target_uuid": "885e4b61-cfd2-44b9-94ae-f068ba2b48b6"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": "2019-09-04T14:38:40+00:00",
+          "format": "Y-m-d\\TH:i:sP"
+        }
+      ],
+      "behaviorSettings": [
+        {
+          "value": []
+        }
+      ],
+      "defaultLangcode": [
+        {
+          "value": true
+        }
+      ],
+      "revisionTranslationAffected": [
+        {
+          "value": true
+        }
+      ],
+      "fieldWysiwyg": [
+        {
+          "value": "<p>Schools that are a part of the program must:</p>\r\n\r\n<ul>\r\n\t<li>Give you a written personal summary of the total cost of your educational program, including:\r\n\t<ul>\r\n\t\t<li>The costs covered by your benefits.</li>\r\n\t\t<li>The financial aid you may qualify for.</li>\r\n\t\t<li>Your expected student-loan debt after you graduate.</li>\r\n\t\t<li>Other information to help you compare aid packages offered by different schools.</li>\r\n\t</ul>\r\n\t</li>\r\n\t<li>Give you an educational plan with a timeline showing how and when you can fulfill everything required for you to graduate.</li>\r\n\t<li>Assign you a point of contact who will give you ongoing academic and financial advice (including access to disability counseling).</li>\r\n\t<li>Allow for you to be gone for both long and short periods of time due to service obligations (service you must fulfill) for active-duty service members and Reservists.</li>\r\n\t<li>Make sure all new programs are accredited (officially approved) before enrolling students.</li>\r\n\t<li>Make sure their refund policies follow Title IV rules, which guide federal student financial aid programs.</li>\r\n\t<li>End fraudulent (deceitful) and aggressive methods of recruiting.</li>\r\n</ul>\r\n\r\n<p>Schools that don’t charge tuition and fees don’t have to follow the Principles of Excellence guidelines. These include:</p>\r\n\r\n<ul>\r\n\t<li>Foreign schools</li>\r\n\t<li>High schools</li>\r\n\t<li>On-the-job training and apprenticeship programs</li>\r\n\t<li>Residency and internship programs</li>\r\n</ul>\r\n\r\n<p>Use the GI Bill Comparison Tool to learn which schools are part of the program. You can also compare benefits offered by different schools.<br />\r\n<a href=\"/gi-bill-comparison-tool\">Use the GI Bill Comparison Tool</a></p>\r\n",
+          "format": "rich_text"
+        }
+      ],
+      "baseType": "paragraph"
+    }
+  ],
+  "fieldDescription": [
+    {
+      "value": "Learn about guidelines for programs that receive federal funding through programs like the GI Bill. Some foreign schools, high schools, internships, residencies, and apprenticeships don't have to follow these guidelines."
+    }
+  ],
+  "fieldFeaturedContent": [],
+  "fieldIntroText": [
+    {
+      "value": "<p>The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines. Learn about these guidelines.</p>"
+    }
+  ],
+  "fieldPageLastBuilt": [
+    {
+      "value": "2019-10-22T21:01:46"
+    }
+  ],
+  "fieldRelatedLinks": []
+}

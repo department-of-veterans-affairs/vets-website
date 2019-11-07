@@ -5,7 +5,6 @@ import {
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
-  FORM_PAGE_FACILITY_OPEN,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
@@ -15,6 +14,8 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -100,6 +101,7 @@ describe('VAOS reducer: newAppointment', () => {
 
     expect(newState.pageChangeInProgress).to.be.false;
   });
+
   describe('open facility page reducer', () => {
     const defaultOpenPageAction = {
       type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
@@ -121,20 +123,9 @@ describe('VAOS reducer: newAppointment', () => {
       typeOfCareId: '323',
     };
 
-    it('should set loading state when facility page opens', () => {
-      const action = {
-        type: FORM_PAGE_FACILITY_OPEN,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.loadingSystems).to.be.true;
-    });
-
     it('should set systems when facility page is done loading', () => {
       const currentState = {
         ...defaultState,
-        loadingSystems: true,
       };
       const action = {
         ...defaultOpenPageAction,
@@ -143,7 +134,6 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.loadingSystems).to.be.false;
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
         properties: {
@@ -504,6 +494,81 @@ describe('VAOS reducer: newAppointment', () => {
         'Testing real name',
         'I need a different clinic',
       ]);
+    });
+  });
+  describe('CC preferences page', () => {
+    it('should set loading state', () => {
+      const action = {
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.loadingSystems).to.be.true;
+    });
+
+    it('should remove system id if only one', () => {
+      const action = {
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        schema: {
+          type: 'object',
+          required: [],
+          properties: {
+            communityCareSystemId: { type: 'string' },
+          },
+        },
+        page: 'ccPreferences',
+        uiSchema: {},
+      };
+      const state = {
+        ...defaultState,
+        loadingSystems: true,
+        ccEnabledSystems: ['983'],
+      };
+
+      const newState = newAppointmentReducer(state, action);
+
+      expect(newState.loadingSystems).to.be.false;
+
+      expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
+        .be.undefined;
+      expect(newState.data.communityCareSystemId).to.equal('983');
+    });
+
+    it('should fill in enum props if more than one cc system', () => {
+      const action = {
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        schema: {
+          type: 'object',
+          required: [],
+          properties: {
+            communityCareSystemId: { type: 'string' },
+          },
+        },
+        uiSchema: {},
+        page: 'ccPreferences',
+        systems,
+      };
+      const state = {
+        ...defaultState,
+        loadingSystems: true,
+        ccEnabledSystems: ['983', '984'],
+      };
+
+      const newState = newAppointmentReducer(state, action);
+
+      expect(newState.loadingSystems).to.be.false;
+
+      expect(newState.pages.ccPreferences.properties.communityCareSystemId).not
+        .to.be.undefined;
+
+      expect(
+        newState.pages.ccPreferences.properties.communityCareSystemId,
+      ).to.deep.equal({
+        type: 'string',
+        enum: ['983', '984'],
+        enumNames: ['Cheyenne, WY', 'Dayton, OH'],
+      });
     });
   });
 });
