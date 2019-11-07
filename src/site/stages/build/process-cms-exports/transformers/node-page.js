@@ -26,6 +26,7 @@ function pageTransform(entity) {
     entityBundle: 'page',
 
     fieldIntroText: getDrupalValue(fieldIntroText),
+    fieldDescription: getDrupalValue(fieldDescription),
     changed: new Date(getDrupalValue(changed)).getTime() / 1000,
     fieldPageLastBuilt: new Date(
       getDrupalValue(fieldPageLastBuilt),
@@ -41,10 +42,6 @@ function pageTransform(entity) {
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
     ],
   });
-
-  if (isEmpty(fieldDescription)) {
-    transformed.fieldDescription = null;
-  }
 
   if (isEmpty(flatten(fieldAlert))) {
     transformed.fieldAlert = { entity: null };
