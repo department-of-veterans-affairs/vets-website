@@ -53,7 +53,7 @@ function pageTransform(entity) {
   delete transformed.moderationState;
   delete transformed.metatag;
 
-  return entity;
+  return transformed;
 }
 
 module.exports = pageTransform;
