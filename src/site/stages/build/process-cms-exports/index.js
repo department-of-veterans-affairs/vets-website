@@ -4,7 +4,10 @@ const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
 const { typeProperties, toId, readEntity } = require('./helpers');
 
-const validateEntity = require('./schema-validation');
+const {
+  validateRawEntity,
+  validateTransformedEntity,
+} = require('./schema-validation');
 
 const entityAssemblerFactory = contentDir => {
   /**
@@ -30,11 +33,14 @@ const entityAssemblerFactory = contentDir => {
       process.exit(1);
     }
 
-    const errors = validateEntity(entity);
-    if (errors.length) {
+    // Pre-transformation JSON schema validation
+    const rawErrors = validateRawEntity(entity);
+    if (rawErrors.length) {
       /* eslint-disable no-console */
-      console.warn(chalk.yellow(`${toId(entity)} is invalid:`));
-      console.warn(`${errors.map(e => JSON.stringify(e, null, 2))}`);
+      console.warn(
+        chalk.yellow(`${toId(entity)} is invalid before transformation:`),
+      );
+      console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
       console.warn(`-------------------`);
       /* eslint-enable no-console */
 
@@ -44,9 +50,7 @@ const entityAssemblerFactory = contentDir => {
 
     const filteredEntity = getFilteredEntity(entity);
 
-    // Iterate over all whitelisted properties in an entity, look for
-    // references to other identities recursively, and replace the
-    // reference with the entity contents.
+    // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
       // eslint-disable-next-line no-continue
       if (typeProperties.includes(key)) continue;
@@ -67,7 +71,23 @@ const entityAssemblerFactory = contentDir => {
       }
     }
 
-    return transformEntity(filteredEntity);
+    // Post-transformation JSON schema validation
+    const transformedEntity = transformEntity(filteredEntity);
+    const transformedErrors = validateTransformedEntity(transformedEntity);
+    if (transformedErrors.length) {
+      /* eslint-disable no-console */
+      console.warn(
+        chalk.yellow(`${toId(entity)} is invalid after transformation:`),
+      );
+      console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
+      console.warn(`-------------------`);
+      /* eslint-enable no-console */
+
+      // Abort! (We may want to change this later)
+      process.exit(1);
+    }
+
+    return transformedEntity;
   };
 
   return assembleEntityTree;
