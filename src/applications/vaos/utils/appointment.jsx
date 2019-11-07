@@ -93,7 +93,7 @@ export function isGFEVideoVisit(appt) {
 }
 
 export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments || isGFEVideoVisit(appt);
+  return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
 }
 
 export function getVideoVisitLink(appt) {

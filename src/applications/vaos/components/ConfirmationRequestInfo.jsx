@@ -29,6 +29,7 @@ function formatBestTime(bestTime) {
 
 export default function ReviewRequestInfo({ data, facility, vaCityState }) {
   const isCommunityCare = data.facilityType === 'communityCare';
+  const isVideoVisit = data.visitType === 'telehealth';
 
   return (
     <div>
@@ -40,7 +41,9 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
       </AlertBox>
       <AlertBox backgroundOnly status="info">
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          {isCommunityCare ? 'Community Care' : 'VA'} appointment request —{' '}
+          {isCommunityCare && 'Community Care appointment request — '}
+          {isVideoVisit && 'VA Video Connect appointment request — '}
+          {!isVideoVisit && !isCommunityCare && 'VA appointment request — '}
           {getTypeOfCare(data)?.name}
         </h2>
         We'll contact you to schedule this appointment.
