@@ -25,6 +25,7 @@ const INITIAL_STATE = {
     principlesOfExcellence: {},
     eightKeysToVeteranSuccess: {},
     stem: {},
+    provider: {},
   },
   links: {},
   results: [],
@@ -52,7 +53,8 @@ function uppercaseKeys(obj) {
 function normalizedFacets(facets) {
   const state = uppercaseKeys(facets.state);
   const type = uppercaseKeys(facets.type);
-  return { ...facets, state, type };
+  const provider = facets.provider ? uppercaseKeys(facets.provider) : {};
+  return { ...facets, state, type, provider };
 }
 
 function derivePaging(links) {

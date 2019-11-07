@@ -23,14 +23,13 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { submission, data } = this.props.form;
     const { response } = submission;
-    const name = data.veteranFullName;
+    const name = data.fullName;
 
     return (
       <div>
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
-          We usually process claims within
-          <strong>a week</strong>.
+          We usually process claims within <strong>a week</strong>.
         </p>
         <p>
           We may contact you for more information or documents.
@@ -38,8 +37,8 @@ export class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset" role="presentation">
-          <h4>
-            Higher-Level Review Claim
+          <h4 className="vads-u-margin-top--0">
+            Higher-Level Review Claim{' '}
             <span className="additional" role="presentation">
               (Form 20-0996)
             </span>

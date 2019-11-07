@@ -117,13 +117,25 @@ export function updateAutocompleteSearchTerm(searchTerm) {
   };
 }
 
-export function fetchAutocompleteSuggestions(text, version) {
-  const queryString = [`term=${text}`, version ? `version=${version}` : '']
-    .filter(q => q)
-    .join('&');
+export function fetchInstitutionAutocompleteSuggestions(term, version) {
+  const url = appendQuery(`${api.url}/institutions/autocomplete`, {
+    term,
+    version,
+  });
+  return dispatch =>
+    fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }),
+        err => dispatch({ type: AUTOCOMPLETE_FAILED, err }),
+      );
+}
 
-  const url = `${api.url}/institutions/autocomplete?${queryString}`;
-
+export function fetchProgramAutocompleteSuggestions(term, version) {
+  const url = appendQuery(`${api.url}/institution_programs/autocomplete`, {
+    term,
+    version,
+  });
   return dispatch =>
     fetch(url, api.settings)
       .then(res => res.json())

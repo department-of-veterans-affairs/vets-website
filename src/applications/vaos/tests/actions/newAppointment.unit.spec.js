@@ -13,6 +13,7 @@ import {
   updateFacilityPageData,
   updateReasonForAppointmentData,
   openClinicPage,
+  openCommunityCarePreferencesPage,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -26,6 +27,8 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
   REASON_MAX_CHAR_DEFAULT,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
@@ -375,6 +378,46 @@ describe('VAOS newAppointment actions', () => {
           reasonAdditionalInfo.length,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+    });
+  });
+  describe('openCommunityCarePreferencesPage', () => {
+    const defaultSchema = {
+      type: 'object',
+      properties: {},
+    };
+    const defaultState = {
+      newAppointment: {
+        data: {
+          typeOfCareId: '323',
+        },
+        pages: {},
+        loadingSystems: false,
+        ccEnabledSystems: ['983', '984'],
+      },
+    };
+
+    it('should fetch systems', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = openCommunityCarePreferencesPage(
+        'ccPreferences',
+        {},
+        defaultSchema,
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+      );
+      const succeededAction = dispatch.lastCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'ccPreferences',
+        uiSchema: {},
+        systems,
+      });
     });
   });
 });

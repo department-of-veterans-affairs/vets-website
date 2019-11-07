@@ -1,10 +1,7 @@
 import {
-  FETCH_CONFIRMED_APPOINTMENTS,
-  FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-  FETCH_CONFIRMED_APPOINTMENTS_FAILED,
-  FETCH_PENDING_APPOINTMENTS,
-  FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-  FETCH_PENDING_APPOINTMENTS_FAILED,
+  FETCH_FUTURE_APPOINTMENTS,
+  FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+  FETCH_FUTURE_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -15,10 +12,16 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from '../actions/appointments';
 
-import { FETCH_STATUS, CANCELLED_APPOINTMENT_SET } from '../utils/constants';
-import moment from 'moment';
+import {
+  filterFutureConfirmedAppointments,
+  filterFutureRequests,
+  sortFutureList,
+} from '../utils/appointment';
+import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
+  future: null,
+  futureStatus: FETCH_STATUS.notStarted,
   confirmed: null,
   confirmedStatus: FETCH_STATUS.notStarted,
   pending: null,
@@ -30,82 +33,38 @@ const initialState = {
   appointmentToCancel: null,
 };
 
-function parseVAorCCDate(item) {
-  // This means it's a CC appt, which has a different date format
-  if (item.appointmentTime) {
-    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  }
-
-  return moment(item.startDate);
-}
-
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_CONFIRMED_APPOINTMENTS:
+    case FETCH_FUTURE_APPOINTMENTS:
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.loading,
+        futureStatus: FETCH_STATUS.loading,
       };
-    case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED: {
-      const vaAppointments = action.data.vaAppointments.filter(
-        appt =>
-          !CANCELLED_APPOINTMENT_SET.has(
-            appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
-          ),
-      );
+    case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
+      const confirmed = action.data[0] || {
+        vaAppointments: [],
+        ccAppointments: [],
+      };
+      const requests = action.data[1]?.appointmentRequests || [];
+      const futureAppointments = [
+        ...confirmed.vaAppointments.filter(filterFutureConfirmedAppointments),
+        ...confirmed.ccAppointments.filter(filterFutureConfirmedAppointments),
+        ...requests.filter(filterFutureRequests),
+      ];
 
-      const confirmed = vaAppointments.concat(action.data.ccAppointments);
+      futureAppointments.sort(sortFutureList);
 
-      confirmed.sort((a, b) => {
-        const date1 = parseVAorCCDate(a);
-        const date2 = parseVAorCCDate(b);
-        if (date1.isValid() && date2.isValid()) {
-          return date1.isBefore(date2) ? -1 : 1;
-        }
-
-        return 0;
-      });
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.succeeded,
-        confirmed,
+        future: futureAppointments,
+        futureStatus: FETCH_STATUS.succeeded,
       };
     }
-    case FETCH_CONFIRMED_APPOINTMENTS_FAILED:
+    case FETCH_FUTURE_APPOINTMENTS_FAILED:
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.failed,
-        confirmed: null,
-      };
-    case FETCH_PENDING_APPOINTMENTS:
-      return {
-        ...state,
-        pendingStatus: FETCH_STATUS.loading,
-      };
-    case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
-      const pending = action.data.appointmentRequests.filter(
-        req => req.status === 'Submitted',
-      );
-      pending.sort((a, b) => {
-        if (a.appointmentType < b.appointmentType) {
-          return -1;
-        } else if (a.appointmentType > b.appointmentType) {
-          return 1;
-        }
-        return 0;
-      });
-
-      return {
-        ...state,
-        pendingStatus: FETCH_STATUS.succeeded,
-        pending,
-      };
-    }
-    case FETCH_PENDING_APPOINTMENTS_FAILED:
-      return {
-        ...state,
-        pendingStatus: FETCH_STATUS.failed,
-        pending: null,
+        futureStatus: FETCH_STATUS.failed,
+        future: null,
       };
     case FETCH_PAST_APPOINTMENTS:
       return {

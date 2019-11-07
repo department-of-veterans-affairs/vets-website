@@ -34,7 +34,7 @@ describe('VAOS appointment helpers', () => {
         appointmentRequestId: '1234',
         providerPractice: 'Test Practice',
       });
-      expect(id).to.equal('Community Care visit - Test Practice');
+      expect(id).to.equal('Community Care appointment');
     });
 
     it('should return title for video appt', () => {
@@ -55,7 +55,7 @@ describe('VAOS appointment helpers', () => {
           },
         ],
       });
-      expect(id).to.equal('Video visit - First Last');
+      expect(id).to.equal('VA Video Connect');
     });
 
     it('should return title for VA facility appt', () => {
@@ -68,7 +68,7 @@ describe('VAOS appointment helpers', () => {
           },
         ],
       });
-      expect(id).to.equal('VA visit - UNREADABLE NAME');
+      expect(id).to.equal('VA visit');
     });
   });
 });

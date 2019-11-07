@@ -26,7 +26,8 @@ export default function GiBillBreadcrumbs({
     </Link>,
   ];
 
-  const onSearchPage = pathname.match(/search/);
+  const onSearchPage =
+    pathname.match(/search/) || pathname.match(/program-search/);
   const onProfilePage = pathname.match(/profile/);
 
   if (searchQuery && (onSearchPage || onProfilePage)) {
