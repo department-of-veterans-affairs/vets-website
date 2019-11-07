@@ -76,9 +76,9 @@ export const getSystemIdentifiers = (() => {
     }
 
     if (environment.isLocalhost()) {
-      promise = import('./systems.json').then(
-        module => (module.default ? module.default : module),
-      );
+      promise = import('./systems.json')
+        .then(module => (module.default ? module.default : module))
+        .then(json => json.data.map(item => item.attributes));
     } else {
       promise = fetch(`${environment.API_URL}/v0/vaos/systems`, {
         method: 'GET',
@@ -86,16 +86,16 @@ export const getSystemIdentifiers = (() => {
         headers: {
           'X-Key-Inflection': 'camel',
         },
-      }).then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
+      })
+        .then(resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
 
-        throw new Error(resp.status);
-      });
+          throw new Error(resp.status);
+        })
+        .then(json => json.data.map(item => item.attributes));
     }
-
-    promise.then(json => json.data.map(item => item.attributes));
 
     return promise;
   };
