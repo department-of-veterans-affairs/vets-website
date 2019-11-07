@@ -11,7 +11,7 @@ module.exports = {
       type: 'string',
     },
     fieldDescription: {
-      $ref: 'nullable-string',
+      type: ['string', 'null'],
     },
     fieldFeaturedContent: {
       type: 'array',
@@ -26,24 +26,37 @@ module.exports = {
       },
     },
     fieldAlert: {
-      type: 'array',
+      type: 'object',
+      properties: {
+        entity: {
+          type: ['null'],
+        },
+      },
     },
     fieldRelatedLinks: {
       type: 'array',
-      $ref: 'paragraph-list_of_link_teasers',
+      items: {
+        $ref: 'paragraph-list_of_link_teasers',
+      },
     },
     fieldAdministration: {
-      $ref: 'taxonomy_term-administration',
+      type: 'array',
+      items: {
+        $ref: 'taxonomy_term-administration',
+      },
     },
     fieldPageLastBuilt: {
       type: 'string',
     },
     entityMetaTags: {
-      type: 'object',
-      properties: {
-        type: { type: 'string' },
-        key: { type: 'string' },
-        value: { type: 'string' },
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          type: { type: 'string' },
+          key: { type: 'string' },
+          value: { type: 'string' },
+        },
       },
     },
   },
