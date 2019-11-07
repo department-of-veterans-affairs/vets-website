@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 module.exports = {
   $id: 'node-outreach_asset',
   type: 'object',
@@ -19,10 +18,10 @@ module.exports = {
     },
     // `outreach_asset`-specific key-value pairs.
     fieldBenefits: {
-      $ref: 'nullable-string',
+      type: ['string', 'null'],
     },
     fieldDescription: {
-      $ref: 'nullable-string',
+      type: ['string', 'null'],
     },
     fieldFormat: {
       type: 'string',
