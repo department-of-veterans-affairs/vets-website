@@ -11,6 +11,15 @@ function getDrupalValue(arr) {
   return null;
 }
 
+function createMetaTag(type, key, value) {
+  return {
+    type,
+    key,
+    value,
+  };
+}
+
 module.exports = {
   getDrupalValue,
+  createMetaTag,
 };
