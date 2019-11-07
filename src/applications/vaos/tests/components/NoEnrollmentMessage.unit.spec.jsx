@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 
 import NoEnrollmentMessage from '../../components/NoEnrollmentMessage';
 
-describe('VAOS <NoRegistrationMessage>', () => {
+describe('VAOS <NoEnrollmentMessage>', () => {
   it('should render', () => {
     const tree = shallow(<NoEnrollmentMessage />);
 
@@ -13,7 +13,7 @@ describe('VAOS <NoRegistrationMessage>', () => {
         .find('AlertBox')
         .dive()
         .text(),
-    ).to.contain('couldn’t find a record of your enrollment');
+    ).to.contain('can’t find a record of your VA health care enrollment');
     tree.unmount();
   });
 });

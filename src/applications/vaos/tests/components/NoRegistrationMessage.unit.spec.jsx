@@ -13,7 +13,7 @@ describe('VAOS <NoRegistrationMessage>', () => {
         .find('AlertBox')
         .dive()
         .text(),
-    ).to.contain('couldn’t find any VHA facility');
+    ).to.contain('can’t find any VA medical facility registrations');
     tree.unmount();
   });
 });
