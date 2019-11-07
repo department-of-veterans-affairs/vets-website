@@ -14,5 +14,5 @@ const paragraphSchemas = fs
 
 module.exports = {
   $id: 'Paragraph',
-  oneOf: paragraphSchemas,
+  anyOf: paragraphSchemas,
 };
