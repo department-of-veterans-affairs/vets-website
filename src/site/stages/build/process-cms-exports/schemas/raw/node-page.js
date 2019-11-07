@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
 const { getFilter } = require('../../filters');
+const nodeStandardKeys = require('../standard-keys/node');
 
 module.exports = {
   type: 'object',
   properties: {
-    title: {
-      $ref: 'GenericNestedString',
-    },
+    // Standard `node` key-value pairs.
+    ...nodeStandardKeys,
+    // `page`-specific key-value pairs.
     field_intro_text: {
       $ref: 'GenericNestedString',
     },

@@ -1,5 +1,3 @@
-// const { getFilter } = require('../../filters');
-
 module.exports = {
   $id: 'node-page',
   type: 'object',
@@ -47,5 +45,4 @@ module.exports = {
       },
     },
   },
-  // required: getFilter('node-page'),
 };

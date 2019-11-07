@@ -7,17 +7,25 @@ const { getContentModelType } = require('./helpers');
 const whitelists = {
   global: ['title', 'baseType', 'contentModelType'],
   'node-page': [
-    'field_intro_text',
+    'changed',
+    'field_administration',
+    'field_alert',
+    'field_content_block',
     'field_description',
     'field_featured_content',
-    'field_content_block',
-    'field_alert',
-    'field_related_links',
-    'field_administration',
+    'field_intro_text',
     'field_page_last_built',
+    'field_related_links',
     'metatag',
-    'changed',
     'moderation_state',
+  ],
+  'node-outreach-asset': [
+    'changed',
+    'field_benefits',
+    'field_description',
+    'field_format',
+    'field_office',
+    'status',
   ],
 };
 

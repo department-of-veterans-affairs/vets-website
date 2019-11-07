@@ -1,9 +1,11 @@
 const { mapKeys, camelCase } = require('lodash');
 const { getContentModelType } = require('./helpers');
 const pageTransform = require('./transformers/page');
+const outreachAssetTransform = require('./transformers/outreach-asset');
 
 const transformers = {
   'node-page': pageTransform,
+  'node-outreach-asset': outreachAssetTransform,
 };
 
 const missingTransformers = new Set();
