@@ -141,7 +141,7 @@ export class VetTecCalculator extends React.Component {
       <div className="link-header">
         <h4 className="vads-u-font-size--h5">Housing allowance</h4>{' '}
         <button
-          aria-label="housing allowance learn more"
+          aria-label={ariaLabels.learnMore.housingAllowance}
           type="button"
           className="va-button-link learn-more-button"
           onClick={() => showModal('housingAllowance')}
@@ -174,7 +174,7 @@ export class VetTecCalculator extends React.Component {
         <div>
           <div className="row calculator-result">
             <div className="small-8 columns">
-              <div>In person rate (monthly):</div>
+              <div>In-person monthly rate:</div>
             </div>
             <div className={this.housingAllowanceClassName}>
               <div>{outputs.inPersonRate}</div>
@@ -183,7 +183,7 @@ export class VetTecCalculator extends React.Component {
 
           <div className="row calculator-result">
             <div className="small-8 columns">
-              <div>Online rate (monthly):</div>
+              <div>Online monthly rate:</div>
             </div>
             <div className={this.housingAllowanceClassName}>
               <div>{outputs.onlineRate}</div>
