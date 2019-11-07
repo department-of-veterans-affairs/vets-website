@@ -8,6 +8,7 @@ import {
   validateSSN,
   validateDate,
   validateCurrentOrPastDate,
+  validateCurrentOrFutureDate,
   validateMatch,
   validateDateRange,
   validateFileField,
@@ -272,6 +273,32 @@ describe('Schemaform validations', () => {
         .format('YYYY-MM-DD');
       validateCurrentOrPastDate(errors, futureDate, null, null, {
         futureDate: 'Blah blah',
+      });
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal('Blah blah');
+    });
+  });
+  describe('validateCurrentOrFutureDate', () => {
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      const pastDate = moment()
+        .add(-2, 'year')
+        .format('YYYY-MM-DD');
+      validateCurrentOrFutureDate(errors, pastDate);
+
+      expect(errors.addError.callCount).to.equal(1);
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please provide a valid current or future date',
+      );
+    });
+    it('should use custom message', () => {
+      const errors = { addError: sinon.spy() };
+      const pastDate = moment()
+        .add(-2, 'year')
+        .format('YYYY-MM-DD');
+      validateCurrentOrFutureDate(errors, pastDate, null, null, {
+        pastDate: 'Blah blah',
       });
 
       expect(errors.addError.callCount).to.equal(1);

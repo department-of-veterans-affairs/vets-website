@@ -613,5 +613,7 @@
 		"_id": "541",
 		"name": "Cleveland",
 		"timezone": "US/Eastern"
-	}
+	},
+  { "_id": "983", "name": "Cheyenne", "timezone": "US/Mountain" },
+  { "_id": "984", "name": "Dayton", "timezone": "US/Eastern" }
 ]

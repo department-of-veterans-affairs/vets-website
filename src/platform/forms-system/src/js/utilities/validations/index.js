@@ -54,6 +54,11 @@ export function isValidCurrentOrPastDate(day, month, year) {
   return momentDate.isSameOrBefore(moment().endOf('day'), 'day');
 }
 
+export function isValidCurrentOrFutureDate(day, month, year) {
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+  return momentDate.isSameOrAfter(moment().endOf('day'), 'day');
+}
+
 export function isValidCurrentOrPastYear(value) {
   return Number(value) >= 1900 && Number(value) < moment().year() + 1;
 }

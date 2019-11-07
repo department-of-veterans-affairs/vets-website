@@ -7,6 +7,7 @@ import {
   isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
+  isValidCurrentOrFutureDate,
   isValidCurrentOrFutureMonthYear,
   isValidDateRange,
   isValidRoutingNumber,
@@ -335,6 +336,28 @@ export function validateCurrentOrPastDate(
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
+  }
+}
+
+/**
+ * Adds an error message to errors if a date is an invalid date or in the future.
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.futureDate
+ */
+export function validateCurrentOrFutureDate(
+  errors,
+  dateString,
+  formData,
+  schema,
+  errorMessages = {},
+) {
+  const {
+    pastDate = 'Please provide a valid current or future date',
+  } = errorMessages;
+  validateDate(errors, dateString);
+  const { day, month, year } = parseISODate(dateString);
+  if (!isValidCurrentOrFutureDate(day, month, year)) {
+    errors.addError(pastDate);
   }
 }
 

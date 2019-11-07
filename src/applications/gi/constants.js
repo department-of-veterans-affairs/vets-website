@@ -5,16 +5,15 @@ export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',
     post911Chapter33: 'Learn more about Cumulative Post-9/11 service',
-    preferredProvider: 'Learn more about VET TEC Preferred Providers',
+    preferredProvider: 'Learn more about Preferred providers',
     montgomeryGIBill:
       'Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits',
     reapActiveDuty:
       'Learn more about how the length of your REAP active-duty service affects your benefits',
     vetTecProgram: 'Learn more about the VET TEC program',
     tuitionAndFees: 'Learn more about the tuition and fees covered by VET TEC',
-    scholarships: 'Learn more about what to include for scholarships',
-    paysToProvider:
-      'Learn more about how we pay VET TEC providers for your participation in the program',
+    scholarships: 'Learn more about what types of scholarships to include',
+    paysToProvider: 'Learn more about how we pay providers',
     numberOfStudents:
       'Learn more about how we calculate the number of GI Bill students',
     tuitionFeesPerYear:

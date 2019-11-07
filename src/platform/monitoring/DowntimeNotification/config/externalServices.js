@@ -26,4 +26,6 @@ export default {
   vet360: 'vet360',
   // Search.gov API
   search: 'search',
+  // Online appointment scheduling
+  vaos: 'vaos',
 };

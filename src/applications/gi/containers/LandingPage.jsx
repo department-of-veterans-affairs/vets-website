@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 
 import {
   clearAutocompleteSuggestions,
-  fetchAutocompleteSuggestions,
+  fetchInstitutionAutocompleteSuggestions,
   setPageTitle,
   updateAutocompleteSearchTerm,
   institutionFilterChange,
@@ -22,6 +22,7 @@ import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -67,7 +68,15 @@ export class LandingPage extends React.Component {
       }
     });
 
-    this.props.router.push({ pathname: 'search', query });
+    // prod flag for CT-116 - #19864
+    if (environment.isProduction()) {
+      this.props.router.push({ pathname: 'search', query });
+    } else if (isVetTecSelected(this.props.filters)) {
+      delete query.vetTecProvider;
+      this.props.router.push({ pathname: 'program-search', query });
+    } else {
+      this.props.router.push({ pathname: 'search', query });
+    }
   };
 
   handleTypeOfInstitutionFilterChange = e => {
@@ -160,7 +169,7 @@ export class LandingPage extends React.Component {
                     this.props.clearAutocompleteSuggestions
                   }
                   onFetchAutocompleteSuggestions={
-                    this.props.fetchAutocompleteSuggestions
+                    this.props.fetchInstitutionAutocompleteSuggestions
                   }
                   onFilterChange={this.handleFilterChange}
                   onUpdateAutocompleteSearchTerm={
@@ -198,7 +207,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
-  fetchAutocompleteSuggestions,
+  fetchInstitutionAutocompleteSuggestions,
   setPageTitle,
   updateAutocompleteSearchTerm,
   institutionFilterChange,
