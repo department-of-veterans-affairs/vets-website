@@ -33,6 +33,9 @@ import createBasicFacilityListWidget from './facilities/basicFacilityList';
 import facilityReducer from './facilities/reducers';
 import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
+// School resources widgets
+import createScoEventListWidget from './school-resources/scoEventList';
+
 // Set further errors to have the appropriate source tag
 Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
@@ -88,6 +91,8 @@ createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
 createBasicFacilityListWidget();
+
+createScoEventListWidget();
 
 // homepage widgets
 if (location.pathname === '/') {
