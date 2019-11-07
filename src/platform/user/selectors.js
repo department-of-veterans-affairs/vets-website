@@ -12,15 +12,13 @@ export const selectAvailableServices = state => selectProfile(state).services;
 export const selectVet360 = state => selectProfile(state).vet360;
 export const selectVet360EmailAddress = state =>
   selectVet360(state)?.email?.emailAddress;
-const createPhoneNumberStringFromData = (phoneNumberData = {}) => {
-  const areaCode = phoneNumberData.areaCode || '';
-  const phoneNumber = phoneNumberData.phoneNumber || '';
+const createPhoneNumberStringFromData = phoneNumberData => {
+  const data = phoneNumberData || {};
+  const areaCode = data.areaCode || '';
+  const phoneNumber = data.phoneNumber || '';
   // in some test data the extension is set to '0000' and we want to treat that
   // as a null extension
-  const extension =
-    phoneNumberData.extension === '0000'
-      ? undefined
-      : phoneNumberData.extension;
+  const extension = data.extension === '0000' ? undefined : data.extension;
   return `${areaCode}${phoneNumber}${extension ? `x${extension}` : ''}`;
 };
 export const selectVet360MobilePhone = state =>
