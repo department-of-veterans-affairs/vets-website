@@ -80,7 +80,7 @@ export const getSystemIdentifiers = (() => {
         module => (module.default ? module.default : module),
       );
     } else {
-      promise = fetch(`${environment.API_URL}/services/vaos/v0/systems`, {
+      promise = fetch(`${environment.API_URL}/v0/vaos/systems`, {
         method: 'GET',
         credentials: 'include',
         headers: {
