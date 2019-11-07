@@ -11,7 +11,7 @@ module.exports = {
       type: 'string',
     },
     fieldDescription: {
-      type: 'string',
+      $ref: 'nullable-string',
     },
     fieldFeaturedContent: {
       type: 'array',
