@@ -101,7 +101,8 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
               </span>{' '}
               <Link
                 aria-label="Edit provider preference"
-                to={newAppointmentFlow.ccPreferences.url}>
+                to={newAppointmentFlow.ccPreferences.url}
+              >
                 Edit
               </Link>
               {!!data.communityCareProvider.practiceName && (
@@ -133,7 +134,8 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
               <span className="vads-u-padding-right--1">Not specified</span>{' '}
               <Link
                 aria-label="Edit provider preference"
-                to={newAppointmentFlow.ccPreferences.url}>
+                to={newAppointmentFlow.ccPreferences.url}
+              >
                 Edit
               </Link>
             </>
@@ -146,7 +148,8 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
               <span className="vads-u-padding-right--1">{vaCityState}</span>
               <Link
                 aria-label="Edit closest VA location"
-                to={newAppointmentFlow.ccPreferences.url}>
+                to={newAppointmentFlow.ccPreferences.url}
+              >
                 Edit
               </Link>
             </>
