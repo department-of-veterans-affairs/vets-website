@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const get = require('lodash/get');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
@@ -30,7 +31,7 @@ const entityAssemblerFactory = contentDir => {
 
       // If we find a circular references, it needs to be addressed;
       // just quit
-      process.exit(1);
+      throw new Error(`${toId(entity)} is invalid before transformation`);
     }
 
     // Pre-transformation JSON schema validation
@@ -80,11 +81,17 @@ const entityAssemblerFactory = contentDir => {
         chalk.yellow(`${toId(entity)} is invalid after transformation:`),
       );
       console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
+      transformedErrors.forEach(e => {
+        console.warn(
+          `Data found at ${e.dataPath}:`,
+          JSON.stringify(get(transformedEntity, e.dataPath.slice(1))),
+        );
+      });
       console.warn(`-------------------`);
       /* eslint-enable no-console */
 
       // Abort! (We may want to change this later)
-      process.exit(1);
+      throw new Error(`${toId(entity)} is invalid after transformation`);
     }
 
     return transformedEntity;

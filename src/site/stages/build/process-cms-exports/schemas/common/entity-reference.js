@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const entityReference = {
+module.exports = {
   $id: 'EntityReference',
   type: 'object',
   properties: {
@@ -7,17 +7,4 @@ const entityReference = {
     target_uuid: { type: 'string', format: 'uuid' },
   },
   required: ['target_type', 'target_uuid'],
-};
-
-const entityReferenceArray = {
-  $id: 'EntityReferenceArray',
-  type: 'array',
-  items: {
-    $ref: 'EntityReference',
-  },
-};
-
-module.exports = {
-  entityReference,
-  entityReferenceArray,
 };
