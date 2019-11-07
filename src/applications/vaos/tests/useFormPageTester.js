@@ -5,7 +5,10 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-export default function useFormPageTester(initialData) {
+export default function useFormPageTester(
+  initialData,
+  openFormPageName = 'openFormPage',
+) {
   const [dataAndSchema, setDataAndSchema] = useState({
     schema: null,
     data: initialData,
@@ -28,7 +31,7 @@ export default function useFormPageTester(initialData) {
 
   return {
     ...dataAndSchema,
-    openFormPage,
+    [openFormPageName]: openFormPage,
     updateFormData,
   };
 }

@@ -13,7 +13,7 @@ const { confirmVeteranDetails } = formConfig.chapters.veteranDetails.pages;
 
 describe('Confirm Veteran Details', () => {
   it('should render Veteran details (Name, last 4 SSN & VA File, gender)', () => {
-    const veteran = initialData.veteran;
+    const veteran = initialData;
     const tree = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}

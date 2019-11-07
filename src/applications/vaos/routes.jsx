@@ -2,15 +2,10 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
-import AppointmentListsPage from './containers/AppointmentListsPage';
+import AppointmentsPage from './containers/AppointmentsPage';
 import ReasonForAppointmentPage from './containers/ReasonForAppointmentPage';
 import TypeOfCarePage from './containers/TypeOfCarePage';
-import CommunityCareProviderPage from './containers/CommunityCareProviderPage';
 import CommunityCarePreferencesPage from './containers/CommunityCarePreferencesPage';
-import PendingAppointmentListPage from './containers/PendingAppointmentListPage';
-import PendingAppointmentDetailPage from './containers/PendingAppointmentDetailPage';
-import ConfirmedAppointmentDetailPage from './containers/ConfirmedAppointmentDetailPage';
-import ConfirmedAppointmentListPage from './containers/ConfirmedAppointmentListPage';
 import TypeOfAudiologyCarePage from './containers/TypeOfAudiologyCarePage';
 import TypeOfFacilityPage from './containers/TypeOfFacilityPage';
 import ContactInfoPage from './containers/ContactInfoPage';
@@ -36,10 +31,6 @@ const routes = (
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
       <Route path="request-date" component={DateTimeRequestPage} />
       <Route path="select-date" component={DateTimeSelectPage} />
-      <Route
-        path="community-care-provider"
-        component={CommunityCareProviderPage}
-      />
       <Route path="va-facility" component={VAFacilityPage} />
       <Route
         path="community-care-preferences"
@@ -48,20 +39,7 @@ const routes = (
       <Route path="clinics" component={ClinicChoicePage} />
       <Route path="review" component={ReviewPage} />
     </Route>
-    <Route path="appointments" component={AppointmentListsPage} />
-    <Route path="appointments/pending" component={PendingAppointmentListPage} />
-    <Route
-      path="appointments/pending/:id"
-      component={PendingAppointmentDetailPage}
-    />
-    <Route
-      path="appointments/confirmed/:id"
-      component={ConfirmedAppointmentDetailPage}
-    />
-    <Route
-      path="appointments/confirmed"
-      component={ConfirmedAppointmentListPage}
-    />
+    <Route path="appointments" component={AppointmentsPage} />
   </Route>
 );
 
