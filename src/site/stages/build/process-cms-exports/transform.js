@@ -3,7 +3,7 @@ const { getContentModelType } = require('./helpers');
 const pageTransform = require('./transformers/page');
 
 const transformers = {
-  page: pageTransform,
+  'node-page': pageTransform,
 };
 
 const missingTransformers = new Set();
@@ -16,12 +16,12 @@ const missingTransformers = new Set();
  * @param {String} entityType - The type of the entity
  * @return {Function} - A function that accepts an entity and transforms it
  */
-function getEntityTransformer(entityType) {
-  let entityTransformer = entity => entity;
+function getEntityTransformer(entityType, verbose = true) {
+  let entityTransformer;
 
   if (entityType in transformers) {
     entityTransformer = transformers[entityType];
-  } else if (!missingTransformers.has(entityType)) {
+  } else if (verbose && !missingTransformers.has(entityType)) {
     missingTransformers.add(entityType);
     // eslint-disable-next-line no-console
     console.warn(`No transformer for target_id ${entityType}`);
@@ -47,9 +47,10 @@ function transformEntity(entity) {
   // Convert all snake_case keys to camelCase
   const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
-  return entityTransformer(transformed);
+  return entityTransformer ? entityTransformer(transformed) : transformed;
 }
 
 module.exports = {
   transformEntity,
+  getEntityTransformer,
 };

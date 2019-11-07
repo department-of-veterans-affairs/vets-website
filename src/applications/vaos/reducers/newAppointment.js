@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -41,7 +42,9 @@ import { getTypeOfCare } from '../utils/selectors';
 
 const initialState = {
   pages: {},
-  data: {},
+  data: {
+    preferredDate: moment().format('YYYY-MM-DD'),
+  },
   facilities: {},
   facilityDetails: {},
   clinics: {},
