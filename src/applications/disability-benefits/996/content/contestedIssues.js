@@ -85,7 +85,7 @@ export const disabilitiesExplanation = (
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const ratedDisabilitiesAlert = ({ formContext }) => {
+export const contestedIssuesAlert = ({ formContext }) => {
   if (!formContext.submitted) return null;
   return (
     <AlertBox

@@ -4,91 +4,82 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
+import useFormPageTester from '../useFormPageTester';
+
 import { CommunityCarePreferencesPage } from '../../containers/CommunityCarePreferencesPage';
 
-describe('VAOS <CommunityCarePreferencesPage>', () => {
-  it('should render', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+function CommunityCarePreferencesPageTester(props) {
+  const formProps = useFormPageTester(
+    props.data,
+    'openCommunityCarePreferencesPage',
+  );
+  return <CommunityCarePreferencesPage {...props} {...formProps} />;
+}
 
+describe('VAOS <CommunityCarePreferencesPage>', () => {
+  it('should render loading state', () => {
     const form = mount(
       <CommunityCarePreferencesPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        data={{}}
+        openCommunityCarePreferencesPage={f => f}
+        loading
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('LoadingIndicator').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render', () => {
+    const form = mount(<CommunityCarePreferencesPageTester />);
+
+    expect(form.find('input').length).to.equal(2);
+    form.unmount();
+  });
+
+  it('should render provider fields', () => {
+    const form = mount(
+      <CommunityCarePreferencesPageTester
+        data={{ hasCommunityCareProvider: true }}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(10);
     form.unmount();
   });
 
   it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
+    const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <CommunityCarePreferencesPage
-        openFormPage={openFormPage}
-        router={router}
-        data={{}}
+      <CommunityCarePreferencesPageTester
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
     );
 
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(router.push.called).to.be.false;
+    expect(routeToNextAppointmentPage.called).to.be.false;
     form.unmount();
   });
 
-  it('should call updateFormData after change', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
-    const router = {
-      push: sinon.spy(),
-    };
+  it('should update data after change', () => {
+    const form = mount(<CommunityCarePreferencesPageTester />);
 
-    const form = mount(
-      <CommunityCarePreferencesPage
-        openFormPage={openFormPage}
-        updateFormData={updateFormData}
-        router={router}
-        data={{}}
-      />,
-    );
+    selectRadio(form, 'root_hasCommunityCareProvider', 'Y');
 
-    selectRadio(form, 'root_distanceWillingToTravel', '25');
-
-    const language = form.find('select#root_preferredLanguage');
-
-    expect(updateFormData.firstCall.args[2].distanceWillingToTravel).to.equal(
-      '25',
-    );
-
-    language.simulate('change', {
-      target: {
-        value: 'Chinese',
-      },
-    });
-
-    expect(updateFormData.secondCall.args[2].preferredLanguage).to.equal(
-      'Chinese',
-    );
+    expect(form.find('#root_hasCommunityCareProviderYes').getDOMNode().checked)
+      .to.be.true;
     form.unmount();
   });
 
   it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
-      <CommunityCarePreferencesPage
-        openFormPage={openFormPage}
+      <CommunityCarePreferencesPageTester
+        data={{ hasCommunityCareProvider: false, preferredLanguage: 'english' }}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ distanceWillingToTravel: '25', preferredLanguage: 'english' }}
       />,
     );
 

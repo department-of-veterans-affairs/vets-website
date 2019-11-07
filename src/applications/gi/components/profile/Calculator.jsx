@@ -52,7 +52,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showEligibilityForm;
 
     return (
-      <div className="eligibility-details">
+      <div aria-live="off" className="eligibility-details">
         <button
           aria-expanded={expanded}
           onClick={this.toggleEligibilityForm}
@@ -62,7 +62,11 @@ export class Calculator extends React.Component {
         </button>
         <div>
           {expanded ? (
-            <EligibilityForm eligibilityChange={this.props.eligibilityChange} />
+            <form>
+              <EligibilityForm
+                eligibilityChange={this.props.eligibilityChange}
+              />
+            </form>
           ) : null}
         </div>
       </div>
@@ -78,7 +82,7 @@ export class Calculator extends React.Component {
     const expanded = this.state.showCalculatorForm;
 
     return (
-      <div className="calculator-inputs">
+      <div aria-live="off" className="calculator-inputs">
         <button
           aria-expanded={expanded}
           onClick={this.toggleCalculatorForm}
@@ -88,16 +92,20 @@ export class Calculator extends React.Component {
         </button>
         <div>
           {expanded ? (
-            <CalculatorForm
-              profile={profile}
-              eligibility={this.props.eligibility}
-              eligibilityChange={this.props.eligibilityChange}
-              inputs={inputs}
-              displayedInputs={displayed}
-              onShowModal={this.props.showModal}
-              onInputChange={this.props.calculatorInputChange}
-              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-            />
+            <form>
+              <CalculatorForm
+                profile={profile}
+                eligibility={this.props.eligibility}
+                eligibilityChange={this.props.eligibilityChange}
+                inputs={inputs}
+                displayedInputs={displayed}
+                onShowModal={this.props.showModal}
+                onInputChange={this.props.calculatorInputChange}
+                onBeneficiaryZIPCodeChanged={
+                  this.props.beneficiaryZIPCodeChanged
+                }
+              />
+            </form>
           ) : null}
         </div>
       </div>

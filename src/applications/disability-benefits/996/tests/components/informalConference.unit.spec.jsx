@@ -38,11 +38,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          veteran: {
-            informalConferenceChoice: true,
-          },
-        }}
+        data={{ informalConferenceChoice: true }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -51,8 +47,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     const formDOM = getFormDOM(form);
     // Yes/No choice for informal conference & call representative
     expect($$('input[type="radio"]', formDOM).length).to.equal(4);
-    expect($('#root_veteran_informalConferenceChoiceYes', formDOM).checked).to
-      .be.true;
+    expect($('#root_informalConferenceChoiceYes', formDOM).checked).to.be.true;
   });
 
   it('should show the call representative name & phone inputs and time checkboxes', () => {
@@ -61,10 +56,8 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: true,
-          },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: true,
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -84,13 +77,11 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: true,
-            representative: {
-              fullName: 'John Doe',
-              phone: '800 555-1212',
-            },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: true,
+          representative: {
+            fullName: 'John Doe',
+            phone: '800 555-1212',
           },
         }}
         formData={{}}
@@ -109,10 +100,8 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: false,
-          },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: false,
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -133,11 +122,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
-        data={{
-          veteran: {
-            informalConferenceChoice: false,
-          },
-        }}
+        data={{ informalConferenceChoice: false }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -157,12 +142,10 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: false,
-            scheduleTimes: {
-              time1000to1200: true,
-            },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: false,
+          scheduleTimes: {
+            time1000to1200: true,
           },
         }}
         formData={{}}
@@ -185,16 +168,14 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: true,
-            representative: {
-              fullName: 'John Doe',
-              phone: '8005551212',
-            },
-            scheduleTimes: {
-              time1000to1200: true,
-            },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: true,
+          representative: {
+            fullName: 'John Doe',
+            phone: '8005551212',
+          },
+          scheduleTimes: {
+            time1000to1200: true,
           },
         }}
         formData={{}}
@@ -236,11 +217,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
-        data={{
-          veteran: {
-            informalConferenceChoice: true,
-          },
-        }}
+        data={{ informalConferenceChoice: true }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -260,11 +237,9 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: false,
-            scheduleTimes: {},
-          },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: false,
+          scheduleTimes: {},
         }}
         formData={{}}
         uiSchema={uiSchema}
@@ -286,15 +261,13 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          veteran: {
-            informalConferenceChoice: true,
-            contactRepresentativeChoice: false,
-            scheduleTimes: {
-              time0800to1000: true,
-              time1000to1200: true,
-              time1230to1400: true,
-              time1400to1630: true,
-            },
+          informalConferenceChoice: true,
+          contactRepresentativeChoice: false,
+          scheduleTimes: {
+            time0800to1000: true,
+            time1000to1200: true,
+            time1230to1400: true,
+            time1400to1630: true,
           },
         }}
         formData={{}}
