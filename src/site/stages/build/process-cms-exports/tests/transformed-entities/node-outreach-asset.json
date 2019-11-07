@@ -1,0 +1,23 @@
+{
+  "entityId": "556",
+  "title": "VA benefits for your family ",
+  "status": true,
+  "changed": 1565131126,
+  "fieldFormat": "video",
+  "fieldBenefits": null,
+  "fieldDescription": "Rob transferred his Post-9/11 GI Bill benefits to his college-bound son.",
+  "fieldOffice": {
+    "targetId": 735
+  },
+  "fieldMedia": {
+    "entity": {
+      "entityBundle": "video",
+      "fieldMediaVideoEmbedField": "https://www.youtube.com/watch?v=9rCwFtxMaE0",
+      "thumbnail": {
+        "derivative": {
+          "url": "https://dev.cms.va.gov/sites/default/files/styles/large/public/video_thumbnails/9rCwFtxMaE0.jpg?itok=p4JEIa-a"
+        }
+      }
+    }
+  }
+}
