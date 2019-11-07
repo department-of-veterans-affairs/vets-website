@@ -7,7 +7,7 @@ module.exports = {
   properties: {
     // Standard `node` key-value pairs.
     ...nodeStandardKeys,
-    // `outreach-asset`-specific key-value pairs.
+    // `outreach_asset`-specific key-value pairs.
     field_administration: {
       $ref: 'EntityReference',
     },
@@ -36,5 +36,5 @@ module.exports = {
       $ref: 'EntityReference',
     },
   },
-  required: getFilter('node-outreach-asset'),
+  required: getFilter('node-outreach_asset'),
 };

@@ -20,7 +20,7 @@ const whitelists = {
     'moderation_state',
   ],
   'paragraph-wysiwyg': ['field_wysiwyg'],
-  'node-outreach-asset': [
+  'node-outreach_asset': [
     'changed',
     'field_benefits',
     'field_description',

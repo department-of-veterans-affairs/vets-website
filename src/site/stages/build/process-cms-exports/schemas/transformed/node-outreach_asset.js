@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 module.exports = {
-  $id: 'node-outreach-asset',
+  $id: 'node-outreach_asset',
   type: 'object',
   properties: {
     // Standard `node` key-value pairs.
@@ -17,7 +17,7 @@ module.exports = {
     title: {
       type: 'string',
     },
-    // `outreach-asset`-specific key-value pairs.
+    // `outreach_asset`-specific key-value pairs.
     fieldBenefits: {
       $ref: 'nullable-string',
     },
