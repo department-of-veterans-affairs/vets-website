@@ -60,7 +60,7 @@ export default class ScoEventListWidget extends React.Component {
 
   renderEvents = () => {
     const scoEvents = this.props.scoEvents
-      .filter(scoEvent => this.shouldDisplay(scoEvent))
+      .filter(this.shouldDisplay)
       .sort(this.eventComparer)
       .map((scoEvent, index) => (
         <div key={index}>
