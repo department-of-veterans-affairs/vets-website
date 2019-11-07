@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 const entityReference = {
+  $id: 'EntityReference',
   type: 'object',
   properties: {
     target_type: { type: 'string' },
@@ -9,6 +10,7 @@ const entityReference = {
 };
 
 const entityReferenceArray = {
+  $id: 'EntityReferenceArray',
   type: 'array',
   items: {
     $ref: 'EntityReference',

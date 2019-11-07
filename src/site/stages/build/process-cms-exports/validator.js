@@ -12,9 +12,9 @@ const genericNestedString = require('./schemas/common/generic-nested-string');
 ajv.addFormat('custom-date-time', /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
 
 // Common $ref schemas
-ajv.addSchema(entityReference, 'EntityReference');
-ajv.addSchema(entityReferenceArray, 'EntityReferenceArray');
-ajv.addSchema(genericNestedString, 'GenericNestedString');
+ajv.addSchema(entityReference);
+ajv.addSchema(entityReferenceArray);
+ajv.addSchema(genericNestedString);
 
 module.exports = (entity, schema) => {
   const validate = ajv.compile(schema);
