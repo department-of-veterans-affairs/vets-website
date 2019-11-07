@@ -270,6 +270,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       const response = await getAvailableSlots(
         getState().newAppointment.data.clinicId,
       );
+
       slots = response[0]?.appointmentTimeSlot || [];
 
       const now = moment();
