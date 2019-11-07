@@ -1,0 +1,51 @@
+{
+    "uuid": [
+        {
+            "value": "004d4d31-9e5f-4dcd-ab19-1aef98daefd4"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "wysiwyg",
+            "target_type": "paragraphs_type",
+            "target_uuid": "885e4b61-cfd2-44b9-94ae-f068ba2b48b6"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-03-04T22:25:58+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "field_wysiwyg": [
+        {
+            "value": "<p>asdfasdf<\/p>\r\n",
+            "format": "rich_text"
+        }
+    ]
+}

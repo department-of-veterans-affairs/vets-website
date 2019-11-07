@@ -7,8 +7,9 @@ import classNames from 'classnames';
 
 import {
   clearAutocompleteSuggestions,
-  fetchAutocompleteSuggestions,
+  fetchInstitutionAutocompleteSuggestions,
   fetchInstitutionSearchResults,
+  fetchProgramAutocompleteSuggestions,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
@@ -280,7 +281,9 @@ export class SearchPage extends React.Component {
         autocomplete={this.props.autocomplete}
         location={this.props.location}
         clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+        fetchAutocompleteSuggestions={
+          this.props.fetchProgramAutocompleteSuggestions
+        }
         handleFilterChange={this.handleFilterChange}
         updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
         filters={this.props.filters}
@@ -304,7 +307,9 @@ export class SearchPage extends React.Component {
         autocomplete={this.props.autocomplete}
         location={this.props.location}
         clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+        fetchAutocompleteSuggestions={
+          this.props.fetchInstitutionAutocompleteSuggestions
+        }
         handleFilterChange={this.handleFilterChange}
         updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
         filters={this.props.filters}
@@ -355,7 +360,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
-  fetchAutocompleteSuggestions,
+  fetchProgramAutocompleteSuggestions,
+  fetchInstitutionAutocompleteSuggestions,
   fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,

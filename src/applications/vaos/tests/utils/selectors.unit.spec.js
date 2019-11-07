@@ -10,6 +10,7 @@ import {
   getClinicPageInfo,
   getDateTimeSelect,
   getReasonForAppointment,
+  getPreferredDate,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -143,6 +144,30 @@ describe('VAOS selectors', () => {
       };
       const clinics = getClinicsForChosenFacility(state);
       expect(clinics).to.equal(state.newAppointment.clinics['688GB_323']);
+    });
+  });
+
+  describe('getPreferredDate', () => {
+    it('should return info needed for form pages', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '323',
+          },
+          pageChangeInProgress: false,
+        },
+      };
+      const preferredDate = getPreferredDate(state, 'testPage');
+
+      expect(preferredDate.pageChangeInProgress).to.equal(
+        state.newAppointment.pageChangeInProgress,
+      );
+      expect(preferredDate.data).to.equal(state.newAppointment.data);
+      expect(preferredDate.schema).to.equal(
+        state.newAppointment.pages.preferredDate,
+      );
+      expect(preferredDate.typeOfCare).to.equal('Primary care');
     });
   });
 

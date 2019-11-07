@@ -1,0 +1,56 @@
+{
+    "uuid": [
+        {
+            "value": "15f56857-83c4-46b7-a381-eb8192e5f03e"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "expandable_text",
+            "target_type": "paragraphs_type",
+            "target_uuid": "0a249911-a230-46ae-8af2-e3752bb2c46e"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2019-06-03T21:48:28+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "field_text_expander": [
+        {
+            "value": "Learn how to sign in"
+        }
+    ],
+    "field_wysiwyg": [
+        {
+            "value": "<p>To use this feature, you'll need a Premium <strong>DS Logon<\/strong> account. Your My HealtheVet or ID.me credentials won\u2019t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <strong>DS Logon<\/strong> account to Premium.<br \/>\r\n<a class=\"usa-button-primary\" href=\"https:\/\/www.ebenefits.va.gov\/ebenefits\/about\/feature?feature=hearing-aid-batteries-and-prosthetic-socks\">Go to eBenefits to Order Items Online<\/a><\/p>\r\n",
+            "format": "rich_text"
+        }
+    ]
+}

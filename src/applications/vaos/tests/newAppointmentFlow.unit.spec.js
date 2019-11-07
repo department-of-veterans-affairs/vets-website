@@ -26,7 +26,7 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('audiologyCareType');
     });
 
-    it('next should choose contact info page if CC chosen', () => {
+    it('next should choose date page if CC chosen', () => {
       const state = {
         newAppointment: {
           data: {
@@ -37,7 +37,7 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.typeOfFacility.next(state);
-      expect(nextState).to.equal('ccPreferences');
+      expect(nextState).to.equal('requestDateTime');
     });
 
     it('next should choose audiology options page if CC and audiology is chosen', () => {
@@ -168,12 +168,66 @@ describe('VAOS newAppointmentFlow', () => {
             vaFacility: '983',
             facilityType: 'vamc',
           },
-          hasCCEnabledSystems: true,
+          ccEnabledSystems: ['983'],
         },
       };
 
       const nextState = newAppointmentFlow.vaFacility.previous(state);
       expect(nextState).to.equal('typeOfFacility');
+    });
+  });
+  describe('request date/time page', () => {
+    it('should go to CC preferences page if CC', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.requestDateTime.next(state);
+
+      expect(nextState).to.equal('ccPreferences');
+    });
+    it('should go to reason for appt if not cc', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'vamc',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.requestDateTime.next(state);
+
+      expect(nextState).to.equal('reasonForAppointment');
+    });
+    it('should go back to type of facility page if CC', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.requestDateTime.previous(state);
+
+      expect(nextState).to.equal('typeOfFacility');
+    });
+    it('should go back to va facility page if not cc', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'vamc',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.requestDateTime.previous(state);
+
+      expect(nextState).to.equal('vaFacility');
     });
   });
   describe('clinic choice page', () => {
@@ -188,23 +242,74 @@ describe('VAOS newAppointmentFlow', () => {
 
       const nextState = newAppointmentFlow.clinicChoice.next(state);
 
-      // TODO: this should go to appointment time page when it exists
-      expect(nextState).to.equal('selectDateTime');
+      expect(nextState).to.equal('preferredDate');
     });
   });
+
+  describe('preferred date page', () => {
+    it('should go to select date page', () => {
+      expect(newAppointmentFlow.preferredDate.next).to.equal('selectDateTime');
+    });
+
+    it('should go back to to clinic choice page', () => {
+      expect(newAppointmentFlow.preferredDate.previous).to.equal(
+        'clinicChoice',
+      );
+    });
+  });
+
   describe('reason for appointment page', () => {
-    it('should go back to clinic page if use chose NONE before', () => {
+    it('should go visit page if not CC', () => {
       const state = {
         newAppointment: {
           data: {
-            clinicId: 'NONE',
+            facilityType: 'vamc',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.next(state);
+
+      expect(nextState).to.equal('visitType');
+    });
+    it('should go contact info page if CC', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.next(state);
+
+      expect(nextState).to.equal('contactInfo');
+    });
+    it('should go back to date page if not CC', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'vamc',
           },
         },
       };
 
       const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
 
-      expect(nextState).to.equal('clinicChoice');
+      expect(nextState).to.equal('requestDateTime');
+    });
+    it('should go back to preferences page if CC', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
+
+      expect(nextState).to.equal('ccPreferences');
     });
   });
   describe('type of care page', () => {
