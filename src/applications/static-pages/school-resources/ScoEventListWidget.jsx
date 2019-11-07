@@ -47,6 +47,11 @@ export default class ScoEventListWidget extends React.Component {
         ).format('D')}, ${eventYears[0]}`;
   };
 
+  eventComparer = (eventA, eventB) =>
+    moment(eventA.eventStartDate).isBefore(moment(eventB.eventStartDate))
+      ? -1
+      : 1;
+
   shouldDisplay = event =>
     moment(event.displayStartDate).isBefore(moment()) &&
     ((event.displayEndDate &&
@@ -56,6 +61,7 @@ export default class ScoEventListWidget extends React.Component {
   renderEvents = () => {
     const scoEvents = this.props.scoEvents
       .filter(scoEvent => this.shouldDisplay(scoEvent))
+      .sort(this.eventComparer)
       .map((scoEvent, index) => (
         <div key={index}>
           <p>
