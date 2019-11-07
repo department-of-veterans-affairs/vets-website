@@ -49,15 +49,7 @@ module.exports = {
       type: 'string',
     },
     entityMetaTags: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          type: { type: 'string' },
-          key: { type: 'string' },
-          value: { type: 'string' },
-        },
-      },
+      $ref: 'MetaTags',
     },
   },
   // required: getFilter('node-page'),
