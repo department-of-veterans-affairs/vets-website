@@ -14,11 +14,13 @@ import TypeOfVisitPage from './containers/TypeOfVisitPage';
 import ReviewPage from './containers/ReviewPage';
 import ClinicChoicePage from './containers/ClinicChoicePage';
 import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
+import PreferredDatePage from './containers/PreferredDatePage';
 import DateTimeRequestPage from './containers/DateTimeRequestPage';
 import DateTimeSelectPage from './containers/DateTimeSelectPage';
+import VAOSApp from './containers/VAOSApp';
 
 const routes = (
-  <Route path="/">
+  <Route path="/" component={VAOSApp}>
     <IndexRoute component={LandingPage} />
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <Route path="reason-appointment" component={ReasonForAppointmentPage} />
@@ -28,6 +30,7 @@ const routes = (
       <Route path="choose-visit-type" component={TypeOfVisitPage} />
       <Route path="choose-sleep-care" component={TypeOfSleepCarePage} />
       <Route path="audiology" component={TypeOfAudiologyCarePage} />
+      <Route path="preferred-date" component={PreferredDatePage} />
       <Route path="request-date" component={DateTimeRequestPage} />
       <Route path="select-date" component={DateTimeSelectPage} />
       <Route path="va-facility" component={VAFacilityPage} />

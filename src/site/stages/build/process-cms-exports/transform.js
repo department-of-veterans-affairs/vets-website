@@ -1,10 +1,23 @@
+/* eslint-disable import/no-dynamic-require */
+
+const fs = require('fs');
+const path = require('path');
+
 const { mapKeys, camelCase } = require('lodash');
 const { getContentModelType } = require('./helpers');
-const pageTransform = require('./transformers/page');
 
-const transformers = {
-  'node-page': pageTransform,
-};
+// Dynamically read in all the transformers
+// They must be named after the content model type (E.g. node-page.js)
+const transformersDir = path.join(__dirname, 'transformers');
+const transformers = fs
+  .readdirSync(transformersDir)
+  .filter(name => name.endsWith('.js'))
+  .reduce((t, fileName) => {
+    const contentModelType = path.parse(fileName).name;
+    // eslint-disable-next-line no-param-reassign
+    t[contentModelType] = require(path.join(transformersDir, fileName));
+    return t;
+  }, {});
 
 const missingTransformers = new Set();
 
