@@ -18,33 +18,28 @@ export default class ScoEventListWidget extends React.Component {
   };
 
   displayDate = event => {
-    const eventMonths = [
-      ...new Set([
-        moment(event.eventStartDate).format('MMMM'),
-        moment(event.eventEndDate).format('MMMM'),
-      ]),
-    ];
-    const eventYears = [
-      ...new Set([
-        moment(event.eventStartDate).format('Y'),
-        moment(event.eventEndDate).format('Y'),
-      ]),
-    ];
+    const startDate = moment(event.eventStartDate, 'YYYY-MM-DD').startOf('day');
+    const endDate = moment(event.eventEndDate, 'YYYY-MM-DD').startOf('day');
+
+    const spansMonths =
+      !!event.eventEndDate && startDate.format('M') !== endDate.format('M');
+    const spansYears =
+      !!event.eventEndDate && startDate.format('Y') !== endDate.format('Y');
 
     if (!event.eventEndDate) {
-      return `${moment(event.eventStartDate).format('MMMM D, Y')}`;
-    } else if (eventYears.length === 2) {
-      return `${moment(event.eventStartDate).format('MMMM D Y')} - ${moment(
-        event.eventEndDate,
-      ).format('MMMM D Y')}`;
+      return `${startDate.format('MMMM D, Y')}`;
+    } else if (spansYears) {
+      return `${startDate.format('MMMM D, Y')} - ${endDate.format(
+        'MMMM, D Y',
+      )}`;
     }
-    return eventMonths.length === 2
-      ? `${moment(event.eventStartDate).format('MMMM D')} - ${moment(
-          event.eventEndDate,
-        ).format('MMMM D')}, ${eventYears[0]}`
-      : `${moment(event.eventStartDate).format('MMMM D')} - ${moment(
-          event.eventEndDate,
-        ).format('D')}, ${eventYears[0]}`;
+    return spansMonths
+      ? `${startDate.format('MMMM D')} - ${endDate.format(
+          'MMMM D',
+        )}, ${startDate.format('Y')}`
+      : `${startDate.format('MMMM D')} - ${endDate.format(
+          'D',
+        )}, ${startDate.format('Y')}`;
   };
 
   eventComparer = (eventA, eventB) =>
@@ -52,11 +47,18 @@ export default class ScoEventListWidget extends React.Component {
       ? -1
       : 1;
 
-  shouldDisplay = event =>
-    moment(event.displayStartDate).isBefore(moment()) &&
-    ((event.displayEndDate &&
-      moment().isBefore(moment(event.displayEndDate))) ||
-      moment().isBefore(moment(event.eventStartDate).add(30, 'days')));
+  shouldDisplay = event => {
+    const today = moment().startOf('day');
+    const startDate = moment(event.eventStartDate, 'YYYY-MM-DD').startOf('day');
+    const displayStart = moment(event.displayStartDate, 'YYYY-MM-DD').startOf(
+      'day',
+    );
+    const displayEnd = event.displayEndDate
+      ? moment(event.displayEndDate, 'YYYY-MM-DD').startOf('day')
+      : moment(startDate).add(30, 'days');
+
+    return displayStart.isSameOrBefore(today) && today.isBefore(displayEnd);
+  };
 
   renderEvents = () => {
     const scoEvents = this.props.scoEvents
@@ -79,10 +81,6 @@ export default class ScoEventListWidget extends React.Component {
   };
 
   render() {
-    if (!this.props.scoEvents) {
-      return null;
-    }
-
     return (
       <div>
         <h2 id="upcoming-events">Upcoming events</h2>
