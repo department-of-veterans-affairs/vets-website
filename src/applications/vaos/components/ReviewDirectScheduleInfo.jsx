@@ -7,7 +7,11 @@ import newAppointmentFlow from '../newAppointmentFlow';
 export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Review your appointment</h1>
+      <h1 className="vads-u-font-size--h2">
+        Review your appointment
+        <br />
+        details
+      </h1>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">
         Type of care
       </h2>
