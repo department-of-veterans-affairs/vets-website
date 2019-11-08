@@ -7,6 +7,7 @@ export default class ScoEventListWidget extends React.Component {
     scoEvents: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
         location: PropTypes.string.isRequired,
         eventStartDate: PropTypes.string.isRequired,
         eventEndDate: PropTypes.string,
