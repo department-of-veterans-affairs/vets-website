@@ -96,9 +96,7 @@ export class AppointmentsPage extends Component {
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-        <Breadcrumbs>
-          <Link to="appointments">Your appointments</Link>
-        </Breadcrumbs>
+        <Breadcrumbs />
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
             <h1 className="vads-u-flex--1">VA appointments</h1>
