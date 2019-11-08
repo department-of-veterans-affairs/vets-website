@@ -17,4 +17,14 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
 
     tree.unmount();
   });
+
+  it('should render aria labels', () => {
+    const tree = shallow(<ReviewDirectScheduleInfo data={{}} />);
+
+    expect(tree.find('[aria-label]').length).to.equal(7);
+    expect(tree.find('[aria-label="Edit appointment date"]').exists()).to.be
+      .true;
+
+    tree.unmount();
+  });
 });
