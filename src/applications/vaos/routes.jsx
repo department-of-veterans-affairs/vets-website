@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import LandingPage from './components/LandingPage';
 import NewAppointmentLayout from './components/NewAppointmentLayout';
 import AppointmentsPage from './containers/AppointmentsPage';
 import ReasonForAppointmentPage from './containers/ReasonForAppointmentPage';
@@ -21,7 +20,7 @@ import VAOSApp from './containers/VAOSApp';
 
 const routes = (
   <Route path="/" component={VAOSApp}>
-    <IndexRoute component={LandingPage} />
+    <IndexRoute component={AppointmentsPage} />
     <Route path="new-appointment" component={NewAppointmentLayout}>
       <Route path="reason-appointment" component={ReasonForAppointmentPage} />
       <IndexRoute component={TypeOfCarePage} />
@@ -41,7 +40,6 @@ const routes = (
       <Route path="clinics" component={ClinicChoicePage} />
       <Route path="review" component={ReviewPage} />
     </Route>
-    <Route path="appointments" component={AppointmentsPage} />
   </Route>
 );
 
