@@ -96,20 +96,27 @@ export class AppointmentsPage extends Component {
 
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
-        <Breadcrumbs>
-          <Link to="appointments">Your appointments</Link>
-        </Breadcrumbs>
+        <Breadcrumbs />
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
-            <div className="vaos-appts__top">
-              <h1 className="vads-u-flex--1">VA Appointments</h1>
+            <h1 className="vads-u-flex--1">VA appointments</h1>
+            <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+              <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+                Create a new appointment
+              </h2>
+              <p className="vads-u-margin-top--1">
+                Schedule a new appointment at a VA Medical center, clinic, or
+                Community care facility
+              </p>
               <Link to="/new-appointment">
-                <button className="usa-button vads-u-margin--0">
-                  <i className="fas fa-plus vads-u-display--inline-block vads-u-margin-right--1 vads-u-font-size--sm" />
-                  New appointment
+                <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">
+                  Schedule an appointment
                 </button>
               </Link>
             </div>
+            <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+              Upcoming appointments
+            </h2>
             <ul className="usa-unstyled-list">{content}</ul>
           </div>
         </div>
