@@ -22,6 +22,7 @@ export default class PhoneNumberWidget extends React.Component {
       this.props.onChange(stripped);
     });
   };
+
   render() {
     return (
       <TextWidget
