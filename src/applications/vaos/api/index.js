@@ -59,7 +59,7 @@ export function getPendingAppointments(startDate, endDate) {
     );
   } else {
     promise = apiRequest(
-      `/vaos/requests?start_date=${startDate}&end_date=${endDate}`,
+      `/vaos/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
     );
   }
 
