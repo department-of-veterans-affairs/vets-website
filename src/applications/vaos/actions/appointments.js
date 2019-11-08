@@ -63,6 +63,7 @@ export function fetchFutureAppointments() {
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
+          today: moment(),
         });
       } catch (error) {
         Sentry.captureException(error);

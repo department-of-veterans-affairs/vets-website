@@ -3,8 +3,6 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
 
-const today = moment();
-
 export function getAppointmentType(appt) {
   if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
@@ -30,12 +28,12 @@ export function parseRequestDate(optionDate) {
   return moment(optionDate, 'MM/DD/YYYY');
 }
 
-export function filterFutureConfirmedAppointments(appt) {
+export function filterFutureConfirmedAppointments(appt, today) {
   const date = parseVAorCCDate(appt);
   return date.isValid() && date.isAfter(today);
 }
 
-export function filterFutureRequests(request) {
+export function filterFutureRequests(request, today) {
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
   const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
