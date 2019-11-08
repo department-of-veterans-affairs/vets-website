@@ -6,7 +6,6 @@ export default class ScoEventListWidget extends React.Component {
   static propTypes = {
     scoEvents: PropTypes.arrayOf(
       PropTypes.shape({
-        type: PropTypes.oneOf(['Event', 'Announcement', 'Webinar']).isRequired,
         name: PropTypes.string.isRequired,
         location: PropTypes.string.isRequired,
         eventStartDate: PropTypes.string.isRequired,
