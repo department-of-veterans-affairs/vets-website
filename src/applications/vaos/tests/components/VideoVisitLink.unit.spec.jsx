@@ -18,15 +18,13 @@ describe('Video visit', () => {
     clinicId: '456',
     vvsAppointments: [
       {
-        patients: {
-          patient: [
-            {
-              virtualMeetingRoom: {
-                url,
-              },
+        patients: [
+          {
+            virtualMeetingRoom: {
+              url,
             },
-          ],
-        },
+          },
+        ],
       },
     ],
   };
