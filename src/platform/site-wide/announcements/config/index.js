@@ -32,6 +32,7 @@ const config = {
       name: 'veterans-day-proclamation-edited',
       paths: /^\/$/,
       component: VeteransDayProclamation,
+      disabled: true,
     },
     {
       name: 'find-benefits-intro',
