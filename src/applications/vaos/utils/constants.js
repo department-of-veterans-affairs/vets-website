@@ -188,6 +188,11 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO ACTION TAKEN',
 ]);
 
+export const FLOW_TYPES = {
+  DIRECT: 'direct',
+  REQUEST: 'request',
+};
+
 export const TYPE_OF_VISIT = [
   {
     id: 'office',
@@ -220,4 +225,5 @@ export const DISTANCES = [
 
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
+export const MENTAL_HEALTH = '502';
 export const DIRECT_SCHEDULE_TYPES = new Set([PRIMARY_CARE, '502']);
