@@ -10,7 +10,7 @@ export default function VeteransDayProclamation({ dismiss }) {
       onClose={dismiss}
       target="_blank"
       href="https://www.blogs.va.gov/VAntage/67843/secretary-wilkies-veterans-day-2019-message/"
-      text="Watch Secretary Robert Wilkie’s Veterans Day Message"
+      text="Watch Secretary Robert Wilkie’s Veterans Day message"
     />
   );
 }
