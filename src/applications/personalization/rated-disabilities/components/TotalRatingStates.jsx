@@ -12,19 +12,19 @@ export const errorMessage = () => {
       <p>
         If you get this error again, please call VA.gov help desk at{' '}
         <a
-          href="tel"
-          aria-label="Dial the telephone number 800-827-1000"
-          title="Dial the telephone number 800-827-1000"
+          href="tel:1-855-574-7286"
+          aria-label="Dial the telephone number 1-855-574-7286"
+          title="Dial the telephone number 1-855-574-7286"
         >
-          855-574-7286
+          1-855-574-7286
         </a>{' '}
-        (TTY:711). We're here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
+        (TTY:711). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
       </p>
     </>
   );
   return (
     <AlertBox
-      headline="We're sorry. Something went wrong on our end"
+      headline="We’re sorry. Something went wrong on our end"
       content={message}
       status="error"
       isVisible
@@ -36,7 +36,7 @@ export const missingTotalMessage = () => {
   const message = (
     <>
       <p>
-        We're sorry. We can't find a disability rating for you. If you have a
+        We’re sorry. We can’t find a disability rating for you. If you have a
         disability that was caused by or got worse because of your service, you
         can file a claim for disability benefits.
       </p>
@@ -51,7 +51,7 @@ export const missingTotalMessage = () => {
   );
   return (
     <AlertBox
-      headline="We don't have a disability rating on file for you"
+      headline="We don’t have a disability rating on file for you"
       content={message}
       status="info"
       isVisible
@@ -67,7 +67,7 @@ export const totalRatingMessage = totalDisabilityRating => (
           <strong>
             Your combined disability rating is {totalDisabilityRating}%
           </strong>
-          . This rating doesn't include disabilities for your claims that are
+          . This rating doesn’t include disabilities for your claims that are
           still pending. You can check the status of your disability claims or
           appeals with the Claim Status tool.
         </p>
