@@ -76,7 +76,10 @@ export class AppointmentsPage extends Component {
       );
     } else if (futureStatus === FETCH_STATUS.failed) {
       content = (
-        <AlertBox status="error" headline="We're sorry, something went wrong">
+        <AlertBox
+          status="error"
+          headline="We're sorry. We've run into a problem"
+        >
           We're having trouble getting your upcoming appointments. Please try
           again later.
         </AlertBox>
