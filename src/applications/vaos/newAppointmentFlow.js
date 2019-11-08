@@ -4,7 +4,7 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { TYPES_OF_CARE } from './utils/constants';
+import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
@@ -12,7 +12,8 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
-  START_DIRECT_SCHEDULE_FLOW,
+  startDirectScheduleFlow,
+  startRequestAppointmentFlow,
   updateFacilityType,
   updateCCEnabledSystems,
 } from './actions/newAppointment';
@@ -135,16 +136,13 @@ export default {
         const appointments = await getPastAppointments();
 
         if (hasEligibleClinics(facilityId, appointments, clinics)) {
-          dispatch({
-            type: START_DIRECT_SCHEDULE_FLOW,
-            appointments,
-          });
-
+          dispatch(startDirectScheduleFlow(appointments));
           return 'clinicChoice';
         }
       }
 
       if (eligibilityStatus.request) {
+        dispatch(startRequestAppointmentFlow());
         return 'requestDateTime';
       }
 
@@ -216,6 +214,10 @@ export default {
     previous(state) {
       if (getFormData(state).facilityType === 'communityCare') {
         return 'ccPreferences';
+      }
+
+      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+        return 'selectDateTime';
       }
 
       return 'requestDateTime';

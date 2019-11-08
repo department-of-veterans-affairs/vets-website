@@ -9,8 +9,8 @@ export default function VeteransDayProclamation({ dismiss }) {
       type={PROMO_BANNER_TYPES.announcement}
       onClose={dismiss}
       target="_blank"
-      href="https://www.va.gov/opa/vetsday/docs/National_Veterans_and_Military_Families_Month_Proclamation_2019.pdf"
-      text="Read President Donald Trump's proclamation celebrating National Veterans and Military Families Month"
+      href="https://www.blogs.va.gov/VAntage/67843/secretary-wilkies-veterans-day-2019-message/"
+      text="Watch Secretary Robert Wilkie’s Veterans Day message"
     />
   );
 }
