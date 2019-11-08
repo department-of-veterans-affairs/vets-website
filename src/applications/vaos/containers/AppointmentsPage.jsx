@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -31,7 +32,8 @@ export class AppointmentsPage extends Component {
     let content;
 
     const loading = futureStatus === FETCH_STATUS.loading;
-    const hasAppointments = FETCH_STATUS.succeeded && future?.length > 0;
+    const hasAppointments =
+      futureStatus === FETCH_STATUS.succeeded && future?.length > 0;
 
     if (loading) {
       content = (
@@ -40,37 +42,48 @@ export class AppointmentsPage extends Component {
         </div>
       );
     } else if (hasAppointments) {
-      content = future.map((appt, index) => {
-        const type = getAppointmentType(appt);
+      content = (
+        <ul className="usa-unstyled-list">
+          {future.map((appt, index) => {
+            const type = getAppointmentType(appt);
 
-        switch (type) {
-          case APPOINTMENT_TYPES.request:
-            return (
-              <AppointmentRequestListItem
-                key={index}
-                index={index}
-                appointment={appt}
-                cancelAppointment={this.props.cancelAppointment}
-              />
-            );
-          case APPOINTMENT_TYPES.ccAppointment:
-          case APPOINTMENT_TYPES.vaAppointment:
-            return (
-              <ConfirmedAppointmentListItem
-                key={index}
-                index={index}
-                appointment={appt}
-                type={type}
-                cancelAppointment={this.props.cancelAppointment}
-              />
-            );
-          default:
-            return null;
-        }
-      });
+            switch (type) {
+              case APPOINTMENT_TYPES.request:
+                return (
+                  <AppointmentRequestListItem
+                    key={index}
+                    index={index}
+                    appointment={appt}
+                    cancelAppointment={this.props.cancelAppointment}
+                  />
+                );
+              case APPOINTMENT_TYPES.ccAppointment:
+              case APPOINTMENT_TYPES.vaAppointment:
+                return (
+                  <ConfirmedAppointmentListItem
+                    key={index}
+                    index={index}
+                    appointment={appt}
+                    type={type}
+                    cancelAppointment={this.props.cancelAppointment}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </ul>
+      );
+    } else if (futureStatus === FETCH_STATUS.failed) {
+      content = (
+        <AlertBox status="error" headline="We're sorry, something went wrong">
+          We're having trouble getting your upcoming appointments. Please try
+          again later.
+        </AlertBox>
+      );
     } else {
       content = (
-        <li className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
           <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
             You don’t have any appointments.
           </h2>
@@ -90,7 +103,7 @@ export class AppointmentsPage extends Component {
               Schedule an appointment
             </button>
           </Link>
-        </li>
+        </div>
       );
     }
 
@@ -117,7 +130,7 @@ export class AppointmentsPage extends Component {
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
               Upcoming appointments
             </h2>
-            <ul className="usa-unstyled-list">{content}</ul>
+            {content}
           </div>
         </div>
         <CancelAppointmentModal
