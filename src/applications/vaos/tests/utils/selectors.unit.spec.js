@@ -193,6 +193,11 @@ describe('VAOS selectors', () => {
             typeOfCareId: '323',
             vaFacility: '983',
           },
+          eligibility: {
+            '983_323': {
+              request: true,
+            },
+          },
           facilities: {
             '323_983': [
               {

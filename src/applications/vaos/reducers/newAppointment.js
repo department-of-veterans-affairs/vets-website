@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -28,6 +27,7 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
+  START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
@@ -38,13 +38,13 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../actions/newAppointment';
 
+import { FLOW_TYPES } from '../utils/constants';
+
 import { getTypeOfCare } from '../utils/selectors';
 
 const initialState = {
   pages: {},
-  data: {
-    preferredDate: moment().format('YYYY-MM-DD'),
-  },
+  data: {},
   facilities: {},
   facilityDetails: {},
   clinics: {},
@@ -351,12 +351,17 @@ export default function formReducer(state = initialState, action) {
         loadingEligibility: false,
       };
     }
-    case START_DIRECT_SCHEDULE_FLOW: {
+    case START_DIRECT_SCHEDULE_FLOW:
       return {
         ...state,
         pastAppointments: action.appointments,
+        flowType: FLOW_TYPES.DIRECT,
       };
-    }
+    case START_REQUEST_APPOINTMENT_FLOW:
+      return {
+        ...state,
+        flowType: FLOW_TYPES.REQUEST,
+      };
     case FORM_CLINIC_PAGE_OPENED: {
       return {
         ...state,
