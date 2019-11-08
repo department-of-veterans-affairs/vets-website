@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import announcements from './constants/announcements.json';
 
 export default class ScoAnnouncementsWidget extends React.Component {
   static propTypes = {
