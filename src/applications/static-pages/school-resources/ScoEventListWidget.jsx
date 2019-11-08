@@ -63,14 +63,11 @@ export default class ScoEventListWidget extends React.Component {
       .sort(this.eventComparer)
       .map((scoEvent, index) => (
         <li key={index} className="hub-page-link-list__item">
-          <p>
-            <a href={scoEvent.url}>
-              <b>{`${scoEvent.name} >`}</b>
-            </a>
-          </p>
-          <p>
-            <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
-          </p>
+          <a href={scoEvent.url}>
+            <b>{`${scoEvent.name} >`}</b>
+          </a>
+          <br />
+          <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
         </li>
       ));
     return (
