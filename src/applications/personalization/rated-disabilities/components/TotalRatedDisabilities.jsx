@@ -8,11 +8,8 @@ import {
 } from './TotalRatingStates';
 
 const TotalRatedDisabilities = props => {
-  const {
-    loading,
-    totalDisabilityRating,
-    error: { status },
-  } = props;
+  const { loading, totalDisabilityRating } = props;
+  const status = props.error ? props.error.status : null;
   const serverErrorRegex = /^5\d{2}$/;
   const serviceErrorRegex = /^4\d{2}$/;
   let content;

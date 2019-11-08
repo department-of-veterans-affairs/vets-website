@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   loading: true, // app starts in loading state
-  error: {},
+  error: null,
   totalDisabilityRating: null,
 };
 
@@ -16,7 +16,7 @@ export function totalRating(state = initialState, action) {
         ...state,
         loading: false,
         error: {
-          status: 500,
+          status: '500',
           res: 'failed to load', // This changes when the backend gets wired up to the frontend.
         },
       };
@@ -24,7 +24,7 @@ export function totalRating(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: {},
+        error: null,
         totalDisabilityRating: 80, // to be replaced with response payload
       };
     default:
