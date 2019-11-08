@@ -55,13 +55,13 @@ describe('VAOS reducer: appointments', () => {
           },
         ],
         [{ startDate: '2099-04-30T05:35:00' }],
-        { appointmentRequests: [{ optionDate1: '05/29/2099' }] },
+        [{ optionDate1: '05/29/2099' }],
       ],
     };
 
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.future.length).to.equal(3);
+    expect(newState.future.length).to.equal(4);
   });
 
   it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {

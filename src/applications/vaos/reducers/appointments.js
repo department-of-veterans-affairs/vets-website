@@ -12,7 +12,7 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from '../actions/appointments';
 
-import { filterFutureRequests, sortFutureList } from '../utils/appointment';
+import { sortFutureList } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
@@ -41,7 +41,7 @@ export default function appointmentsReducer(state = initialState, action) {
       const futureAppointments = [
         ...vaAppointments,
         ...ccAppointments,
-        ...requests.appointmentRequests.filter(filterFutureRequests),
+        ...requests,
       ];
 
       futureAppointments.sort(sortFutureList);
