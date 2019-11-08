@@ -36,6 +36,10 @@ function isCommunityCare(state) {
   );
 }
 
+function isCCFacility(state) {
+  return getFormData(state).facilityType === 'communityCare';
+}
+
 function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
@@ -96,7 +100,7 @@ export default {
         return 'audiologyCareType';
       }
 
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'requestDateTime';
       }
 
@@ -188,14 +192,14 @@ export default {
   requestDateTime: {
     url: '/new-appointment/request-date',
     next(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
       return 'reasonForAppointment';
     },
     previous(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'typeOfFacility';
       }
 
@@ -205,14 +209,14 @@ export default {
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'contactInfo';
       }
 
       return 'visitType';
     },
     previous(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
@@ -238,7 +242,7 @@ export default {
     url: '/new-appointment/contact-info',
     next: 'review',
     previous(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
