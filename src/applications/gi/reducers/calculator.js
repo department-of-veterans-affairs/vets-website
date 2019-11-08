@@ -13,7 +13,7 @@ import {
 const beneficiaryZIPRegExTester = /^\d{1,5}$/;
 
 const INITIAL_STATE = {
-  beneficiaryLocationQuestion: 'yes',
+  beneficiaryLocationQuestion: null,
   beneficiaryZIP: '',
   extension: '',
   inState: 'yes',
