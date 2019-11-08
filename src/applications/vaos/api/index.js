@@ -69,7 +69,7 @@ export const getPastAppointments = (() => {
   let promise = null;
   // eslint-disable-next-line no-unused-vars
   return startDate => {
-    if (!promise) {
+    if (!promise || navigator.userAgent === 'node.js') {
       if (environment.isLocalhost()) {
         promise = import('./past.json')
           .then(module => (module.default ? module.default : module))
