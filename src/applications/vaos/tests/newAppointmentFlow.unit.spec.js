@@ -1,6 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import past from '../api/past.json';
+
 import newAppointmentFlow from '../newAppointmentFlow';
 
 describe('VAOS newAppointmentFlow', () => {
@@ -90,6 +98,8 @@ describe('VAOS newAppointmentFlow', () => {
       },
     };
     it('next should choose clinic choice page if eligible', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, past);
       const state = {
         ...defaultState,
         newAppointment: {
@@ -114,6 +124,8 @@ describe('VAOS newAppointmentFlow', () => {
         'newAppointment/START_DIRECT_SCHEDULE_FLOW',
       );
       expect(nextState).to.equal('clinicChoice');
+
+      resetFetch();
     });
     it('next should direct to request flow if not direct eligible', async () => {
       const state = {

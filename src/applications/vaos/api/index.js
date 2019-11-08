@@ -71,9 +71,11 @@ export const getPastAppointments = (() => {
   return startDate => {
     if (!promise) {
       if (environment.isLocalhost()) {
-        promise = import('./past.json').then(
-          module => (module.default ? module.default : module).data,
-        );
+        promise = import('./past.json')
+          .then(module => (module.default ? module.default : module))
+          .then(resp =>
+            resp.data.map(item => ({ ...item.attributes, id: item.id })),
+          );
       } else {
         promise = getConfirmedAppointments(
           'va',

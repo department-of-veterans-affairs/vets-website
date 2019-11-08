@@ -77,7 +77,7 @@ export function sortFutureList(a, b) {
 export function getAppointmentId(appt) {
   if (appt.appointmentRequestId) {
     return appt.appointmentRequestId;
-  } else if (appt.vvsAppointments.length) {
+  } else if (appt.vvsAppointments?.length) {
     return appt.vvsAppointments[0].id;
   }
 
@@ -89,11 +89,11 @@ export function isCommunityCare(appt) {
 }
 
 export function isGFEVideoVisit(appt) {
-  return appt.vvsAppointments[0]?.appointmentKind === 'MOBILE_GFE';
+  return appt.vvsAppointments?.[0]?.appointmentKind === 'MOBILE_GFE';
 }
 
 export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments.length || isGFEVideoVisit(appt);
+  return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
 }
 
 export function getVideoVisitLink(appt) {
