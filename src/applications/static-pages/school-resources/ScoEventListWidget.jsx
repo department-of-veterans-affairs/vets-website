@@ -18,33 +18,28 @@ export default class ScoEventListWidget extends React.Component {
   };
 
   displayDate = event => {
-    const eventMonths = [
-      ...new Set([
-        moment(event.eventStartDate).format('MMMM'),
-        moment(event.eventEndDate).format('MMMM'),
-      ]),
-    ];
-    const eventYears = [
-      ...new Set([
-        moment(event.eventStartDate).format('Y'),
-        moment(event.eventEndDate).format('Y'),
-      ]),
-    ];
+    const startDate = moment(event.eventStartDate, 'YYYY-MM-DD');
+    const endDate = moment(event.eventEndDate, 'YYYY-MM-DD');
+
+    const spansMonths =
+      !!event.eventEndDate && startDate.format('M') !== endDate.format('M');
+    const spansYears =
+      !!event.eventEndDate && startDate.format('Y') !== endDate.format('Y');
 
     if (!event.eventEndDate) {
-      return `${moment(event.eventStartDate).format('MMMM D, Y')}`;
-    } else if (eventYears.length === 2) {
-      return `${moment(event.eventStartDate).format('MMMM D Y')} - ${moment(
-        event.eventEndDate,
-      ).format('MMMM D Y')}`;
+      return `${startDate.format('MMMM D, Y')}`;
+    } else if (spansYears) {
+      return `${startDate.format('MMMM D, Y')} - ${endDate.format(
+        'MMMM, D Y',
+      )}`;
     }
-    return eventMonths.length === 2
-      ? `${moment(event.eventStartDate).format('MMMM D')} - ${moment(
-          event.eventEndDate,
-        ).format('MMMM D')}, ${eventYears[0]}`
-      : `${moment(event.eventStartDate).format('MMMM D')} - ${moment(
-          event.eventEndDate,
-        ).format('D')}, ${eventYears[0]}`;
+    return spansMonths
+      ? `${startDate.format('MMMM D')} - ${endDate.format(
+          'MMMM D',
+        )}, ${startDate.format('Y')}`
+      : `${startDate.format('MMMM D')} - ${endDate.format(
+          'D',
+        )}, ${startDate.format('Y')}`;
   };
 
   eventComparer = (eventA, eventB) =>
