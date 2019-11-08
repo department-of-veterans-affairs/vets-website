@@ -37,6 +37,8 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
+export const START_REQUEST_APPOINTMENT_FLOW =
+  'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
@@ -79,6 +81,19 @@ export function updateFacilityType(facilityType) {
   return {
     type: FORM_UPDATE_FACILITY_TYPE,
     facilityType,
+  };
+}
+
+export function startDirectScheduleFlow(appointments) {
+  return {
+    type: START_DIRECT_SCHEDULE_FLOW,
+    appointments,
+  };
+}
+
+export function startRequestAppointmentFlow() {
+  return {
+    type: START_REQUEST_APPOINTMENT_FLOW,
   };
 }
 

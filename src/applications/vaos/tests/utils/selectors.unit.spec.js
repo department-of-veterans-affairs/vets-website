@@ -10,6 +10,7 @@ import {
   getClinicPageInfo,
   getDateTimeSelect,
   getReasonForAppointment,
+  getPreferredDate,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -146,6 +147,30 @@ describe('VAOS selectors', () => {
     });
   });
 
+  describe('getPreferredDate', () => {
+    it('should return info needed for form pages', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '323',
+          },
+          pageChangeInProgress: false,
+        },
+      };
+      const preferredDate = getPreferredDate(state, 'testPage');
+
+      expect(preferredDate.pageChangeInProgress).to.equal(
+        state.newAppointment.pageChangeInProgress,
+      );
+      expect(preferredDate.data).to.equal(state.newAppointment.data);
+      expect(preferredDate.schema).to.equal(
+        state.newAppointment.pages.preferredDate,
+      );
+      expect(preferredDate.typeOfCare).to.equal('Primary care');
+    });
+  });
+
   describe('getDateTimeSelect', () => {
     it('should return available dates data and timezone', () => {
       const availableSlots = [
@@ -167,6 +192,11 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             vaFacility: '983',
+          },
+          eligibility: {
+            '983_323': {
+              request: true,
+            },
           },
           facilities: {
             '323_983': [

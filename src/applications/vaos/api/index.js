@@ -7,7 +7,6 @@ import pending from './requests.json';
 import past from './past.json';
 import slots from './slots.json';
 
-import mockSystems from './systems.json';
 import mockFacilityData from './facilities.json';
 import mockFacility983Data from './facilities_983.json';
 import mockFacility984Data from './facilities_984.json';
@@ -72,17 +71,32 @@ export const getSystemIdentifiers = (() => {
   let promise = null;
 
   return () => {
-    if (!promise) {
-      promise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve(
-            mockSystems
-              .filter(id => id.assigningAuthority.startsWith('dfn'))
-              .map(id => id.assigningCode),
-          );
-        }, TEST_TIMEOUT || 600);
-      });
+    if (promise && navigator.userAgent !== 'node.js') {
+      return promise;
     }
+
+    if (environment.isLocalhost()) {
+      promise = import('./systems.json')
+        .then(module => (module.default ? module.default : module))
+        .then(json => json.data.map(item => item.attributes));
+    } else {
+      promise = fetch(`${environment.API_URL}/v0/vaos/systems`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'X-Key-Inflection': 'camel',
+        },
+      })
+        .then(resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
+
+          throw new Error(resp.status);
+        })
+        .then(json => json.data.map(item => item.attributes));
+    }
+
     return promise;
   };
 })();
