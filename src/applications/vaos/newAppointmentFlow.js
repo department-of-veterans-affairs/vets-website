@@ -116,7 +116,7 @@ export default {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
-    next: 'contactInfo',
+    next: 'reasonForAppointment',
     previous(state) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -204,8 +204,18 @@ export default {
   },
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
-    next: 'visitType',
+    next(state) {
+      if (getFormData(state).facilityType === 'communityCare') {
+        return 'contactInfo';
+      }
+
+      return 'visitType';
+    },
     previous(state) {
+      if (getFormData(state).facilityType === 'communityCare') {
+        return 'ccPreferences';
+      }
+
       if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
         return 'selectDateTime';
       }
