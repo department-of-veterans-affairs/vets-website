@@ -41,7 +41,7 @@ export function getConfirmedAppointments(type, startDate, endDate) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/appointments?startDate=${startDate}&endDate=${endDate}&type=${type}`,
+      `/vaos/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
     );
   }
 
