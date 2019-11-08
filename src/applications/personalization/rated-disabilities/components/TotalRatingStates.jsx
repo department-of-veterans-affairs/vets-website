@@ -24,7 +24,7 @@ export const errorMessage = () => {
   );
   return (
     <AlertBox
-      headline="We're sorry, something went wrong on our end"
+      headline="We're sorry. something went wrong on our end"
       content={message}
       status="error"
       isVisible
