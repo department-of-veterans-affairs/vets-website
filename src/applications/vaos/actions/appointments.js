@@ -55,7 +55,7 @@ export function fetchFutureAppointments() {
           ),
           getPendingAppointments(
             moment()
-              .subtract(1, 'months')
+              .subtract(4, 'months')
               .format('YYYY-MM-DD'),
             moment().format('YYYY-MM-DD'),
           ),
