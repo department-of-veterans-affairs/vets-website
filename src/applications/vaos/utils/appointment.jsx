@@ -195,7 +195,7 @@ export function getAppointmentTimezone(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
-      return stripDST(appt.timeZone.split(' ')[1]);
+      return stripDST(appt.timeZone?.split(' ')?.[1]);
     case APPOINTMENT_TYPES.request:
       return getTimezoneBySystemId(appt.facility.facilityCode);
     default:
@@ -212,7 +212,7 @@ export function getAppointmentDateTime(appt) {
 
   return (
     <>
-      {parsedDate.format('MMMM D, YYYY')} at {parsedDate.format('h:mm')}
+      {parsedDate.format('dddd, MMMM D, YYYY')} at {parsedDate.format('h:mm')}
       <span aria-hidden="true">
         {' '}
         {parsedDate.format('a')} {getAppointmentTimezone(appt)}
@@ -242,7 +242,7 @@ export function getRequestDateOptions(appt) {
   return options.reduce((formatted, option, index) => {
     formatted.push(
       <li key={`${appt.uniqueId}-option-${index}`}>
-        {option.date.format('MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
+        {option.date.format('ddd, MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
       </li>,
     );
     return formatted;
