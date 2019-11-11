@@ -36,7 +36,9 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
-            onClick={() => this.props.router.push('/new-appointment/confirmation')}
+            onClick={() =>
+              this.props.router.push('/new-appointment/confirmation')
+            }
             className="usa-button usa-button-primary"
           >
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}

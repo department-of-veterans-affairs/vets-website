@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
-import { TYPE_OF_VISIT, LANGUAGES, PURPOSE_TEXT } from '../utils/constants';
+import { PURPOSE_TEXT } from '../utils/constants';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -27,13 +27,15 @@ function formatBestTime(bestTime) {
   return 'Anytime during the day';
 }
 
-export default function ReviewRequestInfo({ data, facility, vaCityState }) {
+export default function ReviewRequestInfo({ data, facility }) {
   const isCommunityCare = data.facilityType === 'communityCare';
   const isVideoVisit = data.visitType === 'telehealth';
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Appointment request submitted</h1>
+      <h1 className="vads-u-font-size--h2">
+        Your appointment request has been submitted
+      </h1>
       <AlertBox status="success">
         <strong>Your appointment request has been submitted.</strong> We're
         reviewing your request. You don't have anything to do right now. A
@@ -51,18 +53,65 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
         <div className="vads-u-display--flex">
           <div className="vads-u-flex--1">
             <dl className="vads-u-margin-y--0">
-              <dt>
-                <strong>{facility?.institution.authoritativeName}</strong>
-              </dt>
-              <dd>
-                {facility?.institution.city},{' '}
-                {facility?.institution.stateAbbrev}
-              </dd>
+              {isCommunityCare &&
+                !data.hasCommunityCareProvider && (
+                  <>
+                    <dt>
+                      <strong>Preferred provider</strong>
+                    </dt>
+                    <dd>No preference</dd>
+                  </>
+                )}
+              {isCommunityCare &&
+                data.hasCommunityCareProvider && (
+                  <>
+                    <dt>
+                      <strong>Preferred provider</strong>
+                    </dt>
+                    <dd>
+                      {!!data.communityCareProvider.practiceName && (
+                        <>
+                          {data.communityCareProvider.practiceName}
+                          <br />
+                        </>
+                      )}
+                      {data.communityCareProvider.firstName}{' '}
+                      {data.communityCareProvider.lastName}
+                      <br />
+                      {data.communityCareProvider.phone}
+                      <p>
+                        {data.communityCareProvider.address.street}
+                        {!!data.communityCareProvider.address.street2 && (
+                          <>
+                            <br />
+                            {data.communityCareProvider.address.street2}
+                          </>
+                        )}
+                        <br />
+                        {data.communityCareProvider.address.city},{' '}
+                        {data.communityCareProvider.address.state}{' '}
+                        {data.communityCareProvider.address.postalCode}
+                        <br />
+                      </p>
+                    </dd>
+                  </>
+                )}
+              {!isCommunityCare && (
+                <>
+                  <dt>
+                    <strong>{facility?.institution.authoritativeName}</strong>
+                  </dt>
+                  <dd>
+                    {facility?.institution.city},{' '}
+                    {facility?.institution.stateAbbrev}
+                  </dd>
+                </>
+              )}
               <dt>
                 <strong>Your preferred date and time</strong>
               </dt>
               <dd>
-                <ul>
+                <ul className="usa-unstyled-list vads-u-padding-left--0">
                   {data.calendarData.selectedDates.map(
                     ({ date, optionTime }) => (
                       <li key={`${date}-${optionTime}`}>

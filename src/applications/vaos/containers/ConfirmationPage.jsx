@@ -5,26 +5,29 @@ import { connect } from 'react-redux';
 import {
   getFormData,
   getChosenFacilityInfo,
+  getFlowType,
   getChosenClinicInfo,
   getChosenVACityState,
 } from '../utils/selectors';
+import { FLOW_TYPES } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
 export class ConfirmationPage extends React.Component {
   render() {
-    const { data, facility, clinic, vaCityState } = this.props;
+    const { data, facility, clinic, vaCityState, flowType } = this.props;
+    const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
       <div>
-        {data.isDirectSchedule && (
+        {isDirectSchedule && (
           <ConfirmationDirectScheduleInfo
             data={data}
             facility={facility}
             clinic={clinic}
           />
         )}
-        {!data.isDirectSchedule && (
+        {!isDirectSchedule && (
           <ConfirmationRequestInfo
             data={data}
             facility={facility}
@@ -32,7 +35,10 @@ export class ConfirmationPage extends React.Component {
           />
         )}
         <div className="vads-u-margin-y--2">
-          <Link to="appointments" className="usa-button vads-u-padding-right--2">
+          <Link
+            to="appointments"
+            className="usa-button vads-u-padding-right--2"
+          >
             View your appointments
           </Link>
           <Link to="new-appointment" className="usa-button">
@@ -56,6 +62,7 @@ function mapStateToProps(state) {
     facility: getChosenFacilityInfo(state),
     clinic: getChosenClinicInfo(state),
     vaCityState: getChosenVACityState(state),
+    flowType: getFlowType(state),
   };
 }
 

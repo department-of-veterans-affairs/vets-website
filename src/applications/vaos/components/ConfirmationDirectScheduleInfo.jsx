@@ -1,54 +1,64 @@
 import React from 'react';
-import { Link } from 'react-router';
 import moment from 'moment';
 import { getTypeOfCare } from '../utils/selectors';
-import newAppointmentFlow from '../newAppointmentFlow';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { PURPOSE_TEXT } from '../utils/constants';
 
 export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Review your appointment</h1>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        Type of care
-      </h2>
-      <span className="vads-u-padding-right--1">
-        {getTypeOfCare(data)?.name}{' '}
-      </span>
-      <Link to={newAppointmentFlow.typeOfCare.url}>Edit</Link>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">Where</h2>
-      <span className="vads-u-padding-right--1">
-        {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
-      </span>
-      <Link to={newAppointmentFlow.vaFacility.url}>Edit</Link>
-      <br />
-      {facility?.institution.authoritativeName}
-      <br />
-      {facility?.institution.city}, {facility?.institution.stateAbbrev}
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        Appointment date
-      </h2>
-      <span className="vads-u-padding-right--1">
-        {moment(data.appointmentDate).format('MMMM D, YYYY [at] hh:mm a')}{' '}
-      </span>
-      <Link to={newAppointmentFlow.appointmentTime.url}>Edit</Link>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">Purpose</h2>
-      <span className="vads-u-padding-right--1">
-        {data.reasonForAppointment}{' '}
-      </span>
-      <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        Phone number
-      </h2>
-      <span className="vads-u-padding-right--1">{data.phoneNumber} </span>
-      <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">Email</h2>
-      <span className="vads-u-padding-right--1">{data.email} </span>
-      <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        Additional details
-      </h2>
-      <span className="vads-u-padding-right--1">{data.additionalDetails} </span>
-      <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
+      <h1 className="vads-u-font-size--h2">
+        Your appointment has been scheduled
+      </h1>
+      <AlertBox status="success">
+        <strong>Your appointment is confirmed.</strong> Please see your
+        appointment details below.
+      </AlertBox>
+      <AlertBox backgroundOnly status="info">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          {moment(data.calendarData.selectedDates[0].datetime).format(
+            'MMMM D, YYYY [at] hh:mm a',
+          )}{' '}
+        </h2>
+        <hr />
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--2">
+          {getTypeOfCare(data)?.name} appointment
+        </h3>
+        <div className="vads-u-display--flex">
+          <div className="vads-u-flex--1">
+            <dl className="vads-u-margin-y--0">
+              <dt>
+                <strong>
+                  {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
+                </strong>
+              </dt>
+              <dd>
+                {facility?.institution.authoritativeName}
+                <br />
+                {facility?.institution.city},{' '}
+                {facility?.institution.stateAbbrev}
+              </dd>
+              <dt>
+                <strong>{PURPOSE_TEXT[data.reasonForAppointment]}</strong>
+              </dt>
+              <dd>{data.reasonAdditionalInfo}</dd>
+            </dl>
+          </div>
+          <div className="vads-u-flex--1">
+            <dl className="vads-u-margin-y--0">
+              <dt>
+                <strong>Your contact details</strong>
+              </dt>
+              <dd>
+                {data.email}
+                <br />
+                {data.phoneNumber}
+                <br />
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </AlertBox>
     </div>
   );
 }
