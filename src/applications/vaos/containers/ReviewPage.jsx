@@ -16,7 +16,14 @@ import { submitAppointmentOrRequest } from '../actions/newAppointment';
 
 export class ReviewPage extends React.Component {
   render() {
-    const { data, facility, clinic, vaCityState, flowType } = this.props;
+    const {
+      data,
+      facility,
+      clinic,
+      vaCityState,
+      flowType,
+      router,
+    } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
@@ -37,7 +44,7 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
-            onClick={() => this.props.submitAppointmentOrRequest()}
+            onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
           >
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
