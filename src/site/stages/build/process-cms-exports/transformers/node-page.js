@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { flatten, isEmpty } = require('lodash');
 const { getDrupalValue, createMetaTag } = require('./helpers');
 
@@ -20,9 +21,14 @@ function pageTransform(entity) {
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
     changed: new Date(getDrupalValue(changed)).getTime() / 1000,
-    fieldPageLastBuilt: new Date(
-      getDrupalValue(fieldPageLastBuilt),
-    ).toUTCString(),
+    fieldPageLastBuilt: {
+      date: moment(getDrupalValue(fieldPageLastBuilt))
+        .utc()
+        .format('YYYY-MM-DD HH:mm:ss UTC'),
+    },
+    // fieldPageLastBuilt: new Date(
+    //   getDrupalValue(fieldPageLastBuilt),
+    // ).toUTCString(),
 
     entityPublished: published === 'published',
     entityMetaTags: [
