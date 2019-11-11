@@ -29,6 +29,10 @@ export function getFormData(state) {
   return getNewAppointment(state).data;
 }
 
+export function getFlowType(state) {
+  return getNewAppointment(state).flowType;
+}
+
 export function getFormPageInfo(state, pageKey) {
   return {
     schema: getNewAppointment(state).pages[pageKey],
