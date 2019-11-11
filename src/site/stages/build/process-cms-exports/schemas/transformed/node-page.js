@@ -46,7 +46,11 @@ module.exports = {
       },
     },
     fieldPageLastBuilt: {
-      type: 'string',
+      type: 'object',
+      properties: {
+        date: { type: 'string' },
+      },
+      required: ['date'],
     },
     entityMetaTags: {
       $ref: 'MetaTags',
