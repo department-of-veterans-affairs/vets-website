@@ -1,7 +1,7 @@
 import timezones from './timezones.json';
 
 export function stripDST(abbr) {
-  return abbr.replace('ST', 'T').replace('DT', 'T');
+  return abbr?.replace('ST', 'T').replace('DT', 'T');
 }
 
 export function getTimezoneBySystemId(id) {
