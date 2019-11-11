@@ -4,7 +4,11 @@ import { getTypeOfCare } from '../utils/selectors';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { PURPOSE_TEXT } from '../utils/constants';
 
-export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
+export default function ConfirmationDirectScheduleInfo({
+  data,
+  facility,
+  clinic,
+}) {
   return (
     <div>
       <h1 className="vads-u-font-size--h2">

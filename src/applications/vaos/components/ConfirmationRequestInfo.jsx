@@ -27,7 +27,7 @@ function formatBestTime(bestTime) {
   return 'Anytime during the day';
 }
 
-export default function ReviewRequestInfo({ data, facility }) {
+export default function ConfirmationRequestInfo({ data, facility }) {
   const isCommunityCare = data.facilityType === 'communityCare';
   const isVideoVisit = data.visitType === 'telehealth';
 

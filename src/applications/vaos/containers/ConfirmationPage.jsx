@@ -7,7 +7,6 @@ import {
   getChosenFacilityInfo,
   getFlowType,
   getChosenClinicInfo,
-  getChosenVACityState,
 } from '../utils/selectors';
 import { FLOW_TYPES } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
@@ -15,7 +14,7 @@ import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
 export class ConfirmationPage extends React.Component {
   render() {
-    const { data, facility, clinic, vaCityState, flowType } = this.props;
+    const { data, facility, clinic, flowType } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
@@ -28,11 +27,7 @@ export class ConfirmationPage extends React.Component {
           />
         )}
         {!isDirectSchedule && (
-          <ConfirmationRequestInfo
-            data={data}
-            facility={facility}
-            vaCityState={vaCityState}
-          />
+          <ConfirmationRequestInfo data={data} facility={facility} />
         )}
         <div className="vads-u-margin-y--2">
           <Link
@@ -61,7 +56,6 @@ function mapStateToProps(state) {
     data: getFormData(state),
     facility: getChosenFacilityInfo(state),
     clinic: getChosenClinicInfo(state),
-    vaCityState: getChosenVACityState(state),
     flowType: getFlowType(state),
   };
 }
