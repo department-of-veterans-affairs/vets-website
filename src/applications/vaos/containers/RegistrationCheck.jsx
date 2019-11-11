@@ -17,7 +17,11 @@ export class RegistrationCheck extends React.Component {
     const { status, isEnrolled, hasRegisteredSystems, children } = this.props;
 
     if (status === FETCH_STATUS.loading || status === FETCH_STATUS.notStarted) {
-      return <LoadingIndicator message="Check your VA registration" />;
+      return (
+        <div className="vads-u-margin-y--5">
+          <LoadingIndicator message="Looking for VA health care registrations" />
+        </div>
+      );
     }
 
     if (
