@@ -195,11 +195,13 @@ export function getAppointmentTimezone(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
-      return stripDST(appt.timeZone?.split(' ')?.[1]);
+      return stripDST(appt?.timeZone?.split(' ')?.[1]);
     case APPOINTMENT_TYPES.request:
-      return getTimezoneBySystemId(appt.facility.facilityCode);
+      return getTimezoneBySystemId(appt?.facility?.facilityCode);
+    case APPOINTMENT_TYPES.vaAppointment:
+      return getTimezoneBySystemId(appt?.facilityId);
     default:
-      return getTimezoneBySystemId(appt.facilityId);
+      return '';
   }
 }
 
