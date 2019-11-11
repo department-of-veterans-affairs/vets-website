@@ -29,9 +29,13 @@ const entityAssemblerFactory = contentDir => {
       console.log(`  Parents:\n    ${parents.join('\n    ')}`);
       /* eslint-enable no-console */
 
-      // If we find a circular references, it needs to be addressed;
-      // just quit
-      throw new Error(`${toId(entity)} is invalid before transformation`);
+      // If we find a circular references, it needs to be addressed.
+      // For now, just quit.
+      throw new Error(
+        `Circular reference found. ${
+          parents[parents.length - 1]
+        } has a reference to an ancestor: ${toId(entity)}`,
+      );
     }
 
     // Pre-transformation JSON schema validation
