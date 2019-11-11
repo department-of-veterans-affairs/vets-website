@@ -1,10 +1,9 @@
+import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 // Mock Data
-import confirmed from './confirmed.json';
 import pending from './requests.json';
-import past from './past.json';
 import slots from './slots.json';
 
 import mockFacilityData from './facilities.json';
@@ -28,12 +27,27 @@ function getStagingId(facilityId) {
 
 // GET /vaos/appointments
 // eslint-disable-next-line no-unused-vars
-export function getConfirmedAppointments(endDate) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(confirmed);
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getConfirmedAppointments(type, startDate, endDate) {
+  let promise;
+  if (environment.isLocalhost()) {
+    if (type === 'va') {
+      promise = import('./confirmed_va.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = import('./confirmed_cc.json').then(
+        module => (module.default ? module.default : module),
+      );
+    }
+  } else {
+    promise = apiRequest(
+      `/vaos/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 // GET /vaos/requests
@@ -55,12 +69,20 @@ export const getPastAppointments = (() => {
   let promise = null;
   // eslint-disable-next-line no-unused-vars
   return startDate => {
-    if (!promise) {
-      promise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve(past);
-        }, TEST_TIMEOUT || 6000);
-      });
+    if (!promise || navigator.userAgent === 'node.js') {
+      if (environment.isLocalhost()) {
+        promise = import('./past.json')
+          .then(module => (module.default ? module.default : module))
+          .then(resp =>
+            resp.data.map(item => ({ ...item.attributes, id: item.id })),
+          );
+      } else {
+        promise = getConfirmedAppointments(
+          'va',
+          startDate,
+          moment().format('YYYY-MM-DD'),
+        );
+      }
     }
     return promise;
   };
