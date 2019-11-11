@@ -1,13 +1,11 @@
+import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 // Mock Data
-import confirmed from './confirmed.json';
 import pending from './requests.json';
-import past from './past.json';
 import slots from './slots.json';
 
-import mockSystems from './systems.json';
 import mockFacilityData from './facilities.json';
 import mockFacility983Data from './facilities_983.json';
 import mockFacility984Data from './facilities_984.json';
@@ -29,12 +27,27 @@ function getStagingId(facilityId) {
 
 // GET /vaos/appointments
 // eslint-disable-next-line no-unused-vars
-export function getConfirmedAppointments(endDate) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(confirmed);
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getConfirmedAppointments(type, startDate, endDate) {
+  let promise;
+  if (environment.isLocalhost()) {
+    if (type === 'va') {
+      promise = import('./confirmed_va.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = import('./confirmed_cc.json').then(
+        module => (module.default ? module.default : module),
+      );
+    }
+  } else {
+    promise = apiRequest(
+      `/vaos/appointments?start_date=${startDate}&end_date=${endDate}&type=${type}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 // GET /vaos/requests
@@ -56,12 +69,20 @@ export const getPastAppointments = (() => {
   let promise = null;
   // eslint-disable-next-line no-unused-vars
   return startDate => {
-    if (!promise) {
-      promise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve(past);
-        }, TEST_TIMEOUT || 6000);
-      });
+    if (!promise || navigator.userAgent === 'node.js') {
+      if (environment.isLocalhost()) {
+        promise = import('./past.json')
+          .then(module => (module.default ? module.default : module))
+          .then(resp =>
+            resp.data.map(item => ({ ...item.attributes, id: item.id })),
+          );
+      } else {
+        promise = getConfirmedAppointments(
+          'va',
+          startDate,
+          moment().format('YYYY-MM-DD'),
+        );
+      }
     }
     return promise;
   };
@@ -72,17 +93,32 @@ export const getSystemIdentifiers = (() => {
   let promise = null;
 
   return () => {
-    if (!promise) {
-      promise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve(
-            mockSystems
-              .filter(id => id.assigningAuthority.startsWith('dfn'))
-              .map(id => id.assigningCode),
-          );
-        }, TEST_TIMEOUT || 600);
-      });
+    if (promise && navigator.userAgent !== 'node.js') {
+      return promise;
     }
+
+    if (environment.isLocalhost()) {
+      promise = import('./systems.json')
+        .then(module => (module.default ? module.default : module))
+        .then(json => json.data.map(item => item.attributes));
+    } else {
+      promise = fetch(`${environment.API_URL}/v0/vaos/systems`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'X-Key-Inflection': 'camel',
+        },
+      })
+        .then(resp => {
+          if (resp.ok) {
+            return resp.json();
+          }
+
+          throw new Error(resp.status);
+        })
+        .then(json => json.data.map(item => item.attributes));
+    }
+
     return promise;
   };
 })();

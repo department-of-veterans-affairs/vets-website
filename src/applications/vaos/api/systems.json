@@ -1,44 +1,74 @@
-[
-  {
-    "uniqueId": "3021584",
-    "assigningAuthority": "dfn-983",
-    "assigningCode": "983",
-    "idStatus": "ACTIVE"
-  },
-  {
-    "uniqueId": "3021585",
-    "assigningAuthority": "dfn-984",
-    "assigningCode": "984",
-    "idStatus": "ACTIVE"
-  },
-  {
-    "uniqueId": "1015977112",
-    "assigningAuthority": "SECID",
-    "assigningCode": "200PROV",
-    "idStatus": "ACTIVE"
-  },
-  {
-    "uniqueId": "1015977112V032151",
-    "assigningAuthority": "ICN",
-    "assigningCode": "200M",
-    "idStatus": "PERMANENT"
-  },
-  {
-    "uniqueId": "175504385",
-    "assigningAuthority": "UNKNOWN",
-    "assigningCode": "200MH",
-    "idStatus": "ACTIVE"
-  },
-  {
-    "uniqueId": "0000001015977112V032151000000",
-    "assigningAuthority": "UNKNOWN",
-    "assigningCode": "200ESR",
-    "idStatus": "ACTIVE"
-  },
-  {
-    "uniqueId": "343873",
-    "assigningAuthority": "VET360",
-    "assigningCode": "200VETS",
-    "idStatus": "ACTIVE"
-  }
-]
+{
+  "data": [
+    {
+      "id": "63807",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "63807",
+        "assigningAuthority": "VET360",
+        "assigningCode": "200VETS",
+        "idStatus": "ACTIVE"
+      }
+    },
+    {
+      "id": "0000027819",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "0000027819",
+        "assigningAuthority": "SECID",
+        "assigningCode": "200PROV",
+        "idStatus": "ACTIVE"
+      }
+    },
+    {
+      "id": "552161050",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "552161050",
+        "assigningAuthority": "dfn-984",
+        "assigningCode": "984",
+        "idStatus": "ACTIVE"
+      }
+    },
+    {
+      "id": "0000001012845331V153043000000",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "0000001012845331V153043000000",
+        "assigningAuthority": "UNKNOWN",
+        "assigningCode": "200ESR",
+        "idStatus": "ACTIVE"
+      }
+    },
+    {
+      "id": "1259897978",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "1259897978",
+        "assigningAuthority": "EDIPI",
+        "assigningCode": "200DOD",
+        "idStatus": "ACTIVE"
+      }
+    },
+    {
+      "id": "1012845331V153043",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "1012845331V153043",
+        "assigningAuthority": "ICN",
+        "assigningCode": "200M",
+        "idStatus": "PERMANENT"
+      }
+    },
+    {
+      "id": "7216691",
+      "type": "system",
+      "attributes": {
+        "uniqueId": "7216691",
+        "assigningAuthority": "dfn-983",
+        "assigningCode": "983",
+        "idStatus": "ACTIVE"
+      }
+    }
+  ]
+}

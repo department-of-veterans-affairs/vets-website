@@ -2,6 +2,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import {
   fetchFutureAppointments,
   fetchPastAppointments,
   cancelAppointment,
@@ -18,29 +24,20 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
 
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
-
 describe('VAOS actions: appointments', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => {
+    mockFetch();
+  });
 
-  it('should fetch future appointments', done => {
-    const data = [];
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(data) }),
-      }),
-    });
+  afterEach(() => {
+    resetFetch();
+  });
+
+  it('should fetch future appointments', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
     const getState = () => ({
@@ -48,29 +45,21 @@ describe('VAOS actions: appointments', () => {
         futureStatus: 'notStarted',
       },
     });
-    const dispatch = action => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(
-          FETCH_FUTURE_APPOINTMENTS,
-        );
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(
-          FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-        );
-        done();
-      }
-    };
-
-    thunk(dispatch, getState);
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+      FETCH_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+      FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
   });
 
   it('should fetch past appointments', done => {
-    const past = [];
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(past) }),
-      }),
-    });
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
+
     const thunk = fetchPastAppointments();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -175,6 +164,4 @@ describe('VAOS actions: appointments', () => {
       });
     });
   });
-
-  afterEach(unMockFetch);
 });
