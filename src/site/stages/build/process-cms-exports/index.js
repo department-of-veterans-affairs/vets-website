@@ -50,7 +50,7 @@ const entityAssemblerFactory = contentDir => {
       /* eslint-enable no-console */
 
       // Abort! (We may want to change this later)
-      process.exit(1);
+      throw new Error(`${toId(entity)} is invalid before transformation`);
     }
 
     const filteredEntity = getFilteredEntity(entity);
