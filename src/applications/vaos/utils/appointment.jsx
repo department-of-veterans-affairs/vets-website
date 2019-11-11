@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
+import { getTimezoneBySystemId, stripDST } from './timezone';
 
 export function getAppointmentType(appt) {
   if (appt.optionDate1) {
@@ -189,6 +190,19 @@ export function getAppointmentDate(appt) {
   return parsedDate.format('MMMM D, YYYY');
 }
 
+export function getAppointmentTimezone(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return stripDST(appt.timeZone.split(' ')[1]);
+    case APPOINTMENT_TYPES.request:
+      return getTimezoneBySystemId(appt.facility.facilityCode);
+    default:
+      return getTimezoneBySystemId(appt.facilityId);
+  }
+}
+
 export function getAppointmentDateTime(appt) {
   const parsedDate = getParsedMomentDate(appt);
 
@@ -199,8 +213,13 @@ export function getAppointmentDateTime(appt) {
   return (
     <>
       {parsedDate.format('MMMM D, YYYY')} at {parsedDate.format('h:mm')}
-      <span aria-hidden="true"> {parsedDate.format('a')}</span>
-      <span className="sr-only">{parsedDate.format('a')}</span>
+      <span aria-hidden="true">
+        {' '}
+        {parsedDate.format('a')} {getAppointmentTimezone(appt)}
+      </span>
+      <span className="sr-only">
+        {parsedDate.format('a')} {getAppointmentTimezone(appt)}
+      </span>
     </>
   );
 }

@@ -1,11 +1,11 @@
 import { getAppointmentId } from './appointment';
 import { isEligible } from './eligibility';
+import { getTimezoneBySystemId } from './timezone';
 import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
 } from './constants';
-import moment from './moment-tz';
 
 export function selectConfirmedAppointment(state, id) {
   return (
@@ -103,23 +103,9 @@ export function getDateTimeSelect(state, pageKey) {
     }
     return acc;
   }, []);
-  const vaFacility = data.vaFacility;
-  let timezone;
 
+  const timezone = data.vaSystem ? getTimezoneBySystemId(data.vaSystem) : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
-  const facilities =
-    newAppointment.facilities[`${typeOfCareId}_${vaFacility}`] || null;
-
-  if (facilities) {
-    const institutionTimezone = facilities.filter(
-      f => f.institution?.institutionCode === vaFacility,
-    )[0]?.institutionTimezone;
-
-    if (institutionTimezone) {
-      const now = moment();
-      timezone = now.tz(institutionTimezone).format('z');
-    }
-  }
 
   return {
     ...formInfo,
