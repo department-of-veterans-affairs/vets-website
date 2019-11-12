@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import PercentageCalloutBox from '../components/PercentageCalloutBox';
 import recordEvent from 'platform/monitoring/record-event';
+import PercentageCalloutBox from '../components/PercentageCalloutBox';
 
 export const errorMessage = () => {
   const message = (

@@ -1,5 +1,5 @@
-import { getData } from '../util';
 import recordEvent from 'platform/monitoring/record-event';
+import { getData } from '../util';
 
 export const FETCH_RATED_DISABILITIES_SUCCESS =
   'FETCH_RATED_DISABILITIES_SUCCESS';
