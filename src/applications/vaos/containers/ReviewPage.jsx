@@ -12,10 +12,18 @@ import { FLOW_TYPES } from '../utils/constants';
 import ReviewDirectScheduleInfo from '../components/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { submitAppointmentOrRequest } from '../actions/newAppointment';
 
 export class ReviewPage extends React.Component {
   render() {
-    const { data, facility, clinic, vaCityState, flowType } = this.props;
+    const {
+      data,
+      facility,
+      clinic,
+      vaCityState,
+      flowType,
+      router,
+    } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
@@ -36,7 +44,7 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
-            onClick={() => this.props.router.push('/')}
+            onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
           >
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
@@ -63,4 +71,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ReviewPage);
+const mapDispatchToProps = {
+  submitAppointmentOrRequest,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewPage);
