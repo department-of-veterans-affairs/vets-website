@@ -242,3 +242,6 @@ export function getChosenVACityState(state) {
 }
 
 export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
+export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
+export const vaosRequests = state =>
+  toggleValues(state).vaOnlineSchedulingRequests;

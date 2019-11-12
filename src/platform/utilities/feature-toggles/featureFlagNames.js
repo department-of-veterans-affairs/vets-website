@@ -3,6 +3,8 @@ const FEATURE_FLAG_NAMES = Object.freeze({
   profileShowDirectDeposit: 'profileShowDirectDeposit',
   profileShowReceiveTextNotifications: 'profileShowReceiveTextNotifications',
   vaOnlineScheduling: 'vaOnlineScheduling',
+  vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
+  vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
 });
 
 module.exports = FEATURE_FLAG_NAMES;

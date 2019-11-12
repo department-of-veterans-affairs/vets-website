@@ -24,7 +24,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       appointmentRequestId: 'guid',
     };
     const tree = shallow(
-      <AppointmentRequestListItem appointment={appointment} />,
+      <AppointmentRequestListItem appointment={appointment} showCancelButton />,
     );
 
     const statusSpans = tree.find('h2 > span');
