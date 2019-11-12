@@ -29,6 +29,10 @@ export function getFormData(state) {
   return getNewAppointment(state).data;
 }
 
+export function getFlowType(state) {
+  return getNewAppointment(state).flowType;
+}
+
 export function getFormPageInfo(state, pageKey) {
   return {
     schema: getNewAppointment(state).pages[pageKey],
@@ -65,6 +69,20 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getEligibilityChecks(state) {
+  const data = getFormData(state);
+  const newAppointment = getNewAppointment(state);
+  const typeOfCareId = getTypeOfCare(data)?.id;
+  return (
+    newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
+  );
+}
+
+export function getEligibilityStatus(state) {
+  const eligibility = getEligibilityChecks(state);
+  return isEligible(eligibility);
+}
+
 export function getPreferredDate(state, pageKey) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data)?.name;
@@ -77,6 +95,7 @@ export function getDateTimeSelect(state, pageKey) {
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
+  const eligibilityStatus = getEligibilityStatus(state);
 
   const availableDates = availableSlots?.reduce((acc, s) => {
     if (!acc.includes(s.date)) {
@@ -108,6 +127,9 @@ export function getDateTimeSelect(state, pageKey) {
     availableSlots,
     availableDates,
     loadingAppointmentSlots,
+    typeOfCareId,
+    eligibleForRequests: eligibilityStatus.request,
+    preferredDate: data.preferredDate,
   };
 }
 
@@ -120,20 +142,6 @@ export function hasSingleValidVALocation(state) {
     !!formInfo.data.vaSystem &&
     !!formInfo.data.vaFacility
   );
-}
-
-export function getEligibilityChecks(state) {
-  const data = getFormData(state);
-  const newAppointment = getNewAppointment(state);
-  const typeOfCareId = getTypeOfCare(data)?.id;
-  return (
-    newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
-  );
-}
-
-export function getEligibilityStatus(state) {
-  const eligibility = getEligibilityChecks(state);
-  return isEligible(eligibility);
 }
 
 export function getFacilityPageInfo(state, pageKey) {

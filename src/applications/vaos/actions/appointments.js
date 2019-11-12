@@ -39,12 +39,31 @@ export function fetchFutureAppointments() {
 
       try {
         const data = await Promise.all([
-          getConfirmedAppointments(),
-          getPendingAppointments(),
+          getConfirmedAppointments(
+            'va',
+            moment().format('YYYY-MM-DD'),
+            moment()
+              .add(4, 'months')
+              .format('YYYY-MM-DD'),
+          ),
+          getConfirmedAppointments(
+            'cc',
+            moment().format('YYYY-MM-DD'),
+            moment()
+              .add(4, 'months')
+              .format('YYYY-MM-DD'),
+          ),
+          getPendingAppointments(
+            moment()
+              .subtract(4, 'months')
+              .format('YYYY-MM-DD'),
+            moment().format('YYYY-MM-DD'),
+          ),
         ]);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
+          today: moment(),
         });
       } catch (error) {
         Sentry.captureException(error);
@@ -63,7 +82,7 @@ export function fetchPastAppointments() {
       type: FETCH_PAST_APPOINTMENTS,
     });
 
-    getPastAppointments().then(data => {
+    getPastAppointments(moment().subtract(6, 'months')).then(data => {
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
         data,

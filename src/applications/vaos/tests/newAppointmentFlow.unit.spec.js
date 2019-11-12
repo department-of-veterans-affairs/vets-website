@@ -1,7 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import past from '../api/past.json';
+
 import newAppointmentFlow from '../newAppointmentFlow';
+import { FLOW_TYPES } from '../utils/constants';
 
 describe('VAOS newAppointmentFlow', () => {
   describe('type of appointment page', () => {
@@ -90,6 +99,8 @@ describe('VAOS newAppointmentFlow', () => {
       },
     };
     it('next should choose clinic choice page if eligible', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, past);
       const state = {
         ...defaultState,
         newAppointment: {
@@ -114,6 +125,8 @@ describe('VAOS newAppointmentFlow', () => {
         'newAppointment/START_DIRECT_SCHEDULE_FLOW',
       );
       expect(nextState).to.equal('clinicChoice');
+
+      resetFetch();
     });
     it('next should direct to request flow if not direct eligible', async () => {
       const state = {
@@ -269,9 +282,9 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.reasonForAppointment.next(state);
-
       expect(nextState).to.equal('visitType');
     });
+
     it('should go contact info page if CC', () => {
       const state = {
         newAppointment: {
@@ -282,34 +295,51 @@ describe('VAOS newAppointmentFlow', () => {
       };
 
       const nextState = newAppointmentFlow.reasonForAppointment.next(state);
-
       expect(nextState).to.equal('contactInfo');
     });
-    it('should go back to date page if not CC', () => {
+
+    it('should go back to ccPreferences if community care', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'communityCare',
+          },
+          flowType: FLOW_TYPES.DIRECT,
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
+      expect(nextState).to.equal('ccPreferences');
+    });
+
+    it('should go back to selectDateTime if direct schedule', () => {
       const state = {
         newAppointment: {
           data: {
             facilityType: 'vamc',
           },
+          flowType: FLOW_TYPES.DIRECT,
+        },
+      };
+
+      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
+
+      expect(nextState).to.equal('selectDateTime');
+    });
+
+    it('should go back to requestDateTime if request flow', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            facilityType: 'vamc',
+          },
+          flowType: FLOW_TYPES.REQUEST,
         },
       };
 
       const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
 
       expect(nextState).to.equal('requestDateTime');
-    });
-    it('should go back to preferences page if CC', () => {
-      const state = {
-        newAppointment: {
-          data: {
-            facilityType: 'communityCare',
-          },
-        },
-      };
-
-      const nextState = newAppointmentFlow.reasonForAppointment.previous(state);
-
-      expect(nextState).to.equal('ccPreferences');
     });
   });
   describe('type of care page', () => {

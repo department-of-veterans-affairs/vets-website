@@ -32,7 +32,7 @@ class PhoneTextInput extends ErrorableTextInput {
   // }
 
   render() {
-    return <ErrorableTextInput {...this.props} />;
+    return <ErrorableTextInput {...this.props} type="tel" />;
   }
 }
 

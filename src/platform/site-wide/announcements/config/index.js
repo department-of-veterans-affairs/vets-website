@@ -29,9 +29,10 @@ const config = {
       component: WelcomeToNewVAModal,
     },
     {
-      name: 'veterans-day-proclamation',
+      name: 'veterans-day-proclamation-edited',
       paths: /^\/$/,
       component: VeteransDayProclamation,
+      expiresAt: '2019-11-12',
     },
     {
       name: 'find-benefits-intro',

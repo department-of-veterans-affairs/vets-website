@@ -23,7 +23,7 @@ export default function ConfirmedAppointmentListItem({
   let canceled = false;
   if (type === APPOINTMENT_TYPES.vaAppointment) {
     canceled = CANCELLED_APPOINTMENT_SET.has(
-      appointment.vdsAppointments?.[0].currentStatus,
+      appointment.vdsAppointments?.[0]?.currentStatus,
     );
   }
 
