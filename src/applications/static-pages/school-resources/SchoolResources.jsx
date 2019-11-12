@@ -24,7 +24,7 @@ export async function createScoEventListWidget() {
 export async function createScoAnnouncementsWidget() {
   const widgets = Array.from(
     document.querySelectorAll(`
-    [data-widget-type="sco-event-list"]`),
+    [data-widget-type="sco-announcements"]`),
   );
 
   if (widgets.length) {
@@ -33,11 +33,11 @@ export async function createScoAnnouncementsWidget() {
     } = await import(/* webpackChunkName: "sco-announcements" */ './ScoAnnouncementsWidget');
     const {
       default: announcements,
-    } = await import(/* webpackChunkName: "sco-announcements-data" */ './ScoAnnouncementsWidget');
+    } = await import(/* webpackChunkName: "sco-announcements-data" */ './constants/announcements.json');
 
     widgets.forEach(el => {
       ReactDOM.render(
-        <ScoAnnouncementsWidget accouncements={announcements} />,
+        <ScoAnnouncementsWidget announcements={announcements} />,
         el,
       );
     });

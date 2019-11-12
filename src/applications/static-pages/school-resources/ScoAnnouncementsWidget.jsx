@@ -7,91 +7,62 @@ export default class ScoAnnouncementsWidget extends React.Component {
     scoEvents: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
+        url: PropTypes.string,
         date: PropTypes.string.isRequired,
+        displayStartDate: PropTypes.string.isRequired,
+        displayEndDate: PropTypes.string,
       }),
     ),
   };
 
-  displayDate = event => {
-    const eventMonths = [
-      ...new Set([
-        moment(event.eventStartDate).format('MMMM'),
-        moment(event.eventEndDate).format('MMMM'),
-      ]),
-    ];
-    const eventYears = [
-      ...new Set([
-        moment(event.eventStartDate).format('Y'),
-        moment(event.eventEndDate).format('Y'),
-      ]),
-    ];
+  eventComparer = (a, b) => (moment(a.date).isBefore(moment(b.date)) ? 1 : -1);
 
-    if (!event.eventEndDate) {
-      return `${moment(event.eventStartDate).format('MMMM D, Y')}`;
-    } else if (eventYears.length === 2) {
-      return `${moment(event.eventStartDate).format('MMMM D Y')} - ${moment(
-        event.eventEndDate,
-      ).format('MMMM D Y')}`;
-    }
-    return eventMonths.length === 2
-      ? `${moment(event.eventStartDate).format('MMMM D')} - ${moment(
-          event.eventEndDate,
-        ).format('MMMM D')}, ${eventYears[0]}`
-      : `${moment(event.eventStartDate).format('MMMM D')} - ${moment(
-          event.eventEndDate,
-        ).format('D')}, ${eventYears[0]}`;
+  shouldDisplay = announcement => {
+    const today = moment().startOf('day');
+    const date = moment(announcement.date, 'YYYY-MM-DD').startOf('day');
+    const displayStart = moment(
+      announcement.displayStartDate,
+      'YYYY-MM-DD',
+    ).startOf('day');
+    const displayEnd = announcement.displayEndDate
+      ? moment(announcement.displayEndDate, 'YYYY-MM-DD').startOf('day')
+      : moment(date).add(30, 'days');
+
+    return displayStart.isSameOrBefore(today) && today.isBefore(displayEnd);
   };
 
-  eventComparer = (eventA, eventB) =>
-    moment(eventA.eventStartDate).isBefore(moment(eventB.eventStartDate))
-      ? -1
-      : 1;
-
-  shouldDisplay = event =>
-    moment(event.displayStartDate).isBefore(moment()) &&
-    ((event.displayEndDate &&
-      moment().isBefore(moment(event.displayEndDate))) ||
-      moment().isBefore(moment(event.eventStartDate).add(30, 'days')));
-
-  renderEvents = () => {
-    const scoEvents = this.props.scoEvents
+  renderAnnouncements = () => {
+    const announcements = this.props.announcements
       .filter(this.shouldDisplay)
       .sort(this.eventComparer)
-      .map((scoEvent, index) => (
+      .map((announcement, index) => (
         <li key={index} className="hub-page-link-list__item">
-          <a href={scoEvent.url}>
-            <b>{`${scoEvent.name} >`}</b>
-          </a>
-          <br />
-          <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
+          {announcement.url ? (
+            <a href={announcement.url}>
+              <b>{`${announcement.date} — ${announcement.name}`}</b>
+            </a>
+          ) : (
+            <b>{`${announcement.date} — ${announcement.name}`}</b>
+          )}
         </li>
       ));
-    return (
-      <ul id="get" className="hub-page-link-list">
-        {scoEvents}
-      </ul>
-    );
+    return <ul className="va-nav-linkslist-list">{announcements}</ul>;
   };
 
   render() {
-    if (!this.props.scoEvents) {
-      return null;
-    }
-
     return (
-      <div>
-        <h2 id="upcoming-events">Upcoming events</h2>
-        {this.renderEvents()}
+      <div className="field_related_links vads-u-background-color--primary-alt-lightest vads-u-padding--1p5 vads-u-margin-top--6">
+        <h3 className="va-nav-linkslist-heading">
+          Latest announcements from VA
+        </h3>
+        {this.renderAnnouncements()}
         <p>
-          See full list of{' '}
-          <a href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp">
-            Conferences and Events
-          </a>{' '}
-          |{' '}
-          <a href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/presentations.asp">
-            Training Webinars
-          </a>{' '}
+          <a
+            href="https://www.benefits.va.gov/gibill/news.asp"
+            className="vads-u-text-decoration--none"
+          >
+            See past updates
+          </a>
         </p>
       </div>
     );

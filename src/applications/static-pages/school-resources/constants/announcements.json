@@ -1,18 +1,21 @@
 [
   {
-    "name": "Arizona Veterans Program Association-2019 Fall Mini-Conference",
+    "name": "VA now serving as State-Approving Agency for California",
     "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
-    "date": "2019-11-01"
+    "date": "2019-11-01",
+    "displayStartDate": "2019-10-01"
   },
   {
-    "name": "Oklahoma Veterans Education Specialists Association (OVESA) Fall Conference",
+    "name": "Release of revised School Certifying Official Handbook",
     "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
-    "date": "2019-11-03"
+    "date": "2019-11-03",
+    "displayStartDate": "2019-10-01"
   },
   {
-    "name": "VBA Education Service 1st Quarterly Webinar",
+    "name": "Yellow Ribbon Program information available for 2019-2020 academic year",
     "location": "Online",
     "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
-    "date": "2019-11-02"
+    "date": "2019-11-02",
+    "displayStartDate": "2019-10-01"
   }
 ]
