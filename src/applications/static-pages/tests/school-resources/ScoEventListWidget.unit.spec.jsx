@@ -9,95 +9,83 @@ describe('<ScoEventListWidget>', () => {
     const today = moment()
       .startOf('day')
       .format('YYYY-MM-DD');
-    const props = {
-      scoEvents: [
-        {
-          name: 'Test Event',
-          location: 'Terst, TN',
-          url: 'https://www.va.gov',
-          eventStartDate: today,
-          displayStartDate: today,
-        },
-      ],
-    };
+    const scoEvents = [
+      {
+        name: 'Test Event',
+        location: 'Terst, TN',
+        url: 'https://www.va.gov',
+        eventStartDate: today,
+        displayStartDate: today,
+      },
+    ];
 
-    const wrapper = mount(<ScoEventListWidget {...props} />);
+    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
   it('does not display events before their displayStartDate', () => {
-    const today = moment()
-      .startOf('day')
-      .format('YYYY-MM-DD');
     const tomorrow = moment()
       .startOf('day')
       .add(1, 'day')
       .format('YYYY-MM-DD');
-    const props = {
-      scoEvents: [
-        {
-          name: 'Test Event',
-          location: 'Terst, TN',
-          url: 'https://www.va.gov',
-          eventStartDate: today,
-          displayStartDate: tomorrow,
-        },
-      ],
-    };
+    const scoEvents = [
+      {
+        name: 'Test Event',
+        location: 'Terst, TN',
+        url: 'https://www.va.gov',
+        eventStartDate: tomorrow,
+        displayStartDate: tomorrow,
+      },
+    ];
 
-    const wrapper = mount(<ScoEventListWidget {...props} />);
+    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
     wrapper.unmount();
   });
 
-  it('does not display events past their displayEndDate', () => {
+  it('does not display events past their eventEndDate', () => {
     const today = moment()
       .startOf('day')
       .format('YYYY-MM-DD');
+    const yesterday = moment(today)
+      .subtract(1, 'day')
+      .format('YYYY-MM-DD');
+    const twoDaysAgo = moment(today)
+      .subtract(2, 'day')
+      .format('YYYY-MM-DD');
+    const scoEvents = [
+      {
+        name: 'Test Event',
+        location: 'Terst, TN',
+        url: 'https://www.va.gov',
+        eventStartDate: twoDaysAgo,
+        displayStartDate: twoDaysAgo,
+        eventEndDate: yesterday,
+      },
+    ];
+
+    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
+    expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
+    wrapper.unmount();
+  });
+
+  it('does not display events past their default eventEndDate', () => {
     const yesterday = moment()
       .startOf('day')
       .subtract(1, 'day')
       .format('YYYY-MM-DD');
-    const props = {
-      scoEvents: [
-        {
-          name: 'Test Event',
-          location: 'Terst, TN',
-          url: 'https://www.va.gov',
-          eventStartDate: today,
-          displayStartDate: today,
-          displayEndDate: yesterday,
-        },
-      ],
-    };
+    const scoEvents = [
+      {
+        name: 'Test Event',
+        location: 'Terst, TN',
+        url: 'https://www.va.gov',
+        eventStartDate: yesterday,
+        displayStartDate: yesterday,
+      },
+    ];
 
-    const wrapper = mount(<ScoEventListWidget {...props} />);
-    expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
-    wrapper.unmount();
-  });
-
-  it('does not display events past their default displayEndDate', () => {
-    const today = moment()
-      .startOf('day')
-      .format('YYYY-MM-DD');
-    const thirtyDaysAgo = moment()
-      .startOf('day')
-      .subtract(30, 'day')
-      .format('YYYY-MM-DD');
-    const props = {
-      scoEvents: [
-        {
-          name: 'Test Event',
-          location: 'Terst, TN',
-          url: 'https://www.va.gov',
-          eventStartDate: thirtyDaysAgo,
-          displayStartDate: today,
-        },
-      ],
-    };
-
-    const wrapper = mount(<ScoEventListWidget {...props} />);
+    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
     wrapper.unmount();
   });
@@ -106,13 +94,11 @@ describe('<ScoEventListWidget>', () => {
     const today = moment()
       .startOf('day')
       .format('YYYY-MM-DD');
-    const yesterday = moment()
-      .startOf('day')
-      .subtract(1, 'day')
-      .format('YYYY-MM-DD');
-    const tomorrow = moment()
-      .startOf('day')
+    const tomorrow = moment(today)
       .add(1, 'day')
+      .format('YYYY-MM-DD');
+    const twoDaysAhead = moment(today)
+      .add(2, 'day')
       .format('YYYY-MM-DD');
     const scoEvents = [
       {
@@ -133,7 +119,7 @@ describe('<ScoEventListWidget>', () => {
         name: 'Test Event 3',
         location: 'Terst, TN',
         url: 'https://www.va.gov',
-        eventStartDate: yesterday,
+        eventStartDate: twoDaysAhead,
         displayStartDate: today,
       },
     ];
@@ -146,19 +132,19 @@ describe('<ScoEventListWidget>', () => {
         .find('.hub-page-link-list__item')
         .at(0)
         .text(),
-    ).to.contain(scoEvents[2].name);
+    ).to.contain(scoEvents[1].name);
     expect(
       wrapper
         .find('.hub-page-link-list__item')
         .at(1)
         .text(),
-    ).to.contain(scoEvents[1].name);
+    ).to.contain(scoEvents[0].name);
     expect(
       wrapper
         .find('.hub-page-link-list__item')
         .at(2)
         .text(),
-    ).to.contain(scoEvents[0].name);
+    ).to.contain(scoEvents[2].name);
     wrapper.unmount();
   });
 });

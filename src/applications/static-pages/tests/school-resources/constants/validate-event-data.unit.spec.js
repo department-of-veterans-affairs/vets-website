@@ -19,7 +19,6 @@ describe('school resources data', () => {
       expect(moment(item.eventStartDate).isValid()).to.eq(true);
       expect(moment(item.eventEndDate).isValid()).to.eq(true);
       expect(moment(item.displayStartDate).isValid()).to.eq(true);
-      expect(moment(item.displayEndDate).isValid()).to.eq(true);
     });
   });
 });
