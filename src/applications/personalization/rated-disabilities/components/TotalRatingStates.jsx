@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import PercetnageCalloutBox from '../components/PercentageCalloutBox';
+import PercentageCalloutBox from '../components/PercentageCalloutBox';
 
 export const errorMessage = () => {
   const message = (
@@ -80,7 +80,7 @@ export const totalRatingMessage = totalDisabilityRating => (
         </a>
       </div>
       <div className="vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3 medium-screen:vads-u-padding-top--2p5">
-        <PercetnageCalloutBox
+        <PercentageCalloutBox
           value={totalDisabilityRating}
           isPercentage
           label="Your combined VA disability rating"
