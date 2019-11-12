@@ -261,6 +261,7 @@ function compilePage(page, contentData) {
       );
       break;
     case 'health_care_local_facility':
+    case 'vamc_operating_status_and_alerts':
       pageCompiled = Object.assign(
         {},
         page,

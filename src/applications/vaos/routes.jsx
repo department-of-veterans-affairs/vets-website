@@ -16,6 +16,7 @@ import TypeOfSleepCarePage from './containers/TypeOfSleepCarePage';
 import PreferredDatePage from './containers/PreferredDatePage';
 import DateTimeRequestPage from './containers/DateTimeRequestPage';
 import DateTimeSelectPage from './containers/DateTimeSelectPage';
+import ConfirmationPage from './containers/ConfirmationPage';
 import VAOSApp from './containers/VAOSApp';
 
 const routes = (
@@ -39,6 +40,7 @@ const routes = (
       />
       <Route path="clinics" component={ClinicChoicePage} />
       <Route path="review" component={ReviewPage} />
+      <Route path="confirmation" component={ConfirmationPage} />
     </Route>
   </Route>
 );
