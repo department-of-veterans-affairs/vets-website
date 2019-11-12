@@ -87,7 +87,7 @@
                                         href="{{status.entity.entityUrl.path}}">{{ status.entity.title }}</a>
                                 </div>
                                 <div class="vads-l-col--6">
-                                    <div class="operating-status-info">
+                                    <div class="operating-status-info vads-u-padding-y--1p5 vads-u-padding-x--0">
                                         {% if status.entity.fieldOperatingStatusFacility == 'notice' %}
                                         <span
                                             class="operating-status usa-alert usa-alert-info background-color-only vads-u-margin-top--0 vads-u-padding--1p5">
@@ -97,7 +97,7 @@
                                         </span>
                                         {% elsif status.entity.fieldOperatingStatusFacility == 'normal' %}
                                         <span
-                                            class="operating-status normal-hours">
+                                            class="operating-status normal-hours vads-u-margin-top--2 vads-u-display--block">
                                             Normal services and hours
                                         </span>
                                         {% elsif status.entity.fieldOperatingStatusFacility == 'limited' %}
@@ -138,7 +138,7 @@
                         <div>{{ fieldOperatingStatusEmergInf.value }}</div>
                         {% endif %}
                         {% if fieldLinks.0.uri %}
-                        <h3>Local emergency resources</h3>
+                        <h3 class="vads-u-margin-top--3 vads-u-margin-bottom--2 ">Local emergency resources</h3>
                         {% for link in fieldLinks %}
                         <p><a href="{{ link.uri }}">{{ link.title }}</a></p>
                         {% endfor %}
