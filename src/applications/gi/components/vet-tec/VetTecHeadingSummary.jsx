@@ -3,7 +3,7 @@ import React from 'react';
 
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 
-import { locationInfo, phoneInfo } from '../../utils/helpers';
+import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
 
@@ -39,13 +39,6 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     firstProgram.phoneNumber,
   );
 
-  const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
-  const providerWebsitePresent =
-    firstProgram.providerWebsite && firstProgram.providerWebsite !== '';
-  const phonePresent = providerPhone !== '';
-  const schoolLocalePresent =
-    firstProgram.schoolLocale && firstProgram.schoolLocale !== '';
-
   return (
     <div className="heading row">
       <div className="usa-width-two-thirds medium-8 small-12 column">
@@ -75,12 +68,15 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
       </div>
       <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
         <div className="usa-width-one-half medium-6 small-12 column">
-          <IconWithInfo icon="map-marker" present={addressPresent}>
+          <IconWithInfo icon="map-marker" present={isPresent(formattedAddress)}>
             {formattedAddress}
           </IconWithInfo>
           {/* Production flag for 19736 */}
           {!environment.isProduction() && (
-            <IconWithInfo icon="globe" present={providerWebsitePresent}>
+            <IconWithInfo
+              icon="globe"
+              present={isPresent(firstProgram.providerWebsite)}
+            >
               <a
                 href={firstProgram.providerWebsite}
                 target="_blank"
@@ -94,10 +90,13 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
         {/* Production flag for 19736 */}
         {!environment.isProduction() && (
           <div className="usa-width-one-half medium-6 small-12 column">
-            <IconWithInfo icon="phone" present={phonePresent}>
+            <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
               <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
             </IconWithInfo>
-            <IconWithInfo icon="map" present={schoolLocalePresent}>
+            <IconWithInfo
+              icon="map"
+              present={isPresent(firstProgram.schoolLocale)}
+            >
               {`${firstProgram.schoolLocale}  locale`}
             </IconWithInfo>
           </div>
