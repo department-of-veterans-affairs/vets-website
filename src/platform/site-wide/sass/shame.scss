@@ -571,3 +571,11 @@ img[data-srcset] {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.no-p-bottom-margin p {
+  margin-bottom: 0;
+}
+
+.operating-status-title {
+  margin: auto;
+}
