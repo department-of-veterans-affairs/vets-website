@@ -11,6 +11,8 @@ import {
   VET360_TRANSACTION_UPDATE_REQUESTED,
   VET360_TRANSACTION_UPDATE_FAILED,
   VET360_CLEAR_TRANSACTION_STATUS,
+  ADDRESS_VALIDATION_CONFIRM,
+  ADDRESS_VALIDATION_ERROR,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -25,6 +27,10 @@ const initialState = {
     mostRecentErroredTransactionId: '',
   },
   transactionStatus: '',
+  addressValidationType: '',
+  suggestedAddresses: [],
+  addressValidationError: false,
+  validationKey: '',
 };
 
 export default function vet360(state = initialState, action) {
@@ -183,6 +189,23 @@ export default function vet360(state = initialState, action) {
 
     case OPEN_MODAL:
       return { ...state, modal: action.modal };
+
+    case ADDRESS_VALIDATION_CONFIRM:
+      return {
+        ...state,
+        addressValidationType: action.addressValidationType,
+        suggestedAddresses: action.suggestedAddresses,
+        modal: 'addressValidation',
+        validationKey: action.validationKey,
+      };
+
+    case ADDRESS_VALIDATION_ERROR:
+      return {
+        ...state,
+        addressValidationError: action.addressValidationError,
+        addressValidationType: action.addressValidationType,
+        modal: 'addressValidation',
+      };
 
     default:
       return state;
