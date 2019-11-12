@@ -11,10 +11,15 @@ ajv.addFormat('custom-date-time', /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
  * Loads all the schemas in a directory into ajv
  */
 const loadSchemas = dir => {
-  fs.readdirSync(dir).forEach(fileName =>
+  fs.readdirSync(dir).forEach(fileName => {
     // eslint-disable-next-line import/no-dynamic-require
-    ajv.addSchema(require(path.join(dir, fileName))),
-  );
+    const schema = require(path.join(dir, fileName));
+    ajv.addSchema(
+      schema,
+      schema.$id ||
+        `${dir.split(path.sep).pop()}/${path.basename(fileName, '.js')}`,
+    );
+  });
 };
 
 loadSchemas(path.join(__dirname, 'schemas', 'common'));
