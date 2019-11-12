@@ -56,11 +56,16 @@ class RatedDisabilityList extends React.Component {
   formalizeData(data) {
     const formalizedDisabilityData = _.map(data, d => {
       const effectiveDate = {
-        effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
+        effectiveDate: d.effectiveDate
+          ? moment(d.effectiveDate).format('DD/MM/YYYY')
+          : null,
       };
       const relatedTo = {
         // Right now we only take the first value...but what if there is more than one?
-        relatedTo: d.specialIssues.length > 0 ? d.specialIssues[0].name : '',
+        relatedTo:
+          Array.isArray(d.specialIssues) && d.specialIssues.length > 0
+            ? d.specialIssues[0].name
+            : '',
       };
       const disability = Object.assign({}, d, effectiveDate, relatedTo);
       return disability;
