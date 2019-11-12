@@ -16,6 +16,7 @@ const loadSchemas = dir => {
     const schema = require(path.join(dir, fileName));
     ajv.addSchema(
       schema,
+      // Common schemas should have $id, but dynamically name raw and transformed schemas
       schema.$id ||
         `${dir.split(path.sep).pop()}/${path.basename(fileName, '.js')}`,
     );
