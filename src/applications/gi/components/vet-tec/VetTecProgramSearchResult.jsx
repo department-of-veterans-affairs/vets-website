@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { formatCurrency, locationInfo } from '../../utils/helpers';
+import { formatCurrency, isPresent, locationInfo } from '../../utils/helpers';
 import { renderPreferredProviderFlag } from '../../utils/render';
 
 class VetTecProgramSearchResult extends React.Component {
@@ -18,6 +18,12 @@ class VetTecProgramSearchResult extends React.Component {
       lengthInWeeks,
       dodBah,
     } = result;
+    const tuition = isPresent(tuitionAmount)
+      ? formatCurrency(tuitionAmount)
+      : 'TBD';
+    const programLength = isPresent(lengthInWeeks)
+      ? `${lengthInWeeks} hours`
+      : 'TBD';
 
     const linkTo = {
       pathname: `profile/${facilityCode}/${description}`,
@@ -55,9 +61,7 @@ class VetTecProgramSearchResult extends React.Component {
                         className="fa fa-graduation-cap fa-search-result"
                       />
                       Tuition:
-                      <div className="programTuition">
-                        {formatCurrency(tuitionAmount)}
-                      </div>
+                      <div className="programTuition">{tuition}</div>
                     </h4>
                   </div>
                 </div>
@@ -81,7 +85,7 @@ class VetTecProgramSearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns vads-u-display--inline-block">
-                <div className="info-flag">{`${lengthInWeeks} weeks`}</div>
+                <div className="info-flag">{programLength}</div>
                 <Link to={linkTo}>View details ›</Link>
               </div>
             </div>

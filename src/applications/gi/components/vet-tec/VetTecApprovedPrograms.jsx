@@ -45,7 +45,7 @@ class VetTecApprovedPrograms extends React.Component {
     // prod flag for CT 116 story 19614
     if (!environment.isProduction() && programs && programs.length) {
       const programRows = programs.map((program, index) => {
-        const length = isPresent(program.lengthInHours)
+        const programLength = isPresent(program.lengthInHours)
           ? `${program.lengthInHours} hours`
           : 'TBD';
         const tuition = isPresent(program.tuitionAmount)
@@ -72,7 +72,7 @@ class VetTecApprovedPrograms extends React.Component {
                 </label>
               </div>
             </td>
-            <td>{length}</td>
+            <td>{programLength}</td>
             <td>{tuition}</td>
           </tr>
         );
