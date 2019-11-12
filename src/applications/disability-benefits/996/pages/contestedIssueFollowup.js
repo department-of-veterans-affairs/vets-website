@@ -39,8 +39,7 @@ const contestedIssueFollowup = {
           },
         },
         additionalNote: {
-          'ui:title': ' ',
-          'ui:description': contestedIssueFollowupDescription,
+          'ui:title': contestedIssueFollowupDescription,
           'ui:widget': 'textarea',
           'ui:validations': [
             validateLength(400, errorMessages.contestedIssueCommentLength),
