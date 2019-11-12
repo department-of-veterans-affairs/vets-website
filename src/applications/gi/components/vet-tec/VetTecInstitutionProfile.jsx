@@ -10,7 +10,7 @@ import VetTecContactInformation from './VetTecContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 import environment from 'platform/utilities/environment';
-import VetTecPrograms from './VetTecPrograms';
+import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 
 const VetTecInstitutionProfile = ({
   institution,
@@ -35,7 +35,10 @@ const VetTecInstitutionProfile = ({
         </AccordionItem>
         {!environment.isProduction() && (
           <AccordionItem button="Veteran programs">
-            <VetTecPrograms institution={institution} onShowModal={showModal} />
+            <VetTecVeteranPrograms
+              institution={institution}
+              onShowModal={showModal}
+            />
           </AccordionItem>
         )}
 

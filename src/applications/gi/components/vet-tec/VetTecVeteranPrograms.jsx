@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-export class VetTecPrograms extends React.Component {
+export class VetTecVeteranPrograms extends React.Component {
   constructor(props) {
     super(props);
     this.renderProgramLabel = this.renderProgramLabel.bind(this);
@@ -151,9 +151,9 @@ export class VetTecPrograms extends React.Component {
   }
 }
 
-VetTecPrograms.propTypes = {
+VetTecVeteranPrograms.propTypes = {
   institution: PropTypes.object,
   onShowModal: PropTypes.func,
 };
 
-export default VetTecPrograms;
+export default VetTecVeteranPrograms;
