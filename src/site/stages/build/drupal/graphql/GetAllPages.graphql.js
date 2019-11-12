@@ -5,6 +5,7 @@ const healthCareRegionPage = require('./healthCareRegionPage.graphql');
 const healthCareLocalFacilityPage = require('./healthCareLocalFacilityPage.graphql');
 const healthCareRegionDetailPage = require('./healthCareRegionDetailPage.graphql');
 const pressReleasePage = require('./pressReleasePage.graphql');
+const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
@@ -44,6 +45,7 @@ module.exports = `
   ${healthCareLocalFacilityPage}
   ${healthCareRegionDetailPage}
   ${pressReleasePage}
+  ${vamcOperatingStatusAndAlerts}
   ${newsStoryPage}
   ${eventPage}
   ${officePage}
@@ -64,6 +66,7 @@ module.exports = `
         ... healthCareLocalFacilityPage
         ... healthCareRegionDetailPage
         ... pressReleasePage
+        ... vamcOperatingStatusAndAlerts
         ... newsStoryPage
         ... eventPage
         ... officePage
