@@ -18,7 +18,7 @@ const {
 
 const contestedIssueFollowup = {
   uiSchema: {
-    'ui:title': 'Conested issue followup',
+    'ui:title': ' ',
     contestedIssues: {
       'ui:options': {
         viewField: ({ formData }) => formData?.name || NULL_CONDITION_STRING,
