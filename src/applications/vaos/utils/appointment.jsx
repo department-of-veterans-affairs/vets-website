@@ -236,7 +236,7 @@ export function getRequestTimeToCall(appt) {
 }
 
 /**
- * Filter and sort functions
+ * Filter and sort methods
  */
 
 export function filterFutureConfirmedAppointments(appt, today) {
