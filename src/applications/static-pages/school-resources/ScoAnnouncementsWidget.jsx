@@ -35,17 +35,21 @@ export default class ScoAnnouncementsWidget extends React.Component {
     const announcements = this.props.announcements
       .filter(this.shouldDisplay)
       .sort(this.eventComparer)
-      .map((announcement, index) => (
-        <li key={index} className="hub-page-link-list__item">
-          {announcement.url ? (
-            <a href={announcement.url}>
-              <b>{`${announcement.date} — ${announcement.name}`}</b>
-            </a>
-          ) : (
-            <b>{`${announcement.date} — ${announcement.name}`}</b>
-          )}
-        </li>
-      ));
+      .map((announcement, index) => {
+        const displayDate = moment(announcement.date).format('M/D/YYYY');
+        const content = `${displayDate} — ${announcement.name}`;
+        return (
+          <li key={index} className="hub-page-link-list__item">
+            {announcement.url ? (
+              <a href={announcement.url}>
+                <b>{content}</b>
+              </a>
+            ) : (
+              <b>{content}</b>
+            )}
+          </li>
+        );
+      });
     return <ul className="va-nav-linkslist-list">{announcements}</ul>;
   };
 
