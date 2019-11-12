@@ -12,7 +12,7 @@ export function getTimezoneAbbrBySystemId(id) {
   const matchingZone = getTimezoneBySystemId(id);
 
   if (!matchingZone) {
-    return '';
+    return null;
   }
 
   let abbreviation = matchingZone.currentTZ;

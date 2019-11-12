@@ -215,8 +215,8 @@ export function getAppointmentDateTime(appt) {
   const type = getAppointmentType(appt);
 
   if (type === APPOINTMENT_TYPES.vaAppointment) {
-    const timezone = getTimezoneBySystemId(appt.facilityId).timezone;
-    parsedDate = parsedDate.tz(timezone);
+    const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+    parsedDate = timezone ? parsedDate.tz(timezone) : parsedDate;
   }
 
   if (!parsedDate.isValid()) {
