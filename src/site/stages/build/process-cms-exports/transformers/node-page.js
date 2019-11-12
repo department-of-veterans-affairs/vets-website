@@ -22,6 +22,7 @@ function pageTransform(entity) {
     fieldDescription: getDrupalValue(fieldDescription),
     changed: new Date(getDrupalValue(changed)).getTime() / 1000,
     fieldPageLastBuilt: {
+      // Assume the raw data is in UTC
       date: moment
         .tz(getDrupalValue(fieldPageLastBuilt), 'UTC')
         .format('YYYY-MM-DD HH:mm:ss UTC'),
