@@ -7,10 +7,7 @@ const transformedSchemasDir = path.join(__dirname, '../transformed');
 const paragraphSchemas = fs
   .readdirSync(transformedSchemasDir)
   .filter(fileName => fileName.startsWith('paragraph'))
-  .map(fileName => {
-    const schema = require(`${transformedSchemasDir}/${fileName}`);
-    return { $ref: schema.$id };
-  });
+  .map(fileName => ({ $ref: `transformed/${path.basename(fileName, '.js')}` }));
 
 module.exports = {
   $id: 'Paragraph',

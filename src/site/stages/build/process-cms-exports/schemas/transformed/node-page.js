@@ -35,13 +35,13 @@ module.exports = {
     fieldRelatedLinks: {
       type: 'array',
       items: {
-        $ref: 'paragraph-list_of_link_teasers',
+        $ref: 'transformed/paragraph-list_of_link_teasers',
       },
     },
     fieldAdministration: {
       type: 'array',
       items: {
-        $ref: 'taxonomy_term-administration',
+        $ref: 'transformed/taxonomy_term-administration',
       },
     },
     fieldPageLastBuilt: {
