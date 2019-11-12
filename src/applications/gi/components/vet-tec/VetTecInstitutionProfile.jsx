@@ -33,6 +33,7 @@ const VetTecInstitutionProfile = ({
         <AccordionItem button="Estimate your benefits">
           <VetTecCalculator showModal={showModal} />
         </AccordionItem>
+        {/* Production flag for 19870 */}
         {!environment.isProduction() && (
           <AccordionItem button="Veteran programs">
             <VetTecVeteranPrograms
@@ -41,7 +42,6 @@ const VetTecInstitutionProfile = ({
             />
           </AccordionItem>
         )}
-
         <AccordionItem button="Application process">
           <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
