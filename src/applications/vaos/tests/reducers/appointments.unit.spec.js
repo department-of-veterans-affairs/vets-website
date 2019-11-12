@@ -44,9 +44,10 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
-          { appointmentTime: '05/29/2099 05:30:00' },
+          { appointmentTime: '05/29/2099 05:30:00', appointmentRequestId: '1' },
           {
             appointmentTime: '05/29/2099 05:32:00',
+            appointmentRequestId: '2',
             vdsAppointments: [
               {
                 currentStatus: 'CANCELLED BY CLINIC',
@@ -54,7 +55,7 @@ describe('VAOS reducer: appointments', () => {
             ],
           },
         ],
-        [{ startDate: '2099-04-30T05:35:00' }],
+        [{ startDate: '2099-04-30T05:35:00', facilityId: '984' }],
         { appointmentRequests: [{ optionDate1: '05/29/2099' }] },
       ],
     };

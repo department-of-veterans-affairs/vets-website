@@ -128,12 +128,15 @@ export function getMomentConfirmedDate(appt) {
   }
 
   const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+  const date = isVideoVisit(appt)
+    ? appt.vvsAppointments[0].dateTime
+    : appt.startDate;
 
-  if (isVideoVisit(appt)) {
-    return moment(appt.vvsAppointments[0].dateTime).tz(timezone);
+  if (timezone) {
+    return moment(date).tz(timezone);
   }
 
-  return moment(appt.startDate).tz(timezone);
+  return moment(date);
 }
 
 export function getMomentRequestOptionDate(optionDate) {
