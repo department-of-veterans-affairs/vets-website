@@ -1,7 +1,6 @@
 // const { getFilter } = require('../../filters');
 
 module.exports = {
-  $id: 'node-page',
   type: 'object',
   properties: {
     title: {
