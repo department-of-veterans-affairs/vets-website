@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { selectUser } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import RegistrationCheck from './RegistrationCheck';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-export function VAOSApp({ user, children }) {
+import { vaosApplication } from '../utils/selectors';
+import RegistrationCheck from './RegistrationCheck';
+import AppUnavailable from '../components/AppUnavailable';
+
+export function VAOSApp({ user, children, showApplication }) {
   return (
     <RequiredLoginView
       authRequired={1}
@@ -19,12 +22,15 @@ export function VAOSApp({ user, children }) {
       ]}
       user={user}
     >
-      <DowntimeNotification
-        appTitle="VA online scheduling"
-        dependencies={[externalServices.mvi, externalServices.vaos]}
-      >
-        <RegistrationCheck>{children}</RegistrationCheck>
-      </DowntimeNotification>
+      {showApplication && (
+        <DowntimeNotification
+          appTitle="VA online scheduling"
+          dependencies={[externalServices.mvi, externalServices.vaos]}
+        >
+          <RegistrationCheck>{children}</RegistrationCheck>
+        </DowntimeNotification>
+      )}
+      {!showApplication && <AppUnavailable />}
     </RequiredLoginView>
   );
 }
@@ -32,6 +38,7 @@ export function VAOSApp({ user, children }) {
 function mapStateToProps(state) {
   return {
     user: selectUser(state),
+    showApplication: vaosApplication(state),
   };
 }
 
