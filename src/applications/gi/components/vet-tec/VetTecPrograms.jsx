@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import _ from 'lodash';
 
 export class VetTecPrograms extends React.Component {
   constructor(props) {
@@ -7,8 +8,7 @@ export class VetTecPrograms extends React.Component {
     this.renderProgramLabel = this.renderProgramLabel.bind(this);
     const { institution } = props;
 
-    const program =
-      institution.programs.length > 0 ? institution.programs[0] : {};
+    const firstProgram = _.get(institution, 'programs[0]', {});
 
     this.programs = [
       {
@@ -21,10 +21,10 @@ export class VetTecPrograms extends React.Component {
         modal: 'vetgroups',
         text: 'Student Veteran Group',
         link: {
-          href: program.studentVetGroupWebsite,
+          href: firstProgram.studentVetGroupWebsite,
           text: 'Site',
         },
-        available: !!program.studentVetGroup,
+        available: !!firstProgram.studentVetGroup,
       },
       {
         modal: 'poe',
@@ -42,10 +42,12 @@ export class VetTecPrograms extends React.Component {
         modal: 'vsoc',
         text: 'VetSuccess on Campus',
         link: {
-          href: program.vetSuccessEmail && `mailto:${program.vetSuccessEmail}`,
-          text: `Email ${program.vetSuccessName}`,
+          href:
+            firstProgram.vetSuccessEmail &&
+            `mailto:${firstProgram.vetSuccessEmail}`,
+          text: `Email ${firstProgram.vetSuccessName}`,
         },
-        available: !!program.vetSuccessName,
+        available: !!firstProgram.vetSuccessName,
       },
 
       {

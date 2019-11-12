@@ -6,6 +6,7 @@ import VetTecAdditionalResources from './VetTecAdditionalResources';
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
+import _ from 'lodash';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -25,14 +26,12 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     institution.country,
   );
 
-  const firstProgram = institution.programs[0]
-    ? institution.programs[0]
-    : {
-        providerWebsite: '',
-        phoneAreaCode: '',
-        phoneNumber: '',
-        schoolLocale: '',
-      };
+  const firstProgram = _.get(institution, 'programs[0]', {
+    providerWebsite: '',
+    phoneAreaCode: '',
+    phoneNumber: '',
+    schoolLocale: '',
+  });
 
   const providerPhone = phoneInfo(
     firstProgram.phoneAreaCode,
