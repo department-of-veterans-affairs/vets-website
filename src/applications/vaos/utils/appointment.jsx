@@ -20,63 +20,6 @@ export function getAppointmentType(appt) {
   return null;
 }
 
-export function parseVAorCCDate(item) {
-  // This means it's a CC appt, which has a different date format
-  if (item.appointmentTime) {
-    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  }
-
-  return moment(item.startDate);
-}
-
-export function parseRequestDate(optionDate) {
-  return moment(optionDate, 'MM/DD/YYYY');
-}
-
-export function filterFutureConfirmedAppointments(appt, today) {
-  const date = parseVAorCCDate(appt);
-  return date.isValid() && date.isAfter(today);
-}
-
-export function filterFutureRequests(request, today) {
-  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
-  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
-  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
-
-  return (
-    ['Submitted', 'Cancelled'].includes(request.status) &&
-    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
-      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-      (optionDate3.isValid() && optionDate3.isAfter(today)))
-  );
-}
-
-export function sortFutureList(a, b) {
-  const aIsRequest = getAppointmentType(a) === APPOINTMENT_TYPES.request;
-  const bIsRequest = getAppointmentType(b) === APPOINTMENT_TYPES.request;
-
-  const aDate = aIsRequest
-    ? parseRequestDate(a.optionDate1)
-    : parseVAorCCDate(a);
-
-  const bDate = bIsRequest
-    ? parseRequestDate(b.optionDate1)
-    : parseVAorCCDate(b);
-
-  if (aDate.isSame(bDate)) {
-    // If same date, requests should show after confirmed
-    if (aIsRequest && !bIsRequest) {
-      return 1;
-    } else if (bIsRequest && !aIsRequest) {
-      return -1;
-    }
-
-    return 0;
-  }
-
-  return aDate.isBefore(bDate) ? -1 : 1;
-}
-
 export function getAppointmentId(appt) {
   if (appt.appointmentRequestId) {
     return appt.appointmentRequestId;
@@ -175,26 +118,29 @@ export function getAppointmentLocation(appt) {
   );
 }
 
-function getParsedMomentDate(appt) {
+/**
+ * Date and time
+ */
+
+export function getMomentConfirmedDate(appt) {
   if (isCommunityCare(appt)) {
     return moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  } else if (isVideoVisit(appt)) {
-    return moment(appt.vvsAppointments[0].dateTime);
-  }
-  return moment(appt.startDate);
-}
-
-export function getAppointmentDate(appt) {
-  const parsedDate = getParsedMomentDate(appt);
-
-  if (!parsedDate.isValid()) {
-    return null;
   }
 
-  return parsedDate.format('MMMM D, YYYY');
+  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+
+  if (isVideoVisit(appt)) {
+    return moment(appt.vvsAppointments[0].dateTime).tz(timezone);
+  }
+
+  return moment(appt.startDate).tz(timezone);
 }
 
-export function getAppointmentTimezone(appt) {
+export function getMomentRequestOptionDate(optionDate) {
+  return moment(optionDate, 'MM/DD/YYYY');
+}
+
+export function getAppointmentTimezoneAbbreviation(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
@@ -209,16 +155,18 @@ export function getAppointmentTimezone(appt) {
   }
 }
 
-export function getAppointmentDateTime(appt) {
-  let parsedDate = getParsedMomentDate(appt);
+export function getAppointmentDate(appt) {
+  const parsedDate = getMomentConfirmedDate(appt);
 
-  const type = getAppointmentType(appt);
-
-  if (type === APPOINTMENT_TYPES.vaAppointment) {
-    const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
-    parsedDate = timezone ? parsedDate.tz(timezone) : parsedDate;
+  if (!parsedDate.isValid()) {
+    return null;
   }
 
+  return parsedDate.format('MMMM D, YYYY');
+}
+
+export function getAppointmentDateTime(appt) {
+  const parsedDate = getMomentConfirmedDate(appt);
   if (!parsedDate.isValid()) {
     return null;
   }
@@ -228,10 +176,10 @@ export function getAppointmentDateTime(appt) {
       {parsedDate.format('dddd, MMMM D, YYYY')} at {parsedDate.format('h:mm')}
       <span aria-hidden="true">
         {' '}
-        {parsedDate.format('a')} {getAppointmentTimezone(appt)}
+        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
       </span>
       <span className="sr-only">
-        {parsedDate.format('a')} {getAppointmentTimezone(appt)}
+        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
       </span>
     </>
   );
@@ -239,9 +187,18 @@ export function getAppointmentDateTime(appt) {
 
 export function getRequestDateOptions(appt) {
   const options = [
-    { date: parseRequestDate(appt.optionDate1), optionTime: appt.optionTime1 },
-    { date: parseRequestDate(appt.optionDate2), optionTime: appt.optionTime2 },
-    { date: parseRequestDate(appt.optionDate3), optionTime: appt.optionTime3 },
+    {
+      date: getMomentRequestOptionDate(appt.optionDate1),
+      optionTime: appt.optionTime1,
+    },
+    {
+      date: getMomentRequestOptionDate(appt.optionDate2),
+      optionTime: appt.optionTime2,
+    },
+    {
+      date: getMomentRequestOptionDate(appt.optionDate3),
+      optionTime: appt.optionTime3,
+    },
   ]
     .filter(o => o.date.isValid())
     .sort((a, b) => {
@@ -273,4 +230,52 @@ export function getRequestTimeToCall(appt) {
   }
 
   return null;
+}
+
+/**
+ * Filter and sort functions
+ */
+
+export function filterFutureConfirmedAppointments(appt, today) {
+  const date = getMomentConfirmedDate(appt);
+  return date.isValid() && date.isAfter(today);
+}
+
+export function filterFutureRequests(request, today) {
+  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
+  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
+  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
+
+  return (
+    ['Submitted', 'Cancelled'].includes(request.status) &&
+    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
+      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
+      (optionDate3.isValid() && optionDate3.isAfter(today)))
+  );
+}
+
+export function sortFutureList(a, b) {
+  const aIsRequest = getAppointmentType(a) === APPOINTMENT_TYPES.request;
+  const bIsRequest = getAppointmentType(b) === APPOINTMENT_TYPES.request;
+
+  const aDate = aIsRequest
+    ? getMomentRequestOptionDate(a.optionDate1)
+    : getMomentConfirmedDate(a);
+
+  const bDate = bIsRequest
+    ? getMomentRequestOptionDate(b.optionDate1)
+    : getMomentConfirmedDate(b);
+
+  if (aDate.isSame(bDate)) {
+    // If same date, requests should show after confirmed
+    if (aIsRequest && !bIsRequest) {
+      return 1;
+    } else if (bIsRequest && !aIsRequest) {
+      return -1;
+    }
+
+    return 0;
+  }
+
+  return aDate.isBefore(bDate) ? -1 : 1;
 }
