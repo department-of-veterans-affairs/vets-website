@@ -1,6 +1,6 @@
 export const pageNames = {
   start: 'start',
-  originalClaim: 'original-claim',	
+  originalClaim: 'original-claim',
   fileOriginalClaim: 'file-original-claim',
   appeals: 'appeals',
   bdd: 'bdd',
