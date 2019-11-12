@@ -43,20 +43,18 @@ describe('VAOS reducer: appointments', () => {
     const action = {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
-        {
-          vaAppointments: [
-            { appointmentTime: '05/29/2099 05:30:00' },
-            {
-              appointmentTime: '05/29/2099 05:32:00',
-              vdsAppointments: [
-                {
-                  currentStatus: 'CANCELLED BY CLINIC',
-                },
-              ],
-            },
-          ],
-          ccAppointments: [{ startDate: '2099-04-30T05:35:00' }],
-        },
+        [
+          { appointmentTime: '05/29/2099 05:30:00' },
+          {
+            appointmentTime: '05/29/2099 05:32:00',
+            vdsAppointments: [
+              {
+                currentStatus: 'CANCELLED BY CLINIC',
+              },
+            ],
+          },
+        ],
+        [{ startDate: '2099-04-30T05:35:00' }],
         [{ optionDate1: '05/29/2099' }],
       ],
     };

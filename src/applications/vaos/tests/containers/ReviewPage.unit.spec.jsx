@@ -1,16 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { FLOW_TYPES } from '../../utils/constants';
 
 import { ReviewPage } from '../../containers/ReviewPage';
 
 describe('VAOS <ReviewPage>', () => {
   it('should render direct schedule view', () => {
-    const data = {
-      isDirectSchedule: true,
-    };
+    const flowType = FLOW_TYPES.DIRECT;
+    const data = {};
 
-    const tree = shallow(<ReviewPage data={data} />);
+    const tree = shallow(<ReviewPage flowType={flowType} data={data} />);
 
     expect(tree.find('ReviewDirectScheduleInfo').exists()).to.be.true;
     expect(
@@ -24,11 +24,10 @@ describe('VAOS <ReviewPage>', () => {
   });
 
   it('should render review view', () => {
-    const data = {
-      isDirectSchedule: false,
-    };
+    const flowType = FLOW_TYPES.REQUEST;
+    const data = {};
 
-    const tree = shallow(<ReviewPage data={data} />);
+    const tree = shallow(<ReviewPage flowType={flowType} data={data} />);
 
     expect(tree.find('ReviewRequestInfo').exists()).to.be.true;
     expect(

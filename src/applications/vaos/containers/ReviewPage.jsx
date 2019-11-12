@@ -3,28 +3,31 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   getFormData,
+  getFlowType,
   getChosenFacilityInfo,
   getChosenClinicInfo,
   getChosenVACityState,
 } from '../utils/selectors';
+import { FLOW_TYPES } from '../utils/constants';
 import ReviewDirectScheduleInfo from '../components/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export class ReviewPage extends React.Component {
   render() {
-    const { data, facility, clinic, vaCityState } = this.props;
+    const { data, facility, clinic, vaCityState, flowType } = this.props;
+    const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
       <div>
-        {data.isDirectSchedule && (
+        {isDirectSchedule && (
           <ReviewDirectScheduleInfo
             data={data}
             facility={facility}
             clinic={clinic}
           />
         )}
-        {!data.isDirectSchedule && (
+        {!isDirectSchedule && (
           <ReviewRequestInfo
             data={data}
             facility={facility}
@@ -36,9 +39,7 @@ export class ReviewPage extends React.Component {
             onClick={() => this.props.router.push('/')}
             className="usa-button usa-button-primary"
           >
-            {data.isDirectSchedule
-              ? 'Confirm appointment'
-              : 'Request appointment'}
+            {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
           </LoadingButton>
         </div>
       </div>
@@ -58,6 +59,7 @@ function mapStateToProps(state) {
     facility: getChosenFacilityInfo(state),
     clinic: getChosenClinicInfo(state),
     vaCityState: getChosenVACityState(state),
+    flowType: getFlowType(state),
   };
 }
 
