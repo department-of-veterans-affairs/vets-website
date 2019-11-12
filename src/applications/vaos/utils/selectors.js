@@ -1,3 +1,5 @@
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+
 import { getAppointmentId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
@@ -226,3 +228,5 @@ export function getChosenVACityState(state) {
 
   return null;
 }
+
+export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;

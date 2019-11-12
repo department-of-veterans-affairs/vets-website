@@ -3,7 +3,6 @@ import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 // Mock Data
-import pending from './requests.json';
 import slots from './slots.json';
 
 import mockFacilityData from './facilities.json';
@@ -52,12 +51,19 @@ export function getConfirmedAppointments(type, startDate, endDate) {
 
 // GET /vaos/requests
 // eslint-disable-next-line no-unused-vars
-export function getPendingAppointments(endDate) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(pending);
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getPendingAppointments(startDate, endDate) {
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = import('./requests.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = apiRequest(
+      `/vaos/appointment_requests?start_date=${startDate}&end_date=${endDate}`,
+    );
+  }
+
+  return promise.then(resp => resp.data.map(item => item.attributes));
 }
 
 // This request takes a while, so we're going to call it early
