@@ -33,7 +33,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
             ) : null}
             <span className="vads-u-font-weight--bold">{decisionText}</span>{' '}
           </p>
-          {relatedTo !== '' ? (
+          {relatedTo ? (
             <>
               <p className="vads-u-display--none small-screen:vads-u-display--inline vads-u-margin-x--0p5 vads-u-margin-y--0">
                 {' '}

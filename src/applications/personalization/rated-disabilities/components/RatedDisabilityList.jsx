@@ -65,7 +65,7 @@ class RatedDisabilityList extends React.Component {
         relatedTo:
           Array.isArray(d.specialIssues) && d.specialIssues.length > 0
             ? d.specialIssues[0].name
-            : '',
+            : null,
       };
       const disability = Object.assign({}, d, effectiveDate, relatedTo);
       return disability;
