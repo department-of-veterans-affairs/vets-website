@@ -5,10 +5,14 @@ export function stripDST(abbr) {
 }
 
 export function getTimezoneBySystemId(id) {
-  const matchingZone = timezones.find(z => z.id === `dfn-${id}`);
+  return timezones.find(z => z.id === `dfn-${id}`);
+}
+
+export function getTimezoneAbbrBySystemId(id) {
+  const matchingZone = getTimezoneBySystemId(id);
 
   if (!matchingZone) {
-    return null;
+    return '';
   }
 
   let abbreviation = matchingZone.currentTZ;

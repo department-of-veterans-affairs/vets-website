@@ -1,6 +1,6 @@
 import { getAppointmentId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneBySystemId } from './timezone';
+import { getTimezoneAbbrBySystemId } from './timezone';
 import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
@@ -104,7 +104,9 @@ export function getDateTimeSelect(state, pageKey) {
     return acc;
   }, []);
 
-  const timezone = data.vaSystem ? getTimezoneBySystemId(data.vaSystem) : null;
+  const timezone = data.vaSystem
+    ? getTimezoneAbbrBySystemId(data.vaSystem)
+    : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {

@@ -1,8 +1,12 @@
 import React from 'react';
-import moment from 'moment';
+import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
-import { getTimezoneBySystemId, stripDST } from './timezone';
+import {
+  getTimezoneBySystemId,
+  getTimezoneAbbrBySystemId,
+  stripDST,
+} from './timezone';
 
 export function getAppointmentType(appt) {
   if (appt.optionDate1) {
@@ -197,16 +201,23 @@ export function getAppointmentTimezone(appt) {
     case APPOINTMENT_TYPES.ccAppointment:
       return stripDST(appt?.timeZone?.split(' ')?.[1]);
     case APPOINTMENT_TYPES.request:
-      return getTimezoneBySystemId(appt?.facility?.facilityCode);
+      return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);
     case APPOINTMENT_TYPES.vaAppointment:
-      return getTimezoneBySystemId(appt?.facilityId);
+      return getTimezoneAbbrBySystemId(appt?.facilityId);
     default:
       return '';
   }
 }
 
 export function getAppointmentDateTime(appt) {
-  const parsedDate = getParsedMomentDate(appt);
+  let parsedDate = getParsedMomentDate(appt);
+
+  const type = getAppointmentType(appt);
+
+  if (type === APPOINTMENT_TYPES.vaAppointment) {
+    const timezone = getTimezoneBySystemId(appt.facilityId).timezone;
+    parsedDate = parsedDate.tz(timezone);
+  }
 
   if (!parsedDate.isValid()) {
     return null;
