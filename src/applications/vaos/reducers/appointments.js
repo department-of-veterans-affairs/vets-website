@@ -47,9 +47,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...ccAppointments.filter(appt =>
           filterFutureConfirmedAppointments(appt, action.today),
         ),
-        ...requests.appointmentRequests.filter(req =>
-          filterFutureRequests(req, action.today),
-        ),
+        ...requests.filter(req => filterFutureRequests(req, action.today)),
       ];
 
       futureAppointments.sort(sortFutureList);

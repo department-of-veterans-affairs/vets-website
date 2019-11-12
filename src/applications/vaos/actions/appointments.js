@@ -53,7 +53,12 @@ export function fetchFutureAppointments() {
               .add(4, 'months')
               .format('YYYY-MM-DD'),
           ),
-          getPendingAppointments(),
+          getPendingAppointments(
+            moment()
+              .subtract(4, 'months')
+              .format('YYYY-MM-DD'),
+            moment().format('YYYY-MM-DD'),
+          ),
         ]);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
