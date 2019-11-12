@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { getFilter } = require('../filters');
+const { getFilter } = require('../../filters');
 
 module.exports = {
   type: 'object',

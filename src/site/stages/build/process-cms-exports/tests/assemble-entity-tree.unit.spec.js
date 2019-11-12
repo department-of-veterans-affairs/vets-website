@@ -71,7 +71,23 @@ describe('CMS export', () => {
               path.join(transformedEntitiesDir, transformedFileName),
             ),
           );
-          expect(assembleEntityTree(entity)).to.deep.equal(transformedEntity);
+          let assembled;
+          try {
+            assembled = assembleEntityTree(entity);
+            expect(assembled).to.deep.equal(transformedEntity);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.log(
+              'Transformed entity in the test JSON file:\n',
+              JSON.stringify(transformedEntity, null, 2),
+            );
+            // eslint-disable-next-line no-console
+            console.log(
+              'Transformed from assembleEntityTree:\n',
+              JSON.stringify(assembled, null, 2),
+            );
+            throw e;
+          }
         });
       }
     });
