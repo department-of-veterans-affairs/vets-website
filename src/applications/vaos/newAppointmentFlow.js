@@ -152,7 +152,6 @@ export default {
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
     },
-    // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous(state) {
       let nextState = 'typeOfCare';
 

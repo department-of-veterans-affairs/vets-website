@@ -13,8 +13,8 @@ import {
 } from '../actions/appointments';
 
 import {
-  filterFutureConfirmedAppointments,
   filterFutureRequests,
+  filterFutureConfirmedAppointments,
   sortFutureList,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
@@ -41,15 +41,13 @@ export default function appointmentsReducer(state = initialState, action) {
         futureStatus: FETCH_STATUS.loading,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
-      const confirmed = action.data[0] || {
-        vaAppointments: [],
-        ccAppointments: [],
-      };
-      const requests = action.data[1]?.appointmentRequests || [];
+      const [vaAppointments, ccAppointments, requests] = action.data;
       const futureAppointments = [
-        ...confirmed.vaAppointments.filter(filterFutureConfirmedAppointments),
-        ...confirmed.ccAppointments.filter(filterFutureConfirmedAppointments),
-        ...requests.filter(filterFutureRequests),
+        ...vaAppointments,
+        ...ccAppointments.filter(appt =>
+          filterFutureConfirmedAppointments(appt, action.today),
+        ),
+        ...requests.filter(req => filterFutureRequests(req, action.today)),
       ];
 
       futureAppointments.sort(sortFutureList);

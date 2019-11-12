@@ -1,10 +1,40 @@
 const chalk = require('chalk');
+const get = require('lodash/get');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
 const { typeProperties, toId, readEntity } = require('./helpers');
 
-const validateEntity = require('./schema-validation');
+const {
+  validateRawEntity,
+  validateTransformedEntity,
+} = require('./schema-validation');
+
+/**
+ * A list of properties to ignore.
+ *
+ * This list comes from the typeProperties, which we never want to
+ * expand, and a temporary list of properties we don't want to filter
+ * out on a per-content-model basis.
+ *
+ * Additionally, this is useful for temporarily ignoring entity
+ * expansion of certain properties before we've created a filter for
+ * that content model.
+ */
+const ignoreList = typeProperties.concat([
+  'roles',
+  'field_facility_location',
+  'field_regional_health_service',
+  'field_region_page',
+  'field_office',
+  'field_banner_alert', // Hrm...
+  // All attributes which reference the user
+  'owner_id',
+  'revision_uid',
+  'revision_user',
+  'uid',
+  'user_id',
+]);
 
 const entityAssemblerFactory = contentDir => {
   /**
@@ -25,31 +55,36 @@ const entityAssemblerFactory = contentDir => {
       console.log(`  Parents:\n    ${parents.join('\n    ')}`);
       /* eslint-enable no-console */
 
-      // If we find a circular references, it needs to be addressed;
-      // just quit
-      process.exit(1);
+      // If we find a circular references, it needs to be addressed.
+      // For now, just quit.
+      throw new Error(
+        `Circular reference found. ${
+          parents[parents.length - 1]
+        } has a reference to an ancestor: ${toId(entity)}`,
+      );
     }
 
-    const errors = validateEntity(entity);
-    if (errors.length) {
+    // Pre-transformation JSON schema validation
+    const rawErrors = validateRawEntity(entity);
+    if (rawErrors.length) {
       /* eslint-disable no-console */
-      console.warn(chalk.yellow(`${toId(entity)} is invalid:`));
-      console.warn(`${errors.map(e => JSON.stringify(e, null, 2))}`);
+      console.warn(
+        chalk.yellow(`${toId(entity)} is invalid before transformation:`),
+      );
+      console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
       console.warn(`-------------------`);
       /* eslint-enable no-console */
 
       // Abort! (We may want to change this later)
-      process.exit(1);
+      throw new Error(`${toId(entity)} is invalid before transformation`);
     }
 
     const filteredEntity = getFilteredEntity(entity);
 
-    // Iterate over all whitelisted properties in an entity, look for
-    // references to other identities recursively, and replace the
-    // reference with the entity contents.
+    // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
       // eslint-disable-next-line no-continue
-      if (typeProperties.includes(key)) continue;
+      if (ignoreList.includes(key)) continue;
 
       // Properties with target_uuids are always arrays from tome-sync
       if (Array.isArray(prop)) {
@@ -67,7 +102,29 @@ const entityAssemblerFactory = contentDir => {
       }
     }
 
-    return transformEntity(filteredEntity);
+    // Post-transformation JSON schema validation
+    const transformedEntity = transformEntity(filteredEntity);
+    const transformedErrors = validateTransformedEntity(transformedEntity);
+    if (transformedErrors.length) {
+      /* eslint-disable no-console */
+      console.warn(
+        chalk.yellow(`${toId(entity)} is invalid after transformation:`),
+      );
+      console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
+      transformedErrors.forEach(e => {
+        console.warn(
+          `Data found at ${e.dataPath}:`,
+          JSON.stringify(get(transformedEntity, e.dataPath.slice(1))),
+        );
+      });
+      console.warn(`-------------------`);
+      /* eslint-enable no-console */
+
+      // Abort! (We may want to change this later)
+      throw new Error(`${toId(entity)} is invalid after transformation`);
+    }
+
+    return transformedEntity;
   };
 
   return assembleEntityTree;

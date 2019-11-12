@@ -44,6 +44,11 @@ describe('selectAnnouncement', () => {
           name: 'dummy6',
           paths: /^(\/some-route-6\/)$/,
         },
+        {
+          name: 'dummy7',
+          paths: /^(\/unique-route\/)$/,
+          expiresAt: '2019-11-11',
+        },
       ],
     };
   });
@@ -105,5 +110,15 @@ describe('selectAnnouncement', () => {
       'dummy6',
       '"disabled dummy6" preceded "dummy6" but was ignored because of the disabled flag.',
     );
+  });
+
+  it('filters our expired announcements', () => {
+    const result = selectors.selectAnnouncement(
+      state,
+      config,
+      '/unique-route/',
+    );
+
+    expect(result).to.be.undefined;
   });
 });

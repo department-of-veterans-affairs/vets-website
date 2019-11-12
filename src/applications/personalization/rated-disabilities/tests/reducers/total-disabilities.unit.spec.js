@@ -7,7 +7,7 @@ import { totalRating } from '../../reducers/total-disabilities';
 
 const initialState = {
   loading: true, // app starts in loading state
-  error: false,
+  error: null,
   totalDisabilityRating: null,
 };
 
@@ -15,7 +15,7 @@ describe('totalDisabilities reducer', () => {
   it('should return the initial state', () => {
     const state = totalRating(initialState, {});
     expect(state.loading).to.equal(true);
-    expect(state.error).to.equal(false);
+    expect(state.error).to.equal(null);
     expect(state.totalDisabilityRating).to.equal(null);
   });
 
@@ -23,9 +23,9 @@ describe('totalDisabilities reducer', () => {
     const state = totalRating(initialState, {
       type: FETCH_TOTAL_RATING_FAILED,
     });
-
+    const err = { status: '500', res: 'failed to load' };
     expect(state.loading).to.equal(false);
-    expect(state.error).to.equal(true);
+    expect(state.error.status).to.equal(err.status);
     expect(state.totalDisabilityRating).to.equal(null);
   });
 
@@ -35,7 +35,7 @@ describe('totalDisabilities reducer', () => {
     });
 
     expect(state.loading).to.equal(false);
-    expect(state.error).to.equal(false);
+    expect(state.error).to.equal(null);
     expect(state.totalDisabilityRating).to.not.equal(null);
   });
 
@@ -45,7 +45,7 @@ describe('totalDisabilities reducer', () => {
     });
 
     expect(state.loading).to.equal(true);
-    expect(state.error).to.equal(false);
+    expect(state.error).to.equal(null);
     expect(state.totalDisabilityRating).to.equal(null);
   });
 });
