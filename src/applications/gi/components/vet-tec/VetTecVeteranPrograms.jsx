@@ -3,20 +3,12 @@ import React from 'react';
 import _ from 'lodash';
 
 export class VetTecVeteranPrograms extends React.Component {
-  constructor(props) {
-    super(props);
-    this.renderProgramLabel = this.renderProgramLabel.bind(this);
-    const { institution } = props;
+  programs = () => {
+    const { institution } = this.props;
 
     const firstProgram = _.get(institution, 'programs[0]', {});
 
-    this.programs = [
-      {
-        modal: 'yribbon',
-        text: 'Yellow Ribbon',
-        link: false,
-        available: false,
-      },
+    return [
       {
         modal: 'vetgroups',
         text: 'Student Veteran Group',
@@ -25,18 +17,6 @@ export class VetTecVeteranPrograms extends React.Component {
           text: 'Site',
         },
         available: !!firstProgram.studentVetGroup,
-      },
-      {
-        modal: 'poe',
-        text: 'Principles of Excellence',
-        link: false,
-        available: false,
-      },
-      {
-        modal: 'eightKeys',
-        text: '8 Keys to Veteran Success',
-        link: false,
-        available: false,
       },
       {
         modal: 'vsoc',
@@ -49,38 +29,10 @@ export class VetTecVeteranPrograms extends React.Component {
         },
         available: !!firstProgram.vetSuccessName,
       },
-
-      {
-        modal: 'ta',
-        text: 'Military Tuition Assistance (TA)',
-        link: false,
-        available: false,
-      },
-
-      {
-        modal: 'priEnroll',
-        text: 'Priority Enrollment',
-        link: false,
-        available: false,
-      },
-
-      {
-        modal: 'onlineOnlyDistanceLearning',
-        text: 'Online Only',
-        link: false,
-        available: false,
-      },
-
-      {
-        modal: 'onlineOnlyDistanceLearning',
-        text: 'Distance Learning',
-        link: false,
-        available: false,
-      },
     ];
-  }
+  };
 
-  renderProgramLabel(program, index) {
+  renderProgramLabel = (program, index) => {
     const icon = program.available ? 'fa fa-check' : 'fa fa-remove';
 
     const link =
@@ -116,33 +68,28 @@ export class VetTecVeteranPrograms extends React.Component {
         <i className={icon} /> {label} {link}
       </div>
     );
-  }
+  };
 
   render() {
-    const showAvailablePrograms =
-      this.programs.findIndex(program => program.available === true) !== -1;
+    const programs = this.programs();
+    const availablePrograms = programs.filter(program => program.available);
+    const notAvailablePrograms = programs.filter(program => !program.available);
     return (
       <div className="programs row">
-        {showAvailablePrograms && (
+        {availablePrograms.length > 0 && (
           <div className="usa-width-one-half medium-6 large-6 column">
             <h3>Available at this campus</h3>
-            {this.programs.map(
-              (program, index) =>
-                program.available
-                  ? this.renderProgramLabel(program, index)
-                  : '',
+            {availablePrograms.map((program, index) =>
+              this.renderProgramLabel(program, index),
             )}
             <br />
           </div>
         )}
-        {this.programs.length > 0 && (
+        {notAvailablePrograms.length > 0 && (
           <div className="usa-width-one-half medium-6 large-6 column">
             <h3>Not available at this campus</h3>
-            {this.programs.map(
-              (program, index) =>
-                !program.available
-                  ? this.renderProgramLabel(program, index)
-                  : '',
+            {notAvailablePrograms.map((program, index) =>
+              this.renderProgramLabel(program, index),
             )}
           </div>
         )}
