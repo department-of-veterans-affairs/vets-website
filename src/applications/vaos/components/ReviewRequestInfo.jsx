@@ -6,6 +6,7 @@ import newAppointmentFlow from '../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../utils/constants';
 import PreferredDates from './PreferredDates';
 
+// Refactor
 function formatBestTime(bestTime) {
   const times = [];
   if (bestTime?.morning) {
@@ -28,6 +29,7 @@ function formatBestTime(bestTime) {
 
   return 'Anytime during the day';
 }
+
 const TypeOfCareSection = props => {
   if (props.data.facilityType === 'communityCare')
     return (
@@ -41,12 +43,13 @@ const TypeOfCareSection = props => {
         VA appointment
       </h2>
     );
-  else if (props.DirectSchedule) return null;
 
+  // TODO: Add direct schedule???
   return null;
 };
 
-const ReasonForAppointmentSection = props => (
+// Refactor into new file???
+export const ReasonForAppointmentSection = props => (
   <>
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="vads-l-row">
@@ -64,7 +67,8 @@ const ReasonForAppointmentSection = props => (
   </>
 );
 
-const ContactDetailSection = props => (
+// Refactor into new file???
+export const ContactDetailSection = props => (
   <>
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="vads-l-row">
@@ -122,61 +126,60 @@ const VAAppointmentSection = props => (
   </>
 );
 
-const CommunityCareSection = props => (
-  <>
-    {props.data.hasCommunityCareProvider && (
-      <>
-        <div className="vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col--6">
-              <h3 className="vaos-appts__block-label">Preferred providers</h3>
-            </div>
-            <div className="vads-l-col--6 vads-u-text-align--right">
-              <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
-            </div>
-          </div>
-        </div>
-        <span>
-          {props.data.communityCareProvider.practiceName}
-          <br />
-          {props.data.communityCareProvider.firstName} &nbsp;
-          {props.data.communityCareProvider.lastName}
-          <br />
-          {props.data.communityCareProvider.address.street}
-          <br />
-          {props.data.communityCareProvider.address.street2}
-          <br />
-          {props.data.communityCareProvider.address.city}, &nbsp;
-          {props.data.communityCareProvider.address.state} &nbsp;
-          {props.data.communityCareProvider.address.postalCode}
-        </span>
-      </>
-    )}
-    {!props.data.hasCommunityCareProvider && (
-      <>
-        <div className="vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col--6">
-              <h3 className="vaos-appts__block-label">Not specified</h3>
-            </div>
-            <div className="vads-l-col--6 vads-u-text-align--right">
-              <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+function CommunityCareSection(props) {
+  return (
+    <>
+      {props.data.hasCommunityCareProvider && (
+        <>
+          <div className="vads-l-grid-container vads-u-padding--0">
+            <div className="vads-l-row">
+              <div className="vads-l-col--6">
+                <h3 className="vaos-appts__block-label">Preferred providers</h3>
+              </div>
+              <div className="vads-l-col--6 vads-u-text-align--right">
+                <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+              </div>
             </div>
           </div>
-        </div>
-      </>
-    )}
-    <hr />
-    <ReasonForAppointmentSection data={props.data} />
-    <hr />
-    <PreferredDatesSection data={props.data} />
-    <hr />
-    <ContactDetailSection data={props.data} />
-  </>
-);
-
-// const DirectSchedule = props => { };
-// const ContentSection = props => { };
+          <span>
+            {props.data.communityCareProvider.practiceName}
+            <br />
+            {props.data.communityCareProvider.firstName} &nbsp;
+            {props.data.communityCareProvider.lastName}
+            <br />
+            {props.data.communityCareProvider.address.street}
+            <br />
+            {props.data.communityCareProvider.address.street2}
+            <br />
+            {props.data.communityCareProvider.address.city}, &nbsp;
+            {props.data.communityCareProvider.address.state} &nbsp;
+            {props.data.communityCareProvider.address.postalCode}
+          </span>
+        </>
+      )}
+      {!props.data.hasCommunityCareProvider && (
+        <>
+          <div className="vads-l-grid-container vads-u-padding--0">
+            <div className="vads-l-row">
+              <div className="vads-l-col--6">
+                <h3 className="vaos-appts__block-label">Not specified</h3>
+              </div>
+              <div className="vads-l-col--6 vads-u-text-align--right">
+                <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      <hr />
+      <ReasonForAppointmentSection data={props.data} />
+      <hr />
+      <PreferredDatesSection data={props.data} />
+      <hr />
+      <ContactDetailSection data={props.data} />
+    </>
+  );
+}
 
 export default function ReviewRequestInfo({ data }) {
   const isCommunityCare = data.facilityType === 'communityCare';

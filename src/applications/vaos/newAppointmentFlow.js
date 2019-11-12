@@ -67,8 +67,8 @@ export default {
           // Check if user registered systems support community care...
           const userSystemIds = await getSystemIdentifiers();
           const ccSites = await getSitesSupportingVAR();
-          const ccEnabledSystems = userSystemIds.filter(id =>
-            ccSites.some(site => site._id === id),
+          const ccEnabledSystems = userSystemIds.filter(uniqueId =>
+            ccSites.some(site => site._id === uniqueId.uniqueId),
           );
           dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
