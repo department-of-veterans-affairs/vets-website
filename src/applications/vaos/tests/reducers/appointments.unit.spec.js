@@ -55,7 +55,7 @@ describe('VAOS reducer: appointments', () => {
           },
         ],
         [{ startDate: '2099-04-30T05:35:00' }],
-        { appointmentRequests: [{ optionDate1: '05/29/2099' }] },
+        [{ optionDate1: '05/29/2099' }],
       ],
     };
 
