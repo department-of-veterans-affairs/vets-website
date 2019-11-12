@@ -12,7 +12,6 @@ export default class ScoEventListWidget extends React.Component {
         eventStartDate: PropTypes.string.isRequired,
         eventEndDate: PropTypes.string,
         displayStartDate: PropTypes.string.isRequired,
-        displayEndDate: PropTypes.string,
       }),
     ),
   };
@@ -53,9 +52,9 @@ export default class ScoEventListWidget extends React.Component {
     const displayStart = moment(event.displayStartDate, 'YYYY-MM-DD').startOf(
       'day',
     );
-    const displayEnd = event.displayEndDate
-      ? moment(event.displayEndDate, 'YYYY-MM-DD').startOf('day')
-      : moment(startDate).add(30, 'days');
+    const displayEnd = event.eventEndDate
+      ? moment(event.eventEndDate, 'YYYY-MM-DD').startOf('day')
+      : moment(startDate).add(1, 'days');
 
     return displayStart.isSameOrBefore(today) && today.isBefore(displayEnd);
   };
