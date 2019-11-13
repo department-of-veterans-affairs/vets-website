@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
 import PercentageCalloutBox from '../components/PercentageCalloutBox';
 
 export const errorMessage = () => {
@@ -75,6 +76,9 @@ export const totalRatingMessage = totalDisabilityRating => (
           href="/claim-or-appeal-status/"
           arial-label="check your claims or appeals status"
           title="check your claims or appeals status"
+          onClick={() => {
+            recordEvent({ event: 'disability-navigation-check-claims' });
+          }}
         >
           Check your claims or appeals
         </a>

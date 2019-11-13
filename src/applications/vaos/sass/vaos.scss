@@ -28,6 +28,12 @@
   }
 }
 
+.vaos-appts__cancel-btn {
+  @media (max-width: $small-screen) {
+    max-width: 90px;
+  }
+}
+
 .vaos-appts__date-time {
   margin: 0 0 16px;
 

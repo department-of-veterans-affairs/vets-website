@@ -191,29 +191,19 @@ describe('VAOS selectors', () => {
           },
           data: {
             typeOfCareId: '323',
-            vaFacility: '983',
+            vaSystem: '983',
           },
           eligibility: {
             '983_323': {
               request: true,
             },
           },
-          facilities: {
-            '323_983': [
-              {
-                institution: {
-                  institutionCode: '983',
-                },
-                institutionTimezone: 'America/Denver',
-              },
-            ],
-          },
           availableSlots,
         },
       };
 
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.be.oneOf(['MST', 'MDT']);
+      expect(data.timezone).to.equal('MT');
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
     });

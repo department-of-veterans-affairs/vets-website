@@ -27,4 +27,4 @@ const modifiedEntities = map([entities[0]], entity =>
 
 // eslint-disable-next-line
 console.log('Number of files:', modifiedEntities.length);
-// console.log('First node:', modifiedEntities[0]);
+// console.log('First node:', JSON.stringify(modifiedEntities[0], null, 2));
