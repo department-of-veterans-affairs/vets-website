@@ -237,3 +237,10 @@ article[data-location="request-informal-conference"] {
     margin-top: 1em;
   }
 }
+
+/* Confirmation page */
+article[data-location="confirmation"] {
+  h1[tabindex="-1"] {
+    outline: none;
+  }
+}
