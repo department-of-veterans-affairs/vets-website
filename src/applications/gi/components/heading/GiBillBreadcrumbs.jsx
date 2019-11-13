@@ -19,7 +19,7 @@ export default function GiBillBreadcrumbs({
       Home
     </a>,
     <a href="/education/" key="education">
-      Education and Training
+      Education and training
     </a>,
     <Link to={root} key="main">
       GI Bill® Comparison Tool
@@ -36,7 +36,7 @@ export default function GiBillBreadcrumbs({
         to={{ pathname: 'search', query: searchQuery }}
         key="search-results"
       >
-        Search Results
+        Search results
       </Link>,
     );
   }
@@ -44,7 +44,7 @@ export default function GiBillBreadcrumbs({
   if (onProfilePage) {
     crumbs.push(
       <Link to={`profile/${facilityCode}`} key="result-detail">
-        School Details
+        School details
       </Link>,
     );
   }
