@@ -27,13 +27,10 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       <AppointmentRequestListItem appointment={appointment} showCancelButton />,
     );
 
-    const statusSpans = tree.find('h2 > span');
-    expect(statusSpans.at(0).text()).to.equal('Pending');
-    expect(statusSpans.at(1).text()).to.equal('Date and time to be determined');
+    expect(tree.text()).to.contain('Pending');
+    expect(tree.text()).to.contain('time and date are still to be determined');
 
-    expect(
-      tree.find('div.vads-u-flex--1.vads-u-margin-y--1p5 > span').text(),
-    ).to.equal('Testing appointment');
+    expect(tree.text()).to.contain('Testing appointment');
 
     expect(tree.find('.usa-button-secondary').text()).to.equal('Cancel');
 
@@ -72,11 +69,11 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       <AppointmentRequestListItem appointment={appointment} />,
     );
 
-    expect(tree.find('h2').text()).to.equal('Canceled');
+    expect(tree.text()).to.contain('Canceled');
 
-    expect(
-      tree.find('div.vads-u-flex--1.vads-u-margin-y--1p5 > span').text(),
-    ).to.equal('Audiology (hearing Aid Support) appointment');
+    expect(tree.text()).to.contain(
+      'Audiology (hearing Aid Support) appointment',
+    );
 
     expect(tree.find('.usa-button-secondary').length).to.equal(0);
     tree.unmount();
