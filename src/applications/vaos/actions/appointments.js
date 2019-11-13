@@ -37,25 +37,23 @@ export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 
-export function fetchRequestMessages(pendingAppointments) {
+export function fetchRequestMessages(requestId) {
   return async dispatch => {
-    if (pendingAppointments && pendingAppointments.length > 0) {
-      const requestIds = pendingAppointments.map(a => a.appointmentRequestId);
-      requestIds.forEach(async requestId => {
-        try {
-          const messages = await getRequestMessages(requestId);
-          dispatch({
-            type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
-            requestId,
-            messages,
-          });
-        } catch (error) {
-          Sentry.captureException(error);
-          dispatch({
-            type: FETCH_REQUEST_MESSAGES_FAILED,
-            error,
-          });
-        }
+    try {
+      dispatch({
+        type: FETCH_REQUEST_MESSAGES,
+      });
+      const messages = await getRequestMessages(requestId);
+      dispatch({
+        type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
+        requestId,
+        messages,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      dispatch({
+        type: FETCH_REQUEST_MESSAGES_FAILED,
+        error,
       });
     }
   };
@@ -96,7 +94,17 @@ export function fetchFutureAppointments() {
           data,
           today: moment(),
         });
-        dispatch(fetchRequestMessages(data[2]));
+
+        // Fetch request messages
+        const pendingAppointments = data[2];
+        if (pendingAppointments && pendingAppointments.length) {
+          const requestIds = pendingAppointments.map(
+            a => a.appointmentRequestId,
+          );
+          requestIds.forEach(requestId => {
+            dispatch(fetchRequestMessages(requestId));
+          });
+        }
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
