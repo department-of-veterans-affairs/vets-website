@@ -21,6 +21,10 @@ function getStagingId(facilityId) {
     return facilityId.replace('983', '442');
   }
 
+  if (!environment.isProduction() && facilityId.startsWith('984')) {
+    return facilityId.replace('984', '552');
+  }
+
   return facilityId;
 }
 
@@ -253,6 +257,25 @@ export function getFacilityInfo(facilityId) {
   return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
     resp => resp.data,
   );
+}
+
+export function getFacilitiesInfo(facilityIds) {
+  let promise;
+
+  if (environment.isLocalhost()) {
+    promise = import('./facility_data.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    const idList = facilityIds
+      .map(getStagingId)
+      .map(id => `vha_${id}`)
+      .join(',');
+
+    promise = apiRequest(`/facilities/va?ids=${idList}`);
+  }
+
+  return promise.then(resp => resp.data.map(item => item.attributes));
 }
 
 export function getSitesSupportingVAR() {

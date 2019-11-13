@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function FacilityAddress({ name, address }) {
+export default function FacilityAddress({ name, address, phone }) {
   return (
     <>
       <strong>{name}</strong>
@@ -12,6 +12,8 @@ export default function FacilityAddress({ name, address }) {
       {address.address3}
       {!!address.address3 && <br />}
       {address.city}, {address.state} {address.zip}
+      <br />
+      {phone || ''}
     </>
   );
 }

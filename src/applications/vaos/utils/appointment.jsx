@@ -2,6 +2,8 @@ import React from 'react';
 import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
+import FacilityAddress from '../components/FacilityAddress';
+
 import {
   getTimezoneBySystemId,
   getTimezoneAbbrBySystemId,
@@ -85,7 +87,7 @@ export function getAppointmentTitle(appt) {
   return 'VA visit';
 }
 
-export function getAppointmentLocation(appt) {
+export function getAppointmentLocation(appt, facility) {
   if (isVideoVisit(appt)) {
     return 'Video conference';
   }
@@ -99,6 +101,16 @@ export function getAppointmentLocation(appt) {
         <br />
         {appt.address.city}, {appt.address.state} {appt.address.zipCode}
       </>
+    );
+  }
+
+  if (facility) {
+    return (
+      <FacilityAddress
+        name={facility.name}
+        address={facility.address.physical}
+        phone={facility.phone?.main}
+      />
     );
   }
 

@@ -26,6 +26,7 @@ export default class AppointmentRequestListItem extends React.Component {
       index,
       cancelAppointment,
       showCancelButton,
+      facility,
     } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
@@ -85,7 +86,7 @@ export default class AppointmentRequestListItem extends React.Component {
             <dt className="vads-u-font-weight--bold">
               {getClinicName(appointment)}
             </dt>
-            <dd>{getAppointmentLocation(appointment)}</dd>
+            <dd>{getAppointmentLocation(appointment, facility)}</dd>
           </dl>
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
