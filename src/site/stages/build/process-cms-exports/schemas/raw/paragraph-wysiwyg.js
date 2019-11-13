@@ -5,11 +5,7 @@ module.exports = {
   type: 'object',
   properties: {
     field_wysiwyg: {
-      type: 'array',
-      properties: {
-        value: { type: 'string' },
-        format: { type: 'string' },
-      },
+      $ref: 'GenericNestedString',
     },
   },
   required: getFilter('paragraph-wysiwyg'),
