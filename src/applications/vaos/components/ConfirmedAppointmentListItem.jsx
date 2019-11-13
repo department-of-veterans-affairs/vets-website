@@ -69,7 +69,7 @@ export default function ConfirmedAppointmentListItem({
           </button>
         )}
       </div>
-      <h2 className="vaos-appts__date-time vads-u-font-size--lg">
+      <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-y--2">
         {getAppointmentDateTime(appointment)}
       </h2>
 

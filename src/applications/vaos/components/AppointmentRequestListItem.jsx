@@ -29,6 +29,7 @@ export default class AppointmentRequestListItem extends React.Component {
     } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
+    const isCommunityCare = !!appointment.ccAppointmentRequest;
 
     return (
       <li
@@ -43,10 +44,7 @@ export default class AppointmentRequestListItem extends React.Component {
               <i className="fas fa-exclamation-triangle vads-u-color--warning-message" />
             )}
             <span className="vads-u-font-weight--bold vads-u-display--inline-block">
-              <h2
-                id={`card-${index}`}
-                className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans"
-              >
+              <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
                 {canceled ? (
                   'Canceled'
                 ) : (
@@ -54,12 +52,12 @@ export default class AppointmentRequestListItem extends React.Component {
                     <span className="vads-u-font-weight--bold vads-u-display--inline-block vads-u-margin-right--0p5">
                       Pending
                     </span>
-                    <span className="vads-u-font-weight--normal">
-                      Date and time to be determined
+                    <span className="vads-u-display--none medium-screen:vads-u-display--block vads-u-font-weight--normal">
+                      - The time and date are still to be determined.
                     </span>
                   </>
                 )}
-              </h2>
+              </div>
             </span>
           </div>
 
@@ -75,18 +73,42 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
           )}
         </div>
-        <div className="vads-u-flex--1 vads-u-margin-y--1p5">
-          <span className="vads-u-font-weight--bold">
-            {titleCase(appointment.appointmentType)} appointment
-          </span>
-        </div>
+        <h2
+          id={`card-${index}`}
+          className="vads-u-font-size--h3 vads-u-margin-y--2"
+        >
+          {titleCase(appointment.appointmentType)} appointment{' '}
+          {isCommunityCare && '- Community Care'}
+        </h2>
         <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-          <dl className="vads-u-margin--0">
-            <dt className="vads-u-font-weight--bold">
-              {getClinicName(appointment)}
-            </dt>
-            <dd>{getAppointmentLocation(appointment)}</dd>
-          </dl>
+          {!isCommunityCare && (
+            <dl className="vads-u-margin--0">
+              <dt className="vads-u-font-weight--bold">
+                {getClinicName(appointment)}
+              </dt>
+              <dd>{getAppointmentLocation(appointment)}</dd>
+            </dl>
+          )}
+          {isCommunityCare && (
+            <dl className="vads-u-margin--0">
+              <dt className="vads-u-font-weight--bold">Preferred providers</dt>
+              <dd>
+                <ul className="usa-unstyled-list">
+                  {appointment.ccAppointmentRequest.preferredProviders.map(
+                    provider => (
+                      <li key={`${provider.firstName} ${provider.lastName}`}>
+                        {provider.practiceName}
+                        <br />
+                        {provider.firstName} {provider.lastName}
+                      </li>
+                    ),
+                  )}
+                  {!appointment.ccAppointmentRequest?.preferredProviders?.[0] &&
+                    'Not specified'}
+                </ul>
+              </dd>
+            </dl>
+          )}
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
         {showMore ? (
