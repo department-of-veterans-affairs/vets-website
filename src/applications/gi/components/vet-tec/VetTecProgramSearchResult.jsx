@@ -21,9 +21,6 @@ class VetTecProgramSearchResult extends React.Component {
     const tuition = isPresent(tuitionAmount)
       ? formatCurrency(tuitionAmount)
       : 'TBD';
-    const programLength = isPresent(lengthInWeeks)
-      ? `${lengthInWeeks} hours`
-      : 'TBD';
 
     const linkTo = {
       pathname: `profile/${facilityCode}/${description}`,
@@ -85,7 +82,9 @@ class VetTecProgramSearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns vads-u-display--inline-block">
-                <div className="info-flag">{programLength}</div>
+                {isPresent(lengthInWeeks) && (
+                  <div className="info-flag">{`${lengthInWeeks} hours`}</div>
+                )}
                 <Link to={linkTo}>View details ›</Link>
               </div>
             </div>
