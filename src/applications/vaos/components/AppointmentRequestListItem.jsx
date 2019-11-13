@@ -119,7 +119,7 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
 
             {firstMessage && (
-              <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-bottom--2">
+              <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-y--2">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold">
                     Additional Information
