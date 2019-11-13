@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { DEFAULT_ANNOUNCEMENT_DAYS_TO_DISPLAY } from './constants/constants';
 
 export default class ScoAnnouncementsWidget extends React.Component {
   static propTypes = {
@@ -26,7 +27,7 @@ export default class ScoAnnouncementsWidget extends React.Component {
     ).startOf('day');
     const displayEnd = announcement.displayEndDate
       ? moment(announcement.displayEndDate, 'YYYY-MM-DD').startOf('day')
-      : moment(date).add(30, 'days');
+      : moment(date).add(DEFAULT_ANNOUNCEMENT_DAYS_TO_DISPLAY, 'days');
 
     return displayStart.isSameOrBefore(today) && today.isBefore(displayEnd);
   };
