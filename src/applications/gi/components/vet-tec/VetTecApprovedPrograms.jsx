@@ -15,12 +15,6 @@ class VetTecApprovedPrograms extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (!environment.isProduction()) {
-      this.setProgramFields(this.state.selectedProgram);
-    }
-  }
-
   setProgramFields = programName => {
     const program = this.props.institution.programs.find(
       p => p.description === programName,
