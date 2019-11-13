@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import moment from 'moment';
-import ScoEventListWidget from '../../school-resources/ScoEventListWidget';
+import ScoEventsWidget from '../../school-resources/ScoEventsWidget';
 
-describe('<ScoEventListWidget>', () => {
+describe('<ScoEventsWidget>', () => {
   it('renders correctly', () => {
     const today = moment()
       .startOf('day')
@@ -19,7 +19,7 @@ describe('<ScoEventListWidget>', () => {
       },
     ];
 
-    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
+    const wrapper = mount(<ScoEventsWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(1);
     wrapper.unmount();
   });
@@ -39,7 +39,7 @@ describe('<ScoEventListWidget>', () => {
       },
     ];
 
-    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
+    const wrapper = mount(<ScoEventsWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
     wrapper.unmount();
   });
@@ -65,7 +65,7 @@ describe('<ScoEventListWidget>', () => {
       },
     ];
 
-    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
+    const wrapper = mount(<ScoEventsWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
     wrapper.unmount();
   });
@@ -85,7 +85,7 @@ describe('<ScoEventListWidget>', () => {
       },
     ];
 
-    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
+    const wrapper = mount(<ScoEventsWidget scoEvents={scoEvents} />);
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(0);
     wrapper.unmount();
   });
@@ -124,7 +124,7 @@ describe('<ScoEventListWidget>', () => {
       },
     ];
 
-    const wrapper = mount(<ScoEventListWidget scoEvents={scoEvents} />);
+    const wrapper = mount(<ScoEventsWidget scoEvents={scoEvents} />);
 
     expect(wrapper.find('.hub-page-link-list__item')).to.have.lengthOf(3);
     expect(
