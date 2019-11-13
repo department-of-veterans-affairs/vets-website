@@ -22,6 +22,13 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         facilityCode: '983',
       },
       appointmentRequestId: 'guid',
+      messages: [
+        {
+          attributes: {
+            messageText: 'Some message',
+          },
+        },
+      ],
     };
     const tree = shallow(
       <AppointmentRequestListItem appointment={appointment} />,
@@ -49,6 +56,10 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     expect(preferredDates.at(1).text()).to.equal(
       'Thu, May 23, 2019 in the morning',
     );
+
+    const messages = tree.find('.vaos_appts__message');
+    expect(messages.find('dt').text()).to.equal('Additional Information');
+    expect(messages.find('dd').text()).to.equal('Some message');
 
     tree.unmount();
   });
