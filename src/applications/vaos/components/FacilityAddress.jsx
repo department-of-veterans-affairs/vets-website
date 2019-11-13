@@ -13,7 +13,7 @@ export default function FacilityAddress({ name, address, phone }) {
       {!!address.address3 && <br />}
       {address.city}, {address.state} {address.zip}
       <br />
-      {phone || ''}
+      {!!phone && <a href={`tel:${phone.replace(/-/g, '')}`}>{phone}</a>}
     </>
   );
 }
