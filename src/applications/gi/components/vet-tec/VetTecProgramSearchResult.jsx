@@ -15,7 +15,7 @@ class VetTecProgramSearchResult extends React.Component {
       state,
       country,
       tuitionAmount,
-      lengthInWeeks,
+      lengthInHours,
       dodBah,
     } = result;
     const tuition = isPresent(tuitionAmount)
@@ -82,8 +82,8 @@ class VetTecProgramSearchResult extends React.Component {
             </div>
             <div className="row">
               <div className="view-details columns vads-u-display--inline-block">
-                {isPresent(lengthInWeeks) && (
-                  <div className="info-flag">{`${lengthInWeeks} hours`}</div>
+                {isPresent(lengthInHours) && (
+                  <div className="info-flag">{`${lengthInHours} hours`}</div>
                 )}
                 <Link to={linkTo}>View details ›</Link>
               </div>
