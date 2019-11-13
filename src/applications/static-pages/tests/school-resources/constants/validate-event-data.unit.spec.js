@@ -11,6 +11,11 @@ describe('school resources data', () => {
       expect(item.location).to.be.a('string');
       expect(item.eventStartDate).to.be.a('string');
       expect(item.displayStartDate).to.be.a('string');
+      expect(item.name).to.not.be.empty;
+      expect(item.url).to.not.be.empty;
+      expect(item.location).to.not.be.empty;
+      expect(item.eventStartDate).to.not.be.empty;
+      expect(item.displayStartDate).to.not.be.empty;
     });
   });
 

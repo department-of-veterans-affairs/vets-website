@@ -99,7 +99,7 @@ class IntroductionPage extends React.Component {
               <ol>
                 <li className="process-step list-one">
                   <h5>Prepare</h5>
-                  <h6>To fill out this application, you’ll need your:</h6>
+                  <p>To fill out this application, you’ll need your:</p>
                   <ul>
                     <li>
                       Primary address (or forwarding address if you'll be moving
@@ -114,7 +114,9 @@ class IntroductionPage extends React.Component {
                   <p>
                     When you request a Higher-Level Review, you won't be able to
                     submit new evidence. If you have new evidence to submit,
-                    you'll need to select another review option.{' '}
+                    you'll need to select another review option.
+                  </p>
+                  <p>
                     <a href="/decision-reviews">
                       Learn more about review options
                     </a>

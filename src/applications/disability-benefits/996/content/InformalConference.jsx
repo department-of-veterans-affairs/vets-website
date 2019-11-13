@@ -46,9 +46,10 @@ export const RepresentativeNameTitle = 'Representative’s name';
 
 export const RepresentativePhoneTitle = 'Representative’s phone number';
 
-export const InformalConferenceTimes = (
+export const InformalConferenceTimes = ({ isRep }) => (
   <p>
-    Please choose up to two time periods you’re available to receive a phone
+    Please choose up to two time periods{' '}
+    {isRep ? 'your representative is' : 'you’re'} available to receive a phone
     call.
   </p>
 );

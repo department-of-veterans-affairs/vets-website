@@ -9,7 +9,7 @@ export const EffectiveDateViewField = ({ formData }) => {
   const fromDateString = moment(from).format(dateFormat);
   return to ? (
     <p>
-      We’ll use this address starting on {fromDateString} until{' '}
+      We’ll use this address from {fromDateString} to{' '}
       {moment(to).format(dateFormat)}:
     </p>
   ) : (
