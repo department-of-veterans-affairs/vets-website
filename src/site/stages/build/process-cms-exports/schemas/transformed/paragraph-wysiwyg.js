@@ -1,4 +1,4 @@
-// const { getFilter } = require('../../filters');
+const { getFilter } = require('../../filters');
 
 module.exports = {
   type: 'object',
@@ -12,5 +12,5 @@ module.exports = {
       },
     },
   },
-  // required: getFilter('node-page'),
+  required: getFilter('paragraph-wysiwyg'),
 };
