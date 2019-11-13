@@ -10,7 +10,7 @@ function wysiwygTransform(entity) {
       entityBundle: 'wysiwyg',
 
       fieldWysiwyg: {
-        processed: getDrupalValue(fieldWysiwyg).replace(/(\r\n)/gm, ''),
+        processed: getDrupalValue(fieldWysiwyg).replace(/(\r\n|\t)/gm, ''),
       },
     },
   );
