@@ -72,7 +72,7 @@ export default class ScoAnnouncementsWidget extends React.Component {
             href="https://www.benefits.va.gov/gibill/news.asp"
             className="vads-u-text-decoration--none"
           >
-            See past updates
+            See past updates...
           </a>
         </p>
       </div>
