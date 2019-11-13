@@ -70,7 +70,7 @@ const VetTecAdditionalResources = () => (
       {renderVetTecLogo(classNames('vettec-logo'))}
     </div>
     <h2 className="highlight vettec-additional-resources-header vads-u-font-size--h4">
-      Additional Resources
+      Additional resources
     </h2>
     <VetTecAdditionalResourcesLinks />
   </div>

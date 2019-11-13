@@ -42,7 +42,7 @@ export class EligibilityForm extends React.Component {
       <div className="eligibility-form">
         <h2>Your eligibility</h2>
         <Dropdown
-          label="What is your military status?"
+          label="What's your military status?"
           name="militaryStatus"
           options={[
             { value: 'veteran', label: 'Veteran' },
@@ -55,7 +55,7 @@ export class EligibilityForm extends React.Component {
             { value: 'child', label: 'Child' },
           ]}
           value={this.props.militaryStatus}
-          alt="What is your military status?"
+          alt="What's your military status?"
           visible
           onChange={this.props.eligibilityChange}
         />
@@ -134,14 +134,14 @@ export class EligibilityForm extends React.Component {
         )}
         <Dropdown
           label={this.renderLearnMoreLabel({
-            text: 'Cumulative Post-9/11 active duty service',
+            text: 'Cumulative Post-9/11 active-duty service',
             modal: 'cumulativeService',
             ariaLabel: ariaLabels.learnMore.post911Chapter33,
           })}
           name="cumulativeService"
           options={this.cumulativeServiceOptions()}
           value={this.props.cumulativeService}
-          alt="Cumulative Post-9/11 active duty service"
+          alt="Cumulative Post-9/11 active-duty service"
           visible={this.props.giBillChapter === '33'}
           onChange={this.props.eligibilityChange}
         />

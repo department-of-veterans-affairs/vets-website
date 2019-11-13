@@ -24,7 +24,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       appointmentRequestId: 'guid',
     };
     const tree = shallow(
-      <AppointmentRequestListItem appointment={appointment} />,
+      <AppointmentRequestListItem appointment={appointment} showCancelButton />,
     );
 
     const statusSpans = tree.find('h2 > span');
@@ -43,10 +43,12 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     const preferredDates = tree.find('.vaos-appts__preferred-dates li');
 
     expect(preferredDates.at(0).text()).to.equal(
-      'May 22, 2019 in the afternoon',
+      'Wed, May 22, 2019 in the afternoon',
     );
 
-    expect(preferredDates.at(1).text()).to.equal('May 23, 2019 in the morning');
+    expect(preferredDates.at(1).text()).to.equal(
+      'Thu, May 23, 2019 in the morning',
+    );
 
     tree.unmount();
   });

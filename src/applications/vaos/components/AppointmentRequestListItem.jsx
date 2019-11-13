@@ -21,7 +21,12 @@ export default class AppointmentRequestListItem extends React.Component {
   }
 
   render() {
-    const { appointment, index, cancelAppointment } = this.props;
+    const {
+      appointment,
+      index,
+      cancelAppointment,
+      showCancelButton,
+    } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
 
@@ -58,7 +63,7 @@ export default class AppointmentRequestListItem extends React.Component {
             </span>
           </div>
 
-          {canceled ? null : (
+          {!showCancelButton || canceled ? null : (
             <div>
               <button
                 className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"

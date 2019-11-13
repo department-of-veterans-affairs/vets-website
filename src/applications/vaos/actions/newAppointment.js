@@ -8,6 +8,7 @@ import {
   getFacilityInfo,
   getAvailableSlots,
 } from '../api';
+import { FLOW_TYPES } from '../utils/constants';
 
 import { getEligibilityData } from '../utils/eligibility';
 
@@ -325,15 +326,22 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   };
 }
 
-// export function submitDirectSchedule(page, uiSchema, schema) {
-//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
-//   // TODO: parse selected date
-// }
+export function submitAppointmentOrRequest(router) {
+  return (dispatch, getState) => {
+    const newAppointment = getState().newAppointment;
 
-// export function submitAppointmentRequest(page, uiSchema, schema) {
-//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
-//   // TODO: parse selected date into optionTime
-// }
+    if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      // TODO: transform form data into shape for direct schedule
+      router.push('/new-appointment/confirmation');
+    } else if (newAppointment.facilityType === 'communityCare') {
+      // TODO: transform form data into shape for cc request
+      router.push('/new-appointment/confirmation');
+    } else {
+      // TODO: transform form data into shape for va request
+      router.push('/new-appointment/confirmation');
+    }
+  };
+}
 
 export function routeToPageInFlow(flow, router, current, action) {
   return async (dispatch, getState) => {

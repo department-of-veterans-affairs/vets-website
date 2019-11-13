@@ -19,6 +19,7 @@ export default function ConfirmedAppointmentListItem({
   type,
   index,
   cancelAppointment,
+  showCancelButton,
 }) {
   let canceled = false;
   if (type === APPOINTMENT_TYPES.vaAppointment) {
@@ -28,6 +29,7 @@ export default function ConfirmedAppointmentListItem({
   }
 
   const allowCancel =
+    showCancelButton &&
     !canceled &&
     type !== APPOINTMENT_TYPES.ccAppointment &&
     !isVideoVisit(appointment);
@@ -57,7 +59,7 @@ export default function ConfirmedAppointmentListItem({
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"
-            className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"
+            className="vaos-appts__cancel-btn usa-button-secondary vads-u-margin--0 vads-u-flex--0"
           >
             Cancel
             <span className="sr-only">

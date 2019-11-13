@@ -67,9 +67,9 @@ export default {
           // Check if user registered systems support community care...
           const userSystemIds = await getSystemIdentifiers();
           const ccSites = await getSitesSupportingVAR();
-          const ccEnabledSystems = userSystemIds.filter(uniqueId =>
-            ccSites.some(site => site._id === uniqueId.uniqueId),
-          );
+          const ccEnabledSystems = userSystemIds
+            .map(system => system.assigningAuthority.substr(4))
+            .filter(id => ccSites.some(site => site._id === id));
           dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
           // Reroute to VA facility page if none of the user's registered systems support community care.
@@ -168,10 +168,10 @@ export default {
   clinicChoice: {
     url: '/new-appointment/clinics',
     previous: 'vaFacility',
-    next(state) {
+    next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
-        // When there's an appointment time page, go there instead
-        return 'reasonForAppointment';
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
       }
 
       // fetch appointment slots
