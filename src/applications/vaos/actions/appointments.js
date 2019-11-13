@@ -41,13 +41,13 @@ export function fetchRequestMessages(pendingAppointments) {
   return async dispatch => {
     if (pendingAppointments && pendingAppointments.length > 0) {
       const requestIds = pendingAppointments.map(a => a.appointmentRequestId);
-      requestIds.forEach(async id => {
+      requestIds.forEach(async requestId => {
         try {
-          const data = await getRequestMessages(id);
+          const messages = await getRequestMessages(requestId);
           dispatch({
             type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
-            requestId: id,
-            messages: data,
+            requestId,
+            messages,
           });
         } catch (error) {
           Sentry.captureException(error);
