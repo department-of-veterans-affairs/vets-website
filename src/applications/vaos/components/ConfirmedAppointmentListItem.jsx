@@ -19,6 +19,7 @@ export default function ConfirmedAppointmentListItem({
   type,
   index,
   cancelAppointment,
+  showCancelButton,
 }) {
   let canceled = false;
   if (type === APPOINTMENT_TYPES.vaAppointment) {
@@ -28,6 +29,7 @@ export default function ConfirmedAppointmentListItem({
   }
 
   const allowCancel =
+    showCancelButton &&
     !canceled &&
     type !== APPOINTMENT_TYPES.ccAppointment &&
     !isVideoVisit(appointment);
