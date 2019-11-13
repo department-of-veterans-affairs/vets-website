@@ -76,23 +76,13 @@ export default class AppointmentRequestListItem extends React.Component {
             {titleCase(appointment.appointmentType)} appointment
           </span>
         </div>
-        <div className="vaos-appts__split-section">
-          <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {getClinicName(appointment)}
-              </dt>
-              <dd>{getAppointmentLocation(appointment)}</dd>
-            </dl>
-          </div>
-          <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {appointment.visitType}
-              </dt>
-              <dd>{firstMessage}</dd>
-            </dl>
-          </div>
+        <div className="vads-u-flex--1 vads-u-margin-bottom--2">
+          <dl className="vads-u-margin--0">
+            <dt className="vads-u-font-weight--bold">
+              {getClinicName(appointment)}
+            </dt>
+            <dd>{getAppointmentLocation(appointment)}</dd>
+          </dl>
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
         {showMore ? (
@@ -128,6 +118,16 @@ export default class AppointmentRequestListItem extends React.Component {
               </div>
             </div>
 
+            {firstMessage && (
+              <div className="vads-u-flex--1 vads-u-margin-bottom--2">
+                <dl className="vads-u-margin--0">
+                  <dt className="vads-u-font-weight--bold">
+                    Additional Information
+                  </dt>
+                  <dd>{firstMessage}</dd>
+                </dl>
+              </div>
+            )}
             <hr className="vads-u-margin--0 vads-u-margin-top--2" />
           </div>
         ) : null}
