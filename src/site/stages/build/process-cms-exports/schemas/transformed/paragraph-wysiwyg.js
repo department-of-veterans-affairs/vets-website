@@ -1,16 +1,20 @@
-const { getFilter } = require('../../filters');
-
 module.exports = {
   type: 'object',
   properties: {
-    fieldWysiwyg: {
+    entity: {
       type: 'object',
+      required: ['fieldWysiwyg'],
       properties: {
-        processed: {
-          type: 'string',
+        fieldWysiwyg: {
+          type: 'object',
+          properties: {
+            processed: {
+              type: 'string',
+            },
+          },
         },
       },
     },
   },
-  required: getFilter('paragraph-wysiwyg'),
+  required: ['entity'],
 };

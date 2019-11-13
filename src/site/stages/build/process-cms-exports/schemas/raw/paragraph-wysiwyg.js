@@ -1,3 +1,5 @@
+const { getFilter } = require('../../filters');
+
 /* eslint-disable camelcase */
 module.exports = {
   type: 'object',
@@ -10,4 +12,5 @@ module.exports = {
       },
     },
   },
+  required: getFilter('paragraph-wysiwyg'),
 };
