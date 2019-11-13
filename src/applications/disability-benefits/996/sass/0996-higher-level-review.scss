@@ -22,6 +22,17 @@
   margin-bottom: 1em;
 }
 
+/* Intro page */
+aside.process {
+  /* fix gaps around the sign-in block */
+  padding-bottom: 0;
+
+  &+ .usa-alert-continue {
+    margin-top: 0;
+    margin-bottom: 2em;
+  }
+}
+
 /* Step 1a */
 /* Veteran details block */
 .blue-bar-block {
@@ -202,8 +213,14 @@ article[data-location="request-informal-conference"] {
   }
 
   /* Remove extra spacing between form elements */
-  .form-expanding-group .usa-input-error {
-    margin-top: 0;
+  .form-expanding-group {
+    .usa-input-error {
+      margin-top: 0;
+    }
+
+    .schemaform-block-header {
+      margin-bottom: 0;
+    }
   }
 
   #root_scheduleTimes-label {

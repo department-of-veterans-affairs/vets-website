@@ -18,7 +18,7 @@ const {
 
 const contestedIssueFollowup = {
   uiSchema: {
-    'ui:title': 'Conested issue followup',
+    'ui:title': ' ',
     contestedIssues: {
       'ui:options': {
         viewField: ({ formData }) => formData?.name || NULL_CONDITION_STRING,
@@ -39,8 +39,7 @@ const contestedIssueFollowup = {
           },
         },
         additionalNote: {
-          'ui:title': ' ',
-          'ui:description': contestedIssueFollowupDescription,
+          'ui:title': contestedIssueFollowupDescription,
           'ui:widget': 'textarea',
           'ui:validations': [
             validateLength(400, errorMessages.contestedIssueCommentLength),
