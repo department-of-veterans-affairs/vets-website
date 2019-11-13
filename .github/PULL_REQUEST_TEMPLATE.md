@@ -2,13 +2,14 @@
 
 
 ## Testing done
-
+\[Provide link to QA Test Plan ticket for the relevant product/feature]
+\[List the new/update unit-test(s) & e2e-test\(s) that have been successfully run before open this PR]
 
 ## Screenshots
 
 
 ## Acceptance criteria
-- [ ]
+- [ ] QA-request ticket created \[if applicable \(i.e., this PR will be UI-testable by QA once merged & deployed to Staging)]
 
 ## Definition of done
 - [ ] Events are logged appropriately
