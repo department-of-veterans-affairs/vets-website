@@ -56,7 +56,15 @@ export default class ScoEventsWidget extends React.Component {
       ? moment(event.eventEndDate, 'YYYY-MM-DD').startOf('day')
       : moment(startDate).add(1, 'days');
 
-    return displayStart.isSameOrBefore(today) && today.isBefore(displayEnd);
+    return (
+      event.name &&
+      event.url &&
+      event.location &&
+      event.eventStartDate &&
+      event.displayStartDate &&
+      displayStart.isSameOrBefore(today) &&
+      today.isBefore(displayEnd)
+    );
   };
 
   renderEvents = () => {

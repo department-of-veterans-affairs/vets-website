@@ -29,7 +29,13 @@ export default class ScoAnnouncementsWidget extends React.Component {
       ? moment(announcement.displayEndDate, 'YYYY-MM-DD').startOf('day')
       : moment(date).add(DEFAULT_ANNOUNCEMENT_DAYS_TO_DISPLAY, 'days');
 
-    return displayStart.isSameOrBefore(today) && today.isBefore(displayEnd);
+    return (
+      announcement.name &&
+      announcement.date &&
+      announcement.displayStartDate &&
+      displayStart.isSameOrBefore(today) &&
+      today.isBefore(displayEnd)
+    );
   };
 
   renderAnnouncements = () => {

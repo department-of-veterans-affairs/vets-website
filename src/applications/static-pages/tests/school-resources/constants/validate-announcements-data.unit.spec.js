@@ -9,6 +9,9 @@ describe('Announcements data', () => {
       expect(announcement.name).to.be.a('string');
       expect(announcement.date).to.be.a('string');
       expect(announcement.displayStartDate).to.be.a('string');
+      expect(announcement.name).to.not.be.empty;
+      expect(announcement.date).to.not.be.empty;
+      expect(announcement.displayStartDate).to.not.be.empty;
     });
   });
 
