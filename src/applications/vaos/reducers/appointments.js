@@ -10,12 +10,14 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
 } from '../actions/appointments';
 
 import {
   filterFutureRequests,
   filterFutureConfirmedAppointments,
   sortFutureList,
+  sortMessages,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
 
@@ -64,6 +66,27 @@ export default function appointmentsReducer(state = initialState, action) {
         futureStatus: FETCH_STATUS.failed,
         future: null,
       };
+    case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
+      let future = state.future;
+      if (future.length > 0 && action.messages?.length > 0) {
+        const messages = action.messages.sort(sortMessages);
+        future = future.map(a => {
+          const current = a;
+          if (
+            current.appointmentRequestId &&
+            current.appointmentRequestId === action.requestId
+          ) {
+            current.messages = messages;
+          }
+          return current;
+        });
+      }
+
+      return {
+        ...state,
+        future,
+      };
+    }
     case FETCH_PAST_APPOINTMENTS:
       return {
         ...state,

@@ -24,6 +24,7 @@ export default class AppointmentRequestListItem extends React.Component {
     const { appointment, index, cancelAppointment } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
+    const firstMessage = appointment?.messages?.[0].attributes?.messageText;
 
     return (
       <li
@@ -75,13 +76,23 @@ export default class AppointmentRequestListItem extends React.Component {
             {titleCase(appointment.appointmentType)} appointment
           </span>
         </div>
-        <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-          <dl className="vads-u-margin--0">
-            <dt className="vads-u-font-weight--bold">
-              {getClinicName(appointment)}
-            </dt>
-            <dd>{getAppointmentLocation(appointment)}</dd>
-          </dl>
+        <div className="vaos-appts__split-section">
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2">
+            <dl className="vads-u-margin--0">
+              <dt className="vads-u-font-weight--bold">
+                {getClinicName(appointment)}
+              </dt>
+              <dd>{getAppointmentLocation(appointment)}</dd>
+            </dl>
+          </div>
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2">
+            <dl className="vads-u-margin--0">
+              <dt className="vads-u-font-weight--bold">
+                {appointment.visitType}
+              </dt>
+              <dd>{firstMessage}</dd>
+            </dl>
+          </div>
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
         {showMore ? (

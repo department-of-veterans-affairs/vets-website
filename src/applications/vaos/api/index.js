@@ -66,6 +66,27 @@ export function getPendingAppointments(startDate, endDate) {
   return promise.then(resp => resp.data.map(item => item.attributes));
 }
 
+export function getRequestMessages(requestId) {
+  let promise;
+  if (environment.isLocalhost()) {
+    if (requestId === '8a48912a6c2409b9016c525a4d490190') {
+      promise = import('./messages_0190.json');
+    } else if (requestId === '8a48912a6cab0202016cb4fcaa8b0038') {
+      promise = import('./messages_0038.json');
+    } else {
+      return new Promise(res => res([]));
+    }
+
+    promise = promise.then(
+      module => (module.default ? module.default : module),
+    );
+    return promise;
+  }
+
+  promise = apiRequest(`/vaos/appointment_requests/${requestId}/messages`);
+  return promise.then(resp => resp.data);
+}
+
 // This request takes a while, so we're going to call it early
 // and we need a way to wait for an in progress call to finish
 // So this memoizes the promise and returns it to the caller

@@ -282,3 +282,7 @@ export function sortFutureList(a, b) {
 
   return aDate.isBefore(bDate) ? -1 : 1;
 }
+
+export function sortMessages(a, b) {
+  return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
+}
