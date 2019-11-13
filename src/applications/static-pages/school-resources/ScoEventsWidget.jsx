@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-export default class ScoEventListWidget extends React.Component {
+export default class ScoEventsWidget extends React.Component {
   static propTypes = {
     scoEvents: PropTypes.arrayOf(
       PropTypes.shape({

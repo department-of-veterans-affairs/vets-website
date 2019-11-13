@@ -35,7 +35,7 @@ import createOtherFacilityListWidget from './facilities/otherFacilityList';
 
 // School resources widgets
 import {
-  createScoEventListWidget,
+  createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 
@@ -95,7 +95,7 @@ createOtherFacilityListWidget();
 createFacilityPage(store);
 createBasicFacilityListWidget();
 
-createScoEventListWidget();
+createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 // homepage widgets
