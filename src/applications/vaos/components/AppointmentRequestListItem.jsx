@@ -7,6 +7,7 @@ import {
   getRequestDateOptions,
   getRequestTimeToCall,
 } from '../utils/appointment';
+import { APPOINTMENT_TYPES } from '../utils/constants';
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -26,10 +27,10 @@ export default class AppointmentRequestListItem extends React.Component {
       index,
       cancelAppointment,
       showCancelButton,
+      type,
     } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
-    const isCommunityCare = !!appointment.ccAppointmentRequest;
 
     return (
       <li
@@ -37,23 +38,23 @@ export default class AppointmentRequestListItem extends React.Component {
         className="vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3"
       >
         <div className="vads-u-display--flex vads-u-justify-content--space-between">
-          <div className="vaos-appts__status vads-u-flex--1">
+          <div className="vaos-appts__status vads-u-padding-right--1">
             {canceled ? (
               <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />
             ) : (
               <i className="fas fa-exclamation-triangle vads-u-color--warning-message" />
             )}
+          </div>
+          <div className="vaos-appts__status vads-u-flex--1">
             <span className="vads-u-font-weight--bold vads-u-display--inline-block">
               <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
                 {canceled ? (
                   'Canceled'
                 ) : (
                   <>
-                    <span className="vads-u-font-weight--bold vads-u-display--inline-block vads-u-margin-right--0p5">
-                      Pending
-                    </span>
-                    <span className="vads-u-display--none medium-screen:vads-u-display--block vads-u-font-weight--normal">
-                      - The time and date are still to be determined.
+                    <strong>Pending -</strong>{' '}
+                    <span className="vads-u-font-weight--normal">
+                      The time and date are still to be determined.
                     </span>
                   </>
                 )}
@@ -73,15 +74,23 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
           )}
         </div>
+        <div className="vaos-form__title vads-u-margin-top--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+          {type === APPOINTMENT_TYPES.ccRequest && 'Community Care'}
+          {type === APPOINTMENT_TYPES.request &&
+            appointment.visitType !== 'Telehealth' &&
+            'VA Facility'}
+          {type === APPOINTMENT_TYPES.request &&
+            appointment.visitType === 'Telehealth' &&
+            'VA Video Connect'}
+        </div>
         <h2
           id={`card-${index}`}
-          className="vads-u-font-size--h3 vads-u-margin-y--2"
+          className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2"
         >
-          {titleCase(appointment.appointmentType)} appointment{' '}
-          {isCommunityCare && '- Community Care'}
+          {titleCase(appointment.appointmentType)} appointment
         </h2>
         <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-          {!isCommunityCare && (
+          {type === APPOINTMENT_TYPES.request && (
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {getClinicName(appointment)}
@@ -89,7 +98,7 @@ export default class AppointmentRequestListItem extends React.Component {
               <dd>{getAppointmentLocation(appointment)}</dd>
             </dl>
           )}
-          {isCommunityCare && (
+          {type === APPOINTMENT_TYPES.ccRequest && (
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">Preferred providers</dt>
               <dd>

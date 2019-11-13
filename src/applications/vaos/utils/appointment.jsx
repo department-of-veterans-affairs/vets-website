@@ -9,7 +9,9 @@ import {
 } from './timezone';
 
 export function getAppointmentType(appt) {
-  if (appt.optionDate1) {
+  if (appt.optionDate1 && appt.ccAppointmentRequest?.preferredProviders) {
+    return APPOINTMENT_TYPES.ccRequest;
+  } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.appointmentRequestId) {
     return APPOINTMENT_TYPES.ccAppointment;
