@@ -1,10 +1,9 @@
 const { getDrupalValue } = require('./helpers');
 
 function wysiwygTransform(entity) {
-  const { fieldWysiwyg, contentModelType } = entity;
+  const { fieldWysiwyg } = entity;
 
   const transformed = {
-    contentModelType,
     entity: {
       entityType: 'paragraph',
       entityBundle: 'wysiwyg',
