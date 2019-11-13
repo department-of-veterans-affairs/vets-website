@@ -3,9 +3,8 @@ const { getDrupalValue } = require('./helpers');
 function wysiwygTransform(entity) {
   const { fieldWysiwyg } = entity;
 
-  const transformed = Object.assign(
-    {},
-    {
+  const transformed = {
+    entity: {
       entityType: 'paragraph',
       entityBundle: 'wysiwyg',
 
@@ -13,7 +12,7 @@ function wysiwygTransform(entity) {
         processed: getDrupalValue(fieldWysiwyg).replace(/(\r\n|\t)/gm, ''),
       },
     },
-  );
+  };
 
   return transformed;
 }
