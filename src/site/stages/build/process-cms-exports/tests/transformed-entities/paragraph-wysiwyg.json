@@ -1,4 +1,5 @@
 {
+  "contentModelType": "paragraph-wysiwyg",
   "entity": {
     "entityType": "paragraph",
     "entityBundle": "wysiwyg",
