@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  getClinicName,
+  getLocationHeader,
   getAppointmentLocation,
   getAppointmentDate,
   getAppointmentDateTime,
@@ -87,7 +87,7 @@ export default function ConfirmedAppointmentListItem({
           ) : (
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
-                {getClinicName(appointment)}
+                {getLocationHeader(appointment)}
               </dt>
               <dd>{getAppointmentLocation(appointment)}</dd>
             </dl>

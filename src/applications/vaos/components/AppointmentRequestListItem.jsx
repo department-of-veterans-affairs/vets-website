@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   titleCase,
-  getClinicName,
+  getLocationHeader,
   getAppointmentLocation,
   getRequestDateOptions,
   getRequestTimeToCall,
@@ -90,34 +90,12 @@ export default class AppointmentRequestListItem extends React.Component {
           {titleCase(appointment.appointmentType)} appointment
         </h2>
         <div className="vads-u-flex--1 vads-u-margin-bottom--2">
-          {type === APPOINTMENT_TYPES.request && (
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">
-                {getClinicName(appointment)}
-              </dt>
-              <dd>{getAppointmentLocation(appointment)}</dd>
-            </dl>
-          )}
-          {type === APPOINTMENT_TYPES.ccRequest && (
-            <dl className="vads-u-margin--0">
-              <dt className="vads-u-font-weight--bold">Preferred providers</dt>
-              <dd>
-                <ul className="usa-unstyled-list">
-                  {appointment.ccAppointmentRequest.preferredProviders.map(
-                    provider => (
-                      <li key={`${provider.firstName} ${provider.lastName}`}>
-                        {provider.practiceName}
-                        <br />
-                        {provider.firstName} {provider.lastName}
-                      </li>
-                    ),
-                  )}
-                  {!appointment.ccAppointmentRequest?.preferredProviders?.[0] &&
-                    'Not specified'}
-                </ul>
-              </dd>
-            </dl>
-          )}
+          <dl className="vads-u-margin--0">
+            <dt className="vads-u-font-weight--bold">
+              {getLocationHeader(appointment)}
+            </dt>
+            <dd>{getAppointmentLocation(appointment)}</dd>
+          </dl>
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
         {showMore ? (
