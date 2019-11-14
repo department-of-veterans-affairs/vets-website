@@ -136,7 +136,7 @@ export default class AppointmentRequestListItem extends React.Component {
               <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-y--2">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold">
-                    Additional Information
+                    Additional information
                   </dt>
                   <dd>{firstMessage}</dd>
                 </dl>
