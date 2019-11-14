@@ -63,11 +63,11 @@ export default class ScoAnnouncementsWidget extends React.Component {
   render() {
     return (
       <div className="field_related_links vads-u-background-color--primary-alt-lightest vads-u-padding--1p5 vads-u-margin-top--6">
-        <h3 className="va-nav-linkslist-heading vads-u-padding-top--0 vads-u-padding-bottom--0">
+        <h3 className="va-nav-linkslist-heading vads-u-padding-top--0">
           Latest announcements from VA
         </h3>
         {this.renderAnnouncements()}
-        <p>
+        <p className="vads-u-margin-bottom--0">
           <a
             href="https://www.benefits.va.gov/gibill/news.asp"
             className="vads-u-text-decoration--none"
