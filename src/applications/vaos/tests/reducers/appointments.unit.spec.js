@@ -12,6 +12,7 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
 } from '../../actions/appointments';
 
 import { FETCH_STATUS } from '../../utils/constants';
@@ -63,6 +64,23 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
     expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
     expect(newState.future.length).to.equal(3);
+  });
+
+  it('should populate requests with messages with FETCH_REQUEST_MESSAGES_SUCCEEDED', () => {
+    const action = {
+      type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
+      requestId: 1,
+      messages: [
+        {
+          attributes: {
+            messageText: 'test',
+          },
+        },
+      ],
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.requestMessages[action.requestId].length).to.equal(1);
   });
 
   it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
