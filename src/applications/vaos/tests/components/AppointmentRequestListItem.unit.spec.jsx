@@ -69,7 +69,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     );
 
     const messageTree = tree.find('.vaos_appts__message');
-    expect(messageTree.find('dt').text()).to.equal('Additional Information');
+    expect(messageTree.find('dt').text()).to.equal('Additional information');
     expect(messageTree.find('dd').text()).to.equal('Some message');
 
     tree.unmount();
