@@ -22,4 +22,12 @@ function createMetaTag(type, key, value) {
 module.exports = {
   getDrupalValue,
   createMetaTag,
+  /**
+   * If `value` is a string, it will remove all `\r`, `\n`, and `\t` characters from it.
+   *
+   * @return {string}
+   */
+  removeLinebreaks(value) {
+    return typeof value === 'string' ? value.replace(/(\r\n|\t)/gm, '') : value;
+  },
 };

@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, removeLinebreaks } = require('./helpers');
 
 function wysiwygTransform(entity) {
   const { fieldWysiwyg } = entity;
@@ -9,7 +9,7 @@ function wysiwygTransform(entity) {
       entityBundle: 'wysiwyg',
 
       fieldWysiwyg: {
-        processed: getDrupalValue(fieldWysiwyg).replace(/(\r\n|\t)/gm, ''),
+        processed: removeLinebreaks(getDrupalValue(fieldWysiwyg)),
       },
     },
   };
