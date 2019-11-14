@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import { getVideoVisitLink, isGFEVideoVisit } from '../utils/appointment';
+import {
+  getVideoVisitLink,
+  isGFEVideoVisit,
+  getMomentConfirmedDate,
+} from '../utils/appointment';
 
 const VideoVisitLink = ({ appointment }) => {
   if (isGFEVideoVisit(appointment)) {
@@ -14,9 +18,8 @@ const VideoVisitLink = ({ appointment }) => {
   const videoLink = getVideoVisitLink(appointment);
 
   if (videoLink) {
-    const now = moment();
-    const apptTime = moment(appointment.startDate);
-    const diff = apptTime.diff(now, 'minutes');
+    const apptTime = getMomentConfirmedDate(appointment);
+    const diff = apptTime.diff(moment(), 'minutes');
 
     // Button is enabled 30 minutes prior to start time, until 4 hours after start time
     const disableVideoLink = diff < -30 || diff > 240;

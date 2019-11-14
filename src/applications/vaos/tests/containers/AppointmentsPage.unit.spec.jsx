@@ -206,6 +206,7 @@ describe('VAOS <AppointmentsPage>', () => {
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        showScheduleButton
         appointments={appointments}
       />,
     );
