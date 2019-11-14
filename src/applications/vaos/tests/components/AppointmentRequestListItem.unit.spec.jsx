@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import AppointmentRequestListItem from '../../components/AppointmentRequestListItem';
 
@@ -22,7 +23,10 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         facilityCode: '983',
       },
       appointmentRequestId: 'guid',
-      messages: [
+    };
+
+    const messages = {
+      guid: [
         {
           attributes: {
             messageText: 'Some message',
@@ -30,8 +34,15 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         },
       ],
     };
+
+    const fetchMessages = sinon.spy();
+
     const tree = shallow(
-      <AppointmentRequestListItem appointment={appointment} />,
+      <AppointmentRequestListItem
+        fetchMessages={fetchMessages}
+        messages={messages}
+        appointment={appointment}
+      />,
     );
 
     const statusSpans = tree.find('h2 > span');
@@ -57,9 +68,9 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       'Thu, May 23, 2019 in the morning',
     );
 
-    const messages = tree.find('.vaos_appts__message');
-    expect(messages.find('dt').text()).to.equal('Additional Information');
-    expect(messages.find('dd').text()).to.equal('Some message');
+    const messageTree = tree.find('.vaos_appts__message');
+    expect(messageTree.find('dt').text()).to.equal('Additional Information');
+    expect(messageTree.find('dd').text()).to.equal('Some message');
 
     tree.unmount();
   });
