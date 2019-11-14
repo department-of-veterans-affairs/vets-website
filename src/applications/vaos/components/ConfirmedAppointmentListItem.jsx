@@ -1,12 +1,10 @@
 import React from 'react';
 import {
-  getClinicName,
-  getAppointmentTitle,
+  getLocationHeader,
   getAppointmentLocation,
   getAppointmentDate,
   getAppointmentDateTime,
   isVideoVisit,
-  isCommunityCare,
 } from '../utils/appointment';
 import {
   CANCELLED_APPOINTMENT_SET,
@@ -19,6 +17,7 @@ export default function ConfirmedAppointmentListItem({
   type,
   index,
   cancelAppointment,
+  showCancelButton,
 }) {
   let canceled = false;
   if (type === APPOINTMENT_TYPES.vaAppointment) {
@@ -28,6 +27,7 @@ export default function ConfirmedAppointmentListItem({
   }
 
   const allowCancel =
+    showCancelButton &&
     !canceled &&
     type !== APPOINTMENT_TYPES.ccAppointment &&
     !isVideoVisit(appointment);
@@ -67,18 +67,18 @@ export default function ConfirmedAppointmentListItem({
           </button>
         )}
       </div>
-      <h2 className="vaos-appts__date-time vads-u-font-size--lg">
+      <div className="vaos-form__title vads-u-margin-top--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+        {type === APPOINTMENT_TYPES.ccAppointment && 'Community Care'}
+        {type === APPOINTMENT_TYPES.vaAppointment &&
+          !isVideoVisit(appointment) &&
+          'VA Facility'}
+        {type === APPOINTMENT_TYPES.vaAppointment &&
+          isVideoVisit(appointment) &&
+          'VA Video Connect'}
+      </div>
+      <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-bottom--2">
         {getAppointmentDateTime(appointment)}
       </h2>
-
-      {isCommunityCare(appointment) || isVideoVisit(appointment) ? (
-        <div className="vads-u-font-weight--bold vads-u-margin-bottom--1">
-          <dl>
-            <dt>{getAppointmentTitle(appointment)}</dt>
-            <dd />
-          </dl>
-        </div>
-      ) : null}
 
       <div className="vaos-appts__split-section">
         <div className="vads-u-flex--1">
@@ -87,7 +87,7 @@ export default function ConfirmedAppointmentListItem({
           ) : (
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
-                {getClinicName(appointment)}
+                {getLocationHeader(appointment)}
               </dt>
               <dd>{getAppointmentLocation(appointment)}</dd>
             </dl>

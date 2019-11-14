@@ -134,7 +134,7 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            status: 'Booked',
+            status: 'Submitted',
           },
         },
       };

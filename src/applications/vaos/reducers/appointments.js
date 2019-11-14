@@ -24,10 +24,6 @@ import { FETCH_STATUS } from '../utils/constants';
 const initialState = {
   future: null,
   futureStatus: FETCH_STATUS.notStarted,
-  confirmed: null,
-  confirmedStatus: FETCH_STATUS.notStarted,
-  pending: null,
-  pendingStatus: FETCH_STATUS.notStarted,
   past: null,
   pastStatus: FETCH_STATUS.notStarted,
   showCancelModal: false,
@@ -35,6 +31,8 @@ const initialState = {
   appointmentToCancel: null,
   requestMessages: {},
 };
+
+const BOOKED_REQUEST = 'Booked';
 
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
@@ -50,7 +48,11 @@ export default function appointmentsReducer(state = initialState, action) {
         ...ccAppointments.filter(appt =>
           filterFutureConfirmedAppointments(appt, action.today),
         ),
-        ...requests.filter(req => filterFutureRequests(req, action.today)),
+        ...requests.filter(
+          req =>
+            req.status !== BOOKED_REQUEST &&
+            filterFutureRequests(req, action.today),
+        ),
       ];
 
       futureAppointments.sort(sortFutureList);
@@ -107,13 +109,13 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
-      const confirmed = state.confirmed.filter(
+      const future = state.future.filter(
         appt => appt !== state.appointmentToCancel,
       );
       return {
         ...state,
         showCancelModal: true,
-        confirmed,
+        future,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
       };
     }

@@ -2,18 +2,6 @@ import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-// Mock Data
-import slots from './slots.json';
-
-import mockFacilityData from './facilities.json';
-import mockFacility983Data from './facilities_983.json';
-import mockFacility984Data from './facilities_984.json';
-
-import mockClinicList from './clinicList983.json';
-import mockPACT from './pact.json';
-import mockCancelReasons from './cancel_reasons.json';
-import sitesSupportingVAR from './sites-supporting-var.json';
-
 // This wil go away once we stop mocking api calls
 const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
 function getStagingId(facilityId) {
@@ -155,7 +143,9 @@ export const getSystemIdentifiers = (() => {
 export function getSystemDetails(systemIds) {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockFacilityData);
+      import('./facilities.json').then(module =>
+        resolve(module.default ? module.default : module),
+      );
     }, TEST_TIMEOUT || 1000);
   });
 }
@@ -166,9 +156,13 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   return new Promise(resolve => {
     setTimeout(() => {
       if (systemId === '984') {
-        resolve(mockFacility984Data);
+        import('./facilities_984.json').then(module =>
+          resolve(module.default ? module.default : module),
+        );
       } else {
-        resolve(mockFacility983Data);
+        import('./facilities_983.json').then(module =>
+          resolve(module.default ? module.default : module),
+        );
       }
     }, TEST_TIMEOUT || 1000);
   });
@@ -227,7 +221,9 @@ export function getClinics(facilityId, typeOfCareId) {
   return new Promise(resolve => {
     setTimeout(() => {
       if (facilityId.includes('983')) {
-        resolve(mockClinicList);
+        import('./clinicList983.json').then(module =>
+          resolve(module.default ? module.default : module),
+        );
       } else {
         resolve([]);
       }
@@ -241,7 +237,9 @@ export function getPacTeam(systemId) {
   return new Promise(resolve => {
     setTimeout(() => {
       if (systemId === '983') {
-        resolve(mockPACT);
+        import('./pact.json').then(module =>
+          resolve(module.default ? module.default : module),
+        );
       } else {
         resolve([]);
       }
@@ -279,7 +277,9 @@ export function getFacilityInfo(facilityId) {
 export function getSitesSupportingVAR() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(sitesSupportingVAR);
+      import('./sites-supporting-var.json').then(module =>
+        resolve(module.default ? module.default : module),
+      );
     }, TEST_TIMEOUT || 1500);
   });
 }
@@ -287,7 +287,9 @@ export function getSitesSupportingVAR() {
 export function getAvailableSlots() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(slots);
+      import('./slots.json').then(module =>
+        resolve(module.default ? module.default : module),
+      );
     }, 500);
   });
 }
@@ -297,7 +299,9 @@ export function getAvailableSlots() {
 export function getCancelReasons(systemId) {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockCancelReasons.cancelReasonsList);
+      import('./cancel_reasons.json').then(module =>
+        resolve((module.default ? module.default : module).cancelReasonsList),
+      );
     }, 500);
   });
 }

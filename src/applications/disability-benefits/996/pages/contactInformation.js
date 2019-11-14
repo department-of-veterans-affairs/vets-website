@@ -113,7 +113,7 @@ const contactInfo = {
           'state',
           'zipCode',
         ],
-        'ui:description': ForwardingAddressDescription,
+        'ui:subtitle': ForwardingAddressDescription,
         'ui:options': {
           viewComponent: ForwardingAddressViewField,
           expandUnder: 'view:hasForwardingAddress',

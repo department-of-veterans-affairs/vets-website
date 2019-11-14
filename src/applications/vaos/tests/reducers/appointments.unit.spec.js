@@ -146,14 +146,14 @@ describe('VAOS reducer: appointments', () => {
       const appt = {};
       const state = {
         ...initialState,
-        confirmed: [appt],
+        future: [appt],
         appointmentToCancel: appt,
       };
       const newState = appointmentsReducer(state, action);
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.confirmed.length).to.equal(0);
+      expect(newState.future.length).to.equal(0);
     });
 
     it('should set status to failed', () => {
