@@ -1,113 +1,155 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import ReviewRequestInfo from '../../components/ReviewRequestInfo';
+import ReviewRequestInfo from '../../components/review/ReviewRequestInfo';
+import PreferredDates from '../../components/review/PreferredDates';
+
+const defaultData = {
+  phoneNumber: '5035551234',
+  bestTimeToCall: {
+    morning: true,
+    afternoon: true,
+  },
+  email: 'joeblow@gmail.com',
+  visitType: 'office',
+  reasonForAppointment: 'routine-follow-up',
+  reasonAdditionalInfo: 'additional information',
+  calendarData: {
+    selectedDates: [
+      {
+        date: '2019-11-25',
+        optionTime: 'AM',
+      },
+      {
+        date: '2019-11-26',
+        optionTime: 'AM',
+      },
+      {
+        date: '2019-11-27',
+        optionTime: 'AM',
+      },
+    ],
+  },
+  facilityType: 'vamc',
+  typeOfCareId: '323',
+};
+
+const facility = {
+  institution: {
+    institutionCode: '983GB',
+    name: 'CHYSHR-Sidney VA Clinic',
+    city: 'Sidney',
+    stateAbbrev: 'NE',
+    authoritativeName: 'CHYSHR-Sidney VA Clinic',
+    rootStationCode: '983',
+    adminParent: false,
+    parentStationCode: '983',
+  },
+  institutionTimezone: 'America/Denver',
+};
 
 describe('VAOS <ReviewRequestInfo>', () => {
-  it('should render VA request', () => {
-    const data = {
-      visitType: 'office',
-      bestTimeToCall: {
-        morning: true,
-        afternoon: true,
-      },
-    };
-    const facility = {
-      institution: {
-        institutionCode: '983GB',
-        name: 'CHYSHR-Sidney VA Clinic',
-        city: 'Sidney',
-        stateAbbrev: 'NE',
-        authoritativeName: 'CHYSHR-Sidney VA Clinic',
-        rootStationCode: '983',
-        adminParent: false,
-        parentStationCode: '983',
-      },
-      institutionTimezone: 'America/Denver',
-    };
-
-    const tree = shallow(<ReviewRequestInfo data={data} facility={facility} />);
-
-    expect(tree.find('h2').length).to.equal(7);
-
+  describe('VA Request', () => {
+    const data = { ...defaultData };
+    const tree = mount(<ReviewRequestInfo data={data} facility={facility} />);
     const text = tree.text();
-    expect(text).not.to.contain('Community Care');
-    expect(text).to.contain('CHYSHR-Sidney VA Clinic');
-    expect(text).to.contain('Sidney, NE');
-    expect(text).to.contain('Office');
 
-    expect(tree.find('AlertBox').exists()).to.be.true;
+    // console.log(tree.debug());
+    it('should render VA request section', () => {
+      expect(text).to.contain('VA appointment');
+    });
+
+    it('should render type of care section', () => {
+      expect(text).to.contain('Primary care');
+    });
+
+    it('should render reason for appointment section', () => {
+      expect(text).to.contain('Follow-up/Routine visit');
+    });
+
+    it('should render addional information section', () => {
+      expect(text).to.contain('additional information');
+    });
+
+    it('should render preferred date and time section', () => {
+      expect(text).to.contain('November 25, 2019 in the morning');
+    });
+
+    it('should render contact details section', () => {
+      expect(text).to.contain(
+        'joeblow@gmail.com5035551234Call morning or afternoon',
+      );
+    });
 
     tree.unmount();
   });
 
-  it('should render CC request', () => {
+  describe('CC Request', () => {
     const data = {
+      ...defaultData,
       facilityType: 'communityCare',
-      distanceWillingToTravel: '25',
-      preferredLanguage: 'english',
-      visitType: 'office',
-      bestTimeToCall: {
-        morning: true,
-        afternoon: true,
-      },
       hasCommunityCareProvider: true,
       communityCareProvider: {
+        practiceName: 'Practice name',
         firstName: 'Jane',
         lastName: 'Doe',
         phone: '5555555555',
         address: {
           street: '123 Test',
+          street2: 'line 2',
           city: 'Northampton',
           state: 'MA',
           postalCode: '01060',
         },
       },
     };
-    const facility = {
-      institution: {
-        institutionCode: '983GB',
-        name: 'CHYSHR-Sidney VA Clinic',
-        city: 'Sidney',
-        stateAbbrev: 'NE',
-        authoritativeName: 'CHYSHR-Sidney VA Clinic',
-        rootStationCode: '983',
-        adminParent: false,
-        parentStationCode: '983',
-      },
-      institutionTimezone: 'America/Denver',
-    };
+    let tree;
+    let text;
 
-    const tree = shallow(
-      <ReviewRequestInfo
-        data={data}
-        facility={facility}
-        vaCityState="Cheyenne, WY"
-      />,
-    );
+    beforeEach(() => {
+      tree = mount(<ReviewRequestInfo data={data} facility={facility} />);
+      text = tree.text();
+    });
 
-    expect(tree.find('h2').length).to.equal(7);
+    afterEach(() => {
+      tree.unmount();
+    });
 
-    const text = tree.text();
-    expect(text).to.contain('Community Care');
-    expect(text).not.to.contain('CHYSHR-Sidney VA Clinic');
-    expect(text).to.contain('Jane Doe');
-    expect(text).to.contain('5555555555');
-    expect(text).to.contain('Cheyenne, WY');
-    expect(text).to.contain('English');
+    it('should render CC request section', () => {
+      expect(text).to.contain('Community care appointment');
+    });
 
-    expect(tree.find('AlertBox').exists()).to.be.true;
+    it('should render type of care section', () => {
+      expect(text).to.contain('Primary care');
+    });
 
-    tree.unmount();
-  });
+    describe('Preferred provider section', () => {
+      it('should render provider information', () => {
+        expect(text).to.contain('Practice name');
+      });
+    });
 
-  it('should render aria labels for Edit links', () => {
-    const tree = shallow(<ReviewRequestInfo data={{}} />);
+    it('should render reason for appointment section', () => {
+      expect(text).to.contain('Follow-up/Routine visit');
+    });
 
-    expect(tree.find('[aria-label]').length).to.equal(7);
-    expect(tree.find('[aria-label="Edit type of care"]').exists()).to.be.true;
+    it('should render additional information section', () => {
+      expect(text).to.contain('additional information');
+    });
 
-    tree.unmount();
+    it('should render preferred date section', () => {
+      expect(text).to.contain('November 25, 2019 in the morning');
+    });
+
+    it('should render multiple preferred dates', () => {
+      expect(tree.find(PreferredDates).find('span')).to.have.lengthOf(3);
+    });
+
+    it('should render contact details section', () => {
+      expect(text).to.contain(
+        'joeblow@gmail.com5035551234Call morning or afternoon',
+      );
+    });
   });
 });
