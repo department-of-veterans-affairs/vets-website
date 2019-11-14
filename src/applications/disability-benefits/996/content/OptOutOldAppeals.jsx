@@ -16,14 +16,20 @@ export const OptOutDescription = (
 );
 
 export const OptInCheckBoxLabel = (
-  <strong>I choose opt in to the new appeals systems</strong>
+  <>
+    <strong>I choose to opt out of the old appeals process</strong>
+    <span className="schemaform-required-span">(*Required)</span>
+  </>
 );
 
 export const OptInCheckboxDescription = (
   <div style={{ marginLeft: '1.8em' }} role="presentation">
     I’m removing my claim and any related hearing requests from the old appeals
     process, and I’m requesting these be reviewed under the new appeals review
-    process. I understand that this decision is permanent and I can’t return to
-    the old appeals process.
+    process.
+    <p>
+      I understand that this decision is permanent and I can’t return to the old
+      appeals process.
+    </p>
   </div>
 );

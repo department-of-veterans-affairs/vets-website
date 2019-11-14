@@ -4,12 +4,11 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 
 import { checkConferenceTimes } from '../validations';
 import { errorMessages } from '../constants';
-import { getRepresentativeChoice } from '../helpers';
 
 import {
   InformalConferenceDescription,
   InformalConferenceChoiceTitle,
-  InformalConferenceContactChoice,
+  informalConferenceLabels,
   ContactYouDescription,
   ContactRepresentativeDescription,
   RepresentativeNameTitle,
@@ -27,27 +26,18 @@ const informalConference = {
     'ui:description': InformalConferenceDescription,
     informalConferenceChoice: {
       'ui:title': InformalConferenceChoiceTitle,
-      'ui:widget': 'yesNo',
+      'ui:widget': 'radio',
+      'ui:options': {
+        labels: informalConferenceLabels,
+      },
       'ui:errorMessages': {
         required: errorMessages.informalConferenceContactChoice,
-      },
-    },
-    contactRepresentativeChoice: {
-      'ui:title': InformalConferenceContactChoice,
-      'ui:widget': 'yesNo',
-      'ui:required': formData => formData?.informalConferenceChoice === true,
-      'ui:options': {
-        hideIf: formData => formData?.informalConferenceChoice !== true,
-        expandUnder: 'informalConferenceChoice',
-      },
-      'ui:errorMessages': {
-        required: errorMessages.informalContactVARepresentative,
       },
     },
     representative: {
       'ui:title': '',
       'ui:options': {
-        hideIf: formData => getRepresentativeChoice(formData) !== true,
+        hideIf: formData => formData?.informalConferenceChoice !== 'rep',
         expandUnder: 'informalConferenceChoice',
       },
       'view:ContactRepresentativeInfo': {
@@ -56,7 +46,7 @@ const informalConference = {
       },
       fullName: {
         'ui:title': RepresentativeNameTitle,
-        'ui:required': formData => getRepresentativeChoice(formData) === true,
+        'ui:required': formData => formData?.informalConferenceChoice === 'rep',
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactName,
         },
@@ -64,7 +54,7 @@ const informalConference = {
       phone: {
         'ui:title': RepresentativePhoneTitle,
         'ui:widget': PhoneNumberWidget,
-        'ui:required': formData => getRepresentativeChoice(formData) === true,
+        'ui:required': formData => formData?.informalConferenceChoice === 'rep',
         'ui:errorMessages': {
           pattern: errorMessages.informalConferenceContactPhonePattern,
           required: errorMessages.informalConferenceContactPhone,
@@ -73,28 +63,36 @@ const informalConference = {
           inputType: 'tel',
         },
       },
+      'view:TimesForRep': {
+        'ui:title': () => InformalConferenceTimes({ isRep: true }),
+      },
     },
     'view:ContactYouInfo': {
       'ui:title': '',
       'ui:description': ContactYouDescription,
       'ui:options': {
-        hideIf: formData => getRepresentativeChoice(formData) !== false,
+        hideIf: formData => formData?.informalConferenceChoice !== 'me',
+        expandUnder: 'informalConferenceChoice',
+      },
+    },
+    // Time selection message you vs rep
+    'view:TimesForYou': {
+      'ui:title': InformalConferenceTimes,
+      'ui:options': {
+        hideIf: formData => formData?.informalConferenceChoice !== 'me',
         expandUnder: 'informalConferenceChoice',
       },
     },
     scheduleTimes: {
-      'ui:title': InformalConferenceTimes,
-      'ui:required': formData => formData?.informalConferenceChoice === true,
+      'ui:title': ' ',
+      'ui:required': formData => formData?.informalConferenceChoice !== 'no',
       'ui:errorMessages': {
         required: errorMessages.informalConferenceTimesMin,
       },
       'ui:validations': [checkConferenceTimes],
       'ui:options': {
         showFieldLabel: true,
-        hideIf: formData =>
-          // This value may initialize as an object; so we can't use
-          // !== 'boolean'
-          !(typeof getRepresentativeChoice(formData) === 'boolean'),
+        hideIf: formData => formData?.informalConferenceChoice === 'no',
         expandUnder: 'informalConferenceChoice',
       },
       time0800to1000: InformalConferenceTimeLabels('time0800to1000'),
@@ -108,14 +106,14 @@ const informalConference = {
         'ui:title': ' ',
         'ui:description': AttemptsInfoAlert,
         'ui:options': {
-          hideIf: formData => getRepresentativeChoice(formData) === true,
+          hideIf: formData => formData?.informalConferenceChoice !== 'me',
         },
       },
       'view:contactRepresentative': {
         'ui:title': '',
         'ui:description': () => AttemptsInfoAlert({ isRep: true }),
         'ui:options': {
-          hideIf: formData => getRepresentativeChoice(formData) === false,
+          hideIf: formData => formData?.informalConferenceChoice !== 'rep',
         },
       },
       'ui:options': {
@@ -130,10 +128,8 @@ const informalConference = {
     required: ['informalConferenceChoice'],
     properties: {
       informalConferenceChoice: {
-        type: 'boolean',
-      },
-      contactRepresentativeChoice: {
-        type: 'boolean',
+        type: 'string',
+        enum: ['no', 'me', 'rep'],
       },
       'view:ContactYouInfo': {
         type: 'object',
@@ -148,7 +144,15 @@ const informalConference = {
           },
           fullName: representative.fullName,
           phone: representative.phone,
+          'view:TimesForRep': {
+            type: 'object',
+            properties: {},
+          },
         },
+      },
+      'view:TimesForYou': {
+        type: 'object',
+        properties: {},
       },
       scheduleTimes,
       'view:alert': {

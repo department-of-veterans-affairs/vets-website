@@ -16,7 +16,7 @@ import {
 import { getAppointmentType } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
-import { getCancelInfo } from '../utils/selectors';
+import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 export class AppointmentsPage extends Component {
@@ -26,7 +26,12 @@ export class AppointmentsPage extends Component {
   }
 
   render() {
-    const { appointments, cancelInfo } = this.props;
+    const {
+      appointments,
+      cancelInfo,
+      showCancelButton,
+      showScheduleButton,
+    } = this.props;
     const { future, futureStatus } = appointments;
 
     let content;
@@ -48,12 +53,15 @@ export class AppointmentsPage extends Component {
             const type = getAppointmentType(appt);
 
             switch (type) {
+              case APPOINTMENT_TYPES.ccRequest:
               case APPOINTMENT_TYPES.request:
                 return (
                   <AppointmentRequestListItem
                     key={index}
                     index={index}
                     appointment={appt}
+                    type={type}
+                    showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
                   />
                 );
@@ -65,6 +73,7 @@ export class AppointmentsPage extends Component {
                     index={index}
                     appointment={appt}
                     type={type}
+                    showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
                   />
                 );
@@ -90,22 +99,45 @@ export class AppointmentsPage extends Component {
           <h2 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
             You don’t have any appointments.
           </h2>
-          <p>
-            You can schedule an appointment now, or you can call your{' '}
-            <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-              VA Medical center
-            </a>{' '}
-            to schedule an appointment.
-          </p>
-          <Link to="new-appointment">
-            <button
-              type="button"
-              className="usa-button vads-u-margin-x--0 vads-u-margin-bottom--1p5"
-              name="newAppointment"
-            >
-              Schedule an appointment
-            </button>
-          </Link>
+          {showScheduleButton && (
+            <>
+              <p>
+                You can schedule an appointment now, or you can call your{' '}
+                <a
+                  href="/find-locations"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA Medical center
+                </a>{' '}
+                to schedule an appointment.
+              </p>
+              <Link to="new-appointment">
+                <button
+                  type="button"
+                  className="usa-button vads-u-margin-x--0 vads-u-margin-bottom--1p5"
+                  name="newAppointment"
+                >
+                  Schedule an appointment
+                </button>
+              </Link>
+            </>
+          )}
+          {!showScheduleButton && (
+            <>
+              <p>
+                To schedule an appointment, you can call your{' '}
+                <a
+                  href="/find-locations"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  VA Medical center
+                </a>
+                .
+              </p>
+            </>
+          )}
         </div>
       );
     }
@@ -116,20 +148,22 @@ export class AppointmentsPage extends Component {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
             <h1 className="vads-u-flex--1">VA appointments</h1>
-            <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
-              <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-                Create a new appointment
-              </h2>
-              <p className="vads-u-margin-top--1">
-                Schedule a new appointment at a VA Medical center, clinic, or
-                Community care facility
-              </p>
-              <Link to="/new-appointment">
-                <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">
-                  Schedule an appointment
-                </button>
-              </Link>
-            </div>
+            {showScheduleButton && (
+              <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+                <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+                  Create a new appointment
+                </h2>
+                <p className="vads-u-margin-top--1">
+                  Schedule a new appointment at a VA Medical center, clinic, or
+                  Community care facility
+                </p>
+                <Link to="/new-appointment">
+                  <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">
+                    Schedule an appointment
+                  </button>
+                </Link>
+              </div>
+            )}
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
               Upcoming appointments
             </h2>
@@ -154,6 +188,8 @@ function mapStateToProps(state) {
   return {
     appointments: state.appointments,
     cancelInfo: getCancelInfo(state),
+    showCancelButton: vaosCancel(state),
+    showScheduleButton: vaosRequests(state),
   };
 }
 

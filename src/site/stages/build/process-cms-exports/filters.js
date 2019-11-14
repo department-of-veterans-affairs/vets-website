@@ -5,7 +5,7 @@ const { getContentModelType } = require('./helpers');
  */
 
 const whitelists = {
-  global: ['title'],
+  global: ['title', 'baseType', 'contentModelType'],
   'node-page': [
     'field_intro_text',
     'field_description',

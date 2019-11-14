@@ -9,7 +9,7 @@ export const EffectiveDateViewField = ({ formData }) => {
   const fromDateString = moment(from).format(dateFormat);
   return to ? (
     <p>
-      We’ll use this address starting on {fromDateString} until{' '}
+      We’ll use this address from {fromDateString} to{' '}
       {moment(to).format(dateFormat)}:
     </p>
   ) : (
@@ -34,10 +34,6 @@ export const addXMonths = numberOfMonths =>
   moment()
     .add(numberOfMonths, 'months')
     .format('YYYY-MM-DD');
-
-export const getRepresentativeChoice = formData =>
-  formData?.informalConferenceChoice === true &&
-  formData?.contactRepresentativeChoice;
 
 // testing
 export const $ = (selector, DOM) => DOM.querySelector(selector);

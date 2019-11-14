@@ -29,25 +29,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
     );
 
     const formDOM = getFormDOM(form);
-    // Yes/No choice for informal conference
-    expect($$('input[type="radio"]', formDOM).length).to.equal(2);
-  });
-
-  it('should show the call representative choice', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{ informalConferenceChoice: true }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    const formDOM = getFormDOM(form);
-    // Yes/No choice for informal conference & call representative
-    expect($$('input[type="radio"]', formDOM).length).to.equal(4);
-    expect($('#root_informalConferenceChoiceYes', formDOM).checked).to.be.true;
+    expect($$('input[type="radio"]', formDOM).length).to.equal(3);
   });
 
   it('should show the call representative name & phone inputs and time checkboxes', () => {
@@ -55,20 +37,17 @@ describe('Higher-Level Review 0996 informal conference', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: true,
-        }}
+        data={{ informalConferenceChoice: 'rep' }}
         formData={{}}
         uiSchema={uiSchema}
       />,
     );
 
     const formDOM = getFormDOM(form);
-    // 4 Radio: Yes/No choice for informal conference & call representative
+    // 3 Radio: Informal conference
     // 2 inputs (text + tel): rep name & phone
     // 4 checkboxes - time period
-    expect($$('input', formDOM).length).to.equal(10);
+    expect($$('input', formDOM).length).to.equal(9);
   });
 
   it('should show the call representative name & phone info', () => {
@@ -77,8 +56,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: true,
+          informalConferenceChoice: 'rep',
           representative: {
             fullName: 'John Doe',
             phone: '800 555-1212',
@@ -99,19 +77,14 @@ describe('Higher-Level Review 0996 informal conference', () => {
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: false,
-        }}
+        data={{ informalConferenceChoice: 'me' }}
         formData={{}}
         uiSchema={uiSchema}
       />,
     );
 
     const formDOM = getFormDOM(form);
-    // 4 Radio: Yes/No choice for informal conference & call representative
-    // 4 checkboxes - time period
-    expect($$('input', formDOM).length).to.equal(8);
+    expect($$('input', formDOM).length).to.equal(7);
   });
 
   /* Successful submits */
@@ -122,7 +95,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
-        data={{ informalConferenceChoice: false }}
+        data={{ informalConferenceChoice: 'no' }}
         formData={{}}
         uiSchema={uiSchema}
       />,
@@ -142,8 +115,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: false,
+          informalConferenceChoice: 'me',
           scheduleTimes: {
             time1000to1200: true,
           },
@@ -168,8 +140,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: true,
+          informalConferenceChoice: 'rep',
           representative: {
             fullName: 'John Doe',
             phone: '8005551212',
@@ -210,25 +181,6 @@ describe('Higher-Level Review 0996 informal conference', () => {
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('prevents submit when call rep is not selected', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        schema={schema}
-        data={{ informalConferenceChoice: true }}
-        formData={{}}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    const formDOM = getFormDOM(form);
-    submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(1);
-    expect(onSubmit.called).not.to.be.true;
-  });
-
   it('prevents submit when no time is selected', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -237,8 +189,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: false,
+          informalConferenceChoice: 'me',
           scheduleTimes: {},
         }}
         formData={{}}
@@ -261,8 +212,7 @@ describe('Higher-Level Review 0996 informal conference', () => {
         onSubmit={onSubmit}
         schema={schema}
         data={{
-          informalConferenceChoice: true,
-          contactRepresentativeChoice: false,
+          informalConferenceChoice: 'me',
           scheduleTimes: {
             time0800to1000: true,
             time1000to1200: true,
