@@ -21,11 +21,11 @@ export default class AppointmentRequestListItem extends React.Component {
   }
 
   toggleShowMore = () => {
-    const { appointment, messages, fetchMessages } = this.props;
+    const { appointment, messages, fetchMessages, type } = this.props;
     const id = appointment.appointmentRequestId;
     const showMore = !this.state.showMore;
 
-    if (showMore && !messages[id]) {
+    if (type === APPOINTMENT_TYPES.request && showMore && !messages[id]) {
       fetchMessages(id);
     }
 
@@ -44,8 +44,10 @@ export default class AppointmentRequestListItem extends React.Component {
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
     const firstMessage =
-      messages?.[appointment.appointmentRequestId]?.[0]?.attributes
-        ?.messageText;
+      type === APPOINTMENT_TYPES.request
+        ? messages?.[appointment.appointmentRequestId]?.[0]?.attributes
+            ?.messageText
+        : null;
 
     return (
       <li
