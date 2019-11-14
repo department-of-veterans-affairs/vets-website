@@ -106,11 +106,21 @@ export function getAppointmentLocation(appt, facility) {
 
   if (facility) {
     return (
-      <FacilityAddress
-        name={facility.name}
-        address={facility.address.physical}
-        phone={facility.phone?.main}
-      />
+      <>
+        <FacilityAddress
+          name={facility.name}
+          address={facility.address.physical}
+          phone={facility.phone?.main}
+        />
+        <br />
+        <a
+          href={`/find-locations/facility/vha_${facility.uniqueId}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          View facility details
+        </a>
+      </>
     );
   }
 
