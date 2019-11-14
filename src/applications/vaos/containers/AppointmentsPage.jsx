@@ -53,12 +53,14 @@ export class AppointmentsPage extends Component {
             const type = getAppointmentType(appt);
 
             switch (type) {
+              case APPOINTMENT_TYPES.ccRequest:
               case APPOINTMENT_TYPES.request:
                 return (
                   <AppointmentRequestListItem
                     key={index}
                     index={index}
                     appointment={appt}
+                    type={type}
                     showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
                   />

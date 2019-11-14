@@ -9,7 +9,9 @@ import {
 } from './timezone';
 
 export function getAppointmentType(appt) {
-  if (appt.optionDate1) {
+  if (appt.optionDate1 && appt.ccAppointmentRequest?.preferredProviders) {
+    return APPOINTMENT_TYPES.ccRequest;
+  } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.appointmentRequestId) {
     return APPOINTMENT_TYPES.ccAppointment;
@@ -62,12 +64,14 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function getClinicName(appt) {
+export function getLocationHeader(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return appt.providerPractice;
+    case APPOINTMENT_TYPES.ccRequest:
+      return 'Preferred provider';
     case APPOINTMENT_TYPES.request:
       return appt.friendlyLocationName || appt.facility.name;
     default:
@@ -102,8 +106,26 @@ export function getAppointmentLocation(appt) {
     );
   }
 
+  if (type === APPOINTMENT_TYPES.ccRequest) {
+    if (!appt.ccAppointmentRequest?.preferredProviders?.[0]) {
+      return 'Not specified';
+    }
+
+    return (
+      <ul className="usa-unstyled-list">
+        {appt.ccAppointmentRequest.preferredProviders.map(provider => (
+          <li key={`${provider.firstName} ${provider.lastName}`}>
+            {provider.practiceName}
+            <br />
+            {provider.firstName} {provider.lastName}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   const facilityId =
-    type === APPOINTMENT_TYPES.request
+    type === APPOINTMENT_TYPES.request || type === APPOINTMENT_TYPES.ccRequest
       ? appt.facility.facilityCode
       : appt.facilityId;
 
@@ -149,6 +171,7 @@ export function getAppointmentTimezoneAbbreviation(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return stripDST(appt?.timeZone?.split(' ')?.[1]);
+    case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request:
       return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);
     case APPOINTMENT_TYPES.vaAppointment:
@@ -258,8 +281,12 @@ export function filterFutureRequests(request, today) {
 }
 
 export function sortFutureList(a, b) {
-  const aIsRequest = getAppointmentType(a) === APPOINTMENT_TYPES.request;
-  const bIsRequest = getAppointmentType(b) === APPOINTMENT_TYPES.request;
+  const aIsRequest =
+    getAppointmentType(a) === APPOINTMENT_TYPES.request ||
+    getAppointmentType(a) === APPOINTMENT_TYPES.ccRequest;
+  const bIsRequest =
+    getAppointmentType(b) === APPOINTMENT_TYPES.request ||
+    getAppointmentType(b) === APPOINTMENT_TYPES.ccRequest;
 
   const aDate = aIsRequest
     ? getMomentRequestOptionDate(a.optionDate1)
