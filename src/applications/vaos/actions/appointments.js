@@ -70,10 +70,10 @@ export function fetchFutureAppointments() {
         const data = await Promise.all([
           getConfirmedAppointments(
             'va',
-            moment().format('YYYY-MM-DD'),
+            moment().toISOString(),
             moment()
               .add(4, 'months')
-              .format('YYYY-MM-DD'),
+              .toISOString(),
           ),
           getConfirmedAppointments(
             'cc',
