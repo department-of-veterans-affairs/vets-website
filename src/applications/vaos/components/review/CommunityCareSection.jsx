@@ -16,7 +16,12 @@ export default function CommunityCareSection(props) {
                 <h3 className="vaos-appts__block-label">Preferred providers</h3>
               </div>
               <div className="vads-l-col--6 vads-u-text-align--right">
-                <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+                <Link
+                  to={newAppointmentFlow.ccPreferences.url}
+                  aria-label="Edit provider preference"
+                >
+                  Edit
+                </Link>
               </div>
             </div>
           </div>

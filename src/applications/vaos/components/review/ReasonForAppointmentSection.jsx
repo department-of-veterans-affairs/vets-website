@@ -14,7 +14,12 @@ export default function ReasonForAppointmentSection(props) {
             </h3>
           </div>
           <div className="vads-l-col--6 vads-u-text-align--right">
-            <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
+            <Link
+              to={newAppointmentFlow.reasonForAppointment.url}
+              aria-label="Edit purpose of appointment"
+            >
+              Edit
+            </Link>
           </div>
         </div>
       </div>

@@ -12,7 +12,12 @@ export default function PreferredDatesSection(props) {
             <h3 className="vaos-appts__block-label">Preferred date and time</h3>
           </div>
           <div className="vads-l-col--6 vads-u-text-align--right">
-            <Link to={newAppointmentFlow.requestDateTime.url}>Edit</Link>
+            <Link
+              to={newAppointmentFlow.requestDateTime.url}
+              aria-label="Edit preferred date"
+            >
+              Edit
+            </Link>
           </div>
         </div>
       </div>

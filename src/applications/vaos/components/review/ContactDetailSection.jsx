@@ -12,7 +12,12 @@ export default function ContactDetailSection(props) {
             <h3 className="vaos-appts__block-label">Your contact details</h3>
           </div>
           <div className="vads-l-col--6 vads-u-text-align--right">
-            <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
+            <Link
+              to={newAppointmentFlow.contactInfo.url}
+              aria-label="Edit call back time"
+            >
+              Edit
+            </Link>
           </div>
         </div>
       </div>
