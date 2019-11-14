@@ -4,8 +4,7 @@
     "entityType": "paragraph",
     "entityBundle": "wysiwyg",
     "fieldWysiwyg": {
-      "processed": "<hr /><h2>Resources and support outside VA</h2><p>You can also get support from resources offered by other government departments and community organizations outside of VA.</p>"
+      "processed": "<hr />\n<h2>Resources and support outside VA</h2>\n\n<p>You can also get support from resources offered by other government departments and community organizations outside of VA.</p>\n"
     }
   }
 }
-

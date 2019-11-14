@@ -21,12 +21,12 @@ function createMetaTag(type, key, value) {
 }
 
 /**
- * If `value` is a string, it will remove all `\r`, `\n`, and `\t` characters from it.
+ * If `value` is a string, it will remove all `\r`, and `\t` characters from it.
  *
  * @return {string}
  */
 function removeLinebreaks(value) {
-  return typeof value === 'string' ? value.replace(/(\r\n|\t)/gm, '') : value;
+  return typeof value === 'string' ? value.replace(/(\r|\t)/gm, '') : value;
 }
 
 module.exports = {
