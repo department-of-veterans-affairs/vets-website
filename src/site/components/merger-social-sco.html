@@ -42,7 +42,11 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 
             {% for link in subs.links %}
               {% if link.url != empty %}
+                {% if navPath == 'Connect with us' %}
+                <li>
+                {% else %}
                 <li class="vads-u-margin-bottom--0 vads-u-margin-top--0">
+                {% endif %}
                   {% if navPath == 'Ask questions' %}
                   <h4 class='va-nav-linkslist-list'>
                   {% endif %}
