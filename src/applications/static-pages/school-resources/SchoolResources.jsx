@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default async function createScoEventsWidget() {
+export async function createScoEventsWidget() {
   const widgets = Array.from(
     document.querySelectorAll(`
     [data-widget-type="sco-events"]`),
@@ -17,6 +17,29 @@ export default async function createScoEventsWidget() {
 
     widgets.forEach(el => {
       ReactDOM.render(<ScoEventsWidget scoEvents={scoEvents} />, el);
+    });
+  }
+}
+
+export async function createScoAnnouncementsWidget() {
+  const widgets = Array.from(
+    document.querySelectorAll(`
+    [data-widget-type="sco-announcements"]`),
+  );
+
+  if (widgets.length) {
+    const {
+      default: ScoAnnouncementsWidget,
+    } = await import(/* webpackChunkName: "sco-announcements" */ './ScoAnnouncementsWidget');
+    const {
+      default: announcements,
+    } = await import(/* webpackChunkName: "sco-announcements-data" */ './constants/announcements.json');
+
+    widgets.forEach(el => {
+      ReactDOM.render(
+        <ScoAnnouncementsWidget announcements={announcements} />,
+        el,
+      );
     });
   }
 }

@@ -128,7 +128,7 @@ const formConfig = {
           },
         },
         'view:contestedIssueFollowup': {
-          title: 'issue followup',
+          title: item => item?.name,
           path: 'contested-issues/:index',
           depends: () => hasSelectedIssues,
           showPagePerItem: true,
