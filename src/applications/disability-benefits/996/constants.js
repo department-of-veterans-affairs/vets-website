@@ -20,7 +20,6 @@ export const errorMessages = {
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   informalConferenceContactChoice: 'Please choose an option',
-  informalContactVARepresentative: 'Please choose an option',
   informalConferenceContactName: 'Please enter a name',
   informalConferenceContactPhone: 'Please provide a number',
   informalConferenceContactPhonePattern:
