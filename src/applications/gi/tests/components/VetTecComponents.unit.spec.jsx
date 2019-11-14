@@ -29,6 +29,7 @@ const institution = {
   physicalAddress3: 'Address line 3',
   programs: [
     {
+      description: 'Program Name',
       schoolLocale: 'City',
       providerWebsite: 'https://galvanize.edu',
       phoneAreaCode: '843',
