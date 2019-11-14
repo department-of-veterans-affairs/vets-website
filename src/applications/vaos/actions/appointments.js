@@ -94,14 +94,6 @@ export function fetchFutureAppointments() {
           data,
           today: moment(),
         });
-
-        // Fetch request messages
-        const pendingAppointments = data[2];
-        if (pendingAppointments?.length) {
-          pendingAppointments.forEach(a =>
-            dispatch(fetchRequestMessages(a.appointmentRequestId)),
-          );
-        }
       } catch (error) {
         Sentry.captureException(error);
         dispatch({

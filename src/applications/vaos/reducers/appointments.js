@@ -33,6 +33,7 @@ const initialState = {
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
+  requestMessages: {},
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -67,24 +68,12 @@ export default function appointmentsReducer(state = initialState, action) {
         future: null,
       };
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
-      let future = state.future;
-      if (future.length > 0 && action.messages?.length > 0) {
-        const messages = action.messages.sort(sortMessages);
-        future = future.map(a => {
-          const current = a;
-          if (
-            current.appointmentRequestId &&
-            current.appointmentRequestId === action.requestId
-          ) {
-            current.messages = messages;
-          }
-          return current;
-        });
-      }
+      const requestMessages = { ...state.requestMessages };
+      requestMessages[action.requestId] = action.messages.sort(sortMessages);
 
       return {
         ...state,
-        future,
+        requestMessages,
       };
     }
     case FETCH_PAST_APPOINTMENTS:

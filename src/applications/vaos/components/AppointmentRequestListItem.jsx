@@ -20,11 +20,25 @@ export default class AppointmentRequestListItem extends React.Component {
     };
   }
 
+  toggleShowMore = () => {
+    const { appointment, messages, fetchMessages } = this.props;
+    const id = appointment.appointmentRequestId;
+    const showMore = !this.state.showMore;
+
+    if (showMore && !messages[id]) {
+      fetchMessages(id);
+    }
+
+    this.setState({ showMore });
+  };
+
   render() {
-    const { appointment, index, cancelAppointment } = this.props;
+    const { appointment, index, messages, cancelAppointment } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
-    const firstMessage = appointment?.messages?.[0].attributes?.messageText;
+    const firstMessage =
+      messages?.[appointment.appointmentRequestId]?.[0]?.attributes
+        ?.messageText;
 
     return (
       <li
@@ -134,7 +148,7 @@ export default class AppointmentRequestListItem extends React.Component {
         <button
           type="button"
           className="va-button-link vaos-appts__expand-link vads-u-display--block vads-u-margin-top--1p5"
-          onClick={() => this.setState({ showMore: !this.state.showMore })}
+          onClick={this.toggleShowMore}
           aria-expanded={showMore}
         >
           {showMore ? (

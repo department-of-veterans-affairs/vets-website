@@ -12,6 +12,7 @@ import {
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
+  fetchRequestMessages,
 } from '../actions/appointments';
 import { getAppointmentType } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
@@ -27,7 +28,7 @@ export class AppointmentsPage extends Component {
 
   render() {
     const { appointments, cancelInfo } = this.props;
-    const { future, futureStatus } = appointments;
+    const { future, futureStatus, requestMessages } = appointments;
 
     let content;
 
@@ -55,6 +56,8 @@ export class AppointmentsPage extends Component {
                     index={index}
                     appointment={appt}
                     cancelAppointment={this.props.cancelAppointment}
+                    fetchMessages={this.props.fetchRequestMessages}
+                    messages={requestMessages}
                   />
                 );
               case APPOINTMENT_TYPES.ccAppointment:
@@ -159,6 +162,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchFutureAppointments,
+  fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
