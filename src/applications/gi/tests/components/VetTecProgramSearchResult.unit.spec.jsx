@@ -41,7 +41,7 @@ describe('<VetTecProgramSearchResult>', () => {
     expect(wrapper.find('.institution-location').text()).to.contain(
       defaultProps.result.state,
     );
-    expect(wrapper.find('.info-flag').text()).to.eq('2 hours');
+    expect(wrapper.find('.info-flag').text()).to.eq('680 hours');
     expect(wrapper.find('.programTuition').text()).to.eq(
       formatCurrency(defaultProps.result.tuitionAmount),
     );
@@ -50,7 +50,7 @@ describe('<VetTecProgramSearchResult>', () => {
         defaultProps.constants.AVGDODBAH / 2,
       )} - ${formatCurrency(defaultProps.result.dodBah)}`,
     );
-    expect(wrapper.find('.info-flag').text()).to.eq('2 hours');
+    expect(wrapper.find('.info-flag').text()).to.eq('680 hours');
     expect(wrapper.find('.preferred-flag')).to.have.lengthOf(0);
     wrapper.unmount();
   });
