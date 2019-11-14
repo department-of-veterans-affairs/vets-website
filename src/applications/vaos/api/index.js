@@ -74,16 +74,16 @@ export function getRequestMessages(requestId) {
     } else if (requestId === '8a48912a6cab0202016cb4fcaa8b0038') {
       promise = import('./messages_0038.json');
     } else {
-      return new Promise(res => res([]));
+      promise = new Promise(res => res({ data: [] }));
     }
 
     promise = promise.then(
       module => (module.default ? module.default : module),
     );
-    return promise;
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests/${requestId}/messages`);
   }
 
-  promise = apiRequest(`/vaos/appointment_requests/${requestId}/messages`);
   return promise.then(resp => resp.data);
 }
 
