@@ -30,7 +30,9 @@ export default function GiBillBreadcrumbs({
     pathname.match(/search/) || pathname.match(/program-search/);
   const onProfilePage = pathname.match(/profile/);
   const searchResultsPath =
-    onProfilePage && facilityCode.match('V') ? 'program-search' : 'search';
+    onProfilePage && facilityCode.substr(1, 1) === 'V'
+      ? 'program-search'
+      : 'search';
   if (searchQuery && (onSearchPage || onProfilePage)) {
     crumbs.push(
       <Link
