@@ -7,7 +7,7 @@ import { getTypeOfCare } from '../utils/selectors';
 import {
   ContactDetailSection,
   ReasonForAppointmentSection,
-} from './ReviewRequestInfo';
+} from './review/ReviewRequestInfo';
 
 // Refactor
 // function formatBestTime(bestTime) {
