@@ -97,7 +97,7 @@ export function fetchFutureAppointments() {
 
         // Fetch request messages
         const pendingAppointments = data[2];
-        if (pendingAppointments?.length > 0) {
+        if (pendingAppointments?.length) {
           pendingAppointments.forEach(a =>
             dispatch(fetchRequestMessages(a.appointmentRequestId)),
           );
