@@ -71,7 +71,10 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
       const requestMessages = { ...state.requestMessages };
-      requestMessages[action.requestId] = action.messages.sort(sortMessages);
+      const messages = action.messages;
+
+      if (messages.length)
+        requestMessages[action.requestId] = messages.sort(sortMessages);
 
       return {
         ...state,

@@ -135,9 +135,24 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         ],
       },
     };
+
+    const messages = {
+      guid: [
+        {
+          attributes: {
+            messageText: 'Some message',
+          },
+        },
+      ],
+    };
+
+    const fetchMessages = sinon.spy();
+
     const tree = shallow(
       <AppointmentRequestListItem
         appointment={appointment}
+        fetchMessages={fetchMessages}
+        messages={messages}
         showCancelButton
         type={APPOINTMENT_TYPES.ccRequest}
       />,
