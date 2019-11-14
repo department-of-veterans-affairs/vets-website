@@ -31,7 +31,7 @@ export class ConfirmationPage extends React.Component {
           Your request has been submitted
         </h3>
         <p>
-          We'll mail a letter confirming your request within{' '}
+          We’ll mail a letter confirming your request within{' '}
           <strong>5 business days</strong>.
         </p>
         <p>
@@ -72,13 +72,13 @@ export class ConfirmationPage extends React.Component {
 
         <h3>What should I do while I wait?</h3>
         <p>
-          You don't need to do anything unless VA sends you a letter asking for
+          You don’t need to do anything unless VA sends you a letter asking for
           more information. If VA schedules any exams for you, be sure not to
           miss them.
         </p>
         <p>
-          If you requested a decision review and haven't heard back from VA yet,
-          please don't request another review. Call VA at{' '}
+          If you requested a decision review and haven’t heard back from VA yet,
+          please don’t request another review. Call VA at{' '}
           <a href="tel:1-800-827-1000">800-827-1000</a>.
         </p>
         <br />
