@@ -209,7 +209,7 @@ export class VetTecCalculator extends React.Component {
         <div className="usa-width-one-half medium-6 columns vads-u-padding--0">
           <div className=" your-estimated-benefits">
             <h3>Your estimated benefits</h3>
-            <div className="programs-label">
+            <div className="program-name">
               {this.props.calculator.vetTecProgramName}
             </div>
             {this.renderTuitionSection(outputs, showModal)}
