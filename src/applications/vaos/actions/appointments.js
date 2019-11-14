@@ -101,7 +101,7 @@ export function cancelAppointment(appointment) {
   };
 }
 
-const BOOKED_REQUEST = 'Booked';
+const SUBMITTED_REQUEST = 'Submitted';
 const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
@@ -112,7 +112,7 @@ export function confirmCancelAppointment() {
 
       const appointment = getState().appointments.appointmentToCancel;
 
-      if (appointment.status === BOOKED_REQUEST) {
+      if (appointment.status === SUBMITTED_REQUEST) {
         await updateRequest({
           ...appointment,
           status: CANCELLED_REQUEST,
