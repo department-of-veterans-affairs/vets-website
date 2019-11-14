@@ -70,16 +70,16 @@ export function getRequestMessages(requestId) {
   let promise;
   if (environment.isLocalhost()) {
     if (requestId === '8a48912a6c2409b9016c525a4d490190') {
-      promise = import('./messages_0190.json');
+      promise = import('./messages_0190.json').then(
+        module => (module.default ? module.default : module),
+      );
     } else if (requestId === '8a48912a6cab0202016cb4fcaa8b0038') {
-      promise = import('./messages_0038.json');
+      promise = import('./messages_0038.json').then(
+        module => (module.default ? module.default : module),
+      );
     } else {
       promise = new Promise(res => res({ data: [] }));
     }
-
-    promise = promise.then(
-      module => (module.default ? module.default : module),
-    );
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${requestId}/messages`);
   }
