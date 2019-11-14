@@ -17,12 +17,15 @@ import {
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
+
+import facilityData from '../../api/facility_data.json';
 
 describe('VAOS actions: appointments', () => {
   beforeEach(() => {
@@ -38,11 +41,13 @@ describe('VAOS actions: appointments', () => {
       data: [],
     };
     setFetchJSONResponse(global.fetch, data);
+    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
     const getState = () => ({
       appointments: {
         futureStatus: 'notStarted',
+        future: [{ facilityId: '442' }],
       },
     });
     await thunk(dispatchSpy, getState);
@@ -52,6 +57,10 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
+    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+    );
+    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
   });
 
   it('should fetch past appointments', done => {

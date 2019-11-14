@@ -72,18 +72,20 @@ export function fetchFutureAppointments() {
         const appts = getState().appointments.future;
         const facilityIds = new Set(
           appts
-            .filter(appt => appt.facilityId || appt.facility?.facilityCode)
-            .map(appt => appt.facilityId || appt.facility.facilityCode),
+            .map(appt => appt.facilityId || appt.facility.facilityCode)
+            .filter(id => !!id),
         );
 
         try {
-          const facilityData = await getFacilitiesInfo(
-            facilityIds.entries(entry => entry[0]),
-          );
-          dispatch({
-            type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-            facilityData,
-          });
+          if (facilityIds.size > 0) {
+            const facilityData = await getFacilitiesInfo(
+              Array.from(facilityIds),
+            );
+            dispatch({
+              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+              facilityData,
+            });
+          }
         } catch (error) {
           Sentry.captureException(error);
         }
