@@ -17,13 +17,13 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
             {name}
           </p>
         </div>
-        <div className="vads-l-col--3 medium-screen:vads-l-col--3 small-desktop-screen:vads-l-col--3">
-          {ratingPercentage ? (
+        {ratingPercentage ? (
+          <div className="vads-l-col--3 medium-screen:vads-l-col--3 small-desktop-screen:vads-l-col--3">
             <p className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-text-align--right vads-u-margin--0">
               {ratingPercentage}%
             </p>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
       </div>
       <div className="vads-l-row vads-u-margin-y--0p5">
         <div className="vads-l-col--12 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
@@ -44,13 +44,13 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
           ) : null}
         </div>
       </div>
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--12">
-          {effectiveDate !== null ? (
+      {effectiveDate !== null ? (
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--12">
             <p className="vads-u-margin--0">Effective date: {effectiveDate}</p>
-          ) : null}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
