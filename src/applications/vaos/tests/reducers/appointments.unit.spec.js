@@ -67,17 +67,6 @@ describe('VAOS reducer: appointments', () => {
   });
 
   it('should populate requests with messages with FETCH_REQUEST_MESSAGES_SUCCEEDED', () => {
-    const state = {
-      future: [
-        {
-          appointmentRequestId: 1,
-        },
-        {
-          appointmentRequestId: 2,
-        },
-      ],
-    };
-
     const action = {
       type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
       requestId: 1,
@@ -90,9 +79,8 @@ describe('VAOS reducer: appointments', () => {
       ],
     };
 
-    const newState = appointmentsReducer(state, action);
-    expect(newState.future[0].messages.length).to.equal(1);
-    expect(newState.future[1].messages).to.equal(undefined);
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.requestMessages[action.requestId].length).to.equal(1);
   });
 
   it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
