@@ -12,13 +12,13 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
   return (
     <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
       <div className="vads-l-row">
-        <div className="vads-l-col--9 medium-screen:vads-l-col--9 small-desktop-screen:vads-l-col--9">
+        <div className="vads-l-col--9">
           <p className="vads-u-font-weight--bold vads-u-margin-top--0p25 vads-u-margin-bottom--0 vads-u-margin-x--0 vads-u-font-size--base">
             {name}
           </p>
         </div>
         {ratingPercentage ? (
-          <div className="vads-l-col--3 medium-screen:vads-l-col--3 small-desktop-screen:vads-l-col--3">
+          <div className="vads-l-col--3">
             <p className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-text-align--right vads-u-margin--0">
               {ratingPercentage}%
             </p>

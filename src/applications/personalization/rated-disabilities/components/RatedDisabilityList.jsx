@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import _ from 'lodash';
 import moment from 'moment';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
 
@@ -54,7 +53,7 @@ class RatedDisabilityList extends React.Component {
 
   // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData(data) {
-    const formalizedDisabilityData = _.map(data, d => {
+    const formalizedDisabilityData = data.map(d => {
       const effectiveDate = {
         effectiveDate: d.effectiveDate
           ? moment(d.effectiveDate).format('DD/MM/YYYY')
