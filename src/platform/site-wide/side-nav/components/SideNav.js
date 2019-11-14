@@ -128,8 +128,8 @@ class SideNav extends Component {
                   <i
                     className={classNames({
                       fa: true,
-                      'fa-chevron-down': expanded,
-                      'fa-chevron-up': !expanded,
+                      'fa-chevron-up': expanded,
+                      'fa-chevron-down': !expanded,
                     })}
                   />
                 </button>
