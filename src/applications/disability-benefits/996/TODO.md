@@ -4,7 +4,7 @@
 
 - Update `IntroductionPage.jsx`
   - [x] Replace placeholder `isInLegacySystem` with value from API
-  - [x] Add code to update `isInLegacySystem` (or whatever it's named).
+  - [ ] Add code to update `isInLegacySystem` (or whatever it's named).
 -  Update `OptOutFromLegacySystem.jsx`
   - [x] Consider converting the `OptOutFromLegacySystem` component into a
         standalone form with it's own form schema - suggested by Erik Hansen.
@@ -21,7 +21,7 @@
 - [x] Build template.
 - [x] Include saved form data component.
 - [x] Update checkbox error message (needs content approval).
-- [ ] URL destination for the "Learn more about the review options" link?
+- [x] URL destination for the "Learn more about the review options" link?
       Currently it is pointing to `/decision-reviews`.
 - [ ] Destination or component that opens when the "See all your contested
       issues" link is used.
@@ -31,39 +31,40 @@
 - [x] Build form `confirmVeteranDetails` in `config/form.js`
 - [ ] Get last 4 of SSN? Look for API entry.
 - [x] Auto-fill contact info review (collapsed with edit button? - talk to design)
-- [ ] Add tests
+- [x] Add unit tests
+- [ ] Add e2e tests
 
 ### Select your contested issues (Step 2a & b)
 
-- [ ] Build form `selectContestedIssues` in `config/form.js`
+- [x] Build form `selectContestedIssues` in `config/form.js`
 - [ ] Get eligible issues API call?
 - [ ] Desination of "See all your issues" click?
-- [ ] Add tests
+- [x] Add unit tests
+- [ ] Add e2e tests
 
 ### Same jurisdiction & add notes (Step 2c)
 
-- [ ] Build form `addNotes` in `config/form.js`
-- [ ] Choose same regional office yes/no
-- [ ] Add note for reviewer
-- [ ] Add tests
+- [x] Build form `addNotes` in `config/form.js`
+- [x] Choose same regional office yes/no
+- [x] Add note for relevant evidence
+- [x] Add unit tests
+- [ ] Add e2e tests
 
 ### Request an informal conference (Step 3)
 
-- [ ] Build form `requestAnInformalConference` in `config/form.js`
-- [ ] Awaiting design on "Weekday" dropdown content
-- [ ] Add tests
+- [x] Build form `requestAnInformalConference` in `config/form.js`
+- [x] Awaiting design on "Weekday" dropdown content - remove
+- [x] Add unit tests
+- [ ] Add e2e tests
 
 ### Submit your application (Step 4)
 
-- [ ] Build form in ?? (wording appears to be "Review and submit your
-      application", can it be changed to match the design?)
-- [ ] Add privacy policy check
-- [ ] Add tests
-
-### Confirmation page
-
 - [ ] Is there a design? This page was automaticaly added by the form builder.
-- [ ] Add tests
+- [x] Change wording to be "Review and submit your
+      application", can it be changed to match the design?)
+- [x] Add privacy policy check
+- [ ] Add unit tests
+- [ ] Add e2e tests
 
 ### Swap order of intro & opt out page
 
@@ -80,5 +81,14 @@
 - [ ] Clear production flag in `config/form.js`.
 - [ ] Delete this to-do file.
 - [ ] Add e2e tests (only executes on production pages?)
+
+#### Review
+- [ ] QA review - Tze
+- [ ] 508 internal review - Trevor & Jennifer
+  - https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/accessibility/review-process.md
+  - https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/ebenefits/508-checklist-wip.md
+- [ ] Google analytics
+- [ ] Load testing
+- [ ] Wrap in downtime notification
 - [ ] Notify `#vsp-contact-center-support` about release and go over
       troubleshooting any issues

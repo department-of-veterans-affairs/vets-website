@@ -63,6 +63,9 @@ const informalConference = {
           inputType: 'tel',
         },
       },
+      'view:TimesForRep': {
+        'ui:title': () => InformalConferenceTimes({ isRep: true }),
+      },
     },
     'view:ContactYouInfo': {
       'ui:title': '',
@@ -72,8 +75,16 @@ const informalConference = {
         expandUnder: 'informalConferenceChoice',
       },
     },
-    scheduleTimes: {
+    // Time selection message you vs rep
+    'view:TimesForYou': {
       'ui:title': InformalConferenceTimes,
+      'ui:options': {
+        hideIf: formData => formData?.informalConferenceChoice !== 'me',
+        expandUnder: 'informalConferenceChoice',
+      },
+    },
+    scheduleTimes: {
+      'ui:title': ' ',
       'ui:required': formData => formData?.informalConferenceChoice !== 'no',
       'ui:errorMessages': {
         required: errorMessages.informalConferenceTimesMin,
@@ -133,7 +144,15 @@ const informalConference = {
           },
           fullName: representative.fullName,
           phone: representative.phone,
+          'view:TimesForRep': {
+            type: 'object',
+            properties: {},
+          },
         },
+      },
+      'view:TimesForYou': {
+        type: 'object',
+        properties: {},
       },
       scheduleTimes,
       'view:alert': {
