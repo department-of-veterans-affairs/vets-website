@@ -70,21 +70,24 @@ export function fetchFutureAppointments() {
         const data = await Promise.all([
           getConfirmedAppointments(
             'va',
-            moment().toISOString(),
             moment()
-              .add(4, 'months')
+              .startOf('day')
+              .toISOString(),
+            moment()
+              .startOf('day')
+              .add(120, 'days')
               .toISOString(),
           ),
           getConfirmedAppointments(
             'cc',
             moment().format('YYYY-MM-DD'),
             moment()
-              .add(4, 'months')
+              .add(120, 'days')
               .format('YYYY-MM-DD'),
           ),
           getPendingAppointments(
             moment()
-              .subtract(4, 'months')
+              .subtract(30, 'days')
               .format('YYYY-MM-DD'),
             moment().format('YYYY-MM-DD'),
           ),
