@@ -224,6 +224,11 @@ export const DISTANCES = [
   },
 ];
 
+export const REASON_MAX_CHARS = {
+  request: 100,
+  direct: 150,
+};
+
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
