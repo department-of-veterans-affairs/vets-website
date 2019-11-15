@@ -27,7 +27,9 @@ class AccordionItem extends React.Component {
             aria-expanded={expanded}
             aria-controls={this.id}
           >
-            <span className="accordion-button-text">{this.props.button}</span>
+            <span className="vads-u-font-family--serif accordion-button-text">
+              {this.props.button}
+            </span>
           </button>
         </h2>
         <div

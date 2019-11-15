@@ -6,5 +6,7 @@ module.exports = {
     properties: {
       value: { type: 'string' },
     },
+    required: ['value'],
   },
+  maxItems: 1,
 };

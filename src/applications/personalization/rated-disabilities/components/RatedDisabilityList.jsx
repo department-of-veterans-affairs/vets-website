@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import _ from 'lodash';
 import moment from 'moment';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
 
@@ -54,13 +53,18 @@ class RatedDisabilityList extends React.Component {
 
   // Need to transform date string into a meaningful format and extract any special issues.
   formalizeData(data) {
-    const formalizedDisabilityData = _.map(data, d => {
+    const formalizedDisabilityData = data.map(d => {
       const effectiveDate = {
-        effectiveDate: moment(d.effectiveDate).format('DD/MM/YYYY'),
+        effectiveDate: d.effectiveDate
+          ? moment(d.effectiveDate).format('DD/MM/YYYY')
+          : null,
       };
       const relatedTo = {
         // Right now we only take the first value...but what if there is more than one?
-        relatedTo: d.specialIssues.length > 0 ? d.specialIssues[0].name : '',
+        relatedTo:
+          Array.isArray(d.specialIssues) && d.specialIssues.length > 0
+            ? d.specialIssues[0].name
+            : null,
       };
       const disability = Object.assign({}, d, effectiveDate, relatedTo);
       return disability;

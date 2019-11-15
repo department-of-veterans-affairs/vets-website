@@ -10,6 +10,7 @@ import {
 import {
   fetchFutureAppointments,
   fetchPastAppointments,
+  fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
@@ -17,12 +18,17 @@ import {
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_REQUEST_MESSAGES,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
+
+import facilityData from '../../api/facility_data.json';
 
 describe('VAOS actions: appointments', () => {
   beforeEach(() => {
@@ -38,11 +44,13 @@ describe('VAOS actions: appointments', () => {
       data: [],
     };
     setFetchJSONResponse(global.fetch, data);
+    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
     const getState = () => ({
       appointments: {
         futureStatus: 'notStarted',
+        future: [{ facilityId: '442' }],
       },
     });
     await thunk(dispatchSpy, getState);
@@ -52,6 +60,10 @@ describe('VAOS actions: appointments', () => {
     expect(dispatchSpy.secondCall.args[0].type).to.eql(
       FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
+    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+    );
+    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
   });
 
   it('should fetch past appointments', done => {
@@ -76,6 +88,18 @@ describe('VAOS actions: appointments', () => {
     };
 
     thunk(dispatch);
+  });
+
+  it('should fetch request messages', async () => {
+    setFetchJSONResponse(global.fetch);
+    const dispatch = sinon.spy();
+    const thunk = fetchRequestMessages('8a48912a6c2409b9016c525a4d490190');
+
+    await thunk(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_REQUEST_MESSAGES);
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FETCH_REQUEST_MESSAGES_SUCCEEDED,
+    );
   });
 
   describe('cancel appointment', () => {
@@ -119,7 +143,7 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            status: 'Booked',
+            status: 'Submitted',
           },
         },
       };

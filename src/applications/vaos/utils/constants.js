@@ -9,6 +9,7 @@ export const APPOINTMENT_TYPES = {
   vaAppointment: 'vaAppointment',
   ccAppointment: 'ccAppointment',
   request: 'request',
+  ccRequest: 'ccRequest',
 };
 
 export const TIME_TEXT = {
@@ -222,6 +223,11 @@ export const DISTANCES = [
     name: 'Further than 50 miles',
   },
 ];
+
+export const REASON_MAX_CHARS = {
+  request: 100,
+  direct: 150,
+};
 
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';

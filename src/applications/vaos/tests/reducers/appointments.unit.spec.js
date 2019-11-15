@@ -7,11 +7,13 @@ import {
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
 } from '../../actions/appointments';
 
 import { FETCH_STATUS } from '../../utils/constants';
@@ -65,6 +67,23 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.future.length).to.equal(3);
   });
 
+  it('should populate requests with messages with FETCH_REQUEST_MESSAGES_SUCCEEDED', () => {
+    const action = {
+      type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
+      requestId: 1,
+      messages: [
+        {
+          attributes: {
+            messageText: 'test',
+          },
+        },
+      ],
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.requestMessages[action.requestId].length).to.equal(1);
+  });
+
   it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
       type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
@@ -94,6 +113,20 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.pastStatus).to.equal(FETCH_STATUS.failed);
+  });
+
+  it('should set facility data when fetch succeeds', () => {
+    const action = {
+      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+      facilityData: [
+        {
+          uniqueId: '442',
+        },
+      ],
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {
@@ -128,14 +161,14 @@ describe('VAOS reducer: appointments', () => {
       const appt = {};
       const state = {
         ...initialState,
-        confirmed: [appt],
+        future: [appt],
         appointmentToCancel: appt,
       };
       const newState = appointmentsReducer(state, action);
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.confirmed.length).to.equal(0);
+      expect(newState.future.length).to.equal(0);
     });
 
     it('should set status to failed', () => {

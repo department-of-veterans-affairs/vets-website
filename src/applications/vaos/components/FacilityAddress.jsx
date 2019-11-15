@@ -1,10 +1,14 @@
 import React from 'react';
 
-export default function FacilityAddress({ name, address }) {
+export default function FacilityAddress({ name, address, phone }) {
   return (
     <>
-      <strong>{name}</strong>
-      <br />
+      {!!name && (
+        <>
+          <strong>{name}</strong>
+          <br />
+        </>
+      )}
       {address.address1}
       <br />
       {address.address2}
@@ -12,6 +16,8 @@ export default function FacilityAddress({ name, address }) {
       {address.address3}
       {!!address.address3 && <br />}
       {address.city}, {address.state} {address.zip}
+      <br />
+      {!!phone && <a href={`tel:${phone.replace(/-/g, '')}`}>{phone}</a>}
     </>
   );
 }

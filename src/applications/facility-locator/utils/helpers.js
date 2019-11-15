@@ -114,7 +114,8 @@ export const validateIdString = (urlObj, urlPrefixString) => {
  * @returns {String} Formatted operating hours, like '8:00am - 5:00pm' or 'All Day', etc.
  *
  */
-export const formatOperatingHours = (operatingHours = 'N/A - N/A') => {
+export const formatOperatingHours = operatingHours => {
+  if (!operatingHours) return operatingHours;
   // Remove all whitespace.
   const sanitizedOperatingHours = replace(operatingHours, ' ', '');
 
@@ -151,14 +152,12 @@ export const formatOperatingHours = (operatingHours = 'N/A - N/A') => {
   }
 
   // Derive the formatted operating hours.
-  let formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
+  const formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
 
-  // Swap 'Invalid date' with 'N/A' for legibility.
-  formattedOperatingHours = replace(
-    formattedOperatingHours,
-    /Invalid date/g,
-    'N/A',
-  );
+  // Return original string if invalid date.
+  if (formattedOperatingHours.search(/Invalid date/i) === 0) {
+    return operatingHours;
+  }
 
   // Return the formatted operating hours.
   return formattedOperatingHours;
