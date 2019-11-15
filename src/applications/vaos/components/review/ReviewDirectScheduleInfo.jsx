@@ -12,7 +12,10 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
         <br />
         details
       </h1>
-      <AppointmentDate dates={data.calendarData.selectedDates} />
+      <AppointmentDate
+        dates={data.calendarData.selectedDates}
+        systemId={data.vaSystem}
+      />
       <hr />
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">
         {getTypeOfCare(data)?.name}

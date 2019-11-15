@@ -13,6 +13,7 @@ const defaultData = {
   calendarData: {
     selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
   },
+  vaSystem: '578',
   typeOfCareId: '323',
 };
 
@@ -51,7 +52,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           .find(AppointmentDate)
           .find('h2')
           .text(),
-      ).to.equal('December 20, 2019 at 10:00 a.m. CST');
+      ).to.equal('December 20, 2019 at 10:00 a.m. CT');
     });
 
     it('should render type of care section', () => {
