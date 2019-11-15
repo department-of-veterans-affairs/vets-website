@@ -2,7 +2,7 @@
 import React from 'react';
 import { get } from 'lodash';
 // Relative
-import { NavItemPropTypes } from './NavItem';
+import { NavItemPropTypes } from '../prop-types';
 
 const LabelText = ({ item }) => {
   // Derive item properties.

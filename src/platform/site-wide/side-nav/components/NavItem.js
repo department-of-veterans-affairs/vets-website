@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import DuplicateLineLabel from './DuplicateLineLabel';
 import ExpandCollapseButton from './ExpandCollapseButton';
 import LabelText from './LabelText';
+import { NavItemPropTypes } from '../prop-types';
 
 const NavItem = ({
   depth,
@@ -35,6 +36,7 @@ const NavItem = ({
 
   return (
     <li className={`va-sidenav-level-${depth}`} key={id}>
+      {/* Nav Item Row */}
       <div
         aria-label={label}
         className={classNames({
@@ -62,19 +64,6 @@ const NavItem = ({
     </li>
   );
 };
-
-export const NavItemPropTypes = PropTypes.shape({
-  depth: PropTypes.number.isRequired,
-  description: PropTypes.string,
-  expanded: PropTypes.bool.isRequired,
-  hasChildren: PropTypes.bool.isRequired,
-  href: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  order: PropTypes.number.isRequired,
-  parentID: PropTypes.string,
-  isSelected: PropTypes.bool.isRequired,
-}).isRequired;
 
 NavItem.propTypes = {
   depth: PropTypes.number.isRequired,

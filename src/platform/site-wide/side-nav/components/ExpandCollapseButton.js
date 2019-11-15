@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { get } from 'lodash';
 // Relative
-import { NavItemPropTypes } from './NavItem';
+import { NavItemPropTypes } from '../prop-types';
 
 const ExpandCollapseButton = ({ depth, item }) => {
   // Derive item properties.
