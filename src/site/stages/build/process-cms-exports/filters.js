@@ -19,6 +19,7 @@ const whitelists = {
     'changed',
     'moderation_state',
   ],
+  'paragraph-wysiwyg': ['field_wysiwyg'],
 };
 
 const missingFilters = new Set();

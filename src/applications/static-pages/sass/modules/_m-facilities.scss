@@ -261,17 +261,12 @@ $duo-tone-lighten: #000;
 }
 
 .bio-image {
-  height: 178px;
-  width: 144px;
-  object-fit: cover;
+  max-height: 178px;
 }
 
 .person-profile-detail-page-image {
-  height: 227px;
-  width: 176px;
-  object-fit: cover;
+  max-height: 227px;
 }
-
 
 .va-facility-page {
   .va-address-block {
