@@ -9,7 +9,7 @@ import {
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getReasonForAppointment } from '../utils/selectors';
-import { PURPOSE_TEXT } from '../utils/constants';
+import { REASON_RADIO_BUTTONS } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -28,13 +28,12 @@ const initialSchema = {
 const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
-    'ui:title': 'Why do you want to make an appointment?',
+    'ui:title': 'Why are you making this appointment?',
     'ui:options': {
-      labels: PURPOSE_TEXT,
+      labels: REASON_RADIO_BUTTONS,
     },
   },
   reasonAdditionalInfo: {
-    'ui:title': 'Provide additional details for your appointment.',
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,

@@ -44,8 +44,8 @@ export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
-export const FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR =
-  'newAppointment/FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR';
+export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
+  'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
@@ -224,11 +224,12 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
     }
 
     dispatch({
-      type: FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+      page,
+      uiSchema,
+      data: { ...data, reasonAdditionalInfo },
       remainingCharacters,
     });
-
-    dispatch(updateFormData(page, uiSchema, { ...data, reasonAdditionalInfo }));
   };
 }
 

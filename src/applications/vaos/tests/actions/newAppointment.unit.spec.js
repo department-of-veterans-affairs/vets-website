@@ -25,7 +25,7 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+  FORM_REASON_FOR_APPOINTMENT_CHANGED,
   REASON_MAX_CHAR_DEFAULT,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -369,7 +369,7 @@ describe('VAOS newAppointment actions', () => {
       );
       await thunk(dispatch);
       expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+        FORM_REASON_FOR_APPOINTMENT_CHANGED,
       );
       expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
         REASON_MAX_CHAR_DEFAULT -
@@ -377,7 +377,6 @@ describe('VAOS newAppointment actions', () => {
           1 -
           reasonAdditionalInfo.length,
       );
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
     });
   });
   describe('openCommunityCarePreferencesPage', () => {
