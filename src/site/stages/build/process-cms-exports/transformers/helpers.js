@@ -26,7 +26,7 @@ function createMetaTag(type, key, value) {
  * @return {string}
  */
 function removeLinebreaks(value) {
-  return typeof value === 'string' ? value.replace(/(\r|\t)/gm, '') : value;
+  return typeof value === 'string' ? value.replace(/(\r\n|\t)/g, '') : value;
 }
 
 module.exports = {
