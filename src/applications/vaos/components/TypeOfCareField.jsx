@@ -17,50 +17,15 @@ function RadioWidget({ option, checked, onChange, id }) {
   );
 }
 
-const PRIMARY_CARE = TYPES_OF_CARE.filter(care => care.group === 'primary');
-const MENTAL_HEALTH = TYPES_OF_CARE.filter(
-  care => care.group === 'mentalHealth',
+const sortedCare = TYPES_OF_CARE.sort(
+  (careA, careB) => (careA.name > careB.name ? 1 : -1),
 );
-const SPECIALTY = TYPES_OF_CARE.filter(care => care.group === 'specialty');
 
 export default function TypeOfCareField({ formData, onChange, idSchema }) {
   return (
     <div>
       <fieldset>
-        <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
-          Primary care
-        </legend>
-        Including PAC Team, express care clinic, and primary care appointments
-        with clinical pharmacists.
-        {PRIMARY_CARE.map(care => (
-          <RadioWidget
-            key={care.id}
-            id={idSchema.$id}
-            option={care}
-            checked={care.id === formData}
-            onChange={onChange}
-          />
-        ))}
-      </fieldset>
-      <fieldset>
-        <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
-          Mental and behavioral health
-        </legend>
-        {MENTAL_HEALTH.map(care => (
-          <RadioWidget
-            key={care.id}
-            id={idSchema.$id}
-            option={care}
-            checked={care.id === formData}
-            onChange={onChange}
-          />
-        ))}
-      </fieldset>
-      <fieldset>
-        <legend className="vads-u-color--base vads-u-font-family--serif vads-u-padding-bottom--0 vads-u-padding-top--3">
-          Specialty care
-        </legend>
-        {SPECIALTY.map(care => (
+        {sortedCare.map(care => (
           <RadioWidget
             key={care.id}
             id={idSchema.$id}
