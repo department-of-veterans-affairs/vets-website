@@ -96,7 +96,7 @@ export class ReasonForAppointmentPage extends React.Component {
           />
           <AlertBox
             headline="If you are experiencing a medical emergency"
-            className="vads-u-margin-top--3"
+            className="vads-u-margin-y--3"
             content={
               <ul>
                 <li>
