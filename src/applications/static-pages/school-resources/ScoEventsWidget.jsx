@@ -95,11 +95,11 @@ export default class ScoEventsWidget extends React.Component {
         <p>
           See full list of{' '}
           <a href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp">
-            Conferences and Events
+            Conferences and events
           </a>{' '}
           |{' '}
           <a href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/presentations.asp">
-            Training Webinars
+            Training webinars
           </a>{' '}
         </p>
       </div>
