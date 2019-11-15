@@ -11,11 +11,16 @@ import _ from 'lodash';
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
   return (
-    <p className="icon-with-info">
-      <i className={`fa fa-${icon} ${iconClassName}`} />
-      &nbsp;
-      {children}
-    </p>
+    <div className="icon-with-info vads-l-grid-container vads-u-padding-x--0">
+      <div className="vads-l-row vads-u-padding-x--0 vads-u-padding-bottom--1p5">
+        <div className="vads-l-col--1">
+          <i className={`fa fa-${icon} ${iconClassName}`} />
+        </div>
+        <div className="text-column vads-l-col--11 vads-u-padding-left--1">
+          {children}
+        </div>
+      </div>
+    </div>
   );
 };
 

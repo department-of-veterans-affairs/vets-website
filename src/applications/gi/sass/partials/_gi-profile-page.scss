@@ -38,7 +38,9 @@
   }
 
   .icon-with-info {
-    margin-top: 0;
+    .text-column {
+      overflow-wrap: break-word;
+    }
   }
 
   button.usa-accordion-button {
