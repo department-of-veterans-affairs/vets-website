@@ -18,14 +18,14 @@ export const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-export const REASON_RADIO_BUTTONS = {
+export const REASON_RADIO_LABELS = {
   'routine-follow-up': 'Routine or follow-up visit',
   'new-issue': 'I have a new medical issue',
   'medication-concern': 'I have a concern or question about my medication',
   other: 'My reason is not listed here',
 };
 
-export const REASON_REVIEW_TEXT = {
+export const REASON_TEXT = {
   'routine-follow-up': 'Routine/Follow-up',
   'new-issue': 'New issue',
   'medication-concern': 'Medication concern',

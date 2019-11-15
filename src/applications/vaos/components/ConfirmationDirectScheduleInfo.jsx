@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { getTypeOfCare } from '../utils/selectors';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { REASON_REVIEW_TEXT } from '../utils/constants';
+import { REASON_TEXT } from '../utils/constants';
 
 export default function ConfirmationDirectScheduleInfo({
   data,
@@ -43,7 +43,7 @@ export default function ConfirmationDirectScheduleInfo({
                 {facility?.institution.stateAbbrev}
               </dd>
               <dt>
-                <strong>{REASON_REVIEW_TEXT[data.reasonForAppointment]}</strong>
+                <strong>{REASON_TEXT[data.reasonForAppointment]}</strong>
               </dt>
               <dd>{data.reasonAdditionalInfo}</dd>
             </dl>
