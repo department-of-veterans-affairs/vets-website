@@ -19,8 +19,8 @@ function transform(entity) {
     fieldBenefits: getDrupalValue(fieldBenefits),
     fieldDescription: getDrupalValue(fieldDescription),
     fieldFormat: getDrupalValue(fieldFormat),
-    fieldMedia: getDrupalValue(fieldMedia),
-    fieldOffice: getDrupalValue(fieldOffice),
+    fieldMedia,
+    fieldOffice,
     status: getDrupalValue(status),
     title: getDrupalValue(title),
   };
