@@ -1,3 +1,5 @@
+import set from 'platform/utilities/data/set';
+
 import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
@@ -126,9 +128,23 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
-      const future = state.future.filter(
-        appt => appt !== state.appointmentToCancel,
-      );
+      const future = state.future.map(appt => {
+        if (appt !== state.appointmentToCancel) {
+          return appt;
+        }
+
+        // confirmed VA appt
+        if (state.appointmentToCancel.clinicId) {
+          return set(
+            'vdsAppointments[0].currentStatus',
+            'CANCELLED BY PATIENT',
+            appt,
+          );
+        }
+
+        // Appt request
+        return { ...appt, status: 'Cancelled' };
+      });
       return {
         ...state,
         showCancelModal: true,
