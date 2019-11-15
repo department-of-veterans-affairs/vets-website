@@ -66,7 +66,6 @@ export default class ScoAnnouncementsWidget extends React.Component {
         <h3 className="va-nav-linkslist-heading vads-u-padding-top--0">
           Latest announcements from VA
         </h3>
-        <hr />
         {this.renderAnnouncements()}
         <p className="vads-u-margin-bottom--0">
           <a
