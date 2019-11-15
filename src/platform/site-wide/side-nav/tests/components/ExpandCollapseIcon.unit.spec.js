@@ -3,9 +3,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 // Relative
-import ExpandCollapseButton from '../../components/ExpandCollapseButton';
+import ExpandCollapseIcon from '../../components/ExpandCollapseIcon';
 
-describe('<ExpandCollapseButton>', () => {
+describe('<ExpandCollapseIcon>', () => {
   it('should render null when the nav item does not have children', () => {
     const defaultProps = {
       depth: 3,
@@ -21,7 +21,7 @@ describe('<ExpandCollapseButton>', () => {
       },
     };
 
-    const wrapper = shallow(<ExpandCollapseButton {...defaultProps} />);
+    const wrapper = shallow(<ExpandCollapseIcon {...defaultProps} />);
     expect(wrapper.type()).to.equal(null);
     wrapper.unmount();
   });
@@ -41,7 +41,7 @@ describe('<ExpandCollapseButton>', () => {
       },
     };
 
-    const wrapper = shallow(<ExpandCollapseButton {...defaultProps} />);
+    const wrapper = shallow(<ExpandCollapseIcon {...defaultProps} />);
     expect(wrapper.type()).to.equal(null);
     wrapper.unmount();
   });
@@ -61,7 +61,7 @@ describe('<ExpandCollapseButton>', () => {
       },
     };
 
-    const wrapper = shallow(<ExpandCollapseButton {...defaultProps} />);
+    const wrapper = shallow(<ExpandCollapseIcon {...defaultProps} />);
     expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
   });

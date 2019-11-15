@@ -9,7 +9,6 @@ import { NavItemPropTypes } from '../prop-types';
 const ExpandCollapseButton = ({ depth, item }) => {
   // Derive item properties.
   const expanded = get(item, 'expanded');
-  const label = get(item, 'label', '');
   const hasChildren = get(item, 'hasChildren');
 
   // Determine if we are deeper than the 2nd level of nav items.
@@ -21,10 +20,7 @@ const ExpandCollapseButton = ({ depth, item }) => {
   }
 
   return (
-    <button
-      aria-label={`${expanded ? 'Collapse' : 'Expand'} ${label}`}
-      className="va-sidenav-toggle-expand"
-    >
+    <span className="va-sidenav-toggle-expand">
       <i
         className={classNames({
           fa: true,
@@ -32,7 +28,7 @@ const ExpandCollapseButton = ({ depth, item }) => {
           'fa-chevron-up': !expanded,
         })}
       />
-    </button>
+    </span>
   );
 };
 
