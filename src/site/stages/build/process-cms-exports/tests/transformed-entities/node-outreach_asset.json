@@ -1,14 +1,9 @@
 {
-  "entityId": "556",
-  "title": "VA benefits for your family ",
-  "status": true,
   "changed": 1565131126,
-  "fieldFormat": "video",
+  "entityId": "556",
   "fieldBenefits": null,
   "fieldDescription": "Rob transferred his Post-9/11 GI Bill benefits to his college-bound son.",
-  "fieldOffice": {
-    "targetId": 735
-  },
+  "fieldFormat": "video",
   "fieldMedia": {
     "entity": {
       "entityBundle": "video",
@@ -19,5 +14,10 @@
         }
       }
     }
-  }
+  },
+  "fieldOffice": {
+    "targetId": 735
+  },
+  "status": true,
+  "title": "VA benefits for your family "
 }

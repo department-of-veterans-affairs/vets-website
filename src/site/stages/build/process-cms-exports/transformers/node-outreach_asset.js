@@ -1,6 +1,6 @@
 const { getDrupalValue } = require('./helpers');
 
-const transform = entity => {
+function transform(entity) {
   const {
     changed,
     status,
@@ -8,32 +8,24 @@ const transform = entity => {
     fieldBenefits,
     fieldDescription,
     fieldFormat,
+    fieldMedia,
+    fieldOffice,
   } = entity;
 
-  const modifiedEntity = {};
+  const transformed = {
+    changed: new Date(changed).getTime() / 1000,
+    entityBundle: 'outreach_asset',
+    entityId: undefined, // Unsure how to get this as it doesn't appear to be the uuid.
+    fieldBenefits: getDrupalValue(fieldBenefits),
+    fieldDescription: getDrupalValue(fieldDescription),
+    fieldFormat: getDrupalValue(fieldFormat),
+    fieldMedia: getDrupalValue(fieldMedia),
+    fieldOffice: getDrupalValue(fieldOffice),
+    status: getDrupalValue(status),
+    title: getDrupalValue(title),
+  };
 
-  // Derive the raw entity properties.
-  modifiedEntity.changed = getDrupalValue(changed);
-  modifiedEntity.status = getDrupalValue(status);
-  modifiedEntity.title = getDrupalValue(title);
-  modifiedEntity.fieldBenefits = getDrupalValue(fieldBenefits);
-  modifiedEntity.fieldDescription = getDrupalValue(fieldDescription);
-  modifiedEntity.fieldFormat = getDrupalValue(fieldFormat);
-
-  // Add changed.
-  modifiedEntity.changed = new Date(changed).getTime() / 1000;
-
-  // Add entityBundle.
-  modifiedEntity.entityBundle = 'outreach_asset';
-
-  // Add remaining entity properties.
-  modifiedEntity.status = status;
-  modifiedEntity.title = title;
-  modifiedEntity.fieldBenefits = fieldBenefits;
-  modifiedEntity.fieldDescription = fieldDescription;
-  modifiedEntity.fieldFormat = fieldFormat;
-
-  return modifiedEntity;
-};
+  return transformed;
+}
 
 module.exports = transform;
