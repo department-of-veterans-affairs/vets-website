@@ -87,7 +87,7 @@ export const getLongTermAppointmentHistory = (() => {
   const MONTH_CHUNK = 6;
   let promise = null;
   // eslint-disable-next-line no-unused-vars
-  return async () => {
+  return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];
       let currentMonths = 0;
