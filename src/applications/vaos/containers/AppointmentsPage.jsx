@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -12,12 +13,21 @@ import {
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
+  fetchRequestMessages,
 } from '../actions/appointments';
 import { getAppointmentType } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+
+function getRealFacilityId(facilityId) {
+  if (!environment.isProduction() && facilityId) {
+    return facilityId.replace('983', '442').replace('984', '552');
+  }
+
+  return facilityId;
+}
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
@@ -32,7 +42,12 @@ export class AppointmentsPage extends Component {
       showCancelButton,
       showScheduleButton,
     } = this.props;
-    const { future, futureStatus } = appointments;
+    const {
+      future,
+      futureStatus,
+      facilityData,
+      requestMessages,
+    } = appointments;
 
     let content;
 
@@ -61,8 +76,15 @@ export class AppointmentsPage extends Component {
                     index={index}
                     appointment={appt}
                     type={type}
+                    facility={
+                      facilityData[
+                        getRealFacilityId(appt.facility?.facilityCode)
+                      ]
+                    }
                     showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
+                    fetchMessages={this.props.fetchRequestMessages}
+                    messages={requestMessages}
                   />
                 );
               case APPOINTMENT_TYPES.ccAppointment:
@@ -73,6 +95,7 @@ export class AppointmentsPage extends Component {
                     index={index}
                     appointment={appt}
                     type={type}
+                    facility={facilityData[getRealFacilityId(appt.facilityId)]}
                     showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
                   />
@@ -195,6 +218,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchFutureAppointments,
+  fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,

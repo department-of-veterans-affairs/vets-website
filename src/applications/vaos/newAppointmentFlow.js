@@ -208,7 +208,10 @@ export default {
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next(state) {
-      if (isCCFacility(state)) {
+      if (
+        isCCFacility(state) ||
+        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
+      ) {
         return 'contactInfo';
       }
 
@@ -229,7 +232,6 @@ export default {
   visitType: {
     url: '/new-appointment/choose-visit-type',
     previous: 'reasonForAppointment',
-    // Update this when reasonForAppointment is merged
     next: 'contactInfo',
   },
   appointmentTime: {
@@ -243,6 +245,10 @@ export default {
     previous(state) {
       if (isCCFacility(state)) {
         return 'ccPreferences';
+      }
+
+      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+        return 'reasonForAppointment';
       }
 
       return 'visitType';

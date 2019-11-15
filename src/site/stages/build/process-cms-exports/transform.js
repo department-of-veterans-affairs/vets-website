@@ -55,12 +55,15 @@ function getEntityTransformer(entityType, verbose = true) {
  *                    the specific content model type.
  */
 function transformEntity(entity) {
-  const entityTransformer = getEntityTransformer(getContentModelType(entity));
+  const contentModelType = getContentModelType(entity);
+  const entityTransformer = getEntityTransformer(contentModelType);
 
   // Convert all snake_case keys to camelCase
   const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
-  return entityTransformer ? entityTransformer(transformed) : transformed;
+  return entityTransformer
+    ? { contentModelType, ...entityTransformer(transformed) }
+    : transformed;
 }
 
 module.exports = {

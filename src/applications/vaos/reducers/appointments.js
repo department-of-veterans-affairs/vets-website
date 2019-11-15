@@ -2,6 +2,7 @@ import {
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -10,12 +11,14 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
 import {
   filterFutureRequests,
   filterFutureConfirmedAppointments,
   sortFutureList,
+  sortMessages,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
 
@@ -27,6 +30,8 @@ const initialState = {
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
+  facilityData: {},
+  requestMessages: {},
 };
 
 const BOOKED_REQUEST = 'Booked';
@@ -66,6 +71,30 @@ export default function appointmentsReducer(state = initialState, action) {
         futureStatus: FETCH_STATUS.failed,
         future: null,
       };
+    case FETCH_FACILITY_LIST_DATA_SUCCEEDED: {
+      return {
+        ...state,
+        facilityData: action.facilityData.reduce(
+          (acc, facility) => ({
+            ...acc,
+            [facility.uniqueId]: facility,
+          }),
+          {},
+        ),
+      };
+    }
+    case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
+      const requestMessages = { ...state.requestMessages };
+      const messages = action.messages;
+
+      if (messages.length)
+        requestMessages[action.requestId] = messages.sort(sortMessages);
+
+      return {
+        ...state,
+        requestMessages,
+      };
+    }
     case FETCH_PAST_APPOINTMENTS:
       return {
         ...state,

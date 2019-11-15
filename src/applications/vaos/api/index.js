@@ -9,6 +9,10 @@ function getStagingId(facilityId) {
     return facilityId.replace('983', '442');
   }
 
+  if (!environment.isProduction() && facilityId.startsWith('984')) {
+    return facilityId.replace('984', '552');
+  }
+
   return facilityId;
 }
 
@@ -52,6 +56,27 @@ export function getPendingAppointments(startDate, endDate) {
   }
 
   return promise.then(resp => resp.data.map(item => item.attributes));
+}
+
+export function getRequestMessages(requestId) {
+  let promise;
+  if (environment.isLocalhost()) {
+    if (requestId === '8a48912a6c2409b9016c525a4d490190') {
+      promise = import('./messages_0190.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else if (requestId === '8a48912a6cab0202016cb4fcaa8b0038') {
+      promise = import('./messages_0038.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = new Promise(res => res({ data: [] }));
+    }
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests/${requestId}/messages`);
+  }
+
+  return promise.then(resp => resp.data);
 }
 
 // This request takes a while, so we're going to call it early
@@ -251,6 +276,25 @@ export function getFacilityInfo(facilityId) {
   return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
     resp => resp.data,
   );
+}
+
+export function getFacilitiesInfo(facilityIds) {
+  let promise;
+
+  if (environment.isLocalhost()) {
+    promise = import('./facility_data.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    const idList = facilityIds
+      .map(getStagingId)
+      .map(id => `vha_${id}`)
+      .join(',');
+
+    promise = apiRequest(`/facilities/va?ids=${idList}`);
+  }
+
+  return promise.then(resp => resp.data.map(item => item.attributes));
 }
 
 export function getSitesSupportingVAR() {
