@@ -9,7 +9,7 @@ module.exports = {
     ...nodeStandardKeys,
     // `outreach_asset`-specific key-value pairs.
     field_administration: {
-      $ref: 'EntityReference',
+      $ref: 'EntityReferenceArray',
     },
     field_benefits: {
       $ref: 'GenericNestedString',
@@ -24,7 +24,7 @@ module.exports = {
       $ref: 'GenericNestedString',
     },
     field_media: {
-      $ref: 'EntityReference',
+      $ref: 'EntityReferenceArray',
     },
     field_meta_tags: {
       $ref: 'GenericNestedString',
@@ -33,7 +33,7 @@ module.exports = {
       $ref: 'GenericNestedString',
     },
     field_office: {
-      $ref: 'EntityReference',
+      $ref: 'EntityReferenceArray',
     },
   },
   required: getFilter('node-outreach_asset'),

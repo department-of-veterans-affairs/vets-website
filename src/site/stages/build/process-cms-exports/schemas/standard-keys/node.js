@@ -37,7 +37,7 @@ module.exports = {
     $ref: 'GenericNestedBoolean',
   },
   revision_uid: {
-    $ref: 'EntityReference',
+    $ref: 'EntityReferenceArray',
   },
   status: {
     $ref: 'GenericNestedBoolean',
@@ -49,12 +49,12 @@ module.exports = {
     $ref: 'GenericNestedString',
   },
   type: {
-    $ref: 'GenericNestedString',
+    $ref: 'EntityType',
   },
   uid: {
-    $ref: 'EntityReference',
+    $ref: 'EntityReferenceArray',
   },
   uuid: {
-    $ref: 'GenericNestedString',
+    type: 'string',
   },
 };
