@@ -154,7 +154,7 @@ export class VetTecSearchPage extends React.Component {
     const resultsClass = classNames(
       'search-results',
       'small-12',
-      'usa-width-three-fourths medium-9',
+      'medium-9',
       'columns',
       { opened: !search.filterOpened },
     );
