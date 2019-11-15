@@ -17,13 +17,14 @@ class VetTecApprovedPrograms extends React.Component {
 
   setProgramFields = programName => {
     const program = this.props.institution.programs.find(
-      p => p.description === programName,
+      p => p.description.toLowerCase() === programName.toLowerCase(),
     );
     if (program) {
       const field = 'vetTecProgram';
       const value = {
         vetTecTuitionFees: program.tuitionAmount,
         vetTecProgramName: program.description,
+        vetTecProgramFacilityCode: this.props.institution.facilityCode,
       };
       this.props.calculatorInputChange({ field, value });
     }

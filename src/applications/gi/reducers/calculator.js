@@ -75,6 +75,7 @@ export default function(state = INITIAL_STATE, action) {
           ...newState,
           vetTecProgramName: value.vetTecProgramName,
           vetTecTuitionFees: value.vetTecTuitionFees,
+          vetTecProgramFacilityCode: value.vetTecProgramFacilityCode,
         };
       }
 
@@ -331,6 +332,19 @@ export default function(state = INITIAL_STATE, action) {
             ? 'no'
             : 'yes';
       }
+
+      const vetTecProgramName =
+        state.vetTecProgramFacilityCode ===
+        camelPayload.data.attributes.facilityCode
+          ? state.vetTecProgramName
+          : INITIAL_STATE.vetTecProgramName;
+
+      const vetTecTuitionFees =
+        state.vetTecProgramFacilityCode ===
+        camelPayload.data.attributes.facilityCode
+          ? state.vetTecTuitionFees
+          : INITIAL_STATE.vetTecTuitionFees;
+
       return {
         ...INITIAL_STATE,
         giBillBenefit,
@@ -352,6 +366,8 @@ export default function(state = INITIAL_STATE, action) {
         yellowRibbonMaxNumberOfStudents,
         yellowRibbonPrograms,
         yellowRibbonProgramIndex,
+        vetTecProgramName,
+        vetTecTuitionFees,
       };
     }
 
