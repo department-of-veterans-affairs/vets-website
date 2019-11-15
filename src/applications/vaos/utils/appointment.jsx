@@ -130,7 +130,7 @@ export function getAppointmentLocation(appt, facility) {
     return (
       <>
         <FacilityAddress
-          name={facility.name}
+          name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
           address={facility.address.physical}
           phone={facility.phone?.main}
         />

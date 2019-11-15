@@ -3,8 +3,12 @@ import React from 'react';
 export default function FacilityAddress({ name, address, phone }) {
   return (
     <>
-      <strong>{name}</strong>
-      <br />
+      {!!name && (
+        <>
+          <strong>{name}</strong>
+          <br />
+        </>
+      )}
       {address.address1}
       <br />
       {address.address2}
