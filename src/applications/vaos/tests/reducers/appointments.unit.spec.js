@@ -7,6 +7,7 @@ import {
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -112,6 +113,20 @@ describe('VAOS reducer: appointments', () => {
     const newState = appointmentsReducer(initialState, action);
 
     expect(newState.pastStatus).to.equal(FETCH_STATUS.failed);
+  });
+
+  it('should set facility data when fetch succeeds', () => {
+    const action = {
+      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+      facilityData: [
+        {
+          uniqueId: '442',
+        },
+      ],
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {

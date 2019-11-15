@@ -11,6 +11,7 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
 import {
@@ -29,6 +30,7 @@ const initialState = {
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
+  facilityData: {},
   requestMessages: {},
 };
 
@@ -69,6 +71,18 @@ export default function appointmentsReducer(state = initialState, action) {
         futureStatus: FETCH_STATUS.failed,
         future: null,
       };
+    case FETCH_FACILITY_LIST_DATA_SUCCEEDED: {
+      return {
+        ...state,
+        facilityData: action.facilityData.reduce(
+          (acc, facility) => ({
+            ...acc,
+            [facility.uniqueId]: facility,
+          }),
+          {},
+        ),
+      };
+    }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
       const requestMessages = { ...state.requestMessages };
       const messages = action.messages;

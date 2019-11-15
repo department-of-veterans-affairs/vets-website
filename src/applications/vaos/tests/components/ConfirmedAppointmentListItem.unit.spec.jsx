@@ -27,11 +27,32 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       },
     ],
   };
+  const facility = {
+    address: {
+      mailing: {},
+      physical: {
+        zip: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        address1: '2360 East Pershing Boulevard',
+        address2: null,
+        address3: null,
+      },
+    },
+    phone: {
+      main: '307-778-7550',
+    },
+  };
 
   let tree;
 
   beforeEach(() => {
-    tree = shallow(<ConfirmedAppointmentListItem appointment={appointment} />);
+    tree = shallow(
+      <ConfirmedAppointmentListItem
+        appointment={appointment}
+        facility={facility}
+      />,
+    );
   });
 
   afterEach(() => {
@@ -62,10 +83,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     );
   });
 
-  it('should have a link to facility info', () => {
-    expect(tree.find('.vaos-appts__split-section a').text()).to.contain(
-      'View facility information',
-    );
+  it('should show facility address', () => {
+    expect(tree.find('FacilityAddress').exists()).to.be.true;
   });
 });
 
