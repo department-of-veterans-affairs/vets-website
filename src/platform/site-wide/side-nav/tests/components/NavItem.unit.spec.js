@@ -21,11 +21,11 @@ describe('<NavItem>', () => {
       expanded: true,
       hasChildren: true,
       href: '/pittsburgh-health-care',
-      id: uniqueId(),
+      id: uniqueId('sidenav_'),
       isSelected: true,
       label: 'Location',
       order: 0,
-      parentID: uniqueId(),
+      parentID: uniqueId('sidenav_'),
     };
 
     const defaultProps = {
@@ -50,11 +50,11 @@ describe('<NavItem>', () => {
       expanded: true,
       hasChildren: true,
       href: '/pittsburgh-health-care',
-      id: uniqueId(),
+      id: uniqueId('sidenav_'),
       isSelected: true,
       label: 'Location',
       order: 0,
-      parentID: uniqueId(),
+      parentID: uniqueId('sidenav_'),
     };
 
     const lastItem = {
@@ -62,11 +62,11 @@ describe('<NavItem>', () => {
       expanded: true,
       hasChildren: true,
       href: '/pittsburgh-health-care',
-      id: uniqueId(),
+      id: uniqueId('sidenav_'),
       isSelected: true,
       label: 'Location',
       order: 1,
-      parentID: uniqueId(),
+      parentID: uniqueId('sidenav_'),
     };
 
     const defaultProps = {

@@ -7,8 +7,8 @@ import { uniqueId } from 'lodash';
 import SideNav from '../../components/SideNav';
 
 describe('<SideNav>', () => {
-  const firstID = uniqueId();
-  const secondID = uniqueId();
+  const firstID = uniqueId('sidenav_');
+  const secondID = uniqueId('sidenav_');
 
   const defaultProps = {
     navItemsLookup: {
@@ -20,7 +20,7 @@ describe('<SideNav>', () => {
         id: firstID,
         label: 'Location',
         order: 0,
-        parentID: uniqueId(),
+        parentID: uniqueId('sidenav_'),
       },
       [secondID]: {
         description: 'Some description',

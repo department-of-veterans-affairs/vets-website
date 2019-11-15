@@ -14,10 +14,10 @@ describe('<LabelText>', () => {
         expanded: true,
         hasChildren: true,
         href: '',
-        id: uniqueId(),
+        id: uniqueId('sidenav_'),
         label: 'Location',
         order: 0,
-        parentID: uniqueId(),
+        parentID: uniqueId('sidenav_'),
       },
     };
 

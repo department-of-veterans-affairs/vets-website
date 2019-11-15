@@ -59,7 +59,7 @@ const deriveNavItemsLookup = options => {
     // Derive item properties.
     const description = get(item, 'description', '');
     const href = get(item, 'url.path', '');
-    const id = uniqueId();
+    const id = uniqueId('sidenav_');
     const label = get(item, 'label', '');
     const nestedItems = get(item, 'links');
 

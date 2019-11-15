@@ -15,10 +15,10 @@ describe('<ExpandCollapseIcon>', () => {
         expanded: false,
         hasChildren: false,
         href: '/pittsburgh-health-care',
-        id: uniqueId(),
+        id: uniqueId('sidenav_'),
         label: 'Location',
         order: 0,
-        parentID: uniqueId(),
+        parentID: uniqueId('sidenav_'),
       },
     };
 
@@ -35,10 +35,10 @@ describe('<ExpandCollapseIcon>', () => {
         expanded: true,
         hasChildren: true,
         href: '/pittsburgh-health-care',
-        id: uniqueId(),
+        id: uniqueId('sidenav_'),
         label: 'Location',
         order: 0,
-        parentID: uniqueId(),
+        parentID: uniqueId('sidenav_'),
       },
     };
 
@@ -55,10 +55,10 @@ describe('<ExpandCollapseIcon>', () => {
         expanded: true,
         hasChildren: true,
         href: '/pittsburgh-health-care',
-        id: uniqueId(),
+        id: uniqueId('sidenav_'),
         label: 'Location',
         order: 0,
-        parentID: uniqueId(),
+        parentID: uniqueId('sidenav_'),
       },
     };
 
