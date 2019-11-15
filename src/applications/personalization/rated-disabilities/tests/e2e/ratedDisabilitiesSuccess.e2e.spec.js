@@ -19,14 +19,14 @@ function runRatedDisabilitiesTest(browser) {
   );
 }
 
-function generateTableData(token) {
+function generateData(token) {
   return Mock(token, SuccessMockData);
 }
 
 function begin(browser) {
   browser.perform(done => {
     const token = Auth.getUserToken();
-    generateTableData(token).then(() => {
+    generateData(token).then(() => {
       Auth.logIn(
         token,
         browser,
