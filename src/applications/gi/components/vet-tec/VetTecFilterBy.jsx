@@ -27,6 +27,11 @@ class VetTecFilterBy extends React.Component {
   };
 
   handleProviderFilterChange = (name, checked) => {
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': name,
+      'gibct-form-value': !checked,
+    });
     if (!checked) {
       this.props.handleProviderFilterChange({
         provider: [...this.props.filters.provider, name],
