@@ -84,7 +84,9 @@ export default class ScoEventsWidget extends React.Component {
             />
           </a>
           <br />
-          <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
+          <span style={{ color: '#5B616B' }}>
+            <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
+          </span>
         </li>
       ));
     return (
