@@ -38,7 +38,9 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
         Appointment date
       </h2>
       <span className="vads-u-padding-right--1">
-        {moment(data.appointmentDate).format('MMMM D, YYYY [at] hh:mm a')}{' '}
+        {moment(data.calendarData.selectedDates[0].datetime).format(
+          'MMMM D, YYYY [at] hh:mm a',
+        )}{' '}
       </span>
       <Link
         aria-label="Edit appointment date"

@@ -1,12 +1,17 @@
 import React from 'react';
-import moment from 'moment';
+import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
-
-const today = moment();
+import {
+  getTimezoneBySystemId,
+  getTimezoneAbbrBySystemId,
+  stripDST,
+} from './timezone';
 
 export function getAppointmentType(appt) {
-  if (appt.optionDate1) {
+  if (appt.optionDate1 && appt.ccAppointmentRequest?.preferredProviders) {
+    return APPOINTMENT_TYPES.ccRequest;
+  } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
   } else if (appt.appointmentRequestId) {
     return APPOINTMENT_TYPES.ccAppointment;
@@ -17,67 +22,10 @@ export function getAppointmentType(appt) {
   return null;
 }
 
-export function parseVAorCCDate(item) {
-  // This means it's a CC appt, which has a different date format
-  if (item.appointmentTime) {
-    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  }
-
-  return moment(item.startDate);
-}
-
-export function parseRequestDate(optionDate) {
-  return moment(optionDate, 'MM/DD/YYYY');
-}
-
-export function filterFutureConfirmedAppointments(appt) {
-  const date = parseVAorCCDate(appt);
-  return date.isValid() && date.isAfter(today);
-}
-
-export function filterFutureRequests(request) {
-  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
-  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
-  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
-
-  return (
-    ['Submitted', 'Cancelled'].includes(request.status) &&
-    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
-      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-      (optionDate3.isValid() && optionDate3.isAfter(today)))
-  );
-}
-
-export function sortFutureList(a, b) {
-  const aIsRequest = getAppointmentType(a) === APPOINTMENT_TYPES.request;
-  const bIsRequest = getAppointmentType(b) === APPOINTMENT_TYPES.request;
-
-  const aDate = aIsRequest
-    ? parseRequestDate(a.optionDate1)
-    : parseVAorCCDate(a);
-
-  const bDate = bIsRequest
-    ? parseRequestDate(b.optionDate1)
-    : parseVAorCCDate(b);
-
-  if (aDate.isSame(bDate)) {
-    // If same date, requests should show after confirmed
-    if (aIsRequest && !bIsRequest) {
-      return 1;
-    } else if (bIsRequest && !aIsRequest) {
-      return -1;
-    }
-
-    return 0;
-  }
-
-  return aDate.isBefore(bDate) ? -1 : 1;
-}
-
 export function getAppointmentId(appt) {
   if (appt.appointmentRequestId) {
     return appt.appointmentRequestId;
-  } else if (appt.vvsAppointments) {
+  } else if (appt.vvsAppointments?.length) {
     return appt.vvsAppointments[0].id;
   }
 
@@ -93,12 +41,11 @@ export function isGFEVideoVisit(appt) {
 }
 
 export function isVideoVisit(appt) {
-  return !!appt.vvsAppointments || isGFEVideoVisit(appt);
+  return !!appt.vvsAppointments?.length || isGFEVideoVisit(appt);
 }
 
 export function getVideoVisitLink(appt) {
-  return appt.vvsAppointments?.[0]?.patients?.patient[0]?.virtualMeetingRoom
-    ?.url;
+  return appt.vvsAppointments[0]?.patients?.[0]?.virtualMeetingRoom?.url;
 }
 
 export function getStagingId(facilityId) {
@@ -117,16 +64,18 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function getClinicName(appt) {
+export function getLocationHeader(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return appt.providerPractice;
+    case APPOINTMENT_TYPES.ccRequest:
+      return 'Preferred provider';
     case APPOINTMENT_TYPES.request:
       return appt.friendlyLocationName || appt.facility.name;
     default:
-      return appt.clinicFriendlyName || appt.vdsAppointments?.[0].clinic?.name;
+      return appt.clinicFriendlyName || appt.vdsAppointments[0]?.clinic?.name;
   }
 }
 
@@ -157,8 +106,26 @@ export function getAppointmentLocation(appt) {
     );
   }
 
+  if (type === APPOINTMENT_TYPES.ccRequest) {
+    if (!appt.ccAppointmentRequest?.preferredProviders?.[0]) {
+      return 'Not specified';
+    }
+
+    return (
+      <ul className="usa-unstyled-list">
+        {appt.ccAppointmentRequest.preferredProviders.map(provider => (
+          <li key={`${provider.firstName} ${provider.lastName}`}>
+            {provider.practiceName}
+            <br />
+            {provider.firstName} {provider.lastName}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   const facilityId =
-    type === APPOINTMENT_TYPES.request
+    type === APPOINTMENT_TYPES.request || type === APPOINTMENT_TYPES.ccRequest
       ? appt.facility.facilityCode
       : appt.facilityId;
 
@@ -173,17 +140,49 @@ export function getAppointmentLocation(appt) {
   );
 }
 
-function getParsedMomentDate(appt) {
+/**
+ * Date and time
+ */
+
+export function getMomentConfirmedDate(appt) {
   if (isCommunityCare(appt)) {
     return moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  } else if (isVideoVisit(appt)) {
-    return moment(appt.vvsAppointments[0].dateTime);
   }
-  return moment(appt.startDate);
+
+  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+  const date = isVideoVisit(appt)
+    ? appt.vvsAppointments[0].dateTime
+    : appt.startDate;
+
+  if (timezone) {
+    return moment(date).tz(timezone);
+  }
+
+  return moment(date);
+}
+
+export function getMomentRequestOptionDate(optionDate) {
+  return moment(optionDate, 'MM/DD/YYYY');
+}
+
+export function getAppointmentTimezoneAbbreviation(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return stripDST(appt?.timeZone?.split(' ')?.[1]);
+    case APPOINTMENT_TYPES.ccRequest:
+    case APPOINTMENT_TYPES.request:
+      return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);
+    case APPOINTMENT_TYPES.vaAppointment:
+      return getTimezoneAbbrBySystemId(appt?.facilityId);
+    default:
+      return '';
+  }
 }
 
 export function getAppointmentDate(appt) {
-  const parsedDate = getParsedMomentDate(appt);
+  const parsedDate = getMomentConfirmedDate(appt);
 
   if (!parsedDate.isValid()) {
     return null;
@@ -193,26 +192,39 @@ export function getAppointmentDate(appt) {
 }
 
 export function getAppointmentDateTime(appt) {
-  const parsedDate = getParsedMomentDate(appt);
-
+  const parsedDate = getMomentConfirmedDate(appt);
   if (!parsedDate.isValid()) {
     return null;
   }
 
   return (
     <>
-      {parsedDate.format('MMMM D, YYYY')} at {parsedDate.format('h:mm')}
-      <span aria-hidden="true"> {parsedDate.format('a zz')}</span>
-      <span className="sr-only">{parsedDate.format('a zz')}</span>
+      {parsedDate.format('dddd, MMMM D, YYYY')} at {parsedDate.format('h:mm')}
+      <span aria-hidden="true">
+        {' '}
+        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
+      </span>
+      <span className="sr-only">
+        {parsedDate.format('a')} {getAppointmentTimezoneAbbreviation(appt)}
+      </span>
     </>
   );
 }
 
 export function getRequestDateOptions(appt) {
   const options = [
-    { date: parseRequestDate(appt.optionDate1), optionTime: appt.optionTime1 },
-    { date: parseRequestDate(appt.optionDate2), optionTime: appt.optionTime2 },
-    { date: parseRequestDate(appt.optionDate3), optionTime: appt.optionTime3 },
+    {
+      date: getMomentRequestOptionDate(appt.optionDate1),
+      optionTime: appt.optionTime1,
+    },
+    {
+      date: getMomentRequestOptionDate(appt.optionDate2),
+      optionTime: appt.optionTime2,
+    },
+    {
+      date: getMomentRequestOptionDate(appt.optionDate3),
+      optionTime: appt.optionTime3,
+    },
   ]
     .filter(o => o.date.isValid())
     .sort((a, b) => {
@@ -226,7 +238,7 @@ export function getRequestDateOptions(appt) {
   return options.reduce((formatted, option, index) => {
     formatted.push(
       <li key={`${appt.uniqueId}-option-${index}`}>
-        {option.date.format('MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
+        {option.date.format('ddd, MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
       </li>,
     );
     return formatted;
@@ -244,4 +256,60 @@ export function getRequestTimeToCall(appt) {
   }
 
   return null;
+}
+
+/**
+ * Filter and sort methods
+ */
+
+export function filterFutureConfirmedAppointments(appt, today) {
+  const date = getMomentConfirmedDate(appt);
+  return date.isValid() && date.isAfter(today);
+}
+
+export function filterFutureRequests(request, today) {
+  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
+  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
+  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
+
+  return (
+    ['Submitted', 'Cancelled'].includes(request.status) &&
+    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
+      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
+      (optionDate3.isValid() && optionDate3.isAfter(today)))
+  );
+}
+
+export function sortFutureList(a, b) {
+  const aIsRequest =
+    getAppointmentType(a) === APPOINTMENT_TYPES.request ||
+    getAppointmentType(a) === APPOINTMENT_TYPES.ccRequest;
+  const bIsRequest =
+    getAppointmentType(b) === APPOINTMENT_TYPES.request ||
+    getAppointmentType(b) === APPOINTMENT_TYPES.ccRequest;
+
+  const aDate = aIsRequest
+    ? getMomentRequestOptionDate(a.optionDate1)
+    : getMomentConfirmedDate(a);
+
+  const bDate = bIsRequest
+    ? getMomentRequestOptionDate(b.optionDate1)
+    : getMomentConfirmedDate(b);
+
+  if (aDate.isSame(bDate)) {
+    // If same date, requests should show after confirmed
+    if (aIsRequest && !bIsRequest) {
+      return 1;
+    } else if (bIsRequest && !aIsRequest) {
+      return -1;
+    }
+
+    return 0;
+  }
+
+  return aDate.isBefore(bDate) ? -1 : 1;
+}
+
+export function sortMessages(a, b) {
+  return moment(a.attributes.date).isBefore(b.attributes.date) ? -1 : 1;
 }

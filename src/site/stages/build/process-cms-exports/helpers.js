@@ -23,12 +23,13 @@ const typeProperties = ['type', 'bundle', 'vid'];
  * node entities, we want to ignore certain properties to avoid
  * circular references.
  *
- * @param {Object} entity - The contents of the entity itself before
- *                          reference expansion.
+ * @param {Object} entity - The contents of the entity itself
  *
  * @return {String} - The content model type like 'node-page'
  */
 function getContentModelType(entity) {
+  if (entity.contentModelType) return entity.contentModelType;
+
   const subType = typeProperties.reduce(
     (foundType, tp) => foundType || get(entity, `${tp}[0].target_id`),
     null,
@@ -72,6 +73,7 @@ module.exports = {
     entity.baseType = baseType;
     // Overrides the UUID property in the contents of the entity
     entity.uuid = uuid;
+    entity.contentModelType = getContentModelType(entity);
     return entity;
   },
 

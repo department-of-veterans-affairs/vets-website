@@ -9,6 +9,7 @@ export const APPOINTMENT_TYPES = {
   vaAppointment: 'vaAppointment',
   ccAppointment: 'ccAppointment',
   request: 'request',
+  ccRequest: 'ccRequest',
 };
 
 export const TIME_TEXT = {

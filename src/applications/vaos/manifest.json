@@ -3,9 +3,9 @@
   "entryFile": "./vaos-entry",
   "entryName": "vaos",
   "rootUrl": "/health-care/schedule-view-va-appointments/appointments",
-  "production": false,
+  "production": true,
   "template": {
-    "vagovprod": false,
+    "vagovprod": true,
     "layout": "page-react.html"
   }
 }

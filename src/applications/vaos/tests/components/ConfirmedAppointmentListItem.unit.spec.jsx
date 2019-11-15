@@ -10,6 +10,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     appointmentType: 'Testing',
     startDate: '2019-12-11T16:00:00Z',
     facilityId: '983',
+    vvsAppointments: [],
     vdsAppointments: [
       {
         appointmentLength: '60',
@@ -125,7 +126,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#';
   const appointment = {
     startDate: apptTime,
-    facilityId: '234',
+    facilityId: '984',
     clinicId: '456',
     vvsAppointments: [
       {
@@ -140,6 +141,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
         },
       },
     ],
+    vdsAppointments: [],
   };
 
   const tree = shallow(

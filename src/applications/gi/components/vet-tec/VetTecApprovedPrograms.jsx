@@ -4,7 +4,7 @@ import environment from 'platform/utilities/environment';
 import PropTypes from 'prop-types';
 import VetTecContactInformation from './VetTecContactInformation';
 import { calculatorInputChange } from '../../actions';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, isPresent } from '../../utils/helpers';
 
 class VetTecApprovedPrograms extends React.Component {
   constructor(props) {
@@ -44,36 +44,39 @@ class VetTecApprovedPrograms extends React.Component {
     const programs = this.props.institution.programs;
     // prod flag for CT 116 story 19614
     if (!environment.isProduction() && programs && programs.length) {
-      const programRows = programs.map((program, index) => (
-        <tr key={index}>
-          <td>
-            <div className="form-radio-buttons gids-radio-buttons">
-              <input
-                id={`radio-${index}`}
-                name="vetTecProgram"
-                checked={program.description === this.state.selectedProgram}
-                className="gids-radio-buttons-input"
-                type="radio"
-                value={program.description}
-                onChange={e =>
-                  this.handleInputChange(e, index, program.description)
-                }
-                aria-labelledby={`program-name-header program-${index}`}
-              />
-              <label id={`program-${index}`} htmlFor={`radio-${index}`}>
-                {program.description}
-              </label>
-            </div>
-          </td>
-          {// PROD FLAG CT 116 STORY 19868
-          environment.isProduction() ? (
-            <td>{`${program.lengthInHours} hours`}</td>
-          ) : (
-            <td>{`${program.lengthInWeeks} weeks`}</td>
-          )}
-          <td>{formatCurrency(program.tuitionAmount)}</td>
-        </tr>
-      ));
+      const programRows = programs.map((program, index) => {
+        const programLength = isPresent(program.lengthInHours)
+          ? `${program.lengthInHours} hours`
+          : 'TBD';
+        const tuition = isPresent(program.tuitionAmount)
+          ? formatCurrency(program.tuitionAmount)
+          : 'TBD';
+        return (
+          <tr key={index}>
+            <td>
+              <div className="form-radio-buttons gids-radio-buttons">
+                <input
+                  id={`radio-${index}`}
+                  name="vetTecProgram"
+                  checked={program.description === this.state.selectedProgram}
+                  className="gids-radio-buttons-input"
+                  type="radio"
+                  value={program.description}
+                  onChange={e =>
+                    this.handleInputChange(e, index, program.description)
+                  }
+                  aria-labelledby={`program-name-header program-${index}`}
+                />
+                <label id={`program-${index}`} htmlFor={`radio-${index}`}>
+                  {program.description}
+                </label>
+              </div>
+            </td>
+            <td>{programLength}</td>
+            <td>{tuition}</td>
+          </tr>
+        );
+      });
 
       return (
         <div>

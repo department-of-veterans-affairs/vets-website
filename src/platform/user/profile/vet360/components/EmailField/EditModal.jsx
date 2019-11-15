@@ -27,6 +27,7 @@ export default class EditEmailModal extends React.Component {
       autoFocus
       label="Email Address"
       name="email"
+      type="email"
       field={{ value: this.props.field.value.emailAddress, dirty: false }}
       errorMessage={this.props.field.validations.emailAddress}
       onValueChange={this.onChange}
