@@ -10,6 +10,7 @@ import {
   getRequestMessages,
   updateAppointment,
   updateRequest,
+  getFacilitiesInfo,
 } from '../api';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -36,6 +37,8 @@ export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
 export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
+export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
+  'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -97,6 +100,27 @@ export function fetchFutureAppointments() {
           data,
           today: moment(),
         });
+
+        const appts = getState().appointments.future;
+        const facilityIds = new Set(
+          appts
+            .map(appt => appt.facilityId || appt.facility?.facilityCode)
+            .filter(id => !!id),
+        );
+
+        try {
+          if (facilityIds.size > 0) {
+            const facilityData = await getFacilitiesInfo(
+              Array.from(facilityIds),
+            );
+            dispatch({
+              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+              facilityData,
+            });
+          }
+        } catch (error) {
+          Sentry.captureException(error);
+        }
       } catch (error) {
         Sentry.captureException(error);
         dispatch({

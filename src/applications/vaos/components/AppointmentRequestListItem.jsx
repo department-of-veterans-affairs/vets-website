@@ -39,6 +39,7 @@ export default class AppointmentRequestListItem extends React.Component {
       messages,
       cancelAppointment,
       showCancelButton,
+      facility,
       type,
     } = this.props;
     const { showMore } = this.state;
@@ -109,7 +110,7 @@ export default class AppointmentRequestListItem extends React.Component {
             <dt className="vads-u-font-weight--bold">
               {getLocationHeader(appointment)}
             </dt>
-            <dd>{getAppointmentLocation(appointment)}</dd>
+            <dd>{getAppointmentLocation(appointment, facility)}</dd>
           </dl>
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
