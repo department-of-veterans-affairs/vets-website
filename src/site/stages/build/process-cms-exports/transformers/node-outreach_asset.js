@@ -24,7 +24,7 @@ const transform = entity => {
   modifiedEntity.changed = new Date(changed).getTime() / 1000;
 
   // Add entityBundle.
-  modifiedEntity.entityBundle = 'outreach-asset';
+  modifiedEntity.entityBundle = 'outreach_asset';
 
   // Add remaining entity properties.
   modifiedEntity.status = status;
