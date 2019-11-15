@@ -42,7 +42,7 @@ module.exports = {
   'paragraph-q_a': 'paragraph.000f52e7-99da-44a1-8b95-2dfe2c2b2682.json',
   'paragraph-q_a_section':
     'paragraph.0046948a-8267-4f38-a02a-a507703fb59a.json',
-  'paragraph-wysiwyg': 'paragraph.004d4d31-9e5f-4dcd-ab19-1aef98daefd4.json',
+  'paragraph-wysiwyg': 'paragraph.ffb2a9ae-b630-430f-90b9-43c1e1f68cee.json',
   'paragraph-health_care_local_facility_servi':
     'paragraph.007b6402-f065-4f30-99e0-cac1a2d59b50.json',
   'paragraph-list_of_link_teasers':
