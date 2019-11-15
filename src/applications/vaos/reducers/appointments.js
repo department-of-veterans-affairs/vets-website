@@ -5,9 +5,6 @@ import {
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_FUTURE_APPOINTMENTS_FAILED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
-  FETCH_PAST_APPOINTMENTS,
-  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-  FETCH_PAST_APPOINTMENTS_FAILED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -97,23 +94,6 @@ export default function appointmentsReducer(state = initialState, action) {
         requestMessages,
       };
     }
-    case FETCH_PAST_APPOINTMENTS:
-      return {
-        ...state,
-        pastStatus: FETCH_STATUS.loading,
-      };
-    case FETCH_PAST_APPOINTMENTS_SUCCEEDED:
-      return {
-        ...state,
-        pastStatus: FETCH_STATUS.succeeded,
-        past: action.data,
-      };
-    case FETCH_PAST_APPOINTMENTS_FAILED:
-      return {
-        ...state,
-        pastStatus: FETCH_STATUS.failed,
-        past: null,
-      };
     case CANCEL_APPOINTMENT:
       return {
         ...state,

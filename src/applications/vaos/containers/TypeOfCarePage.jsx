@@ -8,7 +8,7 @@ import {
 } from 'platform/user/selectors';
 
 import { TYPES_OF_CARE, DIRECT_SCHEDULE_TYPES } from '../utils/constants';
-import { getPastAppointments } from '../api';
+import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareField from '../components/TypeOfCareField';
 import {
@@ -54,7 +54,7 @@ export class TypeOfCarePage extends React.Component {
     if (DIRECT_SCHEDULE_TYPES.has(newData.typeOfCareId)) {
       // This could get called multiple times, but the function is memoized
       // and returns the previous promise if it eixsts
-      getPastAppointments();
+      getLongTermAppointmentHistory();
     }
 
     this.props.updateFormData(pageKey, uiSchema, newData);

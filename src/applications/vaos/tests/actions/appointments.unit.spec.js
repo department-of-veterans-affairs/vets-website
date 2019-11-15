@@ -9,15 +9,12 @@ import {
 
 import {
   fetchFutureAppointments,
-  fetchPastAppointments,
   fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-  FETCH_PAST_APPOINTMENTS,
-  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_REQUEST_MESSAGES,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
@@ -64,30 +61,6 @@ describe('VAOS actions: appointments', () => {
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
-  });
-
-  it('should fetch past appointments', done => {
-    const data = {
-      data: [],
-    };
-    setFetchJSONResponse(global.fetch, data);
-
-    const thunk = fetchPastAppointments();
-    const dispatchSpy = sinon.spy();
-    const dispatch = action => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(
-          FETCH_PAST_APPOINTMENTS,
-        );
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(
-          FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        );
-        done();
-      }
-    };
-
-    thunk(dispatch);
   });
 
   it('should fetch request messages', async () => {
