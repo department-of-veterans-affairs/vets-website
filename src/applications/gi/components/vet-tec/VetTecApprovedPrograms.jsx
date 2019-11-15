@@ -4,7 +4,7 @@ import environment from 'platform/utilities/environment';
 import PropTypes from 'prop-types';
 import VetTecContactInformation from './VetTecContactInformation';
 import { calculatorInputChange } from '../../actions';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, isPresent } from '../../utils/helpers';
 
 class VetTecApprovedPrograms extends React.Component {
   constructor(props) {
@@ -39,11 +39,16 @@ class VetTecApprovedPrograms extends React.Component {
     // prod flag for CT 116 story 19614
     if (!environment.isProduction() && programs && programs.length) {
       const programRows = programs.map((program, index) => {
+        const programLength = isPresent(program.lengthInHours)
+          ? `${program.lengthInHours} hours`
+          : 'TBD';
+        const tuition = isPresent(program.tuitionAmount)
+          ? formatCurrency(program.tuitionAmount)
+          : 'TBD';
         const checked =
           this.state.selectedProgram &&
           program.description.toLowerCase() ===
             this.state.selectedProgram.toLowerCase();
-
         return (
           <tr key={index}>
             <td>
@@ -65,13 +70,8 @@ class VetTecApprovedPrograms extends React.Component {
                 </label>
               </div>
             </td>
-            {// PROD FLAG CT 116 STORY 19868
-            environment.isProduction() ? (
-              <td>{`${program.lengthInHours} hours`}</td>
-            ) : (
-              <td>{`${program.lengthInWeeks} weeks`}</td>
-            )}
-            <td>{formatCurrency(program.tuitionAmount)}</td>
+            <td>{programLength}</td>
+            <td>{tuition}</td>
           </tr>
         );
       });

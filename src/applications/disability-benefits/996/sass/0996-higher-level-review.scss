@@ -184,7 +184,7 @@ aside.process {
 article[data-location^="contested-issues/"] {
   /* Info alert icon color */
   .usa-alert-info:before {
-    color: #00a6d2;
+    color: $color-aqua-dark;
   }
 
   /* Add space above AdditionalInfo block */
@@ -209,7 +209,7 @@ article[data-location="request-informal-conference"] {
 
   /* Info alert icon color */
   .usa-alert-info:before {
-    color: #00a6d2;
+    color: $color-aqua-dark;
   }
 
   /* Remove extra spacing between form elements */
@@ -235,5 +235,12 @@ article[data-location="request-informal-conference"] {
 
   .form-checkbox label {
     margin-top: 1em;
+  }
+}
+
+/* Confirmation page */
+article[data-location="confirmation"] {
+  h1[tabindex="-1"] {
+    outline: none;
   }
 }

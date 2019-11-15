@@ -38,7 +38,7 @@
 
 - [x] Build form `selectContestedIssues` in `config/form.js`
 - [ ] Get eligible issues API call?
-- [ ] Desination of "See all your issues" click?
+- [ ] Desination of "See all your issues" link?
 - [x] Add unit tests
 - [ ] Add e2e tests
 
@@ -54,16 +54,24 @@
 
 - [x] Build form `requestAnInformalConference` in `config/form.js`
 - [x] Awaiting design on "Weekday" dropdown content - remove
+- [x] Applied step 3 redesign
 - [x] Add unit tests
 - [ ] Add e2e tests
 
 ### Submit your application (Step 4)
 
-- [ ] Is there a design? This page was automaticaly added by the form builder.
+- [x] Is there a design? This page was automaticaly added by the form builder.
 - [x] Change wording to be "Review and submit your
       application", can it be changed to match the design?)
 - [x] Add privacy policy check
 - [ ] Add unit tests
+- [ ] Add e2e tests
+
+### Confirmation page
+
+- [x] Update pre-built page from design
+- [ ] Update link "after you apply" when available
+- [x] Add unit tests
 - [ ] Add e2e tests
 
 ### Swap order of intro & opt out page

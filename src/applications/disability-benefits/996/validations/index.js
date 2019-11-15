@@ -50,7 +50,7 @@ export const checkConferenceTimes = (errors, values = {}, formData) => {
       return acc;
     }, []) || [];
 
-  if (formData?.informalConferenceChoice === true && errors) {
+  if (formData?.informalConferenceChoice !== 'no' && errors) {
     // validation
     if (times.length < conferenceTimes.min) {
       errors.addError(errorMessages.informalConferenceTimesMin);

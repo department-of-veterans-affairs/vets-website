@@ -6,10 +6,14 @@ export const InformalConferenceDescription = (
     <p>
       You or your accredited representative (claims agent, attorney, or Veterans
       Service Organization) may request an informal conference with the reviewer
-      assigned to your Higher-Level Review request. If you request an informal
-      conference, the reviewer will call you or your representative. During this
-      call you or your representative will have the chance to discuss why you
-      think the decision should be changed and identify factual errors.
+      assigned to your Higher-Level Review request.
+    </p>
+    <br />
+    <p>
+      If you request an informal conference, the reviewer will call you or your
+      representative. During this call you or your representative will have the
+      chance to discuss why you think the decision should be changed and
+      identify factual errors.
     </p>
     <br />
     <p>
@@ -22,8 +26,11 @@ export const InformalConferenceDescription = (
 export const InformalConferenceChoiceTitle =
   'Would you like to request an informal conference?';
 
-export const InformalConferenceContactChoice =
-  'Would you like us to call your representative?';
+export const informalConferenceLabels = {
+  no: 'No, I do not want an informal conference',
+  me: 'Yes, call me',
+  rep: 'Yes, call my representative',
+};
 
 export const ContactYouDescription = (
   <>
