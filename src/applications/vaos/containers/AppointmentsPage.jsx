@@ -13,6 +13,7 @@ import {
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
+  fetchRequestMessages,
 } from '../actions/appointments';
 import { getAppointmentType } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
@@ -41,7 +42,12 @@ export class AppointmentsPage extends Component {
       showCancelButton,
       showScheduleButton,
     } = this.props;
-    const { future, futureStatus, facilityData } = appointments;
+    const {
+      future,
+      futureStatus,
+      facilityData,
+      requestMessages,
+    } = appointments;
 
     let content;
 
@@ -62,12 +68,14 @@ export class AppointmentsPage extends Component {
             const type = getAppointmentType(appt);
 
             switch (type) {
+              case APPOINTMENT_TYPES.ccRequest:
               case APPOINTMENT_TYPES.request:
                 return (
                   <AppointmentRequestListItem
                     key={index}
                     index={index}
                     appointment={appt}
+                    type={type}
                     facility={
                       facilityData[
                         getRealFacilityId(appt.facility?.facilityCode)
@@ -75,6 +83,8 @@ export class AppointmentsPage extends Component {
                     }
                     showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
+                    fetchMessages={this.props.fetchRequestMessages}
+                    messages={requestMessages}
                   />
                 );
               case APPOINTMENT_TYPES.ccAppointment:
@@ -208,6 +218,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchFutureAppointments,
+  fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,

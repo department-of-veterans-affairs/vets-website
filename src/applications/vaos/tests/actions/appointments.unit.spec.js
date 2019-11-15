@@ -10,6 +10,7 @@ import {
 import {
   fetchFutureAppointments,
   fetchPastAppointments,
+  fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
@@ -18,6 +19,8 @@ import {
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_REQUEST_MESSAGES,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -87,6 +90,18 @@ describe('VAOS actions: appointments', () => {
     thunk(dispatch);
   });
 
+  it('should fetch request messages', async () => {
+    setFetchJSONResponse(global.fetch);
+    const dispatch = sinon.spy();
+    const thunk = fetchRequestMessages('8a48912a6c2409b9016c525a4d490190');
+
+    await thunk(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_REQUEST_MESSAGES);
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FETCH_REQUEST_MESSAGES_SUCCEEDED,
+    );
+  });
+
   describe('cancel appointment', () => {
     it('should return cancel appointment action', () => {
       const appointment = {};
@@ -128,7 +143,7 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            status: 'Booked',
+            status: 'Submitted',
           },
         },
       };
