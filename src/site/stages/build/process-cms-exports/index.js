@@ -72,6 +72,12 @@ const entityAssemblerFactory = contentDir => {
         chalk.yellow(`${toId(entity)} is invalid before transformation:`),
       );
       console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
+      rawErrors.forEach(e => {
+        console.warn(
+          `Data found at ${e.dataPath}:`,
+          JSON.stringify(get(entity, e.dataPath.slice(1))),
+        );
+      });
       console.warn(`-------------------`);
       /* eslint-enable no-console */
 
