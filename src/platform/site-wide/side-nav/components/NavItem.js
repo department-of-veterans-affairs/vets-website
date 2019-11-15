@@ -17,6 +17,7 @@ const NavItem = ({
   toggleItemExpanded,
 }) => {
   // Derive the item properties.
+  const hasChildren = get(item, 'hasChildren');
   const expanded = get(item, 'expanded');
   const id = get(item, 'id');
   const isSelected = get(item, 'isSelected');
@@ -29,8 +30,8 @@ const NavItem = ({
   // Caclculate the indentation for the child items.
   const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
 
-  // Determine if we should show a line at the end.
-  const showLine = isFirstLevel && index !== sortedNavItems.length - 1;
+  // Determine if we are the last nav item.
+  const isLastNavItem = index === sortedNavItems.length - 1;
 
   return (
     <li className={`va-sidenav-level-${depth}`} key={id}>
@@ -54,45 +55,41 @@ const NavItem = ({
       <DuplicateLineLabel depth={depth} item={item} />
 
       {/* Child Items */}
-      {expanded && <ul>{renderChildItems(id, depth + 1)}</ul>}
+      {expanded && hasChildren && <ul>{renderChildItems(id, depth + 1)}</ul>}
 
       {/* Ending Line */}
-      {showLine && <div className="line" />}
+      {isFirstLevel && !isLastNavItem && <div className="line" />}
     </li>
   );
 };
 
+export const NavItemPropType = PropTypes.shape({
+  depth: PropTypes.number.isRequired,
+  description: PropTypes.string,
+  expanded: PropTypes.bool.isRequired,
+  hasChildren: PropTypes.bool.isRequired,
+  href: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  parentID: PropTypes.string,
+  isSelected: PropTypes.bool.isRequired,
+});
+
 NavItem.propTypes = {
   depth: PropTypes.number.isRequired,
-  item: PropTypes.shape({
-    depth: PropTypes.number.isRequired,
-    description: PropTypes.string,
-    expanded: PropTypes.bool.isRequired,
-    hasChildren: PropTypes.bool.isRequired,
-    href: PropTypes.string,
-    id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    order: PropTypes.number.isRequired,
-    parentID: PropTypes.string.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-  }).isRequired,
+  item: NavItemPropType.isRequired,
   index: PropTypes.number.isRequired,
   renderChildItems: PropTypes.func.isRequired,
-  sortedNavItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      depth: PropTypes.number.isRequired,
-      description: PropTypes.string,
-      expanded: PropTypes.bool.isRequired,
-      hasChildren: PropTypes.bool.isRequired,
-      href: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      order: PropTypes.number.isRequired,
-      parentID: PropTypes.string.isRequired,
-      isSelected: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
+  sortedNavItems: PropTypes.arrayOf(NavItemPropType).isRequired,
   toggleItemExpanded: PropTypes.func.isRequired,
+};
+
+NavItem.defaultProps = {
+  item: {},
+  renderChildItems: () => {},
+  sortedNavItems: [],
+  toggleItemExpanded: () => {},
 };
 
 export default NavItem;

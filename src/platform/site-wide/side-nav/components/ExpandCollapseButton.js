@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { get } from 'lodash';
+// Relative
+import { NavItemPropType } from './NavItem';
 
 const ExpandCollapseButton = ({ depth, item }) => {
   // Derive item properties.
@@ -11,10 +13,10 @@ const ExpandCollapseButton = ({ depth, item }) => {
   const hasChildren = get(item, 'hasChildren');
 
   // Determine if we are deeper than the 2nd level of nav items.
-  const isDeeperThanSecondLevel = depth >= 2;
+  const secondLevelOrDeeper = depth >= 2;
 
   // Do not render if we do not have children or are a top-level nav item.
-  if (!hasChildren || !isDeeperThanSecondLevel) {
+  if (!hasChildren || !secondLevelOrDeeper) {
     return null;
   }
 
@@ -36,11 +38,7 @@ const ExpandCollapseButton = ({ depth, item }) => {
 
 ExpandCollapseButton.propTypes = {
   depth: PropTypes.number.isRequired,
-  item: PropTypes.shape({
-    expanded: PropTypes.bool.isRequired,
-    hasChildren: PropTypes.bool.isRequired,
-    label: PropTypes.string.isRequired,
-  }),
+  item: NavItemPropType,
 };
 
 export default ExpandCollapseButton;

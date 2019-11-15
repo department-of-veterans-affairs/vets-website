@@ -3,24 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
-import NavItem from './NavItem';
+import NavItem, { NavItemPropType } from './NavItem';
 
 class SideNav extends Component {
   static propTypes = {
-    navItemsLookup: PropTypes.objectOf(
-      PropTypes.shape({
-        depth: PropTypes.number.isRequired,
-        description: PropTypes.string,
-        expanded: PropTypes.bool.isRequired,
-        hasChildren: PropTypes.bool.isRequired,
-        href: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        order: PropTypes.number.isRequired,
-        parentID: PropTypes.string,
-        isSelected: PropTypes.bool.isRequired,
-      }),
-    ).isRequired,
+    navItemsLookup: PropTypes.objectOf(NavItemPropType).isRequired,
   };
 
   constructor(props) {

@@ -26,9 +26,9 @@ describe('<ExpandCollapseButton>', () => {
     wrapper.unmount();
   });
 
-  it('should not render when the nav item is not deeper than 2nd level', () => {
+  it('should render null when the nav item is not deeper than 2nd level', () => {
     const defaultProps = {
-      depth: 2,
+      depth: 1,
       item: {
         description: 'Some description',
         expanded: true,

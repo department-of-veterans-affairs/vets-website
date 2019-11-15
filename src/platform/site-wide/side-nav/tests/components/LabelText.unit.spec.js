@@ -40,7 +40,7 @@ describe('<LabelText>', () => {
     };
 
     const wrapper = shallow(<LabelText {...defaultProps} />);
-    expect(wrapper.name()).to.not.equal('div');
+    expect(wrapper.name()).to.equal('div');
     wrapper.unmount();
   });
 });

@@ -1,7 +1,8 @@
 // Dependencies
 import React from 'react';
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+// Relative
+import { NavItemPropType } from './NavItem';
 
 const LabelText = ({ item }) => {
   // Derive item properties.
@@ -26,10 +27,7 @@ const LabelText = ({ item }) => {
 };
 
 LabelText.propTypes = {
-  item: PropTypes.shape({
-    href: PropTypes.string,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
+  item: NavItemPropType.isRequired,
 };
 
 export default LabelText;
