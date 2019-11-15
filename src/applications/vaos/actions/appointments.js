@@ -104,7 +104,7 @@ export function fetchFutureAppointments() {
         const appts = getState().appointments.future;
         const facilityIds = new Set(
           appts
-            .map(appt => appt.facilityId || appt.facility.facilityCode)
+            .map(appt => appt.facilityId || appt.facility?.facilityCode)
             .filter(id => !!id),
         );
 

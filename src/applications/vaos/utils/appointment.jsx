@@ -108,6 +108,24 @@ export function getAppointmentLocation(appt, facility) {
     );
   }
 
+  if (type === APPOINTMENT_TYPES.ccRequest) {
+    if (!appt.ccAppointmentRequest?.preferredProviders?.[0]) {
+      return 'Not specified';
+    }
+
+    return (
+      <ul className="usa-unstyled-list">
+        {appt.ccAppointmentRequest.preferredProviders.map(provider => (
+          <li key={`${provider.firstName} ${provider.lastName}`}>
+            {provider.practiceName}
+            <br />
+            {provider.firstName} {provider.lastName}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   if (facility) {
     return (
       <>
@@ -125,24 +143,6 @@ export function getAppointmentLocation(appt, facility) {
           View facility details
         </a>
       </>
-    );
-  }
-
-  if (type === APPOINTMENT_TYPES.ccRequest) {
-    if (!appt.ccAppointmentRequest?.preferredProviders?.[0]) {
-      return 'Not specified';
-    }
-
-    return (
-      <ul className="usa-unstyled-list">
-        {appt.ccAppointmentRequest.preferredProviders.map(provider => (
-          <li key={`${provider.firstName} ${provider.lastName}`}>
-            {provider.practiceName}
-            <br />
-            {provider.firstName} {provider.lastName}
-          </li>
-        ))}
-      </ul>
     );
   }
 
