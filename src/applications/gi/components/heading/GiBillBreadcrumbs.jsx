@@ -29,11 +29,14 @@ export default function GiBillBreadcrumbs({
   const onSearchPage =
     pathname.match(/search/) || pathname.match(/program-search/);
   const onProfilePage = pathname.match(/profile/);
-
+  const searchResultsPath =
+    onProfilePage && facilityCode.substr(1, 1) === 'V'
+      ? 'program-search'
+      : 'search';
   if (searchQuery && (onSearchPage || onProfilePage)) {
     crumbs.push(
       <Link
-        to={{ pathname: 'search', query: searchQuery }}
+        to={{ pathname: searchResultsPath, query: searchQuery }}
         key="search-results"
       >
         Search results

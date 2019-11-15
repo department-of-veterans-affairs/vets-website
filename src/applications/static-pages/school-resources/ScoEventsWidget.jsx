@@ -73,11 +73,20 @@ export default class ScoEventsWidget extends React.Component {
       .sort(this.eventComparer)
       .map((scoEvent, index) => (
         <li key={index} className="hub-page-link-list__item">
-          <a href={scoEvent.url}>
-            <b>{`${scoEvent.name} >`}</b>
+          <a href={scoEvent.url} className="no-external-icon">
+            <span className="hub-page-link-list__header">
+              {`${scoEvent.name}`}
+            </span>
+            <img
+              className="all-link-arrow"
+              src="/img/arrow-right-blue.svg"
+              alt="right-arrow"
+            />
           </a>
           <br />
-          <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
+          <span style={{ color: '#5B616B' }}>
+            <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
+          </span>
         </li>
       ));
     return (
@@ -92,14 +101,14 @@ export default class ScoEventsWidget extends React.Component {
       <div>
         <h2 id="upcoming-events">Upcoming events</h2>
         {this.renderEvents()}
-        <p>
+        <p className="vads-u-margin-bottom--0">
           See full list of{' '}
           <a href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp">
-            Conferences and Events
+            Conferences and events
           </a>{' '}
           |{' '}
           <a href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/presentations.asp">
-            Training Webinars
+            Training webinars
           </a>{' '}
         </p>
       </div>
