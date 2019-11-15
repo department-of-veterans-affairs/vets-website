@@ -1,11 +1,11 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 const transform = entity => {
   const { fieldWysiwyg, fieldTextExpander } = entity;
   return {
     entity: {
       fieldWysiwyg: { processed: getDrupalValue(fieldWysiwyg) },
-      fieldTextExpander: getDrupalValue(fieldTextExpander),
+      fieldTextExpander: getWysiwygString(getDrupalValue(fieldTextExpander)),
     },
   };
 };
