@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { get } from 'lodash';
 // Relative
-import { NavItemPropType } from './NavItem';
+import { NavItemPropTypes } from './NavItem';
 import LabelText from './LabelText';
 
 const DuplicateLineLabel = ({ depth, item }) => {
@@ -38,7 +38,7 @@ const DuplicateLineLabel = ({ depth, item }) => {
 
 DuplicateLineLabel.propTypes = {
   depth: PropTypes.number.isRequired,
-  item: NavItemPropType.isRequired,
+  item: NavItemPropTypes,
 };
 
 export default DuplicateLineLabel;

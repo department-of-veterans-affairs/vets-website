@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { find, filter, get, map, orderBy } from 'lodash';
 // Relative
-import NavItem, { NavItemPropType } from './NavItem';
+import NavItem, { NavItemPropTypes } from './NavItem';
 
 class SideNav extends Component {
   static propTypes = {
-    navItemsLookup: PropTypes.objectOf(NavItemPropType).isRequired,
+    navItemsLookup: PropTypes.objectOf(NavItemPropTypes).isRequired,
   };
 
   constructor(props) {

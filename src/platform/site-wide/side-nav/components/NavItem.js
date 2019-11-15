@@ -63,7 +63,7 @@ const NavItem = ({
   );
 };
 
-export const NavItemPropType = PropTypes.shape({
+export const NavItemPropTypes = PropTypes.shape({
   depth: PropTypes.number.isRequired,
   description: PropTypes.string,
   expanded: PropTypes.bool.isRequired,
@@ -74,14 +74,14 @@ export const NavItemPropType = PropTypes.shape({
   order: PropTypes.number.isRequired,
   parentID: PropTypes.string,
   isSelected: PropTypes.bool.isRequired,
-});
+}).isRequired;
 
 NavItem.propTypes = {
   depth: PropTypes.number.isRequired,
-  item: NavItemPropType.isRequired,
+  item: NavItemPropTypes,
   index: PropTypes.number.isRequired,
   renderChildItems: PropTypes.func.isRequired,
-  sortedNavItems: PropTypes.arrayOf(NavItemPropType).isRequired,
+  sortedNavItems: PropTypes.arrayOf(NavItemPropTypes).isRequired,
   toggleItemExpanded: PropTypes.func.isRequired,
 };
 
