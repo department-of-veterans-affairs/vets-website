@@ -152,7 +152,7 @@ class ObjectField extends React.Component {
               </button>
             </div>
           )}
-          <dl className="review">{renderedProperties}</dl>
+          <div className="review">{renderedProperties}</div>
         </div>
       );
     }

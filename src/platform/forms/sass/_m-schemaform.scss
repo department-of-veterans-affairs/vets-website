@@ -70,7 +70,7 @@ fieldset {
   font-weight: 700;
 }
 
-dl.review {
+.review {
   .review-row {
     display: flex;
     justify-content: space-between;
@@ -462,7 +462,7 @@ legend.schemaform-label.schemaform-file-label {
       order: 3;
     }
   }
-  dl.review {
+  .review {
     padding: 0 1em;
     margin-top: 0;
     margin-bottom: 0;
