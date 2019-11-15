@@ -35,7 +35,7 @@ const NavItem = ({
 
   return (
     <li className={`va-sidenav-level-${depth}`} key={id}>
-      <div
+      <a
         aria-label={label}
         className={classNames({
           'va-sidenav-item-label': true,
@@ -49,7 +49,7 @@ const NavItem = ({
 
         {/* Expand/Collapse Button */}
         <ExpandCollapseButton depth={depth} item={item} />
-      </div>
+      </a>
 
       {/* Duplicate Line + Label when Expanded */}
       <DuplicateLineLabel depth={depth} item={item} />
