@@ -105,7 +105,7 @@ export class ReasonForAppointmentPage extends React.Component {
                 </li>
                 <li>
                   Call the Veterans Crisis hotline at{' '}
-                  <a href="tel:800-273-8255">800-273-8255</a> and press 1,{' '}
+                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
