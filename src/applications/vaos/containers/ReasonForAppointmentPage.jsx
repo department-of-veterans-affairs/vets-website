@@ -10,7 +10,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getReasonForAppointment } from '../utils/selectors';
-import { REASON_RADIO_LABELS } from '../utils/constants';
+import { PURPOSE_RADIO_LABELS } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -31,7 +31,7 @@ const uiSchema = {
     'ui:widget': 'radio',
     'ui:title': 'Why are you making this appointment?',
     'ui:options': {
-      labels: REASON_RADIO_LABELS,
+      labels: PURPOSE_RADIO_LABELS,
     },
   },
   reasonAdditionalInfo: {
@@ -95,7 +95,7 @@ export class ReasonForAppointmentPage extends React.Component {
             pageChangeInProgress={pageChangeInProgress}
           />
           <AlertBox
-            headline="If you are experiencing a medical emergency"
+            headline="If you are experiencing a medical emergency:"
             className="vads-u-margin-y--3"
             content={
               <ul>
