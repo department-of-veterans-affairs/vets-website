@@ -75,7 +75,7 @@ export default class ScoEventsWidget extends React.Component {
         <li key={index} className="hub-page-link-list__item">
           <a href={scoEvent.url} className="no-external-icon">
             <span className="hub-page-link-list__header">
-              {`${scoEvent.name} >`}
+              {`${scoEvent.name}`}
             </span>
             <img
               className="all-link-arrow"
