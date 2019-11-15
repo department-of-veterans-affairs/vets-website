@@ -26,6 +26,7 @@ import {
 } from './../../actions/appointments';
 
 import facilityData from '../../api/facility_data.json';
+import cancelReasons from '../../api/cancel_reasons.json';
 
 describe('VAOS actions: appointments', () => {
   beforeEach(() => {
@@ -87,6 +88,7 @@ describe('VAOS actions: appointments', () => {
     });
 
     it('should fetch cancel reasons and cancel appt', async () => {
+      setFetchJSONResponse(global.fetch, cancelReasons);
       const state = {
         appointments: {
           appointmentToCancel: {
