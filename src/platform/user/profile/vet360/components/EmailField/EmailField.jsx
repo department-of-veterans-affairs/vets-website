@@ -5,7 +5,7 @@ import { API_ROUTES, FIELD_NAMES } from 'vet360/constants';
 
 import { isValidEmail } from 'platform/forms/validations';
 
-import Vet360ProfileField from 'vet360/containers/ProfileField';
+import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 import EmailEditModal from './EmailEditModal';
 
 import EmailView from './EmailView';

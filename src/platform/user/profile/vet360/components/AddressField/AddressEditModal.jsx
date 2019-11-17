@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FIELD_NAMES, ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
-import Vet360EditModal from '../base/EditModal';
+import Vet360EditModal from '../base/Vet360EditModal';
 
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
 import AddressForm from './AddressForm';

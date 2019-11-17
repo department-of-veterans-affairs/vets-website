@@ -11,7 +11,7 @@ import {
   USA,
 } from 'vet360/constants';
 
-import Vet360ProfileField from 'vet360/containers/ProfileField';
+import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
 import AddressEditModal from './AddressEditModal';
 import AddressView from './AddressView';

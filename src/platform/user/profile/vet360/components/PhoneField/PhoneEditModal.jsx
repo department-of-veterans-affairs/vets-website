@@ -6,7 +6,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
-import Vet360EditModal from '../base/EditModal';
+import Vet360EditModal from '../base/Vet360EditModal';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
 import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';

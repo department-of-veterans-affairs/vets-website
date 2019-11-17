@@ -6,7 +6,7 @@ import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 
 import { isValidPhone } from 'platform/forms/validations';
 
-import Vet360ProfileField from 'vet360/containers/ProfileField';
+import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
 import PhoneEditModal from './PhoneEditModal';
 import PhoneView from './PhoneView';
