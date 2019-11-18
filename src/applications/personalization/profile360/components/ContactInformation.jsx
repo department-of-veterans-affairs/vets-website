@@ -9,8 +9,8 @@ import accountManifest from '../../account/manifest.json';
 
 import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
 
-import Vet360InitializeID from 'vet360/containers/InitializeID';
-import Vet360PendingTransactionCategory from 'vet360/containers/PendingTransactionCategory';
+import Vet360InitializeID from 'vet360/containers/InitializeVet360ID';
+import Vet360PendingTransactionCategory from 'vet360/containers/Vet360PendingTransactionCategory';
 
 import MailingAddress from 'vet360/components/MailingAddress';
 import ResidentialAddress from 'vet360/components/ResidentialAddress';

@@ -4,7 +4,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { refreshTransaction } from '../actions';
 
-import Vet360TransactionPending from '../components/base/TransactionPending';
+import Vet360TransactionPending from '../components/base/Vet360TransactionPending';
 
 import { TRANSACTION_CATEGORY_TYPES } from '../constants';
 import { selectVet360PendingCategoryTransactions } from '../selectors';

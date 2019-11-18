@@ -6,7 +6,7 @@ import {
   hasGenericUpdateError,
   hasMVIError,
   hasMVINotFoundError,
-} from '../../util/transactions';
+} from 'vet360/util/transactions';
 
 export function GenericUpdateError(props) {
   return (

@@ -25,7 +25,7 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+  FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../../actions/newAppointment';
@@ -379,7 +379,7 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, () => state);
 
       expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+        FORM_REASON_FOR_APPOINTMENT_CHANGED,
       );
       expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
         REASON_MAX_CHARS.direct -
@@ -387,7 +387,6 @@ describe('VAOS newAppointment actions', () => {
           1 -
           reasonAdditionalInfo.length,
       );
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
     });
 
     it('update values and calculates remaining characters for request message', async () => {

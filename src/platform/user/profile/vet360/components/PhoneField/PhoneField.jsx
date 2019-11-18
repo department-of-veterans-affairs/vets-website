@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 
-import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '../../constants';
+import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 
 import { isValidPhone } from 'platform/forms/validations';
 
-import Vet360ProfileField from '../../containers/ProfileField';
+import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
-import PhoneEditModal from './EditModal';
-import PhoneView from './View';
+import PhoneEditModal from './PhoneEditModal';
+import PhoneView from './PhoneView';
 
 export default class PhoneField extends React.Component {
   static propTypes = {

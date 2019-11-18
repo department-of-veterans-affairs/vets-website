@@ -1,5 +1,5 @@
 import React from 'react';
-import PhoneField from './PhoneField';
+import PhoneField from './PhoneField/PhoneField';
 import ReceiveTextMessages from '../containers/ReceiveTextMessages';
 import { FIELD_NAMES } from '../constants';
 

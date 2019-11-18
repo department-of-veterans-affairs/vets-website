@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Vet360ProfileField } from '../../containers/ProfileField';
+import { Vet360ProfileField } from '../../containers/Vet360ProfileField';
 import { TRANSACTION_STATUS } from '../../constants';
 
 function Content() {
