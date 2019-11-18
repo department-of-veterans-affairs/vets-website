@@ -183,5 +183,25 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/current_rates_dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/COMPENSATION/resources-rates-read-dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Pension/current_rates_Parents_DIC_pen.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/COMPENSATION/resources-rates-read-parentsdic.asp",
+    "dest": "/disability/survivor-dic-rates/"
   }
 ]
