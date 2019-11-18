@@ -149,7 +149,7 @@ export const VetTecContactInformation = ({ institution }) => {
       <div>
         {renderSCOHeader()}
         {renderPrimarySCOs()}
-        (primarySCOs.length > 0 && secondarySCOs.length > 0 && <hr />)
+        {primarySCOs.length > 0 && secondarySCOs.length > 0 && <hr />}
         {renderSecondarySCOs()}
       </div>
     );
