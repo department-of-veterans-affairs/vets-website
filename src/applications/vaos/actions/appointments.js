@@ -5,7 +5,6 @@ import { FETCH_STATUS } from '../utils/constants';
 import {
   getConfirmedAppointments,
   getPendingAppointments,
-  getPastAppointments,
   getCancelReasons,
   getRequestMessages,
   updateAppointment,
@@ -25,11 +24,6 @@ export const FETCH_REQUEST_MESSAGES_FAILED =
 export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
   'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
 
-export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
-export const FETCH_PAST_APPOINTMENTS_FAILED =
-  'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
-export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
-  'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
 export const CANCEL_APPOINTMENT_CONFIRMED = 'vaos/CANCEL_APPOINTMENT_CONFIRMED';
 export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
@@ -129,21 +123,6 @@ export function fetchFutureAppointments() {
         });
       }
     }
-  };
-}
-
-export function fetchPastAppointments() {
-  return dispatch => {
-    dispatch({
-      type: FETCH_PAST_APPOINTMENTS,
-    });
-
-    getPastAppointments(moment().subtract(6, 'months')).then(data => {
-      dispatch({
-        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data,
-      });
-    });
   };
 }
 

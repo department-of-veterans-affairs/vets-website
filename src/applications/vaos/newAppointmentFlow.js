@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import {
   getFormData,
   getNewAppointment,
@@ -8,7 +9,7 @@ import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
-  getPastAppointments,
+  getLongTermAppointmentHistory,
   getSitesSupportingVAR,
 } from './api';
 import {
@@ -137,11 +138,15 @@ export default {
       const facilityId = getFormData(state).vaFacility;
 
       if (eligibilityStatus.direct) {
-        const appointments = await getPastAppointments();
+        try {
+          const appointments = await getLongTermAppointmentHistory();
 
-        if (hasEligibleClinics(facilityId, appointments, clinics)) {
-          dispatch(startDirectScheduleFlow(appointments));
-          return 'clinicChoice';
+          if (hasEligibleClinics(facilityId, appointments, clinics)) {
+            dispatch(startDirectScheduleFlow(appointments));
+            return 'clinicChoice';
+          }
+        } catch (error) {
+          Sentry.captureException(error);
         }
       }
 
