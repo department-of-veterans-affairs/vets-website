@@ -5,7 +5,7 @@ import facilityLocator from 'applications/facility-locator/manifest.json';
 import {
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
   DECEASED_ERROR_CODES,
-} from '../../util/transactions';
+} from 'vet360/util/transactions';
 
 function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));

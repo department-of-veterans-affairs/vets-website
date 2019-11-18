@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EmailField from './EmailField';
+import EmailField from './EmailField/EmailField';
 
 import { FIELD_NAMES } from '../constants';
 

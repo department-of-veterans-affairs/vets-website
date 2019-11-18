@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PhoneField from './PhoneField';
+import PhoneField from './PhoneField/PhoneField';
 
 import { FIELD_NAMES } from '../constants';
 

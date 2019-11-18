@@ -9,12 +9,12 @@ import {
   ADDRESS_TYPES,
   ADDRESS_POU,
   USA,
-} from '../../constants';
+} from 'vet360/constants';
 
-import Vet360ProfileField from '../../containers/ProfileField';
+import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
-import AddressEditModal from './EditModal';
-import AddressView from './View';
+import AddressEditModal from './AddressEditModal';
+import AddressView from './AddressView';
 
 export const inferAddressType = (countryName, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
