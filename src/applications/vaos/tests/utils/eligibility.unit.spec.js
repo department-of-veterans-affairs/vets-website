@@ -1,6 +1,14 @@
 import { expect } from 'chai';
 
 import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import clinics from '../../api/clinicList983.json';
+
+import {
   isEligible,
   getEligibilityChecks,
   getEligibilityData,
@@ -8,6 +16,13 @@ import {
 
 describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
+    before(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, clinics);
+    });
+    after(() => {
+      resetFetch();
+    });
     it('should fetch all data', async () => {
       const eligibilityData = await getEligibilityData('983', '323');
 
