@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 
 import { VetTecScoContact } from './VetTecScoContact';
 import { phoneInfo } from '../../utils/helpers';
@@ -164,45 +163,6 @@ export const VetTecContactInformation = ({ institution }) => {
       {renderSCOContactInfoSection()}
     </div>
   );
-
-  /* Production flag for 19871 */
-  if (environment.isProduction()) {
-    return (
-      <div className="additional-information vads-l-grid-container--full">
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-            <h3>Physical address</h3>
-            <div>
-              {institution.physicalAddress1 && (
-                <div>{institution.physicalAddress1}</div>
-              )}
-              {institution.physicalAddress2 && (
-                <div>{institution.physicalAddress2}</div>
-              )}
-              {institution.physicalAddress3 && (
-                <div>{institution.physicalAddress3}</div>
-              )}
-              <div>
-                {institution.physicalCity}, {institution.physicalState}{' '}
-                {institution.physicalZip}
-              </div>
-            </div>
-          </div>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-            <h3>Mailing address</h3>
-            <div>
-              {institution.address1 && <div>{institution.address1}</div>}
-              {institution.address2 && <div>{institution.address2}</div>}
-              {institution.address3 && <div>{institution.address3}</div>}
-              <div>
-                {institution.city}, {institution.state} {institution.zip}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return renderContactDetails();
 };
