@@ -2,6 +2,7 @@
   .vettec-logo {
     height: 60px;
     width: 126px;
+    margin-top: -50px;
     @include media($medium-screen) {
       height: 85px;
       width: 179px;
@@ -20,11 +21,11 @@
   }
 
   @media (min-width: 641px) {
-    .single-column-display-block{
-      display: block !important; }
+    .single-column-display-block {
+      display: block !important;
+    }
     .single-column-display-none {
-      display: none !important; }
+      display: none !important;
+    }
   }
-
-
 }
