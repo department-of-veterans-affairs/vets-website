@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { DEFAULT_ANNOUNCEMENT_DAYS_TO_DISPLAY } from './constants/constants';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 export default class ScoAnnouncementsWidget extends React.Component {
   static propTypes = {
@@ -17,6 +18,13 @@ export default class ScoAnnouncementsWidget extends React.Component {
   };
 
   eventComparer = (a, b) => (moment(a.date).isBefore(moment(b.date)) ? 1 : -1);
+
+  recordClickEvent = () => {
+    recordEvent({
+      event: 'nav-featured-content-link-click',
+      'featured-content-header': 'Latest announcement from VA',
+    });
+  };
 
   shouldDisplay = announcement => {
     const today = moment().startOf('day');
@@ -48,7 +56,7 @@ export default class ScoAnnouncementsWidget extends React.Component {
         return (
           <li key={index} className="hub-page-link-list__item">
             {announcement.url ? (
-              <a href={announcement.url}>
+              <a href={announcement.url} onClick={this.recordClickEvent}>
                 <b>{content}</b>
               </a>
             ) : (
