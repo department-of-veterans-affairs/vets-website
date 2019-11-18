@@ -68,7 +68,11 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
             Purpose
           </h2>
           <span className="vads-u-padding-right--1">
-            {PURPOSE_TEXT[data.reasonForAppointment]}{' '}
+            {
+              PURPOSE_TEXT.find(
+                purpose => purpose.id === data.reasonForAppointment,
+              )?.short
+            }{' '}
           </span>
           <Link
             aria-label="Edit purpose of appointment"

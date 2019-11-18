@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import newAppointmentFlow from '../newAppointmentFlow';
 import { getTypeOfCare } from '../utils/selectors';
 import moment from 'moment';
@@ -7,8 +8,18 @@ import {
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getAvailableSlots,
+  submitRequest,
+  sendRequestMessage,
+  getPreferences,
+  updatePreferences,
 } from '../api';
 import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
+import {
+  transformFormToVARequest,
+  transformFormToCCRequest,
+  createMessageBody,
+  createPreferenceBody,
+} from '../utils/data';
 
 import { getEligibilityData } from '../utils/eligibility';
 
@@ -50,6 +61,11 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
+export const APPOINTMENT_SUBMIT = 'newAppointment/APPOINTMENT_SUBMIT';
+export const APPOINTMENT_SUBMIT_SUCCEEDED =
+  'newAppointment/APPOINTMENT_SUBMIT_SUCCEEDED';
+export const APPOINTMENT_SUBMIT_FAILED =
+  'newAppointment/APPOINTMENT_SUBMIT_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -332,17 +348,58 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
 }
 
 export function submitAppointmentOrRequest(router) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
+
+    dispatch({
+      type: APPOINTMENT_SUBMIT,
+    });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       // TODO: transform form data into shape for direct schedule
       router.push('/new-appointment/confirmation');
     } else if (newAppointment.facilityType === 'communityCare') {
-      // TODO: transform form data into shape for cc request
-      router.push('/new-appointment/confirmation');
-    } else {
-      // TODO: transform form data into shape for va request
+      try {
+        let requestBody;
+        let requestData;
+
+        if (newAppointment.facilityType === 'communityCare') {
+          requestBody = transformFormToCCRequest(getState());
+          requestData = await submitRequest('cc', requestBody);
+        } else {
+          requestBody = transformFormToVARequest(newAppointment);
+          requestData = await submitRequest('va', requestBody);
+        }
+
+        try {
+          const preferenceData = await getPreferences();
+          const preferenceBody = createPreferenceBody(
+            newAppointment,
+            preferenceData,
+          );
+          await updatePreferences(preferenceBody);
+          const messageBody = createMessageBody(
+            requestData.uniqueId,
+            newAppointment,
+          );
+          await sendRequestMessage(requestData.uniqueId, messageBody);
+        } catch (error) {
+          // These are ancillary updates, the request went through if the first submit
+          // succeeded
+          Sentry.captureException(error);
+        }
+
+        dispatch({
+          type: APPOINTMENT_SUBMIT_SUCCEEDED,
+        });
+
+        router.push('/new-appointment/confirmation');
+      } catch (error) {
+        Sentry.captureException(error);
+        dispatch({
+          type: APPOINTMENT_SUBMIT_FAILED,
+        });
+      }
       router.push('/new-appointment/confirmation');
     }
   };

@@ -348,3 +348,61 @@ export function updateRequest(appt) {
     }, 500);
   });
 }
+
+export function submitRequest(type, request) {
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = Promise.resolve({
+      uniqueId: 'testing',
+    });
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests?type=${type}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function sendRequestMessage(id, message) {
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = Promise.resolve();
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function getPreferences() {
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = Promise.resolve({});
+  } else {
+    promise = apiRequest(`/vaos/preferences`);
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function updatePreferences(data) {
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = Promise.resolve();
+  } else {
+    promise = apiRequest(`/vaos/preferences`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
