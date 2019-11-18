@@ -21,7 +21,9 @@ export default function PreferredDatesSection(props) {
           </div>
         </div>
       </div>
-      <PreferredDates dates={props.data.calendarData.selectedDates} />
+      <ul className="usa-unstyled-list">
+        <PreferredDates dates={props.data.calendarData.selectedDates} />
+      </ul>
     </>
   );
 }

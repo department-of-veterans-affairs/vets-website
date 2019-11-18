@@ -31,6 +31,10 @@ const facility = {
   institutionTimezone: 'America/Denver',
 };
 
+const clinic = {
+  clinicFriendlyLocationName: '',
+};
+
 describe('VAOS <ReviewDirectScheduleInfo>', () => {
   describe('Direct Schedule', () => {
     const data = {
@@ -39,7 +43,13 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
     let tree;
 
     beforeEach(() => {
-      tree = mount(<ReviewDirectScheduleInfo data={data} />);
+      tree = mount(
+        <ReviewDirectScheduleInfo
+          data={data}
+          facility={facility}
+          clinic={clinic}
+        />,
+      );
     });
 
     afterEach(() => {
@@ -90,7 +100,11 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
 
     beforeEach(() => {
       tree = mount(
-        <ReviewDirectScheduleInfo data={data} facility={facility} />,
+        <ReviewDirectScheduleInfo
+          data={data}
+          facility={facility}
+          clinic={clinic}
+        />,
       );
     });
 

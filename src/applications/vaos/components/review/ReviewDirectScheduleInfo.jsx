@@ -7,11 +7,7 @@ import AppointmentDate from './AppointmentDate';
 export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        Review your appointment
-        <br />
-        details
-      </h1>
+      <h1 className="vads-u-font-size--h2">Review your appointment details</h1>
       <AppointmentDate
         dates={data.calendarData.selectedDates}
         systemId={data.vaSystem}
@@ -22,11 +18,11 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
       </h2>
       <hr />
       <h3 className="vaos-appts__block-label">
-        {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
+        {clinic.clinicFriendlyLocationName || clinic.clinicName}
       </h3>
-      {facility?.institution.authoritativeName}
+      {facility.institution.authoritativeName}
       <br />
-      {facility?.institution.city}, {facility?.institution.stateAbbrev}
+      {facility.institution.city}, {facility.institution.stateAbbrev}
       <hr />
       <ReasonForAppointmentSection data={data} />
       <hr />
