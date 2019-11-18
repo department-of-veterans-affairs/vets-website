@@ -143,7 +143,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render multiple preferred dates', () => {
-      expect(tree.find(PreferredDates).find('span')).to.have.lengthOf(3);
+      expect(tree.find(PreferredDates).find('li')).to.have.lengthOf(3);
     });
 
     it('should render contact details section', () => {
