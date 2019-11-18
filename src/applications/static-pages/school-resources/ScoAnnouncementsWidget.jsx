@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { DEFAULT_ANNOUNCEMENT_DAYS_TO_DISPLAY } from './constants/constants';
-import recordEvent from '../../../platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default class ScoAnnouncementsWidget extends React.Component {
   static propTypes = {
