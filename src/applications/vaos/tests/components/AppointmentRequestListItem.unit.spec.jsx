@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import AppointmentRequestListItem from '../../components/AppointmentRequestListItem';
 import { APPOINTMENT_TYPES } from '../../utils/constants';
@@ -24,9 +25,24 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       },
       appointmentRequestId: 'guid',
     };
+
+    const messages = {
+      guid: [
+        {
+          attributes: {
+            messageText: 'Some message',
+          },
+        },
+      ],
+    };
+
+    const fetchMessages = sinon.spy();
+
     const tree = shallow(
       <AppointmentRequestListItem
         appointment={appointment}
+        fetchMessages={fetchMessages}
+        messages={messages}
         showCancelButton
         type={APPOINTMENT_TYPES.request}
       />,
@@ -52,6 +68,10 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     expect(preferredDates.at(1).text()).to.equal(
       'Thu, May 23, 2019 in the morning',
     );
+
+    const messageTree = tree.find('.vaos_appts__message');
+    expect(messageTree.find('dt').text()).to.equal('Additional information');
+    expect(messageTree.find('dd').text()).to.equal('Some message');
 
     tree.unmount();
   });
@@ -115,9 +135,24 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         ],
       },
     };
+
+    const messages = {
+      guid: [
+        {
+          attributes: {
+            messageText: 'Some message',
+          },
+        },
+      ],
+    };
+
+    const fetchMessages = sinon.spy();
+
     const tree = shallow(
       <AppointmentRequestListItem
         appointment={appointment}
+        fetchMessages={fetchMessages}
+        messages={messages}
         showCancelButton
         type={APPOINTMENT_TYPES.ccRequest}
       />,

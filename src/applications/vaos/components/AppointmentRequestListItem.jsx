@@ -20,16 +20,33 @@ export default class AppointmentRequestListItem extends React.Component {
     };
   }
 
+  toggleShowMore = () => {
+    const { appointment, messages, fetchMessages } = this.props;
+    const id = appointment.appointmentRequestId;
+    const showMore = !this.state.showMore;
+
+    if (showMore && !messages[id]) {
+      fetchMessages(id);
+    }
+
+    this.setState({ showMore });
+  };
+
   render() {
     const {
       appointment,
       index,
+      messages,
       cancelAppointment,
       showCancelButton,
+      facility,
       type,
     } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
+    const firstMessage =
+      messages?.[appointment.appointmentRequestId]?.[0]?.attributes
+        ?.messageText;
 
     return (
       <li
@@ -93,7 +110,7 @@ export default class AppointmentRequestListItem extends React.Component {
             <dt className="vads-u-font-weight--bold">
               {getLocationHeader(appointment)}
             </dt>
-            <dd>{getAppointmentLocation(appointment)}</dd>
+            <dd>{getAppointmentLocation(appointment, facility)}</dd>
           </dl>
         </div>
         <hr className="vads-u-margin--0 vads-u-margin-top--1p5" />
@@ -130,13 +147,23 @@ export default class AppointmentRequestListItem extends React.Component {
               </div>
             </div>
 
+            {firstMessage && (
+              <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-y--2">
+                <dl className="vads-u-margin--0">
+                  <dt className="vads-u-font-weight--bold">
+                    Additional information
+                  </dt>
+                  <dd>{firstMessage}</dd>
+                </dl>
+              </div>
+            )}
             <hr className="vads-u-margin--0 vads-u-margin-top--2" />
           </div>
         ) : null}
         <button
           type="button"
           className="va-button-link vaos-appts__expand-link vads-u-display--block vads-u-margin-top--1p5"
-          onClick={() => this.setState({ showMore: !this.state.showMore })}
+          onClick={this.toggleShowMore}
           aria-expanded={showMore}
         >
           {showMore ? (

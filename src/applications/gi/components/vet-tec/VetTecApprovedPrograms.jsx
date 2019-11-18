@@ -15,23 +15,20 @@ class VetTecApprovedPrograms extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (!environment.isProduction()) {
-      this.setProgramFields(this.state.selectedProgram);
-    }
-  }
-
   setProgramFields = programName => {
-    const program = this.props.institution.programs.find(
-      p => p.description === programName,
-    );
-    if (program) {
-      const field = 'vetTecProgram';
-      const value = {
-        vetTecTuitionFees: program.tuitionAmount,
-        vetTecProgramName: program.description,
-      };
-      this.props.calculatorInputChange({ field, value });
+    if (programName) {
+      const program = this.props.institution.programs.find(
+        p => p.description.toLowerCase() === programName.toLowerCase(),
+      );
+      if (program) {
+        const field = 'vetTecProgram';
+        const value = {
+          vetTecTuitionFees: program.tuitionAmount,
+          vetTecProgramName: program.description,
+          vetTecProgramFacilityCode: this.props.institution.facilityCode,
+        };
+        this.props.calculatorInputChange({ field, value });
+      }
     }
   };
 
@@ -51,6 +48,10 @@ class VetTecApprovedPrograms extends React.Component {
         const tuition = isPresent(program.tuitionAmount)
           ? formatCurrency(program.tuitionAmount)
           : 'TBD';
+        const checked =
+          this.state.selectedProgram &&
+          program.description.toLowerCase() ===
+            this.state.selectedProgram.toLowerCase();
         return (
           <tr key={index}>
             <td>
@@ -58,7 +59,7 @@ class VetTecApprovedPrograms extends React.Component {
                 <input
                   id={`radio-${index}`}
                   name="vetTecProgram"
-                  checked={program.description === this.state.selectedProgram}
+                  checked={checked}
                   className="gids-radio-buttons-input"
                   type="radio"
                   value={program.description}

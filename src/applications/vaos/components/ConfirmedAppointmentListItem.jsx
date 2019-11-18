@@ -18,6 +18,7 @@ export default function ConfirmedAppointmentListItem({
   index,
   cancelAppointment,
   showCancelButton,
+  facility,
 }) {
   let canceled = false;
   if (type === APPOINTMENT_TYPES.vaAppointment) {
@@ -89,7 +90,7 @@ export default function ConfirmedAppointmentListItem({
               <dt className="vads-u-font-weight--bold">
                 {getLocationHeader(appointment)}
               </dt>
-              <dd>{getAppointmentLocation(appointment)}</dd>
+              <dd>{getAppointmentLocation(appointment, facility)}</dd>
             </dl>
           )}
         </div>

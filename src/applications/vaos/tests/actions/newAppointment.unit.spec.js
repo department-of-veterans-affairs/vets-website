@@ -26,13 +26,13 @@ import {
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
-  REASON_MAX_CHAR_DEFAULT,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
+import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
 
 const testFlow = {
   page1: {
@@ -354,9 +354,15 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('reasonForAppointment', () => {
-    it('update values and calculates remaining characters for additional info', async () => {
-      const reasonForAppointment = 'new-issue';
-      const reasonAdditionalInfo = 'test';
+    const reasonForAppointment = 'new-issue';
+    const reasonAdditionalInfo = 'test';
+
+    it('update values and calculates remaining characters for direct schedule reason', async () => {
+      const state = {
+        newAppointment: {
+          flowType: FLOW_TYPES.DIRECT,
+        },
+      };
 
       const dispatch = sinon.spy();
       const thunk = updateReasonForAppointmentData(
@@ -367,17 +373,45 @@ describe('VAOS newAppointment actions', () => {
           reasonAdditionalInfo,
         },
       );
-      await thunk(dispatch);
+
+      await thunk(dispatch, () => state);
+
       expect(dispatch.firstCall.args[0].type).to.equal(
         FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
       );
       expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
-        REASON_MAX_CHAR_DEFAULT -
+        REASON_MAX_CHARS.direct -
           reasonForAppointment.length -
           1 -
           reasonAdditionalInfo.length,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+    });
+
+    it('update values and calculates remaining characters for request message', async () => {
+      const state = {
+        newAppointment: {
+          flowType: FLOW_TYPES.REQUEST,
+        },
+      };
+
+      const dispatch = sinon.spy();
+      const thunk = updateReasonForAppointmentData(
+        'reasonForAppointment',
+        {},
+        {
+          reasonForAppointment,
+          reasonAdditionalInfo,
+        },
+      );
+
+      await thunk(dispatch, () => state);
+      expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
+        REASON_MAX_CHARS.request -
+          reasonForAppointment.length -
+          1 -
+          reasonAdditionalInfo.length,
+      );
     });
   });
   describe('openCommunityCarePreferencesPage', () => {
