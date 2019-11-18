@@ -4,8 +4,11 @@ const transform = entity => {
   const { fieldWysiwyg, fieldTextExpander } = entity;
   return {
     entity: {
-      fieldWysiwyg: { processed: getDrupalValue(fieldWysiwyg) },
-      fieldTextExpander: getWysiwygString(getDrupalValue(fieldTextExpander)),
+      entityBundle: 'expandable_text',
+      fieldWysiwyg: {
+        processed: getWysiwygString(getDrupalValue(fieldWysiwyg)),
+      },
+      fieldTextExpander: getDrupalValue(fieldTextExpander),
     },
   };
 };
