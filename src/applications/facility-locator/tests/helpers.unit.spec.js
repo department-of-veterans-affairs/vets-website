@@ -187,9 +187,9 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(expected);
   });
 
-  it('formatOperatingHours should return "N/A" if a time is invalid', () => {
-    const operatingHours = '00AM-30PM';
-    const expected = 'N/A - N/A';
+  it('formatOperatingHours should return the original string a time is invalid', () => {
+    const operatingHours = 'By Appointment only';
+    const expected = 'By Appointment only';
 
     const result = formatOperatingHours(operatingHours);
 

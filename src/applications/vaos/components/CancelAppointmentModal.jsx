@@ -69,6 +69,43 @@ export default class CancelAppointmentModal extends React.Component {
       );
     }
 
+    if (
+      !!appointmentToCancel.appointmentRequestId &&
+      cancelAppointmentStatus === FETCH_STATUS.failed
+    ) {
+      return (
+        <Modal
+          id="cancelAppt"
+          status="error"
+          visible
+          onClose={onClose}
+          title="We could not cancel this appointment"
+        >
+          Something went wrong when we tried to cancel your request.
+          <h4>What you can do</h4>
+          It may have just been a blip and you can try again.
+          <p>
+            <button onClick={onConfirm} className="va-button-link">
+              Try to cancel again
+            </button>
+          </p>
+          <p>
+            But you should probably{' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`/find-locations/facility/vha_${getStagingId(
+                appointmentToCancel.facility?.facilityCode,
+              )}`}
+            >
+              contact the facility by phone
+            </a>
+            .
+          </p>
+        </Modal>
+      );
+    }
+
     if (cancelAppointmentStatus === FETCH_STATUS.failed) {
       return (
         <Modal

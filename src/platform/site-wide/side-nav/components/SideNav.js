@@ -1,25 +1,13 @@
 // Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { find, filter, get, map, orderBy } from 'lodash';
+// Relative
+import NavItem from './NavItem';
 
 class SideNav extends Component {
   static propTypes = {
-    navItemsLookup: PropTypes.objectOf(
-      PropTypes.shape({
-        depth: PropTypes.number.isRequired,
-        description: PropTypes.string,
-        expanded: PropTypes.bool.isRequired,
-        hasChildren: PropTypes.bool.isRequired,
-        href: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        order: PropTypes.number.isRequired,
-        parentID: PropTypes.string.isRequired,
-        isSelected: PropTypes.bool.isRequired,
-      }),
-    ).isRequired,
+    navItemsLookup: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -59,7 +47,6 @@ class SideNav extends Component {
   };
 
   renderChildItems = (parentID, depth) => {
-    const { toggleItemExpanded } = this;
     const { navItemsLookup } = this.state;
 
     // Derive the items to render.
@@ -71,96 +58,17 @@ class SideNav extends Component {
     // Sort the items by `order`.
     const sortedNavItems = orderBy(filteredNavItems, 'order', 'asc');
 
-    return map(sortedNavItems, (item, index) => {
-      // Derive the item properties.
-      const expanded = get(item, 'expanded');
-      const hasChildren = get(item, 'hasChildren', false);
-      const href = get(item, 'href');
-      const id = get(item, 'id');
-      const isSelected = get(item, 'isSelected');
-      const label = get(item, 'label', '');
-
-      // Derive the depth booleans.
-      const isFirstLevel = depth === 1;
-      const isSecondLevel = depth === 2;
-      const isDeeperThanSecondLevel = depth >= 2;
-
-      // Caclculate the indentation for the child items.
-      const indentation = isDeeperThanSecondLevel ? 20 * (depth - 1) : 20;
-
-      // Determine if we should show a line at the end.
-      const showLine = isFirstLevel && index !== sortedNavItems.length - 1;
-
-      // Derive the label element.
-      const labelElement = href ? (
-        <a
-          className="va-sidenav-item-label-link"
-          href={href}
-          rel="noopener noreferrer"
-        >
-          {label}
-        </a>
-      ) : (
-        <div className="va-sidenav-item-label-text">{label}</div>
-      );
-
-      return (
-        <li className={`va-sidenav-level-${depth}`} key={id}>
-          <div
-            aria-label={label}
-            className={classNames({
-              'va-sidenav-item-label': true,
-              selected: isSelected,
-            })}
-            onClick={toggleItemExpanded(id)}
-            style={{ paddingLeft: indentation }}
-          >
-            {/* Label */}
-            {labelElement}
-
-            {/* Expand/Collapse Button */}
-            {hasChildren &&
-              isDeeperThanSecondLevel && (
-                <button
-                  aria-label={`Expand "${label}"`}
-                  className="va-sidenav-toggle-expand"
-                >
-                  <i
-                    className={classNames({
-                      fa: true,
-                      'fa-chevron-down': expanded,
-                      'fa-chevron-up': !expanded,
-                    })}
-                  />
-                </button>
-              )}
-          </div>
-
-          {/* Duplicate Line + Label when Expanded */}
-          {expanded &&
-            isSecondLevel && (
-              <>
-                <div className="line" />
-                <div
-                  className={classNames({
-                    'va-sidenav-item-label': true,
-                    'va-sidenav-item-label-duplicate': true,
-                    selected: isSelected,
-                  })}
-                >
-                  {labelElement}
-                </div>
-              </>
-            )}
-
-          {/* Child Items */}
-          {expanded && <ul>{this.renderChildItems(id, depth + 1)}</ul>}
-
-          {/* Ending Line */}
-          {showLine && <div className="line" />}
-        </li>
-      );
-    });
+    return map(sortedNavItems, (item, index) => (
+      <NavItem
+        depth={depth}
+        index={index}
+        item={item}
+        key={get(item, 'id')}
+        renderChildItems={this.renderChildItems}
+        sortedNavItems={sortedNavItems}
+        toggleItemExpanded={this.toggleItemExpanded}
+      />
+    ));
   };
 
   render() {

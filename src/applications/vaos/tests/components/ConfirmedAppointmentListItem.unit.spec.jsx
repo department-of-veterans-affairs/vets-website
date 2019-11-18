@@ -10,6 +10,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     appointmentType: 'Testing',
     startDate: '2019-12-11T16:00:00Z',
     facilityId: '983',
+    vvsAppointments: [],
     vdsAppointments: [
       {
         appointmentLength: '60',
@@ -26,11 +27,32 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       },
     ],
   };
+  const facility = {
+    address: {
+      mailing: {},
+      physical: {
+        zip: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        address1: '2360 East Pershing Boulevard',
+        address2: null,
+        address3: null,
+      },
+    },
+    phone: {
+      main: '307-778-7550',
+    },
+  };
 
   let tree;
 
   beforeEach(() => {
-    tree = shallow(<ConfirmedAppointmentListItem appointment={appointment} />);
+    tree = shallow(
+      <ConfirmedAppointmentListItem
+        appointment={appointment}
+        facility={facility}
+      />,
+    );
   });
 
   afterEach(() => {
@@ -61,10 +83,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     );
   });
 
-  it('should have a link to facility info', () => {
-    expect(tree.find('.vaos-appts__split-section a').text()).to.contain(
-      'View facility information',
-    );
+  it('should show facility address', () => {
+    expect(tree.find('FacilityAddress').exists()).to.be.true;
   });
 });
 
@@ -125,7 +145,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#';
   const appointment = {
     startDate: apptTime,
-    facilityId: '234',
+    facilityId: '984',
     clinicId: '456',
     vvsAppointments: [
       {
@@ -140,6 +160,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
         },
       },
     ],
+    vdsAppointments: [],
   };
 
   const tree = shallow(

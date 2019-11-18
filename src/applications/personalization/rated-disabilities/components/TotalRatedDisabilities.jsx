@@ -8,7 +8,10 @@ import {
 } from './TotalRatingStates';
 
 const TotalRatedDisabilities = props => {
-  const { loading, totalDisabilityRating, error } = props;
+  const { loading, totalDisabilityRating } = props;
+  const status = props.error ? props.error.status : null;
+  const serverErrorRegex = /^5\d{2}$/;
+  const serviceErrorRegex = /^4\d{2}$/;
   let content;
   // If the data from the parent is loading ( loading prop ), show a loading indicator
   // If there is an error, display an error message,
@@ -18,20 +21,23 @@ const TotalRatedDisabilities = props => {
     content = (
       <LoadingIndicator message="Loading your total disability rating..." />
     );
-  } else if (error) {
+  } else if (status && serverErrorRegex.test(status)) {
     content = errorMessage();
-  } else if (!totalDisabilityRating) {
+  } else if (
+    !totalDisabilityRating ||
+    (status && serviceErrorRegex.test(status))
+  ) {
     content = missingTotalMessage();
   } else {
     content = totalRatingMessage(totalDisabilityRating);
   }
 
-  return <span>{content}</span>;
+  return <>{content}</>;
 };
 
 TotalRatedDisabilities.propTypes = {
   loading: PropTypes.bool,
-  error: PropTypes.bool,
+  error: PropTypes.object,
   totalDisabilityRating: PropTypes.number,
 };
 

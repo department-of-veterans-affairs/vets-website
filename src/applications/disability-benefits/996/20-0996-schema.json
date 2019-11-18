@@ -452,10 +452,12 @@
       }
     },
     "informalConferenceChoice": {
-      "type": "boolean"
-    },
-    "contactRepresentativeChoice": {
-      "type": "boolean"
+      "type": "string",
+      "enum": [
+        "no",
+        "me",
+        "rep"
+      ]
     },
     "scheduleTimes": {
       "type": "object",

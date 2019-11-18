@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import set from 'platform/utilities/data/set';
@@ -28,23 +27,27 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
+  START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
-  FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
-  REASON_MAX_CHAR_DEFAULT,
+  FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../actions/newAppointment';
+
+import {
+  FLOW_TYPES,
+  REASON_ADDITIONAL_INFO_TITLES,
+  REASON_MAX_CHARS,
+} from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
 
 const initialState = {
   pages: {},
-  data: {
-    preferredDate: moment().format('YYYY-MM-DD'),
-  },
+  data: {},
   facilities: {},
   facilityDetails: {},
   clinics: {},
@@ -56,7 +59,6 @@ const initialState = {
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
-  reasonRemainingChar: REASON_MAX_CHAR_DEFAULT,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -351,12 +353,19 @@ export default function formReducer(state = initialState, action) {
         loadingEligibility: false,
       };
     }
-    case START_DIRECT_SCHEDULE_FLOW: {
+    case START_DIRECT_SCHEDULE_FLOW:
       return {
         ...state,
         pastAppointments: action.appointments,
+        flowType: FLOW_TYPES.DIRECT,
+        reasonRemainingChar: REASON_MAX_CHARS.direct,
       };
-    }
+    case START_REQUEST_APPOINTMENT_FLOW:
+      return {
+        ...state,
+        flowType: FLOW_TYPES.REQUEST,
+        reasonRemainingChar: REASON_MAX_CHARS.request,
+      };
     case FORM_CLINIC_PAGE_OPENED: {
       return {
         ...state,
@@ -388,9 +397,34 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR: {
+    case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
+      let newSchema = state.pages.reasonForAppointment;
+
+      // Update additional info title based on radio selection
+      const additionalInfoTitle =
+        action.data.reasonForAppointment === 'other'
+          ? REASON_ADDITIONAL_INFO_TITLES.other
+          : REASON_ADDITIONAL_INFO_TITLES.default;
+
+      newSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        additionalInfoTitle,
+        newSchema,
+      );
+
+      const { data, schema } = updateSchemaAndData(
+        newSchema,
+        action.uiSchema,
+        action.data,
+      );
+
       return {
         ...state,
+        data,
+        pages: {
+          ...state.pages,
+          reasonForAppointment: schema,
+        },
         reasonRemainingChar: action.remainingCharacters,
       };
     }

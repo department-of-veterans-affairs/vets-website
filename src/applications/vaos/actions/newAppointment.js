@@ -8,6 +8,7 @@ import {
   getFacilityInfo,
   getAvailableSlots,
 } from '../api';
+import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
 
 import { getEligibilityData } from '../utils/eligibility';
 
@@ -37,18 +38,18 @@ export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
+export const START_REQUEST_APPOINTMENT_FLOW =
+  'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
-export const FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR =
-  'newAppointment/FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR';
+export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
+  'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
-
-export const REASON_MAX_CHAR_DEFAULT = 150;
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -79,6 +80,19 @@ export function updateFacilityType(facilityType) {
   return {
     type: FORM_UPDATE_FACILITY_TYPE,
     facilityType,
+  };
+}
+
+export function startDirectScheduleFlow(appointments) {
+  return {
+    type: START_DIRECT_SCHEDULE_FLOW,
+    appointments,
+  };
+}
+
+export function startRequestAppointmentFlow() {
+  return {
+    type: START_REQUEST_APPOINTMENT_FLOW,
   };
 }
 
@@ -194,25 +208,32 @@ export function updateFacilityPageData(page, uiSchema, data) {
 }
 
 export function updateReasonForAppointmentData(page, uiSchema, data) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const newAppointment = getState().newAppointment;
+    const reasonMaxChars =
+      newAppointment.flowType === FLOW_TYPES.DIRECT
+        ? REASON_MAX_CHARS.direct
+        : REASON_MAX_CHARS.request;
+
     let reasonAdditionalInfo = data.reasonAdditionalInfo;
     let remainingCharacters =
-      REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
+      reasonMaxChars - data.reasonForAppointment.length - 1;
 
     if (reasonAdditionalInfo) {
       // Max length for reason
       const maxTextAreaLength =
-        REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
+        reasonMaxChars - data.reasonForAppointment.length - 1;
       reasonAdditionalInfo = reasonAdditionalInfo.substr(0, maxTextAreaLength);
       remainingCharacters = maxTextAreaLength - reasonAdditionalInfo.length;
     }
 
     dispatch({
-      type: FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+      page,
+      uiSchema,
+      data: { ...data, reasonAdditionalInfo },
       remainingCharacters,
     });
-
-    dispatch(updateFormData(page, uiSchema, { ...data, reasonAdditionalInfo }));
   };
 }
 
@@ -310,15 +331,22 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   };
 }
 
-// export function submitDirectSchedule(page, uiSchema, schema) {
-//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
-//   // TODO: parse selected date
-// }
+export function submitAppointmentOrRequest(router) {
+  return (dispatch, getState) => {
+    const newAppointment = getState().newAppointment;
 
-// export function submitAppointmentRequest(page, uiSchema, schema) {
-//   // TODO: combine reasonForAppointment to be `${reasonForAppointment};${reasonAdditionalInfo}
-//   // TODO: parse selected date into optionTime
-// }
+    if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      // TODO: transform form data into shape for direct schedule
+      router.push('/new-appointment/confirmation');
+    } else if (newAppointment.facilityType === 'communityCare') {
+      // TODO: transform form data into shape for cc request
+      router.push('/new-appointment/confirmation');
+    } else {
+      // TODO: transform form data into shape for va request
+      router.push('/new-appointment/confirmation');
+    }
+  };
+}
 
 export function routeToPageInFlow(flow, router, current, action) {
   return async (dispatch, getState) => {

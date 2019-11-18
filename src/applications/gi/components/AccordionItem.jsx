@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
 
 class AccordionItem extends React.Component {
   constructor(props) {
@@ -14,6 +15,12 @@ class AccordionItem extends React.Component {
 
   toggle() {
     this.setState({ expanded: !this.state.expanded });
+
+    recordEvent({
+      event: this.state.expanded
+        ? 'nav-accordion-collapse'
+        : 'nav-accordion-expanded',
+    });
   }
 
   render() {
@@ -27,7 +34,9 @@ class AccordionItem extends React.Component {
             aria-expanded={expanded}
             aria-controls={this.id}
           >
-            <span className="accordion-button-text">{this.props.button}</span>
+            <span className="vads-u-font-family--serif accordion-button-text">
+              {this.props.button}
+            </span>
           </button>
         </h2>
         <div

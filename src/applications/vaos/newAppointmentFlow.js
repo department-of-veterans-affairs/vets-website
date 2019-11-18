@@ -4,7 +4,7 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { TYPES_OF_CARE } from './utils/constants';
+import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
@@ -12,7 +12,8 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
-  START_DIRECT_SCHEDULE_FLOW,
+  startDirectScheduleFlow,
+  startRequestAppointmentFlow,
   updateFacilityType,
   updateCCEnabledSystems,
 } from './actions/newAppointment';
@@ -33,6 +34,10 @@ function isCommunityCare(state) {
     typeOfCare =>
       typeOfCare.id === getFormData(state).typeOfCareId && typeOfCare.ccId,
   );
+}
+
+function isCCFacility(state) {
+  return getFormData(state).facilityType === 'communityCare';
 }
 
 function isSleepCare(state) {
@@ -62,9 +67,9 @@ export default {
           // Check if user registered systems support community care...
           const userSystemIds = await getSystemIdentifiers();
           const ccSites = await getSitesSupportingVAR();
-          const ccEnabledSystems = userSystemIds.filter(id =>
-            ccSites.some(site => site._id === id),
-          );
+          const ccEnabledSystems = userSystemIds
+            .map(system => system.assigningAuthority.substr(4))
+            .filter(id => ccSites.some(site => site._id === id));
           dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
           // Reroute to VA facility page if none of the user's registered systems support community care.
@@ -95,7 +100,7 @@ export default {
         return 'audiologyCareType';
       }
 
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'requestDateTime';
       }
 
@@ -135,22 +140,18 @@ export default {
         const appointments = await getPastAppointments();
 
         if (hasEligibleClinics(facilityId, appointments, clinics)) {
-          dispatch({
-            type: START_DIRECT_SCHEDULE_FLOW,
-            appointments,
-          });
-
+          dispatch(startDirectScheduleFlow(appointments));
           return 'clinicChoice';
         }
       }
 
       if (eligibilityStatus.request) {
+        dispatch(startRequestAppointmentFlow());
         return 'requestDateTime';
       }
 
       throw new Error('Veteran not eligible for direct scheduling or requests');
     },
-    // TODO: If user is not CC eligible, return to page prior to typeOfFacility
     previous(state) {
       let nextState = 'typeOfCare';
 
@@ -167,10 +168,10 @@ export default {
   clinicChoice: {
     url: '/new-appointment/clinics',
     previous: 'vaFacility',
-    next(state) {
+    next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
-        // When there's an appointment time page, go there instead
-        return 'reasonForAppointment';
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
       }
 
       // fetch appointment slots
@@ -190,14 +191,14 @@ export default {
   requestDateTime: {
     url: '/new-appointment/request-date',
     next(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
       return 'reasonForAppointment';
     },
     previous(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'typeOfFacility';
       }
 
@@ -207,15 +208,22 @@ export default {
   reasonForAppointment: {
     url: '/new-appointment/reason-appointment',
     next(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (
+        isCCFacility(state) ||
+        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
+      ) {
         return 'contactInfo';
       }
 
       return 'visitType';
     },
     previous(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'ccPreferences';
+      }
+
+      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+        return 'selectDateTime';
       }
 
       return 'requestDateTime';
@@ -224,7 +232,6 @@ export default {
   visitType: {
     url: '/new-appointment/choose-visit-type',
     previous: 'reasonForAppointment',
-    // Update this when reasonForAppointment is merged
     next: 'contactInfo',
   },
   appointmentTime: {
@@ -236,8 +243,12 @@ export default {
     url: '/new-appointment/contact-info',
     next: 'review',
     previous(state) {
-      if (getFormData(state).facilityType === 'communityCare') {
+      if (isCCFacility(state)) {
         return 'ccPreferences';
+      }
+
+      if (getNewAppointment(state).flowType === FLOW_TYPES.DIRECT) {
+        return 'reasonForAppointment';
       }
 
       return 'visitType';

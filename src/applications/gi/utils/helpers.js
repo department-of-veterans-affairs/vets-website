@@ -54,3 +54,5 @@ export const snakeCaseKeys = query =>
     }),
     {},
   );
+
+export const isPresent = value => value && value !== '';

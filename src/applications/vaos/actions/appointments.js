@@ -7,8 +7,10 @@ import {
   getPendingAppointments,
   getPastAppointments,
   getCancelReasons,
+  getRequestMessages,
   updateAppointment,
   updateRequest,
+  getFacilitiesInfo,
 } from '../api';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -16,6 +18,12 @@ export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
 export const FETCH_FUTURE_APPOINTMENTS_SUCCEEDED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_SUCCEEDED';
+
+export const FETCH_REQUEST_MESSAGES = 'vaos/FETCH_REQUEST_MESSAGES';
+export const FETCH_REQUEST_MESSAGES_FAILED =
+  'vaos/FETCH_REQUEST_MESSAGES_FAILED';
+export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
+  'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
 
 export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
 export const FETCH_PAST_APPOINTMENTS_FAILED =
@@ -29,6 +37,30 @@ export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
 export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
+export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
+  'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
+
+export function fetchRequestMessages(requestId) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: FETCH_REQUEST_MESSAGES,
+      });
+      const messages = await getRequestMessages(requestId);
+      dispatch({
+        type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
+        requestId,
+        messages,
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      dispatch({
+        type: FETCH_REQUEST_MESSAGES_FAILED,
+        error,
+      });
+    }
+  };
+}
 
 export function fetchFutureAppointments() {
   return async (dispatch, getState) => {
@@ -39,13 +71,56 @@ export function fetchFutureAppointments() {
 
       try {
         const data = await Promise.all([
-          getConfirmedAppointments(),
-          getPendingAppointments(),
+          getConfirmedAppointments(
+            'va',
+            moment()
+              .startOf('day')
+              .toISOString(),
+            moment()
+              .startOf('day')
+              .add(120, 'days')
+              .toISOString(),
+          ),
+          getConfirmedAppointments(
+            'cc',
+            moment().format('YYYY-MM-DD'),
+            moment()
+              .add(120, 'days')
+              .format('YYYY-MM-DD'),
+          ),
+          getPendingAppointments(
+            moment()
+              .subtract(30, 'days')
+              .format('YYYY-MM-DD'),
+            moment().format('YYYY-MM-DD'),
+          ),
         ]);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
+          today: moment(),
         });
+
+        const appts = getState().appointments.future;
+        const facilityIds = new Set(
+          appts
+            .map(appt => appt.facilityId || appt.facility?.facilityCode)
+            .filter(id => !!id),
+        );
+
+        try {
+          if (facilityIds.size > 0) {
+            const facilityData = await getFacilitiesInfo(
+              Array.from(facilityIds),
+            );
+            dispatch({
+              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+              facilityData,
+            });
+          }
+        } catch (error) {
+          Sentry.captureException(error);
+        }
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
@@ -63,7 +138,7 @@ export function fetchPastAppointments() {
       type: FETCH_PAST_APPOINTMENTS,
     });
 
-    getPastAppointments().then(data => {
+    getPastAppointments(moment().subtract(6, 'months')).then(data => {
       dispatch({
         type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
         data,
@@ -82,7 +157,7 @@ export function cancelAppointment(appointment) {
   };
 }
 
-const BOOKED_REQUEST = 'Booked';
+const SUBMITTED_REQUEST = 'Submitted';
 const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
@@ -93,7 +168,7 @@ export function confirmCancelAppointment() {
 
       const appointment = getState().appointments.appointmentToCancel;
 
-      if (appointment.status === BOOKED_REQUEST) {
+      if (appointment.status === SUBMITTED_REQUEST) {
         await updateRequest({
           ...appointment,
           status: CANCELLED_REQUEST,

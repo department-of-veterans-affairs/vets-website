@@ -12,6 +12,7 @@ describe('VAOS <AppointmentsPage>', () => {
       appointments: {
         future: [],
         futureStatus: FETCH_STATUS.loading,
+        facilityData: {},
       },
     };
 
@@ -30,6 +31,7 @@ describe('VAOS <AppointmentsPage>', () => {
 
   it('should render 3 appointments', () => {
     const appointments = {
+      facilityData: {},
       futureStatus: FETCH_STATUS.succeeded,
       future: [
         {
@@ -206,6 +208,7 @@ describe('VAOS <AppointmentsPage>', () => {
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
+        showScheduleButton
         appointments={appointments}
       />,
     );

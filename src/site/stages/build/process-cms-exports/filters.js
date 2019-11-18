@@ -5,7 +5,7 @@ const { getContentModelType } = require('./helpers');
  */
 
 const whitelists = {
-  global: ['title'],
+  global: ['title', 'baseType', 'contentModelType'],
   'node-page': [
     'field_intro_text',
     'field_description',
@@ -19,6 +19,7 @@ const whitelists = {
     'changed',
     'moderation_state',
   ],
+  'paragraph-wysiwyg': ['field_wysiwyg'],
 };
 
 const missingFilters = new Set();

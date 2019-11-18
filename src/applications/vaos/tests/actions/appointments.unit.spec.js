@@ -2,8 +2,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  resetFetch,
+  mockFetch,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import {
   fetchFutureAppointments,
   fetchPastAppointments,
+  fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
@@ -11,6 +18,9 @@ import {
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+  FETCH_REQUEST_MESSAGES,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -18,59 +28,50 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
 } from './../../actions/appointments';
 
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
+import facilityData from '../../api/facility_data.json';
 
 describe('VAOS actions: appointments', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => {
+    mockFetch();
+  });
 
-  it('should fetch future appointments', done => {
-    const data = [];
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(data) }),
-      }),
-    });
+  afterEach(() => {
+    resetFetch();
+  });
+
+  it('should fetch future appointments', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
+    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
     const thunk = fetchFutureAppointments();
     const dispatchSpy = sinon.spy();
     const getState = () => ({
       appointments: {
         futureStatus: 'notStarted',
+        future: [{ facilityId: '442' }],
       },
     });
-    const dispatch = action => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(
-          FETCH_FUTURE_APPOINTMENTS,
-        );
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(
-          FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-        );
-        done();
-      }
-    };
-
-    thunk(dispatch, getState);
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+      FETCH_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+      FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
+    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+    );
+    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
   });
 
   it('should fetch past appointments', done => {
-    const past = [];
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(past) }),
-      }),
-    });
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
+
     const thunk = fetchPastAppointments();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -87,6 +88,18 @@ describe('VAOS actions: appointments', () => {
     };
 
     thunk(dispatch);
+  });
+
+  it('should fetch request messages', async () => {
+    setFetchJSONResponse(global.fetch);
+    const dispatch = sinon.spy();
+    const thunk = fetchRequestMessages('8a48912a6c2409b9016c525a4d490190');
+
+    await thunk(dispatch);
+    expect(dispatch.firstCall.args[0].type).to.equal(FETCH_REQUEST_MESSAGES);
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FETCH_REQUEST_MESSAGES_SUCCEEDED,
+    );
   });
 
   describe('cancel appointment', () => {
@@ -130,7 +143,7 @@ describe('VAOS actions: appointments', () => {
       const state = {
         appointments: {
           appointmentToCancel: {
-            status: 'Booked',
+            status: 'Submitted',
           },
         },
       };
@@ -175,6 +188,4 @@ describe('VAOS actions: appointments', () => {
       });
     });
   });
-
-  afterEach(unMockFetch);
 });
