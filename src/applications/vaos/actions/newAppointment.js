@@ -8,7 +8,7 @@ import {
   getFacilityInfo,
   getAvailableSlots,
 } from '../api';
-import { FLOW_TYPES } from '../utils/constants';
+import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
 
 import { getEligibilityData } from '../utils/eligibility';
 
@@ -50,8 +50,6 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
-
-export const REASON_MAX_CHAR_DEFAULT = 150;
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -210,15 +208,21 @@ export function updateFacilityPageData(page, uiSchema, data) {
 }
 
 export function updateReasonForAppointmentData(page, uiSchema, data) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const newAppointment = getState().newAppointment;
+    const reasonMaxChars =
+      newAppointment.flowType === FLOW_TYPES.DIRECT
+        ? REASON_MAX_CHARS.direct
+        : REASON_MAX_CHARS.request;
+
     let reasonAdditionalInfo = data.reasonAdditionalInfo;
     let remainingCharacters =
-      REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
+      reasonMaxChars - data.reasonForAppointment.length - 1;
 
     if (reasonAdditionalInfo) {
       // Max length for reason
       const maxTextAreaLength =
-        REASON_MAX_CHAR_DEFAULT - data.reasonForAppointment.length - 1;
+        reasonMaxChars - data.reasonForAppointment.length - 1;
       reasonAdditionalInfo = reasonAdditionalInfo.substr(0, maxTextAreaLength);
       remainingCharacters = maxTextAreaLength - reasonAdditionalInfo.length;
     }

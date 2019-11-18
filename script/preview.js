@@ -84,6 +84,23 @@ if (process.env.SENTRY_DSN) {
   app.use(Raven.requestHandler());
 }
 
+/**
+ * Make the query params case-insensitive.
+ */
+app.use((req, res, next) => {
+  // eslint-disable-next-line fp/no-proxy
+  req.query = new Proxy(req.query, {
+    get: (target, name) =>
+      target[
+        Object.keys(target).find(
+          key => key.toLowerCase() === name.toLowerCase(),
+        )
+      ],
+  });
+
+  next();
+});
+
 // eslint-disable-next-line no-unused-vars
 app.get('/error', (req, res) => {
   throw new Error('fake error');
