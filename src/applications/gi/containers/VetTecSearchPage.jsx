@@ -102,15 +102,6 @@ export class VetTecSearchPage extends React.Component {
     });
   };
 
-  handleProviderFilterChange = provider => {
-    scroller.scrollTo('searchPage', getScrollOptions());
-
-    this.props.institutionFilterChange({
-      ...this.getQueryFilterFields().institutionFilter,
-      ...provider,
-    });
-  };
-
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
     const query = {
@@ -205,15 +196,12 @@ export class VetTecSearchPage extends React.Component {
     return searchResults;
   };
 
-  renderSearchResultsHeader = search => {
-    const resultCount =
-      search.results.filter(this.filterResultsByProvider).length || 0;
-    return (
-      <h1 tabIndex={-1}>
-        {!search.inProgress && `${resultCount.toLocaleString()} Search Results`}
-      </h1>
-    );
-  };
+  renderSearchResultsHeader = search => (
+    <h1 tabIndex={-1}>
+      {!search.inProgress &&
+        `${(search.count || 0).toLocaleString()} Search Results`}
+    </h1>
+  );
 
   render() {
     const { search, filters } = this.props;
@@ -257,7 +245,6 @@ export class VetTecSearchPage extends React.Component {
               this.props.fetchProgramAutocompleteSuggestions
             }
             handleFilterChange={this.handleFilterChange}
-            handleProviderFilterChange={this.handleProviderFilterChange}
             updateAutocompleteSearchTerm={
               this.props.updateAutocompleteSearchTerm
             }
