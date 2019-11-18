@@ -1,10 +1,23 @@
+/* eslint-disable import/no-dynamic-require */
+
+const fs = require('fs');
+const path = require('path');
+
 const { mapKeys, camelCase } = require('lodash');
 const { getContentModelType } = require('./helpers');
-const pageTransform = require('./transformers/page');
 
-const transformers = {
-  page: pageTransform,
-};
+// Dynamically read in all the transformers
+// They must be named after the content model type (E.g. node-page.js)
+const transformersDir = path.join(__dirname, 'transformers');
+const transformers = fs
+  .readdirSync(transformersDir)
+  .filter(name => name.endsWith('.js'))
+  .reduce((t, fileName) => {
+    const contentModelType = path.parse(fileName).name;
+    // eslint-disable-next-line no-param-reassign
+    t[contentModelType] = require(path.join(transformersDir, fileName));
+    return t;
+  }, {});
 
 const missingTransformers = new Set();
 
@@ -16,12 +29,12 @@ const missingTransformers = new Set();
  * @param {String} entityType - The type of the entity
  * @return {Function} - A function that accepts an entity and transforms it
  */
-function getEntityTransformer(entityType) {
-  let entityTransformer = entity => entity;
+function getEntityTransformer(entityType, verbose = true) {
+  let entityTransformer;
 
   if (entityType in transformers) {
     entityTransformer = transformers[entityType];
-  } else if (!missingTransformers.has(entityType)) {
+  } else if (verbose && !missingTransformers.has(entityType)) {
     missingTransformers.add(entityType);
     // eslint-disable-next-line no-console
     console.warn(`No transformer for target_id ${entityType}`);
@@ -42,14 +55,18 @@ function getEntityTransformer(entityType) {
  *                    the specific content model type.
  */
 function transformEntity(entity) {
-  const entityTransformer = getEntityTransformer(getContentModelType(entity));
+  const contentModelType = getContentModelType(entity);
+  const entityTransformer = getEntityTransformer(contentModelType);
 
   // Convert all snake_case keys to camelCase
   const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
-  return entityTransformer(transformed);
+  return entityTransformer
+    ? { contentModelType, ...entityTransformer(transformed) }
+    : transformed;
 }
 
 module.exports = {
   transformEntity,
+  getEntityTransformer,
 };

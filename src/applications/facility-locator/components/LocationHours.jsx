@@ -30,46 +30,60 @@ const LocationHours = ({ location }) => {
       <h4 className="highlight">Hours of Operation</h4>
 
       {/* Sunday */}
-      <div className="row">
-        <div className="small-6 columns">Sunday:</div>
-        <div className="small-6 columns">{sunday}</div>
-      </div>
+      {sunday && (
+        <div className="row">
+          <div className="small-6 columns">Sunday:</div>
+          <div className="small-6 columns">{sunday}</div>
+        </div>
+      )}
 
       {/* Monday */}
-      <div className="row">
-        <div className="small-6 columns">Monday:</div>
-        <div className="small-6 columns">{monday}</div>
-      </div>
+      {monday && (
+        <div className="row">
+          <div className="small-6 columns">Monday:</div>
+          <div className="small-6 columns">{monday}</div>
+        </div>
+      )}
 
       {/* Tuesday */}
-      <div className="row">
-        <div className="small-6 columns">Tuesday:</div>
-        <div className="small-6 columns">{tuesday}</div>
-      </div>
+      {tuesday && (
+        <div className="row">
+          <div className="small-6 columns">Tuesday:</div>
+          <div className="small-6 columns">{tuesday}</div>
+        </div>
+      )}
 
       {/* Wednesday */}
-      <div className="row">
-        <div className="small-6 columns">Wednesday:</div>
-        <div className="small-6 columns">{wednesday}</div>
-      </div>
+      {wednesday && (
+        <div className="row">
+          <div className="small-6 columns">Wednesday:</div>
+          <div className="small-6 columns">{wednesday}</div>
+        </div>
+      )}
 
       {/* Thursday */}
-      <div className="row">
-        <div className="small-6 columns">Thursday:</div>
-        <div className="small-6 columns">{thursday}</div>
-      </div>
+      {thursday && (
+        <div className="row">
+          <div className="small-6 columns">Thursday:</div>
+          <div className="small-6 columns">{thursday}</div>
+        </div>
+      )}
 
       {/* Friday */}
-      <div className="row">
-        <div className="small-6 columns">Friday:</div>
-        <div className="small-6 columns">{friday}</div>
-      </div>
+      {friday && (
+        <div className="row">
+          <div className="small-6 columns">Friday:</div>
+          <div className="small-6 columns">{friday}</div>
+        </div>
+      )}
 
       {/* Saturday */}
-      <div className="row">
-        <div className="small-6 columns">Saturday:</div>
-        <div className="small-6 columns">{saturday}</div>
-      </div>
+      {saturday && (
+        <div className="row">
+          <div className="small-6 columns">Saturday:</div>
+          <div className="small-6 columns">{saturday}</div>
+        </div>
+      )}
 
       {isVetCenter && (
         <p>

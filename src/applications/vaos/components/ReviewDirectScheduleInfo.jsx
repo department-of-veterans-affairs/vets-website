@@ -14,12 +14,22 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
       <span className="vads-u-padding-right--1">
         {getTypeOfCare(data)?.name}{' '}
       </span>
-      <Link to={newAppointmentFlow.typeOfCare.url}>Edit</Link>
+      <Link
+        aria-label="Edit type of care"
+        to={newAppointmentFlow.typeOfCare.url}
+      >
+        Edit
+      </Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">Where</h2>
       <span className="vads-u-padding-right--1">
         {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
       </span>
-      <Link to={newAppointmentFlow.vaFacility.url}>Edit</Link>
+      <Link
+        aria-label="Edit location of appointment"
+        to={newAppointmentFlow.vaFacility.url}
+      >
+        Edit
+      </Link>
       <br />
       {facility?.institution.authoritativeName}
       <br />
@@ -28,27 +38,51 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
         Appointment date
       </h2>
       <span className="vads-u-padding-right--1">
-        {moment(data.appointmentDate).format('MMMM D, YYYY [at] hh:mm a')}{' '}
+        {moment(data.calendarData.selectedDates[0].datetime).format(
+          'MMMM D, YYYY [at] hh:mm a',
+        )}{' '}
       </span>
-      <Link to={newAppointmentFlow.appointmentTime.url}>Edit</Link>
+      <Link
+        aria-label="Edit appointment date"
+        to={newAppointmentFlow.appointmentTime.url}
+      >
+        Edit
+      </Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">Purpose</h2>
       <span className="vads-u-padding-right--1">
         {data.reasonForAppointment}{' '}
       </span>
-      <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
+      <Link
+        aria-label="Edit purpose of appointment"
+        to={newAppointmentFlow.reasonForAppointment.url}
+      >
+        Edit
+      </Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">
         Phone number
       </h2>
       <span className="vads-u-padding-right--1">{data.phoneNumber} </span>
-      <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
+      <Link
+        aria-label="Edit phone number"
+        to={newAppointmentFlow.contactInfo.url}
+      >
+        Edit
+      </Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">Email</h2>
       <span className="vads-u-padding-right--1">{data.email} </span>
-      <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
+      <Link aria-label="Edit email" to={newAppointmentFlow.contactInfo.url}>
+        Edit
+      </Link>
       <h2 className="vaos-appts__block-label vads-u-margin-top--2">
         Additional details
       </h2>
       <span className="vads-u-padding-right--1">{data.additionalDetails} </span>
-      <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
+      <Link
+        aria-label="Edit additional details"
+        to={newAppointmentFlow.reasonForAppointment.url}
+      >
+        Edit
+      </Link>
     </div>
   );
 }

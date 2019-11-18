@@ -10,8 +10,6 @@ export const ForwardingAddressDescription = () => (
     If you give us a temporary or forwarding address, we’ll look at the dates
     you provide to see if we need to use this address when contacting you about
     your Higher-Level Review.
-    <br />
-    <br />
   </p>
 );
 

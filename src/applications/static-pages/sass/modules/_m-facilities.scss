@@ -34,6 +34,29 @@ $duo-tone-lighten: #000;
   mix-blend-mode: screen;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* Cheat to restrict to IE10+ CSS styles. */
+  .duotone::before, .duotone::after {
+    width: 0%;
+    height: 0%;
+  }
+
+  /* Cheat for IE10+ not handling flex box correctly. */
+  .vads-l-row {
+    min-width: 94%;
+    max-width: 94%;
+    flex-wrap: nowrap;
+  }
+}
+
+@supports (-ms-ime-align: auto) {
+  /* Cheat to restrict to IE Edge CSS styles. */
+  .duotone::before, .duotone::after {
+    width: 0%;
+    height: 0%;
+  }
+}
+
 .usa-accordion > ul li ul.usa-unstyled-list,
 .usa-accordion-bordered > ul li ul.usa-unstyled-list {
   list-style: none;
@@ -238,17 +261,12 @@ $duo-tone-lighten: #000;
 }
 
 .bio-image {
-  height: 178px;
-  width: 144px;
-  object-fit: cover;
+  max-height: 178px;
 }
 
 .person-profile-detail-page-image {
-  height: 227px;
-  width: 176px;
-  object-fit: cover;
+  max-height: 227px;
 }
-
 
 .va-facility-page {
   .va-address-block {

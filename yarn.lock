@@ -706,10 +706,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@^4.10.2":
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.10.2.tgz#a6009bb0ac0b0e0953220212da11893b9a730753"
-  integrity sha512-C8zjwft8hJGcifDvAcD43PoNxBpLEOSlBEJknSLN86V4EYeIcVBZUQyELX2gfLcIZLLPkuUBIkLCbtDfPk8DBA==
+"@department-of-veterans-affairs/formation-react@^4.10.3":
+  version "4.10.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-4.10.3.tgz#7b66ea9cae7b373b547d8201fcfcc5b977bdd781"
+  integrity sha512-ozYSByIQgUhqkXAA27CACm/JOcjJl9NczjB0mDF0+T/0ZTS70thjL8VcF9VlHNj0oe3WPfPhqzJ7afnWA1cDxw==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -9363,14 +9363,21 @@ module-deps@^4.0.8:
     through2 "^2.0.0"
     xtend "^4.0.0"
 
-moment@^2.15.1, moment@^2.5.1:
-  version "2.18.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+moment-timezone@^0.5.27:
+  version "0.5.27"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.27.tgz#73adec8139b6fe30452e78f210f27b1f346b8877"
+  integrity sha512-EIKQs7h5sAsjhPCqN6ggx6cEbs94GK050254TIJySD1bzoM5JTYDwAU1IoVOeTOL6Gm27kYJ51/uuvq1kIlrbw==
+  dependencies:
+    moment ">= 2.9.0"
 
-moment@^2.23.0:
+"moment@>= 2.9.0", moment@^2.23.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+
+moment@^2.15.1, moment@^2.5.1:
+  version "2.18.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 moo@^0.4.3:
   version "0.4.3"

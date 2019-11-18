@@ -3,7 +3,7 @@ import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import MissionAct from '../components/MissionAct';
+import VeteransDayProclamation from '../components/VeteransDayProclamation';
 import ExploreVAModal from '../components/ExploreVAModal';
 
 const config = {
@@ -29,9 +29,10 @@ const config = {
       component: WelcomeToNewVAModal,
     },
     {
-      name: 'mission-act',
+      name: 'veterans-day-proclamation-edited',
       paths: /^\/$/,
-      component: MissionAct,
+      component: VeteransDayProclamation,
+      expiresAt: '2019-11-12',
     },
     {
       name: 'find-benefits-intro',

@@ -5,7 +5,7 @@ export const VetTecScoContact = sco => {
     return (
       <div
         key={`${sco.email}`}
-        className="vads-l-col--12 medium-screen:vads-l-col--6 vads-u-margin-bottom--1"
+        className="vads-l-col--12 medium-screen:vads-l-col--6 large-screen:vads-l-col--4 vads-u-margin-bottom--2 sco-contact-info"
       >
         <div>
           {sco.firstName} {sco.lastName}

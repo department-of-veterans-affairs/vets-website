@@ -26,11 +26,9 @@ function alertContent({ isLoggedIn }) {
     </>
   );
 }
-
 const mapStateToProps = state => ({
   isLoggedIn: isLoggedInSelector(state),
 });
-
 const FileOriginalClaimPage = () => (
   <AlertBox
     status="error"
@@ -38,7 +36,6 @@ const FileOriginalClaimPage = () => (
     content={connect(mapStateToProps)(alertContent)}
   />
 );
-
 export default {
   name: pageNames.fileOriginalClaim,
   component: FileOriginalClaimPage,

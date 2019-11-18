@@ -3,12 +3,7 @@ import { Link } from 'react-router';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import {
-  TYPE_OF_VISIT,
-  DISTANCES,
-  LANGUAGES,
-  PURPOSE_TEXT,
-} from '../utils/constants';
+import { TYPE_OF_VISIT, LANGUAGES, PURPOSE_TEXT } from '../utils/constants';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -33,7 +28,7 @@ function formatBestTime(bestTime) {
   return 'Anytime during the day';
 }
 
-export default function ReviewRequestInfo({ data, facility }) {
+export default function ReviewRequestInfo({ data, facility, vaCityState }) {
   const isCommunityCare = data.facilityType === 'communityCare';
 
   return (
@@ -45,7 +40,12 @@ export default function ReviewRequestInfo({ data, facility }) {
       <span className="vads-u-padding-right--1">
         {getTypeOfCare(data)?.name}
       </span>
-      <Link to={newAppointmentFlow.typeOfCare.url}>Edit</Link>
+      <Link
+        aria-label="Edit type of care"
+        to={newAppointmentFlow.typeOfCare.url}
+      >
+        Edit
+      </Link>
       <br />
       {isCommunityCare && 'Community Care'}
       {!isCommunityCare && (
@@ -56,7 +56,12 @@ export default function ReviewRequestInfo({ data, facility }) {
           <span className="vads-u-padding-right--1">
             {facility?.institution.authoritativeName}
           </span>
-          <Link to={newAppointmentFlow.vaFacility.url}>Edit</Link>
+          <Link
+            aria-label="Edit location of appointment"
+            to={newAppointmentFlow.vaFacility.url}
+          >
+            Edit
+          </Link>
           <br />
           {facility?.institution.city}, {facility?.institution.stateAbbrev}
           <h2 className="vaos-appts__block-label vads-u-margin-top--2">
@@ -65,12 +70,22 @@ export default function ReviewRequestInfo({ data, facility }) {
           <span className="vads-u-padding-right--1">
             {PURPOSE_TEXT[data.reasonForAppointment]}{' '}
           </span>
-          <Link to={newAppointmentFlow.reasonForAppointment.url}>Edit</Link>
+          <Link
+            aria-label="Edit purpose of appointment"
+            to={newAppointmentFlow.reasonForAppointment.url}
+          >
+            Edit
+          </Link>
           <h2 className="vaos-appts__block-label vads-u-margin-top--2">Type</h2>
           <span className="vads-u-padding-right--1">
             {TYPE_OF_VISIT.find(v => v.id === data.visitType)?.name}{' '}
           </span>
-          <Link to={newAppointmentFlow.visitType.url}>Edit</Link>
+          <Link
+            aria-label="Edit how to be seen"
+            to={newAppointmentFlow.visitType.url}
+          >
+            Edit
+          </Link>
         </>
       )}
       {isCommunityCare && (
@@ -79,62 +94,108 @@ export default function ReviewRequestInfo({ data, facility }) {
             Provider preference
           </h2>
           {data.hasCommunityCareProvider && (
-            <ul className="usa-unstyled-list">
-              {data.communityCareProviders.map(prov => (
-                <li key={prov.phone} className="vads-u-margin-bottom--2">
-                  <span className="vads-u-padding-right--1">
-                    {prov.firstName} {prov.lastName}
-                  </span>{' '}
-                  <Link to={newAppointmentFlow.ccProvider.url}>Edit</Link>
+            <div className="vads-u-margin-bottom--2">
+              <span className="vads-u-padding-right--1">
+                {data.communityCareProvider.firstName}{' '}
+                {data.communityCareProvider.lastName}
+              </span>{' '}
+              <Link
+                aria-label="Edit provider preference"
+                to={newAppointmentFlow.ccPreferences.url}
+              >
+                Edit
+              </Link>
+              {!!data.communityCareProvider.practiceName && (
+                <>
                   <br />
-                  {prov.phone}
-                  <br />
-                  {prov.practiceName}
-                </li>
-              ))}
-            </ul>
+                  {data.communityCareProvider.practiceName}
+                </>
+              )}
+              <br />
+              {data.communityCareProvider.phone}
+              <p>
+                {data.communityCareProvider.address.street}
+                {!!data.communityCareProvider.address.street2 && (
+                  <>
+                    <br />
+                    {data.communityCareProvider.address.street2}
+                  </>
+                )}
+                <br />
+                {data.communityCareProvider.address.city},{' '}
+                {data.communityCareProvider.address.state}{' '}
+                {data.communityCareProvider.address.postalCode}
+                <br />
+              </p>
+            </div>
           )}
           {!data.hasCommunityCareProvider && (
             <>
               <span className="vads-u-padding-right--1">Not specified</span>{' '}
-              <Link to={newAppointmentFlow.ccProvider.url}>Edit</Link>
+              <Link
+                aria-label="Edit provider preference"
+                to={newAppointmentFlow.ccPreferences.url}
+              >
+                Edit
+              </Link>
             </>
           )}
-          <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-            Distance preference
-          </h2>
-          <span className="vads-u-padding-right--1">
-            {
-              DISTANCES.find(dist => dist.id === data.distanceWillingToTravel)
-                ?.name
-            }
-          </span>
-          <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+          {!!vaCityState && (
+            <>
+              <h2 className="vaos-appts__block-label vads-u-margin-top--2">
+                Closest VA location
+              </h2>
+              <span className="vads-u-padding-right--1">{vaCityState}</span>
+              <Link
+                aria-label="Edit closest VA location"
+                to={newAppointmentFlow.ccPreferences.url}
+              >
+                Edit
+              </Link>
+            </>
+          )}
           <h2 className="vaos-appts__block-label vads-u-margin-top--2">
             Language preference
           </h2>
           <span className="vads-u-padding-right--1">
             {LANGUAGES.find(lang => lang.id === data.preferredLanguage)?.text}
           </span>
-          <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
+          <Link
+            aria-label="Edit language preference"
+            to={newAppointmentFlow.ccPreferences.url}
+          >
+            Edit
+          </Link>
         </>
       )}
       <AlertBox status="info" headline="Where and when we’ll call you">
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">Email</h2>
         <span className="vads-u-padding-right--1">{data.email} </span>
-        <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
+        <Link aria-label="Edit email" to={newAppointmentFlow.contactInfo.url}>
+          Edit
+        </Link>
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">
           Phone number
         </h2>
         <span className="vads-u-padding-right--1">{data.phoneNumber} </span>
-        <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
+        <Link
+          aria-label="Edit phone number"
+          to={newAppointmentFlow.contactInfo.url}
+        >
+          Edit
+        </Link>
         <h2 className="vaos-appts__block-label vads-u-margin-top--2">
           Call-back time
         </h2>
         <span className="vads-u-padding-right--1">
           {formatBestTime(data.bestTimeToCall)}{' '}
         </span>
-        <Link to={newAppointmentFlow.contactInfo.url}>Edit</Link>
+        <Link
+          aria-label="Edit call back time"
+          to={newAppointmentFlow.contactInfo.url}
+        >
+          Edit
+        </Link>
       </AlertBox>
     </div>
   );

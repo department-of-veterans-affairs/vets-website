@@ -12,6 +12,12 @@ describe('Schemaform <PhoneNumberWidget>', () => {
     );
     expect(tree.subTree('TextWidget').props.value).to.equal('1234567890');
   });
+
+  it('should render a "tel" type input', () => {
+    const tree = SkinDeep.shallowRender(<PhoneNumberWidget />);
+    expect(tree.subTree('TextWidget').props.inputType).to.equal('tel');
+  });
+
   it('should strip spaces, (, ), -, +, and x on change', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -20,6 +26,7 @@ describe('Schemaform <PhoneNumberWidget>', () => {
     tree.subTree('TextWidget').props.onChange('+(154) 945-56x77');
     expect(onChange.calledWith('1549455677')).to.be.true;
   });
+
   it('should call onChange with undefined if value is blank', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(

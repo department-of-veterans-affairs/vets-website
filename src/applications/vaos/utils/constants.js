@@ -5,6 +5,13 @@ export const FETCH_STATUS = {
   failed: 'failed',
 };
 
+export const APPOINTMENT_TYPES = {
+  vaAppointment: 'vaAppointment',
+  ccAppointment: 'ccAppointment',
+  request: 'request',
+  ccRequest: 'ccRequest',
+};
+
 export const TIME_TEXT = {
   AM: 'in the morning',
   PM: 'in the afternoon',
@@ -12,7 +19,7 @@ export const TIME_TEXT = {
 };
 
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/follow-up',
+  'routine-follow-up': 'Routine/Follow-up',
   'new-issue': 'New issue',
   'medication-concern': 'Medication concern',
   other: 'My reason is not listed here',
@@ -89,11 +96,11 @@ export const TYPES_OF_CARE = [
 export const TYPES_OF_SLEEP_CARE = [
   {
     id: '349',
-    name: 'CPAP',
+    name: 'Continuous Positive Airway Pressure (CPAP)',
   },
   {
     id: '143',
-    name: 'Home sleep study',
+    name: 'Sleep medicine and home sleep testing',
   },
 ];
 
@@ -182,6 +189,11 @@ export const CANCELLED_APPOINTMENT_SET = new Set([
   'NO ACTION TAKEN',
 ]);
 
+export const FLOW_TYPES = {
+  DIRECT: 'direct',
+  REQUEST: 'request',
+};
+
 export const TYPE_OF_VISIT = [
   {
     id: 'office',
@@ -212,6 +224,12 @@ export const DISTANCES = [
   },
 ];
 
+export const REASON_MAX_CHARS = {
+  request: 100,
+  direct: 150,
+};
+
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
+export const MENTAL_HEALTH = '502';
 export const DIRECT_SCHEDULE_TYPES = new Set([PRIMARY_CARE, '502']);

@@ -4,11 +4,7 @@ import { checkDateRange, checkConferenceTimes } from '../../validations';
 import { addXMonths } from '../../helpers';
 import { errorMessages } from '../../constants';
 
-const mockFormData = {
-  veteran: {
-    informalConferenceChoice: true,
-  },
-};
+const mockFormData = { informalConferenceChoice: 'me' };
 
 describe('From Date validations', () => {
   it('should allow start dates after today', () => {

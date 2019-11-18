@@ -9,7 +9,7 @@ export const EffectiveDateViewField = ({ formData }) => {
   const fromDateString = moment(from).format(dateFormat);
   return to ? (
     <p>
-      We’ll use this address starting on {fromDateString} until{' '}
+      We’ll use this address from {fromDateString} to{' '}
       {moment(to).format(dateFormat)}:
     </p>
   ) : (
@@ -18,10 +18,13 @@ export const EffectiveDateViewField = ({ formData }) => {
 };
 
 export const hasForwardingAddress = formData =>
-  formData?.veteran?.['view:hasForwardingAddress'] || false;
+  formData?.['view:hasForwardingAddress'] || false;
 
 export const forwardingCountryIsUSA = formData =>
-  formData?.veteran?.forwardingAddress?.country === USA;
+  formData?.forwardingAddress?.country === USA;
+
+export const hasSelectedIssues = formData =>
+  formData?.contestedIssues?.some(entry => entry['view:selected']);
 
 // For testing
 export const isValidDate = date => date instanceof Date && isFinite(date);
@@ -31,10 +34,6 @@ export const addXMonths = numberOfMonths =>
   moment()
     .add(numberOfMonths, 'months')
     .format('YYYY-MM-DD');
-
-export const getRepresentativeChoice = formData =>
-  formData?.veteran?.informalConferenceChoice === true &&
-  formData?.veteran?.contactRepresentativeChoice;
 
 // testing
 export const $ = (selector, DOM) => DOM.querySelector(selector);

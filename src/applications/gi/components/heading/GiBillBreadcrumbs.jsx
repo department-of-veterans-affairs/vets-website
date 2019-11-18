@@ -19,23 +19,27 @@ export default function GiBillBreadcrumbs({
       Home
     </a>,
     <a href="/education/" key="education">
-      Education and Training
+      Education and training
     </a>,
     <Link to={root} key="main">
       GI Bill® Comparison Tool
     </Link>,
   ];
 
-  const onSearchPage = pathname.match(/search/);
+  const onSearchPage =
+    pathname.match(/search/) || pathname.match(/program-search/);
   const onProfilePage = pathname.match(/profile/);
-
+  const searchResultsPath =
+    onProfilePage && facilityCode.substr(1, 1) === 'V'
+      ? 'program-search'
+      : 'search';
   if (searchQuery && (onSearchPage || onProfilePage)) {
     crumbs.push(
       <Link
-        to={{ pathname: 'search', query: searchQuery }}
+        to={{ pathname: searchResultsPath, query: searchQuery }}
         key="search-results"
       >
-        Search Results
+        Search results
       </Link>,
     );
   }
@@ -43,7 +47,7 @@ export default function GiBillBreadcrumbs({
   if (onProfilePage) {
     crumbs.push(
       <Link to={`profile/${facilityCode}`} key="result-detail">
-        School Details
+        School details
       </Link>,
     );
   }

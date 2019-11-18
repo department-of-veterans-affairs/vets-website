@@ -1,10 +1,8 @@
 import {
-  FETCH_CONFIRMED_APPOINTMENTS,
-  FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-  FETCH_CONFIRMED_APPOINTMENTS_FAILED,
-  FETCH_PENDING_APPOINTMENTS,
-  FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-  FETCH_PENDING_APPOINTMENTS_FAILED,
+  FETCH_FUTURE_APPOINTMENTS,
+  FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+  FETCH_FUTURE_APPOINTMENTS_FAILED,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
@@ -13,100 +11,90 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
-import { FETCH_STATUS, CANCELLED_APPOINTMENT_SET } from '../utils/constants';
-import moment from 'moment';
+import {
+  filterFutureRequests,
+  filterFutureConfirmedAppointments,
+  sortFutureList,
+  sortMessages,
+} from '../utils/appointment';
+import { FETCH_STATUS } from '../utils/constants';
 
 const initialState = {
-  confirmed: null,
-  confirmedStatus: FETCH_STATUS.notStarted,
-  pending: null,
-  pendingStatus: FETCH_STATUS.notStarted,
+  future: null,
+  futureStatus: FETCH_STATUS.notStarted,
   past: null,
   pastStatus: FETCH_STATUS.notStarted,
   showCancelModal: false,
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
+  facilityData: {},
+  requestMessages: {},
 };
 
-function parseVAorCCDate(item) {
-  // This means it's a CC appt, which has a different date format
-  if (item.appointmentTime) {
-    return moment(item.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
-  }
-
-  return moment(item.startDate);
-}
+const BOOKED_REQUEST = 'Booked';
 
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_CONFIRMED_APPOINTMENTS:
+    case FETCH_FUTURE_APPOINTMENTS:
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.loading,
+        futureStatus: FETCH_STATUS.loading,
       };
-    case FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED: {
-      const vaAppointments = action.data.vaAppointments.filter(
-        appt =>
-          !CANCELLED_APPOINTMENT_SET.has(
-            appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
-          ),
-      );
+    case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
+      const [vaAppointments, ccAppointments, requests] = action.data;
+      const futureAppointments = [
+        ...vaAppointments,
+        ...ccAppointments.filter(appt =>
+          filterFutureConfirmedAppointments(appt, action.today),
+        ),
+        ...requests.filter(
+          req =>
+            req.status !== BOOKED_REQUEST &&
+            filterFutureRequests(req, action.today),
+        ),
+      ];
 
-      const confirmed = vaAppointments.concat(action.data.ccAppointments);
+      futureAppointments.sort(sortFutureList);
 
-      confirmed.sort((a, b) => {
-        const date1 = parseVAorCCDate(a);
-        const date2 = parseVAorCCDate(b);
-        if (date1.isValid() && date2.isValid()) {
-          return date1.isBefore(date2) ? -1 : 1;
-        }
-
-        return 0;
-      });
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.succeeded,
-        confirmed,
+        future: futureAppointments,
+        futureStatus: FETCH_STATUS.succeeded,
       };
     }
-    case FETCH_CONFIRMED_APPOINTMENTS_FAILED:
+    case FETCH_FUTURE_APPOINTMENTS_FAILED:
       return {
         ...state,
-        confirmedStatus: FETCH_STATUS.failed,
-        confirmed: null,
+        futureStatus: FETCH_STATUS.failed,
+        future: null,
       };
-    case FETCH_PENDING_APPOINTMENTS:
+    case FETCH_FACILITY_LIST_DATA_SUCCEEDED: {
       return {
         ...state,
-        pendingStatus: FETCH_STATUS.loading,
+        facilityData: action.facilityData.reduce(
+          (acc, facility) => ({
+            ...acc,
+            [facility.uniqueId]: facility,
+          }),
+          {},
+        ),
       };
-    case FETCH_PENDING_APPOINTMENTS_SUCCEEDED: {
-      const pending = action.data.appointmentRequests.filter(
-        req => req.status === 'Submitted',
-      );
-      pending.sort((a, b) => {
-        if (a.appointmentType < b.appointmentType) {
-          return -1;
-        } else if (a.appointmentType > b.appointmentType) {
-          return 1;
-        }
-        return 0;
-      });
+    }
+    case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
+      const requestMessages = { ...state.requestMessages };
+      const messages = action.messages;
+
+      if (messages.length)
+        requestMessages[action.requestId] = messages.sort(sortMessages);
 
       return {
         ...state,
-        pendingStatus: FETCH_STATUS.succeeded,
-        pending,
+        requestMessages,
       };
     }
-    case FETCH_PENDING_APPOINTMENTS_FAILED:
-      return {
-        ...state,
-        pendingStatus: FETCH_STATUS.failed,
-        pending: null,
-      };
     case FETCH_PAST_APPOINTMENTS:
       return {
         ...state,
@@ -138,13 +126,13 @@ export default function appointmentsReducer(state = initialState, action) {
         cancelAppointmentStatus: FETCH_STATUS.loading,
       };
     case CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED: {
-      const confirmed = state.confirmed.filter(
+      const future = state.future.filter(
         appt => appt !== state.appointmentToCancel,
       );
       return {
         ...state,
         showCancelModal: true,
-        confirmed,
+        future,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
       };
     }

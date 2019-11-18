@@ -6,27 +6,25 @@ import moment from 'moment';
 import VideoVisitLink from '../../components/VideoVisitLink';
 
 describe('Video visit', () => {
-  const apptTime = moment()
+  const dateTime = moment()
     .add(20, 'minutes')
     .format();
 
   const url =
     'https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VVC1012210@care2.evn.va.gov&pin=4790493668#';
   const appointment = {
-    startDate: apptTime,
-    facilityId: '234',
+    facilityId: '984',
     clinicId: '456',
     vvsAppointments: [
       {
-        patients: {
-          patient: [
-            {
-              virtualMeetingRoom: {
-                url,
-              },
+        patients: [
+          {
+            virtualMeetingRoom: {
+              url,
             },
-          ],
-        },
+          },
+        ],
+        dateTime,
       },
     ],
   };
@@ -48,9 +46,20 @@ describe('Video visit', () => {
   it('should enable video link if appointment is less than 30 minutes away', () => {
     const pastAppointment = {
       ...appointment,
-      startDate: moment()
-        .add(-20, 'minutes')
-        .format(),
+      vvsAppointments: [
+        {
+          patients: [
+            {
+              virtualMeetingRoom: {
+                url,
+              },
+            },
+          ],
+          dateTime: moment()
+            .add(-20, 'minutes')
+            .format(),
+        },
+      ],
     };
 
     const tree = shallow(<VideoVisitLink appointment={pastAppointment} />);
@@ -62,9 +71,20 @@ describe('Video visit', () => {
   it('should disable video link if appointment is over 4 hours away', () => {
     const futureAppointment = {
       ...appointment,
-      startDate: moment()
-        .add(245, 'minutes')
-        .format(),
+      vvsAppointments: [
+        {
+          patients: [
+            {
+              virtualMeetingRoom: {
+                url,
+              },
+            },
+          ],
+          dateTime: moment()
+            .add(245, 'minutes')
+            .format(),
+        },
+      ],
     };
 
     const tree = shallow(<VideoVisitLink appointment={futureAppointment} />);

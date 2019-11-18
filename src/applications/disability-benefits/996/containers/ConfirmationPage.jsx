@@ -21,27 +21,29 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
+    const { submission, data, formId } = this.props.form;
     const { response } = submission;
-    const name = data.veteranFullName;
+    const name = data.fullName;
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <h3 className="confirmation-page-title">
+          Your request has been submitted
+        </h3>
         <p>
-          We usually process claims within
-          <strong>a week</strong>.
+          We’ll mail a letter confirming your request within{' '}
+          <strong>5 business days</strong>.
         </p>
         <p>
           We may contact you for more information or documents.
           <br />
-          <i>Please print this page for your records.</i>
+          <em>Please print this page for your records.</em>
         </p>
         <div className="inset" role="presentation">
-          <h4>
-            Higher-Level Review Claim
+          <h4 className="vads-u-margin-top--0">
+            Higher-Level Review{' '}
             <span className="additional" role="presentation">
-              (Form 20-0996)
+              (Form {formId})
             </span>
           </h4>
           <span>
@@ -60,6 +62,32 @@ export class ConfirmationPage extends React.Component {
             </ul>
           )}
         </div>
+
+        <h3>After your request a decision review</h3>
+        <p>
+          When your review is complete, VA will mail you a decision packet that
+          includes details about the decision in your case. Any other questions,
+          please refer to the information <a href="#">after you apply</a>.
+        </p>
+
+        <h3>What should I do while I wait?</h3>
+        <p>
+          You don’t need to do anything unless VA sends you a letter asking for
+          more information. If VA schedules any exams for you, be sure not to
+          miss them.
+        </p>
+        <p>
+          If you requested a decision review and haven’t heard back from VA yet,
+          please don’t request another review. Call VA at{' '}
+          <a href="tel:1-800-827-1000">800-827-1000</a>.
+        </p>
+        <br />
+        <a
+          href="/track-claims/your-claims"
+          className="usa-button usa-button-primary"
+        >
+          Track the status of your decision review
+        </a>
       </div>
     );
   }

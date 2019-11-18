@@ -80,7 +80,7 @@ describe('<RatedDisabilityList/>', () => {
     const list = wrapper.find(RatedDisabilityListItem).shallow();
     expect(
       wrapper
-        .find('h2')
+        .find('h3')
         .first()
         .text(),
     ).to.contain('Individual disability ratings');

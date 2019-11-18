@@ -1,20 +1,19 @@
 import { expect } from 'chai';
 import appointmentsReducer from '../../reducers/appointments';
 import {
-  FETCH_CONFIRMED_APPOINTMENTS,
-  FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-  FETCH_CONFIRMED_APPOINTMENTS_FAILED,
-  FETCH_PENDING_APPOINTMENTS,
-  FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-  FETCH_PENDING_APPOINTMENTS_FAILED,
+  FETCH_FUTURE_APPOINTMENTS,
+  FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+  FETCH_FUTURE_APPOINTMENTS_FAILED,
   FETCH_PAST_APPOINTMENTS,
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
+  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
   CANCEL_APPOINTMENT_CLOSED,
+  FETCH_REQUEST_MESSAGES_SUCCEEDED,
 } from '../../actions/appointments';
 
 import { FETCH_STATUS } from '../../utils/constants';
@@ -22,14 +21,14 @@ import { FETCH_STATUS } from '../../utils/constants';
 const initialState = {};
 
 describe('VAOS reducer: appointments', () => {
-  it('should update confirmedStatus to be loading when calling FETCH_CONFIRMED_APPOINTMENTS', () => {
+  it('should update cutureStatus to be loading when calling FETCH_FUTURE_APPOINTMENTS', () => {
     const action = {
-      type: FETCH_CONFIRMED_APPOINTMENTS,
+      type: FETCH_FUTURE_APPOINTMENTS,
     };
 
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.loading);
+    expect(newState.futureStatus).to.equal(FETCH_STATUS.loading);
   });
 
   it('should update pastStatus to be loading when calling FETCH_PAST_APPOINTMENTS', () => {
@@ -42,24 +41,15 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastStatus).to.equal(FETCH_STATUS.loading);
   });
 
-  it('should update pendingStatus to be loading when calling FETCH_PENDING_APPOINTMENTS', () => {
+  it('should populate confirmed with appointments with FETCH_FUTURE_APPOINTMENTS_SUCCEEDED', () => {
     const action = {
-      type: FETCH_PENDING_APPOINTMENTS,
-    };
-
-    const newState = appointmentsReducer(initialState, action);
-
-    expect(newState.pendingStatus).to.equal(FETCH_STATUS.loading);
-  });
-
-  it('should populate confirmed with appointments with FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED', () => {
-    const action = {
-      type: FETCH_CONFIRMED_APPOINTMENTS_SUCCEEDED,
-      data: {
-        vaAppointments: [
-          { appointmentTime: '05/29/2019 05:30:00' },
+      type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+      data: [
+        [
+          { appointmentTime: '05/29/2099 05:30:00', appointmentRequestId: '1' },
           {
-            appointmentTime: '05/29/2019 05:32:00',
+            appointmentTime: '05/29/2099 05:32:00',
+            appointmentRequestId: '2',
             vdsAppointments: [
               {
                 currentStatus: 'CANCELLED BY CLINIC',
@@ -67,14 +57,31 @@ describe('VAOS reducer: appointments', () => {
             ],
           },
         ],
-        ccAppointments: [{ startDate: '2019-04-30T05:35:00' }],
-      },
+        [{ startDate: '2099-04-30T05:35:00', facilityId: '984' }],
+        [{ optionDate1: '05/29/2099' }],
+      ],
     };
 
     const newState = appointmentsReducer(initialState, action);
-    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.confirmed.length).to.equal(2);
-    expect(newState.confirmed[0]).to.equal(action.data.ccAppointments[0]);
+    expect(newState.futureStatus).to.equal(FETCH_STATUS.succeeded);
+    expect(newState.future.length).to.equal(3);
+  });
+
+  it('should populate requests with messages with FETCH_REQUEST_MESSAGES_SUCCEEDED', () => {
+    const action = {
+      type: FETCH_REQUEST_MESSAGES_SUCCEEDED,
+      requestId: 1,
+      messages: [
+        {
+          attributes: {
+            messageText: 'test',
+          },
+        },
+      ],
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.requestMessages[action.requestId].length).to.equal(1);
   });
 
   it('should populate past with appointments with FETCH_PAST_APPOINTMENTS_SUCCEEDED', () => {
@@ -88,25 +95,14 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.past.length).to.equal(3);
   });
 
-  it('should populate pending with appointments with FETCH_PENDING_APPOINTMENTS_SUCCEEDED', () => {
+  it('should update confirmedStatus to be failed when calling FETCH_FUTURE_APPOINTMENTS_FAILED', () => {
     const action = {
-      type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-      data: { appointmentRequests: [{ id: 1, status: 'Submitted' }] },
-    };
-
-    const newState = appointmentsReducer(initialState, action);
-    expect(newState.pendingStatus).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.pending.length).to.equal(1);
-  });
-
-  it('should update confirmedStatus to be failed when calling FETCH_CONFIRMED_APPOINTMENTS_FAILED', () => {
-    const action = {
-      type: FETCH_CONFIRMED_APPOINTMENTS_FAILED,
+      type: FETCH_FUTURE_APPOINTMENTS_FAILED,
     };
 
     const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.confirmedStatus).to.equal(FETCH_STATUS.failed);
+    expect(newState.futureStatus).to.equal(FETCH_STATUS.failed);
   });
 
   it('should update pastStatus to be failed when calling FETCH_PAST_APPOINTMENTS_FAILED', () => {
@@ -119,13 +115,18 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.pastStatus).to.equal(FETCH_STATUS.failed);
   });
 
-  it('should update pendingStatus to be failed when calling FETCH_PENDING_APPOINTMENTS_FAILED', () => {
+  it('should set facility data when fetch succeeds', () => {
     const action = {
-      type: FETCH_PENDING_APPOINTMENTS_FAILED,
+      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+      facilityData: [
+        {
+          uniqueId: '442',
+        },
+      ],
     };
-    const newState = appointmentsReducer(initialState, action);
 
-    expect(newState.pendingStatus).to.equal(FETCH_STATUS.failed);
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
   });
 
   describe('cancel appointment', () => {
@@ -160,14 +161,14 @@ describe('VAOS reducer: appointments', () => {
       const appt = {};
       const state = {
         ...initialState,
-        confirmed: [appt],
+        future: [appt],
         appointmentToCancel: appt,
       };
       const newState = appointmentsReducer(state, action);
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.confirmed.length).to.equal(0);
+      expect(newState.future.length).to.equal(0);
     });
 
     it('should set status to failed', () => {

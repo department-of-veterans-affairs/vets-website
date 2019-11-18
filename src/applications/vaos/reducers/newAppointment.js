@@ -23,17 +23,21 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
-  FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS,
+  FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
+  START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
-  REASON_MAX_CHAR_DEFAULT,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../actions/newAppointment';
+
+import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
 
@@ -45,12 +49,12 @@ const initialState = {
   clinics: {},
   eligibility: {},
   systems: null,
+  ccEnabledSystems: null,
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
-  reasonRemainingChar: REASON_MAX_CHAR_DEFAULT,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -312,10 +316,10 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_VA_SYSTEM_UPDATE_HAS_CC_ENABLED_SYSTEMS: {
+    case FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS: {
       return {
         ...state,
-        hasCCEnabledSystems: action.hasCCEnabledSystems,
+        ccEnabledSystems: action.ccEnabledSystems,
       };
     }
     case FORM_ELIGIBILITY_CHECKS: {
@@ -345,12 +349,19 @@ export default function formReducer(state = initialState, action) {
         loadingEligibility: false,
       };
     }
-    case START_DIRECT_SCHEDULE_FLOW: {
+    case START_DIRECT_SCHEDULE_FLOW:
       return {
         ...state,
         pastAppointments: action.appointments,
+        flowType: FLOW_TYPES.DIRECT,
+        reasonRemainingChar: REASON_MAX_CHARS.direct,
       };
-    }
+    case START_REQUEST_APPOINTMENT_FLOW:
+      return {
+        ...state,
+        flowType: FLOW_TYPES.REQUEST,
+        reasonRemainingChar: REASON_MAX_CHARS.request,
+      };
     case FORM_CLINIC_PAGE_OPENED: {
       return {
         ...state,
@@ -460,6 +471,51 @@ export default function formReducer(state = initialState, action) {
           ...state.facilityDetails,
           [state.data.vaFacility]: action.facilityDetails,
         },
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN: {
+      return {
+        ...state,
+        loadingSystems: true,
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
+      let formData = state.data;
+      let initialSchema = action.schema;
+      if (state.ccEnabledSystems?.length === 1) {
+        formData = {
+          ...formData,
+          communityCareSystemId: state.ccEnabledSystems[0],
+        };
+        initialSchema = unset(
+          'properties.communityCareSystemId',
+          initialSchema,
+        );
+      } else {
+        initialSchema = set(
+          'properties.communityCareSystemId.enum',
+          action.systems.map(system => system.institutionCode),
+          initialSchema,
+        );
+        initialSchema.properties.communityCareSystemId.enumNames = action.systems.map(
+          system => `${system.city}, ${system.stateAbbrev}`,
+        );
+        initialSchema.required.push('communityCareSystemId');
+      }
+      const { data, schema } = setupFormData(
+        formData,
+        initialSchema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        loadingSystems: false,
+        data,
         pages: {
           ...state.pages,
           [action.page]: schema,

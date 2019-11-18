@@ -159,7 +159,7 @@ export function hasEligibleClinics(facilityId, pastAppointments, clinics) {
           appt.facilityId === facilityId &&
           appt.clinicId &&
           !CANCELLED_APPOINTMENT_SET.has(
-            appt.vdsAppointments?.[0].currentStatus || 'FUTURE',
+            appt.vdsAppointments?.[0]?.currentStatus || 'FUTURE',
           ),
       )
       .map(appt => appt.clinicId),

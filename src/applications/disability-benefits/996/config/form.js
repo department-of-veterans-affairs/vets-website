@@ -13,6 +13,8 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
+// import { capitalizeEachWord } from '../../all-claims/utils';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -20,7 +22,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 
 import contactInfo from '../pages/contactInformation';
-import contestedIssues from '../pages/contestedIssues';
+import contestedIssuesPage from '../pages/contestedIssues';
+import contestedIssueFollowup from '../pages/contestedIssueFollowup';
 
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
 
@@ -29,6 +32,7 @@ import informalConference from '../pages/informalConference';
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
+import { hasSelectedIssues } from '../helpers';
 
 const {
   name,
@@ -37,7 +41,7 @@ const {
   phone,
   date,
   effectiveDates,
-  ratedDisabilities,
+  contestedIssues,
   informalConferenceChoice,
   contactRepresentativeChoice,
   representative,
@@ -69,11 +73,12 @@ const formConfig = {
     phone,
     date,
     effectiveDates,
-    ratedDisabilities,
+    contestedIssues,
     informalConferenceChoice,
     contactRepresentativeChoice,
     representative,
     scheduleTimes,
+    veteranDetailsDescription,
   },
   preSubmitInfo,
   chapters: {
@@ -107,11 +112,11 @@ const formConfig = {
         contestedIssues: {
           title: ' ',
           path: 'contested-issues',
-          uiSchema: contestedIssues.uiSchema,
-          schema: contestedIssues.schema,
+          uiSchema: contestedIssuesPage.uiSchema,
+          schema: contestedIssuesPage.schema,
           initialData,
         },
-        contestedIssuesNotesStart: {
+        'view:contestedIssueFollowupStart': {
           title: ' ',
           path: 'contested-issues/start',
           uiSchema: {
@@ -122,7 +127,17 @@ const formConfig = {
             properties: {},
           },
         },
-        // contestedIssueNote: {},
+        'view:contestedIssueFollowup': {
+          title: item => item?.name,
+          path: 'contested-issues/:index',
+          depends: () => hasSelectedIssues,
+          showPagePerItem: true,
+          itemFilter: item => item?.['view:selected'],
+          arrayPath: 'contestedIssues',
+          uiSchema: contestedIssueFollowup.uiSchema,
+          schema: contestedIssueFollowup.schema,
+          initialData,
+        },
       },
     },
     informalConference: {
