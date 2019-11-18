@@ -149,12 +149,12 @@ export const VetTecContactInformation = ({ institution }) => {
       <div>
         {renderSCOHeader()}
         {renderPrimarySCOs()}
-        <hr />
+        (primarySCOs.length > 0 && secondarySCOs.length > 0 && <hr />)
         {renderSecondarySCOs()}
       </div>
     );
 
-  const renderContactDetails = () => (
+  return (
     <div>
       {renderPhysicalAddress()}
       {renderMailingAddress()}
@@ -163,8 +163,6 @@ export const VetTecContactInformation = ({ institution }) => {
       {renderSCOContactInfoSection()}
     </div>
   );
-
-  return renderContactDetails();
 };
 
 VetTecContactInformation.propTypes = {
