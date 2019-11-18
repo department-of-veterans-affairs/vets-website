@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import Vet360EditModalErrorMessage from './EditModalErrorMessage';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import Vet360EditModalActionButtons from './EditModalActionButtons';
+import Vet360EditModalActionButtons from './Vet360EditModalActionButtons';
+import Vet360EditModalErrorMessage from './Vet360EditModalErrorMessage';
 
 export default class Vet360EditModal extends React.Component {
   static propTypes = {
