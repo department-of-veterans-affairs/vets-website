@@ -98,12 +98,12 @@ export const getLongTermAppointmentHistory = (() => {
         promise = getConfirmedAppointments(
           'va',
           moment()
-            .subtract(currentMonths, 'months')
-            .startOf('day')
-            .toISOString(),
-          moment()
             .startOf('day')
             .subtract(currentMonths + MONTH_CHUNK, 'months')
+            .toISOString(),
+          moment()
+            .subtract(currentMonths, 'months')
+            .startOf('day')
             .toISOString(),
         ).then(newAppts => appointments.push(...newAppts));
 
