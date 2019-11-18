@@ -20,8 +20,7 @@ function getStagingId(facilityId) {
 // eslint-disable-next-line no-unused-vars
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
-  if (environment.isLocalhost() && !window.VetsGov.api) {
-    throw new Error();
+  if (environment.isLocalhost()) {
     if (type === 'va') {
       promise = import('./confirmed_va.json').then(
         module => (module.default ? module.default : module),
@@ -46,7 +45,7 @@ export function getConfirmedAppointments(type, startDate, endDate) {
 // eslint-disable-next-line no-unused-vars
 export function getPendingAppointments(startDate, endDate) {
   let promise;
-  if (environment.isLocalhost() && !window.VetsGov.api) {
+  if (environment.isLocalhost()) {
     promise = import('./requests.json').then(
       module => (module.default ? module.default : module),
     );
