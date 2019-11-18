@@ -49,6 +49,7 @@ class VetTecApprovedPrograms extends React.Component {
           <td>
             <div className="form-radio-buttons gids-radio-buttons">
               <input
+                id={`radio-${index}`}
                 name="vetTecProgram"
                 checked={program.description === this.state.selectedProgram}
                 className="gids-radio-buttons-input"
