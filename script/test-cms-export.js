@@ -57,9 +57,11 @@ if (nodeName) {
 
   // eslint-disable-next-line no-console
   console.log('Number of files:', modifiedEntities.length);
-  // eslint-disable-next-line no-console
-  console.log(
-    `Node ${printIndex || 0}:`,
-    JSON.stringify(modifiedEntities[printIndex || 0], null, 2),
-  );
+  if (printIndex) {
+    // eslint-disable-next-line no-console
+    console.log(
+      `Node ${printIndex}:`,
+      JSON.stringify(modifiedEntities[printIndex || 0], null, 2),
+    );
+  }
 }
