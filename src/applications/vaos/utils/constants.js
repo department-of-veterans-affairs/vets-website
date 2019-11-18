@@ -26,7 +26,7 @@ export const PURPOSE_RADIO_LABELS = {
 };
 
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/Follow-up',
+  'routine-follow-up': 'Follow-up/Routine',
   'new-issue': 'New issue',
   'medication-concern': 'Medication concern',
   other: 'My reason is not listed here',
