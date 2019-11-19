@@ -347,14 +347,19 @@ export function getCancelReasons(systemId) {
   );
 }
 
-// PUT /vaos/appointments
-// eslint-disable-next-line no-unused-vars
 export function updateAppointment(appt) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 500);
-  });
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = Promise.resolve();
+  } else {
+    promise = apiRequest(`/vaos/appointments/cancel`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(appt),
+    });
+  }
+
+  return promise;
 }
 
 // PUT /vaos/requests
