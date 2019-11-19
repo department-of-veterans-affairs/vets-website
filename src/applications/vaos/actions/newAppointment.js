@@ -61,11 +61,9 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
-export const APPOINTMENT_SUBMIT = 'newAppointment/APPOINTMENT_SUBMIT';
-export const APPOINTMENT_SUBMIT_SUCCEEDED =
-  'newAppointment/APPOINTMENT_SUBMIT_SUCCEEDED';
-export const APPOINTMENT_SUBMIT_FAILED =
-  'newAppointment/APPOINTMENT_SUBMIT_FAILED';
+export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
+export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
+export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -352,7 +350,7 @@ export function submitAppointmentOrRequest(router) {
     const newAppointment = getState().newAppointment;
 
     dispatch({
-      type: APPOINTMENT_SUBMIT,
+      type: FORM_SUBMIT,
     });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -390,14 +388,14 @@ export function submitAppointmentOrRequest(router) {
         }
 
         dispatch({
-          type: APPOINTMENT_SUBMIT_SUCCEEDED,
+          type: FORM_SUBMIT_SUCCEEDED,
         });
 
         router.push('/new-appointment/confirmation');
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
-          type: APPOINTMENT_SUBMIT_FAILED,
+          type: FORM_SUBMIT_FAILED,
         });
       }
       router.push('/new-appointment/confirmation');
