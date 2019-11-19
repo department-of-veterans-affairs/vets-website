@@ -4,6 +4,7 @@ const confirmedVA = require('../../api/confirmed_va.json');
 const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
+const systems = require('../../api/systems.json');
 
 function initAppointmentListMock(token) {
   mock(token, {
@@ -23,6 +24,11 @@ function initAppointmentListMock(token) {
         ],
       },
     },
+  });
+  mock(token, {
+    path: '/v0/vaos/systems',
+    verb: 'get',
+    value: systems,
   });
   mock(token, {
     path: '/v0/vaos/appointments',
