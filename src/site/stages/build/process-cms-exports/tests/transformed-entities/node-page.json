@@ -330,9 +330,7 @@
       "contentModelType": "taxonomy_term-administration"
     }
   ],
-  "fieldAlert": {
-    "entity": null
-  },
+  "fieldAlert": null,
   "fieldContentBlock": [
     {
       "contentModelType": "paragraph-wysiwyg",
