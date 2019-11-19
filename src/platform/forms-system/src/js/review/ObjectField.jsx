@@ -136,7 +136,7 @@ class ObjectField extends React.Component {
         `Edit ${title}`;
 
       return (
-        <div>
+        <>
           {!formContext.hideHeaderRow && (
             <div className="form-review-panel-page-header-row">
               <h5 className="form-review-panel-page-header">
@@ -152,12 +152,12 @@ class ObjectField extends React.Component {
               </button>
             </div>
           )}
-          <div className="review">{renderedProperties}</div>
-        </div>
+          <dl className="review">{renderedProperties}</dl>
+        </>
       );
     }
 
-    return <div>{renderedProperties}</div>;
+    return <>{renderedProperties}</>;
   }
 }
 
