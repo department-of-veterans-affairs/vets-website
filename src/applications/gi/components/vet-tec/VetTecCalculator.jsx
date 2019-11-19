@@ -99,9 +99,9 @@ export class VetTecCalculator extends React.Component {
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
             <div>
-              <span>Upon enrollment in program</span>
+              Upon enrollment in program{' '}
               <span className="sr-only">VA pays to provider</span>
-              <span>(25%):</span>
+              (25%):
             </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
