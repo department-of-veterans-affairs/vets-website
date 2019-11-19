@@ -25,7 +25,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       />,
     );
 
-    expect(form.find('fieldset').length).to.equal(3);
+    expect(form.find('fieldset').length).to.equal(1);
     expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
@@ -88,6 +88,27 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should list type of care in alphabeticl order', () => {
+    const openFormPage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        openFormPage={openFormPage}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('label').length).to.equal(12);
+    expect(
+      form
+        .find('label')
+        .at(0)
+        .text(),
+    ).to.contain('Amputation care');
     form.unmount();
   });
 });

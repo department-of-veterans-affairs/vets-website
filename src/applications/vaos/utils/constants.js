@@ -18,11 +18,25 @@ export const TIME_TEXT = {
   'No Time Selected': '',
 };
 
+export const PURPOSE_RADIO_LABELS = {
+  'routine-follow-up': 'Routine or follow-up visit',
+  'new-issue': 'I have a new medical issue',
+  'medication-concern': 'I have a concern or question about my medication',
+  other: 'My reason is not listed here',
+};
+
 export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/Follow-up',
+  'routine-follow-up': 'Follow-up/Routine',
   'new-issue': 'New issue',
   'medication-concern': 'Medication concern',
   other: 'My reason is not listed here',
+};
+
+export const REASON_ADDITIONAL_INFO_TITLES = {
+  default:
+    "Please give us additional details about your appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
+  other:
+    "Please give us additional details about what type of appointment you’re looking for. This will help us find you the right provider or facility for your appointment. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
 };
 
 export const TYPES_OF_CARE = [

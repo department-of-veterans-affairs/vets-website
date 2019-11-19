@@ -3,8 +3,8 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Vet360Transaction from '../../components/base/Transaction';
-import Vet360TransactionPending from '../../components/base/TransactionPending';
+import Vet360Transaction from '../../components/base/Vet360Transaction';
+import Vet360TransactionPending from '../../components/base/Vet360TransactionPending';
 import { TRANSACTION_STATUS } from '../../constants';
 
 describe('<Vet360Transaction/>', () => {
