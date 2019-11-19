@@ -202,11 +202,10 @@ export class VetTecCalculator extends React.Component {
     const { showModal } = this.props;
     return (
       <div className="vads-l-row calculate-your-benefits">
-        <div className="usa-width-five-twelfths medium-5 columns">
+        <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           {this.renderCalculatorForm()}
         </div>
-        <div className="usa-width-one-twelfth medium-1 columns">&nbsp;</div>
-        <div className="usa-width-one-half medium-6 columns vads-u-padding--0">
+        <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           <div className=" your-estimated-benefits">
             <h3>Your estimated benefits</h3>
             <i>{this.props.calculator.vetTecProgramName}</i>
