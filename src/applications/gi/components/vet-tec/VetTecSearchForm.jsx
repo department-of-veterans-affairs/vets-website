@@ -20,7 +20,6 @@ class VetTecSearchForm extends React.Component {
     clearAutocompleteSuggestions: PropTypes.func.isRequired,
     fetchAutocompleteSuggestions: PropTypes.func.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
-    handleProviderFilterChange: PropTypes.func.isRequired,
     updateAutocompleteSearchTerm: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
     searchResults: PropTypes.object.isRequired,
@@ -101,10 +100,13 @@ class VetTecSearchForm extends React.Component {
   };
 
   renderStateFilter = () => {
-    const options = Object.keys(this.props.search.facets.state).map(state => ({
-      value: state,
-      label: state,
-    }));
+    const options = Object.keys(this.props.search.facets.state)
+      .sort()
+      .map(state => ({
+        value: state,
+        label: state,
+      }));
+
     return (
       <Dropdown
         label="State"
@@ -124,7 +126,6 @@ class VetTecSearchForm extends React.Component {
       filters={this.props.filters}
       providers={this.props.search.facets.provider}
       handleFilterChange={this.props.handleFilterChange}
-      handleProviderFilterChange={this.props.handleProviderFilterChange}
     />
   );
 
