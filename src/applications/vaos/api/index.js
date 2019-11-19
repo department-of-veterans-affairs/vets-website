@@ -336,7 +336,7 @@ export function getAvailableSlots() {
 
 export function getCancelReasons(systemId) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     promise = import('./cancel_reasons.json').then(
       module => (module.default ? module.default : module),
     );
@@ -351,7 +351,7 @@ export function getCancelReasons(systemId) {
 
 export function updateAppointment(appt) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve();
   } else {
     promise = apiRequest(`/vaos/appointments/cancel`, {
