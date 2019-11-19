@@ -15,3 +15,15 @@ export const directDepositAccountInformation = state =>
 
 export const directDepositIsSetUp = state =>
   !!directDepositAccountInformation(state)?.accountNumber;
+
+export const directDepositAddressInfomation = state =>
+  directDepositInformation(state)?.responses[0]?.paymentAddress;
+
+export const directDepositAddressIsSetUp = state => {
+  const addressInfo = directDepositAddressInfomation(state);
+  return !!(
+    addressInfo?.addressOne &&
+    addressInfo?.city &&
+    addressInfo?.stateCode
+  );
+};
