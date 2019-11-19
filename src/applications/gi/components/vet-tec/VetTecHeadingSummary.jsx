@@ -7,6 +7,8 @@ import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
+import { renderVetTecLogo } from '../../utils/render';
+import classNames from 'classnames';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -44,10 +46,10 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
   );
 
   return (
-    <div className="heading row">
-      <div className="usa-width-two-thirds medium-8 small-12 column">
-        <h1 tabIndex={-1}>{institution.name}</h1>
-        <div>
+    <div className="heading">
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 small-12 column">
+          <h1 tabIndex={-1}>{institution.name}</h1>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
               icon="star"
@@ -69,44 +71,54 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
+        <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5">
+          <div className="vettec-logo-container">
+            {renderVetTecLogo(classNames('vettec-logo'))}
+          </div>
+        </div>
       </div>
-      <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
-        <div className="usa-width-one-half medium-6 small-12 column">
-          <IconWithInfo icon="map-marker" present={isPresent(formattedAddress)}>
-            {formattedAddress}
-          </IconWithInfo>
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
+          <div className="usa-width-one-half medium-6 small-12 column">
+            <IconWithInfo
+              icon="map-marker"
+              present={isPresent(formattedAddress)}
+            >
+              {formattedAddress}
+            </IconWithInfo>
+            {/* Production flag for 19736 */}
+            {!environment.isProduction() && (
+              <IconWithInfo
+                icon="globe"
+                present={isPresent(firstProgram.providerWebsite)}
+              >
+                <a
+                  href={firstProgram.providerWebsite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {firstProgram.providerWebsite}
+                </a>
+              </IconWithInfo>
+            )}
+          </div>
           {/* Production flag for 19736 */}
           {!environment.isProduction() && (
-            <IconWithInfo
-              icon="globe"
-              present={isPresent(firstProgram.providerWebsite)}
-            >
-              <a
-                href={firstProgram.providerWebsite}
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="usa-width-one-half medium-6 small-12 column">
+              <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
+                <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
+              </IconWithInfo>
+              <IconWithInfo
+                icon="map"
+                present={isPresent(firstProgram.schoolLocale)}
               >
-                {firstProgram.providerWebsite}
-              </a>
-            </IconWithInfo>
+                {`${firstProgram.schoolLocale}  locale`}
+              </IconWithInfo>
+            </div>
           )}
         </div>
-        {/* Production flag for 19736 */}
-        {!environment.isProduction() && (
-          <div className="usa-width-one-half medium-6 small-12 column">
-            <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
-              <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
-            </IconWithInfo>
-            <IconWithInfo
-              icon="map"
-              present={isPresent(firstProgram.schoolLocale)}
-            >
-              {`${firstProgram.schoolLocale}  locale`}
-            </IconWithInfo>
-          </div>
-        )}
+        <VetTecAdditionalResources />
       </div>
-      <VetTecAdditionalResources />
     </div>
   );
 };
