@@ -84,26 +84,35 @@ export function getRequestMessages(requestId) {
 // This request takes a while, so we're going to call it early
 // and we need a way to wait for an in progress call to finish
 // So this memoizes the promise and returns it to the caller
-//
-// GET /vaos/appointments
-export const getPastAppointments = (() => {
+export const getLongTermAppointmentHistory = (() => {
+  const MAX_HISTORY = 24;
+  const MONTH_CHUNK = 6;
   let promise = null;
   // eslint-disable-next-line no-unused-vars
-  return startDate => {
+  return () => {
     if (!promise || navigator.userAgent === 'node.js') {
-      if (USE_MOCK_DATA) {
-        promise = import('./past.json')
-          .then(module => (module.default ? module.default : module))
-          .then(resp =>
-            resp.data.map(item => ({ ...item.attributes, id: item.id })),
-          );
-      } else {
+      const appointments = [];
+      let currentMonths = 0;
+
+      // This creates calls in six month chunks until we hit
+      // two years back. Done serially to lighten backend load
+      while (currentMonths < MAX_HISTORY) {
         promise = getConfirmedAppointments(
           'va',
-          startDate,
-          moment().format('YYYY-MM-DD'),
-        );
+          moment()
+            .startOf('day')
+            .subtract(currentMonths + MONTH_CHUNK, 'months')
+            .toISOString(),
+          moment()
+            .subtract(currentMonths, 'months')
+            .startOf('day')
+            .toISOString(),
+        ).then(newAppts => appointments.push(...newAppts));
+
+        currentMonths += MONTH_CHUNK;
       }
+
+      promise = promise.then(() => appointments);
     }
     return promise;
   };
@@ -219,22 +228,28 @@ export function getRequestLimits(facilityId, typeOfCareId) {
   });
 }
 
-// GET /vaos/facilities/{facilityId}/clinics
-// Also takes systemId has a query param, which is the first three digits of
-// facilityId
-// eslint-disable-next-line no-unused-vars
 export function getClinics(facilityId, typeOfCareId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (facilityId.includes('983')) {
-        import('./clinicList983.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
-      } else {
-        resolve([]);
-      }
-    }, 500);
-  });
+  let promise;
+  if (environment.isLocalhost()) {
+    if (facilityId.includes('983')) {
+      promise = import('./clinicList983.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = Promise.resolve({ data: [] });
+    }
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${facilityId.substring(
+        0,
+        3,
+      )}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 // GET /vaos/systems/{systemId}/pact
@@ -319,16 +334,19 @@ export function getAvailableSlots() {
   });
 }
 
-// GET /vaos/facilities/{facilityId}/cancel-reasons
-// eslint-disable-next-line no-unused-vars
 export function getCancelReasons(systemId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./cancel_reasons.json').then(module =>
-        resolve((module.default ? module.default : module).cancelReasonsList),
-      );
-    }, 500);
-  });
+  let promise;
+  if (environment.isLocalhost()) {
+    promise = import('./cancel_reasons.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = apiRequest(`/vaos/facilities/${systemId}/cancel_reasons`);
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 // PUT /vaos/appointments

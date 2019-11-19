@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
-import Checkbox from '../Checkbox';
 import CheckboxGroup from '../CheckboxGroup';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
@@ -13,7 +11,6 @@ class VetTecFilterBy extends React.Component {
     filters: PropTypes.object.isRequired,
     providers: PropTypes.object.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
-    handleProviderFilterChange: PropTypes.func.isRequired,
   };
 
   handleFilterChange = e => {
@@ -26,25 +23,6 @@ class VetTecFilterBy extends React.Component {
     this.props.handleFilterChange(field, value);
   };
 
-  handleProviderFilterChange = (name, checked) => {
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': name,
-      'gibct-form-value': !checked,
-    });
-    if (!checked) {
-      this.props.handleProviderFilterChange({
-        provider: [...this.props.filters.provider, name],
-      });
-    } else {
-      this.props.handleProviderFilterChange({
-        provider: this.props.filters.provider.filter(
-          providerName => providerName !== name,
-        ),
-      });
-    }
-  };
-
   renderPreferredProviderLabel = () =>
     renderLearnMoreLabel({
       modal: 'preferredProvider',
@@ -52,33 +30,6 @@ class VetTecFilterBy extends React.Component {
       ariaLabel: ariaLabels.learnMore.preferredProvider,
       component: this,
     });
-
-  renderProviderFilters = () => {
-    const checkBoxes = Object.keys(this.props.providers)
-      .sort()
-      .map(key => (
-        <div key={key}>
-          <Checkbox
-            checked={this.props.filters.provider.includes(key)}
-            name={key}
-            label={`${key} (${this.props.providers[key]})`}
-            onChange={() =>
-              this.handleProviderFilterChange(
-                key,
-                this.props.filters.provider.includes(key),
-              )
-            }
-          />
-        </div>
-      ));
-
-    return (
-      <div>
-        <p>Filter by provider</p>
-        {checkBoxes}
-      </div>
-    );
-  };
 
   render() {
     const label = (
@@ -103,8 +54,6 @@ class VetTecFilterBy extends React.Component {
           onChange={this.handleFilterChange}
           options={options}
         />
-        {/* prod flag for CT-116 - #19864 */}
-        {!environment.isProduction() && this.renderProviderFilters()}
       </div>
     );
   }

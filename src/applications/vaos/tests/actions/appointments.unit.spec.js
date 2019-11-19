@@ -9,15 +9,12 @@ import {
 
 import {
   fetchFutureAppointments,
-  fetchPastAppointments,
   fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-  FETCH_PAST_APPOINTMENTS,
-  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_REQUEST_MESSAGES,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
@@ -29,6 +26,7 @@ import {
 } from './../../actions/appointments';
 
 import facilityData from '../../api/facility_data.json';
+import cancelReasons from '../../api/cancel_reasons.json';
 
 describe('VAOS actions: appointments', () => {
   beforeEach(() => {
@@ -66,30 +64,6 @@ describe('VAOS actions: appointments', () => {
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
   });
 
-  it('should fetch past appointments', done => {
-    const data = {
-      data: [],
-    };
-    setFetchJSONResponse(global.fetch, data);
-
-    const thunk = fetchPastAppointments();
-    const dispatchSpy = sinon.spy();
-    const dispatch = action => {
-      dispatchSpy(action);
-      if (dispatchSpy.callCount === 2) {
-        expect(dispatchSpy.firstCall.args[0].type).to.eql(
-          FETCH_PAST_APPOINTMENTS,
-        );
-        expect(dispatchSpy.secondCall.args[0].type).to.eql(
-          FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        );
-        done();
-      }
-    };
-
-    thunk(dispatch);
-  });
-
   it('should fetch request messages', async () => {
     setFetchJSONResponse(global.fetch);
     const dispatch = sinon.spy();
@@ -114,6 +88,7 @@ describe('VAOS actions: appointments', () => {
     });
 
     it('should fetch cancel reasons and cancel appt', async () => {
+      setFetchJSONResponse(global.fetch, cancelReasons);
       const state = {
         appointments: {
           appointmentToCancel: {

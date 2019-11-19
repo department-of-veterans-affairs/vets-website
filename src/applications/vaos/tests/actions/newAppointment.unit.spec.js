@@ -32,6 +32,7 @@ import {
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
+import clinics from '../../api/clinicList983.json';
 import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
 
 const testFlow = {
@@ -133,12 +134,12 @@ describe('VAOS newAppointment actions', () => {
       },
     };
 
-    before(() => {
+    beforeEach(() => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systemIdentifiers);
     });
 
-    after(() => {
+    afterEach(() => {
       resetFetch();
     });
 
@@ -272,6 +273,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
