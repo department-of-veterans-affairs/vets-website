@@ -358,12 +358,12 @@ export function submitAppointmentOrRequest(router) {
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       // TODO: transform form data into shape for direct schedule
       router.push('/new-appointment/confirmation');
-    } else if (newAppointment.facilityType === 'communityCare') {
+    } else {
       try {
         let requestBody;
         let requestData;
 
-        if (newAppointment.facilityType === 'communityCare') {
+        if (newAppointment.data.facilityType === 'communityCare') {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {

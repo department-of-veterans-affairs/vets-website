@@ -91,7 +91,10 @@ export function transformFormToCCRequest(state) {
   const facility = getChosenFacilityInfo(state);
   let cityState;
 
-  if (residentialAddress) {
+  if (
+    residentialAddress &&
+    residentialAddress.addressType !== 'MILITARY OVERSEAS'
+  ) {
     cityState = {
       preferredCity: residentialAddress.city,
       preferredState: residentialAddress.stateCode,
