@@ -14,6 +14,7 @@ import {
   updateReasonForAppointmentData,
   openClinicPage,
   openCommunityCarePreferencesPage,
+  submitAppointmentOrRequest,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -28,6 +29,8 @@ import {
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_SUBMIT,
+  FORM_SUBMIT_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
@@ -453,6 +456,74 @@ describe('VAOS newAppointment actions', () => {
         uiSchema: {},
         systems,
       });
+    });
+  });
+  describe('form submit', () => {
+    it('should send VA request', async () => {
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          data: {
+            facilityType: 'vamc',
+            calendarData: {
+              selectedDates: [],
+            },
+            bestTimeToCall: [],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(router.push.called).to.be.true;
+    });
+
+    it('should send CC request', async () => {
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        user: {
+          profile: {
+            vet360: {},
+          },
+        },
+        newAppointment: {
+          facilities: {
+            '323_983': [
+              {
+                institution: {
+                  institutionCode: '983GB',
+                },
+              },
+            ],
+          },
+          data: {
+            vaSystem: '983',
+            vaFacility: '983GB',
+            typeOfCareId: '323',
+            facilityType: 'communityCare',
+            calendarData: {
+              selectedDates: [],
+            },
+            bestTimeToCall: [],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(router.push.called).to.be.true;
     });
   });
 });

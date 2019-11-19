@@ -369,7 +369,11 @@ export function submitRequest(type, request) {
   let promise;
   if (USE_MOCK_DATA || true) {
     promise = Promise.resolve({
-      uniqueId: 'testing',
+      data: {
+        attributes: {
+          uniqueId: 'testing',
+        },
+      },
     });
   } else {
     promise = apiRequest(`/vaos/appointment_requests?type=${type}`, {

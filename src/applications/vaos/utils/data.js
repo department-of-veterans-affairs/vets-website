@@ -38,9 +38,9 @@ export function transformFormToVARequest({ data }) {
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
-    ).serviceName,
+    )?.serviceName,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
-      .serviceName,
+      ?.serviceName,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     ...getRequestedDates(data),
@@ -121,9 +121,9 @@ export function transformFormToCCRequest(state) {
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
-    ).id,
+    )?.id,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
-      .serviceName,
+      ?.serviceName,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     bestTimeToCall: Object.entries(data.bestTimeToCall)
@@ -133,7 +133,7 @@ export function transformFormToCCRequest(state) {
     newMessage: data.reasonAdditionalInfo,
     preferredLanguage: LANGUAGES.find(
       lang => lang.id === data.preferredLanguage,
-    ).value,
+    )?.value,
     ...getRequestedDates(data),
     ...cityState,
     // defaulted values
