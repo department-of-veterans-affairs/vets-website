@@ -11,7 +11,7 @@ import {
 
 import { clearTransaction } from '../actions';
 
-import Vet360TransactionErrorBanner from '../components/base/TransactionErrorBanner';
+import Vet360TransactionErrorBanner from '../components/base/Vet360TransactionErrorBanner';
 
 class Vet360TransactionReporter extends React.Component {
   static propTypes = {

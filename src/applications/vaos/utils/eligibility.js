@@ -165,5 +165,6 @@ export function hasEligibleClinics(facilityId, pastAppointments, clinics) {
       .map(appt => appt.clinicId),
   );
 
-  return clinics.some(clinic => pastClinicIds.has(clinic.clinicId));
+  // TODO: Reproduce scenario when clinics is null
+  return clinics?.some(clinic => pastClinicIds.has(clinic.clinicId));
 }

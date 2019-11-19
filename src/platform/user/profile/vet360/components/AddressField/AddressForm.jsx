@@ -17,7 +17,7 @@ import {
  *
  * Validation is managed in the vet360 reducer
  */
-class Address extends React.Component {
+class AddressForm extends React.Component {
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
     this.id = _.uniqueId('address-input-');
@@ -201,11 +201,11 @@ const addressShape = PropTypes.shape({
   internationalPostalCode: PropTypes.string,
 });
 
-Address.propTypes = {
+AddressForm.propTypes = {
   onInput: PropTypes.func.isRequired,
   address: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
   countries: PropTypes.array.isRequired,
 };
 
-export default Address;
+export default AddressForm;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AddressField from './AddressField';
+import AddressField from './AddressField/AddressField';
 
 import { FIELD_NAMES } from '../constants';
 
