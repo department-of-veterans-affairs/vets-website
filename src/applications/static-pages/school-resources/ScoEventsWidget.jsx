@@ -99,7 +99,9 @@ export default class ScoEventsWidget extends React.Component {
   render() {
     return (
       <div>
-        <h2 id="upcoming-events">Upcoming events</h2>
+        <h2 id="upcoming-events" tabIndex="-1">
+          Upcoming events
+        </h2>
         {this.renderEvents()}
         <p className="vads-u-margin-bottom--0">
           See full list of{' '}
