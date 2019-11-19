@@ -84,7 +84,7 @@ class VetTecFilterBy extends React.Component {
     const label = (
       <span className="preferred-flag">
         Preferred providers&nbsp;&nbsp;
-        <i className="fa fa-star vads-u-color--gold" />
+        <i className="fa fa-star vads-u-color--gold" aria-hidden="true" />
       </span>
     );
     const options = [

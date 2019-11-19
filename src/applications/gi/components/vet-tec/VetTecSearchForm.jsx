@@ -58,7 +58,7 @@ class VetTecSearchForm extends React.Component {
         name: 'inPerson',
         label: (
           <div>
-            In Person &nbsp; <i className="fas fa-user" />
+            In Person &nbsp; <i className="fas fa-user" aria-hidden="true" />
           </div>
         ),
         checked: inPerson,
@@ -67,7 +67,7 @@ class VetTecSearchForm extends React.Component {
         name: 'online',
         label: (
           <div>
-            Online &nbsp; <i className="fas fa-laptop" />
+            Online &nbsp; <i className="fas fa-laptop" aria-hidden="true" />
           </div>
         ),
         checked: online,
