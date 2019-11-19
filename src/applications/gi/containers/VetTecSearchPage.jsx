@@ -154,7 +154,7 @@ export class VetTecSearchPage extends React.Component {
     const resultsClass = classNames(
       'search-results',
       'small-12',
-      'usa-width-three-fourths medium-9',
+      'medium-9',
       'columns',
       { opened: !search.filterOpened },
     );
@@ -232,15 +232,15 @@ export class VetTecSearchPage extends React.Component {
     return (
       <ScrollElement name="searchPage" className="search-page">
         <div>
-          <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
+          <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
             {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
           <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
-            <div className="vads-l-col--10 search-results-count">
+            <div className="vads-l-col--9 search-results-count">
               {this.renderSearchResultsHeader(this.props.search)}
             </div>
-            <div className="vads-l-col--2">
-              <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
+            <div className="vads-l-col--3">
+              <div className="vads-u-display--none single-column-display-block vettec-logo-container">
                 {renderVetTecLogo(classNames('vettec-logo'))}
               </div>
             </div>

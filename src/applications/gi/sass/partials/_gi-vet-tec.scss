@@ -19,4 +19,13 @@
     margin: 0;
   }
 
+  $single-column-width: 641px;
+
+  @media (min-width: $single-column-width) {
+    .single-column-display-block{
+      display: block !important; }
+    .single-column-display-none {
+      display: none !important; }
+  }
+
 }
