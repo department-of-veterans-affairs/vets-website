@@ -66,7 +66,6 @@ class VetTecApprovedPrograms extends React.Component {
                   onChange={e =>
                     this.handleInputChange(e, index, program.description)
                   }
-                  aria-labelledby={`program-name-header program-${index}`}
                 />
                 <label id={`program-${index}`} htmlFor={`radio-${index}`}>
                   {program.description}
