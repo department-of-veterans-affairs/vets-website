@@ -4,7 +4,8 @@
       font-size: 1.15em;
     }
 
-    label, legend {
+    label,
+    legend {
       margin-top: 1em;
     }
 
@@ -134,8 +135,8 @@
     }
 
     .info-flag {
-      color: $color-white;
-      background-color: $color-gray-light;
+      color: #323a45;
+      background-color: #d6d7d9;
       border-radius: 3px 3px 3px 3px;
       font-size: 0.9em;
       font-weight: bold;
