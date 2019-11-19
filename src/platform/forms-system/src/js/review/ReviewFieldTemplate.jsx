@@ -19,7 +19,7 @@ export default function ReviewFieldTemplate(props) {
   return uiSchema?.['ui:reviewField'] ? (
     uiSchema['ui:reviewField'](props)
   ) : (
-    <dl className="review-row">
+    <div className="review-row">
       <dt>
         {label}
         {textDescription && <p>{textDescription}</p>}
@@ -29,6 +29,6 @@ export default function ReviewFieldTemplate(props) {
         {!textDescription && !DescriptionField && description}
       </dt>
       <dd>{children}</dd>
-    </dl>
+    </div>
   );
 }
