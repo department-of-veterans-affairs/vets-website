@@ -26,7 +26,7 @@ class LandingPageTypeOfInstitutionFilter extends React.Component {
     ];
     if (this.props.displayVetTecOption) {
       const vetTecLabel = (
-        <span className="vads-u-padding-top--1 vads-u-margin-left--0p5 learnMoreLabel">
+        <span className="vads-u-padding-top--1 vads-u-margin-left--0p5">
           {' '}
           <button
             aria-label={ariaLabels.learnMore.vetTecProgram}
