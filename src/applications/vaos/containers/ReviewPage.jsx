@@ -10,8 +10,8 @@ import {
   getChosenVACityState,
 } from '../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
-import ReviewDirectScheduleInfo from '../components/ReviewDirectScheduleInfo';
-import ReviewRequestInfo from '../components/ReviewRequestInfo';
+import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleInfo';
+import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../actions/newAppointment';
 

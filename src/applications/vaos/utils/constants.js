@@ -21,7 +21,7 @@ export const TIME_TEXT = {
 export const PURPOSE_TEXT = [
   {
     id: 'routine-follow-up',
-    short: 'Routine/Follow-up',
+    short: 'Follow-up/Routine',
     label: 'Routine or follow-up visit',
     serviceName: 'Routine Follow-up',
   },
