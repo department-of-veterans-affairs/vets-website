@@ -22,6 +22,7 @@ describe('<PaymentInformation/>', () => {
     multifactorEnabled: true,
     isLoading: false,
     isEligible: true,
+    isEligibleToSignUp: true,
     fetchPaymentInformation() {},
     savePaymentInformation() {},
     editModalToggled() {},
@@ -38,6 +39,7 @@ describe('<PaymentInformation/>', () => {
         },
       ],
     },
+    shouldShowDirectDeposit: true,
   };
 
   it('renders', () => {
@@ -52,6 +54,7 @@ describe('<PaymentInformation/>', () => {
       ...defaultProps,
       fetchPaymentInformation,
       isEligible: false,
+      shouldShowDirectDeposit: false,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
     expect(wrapper.text()).to.be.empty;
@@ -59,14 +62,22 @@ describe('<PaymentInformation/>', () => {
     wrapper.unmount();
   });
 
-  it('renders nothing if the user has not already set up direct deposit', () => {
+  it('renders the correct content if the user is eligible for direct deposit but has not yet set it up', () => {
     const props = {
       ...defaultProps,
       directDepositIsSetUp: false,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);
 
-    expect(wrapper.text()).to.be.empty;
+    // expect(wrapper.text()).to.be.empty;
+    const profileFieldHeadings = wrapper.find(ProfileFieldHeading);
+    profileFieldHeadings.forEach(node => {
+      expect(node.props().onEditClick).to.be.false;
+    });
+    wrapper.find('.vet360-profile-field').forEach(node => {
+      expect(node.text()).to.contain('Please add your');
+    });
+    expect(wrapper.find('p')).to.have.length(0);
 
     wrapper.unmount();
   });
