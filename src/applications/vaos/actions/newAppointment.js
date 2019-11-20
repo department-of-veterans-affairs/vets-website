@@ -325,13 +325,13 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
     const systemIds = newAppointment.ccEnabledSystems;
-    let systems = null;
+    let systems = newAppointment.systems;
 
     dispatch({
       type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
     });
 
-    if (systemIds.length > 1) {
+    if (!newAppointment.systems) {
       systems = await getSystemDetails(systemIds);
     }
 
@@ -398,7 +398,6 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_FAILED,
         });
       }
-      router.push('/new-appointment/confirmation');
     }
   };
 }

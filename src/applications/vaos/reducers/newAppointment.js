@@ -549,6 +549,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         loadingSystems: false,
+        systems: action.systems,
         data,
         pages: {
           ...state.pages,

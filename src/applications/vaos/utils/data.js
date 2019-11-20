@@ -1,7 +1,7 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
-import { getTypeOfCare, getChosenFacilityInfo } from './selectors';
+import { getTypeOfCare, getSystems } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
 function getRequestedDates(data) {
@@ -88,7 +88,9 @@ export function transformFormToCCRequest(state) {
       ]
     : [];
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const facility = getChosenFacilityInfo(state);
+  const system = getSystems(state).find(
+    sys => sys.institutionCode === data.communityCareSystemId,
+  );
   let cityState;
 
   if (
@@ -101,8 +103,8 @@ export function transformFormToCCRequest(state) {
     };
   } else {
     cityState = {
-      preferredCity: facility.city,
-      preferredState: facility.stateAbbrev,
+      preferredCity: system.city,
+      preferredState: system.stateAbbrev,
     };
   }
 
@@ -110,20 +112,18 @@ export function transformFormToCCRequest(state) {
     typeOfCare: getTypeOfCare(data).ccId,
     typeOfCareId: getTypeOfCare(data).ccId,
     cityState: {
-      institutionCode: data.vaSystem,
-      rootStationCode: data.vaSystem,
-      parentStationCode: data.vaSystem,
+      institutionCode: data.communityCareSystemId,
+      rootStationCode: data.communityCareSystemId,
+      parentStationCode: data.communityCareSystemId,
       adminParent: true,
     },
     facility: {
-      facilityCode: data.vaFacility,
-      parentSiteCode: data.vaSystem,
+      facilityCode: data.communityCareSystemId,
+      parentSiteCode: data.communityCareSystemId,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.id,
-    visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
-      ?.serviceName,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     bestTimeToCall: Object.entries(data.bestTimeToCall)
