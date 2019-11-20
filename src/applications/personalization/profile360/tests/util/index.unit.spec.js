@@ -7,36 +7,37 @@ import {
 } from '../../util';
 
 describe('profile utils', () => {
-  const defaultDataObject = {
-    event: 'profile-edit-failure',
-    'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
-    'error-key': 'other-error',
-  };
-  const badAddressDataObject = {
-    event: 'profile-edit-failure',
-    'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
-    'error-key': 'mailing-address-error',
-  };
-  const badHomePhoneDataObject = {
-    event: 'profile-edit-failure',
-    'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
-    'error-key': 'home-phone-error',
-  };
-  const badWorkPhoneDataObject = {
-    event: 'profile-edit-failure',
-    'profile-action': 'save-failure',
-    'profile-section': 'direct-deposit-information',
-    'error-key': 'work-phone-error',
-  };
   describe('createEventDataObjectWithErrors', () => {
+    const createEventDataObjectWithError = error => ({
+      event: 'profile-edit-failure',
+      'profile-action': 'save-failure',
+      'profile-section': 'direct-deposit-information',
+      'error-key': error,
+    });
+    const defaultDataObject = createEventDataObjectWithError('other-error');
+    const badAddressDataObject = createEventDataObjectWithError(
+      'mailing-address-error',
+    );
+    const badHomePhoneDataObject = createEventDataObjectWithError(
+      'home-phone-error',
+    );
+    const badWorkPhoneDataObject = createEventDataObjectWithError(
+      'work-phone-error',
+    );
+    const flaggedForFraudDataObject = createEventDataObjectWithError(
+      'flagged-for-fraud',
+    );
+    const invalidRoutingNumberDataObject = createEventDataObjectWithError(
+      'invalid-routing-number',
+    );
+    const paymentRestrictionIndicatorsDataObject = createEventDataObjectWithError(
+      'payment-restriction-indicators',
+    );
     it('returns the correct data when passed nothing', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject();
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
-    it('returns the correct data when passed nothing', () => {
+    it('returns the correct data when passed an empty array', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([]);
       expect(eventDataObject).to.deep.equal(defaultDataObject);
     });
@@ -105,6 +106,113 @@ describe('profile utils', () => {
         },
       ]);
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
+    });
+    it('returns the correct data when a flagged for fraud error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.routing.number.fraud.message',
+                severity: 'ERROR',
+                text: '',
+              },
+            ],
+          },
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(flaggedForFraudDataObject);
+    });
+    it('returns the correct data when a flagged for fraud error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.flashes.on.record.message',
+                severity: 'ERROR',
+                text: '',
+              },
+            ],
+          },
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(flaggedForFraudDataObject);
+    });
+    it('returns the correct data when an invalid routing number error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'payment.accountRoutingNumber.invalidCheckSum',
+                severity: 'ERROR',
+                text: '',
+              },
+            ],
+          },
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
+    });
+    it('returns the correct data when an invalid routing number error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.generic.error.message',
+                severity: 'ERROR',
+                text: 'Invalid Routing Number',
+              },
+            ],
+          },
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
+    });
+    it('returns the correct data when a payment restriction indicators error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          title: 'Unprocessable Entity',
+          detail: 'One or more unprocessable user payment properties',
+          code: '126',
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          meta: {
+            messages: [
+              {
+                key: 'payment.restriction.indicators.present',
+                severity: 'ERROR',
+                text: '',
+              },
+            ],
+          },
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(
+        paymentRestrictionIndicatorsDataObject,
+      );
     });
   });
 

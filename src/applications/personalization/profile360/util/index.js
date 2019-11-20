@@ -13,6 +13,9 @@ const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
 const GA_ERROR_KEY_BAD_ADDRESS = 'mailing-address-error';
 const GA_ERROR_KEY_BAD_HOME_PHONE = 'home-phone-error';
 const GA_ERROR_KEY_BAD_WORK_PHONE = 'work-phone-error';
+const GA_ERROR_KEY_FLAGGED_FOR_FRAUD = 'flagged-for-fraud';
+const GA_ERROR_KEY_INVALID_ROUTING_NUMBER = 'invalid-routing-number';
+const GA_ERROR_KEY_PAYMENT_RESTRICTIONS = 'payment-restriction-indicators';
 const GA_ERROR_KEY_DEFAULT = 'other-error';
 
 export async function getData(apiRoute, options) {
@@ -41,7 +44,6 @@ const hasErrorMessage = (errors, errorKey, errorText) => {
 
 export const hasFlaggedForFraudError = errors =>
   hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
-  hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY) ||
   hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY);
 
 export const hasInvalidRoutingNumberError = errors =>
@@ -59,26 +61,33 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day phone number') ||
   hasErrorMessage(errors, GENERIC_ERROR_KEY, 'day area number');
 
+export const hasPaymentRestrictionIndicatorsError = errors =>
+  hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
+
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an errors occurs while trying to save/update a user's direct
 // deposit payment information. The value of the `error-key` prop will change
 // depending on the content of the `errors` array.
-export const createDirectDepositAnalyticsDataObject = errors => {
+export const createDirectDepositAnalyticsDataObject = (errors = []) => {
   const key = 'error-key';
-  const eventDataObject = {
+  let errorCode = GA_ERROR_KEY_DEFAULT;
+  if (hasFlaggedForFraudError(errors)) {
+    errorCode = GA_ERROR_KEY_FLAGGED_FOR_FRAUD;
+  } else if (hasInvalidRoutingNumberError(errors)) {
+    errorCode = GA_ERROR_KEY_INVALID_ROUTING_NUMBER;
+  } else if (hasInvalidAddressError(errors)) {
+    errorCode = GA_ERROR_KEY_BAD_ADDRESS;
+  } else if (hasInvalidHomePhoneNumberError(errors)) {
+    errorCode = GA_ERROR_KEY_BAD_HOME_PHONE;
+  } else if (hasInvalidWorkPhoneNumberError(errors)) {
+    errorCode = GA_ERROR_KEY_BAD_WORK_PHONE;
+  } else if (hasPaymentRestrictionIndicatorsError(errors)) {
+    errorCode = GA_ERROR_KEY_PAYMENT_RESTRICTIONS;
+  }
+  return {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
     'profile-section': 'direct-deposit-information',
-    [key]: GA_ERROR_KEY_DEFAULT,
+    [key]: errorCode,
   };
-  if (errors && errors.length) {
-    if (hasInvalidAddressError(errors)) {
-      eventDataObject[key] = GA_ERROR_KEY_BAD_ADDRESS;
-    } else if (hasInvalidHomePhoneNumberError(errors)) {
-      eventDataObject[key] = GA_ERROR_KEY_BAD_HOME_PHONE;
-    } else if (hasInvalidWorkPhoneNumberError(errors)) {
-      eventDataObject[key] = GA_ERROR_KEY_BAD_WORK_PHONE;
-    }
-  }
-  return eventDataObject;
 };
