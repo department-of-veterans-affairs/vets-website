@@ -7,6 +7,7 @@ import {
   hasInvalidHomePhoneNumberError,
   hasInvalidRoutingNumberError,
   hasInvalidWorkPhoneNumberError,
+  hasPaymentRestrictionIndicatorsError,
 } from '../util';
 
 function FlaggedAccount() {
@@ -97,7 +98,10 @@ export default function PaymentInformationEditModalError({
   if (responseError.error) {
     const { errors = [] } = responseError.error;
 
-    if (hasFlaggedForFraudError(errors)) {
+    if (
+      hasFlaggedForFraudError(errors) ||
+      hasPaymentRestrictionIndicatorsError(errors)
+    ) {
       content = <FlaggedAccount />;
     } else if (hasInvalidRoutingNumberError(errors)) {
       content = <InvalidRoutingNumber />;
