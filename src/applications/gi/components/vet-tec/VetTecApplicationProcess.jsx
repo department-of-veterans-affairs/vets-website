@@ -49,8 +49,8 @@ class VetTecApplicationProcess extends React.Component {
           </p>
         </li>
         <li>
-          After you’ve been approved for VET TEC, you can then apply to the
-          VA-approved training program you’d like to attend.
+          Then, after you've been approved for VET TEC, apply to the VA-approved
+          training provider you'd like to attend.
           {this.providersWebsiteLink()}
         </li>
       </ol>
