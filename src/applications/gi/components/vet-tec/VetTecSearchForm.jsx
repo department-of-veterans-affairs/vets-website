@@ -6,7 +6,6 @@ import { addAllOption } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
-import environment from 'platform/utilities/environment';
 
 class VetTecSearchForm extends React.Component {
   static propTypes = {
@@ -25,11 +24,6 @@ class VetTecSearchForm extends React.Component {
     searchResults: PropTypes.object.isRequired,
     eligibility: PropTypes.object.isRequired,
   };
-
-  searchLabel = () =>
-    environment.isProduction()
-      ? 'City, school, or employer'
-      : 'City, VET TEC program or provider';
 
   handleDropdownChange = e => {
     const { name: field, value } = e.target;
@@ -138,7 +132,7 @@ class VetTecSearchForm extends React.Component {
             <h2>Refine search</h2>
             <KeywordSearch
               autocomplete={this.props.autocomplete}
-              label={this.searchLabel()}
+              label={'City, VET TEC program or provider'}
               location={this.props.location}
               onClearAutocompleteSuggestions={
                 this.props.clearAutocompleteSuggestions
