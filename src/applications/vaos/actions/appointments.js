@@ -1,6 +1,7 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS } from '../utils/constants';
+import { getMomentConfirmedDate } from '../utils/appointment';
 
 import {
   getConfirmedAppointments,
@@ -154,7 +155,7 @@ export function confirmCancelAppointment() {
         });
       } else {
         const cancelData = {
-          appointmentTime: moment(appointment.startDate).format(
+          appointmentTime: getMomentConfirmedDate(appointment).format(
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,
