@@ -76,7 +76,11 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
                   {% endif %}
                 </li>
               {% else %}
-                <li class="vads-u-margin-bottom--0 vads-u-margin-top--0">
+                {% if forloop.first == true %}
+                <li class="vads-u-margin-top--0">
+                {% else %}
+                <li>
+                {% endif %}
                   {{link.title}}
                 </li>
               {% endif %}
