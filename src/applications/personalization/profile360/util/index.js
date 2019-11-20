@@ -13,9 +13,10 @@ const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
 const GA_ERROR_KEY_BAD_ADDRESS = 'mailing-address-error';
 const GA_ERROR_KEY_BAD_HOME_PHONE = 'home-phone-error';
 const GA_ERROR_KEY_BAD_WORK_PHONE = 'work-phone-error';
-const GA_ERROR_KEY_FLAGGED_FOR_FRAUD = 'flagged-for-fraud';
-const GA_ERROR_KEY_INVALID_ROUTING_NUMBER = 'invalid-routing-number';
-const GA_ERROR_KEY_PAYMENT_RESTRICTIONS = 'payment-restriction-indicators';
+const GA_ERROR_KEY_FLAGGED_FOR_FRAUD = 'flagged-for-fraud-error';
+const GA_ERROR_KEY_INVALID_ROUTING_NUMBER = 'invalid-routing-number-error';
+const GA_ERROR_KEY_PAYMENT_RESTRICTIONS =
+  'payment-restriction-indicators-error';
 const GA_ERROR_KEY_DEFAULT = 'other-error';
 
 export async function getData(apiRoute, options) {

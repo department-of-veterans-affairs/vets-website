@@ -25,13 +25,13 @@ describe('profile utils', () => {
       'work-phone-error',
     );
     const flaggedForFraudDataObject = createEventDataObjectWithError(
-      'flagged-for-fraud',
+      'flagged-for-fraud-error',
     );
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
-      'invalid-routing-number',
+      'invalid-routing-number-error',
     );
     const paymentRestrictionIndicatorsDataObject = createEventDataObjectWithError(
-      'payment-restriction-indicators',
+      'payment-restriction-indicators-error',
     );
     it('returns the correct data when passed nothing', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject();
