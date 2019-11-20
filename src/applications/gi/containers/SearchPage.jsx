@@ -23,13 +23,11 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
-import VetTecSearchResult from '../components/vet-tec/VetTecSearchResult';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { isVetTecSelected } from '../utils/helpers';
 import { renderVetTecLogo } from '../utils/render';
-import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -109,8 +107,7 @@ export class SearchPage extends React.Component {
 
     this.props.institutionFilterChange(institutionFilter);
 
-    // prod flag for story 19734
-    if (!environment.isProduction() && isVetTecSelected(institutionFilter)) {
+    if (isVetTecSelected(institutionFilter)) {
       this.props.fetchProgramSearchResults(query);
     } else {
       this.props.fetchInstitutionSearchResults(query);
@@ -194,16 +191,6 @@ export class SearchPage extends React.Component {
           <div>
             {search.results.map(result => {
               if (isVetTecSelected(filters)) {
-                // prod flag for story 19734
-                if (environment.isProduction()) {
-                  return (
-                    <VetTecSearchResult
-                      version={this.props.location.query.version}
-                      key={result.facilityCode}
-                      result={result}
-                    />
-                  );
-                }
                 return (
                   <VetTecProgramSearchResult
                     version={this.props.location.query.version}
