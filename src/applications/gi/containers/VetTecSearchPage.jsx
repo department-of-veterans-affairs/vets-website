@@ -149,12 +149,7 @@ export class VetTecSearchPage extends React.Component {
       'medium-9',
       'columns',
       { opened: !search.filterOpened },
-      // Production flag for 19985 (critical)
-      environment.isProduction() && 'usa-width-three-fourths medium-9',
     );
-
-    // eslint-disable-next-line no-console
-    console.log(resultsClass);
 
     let searchResults;
 
