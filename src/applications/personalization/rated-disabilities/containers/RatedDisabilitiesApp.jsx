@@ -29,6 +29,7 @@ class RatedDisabilitiesApp extends React.Component {
               fetchRatedDisabilities={this.props.fetchRatedDisabilities}
               ratedDisabilities={ratedDisabilities}
               user={this.props.user}
+              fetchTotalDisabilityRating={this.props.fetchTotalDisabilityRating}
               totalDisabilityRating={this.props.totalDisabilityRating}
               loading={this.props.loading}
               error={this.props.error}
