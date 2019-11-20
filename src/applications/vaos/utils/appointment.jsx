@@ -295,7 +295,7 @@ export function filterFutureConfirmedAppointments(appt, today) {
   );
 }
 
-export function sortFutureConfirmedList(a, b) {
+export function sortFutureConfirmedAppointments(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
@@ -314,7 +314,7 @@ export function filterFutureRequests(request, today) {
   );
 }
 
-export function sortFutureRequestsList(a, b) {
+export function sortFutureRequests(a, b) {
   const aDate = getMomentRequestOptionDate(a.optionDate1);
   const bDate = getMomentRequestOptionDate(b.optionDate1);
 

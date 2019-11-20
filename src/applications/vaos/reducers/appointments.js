@@ -16,8 +16,8 @@ import {
 import {
   filterFutureConfirmedAppointments,
   filterFutureRequests,
-  sortFutureConfirmedList,
-  sortFutureRequestsList,
+  sortFutureConfirmedAppointments,
+  sortFutureRequests,
   sortMessages,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
@@ -46,11 +46,11 @@ export default function appointmentsReducer(state = initialState, action) {
 
       const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
         .filter(appt => filterFutureConfirmedAppointments(appt, action.today))
-        .sort(sortFutureConfirmedList);
+        .sort(sortFutureConfirmedAppointments);
 
       const requestsFilteredAndSorted = [
         ...requests.filter(req => filterFutureRequests(req, action.today)),
-      ].sort(sortFutureRequestsList);
+      ].sort(sortFutureRequests);
 
       return {
         ...state,
