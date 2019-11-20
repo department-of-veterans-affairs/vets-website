@@ -288,23 +288,34 @@ export default class CalendarWidget extends Component {
     );
   };
 
-  renderWeeks = month =>
-    getCalendarWeeks(month).map((week, index) => (
+  renderWeeks = month => {
+    const {
+      availableDates,
+      additionalOptions,
+      selectedDates,
+      currentlySelectedDate,
+      minDate,
+      maxDate,
+    } = this.props;
+    return getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
         key={`row-${index}`}
         cells={week}
-        availableDates={this.props.availableDates}
+        availableDates={availableDates}
+        minDate={minDate}
+        maxDate={maxDate}
         rowNumber={index}
-        additionalOptions={this.props.additionalOptions}
+        additionalOptions={additionalOptions}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
-        selectedDates={this.props.selectedDates || []}
-        currentlySelectedDate={this.props.currentlySelectedDate}
+        selectedDates={selectedDates || []}
+        currentlySelectedDate={currentlySelectedDate}
         optionsError={
           this.state.currentRowIndex === index ? this.state.optionsError : null
         }
       />
     ));
+  };
 
   renderMonth = (month, index) => {
     const { months, currentDate, maxMonth } = this.state;
