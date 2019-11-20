@@ -200,35 +200,33 @@ export class VetTecCalculator extends React.Component {
     }
     const { outputs } = this.props.calculated;
     const { showModal } = this.props;
+
     // prod flag for 19985 critical
-    if (environment.isProduction()) {
-      return (
-        <div className="vads-l-row calculate-your-benefits">
-          <div className="usa-width-five-twelfths medium-5 columns">
-            {this.renderCalculatorForm()}
+    return environment.isProduction() ? (
+      <div className="vads-l-row calculate-your-benefits">
+        <div className="usa-width-five-twelfths medium-5 columns">
+          {this.renderCalculatorForm()}
+        </div>
+        <div className="usa-width-one-twelfth medium-1 columns">&nbsp;</div>
+        <div className="usa-width-one-half medium-6 columns vads-u-padding--0">
+          <div className=" your-estimated-benefits">
+            <h3>Your estimated benefits</h3>
+            <div className="program-name">
+              {this.props.calculator.vetTecProgramName}
+            </div>
+            {this.renderTuitionSection(outputs, showModal)}
+            <hr />
+            {this.renderHousingSection(outputs, showModal)}
           </div>
-          <div className="usa-width-one-twelfth medium-1 columns">&nbsp;</div>
-          <div className="usa-width-one-half medium-6 columns vads-u-padding--0">
-            <div className=" your-estimated-benefits">
-              <h3>Your estimated benefits</h3>
-              <div className="program-name">
-                {this.props.calculator.vetTecProgramName}
-              </div>
-              {this.renderTuitionSection(outputs, showModal)}
-              <hr />
-              {this.renderHousingSection(outputs, showModal)}
-            </div>
-            <div>
-              <p>
-                <strong>Note:</strong> Your VET TEC training won't count against
-                your GI Bill entitlement.
-              </p>
-            </div>
+          <div>
+            <p>
+              <strong>Note:</strong> Your VET TEC training won't count against
+              your GI Bill entitlement.
+            </p>
           </div>
         </div>
-      );
-    }
-    return (
+      </div>
+    ) : (
       <div className="vads-l-row calculate-your-benefits">
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           {this.renderCalculatorForm()}

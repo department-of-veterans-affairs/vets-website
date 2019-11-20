@@ -149,7 +149,12 @@ export class VetTecSearchPage extends React.Component {
       'medium-9',
       'columns',
       { opened: !search.filterOpened },
+      // Production flag for 19985 (critical)
+      environment.isProduction() && 'usa-width-three-fourths medium-9',
     );
+
+    // eslint-disable-next-line no-console
+    console.log(resultsClass);
 
     let searchResults;
 
@@ -221,7 +226,7 @@ export class VetTecSearchPage extends React.Component {
     // prod flag for 19985 critical
     return (
       <ScrollElement name="searchPage" className="search-page">
-        {environment.isProduction ? (
+        {environment.isProduction() ? (
           <div>
             <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
               {renderVetTecLogo(classNames('vettec-logo'))}
