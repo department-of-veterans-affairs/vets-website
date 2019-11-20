@@ -86,8 +86,8 @@ export default class CalendarWidget extends Component {
         sortedDates = sortedDates.filter(d => {
           const momentDate = moment(d);
           return (
-            momentDate.isSameOrAfter(moment(minDate), 'days') &&
-            momentDate.isSameOrBefore(moment(maxDate), 'days')
+            momentDate.isSameOrAfter(moment(minDate), 'day') &&
+            momentDate.isSameOrBefore(moment(maxDate), 'day')
           );
         });
       }
