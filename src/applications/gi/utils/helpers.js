@@ -55,4 +55,13 @@ export const snakeCaseKeys = query =>
     {},
   );
 
+export const rubyizeKeys = query =>
+  Object.keys(query).reduce((queryParams, key) => {
+    const keyName = Array.isArray(query[key]) ? `${key}[]` : key;
+    return {
+      ...queryParams,
+      [snakeCase(keyName)]: query[key],
+    };
+  }, {});
+
 export const isPresent = value => value && value !== '';

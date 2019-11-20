@@ -3,7 +3,7 @@ import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
-import { snakeCaseKeys } from '../utils/helpers';
+import { rubyizeKeys } from '../utils/helpers';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -169,10 +169,7 @@ export function institutionFilterChange(filter) {
 }
 
 export function fetchInstitutionSearchResults(query = {}) {
-  const url = appendQuery(
-    `${api.url}/institutions/search`,
-    snakeCaseKeys(query),
-  );
+  const url = appendQuery(`${api.url}/institutions/search`, rubyizeKeys(query));
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -191,9 +188,10 @@ export function fetchInstitutionSearchResults(query = {}) {
 }
 
 export function fetchProgramSearchResults(query = {}) {
+  // console.log('fetchProgramSearchResults');
   const url = appendQuery(
     `${api.url}/institution_programs/search`,
-    snakeCaseKeys(query),
+    rubyizeKeys(query, ['provider']),
   );
 
   return dispatch => {
@@ -202,8 +200,10 @@ export function fetchProgramSearchResults(query = {}) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        payload =>
-          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload }),
+        payload => {
+          // console.log('program search response', payload.meta.facets);
+          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload });
+        },
         err => dispatch({ type: SEARCH_FAILED, err }),
       );
   };

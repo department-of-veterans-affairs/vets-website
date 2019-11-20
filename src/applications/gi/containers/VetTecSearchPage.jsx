@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import {
   clearAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
@@ -35,6 +34,7 @@ export class VetTecSearchPage extends React.Component {
       title += ` - ${searchTerm}`;
     }
     this.props.setPageTitle(title);
+    // console.log('component mount');
     this.updateSearchResults();
   }
 
@@ -44,6 +44,9 @@ export class VetTecSearchPage extends React.Component {
     const shouldUpdateSearchResults =
       !currentlyInProgress &&
       !_.isEqual(this.props.location.query, prevProps.location.query);
+
+    // console.log('current query', this.props.location.query);
+    // console.log('previous query', prevProps.location.query);
 
     if (shouldUpdateSearchResults) {
       this.updateSearchResults();
@@ -68,11 +71,24 @@ export class VetTecSearchPage extends React.Component {
 
     const stringSearchParams = ['page', 'name'];
 
-    const query = _.pick(this.props.location.query, [
+    let providerQueryVal = this.props.location.query.provider
+      ? this.props.location.query.provider
+      : [];
+
+    if (typeof providerQueryVal === 'string') {
+      providerQueryVal = [providerQueryVal];
+    }
+
+    const queryParams = _.pick(this.props.location.query, [
       ...stringSearchParams,
       ...stringFilterParams,
       ...booleanFilterParams,
     ]);
+
+    const query = {
+      ...queryParams,
+      provider: providerQueryVal || [],
+    };
 
     // Update form selections based on query.
     const institutionFilter = _.omit(query, stringSearchParams);
@@ -90,6 +106,7 @@ export class VetTecSearchPage extends React.Component {
   };
 
   updateSearchResults = () => {
+    // console.log('updateSearchResults');
     const queryFilterFields = this.getQueryFilterFields();
     this.props.institutionFilterChange(queryFilterFields.institutionFilter);
     this.props.fetchProgramSearchResults(queryFilterFields.query);
@@ -103,12 +120,7 @@ export class VetTecSearchPage extends React.Component {
   };
 
   handleProviderFilterChange = provider => {
-    scroller.scrollTo('searchPage', getScrollOptions());
-
-    this.props.institutionFilterChange({
-      ...this.getQueryFilterFields().institutionFilter,
-      ...provider,
-    });
+    this.handleFilterChange('provider', provider.provider);
   };
 
   handleFilterChange = (field, value) => {
@@ -287,7 +299,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
