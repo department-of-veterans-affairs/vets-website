@@ -130,7 +130,7 @@ class VetTecApplicationProcess extends React.Component {
           </li>
           <li>
             Email us at{' '}
-            <a href="mailto:VETTEC.VBABUF@va.gov">VETTEC.VBABUF@va.gov</a>
+            <a href="mailto:VETTEC.VBABUF@va.gov">VETTEC.VBABUF@va.gov</a>.
           </li>
         </ul>
       </div>
