@@ -3,7 +3,7 @@ import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
-import { rubyizeKeys } from '../utils/helpers';
+import { rubyifyKeys } from '../utils/helpers';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -169,7 +169,7 @@ export function institutionFilterChange(filter) {
 }
 
 export function fetchInstitutionSearchResults(query = {}) {
-  const url = appendQuery(`${api.url}/institutions/search`, rubyizeKeys(query));
+  const url = appendQuery(`${api.url}/institutions/search`, rubyifyKeys(query));
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -190,7 +190,7 @@ export function fetchInstitutionSearchResults(query = {}) {
 export function fetchProgramSearchResults(query = {}) {
   const url = appendQuery(
     `${api.url}/institution_programs/search`,
-    rubyizeKeys(query, ['provider']),
+    rubyifyKeys(query, ['provider']),
   );
 
   return dispatch => {

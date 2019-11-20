@@ -46,21 +46,14 @@ export const phoneInfo = (areaCode, phoneNumber) => {
   return providerPhone;
 };
 
-export const snakeCaseKeys = query =>
-  Object.keys(query).reduce(
-    (queryParams, key) => ({
-      ...queryParams,
-      [snakeCase(key)]: query[key],
-    }),
-    {},
-  );
-
-export const rubyizeKeys = query =>
+export const rubyifyKeys = query =>
   Object.keys(query).reduce((queryParams, key) => {
-    const keyName = Array.isArray(query[key]) ? `${key}[]` : key;
+    const keyName = Array.isArray(query[key])
+      ? `${snakeCase(key)}[]`
+      : snakeCase(key);
     return {
       ...queryParams,
-      [snakeCase(keyName)]: query[key],
+      [keyName]: query[key],
     };
   }, {});
 
