@@ -238,6 +238,14 @@ article[data-location="request-informal-conference"] {
   }
 }
 
+/* Step 4 Review Application */
+article[data-location="review-and-submit"] {
+  /* checkbox group "Required" lable (added to */
+  #root_scheduleTimes-label {
+    display: none;
+  }
+}
+
 /* Confirmation page */
 article[data-location="confirmation"] {
   h1[tabindex="-1"] {
