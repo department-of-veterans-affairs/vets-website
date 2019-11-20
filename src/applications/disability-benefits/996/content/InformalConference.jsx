@@ -77,7 +77,7 @@ export const InformalConferenceTimeLabels = key => (
 
 export const InformalConferenceAvailability = contact => (
   <span className="time-contact" role="presentation">
-    {contact === 'me' ? 'My availability' : 'Representative’s availability'}
+    {contact === 'me' ? 'Your' : 'Representative’s'} availability
   </span>
 );
 
