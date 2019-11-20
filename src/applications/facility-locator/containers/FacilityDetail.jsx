@@ -43,8 +43,8 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, website } = facility.attributes;
 
+    const { name, website, phone } = facility.attributes;
     return (
       <div>
         <h1>{name}</h1>
@@ -67,10 +67,12 @@ class FacilityDetail extends Component {
         <div>
           <LocationDirectionsLink location={facility} />
         </div>
-        <p className="p1">
-          Planning to visit? Please call first as information on this page may
-          change.
-        </p>
+        {phone && (
+          <p className="p1">
+            Planning to visit? Please call first as information on this page may
+            change.
+          </p>
+        )}
       </div>
     );
   }
