@@ -17,7 +17,7 @@ const {
 const optionDefinitions = [
   { name: 'count', alias: 'c', type: Number },
   { name: 'node', alias: 'n', type: String },
-  { name: 'print', alias: 'p', type: Number },
+  { name: 'print', alias: 'p', type: Number, defaultValue: 0 },
 ];
 
 const { count, node: nodeName, print: printIndex } = commandLineArgs(
@@ -61,7 +61,7 @@ if (nodeName) {
     // eslint-disable-next-line no-console
     console.log(
       `Node ${printIndex}:`,
-      JSON.stringify(modifiedEntities[printIndex || 0], null, 2),
+      JSON.stringify(modifiedEntities[printIndex], null, 2),
     );
   }
 }
