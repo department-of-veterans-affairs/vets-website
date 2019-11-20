@@ -17,7 +17,7 @@ const {
 const optionDefinitions = [
   { name: 'count', alias: 'c', type: Number },
   { name: 'node', alias: 'n', type: String },
-  { name: 'print', alias: 'p', type: Number, defaultValue: 0 },
+  { name: 'print', alias: 'p', type: Number },
 ];
 
 const { count, node: nodeName, print: printIndex } = commandLineArgs(
@@ -57,7 +57,7 @@ if (nodeName) {
 
   // eslint-disable-next-line no-console
   console.log('Number of files:', modifiedEntities.length);
-  if (printIndex) {
+  if (printIndex !== undefined) {
     // eslint-disable-next-line no-console
     console.log(
       `Node ${printIndex}:`,
