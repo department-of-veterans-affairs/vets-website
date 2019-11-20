@@ -73,24 +73,35 @@ export default class CalendarWidget extends Component {
   getMaxMonth = () => {
     const { availableDates, minDate, maxDate } = this.props;
     if (Array.isArray(availableDates) && availableDates.length) {
-      // sort available dates and filter those that are out of minDate/maxDate range
-      const sortedArray = this.sortDates(availableDates).filter(d => {
-        const momentDate = moment(d);
-        return (
-          momentDate.isSameOrAfter(moment(minDate), 'days') &&
-          momentDate.isSameOrBefore(moment(maxDate), 'days')
-        );
-      });
+      // sort available dates
+      let sortedDates = this.sortDates(availableDates);
+
+      if (
+        minDate &&
+        moment(minDate).isValid() &&
+        maxDate &&
+        moment(maxDate).isValid()
+      ) {
+        // filter those that are out of minDate/maxDate range
+        sortedDates = sortedDates.filter(d => {
+          const momentDate = moment(d);
+          return (
+            momentDate.isSameOrAfter(moment(minDate), 'days') &&
+            momentDate.isSameOrBefore(moment(maxDate), 'days')
+          );
+        });
+      }
+
       const lastAvailableDateMonth = moment(
-        sortedArray[sortedArray.length - 1],
+        sortedDates[sortedDates.length - 1],
       ).format('YYYYMM');
 
       return lastAvailableDateMonth;
     }
 
-    // If no available dates array provided, set max to 45 days from now
+    // If no available dates array provided, set max to 90 days from now
     return moment()
-      .add(395, 'days')
+      .add(90, 'days')
       .format('YYYYMM');
   };
 
