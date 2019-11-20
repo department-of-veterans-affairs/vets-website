@@ -188,7 +188,6 @@ export function fetchInstitutionSearchResults(query = {}) {
 }
 
 export function fetchProgramSearchResults(query = {}) {
-  // console.log('fetchProgramSearchResults');
   const url = appendQuery(
     `${api.url}/institution_programs/search`,
     rubyizeKeys(query, ['provider']),
@@ -201,7 +200,6 @@ export function fetchProgramSearchResults(query = {}) {
       .then(res => res.json())
       .then(
         payload => {
-          // console.log('program search response', payload.meta.facets);
           withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload });
         },
         err => dispatch({ type: SEARCH_FAILED, err }),

@@ -11,7 +11,7 @@ class VetTecFilterBy extends React.Component {
   static propTypes = {
     showModal: PropTypes.func.isRequired,
     filters: PropTypes.object.isRequired,
-    providers: PropTypes.object.isRequired,
+    providers: PropTypes.array.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
     handleProviderFilterChange: PropTypes.func.isRequired,
   };
@@ -54,23 +54,21 @@ class VetTecFilterBy extends React.Component {
     });
 
   renderProviderFilters = () => {
-    const checkBoxes = Object.keys(this.props.providers)
-      .sort()
-      .map(key => (
-        <div key={key}>
-          <Checkbox
-            checked={this.props.filters.provider.includes(key)}
-            name={key}
-            label={`${key} (${this.props.providers[key]})`}
-            onChange={() =>
-              this.handleProviderFilterChange(
-                key,
-                this.props.filters.provider.includes(key),
-              )
-            }
-          />
-        </div>
-      ));
+    const checkBoxes = this.props.providers.sort().map(provider => (
+      <div key={provider.name}>
+        <Checkbox
+          checked={this.props.filters.provider.includes(provider.name)}
+          name={provider.name}
+          label={`${provider.name} (${provider.count})`}
+          onChange={() =>
+            this.handleProviderFilterChange(
+              provider.name,
+              this.props.filters.provider.includes(provider.name),
+            )
+          }
+        />
+      </div>
+    ));
 
     return (
       <div>

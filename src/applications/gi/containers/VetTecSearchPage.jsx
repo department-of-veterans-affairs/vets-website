@@ -34,7 +34,6 @@ export class VetTecSearchPage extends React.Component {
       title += ` - ${searchTerm}`;
     }
     this.props.setPageTitle(title);
-    // console.log('component mount');
     this.updateSearchResults();
   }
 
@@ -44,9 +43,6 @@ export class VetTecSearchPage extends React.Component {
     const shouldUpdateSearchResults =
       !currentlyInProgress &&
       !_.isEqual(this.props.location.query, prevProps.location.query);
-
-    // console.log('current query', this.props.location.query);
-    // console.log('previous query', prevProps.location.query);
 
     if (shouldUpdateSearchResults) {
       this.updateSearchResults();
@@ -106,10 +102,11 @@ export class VetTecSearchPage extends React.Component {
   };
 
   updateSearchResults = () => {
-    // console.log('updateSearchResults');
     const queryFilterFields = this.getQueryFilterFields();
-    this.props.institutionFilterChange(queryFilterFields.institutionFilter);
-    this.props.fetchProgramSearchResults(queryFilterFields.query);
+    if (!_.isEqual(this.props.search.query, queryFilterFields.query)) {
+      this.props.institutionFilterChange(queryFilterFields.institutionFilter);
+      this.props.fetchProgramSearchResults(queryFilterFields.query);
+    }
   };
 
   handlePageSelect = page => {
