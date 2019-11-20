@@ -67,12 +67,13 @@ class FacilityDetail extends Component {
         <div>
           <LocationDirectionsLink location={facility} />
         </div>
-        {phone && (
-          <p className="p1">
-            Planning to visit? Please call first as information on this page may
-            change.
-          </p>
-        )}
+        {phone &&
+          phone.main && (
+            <p className="p1">
+              Planning to visit? Please call first as information on this page
+              change.
+            </p>
+          )}
       </div>
     );
   }
