@@ -285,7 +285,8 @@ export function getRequestTimeToCall(appt) {
  */
 
 export function filterFutureConfirmedAppointments(appt, today) {
-  //  return appointments that are after current time +60 min, or +240 min in case of video
+  // return appointments where current time is less than appointment time
+  // +60 min or +240 min in the case of video
   const threshold = isVideoVisit(appt) ? 240 : 60;
   const apptDateTime = getMomentConfirmedDate(appt);
   return (
