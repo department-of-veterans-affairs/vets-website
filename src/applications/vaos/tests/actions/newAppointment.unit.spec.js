@@ -498,18 +498,13 @@ describe('VAOS newAppointment actions', () => {
           },
         },
         newAppointment: {
-          facilities: {
-            '323_983': [
-              {
-                institution: {
-                  institutionCode: '983GB',
-                },
-              },
-            ],
-          },
+          systems: [
+            {
+              institutionCode: '983',
+            },
+          ],
           data: {
-            vaSystem: '983',
-            vaFacility: '983GB',
+            communityCareSystemId: '983',
             typeOfCareId: '323',
             facilityType: 'communityCare',
             calendarData: {
