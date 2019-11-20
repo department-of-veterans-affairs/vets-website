@@ -389,7 +389,7 @@ export function submitRequest(type, request) {
 export function sendRequestMessage(id, message) {
   let promise;
   if (USE_MOCK_DATA || true) {
-    promise = Promise.resolve();
+    promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
       method: 'POST',
@@ -404,7 +404,7 @@ export function sendRequestMessage(id, message) {
 export function getPreferences() {
   let promise;
   if (USE_MOCK_DATA || true) {
-    promise = Promise.resolve({});
+    promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
   }
@@ -415,7 +415,7 @@ export function getPreferences() {
 export function updatePreferences(data) {
   let promise;
   if (USE_MOCK_DATA || true) {
-    promise = Promise.resolve();
+    promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/preferences`, {
       method: 'PUT',

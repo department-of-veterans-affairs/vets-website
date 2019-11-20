@@ -473,6 +473,7 @@ describe('VAOS newAppointment actions', () => {
             calendarData: {
               selectedDates: [],
             },
+            reasonForAppointment: 'routine-follow-up',
             bestTimeToCall: [],
           },
         },
@@ -507,6 +508,7 @@ describe('VAOS newAppointment actions', () => {
             communityCareSystemId: '983',
             typeOfCareId: '323',
             facilityType: 'communityCare',
+            reasonForAppointment: 'routine-follow-up',
             calendarData: {
               selectedDates: [],
             },
