@@ -49,7 +49,7 @@ export function fetchRatedDisabilities() {
 export function fetchTotalDisabilityRating() {
   return async dispatch => {
     const response = await getData(
-      '/disability_compensation_form/rated_disabilities',
+      '/disability_compensation_form/find_rating_info_pid',
     );
 
     if (response.errors) {
@@ -66,7 +66,7 @@ export function fetchTotalDisabilityRating() {
         });
       }
       dispatch({
-        type: FETCH_TOTAL_RATING_SUCCEEDED,
+        type: FETCH_TOTAL_RATING_FAILED,
         response,
       });
     } else {
