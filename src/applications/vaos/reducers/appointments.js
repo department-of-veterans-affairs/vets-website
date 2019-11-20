@@ -52,14 +52,9 @@ export default function appointmentsReducer(state = initialState, action) {
         ...requests.filter(req => filterFutureRequests(req, action.today)),
       ].sort(sortFutureRequestsList);
 
-      const future = [
-        ...confirmedFilteredAndSorted,
-        ...requestsFilteredAndSorted,
-      ];
-
       return {
         ...state,
-        future,
+        future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],
         futureStatus: FETCH_STATUS.succeeded,
       };
     }

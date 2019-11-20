@@ -323,7 +323,7 @@ export function sortFutureRequestsList(a, b) {
   }
 
   // Otherwise, return sorted alphabetically by appointmentType
-  return a.appointmenType < b.appointmentType ? -1 : 1;
+  return a.appointmentType < b.appointmentType ? -1 : 1;
 }
 
 export function sortMessages(a, b) {
