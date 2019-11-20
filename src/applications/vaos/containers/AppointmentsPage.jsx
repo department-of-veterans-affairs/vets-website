@@ -63,7 +63,7 @@ export class AppointmentsPage extends Component {
       );
     } else if (hasAppointments) {
       content = (
-        <ul className="usa-unstyled-list">
+        <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
             const type = getAppointmentType(appt);
 
