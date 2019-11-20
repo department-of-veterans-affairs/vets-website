@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import environment from 'platform/utilities/environment';
 
 export default function GiBillBreadcrumbs({
   searchQuery,
@@ -29,8 +30,11 @@ export default function GiBillBreadcrumbs({
   const onSearchPage =
     pathname.match(/search/) || pathname.match(/program-search/);
   const onProfilePage = pathname.match(/profile/);
+  // prod flag for 19985 critical
   const searchResultsPath =
-    onProfilePage && facilityCode.substr(1, 1) === 'V'
+    !environment.isProduction &&
+    onProfilePage &&
+    facilityCode.substr(1, 1) === 'V'
       ? 'program-search'
       : 'search';
   if (searchQuery && (onSearchPage || onProfilePage)) {
