@@ -1,5 +1,5 @@
 {% for entity in alert.entities %}
-
+{% assign dismissStatus = entity.fieldAlertInheritanceSubpages %}
 {% assign alertType = entity.fieldAlertType %}
 
 {% if alertType = "information" %}
@@ -7,6 +7,8 @@
 {% endif %}
 
 {% assign region = path | split: "/" | first | prepend: "/" %}
+{% assign lastArg = path | split: "/" | last | prepend: "/"%}
+
 {% assign outputStatus = false %}
 {% assign emailUpdates = "https://www.va.gov/" %}
 {% assign statusUrl = "https://www.va.gov/" %}
@@ -14,11 +16,15 @@
 {% for vamc in entity.fieldBannerAlertVamcs %}
 
 {% if region == vamc.entity.fieldOffice.entity.entityUrl.path %}
+
 {% assign outputStatus = true %}
+
+{% if dismissStatus == true and lastArg != region and lastArg != "/operating-status" %}
+{% assign outputStatus = false %}
+{% endif %}
 {% assign emailUpdates = vamc.entity.fieldOffice.entity.fieldLinkFacilityEmergList.uri %}
 {% assign statusUrl = vamc.entity.entityUrl.path %}
 {% endif %}
-
 {% endfor %}
 
 {% if outputStatus == true %}
