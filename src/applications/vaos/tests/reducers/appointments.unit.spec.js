@@ -34,19 +34,6 @@ describe('VAOS reducer: appointments', () => {
       type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
       data: [
         [
-          { appointmentTime: '05/29/2099 05:30:00', appointmentRequestId: '1' },
-          // Cancelled should not show
-          {
-            appointmentTime: '05/29/2099 05:32:00',
-            appointmentRequestId: '2',
-            vdsAppointments: [
-              {
-                currentStatus: 'CANCELLED BY CLINIC',
-              },
-            ],
-          },
-        ],
-        [
           { startDate: '2099-04-30T05:35:00', facilityId: '984' },
           // appointment more than 1 hour ago should not show
           {
@@ -77,6 +64,19 @@ describe('VAOS reducer: appointments', () => {
                 dateTime: moment()
                   .subtract(245, 'minutes')
                   .format(),
+              },
+            ],
+          },
+        ],
+        [
+          { appointmentTime: '05/29/2099 05:30:00', appointmentRequestId: '1' },
+          // Cancelled should not show
+          {
+            appointmentTime: '05/29/2099 05:32:00',
+            appointmentRequestId: '2',
+            vdsAppointments: [
+              {
+                currentStatus: 'CANCELLED BY CLINIC',
               },
             ],
           },
