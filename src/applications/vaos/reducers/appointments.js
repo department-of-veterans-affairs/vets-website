@@ -14,9 +14,10 @@ import {
 } from '../actions/appointments';
 
 import {
+  filterFutureConfirmedList,
   filterFutureRequests,
-  filterFutureConfirmedAppointments,
-  sortFutureList,
+  sortFutureConfirmedList,
+  sortFutureRequestsList,
   sortMessages,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
@@ -44,23 +45,24 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       const [vaAppointments, ccAppointments, requests] = action.data;
-      const futureAppointments = [
-        ...vaAppointments,
-        ...ccAppointments.filter(appt =>
-          filterFutureConfirmedAppointments(appt, action.today),
-        ),
+
+      const confirmedSorted = [...vaAppointments, ...ccAppointments]
+        .filter(appt => filterFutureConfirmedList(appt, action.today))
+        .sort(sortFutureConfirmedList);
+
+      const requestsSorted = [
         ...requests.filter(
           req =>
             req.status !== BOOKED_REQUEST &&
             filterFutureRequests(req, action.today),
         ),
-      ];
+      ].sort(sortFutureRequestsList);
 
-      futureAppointments.sort(sortFutureList);
+      const future = [...confirmedSorted, ...requestsSorted];
 
       return {
         ...state,
-        future: futureAppointments,
+        future,
         futureStatus: FETCH_STATUS.succeeded,
       };
     }

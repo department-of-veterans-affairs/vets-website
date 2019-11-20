@@ -284,11 +284,6 @@ export function getRequestTimeToCall(appt) {
  * Filter and sort methods
  */
 
-export function filterFutureConfirmedAppointments(appt, today) {
-  const date = getMomentConfirmedDate(appt);
-  return date.isValid() && date.isAfter(today);
-}
-
 export function filterFutureRequests(request, today) {
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
@@ -302,34 +297,31 @@ export function filterFutureRequests(request, today) {
   );
 }
 
-export function sortFutureList(a, b) {
-  const aIsRequest =
-    getAppointmentType(a) === APPOINTMENT_TYPES.request ||
-    getAppointmentType(a) === APPOINTMENT_TYPES.ccRequest;
-  const bIsRequest =
-    getAppointmentType(b) === APPOINTMENT_TYPES.request ||
-    getAppointmentType(b) === APPOINTMENT_TYPES.ccRequest;
+export function filterFutureConfirmedList(appt, today) {
+  //  return appointments that are after current time +60 min, or +240 min in case of video
+  const threshold = isVideoVisit(appt) ? 240 : 60;
+  const apptDateTime = getMomentConfirmedDate(appt);
+  return (
+    apptDateTime.isValid() &&
+    apptDateTime.add(threshold, 'minutes').isAfter(today)
+  );
+}
 
-  const aDate = aIsRequest
-    ? getMomentRequestOptionDate(a.optionDate1)
-    : getMomentConfirmedDate(a);
+export function sortFutureConfirmedList(a, b) {
+  return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
+}
 
-  const bDate = bIsRequest
-    ? getMomentRequestOptionDate(b.optionDate1)
-    : getMomentConfirmedDate(b);
+export function sortFutureRequestsList(a, b) {
+  const aDate = getMomentRequestOptionDate(a.optionDate1);
+  const bDate = getMomentRequestOptionDate(b.optionDate1);
 
-  if (aDate.isSame(bDate)) {
-    // If same date, requests should show after confirmed
-    if (aIsRequest && !bIsRequest) {
-      return 1;
-    } else if (bIsRequest && !aIsRequest) {
-      return -1;
-    }
-
-    return 0;
+  // If appointmentType is the same, return the one with the sooner date
+  if (a.appointmentType === b.appointmentType) {
+    return aDate.isBefore(bDate) ? -1 : 1;
   }
 
-  return aDate.isBefore(bDate) ? -1 : 1;
+  // Otherwise, return sorted alphabetically by appointmentType
+  return a.appointmenType < b.appointmentType ? -1 : 1;
 }
 
 export function sortMessages(a, b) {
