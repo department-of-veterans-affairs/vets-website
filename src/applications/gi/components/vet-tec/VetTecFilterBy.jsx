@@ -94,7 +94,7 @@ class VetTecFilterBy extends React.Component {
     return (
       <div>
         <CheckboxGroup
-          label="Filter by"
+          label=""
           onChange={this.handleFilterChange}
           options={options}
         />
