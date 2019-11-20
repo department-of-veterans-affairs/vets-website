@@ -284,20 +284,7 @@ export function getRequestTimeToCall(appt) {
  * Filter and sort methods
  */
 
-export function filterFutureRequests(request, today) {
-  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
-  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
-  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
-
-  return (
-    ['Submitted', 'Cancelled'].includes(request.status) &&
-    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
-      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-      (optionDate3.isValid() && optionDate3.isAfter(today)))
-  );
-}
-
-export function filterFutureConfirmedList(appt, today) {
+export function filterFutureConfirmedAppointments(appt, today) {
   //  return appointments that are after current time +60 min, or +240 min in case of video
   const threshold = isVideoVisit(appt) ? 240 : 60;
   const apptDateTime = getMomentConfirmedDate(appt);
@@ -309,6 +296,21 @@ export function filterFutureConfirmedList(appt, today) {
 
 export function sortFutureConfirmedList(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
+}
+
+export function filterFutureRequests(request, today) {
+  const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
+  const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
+  const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
+
+  const VALID_STATUSES = ['Submitted', 'Cancelled'];
+
+  return (
+    VALID_STATUSES.includes(request.status) &&
+    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
+      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
+      (optionDate3.isValid() && optionDate3.isAfter(today)))
+  );
 }
 
 export function sortFutureRequestsList(a, b) {
