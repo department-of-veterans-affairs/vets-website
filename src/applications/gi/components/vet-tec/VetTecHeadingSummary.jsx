@@ -74,7 +74,6 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           <IconWithInfo icon="map-marker" present={isPresent(formattedAddress)}>
             {formattedAddress}
           </IconWithInfo>
-          (
           <IconWithInfo
             icon="globe"
             present={isPresent(firstProgram.providerWebsite)}
@@ -87,9 +86,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
               {firstProgram.providerWebsite}
             </a>
           </IconWithInfo>
-          )
         </div>
-        (
         <div className="usa-width-one-half medium-6 small-12 column">
           <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
             <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
@@ -101,7 +98,6 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             {`${firstProgram.schoolLocale}  locale`}
           </IconWithInfo>
         </div>
-        )
       </div>
       <VetTecAdditionalResources />
     </div>

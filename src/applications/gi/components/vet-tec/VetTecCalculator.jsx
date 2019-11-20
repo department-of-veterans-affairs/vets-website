@@ -143,7 +143,6 @@ export class VetTecCalculator extends React.Component {
           (Learn more)
         </button>
       </div>
-      (
       <div>
         <div className="row calculator-result">
           <div className="small-8 columns">
@@ -163,7 +162,6 @@ export class VetTecCalculator extends React.Component {
           </div>
         </div>
       </div>
-      )
     </div>
   );
 
