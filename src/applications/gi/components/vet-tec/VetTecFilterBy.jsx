@@ -11,7 +11,12 @@ class VetTecFilterBy extends React.Component {
   static propTypes = {
     showModal: PropTypes.func.isRequired,
     filters: PropTypes.object.isRequired,
-    providers: PropTypes.array.isRequired,
+    providers: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        count: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
     handleFilterChange: PropTypes.func.isRequired,
     handleProviderFilterChange: PropTypes.func.isRequired,
   };

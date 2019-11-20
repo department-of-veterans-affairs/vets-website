@@ -199,9 +199,8 @@ export function fetchProgramSearchResults(query = {}) {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        payload => {
-          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload });
-        },
+        payload =>
+          withPreview(dispatch, { type: PROGRAM_SEARCH_SUCCEEDED, payload }),
         err => dispatch({ type: SEARCH_FAILED, err }),
       );
   };
