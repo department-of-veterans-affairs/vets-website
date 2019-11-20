@@ -154,8 +154,6 @@ class VetTecSearchForm extends React.Component {
 
             {this.renderCountryFilter()}
             {this.renderStateFilter()}
-            {/* prod flag for story 19734 */}
-            {environment.isProduction() && this.renderLearningFormat()}
             {this.renderFilterBy()}
           </div>
           <div className="results-button">
