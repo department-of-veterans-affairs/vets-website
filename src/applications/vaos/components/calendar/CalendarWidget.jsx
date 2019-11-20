@@ -227,12 +227,12 @@ export default class CalendarWidget extends Component {
       this.handleMultiSelect(date, currentRowIndex);
     } else {
       if (date !== currentlySelectedDate) {
-        selectedDates = !additionalOptions?.required
-          ? [{ date }]
-          : selectedDates;
+        if (!additionalOptions?.required) {
+          selectedDates = [{ date }];
+        }
         currentlySelectedDate = date;
       } else {
-        selectedDates = [];
+        selectedDates = selectedDates.filter(d => d.date !== date);
         currentlySelectedDate = null;
       }
       this.setState(
