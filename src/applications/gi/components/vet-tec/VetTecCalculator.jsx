@@ -200,7 +200,10 @@ export class VetTecCalculator extends React.Component {
     }
     const { outputs } = this.props.calculated;
     const { showModal } = this.props;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98c1ad407b3be3c8098f75c7a56be7e8bd824a9d
     return (
       <div className="vads-l-row calculate-your-benefits">
         <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
