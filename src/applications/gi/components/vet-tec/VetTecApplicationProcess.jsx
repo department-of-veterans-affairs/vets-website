@@ -20,7 +20,7 @@ class VetTecApplicationProcess extends React.Component {
       <p>
         To learn more about available programs,{' '}
         <a
-          href={`https://${programs[0].providerWebsite}`}
+          href={programs[0].providerWebsite}
           target="_blank"
           rel="noopener noreferrer"
         >
