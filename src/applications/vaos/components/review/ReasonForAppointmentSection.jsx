@@ -14,7 +14,7 @@ export default function ReasonForAppointmentSection(props) {
                 PURPOSE_TEXT.find(
                   purpose => purpose.id === props.data.reasonForAppointment,
                 )?.short
-              }{' '}
+              }
             </h3>
           </div>
           <div className="vads-l-col--6 vads-u-text-align--right">
