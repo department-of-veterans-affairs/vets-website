@@ -16,7 +16,7 @@ const IconWithInfo = ({ icon, iconClassName, children, present }) => {
     <div className="icon-with-info vads-l-grid-container vads-u-padding-x--0">
       <div className="vads-l-row vads-u-padding-x--0 vads-u-padding-bottom--1p5">
         <div className="vads-l-col--1">
-          <i className={`fa fa-${icon} ${iconClassName}`} />
+          <i className={`fa fa-${icon} ${iconClassName}`} aria-hidden="true" />
         </div>
         <div className="text-column vads-l-col--11 vads-u-padding-left--1">
           {children}

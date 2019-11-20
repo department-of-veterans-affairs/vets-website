@@ -9,7 +9,7 @@ import DowntimeNotification, {
 import DowntimeApproaching from 'platform/monitoring/DowntimeNotification/components/DowntimeApproaching';
 import recordEvent from 'platform/monitoring/record-event';
 
-import Vet360TransactionReporter from 'vet360/containers/TransactionReporter';
+import Vet360TransactionReporter from 'vet360/containers/Vet360TransactionReporter';
 
 import Hero from './Hero';
 import ContactInformation from './ContactInformation';
@@ -22,7 +22,8 @@ import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
 
 import {
-  directDepositIsSetUp as directDepositIsSetUpSelector,
+  directDepositIsSetUp,
+  directDepositAddressIsSetUp,
   profileShowDirectDeposit,
   profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
@@ -89,8 +90,8 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
-      directDepositIsSetUp,
       showDirectDepositFeature,
+      showDirectDepositLink,
       showReceiveTextNotifications,
     } = this.props;
 
@@ -118,7 +119,7 @@ class ProfileView extends React.Component {
               />
               <ProfileTOC
                 militaryInformation={militaryInformation}
-                showDirectDepositLink={directDepositIsSetUp}
+                showDirectDepositLink={showDirectDepositLink}
               />
               <div id="contact-information" />
               <ContactInformation
@@ -193,8 +194,9 @@ class ProfileView extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    directDepositIsSetUp: directDepositIsSetUpSelector(state),
     showDirectDepositFeature: profileShowDirectDeposit(state),
+    showDirectDepositLink:
+      directDepositIsSetUp(state) || directDepositAddressIsSetUp(state),
     showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }

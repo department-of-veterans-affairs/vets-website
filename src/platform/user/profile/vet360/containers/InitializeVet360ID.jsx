@@ -18,7 +18,7 @@ import {
 
 import { selectVet360InitializationStatus } from '../selectors';
 
-import TransactionPending from '../components/base/TransactionPending';
+import TransactionPending from '../components/base/Vet360TransactionPending';
 
 class InitializeVet360ID extends React.Component {
   componentDidMount() {

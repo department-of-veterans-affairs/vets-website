@@ -8,12 +8,12 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 function runRatedDisabilitiesTest(browser) {
   browser.assert.containsText(
     '.usa-alert-heading',
-    'No disability rating found',
+    'We’re sorry. Something went wrong on our end',
   );
   browser.assert.visible('.usa-alert-text');
   browser.assert.containsText(
     '.usa-alert-text p:nth-of-type(1)',
-    "We are sorry. We can't find a disability rating matched with the name, date of birth, and social secuity number you provided in our Veteran records.",
+    'Please refresh this page or check back later. You can also sign out of VA.gov and try signing back into this page.',
   );
 }
 

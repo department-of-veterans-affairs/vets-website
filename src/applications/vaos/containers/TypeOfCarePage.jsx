@@ -8,9 +8,8 @@ import {
 } from 'platform/user/selectors';
 
 import { TYPES_OF_CARE, DIRECT_SCHEDULE_TYPES } from '../utils/constants';
-import { getPastAppointments } from '../api';
+import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
-import TypeOfCareField from '../components/TypeOfCareField';
 import {
   openFormPage,
   updateFormData,
@@ -19,13 +18,18 @@ import {
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
 
+const sortedCare = TYPES_OF_CARE.sort(
+  (careA, careB) => (careA.name > careB.name ? 1 : -1),
+);
+
 const initialSchema = {
   type: 'object',
   required: ['typeOfCareId'],
   properties: {
     typeOfCareId: {
       type: 'string',
-      enum: TYPES_OF_CARE.map(care => care.id || care.ccId),
+      enum: sortedCare.map(care => care.id || care.ccId),
+      enumNames: sortedCare.map(care => care.name),
     },
   },
 };
@@ -33,7 +37,7 @@ const initialSchema = {
 const uiSchema = {
   typeOfCareId: {
     'ui:title': 'What type of care do you need?',
-    'ui:field': TypeOfCareField,
+    'ui:widget': 'radio',
     'ui:options': {
       hideLabelText: true,
     },
@@ -54,7 +58,7 @@ export class TypeOfCarePage extends React.Component {
     if (DIRECT_SCHEDULE_TYPES.has(newData.typeOfCareId)) {
       // This could get called multiple times, but the function is memoized
       // and returns the previous promise if it eixsts
-      getPastAppointments();
+      getLongTermAppointmentHistory();
     }
 
     this.props.updateFormData(pageKey, uiSchema, newData);

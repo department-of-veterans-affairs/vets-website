@@ -25,13 +25,14 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+  FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
+import clinics from '../../api/clinicList983.json';
 import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
 
 const testFlow = {
@@ -133,12 +134,12 @@ describe('VAOS newAppointment actions', () => {
       },
     };
 
-    before(() => {
+    beforeEach(() => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systemIdentifiers);
     });
 
-    after(() => {
+    afterEach(() => {
       resetFetch();
     });
 
@@ -272,6 +273,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -377,7 +379,7 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, () => state);
 
       expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_REASON_FOR_APPOINTMENT_UPDATE_REMAINING_CHAR,
+        FORM_REASON_FOR_APPOINTMENT_CHANGED,
       );
       expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
         REASON_MAX_CHARS.direct -
@@ -385,7 +387,6 @@ describe('VAOS newAppointment actions', () => {
           1 -
           reasonAdditionalInfo.length,
       );
-      expect(dispatch.secondCall.args[0].type).to.equal(FORM_DATA_UPDATED);
     });
 
     it('update values and calculates remaining characters for request message', async () => {

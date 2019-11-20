@@ -40,7 +40,7 @@
   .filter-button,
   .results-button {
     display: none;
-
+    width: 100%;
     @include media-maxwidth($small-screen) {
       display: block;
     }

@@ -131,6 +131,7 @@ header.merger {
   @include media($medium-screen) {
     .vetnav-panel .mm-link-container .vetnav-level2 {
       line-height: 1em;
+      font-family: $font-sans;
     }
   }
 

@@ -13,12 +13,14 @@ describe('<RatedDisabilityView/>', () => {
   };
   const ratedDisabilities = { ratedDisabilities: [] };
   const fetchRatedDisabilities = sinon.stub();
+  const fetchTotalDisabilityRating = sinon.stub();
 
   it('should render', () => {
     const wrapper = shallow(
       <RatedDisabilityView
         user={user}
         fetchRatedDisabilities={fetchRatedDisabilities}
+        fetchTotalDisabilityRating={fetchTotalDisabilityRating}
         ratedDisabilities={ratedDisabilities}
       />,
     );

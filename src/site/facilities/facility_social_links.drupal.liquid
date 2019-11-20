@@ -1,19 +1,31 @@
 <section class="feature vads-u-background-color--gray-lightest vads-u-margin-top--4 small-screen:vads-u-margin-top--6 vads-u-padding-x--3 vads-u-padding-y--2p5">
     <h3 class="vads-u-margin-bottom--2">Get updates from {{ regionNickname }}</h3>
     <div class="va-c-list-link-teasers usa-grid usa-grid-full">
-        {% if fieldLinks != empty and fieldLinks.length %}
+
+        {% if fieldLinkFacilityEmergList != empty or if fieldLinkFacilityNewsList != empty %}
             <div class="usa-width-one-half social-links">
-                {% for link in fieldLinks %}
-                    <div class="social-links-email vads-u-margin-bottom--2">
-                        <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ link.url.path }}">
-                            <i class="fas fa-envelope vads-u-margin-right--1"></i>
-                            <span class="vads-u-text-decoration--underline">{{ link.title }}</span>
-                        </a>
-                    </div>
-                {% endfor %}
+                {% if fieldLinkFacilityNewsList != empty %}
+                        <div class="social-links-email vads-u-margin-bottom--2">
+                            <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none"
+                                target="_blank" href="{{ fieldLinkFacilityNewsList.url.path }}">
+                                <i class="fas fa-envelope vads-u-margin-right--1"></i>
+                                <span class="vads-u-text-decoration--underline">Subscribe to
+                                    {{ regionNickname }} news and announcements</span>
+                            </a>
+                        </div>
+                {% endif %}
+
+                {% if fieldLinkFacilityEmergList != empty %}
+                        <div class="social-links-email vads-u-margin-bottom--2">
+                            <a class="vads-u-display--flex vads-u-align-items--baseline vads-u-text-decoration--none" target="_blank" href="{{ fieldLinkFacilityEmergList.url.path }}">
+                                <i class="fas fa-envelope vads-u-margin-right--1"></i>
+                                <span class="vads-u-text-decoration--underline">Subscribe to {{ regionNickname }} emergency notifications</span>
+                            </a>
+                        </div>
+
+                {% endif %}
             </div>
         {% endif %}
-
 
         {% if fieldFacebook != empty || fieldTwitter != empty || fieldFlickr != empty || fieldInstagram != empty %}
             <div class="usa-width-one-half social-links">

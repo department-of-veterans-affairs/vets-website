@@ -233,6 +233,14 @@ module.exports = function registerFilters() {
     return JSON.stringify(id);
   };
 
+  liquid.filters.sortMainFacility = item => {
+    const sorted = item.sort((a, b) => {
+      const sorter = a.entityId - b.entityId;
+      return sorter;
+    });
+    return sorted;
+  };
+
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
     const getDeepLinks = (path, linkArr) => {

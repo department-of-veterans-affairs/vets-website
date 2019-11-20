@@ -2,28 +2,32 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { uniqueId } from 'lodash';
 // Relative
 import SideNav from '../../components/SideNav';
 
 describe('<SideNav>', () => {
+  const firstID = uniqueId('sidenav_');
+  const secondID = uniqueId('sidenav_');
+
   const defaultProps = {
     navItemsLookup: {
-      '00c9a1ff-3550-4f54-9239-c769fc6edab1': {
+      [firstID]: {
         description: 'Some description',
         expanded: false,
         hasChildren: true,
         href: '/pittsburgh-health-care',
-        id: '00c9a1ff-3550-4f54-9239-c769fc6edab1',
+        id: firstID,
         label: 'Location',
         order: 0,
-        parentID: '8e5668a6-90d9-4913-bc9f-c8f6788d7a2e',
+        parentID: uniqueId('sidenav_'),
       },
-      '8e5668a6-90d9-4913-bc9f-c8f6788d7a2e': {
+      [secondID]: {
         description: 'Some description',
         expanded: false,
         hasChildren: false,
         href: '/pittsburgh-health-care/location',
-        id: '8e5668a6-90d9-4913-bc9f-c8f6788d7a2e',
+        id: secondID,
         label: 'Pittsburgh Health Care',
         order: 0,
         parentID: undefined,
