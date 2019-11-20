@@ -24,6 +24,7 @@ import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { renderVetTecLogo } from '../utils/render';
+import environment from 'platform/utilities/environment';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -217,45 +218,87 @@ export class VetTecSearchPage extends React.Component {
 
     const searchResults = this.searchResults();
 
+    // prod flag for 19985 critical
     return (
       <ScrollElement name="searchPage" className="search-page">
-        <div>
-          <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
-            {renderVetTecLogo(classNames('vettec-logo'))}
-          </div>
-          <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
-            <div className="vads-l-col--9 search-results-count">
-              {this.renderSearchResultsHeader(this.props.search)}
+        {environment.isProduction ? (
+          <div>
+            <div className="vads-u-display--block small-screen:vads-u-display--none vettec-logo-container">
+              {renderVetTecLogo(classNames('vettec-logo'))}
             </div>
-            <div className="vads-l-col--3">
-              <div className="vads-u-display--none single-column-display-block vettec-logo-container">
-                {renderVetTecLogo(classNames('vettec-logo'))}
+            <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+              <div className="vads-l-col--10 search-results-count">
+                {this.renderSearchResultsHeader(this.props.search)}
+              </div>
+              <div className="vads-l-col--2">
+                <div className="vads-u-display--none small-screen:vads-u-display--block vettec-logo-container">
+                  {renderVetTecLogo(classNames('vettec-logo'))}
+                </div>
               </div>
             </div>
+            <VetTecSearchForm
+              filtersClass={filtersClass}
+              search={this.props.search}
+              autocomplete={this.props.autocomplete}
+              location={this.props.location}
+              clearAutocompleteSuggestions={
+                this.props.clearAutocompleteSuggestions
+              }
+              fetchAutocompleteSuggestions={
+                this.props.fetchProgramAutocompleteSuggestions
+              }
+              handleFilterChange={this.handleFilterChange}
+              handleProviderFilterChange={this.handleProviderFilterChange}
+              updateAutocompleteSearchTerm={
+                this.props.updateAutocompleteSearchTerm
+              }
+              filters={filters}
+              toggleFilter={this.props.toggleFilter}
+              searchResults={searchResults}
+              eligibility={this.props.eligibility}
+              showModal={this.props.showModal}
+              eligibilityChange={this.props.eligibilityChange}
+            />
           </div>
-          <VetTecSearchForm
-            filtersClass={filtersClass}
-            search={this.props.search}
-            autocomplete={this.props.autocomplete}
-            location={this.props.location}
-            clearAutocompleteSuggestions={
-              this.props.clearAutocompleteSuggestions
-            }
-            fetchAutocompleteSuggestions={
-              this.props.fetchProgramAutocompleteSuggestions
-            }
-            handleFilterChange={this.handleFilterChange}
-            updateAutocompleteSearchTerm={
-              this.props.updateAutocompleteSearchTerm
-            }
-            filters={filters}
-            toggleFilter={this.props.toggleFilter}
-            searchResults={searchResults}
-            eligibility={this.props.eligibility}
-            showModal={this.props.showModal}
-            eligibilityChange={this.props.eligibilityChange}
-          />
-        </div>
+        ) : (
+          <div>
+            <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
+              {renderVetTecLogo(classNames('vettec-logo'))}
+            </div>
+            <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+              <div className="vads-l-col--9 search-results-count">
+                {this.renderSearchResultsHeader(this.props.search)}
+              </div>
+              <div className="vads-l-col--3">
+                <div className="vads-u-display--none single-column-display-block vettec-logo-container">
+                  {renderVetTecLogo(classNames('vettec-logo'))}
+                </div>
+              </div>
+            </div>
+            <VetTecSearchForm
+              filtersClass={filtersClass}
+              search={this.props.search}
+              autocomplete={this.props.autocomplete}
+              location={this.props.location}
+              clearAutocompleteSuggestions={
+                this.props.clearAutocompleteSuggestions
+              }
+              fetchAutocompleteSuggestions={
+                this.props.fetchProgramAutocompleteSuggestions
+              }
+              handleFilterChange={this.handleFilterChange}
+              updateAutocompleteSearchTerm={
+                this.props.updateAutocompleteSearchTerm
+              }
+              filters={filters}
+              toggleFilter={this.props.toggleFilter}
+              searchResults={searchResults}
+              eligibility={this.props.eligibility}
+              showModal={this.props.showModal}
+              eligibilityChange={this.props.eligibilityChange}
+            />
+          </div>
+        )}
       </ScrollElement>
     );
   }
