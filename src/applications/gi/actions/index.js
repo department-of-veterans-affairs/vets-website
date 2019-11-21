@@ -190,7 +190,7 @@ export function fetchInstitutionSearchResults(query = {}) {
 export function fetchProgramSearchResults(query = {}) {
   const url = appendQuery(
     `${api.url}/institution_programs/search`,
-    rubyifyKeys(query, ['provider']),
+    rubyifyKeys(query),
   );
 
   return dispatch => {
