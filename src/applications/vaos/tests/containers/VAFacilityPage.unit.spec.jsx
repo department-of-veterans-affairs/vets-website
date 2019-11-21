@@ -219,4 +219,27 @@ describe('VAOS <VAFacilityPage>', () => {
     expect(form.find('.usa-alert').exists()).to.be.true;
     form.unmount();
   });
+
+  it('should render alert message with aria label', () => {
+    const openFormPage = sinon.spy();
+
+    const form = mount(
+      <VAFacilityPage
+        canScheduleAtChosenFacility
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
+        // routeToNextAppointmentPage={routeToNextAppointmentPage}
+        data={{
+          vaSystem: '984',
+          vaFacility: '984',
+        }}
+      />,
+    );
+    form.find('form').simulate('click');
+
+    expect(form.find('#root_vaSystem-label').exists()).to.be.true;
+    expect(form.find('#root_vaFacility-label').exists()).to.be.true;
+    expect(form.find('[aria-atomic="true"]').exists()).to.be.true;
+    form.unmount();
+  });
 });
