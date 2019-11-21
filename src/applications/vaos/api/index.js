@@ -332,7 +332,7 @@ export function getAvailableSlots() {
 
 export function getCancelReasons(systemId) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     promise = import('./cancel_reasons.json').then(
       module => (module.default ? module.default : module),
     );
@@ -345,14 +345,19 @@ export function getCancelReasons(systemId) {
   );
 }
 
-// PUT /vaos/appointments
-// eslint-disable-next-line no-unused-vars
 export function updateAppointment(appt) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 500);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve();
+  } else {
+    promise = apiRequest(`/vaos/appointments/cancel`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(appt),
+    });
+  }
+
+  return promise;
 }
 
 // PUT /vaos/requests

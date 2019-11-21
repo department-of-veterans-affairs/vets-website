@@ -77,7 +77,7 @@ export default class ScoAnnouncementsWidget extends React.Component {
         {this.renderAnnouncements()}
         <p className="vads-u-margin-bottom--0">
           <a
-            href="https://www.benefits.va.gov/gibill/news.asp"
+            href="https://benefits.va.gov/gibill/index.asp"
             className="vads-u-text-decoration--none"
           >
             See past updates...
