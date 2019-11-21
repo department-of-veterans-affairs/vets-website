@@ -102,7 +102,11 @@ export class VetTecCalculator extends React.Component {
       <div className={this.indentVaPaysToProvider()}>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon enrollment in program (25%):</div>
+            <div>
+              Upon enrollment in program{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (25%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
             <div className="estimated-benefit-values">
@@ -112,7 +116,11 @@ export class VetTecCalculator extends React.Component {
         </div>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon completion of program (25%):</div>
+            <div>
+              Upon completion of program{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (25%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
             <div className="estimated-benefit-values">
@@ -122,7 +130,11 @@ export class VetTecCalculator extends React.Component {
         </div>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon employment (50%):</div>
+            <div>
+              Upon employment{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (50%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
             <div className="estimated-benefit-values">
