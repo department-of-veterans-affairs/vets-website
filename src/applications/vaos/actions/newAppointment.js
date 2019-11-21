@@ -370,7 +370,7 @@ export function submitAppointmentOrRequest(router) {
         await submitAppointment(appointmentBody);
 
         try {
-          buildPreferencesDataAndUpdate(newAppointment);
+          await buildPreferencesDataAndUpdate(newAppointment);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
@@ -402,7 +402,7 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          buildPreferencesDataAndUpdate(newAppointment);
+          await buildPreferencesDataAndUpdate(newAppointment);
           const messageBody = createMessageBody(
             requestData.uniqueId,
             newAppointment,
