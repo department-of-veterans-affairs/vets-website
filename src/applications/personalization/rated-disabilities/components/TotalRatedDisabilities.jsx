@@ -38,7 +38,7 @@ const TotalRatedDisabilities = props => {
 TotalRatedDisabilities.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
-  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRating: PropTypes.string,
 };
 
 export default TotalRatedDisabilities;
