@@ -22,7 +22,7 @@ import {
   forwardingAddressCheckboxLabel,
 } from '../content/ForwardingAddress';
 import { checkDateRange } from '../validations';
-import { errorMessages } from '../constants';
+import { errorMessages, patternMessages } from '../constants';
 
 const {
   mailingAddress,
@@ -49,7 +49,7 @@ const contactInfo = {
         'ui:widget': PhoneNumberWidget,
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:errorMessages': {
-          pattern: errorMessages.phone,
+          pattern: patternMessages.phone,
           required: errorMessages.phone,
         },
         'ui:options': {
@@ -60,7 +60,7 @@ const contactInfo = {
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: errorMessages.email,
+          pattern: patternMessages.email,
           required: errorMessages.email,
         },
         'ui:options': {
