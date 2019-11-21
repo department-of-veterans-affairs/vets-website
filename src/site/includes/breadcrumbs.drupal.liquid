@@ -4,11 +4,7 @@
         {% if forloop.last == true %}
             <li><a aria-current="page" href="/{{ path }}">{{ crumb.text }}</a></li>
         {% elsif crumb.url.path %}
-            {% if crumb.url.path == '/' %}
-                <li>
-                    <a href="{{ crumb.url.path }}" onClick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
-                </li>
-            {% else %}
+            {% if crumb.url.path != '/' %}
                 <li><a href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
             {% endif %}
         {% endif %}
