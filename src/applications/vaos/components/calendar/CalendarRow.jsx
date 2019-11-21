@@ -47,7 +47,7 @@ export default class CalendarRow extends Component {
       disabled = true;
     }
 
-    // If maxDate provided, disable dates after minDate
+    // If maxDate provided, disable dates after maxDate
     if (
       maxDate &&
       moment(maxDate).isValid() &&
