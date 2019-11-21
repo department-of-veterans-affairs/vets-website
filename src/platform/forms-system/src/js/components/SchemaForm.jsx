@@ -182,29 +182,27 @@ class SchemaForm extends React.Component {
     const useReviewMode = reviewMode && !editModeOnReviewPage;
 
     return (
-      <div>
-        <Form
-          safeRenderCompletion={safeRenderCompletion}
-          FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
-          formContext={this.state.formContext}
-          liveValidate
-          noHtml5Validate
-          onError={this.onError}
-          onBlur={this.onBlur}
-          onChange={({ formData }) => onChange(formData)}
-          onSubmit={onSubmit}
-          schema={schema}
-          uiSchema={uiSchema}
-          validate={_.once(this.validate)}
-          showErrorList={false}
-          formData={data}
-          widgets={useReviewMode ? reviewWidgets : widgets}
-          fields={useReviewMode ? this.reviewFields : this.fields}
-          transformErrors={this.transformErrors}
-        >
-          {children}
-        </Form>
-      </div>
+      <Form
+        safeRenderCompletion={safeRenderCompletion}
+        FieldTemplate={useReviewMode ? ReviewFieldTemplate : FieldTemplate}
+        formContext={this.state.formContext}
+        liveValidate
+        noHtml5Validate
+        onError={this.onError}
+        onBlur={this.onBlur}
+        onChange={({ formData }) => onChange(formData)}
+        onSubmit={onSubmit}
+        schema={schema}
+        uiSchema={uiSchema}
+        validate={_.once(this.validate)}
+        showErrorList={false}
+        formData={data}
+        widgets={useReviewMode ? reviewWidgets : widgets}
+        fields={useReviewMode ? this.reviewFields : this.fields}
+        transformErrors={this.transformErrors}
+      >
+        {children}
+      </Form>
     );
   }
 }
