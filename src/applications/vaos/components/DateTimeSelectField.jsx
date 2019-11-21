@@ -31,24 +31,24 @@ class DateTimeSelectField extends Component {
 
     return (
       <CalendarWidget
+        monthsToShowAtOnce={2}
+        maxSelections={1}
+        availableDates={formContext?.availableDates}
+        currentlySelectedDate={currentlySelectedDate}
+        selectedDates={selectedDates}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,
           maxSelections: 1,
           getOptionsByDate: this.getOptionsByDate,
         }}
-        availableDates={formContext?.availableDates}
-        currentlySelectedDate={currentlySelectedDate}
-        maxSelections={1}
+        onChange={this.props.onChange}
         minDate={moment()
           .add(1, 'days')
           .format('YYYY-MM-DD')}
         maxDate={moment()
           .add(395, 'days')
           .format('YYYY-MM-DD')}
-        monthsToShowAtOnce={2}
-        onChange={this.props.onChange}
-        selectedDates={selectedDates}
         startMonth={formContext?.preferredDate}
       />
     );
