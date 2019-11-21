@@ -20,6 +20,7 @@ import createDisabilityFormWizard from '../disability-benefits/wizard/createWiza
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
+import createFindVaForms from '../find-va-forms/createFindVaForms';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -97,6 +98,8 @@ createBasicFacilityListWidget();
 
 createScoEventsWidget();
 createScoAnnouncementsWidget();
+
+createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 
 // homepage widgets
 if (location.pathname === '/') {
