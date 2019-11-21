@@ -8,10 +8,11 @@ import {
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getAvailableSlots,
-  submitRequest,
-  sendRequestMessage,
   getPreferences,
   updatePreferences,
+  submitRequest,
+  submitAppointment,
+  sendRequestMessage,
 } from '../api';
 import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
 import {
@@ -366,7 +367,7 @@ export function submitAppointmentOrRequest(router) {
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       try {
         const appointmentBody = transformFormToAppointment(getState());
-        await submitRequest(appointmentBody);
+        await submitAppointment(appointmentBody);
 
         try {
           buildPreferencesDataAndUpdate(newAppointment);
