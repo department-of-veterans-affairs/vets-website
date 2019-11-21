@@ -18,8 +18,6 @@ function getStagingId(facilityId) {
 
 const USE_MOCK_DATA = environment.isLocalhost();
 
-// GET /vaos/appointments
-// eslint-disable-next-line no-unused-vars
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
@@ -43,8 +41,6 @@ export function getConfirmedAppointments(type, startDate, endDate) {
   );
 }
 
-// GET /vaos/requests
-// eslint-disable-next-line no-unused-vars
 export function getPendingAppointments(startDate, endDate) {
   let promise;
   if (USE_MOCK_DATA) {
@@ -372,4 +368,66 @@ export function updateRequest(appt) {
       resolve();
     }, 500);
   });
+}
+
+export function submitRequest(type, request) {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({
+      data: {
+        attributes: {
+          uniqueId: 'testing',
+        },
+      },
+    });
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests?type=${type}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function sendRequestMessage(id, message) {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({ data: { attributes: {} } });
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function getPreferences() {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({ data: { attributes: {} } });
+  } else {
+    promise = apiRequest(`/vaos/preferences`);
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function updatePreferences(data) {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({ data: { attributes: {} } });
+  } else {
+    promise = apiRequest(`/vaos/preferences`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
 }

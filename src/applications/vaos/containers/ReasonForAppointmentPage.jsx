@@ -10,7 +10,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getReasonForAppointment } from '../utils/selectors';
-import { PURPOSE_RADIO_LABELS } from '../utils/constants';
+import { PURPOSE_TEXT } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -18,7 +18,8 @@ const initialSchema = {
   properties: {
     reasonForAppointment: {
       type: 'string',
-      enum: ['routine-follow-up', 'new-issue', 'medication-concern', 'other'],
+      enum: PURPOSE_TEXT.map(purpose => purpose.id),
+      enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
     },
     reasonAdditionalInfo: {
       type: 'string',
@@ -30,9 +31,6 @@ const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
     'ui:title': 'Why are you making this appointment?',
-    'ui:options': {
-      labels: PURPOSE_RADIO_LABELS,
-    },
   },
   reasonAdditionalInfo: {
     'ui:widget': 'textarea',
