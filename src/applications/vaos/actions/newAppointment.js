@@ -17,6 +17,7 @@ import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
+  transformFormToAppointment,
   createMessageBody,
   createPreferenceBody,
 } from '../utils/data';
@@ -345,6 +346,12 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   };
 }
 
+async function buildPreferencesDataAndUpdate(newAppointment) {
+  const preferenceData = await getPreferences();
+  const preferenceBody = createPreferenceBody(newAppointment, preferenceData);
+  return updatePreferences(preferenceBody);
+}
+
 export function submitAppointmentOrRequest(router) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
@@ -354,8 +361,29 @@ export function submitAppointmentOrRequest(router) {
     });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
-      // TODO: transform form data into shape for direct schedule
-      router.push('/new-appointment/confirmation');
+      try {
+        const appointmentBody = transformFormToAppointment(getState());
+        await submitRequest(appointmentBody);
+
+        try {
+          buildPreferencesDataAndUpdate(newAppointment);
+        } catch (error) {
+          // These are ancillary updates, the request went through if the first submit
+          // succeeded
+          Sentry.captureException(error);
+        }
+
+        dispatch({
+          type: FORM_SUBMIT_SUCCEEDED,
+        });
+
+        router.push('/new-appointment/confirmation');
+      } catch (error) {
+        Sentry.captureException(error);
+        dispatch({
+          type: FORM_SUBMIT_FAILED,
+        });
+      }
     } else {
       try {
         let requestBody;
@@ -370,12 +398,7 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          const preferenceData = await getPreferences();
-          const preferenceBody = createPreferenceBody(
-            newAppointment,
-            preferenceData,
-          );
-          await updatePreferences(preferenceBody);
+          buildPreferencesDataAndUpdate(newAppointment);
           const messageBody = createMessageBody(
             requestData.uniqueId,
             newAppointment,

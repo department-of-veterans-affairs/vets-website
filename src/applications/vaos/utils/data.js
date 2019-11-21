@@ -1,7 +1,12 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
-import { getTypeOfCare, getSystems } from './selectors';
+import {
+  getTypeOfCare,
+  getSystems,
+  getFormData,
+  getChosenClinicInfo,
+} from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
 function getRequestedDates(data) {
@@ -20,6 +25,14 @@ function getRequestedDates(data) {
       optionTime3: 'No Time Selected',
     },
   );
+}
+
+function getUserMessage(data) {
+  const label = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  ).short;
+
+  return `${label} - ${data.reasonAdditionalInfo}`;
 }
 
 export function transformFormToVARequest({ data }) {
@@ -151,6 +164,30 @@ export function transformFormToCCRequest(state) {
   };
 }
 
+export function transformFormToAppointment(state) {
+  const data = getFormData(state);
+  const clinic = getChosenClinicInfo(state);
+
+  return {
+    clinic,
+    direct: {
+      purpose: getUserMessage(data),
+    },
+    bookingNotes: getUserMessage(data),
+    // defaulted values
+    apptType: 'P',
+    purpose: '9',
+    lvl: '1',
+    ekg: '',
+    lab: '',
+    xRay: '',
+    schedulingRequestType: 'NEXT_AVAILABLE_APPT',
+    type: 'REGULAR',
+    appointmentKind: 'TRADITIONAL',
+    schedulingMethod: 'direct',
+  };
+}
+
 export function createPreferenceBody(preferences, data) {
   return {
     ...preferences,
@@ -161,13 +198,9 @@ export function createPreferenceBody(preferences, data) {
 }
 
 export function createMessageBody(id, { data }) {
-  const label = PURPOSE_TEXT.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  ).short;
-
   return {
     AppointmentRequestId: id,
-    messageText: `${label} - ${data.reasonAdditionalInfo}`,
+    messageText: getUserMessage(data),
     isLastMessage: true,
     messageDateTime: '',
     messageSent: true,
