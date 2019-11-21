@@ -22,8 +22,7 @@ const ExpandCollapseButton = ({ depth, item }) => {
   return (
     <span className="va-sidenav-toggle-expand">
       <i
-        className={classNames({
-          fa: true,
+        className={classNames('fa', {
           'fa-chevron-up': expanded,
           'fa-chevron-down': !expanded,
         })}
