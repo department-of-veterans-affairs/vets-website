@@ -177,8 +177,8 @@ export class AppointmentsPage extends Component {
                   Create a new appointment
                 </h2>
                 <p className="vads-u-margin-top--1">
-                  Schedule a new appointment at a VA Medical center, clinic, or
-                  Community care facility
+                  Schedule an appointment at a VA medical center, clinic, or
+                  Community Care facility.
                 </p>
                 <Link to="/new-appointment">
                   <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">

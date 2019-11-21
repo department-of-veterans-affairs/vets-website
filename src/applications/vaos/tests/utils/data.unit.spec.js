@@ -199,7 +199,7 @@ describe('VAOS data transformation', () => {
       inpatient: false,
       status: 'Submitted',
       providerId: '0',
-      pproviderOption: '',
+      providerOption: '',
     });
   });
 
