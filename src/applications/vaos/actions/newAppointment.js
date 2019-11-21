@@ -293,6 +293,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       );
 
       slots = response[0]?.appointmentTimeSlot || [];
+      const appointmentLength = response[0]?.appointmentLength;
 
       const now = moment();
 
@@ -302,6 +303,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
           acc.push({
             date: dateObj.format('YYYY-MM-DD'),
             datetime: dateObj.format(),
+            appointmentLength,
           });
         }
         return acc;

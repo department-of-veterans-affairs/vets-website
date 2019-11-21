@@ -6,6 +6,7 @@ import {
   getSystems,
   getFormData,
   getChosenClinicInfo,
+  getChosenFacilityInfo,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
@@ -167,13 +168,48 @@ export function transformFormToCCRequest(state) {
 export function transformFormToAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
+  const facility = getChosenFacilityInfo(state);
+  const slot = data.calendarData.selectedDates[0];
+  const purpose = getUserMessage(data);
 
   return {
     clinic,
     direct: {
-      purpose: getUserMessage(data),
+      purpose,
+      desiredDate: moment(slot.date, 'YYYY-MM-DD').format(
+        'MM/DD/YYYY [00:00:00]',
+      ),
+      dateTime: moment(slot.datetime).format('MM/DD/YYYY HH:mm:ss'),
+      apptLength: parseInt(slot.appointmentLength, 10),
     },
-    bookingNotes: getUserMessage(data),
+    // These times are a lie, they're actually in local time, but the upstream
+    // service expects the 0 offset.
+    desiredDate: `${slot.date}T00:00:00+00:00`,
+    dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
+    duration: parseInt(slot.appointmentLength, 10),
+    bookingNotes: purpose,
+    patients: {
+      patient: [
+        {
+          contactInformation: {
+            preferredEmail: data.email,
+            timeZone: facility.institutionTimezone,
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: facility.institution.name,
+              siteCode: facility.institution.rootStationCode,
+              timeZone: facility.institutionTimezone,
+            },
+            clinic: {
+              ien: clinic.clinicId,
+              name: clinic.clinicName,
+            },
+          },
+        },
+      ],
+    },
     // defaulted values
     apptType: 'P',
     purpose: '9',
@@ -185,6 +221,15 @@ export function transformFormToAppointment(state) {
     type: 'REGULAR',
     appointmentKind: 'TRADITIONAL',
     schedulingMethod: 'direct',
+    providers: {
+      provider: [
+        {
+          location: {
+            type: 'VA',
+          },
+        },
+      ],
+    },
   };
 }
 
