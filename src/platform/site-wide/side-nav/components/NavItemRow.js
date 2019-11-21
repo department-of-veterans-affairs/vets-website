@@ -49,6 +49,7 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
     <a
       className={classNames({
         'va-sidenav-item-label': true,
+        'va-sidenav-item-label-underlined': true,
         selected: isSelected,
       })}
       rel="noopener noreferrer"
