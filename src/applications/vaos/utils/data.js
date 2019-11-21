@@ -171,6 +171,10 @@ export function transformFormToAppointment(state) {
   const facility = getChosenFacilityInfo(state);
   const slot = data.calendarData.selectedDates[0];
   const purpose = getUserMessage(data);
+  const appointmentLength = parseInt(
+    state.newAppointment.appointmentLength,
+    10,
+  );
 
   return {
     clinic,
@@ -180,13 +184,13 @@ export function transformFormToAppointment(state) {
         'MM/DD/YYYY [00:00:00]',
       ),
       dateTime: moment(slot.datetime).format('MM/DD/YYYY HH:mm:ss'),
-      apptLength: parseInt(slot.appointmentLength, 10),
+      apptLength: appointmentLength,
     },
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
     desiredDate: `${slot.date}T00:00:00+00:00`,
     dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
-    duration: parseInt(slot.appointmentLength, 10),
+    duration: appointmentLength,
     bookingNotes: purpose,
     patients: {
       patient: [

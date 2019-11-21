@@ -282,6 +282,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     let slots;
     let mappedSlots = [];
+    let appointmentLength = null;
 
     dispatch({
       type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
@@ -293,7 +294,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       );
 
       slots = response[0]?.appointmentTimeSlot || [];
-      const appointmentLength = response[0]?.appointmentLength;
+      appointmentLength = response[0]?.appointmentLength;
 
       const now = moment();
 
@@ -303,7 +304,6 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
           acc.push({
             date: dateObj.format('YYYY-MM-DD'),
             datetime: dateObj.format(),
-            appointmentLength,
           });
         }
         return acc;
@@ -320,6 +320,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       uiSchema,
       schema,
       availableSlots: mappedSlots,
+      appointmentLength,
     });
   };
 }
