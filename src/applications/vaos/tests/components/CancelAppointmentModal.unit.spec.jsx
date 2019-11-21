@@ -28,7 +28,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
         .find('Modal')
         .find('LoadingButton')
         .prop('children'),
-    ).to.equal('Yes, cancel');
+    ).to.equal('Yes, cancel this appointment');
     expect(
       tree
         .find('Modal')

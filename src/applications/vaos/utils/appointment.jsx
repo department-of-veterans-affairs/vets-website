@@ -66,6 +66,12 @@ export function titleCase(str) {
     .join(' ');
 }
 
+export function sentenceCase(str) {
+  return `${str.charAt(0).toUpperCase()}${str
+    .substr(1, str.length - 1)
+    .toLowerCase()}`;
+}
+
 export function getLocationHeader(appt) {
   const type = getAppointmentType(appt);
 
