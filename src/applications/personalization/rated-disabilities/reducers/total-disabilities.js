@@ -9,10 +9,9 @@ const initialState = {
   totalDisabilityRating: null,
 };
 
-export function totalRating (state = initialState, action) {
+export function totalRating(state = initialState, action) {
   switch (action.type) {
     case FETCH_TOTAL_RATING_FAILED:
-      console.log(action);
       return {
         ...state,
         loading: false,
