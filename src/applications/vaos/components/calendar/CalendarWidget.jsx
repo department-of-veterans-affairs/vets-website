@@ -308,6 +308,7 @@ export default class CalendarWidget extends Component {
       minDate,
       maxDate,
     } = this.props;
+
     return getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
         key={`row-${index}`}
