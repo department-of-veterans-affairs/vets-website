@@ -25,7 +25,7 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderPhysicalAddress = () =>
     institution.physicalAddress1 && (
-      <div className="vads-l-row">
+      <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h5 className="contact-heading">Physical address</h5>
         </div>
@@ -51,7 +51,7 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderMailingAddress = () =>
     institution.address1 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h5 className="contact-heading">Mailing address</h5>
         </div>
@@ -70,7 +70,7 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderProviderEmail = () =>
     firstProgram.providerEmailAddress && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h5 className="contact-heading">Email address</h5>
         </div>
@@ -93,7 +93,7 @@ export const VetTecContactInformation = ({ institution }) => {
       return null;
     }
     return (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h5 className="contact-heading">Phone number</h5>
         </div>
@@ -115,7 +115,7 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderPrimarySCOs = () =>
     primarySCOs.length > 0 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h4 className="contact-heading">Primary</h4>
         </div>
@@ -131,7 +131,7 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderSecondarySCOs = () =>
     secondarySCOs.length > 0 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h4 className="contact-heading">Secondary</h4>
         </div>

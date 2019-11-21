@@ -148,7 +148,7 @@ export class VetTecCalculator extends React.Component {
 
   renderHousingSection = (outputs, showModal) => (
     <div className="housing-section">
-      <div className="link-header">
+      <div>
         <h4 className="vads-u-font-size--h5">Housing allowance</h4>{' '}
         <button
           aria-label={ariaLabels.learnMore.housingAllowance}
