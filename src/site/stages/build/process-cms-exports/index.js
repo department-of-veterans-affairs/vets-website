@@ -3,7 +3,12 @@ const get = require('lodash/get');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
-const { typeProperties, toId, readEntity } = require('./helpers');
+const {
+  typeProperties,
+  toId,
+  readEntity,
+  getContentModelType,
+} = require('./helpers');
 
 const {
   validateRawEntity,
@@ -69,9 +74,19 @@ const entityAssemblerFactory = contentDir => {
     if (rawErrors.length) {
       /* eslint-disable no-console */
       console.warn(
-        chalk.yellow(`${toId(entity)} is invalid before transformation:`),
+        chalk.yellow(
+          `${toId(entity)} (${getContentModelType(
+            entity,
+          )}) is invalid before transformation:`,
+        ),
       );
       console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
+      rawErrors.forEach(e => {
+        console.warn(
+          `Data found at ${e.dataPath}:`,
+          JSON.stringify(get(entity, e.dataPath.slice(1))),
+        );
+      });
       console.warn(`-------------------`);
       /* eslint-enable no-console */
 
@@ -108,7 +123,11 @@ const entityAssemblerFactory = contentDir => {
     if (transformedErrors.length) {
       /* eslint-disable no-console */
       console.warn(
-        chalk.yellow(`${toId(entity)} is invalid after transformation:`),
+        chalk.yellow(
+          `${toId(entity)} (${getContentModelType(
+            entity,
+          )}) is invalid after transformation:`,
+        ),
       );
       console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
       transformedErrors.forEach(e => {

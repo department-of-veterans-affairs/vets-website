@@ -126,6 +126,14 @@ export function getAppointmentLocation(appt, facility) {
     );
   }
 
+  if (type === APPOINTMENT_TYPES.vaAppointment) {
+    return (
+      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+        Find facility information
+      </a>
+    );
+  }
+
   if (facility) {
     return (
       <>
@@ -285,8 +293,18 @@ export function getRequestTimeToCall(appt) {
  */
 
 export function filterFutureConfirmedAppointments(appt, today) {
-  const date = getMomentConfirmedDate(appt);
-  return date.isValid() && date.isAfter(today);
+  // return appointments where current time is less than appointment time
+  // +60 min or +240 min in the case of video
+  const threshold = isVideoVisit(appt) ? 240 : 60;
+  const apptDateTime = getMomentConfirmedDate(appt);
+  return (
+    apptDateTime.isValid() &&
+    apptDateTime.add(threshold, 'minutes').isAfter(today)
+  );
+}
+
+export function sortFutureConfirmedAppointments(a, b) {
+  return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
 export function filterFutureRequests(request, today) {
@@ -294,42 +312,27 @@ export function filterFutureRequests(request, today) {
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
   const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
 
+  const VALID_STATUSES = ['Submitted', 'Cancelled'];
+
   return (
-    ['Submitted', 'Cancelled'].includes(request.status) &&
+    VALID_STATUSES.includes(request.status) &&
     ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
       (optionDate2.isValid() && optionDate2.isAfter(today)) ||
       (optionDate3.isValid() && optionDate3.isAfter(today)))
   );
 }
 
-export function sortFutureList(a, b) {
-  const aIsRequest =
-    getAppointmentType(a) === APPOINTMENT_TYPES.request ||
-    getAppointmentType(a) === APPOINTMENT_TYPES.ccRequest;
-  const bIsRequest =
-    getAppointmentType(b) === APPOINTMENT_TYPES.request ||
-    getAppointmentType(b) === APPOINTMENT_TYPES.ccRequest;
+export function sortFutureRequests(a, b) {
+  const aDate = getMomentRequestOptionDate(a.optionDate1);
+  const bDate = getMomentRequestOptionDate(b.optionDate1);
 
-  const aDate = aIsRequest
-    ? getMomentRequestOptionDate(a.optionDate1)
-    : getMomentConfirmedDate(a);
-
-  const bDate = bIsRequest
-    ? getMomentRequestOptionDate(b.optionDate1)
-    : getMomentConfirmedDate(b);
-
-  if (aDate.isSame(bDate)) {
-    // If same date, requests should show after confirmed
-    if (aIsRequest && !bIsRequest) {
-      return 1;
-    } else if (bIsRequest && !aIsRequest) {
-      return -1;
-    }
-
-    return 0;
+  // If appointmentType is the same, return the one with the sooner date
+  if (a.appointmentType === b.appointmentType) {
+    return aDate.isBefore(bDate) ? -1 : 1;
   }
 
-  return aDate.isBefore(bDate) ? -1 : 1;
+  // Otherwise, return sorted alphabetically by appointmentType
+  return a.appointmentType < b.appointmentType ? -1 : 1;
 }
 
 export function sortMessages(a, b) {

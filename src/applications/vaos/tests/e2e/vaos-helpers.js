@@ -48,6 +48,11 @@ function initAppointmentListMock(token) {
     value: requests,
   });
   mock(token, {
+    path: '/v0/vaos/appointments/cancel',
+    verb: 'put',
+    value: '',
+  });
+  mock(token, {
     path: '/v0/vaos/facilities/983/cancel_reasons',
     verb: 'get',
     value: cancelReasons,

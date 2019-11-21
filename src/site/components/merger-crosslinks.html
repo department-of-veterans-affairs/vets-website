@@ -26,7 +26,7 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
   {% for group in crosslinks %}
 
     {% if group.heading != empty %}
-      <h3 class="va-nav-linkslist-heading">{{ group.heading }}</h3>
+      <h3 class="va-nav-linkslist-heading" tabindex="-1">{{ group.heading }}</h3>
     {% endif %}
 
     {% if group.links.length > 0 %}
