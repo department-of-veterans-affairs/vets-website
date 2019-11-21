@@ -41,8 +41,8 @@ export const ContactYouDescription = (
 
 export const ContactRepresentativeDescription = (
   <>
-    We will contact your representative to schedule an informal conference with
-    the higher-level reviewer assigned to complete the review of your issue.
+    We’ll contact your representative directly to schedule an informal
+    conference with the reviewer assigned to your issue.
     <br />
     <br />
     <p>Please provide your representative’s contact information.</p>
@@ -81,14 +81,17 @@ export const InformalConferenceAvailability = contact => (
   </span>
 );
 
-export const AttemptsInfoAlert = ({ isRep }) => (
-  <AlertBox
-    status="info"
-    headline={`We’ll make two attempts to call you${
-      isRep ? 'r representative' : ''
-    }`}
-    content={`A senior reviewer will try to call ${
-      isRep ? 'your representative' : 'you'
-    } by phone twice. If no one answers, we’ll leave a voice mail.`}
-  />
-);
+export const AttemptsInfoAlert = ({ isRep }) => {
+  const contact = isRep ? 'your representative' : 'you';
+  return (
+    <AlertBox
+      status="info"
+      headline={`We’ll try to call ${contact} twice`}
+      content={`A senior reviewer will try to call ${contact} by phone two
+        times. If no one answers, they’ll leave a voice mail. If the senior
+        reviewer is unable to leave a message or get in touch with ${contact}
+        after two attempts, they’ll proceed with their review and issue a
+        decision.`}
+    />
+  );
+};
