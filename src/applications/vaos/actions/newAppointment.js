@@ -418,7 +418,6 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_SUCCEEDED,
         });
 
-
         router.push('/new-appointment/confirmation');
       } catch (error) {
         Sentry.captureException(error);
