@@ -74,7 +74,7 @@ export function transformFormToVARequest({ data }) {
     schedulingMethod: 'clerk',
     requestedPhoneCall: false,
     providerId: '0',
-    pproviderOption: '',
+    providerOption: '',
   };
 }
 
