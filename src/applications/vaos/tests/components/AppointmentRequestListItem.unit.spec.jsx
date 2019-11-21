@@ -101,7 +101,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     expect(tree.text()).to.contain('Canceled');
 
     expect(tree.text()).to.contain(
-      'Audiology (hearing Aid Support) appointment',
+      'Audiology (hearing aid support) appointment',
     );
 
     expect(tree.find('.usa-button-secondary').length).to.equal(0);
