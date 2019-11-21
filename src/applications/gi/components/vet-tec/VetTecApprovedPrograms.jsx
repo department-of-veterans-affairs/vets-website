@@ -80,7 +80,7 @@ class VetTecApprovedPrograms extends React.Component {
 
       return (
         <div>
-          <p>Select a program below to view your estimated benefits.</p>
+          <span>Select a program below to view your estimated benefits.</span>
           <table className="vet-tec-programs-table">
             <colgroup>
               <col className="name-col" />

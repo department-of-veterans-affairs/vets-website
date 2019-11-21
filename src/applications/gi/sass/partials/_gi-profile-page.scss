@@ -185,7 +185,6 @@
 
   .sco-contact-info {
     word-wrap: break-word;
-    padding: 0.5em;
   }
 
   .additional-information {
@@ -208,9 +207,14 @@
     }
   }
 
-  .vet-tec-application-process-list {
-    li {
-      list-style: square;
+  .vet-tec-application-process{
+    ul {
+      li {
+        list-style: square;
+      }
+    }
+    ol {
+      padding-inline-start: 0;
     }
   }
 

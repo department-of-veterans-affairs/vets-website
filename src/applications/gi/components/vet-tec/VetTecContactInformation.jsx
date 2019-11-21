@@ -25,9 +25,9 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderPhysicalAddress = () =>
     institution.physicalAddress1 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Physical address</h4>
+          <h5 className="contact-heading">Physical address</h5>
         </div>
         <div className="vads-l-col--9">
           <div>
@@ -53,7 +53,7 @@ export const VetTecContactInformation = ({ institution }) => {
     institution.address1 && (
       <div className="vads-l-row vads-u-margin-y--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Mailing address</h4>
+          <h5 className="contact-heading">Mailing address</h5>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -72,7 +72,7 @@ export const VetTecContactInformation = ({ institution }) => {
     firstProgram.providerEmailAddress && (
       <div className="vads-l-row vads-u-margin-y--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Email address</h4>
+          <h5 className="contact-heading">Email address</h5>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -95,7 +95,7 @@ export const VetTecContactInformation = ({ institution }) => {
     return (
       <div className="vads-l-row vads-u-margin-y--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Phone number</h4>
+          <h5 className="contact-heading">Phone number</h5>
         </div>
         <div className="vads-l-col--9 ">
           <div>
