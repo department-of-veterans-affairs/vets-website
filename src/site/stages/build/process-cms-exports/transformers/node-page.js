@@ -42,9 +42,7 @@ function pageTransform(entity) {
     ],
   });
 
-  if (isEmpty(flatten(fieldAlert))) {
-    transformed.fieldAlert = { entity: null };
-  }
+  transformed.fieldAlert = !isEmpty(flatten(fieldAlert)) ? fieldAlert[0] : null;
 
   delete transformed.moderationState;
   delete transformed.metatag;

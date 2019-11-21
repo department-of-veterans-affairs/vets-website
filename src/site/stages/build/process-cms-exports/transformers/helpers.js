@@ -20,29 +20,18 @@ function createMetaTag(type, key, value) {
   };
 }
 
-/**
- * If `value` is a string, it will remove all `\r`, and `\t` characters from it.
- *
- * @return {string}
- */
-function removeLinebreaks(value) {
-  return typeof value === 'string' ? value.replace(/(\r|\t)/gm, '') : value;
-}
-
 module.exports = {
   getDrupalValue,
   createMetaTag,
-  removeLinebreaks,
 
   /**
    * Takes a string and applies the following:
-   * - removes carriage returns, newlines, & tabs
    * - transforms escaped unicode to characters
    *
    * @param {string}
    * @return {string}
    */
   getWysiwygString(value) {
-    return unescape(removeLinebreaks(value));
+    return unescape(value);
   },
 };
