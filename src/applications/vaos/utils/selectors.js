@@ -60,6 +60,10 @@ export function getTypeOfCare(data) {
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
 }
 
+export function getSystems(state) {
+  return getNewAppointment(state).systems;
+}
+
 export function getChosenFacilityInfo(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;

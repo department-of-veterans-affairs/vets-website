@@ -35,12 +35,16 @@ import {
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_SUBMIT,
+  FORM_SUBMIT_FAILED,
+  FORM_SUBMIT_SUCCEEDED,
 } from '../actions/newAppointment';
 
 import {
   FLOW_TYPES,
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
+  FETCH_STATUS,
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -59,6 +63,7 @@ const initialState = {
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
+  submitStatus: FETCH_STATUS.notStarted,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -544,6 +549,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         loadingSystems: false,
+        systems: action.systems,
         data,
         pages: {
           ...state.pages,
@@ -551,6 +557,21 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_SUBMIT:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.loading,
+      };
+    case FORM_SUBMIT_SUCCEEDED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.succeeded,
+      };
+    case FORM_SUBMIT_FAILED:
+      return {
+        ...state,
+        submitStatus: FETCH_STATUS.failed,
+      };
     default:
       return state;
   }

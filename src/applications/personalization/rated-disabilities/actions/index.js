@@ -24,12 +24,12 @@ export function fetchRatedDisabilities() {
       if (serverErrorRegex.test(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
-          'error-key': '500 internal error',
+          'error-key': `${errorCode} internal error`,
         });
       } else if (serviceErrorRegex.test(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
-          'error-key': '401 no disabilities found',
+          'error-key': `${errorCode} no disabilities found`,
         });
       }
       dispatch({
@@ -57,12 +57,12 @@ export function fetchTotalDisabilityRating() {
       if (serverErrorRegex.test(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': '500 internal error',
+          'error-key': `${errorCode} internal error`,
         });
       } else if (serviceErrorRegex.test(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': '401 no combined rating found',
+          'error-key': `${errorCode} no combined rating found`,
         });
       }
       dispatch({

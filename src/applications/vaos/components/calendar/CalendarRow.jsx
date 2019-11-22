@@ -18,23 +18,44 @@ export default class CalendarRow extends Component {
     getSelectedDateOptions: PropTypes.func,
     handleSelectDate: PropTypes.func.isRequired,
     handleSelectOption: PropTypes.func,
+    minDate: PropTypes.string,
+    maxDate: PropTypes.string,
     optionsError: PropTypes.string,
     rowNumber: PropTypes.number.isRequired,
     selectedDates: PropTypes.array,
   };
 
   isCellDisabled = date => {
-    // If user provides an array of availableDates, disable dates that are not
-    // in the array.  Otherwise, assume all dates >= today are valid
-    const { availableDates } = this.props;
+    const { availableDates, minDate, maxDate } = this.props;
     let disabled = false;
 
+    // If user provides an array of availableDates, disable dates that are not
+    // in the array.
     if (
       (Array.isArray(availableDates) && !availableDates.includes(date)) ||
       moment(date).isBefore(moment().format('YYYY-MM-DD'))
     ) {
       disabled = true;
     }
+
+    // If minDate provided, disable dates before minDate
+    if (
+      minDate &&
+      moment(minDate).isValid() &&
+      moment(date).isBefore(moment(minDate))
+    ) {
+      disabled = true;
+    }
+
+    // If maxDate provided, disable dates after maxDate
+    if (
+      maxDate &&
+      moment(maxDate).isValid() &&
+      moment(date).isAfter(moment(maxDate))
+    ) {
+      disabled = true;
+    }
+
     return disabled;
   };
 

@@ -7,6 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as VET360 from '../constants';
 
 import { isPendingTransaction } from '../util/transactions';
+import environment from 'platform/utilities/environment';
 
 import {
   createTransaction,
@@ -14,6 +15,7 @@ import {
   clearTransactionRequest,
   updateFormField,
   openModal,
+  validateAddress,
 } from '../actions';
 
 import {
@@ -96,6 +98,20 @@ class Vet360ProfileField extends React.Component {
     }
 
     const method = payload.id ? 'PUT' : 'POST';
+
+    if (
+      this.props.fieldName.toLowerCase().includes('address') &&
+      !environment.isProduction()
+    ) {
+      this.props.validateAddress(
+        this.props.apiRoute,
+        method,
+        this.props.fieldName,
+        payload,
+        this.props.analyticsSectionName,
+      );
+      return;
+    }
 
     this.props.createTransaction(
       this.props.apiRoute,
@@ -231,6 +247,7 @@ const mapDispatchToProps = {
   openModal,
   createTransaction,
   updateFormField,
+  validateAddress,
 };
 
 /**

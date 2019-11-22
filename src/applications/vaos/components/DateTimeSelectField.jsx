@@ -43,6 +43,13 @@ class DateTimeSelectField extends Component {
           getOptionsByDate: this.getOptionsByDate,
         }}
         onChange={this.props.onChange}
+        minDate={moment()
+          .add(1, 'days')
+          .format('YYYY-MM-DD')}
+        maxDate={moment()
+          .add(395, 'days')
+          .format('YYYY-MM-DD')}
+        startMonth={formContext?.preferredDate}
       />
     );
   }

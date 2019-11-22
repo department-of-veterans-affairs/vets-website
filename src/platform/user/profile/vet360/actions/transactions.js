@@ -25,6 +25,8 @@ export const VET360_TRANSACTION_UPDATE_FAILED =
 export const VET360_TRANSACTION_CLEARED = 'VET360_TRANSACTION_CLEARED';
 export const VET360_CLEAR_TRANSACTION_STATUS =
   'VET360_CLEAR_TRANSACTION_STATUS';
+export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
+export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 
 export function clearTransactionStatus() {
   return {
@@ -173,3 +175,54 @@ export function createTransaction(
     }
   };
 }
+
+export const validateAddress = (
+  route,
+  method,
+  fieldName,
+  payload,
+  analyticsSectionName,
+) => async dispatch => {
+  const addressPayload = { address: { ...payload } };
+  const options = {
+    body: JSON.stringify(addressPayload),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const response = isVet360Configured()
+      ? await apiRequest('/profile/address_validation', options)
+      : await localVet360.addressValidationSuccess(payload);
+    const { addresses } = response;
+    addresses.filter(
+      address =>
+        address.addressMetaData?.deliveryPointValidation === 'CONFIRMED' &&
+        address.addressMetaData?.confidenceScore >= 80,
+    );
+    if (addresses.length > 1) {
+      return dispatch({
+        type: ADDRESS_VALIDATION_CONFIRM,
+        addressValidationType: fieldName,
+        suggestedAddresses: addresses,
+        validationKey: response.validationKey,
+      });
+    }
+    return dispatch(
+      createTransaction(
+        route,
+        method,
+        fieldName,
+        payload,
+        analyticsSectionName,
+      ),
+    );
+  } catch (error) {
+    return dispatch({
+      type: ADDRESS_VALIDATION_ERROR,
+      addressValidationType: fieldName,
+      addressValidationError: true,
+    });
+  }
+};
