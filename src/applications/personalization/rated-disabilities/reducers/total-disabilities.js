@@ -12,12 +12,13 @@ const initialState = {
 export function totalRating(state = initialState, action) {
   switch (action.type) {
     case FETCH_TOTAL_RATING_FAILED:
+      console.log(action);
       return {
         ...state,
         loading: false,
         error: {
-          code: action.response.errors.code,
-          detail: action.response.errors.detail,
+          code: action.response.errors[0].code,
+          detail: action.response.errors[0].detail,
         },
       };
     case FETCH_TOTAL_RATING_SUCCEEDED:
