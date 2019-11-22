@@ -67,7 +67,7 @@ describe('VAOS data transformation', () => {
       schedulingMethod: 'clerk',
       requestedPhoneCall: false,
       providerId: '0',
-      pproviderOption: '',
+      providerOption: '',
     });
   });
   it('should transform form into CC request', () => {

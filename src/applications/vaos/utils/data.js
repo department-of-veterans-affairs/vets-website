@@ -161,7 +161,7 @@ export function transformFormToCCRequest(state) {
     inpatient: false,
     status: 'Submitted',
     providerId: '0',
-    pproviderOption: '',
+    providerOption: '',
   };
 }
 
