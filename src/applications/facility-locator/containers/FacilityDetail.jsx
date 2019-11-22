@@ -13,10 +13,15 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
+import { VamcUrls } from '../constants/index';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
+    const vamc = VamcUrls.find(v => v.id === this.props.params.id);
+    if (vamc) {
+      window.location.replace(vamc.url);
+    }
     this.props.fetchVAFacility(this.props.params.id);
     window.scrollTo(0, 0);
   }

@@ -50,3 +50,44 @@ export const LOCATION_OPTIONS = [
  * Defines the ± change in bounding box size for the map when changing zoom
  */
 export const BOUNDING_RADIUS = 0.75;
+
+/**
+ * Defines a list of new VAMC urls
+ */
+export const VamcUrls = [
+  {
+    id: 'vha_646',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/pittsburgh-va-medical-center-university-drive/',
+  },
+  {
+    id: 'vha_646A4',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
+  },
+  {
+    id: 'vha_646GC',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/',
+  },
+  {
+    id: 'vha_646GA',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/belmont-county-va-clinic/',
+  },
+  {
+    id: 'vha_646GE',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/fayette-county-va-clinic',
+  },
+  {
+    id: 'vha_646GD',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/washington-county-va-clinic',
+  },
+  {
+    id: 'vha_646GB',
+    url:
+      'https://www.va.gov/pittsburgh-health-care/locations/westmoreland-county-va-clinic',
+  },
+];
