@@ -79,7 +79,9 @@ class Checkbox extends React.Component {
         />
         <label
           className={
-            this.props.errorMessage ? 'usa-input-error-label gi-checkbox-label' : 'gi-checkbox-label'
+            this.props.errorMessage
+              ? 'usa-input-error-label gi-checkbox-label'
+              : 'gi-checkbox-label'
           }
           name={`${this.props.name}-label`}
           htmlFor={this.inputId}
