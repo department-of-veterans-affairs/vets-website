@@ -268,8 +268,6 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToAppointment(state);
-    // eslint-disable-next-line
-    console.log(JSON.stringify(data));
     expect(data).to.deep.equal({
       clinic: {
         siteCode: '983',
@@ -280,7 +278,7 @@ describe('VAOS data transformation', () => {
         institutionCode: '983',
       },
       direct: {
-        purpose: 'Follow-up/Routine - asdfasdf',
+        purpose: 'Follow-up/Routine: asdfasdf',
         desiredDate: '11/22/2019 00:00:00',
         dateTime: '11/22/2019 09:30:00',
         apptLength: 30,
@@ -288,7 +286,7 @@ describe('VAOS data transformation', () => {
       desiredDate: '2019-11-22T00:00:00+00:00',
       dateTime: '2019-11-22T09:30:00+00:00',
       duration: 30,
-      bookingNotes: 'Follow-up/Routine - asdfasdf',
+      bookingNotes: 'Follow-up/Routine: asdfasdf',
       patients: {
         patient: [
           {
