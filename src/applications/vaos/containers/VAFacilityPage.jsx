@@ -197,10 +197,8 @@ export class VAFacilityPage extends React.Component {
           data={data}
         >
           {notEligibleAtChosenFacility && (
-            <div aria-atomic="true" aria-live="assertive">
-              <div className="vads-u-margin-top--2">
-                <EligibilityCheckMessage eligibility={eligibility} />
-              </div>
+            <div className="vads-u-margin-top--2">
+              <EligibilityCheckMessage eligibility={eligibility} />
             </div>
           )}
           <FormButtons
