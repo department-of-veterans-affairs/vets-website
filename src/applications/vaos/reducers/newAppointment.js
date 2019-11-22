@@ -38,6 +38,7 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
+  FORM_TYPE_OF_CARE_PAGE_OPENED,
 } from '../actions/newAppointment';
 
 import {
@@ -172,6 +173,28 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: false,
+      };
+    }
+    case FORM_TYPE_OF_CARE_PAGE_OPENED: {
+      const prefilledData = {
+        ...state.data,
+        phoneNumber: state.data.phoneNumber || action.phoneNumber,
+        email: state.data.email || action.email,
+      };
+
+      const { data, schema } = setupFormData(
+        prefilledData,
+        action.schema,
+        action.uiSchema,
+      );
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: schema,
+        },
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {
