@@ -304,7 +304,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
         if (dateObj.isAfter(now)) {
           acc.push({
             date: dateObj.format('YYYY-MM-DD'),
-            datetime: dateObj.format(),
+            datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),
           });
         }
         return acc;

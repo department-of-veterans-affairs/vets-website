@@ -268,8 +268,6 @@ describe('VAOS data transformation', () => {
       },
     };
     const data = transformFormToAppointment(state);
-    // eslint-disable-next-line
-    console.log(data);
     expect(data).to.deep.equal({
       clinic: {
         siteCode: '983',
