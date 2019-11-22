@@ -41,8 +41,8 @@ export const ContactYouDescription = (
 
 export const ContactRepresentativeDescription = (
   <>
-    We will contact your representative to schedule an informal conference with
-    the higher-level reviewer assigned to complete the review of your issue.
+    We’ll contact your representative directly to schedule an informal
+    conference with the reviewer assigned to your issue.
     <br />
     <br />
     <p>Please provide your representative’s contact information.</p>
@@ -61,24 +61,37 @@ export const InformalConferenceTimes = ({ isRep }) => (
   </p>
 );
 
-export const InformalConferenceTimeLabels = key => {
-  const label = {
-    time0800to1000: '8:00 a.m. - 10:00 a.m. ET',
-    time1000to1200: '10:00 a.m. - 12:00 p.m. ET',
-    time1230to1400: '12:30 p.m. - 2:00 p.m. ET',
-    time1400to1630: '2:00 p.m. - 4:30 p.m. ET',
-  }[key];
-  return { 'ui:title': label };
+export const informalConferenceTimeAllLabels = {
+  time0800to1000: '8:00 a.m. - 10:00 a.m. ET',
+  time1000to1200: '10:00 a.m. - 12:00 p.m. ET',
+  time1230to1400: '12:30 p.m. - 2:00 p.m. ET',
+  time1400to1630: '2:00 p.m. - 4:30 p.m. ET',
 };
 
-export const AttemptsInfoAlert = ({ isRep }) => (
-  <AlertBox
-    status="info"
-    headline={`We’ll make two attempts to call you${
-      isRep ? 'r representative' : ''
-    }`}
-    content={`A senior reviewer will try to call ${
-      isRep ? 'your representative' : 'you'
-    } by phone twice. If no one answers, we’ll leave a voice mail.`}
-  />
+// These labels are hidden on the review page
+export const InformalConferenceTimeLabels = key => (
+  <span className="time-title" role="presentation">
+    {informalConferenceTimeAllLabels[key]}
+  </span>
 );
+
+export const InformalConferenceAvailability = contact => (
+  <span className="time-contact" role="presentation">
+    {contact === 'me' ? 'Your' : 'Representative’s'} availability
+  </span>
+);
+
+export const AttemptsInfoAlert = ({ isRep }) => {
+  const contact = isRep ? 'your representative' : 'you';
+  return (
+    <AlertBox
+      status="info"
+      headline={`We’ll try to call ${contact} twice`}
+      content={`A senior reviewer will try to call ${contact} by phone two
+        times. If no one answers, they’ll leave a voice mail. If the senior
+        reviewer is unable to leave a message or get in touch with ${contact}
+        after two attempts, they’ll proceed with their review and issue a
+        decision.`}
+    />
+  );
+};

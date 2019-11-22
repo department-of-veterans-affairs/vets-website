@@ -182,11 +182,6 @@ aside.process {
 
 /* Step 2c */
 article[data-location^="contested-issues/"] {
-  /* Info alert icon color */
-  .usa-alert-info:before {
-    color: $color-aqua-dark;
-  }
-
   /* Add space above AdditionalInfo block */
   .form-expanding-group {
     margin-top: 2em;
@@ -205,11 +200,6 @@ article[data-location="request-informal-conference"] {
     .schemaform-field-container {
       margin-top: 1em;
     }
-  }
-
-  /* Info alert icon color */
-  .usa-alert-info:before {
-    color: $color-aqua-dark;
   }
 
   /* Remove extra spacing between form elements */
@@ -235,6 +225,14 @@ article[data-location="request-informal-conference"] {
 
   .form-checkbox label {
     margin-top: 1em;
+  }
+}
+
+/* Step 4 Review Application */
+article[data-location="review-and-submit"] {
+  /* checkbox group "Required" lable (added to */
+  #root_scheduleTimes-label {
+    display: none;
   }
 }
 

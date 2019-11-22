@@ -28,6 +28,8 @@ export const selectVet360MobilePhoneString = state =>
 export const selectVet360HomePhone = state => selectVet360(state)?.homePhone;
 export const selectVet360HomePhoneString = state =>
   createPhoneNumberStringFromData(selectVet360HomePhone(state));
+export const selectVet360ResidentialAddress = state =>
+  selectVet360(state)?.residentialAddress;
 
 export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);

@@ -30,10 +30,7 @@ export class ConfirmationPage extends React.Component {
           <ConfirmationRequestInfo data={data} facility={facility} />
         )}
         <div className="vads-u-margin-y--2">
-          <Link
-            to="appointments"
-            className="usa-button vads-u-padding-right--2"
-          >
+          <Link to="/" className="usa-button vads-u-padding-right--2">
             View your appointments
           </Link>
           <Link to="new-appointment" className="usa-button">

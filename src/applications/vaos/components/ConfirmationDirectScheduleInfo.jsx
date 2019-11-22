@@ -43,7 +43,13 @@ export default function ConfirmationDirectScheduleInfo({
                 {facility?.institution.stateAbbrev}
               </dd>
               <dt>
-                <strong>{PURPOSE_TEXT[data.reasonForAppointment]}</strong>
+                <strong>
+                  {
+                    PURPOSE_TEXT.find(
+                      purpose => purpose.id === data.reasonForAppointment,
+                    )?.short
+                  }
+                </strong>
               </dt>
               <dd>{data.reasonAdditionalInfo}</dd>
             </dl>

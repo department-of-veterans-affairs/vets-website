@@ -11,7 +11,6 @@ import { getCalculatedBenefits } from '../../selectors/vetTecCalculator';
 import VetTecCalculatorForm from './VetTecCalculatorForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../../constants';
-import environment from 'platform/utilities/environment';
 
 export class VetTecCalculator extends React.Component {
   constructor(props) {
@@ -22,11 +21,6 @@ export class VetTecCalculator extends React.Component {
       scholarships: 0,
     };
   }
-
-  // PROD FLAG CT 116 19868
-
-  indentVaPaysToProvider = () =>
-    environment.isProduction() ? '' : 'vads-u-margin-left--2p5';
 
   housingAllowanceClassName =
     'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
@@ -73,7 +67,9 @@ export class VetTecCalculator extends React.Component {
           <h4 className="vads-u-font-size--h5">Tuition & fees:</h4>
         </div>
         <div className="small-6 columns vads-u-text-align--right">
-          <h5>{outputs.vetTecTuitionFees}</h5>
+          <h5 className="estimated-benefit-values">
+            {outputs.vetTecTuitionFees}
+          </h5>
         </div>
       </div>
       {this.renderScholarshipBenefitSection(outputs)}
@@ -92,32 +88,52 @@ export class VetTecCalculator extends React.Component {
           </div>
         </div>
         <div className="small-4 columns vads-u-text-align--right">
-          <div>{outputs.vaPaysToProvider}</div>
+          <div className="estimated-benefit-values">
+            {outputs.vaPaysToProvider}
+          </div>
         </div>
       </div>
-      <div className={this.indentVaPaysToProvider()}>
+      <div className={'vads-u-margin-left--2p5'}>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon enrollment in program (25%):</div>
+            <div>
+              Upon enrollment in program{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (25%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
-            <div>{outputs.quarterVetTecPayment}</div>
+            <div className="estimated-benefit-values">
+              {outputs.quarterVetTecPayment}
+            </div>
           </div>
         </div>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon completion of program (25%):</div>
+            <div>
+              Upon completion of program{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (25%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
-            <div>{outputs.quarterVetTecPayment}</div>
+            <div className="estimated-benefit-values">
+              {outputs.quarterVetTecPayment}
+            </div>
           </div>
         </div>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon employment (50%):</div>
+            <div>
+              Upon employment{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (50%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
-            <div>{outputs.halfVetTecPayment}</div>
+            <div className="estimated-benefit-values">
+              {outputs.halfVetTecPayment}
+            </div>
           </div>
         </div>
       </div>
@@ -128,7 +144,7 @@ export class VetTecCalculator extends React.Component {
           </h4>
         </div>
         <div className="small-6 columns vads-u-text-align--right">
-          <h5 className="vads-u-font-family--sans">
+          <h5 className="vads-u-font-family--sans estimated-benefit-values">
             {outputs.outOfPocketTuitionFees}
           </h5>
         </div>
@@ -149,48 +165,25 @@ export class VetTecCalculator extends React.Component {
           (Learn more)
         </button>
       </div>
-      {// PROD FLAG CT 116 STORY 19868
-      environment.isProduction() ? (
-        <div>
-          <div className="row calculator-result">
-            <div className="small-8 columns">
-              <div>In person rate:</div>
-            </div>
-            <div className={this.housingAllowanceClassName}>
-              <div>{`${outputs.inPersonRate}/mo`}</div>
-            </div>
+      <div>
+        <div className="row calculator-result">
+          <div className="small-8 columns">
+            <div>In-person monthly rate:</div>
           </div>
-
-          <div className="row calculator-result">
-            <div className="small-8 columns">
-              <div>Online rate:</div>
-            </div>
-            <div className={this.housingAllowanceClassName}>
-              <div>{`${outputs.onlineRate}/mo`}</div>
-            </div>
+          <div className={this.housingAllowanceClassName}>
+            <div>{outputs.inPersonRate}</div>
           </div>
         </div>
-      ) : (
-        <div>
-          <div className="row calculator-result">
-            <div className="small-8 columns">
-              <div>In-person monthly rate:</div>
-            </div>
-            <div className={this.housingAllowanceClassName}>
-              <div>{outputs.inPersonRate}</div>
-            </div>
-          </div>
 
-          <div className="row calculator-result">
-            <div className="small-8 columns">
-              <div>Online monthly rate:</div>
-            </div>
-            <div className={this.housingAllowanceClassName}>
-              <div>{outputs.onlineRate}</div>
-            </div>
+        <div className="row calculator-result">
+          <div className="small-8 columns">
+            <div>Online monthly rate:</div>
+          </div>
+          <div className={this.housingAllowanceClassName}>
+            <div>{outputs.onlineRate}</div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 
@@ -202,11 +195,10 @@ export class VetTecCalculator extends React.Component {
     const { showModal } = this.props;
     return (
       <div className="vads-l-row calculate-your-benefits">
-        <div className="usa-width-five-twelfths medium-5 columns">
+        <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           {this.renderCalculatorForm()}
         </div>
-        <div className="usa-width-one-twelfth medium-1 columns">&nbsp;</div>
-        <div className="usa-width-one-half medium-6 columns vads-u-padding--0">
+        <div className="usa-width-one-half medium-6 columns vads-u-padding--1p5 medium-screen:vads-u-padding--0">
           <div className=" your-estimated-benefits">
             <h3>Your estimated benefits</h3>
             <div className="program-name">

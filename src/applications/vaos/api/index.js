@@ -16,11 +16,11 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-// GET /vaos/appointments
-// eslint-disable-next-line no-unused-vars
+const USE_MOCK_DATA = environment.isLocalhost();
+
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     if (type === 'va') {
       promise = import('./confirmed_va.json').then(
         module => (module.default ? module.default : module),
@@ -41,11 +41,9 @@ export function getConfirmedAppointments(type, startDate, endDate) {
   );
 }
 
-// GET /vaos/requests
-// eslint-disable-next-line no-unused-vars
 export function getPendingAppointments(startDate, endDate) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     promise = import('./requests.json').then(
       module => (module.default ? module.default : module),
     );
@@ -60,7 +58,7 @@ export function getPendingAppointments(startDate, endDate) {
 
 export function getRequestMessages(requestId) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     if (requestId === '8a48912a6c2409b9016c525a4d490190') {
       promise = import('./messages_0190.json').then(
         module => (module.default ? module.default : module),
@@ -125,7 +123,7 @@ export const getSystemIdentifiers = (() => {
       return promise;
     }
 
-    if (environment.isLocalhost()) {
+    if (USE_MOCK_DATA) {
       promise = import('./systems.json')
         .then(module => (module.default ? module.default : module))
         .then(json => json.data.map(item => item.attributes));
@@ -267,7 +265,7 @@ export function getPacTeam(systemId) {
 }
 
 export function getFacilityInfo(facilityId) {
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve({
@@ -296,7 +294,7 @@ export function getFacilityInfo(facilityId) {
 export function getFacilitiesInfo(facilityIds) {
   let promise;
 
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     promise = import('./facility_data.json').then(
       module => (module.default ? module.default : module),
     );
@@ -334,7 +332,7 @@ export function getAvailableSlots() {
 
 export function getCancelReasons(systemId) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     promise = import('./cancel_reasons.json').then(
       module => (module.default ? module.default : module),
     );
@@ -347,14 +345,19 @@ export function getCancelReasons(systemId) {
   );
 }
 
-// PUT /vaos/appointments
-// eslint-disable-next-line no-unused-vars
 export function updateAppointment(appt) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 500);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve();
+  } else {
+    promise = apiRequest(`/vaos/appointments/cancel`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(appt),
+    });
+  }
+
+  return promise;
 }
 
 // PUT /vaos/requests
@@ -365,4 +368,66 @@ export function updateRequest(appt) {
       resolve();
     }, 500);
   });
+}
+
+export function submitRequest(type, request) {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({
+      data: {
+        attributes: {
+          uniqueId: 'testing',
+        },
+      },
+    });
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests?type=${type}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function sendRequestMessage(id, message) {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({ data: { attributes: {} } });
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function getPreferences() {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({ data: { attributes: {} } });
+  } else {
+    promise = apiRequest(`/vaos/preferences`);
+  }
+
+  return promise.then(resp => resp.data.attributes);
+}
+
+export function updatePreferences(data) {
+  let promise;
+  if (USE_MOCK_DATA || true) {
+    promise = Promise.resolve({ data: { attributes: {} } });
+  } else {
+    promise = apiRequest(`/vaos/preferences`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+  }
+
+  return promise.then(resp => resp.data.attributes);
 }

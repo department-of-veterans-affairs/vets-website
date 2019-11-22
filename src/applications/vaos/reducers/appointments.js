@@ -14,9 +14,10 @@ import {
 } from '../actions/appointments';
 
 import {
-  filterFutureRequests,
   filterFutureConfirmedAppointments,
-  sortFutureList,
+  filterFutureRequests,
+  sortFutureConfirmedAppointments,
+  sortFutureRequests,
   sortMessages,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
@@ -33,8 +34,6 @@ const initialState = {
   requestMessages: {},
 };
 
-const BOOKED_REQUEST = 'Booked';
-
 export default function appointmentsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_FUTURE_APPOINTMENTS:
@@ -44,23 +43,18 @@ export default function appointmentsReducer(state = initialState, action) {
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
       const [vaAppointments, ccAppointments, requests] = action.data;
-      const futureAppointments = [
-        ...vaAppointments,
-        ...ccAppointments.filter(appt =>
-          filterFutureConfirmedAppointments(appt, action.today),
-        ),
-        ...requests.filter(
-          req =>
-            req.status !== BOOKED_REQUEST &&
-            filterFutureRequests(req, action.today),
-        ),
-      ];
 
-      futureAppointments.sort(sortFutureList);
+      const confirmedFilteredAndSorted = [...vaAppointments, ...ccAppointments]
+        .filter(appt => filterFutureConfirmedAppointments(appt, action.today))
+        .sort(sortFutureConfirmedAppointments);
+
+      const requestsFilteredAndSorted = [
+        ...requests.filter(req => filterFutureRequests(req, action.today)),
+      ].sort(sortFutureRequests);
 
       return {
         ...state,
-        future: futureAppointments,
+        future: [...confirmedFilteredAndSorted, ...requestsFilteredAndSorted],
         futureStatus: FETCH_STATUS.succeeded,
       };
     }

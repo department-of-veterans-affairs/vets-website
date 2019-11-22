@@ -4,7 +4,6 @@ import React from 'react';
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
 
@@ -14,7 +13,7 @@ const IconWithInfo = ({ icon, iconClassName, children, present }) => {
     <div className="icon-with-info vads-l-grid-container vads-u-padding-x--0">
       <div className="vads-l-row vads-u-padding-x--0 vads-u-padding-bottom--1p5">
         <div className="vads-l-col--1">
-          <i className={`fa fa-${icon} ${iconClassName}`} />
+          <i className={`fa fa-${icon} ${iconClassName}`} aria-hidden="true" />
         </div>
         <div className="text-column vads-l-col--11 vads-u-padding-left--1">
           {children}
@@ -75,36 +74,30 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           <IconWithInfo icon="map-marker" present={isPresent(formattedAddress)}>
             {formattedAddress}
           </IconWithInfo>
-          {/* Production flag for 19736 */}
-          {!environment.isProduction() && (
-            <IconWithInfo
-              icon="globe"
-              present={isPresent(firstProgram.providerWebsite)}
+          <IconWithInfo
+            icon="globe"
+            present={isPresent(firstProgram.providerWebsite)}
+          >
+            <a
+              href={firstProgram.providerWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <a
-                href={firstProgram.providerWebsite}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {firstProgram.providerWebsite}
-              </a>
-            </IconWithInfo>
-          )}
+              {firstProgram.providerWebsite}
+            </a>
+          </IconWithInfo>
         </div>
-        {/* Production flag for 19736 */}
-        {!environment.isProduction() && (
-          <div className="usa-width-one-half medium-6 small-12 column">
-            <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
-              <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
-            </IconWithInfo>
-            <IconWithInfo
-              icon="map"
-              present={isPresent(firstProgram.schoolLocale)}
-            >
-              {`${firstProgram.schoolLocale}  locale`}
-            </IconWithInfo>
-          </div>
-        )}
+        <div className="usa-width-one-half medium-6 small-12 column">
+          <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
+            <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
+          </IconWithInfo>
+          <IconWithInfo
+            icon="map"
+            present={isPresent(firstProgram.schoolLocale)}
+          >
+            {`${firstProgram.schoolLocale}  locale`}
+          </IconWithInfo>
+        </div>
       </div>
       <VetTecAdditionalResources />
     </div>

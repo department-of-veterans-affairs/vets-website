@@ -28,11 +28,15 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
     return (
       <button
         aria-label={label}
-        className={classNames({
-          'va-sidenav-item-label': true,
-          'va-sidenav-item-label-bold': isFirstLevel,
-          selected: isSelected,
-        })}
+        className={classNames(
+          'va-sidenav-item-label',
+          'va-sidenav-item-label',
+          'va-sidenav-item-label-underlined',
+          {
+            'va-sidenav-item-label-bold': isFirstLevel,
+            selected: isSelected,
+          },
+        )}
         onClick={toggleItemExpanded(id)}
         style={{ paddingLeft: indentation }}
       >
@@ -47,10 +51,14 @@ const NavItemRow = ({ depth, item, toggleItemExpanded }) => {
 
   return (
     <a
-      className={classNames({
-        'va-sidenav-item-label': true,
-        selected: isSelected,
-      })}
+      className={classNames(
+        'va-sidenav-item-label',
+        'va-sidenav-item-label',
+        'va-sidenav-item-label-underlined',
+        {
+          selected: isSelected,
+        },
+      )}
       rel="noopener noreferrer"
       href={href}
       style={{ paddingLeft: indentation }}
