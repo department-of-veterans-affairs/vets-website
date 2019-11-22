@@ -33,7 +33,7 @@ function getUserMessage(data) {
     purpose => purpose.id === data.reasonForAppointment,
   ).short;
 
-  return `${label} - ${data.reasonAdditionalInfo}`;
+  return `${label}: ${data.reasonAdditionalInfo}`;
 }
 
 export function transformFormToVARequest({ data }) {
