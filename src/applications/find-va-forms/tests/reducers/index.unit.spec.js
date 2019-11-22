@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import reducers from '../../reducers';
 
-describe('findVaForms reducer: index', () => {
+describe('Find VA Forms reducer: index', () => {
   it('returns the default state', () => {
     const result = reducers.findVaForms(undefined, {});
 

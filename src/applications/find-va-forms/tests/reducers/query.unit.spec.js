@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import * as ACTIONS from '../../actions';
 import queryReducer from '../../reducers/query';
 
-describe('findVaForms reducer: query', () => {
+describe('Find VA Forms reducer: query', () => {
   it('returns the default state', () => {
     const result = queryReducer(undefined, {});
     expect(result).to.be.equal('');
