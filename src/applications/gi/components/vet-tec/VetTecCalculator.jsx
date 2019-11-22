@@ -73,7 +73,9 @@ export class VetTecCalculator extends React.Component {
           <h4 className="vads-u-font-size--h5">Tuition & fees:</h4>
         </div>
         <div className="small-6 columns vads-u-text-align--right">
-          <h5>{outputs.vetTecTuitionFees}</h5>
+          <h5 className="estimated-benefit-values">
+            {outputs.vetTecTuitionFees}
+          </h5>
         </div>
       </div>
       {this.renderScholarshipBenefitSection(outputs)}
@@ -92,32 +94,52 @@ export class VetTecCalculator extends React.Component {
           </div>
         </div>
         <div className="small-4 columns vads-u-text-align--right">
-          <div>{outputs.vaPaysToProvider}</div>
+          <div className="estimated-benefit-values">
+            {outputs.vaPaysToProvider}
+          </div>
         </div>
       </div>
       <div className={this.indentVaPaysToProvider()}>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon enrollment in program (25%):</div>
+            <div>
+              Upon enrollment in program{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (25%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
-            <div>{outputs.quarterVetTecPayment}</div>
+            <div className="estimated-benefit-values">
+              {outputs.quarterVetTecPayment}
+            </div>
           </div>
         </div>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon completion of program (25%):</div>
+            <div>
+              Upon completion of program{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (25%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
-            <div>{outputs.quarterVetTecPayment}</div>
+            <div className="estimated-benefit-values">
+              {outputs.quarterVetTecPayment}
+            </div>
           </div>
         </div>
         <div className="row vads-u-margin-top--0p5 small-screen:vads-u-padding-right--7">
           <div className="small-9 small-screen:small-9 columns">
-            <div>Upon employment (50%):</div>
+            <div>
+              Upon employment{' '}
+              <span className="sr-only">VA pays to provider</span>
+              (50%):
+            </div>
           </div>
           <div className="small-3 xsmall-screen:small-2 vads-u-text-align--right columns value">
-            <div>{outputs.halfVetTecPayment}</div>
+            <div className="estimated-benefit-values">
+              {outputs.halfVetTecPayment}
+            </div>
           </div>
         </div>
       </div>
@@ -128,7 +150,7 @@ export class VetTecCalculator extends React.Component {
           </h4>
         </div>
         <div className="small-6 columns vads-u-text-align--right">
-          <h5 className="vads-u-font-family--sans">
+          <h5 className="vads-u-font-family--sans estimated-benefit-values">
             {outputs.outOfPocketTuitionFees}
           </h5>
         </div>

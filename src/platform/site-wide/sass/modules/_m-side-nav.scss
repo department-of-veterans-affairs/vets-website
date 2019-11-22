@@ -102,6 +102,11 @@
       letter-spacing: 0;
       line-height: 1.38;
       text-transform: none;
+      transition: color 0.5s ease;
+
+      &:hover {
+        color: $color-gray-dark;
+      }
     }
   }
 }

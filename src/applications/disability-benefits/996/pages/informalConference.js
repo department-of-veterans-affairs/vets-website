@@ -1,6 +1,8 @@
 import fullSchema from '../20-0996-schema.json';
 
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
+import ScheduleTimesReviewField from '../containers/ScheduleTimesReviewField';
 
 import { checkConferenceTimes } from '../validations';
 import { errorMessages } from '../constants';
@@ -14,11 +16,24 @@ import {
   RepresentativeNameTitle,
   RepresentativePhoneTitle,
   InformalConferenceTimes,
+  informalConferenceTimeAllLabels,
   InformalConferenceTimeLabels,
   AttemptsInfoAlert,
 } from '../content/InformalConference';
 
 const { representative, scheduleTimes } = fullSchema.properties;
+
+const scheduleTimeUiSchema = key => ({
+  'ui:title': InformalConferenceTimeLabels(key),
+  'ui:options': {
+    hideLabelText: true,
+    // custom entry updated by updateSchema (I know it's bad)
+    informalConferenceChoice: 'me',
+  },
+  'ui:field': 'StringField',
+  'ui:widget': 'checkbox',
+  'ui:reviewField': ScheduleTimesReviewField,
+});
 
 const informalConference = {
   uiSchema: {
@@ -54,6 +69,7 @@ const informalConference = {
       phone: {
         'ui:title': RepresentativePhoneTitle,
         'ui:widget': PhoneNumberWidget,
+        'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:required': formData => formData?.informalConferenceChoice === 'rep',
         'ui:errorMessages': {
           pattern: errorMessages.informalConferenceContactPhonePattern,
@@ -90,15 +106,24 @@ const informalConference = {
         required: errorMessages.informalConferenceTimesMin,
       },
       'ui:validations': [checkConferenceTimes],
+      time0800to1000: scheduleTimeUiSchema('time0800to1000'),
+      time1000to1200: scheduleTimeUiSchema('time1000to1200'),
+      time1230to1400: scheduleTimeUiSchema('time1230to1400'),
+      time1400to1630: scheduleTimeUiSchema('time1400to1630'),
       'ui:options': {
         showFieldLabel: true,
         hideIf: formData => formData?.informalConferenceChoice === 'no',
         expandUnder: 'informalConferenceChoice',
+        updateSchema: (formData, schema, uiSchema) => {
+          Object.keys(informalConferenceTimeAllLabels).forEach(time => {
+            const options = uiSchema[time]['ui:options'] || {};
+            // pass informalConferenceChoice to children
+            options.informalConferenceChoice =
+              formData?.informalConferenceChoice;
+          });
+          return schema;
+        },
       },
-      time0800to1000: InformalConferenceTimeLabels('time0800to1000'),
-      time1000to1200: InformalConferenceTimeLabels('time1000to1200'),
-      time1230to1400: InformalConferenceTimeLabels('time1230to1400'),
-      time1400to1630: InformalConferenceTimeLabels('time1400to1630'),
     },
     'view:alert': {
       'ui:title': ' ',

@@ -30,6 +30,7 @@ import {
 } from '../actions/paymentInformation';
 import {
   directDepositAccountInformation,
+  directDepositAddressIsSetUp,
   directDepositInformation,
   directDepositIsSetUp as directDepositIsSetUpSelector,
 } from '../selectors';
@@ -148,19 +149,28 @@ class PaymentInformation extends React.Component {
     });
   };
 
+  renderSetupButton(label, gaProfileSection) {
+    return (
+      <button
+        className="va-button-link"
+        onClick={() => this.handleLinkClick('add', gaProfileSection)}
+      >{`Please add your ${label}`}</button>
+    );
+  }
+
   render() {
     const {
       directDepositIsSetUp,
-      isEligible,
       isLoading,
       multifactorEnabled,
       paymentInformation,
       paymentAccount,
+      shouldShowDirectDeposit,
     } = this.props;
 
     let content = null;
 
-    if (!isEligible) {
+    if (!shouldShowDirectDeposit) {
       return content;
     }
 
@@ -172,44 +182,62 @@ class PaymentInformation extends React.Component {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
-    } else if (!directDepositIsSetUp) {
-      return null;
     } else {
       content = (
         <>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={() => this.handleLinkClick('edit', 'bank-name')}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleLinkClick('edit', 'bank-name'))
+              }
             >
               Bank name
             </ProfileFieldHeading>
-            {paymentAccount.financialInstitutionName}
+            {directDepositIsSetUp
+              ? paymentAccount.financialInstitutionName
+              : this.renderSetupButton('bank name', 'bank-name')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={() => this.handleLinkClick('edit', 'account-number')}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleLinkClick('edit', 'account-number'))
+              }
             >
               Account number
             </ProfileFieldHeading>
-            {paymentAccount.accountNumber}
+            {directDepositIsSetUp
+              ? paymentAccount.accountNumber
+              : this.renderSetupButton('account number', 'account-number')}
           </div>
           <div className="vet360-profile-field">
             <ProfileFieldHeading
-              onEditClick={() => this.handleLinkClick('edit', 'account-type')}
+              onEditClick={
+                directDepositIsSetUp &&
+                (() => this.handleLinkClick('edit', 'account-type'))
+              }
             >
               Account type
             </ProfileFieldHeading>
-            {paymentAccount.accountType}
+            {directDepositIsSetUp
+              ? paymentAccount.accountType
+              : this.renderSetupButton(
+                  'account type (checking or savings)',
+                  'account-type',
+                )}
           </div>
-          <p>
-            <strong>Note:</strong> If you think you’ve been the victim of bank
-            fraud, please call us at{' '}
-            <a href="tel:1-800-827-1000" className="no-wrap">
-              800-827-1000
-            </a>{' '}
-            (TTY: <span className="no-wrap">800-829-4833</span>
-            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
-          </p>
+          {directDepositIsSetUp && (
+            <p>
+              <strong>Note:</strong> If you think you’ve been the victim of bank
+              fraud, please call us at{' '}
+              <a href="tel:1-800-827-1000" className="no-wrap">
+                800-827-1000
+              </a>{' '}
+              (TTY: <span className="no-wrap">800-829-4833</span>
+              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+            </p>
+          )}
 
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
@@ -247,18 +275,27 @@ const isEvssAvailable = createIsServiceAvailableSelector(
   backendServices.EVSS_CLAIMS,
 );
 
-const mapStateToProps = state => ({
-  directDepositIsSetUp: directDepositIsSetUpSelector(state),
-  multifactorEnabled: isMultifactorEnabled(state),
-  isEligible: isEvssAvailable(state),
-  isLoading:
-    isEvssAvailable(state) &&
-    isMultifactorEnabled(state) &&
-    !directDepositInformation(state),
-  paymentAccount: directDepositAccountInformation(state),
-  paymentInformation: directDepositInformation(state),
-  paymentInformationUiState: state.vaProfile.paymentInformationUiState,
-});
+const mapStateToProps = state => {
+  const directDepositIsSetUp = directDepositIsSetUpSelector(state);
+  const isEligible = isEvssAvailable(state);
+  const isEligibleToSignUp = directDepositAddressIsSetUp(state);
+
+  return {
+    directDepositIsSetUp,
+    isEligible,
+    isEligibleToSignUp,
+    isLoading:
+      isEligible &&
+      isMultifactorEnabled(state) &&
+      !directDepositInformation(state),
+    multifactorEnabled: isMultifactorEnabled(state),
+    paymentAccount: directDepositAccountInformation(state),
+    paymentInformation: directDepositInformation(state),
+    paymentInformationUiState: state.vaProfile.paymentInformationUiState,
+    shouldShowDirectDeposit:
+      isEligible && (directDepositIsSetUp || isEligibleToSignUp),
+  };
+};
 
 const mapDispatchToProps = {
   fetchPaymentInformation,

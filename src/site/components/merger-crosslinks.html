@@ -26,15 +26,16 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
   {% for group in crosslinks %}
 
     {% if group.heading != empty %}
-      <h3 class="va-nav-linkslist-heading">{{ group.heading }}</h3>
+      <h3 class="va-nav-linkslist-heading" tabindex="-1">{{ group.heading }}</h3>
     {% endif %}
 
     {% if group.links.length > 0 %}
+    {% assign group_heading = group.heading %}
       <ul class="va-nav-linkslist-list">
       {% for link in group.links %}
         {% if link.url != empty %}
           <li>
-            <a href="{{link.url}}">
+            <a href="{{link.url}}" onClick="recordEvent({ event: 'nav-linkslist', 'links-list-header':  '{{ group_heading }}'  });">
             {% if link.title != empty %}
               {{ link.title }}
             {% endif %}

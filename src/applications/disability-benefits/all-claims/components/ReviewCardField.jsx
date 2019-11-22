@@ -330,10 +330,10 @@ export default class ReviewCardField extends React.Component {
       : this.getReviewView();
 
     return (
-      <div>
+      <>
         {description}
         {viewOrEditCard}
-      </div>
+      </>
     );
   }
 }

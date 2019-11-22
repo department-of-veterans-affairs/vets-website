@@ -15,4 +15,19 @@ describe('VAOS <CalendarWidget>', () => {
     expect(weekdayHeaders.length).to.equal(2);
     tree.unmount();
   });
+
+  it('should display the same month as startMonth', () => {
+    const tree = shallow(
+      <CalendarWidget monthsToShowAtOnce={2} startMonth="2019-11-20" />,
+    );
+
+    expect(
+      tree
+        .find('h2')
+        .at(0)
+        .text(),
+    ).to.equal('November 2019');
+
+    tree.unmount();
+  });
 });

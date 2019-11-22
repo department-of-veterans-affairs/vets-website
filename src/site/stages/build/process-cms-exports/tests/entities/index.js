@@ -63,7 +63,7 @@ module.exports = {
   'paragraph-react_widget':
     'paragraph.0cd20783-f05a-470e-8eb0-ad6f3c597f7a.json',
   'paragraph-expandable_text':
-    'paragraph.15f56857-83c4-46b7-a381-eb8192e5f03e.json',
+    'paragraph.9bb48828-9a8d-4f48-abde-9c35a4ba3cde.json',
   'paragraph-media': 'paragraph.18827ad2-6420-4c88-8bcc-2328099ccd93.json',
   'paragraph-spanish_translation_summary':
     'paragraph.2a144f80-c8c5-4666-a1e5-03c3b6150aa2.json',

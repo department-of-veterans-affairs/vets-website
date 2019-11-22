@@ -70,4 +70,42 @@ describe('profile360 selectors', () => {
       expect(selectors.directDepositIsSetUp(state)).to.be.false;
     });
   });
+
+  describe('directDepositAddressIsSetUp selector', () => {
+    let state;
+    beforeEach(() => {
+      state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                paymentAddress: {
+                  addressOne: '123 Main',
+                  city: 'San Francisco',
+                  stateCode: 'CA',
+                },
+              },
+            ],
+          },
+        },
+      };
+    });
+    it('returns `true` if there is a street, city, and state set on the payment info payment address', () => {
+      expect(selectors.directDepositAddressIsSetUp(state)).to.be.true;
+    });
+    it('returns `false` if the street address is missing', () => {
+      state.vaProfile.paymentInformation.responses[0].paymentAddress.addressOne =
+        '';
+      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+    });
+    it('returns `false` if the city is missing', () => {
+      state.vaProfile.paymentInformation.responses[0].paymentAddress.city = '';
+      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+    });
+    it('returns `false` if the state is missing', () => {
+      state.vaProfile.paymentInformation.responses[0].paymentAddress.stateCode =
+        '';
+      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+    });
+  });
 });

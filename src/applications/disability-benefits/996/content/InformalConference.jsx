@@ -61,15 +61,25 @@ export const InformalConferenceTimes = ({ isRep }) => (
   </p>
 );
 
-export const InformalConferenceTimeLabels = key => {
-  const label = {
-    time0800to1000: '8:00 a.m. - 10:00 a.m. ET',
-    time1000to1200: '10:00 a.m. - 12:00 p.m. ET',
-    time1230to1400: '12:30 p.m. - 2:00 p.m. ET',
-    time1400to1630: '2:00 p.m. - 4:30 p.m. ET',
-  }[key];
-  return { 'ui:title': label };
+export const informalConferenceTimeAllLabels = {
+  time0800to1000: '8:00 a.m. - 10:00 a.m. ET',
+  time1000to1200: '10:00 a.m. - 12:00 p.m. ET',
+  time1230to1400: '12:30 p.m. - 2:00 p.m. ET',
+  time1400to1630: '2:00 p.m. - 4:30 p.m. ET',
 };
+
+// These labels are hidden on the review page
+export const InformalConferenceTimeLabels = key => (
+  <span className="time-title" role="presentation">
+    {informalConferenceTimeAllLabels[key]}
+  </span>
+);
+
+export const InformalConferenceAvailability = contact => (
+  <span className="time-contact" role="presentation">
+    {contact === 'me' ? 'My availability' : 'Representative’s availability'}
+  </span>
+);
 
 export const AttemptsInfoAlert = ({ isRep }) => (
   <AlertBox
