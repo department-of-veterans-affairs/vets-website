@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import * as address from '../utils/address';
 import { LANGUAGES } from './../utils/constants';
@@ -162,6 +163,7 @@ export class CommunityCarePreferencesPage extends React.Component {
                 onBack={this.goBack}
                 pageChangeInProgress={pageChangeInProgress}
               />
+              <NeedHelp />
             </SchemaForm>
           )}
       </div>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import NeedHelp from '../components/NeedHelp';
 import FacilityAddress from '../components/FacilityAddress';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
@@ -128,6 +129,7 @@ export class ClinicChoicePage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
+          <NeedHelp />
         </SchemaForm>
       </div>
     );

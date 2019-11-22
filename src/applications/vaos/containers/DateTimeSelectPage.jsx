@@ -11,6 +11,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
+import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
 import DateTimeSelectField from '../components/DateTimeSelectField';
@@ -135,6 +136,7 @@ export class DateTimeSelectPage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
+          <NeedHelp />
         </SchemaForm>
       </div>
     );

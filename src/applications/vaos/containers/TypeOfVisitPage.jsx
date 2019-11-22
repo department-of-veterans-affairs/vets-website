@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import {
   openFormPage,
@@ -68,6 +69,7 @@ export class TypeOfVisitPage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
+          <NeedHelp />
         </SchemaForm>
       </div>
     );

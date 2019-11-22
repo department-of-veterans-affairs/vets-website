@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 
 import {
@@ -124,6 +125,7 @@ export class ContactInfoPage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
+          <NeedHelp />
         </SchemaForm>
       </div>
     );

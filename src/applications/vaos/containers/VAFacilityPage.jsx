@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
@@ -142,6 +143,7 @@ export class VAFacilityPage extends React.Component {
               disabled
               pageChangeInProgress={pageChangeInProgress}
             />
+            <NeedHelp />
           </div>
         </div>
       );
@@ -157,6 +159,7 @@ export class VAFacilityPage extends React.Component {
               onBack={this.goBack}
               pageChangeInProgress={pageChangeInProgress}
             />
+            <NeedHelp />
           </div>
         </div>
       );
@@ -173,6 +176,7 @@ export class VAFacilityPage extends React.Component {
               disabled
               pageChangeInProgress={pageChangeInProgress}
             />
+            <NeedHelp />
           </div>
         </div>
       );
@@ -206,6 +210,7 @@ export class VAFacilityPage extends React.Component {
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
+          <NeedHelp />
         </SchemaForm>
       </div>
     );
