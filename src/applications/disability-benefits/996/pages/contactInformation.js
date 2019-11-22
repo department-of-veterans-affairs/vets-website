@@ -20,9 +20,11 @@ import {
   ForwardingAddressViewField,
   ForwardingAddressDescription,
   forwardingAddressCheckboxLabel,
+  ForwardingAddressReviewWidget,
 } from '../content/ForwardingAddress';
 import { checkDateRange } from '../validations';
 import { errorMessages, patternMessages } from '../constants';
+import ForwardingAddressReviewField from '../containers/ForwardingAddressReviewField';
 
 const {
   mailingAddress,
@@ -99,6 +101,13 @@ const contactInfo = {
     ),
     'view:hasForwardingAddress': {
       'ui:title': forwardingAddressCheckboxLabel,
+      'ui:field': 'StringField',
+      'ui:widget': 'checkbox',
+      'ui:reviewWidget': ForwardingAddressReviewWidget,
+      'ui:reviewField': ForwardingAddressReviewField,
+      'ui:options': {
+        hideLabelText: true,
+      },
     },
     forwardingAddress: merge(
       addressUISchema('forwardingAddress', 'Forwarding address', true),
