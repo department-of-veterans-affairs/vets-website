@@ -132,7 +132,7 @@ class VetTecApplicationProcess extends React.Component {
           </li>
           <li>
             Email us at{' '}
-            <a href="mailto:VETTEC.VBABUF@va.gov">VETTEC.VBABUF@va.gov</a>.
+            <a href="mailto:VETTEC.VBABUF@va.gov">VETTEC.VBABUF@va.gov</a>
           </li>
         </ul>
       </div>
@@ -146,7 +146,7 @@ class VetTecApplicationProcess extends React.Component {
     ) : (
       <div
         className={
-          'columns vads-u-margin-top--neg1p5 vads-u-margin-x--neg1p5 medium-screen:vads-l-col--10 vet-tec-application-process'
+          'columns vads-u-margin-top--1 vads-u-margin-x--neg1p5 medium-screen:vads-l-col--10 vet-tec-application-process'
         }
       >
         <h3 className="vads-u-font-size--h3 vads-u-margin-top--1p5 vads-u-margin-bottom--1p5">

@@ -25,7 +25,7 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderPhysicalAddress = () =>
     institution.physicalAddress1 && (
-      <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
+      <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
           <h4 className="contact-heading">Physical address</h4>
         </div>
@@ -108,7 +108,9 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderSCOHeader = () => (
     <div>
-      <h3>School certifying officials</h3>
+      <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5">
+        School certifying officials
+      </h3>
       <hr />
     </div>
   );

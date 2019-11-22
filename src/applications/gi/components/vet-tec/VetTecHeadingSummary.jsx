@@ -71,7 +71,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
-        <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5">
+        <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6">
           <div className="vettec-logo-container">
             {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
