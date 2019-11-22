@@ -22,7 +22,7 @@ describe('VAOS <ReasonForAppointmentSection>', () => {
   });
 
   it('should render heading', () => {
-    expect(tree.find('h3').text()).to.equal('Follow-up/Routine visit');
+    expect(tree.find('h3').text()).to.equal('Follow-up/Routine');
   });
 
   it('should render reason for appointment section additional information', () => {

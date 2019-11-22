@@ -129,7 +129,13 @@ export default function ConfirmationRequestInfo({ data, facility }) {
           <div className="vads-u-flex--1">
             <dl className="vads-u-margin-y--0">
               <dt>
-                <strong>{PURPOSE_TEXT[data.reasonForAppointment]}</strong>
+                <strong>
+                  {
+                    PURPOSE_TEXT.find(
+                      purpose => purpose.id === data.reasonForAppointment,
+                    )?.short
+                  }
+                </strong>
               </dt>
               <dd>{data.reasonAdditionalInfo}</dd>
               <dt>
