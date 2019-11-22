@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-function SearchForm() {
+import { updateQuery } from '../actions';
+
+function SearchForm({ query, updateQuery: onQueryChange }) {
   return (
     <form
       name="find-va-form"
@@ -15,6 +18,8 @@ function SearchForm() {
             className="usa-input vads-u-max-width--100 vads-u-width--full"
             name="va-form-query"
             type="text"
+            value={query}
+            onChange={event => onQueryChange(event.target.value)}
           />
         </div>
         <div>
@@ -30,4 +35,16 @@ function SearchForm() {
   );
 }
 
-export default SearchForm;
+const mapStateToProps = state => ({
+  query: state.findVaForms.query,
+});
+
+const mapDispatchToProps = {
+  updateQuery,
+};
+
+export { SearchForm };
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchForm);

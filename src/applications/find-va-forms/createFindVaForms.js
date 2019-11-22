@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import reducer from './reducers';
+
+export { reducer as findVaFormsWidgetReducer };
 
 export default function createFindVaForms(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
