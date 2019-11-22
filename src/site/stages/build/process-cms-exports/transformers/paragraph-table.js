@@ -14,7 +14,7 @@ function tableTransform(entity) {
 
       fieldTable: {
         tableValue: [].concat(...smash).join(' '),
-        // ...fieldTable,
+        ...fieldTable[0],
         value: fieldTable[0].value,
       },
     },
