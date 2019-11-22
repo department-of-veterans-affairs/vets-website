@@ -224,7 +224,7 @@ describe('VAOS data transformation', () => {
             selectedDates: [
               {
                 date: '2019-11-22',
-                datetime: '2019-11-22T09:30:00-05:00',
+                datetime: '2019-11-22T09:30:00',
               },
             ],
             currentRowIndex: 3,
