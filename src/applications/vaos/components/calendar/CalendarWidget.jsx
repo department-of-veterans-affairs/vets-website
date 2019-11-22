@@ -10,16 +10,18 @@ import {
   isDateOptionPairInSelectedArray,
   removeDateFromSelectedArray,
   removeDateOptionPairFromSelectedArray,
-  // convertSelectedDatesArrayToObj,
 } from '../../utils/calendar';
 
 export default class CalendarWidget extends Component {
   static props = {
     // TODO: add "showWeekends" prop
-    availableDates: PropTypes.array,
-    monthsToShowAtOnce: PropTypes.number,
-    maxSelections: PropTypes.number,
     additionalOptions: PropTypes.object,
+    availableDates: PropTypes.array,
+    minDate: PropTypes.string,
+    maxDate: PropTypes.string,
+    maxSelections: PropTypes.number,
+    monthsToShowAtOnce: PropTypes.number,
+    startMonth: PropTypes.string,
     onChange: PropTypes.func,
   };
 
@@ -39,17 +41,18 @@ export default class CalendarWidget extends Component {
       maxMonth: this.getMaxMonth(),
       optionsError: null,
     };
+    this.currentDate = currentDate;
   }
 
   componentWillMount() {
-    const monthsToShowAtOnce = this.props.monthsToShowAtOnce;
+    const { monthsToShowAtOnce, startMonth } = this.props;
 
     // Updates months to show at once if > default setting
     if (monthsToShowAtOnce > this.state.months.length) {
       const months = [];
-      const currentDate = moment();
+      const startDate = startMonth ? moment(startMonth) : moment();
       for (let index = 0; index < monthsToShowAtOnce; index++) {
-        months.push(currentDate.clone().add(index, 'months'));
+        months.push(startDate.clone().add(index, 'months'));
       }
       this.setState({
         months,
@@ -68,14 +71,35 @@ export default class CalendarWidget extends Component {
   };
 
   getMaxMonth = () => {
-    const { availableDates } = this.props;
+    const { availableDates, minDate, maxDate } = this.props;
     if (Array.isArray(availableDates) && availableDates.length) {
-      // get max date
-      const sortedArray = this.sortDates(availableDates);
-      return moment(sortedArray[sortedArray.length - 1]).format('YYYYMM');
+      // sort available dates
+      let sortedDates = this.sortDates(availableDates);
+
+      if (
+        minDate &&
+        moment(minDate).isValid() &&
+        maxDate &&
+        moment(maxDate).isValid()
+      ) {
+        // filter those that are out of minDate/maxDate range
+        sortedDates = sortedDates.filter(d => {
+          const momentDate = moment(d);
+          return (
+            momentDate.isSameOrAfter(moment(minDate), 'day') &&
+            momentDate.isSameOrBefore(moment(maxDate), 'day')
+          );
+        });
+      }
+
+      const lastAvailableDateMonth = moment(
+        sortedDates[sortedDates.length - 1],
+      ).format('YYYYMM');
+
+      return lastAvailableDateMonth;
     }
 
-    // If no available dates array provided, set max to 45 days from now
+    // If no available dates array provided, set max to 90 days from now
     return moment()
       .add(90, 'days')
       .format('YYYYMM');
@@ -112,7 +136,7 @@ export default class CalendarWidget extends Component {
 
   handlePrev = () => {
     const updatedMonths = this.state.months.map(m =>
-      m.add(-this.props.monthsToShowAtOnce, 'months'),
+      m.subtract(this.props.monthsToShowAtOnce, 'months'),
     );
     this.setState({ months: updatedMonths });
   };
@@ -214,10 +238,12 @@ export default class CalendarWidget extends Component {
       this.handleMultiSelect(date, currentRowIndex);
     } else {
       if (date !== currentlySelectedDate) {
-        selectedDates = !additionalOptions?.required ? [{ date }] : [];
+        if (!additionalOptions?.required) {
+          selectedDates = [{ date }];
+        }
         currentlySelectedDate = date;
       } else {
-        selectedDates = [];
+        selectedDates = selectedDates.filter(d => d.date !== date);
         currentlySelectedDate = null;
       }
       this.setState(
@@ -273,23 +299,35 @@ export default class CalendarWidget extends Component {
     );
   };
 
-  renderWeeks = month =>
-    getCalendarWeeks(month).map((week, index) => (
+  renderWeeks = month => {
+    const {
+      availableDates,
+      additionalOptions,
+      selectedDates,
+      currentlySelectedDate,
+      minDate,
+      maxDate,
+    } = this.props;
+
+    return getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
         key={`row-${index}`}
         cells={week}
-        availableDates={this.props.availableDates}
+        availableDates={availableDates}
+        minDate={minDate}
+        maxDate={maxDate}
         rowNumber={index}
-        additionalOptions={this.props.additionalOptions}
+        additionalOptions={additionalOptions}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
-        selectedDates={this.props.selectedDates || []}
-        currentlySelectedDate={this.props.currentlySelectedDate}
+        selectedDates={selectedDates || []}
+        currentlySelectedDate={currentlySelectedDate}
         optionsError={
           this.state.currentRowIndex === index ? this.state.optionsError : null
         }
       />
     ));
+  };
 
   renderMonth = (month, index) => {
     const { months, currentDate, maxMonth } = this.state;
@@ -299,7 +337,7 @@ export default class CalendarWidget extends Component {
       .format('YYYYMM');
 
     const prevDisabled =
-      months[0].format('YYYYMM') === currentDate.format('YYYYMM');
+      months[0].format('YYYYMM') <= currentDate.format('YYYYMM');
     const nextDisabled = nextMonthToDisplay > maxMonth;
 
     return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CalendarWidget from './calendar/CalendarWidget';
+import moment from 'moment';
 
 const DateTimeRequestField = ({ onChange, formData }) => (
   <CalendarWidget
@@ -8,6 +9,12 @@ const DateTimeRequestField = ({ onChange, formData }) => (
     multiSelect
     maxSelections={3}
     onChange={onChange}
+    minDate={moment()
+      .add(5, 'days')
+      .format('YYYY-MM-DD')}
+    maxDate={moment()
+      .add(395, 'days')
+      .format('YYYY-MM-DD')}
     currentlySelectedDate={formData?.currentlySelectedDate}
     selectedDates={formData?.selectedDates}
     additionalOptions={{
