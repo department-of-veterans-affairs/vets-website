@@ -131,6 +131,11 @@ export const TYPES_OF_SLEEP_CARE = [
   },
 ];
 
+export const FACILITY_TYPES = {
+  VAMC: 'vamc',
+  COMMUNITY_CARE: 'communityCare',
+};
+
 export const LANGUAGES = [
   {
     id: 'english',

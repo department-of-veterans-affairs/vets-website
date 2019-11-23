@@ -5,7 +5,7 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
@@ -27,7 +27,7 @@ const PODIATRY = 'tbd-podiatry';
 
 function isCCAudiology(state) {
   return (
-    getFormData(state).facilityType === 'communityCare' &&
+    getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
     getFormData(state).typeOfCareId === AUDIOLOGY
   );
 }
@@ -40,7 +40,7 @@ function isCommunityCare(state) {
 }
 
 function isCCFacility(state) {
-  return getFormData(state).facilityType === 'communityCare';
+  return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
 }
 
 function isSleepCare(state) {
@@ -86,6 +86,11 @@ export default {
             );
 
             if (data.isEligible) {
+              // If CC enabled systems and toc is podiatry, skip typeOfFacility
+              if (isPodiatry(state)) {
+                dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+                return 'requestDateTime';
+              }
               return 'typeOfFacility';
             }
           }
@@ -96,7 +101,8 @@ export default {
             return 'typeOfCare';
           }
 
-          dispatch(updateFacilityType('vaFacility'));
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          return 'vaFacility';
         } catch (e) {
           return 'vaFacility';
         }

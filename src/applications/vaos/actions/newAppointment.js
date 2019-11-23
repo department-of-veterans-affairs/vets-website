@@ -13,7 +13,11 @@ import {
   getPreferences,
   updatePreferences,
 } from '../api';
-import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -379,7 +383,9 @@ export function submitAppointmentOrRequest(router) {
         let requestBody;
         let requestData;
 
-        if (newAppointment.data.facilityType === 'communityCare') {
+        if (
+          newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+        ) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {

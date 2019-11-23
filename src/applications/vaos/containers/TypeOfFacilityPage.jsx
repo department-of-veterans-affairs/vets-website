@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import { FACILITY_TYPES } from '../utils/constants';
 import {
   openFormPage,
   updateFormData,
@@ -16,7 +17,7 @@ const initialSchema = {
   properties: {
     facilityType: {
       type: 'string',
-      enum: ['vamc', 'communityCare'],
+      enum: Object.keys(FACILITY_TYPES).map(key => FACILITY_TYPES[key]),
     },
   },
 };
@@ -28,7 +29,7 @@ const uiSchema = {
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
-        vamc: (
+        [FACILITY_TYPES.VAMC]: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               VA medical center or clinic
@@ -38,7 +39,7 @@ const uiSchema = {
             </span>
           </>
         ),
-        communityCare: (
+        [FACILITY_TYPES.COMMUNITY_CARE]: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
               Community care facility

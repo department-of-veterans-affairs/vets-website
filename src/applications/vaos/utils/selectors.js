@@ -4,6 +4,7 @@ import { getAppointmentId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
+  FACILITY_TYPES,
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -52,7 +53,7 @@ export function getTypeOfCare(data) {
 
   if (
     data.typeOfCareId === AUDIOLOGY &&
-    data.facilityType === 'communityCare'
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
   }
