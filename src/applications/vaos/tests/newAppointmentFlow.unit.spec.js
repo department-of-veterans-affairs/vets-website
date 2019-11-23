@@ -362,7 +362,7 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
   describe('type of care page', () => {
-    it('next should be vaFacility page if no CC support', async () => {
+    it('next should be vaFacility page if no systems have CC support', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, {
         data: [{ attributes: { assigningAuthority: 'dfn-000' } }],

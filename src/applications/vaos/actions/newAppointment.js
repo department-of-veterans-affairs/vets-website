@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import newAppointmentFlow from '../newAppointmentFlow';
-import { getTypeOfCare, getNewAppointment } from '../utils/selectors';
+import { getTypeOfCare } from '../utils/selectors';
 import moment from 'moment';
 import {
   getSystemIdentifiers,
@@ -98,7 +98,7 @@ export function showTypeOfCareUnavailableModal() {
   return (dispatch, getState) =>
     dispatch({
       type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-      typeOfCare: getTypeOfCare(getNewAppointment(getState()).data),
+      typeOfCare: getTypeOfCare(getState().newAppointment.data),
     });
 }
 

@@ -90,7 +90,7 @@ export default {
             }
           }
 
-          // If podiatry and ineligible for CC, show modal
+          // If no CC enabled systems and toc is podiatry, show modal
           if (isPodiatry(state)) {
             dispatch(showTypeOfCareUnavailableModal());
             return 'typeOfCare';
