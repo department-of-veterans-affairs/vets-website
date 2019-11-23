@@ -43,7 +43,7 @@ describe('Wait Time Alert', () => {
     );
 
     const alert = tree.find('AlertBox');
-    expect(alert.prop('status')).to.equal('warning');
+    expect(alert.prop('status')).to.equal('info');
     tree.unmount();
   });
 
@@ -107,7 +107,7 @@ describe('Wait Time Alert', () => {
     );
 
     const alert = tree.find('AlertBox');
-    expect(alert.prop('status')).to.equal('warning');
+    expect(alert.prop('status')).to.equal('info');
     tree.unmount();
   });
 

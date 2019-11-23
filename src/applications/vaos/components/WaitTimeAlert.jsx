@@ -21,7 +21,7 @@ export const WaitTimeAlert = ({
   const momentNextAvailableDate = moment(nextAvailableApptDate);
 
   if (momentPreferredDate.isValid() && momentNextAvailableDate.isValid()) {
-    const preferredDateIsToday = today.isSame(momentPreferredDate, 'day');
+    const showUrgentCareMessage = today.isSame(momentPreferredDate, 'day');
 
     // If Preferred date >5 days away, and next avail appointment is >20 (mental health)
     // or 28 (other ToCs) days away from the preferred date, show request alert
@@ -36,11 +36,11 @@ export const WaitTimeAlert = ({
       momentPreferredDate.isAfter(moment().add(5, 'days'), 'day') &&
       daysBetweenNowAndNextAvailable > nextAvailableDateWarningLimit;
 
-    if (preferredDateIsToday || notMeetingStandardOfCare) {
+    if (showUrgentCareMessage || notMeetingStandardOfCare) {
       return (
         <AlertBox
           headline="This is the earliest date we can schedule your appointment"
-          status="warning"
+          status={showUrgentCareMessage ? 'warning' : 'info'}
           content={
             <>
               <p>
@@ -62,7 +62,7 @@ export const WaitTimeAlert = ({
                 </li>
                 <li>Call your local VA medical center</li>
               </ul>
-              {preferredDateIsToday && (
+              {showUrgentCareMessage && (
                 <>
                   <p>If you have an urgent medical need, please:</p>
                   <ul>
