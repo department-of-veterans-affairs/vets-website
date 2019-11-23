@@ -1,14 +1,7 @@
 /* eslint-disable import/no-dynamic-require */
+const { getAllSchemasOfType } = require('./helpers');
 
-const fs = require('fs');
-const path = require('path');
-
-const transformedSchemasDir = path.join(__dirname, '../transformed');
-const paragraphSchemas = fs
-  .readdirSync(transformedSchemasDir)
-  .filter(fileName => fileName.startsWith('paragraph'))
-  .map(fileName => ({ $ref: `transformed/${path.basename(fileName, '.js')}` }));
-
+const paragraphSchemas = getAllSchemasOfType('paragraph');
 module.exports = {
   $id: 'Paragraph',
   anyOf: paragraphSchemas,
