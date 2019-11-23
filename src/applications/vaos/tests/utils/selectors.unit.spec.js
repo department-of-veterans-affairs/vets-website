@@ -192,6 +192,24 @@ describe('VAOS selectors', () => {
       const typeOfCare = getTypeOfCare(data);
       expect(typeOfCare.id).to.equal('CCAUDHEAR');
     });
+
+    it('get podiatry type of care', () => {
+      const data = {
+        typeOfCareId: 'tbd-podiatry',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.name).to.equal('Podiatry');
+    });
+
+    it('get pharmacy type of care', () => {
+      const data = {
+        typeOfCareId: '160',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.name).to.equal('Pharmacy');
+    });
   });
 
   describe('getClinicsForChosenFacility', () => {
