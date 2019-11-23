@@ -108,7 +108,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCOPT',
   },
   {
-    id: 'tbd',
+    id: 'tbd-podiatry',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',

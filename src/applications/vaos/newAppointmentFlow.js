@@ -13,6 +13,7 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
+  showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
   updateFacilityType,
@@ -22,6 +23,7 @@ import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const PODIATRY = 'tbd-podiatry';
 
 function isCCAudiology(state) {
   return (
@@ -43,6 +45,10 @@ function isCCFacility(state) {
 
 function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
+}
+
+function isPodiatry(state) {
+  return getFormData(state).typeOfCareId === PODIATRY;
 }
 
 export default {
@@ -82,6 +88,12 @@ export default {
             if (data.isEligible) {
               return 'typeOfFacility';
             }
+          }
+
+          // If podiatry and ineligible for CC, show modal
+          if (isPodiatry(state)) {
+            dispatch(showTypeOfCareUnavailableModal());
+            return 'typeOfCare';
           }
 
           dispatch(updateFacilityType('vaFacility'));

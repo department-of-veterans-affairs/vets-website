@@ -154,6 +154,7 @@ describe('VAOS newAppointmentFlow', () => {
       );
       expect(nextState).to.equal('requestDateTime');
     });
+
     it('should return to type of care page if none of user Systems is cc enabled', () => {
       const state = {
         ...defaultState,
@@ -171,6 +172,7 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.vaFacility.previous(state);
       expect(nextState).to.equal('typeOfCare');
     });
+
     it('should return to typeOfFacility if user is CC eligible ', () => {
       const state = {
         ...defaultState,
@@ -361,6 +363,11 @@ describe('VAOS newAppointmentFlow', () => {
   });
   describe('type of care page', () => {
     it('next should be vaFacility page if no CC support', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, {
+        data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
+      });
+
       const state = {
         newAppointment: {
           data: {
@@ -375,6 +382,29 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(nextState).to.equal('vaFacility');
+      resetFetch();
+    });
+
+    it('next should stay on typeOfCare page if no CC support and typeOfCare is podiatry', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, {
+        data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
+      });
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: 'tbd-podiatry',
+          },
+        },
+      };
+
+      const dispatch = sinon.spy();
+      const nextState = await newAppointmentFlow.typeOfCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('typeOfCare');
+      resetFetch();
     });
 
     it('should choose Sleep care page', async () => {
