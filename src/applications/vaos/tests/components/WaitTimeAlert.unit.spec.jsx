@@ -9,11 +9,12 @@ import { WaitTimeAlert } from '../../components/WaitTimeAlert';
 const today = moment().format('YYYY-MM-DD');
 
 describe('Wait Time Alert', () => {
-  it('should render a warning alert if preferred date is today', () => {
+  it('should render an alert if preferred date is today', () => {
     const tree = shallow(
       <WaitTimeAlert
         preferredDate={today}
         nextAvailableApptDate={today}
+        facilityId="123"
         typeOfCareId={MENTAL_HEALTH}
       />,
     );
@@ -23,7 +24,7 @@ describe('Wait Time Alert', () => {
     tree.unmount();
   });
 
-  it('should render an info alert if type of care is mental health, preferred date is > 5 days and next available date is > 20 days away', () => {
+  it('should render an alert if type of care is mental health, preferred date is > 5 days and next available date is > 20 days away', () => {
     const preferredDate = moment()
       .add(6, 'days')
       .format('YYYY-MM-DD');
@@ -36,12 +37,13 @@ describe('Wait Time Alert', () => {
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
         typeOfCareId={MENTAL_HEALTH}
+        facilityId="123"
         eligibleForRequests
       />,
     );
 
     const alert = tree.find('AlertBox');
-    expect(alert.prop('status')).to.equal('info');
+    expect(alert.prop('status')).to.equal('warning');
     tree.unmount();
   });
 
@@ -99,12 +101,13 @@ describe('Wait Time Alert', () => {
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
         typeOfCareId="000"
+        facilityId="123"
         eligibleForRequests
       />,
     );
 
     const alert = tree.find('AlertBox');
-    expect(alert.prop('status')).to.equal('info');
+    expect(alert.prop('status')).to.equal('warning');
     tree.unmount();
   });
 
@@ -121,6 +124,7 @@ describe('Wait Time Alert', () => {
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
         typeOfCareId="000"
+        facilityId="123"
         eligibleForRequests
       />,
     );
@@ -142,6 +146,7 @@ describe('Wait Time Alert', () => {
         preferredDate={preferredDate}
         nextAvailableApptDate={futureDate}
         typeOfCareId="000"
+        facilityId="123"
         eligibleForRequests
       />,
     );
@@ -156,6 +161,7 @@ describe('Wait Time Alert', () => {
         preferredDate={today}
         nextAvailableApptDate={today}
         typeOfCareId="000"
+        facilityId="123"
         eligibleForRequests
       />,
     );
@@ -171,6 +177,7 @@ describe('Wait Time Alert', () => {
         preferredDate={today}
         nextAvailableApptDate={today}
         typeOfCareId="000"
+        facilityId="123"
         eligibleForRequests={false}
       />,
     );

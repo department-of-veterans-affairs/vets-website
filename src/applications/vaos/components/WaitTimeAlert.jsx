@@ -27,14 +27,14 @@ export const WaitTimeAlert = ({
     // or 28 (other ToCs) days away from the preferred date, show request alert
     const nextAvailableDateWarningLimit =
       typeOfCareId === MENTAL_HEALTH ? 20 : 28;
-    const durationBetweenNowAndNextAvailable = moment
+
+    const daysBetweenNowAndNextAvailable = moment
       .duration(momentNextAvailableDate.diff(today))
       .asDays();
 
     const notMeetingStandardOfCare =
-      nextAvailableApptDate &&
       momentPreferredDate.isAfter(moment().add(5, 'days'), 'day') &&
-      durationBetweenNowAndNextAvailable > nextAvailableDateWarningLimit;
+      daysBetweenNowAndNextAvailable > nextAvailableDateWarningLimit;
 
     if (preferredDateIsToday || notMeetingStandardOfCare) {
       return (
