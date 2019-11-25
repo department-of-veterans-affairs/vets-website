@@ -194,18 +194,20 @@ export const validateAddress = (
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
-      : await localVet360.addressValidationSuccess(payload);
+      : await localVet360.addressValidationSuccess();
     const { addresses } = response;
-    addresses.filter(
-      address =>
-        address.addressMetaData?.deliveryPointValidation === 'CONFIRMED' &&
-        address.addressMetaData?.confidenceScore >= 80,
-    );
-    if (addresses.length > 1) {
+    const suggestedAddresses = addresses
+      .filter(
+        address =>
+          address.addressMetaData.deliveryPointValidation === 'CONFIRMED' &&
+          address.addressMetaData.confidenceScore >= 80,
+      )
+      .map(address => address.address);
+    if (suggestedAddresses.length > 1) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
         addressValidationType: fieldName,
-        suggestedAddresses: addresses,
+        suggestedAddresses,
         validationKey: response.validationKey,
       });
     }
