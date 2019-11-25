@@ -53,7 +53,9 @@ export function getPendingAppointments(startDate, endDate) {
     );
   }
 
-  return promise.then(resp => resp.data.map(item => item.attributes));
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getRequestMessages(requestId) {
