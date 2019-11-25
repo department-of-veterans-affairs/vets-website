@@ -183,5 +183,20 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/claimexam.asp",
     "dest": "/disability/va-claim-exam/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_resources.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_training_resources.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/school_certifying_officials/sco_info.asp",
+    "dest": "/school-administrators"
   }
 ]

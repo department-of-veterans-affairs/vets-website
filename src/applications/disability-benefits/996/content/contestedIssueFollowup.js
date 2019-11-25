@@ -8,7 +8,7 @@ import { NULL_CONDITION_STRING } from '../constants';
 export const contestedIssueOfficeTitle = (
   <>
     Would you like the same office that issued your prior decision to conduct
-    the review?
+    the Higher-Level Review?
   </>
 );
 

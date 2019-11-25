@@ -21,6 +21,10 @@ const whitelists = {
   ],
   'paragraph-expandable_text': ['field_wysiwyg', 'field_text_expander'],
   'paragraph-wysiwyg': ['field_wysiwyg'],
+  'paragraph-health_care_local_facility_servi': [
+    'field_wysiwyg',
+    'field_title',
+  ],
 };
 
 const missingFilters = new Set();

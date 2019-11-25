@@ -23,7 +23,7 @@
 - [x] Update checkbox error message (needs content approval).
 - [x] URL destination for the "Learn more about the review options" link?
       Currently it is pointing to `/decision-reviews`.
-- [ ] Destination or component that opens when the "See all your contested
+- [x] Destination or component that opens when the "See all your contested
       issues" link is used.
 
 ### Confirm Veteran Details (Step 1)
@@ -38,7 +38,7 @@
 
 - [x] Build form `selectContestedIssues` in `config/form.js`
 - [ ] Get eligible issues API call?
-- [ ] Desination of "See all your issues" link?
+- [x] Desination of "See all your issues" link?
 - [x] Add unit tests
 - [ ] Add e2e tests
 
@@ -74,7 +74,7 @@
 - [x] Add unit tests
 - [ ] Add e2e tests
 
-### Swap order of intro & opt out page
+### Move opt out page
 
 - [ ] Opt out page should only be visible if user has a legacy appeal
 - [ ] Consider updating JSON form schema library to accept an option to add an

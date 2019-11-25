@@ -5,7 +5,7 @@ import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNu
 import ScheduleTimesReviewField from '../containers/ScheduleTimesReviewField';
 
 import { checkConferenceTimes } from '../validations';
-import { errorMessages } from '../constants';
+import { errorMessages, patternMessages } from '../constants';
 
 import {
   InformalConferenceDescription,
@@ -72,7 +72,7 @@ const informalConference = {
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:required': formData => formData?.informalConferenceChoice === 'rep',
         'ui:errorMessages': {
-          pattern: errorMessages.informalConferenceContactPhonePattern,
+          pattern: patternMessages.representativePhone,
           required: errorMessages.informalConferenceContactPhone,
         },
         'ui:options': {

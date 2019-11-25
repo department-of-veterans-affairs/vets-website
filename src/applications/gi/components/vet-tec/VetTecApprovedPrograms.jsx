@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
 import PropTypes from 'prop-types';
 import VetTecContactInformation from './VetTecContactInformation';
 import { calculatorInputChange } from '../../actions';
@@ -9,10 +8,8 @@ import { formatCurrency, isPresent } from '../../utils/helpers';
 class VetTecApprovedPrograms extends React.Component {
   constructor(props) {
     super(props);
-    if (!environment.isProduction()) {
-      this.state = { selectedProgram: props.preSelectedProgram };
-      this.setProgramFields(props.preSelectedProgram);
-    }
+    this.state = { selectedProgram: props.preSelectedProgram };
+    this.setProgramFields(props.preSelectedProgram);
   }
 
   setProgramFields = programName => {
@@ -39,8 +36,7 @@ class VetTecApprovedPrograms extends React.Component {
 
   render() {
     const programs = this.props.institution.programs;
-    // prod flag for CT 116 story 19614
-    if (!environment.isProduction() && programs && programs.length) {
+    if (programs && programs.length) {
       const programRows = programs.map((program, index) => {
         const programLength = isPresent(program.lengthInHours)
           ? `${program.lengthInHours} hours`

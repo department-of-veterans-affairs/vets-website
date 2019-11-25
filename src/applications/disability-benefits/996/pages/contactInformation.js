@@ -20,9 +20,11 @@ import {
   ForwardingAddressViewField,
   ForwardingAddressDescription,
   forwardingAddressCheckboxLabel,
+  ForwardingAddressReviewWidget,
 } from '../content/ForwardingAddress';
 import { checkDateRange } from '../validations';
-import { errorMessages } from '../constants';
+import { errorMessages, patternMessages } from '../constants';
+import ForwardingAddressReviewField from '../containers/ForwardingAddressReviewField';
 
 const {
   mailingAddress,
@@ -49,7 +51,7 @@ const contactInfo = {
         'ui:widget': PhoneNumberWidget,
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:errorMessages': {
-          pattern: errorMessages.phone,
+          pattern: patternMessages.phone,
           required: errorMessages.phone,
         },
         'ui:options': {
@@ -60,7 +62,7 @@ const contactInfo = {
       emailAddress: {
         'ui:title': 'Email address',
         'ui:errorMessages': {
-          pattern: errorMessages.email,
+          pattern: patternMessages.email,
           required: errorMessages.email,
         },
         'ui:options': {
@@ -99,6 +101,13 @@ const contactInfo = {
     ),
     'view:hasForwardingAddress': {
       'ui:title': forwardingAddressCheckboxLabel,
+      'ui:field': 'StringField',
+      'ui:widget': 'checkbox',
+      'ui:reviewWidget': ForwardingAddressReviewWidget,
+      'ui:reviewField': ForwardingAddressReviewField,
+      'ui:options': {
+        hideLabelText: true,
+      },
     },
     forwardingAddress: merge(
       addressUISchema('forwardingAddress', 'Forwarding address', true),
