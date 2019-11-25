@@ -23,6 +23,7 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-va-forms/createFindVaForms';
+import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -82,6 +83,11 @@ createCallToActionWidget(store, widgetTypes.CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
+
+createHigherLevelReviewApplicationStatus(
+  store,
+  widgetTypes.HIGHER_LEVEL_REVIEW_APP_STATUS,
+);
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_530,
