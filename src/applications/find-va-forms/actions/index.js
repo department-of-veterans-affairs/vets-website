@@ -1,8 +1,6 @@
 export const QUERY_CHANGED = 'QUERY_CHANGED';
 
-export function updateQuery(query) {
-  return {
-    type: QUERY_CHANGED,
-    query,
-  };
-}
+export const updateQuery = query => ({
+  type: QUERY_CHANGED,
+  query,
+});
