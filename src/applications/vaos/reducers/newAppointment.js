@@ -63,6 +63,7 @@ const initialState = {
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
+  availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
 };
 
@@ -382,6 +383,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         loadingAppointmentSlots: true,
         availableSlots: [],
+        appointmentLength: null,
       };
     }
     case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED: {
@@ -395,6 +397,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         loadingAppointmentSlots: false,
         availableSlots: action.availableSlots,
+        appointmentLength: action.appointmentLength,
         data,
         pages: {
           ...state.pages,

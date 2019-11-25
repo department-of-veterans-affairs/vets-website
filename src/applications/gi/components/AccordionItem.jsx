@@ -19,7 +19,7 @@ class AccordionItem extends React.Component {
     recordEvent({
       event: this.state.expanded
         ? 'nav-accordion-collapse'
-        : 'nav-accordion-expanded',
+        : 'nav-accordion-expand',
     });
   }
 

@@ -281,4 +281,36 @@ describe('vet360 reducer', () => {
 
     expect(state.modal).to.eql('modalName');
   });
+
+  it('should update addressValidation on confirm', () => {
+    const state = vet360(
+      {},
+      {
+        type: 'ADDRESS_VALIDATION_CONFIRM',
+        addressValidationType: 'mailingAddress',
+        suggestedAddresses: [],
+        modal: 'addressValidation',
+        validationKey: 123456,
+      },
+    );
+    expect(state.modal).to.eql('addressValidation');
+    expect(state.addressValidationType).to.eql('mailingAddress');
+    expect(state.suggestedAddresses).to.eql([]);
+    expect(state.validationKey).to.eql(123456);
+  });
+
+  it('should update addressValidation on error', () => {
+    const state = vet360(
+      {},
+      {
+        type: 'ADDRESS_VALIDATION_ERROR',
+        addressValidationError: true,
+        addressValidationType: 'mailingAddress',
+        modal: 'addressValidation',
+      },
+    );
+    expect(state.modal).to.eql('addressValidation');
+    expect(state.addressValidationError).to.eql(true);
+    expect(state.addressValidationType).to.eql('mailingAddress');
+  });
 });

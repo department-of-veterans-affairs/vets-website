@@ -198,4 +198,37 @@ export default {
       },
     };
   },
+  addressValidationSuccess(address) {
+    return {
+      addresses: [
+        {
+          ...address,
+          addressLine2: '',
+          addressLine3: '',
+          city: 'Tampa',
+          stateCode: 'FL',
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'MIXED',
+          },
+        },
+        {
+          ...address,
+          addressLine2: '',
+          addressLine3: '',
+          city: 'Saint Petersburg',
+          stateCode: 'FL',
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'MIXED',
+          },
+        },
+      ],
+      validationKey: 1007944671,
+    };
+  },
 };
