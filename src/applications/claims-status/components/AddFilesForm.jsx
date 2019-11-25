@@ -7,6 +7,7 @@ import recordEvent from '../../../platform/monitoring/record-event';
 
 import ErrorableFileInput from '@department-of-veterans-affairs/formation-react/ErrorableFileInput';
 import ErrorableSelect from '@department-of-veterans-affairs/formation-react/ErrorableSelect';
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
@@ -50,7 +51,7 @@ class AddFilesForm extends React.Component {
     this.add = this.add.bind(this);
     this.getErrorMessage = this.getErrorMessage.bind(this);
     this.submit = this.submit.bind(this);
-    this.state = { errorMessage: null };
+    this.state = { errorMessage: null, checked: false };
   }
   getErrorMessage() {
     if (this.state.errorMessage) {
@@ -88,7 +89,8 @@ class AddFilesForm extends React.Component {
   submit() {
     if (
       this.props.files.length > 0 &&
-      this.props.files.every(isValidDocument)
+      this.props.files.every(isValidDocument) &&
+      this.state.checked
     ) {
       this.props.onSubmit();
     } else {
@@ -178,6 +180,32 @@ class AddFilesForm extends React.Component {
             </div>
           </div>
         ))}
+        <ErrorableCheckbox
+          onValueChange={checked => {
+            this.setState({ checked });
+          }}
+          checked={this.state.checked}
+          errorMessage={
+            !this.state.checked
+              ? 'Please accept the above to submit files for review.'
+              : null
+          }
+          label={
+            <div>
+              <strong>
+                I understand that the uploaded files support this claim only.
+              </strong>
+              <div style={{ paddingTop: 10 }}>
+                If you have evidence in support of a new claim, please begin the
+                process by visiting our{' '}
+                <a href={`/disability/how-to-file-claim`}>
+                  How to File a Claim
+                </a>{' '}
+                page.
+              </div>
+            </div>
+          }
+        />
         <div>
           <button className="usa-button" onClick={this.submit}>
             Submit Files for Review
