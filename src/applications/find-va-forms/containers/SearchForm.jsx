@@ -13,7 +13,7 @@ function SearchForm({ query, updateQuery: onQueryChange }) {
         Keyword, form name, or number
       </label>
       <div className="vads-l-row">
-        <div style={{ flexGrow: 1 }} className="vads-u-margin-right--2">
+        <div className="vads-u-margin-right--2 vads-u-flex--1">
           <input
             className="usa-input vads-u-max-width--100 vads-u-width--full"
             name="va-form-query"
