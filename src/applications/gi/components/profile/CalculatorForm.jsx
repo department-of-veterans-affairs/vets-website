@@ -679,6 +679,9 @@ class CalculatorForm extends React.Component {
         </div>
       );
     }
+    const selectedValue = inputs.beneficiaryLocationQuestion
+      ? inputs.beneficiaryLocationQuestion
+      : profile.attributes.name;
 
     return (
       <div>
@@ -705,7 +708,7 @@ class CalculatorForm extends React.Component {
           }
           name="beneficiaryLocationQuestion"
           options={zipcodeRadioOptions}
-          value={inputs.beneficiaryLocationQuestion}
+          value={selectedValue}
           onChange={this.handleInputChange}
         />
         {extensionSelector}
