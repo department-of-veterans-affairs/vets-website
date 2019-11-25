@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export default function Card({ heading, href, description }) {
+export default function Card({ heading, href, rel, target, description }) {
   const containerClassName = classnames(
     'vads-u-display--block',
     'vads-u-background-color--primary-alt-lightest',
@@ -11,7 +11,7 @@ export default function Card({ heading, href, description }) {
   );
 
   return (
-    <a href={href} className={containerClassName}>
+    <a href={href} target={target} rel={rel} className={containerClassName}>
       <div className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-text-decoration--underline">
         {heading}
       </div>
