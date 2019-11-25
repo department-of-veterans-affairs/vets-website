@@ -3,7 +3,7 @@ import {
   areBoundsEqual,
   formatOperatingHours,
   validateIdString,
-  findVADomain
+  hasVADomain,
 } from '../utils/helpers';
 
 describe('Locator Helper Method Tests', () => {
@@ -215,36 +215,36 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(expected);
   });
 
-  it('findVADomain should return true if https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/ ', () => {
-    const result = findVADomain(
+  it('hasVADomain should return true if https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/ ', () => {
+    const result = hasVADomain(
       'https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/',
     );
 
     expect(result).to.eq(true);
   });
 
-  it('findVADomain should return true if  https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
-    const result = findVADomain(
+  it('hasVADomain should return true if  https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
+    const result = hasVADomain(
       'https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
     );
 
     expect(result).to.eq(true);
   });
 
-  it('findVADomain should return true if  https://www.va.gov/testing ', () => {
-    const result = findVADomain('https://www.va.gov/testing');
+  it('hasVADomain should return true if  https://www.va.gov/testing ', () => {
+    const result = hasVADomain('https://www.va.gov/testing');
 
     expect(result).to.eq(true);
   });
 
-  it('findVADomain should return false if  https://google.com/testing ', () => {
-    const result = findVADomain('https://google.com/testing');
+  it('hasVADomain should return false if  https://google.com/testing ', () => {
+    const result = hasVADomain('https://google.com/testing');
 
     expect(result).to.eq(false);
   });
 
-  it('findVADomain should return false if  https://example.ex/testing ', () => {
-    const result = findVADomain('https://example.ex/testing');
+  it('hasVADomain should return false if  https://example.ex/testing ', () => {
+    const result = hasVADomain('https://example.ex/testing');
 
     expect(result).to.eq(false);
   });

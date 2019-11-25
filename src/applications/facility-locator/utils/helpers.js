@@ -172,7 +172,7 @@ export const formatOperatingHours = operatingHours => {
  * @returns {boolean}
  *
  */
-export const findVADomain = website => {
+export const hasVADomain = website => {
   const regExp = /(https?:\/\/(.+?\.)?va\.gov(\/*)?)/g;
   return regExp.test(website);
 };
