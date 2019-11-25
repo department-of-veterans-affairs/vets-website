@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
-import '../sass/0996-higher-level-review.scss';
+import { BASE_URL } from '../constants';
 
 import {
   wizardButtonText,
   wizardDescription,
   wizardLabels,
   startPageText,
-  startPageUrl,
   alertHeading,
   AlertContent,
 } from '../content/wizardLabels';
@@ -65,7 +64,7 @@ const HLRWizard = () => {
             {choice &&
               choice !== 'other' && (
                 <a
-                  href={startPageUrl}
+                  href={BASE_URL}
                   className="usa-button usa-button-primary va-button-primary"
                 >
                   {startPageText}

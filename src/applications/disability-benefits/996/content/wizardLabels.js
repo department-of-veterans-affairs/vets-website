@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BASE_URL } from '../constants';
+import { FORM_URL } from '../constants';
 
 export const wizardButtonText = 'Start the Higher-Level Review request';
 
@@ -15,8 +15,6 @@ export const wizardLabels = {
 
 export const startPageText = 'Request a Higher-Level Review';
 
-export const startPageUrl = BASE_URL;
-
 export const alertHeading = `You’ll need to submit a paper form to request a
   Higher-Level Review`;
 
@@ -30,8 +28,6 @@ export const AlertContent = (
       To request a Higher-Level Review for another benefit type, please fill out
       a Decision Review Request: Higher-Level Review (VA Form 20-0996).
     </p>
-    <a href="https://staging.va.gov/decision-reviews/forms/higher-level-review-20-0996.pdf">
-      Download VA Form 20-0996 (PDF)
-    </a>
+    <a href={FORM_URL}>Download VA Form 20-0996 (PDF)</a>
   </>
 );
