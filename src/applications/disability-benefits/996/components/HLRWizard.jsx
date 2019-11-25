@@ -14,9 +14,10 @@ import {
   AlertContent,
 } from '../content/wizardLabels';
 
-const HLRWizard = () => {
-  const [choice, setChoice] = useState(null);
-  const [expanded, setExpanded] = useState(false);
+// initChoice & initExpanded set for testing
+const HLRWizard = ({ initChoice = null, initExpanded = false }) => {
+  const [choice, setChoice] = useState(initChoice);
+  const [expanded, setExpanded] = useState(initExpanded);
 
   const name = 'higher-level-review';
   const options = [
