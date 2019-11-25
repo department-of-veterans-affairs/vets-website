@@ -34,7 +34,7 @@ export const PURPOSE_TEXT = [
   {
     id: 'medication-concern',
     short: 'Medication concern',
-    label: 'I have a concern or quest about my medication',
+    label: 'I have a concern or question about my medication',
     serviceName: 'Medication Concern',
   },
   {
