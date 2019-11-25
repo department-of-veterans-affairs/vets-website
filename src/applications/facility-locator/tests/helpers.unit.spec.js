@@ -248,4 +248,9 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
     expect(result).to.eq(false);
   });
+
+  it('hasVADomain should return false if http://some.com/va.gov ', () => {
+    const result = hasVADomain('http://some.com/va.gov');
+    expect(result).to.eq(false);
+  });
 });
