@@ -11,7 +11,13 @@ export default function Card({ heading, href, rel, target, description }) {
   );
 
   return (
-    <a href={href} target={target} rel={rel} className={containerClassName}>
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      className={containerClassName}
+      aria-label={heading}
+    >
       <div className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-text-decoration--underline">
         {heading}
       </div>
