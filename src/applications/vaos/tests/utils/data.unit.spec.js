@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   transformFormToCCRequest,
   transformFormToVARequest,
+  transformFormToAppointment,
 } from '../../utils/data';
 
 describe('VAOS data transformation', () => {
@@ -66,7 +67,7 @@ describe('VAOS data transformation', () => {
       schedulingMethod: 'clerk',
       requestedPhoneCall: false,
       providerId: '0',
-      pproviderOption: '',
+      providerOption: '',
     });
   });
   it('should transform form into CC request', () => {
@@ -198,7 +199,124 @@ describe('VAOS data transformation', () => {
       inpatient: false,
       status: 'Submitted',
       providerId: '0',
-      pproviderOption: '',
+      providerOption: '',
+    });
+  });
+
+  it('should transform form into VA appointment', () => {
+    const state = {
+      user: {
+        profile: {
+          vet360: {},
+        },
+      },
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            morning: true,
+          },
+          email: 'test@va.gov',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'asdfasdf',
+          calendarData: {
+            currentlySelectedDate: '2019-11-22',
+            selectedDates: [
+              {
+                date: '2019-11-22',
+                datetime: '2019-11-22T09:30:00',
+              },
+            ],
+            currentRowIndex: 3,
+          },
+          preferredDate: '2019-12-02',
+          clinicId: '308',
+          vaSystem: '983',
+          vaFacility: '983',
+          facilityType: 'vamc',
+          typeOfCareId: '323',
+        },
+        appointmentLength: '30',
+        facilities: {
+          '323_983': [
+            {
+              institution: {
+                institutionCode: '983',
+                name: 'CHYSHR-Cheyenne VA Medical Center',
+                city: 'Cheyenne',
+                stateAbbrev: 'WY',
+                authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+                rootStationCode: '983',
+                parentStationCode: '983',
+              },
+              institutionTimezone: 'America/Denver',
+            },
+          ],
+        },
+        clinics: {
+          '983_323': [
+            {
+              siteCode: '983',
+              clinicId: '308',
+              clinicName: 'CHY PC KILPATRICK',
+              clinicFriendlyLocationName: 'Green Team Clinic1',
+              institutionName: 'CHYSHR-Cheyenne VA Medical Center',
+              institutionCode: '983',
+            },
+          ],
+        },
+      },
+    };
+    const data = transformFormToAppointment(state);
+    expect(data).to.deep.equal({
+      clinic: {
+        siteCode: '983',
+        clinicId: '308',
+        clinicName: 'CHY PC KILPATRICK',
+        clinicFriendlyLocationName: 'Green Team Clinic1',
+        institutionName: 'CHYSHR-Cheyenne VA Medical Center',
+        institutionCode: '983',
+      },
+      direct: {
+        purpose: 'Follow-up/Routine: asdfasdf',
+        desiredDate: '11/22/2019 00:00:00',
+        dateTime: '11/22/2019 09:30:00',
+        apptLength: 30,
+      },
+      desiredDate: '2019-11-22T00:00:00+00:00',
+      dateTime: '2019-11-22T09:30:00+00:00',
+      duration: 30,
+      bookingNotes: 'Follow-up/Routine: asdfasdf',
+      patients: {
+        patient: [
+          {
+            contactInformation: {
+              preferredEmail: 'test@va.gov',
+              timeZone: 'America/Denver',
+            },
+            location: {
+              type: 'VA',
+              facility: {
+                name: 'CHYSHR-Cheyenne VA Medical Center',
+                siteCode: '983',
+                timeZone: 'America/Denver',
+              },
+              clinic: { ien: '308', name: 'CHY PC KILPATRICK' },
+            },
+          },
+        ],
+      },
+      apptType: 'P',
+      purpose: '9',
+      lvl: '1',
+      ekg: '',
+      lab: '',
+      xRay: '',
+      schedulingRequestType: 'NEXT_AVAILABLE_APPT',
+      type: 'REGULAR',
+      appointmentKind: 'TRADITIONAL',
+      schedulingMethod: 'direct',
+      providers: { provider: [{ location: { type: 'VA' } }] },
     });
   });
 });

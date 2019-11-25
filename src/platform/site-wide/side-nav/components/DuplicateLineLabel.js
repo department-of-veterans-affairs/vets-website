@@ -36,11 +36,13 @@ const DuplicateLineLabel = ({ depth, item }) => {
     <>
       <div className="line" />
       <a
-        className={classNames({
-          'va-sidenav-item-label': true,
-          'va-sidenav-item-label-duplicate': true,
-          selected: isSelected,
-        })}
+        className={classNames(
+          'va-sidenav-item-label',
+          'va-sidenav-item-label-underlined',
+          {
+            selected: isSelected,
+          },
+        )}
         href={href}
         rel="noopener noreferrer"
       >
