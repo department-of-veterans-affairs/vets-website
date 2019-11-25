@@ -522,5 +522,57 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
       expect(router.push.called).to.be.true;
     });
+
+    it('should make VA appointment', async () => {
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          flowType: FLOW_TYPES.DIRECT,
+          clinics: {
+            '983_323': [
+              {
+                clinicId: '123',
+              },
+            ],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institution: {
+                  institutionCode: '983',
+                },
+              },
+            ],
+          },
+          data: {
+            vaSystem: '983',
+            vaFacility: '983',
+            typeOfCareId: '323',
+            clinicId: '123',
+            facilityType: 'vamc',
+            calendarData: {
+              selectedDates: [
+                {
+                  date: '2019-01-01',
+                  dateTime: '2019-01-01T04:00:00',
+                },
+              ],
+            },
+            reasonForAppointment: 'routine-follow-up',
+            bestTimeToCall: [],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(router.push.called).to.be.true;
+    });
   });
 });
