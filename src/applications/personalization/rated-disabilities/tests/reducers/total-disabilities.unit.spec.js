@@ -23,10 +23,12 @@ describe('totalDisabilities reducer', () => {
     const state = totalRating(initialState, {
       type: FETCH_TOTAL_RATING_FAILED,
       response: {
-        errors: {
-          code: 500,
-          detail: 'failed to load',
-        },
+        errors: [
+          {
+            code: 500,
+            detail: 'failed to load',
+          },
+        ],
       },
     });
     const err = { code: 500, detail: 'failed to load' };
