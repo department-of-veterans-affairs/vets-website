@@ -3,23 +3,20 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function VAFacilityInfoMessage({ facility }) {
   return (
-    <div aria-atomic="true" aria-live="assertive">
-      <AlertBox status="info" headline="We found one VA location for you">
-        <p>
-          <strong>{facility.institution.authoritativeName}</strong>
-          <br />
-          {facility.institution.city}, {facility.institution.stateAbbrev}
-        </p>
-        Not all VA locations offer all types of care or support online
-        scheduling.
-        <p>
-          If this location wasn't what you were looking for, you can{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            search for a nearby location
-          </a>{' '}
-          and call to schedule an appointment.
-        </p>
-      </AlertBox>
-    </div>
+    <AlertBox status="info" headline="We found one VA location for you">
+      <p>
+        <strong>{facility.institution.authoritativeName}</strong>
+        <br />
+        {facility.institution.city}, {facility.institution.stateAbbrev}
+      </p>
+      Not all VA locations offer all types of care or support online scheduling.
+      <p>
+        If this location wasn't what you were looking for, you can{' '}
+        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+          search for a nearby location
+        </a>{' '}
+        and call to schedule an appointment.
+      </p>
+    </AlertBox>
   );
 }
