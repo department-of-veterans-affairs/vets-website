@@ -1,10 +1,10 @@
 module.exports = {
   type: 'object',
   properties: {
+    contentModelType: { type: 'string', enum: ['paragraph-alert'] },
     entity: {
       type: 'object',
       properties: {
-        contentModelType: { type: 'string', enum: ['paragraph-alert'] },
         entityType: { type: 'string' },
         entityBundle: { type: 'string' },
         fieldAlertType: { type: 'string' },
@@ -21,7 +21,6 @@ module.exports = {
         },
       },
       required: [
-        'contentModelType',
         'entityType',
         'entityBundle',
         'fieldAlertType',
@@ -31,5 +30,5 @@ module.exports = {
       ],
     },
   },
-  required: ['entity'],
+  required: ['contentModelType', 'entity'],
 };

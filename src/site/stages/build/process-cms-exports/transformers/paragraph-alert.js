@@ -8,6 +8,7 @@ const transform = entity => {
     fieldAlertBlockReference,
   } = entity;
   return {
+    contentModelType: entity.contentModelType,
     entity: {
       entityType: 'paragraph',
       entityBundle: 'alert',
