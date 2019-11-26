@@ -10,14 +10,14 @@ class VetTecApplicationProcess extends React.Component {
     ) {
       return (
         <p>
-          To learn more about available programs, visit the training provider's
-          website.
+          To learn more about these approved programs, visit the training
+          provider’s website.
         </p>
       );
     }
     return (
       <p>
-        To learn more about available programs,{' '}
+        To learn more about these approved programs,{' '}
         <a
           href={programs[0].providerWebsite}
           target="_blank"

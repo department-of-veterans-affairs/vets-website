@@ -1040,7 +1040,8 @@ export class Modals extends React.Component {
             a 5-year pilot program that matches Veterans with high-tech training
             providers. Veterans can start or advance their career in the
             high-tech industry with a training program that’ll take months—or
-            just weeks—to complete.
+            just weeks—to complete. The pilot program started in 2019 and runs
+            through March 31, 2024.
           </p>
           <p>
             <a
