@@ -26,10 +26,10 @@ const whitelists = {
     'field_title',
   ],
   'paragraph-collapsible_panel': [
-    'fieldCollapsiblePanelBordered',
-    'fieldCollapsiblePanelExpand',
-    'fieldCollapsiblePanelMulti',
-    'fieldVaParagraphs',
+    'field_collapsible_panel_bordered',
+    'field_collapsible_panel_expand',
+    'field_collapsible_panel_multi',
+    'field_va_paragraphs',
   ],
 };
 
