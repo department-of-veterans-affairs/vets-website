@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "019070f3-9e3e-4c69-83e4-c7eace8c414f"
+            "value": "a36d05df-1024-4c7b-9f95-eb06f3392c6c"
         }
     ],
     "langcode": [
@@ -23,7 +23,7 @@
     ],
     "created": [
         {
-            "value": "2019-09-04T13:45:29+00:00",
+            "value": "2019-05-31T16:25:43+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -45,7 +45,7 @@
     "field_alert_block_reference": [],
     "field_alert_heading": [
         {
-            "value": "Blue Water Navy Veterans and Agent Orange"
+            "value": "You\u2019ll need to sign in to milConnect to get your military service records"
         }
     ],
     "field_alert_type": [
@@ -56,7 +56,7 @@
     "field_va_paragraphs": [
         {
             "target_type": "paragraph",
-            "target_uuid": "abb45dcb-b33f-4080-b20f-2f89d4281806"
+            "target_uuid": "67f214e2-a367-4ad0-986d-65e686277dba"
         }
     ]
 }
