@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import ViewDependentsListItem from './ViewDependentsListItem';
 
 class ViewDependentsList extends Component {
   render() {
-    return <div>Our list</div>;
+    return <ViewDependentsListItem />;
   }
 }
 

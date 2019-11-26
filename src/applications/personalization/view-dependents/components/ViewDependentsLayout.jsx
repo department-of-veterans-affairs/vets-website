@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import ViewDepenentsList from './ViewDependentsList';
-import ViewDepenentsSidebar from './ViewDependentsSidebar';
+import ViewDepenentsList from './ViewDependentsList/ViewDependentsList';
+import ViewDepenentsSidebar from './ViewDependentsSidebar/ViewDependentsSidebar';
 
 class ViewDependentsLayout extends Component {
   render() {
