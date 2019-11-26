@@ -1,7 +1,13 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
-import { getTypeOfCare, getSystems } from './selectors';
+import {
+  getTypeOfCare,
+  getSystems,
+  getFormData,
+  getChosenClinicInfo,
+  getChosenFacilityInfo,
+} from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
 function getRequestedDates(data) {
@@ -20,6 +26,14 @@ function getRequestedDates(data) {
       optionTime3: 'No Time Selected',
     },
   );
+}
+
+function getUserMessage(data) {
+  const label = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  ).short;
+
+  return `${label}: ${data.reasonAdditionalInfo}`;
 }
 
 export function transformFormToVARequest({ data }) {
@@ -60,7 +74,7 @@ export function transformFormToVARequest({ data }) {
     schedulingMethod: 'clerk',
     requestedPhoneCall: false,
     providerId: '0',
-    pproviderOption: '',
+    providerOption: '',
   };
 }
 
@@ -147,7 +161,79 @@ export function transformFormToCCRequest(state) {
     inpatient: false,
     status: 'Submitted',
     providerId: '0',
-    pproviderOption: '',
+    providerOption: '',
+  };
+}
+
+export function transformFormToAppointment(state) {
+  const data = getFormData(state);
+  const clinic = getChosenClinicInfo(state);
+  const facility = getChosenFacilityInfo(state);
+  const slot = data.calendarData.selectedDates[0];
+  const purpose = getUserMessage(data);
+  const appointmentLength = parseInt(
+    state.newAppointment.appointmentLength,
+    10,
+  );
+
+  return {
+    clinic,
+    direct: {
+      purpose,
+      desiredDate: moment(slot.date, 'YYYY-MM-DD').format(
+        'MM/DD/YYYY [00:00:00]',
+      ),
+      dateTime: moment(slot.datetime).format('MM/DD/YYYY HH:mm:ss'),
+      apptLength: appointmentLength,
+    },
+    // These times are a lie, they're actually in local time, but the upstream
+    // service expects the 0 offset.
+    desiredDate: `${slot.date}T00:00:00+00:00`,
+    dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
+    duration: appointmentLength,
+    bookingNotes: purpose,
+    patients: {
+      patient: [
+        {
+          contactInformation: {
+            preferredEmail: data.email,
+            timeZone: facility.institutionTimezone,
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: facility.institution.name,
+              siteCode: facility.institution.rootStationCode,
+              timeZone: facility.institutionTimezone,
+            },
+            clinic: {
+              ien: clinic.clinicId,
+              name: clinic.clinicName,
+            },
+          },
+        },
+      ],
+    },
+    // defaulted values
+    apptType: 'P',
+    purpose: '9',
+    lvl: '1',
+    ekg: '',
+    lab: '',
+    xRay: '',
+    schedulingRequestType: 'NEXT_AVAILABLE_APPT',
+    type: 'REGULAR',
+    appointmentKind: 'TRADITIONAL',
+    schedulingMethod: 'direct',
+    providers: {
+      provider: [
+        {
+          location: {
+            type: 'VA',
+          },
+        },
+      ],
+    },
   };
 }
 
@@ -161,13 +247,9 @@ export function createPreferenceBody(preferences, data) {
 }
 
 export function createMessageBody(id, { data }) {
-  const label = PURPOSE_TEXT.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  ).short;
-
   return {
     AppointmentRequestId: id,
-    messageText: `${label} - ${data.reasonAdditionalInfo}`,
+    messageText: getUserMessage(data),
     isLastMessage: true,
     messageDateTime: '',
     messageSent: true,
