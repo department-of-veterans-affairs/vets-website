@@ -223,7 +223,7 @@ export class VetTecSearchPage extends React.Component {
           <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
             {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
-          <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+          <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end vads-u-margin-top--neg3">
             <div className="vads-l-col--9 search-results-count">
               {this.renderSearchResultsHeader(this.props.search)}
             </div>
@@ -245,6 +245,7 @@ export class VetTecSearchPage extends React.Component {
               this.props.fetchProgramAutocompleteSuggestions
             }
             handleFilterChange={this.handleFilterChange}
+            handleProviderFilterChange={this.handleProviderFilterChange}
             updateAutocompleteSearchTerm={
               this.props.updateAutocompleteSearchTerm
             }

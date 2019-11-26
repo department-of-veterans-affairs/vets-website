@@ -1,7 +1,5 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { renderVetTecLogo } from '../../utils/render';
-import classNames from 'classnames';
 
 export const VetTecAdditionalResourcesLinks = () => (
   <div>
@@ -65,10 +63,7 @@ export const VetTecAdditionalResourcesLinks = () => (
 );
 
 const VetTecAdditionalResources = () => (
-  <div className="additional-resources usa-width-one-third medium-4 small-12 column vads-u-margin-top--neg9">
-    <div className="vettec-logo-container">
-      {renderVetTecLogo(classNames('vettec-logo'))}
-    </div>
+  <div className="additional-resources usa-width-one-third medium-4 small-12 column vads-u-margin-top--neg7">
     <h2 className="highlight vettec-additional-resources-header vads-u-font-size--h4">
       Additional resources
     </h2>

@@ -25,9 +25,11 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderPhysicalAddress = () =>
     institution.physicalAddress1 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Physical address</h4>
+          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+            Physical address
+          </h4>
         </div>
         <div className="vads-l-col--9">
           <div>
@@ -51,9 +53,11 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderMailingAddress = () =>
     institution.address1 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Mailing address</h4>
+          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+            Mailing address
+          </h4>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -70,9 +74,11 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderProviderEmail = () =>
     firstProgram.providerEmailAddress && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Email address</h4>
+          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+            Email address
+          </h4>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -93,9 +99,11 @@ export const VetTecContactInformation = ({ institution }) => {
       return null;
     }
     return (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Phone number</h4>
+          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+            Phone number
+          </h4>
         </div>
         <div className="vads-l-col--9 ">
           <div>
@@ -108,16 +116,20 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderSCOHeader = () => (
     <div>
-      <h3>School certifying officials</h3>
+      <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5">
+        School certifying officials
+      </h3>
       <hr />
     </div>
   );
 
   const renderPrimarySCOs = () =>
     primarySCOs.length > 0 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Primary</h4>
+          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+            Primary
+          </h4>
         </div>
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
@@ -131,9 +143,11 @@ export const VetTecContactInformation = ({ institution }) => {
 
   const renderSecondarySCOs = () =>
     secondarySCOs.length > 0 && (
-      <div className="vads-l-row vads-u-margin-y--4">
+      <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Secondary</h4>
+          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+            Secondary
+          </h4>
         </div>
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
