@@ -111,6 +111,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
+        <VetTecAdditionalResources />
       </div>
     </div>
   );
