@@ -119,6 +119,7 @@ const entityAssemblerFactory = contentDir => {
 
     // Post-transformation JSON schema validation
     const transformedEntity = transformEntity(filteredEntity);
+    transformedEntity.contentModelType = entity.contentModelType;
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
       /* eslint-disable no-console */
