@@ -81,7 +81,7 @@ export class EligibilityForm extends React.Component {
           name="giBillChapter"
           options={
             // prod flag for bah 20014
-            !environment.isProduction
+            !environment.isProduction()
               ? [
                   { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
                   { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
