@@ -18,7 +18,6 @@ module.exports = {
         },
       },
       required: [
-        'contentModelType',
         'entityBundle',
         'fieldCollapsiblePanelBordered',
         'fieldCollapsiblePanelExpand',
@@ -27,5 +26,5 @@ module.exports = {
       ],
     },
   },
-  required: ['entity'],
+  required: ['contentModelType', 'entity'],
 };
