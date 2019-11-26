@@ -180,8 +180,6 @@
 
   .contact-heading {
     vertical-align: top;
-    margin: 0;
-    font-family: 'Source Sans Pro';
   }
 
   .sco-contact-info {
@@ -209,11 +207,6 @@
   }
 
   .vet-tec-application-process {
-    ul {
-      li {
-        list-style: square;
-      }
-    }
     ol {
       padding-inline-start: 0;
     }
@@ -259,11 +252,6 @@
     }
 
     padding-bottom: 1rem;
-  }
-
-  .vettec-logo-container {
-    padding-top: 0;
-    padding-bottom: 0.5em;
   }
 
   .locations-list {
