@@ -1,4 +1,5 @@
 {
+  "contentModelType": "paragraph-process",
   "entity": {
     "entityBundle": "process",
     "fieldSteps": [
