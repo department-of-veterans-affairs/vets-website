@@ -5,7 +5,7 @@ const transform = entity => {
   return {
     entity: {
       entityBundle: 'process',
-      fieldSteps: fieldSteps.map(item => ({ processed: item.value })),
+      fieldSteps: fieldSteps.map(item => ({ processed: item.value.trim() })),
     },
   };
 };
