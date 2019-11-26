@@ -21,7 +21,7 @@ export default function Card({ heading, href, rel, target, description }) {
       <div className="vads-u-font-weight--bold vads-u-text-decoration--underline">
         {heading}
       </div>
-      <div className="vads-l-gird-container">
+      <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row">
           <div className="vads-l-col--3 vads-u-margin-top--1p5 vads-u-margin-bottom--1">
             <hr className="vads-u-margin--0 vads-u-border-color--cool-blue-lighter" />
