@@ -25,6 +25,7 @@ const whitelists = {
     'field_wysiwyg',
     'field_title',
   ],
+  'paragraph-process': ['field_steps'],
 };
 
 const missingFilters = new Set();
