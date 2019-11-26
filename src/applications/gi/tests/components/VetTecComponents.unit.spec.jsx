@@ -81,8 +81,6 @@ describe('<VetTecScoContact>', () => {
 
     expect(wrapper.text().includes('MARTIN INDIATSI')).to.be.true;
     expect(wrapper.text().includes('SCHOOL CERTIFYING OFFICIAL')).to.be.true;
-    expect(wrapper.text().includes('VABENEFITS@GALVANIZE.COM')).to.be.true;
-    expect(wrapper.text().includes('303-749-0110')).to.be.true;
     wrapper.unmount();
   });
 });
