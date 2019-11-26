@@ -90,8 +90,9 @@ export default {
               '/vaos/community-care/eligibility',
             );
 
+            dispatch(updateCCEligibility(data.isEligible));
+
             if (data.isEligible) {
-              dispatch(updateCCEligibility(data.isEligible));
               // If CC enabled systems and toc is podiatry, skip typeOfFacility
               if (isPodiatry(state)) {
                 dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
