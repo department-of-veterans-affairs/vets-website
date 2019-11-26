@@ -17,7 +17,7 @@ const PercentageCalloutBox = props => {
 };
 
 PercentageCalloutBox.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.number,
   isPercentage: PropTypes.bool,
   label: PropTypes.string,
 };
