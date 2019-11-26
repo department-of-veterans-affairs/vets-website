@@ -259,6 +259,11 @@ more.\r\n",
               class="usa-width-two-thirds vads-u-display--block vads-u-width--full">
               <div>
                 <div class="vads-c-facility-detail">
+                  {% if fieldOperatingStatusFacility and fieldOperatingStatusFacility != 'normal' %}
+                    <div class="vads-u-display--inline-block vads-u-margin-bottom--2p5">
+                      {% include "src/site/includes/operatingStatusFlags.drupal.liquid" %}
+                    </div>
+                  {% endif %}
                   <section class="vads-facility-detail">
                     <h3
                       class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
