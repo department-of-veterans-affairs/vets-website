@@ -195,7 +195,7 @@ class AddFilesForm extends React.Component {
               <strong>
                 I understand that the uploaded files support this claim only.
               </strong>
-              <div style={{ paddingTop: 10 }}>
+              <div className="vads-u-padding-top--1">
                 If you have evidence in support of a new claim, please begin the
                 process by visiting our{' '}
                 <a href={`/disability/how-to-file-claim`}>
