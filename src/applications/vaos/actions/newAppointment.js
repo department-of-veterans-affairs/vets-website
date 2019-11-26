@@ -101,11 +101,9 @@ export function updateCCEnabledSystems(ccEnabledSystems) {
 }
 
 export function showTypeOfCareUnavailableModal() {
-  return (dispatch, getState) =>
-    dispatch({
-      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-      typeOfCare: getTypeOfCare(getState().newAppointment.data),
-    });
+  return {
+    type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  };
 }
 
 export function hideTypeOfCareUnavailableModal() {

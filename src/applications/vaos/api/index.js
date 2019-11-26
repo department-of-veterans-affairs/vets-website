@@ -183,7 +183,7 @@ export function getCommunityCare() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve({
-        isEligible: true,
+        isEligible: false,
         reason: 'User is within x miles of facility',
         effectiveDate: '2017-10-08T23:35:12-05:00',
       });

@@ -19,7 +19,7 @@ const TypeOfCareUnavailableModal = ({ onClose, showModal, typeOfCare }) => {
       scheduled online for Community Care appointments. To schedule a podiatry
       appointment at a VA facility, please call your local VA medical center, or
       use the{' '}
-      <a href="/find-locations">
+      <a target="_blank" rel="noopener noreferrer" href="/find-locations">
         locator tool to find your nearest VA medical facility
       </a>
       .

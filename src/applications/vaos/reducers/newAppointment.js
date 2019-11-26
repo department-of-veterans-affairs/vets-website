@@ -181,7 +181,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         showTypeOfCareUnavailableModal: true,
-        typeOfCare: action.typeOfCare,
         pageChangeInProgress: false,
       };
     }
@@ -189,7 +188,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         showTypeOfCareUnavailableModal: false,
-        typeOfCare: null,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {

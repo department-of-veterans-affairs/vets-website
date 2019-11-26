@@ -181,7 +181,8 @@ export default {
       // Return to typeOFFacility page if facility is CC enabled
       if (
         getFormData(state).facilityType &&
-        getNewAppointment(state).ccEnabledSystems?.length > 0
+        getNewAppointment(state).ccEnabledSystems?.length > 0 &&
+        !isPodiatry(state)
       ) {
         nextState = 'typeOfFacility';
       }
