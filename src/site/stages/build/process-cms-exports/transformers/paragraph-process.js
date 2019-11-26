@@ -1,0 +1,13 @@
+// const { getDrupalValue, getWysiwygString } = require('./helpers');
+
+const transform = entity => {
+  const { fieldSteps } = entity;
+  return {
+    entity: {
+      entityBundle: 'process',
+      fieldSteps: fieldSteps.map(item => ({ processed: item.value })),
+    },
+  };
+};
+
+module.exports = transform;
