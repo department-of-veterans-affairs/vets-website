@@ -117,13 +117,22 @@ export const VetTecContactInformation = ({ institution }) => {
     primarySCOs.length > 0 && (
       <div className="vads-l-row vads-u-margin-y--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Primary</h4>
+          <h4
+            id="primary-contact-header"
+            className="contact-heading"
+            aria-label="primary contact officials"
+          >
+            Primary
+          </h4>
         </div>
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
-            <div className="vads-l-row">
+            <ul
+              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              aria-label="primary contact officials"
+            >
               {primarySCOs.map(sco => VetTecScoContact(sco))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
@@ -133,13 +142,21 @@ export const VetTecContactInformation = ({ institution }) => {
     secondarySCOs.length > 0 && (
       <div className="vads-l-row vads-u-margin-y--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading">Secondary</h4>
+          <h4
+            className="contact-heading"
+            aria-label="secondary contact officials"
+          >
+            Secondary
+          </h4>
         </div>
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
-            <div className="vads-l-row">
+            <ul
+              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              aria-label="secondary contact officials"
+            >
               {secondarySCOs.map(sco => VetTecScoContact(sco))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
