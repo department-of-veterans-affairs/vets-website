@@ -73,9 +73,12 @@ export const disabilitiesExplanation = (
         decision letter about what form you’ll need to submit to request a
         Higher-Level Review.
         <p>
-          <button className="usa-button-secondary btn-see-all-issues">
+          <a
+            href="/disability/view-disability-rating/rating"
+            className="usa-button usa-button-secondary btn-see-all-issues"
+          >
             See all your issues
-          </button>
+          </a>
         </p>
       </li>
     </ul>

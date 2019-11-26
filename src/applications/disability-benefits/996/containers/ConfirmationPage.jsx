@@ -31,7 +31,7 @@ export class ConfirmationPage extends React.Component {
           Your request has been submitted
         </h3>
         <p>
-          We’ll mail a letter confirming your request within{' '}
+          We’ll mail you a letter confirming your request within{' '}
           <strong>5 business days</strong>.
         </p>
         <p>
@@ -53,7 +53,7 @@ export class ConfirmationPage extends React.Component {
           {response && (
             <ul className="claim-list">
               <li>
-                <strong>Date received</strong>
+                <strong>Date submitted</strong>
                 <br />
                 <span role="presentation">
                   {moment(response.timestamp).format('MMM D, YYYY')}
@@ -63,11 +63,14 @@ export class ConfirmationPage extends React.Component {
           )}
         </div>
 
-        <h3>After your request a decision review</h3>
+        <h3>What happens after I submit a request for a review?</h3>
         <p>
           When your review is complete, VA will mail you a decision packet that
-          includes details about the decision in your case. Any other questions,
-          please refer to the information <a href="#">after you apply</a>.
+          includes details about the decision on your case.{' '}
+          <a href="https://www.va.gov/decision-reviews/after-you-request-review/">
+            Learn more about what happens after you request a review
+          </a>
+          .
         </p>
 
         <h3>What should I do while I wait?</h3>
@@ -83,7 +86,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <br />
         <a
-          href="/track-claims/your-claims"
+          href="/claim-or-appeal-status/"
           className="usa-button usa-button-primary"
         >
           Track the status of your decision review

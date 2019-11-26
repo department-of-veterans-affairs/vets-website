@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -227,26 +226,15 @@ export function fetchProfile(facilityCode, version) {
         });
       })
       .then(institution => {
-        const institutionZIP = _.get(institution, 'data.attributes.zip');
-        const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
-
-        return (
-          fetch(bahUrl, api.settings)
-            .then(res => res.json())
-            // if there's an error from the zipRatesPayload the reducer will just use the values from the institution end point.
-            .then(zipRatesPayload => {
-              const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
-              withPreview(dispatch, {
-                type: FETCH_PROFILE_SUCCEEDED,
-                payload: {
-                  ...institution,
-                  AVGVABAH,
-                  AVGDODBAH,
-                },
-                zipRatesPayload,
-              });
-            })
-        );
+        const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
+        return withPreview(dispatch, {
+          type: FETCH_PROFILE_SUCCEEDED,
+          payload: {
+            ...institution,
+            AVGVABAH,
+            AVGDODBAH,
+          },
+        });
       })
       .catch(err => {
         dispatch({ type: FETCH_PROFILE_FAILED, err });

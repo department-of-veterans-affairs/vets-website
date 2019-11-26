@@ -4,7 +4,6 @@ import React from 'react';
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
 import { renderVetTecLogo } from '../../utils/render';
@@ -77,6 +76,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
           </div>
         </div>
       </div>
+
       <div className="row">
         <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
           <div className="usa-width-one-half medium-6 small-12 column">
@@ -86,38 +86,31 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             >
               {formattedAddress}
             </IconWithInfo>
-            {/* Production flag for 19736 */}
-            {!environment.isProduction() && (
-              <IconWithInfo
-                icon="globe"
-                present={isPresent(firstProgram.providerWebsite)}
+            <IconWithInfo
+              icon="globe"
+              present={isPresent(firstProgram.providerWebsite)}
+            >
+              <a
+                href={firstProgram.providerWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <a
-                  href={firstProgram.providerWebsite}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {firstProgram.providerWebsite}
-                </a>
-              </IconWithInfo>
-            )}
+                {firstProgram.providerWebsite}
+              </a>
+            </IconWithInfo>
           </div>
-          {/* Production flag for 19736 */}
-          {!environment.isProduction() && (
-            <div className="usa-width-one-half medium-6 small-12 column">
-              <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
-                <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
-              </IconWithInfo>
-              <IconWithInfo
-                icon="map"
-                present={isPresent(firstProgram.schoolLocale)}
-              >
-                {`${firstProgram.schoolLocale}  locale`}
-              </IconWithInfo>
-            </div>
-          )}
+          <div className="usa-width-one-half medium-6 small-12 column">
+            <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
+              <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
+            </IconWithInfo>
+            <IconWithInfo
+              icon="map"
+              present={isPresent(firstProgram.schoolLocale)}
+            >
+              {`${firstProgram.schoolLocale}  locale`}
+            </IconWithInfo>
+          </div>
         </div>
-        <VetTecAdditionalResources />
       </div>
     </div>
   );

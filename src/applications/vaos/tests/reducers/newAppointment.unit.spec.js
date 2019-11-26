@@ -16,10 +16,14 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_SUBMIT,
+  FORM_SUBMIT_SUCCEEDED,
+  FORM_SUBMIT_FAILED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const defaultState = {
   data: {},
@@ -569,6 +573,32 @@ describe('VAOS reducer: newAppointment', () => {
         enum: ['983', '984'],
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
+    });
+  });
+  describe('submit request', () => {
+    it('should set loading', () => {
+      const action = {
+        type: FORM_SUBMIT,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.loading);
+    });
+    it('should set successful', () => {
+      const action = {
+        type: FORM_SUBMIT_SUCCEEDED,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.succeeded);
+    });
+    it('should set error', () => {
+      const action = {
+        type: FORM_SUBMIT_FAILED,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
     });
   });
 });
