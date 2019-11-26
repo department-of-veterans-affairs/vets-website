@@ -18,6 +18,7 @@ import {
   startRequestAppointmentFlow,
   updateFacilityType,
   updateCCEnabledSystems,
+  updateCCEligibility,
 } from './actions/newAppointment';
 import { hasEligibleClinics } from './utils/eligibility';
 
@@ -41,6 +42,10 @@ function isCommunityCare(state) {
 
 function isCCFacility(state) {
   return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+}
+
+function isCCEligible(state) {
+  return getNewAppointment(state).isCCEligible;
 }
 
 function isSleepCare(state) {
@@ -86,6 +91,7 @@ export default {
             );
 
             if (data.isEligible) {
+              dispatch(updateCCEligibility(data.isEligible));
               // If CC enabled systems and toc is podiatry, skip typeOfFacility
               if (isPodiatry(state)) {
                 dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
@@ -178,13 +184,10 @@ export default {
     previous(state) {
       let nextState = 'typeOfCare';
 
-      // Return to typeOFFacility page if facility is CC enabled
-      if (
-        getFormData(state).facilityType &&
-        getNewAppointment(state).ccEnabledSystems?.length > 0
-      ) {
+      if (isCCEligible(state)) {
         nextState = 'typeOfFacility';
       }
+
       return nextState;
     },
   },
