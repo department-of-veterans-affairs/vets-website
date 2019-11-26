@@ -203,6 +203,11 @@ export const validateAddress = (
           address.addressMetaData.confidenceScore >= 80,
       )
       .map(address => address.address);
+    const payloadWithSuggestedAddress = {
+      ...suggestedAddresses[0],
+      id: payload?.id,
+    };
+    // If multiple suggestions, present them to the modal
     if (suggestedAddresses.length > 1) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
@@ -216,7 +221,7 @@ export const validateAddress = (
         route,
         method,
         fieldName,
-        payload,
+        payloadWithSuggestedAddress,
         analyticsSectionName,
       ),
     );
