@@ -17,6 +17,15 @@ module.exports = {
           items: { $ref: 'Paragraph' },
         },
       },
+      required: [
+        'contentModelType',
+        'entityBundle',
+        'fieldCollapsiblePanelBordered',
+        'fieldCollapsiblePanelExpand',
+        'fieldCollapsiblePanelMulti',
+        'fieldVaParagraphs',
+      ],
     },
   },
+  required: ['entity'],
 };
