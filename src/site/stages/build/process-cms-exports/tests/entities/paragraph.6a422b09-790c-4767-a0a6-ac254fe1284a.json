@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "02b96f8b-28fe-4070-a405-5a77b6721cc4"
+            "value": "6a422b09-790c-4767-a0a6-ac254fe1284a"
         }
     ],
     "langcode": [
@@ -23,7 +23,7 @@
     ],
     "created": [
         {
-            "value": "2019-10-25T00:21:06+00:00",
+            "value": "2019-03-22T18:44:04+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -60,7 +60,15 @@
     "field_va_paragraphs": [
         {
             "target_type": "paragraph",
-            "target_uuid": "a4227c4c-b7af-4dc2-9881-c27c8bb63282"
+            "target_uuid": "827bd462-051e-4234-a678-f82ce1743f92"
+        },
+        {
+            "target_type": "paragraph",
+            "target_uuid": "e7c63aa3-889a-46a8-8eae-59027c2bda60"
+        },
+        {
+            "target_type": "paragraph",
+            "target_uuid": "ede04714-fb30-4955-8bfb-76fb59a7b8b4"
         }
     ]
 }
