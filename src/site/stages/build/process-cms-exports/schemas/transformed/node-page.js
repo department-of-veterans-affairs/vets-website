@@ -1,17 +1,14 @@
-// const { getFilter } = require('../../filters');
-
+const baseType = 'node';
+const subType = 'page';
 module.exports = {
   type: 'object',
   properties: {
-    title: {
-      type: 'string',
-    },
-    fieldIntroText: {
-      type: ['string', 'null'],
-    },
-    fieldDescription: {
-      type: ['string', 'null'],
-    },
+    contentModelType: { type: 'string', enum: [`${baseType}-${subType}`] },
+    entityType: { type: 'string', enum: [baseType] },
+    entityBundle: { type: 'string', enum: [subType] },
+    title: { type: 'string' },
+    fieldIntroText: { type: ['string', 'null'] },
+    fieldDescription: { type: ['string', 'null'] },
     fieldFeaturedContent: {
       type: 'array',
       items: {
@@ -24,9 +21,7 @@ module.exports = {
         $ref: 'Paragraph',
       },
     },
-    fieldAlert: {
-      type: ['object', 'null'],
-    },
+    fieldAlert: { type: ['object', 'null'] },
     fieldRelatedLinks: {
       type: 'array',
       items: {
@@ -46,9 +41,6 @@ module.exports = {
       },
       required: ['date'],
     },
-    entityMetaTags: {
-      $ref: 'MetaTags',
-    },
+    entityMetaTags: { $ref: 'MetaTags' },
   },
-  // required: getFilter('node-page'),
 };
