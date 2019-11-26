@@ -36,7 +36,11 @@ import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../../utils/constants';
 
 const testFlow = {
   page1: {
@@ -507,7 +511,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             communityCareSystemId: '983',
             typeOfCareId: '323',
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             reasonForAppointment: 'routine-follow-up',
             calendarData: {
               selectedDates: [],

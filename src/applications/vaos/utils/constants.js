@@ -108,7 +108,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCOPT',
   },
   {
-    id: 'tbd',
+    id: 'tbd-podiatry',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',
@@ -130,6 +130,11 @@ export const TYPES_OF_SLEEP_CARE = [
     name: 'Sleep medicine and home sleep testing',
   },
 ];
+
+export const FACILITY_TYPES = {
+  VAMC: 'vamc',
+  COMMUNITY_CARE: 'communityCare',
+};
 
 export const LANGUAGES = [
   {

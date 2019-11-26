@@ -32,6 +32,8 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -173,6 +175,19 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: false,
+      };
+    }
+    case FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+      return {
+        ...state,
+        showTypeOfCareUnavailableModal: true,
+        pageChangeInProgress: false,
+      };
+    }
+    case FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+      return {
+        ...state,
+        showTypeOfCareUnavailableModal: false,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {

@@ -14,7 +14,11 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -57,6 +61,10 @@ export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
+export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
@@ -89,6 +97,18 @@ export function updateCCEnabledSystems(ccEnabledSystems) {
   return {
     type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
     ccEnabledSystems,
+  };
+}
+
+export function showTypeOfCareUnavailableModal() {
+  return {
+    type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  };
+}
+
+export function hideTypeOfCareUnavailableModal() {
+  return {
+    type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   };
 }
 
@@ -393,7 +413,9 @@ export function submitAppointmentOrRequest(router) {
         let requestBody;
         let requestData;
 
-        if (newAppointment.data.facilityType === 'communityCare') {
+        if (
+          newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+        ) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {

@@ -1,19 +1,62 @@
 import { expect } from 'chai';
 
 import {
-  selectPendingAppointment,
-  selectConfirmedAppointment,
-  getFormPageInfo,
   getChosenClinicInfo,
-  getTypeOfCare,
-  getClinicsForChosenFacility,
+  getChosenFacilityInfo,
   getClinicPageInfo,
+  getClinicsForChosenFacility,
   getDateTimeSelect,
-  getReasonForAppointment,
+  getFlowType,
+  getFormData,
+  getFormPageInfo,
+  getNewAppointment,
   getPreferredDate,
+  getReasonForAppointment,
+  getTypeOfCare,
+  selectConfirmedAppointment,
+  selectPendingAppointment,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
+  describe('getNewAppointment', () => {
+    it('should return newAppointment state', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          typeOfCareId: '123',
+        },
+      };
+      const newAppointment = getNewAppointment(state);
+      expect(newAppointment).to.equal(state.newAppointment);
+    });
+  });
+
+  describe('getFormData', () => {
+    it('should return newAppointment.data', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: { typeOfCareId: '123' },
+        },
+      };
+      const formData = getFormData(state);
+      expect(formData).to.equal(state.newAppointment.data);
+    });
+  });
+
+  describe('getFlowType', () => {
+    it('should return newAppointment state', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: { typeOfCareId: '123' },
+          flowType: 'DIRECT',
+        },
+      };
+      expect(getFlowType(state)).to.equal('DIRECT');
+    });
+  });
+
   describe('selectPendingAppointment', () => {
     it('should return appt matching id', () => {
       const state = {
@@ -62,6 +105,7 @@ describe('VAOS selectors', () => {
       expect(appt).to.be.null;
     });
   });
+
   describe('getFormPageInfo', () => {
     it('should return info needed for form pages', () => {
       const state = {
@@ -80,6 +124,34 @@ describe('VAOS selectors', () => {
       );
       expect(pageInfo.data).to.equal(state.newAppointment.data);
       expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
+    });
+  });
+
+  describe('getChosenFacilityInfo', () => {
+    it('should return a stored facility object', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+            clinicId: '124',
+            vaSystem: '123',
+            vaFacility: '983',
+          },
+          facilities: {
+            '323_123': [
+              {
+                institution: {
+                  institutionCode: '983',
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      expect(getChosenFacilityInfo(state)).to.equal(
+        state.newAppointment.facilities['323_123'][0],
+      );
     });
   });
 
@@ -119,6 +191,24 @@ describe('VAOS selectors', () => {
 
       const typeOfCare = getTypeOfCare(data);
       expect(typeOfCare.id).to.equal('CCAUDHEAR');
+    });
+
+    it('get podiatry type of care', () => {
+      const data = {
+        typeOfCareId: 'tbd-podiatry',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.name).to.equal('Podiatry');
+    });
+
+    it('get pharmacy type of care', () => {
+      const data = {
+        typeOfCareId: '160',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.name).to.equal('Pharmacy');
     });
   });
 
