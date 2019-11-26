@@ -1,12 +1,14 @@
+const baseType = 'paragraph';
+const subType = 'alert';
 module.exports = {
   type: 'object',
   properties: {
-    contentModelType: { type: 'string', enum: ['paragraph-alert'] },
+    contentModelType: { type: 'string', enum: [`${baseType}-${subType}`] },
     entity: {
       type: 'object',
       properties: {
-        entityType: { type: 'string' },
-        entityBundle: { type: 'string' },
+        entityType: { type: 'string', enum: [baseType] },
+        entityBundle: { type: 'string', enum: [subType] },
         fieldAlertType: { type: 'string' },
         fieldAlertHeading: { type: 'string' },
         fieldVaParagraphs: {
