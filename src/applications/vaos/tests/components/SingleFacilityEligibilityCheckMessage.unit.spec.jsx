@@ -22,6 +22,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     );
 
     expect(tree.text()).to.contain('seen within the past 24 months');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -42,6 +43,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     );
 
     expect(tree.text()).to.contain('more outstanding requests');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -62,6 +64,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     );
 
     expect(tree.text()).to.contain('trouble verifying');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
 });

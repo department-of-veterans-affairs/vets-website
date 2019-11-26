@@ -16,10 +16,16 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_SUBMIT,
+  FORM_SUBMIT_SUCCEEDED,
+  FORM_SUBMIT_FAILED,
+  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const defaultState = {
   data: {},
@@ -570,5 +576,59 @@ describe('VAOS reducer: newAppointment', () => {
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
     });
+  });
+  describe('submit request', () => {
+    it('should set loading', () => {
+      const action = {
+        type: FORM_SUBMIT,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.loading);
+    });
+    it('should set successful', () => {
+      const action = {
+        type: FORM_SUBMIT_SUCCEEDED,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.succeeded);
+    });
+    it('should set error', () => {
+      const action = {
+        type: FORM_SUBMIT_FAILED,
+      };
+
+      const newState = newAppointmentReducer({}, action);
+      expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
+    });
+  });
+
+  it('should set ToC modal to show', () => {
+    const currentState = {
+      data: {},
+      pageChangeInProgress: true,
+    };
+    const action = {
+      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.pageChangeInProgress).to.be.false;
+    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+  });
+
+  it('should set ToC modal to hidden', () => {
+    const currentState = {
+      data: {},
+    };
+    const action = {
+      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
   });
 });

@@ -18,19 +18,32 @@ export const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-export const PURPOSE_RADIO_LABELS = {
-  'routine-follow-up': 'Routine or follow-up visit',
-  'new-issue': 'I have a new medical issue',
-  'medication-concern': 'I have a concern or question about my medication',
-  other: 'My reason is not listed here',
-};
-
-export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Follow-up/Routine',
-  'new-issue': 'New issue',
-  'medication-concern': 'Medication concern',
-  other: 'My reason is not listed here',
-};
+export const PURPOSE_TEXT = [
+  {
+    id: 'routine-follow-up',
+    short: 'Follow-up/Routine',
+    label: 'Routine or follow-up visit',
+    serviceName: 'Routine Follow-up',
+  },
+  {
+    id: 'new-issue',
+    short: 'New issue',
+    label: 'I have a new medical issue',
+    serviceName: 'New Issue',
+  },
+  {
+    id: 'medication-concern',
+    short: 'Medication concern',
+    label: 'I have a concern or question about my medication',
+    serviceName: 'Medication Concern',
+  },
+  {
+    id: 'other',
+    short: 'My reason is not listed here',
+    label: 'My reason is not listed here',
+    serviceName: 'Other',
+  },
+];
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
   default:
@@ -85,7 +98,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '407',
-    name: 'Opthamology',
+    name: 'Ophthalmology',
     group: 'specialty',
   },
   {
@@ -95,7 +108,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCOPT',
   },
   {
-    id: 'tbd',
+    id: 'tbd-podiatry',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',
@@ -117,6 +130,11 @@ export const TYPES_OF_SLEEP_CARE = [
     name: 'Sleep medicine and home sleep testing',
   },
 ];
+
+export const FACILITY_TYPES = {
+  VAMC: 'vamc',
+  COMMUNITY_CARE: 'communityCare',
+};
 
 export const LANGUAGES = [
   {
@@ -212,14 +230,17 @@ export const TYPE_OF_VISIT = [
   {
     id: 'office',
     name: 'Office visit',
+    serviceName: 'Office Visit',
   },
   {
     id: 'phone',
     name: 'Phone call',
+    serviceName: 'Phone Call',
   },
   {
     id: 'telehealth',
-    name: 'Telehealth',
+    name: 'VA Video Connect',
+    serviceName: 'Video Conference',
   },
 ];
 

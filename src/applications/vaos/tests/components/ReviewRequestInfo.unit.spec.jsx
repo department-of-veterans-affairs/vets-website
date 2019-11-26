@@ -64,10 +64,6 @@ describe('VAOS <ReviewRequestInfo>', () => {
       expect(text).to.contain('Primary care');
     });
 
-    it('should render reason for appointment section', () => {
-      expect(text).to.contain('Follow-up/Routine visit');
-    });
-
     it('should render addional information section', () => {
       expect(text).to.contain('additional information');
     });
@@ -128,10 +124,6 @@ describe('VAOS <ReviewRequestInfo>', () => {
       it('should render provider information', () => {
         expect(text).to.contain('Practice name');
       });
-    });
-
-    it('should render reason for appointment section', () => {
-      expect(text).to.contain('Follow-up/Routine visit');
     });
 
     it('should render additional information section', () => {

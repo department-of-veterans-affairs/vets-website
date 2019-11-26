@@ -198,4 +198,91 @@ export default {
       },
     };
   },
+  addressValidationSuccess() {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '400 N 65th St',
+            addressType: 'DOMESTIC',
+            city: 'Seattle',
+            countryName: 'USA',
+            countryCodeIso3: 'USA',
+            countyCode: '53033',
+            countyName: 'King',
+            stateCode: 'WA',
+            zipCode: '98103',
+            zipCodeSuffix: '5252',
+          },
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+          },
+        },
+        {
+          address: {
+            addressLine1: '400 NW 65th St',
+            addressType: 'DOMESTIC',
+            city: 'Seattle',
+            countryName: 'USA',
+            countryCodeIso3: 'USA',
+            countyCode: '53033',
+            countyName: 'King',
+            stateCode: 'WA',
+            zipCode: '98117',
+            zipCodeSuffix: '5026',
+          },
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+        {
+          address: {
+            addressLine1: '400 NW 65th St',
+            addressType: 'DOMESTIC',
+            city: 'Seattle',
+            countryName: 'USA',
+            countryCodeIso3: 'USA',
+            countyCode: '53033',
+            countyName: 'King',
+            stateCode: 'WA',
+            zipCode: '98117',
+            zipCodeSuffix: '5026',
+          },
+          addressMetaData: {
+            confidenceScore: 100.0,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+        {
+          address: {
+            addressLine1: '400 NE 65th St',
+            addressType: 'DOMESTIC',
+            city: 'Seattle',
+            countryName: 'USA',
+            countryCodeIso3: 'USA',
+            countyCode: '53033',
+            countyName: 'King',
+            stateCode: 'WA',
+            zipCode: '98115',
+            zipCodeSuffix: '6463',
+          },
+          addressMetaData: {
+            confidenceScore: 98.0,
+            addressType: 'Domestic',
+            deliveryPointValidation:
+              'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      validationKey: 178464079,
+    };
+  },
 };

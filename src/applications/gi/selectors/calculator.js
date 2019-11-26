@@ -934,12 +934,6 @@ export const getCalculatedBenefits = createSelector(
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
-      // only necessay for chapter 33 recipients who are the only beneficiaries to receive a housing allowance (BAH)
-      // (disabled in staging)
-      beneficiaryLocationQuestion:
-        eligibility.onlineClasses !== 'yes' &&
-        eligibility.giBillChapter === '33',
-      giBillBenefit: derived.isChapter33,
       books: false,
       yellowRibbon: false,
       scholarships: true,
@@ -1135,6 +1129,14 @@ export const getCalculatedBenefits = createSelector(
         yellowRibbon: false,
         scholarships: false,
         tuitionAssist: false,
+      };
+    }
+
+    if (giBillChapter === 33) {
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
+        giBillBenefit: true,
+        beneficiaryLocationQuestion: true,
       };
     }
 

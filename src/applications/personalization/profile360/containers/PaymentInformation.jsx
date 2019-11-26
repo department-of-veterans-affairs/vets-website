@@ -235,7 +235,7 @@ class PaymentInformation extends React.Component {
                 800-827-1000
               </a>{' '}
               (TTY: <span className="no-wrap">800-829-4833</span>
-              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.
+              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
             </p>
           )}
 

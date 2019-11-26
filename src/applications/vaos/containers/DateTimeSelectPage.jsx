@@ -128,7 +128,7 @@ export class DateTimeSelectPage extends React.Component {
           onChange={newData => {
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
-          formContext={{ availableSlots, availableDates }}
+          formContext={{ availableSlots, availableDates, preferredDate }}
           data={data}
         >
           <FormButtons

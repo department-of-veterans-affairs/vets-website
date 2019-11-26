@@ -10,13 +10,16 @@ import {
 import { TYPES_OF_CARE, DIRECT_SCHEDULE_TYPES } from '../utils/constants';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
+import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
 import {
   openFormPage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  showTypeOfCareUnavailableModal,
+  hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo } from '../utils/selectors';
+import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
 
 const sortedCare = TYPES_OF_CARE.sort(
   (careA, careB) => (careA.name > careB.name ? 1 : -1),
@@ -98,7 +101,12 @@ export class TypeOfCarePage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      showToCUnavailableModal,
+    } = this.props;
 
     return (
       <div>
@@ -119,6 +127,11 @@ export class TypeOfCarePage extends React.Component {
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
+        <TypeOfCareUnavailableModal
+          typeOfCare="Podiatry"
+          showModal={showToCUnavailableModal}
+          onClose={this.props.hideTypeOfCareUnavailableModal}
+        />
       </div>
     );
   }
@@ -126,11 +139,14 @@ export class TypeOfCarePage extends React.Component {
 
 function mapStateToProps(state) {
   const formPageInfo = getFormPageInfo(state, pageKey);
+  const newAppointment = getNewAppointment(state);
+
   return {
     ...formPageInfo,
     emailAddress: selectVet360EmailAddress(state),
     homePhone: selectVet360HomePhoneString(state),
     mobilePhone: selectVet360MobilePhoneString(state),
+    showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
   };
 }
 
@@ -139,6 +155,8 @@ const mapDispatchToProps = {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  showTypeOfCareUnavailableModal,
+  hideTypeOfCareUnavailableModal,
 };
 
 export default connect(

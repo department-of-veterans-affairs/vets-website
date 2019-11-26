@@ -10,7 +10,11 @@ export default function ReasonForAppointmentSection(props) {
         <div className="vads-l-row">
           <div className="vads-l-col--6">
             <h3 className="vaos-appts__block-label">
-              {PURPOSE_TEXT[props.data.reasonForAppointment]} visit
+              {
+                PURPOSE_TEXT.find(
+                  purpose => purpose.id === props.data.reasonForAppointment,
+                )?.short
+              }
             </h3>
           </div>
           <div className="vads-l-col--6 vads-u-text-align--right">

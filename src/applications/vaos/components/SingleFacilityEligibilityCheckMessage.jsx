@@ -21,28 +21,32 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
     );
   } else {
     return (
-      <AlertBox status="error" headline="Sorry, something went wrong">
-        Sorry, we're having trouble verifying that you can make an appointment
-        at a facility.
-      </AlertBox>
+      <div aria-atomic="true" aria-live="assertive">
+        <AlertBox status="error" headline="Sorry, something went wrong">
+          Sorry, we're having trouble verifying that you can make an appointment
+          at a facility.
+        </AlertBox>
+      </div>
     );
   }
 
   return (
-    <AlertBox status="warning" headline="We found one VA location for you">
-      <p>
-        <strong>{facility.institution.authoritativeName}</strong>
-        <br />
-        {facility.institution.city}, {facility.institution.stateAbbrev}
-      </p>
-      {message}
-      <p>
-        If this location wasn't what you were looking for, you can{' '}
-        <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-          search for a nearby location
-        </a>{' '}
-        and call to schedule an appointment.
-      </p>
-    </AlertBox>
+    <div aria-atomic="true" aria-live="assertive">
+      <AlertBox status="warning" headline="We found one VA location for you">
+        <p>
+          <strong>{facility.institution.authoritativeName}</strong>
+          <br />
+          {facility.institution.city}, {facility.institution.stateAbbrev}
+        </p>
+        {message}
+        <p>
+          If this location wasn't what you were looking for, you can{' '}
+          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
+            search for a nearby location
+          </a>{' '}
+          and call to schedule an appointment.
+        </p>
+      </AlertBox>
+    </div>
   );
 }
