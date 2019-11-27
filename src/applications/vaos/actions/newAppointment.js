@@ -74,6 +74,8 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
+export const FORM_UPDATE_CC_ELIGIBILITY =
+  'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -367,6 +369,13 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
       schema,
       systems,
     });
+  };
+}
+
+export function updateCCEligibility(isEligible) {
+  return {
+    type: FORM_UPDATE_CC_ELIGIBILITY,
+    isEligible,
   };
 }
 
