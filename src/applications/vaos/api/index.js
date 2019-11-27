@@ -349,7 +349,7 @@ export function getCancelReasons(systemId) {
 
 export function updateAppointment(appt) {
   let promise;
-  if (false && USE_MOCK_DATA) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve();
   } else {
     promise = apiRequest(`/vaos/appointments/cancel`, {
