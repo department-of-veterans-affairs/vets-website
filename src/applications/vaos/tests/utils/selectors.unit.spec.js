@@ -15,6 +15,7 @@ import {
   getTypeOfCare,
   selectConfirmedAppointment,
   selectPendingAppointment,
+  getCancelInfo,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -347,6 +348,28 @@ describe('VAOS selectors', () => {
         group: 'primary',
         name: 'Primary care',
       });
+    });
+  });
+  describe('getCancelInfo', () => {
+    it('should fetch facility in info', () => {
+      const state = {
+        appointments: {
+          appointmentToCancel: {
+            facility: {
+              facilityCode: '123',
+            },
+          },
+          facilityData: {
+            123: {},
+          },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.facilityData['123'],
+      );
     });
   });
 });
