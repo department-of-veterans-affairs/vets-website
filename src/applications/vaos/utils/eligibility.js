@@ -1,5 +1,4 @@
 import {
-  DIRECT_SCHEDULE_TYPES,
   PRIMARY_CARE,
   DISABLED_LIMIT_VALUE,
   CANCELLED_APPOINTMENT_SET,
@@ -13,17 +12,12 @@ import {
 } from '../api';
 
 export async function getEligibilityData(facilityId, typeOfCareId) {
-  let eligibilityChecks = [
+  const eligibilityChecks = [
     checkPastVisits(facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
+    checkPastVisits(facilityId, typeOfCareId, 'direct'),
+    getClinics(facilityId, typeOfCareId),
   ];
-
-  if (DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
-    eligibilityChecks = eligibilityChecks.concat([
-      checkPastVisits(facilityId, typeOfCareId, 'direct'),
-      getClinics(facilityId, typeOfCareId),
-    ]);
-  }
 
   if (typeOfCareId === PRIMARY_CARE) {
     eligibilityChecks.push(getPacTeam(facilityId));
@@ -62,7 +56,6 @@ export function getEligibilityChecks(
   eligibilityData,
 ) {
   const eligibility = {
-    directTypes: true,
     directPastVisit: true,
     directPastVisitValue: null,
     directPACT: true,
@@ -73,31 +66,26 @@ export function getEligibilityChecks(
     requestLimitValue: null,
   };
 
-  if (!DIRECT_SCHEDULE_TYPES.has(typeOfCareId)) {
-    eligibility.directTypes = false;
-  } else {
-    if (
-      eligibilityData.directPastVisit.durationInMonths ===
-        DISABLED_LIMIT_VALUE ||
-      !eligibilityData.directPastVisit.hasVisitedInPastMonths
-    ) {
-      eligibility.directPastVisit = false;
-      eligibility.directPastVisitValue =
-        eligibilityData.directPastVisit.durationInMonths;
-    }
+  if (
+    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
+    !eligibilityData.directPastVisit.hasVisitedInPastMonths
+  ) {
+    eligibility.directPastVisit = false;
+    eligibility.directPastVisitValue =
+      eligibilityData.directPastVisit.durationInMonths;
+  }
 
-    if (
-      typeOfCareId === PRIMARY_CARE &&
-      !eligibilityData.pacTeam.some(
-        provider => provider.facilityId === vaFacility.substring(0, 3),
-      )
-    ) {
-      eligibility.directPACT = false;
-    }
+  if (
+    typeOfCareId === PRIMARY_CARE &&
+    !eligibilityData.pacTeam.some(
+      provider => provider.facilityId === vaFacility.substring(0, 3),
+    )
+  ) {
+    eligibility.directPACT = false;
+  }
 
-    if (!eligibilityData.clinics.length) {
-      eligibility.directClinics = false;
-    }
+  if (!eligibilityData.clinics.length) {
+    eligibility.directClinics = false;
   }
 
   if (
@@ -132,7 +120,6 @@ export function isEligible(eligibilityChecks) {
 
   const {
     directPastVisit,
-    directTypes,
     directClinics,
     directPACT,
     requestLimit,
@@ -140,7 +127,7 @@ export function isEligible(eligibilityChecks) {
   } = eligibilityChecks;
 
   return {
-    direct: directTypes && directPastVisit && directPACT && directClinics,
+    direct: directPastVisit && directPACT && directClinics,
     request: requestLimit && requestPastVisit,
   };
 }

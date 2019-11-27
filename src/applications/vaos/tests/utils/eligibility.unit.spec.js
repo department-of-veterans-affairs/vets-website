@@ -34,14 +34,6 @@ describe('VAOS scheduling eligibility logic', () => {
         'pacTeam',
       ]);
     });
-    it('should skip direct fetches if not a matching type', async () => {
-      const eligibilityData = await getEligibilityData('983', 'blah');
-
-      expect(Object.keys(eligibilityData)).to.deep.equal([
-        'requestPastVisit',
-        'requestLimits',
-      ]);
-    });
     it('should skip pact if not primary care', async () => {
       const eligibilityData = await getEligibilityData('983', '502');
 
@@ -73,7 +65,6 @@ describe('VAOS scheduling eligibility logic', () => {
       });
 
       expect(eligibilityChecks).to.deep.equal({
-        directTypes: true,
         directPastVisit: false,
         directPastVisitValue: 12,
         directPACT: false,
@@ -104,7 +95,6 @@ describe('VAOS scheduling eligibility logic', () => {
       });
 
       expect(eligibilityChecks).to.deep.equal({
-        directTypes: true,
         directPastVisit: true,
         directPastVisitValue: null,
         directPACT: true,
@@ -121,7 +111,6 @@ describe('VAOS scheduling eligibility logic', () => {
       const { direct, request } = isEligible({
         directPastVisit: false,
         directClinics: true,
-        directTypes: true,
         directPACT: true,
         requestPastVisit: true,
         requestLimit: true,
