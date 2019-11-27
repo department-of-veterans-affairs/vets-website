@@ -52,6 +52,7 @@ export default class AppointmentRequestListItem extends React.Component {
     return (
       <li
         aria-labelledby={`card-${index}`}
+        data-request-id={appointment.id}
         className="vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3"
       >
         <div className="vads-u-display--flex vads-u-justify-content--space-between">
