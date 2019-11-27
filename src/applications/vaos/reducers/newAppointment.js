@@ -32,6 +32,8 @@ import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -64,6 +66,7 @@ const initialState = {
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
+  availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
 };
 
@@ -195,6 +198,19 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+      return {
+        ...state,
+        showTypeOfCareUnavailableModal: true,
+        pageChangeInProgress: false,
+      };
+    }
+    case FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL: {
+      return {
+        ...state,
+        showTypeOfCareUnavailableModal: false,
       };
     }
     case FORM_UPDATE_FACILITY_TYPE: {
@@ -405,6 +421,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         loadingAppointmentSlots: true,
         availableSlots: [],
+        appointmentLength: null,
       };
     }
     case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED: {
@@ -418,6 +435,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         loadingAppointmentSlots: false,
         availableSlots: action.availableSlots,
+        appointmentLength: action.appointmentLength,
         data,
         pages: {
           ...state.pages,

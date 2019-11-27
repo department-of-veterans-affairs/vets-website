@@ -5,13 +5,16 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { TYPES_OF_CARE } from '../utils/constants';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
+import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
 import {
   openTypeOfCarePage,
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  showTypeOfCareUnavailableModal,
+  hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
-import { getFormPageInfo } from '../utils/selectors';
+import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
 
 const sortedCare = TYPES_OF_CARE.sort(
   (careA, careB) => (careA.name > careB.name ? 1 : -1),
@@ -65,7 +68,12 @@ export class TypeOfCarePage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      showToCUnavailableModal,
+    } = this.props;
 
     return (
       <div>
@@ -86,13 +94,23 @@ export class TypeOfCarePage extends React.Component {
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
+        <TypeOfCareUnavailableModal
+          typeOfCare="Podiatry"
+          showModal={showToCUnavailableModal}
+          onClose={this.props.hideTypeOfCareUnavailableModal}
+        />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
+  const formInfo = getFormPageInfo(state, pageKey);
+  const newAppointment = getNewAppointment(state);
+  return {
+    ...formInfo,
+    showToCUnavailableModal: newAppointment.showTypeOfCareUnavailableModal,
+  };
 }
 
 const mapDispatchToProps = {
@@ -100,6 +118,8 @@ const mapDispatchToProps = {
   updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  showTypeOfCareUnavailableModal,
+  hideTypeOfCareUnavailableModal,
 };
 
 export default connect(

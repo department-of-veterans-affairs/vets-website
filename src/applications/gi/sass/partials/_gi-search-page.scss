@@ -4,7 +4,8 @@
       font-size: 1.15em;
     }
 
-    label, legend {
+    label,
+    legend {
       margin-top: 1em;
     }
 
@@ -134,8 +135,8 @@
     }
 
     .info-flag {
-      color: $color-white;
-      background-color: $color-gray-light;
+      color: $color-gray-dark;
+      background-color: $color-gray-lighter;
       border-radius: 3px 3px 3px 3px;
       font-size: 0.9em;
       font-weight: bold;
@@ -160,7 +161,6 @@
     }
 
     .preferred-flag {
-      text-align: right;
       font-size: 0.9em;
       font-weight: bold;
       border-radius: 3px 3px 3px 3px;
@@ -176,5 +176,8 @@
       margin-top: -2.667em;
       margin-bottom: 1.333em;
     }
+  }
+  .gi-checkbox-label:before {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px $color-gray-medium;
   }
 }

@@ -38,7 +38,11 @@ import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../../utils/constants';
 
 const testFlow = {
   page1: {
@@ -509,11 +513,63 @@ describe('VAOS newAppointment actions', () => {
           data: {
             communityCareSystemId: '983',
             typeOfCareId: '323',
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             reasonForAppointment: 'routine-follow-up',
             calendarData: {
               selectedDates: [],
             },
+            bestTimeToCall: [],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
+      expect(router.push.called).to.be.true;
+    });
+
+    it('should make VA appointment', async () => {
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          flowType: FLOW_TYPES.DIRECT,
+          clinics: {
+            '983_323': [
+              {
+                clinicId: '123',
+              },
+            ],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institution: {
+                  institutionCode: '983',
+                },
+              },
+            ],
+          },
+          data: {
+            vaSystem: '983',
+            vaFacility: '983',
+            typeOfCareId: '323',
+            clinicId: '123',
+            facilityType: 'vamc',
+            calendarData: {
+              selectedDates: [
+                {
+                  date: '2019-01-01',
+                  dateTime: '2019-01-01T04:00:00',
+                },
+              ],
+            },
+            reasonForAppointment: 'routine-follow-up',
             bestTimeToCall: [],
           },
         },

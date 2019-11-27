@@ -152,6 +152,7 @@ export function confirmCancelAppointment() {
         await updateRequest({
           ...appointment,
           status: CANCELLED_REQUEST,
+          appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
         const cancelData = {
