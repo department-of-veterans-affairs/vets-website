@@ -1,7 +1,77 @@
+// Dependencies
 import React from 'react';
+import PropTypes from 'prop-types';
+import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
+import isEmpty from 'lodash/isEmpty';
+import { connect } from 'react-redux';
 
-function SearchResults() {
-  return <div />;
-}
+const tableFields = [
+  {
+    label: 'VA form number',
+    value: 'tableFieldID',
+  },
+  {
+    label: 'Form name',
+    value: 'tableFieldFormName',
+  },
+  {
+    label: 'Description',
+    value: 'tableFieldDescription',
+  },
+  {
+    label: 'Available Online',
+    value: 'tableFieldAvailableOnline',
+  },
+];
 
-export default SearchResults;
+const SearchResults = ({ query, results }) => {
+  // Render null if there are no results.
+  if (isEmpty(results)) {
+    return null;
+  }
+
+  return (
+    <div className="find-va-forms-results vads-u-display--flex">
+      <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        Showing results for "<strong>{query}</strong>"
+      </h2>
+
+      <SortableTable
+        className="va-table"
+        currentSort={{ order: 'ASC', value: 'title' }}
+        data={results}
+        fields={tableFields}
+      />
+    </div>
+  );
+};
+
+SearchResults.propTypes = {
+  // From mapStateToProps.
+  query: PropTypes.string.isRequired,
+  results: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      attributes: PropTypes.shape({
+        firstIssuedOn: PropTypes.string.isRequired,
+        formName: PropTypes.string.isRequired,
+        lastRevisionOn: PropTypes.string.isRequired,
+        pages: PropTypes.number.isRequired,
+        sha256: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  ).isRequired,
+};
+
+const mapStateToProps = state => ({
+  query: state.findVAFormsReducer.query,
+  results: state.findVAFormsReducer.results,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(SearchResults);

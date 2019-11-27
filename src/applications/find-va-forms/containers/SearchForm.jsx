@@ -1,49 +1,88 @@
-import React from 'react';
+// Dependencies.
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import URLSearchParams from 'url-search-params';
+// Relative imports.
+import { fetchFormsThunk } from '../actions';
 
-import { updateQuery } from '../actions';
+export class SearchForm extends Component {
+  static propTypes = {
+    // From mapStateToProps.
+    fetching: PropTypes.bool.isRequired,
+    // From mapDispatchToProps.
+    fetchFormsThunk: PropTypes.func.isRequired,
+  };
 
-function SearchForm({ query, updateQuery: onQueryChange }) {
-  return (
-    <form
-      name="find-va-form"
-      className="vads-l-grid-container vads-u-padding--0"
-    >
-      <label htmlFor="va-form-query" className="vads-u-margin--0">
-        Keyword, form name, or number
-      </label>
-      <div className="vads-l-row">
-        <div className="vads-u-margin-right--2 vads-u-flex--1">
-          <input
-            className="usa-input vads-u-max-width--100 vads-u-width--full"
-            name="va-form-query"
-            type="text"
-            value={query}
-            onChange={event => onQueryChange(event.target.value)}
-          />
+  constructor(props) {
+    super(props);
+
+    // Derive the current query params.
+    const queryParams = new URLSearchParams(window.location.search);
+
+    this.state = {
+      query: queryParams.get('q') || '',
+    };
+  }
+
+  onQueryChange = event => {
+    // Derive the new query value.
+    const query = event.target.value;
+
+    // Update our query in state.
+    this.setState({ query });
+  };
+
+  onSubmitHandler = event => {
+    event.preventDefault();
+    this.props.fetchFormsThunk(this.state.query);
+  };
+
+  render() {
+    const { onSubmitHandler, onQueryChange } = this;
+    const { query } = this.state;
+
+    return (
+      <form
+        className="vads-l-grid-container vads-u-padding--0"
+        name="find-va-form"
+        onSubmit={onSubmitHandler}
+      >
+        <label htmlFor="va-form-query" className="vads-u-margin--0">
+          Keyword, form name, or number
+        </label>
+        <div className="vads-l-row">
+          <div className="vads-u-margin-right--2 vads-u-flex--1">
+            <input
+              className="usa-input vads-u-max-width--100 vads-u-width--full"
+              name="va-form-query"
+              onChange={onQueryChange}
+              type="text"
+              value={query}
+            />
+          </div>
+          <div>
+            <button
+              className="usa-button vads-u-margin--0 vads-u-margin-y--1"
+              type="submit"
+            >
+              Search
+            </button>
+          </div>
         </div>
-        <div>
-          <button
-            type="submit"
-            className="usa-button vads-u-margin--0 vads-u-margin-y--1"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-    </form>
-  );
+      </form>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-  query: state.findVaForms.query,
+  fetching: state.findVAFormsReducer.fetching,
 });
 
 const mapDispatchToProps = {
-  updateQuery,
+  fetchFormsThunk,
 };
 
-export { SearchForm };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
