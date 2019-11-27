@@ -4,9 +4,10 @@ import React from 'react';
 import VetTecAdditionalResources from './VetTecAdditionalResources';
 
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
+import { renderVetTecLogo } from '../../utils/render';
+import classNames from 'classnames';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -44,10 +45,10 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
   );
 
   return (
-    <div className="heading row">
-      <div className="usa-width-two-thirds medium-8 small-12 column">
-        <h1 tabIndex={-1}>{institution.name}</h1>
-        <div>
+    <div className="heading">
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 small-12 column">
+          <h1 tabIndex={-1}>{institution.name}</h1>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
               icon="star"
@@ -69,14 +70,22 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
+        <div className="usa-width-one-third medium-8 small-12 vads-padding-left-0p5 vads-u-margin-top--neg6">
+          <div className="vettec-logo-container vads-u-padding-top--0 vads-u-padding-bottom--0p5">
+            {renderVetTecLogo(classNames('vettec-logo'))}
+          </div>
+        </div>
       </div>
-      <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
-        <div className="usa-width-one-half medium-6 small-12 column">
-          <IconWithInfo icon="map-marker" present={isPresent(formattedAddress)}>
-            {formattedAddress}
-          </IconWithInfo>
-          {/* Production flag for 19736 */}
-          {!environment.isProduction() && (
+
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--2">
+          <div className="usa-width-one-half medium-6 small-12 column">
+            <IconWithInfo
+              icon="map-marker"
+              present={isPresent(formattedAddress)}
+            >
+              {formattedAddress}
+            </IconWithInfo>
             <IconWithInfo
               icon="globe"
               present={isPresent(firstProgram.providerWebsite)}
@@ -89,10 +98,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
                 {firstProgram.providerWebsite}
               </a>
             </IconWithInfo>
-          )}
-        </div>
-        {/* Production flag for 19736 */}
-        {!environment.isProduction() && (
+          </div>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
               <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
@@ -104,9 +110,9 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
               {`${firstProgram.schoolLocale}  locale`}
             </IconWithInfo>
           </div>
-        )}
+        </div>
+        <VetTecAdditionalResources />
       </div>
-      <VetTecAdditionalResources />
     </div>
   );
 };

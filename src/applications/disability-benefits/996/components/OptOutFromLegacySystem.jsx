@@ -52,8 +52,9 @@ export const OptOutFromLegacySystem = ({ onContinue }) => {
           <a href="/decision-reviews">Learn more about the review options</a>
         </p>
         <p>
-          {/* TODO - make this link do something */}
-          <a href="#">See all your contested issues</a>
+          <a href="/disability/view-disability-rating/rating">
+            See all your contested issues
+          </a>
         </p>
       </div>
     </>

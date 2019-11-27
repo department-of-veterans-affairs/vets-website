@@ -52,6 +52,7 @@ export default class AppointmentRequestListItem extends React.Component {
     return (
       <li
         aria-labelledby={`card-${index}`}
+        data-request-id={appointment.id}
         className="vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3"
       >
         <div className="vads-u-display--flex vads-u-justify-content--space-between">
@@ -82,7 +83,7 @@ export default class AppointmentRequestListItem extends React.Component {
           {!showCancelButton || canceled ? null : (
             <div>
               <button
-                className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"
+                className="vaos-appts__cancel-btn usa-button-secondary vads-u-margin--0 vads-u-flex--0"
                 onClick={() => cancelAppointment(appointment)}
                 aria-label="Cancel appointment"
               >
