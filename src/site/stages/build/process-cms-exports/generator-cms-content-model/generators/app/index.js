@@ -117,6 +117,10 @@ module.exports = class extends Generator {
     ])).names;
   }
 
+  /**
+   * Copies the example entity's children.
+   * Note: This doesn't copy grandchildren or deeper.
+   */
   copyExampleChildren() {
     // Iterate through the example file's kept properties
     Object.keys(this.exampleEntity)
@@ -133,6 +137,7 @@ module.exports = class extends Generator {
                 'tests/entities/',
                 childFileName,
               );
+
               // Copy the child
               if (!fs.existsSync(testChildPath)) {
                 fs.copyFileSync(
@@ -154,5 +159,53 @@ module.exports = class extends Generator {
           });
         } else this.log(`${propName} is not an array. That's unexpected.`);
       });
+  }
+
+  async getTransformedTestData() {
+    const transformedEntityTestFile = path.join(
+      processEntitiesRoot,
+      'tests/transformed-entities',
+      `${this.contentModelType}.json`,
+    );
+    if (fs.existsSync(transformedEntityTestFile)) {
+      this.log(
+        chalk.green(`Found transformed entity test file:`),
+        transformedEntityTestFile,
+      );
+      return;
+    }
+    // TODO: Generate search suggestions
+    // TODO: Search pages.json and find matches
+    // TODO: Ask for new search parameters if necessary
+
+    this.transformedTestData = (await this.prompt([
+      {
+        type: 'editor',
+        name: 'data',
+        message: 'Enter the corresponding entity data from pages.json.',
+        validate: input => {
+          try {
+            JSON.parse(input);
+            return true;
+          } catch (e) {
+            this.log(chalk.red('\nJSON parsing error:'), e.message);
+            this.log(chalk.red('Input:'), input);
+            return 'Please provide valid JSON.';
+          }
+        },
+      },
+    ])).data;
+    this.transformedTestData = JSON.parse(this.transformedTestData);
+
+    fs.writeFileSync(
+      transformedEntityTestFile,
+      JSON.stringify(this.transformedTestData, null, 2),
+      'utf8',
+    );
+
+    this.log(
+      chalk.green(`Wrote transformed entity test file:`),
+      transformedEntityTestFile,
+    );
   }
 };
