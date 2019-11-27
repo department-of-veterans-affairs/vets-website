@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Generator = require('yeoman-generator');
+const chalk = require('chalk');
 
 const rawExamplesIndex = require('../../../tests/entities');
 
@@ -36,17 +37,18 @@ module.exports = class extends Generator {
       );
 
     // Make sure the file actually exists
-    if (!fs.existsSync(path.join(processEntitiesRoot, 'tests/entities')))
+    this.exampleFilePath = path.join(
+      processEntitiesRoot,
+      'tests/entities',
+      this.exampleFileName,
+    );
+    if (!fs.existsSync(this.exampleFilePath))
       throw new Error(
-        `Could not find example raw entity at tests/entities/${
-          this.exampleFileName
-        }`,
+        `Could not find example raw entity at ${this.exampleFilePath}`,
       );
     else
       this.log(
-        `Found example ${this.contentModelType} at tests/entities/${
-          this.exampleFileName
-        }`,
+        `Found example ${this.contentModelType} at ${this.exampleFilePath}`,
       );
 
     // Check meta/index.json to make sure the entity is _used_
@@ -57,10 +59,9 @@ module.exports = class extends Generator {
     // as a child of other entities. It's imperfect, since the entity
     // we're searching for may be a child of, say, a user entity which
     // we won't end up using, and this check won't catch that.
-    const exp = new RegExp(path.parse(this.exampleFileName).name, 'g');
-    const searchResult = metaIndex.match(exp);
-    this.log(exp);
-    this.log(searchResult);
+    const searchResult = metaIndex.match(
+      new RegExp(path.parse(this.exampleFileName).name, 'g'),
+    );
 
     // If it's found only once, it _may_ be a root-level entity such
     // as a node. Ask for confirmation before continuing.
@@ -90,8 +91,68 @@ module.exports = class extends Generator {
     }
   }
 
+  async getFilters() {
+    this.exampleEntity = JSON.parse(
+      fs.readFileSync(this.exampleFilePath, 'utf8'),
+    );
+    const shouldLogEntity = (await this.prompt([
+      {
+        type: 'confirm',
+        name: 'shouldLog',
+        message:
+          'Do you want to see the entire raw entity before choosing which fields to keep?',
+      },
+    ])).shouldLog;
+    if (shouldLogEntity) {
+      this.log(JSON.stringify(this.exampleEntity, null, 2));
+    }
+
+    this.rawPropertyNames = (await this.prompt([
+      {
+        type: 'checkbox',
+        name: 'names',
+        message: 'Which keys do you want to keep?',
+        choices: Object.keys(this.exampleEntity),
+      },
+    ])).names;
+  }
+
   copyExampleChildren() {
-    // If we get this far, we know we've got a valid example already
-    // Time to copy the children
+    // Iterate through the example file's kept properties
+    Object.keys(this.exampleEntity)
+      .filter(propName => this.rawPropertyNames.includes(propName))
+      .forEach(propName => {
+        const prop = this.exampleEntity[propName];
+        if (Array.isArray(prop)) {
+          prop.forEach(p => {
+            if (p.target_uuid && p.target_type) {
+              // We have an entity reference!
+              const childFileName = `${p.target_type}.${p.target_uuid}.json`;
+              const testChildPath = path.join(
+                processEntitiesRoot,
+                'tests/entities/',
+                childFileName,
+              );
+              // Copy the child
+              if (!fs.existsSync(testChildPath)) {
+                fs.copyFileSync(
+                  path.join(tomeSyncContent, childFileName),
+                  testChildPath,
+                );
+                this.log(
+                  chalk.green(
+                    `Added required child (${propName}): ${childFileName}`,
+                  ),
+                );
+              } else
+                this.log(
+                  chalk.green(
+                    `Found required child (${propName}): ${childFileName}`,
+                  ),
+                );
+            }
+          });
+        } else this.log(`${propName} is not an array. That's unexpected.`);
+      });
   }
 };
