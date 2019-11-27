@@ -82,7 +82,7 @@ export default class AppointmentRequestListItem extends React.Component {
           {!showCancelButton || canceled ? null : (
             <div>
               <button
-                className="usa-button-secondary vads-u-margin--0 vads-u-flex--0"
+                className="vaos-appts__cancel-btn usa-button-secondary vads-u-margin--0 vads-u-flex--0"
                 onClick={() => cancelAppointment(appointment)}
                 aria-label="Cancel appointment"
               >
