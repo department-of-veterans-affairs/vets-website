@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Generator = require('yeoman-generator');
+const _ = require('lodash');
 const chalk = require('chalk');
 
 const rawExamplesIndex = require('../../../tests/entities');
@@ -209,13 +210,41 @@ module.exports = class extends Generator {
     );
   }
 
-  writeSchemas() {}
+  writeSchemas() {
+    const templatesPath = path.join(
+      processEntitiesRoot,
+      'generator-cms-content-model/templates/',
+    );
+    const rawSchemaPath = path.join(
+      processEntitiesRoot,
+      `schemas/raw/${this.contentModelType}.js`,
+    );
+    const transformedSchemaPath = path.join(
+      processEntitiesRoot,
+      `schemas/transformed/${this.contentModelType}.js`,
+    );
+
+    const transformedPropertyNames = this.rawPropertyNames.map(n =>
+      _.camelCase(n),
+    );
+
+    this.fs.copyTpl(path.join(templatesPath, 'raw-schema'), rawSchemaPath, {
+      propertyNames: this.rawPropertyNames,
+    });
+    this.fs.copyTpl(
+      path.join(templatesPath, 'transformed-schema'),
+      transformedSchemaPath,
+      {
+        propertyNames: transformedPropertyNames,
+      },
+    );
+  }
 
   writeTransformer() {}
 
   writeFilter() {
     // For now, just log out the filters; later we can make this automagic
-    this.log('Add the following to filters.js:');
+    this.log(chalk.green('Add the following to filters.js:'));
     this.log(`${this.contentModelType}:`, this.rawPropertyNames);
   }
 
