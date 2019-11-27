@@ -1,0 +1,10 @@
+/* eslint-disable camelcase */
+
+module.exports = {
+  type: 'object',
+  properties: {
+    <% rawProperties.forEach(key => { %>
+    <%_ key _%>: { $ref: 'GenericNestedString' },
+    <% }); %>
+  },
+};
