@@ -6,9 +6,6 @@ function transform(entity) {
 
   const transformed = {
     entity: {
-      entityType: 'paragraph',
-      entityBundle: 'link_teaser',
-
       fieldLink: {
         url: { path: uri },
         title,
