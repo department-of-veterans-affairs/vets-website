@@ -208,4 +208,21 @@ module.exports = class extends Generator {
       transformedEntityTestFile,
     );
   }
+
+  partingWords() {
+    this.log(
+      chalk.green(
+        `Successfully created the scaffolding for ${this.contentModelType}!`,
+      ),
+    );
+    this.log('\nNext steps:');
+    this.log('- [ ] Clean up the raw schema');
+    this.log('- [ ] Clean up the transformed schema');
+    this.log('- [ ] Finish the transformer');
+    this.log('- [ ] Ensure it all works by running:');
+    this.log(
+      '      yarn test:unit src/site/stages/build/process-cms-exports/tests/assemble-entity-tree.unit.spec.js',
+    );
+    this.log('      yarn build:content:test');
+  }
 };
