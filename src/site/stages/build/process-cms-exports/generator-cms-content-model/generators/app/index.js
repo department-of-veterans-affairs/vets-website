@@ -96,17 +96,7 @@ module.exports = class extends Generator {
     this.exampleEntity = JSON.parse(
       fs.readFileSync(this.exampleFilePath, 'utf8'),
     );
-    const shouldLogEntity = (await this.prompt([
-      {
-        type: 'confirm',
-        name: 'shouldLog',
-        message:
-          'Do you want to see the entire raw entity before choosing which fields to keep?',
-      },
-    ])).shouldLog;
-    if (shouldLogEntity) {
-      this.log(JSON.stringify(this.exampleEntity, null, 2));
-    }
+    this.log(JSON.stringify(this.exampleEntity, null, 2));
 
     this.rawPropertyNames = (await this.prompt([
       {
