@@ -56,7 +56,7 @@ module.exports = {
     'paragraph.01c35dba-24b4-4bc5-b799-6ea359ccfd7b.json',
   'paragraph-table': 'paragraph.01fabcbd-1c2d-4118-912a-4e33fb5569c0.json',
   'paragraph-collapsible_panel':
-    'paragraph.02b96f8b-28fe-4070-a405-5a77b6721cc4.json',
+    'paragraph.6a422b09-790c-4767-a0a6-ac254fe1284a.json',
   'paragraph-process': 'paragraph.0307bf30-4675-4dde-8c4a-bcf0b2590e18.json',
   'paragraph-number_callout':
     'paragraph.04787f9f-6b8b-4bf5-b71f-28006db691ff.json',

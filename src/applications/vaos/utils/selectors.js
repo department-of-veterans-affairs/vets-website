@@ -1,6 +1,6 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getAppointmentId } from './appointment';
+import { getAppointmentId, getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
@@ -210,9 +210,19 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    facilityData,
   } = state.appointments;
 
+  let facility = null;
+  if (appointmentToCancel) {
+    facility =
+      facilityData[
+        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+      ];
+  }
+
   return {
+    facility,
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,

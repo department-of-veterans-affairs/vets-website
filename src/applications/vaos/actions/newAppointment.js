@@ -1,7 +1,12 @@
 import * as Sentry from '@sentry/browser';
+import moment from 'moment';
+import {
+  selectVet360EmailAddress,
+  selectVet360HomePhoneString,
+  selectVet360MobilePhoneString,
+} from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import { getTypeOfCare } from '../utils/selectors';
-import moment from 'moment';
 import {
   getSystemIdentifiers,
   getSystemDetails,
@@ -31,6 +36,8 @@ import { getEligibilityData } from '../utils/eligibility';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
+export const FORM_TYPE_OF_CARE_PAGE_OPENED =
+  'newAppointment/TYPE_OF_CARE_PAGE_OPENED';
 export const FORM_PAGE_CHANGE_STARTED =
   'newAppointment/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
@@ -74,6 +81,8 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
+export const FORM_UPDATE_CC_ELIGIBILITY =
+  'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -129,6 +138,25 @@ export function startDirectScheduleFlow(appointments) {
 export function startRequestAppointmentFlow() {
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
+  };
+}
+
+export function openTypeOfCarePage(page, uiSchema, schema) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVet360EmailAddress(state);
+    const homePhone = selectVet360HomePhoneString(state);
+    const mobilePhone = selectVet360MobilePhoneString(state);
+
+    const phoneNumber = mobilePhone || homePhone;
+    dispatch({
+      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+      email,
+      phoneNumber,
+    });
   };
 }
 
@@ -367,6 +395,13 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
       schema,
       systems,
     });
+  };
+}
+
+export function updateCCEligibility(isEligible) {
+  return {
+    type: FORM_UPDATE_CC_ELIGIBILITY,
+    isEligible,
   };
 }
 

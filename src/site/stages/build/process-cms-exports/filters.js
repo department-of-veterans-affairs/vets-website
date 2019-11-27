@@ -26,6 +26,12 @@ const whitelists = {
     'field_title',
   ],
   'paragraph-link_teaser': ['field_link', 'field_link_summary'],
+  'paragraph-collapsible_panel': [
+    'field_collapsible_panel_bordered',
+    'field_collapsible_panel_expand',
+    'field_collapsible_panel_multi',
+    'field_va_paragraphs',
+  ],
 };
 
 const missingFilters = new Set();
