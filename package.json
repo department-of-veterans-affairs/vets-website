@@ -22,6 +22,7 @@
     "lint:js:changed:fix": "LIST=`git diff-index --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "new:app": "yo @department-of-veterans-affairs/vets-website",
+    "new:cms-content-model": "yo ./src/site/stages/build/process-cms-exports/generator-cms-content-model/generators/app/index.js",
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --retries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
@@ -216,6 +217,7 @@
     "webpack-dev-server": "^3.5.1",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "winston": "^2.2.0",
+    "yeoman-generator": "^4.2.0",
     "yo": "^3.1.0"
   },
   "optionalDependencies": {},
