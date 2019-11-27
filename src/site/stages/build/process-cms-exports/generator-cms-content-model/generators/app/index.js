@@ -209,10 +209,20 @@ module.exports = class extends Generator {
     );
   }
 
+  writeSchemas() {}
+
+  writeTransformer() {}
+
+  writeFilter() {
+    // For now, just log out the filters; later we can make this automagic
+    this.log('Add the following to filters.js:');
+    this.log(`${this.contentModelType}:`, this.rawPropertyNames);
+  }
+
   partingWords() {
     this.log(
       chalk.green(
-        `Successfully created the scaffolding for ${this.contentModelType}!`,
+        `\nSuccessfully created the scaffolding for ${this.contentModelType}!`,
       ),
     );
     this.log('\nNext steps:');
