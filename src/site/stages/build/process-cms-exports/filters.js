@@ -25,6 +25,7 @@ const whitelists = {
     'field_wysiwyg',
     'field_title',
   ],
+  'paragraph-link_teaser': ['field_link', 'field_link_summary'],
 };
 
 const missingFilters = new Set();
