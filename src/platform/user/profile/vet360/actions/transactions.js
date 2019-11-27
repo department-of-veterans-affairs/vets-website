@@ -7,6 +7,7 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
+import { FIELD_NAMES, ADDRESS_POU } from 'vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
   'VET360_TRANSACTIONS_FETCH_SUCCESS';
@@ -206,7 +207,12 @@ export const validateAddress = (
     const payloadWithSuggestedAddress = {
       ...suggestedAddresses[0],
       id: payload?.id,
+      addressPou:
+        fieldName === FIELD_NAMES.MAILING_ADDRESS
+          ? ADDRESS_POU.CORRESPONDENCE
+          : ADDRESS_POU.RESIDENCE,
     };
+
     // If multiple suggestions, present them to the modal
     if (suggestedAddresses.length > 1) {
       return dispatch({
