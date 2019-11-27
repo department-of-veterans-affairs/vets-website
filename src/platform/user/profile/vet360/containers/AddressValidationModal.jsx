@@ -21,16 +21,23 @@ class AddressValidationModal extends React.Component {
   };
 
   onSubmit = () => {
-    const { validationKey } = this.props;
+    const { validationKey, fieldName } = this.props;
     const { address } = this.state;
-    const payload = { ...address, validationKey };
+    const payload = {
+      ...address,
+      validationKey,
+      addressPou:
+        fieldName === VET360.FIELD_NAMES.MAILING_ADDRESS
+          ? VET360.ADDRESS_POU.CORRESPONDENCE
+          : VET360.ADDRESS_POU.RESIDENCE,
+    };
 
     const method = payload.id ? 'PUT' : 'POST';
 
     this.props.createTransaction(
       VET360.API_ROUTES.ADDRESSES,
       method,
-      this.props.fieldName,
+      fieldName,
       payload,
       this.props.analyticsSectionName,
     );
