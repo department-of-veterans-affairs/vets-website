@@ -41,6 +41,7 @@ import {
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
+  FORM_UPDATE_CC_ELIGIBILITY,
 } from '../actions/newAppointment';
 
 import {
@@ -68,6 +69,7 @@ const initialState = {
   pastAppointments: null,
   availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
+  isCCEligible: false,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -613,6 +615,12 @@ export default function formReducer(state = initialState, action) {
         ...state,
         submitStatus: FETCH_STATUS.failed,
       };
+    case FORM_UPDATE_CC_ELIGIBILITY: {
+      return {
+        ...state,
+        isCCEligible: action.isEligible,
+      };
+    }
     default:
       return state;
   }

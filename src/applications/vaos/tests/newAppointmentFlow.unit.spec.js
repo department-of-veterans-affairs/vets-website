@@ -185,11 +185,32 @@ describe('VAOS newAppointmentFlow', () => {
             facilityType: FACILITY_TYPES.VAMC,
           },
           ccEnabledSystems: ['983'],
+          isCCEligible: true,
         },
       };
 
       const nextState = newAppointmentFlow.vaFacility.previous(state);
       expect(nextState).to.equal('typeOfFacility');
+    });
+
+    it('should return to typeOfCare if user is not CC eligible ', () => {
+      const state = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            typeOfCareId: '323',
+            vaSystem: '983',
+            vaFacility: '983',
+            facilityType: FACILITY_TYPES.VAMC,
+          },
+          ccEnabledSystems: ['983'],
+          isCCEligible: false,
+        },
+      };
+
+      const nextState = newAppointmentFlow.vaFacility.previous(state);
+      expect(nextState).to.equal('typeOfCare');
     });
   });
   describe('request date/time page', () => {
