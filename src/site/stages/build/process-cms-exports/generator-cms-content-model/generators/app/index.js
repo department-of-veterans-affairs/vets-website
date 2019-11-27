@@ -52,6 +52,10 @@ module.exports = class extends Generator {
         `Found example ${this.contentModelType} at ${this.exampleFilePath}`,
       );
 
+    this.exampleEntity = JSON.parse(
+      fs.readFileSync(this.exampleFilePath, 'utf8'),
+    );
+
     // Check meta/index.json to make sure the entity is _used_
     // somewhere. If it isn't, we won't have a corresponding entity in
     // pages.json to test against. This search only ensures that the
@@ -93,9 +97,6 @@ module.exports = class extends Generator {
   }
 
   async getFilters() {
-    this.exampleEntity = JSON.parse(
-      fs.readFileSync(this.exampleFilePath, 'utf8'),
-    );
     this.log(JSON.stringify(this.exampleEntity, null, 2));
 
     this.rawPropertyNames = (await this.prompt([
