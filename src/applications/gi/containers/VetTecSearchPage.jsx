@@ -245,6 +245,7 @@ export class VetTecSearchPage extends React.Component {
               this.props.fetchProgramAutocompleteSuggestions
             }
             handleFilterChange={this.handleFilterChange}
+            handleProviderFilterChange={this.handleProviderFilterChange}
             updateAutocompleteSearchTerm={
               this.props.updateAutocompleteSearchTerm
             }
