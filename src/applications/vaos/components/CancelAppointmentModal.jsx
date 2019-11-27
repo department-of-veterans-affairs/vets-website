@@ -71,10 +71,8 @@ export default class CancelAppointmentModal extends React.Component {
       );
     }
 
-    if (
-      getAppointmentType(appointmentToCancel) === APPOINTMENT_TYPES.request &&
-      cancelAppointmentStatus === FETCH_STATUS.failed
-    ) {
+    if (cancelAppointmentStatus === FETCH_STATUS.failed) {
+      const appointmentType = getAppointmentType(appointmentToCancel);
       return (
         <Modal
           id="cancelAppt"
@@ -94,56 +92,36 @@ export default class CancelAppointmentModal extends React.Component {
               </button>
               , <strong>or</strong>
             </li>
-            <li>
-              Call the medical center to cancel
-              <br />
-              {appointmentToCancel.facility.name}
-              <br />
-              {!!facility?.phone?.main && (
-                <a href={`tel:${facility.phone.main.replace(/-/g, '')}`}>
-                  {facility.phone.main}
+            {(appointmentType === APPOINTMENT_TYPES.request ||
+              appointmentType === APPOINTMENT_TYPES.ccRequest) && (
+              <li>
+                Call the medical center to cancel
+                <br />
+                {appointmentToCancel.facility.name}
+                <br />
+                {!!facility?.phone?.main && (
+                  <a href={`tel:${facility.phone.main.replace(/-/g, '')}`}>
+                    {facility.phone.main}
+                  </a>
+                )}
+              </li>
+            )}
+            {appointmentType === APPOINTMENT_TYPES.vaAppointment && (
+              <li>
+                Call the medical center to cancel
+                <br />
+                {appointmentToCancel.clinicFriendlyName ||
+                  appointmentToCancel.vdsAppointments[0].clinic.name}
+                <br />
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="/find-locations"
+                >
+                  Find facility contact information
                 </a>
-              )}
-            </li>
-          </ul>
-        </Modal>
-      );
-    }
-
-    if (cancelAppointmentStatus === FETCH_STATUS.failed) {
-      return (
-        <Modal
-          id="cancelAppt"
-          status="error"
-          visible
-          onClose={onClose}
-          title="We could not cancel this appointment"
-        >
-          We’re sorry. Something went wrong when we tried to cancel this
-          appointment.
-          <h4>You can:</h4>
-          <ul>
-            <li>
-              Try to{' '}
-              <button onClick={onConfirm} className="va-button-link">
-                cancel this appointment again
-              </button>
-              , <strong>or</strong>
-            </li>
-            <li>
-              Call the medical center to cancel
-              <br />
-              {appointmentToCancel.clinicFriendlyName ||
-                appointmentToCancel.vdsAppointments[0].clinic.name}
-              <br />
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="/find-locations"
-              >
-                Find facility contact information
-              </a>
-            </li>
+              </li>
+            )}
           </ul>
         </Modal>
       );
