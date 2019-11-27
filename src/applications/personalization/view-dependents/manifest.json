@@ -1,7 +1,7 @@
 {
   "appName": "View Dependents",
   "entryFile": "./view-dependents-entry.jsx",
-  "entryName": "disability-my-rated-disabilities",
+  "entryName": "disability-view-dependents",
   "rootUrl": "/disability/view-dependents",
   "template": {
     "layout": "page-react.html",
