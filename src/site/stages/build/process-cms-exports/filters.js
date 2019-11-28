@@ -1,20 +1,10 @@
-/* eslint-disable import/no-dynamic-require */
-const fs = require('fs');
 const path = require('path');
-const { getContentModelType } = require('./helpers');
+const { getContentModelType, importPropToDict } = require('./helpers');
 
 // Dynamically read in all the filters
 // They must be named after the content model type (E.g. node-page.js)
 const filtersDir = path.join(__dirname, 'transformers');
-const filters = fs
-  .readdirSync(filtersDir)
-  .filter(name => name.endsWith('.js'))
-  .reduce((t, fileName) => {
-    const contentModelType = path.parse(fileName).name;
-    // eslint-disable-next-line no-param-reassign
-    t[contentModelType] = require(path.join(filtersDir, fileName)).filter;
-    return t;
-  }, {});
+const filters = importPropToDict(filtersDir, 'filter');
 
 /**
  * When reading through entity properties, ignore these.
