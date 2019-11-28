@@ -7,4 +7,5 @@ module.exports = {
     <%= key _%>: { $ref: 'GenericNestedString' },
     <%_ }); _%>
   },
+  required: [<%- propertyNames.map(n => `'${n}'`).join(', ') %>]
 };
