@@ -17,4 +17,6 @@ const transform = entity => ({
     fieldVaParagraphs: entity.fieldVaParagraphs,
   },
 });
-module.exports = transform;
+module.exports = {
+  transformer: transform,
+};

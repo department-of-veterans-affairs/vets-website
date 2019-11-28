@@ -50,4 +50,6 @@ function pageTransform(entity) {
   return transformed;
 }
 
-module.exports = pageTransform;
+module.exports = {
+  transformer: pageTransform,
+};

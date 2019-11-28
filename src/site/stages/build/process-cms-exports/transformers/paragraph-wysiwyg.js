@@ -17,4 +17,4 @@ function wysiwygTransform(entity) {
   return transformed;
 }
 
-module.exports = wysiwygTransform;
+module.exports = { transformer: wysiwygTransform };

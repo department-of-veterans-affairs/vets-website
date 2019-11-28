@@ -13,4 +13,4 @@ const transform = entity => {
   };
 };
 
-module.exports = transform;
+module.exports = { transformer: transform };

@@ -15,7 +15,10 @@ const transformers = fs
   .reduce((t, fileName) => {
     const contentModelType = path.parse(fileName).name;
     // eslint-disable-next-line no-param-reassign
-    t[contentModelType] = require(path.join(transformersDir, fileName));
+    t[contentModelType] = require(path.join(
+      transformersDir,
+      fileName,
+    )).transformer;
     return t;
   }, {});
 
