@@ -18,5 +18,11 @@ const transform = entity => ({
   },
 });
 module.exports = {
+  filter: [
+    'field_collapsible_panel_bordered',
+    'field_collapsible_panel_expand',
+    'field_collapsible_panel_multi',
+    'field_va_paragraphs',
+  ],
   transformer: transform,
 };

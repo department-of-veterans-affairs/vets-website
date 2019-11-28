@@ -51,5 +51,18 @@ function pageTransform(entity) {
 }
 
 module.exports = {
+  filter: [
+    'field_intro_text',
+    'field_description',
+    'field_featured_content',
+    'field_content_block',
+    'field_alert',
+    'field_related_links',
+    'field_administration',
+    'field_page_last_built',
+    'metatag',
+    'changed',
+    'moderation_state',
+  ],
   transformer: pageTransform,
 };

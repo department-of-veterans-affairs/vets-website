@@ -17,4 +17,7 @@ function wysiwygTransform(entity) {
   return transformed;
 }
 
-module.exports = { transformer: wysiwygTransform };
+module.exports = {
+  filter: ['field_wysiwyg'],
+  transformer: wysiwygTransform,
+};
