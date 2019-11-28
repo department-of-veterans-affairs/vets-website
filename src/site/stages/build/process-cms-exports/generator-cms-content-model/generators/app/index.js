@@ -16,6 +16,10 @@ const metaIndex = fs.readFileSync(
   path.join(tomeSyncContent, 'meta/index.json'),
   'utf8',
 );
+const templatesPath = path.join(
+  processEntitiesRoot,
+  'generator-cms-content-model/templates/',
+);
 
 module.exports = class extends Generator {
   async getContentModelType() {
@@ -202,10 +206,6 @@ module.exports = class extends Generator {
   }
 
   writeSchemas() {
-    const templatesPath = path.join(
-      processEntitiesRoot,
-      'generator-cms-content-model/templates/',
-    );
     const rawSchemaPath = path.join(
       processEntitiesRoot,
       `schemas/raw/${this.contentModelType}.js`,
@@ -215,7 +215,7 @@ module.exports = class extends Generator {
       `schemas/transformed/${this.contentModelType}.js`,
     );
 
-    const transformedPropertyNames = this.rawPropertyNames.map(n =>
+    this.transformedPropertyNames = this.rawPropertyNames.map(n =>
       _.camelCase(n),
     );
 
@@ -226,15 +226,30 @@ module.exports = class extends Generator {
       path.join(templatesPath, 'transformed-schema'),
       transformedSchemaPath,
       {
-        propertyNames: transformedPropertyNames,
+        propertyNames: this.transformedPropertyNames,
       },
     );
   }
 
-  writeTransformer() {}
+  writeTransformer() {
+    const [entityType, entityBundle] = this.contentModelType.split('-');
+    this.fs.copyTpl(
+      path.join(templatesPath, 'transformer'),
+      path.join(
+        processEntitiesRoot,
+        `transformers/${this.contentModelType}.js`,
+      ),
+      {
+        entityType,
+        entityBundle,
+        propertyNames: this.transformedPropertyNames,
+      },
+    );
+  }
 
   writeFilter() {
-    // For now, just log out the filters; later we can make this automagic
+    // For now, just log out the filters. Once we get automagic filter
+    // importing, we can add this to the template.
     this.log(chalk.green('Add the following to filters.js:'));
     this.log(`${this.contentModelType}:`, this.rawPropertyNames);
   }
