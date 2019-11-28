@@ -93,7 +93,7 @@ module.exports = class extends Generator {
             'tests/entities/',
           )}`,
         );
-        this.log('- [ ] And update the index.js to point to the new file');
+        this.log('- [ ] Update the index.js to point to the new file');
         this.log(`- [ ] Delete the old ${this.exampleFileName}.`);
         process.exit(0);
       }
