@@ -9,7 +9,7 @@ export const wizardDescription = `What type of claim are you requesting for a
 
 export const wizardLabels = {
   disabilityOrPension: 'Disability compensation or pension claim',
-  other: 'A benefit claim other then compensation or pension',
+  other: 'A benefit claim other than compensation or pension',
 };
 
 export const startPageText = 'Request a Higher-Level Review';
