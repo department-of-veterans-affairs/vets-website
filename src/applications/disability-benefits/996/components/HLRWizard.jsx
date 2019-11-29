@@ -21,8 +21,7 @@ const HLRWizard = ({ initChoice = null, initExpanded = false }) => {
 
   const name = 'higher-level-review';
   const options = [
-    { value: 'disability', label: wizardLabels.disability },
-    { value: 'pension', label: wizardLabels.pension },
+    { value: 'disabilityOrPension', label: wizardLabels.disabilityOrPension },
     { value: 'other', label: wizardLabels.other },
   ];
 
