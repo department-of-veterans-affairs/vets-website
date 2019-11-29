@@ -68,13 +68,13 @@
   {% include "src/site/includes/top-nav.html" %}
 {% endif %}
 
-{% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
+{% if buildtype == 'vagovprod' %}
+  {% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
+{% endif %}
 
 {% if path == '' or path == '/' %}
   <div id="homepage-banner">
-    <!--
-      Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js
-    -->
+    <!-- Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js -->
   </div>
 {% endif %}
 

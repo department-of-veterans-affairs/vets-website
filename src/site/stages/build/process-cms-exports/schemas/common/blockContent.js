@@ -2,6 +2,6 @@
 const { getAllSchemasOfType } = require('./helpers');
 
 module.exports = {
-  $id: 'Paragraph',
-  anyOf: getAllSchemasOfType('paragraph'),
+  $id: 'BlockContent',
+  anyOf: getAllSchemasOfType('block_content'),
 };
