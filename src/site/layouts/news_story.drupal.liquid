@@ -61,9 +61,13 @@ Example data:
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 <div id="content" class="interior">
     <main class="va-l-detail-page va-facility-page">
+        {% comment %} On prod environments, show the SideNav. {% endcomment %}
         {% if buildtype == 'vagovprod' %}
             <div class="usa-grid usa-grid-full">
+                {% comment %} SideNav {% endcomment %}
                 {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+
+                {% comment %} Content {% endcomment %}
                 <div class="usa-width-three-fourths">
                     {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                     {% if !entityPublished %}
@@ -101,6 +105,8 @@ Example data:
                     </article>
                 </div>
             </div>
+
+        {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
         {% else %}
             <div class="usa-grid usa-grid-full">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
