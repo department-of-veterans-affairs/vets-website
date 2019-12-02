@@ -40,9 +40,13 @@ const NeedHelp = () => (
         <li>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. ET</li>
       </ul>
     </div>
+    {/* TODO: Re-add once we have the proper URL
+    
     <a href="" className="vads-u-display--block vads-u-margin-top--2">
       Leave feedback for this application
-    </a>
+    </a> 
+    
+    */}
   </div>
 );
 
