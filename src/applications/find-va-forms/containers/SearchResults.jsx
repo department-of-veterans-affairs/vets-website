@@ -25,12 +25,12 @@ const tableFields = [
 ];
 
 const SearchResults = ({ fetching, query, results }) => {
-  if (!results) {
-    return null;
-  }
-
   if (fetching) {
     return <LoadingIndicator message="Loading search results..." />;
+  }
+
+  if (!results) {
+    return null;
   }
 
   if (!results.length) {
