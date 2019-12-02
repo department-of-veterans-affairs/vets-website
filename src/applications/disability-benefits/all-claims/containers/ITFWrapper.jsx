@@ -84,6 +84,9 @@ export class ITFWrapper extends React.Component {
     } else if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
       return <ITFBanner status="error" />;
+    } else if (itf.fetchCallState === requestStates.missingInformation) {
+      // Back end responds that the user is missing information
+      return <ITFBanner status="missing-information" />;
     } else if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
       const { expirationDate: currentExpDate } = itf.currentITF;
       if (itf.previousITF) {

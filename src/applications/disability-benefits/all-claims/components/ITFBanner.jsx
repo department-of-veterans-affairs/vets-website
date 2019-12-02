@@ -6,6 +6,7 @@ import {
   itfError,
   itfSuccess,
   itfActive,
+  missingInformation,
 } from '../content/itfWrapper';
 
 export default class ITFBanner extends React.Component {
@@ -30,6 +31,13 @@ export default class ITFBanner extends React.Component {
           'We’re sorry. Something went wrong on our end.',
           itfError,
           'error',
+        );
+        break;
+      case 'missing-information':
+        message = itfMessage(
+          "You can't file your claim online right now",
+          missingInformation,
+          'warning',
         );
         break;
       case 'itf-found':

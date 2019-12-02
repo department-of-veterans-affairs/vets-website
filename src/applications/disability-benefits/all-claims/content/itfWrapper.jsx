@@ -110,3 +110,15 @@ export const itfActive = expirationDate => (
     {expander}
   </div>
 );
+
+export const missingInformation = (
+  <p>
+    It looks like we're missing some information needed for you to file your
+    claim online. You can file your claim by mail, in person, or with the help
+    of a trained professional. Learn about the{' '}
+    <a href={`/disability/how-to-file-claim/#you-can-also-file-your-va-disa`}>
+      other ways to file your claim
+    </a>
+    .
+  </p>
+);
