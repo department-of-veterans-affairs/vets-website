@@ -8,18 +8,17 @@ import {
 export default function ForwardingAddressReviewField(props) {
   const { children } = props;
 
-  // Not using <dt> & <dd> as the <dt> matches the width of the other
-  // elements inside the wrapping <dl>. The design calls for the content
-  // to be much wider
   return children?.props.formData ? (
-    <div className="review-row vads-u-display--flex">
-      <div className="vads-u-flex-fill">
+    <div className="review-row">
+      <dt className="vads-u-measure--none">
         {forwardingAddressCheckboxLabel}
         <br />
         <br />
         {forwardingAddressCheckboxDescription}
-      </div>
-      <strong className="vads-u-flex-1">{children}</strong>
+      </dt>
+      <dd>
+        <strong className="vads-u-flex-1">{children}</strong>
+      </dd>
     </div>
   ) : (
     <div className="review-row">
