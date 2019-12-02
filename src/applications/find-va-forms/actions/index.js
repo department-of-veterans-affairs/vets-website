@@ -17,8 +17,8 @@ export const fetchFormsFailure = () => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = (results = []) => ({
-  results,
+export const fetchFormsSuccess = response => ({
+  response,
   type: FETCH_FORMS_SUCCESS,
 });
 
@@ -44,10 +44,10 @@ export const fetchFormsThunk = query => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive forms.
-    const forms = await fetchFormsApi(URL, query);
+    const response = await fetchFormsApi(URL, query);
 
     // If we are here, the API request succeeded.
-    dispatch(fetchFormsSuccess(forms));
+    dispatch(fetchFormsSuccess(response));
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(fetchFormsFailure());

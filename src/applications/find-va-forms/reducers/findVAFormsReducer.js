@@ -5,6 +5,8 @@ import {
   FETCH_FORMS_SUCCESS,
 } from '../constants';
 
+import { normalizeFormsForTable } from '../helpers';
+
 const initialState = {
   fetching: false,
   query: '',
@@ -14,13 +16,15 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORMS: {
-      return { ...state, fetching: true, query: action.query };
+      return { ...state, fetching: true, results: [], query: action.query };
     }
     case FETCH_FORMS_FAILURE: {
       return { ...state, fetching: false };
     }
     case FETCH_FORMS_SUCCESS: {
-      return { ...state, fetching: false, results: action.results };
+      // Normalize the forms data we get back from the API resopnse.
+      const results = normalizeFormsForTable(action.response?.data);
+      return { ...state, fetching: false, results };
     }
     default: {
       return { ...state };
