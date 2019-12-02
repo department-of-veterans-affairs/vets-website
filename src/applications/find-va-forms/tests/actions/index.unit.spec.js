@@ -37,11 +37,11 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsSuccess', () => {
     it('should return an action in the shape we expect', () => {
-      const results = [];
-      const result = fetchFormsSuccess();
+      const response = {};
+      const result = fetchFormsSuccess(response);
 
       expect(result).to.be.deep.equal({
-        results,
+        response,
         type: FETCH_FORMS_SUCCESS,
       });
     });
