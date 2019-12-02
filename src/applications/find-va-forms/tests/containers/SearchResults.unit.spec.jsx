@@ -1,23 +1,42 @@
-// // Dependencies.
-// import React from 'react';
-// import { expect } from 'chai';
-// import { shallow } from 'enzyme';
-// import sinon from 'sinon';
+import React from 'react';
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
+
 // // Relative imports.
-// import { SearchResults } from '../../containers/SearchResults';
+import { SearchResults } from '../../containers/SearchResults';
 
 describe('Find VA Forms <SearchResults>', () => {
-  it('should render', () => {
-    // const query = 'query';
-    // const updateQuery = sinon.spy();
-    // const tree = shallow(
-    //   <SearchResults query={query} updateQuery={updateQuery} />,
-    // );
-    // const input = tree.find('input[name="va-form-query"]');
-    // expect(input.prop('value')).to.be.equal(query);
-    // const newQuery = 'new query';
-    // input.simulate('change', { target: { value: newQuery } });
-    // expect(updateQuery.calledWith(newQuery)).to.be.true;
-    // tree.unmount();
+  it('renders a loading indicator', () => {
+    const tree = shallow(<SearchResults fetching />);
+
+    const loadingIndicator = tree.find('LoadingIndicator');
+    expect(loadingIndicator).to.have.lengthOf(1);
+
+    tree.unmount();
+  });
+
+  it('renders nothing', () => {
+    const tree = shallow(<SearchResults />);
+
+    expect(tree.isEmptyRender()).to.be.true;
+
+    tree.unmount();
+  });
+
+  it('renders no results', () => {
+    const tree = shallow(<SearchResults results={[]} />);
+
+    expect(tree.html()).to.include('No results');
+
+    tree.unmount();
+  });
+
+  it('renders a table', () => {
+    const results = [{}];
+    const tree = shallow(<SearchResults results={results} />);
+
+    expect(tree.find('SortableTable')).to.have.lengthOf(1);
+
+    tree.unmount();
   });
 });
