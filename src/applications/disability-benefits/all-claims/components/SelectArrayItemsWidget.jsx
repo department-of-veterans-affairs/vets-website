@@ -26,7 +26,7 @@ export default class SelectArrayItemsWidget extends React.Component {
 
     // Note: Much of this was stolen from CheckboxWidget
     return (
-      <div>
+      <>
         {customTitle &&
           items && <h5 className="all-disabilities-title">{customTitle}</h5>}
         {items &&
@@ -49,27 +49,32 @@ export default class SelectArrayItemsWidget extends React.Component {
             );
 
             return (
-              <div key={index} className={widgetClasses}>
-                <input
-                  type="checkbox"
-                  id={elementId}
-                  name={elementId}
-                  checked={
-                    typeof itemIsSelected === 'undefined'
-                      ? false
-                      : itemIsSelected
-                  }
-                  required={required}
-                  disabled={itemIsDisabled}
-                  onChange={event => this.onChange(index, event.target.checked)}
-                />
-                <label className="schemaform-label" htmlFor={elementId}>
-                  {labelWithData}
-                </label>
+              <div key={index}>
+                <dt className={widgetClasses}>
+                  <input
+                    type="checkbox"
+                    id={elementId}
+                    name={elementId}
+                    checked={
+                      typeof itemIsSelected === 'undefined'
+                        ? false
+                        : itemIsSelected
+                    }
+                    required={required}
+                    disabled={itemIsDisabled}
+                    onChange={event =>
+                      this.onChange(index, event.target.checked)
+                    }
+                  />
+                  <label className="schemaform-label" htmlFor={elementId}>
+                    {labelWithData}
+                  </label>
+                </dt>
+                <dd />
               </div>
             );
           })}
-      </div>
+      </>
     );
   }
 }
