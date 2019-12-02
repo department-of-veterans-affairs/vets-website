@@ -88,6 +88,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
         showCancelModal
         cancelAppointmentStatus={FETCH_STATUS.failed}
         appointmentToCancel={{
+          startDate: '11/20/2018',
           clinicFriendlyName: 'Testing',
           facilityId: '983',
         }}
@@ -99,7 +100,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
       tree
         .find('Modal')
         .children()
-        .at(5)
+        .at(2)
         .text(),
     ).to.contain('Testing');
 
