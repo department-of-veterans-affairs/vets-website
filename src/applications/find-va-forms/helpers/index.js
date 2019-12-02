@@ -1,9 +1,8 @@
 // Dependencies.
 import React from 'react';
-import map from 'lodash/map';
 
 export const normalizeFormsForTable = forms =>
-  map(forms, form => {
+  forms.map(form => {
     // Derive the form properties.
     const id = form?.id;
     const downloadURL = form?.attributes?.url;
