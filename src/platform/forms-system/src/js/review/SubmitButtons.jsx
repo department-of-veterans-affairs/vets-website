@@ -4,7 +4,7 @@ import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
 
 export default function SubmitButtons(props) {
-  const { onBack, onSubmit, submission, renderErrorMessage } = props;
+  const { onBack, onSubmit, submission, renderErrorMessage, errors } = props;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
@@ -94,6 +94,19 @@ export default function SubmitButtons(props) {
               not valid.
             </strong>
           </p>
+          {errors.length > 0 && (
+            <>
+              <p>
+                {errors.length === 1 ? 'This error is ' : 'These errors are '}
+                preventing submission:
+              </p>
+              <ul className="vads-u-margin-left--3">
+                {errors.map(err => (
+                  <li key={err}>{err}</li>
+                ))}
+              </ul>
+            </>
+          )}
           <p>
             Please check each section of your application to make sure you’ve
             filled out all the information that is required.
@@ -103,7 +116,7 @@ export default function SubmitButtons(props) {
     );
   } else {
     if (renderErrorMessage) {
-      submitMessage = renderErrorMessage();
+      submitMessage = renderErrorMessage(errors);
     } else {
       submitMessage = (
         <div className="usa-alert usa-alert-error schemaform-failure-alert">

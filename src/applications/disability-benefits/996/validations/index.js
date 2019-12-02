@@ -37,7 +37,7 @@ export const requireRatedDisability = (err, fieldData /* , formData */) => {
   if (!fieldData.some(entry => entry['view:selected'])) {
     // The actual validation error is displayed as an alert field, so we don't
     // need to add an error message here.
-    err.addError('');
+    err.addError('No rated disability selected');
   }
 };
 

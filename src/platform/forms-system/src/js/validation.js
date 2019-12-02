@@ -284,6 +284,7 @@ export function isValidForm(form, pageList) {
         return {
           isValid: isValid && errorSchemaIsValid(customErrors),
           errors: errors.concat(customErrors),
+          uiSchema,
         };
       }
 
@@ -291,9 +292,10 @@ export function isValidForm(form, pageList) {
         isValid: false,
         // removes PII
         errors: errors.concat(result.errors.map(_.unset('instance'))),
+        uiSchema,
       };
     },
-    { isValid: true, errors: [] },
+    { isValid: true, errors: [], uiSchema: {} },
   );
 }
 
