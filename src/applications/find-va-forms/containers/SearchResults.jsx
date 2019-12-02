@@ -42,18 +42,18 @@ const SearchResults = ({ fetching, query, results }) => {
   }
 
   return (
-    <div className="find-va-forms-results vads-u-display--flex">
+    <>
       <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
         Showing results for "<strong>{query}</strong>"
       </h2>
 
       <SortableTable
-        className="va-table"
+        className="vads-u-margin--0"
         currentSort={{ order: 'ASC', value: 'title' }}
         data={results}
         fields={tableFields}
       />
-    </div>
+    </>
   );
 };
 
