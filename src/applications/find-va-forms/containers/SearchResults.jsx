@@ -1,8 +1,8 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
-import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 
 const tableFields = [
@@ -24,10 +24,21 @@ const tableFields = [
   },
 ];
 
-const SearchResults = ({ query, results }) => {
-  // Render null if there are no results.
-  if (isEmpty(results)) {
+const SearchResults = ({ fetching, query, results }) => {
+  if (!results) {
     return null;
+  }
+
+  if (fetching) {
+    return <LoadingIndicator message="Loading search results..." />;
+  }
+
+  if (!results.length) {
+    return (
+      <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        No results found for "<strong>{query}</strong>"
+      </h2>
+    );
   }
 
   return (
@@ -67,6 +78,7 @@ SearchResults.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  fetching: state.findVAFormsReducer.fetching,
   query: state.findVAFormsReducer.query,
   results: state.findVAFormsReducer.results,
 });
