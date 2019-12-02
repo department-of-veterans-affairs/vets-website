@@ -9,7 +9,10 @@ const { unescape } = require('lodash');
  * @return {String}
  */
 function unescapeUnicode(string) {
-  assert(typeof string === 'string');
+  assert(
+    typeof string === 'string',
+    `Expected type String in unescapeUnicode, but found ${typeof string}: ${string}`,
+  );
   return string.replace(/\\u(\d{2,4})/g, (wholeMatch, codePoint) =>
     String.fromCharCode(`0x${codePoint}`),
   );
@@ -22,7 +25,10 @@ function unescapeUnicode(string) {
  */
 function getDrupalValue(arr) {
   if (arr.length === 0) return null;
-  if (arr.length === 1) return unescapeUnicode(arr[0].value);
+  if (arr.length === 1)
+    return typeof arr[0].value === 'string'
+      ? unescapeUnicode(arr[0].value)
+      : arr[0].value;
   // eslint-disable-next-line no-console
   console.warn(`Unexpected argument: ${arr.toString()}`);
   return null;
