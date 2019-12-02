@@ -23,14 +23,16 @@ export class SearchForm extends Component {
     // Derive the query.
     const query = queryParams.get('q') || '';
 
-    // Fetch the forms with their query if it's on the URL.
-    if (query) {
-      this.props.fetchFormsThunk(query);
-    }
-
     this.state = {
       query,
     };
+  }
+
+  componentDidMount() {
+    // Fetch the forms with their query if it's on the URL.
+    if (this.state.query) {
+      this.props.fetchFormsThunk(this.state.query);
+    }
   }
 
   onQueryChange = event => {
