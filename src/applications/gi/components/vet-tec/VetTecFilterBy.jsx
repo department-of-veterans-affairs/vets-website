@@ -34,8 +34,12 @@ class VetTecFilterBy extends React.Component {
   render() {
     const label = (
       <span className="preferred-flag">
-        Preferred providers&nbsp;&nbsp;
-        <i className="fa fa-star vads-u-color--gold" aria-hidden="true" />
+        Preferred provider&nbsp;&nbsp;
+        {this.props.filters.preferredProvider ? (
+          <i className="fa fa-star vads-u-color--gold" />
+        ) : (
+          <i className="fa fa-star vads-u-color--gray-medium" />
+        )}
       </span>
     );
     const options = [
@@ -50,7 +54,7 @@ class VetTecFilterBy extends React.Component {
     return (
       <div>
         <CheckboxGroup
-          label="Filter by"
+          label=""
           onChange={this.handleFilterChange}
           options={options}
         />

@@ -19,6 +19,9 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
+  FORM_TYPE_OF_CARE_PAGE_OPENED,
+  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -600,5 +603,56 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
     });
+  });
+  it('should open the type of care page and prefill contact info', () => {
+    const currentState = {
+      data: {},
+      pages: {},
+    };
+    const action = {
+      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
+      page: 'test',
+      schema: {
+        type: 'object',
+        properties: {},
+      },
+      uiSchema: {},
+      phoneNumber: '123456789',
+      email: 'test@va.gov',
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.pages.test).not.to.be.undefined;
+    expect(newState.data.phoneNumber).to.equal(action.phoneNumber);
+    expect(newState.data.email).to.equal(action.email);
+  });
+
+  it('should set ToC modal to show', () => {
+    const currentState = {
+      data: {},
+      pageChangeInProgress: true,
+    };
+    const action = {
+      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.pageChangeInProgress).to.be.false;
+    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+  });
+
+  it('should set ToC modal to hidden', () => {
+    const currentState = {
+      data: {},
+    };
+    const action = {
+      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
   });
 });

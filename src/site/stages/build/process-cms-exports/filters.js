@@ -25,6 +25,12 @@ const whitelists = {
     'field_wysiwyg',
     'field_title',
   ],
+  'paragraph-collapsible_panel': [
+    'field_collapsible_panel_bordered',
+    'field_collapsible_panel_expand',
+    'field_collapsible_panel_multi',
+    'field_va_paragraphs',
+  ],
 };
 
 const missingFilters = new Set();
