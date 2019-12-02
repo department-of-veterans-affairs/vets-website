@@ -14,7 +14,7 @@ export const normalizeFormsForTable = forms =>
 
     // Derive the ID field.
     const tableFieldID = (
-      <a href={downloadURL} rel="noopener noreferrer">
+      <a href={downloadURL} rel="noopener noreferrer" target="_blank">
         {id}
       </a>
     );
