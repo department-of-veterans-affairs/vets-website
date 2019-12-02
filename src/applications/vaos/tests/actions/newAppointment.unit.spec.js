@@ -12,6 +12,7 @@ import {
   openFacilityPage,
   updateFacilityPageData,
   updateReasonForAppointmentData,
+  openTypeOfCarePage,
   openClinicPage,
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
@@ -31,12 +32,17 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
+  FORM_TYPE_OF_CARE_PAGE_OPENED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../../utils/constants';
 
 const testFlow = {
   page1: {
@@ -507,7 +513,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             communityCareSystemId: '983',
             typeOfCareId: '323',
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             reasonForAppointment: 'routine-follow-up',
             calendarData: {
               selectedDates: [],
@@ -574,5 +580,34 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
       expect(router.push.called).to.be.true;
     });
+  });
+  it('should open type of care page and pull contact info to prefill', () => {
+    const state = {
+      user: {
+        profile: {
+          vet360: {
+            email: {
+              emailAddress: 'test@va.gov',
+            },
+            homePhone: {
+              areaCode: '503',
+              extension: '0000',
+              phoneNumber: '2222222',
+            },
+          },
+        },
+      },
+    };
+    const getState = () => state;
+    const dispatch = sinon.spy();
+
+    const thunk = openTypeOfCarePage('typeOfCare', {}, {});
+    thunk(dispatch, getState);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FORM_TYPE_OF_CARE_PAGE_OPENED,
+    );
+    expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
+    expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
   });
 });

@@ -1,7 +1,12 @@
 import * as Sentry from '@sentry/browser';
+import moment from 'moment';
+import {
+  selectVet360EmailAddress,
+  selectVet360HomePhoneString,
+  selectVet360MobilePhoneString,
+} from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
 import { getTypeOfCare } from '../utils/selectors';
-import moment from 'moment';
 import {
   getSystemIdentifiers,
   getSystemDetails,
@@ -14,7 +19,11 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import { FLOW_TYPES, REASON_MAX_CHARS } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -27,6 +36,8 @@ import { getEligibilityData } from '../utils/eligibility';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
+export const FORM_TYPE_OF_CARE_PAGE_OPENED =
+  'newAppointment/TYPE_OF_CARE_PAGE_OPENED';
 export const FORM_PAGE_CHANGE_STARTED =
   'newAppointment/FORM_PAGE_CHANGE_STARTED';
 export const FORM_PAGE_CHANGE_COMPLETED =
@@ -57,6 +68,10 @@ export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
 export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
+export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
+  'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
@@ -66,6 +81,8 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
+export const FORM_UPDATE_CC_ELIGIBILITY =
+  'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -92,6 +109,18 @@ export function updateCCEnabledSystems(ccEnabledSystems) {
   };
 }
 
+export function showTypeOfCareUnavailableModal() {
+  return {
+    type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  };
+}
+
+export function hideTypeOfCareUnavailableModal() {
+  return {
+    type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  };
+}
+
 export function updateFacilityType(facilityType) {
   return {
     type: FORM_UPDATE_FACILITY_TYPE,
@@ -109,6 +138,25 @@ export function startDirectScheduleFlow(appointments) {
 export function startRequestAppointmentFlow() {
   return {
     type: START_REQUEST_APPOINTMENT_FLOW,
+  };
+}
+
+export function openTypeOfCarePage(page, uiSchema, schema) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const email = selectVet360EmailAddress(state);
+    const homePhone = selectVet360HomePhoneString(state);
+    const mobilePhone = selectVet360MobilePhoneString(state);
+
+    const phoneNumber = mobilePhone || homePhone;
+    dispatch({
+      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+      email,
+      phoneNumber,
+    });
   };
 }
 
@@ -350,6 +398,13 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   };
 }
 
+export function updateCCEligibility(isEligible) {
+  return {
+    type: FORM_UPDATE_CC_ELIGIBILITY,
+    isEligible,
+  };
+}
+
 async function buildPreferencesDataAndUpdate(newAppointment) {
   const preferenceData = await getPreferences();
   const preferenceBody = createPreferenceBody(newAppointment, preferenceData);
@@ -393,7 +448,9 @@ export function submitAppointmentOrRequest(router) {
         let requestBody;
         let requestData;
 
-        if (newAppointment.data.facilityType === 'communityCare') {
+        if (
+          newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+        ) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {

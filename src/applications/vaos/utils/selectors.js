@@ -1,9 +1,10 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getAppointmentId } from './appointment';
+import { getAppointmentId, getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
+  FACILITY_TYPES,
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -52,7 +53,7 @@ export function getTypeOfCare(data) {
 
   if (
     data.typeOfCareId === AUDIOLOGY &&
-    data.facilityType === 'communityCare'
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
   }
@@ -209,9 +210,19 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    facilityData,
   } = state.appointments;
 
+  let facility = null;
+  if (appointmentToCancel) {
+    facility =
+      facilityData[
+        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+      ];
+  }
+
   return {
+    facility,
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,

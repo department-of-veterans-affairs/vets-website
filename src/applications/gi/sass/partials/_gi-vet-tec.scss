@@ -11,6 +11,7 @@
   .vettec-logo-container {
     padding-top: 1.333em;
     padding-bottom: 1em;
+    padding-left: 0.9375rem;
     @include media($medium-screen) {
       text-align: right;
     }
@@ -22,10 +23,11 @@
   $single-column-width: 641px;
 
   @media (min-width: $single-column-width) {
-    .single-column-display-block{
-      display: block !important; }
+    .single-column-display-block {
+      display: block !important;
+    }
     .single-column-display-none {
-      display: none !important; }
+      display: none !important;
+    }
   }
-
 }
