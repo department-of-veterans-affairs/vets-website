@@ -96,13 +96,13 @@ describe('VAOS scheduling eligibility logic', () => {
 
       expect(eligibilityChecks).to.deep.equal({
         directPastVisit: true,
-        directPastVisitValue: null,
+        directPastVisitValue: 12,
         directPACT: true,
         directClinics: true,
         requestPastVisit: true,
-        requestPastVisitValue: null,
+        requestPastVisitValue: 24,
         requestLimit: true,
-        requestLimitValue: null,
+        requestLimitValue: 1,
       });
     });
   });

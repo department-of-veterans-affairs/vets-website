@@ -50,64 +50,57 @@ export async function getEligibilityData(facilityId, typeOfCareId) {
   return eligibility;
 }
 
+function hasVisitedInPastMonthsDirect(eligibilityData) {
+  return (
+    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
+    eligibilityData.directPastVisit.hasVisitedInPastMonths
+  );
+}
+
+function hasVisitedInPastMonthsRequest(eligibilityData) {
+  return (
+    eligibilityData.requestPastVisit.durationInMonths ===
+      DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestPastVisit.hasVisitedInPastMonths
+  );
+}
+
+function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaFacility) {
+  return (
+    typeOfCareId !== PRIMARY_CARE ||
+    eligibilityData.pacTeam.some(
+      provider => provider.facilityId === vaFacility.substring(0, 3),
+    )
+  );
+}
+
+function isUnderRequestLimit(eligibilityData) {
+  return (
+    eligibilityData.requestLimits.requestLimit === DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestLimits.numberOfRequests <
+      eligibilityData.requestLimits.requestLimit
+  );
+}
+
 export function getEligibilityChecks(
   vaFacility,
   typeOfCareId,
   eligibilityData,
 ) {
-  const eligibility = {
-    directPastVisit: true,
-    directPastVisitValue: null,
-    directPACT: true,
-    directClinics: true,
-    requestPastVisit: true,
-    requestPastVisitValue: null,
-    requestLimit: true,
-    requestLimitValue: null,
+  return {
+    directPastVisit: hasVisitedInPastMonthsDirect(eligibilityData),
+    directPastVisitValue: eligibilityData.directPastVisit.durationInMonths,
+    directPACT: hasPACTeamIfPrimaryCare(
+      eligibilityData,
+      typeOfCareId,
+      vaFacility,
+    ),
+    directClinics: !!eligibilityData.clinics.length,
+    requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
+    requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
+    requestLimit: isUnderRequestLimit(eligibilityData),
+    requestLimitValue: eligibilityData.requestLimits.requestLimit,
   };
-
-  if (
-    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
-    !eligibilityData.directPastVisit.hasVisitedInPastMonths
-  ) {
-    eligibility.directPastVisit = false;
-    eligibility.directPastVisitValue =
-      eligibilityData.directPastVisit.durationInMonths;
-  }
-
-  if (
-    typeOfCareId === PRIMARY_CARE &&
-    !eligibilityData.pacTeam.some(
-      provider => provider.facilityId === vaFacility.substring(0, 3),
-    )
-  ) {
-    eligibility.directPACT = false;
-  }
-
-  if (!eligibilityData.clinics.length) {
-    eligibility.directClinics = false;
-  }
-
-  if (
-    eligibilityData.requestPastVisit.durationInMonths ===
-      DISABLED_LIMIT_VALUE ||
-    !eligibilityData.requestPastVisit.hasVisitedInPastMonths
-  ) {
-    eligibility.requestPastVisit = false;
-    eligibility.requestPastVisitValue =
-      eligibilityData.requestPastVisit.durationInMonths;
-  }
-
-  if (
-    eligibilityData.requestLimits.requestLimit === DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestLimits.numberOfRequests >=
-      eligibilityData.requestLimits.requestLimit
-  ) {
-    eligibility.requestLimit = false;
-    eligibility.requestLimitValue = eligibilityData.requestLimits.requestLimit;
-  }
-
-  return eligibility;
 }
 
 export function isEligible(eligibilityChecks) {
