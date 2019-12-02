@@ -350,6 +350,7 @@ export function openClinicPage(page, uiSchema, schema) {
         getState().newAppointment.data.vaFacility,
       );
     } catch (e) {
+      Sentry.captureException(e);
       facilityDetails = null;
     }
 
