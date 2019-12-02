@@ -35,7 +35,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 
   focusOnPage(key) {
-    const pageDiv = document.querySelector(`#${key}`);
+    const pageDiv = document.querySelector(`#${key.replace(/:/g, '\\:')}`);
     focusElement(pageDiv);
   }
 
