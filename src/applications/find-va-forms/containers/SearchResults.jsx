@@ -59,6 +59,7 @@ const SearchResults = ({ fetching, query, results }) => {
 
 SearchResults.propTypes = {
   // From mapStateToProps.
+  fetching: PropTypes.bool.isRequired,
   query: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(
     PropTypes.shape({
@@ -82,6 +83,8 @@ const mapStateToProps = state => ({
   query: state.findVAFormsReducer.query,
   results: state.findVAFormsReducer.results,
 });
+
+export { SearchResults };
 
 export default connect(
   mapStateToProps,
