@@ -1,7 +1,7 @@
 // Dependencies.
 import React from 'react';
 
-export const normalizeFormsForTable = forms =>
+export const normalizeFormsForTable = ({ data: forms }) =>
   forms.map(form => {
     // Derive the form properties.
     const id = form?.id;
