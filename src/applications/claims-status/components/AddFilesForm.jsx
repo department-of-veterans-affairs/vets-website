@@ -193,11 +193,12 @@ class AddFilesForm extends React.Component {
           label={
             <div>
               <strong>
-                I understand that the uploaded files support this claim only.
+                The files I uploaded are supporting documents for this claim
+                only.
               </strong>
               <div className="vads-u-padding-top--1">
-                If you have evidence in support of a new claim, please begin the
-                process by visiting our{' '}
+                To submit supporting documents for a new disability claim,
+                please visit our{' '}
                 <a href={`/disability/how-to-file-claim`}>
                   How to File a Claim
                 </a>{' '}
