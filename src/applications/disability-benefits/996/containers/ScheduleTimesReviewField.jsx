@@ -19,11 +19,7 @@ export default function ScheduleTimesReviewField(props) {
 
   return (
     <div className="review-row">
-      <dt>
-        <span className="time-contact" role="presentation">
-          {label}
-        </span>
-      </dt>
+      <dt>{label}</dt>
       <dd>{timeSlot}</dd>
     </div>
   );
