@@ -149,13 +149,6 @@ describe('<AddressValidationModal/>', () => {
     expect(
       component
         .find('label')
-        .at(0)
-        .text(),
-    ).to.equal('1493 Martin Luther King Rd Fulton, NY 97062');
-
-    expect(
-      component
-        .find('label')
         .at(1)
         .text(),
     ).to.equal('12345 1st Ave Tampa, FL 12346');
