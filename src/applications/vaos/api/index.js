@@ -163,8 +163,6 @@ export function getSystemDetails(systemIds) {
   });
 }
 
-// GET /vaos/systems/{systemId}/facilities
-// eslint-disable-next-line no-unused-vars
 export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   let promise;
   if (USE_MOCK_DATA) {
