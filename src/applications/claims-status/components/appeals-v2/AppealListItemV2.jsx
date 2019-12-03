@@ -66,7 +66,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
   // "Disability Compensation Appeal Receieved March 6, 2019"
   //
   // programArea or requestEvent might be missing:
-  // "Appeal Received March 6, 2019"
+  // "Appeal updated on March 6, 2019"
   // "Disability Compensation Appeal"
 
   let appealTitle = '';
@@ -83,11 +83,9 @@ export default function AppealListItem({ appeal, name, external = false }) {
     }
   }
 
-  if (requestEvent) {
-    appealTitle += ` received ${moment(requestEvent.date).format(
-      'MMMM D, YYYY',
-    )}`;
-  }
+  appealTitle += ` updated on ${moment(appeal.attributes.updated).format(
+    'MMMM D, YYYY',
+  )}`;
   appealTitle = capitalizeWord(appealTitle);
 
   return (
@@ -113,6 +111,14 @@ export default function AppealListItem({ appeal, name, external = false }) {
           </strong>{' '}
           {appeal.attributes.description}
         </p>
+      )}
+      {requestEvent && (
+        <div className="card-status">
+          <p>
+            <strong>Submitted on:</strong>{' '}
+            {moment(requestEvent.date).format('MMMM D, YYYY')}
+          </p>
+        </div>
       )}
       {!external && (
         <Link
