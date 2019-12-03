@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Breadcrumbs from './Breadcrumbs';
 import { useScrollAndFocus } from '../utils/scrollAndFocus';
+import NeedHelp from '../components/NeedHelp';
 
 export default function NewAppointmentLayout({ children }) {
   useScrollAndFocus();
@@ -17,6 +18,7 @@ export default function NewAppointmentLayout({ children }) {
             New appointment
           </span>
           {children}
+          <NeedHelp />
         </div>
       </div>
     </div>

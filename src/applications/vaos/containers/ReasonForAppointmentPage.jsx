@@ -8,7 +8,6 @@ import {
 } from '../actions/newAppointment.js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import { getReasonForAppointment } from '../utils/selectors';
 import { PURPOSE_TEXT } from '../utils/constants';
@@ -117,7 +116,6 @@ export class ReasonForAppointmentPage extends React.Component {
             }
             status="warning"
           />
-          <NeedHelp />
         </SchemaForm>
       </div>
     );

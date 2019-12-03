@@ -8,7 +8,6 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
-import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
 import DateTimeRequestField from '../components/DateTimeRequestField';
@@ -101,7 +100,6 @@ export class DateTimeRequestPage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
-          <NeedHelp />
         </SchemaForm>
       </div>
     );

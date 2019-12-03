@@ -4,7 +4,6 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import { TYPES_OF_CARE } from '../utils/constants';
 import { getLongTermAppointmentHistory } from '../api';
-import NeedHelp from '../components/NeedHelp';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
 import {
@@ -94,7 +93,6 @@ export class TypeOfCarePage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
-          <NeedHelp />
         </SchemaForm>
         <TypeOfCareUnavailableModal
           typeOfCare="Podiatry"
