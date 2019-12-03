@@ -14,24 +14,26 @@ describe('profile utils', () => {
       'profile-section': 'direct-deposit-information',
       'error-key': error,
     });
-    const defaultDataObject = createEventDataObjectWithError('other-error');
+    const defaultDataObject = createEventDataObjectWithError(
+      'other-error-update',
+    );
     const badAddressDataObject = createEventDataObjectWithError(
-      'mailing-address-error',
+      'mailing-address-error-update',
     );
     const badHomePhoneDataObject = createEventDataObjectWithError(
-      'home-phone-error',
+      'home-phone-error-update',
     );
     const badWorkPhoneDataObject = createEventDataObjectWithError(
-      'work-phone-error',
+      'work-phone-error-update',
     );
     const flaggedForFraudDataObject = createEventDataObjectWithError(
-      'flagged-for-fraud-error',
+      'flagged-for-fraud-error-update',
     );
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
-      'invalid-routing-number-error',
+      'invalid-routing-number-error-update',
     );
     const paymentRestrictionIndicatorsDataObject = createEventDataObjectWithError(
-      'payment-restriction-indicators-error',
+      'payment-restriction-indicators-error-update',
     );
     it('returns the correct data when passed nothing', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject();

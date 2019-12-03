@@ -5,6 +5,7 @@ const FEATURE_FLAG_NAMES = Object.freeze({
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
+  giVetTecProgramProviderFilters: 'giVetTecProgramProviderFilters',
 });
 
 module.exports = FEATURE_FLAG_NAMES;

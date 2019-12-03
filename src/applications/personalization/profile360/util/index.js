@@ -66,10 +66,13 @@ export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorMessage(errors, PAYMENT_RESTRICTIONS_PRESENT_KEY);
 
 // Helper that creates and returns an object to pass to the recordEvent()
-// function when an errors occurs while trying to save/update a user's direct
+// function when an error occurs while trying to save/update a user's direct
 // deposit payment information. The value of the `error-key` prop will change
 // depending on the content of the `errors` array.
-export const createDirectDepositAnalyticsDataObject = (errors = []) => {
+export const createDirectDepositAnalyticsDataObject = (
+  errors = [],
+  isEnrolling = false,
+) => {
   const key = 'error-key';
   let errorCode = GA_ERROR_KEY_DEFAULT;
   if (hasFlaggedForFraudError(errors)) {
@@ -85,6 +88,8 @@ export const createDirectDepositAnalyticsDataObject = (errors = []) => {
   } else if (hasPaymentRestrictionIndicatorsError(errors)) {
     errorCode = GA_ERROR_KEY_PAYMENT_RESTRICTIONS;
   }
+  // append to the end of the errorCode
+  errorCode = `${errorCode}${isEnrolling ? '-enroll' : '-update'}`;
   return {
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
