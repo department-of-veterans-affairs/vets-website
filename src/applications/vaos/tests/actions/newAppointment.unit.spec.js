@@ -282,7 +282,15 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
-      setFetchJSONResponse(global.fetch, clinics);
+      setFetchJSONResponse(global.fetch, {
+        data: {
+          attributes: {
+            numberOfRequests: 0,
+            requestLimit: 0,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
