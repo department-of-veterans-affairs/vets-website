@@ -202,8 +202,8 @@ export function transformFormToAppointment(state) {
           location: {
             type: 'VA',
             facility: {
-              name: facility.institution.name,
-              siteCode: facility.institution.rootStationCode,
+              name: facility.name,
+              siteCode: facility.rootStationCode,
               timeZone: facility.institutionTimezone,
             },
             clinic: {

@@ -58,6 +58,11 @@ const testFlow = {
   },
 };
 
+const facilities983Parsed = facilities983.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
+
 describe('VAOS newAppointment actions', () => {
   describe('routeToPageInFlow', () => {
     it('should route to next page with string key', async () => {
@@ -173,6 +178,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch facilities if system was selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
       const state = set('newAppointment.data.vaSystem', '983', defaultState);
       const getState = () => state;
@@ -191,7 +197,7 @@ describe('VAOS newAppointment actions', () => {
         page: 'vaFacility',
         uiSchema: {},
         systems,
-        facilities: facilities983,
+        facilities: facilities983Parsed,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
@@ -203,7 +209,7 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           ...defaultState.newAppointment,
           facilities: {
-            '323_983': facilities983,
+            '323_983': facilities983Parsed,
           },
           data: {
             ...defaultState.newAppointment.data,
@@ -231,7 +237,7 @@ describe('VAOS newAppointment actions', () => {
         set(
           'newAppointment.facilities',
           {
-            '323_983': facilities983,
+            '323_983': facilities983Parsed,
           },
           defaultState,
         );
@@ -251,6 +257,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch facilities if system is selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -276,7 +283,7 @@ describe('VAOS newAppointment actions', () => {
       expect(succeededAction).to.deep.equal({
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema: {},
-        facilities: facilities983,
+        facilities: facilities983Parsed,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
@@ -293,7 +300,7 @@ describe('VAOS newAppointment actions', () => {
             vaSystem: '983',
           },
           facilities: {
-            '323_983': facilities983,
+            '323_983': facilities983Parsed,
           },
         },
       };
@@ -549,9 +556,7 @@ describe('VAOS newAppointment actions', () => {
           facilities: {
             '323_983': [
               {
-                institution: {
-                  institutionCode: '983',
-                },
+                institutionCode: '983',
               },
             ],
           },

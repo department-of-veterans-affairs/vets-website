@@ -100,14 +100,12 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
       'properties.vaFacility',
       {
         type: 'string',
-        enum: availableFacilities.map(
-          facility => facility.institution.institutionCode,
-        ),
+        enum: availableFacilities.map(facility => facility.institutionCode),
         enumNames: availableFacilities.map(
           facility =>
-            `${facility.institution.authoritativeName} (${
-              facility.institution.city
-            }, ${facility.institution.stateAbbrev})`,
+            `${facility.authoritativeName} (${facility.city}, ${
+              facility.stateAbbrev
+            })`,
         ),
       },
       newSchema,
@@ -119,7 +117,7 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
     }
     newData = {
       ...newData,
-      vaFacility: availableFacilities[0]?.institution.institutionCode,
+      vaFacility: availableFacilities[0]?.institutionCode,
     };
   }
 

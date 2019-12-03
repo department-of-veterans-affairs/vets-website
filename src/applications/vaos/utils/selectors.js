@@ -71,7 +71,7 @@ export function getChosenFacilityInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
-      facility => facility.institution.institutionCode === data.vaFacility,
+      facility => facility.institutionCode === data.vaFacility,
     ) || null
   );
 }
