@@ -63,6 +63,8 @@ export function transformFormToVARequest(state) {
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     ...getRequestedDates(data),
+    // The bad camel casing here is intentional, to match downstream
+    // system
     bestTimetoCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
@@ -148,6 +150,8 @@ export function transformFormToCCRequest(state) {
     )?.id,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
+    // The bad camel casing here is intentional, to match downstream
+    // system
     bestTimetoCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),

@@ -475,12 +475,31 @@ describe('VAOS newAppointment actions', () => {
       const getState = () => ({
         newAppointment: {
           data: {
+            typeOfCareId: '323',
             facilityType: 'vamc',
+            vaSystem: '983',
+            vaFacility: '983',
             calendarData: {
               selectedDates: [],
             },
             reasonForAppointment: 'routine-follow-up',
             bestTimeToCall: [],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institution: {
+                  institutionCode: '983',
+                  name: 'CHYSHR-Cheyenne VA Medical Center',
+                  city: 'Cheyenne',
+                  stateAbbrev: 'WY',
+                  authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+                  rootStationCode: '983',
+                  parentStationCode: '983',
+                },
+                institutionTimezone: 'America/Denver',
+              },
+            ],
           },
         },
       });
