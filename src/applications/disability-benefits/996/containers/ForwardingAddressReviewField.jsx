@@ -17,7 +17,7 @@ export default function ForwardingAddressReviewField(props) {
         {forwardingAddressCheckboxDescription}
       </dt>
       <dd>
-        <strong className="vads-u-flex-1">{children}</strong>
+        <strong>{children}</strong>
       </dd>
     </div>
   ) : (
