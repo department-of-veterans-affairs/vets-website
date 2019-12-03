@@ -12,7 +12,6 @@ import {
   normalizedInstitutionAttributes,
   normalizedProgramAttributes,
 } from './utility';
-import environment from 'platform/utilities/environment';
 
 const INITIAL_STATE = {
   facets: {
@@ -54,16 +53,13 @@ function uppercaseKeys(obj) {
 function normalizedInstitutionFacets(facets) {
   const state = uppercaseKeys(facets.state);
   const type = uppercaseKeys(facets.type);
-  return { ...facets, state, type };
-}
+  const provider = Array.isArray(facets.provider)
+    ? facets.provider.map(providerCount => ({
+        ...providerCount,
+        name: providerCount.name.toUpperCase(),
+      }))
+    : [];
 
-function normalizedProgramFacets(facets) {
-  const state = uppercaseKeys(facets.state);
-  const type = uppercaseKeys(facets.type);
-  const provider = facets.provider.map(providerCount => ({
-    ...providerCount,
-    name: providerCount.name.toUpperCase(),
-  }));
   return { ...facets, state, type, provider };
 }
 
@@ -112,11 +108,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         results: programResults,
         pagination: derivePaging(programCamelPayload.links),
-
-        // prod flag for CT-116 - #19992
-        facets: environment.isProduction()
-          ? normalizedInstitutionFacets(programCamelPayload.meta.facets)
-          : normalizedProgramFacets(programCamelPayload.meta.facets),
+        facets: normalizedInstitutionFacets(programCamelPayload.meta.facets),
         count: programCamelPayload.meta.count,
         version: programCamelPayload.meta.version,
         inProgress: false,

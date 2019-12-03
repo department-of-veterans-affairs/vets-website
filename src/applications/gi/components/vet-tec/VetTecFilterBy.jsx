@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import Checkbox from '../Checkbox';
 import CheckboxGroup from '../CheckboxGroup';
 import { renderLearnMoreLabel } from '../../utils/render';
@@ -110,8 +109,8 @@ class VetTecFilterBy extends React.Component {
           onChange={this.handleFilterChange}
           options={options}
         />
-        {/* prod flag for CT-116 - #19992 */}
-        {!environment.isProduction() && this.renderProviderFilters()}
+        {this.props.giVetTecProgramProviderFilters &&
+          this.renderProviderFilters()}
       </div>
     );
   }

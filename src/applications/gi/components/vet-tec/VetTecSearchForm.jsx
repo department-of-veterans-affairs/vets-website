@@ -122,6 +122,7 @@ class VetTecSearchForm extends React.Component {
       providers={this.props.search.facets.provider}
       handleFilterChange={this.props.handleFilterChange}
       handleProviderFilterChange={this.props.handleProviderFilterChange}
+      giVetTecProgramProviderFilters={this.props.giVetTecProgramProviderFilters}
     />
   );
 
