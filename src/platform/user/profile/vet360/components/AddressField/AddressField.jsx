@@ -63,6 +63,16 @@ export const convertNextValueToCleanData = value => {
   };
 };
 
+const validateZipCode = zipCode => {
+  let result = '';
+  if (!zipCode) {
+    result = 'Zip code is required';
+  } else if (!zipCode.match(/\d{5}/)) {
+    result = 'Zip code must be 5 digits';
+  }
+  return result;
+};
+
 export const validateCleanData = (
   {
     addressLine1,
@@ -92,9 +102,9 @@ export const validateCleanData = (
         ? 'State is required'
         : '',
     zipCode:
-      (property === 'zipCode' || validateAll) && !isInternational && !zipCode
-        ? 'Zip code is required'
-        : '',
+      (property === 'zipCode' || validateAll) &&
+      !isInternational &&
+      validateZipCode(zipCode),
     internationalPostalCode:
       (property === 'internationalPostalCode' || validateAll) &&
       isInternational &&
