@@ -454,7 +454,7 @@ export function submitAppointmentOrRequest(router) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
-          requestBody = transformFormToVARequest(newAppointment);
+          requestBody = transformFormToVARequest(getState());
           requestData = await submitRequest('va', requestBody);
         }
 
