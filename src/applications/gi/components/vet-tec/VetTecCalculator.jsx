@@ -137,14 +137,14 @@ export class VetTecCalculator extends React.Component {
           </div>
         </div>
       </div>
-      <div className="row vads-u-margin-top--0p5">
+      <div className="row vads-u-margin-top--0p5 vads-u-margin-bottom--neg0p5">
         <div className="small-6 columns">
-          <h4 className="vads-u-font-family--sans vads-u-font-size--h5">
+          <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-bottom--0">
             Out of pocket tuition:
           </h4>
         </div>
         <div className="small-6 columns vads-u-text-align--right">
-          <h5 className="vads-u-font-family--sans estimated-benefit-values">
+          <h5 className="vads-u-font-family--sans estimated-benefit-values vads-u-margin-bottom--0">
             {outputs.outOfPocketTuitionFees}
           </h5>
         </div>
@@ -154,7 +154,7 @@ export class VetTecCalculator extends React.Component {
 
   renderHousingSection = (outputs, showModal) => (
     <div className="housing-section">
-      <div className="link-header">
+      <div>
         <h4 className="vads-u-font-size--h5">Housing allowance</h4>{' '}
         <button
           aria-label={ariaLabels.learnMore.housingAllowance}

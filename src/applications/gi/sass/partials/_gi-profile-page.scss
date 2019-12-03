@@ -180,12 +180,10 @@
 
   .contact-heading {
     vertical-align: top;
-    margin: 0;
   }
 
   .sco-contact-info {
     word-wrap: break-word;
-    padding: 0.5em;
   }
 
   .additional-information {
@@ -208,9 +206,9 @@
     }
   }
 
-  .vet-tec-application-process-list {
-    li {
-      list-style: square;
+  .vet-tec-application-process {
+    ol {
+      padding-inline-start: 0;
     }
   }
 
@@ -254,11 +252,6 @@
     }
 
     padding-bottom: 1rem;
-  }
-
-  .vettec-logo-container {
-    padding-top: 0.3em;
-    padding-bottom: 0.5em;
   }
 
   .locations-list {

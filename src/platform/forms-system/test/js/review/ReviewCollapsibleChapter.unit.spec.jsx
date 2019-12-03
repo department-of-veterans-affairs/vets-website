@@ -84,6 +84,46 @@ describe('<ReviewCollapsibleChapter>', () => {
     expect(onEdit.calledWith('test', true, 0)).to.be.true;
   });
 
+  it('should handle editing of view:keys', () => {
+    const onEdit = sinon.spy();
+    const pages = [
+      {
+        title: '',
+        pageKey: 'view:test',
+      },
+    ];
+    const chapterKey = 'view:test';
+    const chapter = {};
+    const form = {
+      pages: {
+        'view:test': {
+          title: '',
+          schema: {
+            properties: {},
+          },
+          uiSchema: {},
+          editMode: false,
+        },
+      },
+      data: {},
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        onEdit={onEdit}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    tree.getMountedInstance().handleEdit('view:test', true);
+
+    expect(onEdit.calledWith('view:test', true)).to.be.true;
+  });
+
   it('should display a page for each item for an array page', () => {
     const onEdit = sinon.spy();
     const pages = [

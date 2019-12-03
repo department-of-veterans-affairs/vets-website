@@ -78,7 +78,10 @@ class RatedDisabilityList extends React.Component {
       return <LoadingIndicator message="Loading your information..." />;
     }
     // Display error message based on error type.
-    if (this.props.ratedDisabilities.errors) {
+    if (
+      this.props.ratedDisabilities.errors ||
+      this.props?.ratedDisabilities?.ratedDisabilities.length === 0
+    ) {
       return (
         <div className="usa-width-one-whole">
           {this.noDisabilityRatingContent()}

@@ -16,16 +16,15 @@ export function totalRating(state = initialState, action) {
         ...state,
         loading: false,
         error: {
-          status: '500',
-          res: 'failed to load', // This changes when the backend gets wired up to the frontend.
+          code: action.response.errors[0].code,
+          detail: action.response.errors[0].detail,
         },
       };
     case FETCH_TOTAL_RATING_SUCCEEDED:
       return {
         ...state,
         loading: false,
-        error: null,
-        totalDisabilityRating: 80, // to be replaced with response payload
+        totalDisabilityRating: action.response.userPercentOfDisability,
       };
     default:
       return state;

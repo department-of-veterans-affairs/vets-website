@@ -34,6 +34,7 @@ class CheckboxGroup extends React.Component {
             aria-labelledby={`${this.inputId}-legend ${name}-${index}-label`}
           />
           <label
+            className="gi-checkbox-label"
             id={`${name}-${index}-label`}
             name={`${name}-label`}
             htmlFor={`${this.inputId}-${index}`}

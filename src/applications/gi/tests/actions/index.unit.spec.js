@@ -116,20 +116,6 @@ describe('fetchProfile', () => {
       },
     };
 
-    const ZIPPayload = {
-      data: {
-        id: '35442',
-        type: 'zipcode_rates',
-        attributes: {
-          zip_code: '84121', // eslint-disable-line camelcase
-          mha_code: 'UT292', // eslint-disable-line camelcase
-          mha_name: 'SALT LAKE CITY, UT', // eslint-disable-line camelcase
-          mha_rate: 1380, // eslint-disable-line camelcase
-          mha_rate_grandfathered: 1430, // eslint-disable-line camelcase
-        },
-      },
-    };
-
     const constants = {
       constants: {
         AVGVABAH: 10,
@@ -140,7 +126,6 @@ describe('fetchProfile', () => {
     const getState = () => ({ constants });
 
     setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
-    setFetchResponse(global.fetch.onSecondCall(), ZIPPayload);
 
     const dispatch = sinon.spy();
 
@@ -160,7 +145,6 @@ describe('fetchProfile', () => {
             ...institutionPayload,
             ...constants.constants,
           },
-          zipRatesPayload: ZIPPayload,
         }),
       ).to.be.true;
       done();
@@ -207,13 +191,6 @@ describe('fetchProfile', () => {
         },
       },
     };
-    const ZIPPayload = {
-      errors: [
-        {
-          title: 'error',
-        },
-      ],
-    };
     const constants = {
       constants: {
         AVGVABAH: 10,
@@ -223,7 +200,6 @@ describe('fetchProfile', () => {
 
     const getState = () => ({ constants });
     setFetchResponse(global.fetch.onFirstCall(), institutionPayload);
-    setFetchFailure(global.fetch.onSecondCall(), ZIPPayload);
 
     const dispatch = sinon.spy();
 
@@ -243,7 +219,6 @@ describe('fetchProfile', () => {
             ...institutionPayload,
             ...constants.constants,
           },
-          zipRatesPayload: ZIPPayload,
         }),
       ).to.be.true;
       done();

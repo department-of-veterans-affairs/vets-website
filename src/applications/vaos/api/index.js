@@ -53,7 +53,9 @@ export function getPendingAppointments(startDate, endDate) {
     );
   }
 
-  return promise.then(resp => resp.data.map(item => item.attributes));
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getRequestMessages(requestId) {
@@ -360,14 +362,19 @@ export function updateAppointment(appt) {
   return promise;
 }
 
-// PUT /vaos/requests
-// eslint-disable-next-line no-unused-vars
-export function updateRequest(appt) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 500);
-  });
+export function updateRequest(req) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve();
+  } else {
+    promise = apiRequest(`/vaos/appointment_requests/${req.uniqueId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req),
+    });
+  }
+
+  return promise;
 }
 
 export function submitRequest(type, request) {
