@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
     }
     case FETCH_FORMS_SUCCESS: {
       // Normalize the forms data we get back from the API resopnse.
-      const results = normalizeFormsForTable(action.response?.data);
+      const results = normalizeFormsForTable(action.response);
       return { ...state, fetching: false, results };
     }
     default: {
