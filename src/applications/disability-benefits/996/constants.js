@@ -2,6 +2,8 @@
 export const BASE_URL =
   '/disability-benefits/apply/form-0996-higher-level-review';
 
+export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf';
+
 export const selectors = {
   optOutStepVisible: 'view:optOutStep',
 };

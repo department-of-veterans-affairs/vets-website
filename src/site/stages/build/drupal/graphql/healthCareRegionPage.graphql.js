@@ -29,6 +29,8 @@ module.exports = `
           }
       }
     }
+    fieldGovdeliveryIdEmerg
+    fieldGovdeliveryIdNews
     fieldIntroText
 	  fieldRelatedLinks {
       entity {
