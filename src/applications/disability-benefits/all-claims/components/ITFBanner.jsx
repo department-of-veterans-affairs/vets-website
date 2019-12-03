@@ -65,7 +65,7 @@ export default class ITFBanner extends React.Component {
     return (
       <div className="usa-grid" style={{ marginBottom: '2em' }}>
         {message}
-        {this.props.status !== 'error' && (
+        {!['error', 'missing-information'].includes(this.props.status) && (
           <button className="usa-button-primary" onClick={this.dismissMessage}>
             Continue
           </button>
