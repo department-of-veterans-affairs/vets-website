@@ -189,7 +189,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pageChangeInProgress: true,
-        hasDataFetchingError: false,
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {
