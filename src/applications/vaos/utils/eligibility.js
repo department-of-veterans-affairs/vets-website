@@ -11,12 +11,12 @@ import {
   getClinics,
 } from '../api';
 
-export async function getEligibilityData(facilityId, typeOfCareId) {
+export async function getEligibilityData(facilityId, typeOfCareId, systemId) {
   const eligibilityChecks = [
     checkPastVisits(facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
     checkPastVisits(facilityId, typeOfCareId, 'direct'),
-    getClinics(facilityId, typeOfCareId),
+    getClinics(facilityId, typeOfCareId, systemId),
   ];
 
   if (typeOfCareId === PRIMARY_CARE) {
