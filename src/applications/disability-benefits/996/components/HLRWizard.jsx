@@ -31,8 +31,9 @@ const HLRWizard = ({ initChoice = null, initExpanded = false }) => {
         type="button"
         aria-expanded={expanded}
         aria-controls="wizardOptions"
-        className={`usa-button-primary wizard-button ${!expanded &&
-          'va-button-primary'}`}
+        className={`usa-button-primary wizard-button${
+          expanded ? '' : ' va-button-primary'
+        }`}
         onClick={() => setExpanded(!expanded)}
       >
         {wizardButtonText}
