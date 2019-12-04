@@ -19,13 +19,20 @@ const RatedDisabilitiesSidebar = () => (
       Compensation 101: How did I get this rating (YouTube)
     </a>
     <h3 className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-      What if I don't see the disability rating I was expecting?
+      Learn about VA disability ratings
     </h3>
     <p>
-      If you filed a new disability claim to add a condition, or if you appealed
-      a disability decision in the past 3 months, we might still be processing
-      your request.
+      To see how your combined VA disability rating was determined, use our
+      disability rating calculator and ratings tables.
     </p>
+    <a
+      href="/disability/about-disability-ratings/"
+      aria-label="About VA disability ratings"
+      rel="noopener noreferrer"
+      title="About VA disability ratings"
+    >
+      About VA disability ratings
+    </a>
     <h3 className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
       What if I have questions?
     </h3>
