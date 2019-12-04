@@ -198,7 +198,11 @@ export const validateAddress = (
       : await localVet360.addressValidationSuccess();
     const { addresses } = response;
     const suggestedAddresses = addresses
-      .filter(address => address.addressMetaData.confidenceScore >= 80)
+      .filter(
+        address =>
+          address.addressMetaData.deliveryPointValidation === 'CONFIRMED' &&
+          address.addressMetaData.confidenceScore >= 80,
+      )
       .map(address => address.address);
     const payloadWithSuggestedAddress = {
       ...suggestedAddresses[0],

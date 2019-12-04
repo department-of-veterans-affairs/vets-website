@@ -106,8 +106,8 @@ class AddressValidationModal extends React.Component {
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             {addressLine1 && <span>{addressLine1}</span>}
-            {addressLine2 && <span>{addressLine2}</span>}
-            {addressLine3 && <span>{addressLine3}</span>}
+            {addressLine2 && <span>{` ${addressLine2}`}</span>}
+            {addressLine3 && <span>{` ${addressLine3}`}</span>}
             <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
             {isAddressFromUser &&
               !addressValidationError && (

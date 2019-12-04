@@ -31,8 +31,8 @@ describe('<AddressValidationModal/>', () => {
         suggestedAddresses: [
           {
             addressLine1: '12345 1st Ave',
-            addressLine2: '',
-            addressLine3: '',
+            addressLine2: 'bldg 2',
+            addressLine3: 'apt 23',
             city: 'Tampa',
             stateCode: 'FL',
             zipCode: '12346',
@@ -45,8 +45,8 @@ describe('<AddressValidationModal/>', () => {
           },
           {
             addressLine1: '22222 1st Ave',
-            addressLine2: '',
-            addressLine3: '',
+            addressLine2: 'bldg 2',
+            addressLine3: 'apt 23',
             city: 'Saint Petersburg',
             stateCode: 'FL',
             zipCode: '55555',
@@ -151,14 +151,14 @@ describe('<AddressValidationModal/>', () => {
         .find('label')
         .at(1)
         .text(),
-    ).to.equal('12345 1st Ave Tampa, FL 12346');
+    ).to.equal('12345 1st Ave bldg 2 apt 23 Tampa, FL 12346');
 
     expect(
       component
         .find('label')
         .at(2)
         .text(),
-    ).to.equal('22222 1st Ave Saint Petersburg, FL 55555');
+    ).to.equal('22222 1st Ave bldg 2 apt 23 Saint Petersburg, FL 55555');
     component.unmount();
   });
 
