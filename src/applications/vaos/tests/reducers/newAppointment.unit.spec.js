@@ -6,13 +6,14 @@ import {
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_FETCH_FACILITY_DETAILS,
+  FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
-  FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -369,6 +370,38 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.eligibility['983_323']).to.not.be.undefined;
     });
   });
+
+  describe('facility details', () => {
+    it('should set facility detail loading', () => {
+      const action = {
+        type: FORM_FETCH_FACILITY_DETAILS,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.loadingFacilityDetails).to.be.true;
+    });
+
+    it('should set facility detail loading', () => {
+      const facilityDetails = {
+        attributes: {
+          name: 'test',
+        },
+      };
+
+      const action = {
+        type: FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+        facilityId: '123',
+        facilityDetails,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.loadingFacilityDetails).to.be.false;
+      expect(newState.facilityDetails['123']).to.deep.equal(facilityDetails);
+    });
+  });
+
   describe('open clinic page reducers', () => {
     it('should save past appointments to state', () => {
       const action = {
@@ -379,15 +412,6 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer(defaultState, action);
 
       expect(newState.pastAppointments).to.equal(action.appointments);
-    });
-    it('should set facility detail loading', () => {
-      const action = {
-        type: FORM_CLINIC_PAGE_OPENED,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-
-      expect(newState.loadingFacilityDetails).to.be.true;
     });
     it('should set single clinic list in schema', () => {
       const state = {
@@ -431,7 +455,6 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.loadingFacilityDetails).to.be.false;
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
       ).to.deep.equal(['455', 'NONE']);
@@ -490,7 +513,6 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.loadingFacilityDetails).to.be.false;
       expect(
         newState.pages.clinicChoice.properties.clinicId.enum,
       ).to.deep.equal(['455', '456', 'NONE']);

@@ -5,6 +5,7 @@ import {
   getAppointmentTitle,
   filterFutureRequests,
   filterFutureConfirmedAppointments,
+  sentenceCase,
   sortFutureRequests,
   sortFutureConfirmedAppointments,
 } from '../../utils/appointment';
@@ -33,6 +34,18 @@ describe('VAOS appointment helpers', () => {
         facilityId: '555',
       });
       expect(id).to.equal('va-555-233-2019-09-20T10:00:00');
+    });
+  });
+
+  describe('sentenceCase', () => {
+    it('should return a string in sentence case', () => {
+      expect(sentenceCase('Apples and Oranges')).to.equal('Apples and oranges');
+    });
+
+    it('should ignore capital words', () => {
+      expect(sentenceCase('MOVE! Weight Management')).to.equal(
+        'MOVE! weight management',
+      );
     });
   });
 

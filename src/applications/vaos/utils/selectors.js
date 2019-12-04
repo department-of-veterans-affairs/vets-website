@@ -160,6 +160,9 @@ export function getFacilityPageInfo(state, pageKey) {
       !formInfo.schema.properties.vaSystem,
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
+    typeOfCare: getTypeOfCare(getFormData(state))?.name,
+    loadingSystemDetails: newAppointment.loadingFacilityDetails,
+    systemDetails: newAppointment.facilityDetails[formInfo.data.vaSystem],
   };
 }
 

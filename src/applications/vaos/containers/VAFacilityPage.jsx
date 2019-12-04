@@ -65,9 +65,26 @@ const uiSchema = {
     },
   },
   vaFacilityMessage: {
-    'ui:field': ({ formContext }) => (
-      <NoValidVAFacilities systemId={formContext.vaSystem} />
-    ),
+    'ui:field': ({ formContext }) => {
+      const {
+        vaSystem,
+        typeOfCare,
+        loadingSystemDetails,
+        systemDetails,
+      } = formContext;
+
+      if (loadingSystemDetails) {
+        return <LoadingIndicator message="Finding locations" />;
+      }
+
+      return (
+        <NoValidVAFacilities
+          systemId={vaSystem}
+          typeOfCare={typeOfCare}
+          systemDetails={systemDetails}
+        />
+      );
+    },
     'ui:options': {
       hideLabelText: true,
     },
@@ -110,6 +127,9 @@ export class VAFacilityPage extends React.Component {
       noValidVAFacilities,
       eligibility,
       canScheduleAtChosenFacility,
+      typeOfCare,
+      loadingSystemDetails,
+      systemDetails,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -193,7 +213,12 @@ export class VAFacilityPage extends React.Component {
           onChange={newData =>
             this.props.updateFacilityPageData(pageKey, uiSchema, newData)
           }
-          formContext={{ vaSystem: data.vaSystem }}
+          formContext={{
+            vaSystem: data.vaSystem,
+            typeOfCare,
+            loadingSystemDetails,
+            systemDetails,
+          }}
           data={data}
         >
           {notEligibleAtChosenFacility && (

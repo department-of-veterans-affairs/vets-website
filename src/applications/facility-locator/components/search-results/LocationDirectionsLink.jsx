@@ -4,7 +4,7 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 
 class LocationDirectionsLink extends Component {
   render() {
-    const { location } = this.props;
+    const { location, hideIcon } = this.props;
     let address = buildAddressArray(location);
 
     if (address.length !== 0) {
@@ -22,7 +22,7 @@ class LocationDirectionsLink extends Component {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <i className="fa fa-road" />
+          {!hideIcon && <i className="fa fa-road" />}
           Directions
         </a>
       </span>
@@ -32,6 +32,7 @@ class LocationDirectionsLink extends Component {
 
 LocationDirectionsLink.propTypes = {
   location: PropTypes.object,
+  hideIcon: PropTypes.bool,
 };
 
 export default LocationDirectionsLink;

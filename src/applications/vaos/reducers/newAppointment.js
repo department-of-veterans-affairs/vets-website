@@ -20,6 +20,8 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_FETCH_FACILITY_DETAILS,
+  FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
@@ -28,7 +30,6 @@ import {
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
-  FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
@@ -412,12 +413,20 @@ export default function formReducer(state = initialState, action) {
         flowType: FLOW_TYPES.REQUEST,
         reasonRemainingChar: REASON_MAX_CHARS.request,
       };
-    case FORM_CLINIC_PAGE_OPENED: {
+    case FORM_FETCH_FACILITY_DETAILS:
       return {
         ...state,
         loadingFacilityDetails: true,
       };
-    }
+    case FORM_FETCH_FACILITY_DETAILS_SUCCEEDED:
+      return {
+        ...state,
+        loadingFacilityDetails: false,
+        facilityDetails: {
+          ...state.facilityDetails,
+          [action.facilityId]: action.facilityDetails,
+        },
+      };
     case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED: {
       return {
         ...state,
@@ -543,11 +552,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         data,
-        loadingFacilityDetails: false,
-        facilityDetails: {
-          ...state.facilityDetails,
-          [state.data.vaFacility]: action.facilityDetails,
-        },
         pages: {
           ...state.pages,
           [action.page]: schema,

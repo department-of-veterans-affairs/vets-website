@@ -357,10 +357,9 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_CLINIC_PAGE_OPENED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       );
-      expect(dispatch.secondCall.args[0].facilityDetails).to.not.be.undefined;
     });
   });
 
