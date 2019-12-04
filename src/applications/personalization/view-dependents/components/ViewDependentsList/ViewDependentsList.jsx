@@ -18,7 +18,6 @@ class ViewDependentsList extends Component {
           birthdate="05/05/1982"
           age={37}
         />
-        />
         <h3>Dependents not on award</h3>
         <p>
           Dependents not on award may be awaiting a decision, or they were once

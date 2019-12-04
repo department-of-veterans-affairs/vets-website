@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ViewDependentsHeader = () => (
+const ViewDependentsHeader = props => (
   <div className="vads-l-row vads-u-padding-bottom--3">
     <div className="vads-l-col--12">
       <h1>Your Dependents</h1>
@@ -10,9 +10,11 @@ const ViewDependentsHeader = () => (
         Adding a dependent to your claim could make you eligable for a higher
         disability payment.
       </p>
-      <button type="button" className="usa-button">
-        Apply to add a dependent
-      </button>
+      {props.add ? (
+        <button type="button" className="usa-button">
+          Apply to add a dependent
+        </button>
+      ) : null}
     </div>
   </div>
 );
