@@ -79,9 +79,9 @@ export default {
           // Check if user registered systems support community care...
           const userSystemIds = await getSystemIdentifiers();
           const ccSites = await getSitesSupportingVAR();
-          const ccEnabledSystems = userSystemIds
-            .map(system => system.assigningAuthority.substr(4))
-            .filter(id => ccSites.some(site => site._id === id));
+          const ccEnabledSystems = userSystemIds.filter(id =>
+            ccSites.some(site => site._id === id),
+          );
           dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
           // Reroute to VA facility page if none of the user's registered systems support community care.

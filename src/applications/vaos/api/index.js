@@ -116,8 +116,7 @@ export const getLongTermAppointmentHistory = (() => {
   };
 })();
 
-// GET /vaos/systems
-export const getSystemIdentifiers = (() => {
+export const getUserIdentifiers = (() => {
   let promise = null;
 
   return () => {
@@ -126,41 +125,43 @@ export const getSystemIdentifiers = (() => {
     }
 
     if (USE_MOCK_DATA) {
-      promise = import('./systems.json')
-        .then(module => (module.default ? module.default : module))
-        .then(json => json.data.map(item => item.attributes));
+      promise = import('./systems.json').then(
+        module => (module.default ? module.default : module),
+      );
     } else {
-      promise = fetch(`${environment.API_URL}/v0/vaos/systems`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'X-Key-Inflection': 'camel',
-        },
-      })
-        .then(resp => {
-          if (resp.ok) {
-            return resp.json();
-          }
-
-          throw new Error(resp.status);
-        })
-        .then(json => json.data.map(item => item.attributes));
+      promise = apiRequest('/vaos/systems');
     }
+
+    promise = promise.then(json => json.data.map(item => item.attributes));
 
     return promise;
   };
 })();
 
-// GET /vaos/facilities
-// eslint-disable-next-line no-unused-vars
+export function getSystemIdentifiers() {
+  return getUserIdentifiers().then(data =>
+    data
+      .filter(id => id.assigningAuthority.startsWith('dfn-'))
+      .map(id => id.assigningCode),
+  );
+}
+
 export function getSystemDetails(systemIds) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./facilities.json').then(module =>
-        resolve(module.default ? module.default : module),
-      );
-    }, TEST_TIMEOUT || 1000);
-  });
+  let promise;
+
+  if (USE_MOCK_DATA) {
+    promise = import('./facilities.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
+
+    promise = apiRequest(`/vaos/facilities?${idList}`);
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 // GET /vaos/systems/{systemId}/facilities
