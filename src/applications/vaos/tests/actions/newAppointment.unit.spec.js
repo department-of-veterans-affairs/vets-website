@@ -203,6 +203,36 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
+    it('should fetch eligibility info if facility is selected when opening page', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaSystem: '983',
+            vaFacility: '983',
+          },
+          facilities: {
+            '323_983': facilities983Parsed,
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction.eligibilityData).to.not.be.null;
+    });
+
     it('should not fetch anything if system did not change', async () => {
       const dispatch = sinon.spy();
       const getState = () => ({
