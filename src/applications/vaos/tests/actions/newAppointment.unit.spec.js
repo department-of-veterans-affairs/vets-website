@@ -440,6 +440,15 @@ describe('VAOS newAppointment actions', () => {
       },
     };
 
+    beforeEach(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systems);
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
     it('should fetch systems', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
@@ -460,7 +469,10 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},
-        systems,
+        systems: systems.data.map(item => ({
+          ...item.attributes,
+          id: item.id,
+        })),
       });
     });
   });

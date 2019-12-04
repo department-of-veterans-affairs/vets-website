@@ -28,6 +28,11 @@ import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import { FETCH_STATUS } from '../../utils/constants';
 
+const systemsParsed = systems.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
+
 const defaultState = {
   data: {},
   pages: {},
@@ -136,7 +141,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const action = {
         ...defaultOpenPageAction,
-        systems,
+        systems: systemsParsed,
       };
 
       const newState = newAppointmentReducer(currentState, action);
@@ -163,7 +168,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set facilities when only one system', () => {
       const action = {
         ...defaultOpenPageAction,
-        systems: systems.slice(0, 1),
+        systems: systemsParsed.slice(0, 1),
         facilities: facilities983,
       };
 
@@ -193,7 +198,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set system and facility when there is only one', () => {
       const action = {
         ...defaultOpenPageAction,
-        systems: systems.slice(0, 1),
+        systems: systemsParsed.slice(0, 1),
         facilities: facilities983.slice(0, 1),
       };
 
@@ -238,7 +243,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         },
       },
-      systems,
+      systems: systemsParsed,
       facilities: {},
       loadingFacilities: true,
     };
@@ -554,7 +559,7 @@ describe('VAOS reducer: newAppointment', () => {
         },
         uiSchema: {},
         page: 'ccPreferences',
-        systems,
+        systems: systemsParsed,
       };
       const state = {
         ...defaultState,
