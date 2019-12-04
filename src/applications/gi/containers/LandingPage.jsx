@@ -135,7 +135,7 @@ export class LandingPage extends React.Component {
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
-            <p className="subheading">
+            <p className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-color--gray-dark">
               Learn about education programs and compare benefits by school.
             </p>
 

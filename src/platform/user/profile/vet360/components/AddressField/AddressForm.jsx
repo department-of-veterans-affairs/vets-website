@@ -141,7 +141,7 @@ class AddressForm extends React.Component {
           />
         )}
 
-        {/* Hide the zip code for addresseses that aren't in the US */}
+        {/* Hide the zip code for addresses that aren't in the US */}
         {isUSA && (
           <ErrorableTextInput
             errorMessage={errorMessages.zipCode}
