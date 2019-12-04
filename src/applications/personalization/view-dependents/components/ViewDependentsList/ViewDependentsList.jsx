@@ -23,7 +23,7 @@ class ViewDependentsList extends Component {
           Dependents not on award may be awaiting a decision, or they were once
           added to your disability claim and their status has changed.{' '}
           <strong>Let the VA know if a dependent's status has changed</strong>{' '}
-          and they are now eligable to be added to your disability claim.
+          and they are now eligible to be added to your disability claim.
         </p>
         <ViewDependentsListItem
           onAward

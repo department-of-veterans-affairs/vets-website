@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import ViewDepenentsList from './ViewDependentsList/ViewDependentsList';
-import ViewDepenentsSidebar from './ViewDependentsSidebar/ViewDependentsSidebar';
+import ViewDependentsList from './ViewDependentsList/ViewDependentsList';
+import ViewDependentsSidebar from './ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from './ViewDependentsHeader/ViewDependentsHeader';
 
 class ViewDependentsLayout extends Component {
@@ -39,10 +39,10 @@ class ViewDependentsLayout extends Component {
           <div className="vads-l-row">
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
               <ViewDependentsHeader />
-              <ViewDepenentsList />
+              <ViewDependentsList />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              <ViewDepenentsSidebar />
+              <ViewDependentsSidebar />
             </div>
           </div>
         </div>

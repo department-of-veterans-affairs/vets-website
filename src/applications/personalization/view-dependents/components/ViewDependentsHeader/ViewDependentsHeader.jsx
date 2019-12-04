@@ -5,9 +5,9 @@ const ViewDependentsHeader = props => (
     <div className="vads-l-col--12">
       <h1>Your Dependents</h1>
       <p>
-        If your're getting disability compensation and have a 30% or higher
+        If you're getting disability compensation and have a 30% or higher
         disability rating, you can add a dependent to your disability claim.
-        Adding a dependent to your claim could make you eligable for a higher
+        Adding a dependent to your claim could make you eligible for a higher
         disability payment.
       </p>
       {props.add ? (
