@@ -18,4 +18,7 @@ function transform(entity) {
   return transformed;
 }
 
-module.exports = transform;
+module.exports = {
+  filter: ['field_link', 'field_link_summary'],
+  transform,
+};
