@@ -18,13 +18,9 @@ export default function ScheduleTimesReviewField(props) {
   const timeSlot = informalConferenceTimeAllLabels?.[children?.props.name];
 
   return (
-    <dl className="review-row">
-      <dt>
-        <span className="time-contact" role="presentation">
-          {label}
-        </span>
-      </dt>
+    <div className="review-row">
+      <dt>{label}</dt>
       <dd>{timeSlot}</dd>
-    </dl>
+    </div>
   );
 }

@@ -10,9 +10,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
       requestPastVisit: false,
       requestPastVisitValue: 24,
     };
-    const facility = {
-      institution: {},
-    };
+    const facility = {};
 
     const tree = mount(
       <SingleFacilityEligibilityCheckMessage
@@ -31,9 +29,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
       requestPastVisit: true,
       requestLimit: false,
     };
-    const facility = {
-      institution: {},
-    };
+    const facility = {};
 
     const tree = mount(
       <SingleFacilityEligibilityCheckMessage
@@ -52,9 +48,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
       requestPastVisit: true,
       requestLimit: true,
     };
-    const facility = {
-      institution: {},
-    };
+    const facility = {};
 
     const tree = mount(
       <SingleFacilityEligibilityCheckMessage

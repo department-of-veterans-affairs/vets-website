@@ -73,7 +73,11 @@ class AddressValidationModal extends React.Component {
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
-    const { validationKey } = this.props;
+    const {
+      validationKey,
+      addressValidationError,
+      addressValidationType,
+    } = this.props;
     const {
       addressLine1,
       addressLine2,
@@ -83,7 +87,8 @@ class AddressValidationModal extends React.Component {
       zipCode,
     } = address;
 
-    const isOptionDisabled = id === 'userEntered' && !validationKey;
+    const isAddressFromUser = id === 'userEntered';
+    const isOptionDisabled = isAddressFromUser && !validationKey;
 
     return (
       <div key={id}>
@@ -101,9 +106,15 @@ class AddressValidationModal extends React.Component {
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             {addressLine1 && <span>{addressLine1}</span>}
-            {addressLine2 && <span>{addressLine2}</span>}
-            {addressLine3 && <span>{addressLine3}</span>}
+            {addressLine2 && <span>{` ${addressLine2}`}</span>}
+            {addressLine3 && <span>{` ${addressLine3}`}</span>}
             <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
+            {isAddressFromUser &&
+              !addressValidationError && (
+                <a onClick={() => this.props.openModal(addressValidationType)}>
+                  Edit Address
+                </a>
+              )}
           </div>
         </label>
       </div>

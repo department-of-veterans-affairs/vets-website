@@ -22,4 +22,6 @@ const transform = entity => {
   };
 };
 
-module.exports = transform;
+module.exports = {
+  transform,
+};

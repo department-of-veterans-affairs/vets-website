@@ -212,7 +212,13 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId &&
         !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
       ) {
-        eligibilityData = await getEligibilityData(facilityId, typeOfCareId);
+        const systemId =
+          newAppointment.data.vaSystem || systems[0].institutionCode;
+        eligibilityData = await getEligibilityData(
+          facilityId,
+          typeOfCareId,
+          systemId,
+        );
       }
 
       dispatch({
@@ -290,6 +296,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
         const eligibilityData = await getEligibilityData(
           data.vaFacility,
           typeOfCareId,
+          data.vaSystem,
         );
 
         dispatch({

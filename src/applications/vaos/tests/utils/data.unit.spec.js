@@ -240,15 +240,13 @@ describe('VAOS data transformation', () => {
         facilities: {
           '323_983': [
             {
-              institution: {
-                institutionCode: '983',
-                name: 'CHYSHR-Cheyenne VA Medical Center',
-                city: 'Cheyenne',
-                stateAbbrev: 'WY',
-                authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-                rootStationCode: '983',
-                parentStationCode: '983',
-              },
+              institutionCode: '983',
+              name: 'CHYSHR-Cheyenne VA Medical Center',
+              city: 'Cheyenne',
+              stateAbbrev: 'WY',
+              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+              rootStationCode: '983',
+              parentStationCode: '983',
               institutionTimezone: 'America/Denver',
             },
           ],
