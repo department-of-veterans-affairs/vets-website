@@ -243,6 +243,7 @@ module.exports = class extends Generator {
         entityType,
         entityBundle,
         propertyNames: this.transformedPropertyNames,
+        rawPropertyNames: this.rawPropertyNames,
       },
     );
   }
