@@ -22,6 +22,7 @@ const FACILITIES_RESULTS = `
       entityId
       entityBundle
       changed
+      fieldOperatingStatusFacility
       fieldFacilityLocatorApiId
       fieldNicknameForThisFacility
       fieldIntroText

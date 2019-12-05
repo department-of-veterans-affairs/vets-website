@@ -115,6 +115,7 @@ describe('VAOS actions: appointments', () => {
     });
 
     it('should cancel request', async () => {
+      setFetchJSONResponse(global.fetch, {});
       const state = {
         appointments: {
           appointmentToCancel: {

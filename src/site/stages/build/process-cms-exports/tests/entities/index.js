@@ -51,7 +51,7 @@ module.exports = {
     'paragraph.00884914-2c00-4111-bdea-76f1deef0646.json',
   'paragraph-staff_profile':
     'paragraph.01200e8f-ba9e-4dfd-89fe-65e9ab81fc21.json',
-  'paragraph-alert': 'paragraph.019070f3-9e3e-4c69-83e4-c7eace8c414f.json',
+  'paragraph-alert': 'paragraph.a36d05df-1024-4c7b-9f95-eb06f3392c6c.json',
   'paragraph-downloadable_file':
     'paragraph.01c35dba-24b4-4bc5-b799-6ea359ccfd7b.json',
   'paragraph-table': 'paragraph.01fabcbd-1c2d-4118-912a-4e33fb5569c0.json',

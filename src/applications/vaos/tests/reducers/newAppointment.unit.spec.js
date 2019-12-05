@@ -6,19 +6,27 @@ import {
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+  FORM_FETCH_CHILD_FACILITIES_FAILED,
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_ELIGIBILITY_CHECKS_FAILED,
   START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
+  FORM_TYPE_OF_CARE_PAGE_OPENED,
+  FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_RESET,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -207,6 +215,19 @@ describe('VAOS reducer: newAppointment', () => {
         properties: {},
       });
     });
+
+    it('should set error when failed', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        type: FORM_PAGE_FACILITY_OPEN_FAILED,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+
+      expect(newState.hasDataFetchingError).to.be.true;
+    });
   });
 
   describe('update facility data reducer', () => {
@@ -328,6 +349,18 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
       expect(newState.data.vaFacility).to.equal('983');
     });
+    it('should set error when failed', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        type: FORM_FETCH_CHILD_FACILITIES_FAILED,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+
+      expect(newState.hasDataFetchingError).to.be.true;
+    });
   });
   describe('fetch eligibility checks reducers', () => {
     it('should set loading state for eligibility', () => {
@@ -364,6 +397,15 @@ describe('VAOS reducer: newAppointment', () => {
         action.eligibilityData.clinics,
       );
       expect(newState.eligibility['983_323']).to.not.be.undefined;
+    });
+
+    it('should set error state', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS_FAILED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.hasDataFetchingError).to.be.true;
     });
   });
   describe('open clinic page reducers', () => {
@@ -574,6 +616,16 @@ describe('VAOS reducer: newAppointment', () => {
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
     });
+
+    it('should set error', () => {
+      const action = {
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.hasDataFetchingError).to.be.true;
+    });
   });
   describe('submit request', () => {
     it('should set loading', () => {
@@ -600,5 +652,71 @@ describe('VAOS reducer: newAppointment', () => {
       const newState = newAppointmentReducer({}, action);
       expect(newState.submitStatus).to.equal(FETCH_STATUS.failed);
     });
+  });
+  it('should open the type of care page and prefill contact info', () => {
+    const currentState = {
+      data: {},
+      pages: {},
+    };
+    const action = {
+      type: FORM_TYPE_OF_CARE_PAGE_OPENED,
+      page: 'test',
+      schema: {
+        type: 'object',
+        properties: {},
+      },
+      uiSchema: {},
+      phoneNumber: '123456789',
+      email: 'test@va.gov',
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.pages.test).not.to.be.undefined;
+    expect(newState.data.phoneNumber).to.equal(action.phoneNumber);
+    expect(newState.data.email).to.equal(action.email);
+  });
+
+  it('should set ToC modal to show', () => {
+    const currentState = {
+      data: {},
+      pageChangeInProgress: true,
+    };
+    const action = {
+      type: FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.pageChangeInProgress).to.be.false;
+    expect(newState.showTypeOfCareUnavailableModal).to.be.true;
+  });
+
+  it('should set ToC modal to hidden', () => {
+    const currentState = {
+      data: {},
+    };
+    const action = {
+      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.showTypeOfCareUnavailableModal).to.be.false;
+  });
+
+  it('should reset form state', () => {
+    const currentState = {
+      data: { test: 'blah' },
+      hasDataFetchingError: true,
+    };
+    const action = {
+      type: FORM_RESET,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.data).to.deep.equal({});
+    expect(newState.hasDataFetchingError).to.be.false;
   });
 });

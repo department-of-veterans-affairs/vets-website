@@ -9,7 +9,7 @@ import {
 
 const TotalRatedDisabilities = props => {
   const { loading, totalDisabilityRating } = props;
-  const status = props.error ? props.error.status : null;
+  const errorCode = props.error ? props.error.code : null;
   const serverErrorRegex = /^5\d{2}$/;
   const serviceErrorRegex = /^4\d{2}$/;
   let content;
@@ -21,11 +21,11 @@ const TotalRatedDisabilities = props => {
     content = (
       <LoadingIndicator message="Loading your total disability rating..." />
     );
-  } else if (status && serverErrorRegex.test(status)) {
+  } else if (errorCode && serverErrorRegex.test(errorCode)) {
     content = errorMessage();
   } else if (
     !totalDisabilityRating ||
-    (status && serviceErrorRegex.test(status))
+    (errorCode && serviceErrorRegex.test(errorCode))
   ) {
     content = missingTotalMessage();
   } else {
@@ -38,7 +38,7 @@ const TotalRatedDisabilities = props => {
 TotalRatedDisabilities.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object,
-  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRating: PropTypes.string,
 };
 
 export default TotalRatedDisabilities;

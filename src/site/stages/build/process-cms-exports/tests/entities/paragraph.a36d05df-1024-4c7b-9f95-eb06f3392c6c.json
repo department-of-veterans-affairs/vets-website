@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "02b96f8b-28fe-4070-a405-5a77b6721cc4"
+            "value": "a36d05df-1024-4c7b-9f95-eb06f3392c6c"
         }
     ],
     "langcode": [
@@ -11,9 +11,9 @@
     ],
     "type": [
         {
-            "target_id": "collapsible_panel",
+            "target_id": "alert",
             "target_type": "paragraphs_type",
-            "target_uuid": "9d342344-615c-4c0b-b4c8-991d7ec4d20c"
+            "target_uuid": "daa6bb41-1b12-46f7-a355-96ceb6fa18dc"
         }
     ],
     "status": [
@@ -23,7 +23,7 @@
     ],
     "created": [
         {
-            "value": "2019-10-25T00:21:06+00:00",
+            "value": "2019-05-31T16:25:43+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -42,25 +42,21 @@
             "value": true
         }
     ],
-    "field_collapsible_panel_bordered": [
+    "field_alert_block_reference": [],
+    "field_alert_heading": [
         {
-            "value": false
+            "value": "You\u2019ll need to sign in to milConnect to get your military service records"
         }
     ],
-    "field_collapsible_panel_expand": [
+    "field_alert_type": [
         {
-            "value": false
-        }
-    ],
-    "field_collapsible_panel_multi": [
-        {
-            "value": false
+            "value": "information"
         }
     ],
     "field_va_paragraphs": [
         {
             "target_type": "paragraph",
-            "target_uuid": "a4227c4c-b7af-4dc2-9881-c27c8bb63282"
+            "target_uuid": "67f214e2-a367-4ad0-986d-65e686277dba"
         }
     ]
 }

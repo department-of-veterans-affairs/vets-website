@@ -5,7 +5,7 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
 } from './utils/selectors';
-import { TYPES_OF_CARE, FLOW_TYPES } from './utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
   getCommunityCare,
   getSystemIdentifiers,
@@ -13,19 +13,22 @@ import {
   getSitesSupportingVAR,
 } from './api';
 import {
+  showTypeOfCareUnavailableModal,
   startDirectScheduleFlow,
   startRequestAppointmentFlow,
   updateFacilityType,
   updateCCEnabledSystems,
+  updateCCEligibility,
 } from './actions/newAppointment';
 import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const PODIATRY = 'tbd-podiatry';
 
 function isCCAudiology(state) {
   return (
-    getFormData(state).facilityType === 'communityCare' &&
+    getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
     getFormData(state).typeOfCareId === AUDIOLOGY
   );
 }
@@ -38,11 +41,19 @@ function isCommunityCare(state) {
 }
 
 function isCCFacility(state) {
-  return getFormData(state).facilityType === 'communityCare';
+  return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+}
+
+function isCCEligible(state) {
+  return getNewAppointment(state).isCCEligible;
 }
 
 function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
+}
+
+function isPodiatry(state) {
+  return getFormData(state).typeOfCareId === PODIATRY;
 }
 
 export default {
@@ -79,13 +90,31 @@ export default {
               '/vaos/community-care/eligibility',
             );
 
+            dispatch(updateCCEligibility(data.isEligible));
+
             if (data.isEligible) {
+              // If CC enabled systems and toc is podiatry, skip typeOfFacility
+              if (isPodiatry(state)) {
+                dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+                return 'requestDateTime';
+              }
               return 'typeOfFacility';
             }
           }
 
-          dispatch(updateFacilityType('vaFacility'));
+          // If no CC enabled systems and toc is podiatry, show modal
+          if (isPodiatry(state)) {
+            dispatch(showTypeOfCareUnavailableModal());
+            return 'typeOfCare';
+          }
+
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          return 'vaFacility';
         } catch (e) {
+          Sentry.captureException(e);
+          Sentry.captureMessage(
+            'Community Care eligibility check failed with errors',
+          );
           return 'vaFacility';
         }
       }
@@ -160,13 +189,10 @@ export default {
     previous(state) {
       let nextState = 'typeOfCare';
 
-      // Return to typeOFFacility page if facility is CC enabled
-      if (
-        getFormData(state).facilityType &&
-        getNewAppointment(state).ccEnabledSystems?.length > 0
-      ) {
+      if (isCCEligible(state)) {
         nextState = 'typeOfFacility';
       }
+
       return nextState;
     },
   },
@@ -203,6 +229,10 @@ export default {
       return 'reasonForAppointment';
     },
     previous(state) {
+      if (isPodiatry(state)) {
+        return 'typeOfCare';
+      }
+
       if (isCCFacility(state)) {
         return 'typeOfFacility';
       }

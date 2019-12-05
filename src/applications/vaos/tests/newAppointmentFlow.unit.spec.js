@@ -11,7 +11,7 @@ import past from '../api/past.json';
 import systems from '../api/systems.json';
 
 import newAppointmentFlow from '../newAppointmentFlow';
-import { FLOW_TYPES } from '../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../utils/constants';
 
 describe('VAOS newAppointmentFlow', () => {
   describe('type of appointment page', () => {
@@ -26,7 +26,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             typeOfCareId: '203',
           },
         },
@@ -40,7 +40,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             typeOfCareId: '320',
           },
         },
@@ -54,7 +54,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             typeOfCareId: '203',
           },
         },
@@ -108,7 +108,6 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           eligibility: {
             '983_323': {
-              directTypes: true,
               directPastVisit: true,
               directPACT: true,
               directClinics: true,
@@ -136,7 +135,6 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           eligibility: {
             '983_323': {
-              directTypes: true,
               directPastVisit: false,
               directPACT: true,
               directClinics: true,
@@ -154,6 +152,7 @@ describe('VAOS newAppointmentFlow', () => {
       );
       expect(nextState).to.equal('requestDateTime');
     });
+
     it('should return to type of care page if none of user Systems is cc enabled', () => {
       const state = {
         ...defaultState,
@@ -163,7 +162,7 @@ describe('VAOS newAppointmentFlow', () => {
             typeOfCareId: '323',
             vaSystem: '983',
             vaFacility: '983',
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
           hasCCEnabledSystems: false,
         },
@@ -171,6 +170,7 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.vaFacility.previous(state);
       expect(nextState).to.equal('typeOfCare');
     });
+
     it('should return to typeOfFacility if user is CC eligible ', () => {
       const state = {
         ...defaultState,
@@ -180,14 +180,35 @@ describe('VAOS newAppointmentFlow', () => {
             typeOfCareId: '323',
             vaSystem: '983',
             vaFacility: '983',
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
           ccEnabledSystems: ['983'],
+          isCCEligible: true,
         },
       };
 
       const nextState = newAppointmentFlow.vaFacility.previous(state);
       expect(nextState).to.equal('typeOfFacility');
+    });
+
+    it('should return to typeOfCare if user is not CC eligible ', () => {
+      const state = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            typeOfCareId: '323',
+            vaSystem: '983',
+            vaFacility: '983',
+            facilityType: FACILITY_TYPES.VAMC,
+          },
+          ccEnabledSystems: ['983'],
+          isCCEligible: false,
+        },
+      };
+
+      const nextState = newAppointmentFlow.vaFacility.previous(state);
+      expect(nextState).to.equal('typeOfCare');
     });
   });
   describe('request date/time page', () => {
@@ -195,7 +216,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
           },
         },
       };
@@ -208,7 +229,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
         },
       };
@@ -221,7 +242,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
           },
         },
       };
@@ -234,7 +255,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
         },
       };
@@ -293,7 +314,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
         },
       };
@@ -306,7 +327,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
           },
         },
       };
@@ -319,7 +340,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
           },
           flowType: FLOW_TYPES.DIRECT,
         },
@@ -333,7 +354,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
           flowType: FLOW_TYPES.DIRECT,
         },
@@ -348,7 +369,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'vamc',
+            facilityType: FACILITY_TYPES.VAMC,
           },
           flowType: FLOW_TYPES.REQUEST,
         },
@@ -360,7 +381,12 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
   describe('type of care page', () => {
-    it('next should be vaFacility page if no CC support', async () => {
+    it('next should be vaFacility page if no systems have CC support', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, {
+        data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
+      });
+
       const state = {
         newAppointment: {
           data: {
@@ -375,6 +401,49 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(nextState).to.equal('vaFacility');
+      resetFetch();
+    });
+
+    it('next should stay on typeOfCare page if no CC support and typeOfCare is podiatry', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, {
+        data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
+      });
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: 'tbd-podiatry',
+          },
+        },
+      };
+
+      const dispatch = sinon.spy();
+      const nextState = await newAppointmentFlow.typeOfCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('typeOfCare');
+      resetFetch();
+    });
+
+    it('next should go to requestDateTime page if CC support and typeOfCare is podiatry', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systems);
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: 'tbd-podiatry',
+          },
+        },
+      };
+
+      const dispatch = sinon.spy();
+      const nextState = await newAppointmentFlow.typeOfCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('requestDateTime');
+      resetFetch();
     });
 
     it('should choose Sleep care page', async () => {
@@ -426,7 +495,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             typeOfCareId: '203',
           },
         },
@@ -451,7 +520,7 @@ describe('VAOS newAppointmentFlow', () => {
       const state = {
         newAppointment: {
           data: {
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
           },
         },
       };

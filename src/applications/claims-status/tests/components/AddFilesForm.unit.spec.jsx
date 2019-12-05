@@ -112,7 +112,7 @@ describe('<AddFilesForm>', () => {
     expect(onDirtyFields.called).to.be.true;
   });
 
-  it('should submit if files are valid', () => {
+  it('should not submit if files are valid and checkbox is not checked', () => {
     const files = [
       {
         file: {
@@ -143,8 +143,8 @@ describe('<AddFilesForm>', () => {
       />,
     );
     tree.getMountedInstance().submit();
-    expect(onSubmit.called).to.be.true;
-    expect(onDirtyFields.called).to.be.false;
+    expect(onSubmit.called).to.be.false;
+    expect(onDirtyFields.called).to.be.true;
   });
 
   it('should not add an invalid file type', () => {
