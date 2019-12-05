@@ -41,6 +41,7 @@ export function getFormPageInfo(state, pageKey) {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
+    hasDataFetchingError: getNewAppointment(state).hasDataFetchingError,
   };
 }
 
@@ -71,7 +72,7 @@ export function getChosenFacilityInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
-      facility => facility.institution.institutionCode === data.vaFacility,
+      facility => facility.institutionCode === data.vaFacility,
     ) || null
   );
 }
@@ -248,3 +249,7 @@ export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
+export const vaosCommunityCare = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCare;
+export const vaosDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingDirect;

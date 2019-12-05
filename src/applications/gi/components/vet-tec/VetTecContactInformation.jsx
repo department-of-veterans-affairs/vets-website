@@ -127,15 +127,21 @@ export const VetTecContactInformation = ({ institution }) => {
     primarySCOs.length > 0 && (
       <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h4
+            id="primary-contact-header"
+            className="contact-heading vads-u-font-family--sans vads-u-margin--0"
+          >
             Primary
           </h4>
         </div>
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
-            <div className="vads-l-row">
+            <ul
+              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              aria-labelledby="primary-contact-header"
+            >
               {primarySCOs.map(sco => VetTecScoContact(sco))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
@@ -145,15 +151,21 @@ export const VetTecContactInformation = ({ institution }) => {
     secondarySCOs.length > 0 && (
       <div className="vads-l-row vads-u-margin-y--2">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h4 className="contact-heading vads-u-font-family--sans vads-u-margin--0">
+          <h4
+            id="secondary-contact-header"
+            className="contact-heading vads-u-font-family--sans vads-u-margin--0"
+          >
             Secondary
           </h4>
         </div>
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
-            <div className="vads-l-row">
+            <ul
+              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              aria-labelledby="secondary-contact-header"
+            >
               {secondarySCOs.map(sco => VetTecScoContact(sco))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
