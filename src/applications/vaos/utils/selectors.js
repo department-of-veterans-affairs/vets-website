@@ -41,6 +41,7 @@ export function getFormPageInfo(state, pageKey) {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
+    hasDataFetchingError: getNewAppointment(state).hasDataFetchingError,
   };
 }
 
