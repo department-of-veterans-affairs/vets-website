@@ -1,11 +1,6 @@
-import { combineReducers } from 'redux';
-
-import query from './query';
-import searchResults from './searchResults';
+// Relative imports.
+import findVAFormsReducer from './findVAFormsReducer';
 
 export default {
-  findVaForms: combineReducers({
-    query,
-    searchResults,
-  }),
+  findVAFormsReducer,
 };

@@ -68,27 +68,33 @@ export default class ScoEventsWidget extends React.Component {
   };
 
   renderEvents = () => {
-    const scoEvents = this.props.scoEvents
-      .filter(this.shouldDisplay)
-      .sort(this.eventComparer)
-      .map((scoEvent, index) => (
-        <li key={index} className="hub-page-link-list__item">
-          <a href={scoEvent.url} className="no-external-icon">
-            <span className="hub-page-link-list__header">
-              {`${scoEvent.name}`}
-            </span>
-            <img
-              className="all-link-arrow"
-              src="/img/arrow-right-blue.svg"
-              alt="right-arrow"
-            />
-          </a>
-          <br />
-          <span style={{ color: '#5B616B' }}>
-            <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
-          </span>
-        </li>
-      ));
+    const scoEvents =
+      this.props.scoEvents &&
+      this.props.scoEvents.filter(this.shouldDisplay).length > 0 ? (
+        this.props.scoEvents
+          .filter(this.shouldDisplay)
+          .sort(this.eventComparer)
+          .map((scoEvent, index) => (
+            <li key={index} className="hub-page-link-list__item">
+              <a href={scoEvent.url} className="no-external-icon">
+                <span className="hub-page-link-list__header">
+                  {`${scoEvent.name}`}
+                </span>
+                <img
+                  className="all-link-arrow"
+                  src="/img/arrow-right-blue.svg"
+                  alt="right-arrow"
+                />
+              </a>
+              <br />
+              <span style={{ color: '#5B616B' }}>
+                <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
+              </span>
+            </li>
+          ))
+      ) : (
+        <p>No new events are available at this time.</p>
+      );
     return (
       <ul id="get" className="hub-page-link-list">
         {scoEvents}

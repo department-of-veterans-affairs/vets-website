@@ -1,0 +1,15 @@
+module.exports = {
+  type: 'object',
+  properties: {
+    entity: {
+      type: 'object',
+      properties: {
+        <%_ propertyNames.forEach(key => { _%>
+        <%= key _%>: { type: 'string' },
+        <%_ }); _%>
+      },
+      required: [<%- propertyNames.map(n => `'${n}'`).join(', ') %>]
+    }
+  },
+  required: ['entity'],
+};
