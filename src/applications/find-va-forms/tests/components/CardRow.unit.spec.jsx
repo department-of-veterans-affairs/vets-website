@@ -1,7 +1,8 @@
+// Dependencies.
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
+// Relative imports.
 import CardRow from '../../components/CardRow';
 import Card from '../../components/Card';
 

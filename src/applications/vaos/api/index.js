@@ -116,8 +116,7 @@ export const getLongTermAppointmentHistory = (() => {
   };
 })();
 
-// GET /vaos/systems
-export const getSystemIdentifiers = (() => {
+export const getUserIdentifiers = (() => {
   let promise = null;
 
   return () => {
@@ -126,59 +125,66 @@ export const getSystemIdentifiers = (() => {
     }
 
     if (USE_MOCK_DATA) {
-      promise = import('./systems.json')
-        .then(module => (module.default ? module.default : module))
-        .then(json => json.data.map(item => item.attributes));
+      promise = import('./systems.json').then(
+        module => (module.default ? module.default : module),
+      );
     } else {
-      promise = fetch(`${environment.API_URL}/v0/vaos/systems`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'X-Key-Inflection': 'camel',
-        },
-      })
-        .then(resp => {
-          if (resp.ok) {
-            return resp.json();
-          }
-
-          throw new Error(resp.status);
-        })
-        .then(json => json.data.map(item => item.attributes));
+      promise = apiRequest('/vaos/systems');
     }
+
+    promise = promise.then(json => json.data.map(item => item.attributes));
 
     return promise;
   };
 })();
 
-// GET /vaos/facilities
-// eslint-disable-next-line no-unused-vars
-export function getSystemDetails(systemIds) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./facilities.json').then(module =>
-        resolve(module.default ? module.default : module),
-      );
-    }, TEST_TIMEOUT || 1000);
-  });
+export function getSystemIdentifiers() {
+  return getUserIdentifiers().then(data =>
+    data
+      .filter(id => id.assigningAuthority.startsWith('dfn-'))
+      .map(id => id.assigningCode),
+  );
 }
 
-// GET /vaos/systems/{systemId}/facilities
-// eslint-disable-next-line no-unused-vars
+export function getSystemDetails(systemIds) {
+  let promise;
+
+  if (USE_MOCK_DATA) {
+    promise = import('./facilities.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    const idList = systemIds.map(id => `facility_codes[]=${id}`).join('&');
+
+    promise = apiRequest(`/vaos/facilities?${idList}`);
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
+}
+
 export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (systemId === '984') {
-        import('./facilities_984.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
-      } else {
-        import('./facilities_983.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
-      }
-    }, TEST_TIMEOUT || 1000);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    if (systemId === '984') {
+      promise = import('./facilities_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = import('./facilities_983.json').then(
+        module => (module.default ? module.default : module),
+      );
+    }
+  } else {
+    promise = apiRequest(
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${systemId}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getCommunityCare() {
@@ -213,22 +219,29 @@ export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
   });
 }
 
-// GET /vaos/facilities/{facilityId}/limits
-// eslint-disable-next-line no-unused-vars
 export function getRequestLimits(facilityId, typeOfCareId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        requestLimit: 1,
-        numberOfRequests: facilityId.includes('984') ? 1 : 0,
-      });
-    }, 500);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve({
+      data: {
+        attributes: {
+          requestLimit: 1,
+          numberOfRequests: facilityId.includes('984') ? 1 : 0,
+        },
+      },
+    });
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
+    );
+  }
+
+  return promise.then(resp => resp.data.attributes);
 }
 
-export function getClinics(facilityId, typeOfCareId) {
+export function getClinics(facilityId, typeOfCareId, systemId) {
   let promise;
-  if (environment.isLocalhost()) {
+  if (USE_MOCK_DATA) {
     if (facilityId.includes('983')) {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
@@ -238,10 +251,7 @@ export function getClinics(facilityId, typeOfCareId) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${facilityId.substring(
-        0,
-        3,
-      )}`,
+      `/vaos/facilities/${facilityId}/clinics?type_of_care_id=${typeOfCareId}&system_id=${systemId}`,
     );
   }
 
