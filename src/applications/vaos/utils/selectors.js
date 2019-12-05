@@ -249,3 +249,7 @@ export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
+export const vaosCommunityCare = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCare;
+export const vaosDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingDirect;
