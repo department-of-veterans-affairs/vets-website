@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./address-validation.scss";
 
 .va-profile-btn {
   text-decoration: none;
@@ -8,10 +9,6 @@
 .va-profile-wrapper .va-modal-inner {
   max-height: 100%;
   overflow-y: auto;
-}
-
-.address-validation-modal .va-modal-inner {
-  max-width: 50rem;
 }
 
 .vet360-profile-field-content {
