@@ -5,6 +5,8 @@ const FEATURE_FLAG_NAMES = Object.freeze({
   vaOnlineScheduling: 'vaOnlineScheduling',
   vaOnlineSchedulingCancel: 'vaOnlineSchedulingCancel',
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
+  vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
+  vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
   giVetTecProgramProviderFilters: 'giVetTecProgramProviderFilters',
 });
 
