@@ -12,6 +12,7 @@ module.exports = `
     fieldOffice {
       entity {
         ... on NodeHealthCareRegionPage {
+          entityLabel
           entityUrl {
             ... on EntityCanonicalUrl {
               breadcrumb {
