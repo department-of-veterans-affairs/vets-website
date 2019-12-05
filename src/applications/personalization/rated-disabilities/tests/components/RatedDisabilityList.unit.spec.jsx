@@ -139,7 +139,28 @@ describe('<RatedDisabilityList/>', () => {
         .find('h3')
         .first()
         .text(),
-    ).to.equal('We don’t have a disability rating on file for you');
+    ).to.equal('We don’t have rated disabilities on file for you');
+    wrapper.unmount();
+  });
+
+  it('should display a 400 alert if rated disabilities is an empty array', () => {
+    const ratedDisabilitiesEmpty = {
+      ratedDisabilities: [],
+    };
+
+    const wrapper = shallow(
+      <RatedDisabilityList
+        fetchRatedDisabilities={fetchRatedDisabilities}
+        ratedDisabilities={ratedDisabilitiesEmpty}
+      />,
+    );
+    const alert = wrapper.find(AlertBox).shallow();
+    expect(
+      alert
+        .find('h3')
+        .first()
+        .text(),
+    ).to.equal('We don’t have rated disabilities on file for you');
     wrapper.unmount();
   });
 });

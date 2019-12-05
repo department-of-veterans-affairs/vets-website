@@ -6,7 +6,7 @@ import {
   missingTotalMessage,
   totalRatingMessage,
 } from './TotalRatingStates';
-import { isServerError, isServiceError } from '../util';
+import { isServerError, isClientError } from '../util';
 
 const TotalRatedDisabilities = props => {
   const { loading, totalDisabilityRating } = props;
@@ -24,7 +24,7 @@ const TotalRatedDisabilities = props => {
     content = errorMessage();
   } else if (
     !totalDisabilityRating ||
-    (errorCode && isServiceError(errorCode))
+    (errorCode && isClientError(errorCode))
   ) {
     content = missingTotalMessage();
   } else {

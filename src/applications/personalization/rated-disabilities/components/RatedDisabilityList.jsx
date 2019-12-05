@@ -45,7 +45,7 @@ class RatedDisabilityList extends React.Component {
         </>
       );
     } else {
-      headline = 'We don’t have a disability rating on file for you';
+      headline = 'We don’t have rated disabilities on file for you';
       status = 'info';
       content = (
         <>
@@ -103,13 +103,15 @@ class RatedDisabilityList extends React.Component {
       return <LoadingIndicator message="Loading your information..." />;
     }
     if (
-      this.props.ratedDisabilities.errors ||
+      this.props?.ratedDisabilities?.errors ||
       this.props?.ratedDisabilities?.ratedDisabilities.length === 0
     ) {
-      const code = this.props?.ratedDisabilities?.errors[0]?.code;
+      // There are instances when a 200 response is received but evss sends an empty array.
+      // In this scenario errorCode is explicitly set to 404 to ensure a defined value is passed to noDisabilityRatingContent
+      const errorCode = this.props?.ratedDisabilities?.errors?.[0]?.code || 404;
       return (
         <div className="usa-width-one-whole">
-          {this.noDisabilityRatingContent(code)}
+          {this.noDisabilityRatingContent(errorCode)}
         </div>
       );
     }

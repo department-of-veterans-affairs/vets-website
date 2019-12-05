@@ -1,5 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-import { getData, isServerError, isServiceError } from '../util';
+import { getData, isServerError, isClientError } from '../util';
 
 export const FETCH_RATED_DISABILITIES_SUCCESS =
   'FETCH_RATED_DISABILITIES_SUCCESS';
@@ -24,7 +24,7 @@ export function fetchRatedDisabilities() {
           event: `${DISABILITY_PREFIX}-list-load-failed`,
           'error-key': `${errorCode} internal error`,
         });
-      } else if (isServiceError(errorCode)) {
+      } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
           'error-key': `${errorCode} no disabilities found`,
@@ -55,7 +55,7 @@ export function fetchTotalDisabilityRating() {
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
           'error-key': `${errorCode} internal error`,
         });
-      } else if (isServiceError(errorCode)) {
+      } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
           'error-key': `${errorCode} no combined rating found`,
