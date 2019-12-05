@@ -6,7 +6,7 @@ const { getContentModelType, getAllImportsFrom } = require('./helpers');
 // Dynamically read in all the transformers
 // They must be named after the content model type (E.g. node-page.js)
 const transformersDir = path.join(__dirname, 'transformers');
-const transformers = getAllImportsFrom(transformersDir, 'transformer');
+const transformers = getAllImportsFrom(transformersDir, 'transform');
 const missingTransformers = new Set();
 
 /**

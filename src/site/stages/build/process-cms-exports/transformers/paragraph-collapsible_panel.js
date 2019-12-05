@@ -24,5 +24,5 @@ module.exports = {
     'field_collapsible_panel_multi',
     'field_va_paragraphs',
   ],
-  transformer: transform,
+  transform,
 };

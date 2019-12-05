@@ -23,5 +23,5 @@ const transform = entity => {
 };
 
 module.exports = {
-  transformer: transform,
+  transform,
 };

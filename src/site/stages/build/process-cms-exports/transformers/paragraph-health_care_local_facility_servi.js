@@ -15,5 +15,5 @@ const transform = entity => {
 
 module.exports = {
   filter: ['field_wysiwyg', 'field_title'],
-  transformer: transform,
+  transform,
 };

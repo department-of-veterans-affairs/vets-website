@@ -64,5 +64,5 @@ module.exports = {
     'changed',
     'moderation_state',
   ],
-  transformer: pageTransform,
+  transform: pageTransform,
 };

@@ -19,5 +19,5 @@ function wysiwygTransform(entity) {
 
 module.exports = {
   filter: ['field_wysiwyg'],
-  transformer: wysiwygTransform,
+  transform: wysiwygTransform,
 };
