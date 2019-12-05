@@ -9,14 +9,20 @@ const getSelected = tree =>
   tree.subTree('ErrorableRadioButtons').props.value.value;
 
 describe('<HLRWizard>', () => {
-  it('should show button and no questions', () => {
+  it('should show button and no questions (collapsed)', () => {
     const tree = SkinDeep.shallowRender(<HLRWizard />);
-    expect(tree.subTree('button')).not.to.be.false;
+    const button = tree.subTree('button');
+    expect(button).not.to.be.false;
+    expect(button.props['aria-expanded']).to.be.false;
+    expect(button.props.className).to.include('va-button-primary');
     expect(tree.subTree('#wizardOptions')).to.be.false;
   });
-  it('should show button empty choices', () => {
+  it('should show button empty choices (expanded)', () => {
     const tree = SkinDeep.shallowRender(<HLRWizard initExpanded />);
-    expect(tree.subTree('button')).not.to.be.false;
+    const button = tree.subTree('button');
+    expect(button).not.to.be.false;
+    expect(button.props['aria-expanded']).not.to.be.false;
+    expect(button.props.className).not.to.include('va-button-primary');
     expect(tree.subTree('#wizardOptions')).not.to.be.false;
     expect(getSelected(tree)).to.be.null;
     expect(tree.subTree('.usa-button')).to.be.false;
