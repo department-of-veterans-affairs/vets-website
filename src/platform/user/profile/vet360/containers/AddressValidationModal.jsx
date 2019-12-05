@@ -16,7 +16,6 @@ class AddressValidationModal extends React.Component {
       address: {},
     };
   }
-
   onChangeHandler = address => event => {
     this.setState({ selectedOption: event.target.name, address });
   };
@@ -116,14 +115,7 @@ class AddressValidationModal extends React.Component {
       );
     }
 
-    return (
-      <button
-        disabled={!this.state.selectedOption}
-        className="usa-button-primary"
-      >
-        Continue
-      </button>
-    );
+    return <button className="usa-button-primary">Continue</button>;
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
