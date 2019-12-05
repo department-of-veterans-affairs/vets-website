@@ -379,7 +379,7 @@ export function updateRequest(req) {
 
 export function submitRequest(type, request) {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({
       data: {
         attributes: {

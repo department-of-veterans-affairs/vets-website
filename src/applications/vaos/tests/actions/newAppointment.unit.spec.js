@@ -465,7 +465,16 @@ describe('VAOS newAppointment actions', () => {
     });
   });
   describe('form submit', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
     it('should send VA request', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -511,6 +520,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send CC request', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -549,6 +559,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should make VA appointment', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
