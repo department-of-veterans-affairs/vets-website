@@ -37,10 +37,9 @@ export default function ConfirmationDirectScheduleInfo({
                 </strong>
               </dt>
               <dd>
-                {facility?.institution.authoritativeName}
+                {facility?.authoritativeName}
                 <br />
-                {facility?.institution.city},{' '}
-                {facility?.institution.stateAbbrev}
+                {facility?.city}, {facility?.stateAbbrev}
               </dd>
               <dt>
                 <strong>

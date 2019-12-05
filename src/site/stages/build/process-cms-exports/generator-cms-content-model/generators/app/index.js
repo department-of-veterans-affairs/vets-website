@@ -243,15 +243,9 @@ module.exports = class extends Generator {
         entityType,
         entityBundle,
         propertyNames: this.transformedPropertyNames,
+        rawPropertyNames: this.rawPropertyNames,
       },
     );
-  }
-
-  writeFilter() {
-    // For now, just log out the filters. Once we get automagic filter
-    // importing, we can add this to the template.
-    this.log(chalk.green('Add the following to filters.js:'));
-    this.log(`${this.contentModelType}:`, this.rawPropertyNames);
   }
 
   partingWords() {

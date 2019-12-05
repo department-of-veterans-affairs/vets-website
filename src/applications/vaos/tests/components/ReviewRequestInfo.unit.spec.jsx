@@ -36,16 +36,14 @@ const defaultData = {
 };
 
 const facility = {
-  institution: {
-    institutionCode: '983GB',
-    name: 'CHYSHR-Sidney VA Clinic',
-    city: 'Sidney',
-    stateAbbrev: 'NE',
-    authoritativeName: 'CHYSHR-Sidney VA Clinic',
-    rootStationCode: '983',
-    adminParent: false,
-    parentStationCode: '983',
-  },
+  institutionCode: '983GB',
+  name: 'CHYSHR-Sidney VA Clinic',
+  city: 'Sidney',
+  stateAbbrev: 'NE',
+  authoritativeName: 'CHYSHR-Sidney VA Clinic',
+  rootStationCode: '983',
+  adminParent: false,
+  parentStationCode: '983',
   institutionTimezone: 'America/Denver',
 };
 
