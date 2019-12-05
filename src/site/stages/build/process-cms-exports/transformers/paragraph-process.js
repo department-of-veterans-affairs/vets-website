@@ -10,4 +10,7 @@ const transform = entity => {
   };
 };
 
-module.exports = transform;
+module.exports = {
+  filter: ['field_steps'],
+  transform,
+};
