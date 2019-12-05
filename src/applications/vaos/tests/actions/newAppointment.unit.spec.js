@@ -225,12 +225,10 @@ describe('VAOS newAppointment actions', () => {
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
       await thunk(dispatch, getState);
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-      );
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
 
-      const succeededAction = dispatch.firstCall.args[0];
-      expect(succeededAction.eligibilityData).to.not.be.null;
+      expect(firstAction.eligibilityData).to.not.be.null;
     });
 
     it('should not fetch anything if system did not change', async () => {
