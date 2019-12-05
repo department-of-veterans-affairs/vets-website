@@ -6,7 +6,7 @@ import {
   selectVet360MobilePhoneString,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import { getTypeOfCare } from '../utils/selectors';
+import { getTypeOfCare, vaosDirectScheduling } from '../utils/selectors';
 import {
   getSystemIdentifiers,
   getSystemDetails,
@@ -177,6 +177,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
 
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
     let systems = newAppointment.systems;
     let facilities = null;
@@ -218,6 +219,7 @@ export function openFacilityPage(page, uiSchema, schema) {
           facilityId,
           typeOfCareId,
           systemId,
+          directSchedulingEnabled,
         );
       }
 
@@ -242,6 +244,7 @@ export function openFacilityPage(page, uiSchema, schema) {
 
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
+    const directSchedulingEnabled = vaosDirectScheduling(getState());
     const previousNewAppointmentState = getState().newAppointment;
     const typeOfCareId = getTypeOfCare(data)?.id;
     let facilities =
@@ -297,6 +300,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           data.vaFacility,
           typeOfCareId,
           data.vaSystem,
+          directSchedulingEnabled,
         );
 
         dispatch({

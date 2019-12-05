@@ -5,7 +5,6 @@ import {
   getEligibilityStatus,
   getClinicsForChosenFacility,
   vaosCommunityCare,
-  vaosDirectScheduling,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -172,9 +171,8 @@ export default {
       const eligibilityStatus = getEligibilityStatus(state);
       const clinics = getClinicsForChosenFacility(state);
       const facilityId = getFormData(state).vaFacility;
-      const directSchedulingEnabled = vaosDirectScheduling(state);
 
-      if (directSchedulingEnabled && eligibilityStatus.direct) {
+      if (eligibilityStatus.direct) {
         try {
           const appointments = await getLongTermAppointmentHistory();
 

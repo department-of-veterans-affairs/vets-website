@@ -11,16 +11,24 @@ import {
   getClinics,
 } from '../api';
 
-export async function getEligibilityData(facilityId, typeOfCareId, systemId) {
+export async function getEligibilityData(
+  facilityId,
+  typeOfCareId,
+  systemId,
+  isDirectScheduleEnabled,
+) {
   const eligibilityChecks = [
     checkPastVisits(facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
-    checkPastVisits(facilityId, typeOfCareId, 'direct'),
-    getClinics(facilityId, typeOfCareId, systemId),
   ];
 
-  if (typeOfCareId === PRIMARY_CARE) {
-    eligibilityChecks.push(getPacTeam(facilityId));
+  if (isDirectScheduleEnabled) {
+    eligibilityChecks.push(checkPastVisits(facilityId, typeOfCareId, 'direct'));
+    eligibilityChecks.push(getClinics(facilityId, typeOfCareId, systemId));
+
+    if (typeOfCareId === PRIMARY_CARE) {
+      eligibilityChecks.push(getPacTeam(facilityId));
+    }
   }
 
   const [requestPastVisit, requestLimits, ...directData] = await Promise.all(

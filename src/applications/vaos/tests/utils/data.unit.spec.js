@@ -169,7 +169,12 @@ describe('VAOS data transformation', () => {
       bestTimeToCall: ['Afternoon'],
       preferredProviders: [
         {
-          address: { city: '', state: '', street: '', zipCode: '01050' },
+          address: {
+            street: '399 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
           practiceName: 'Practice',
           firstName: 'asdf',
           lastName: 'asdf',
