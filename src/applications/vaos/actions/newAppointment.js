@@ -36,6 +36,7 @@ import { getEligibilityData } from '../utils/eligibility';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
+export const FORM_RESET = 'newAppointment/FORM_RESET';
 export const FORM_TYPE_OF_CARE_PAGE_OPENED =
   'newAppointment/TYPE_OF_CARE_PAGE_OPENED';
 export const FORM_PAGE_CHANGE_STARTED =
@@ -47,16 +48,22 @@ export const FORM_UPDATE_FACILITY_TYPE =
 export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
+export const FORM_PAGE_FACILITY_OPEN_FAILED =
+  'newAppointment/FACILITY_PAGE_OPEN_FAILED';
 export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
+export const FORM_FETCH_CHILD_FACILITIES_FAILED =
+  'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
 export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
   'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
 export const FORM_ELIGIBILITY_CHECKS_SUCCEEDED =
   'newAppointment/FORM_ELIGIBILITY_CHECKS_SUCCEEDED';
+export const FORM_ELIGIBILITY_CHECKS_FAILED =
+  'newAppointment/FORM_ELIGIBILITY_CHECKS_FAILED';
 export const FORM_CLINIC_PAGE_OPENED = 'newAppointment/FORM_CLINIC_PAGE_OPENED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
   'newAppointment/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
@@ -78,6 +85,8 @@ export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED =
   'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED';
+export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED =
+  'newAppointment/FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED';
 export const FORM_SUBMIT = 'newAppointment/FORM_SUBMIT';
 export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
@@ -90,6 +99,12 @@ export function openFormPage(page, uiSchema, schema) {
     page,
     uiSchema,
     schema,
+  };
+}
+
+export function resetForm() {
+  return {
+    type: FORM_RESET,
   };
 }
 
@@ -167,54 +182,61 @@ export function openFacilityPage(page, uiSchema, schema) {
     let facilities = null;
     let eligibilityData = null;
 
-    // If we have the VA systems in our state, we don't need to
-    // fetch them again
-    if (!systems) {
-      const userSystemIds = await getSystemIdentifiers();
-      systems = await getSystemDetails(userSystemIds);
-    }
-    const canShowFacilities =
-      newAppointment.data.vaSystem || systems?.length === 1;
-    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+    try {
+      // If we have the VA systems in our state, we don't need to
+      // fetch them again
+      if (!systems) {
+        const userSystemIds = await getSystemIdentifiers();
+        systems = await getSystemDetails(userSystemIds);
+      }
+      const canShowFacilities =
+        newAppointment.data.vaSystem || systems?.length === 1;
+      const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
-    const hasExistingFacilities = !!newAppointment.facilities[
-      `${typeOfCareId}_${newAppointment.data.vaSystem}`
-    ];
+      const hasExistingFacilities = !!newAppointment.facilities[
+        `${typeOfCareId}_${newAppointment.data.vaSystem}`
+      ];
 
-    if (canShowFacilities && !hasExistingFacilities) {
-      const systemId =
-        newAppointment.data.vaSystem || systems[0].institutionCode;
-      facilities = await getFacilitiesBySystemAndTypeOfCare(
-        systemId,
+      if (canShowFacilities && !hasExistingFacilities) {
+        const systemId =
+          newAppointment.data.vaSystem || systems[0].institutionCode;
+        facilities = await getFacilitiesBySystemAndTypeOfCare(
+          systemId,
+          typeOfCareId,
+        );
+      }
+
+      const facilityId =
+        newAppointment.data.vaFacility || facilities?.[0].facilityId;
+      if (
+        facilityId &&
+        !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
+      ) {
+        const systemId =
+          newAppointment.data.vaSystem || systems[0].institutionCode;
+        eligibilityData = await getEligibilityData(
+          facilityId,
+          typeOfCareId,
+          systemId,
+        );
+      }
+
+      dispatch({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        page,
+        uiSchema,
+        schema,
+        systems,
+        facilities,
         typeOfCareId,
-      );
+        eligibilityData,
+      });
+    } catch (e) {
+      Sentry.captureException(e);
+      dispatch({
+        type: FORM_PAGE_FACILITY_OPEN_FAILED,
+      });
     }
-
-    const facilityId =
-      newAppointment.data.vaFacility || facilities?.[0].facilityId;
-    if (
-      facilityId &&
-      !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
-    ) {
-      const systemId =
-        newAppointment.data.vaSystem || systems[0].institutionCode;
-      eligibilityData = await getEligibilityData(
-        facilityId,
-        typeOfCareId,
-        systemId,
-      );
-    }
-
-    dispatch({
-      type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-      page,
-      uiSchema,
-      schema,
-      systems,
-      facilities,
-      typeOfCareId,
-      eligibilityData,
-    });
   };
 }
 
@@ -233,17 +255,24 @@ export function updateFacilityPageData(page, uiSchema, data) {
         type: FORM_FETCH_CHILD_FACILITIES,
       });
 
-      facilities = await getFacilitiesBySystemAndTypeOfCare(
-        data.vaSystem,
-        typeOfCareId,
-      );
+      try {
+        facilities = await getFacilitiesBySystemAndTypeOfCare(
+          data.vaSystem,
+          typeOfCareId,
+        );
 
-      dispatch({
-        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
-        uiSchema,
-        facilities,
-        typeOfCareId,
-      });
+        dispatch({
+          type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+          uiSchema,
+          facilities,
+          typeOfCareId,
+        });
+      } catch (e) {
+        Sentry.captureException(e);
+        dispatch({
+          type: FORM_FETCH_CHILD_FACILITIES_FAILED,
+        });
+      }
     } else if (
       data.vaSystem &&
       previousNewAppointmentState.data.vaSystem !== data.vaSystem
@@ -263,17 +292,24 @@ export function updateFacilityPageData(page, uiSchema, data) {
         type: FORM_ELIGIBILITY_CHECKS,
       });
 
-      const eligibilityData = await getEligibilityData(
-        data.vaFacility,
-        typeOfCareId,
-        data.vaSystem,
-      );
+      try {
+        const eligibilityData = await getEligibilityData(
+          data.vaFacility,
+          typeOfCareId,
+          data.vaSystem,
+        );
 
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCareId,
-        eligibilityData,
-      });
+        dispatch({
+          type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+          typeOfCareId,
+          eligibilityData,
+        });
+      } catch (e) {
+        Sentry.captureException(e);
+        dispatch({
+          type: FORM_ELIGIBILITY_CHECKS_FAILED,
+        });
+      }
     }
   };
 }
@@ -321,6 +357,7 @@ export function openClinicPage(page, uiSchema, schema) {
         getState().newAppointment.data.vaFacility,
       );
     } catch (e) {
+      Sentry.captureException(e);
       facilityDetails = null;
     }
 
@@ -391,17 +428,24 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
       type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
     });
 
-    if (!newAppointment.systems) {
-      systems = await getSystemDetails(systemIds);
-    }
+    try {
+      if (!newAppointment.systems) {
+        systems = await getSystemDetails(systemIds);
+      }
 
-    dispatch({
-      type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
-      page,
-      uiSchema,
-      schema,
-      systems,
-    });
+      dispatch({
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+        page,
+        uiSchema,
+        schema,
+        systems,
+      });
+    } catch (e) {
+      Sentry.captureException(e);
+      dispatch({
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
+      });
+    }
   };
 }
 

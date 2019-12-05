@@ -80,6 +80,11 @@ describe('VAOS newAppointmentFlow', () => {
   });
   describe('va facility page', () => {
     const defaultState = {
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: true,
+      },
       newAppointment: {
         data: {
           typeOfCareId: '323',
@@ -388,6 +393,11 @@ describe('VAOS newAppointmentFlow', () => {
       });
 
       const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
         newAppointment: {
           data: {
             typeOfCareId: '372',
@@ -410,6 +420,11 @@ describe('VAOS newAppointmentFlow', () => {
         data: [{ attributes: { assigningAuthority: 'dfn-000' } }],
       });
       const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
         newAppointment: {
           data: {
             typeOfCareId: 'tbd-podiatry',
@@ -430,6 +445,11 @@ describe('VAOS newAppointmentFlow', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systems);
       const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
         newAppointment: {
           data: {
             typeOfCareId: 'tbd-podiatry',
@@ -447,7 +467,13 @@ describe('VAOS newAppointmentFlow', () => {
     });
 
     it('should choose Sleep care page', async () => {
+      const dispatch = sinon.spy();
       const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
         newAppointment: {
           data: {
             typeOfCareId: 'SLEEP',
@@ -455,7 +481,10 @@ describe('VAOS newAppointmentFlow', () => {
         },
       };
 
-      const nextState = await newAppointmentFlow.typeOfCare.next(state);
+      const nextState = await newAppointmentFlow.typeOfCare.next(
+        state,
+        dispatch,
+      );
       expect(nextState).to.equal('typeOfSleepCare');
     });
 
@@ -463,6 +492,11 @@ describe('VAOS newAppointmentFlow', () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systems);
       const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
         newAppointment: {
           data: {
             typeOfCareId: '323',

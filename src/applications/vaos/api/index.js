@@ -218,17 +218,24 @@ export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
   });
 }
 
-// GET /vaos/facilities/{facilityId}/limits
-// eslint-disable-next-line no-unused-vars
 export function getRequestLimits(facilityId, typeOfCareId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        requestLimit: 1,
-        numberOfRequests: facilityId.includes('984') ? 1 : 0,
-      });
-    }, 500);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve({
+      data: {
+        attributes: {
+          requestLimit: 1,
+          numberOfRequests: facilityId.includes('984') ? 1 : 0,
+        },
+      },
+    });
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
+    );
+  }
+
+  return promise.then(resp => resp.data.attributes);
 }
 
 export function getClinics(facilityId, typeOfCareId, systemId) {
