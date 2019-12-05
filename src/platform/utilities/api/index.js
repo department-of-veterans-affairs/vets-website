@@ -1,11 +1,27 @@
 import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
+import ENVIRONMENTS from '../../../site/constants/environments';
 import localStorage from '../storage/localStorage';
 
+const SSOeEndpoint = () => {
+  let environmentPrefix;
+  switch (ENVIRONMENTS.BUILDTYPE) {
+    case ENVIRONMENTS.VAGOVSTAGING:
+      environmentPrefix = 'sqa.';
+      break;
+    case ENVIRONMENTS.VAGOVDEV:
+      environmentPrefix = 'int.';
+      break;
+    default:
+      environmentPrefix = '';
+  }
+
+  return `${environmentPrefix}eauth.va.gov/favicon.ico`;
+};
+
 function refreshSSOeSession() {
-  // TODO replace arbitrary resource fetch with more intentional enpoint
-  fetch('https://eauth.va.gov/favicon.ico', {
+  fetch(SSOeEndpoint(), {
     method: 'GET',
     credentials: 'include',
   })
@@ -33,6 +49,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
+        // SSOe session is independent of vets-api, and must be kept alive for continuity
         refreshSSOeSession();
       }
       return response;
