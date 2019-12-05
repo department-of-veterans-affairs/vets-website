@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import sinon from 'sinon';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
@@ -94,7 +95,7 @@ describe('<RatedDisabilityList/>', () => {
     wrapper.unmount();
   });
 
-  it('should display an alert when an error is received from the api', () => {
+  it('should display a 500 alert', () => {
     const ratedDisabilitiesErr = {
       errors: [
         {
@@ -102,17 +103,43 @@ describe('<RatedDisabilityList/>', () => {
         },
       ],
     };
-    const spy = sinon.spy(
-      RatedDisabilityList.prototype,
-      'noDisabilityRatingContent',
-    );
     const wrapper = shallow(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
-    expect(spy.calledOnce).to.be.true;
+    const alert = wrapper.find(AlertBox).shallow();
+    expect(
+      alert
+        .find('h3')
+        .first()
+        .text(),
+    ).to.equal('We’re sorry. Something went wrong on our end');
+    wrapper.unmount();
+  });
+
+  it('should display a 400 alert', () => {
+    const ratedDisabilitiesErr = {
+      errors: [
+        {
+          code: '400',
+        },
+      ],
+    };
+    const wrapper = shallow(
+      <RatedDisabilityList
+        fetchRatedDisabilities={fetchRatedDisabilities}
+        ratedDisabilities={ratedDisabilitiesErr}
+      />,
+    );
+    const alert = wrapper.find(AlertBox).shallow();
+    expect(
+      alert
+        .find('h3')
+        .first()
+        .text(),
+    ).to.equal('We don’t have a disability rating on file for you');
     wrapper.unmount();
   });
 });
