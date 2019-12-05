@@ -1,7 +1,38 @@
 import * as Sentry from '@sentry/browser';
 
 import environment from '../environment';
+import ENVIRONMENTS from '../../../site/constants/environments';
 import localStorage from '../storage/localStorage';
+
+const SSOeEndpoint = () => {
+  let environmentPrefix;
+  switch (ENVIRONMENTS.BUILDTYPE) {
+    case ENVIRONMENTS.VAGOVSTAGING:
+      environmentPrefix = 'sqa.';
+      break;
+    case ENVIRONMENTS.VAGOVDEV:
+      environmentPrefix = 'int.';
+      break;
+    default:
+      environmentPrefix = '';
+  }
+
+  return `${environmentPrefix}eauth.va.gov/favicon.ico`;
+};
+
+function refreshSSOeSession() {
+  fetch(SSOeEndpoint(), {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then(() => {})
+    .catch(err => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', err);
+        Sentry.captureMessage(`SSOe error: ${err.message}`);
+      });
+    });
+}
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
@@ -18,6 +49,8 @@ export function fetchAndUpdateSessionExpiration(...args) {
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
+        // SSOe session is independent of vets-api, and must be kept alive for continuity
+        refreshSSOeSession();
       }
       return response;
     });
