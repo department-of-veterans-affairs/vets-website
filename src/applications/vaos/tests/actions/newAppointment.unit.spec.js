@@ -520,7 +520,16 @@ describe('VAOS newAppointment actions', () => {
     });
   });
   describe('form submit', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
     it('should send VA request', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -530,12 +539,31 @@ describe('VAOS newAppointment actions', () => {
       const getState = () => ({
         newAppointment: {
           data: {
+            typeOfCareId: '323',
             facilityType: 'vamc',
+            vaSystem: '983',
+            vaFacility: '983',
             calendarData: {
               selectedDates: [],
             },
             reasonForAppointment: 'routine-follow-up',
             bestTimeToCall: [],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institution: {
+                  institutionCode: '983',
+                  name: 'CHYSHR-Cheyenne VA Medical Center',
+                  city: 'Cheyenne',
+                  stateAbbrev: 'WY',
+                  authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+                  rootStationCode: '983',
+                  parentStationCode: '983',
+                },
+                institutionTimezone: 'America/Denver',
+              },
+            ],
           },
         },
       });
@@ -547,6 +575,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send CC request', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -585,6 +614,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should make VA appointment', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
