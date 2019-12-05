@@ -111,6 +111,10 @@ export default {
           dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
           return 'vaFacility';
         } catch (e) {
+          Sentry.captureException(e);
+          Sentry.captureMessage(
+            'Community Care eligibility check failed with errors',
+          );
           return 'vaFacility';
         }
       }

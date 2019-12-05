@@ -8,13 +8,13 @@ module.exports = {
         entityType: { type: 'string' },
         entityBundle: { type: 'string' },
         fieldAlertType: { type: 'string' },
-        fieldAlertHeading: { type: 'string' },
+        fieldAlertHeading: { type: ['string', 'null'] },
         fieldVaParagraphs: {
-          type: 'array',
+          type: ['array', 'null'],
           items: { $ref: 'Paragraph' },
         },
         fieldAlertBlockReference: {
-          type: ['null', 'array'],
+          type: ['array', 'null'],
           items: {
             $ref: 'BlockContent',
           },

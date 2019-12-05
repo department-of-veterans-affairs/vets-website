@@ -133,7 +133,8 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be
       .empty;
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.be.empty;
+    // Empty headers are no longer rendered
+    expect(tree.subTree('.form-review-panel-page-header')).to.be.false;
   });
   it('should hide expand under items when collapsed', () => {
     const onChange = sinon.spy();

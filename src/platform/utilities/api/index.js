@@ -66,6 +66,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
     },
   };
 

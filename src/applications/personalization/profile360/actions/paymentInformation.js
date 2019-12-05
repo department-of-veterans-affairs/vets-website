@@ -42,7 +42,10 @@ export function fetchPaymentInformation() {
   };
 }
 
-export function savePaymentInformation(fields) {
+export function savePaymentInformation(
+  fields,
+  isEnrollingInDirectDeposit = false,
+) {
   return async dispatch => {
     let gaClientId;
     try {
@@ -95,7 +98,10 @@ export function savePaymentInformation(fields) {
 
     if (response.error || response.errors) {
       const errors = response?.error?.errors || [];
-      const analyticsData = createDirectDepositAnalyticsDataObject(errors);
+      const analyticsData = createDirectDepositAnalyticsDataObject(
+        errors,
+        isEnrollingInDirectDeposit,
+      );
       recordEvent(analyticsData);
       dispatch({
         type: PAYMENT_INFORMATION_SAVE_FAILED,

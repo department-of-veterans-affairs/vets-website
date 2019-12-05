@@ -64,16 +64,6 @@ describe('<EligibilityForm>', () => {
     ]);
   });
 
-  it('should render fields for REAP GI Bill (Ch 1607)', () => {
-    const props = { ...defaultProps, giBillChapter: '1607' };
-    const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
-    checkExpectedDropdowns(tree, [
-      'militaryStatus',
-      'giBillChapter',
-      'consecutiveService',
-    ]);
-  });
-
   it('should render fields for VR&E (Ch 31)', () => {
     const props = { ...defaultProps, giBillChapter: '31' };
     const tree = SkinDeep.shallowRender(<EligibilityForm {...props} />);
