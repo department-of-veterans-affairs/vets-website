@@ -1,10 +1,10 @@
 const path = require('path');
-const { getContentModelType, importPropToDict } = require('./helpers');
+const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
 // Dynamically read in all the filters
 // They must be named after the content model type (E.g. node-page.js)
 const filtersDir = path.join(__dirname, 'transformers');
-const filters = importPropToDict(filtersDir, 'filter');
+const filters = getAllImportsFrom(filtersDir, 'filter');
 
 /**
  * When reading through entity properties, ignore these.

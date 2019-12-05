@@ -1,12 +1,12 @@
 const path = require('path');
 
 const { mapKeys, camelCase } = require('lodash');
-const { getContentModelType, importPropToDict } = require('./helpers');
+const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
 // Dynamically read in all the transformers
 // They must be named after the content model type (E.g. node-page.js)
 const transformersDir = path.join(__dirname, 'transformers');
-const transformers = importPropToDict(transformersDir, 'transformer');
+const transformers = getAllImportsFrom(transformersDir, 'transformer');
 const missingTransformers = new Set();
 
 /**

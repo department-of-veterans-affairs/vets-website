@@ -51,7 +51,7 @@ module.exports = {
    * @param {String} prop - The name of the exported property to put into the dict
    * @return {Object} - The dict of filenam -> exported prop mappings
    */
-  importPropToDict(dir, prop) {
+  getAllImportsFrom(dir, prop) {
     return fs
       .readdirSync(dir)
       .filter(name => name.endsWith('.js'))
