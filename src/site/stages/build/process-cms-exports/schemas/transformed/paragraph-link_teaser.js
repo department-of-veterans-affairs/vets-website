@@ -6,8 +6,7 @@ module.exports = {
       required: ['fieldLink', 'fieldLinkSummary'],
       properties: {
         fieldLink: {
-          type: 'object',
-          required: ['url', 'title', 'options'],
+          type: ['object', 'null'],
           properties: {
             url: {
               type: 'object',
@@ -21,7 +20,7 @@ module.exports = {
           },
         },
         fieldLinkSummary: {
-          type: 'string',
+          type: ['string', 'null'],
         },
       },
     },
