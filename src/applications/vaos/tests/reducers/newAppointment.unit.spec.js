@@ -42,6 +42,11 @@ const defaultState = {
   facilities: {},
 };
 
+const facilities983Parsed = facilities983.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
+
 describe('VAOS reducer: newAppointment', () => {
   it('should set the new schema', () => {
     const currentState = {
@@ -169,7 +174,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         ...defaultOpenPageAction,
         systems: systems.slice(0, 1),
-        facilities: facilities983,
+        facilities: facilities983Parsed,
       };
 
       const newState = newAppointmentReducer(defaultState, action);
@@ -199,7 +204,7 @@ describe('VAOS reducer: newAppointment', () => {
       const action = {
         ...defaultOpenPageAction,
         systems: systems.slice(0, 1),
-        facilities: facilities983.slice(0, 1),
+        facilities: facilities983Parsed.slice(0, 1),
       };
 
       const newState = newAppointmentReducer(defaultState, action);
@@ -208,7 +213,7 @@ describe('VAOS reducer: newAppointment', () => {
         action.systems[0].institutionCode,
       );
       expect(newState.data.vaFacility).to.equal(
-        action.facilities[0].institution.institutionCode,
+        action.facilities[0].institutionCode,
       );
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
@@ -276,7 +281,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set up facilities after they are fetched', () => {
       const action = {
         ...defaultFetchFacilitiesAction,
-        facilities: facilities983,
+        facilities: facilities983Parsed,
       };
 
       const newState = newAppointmentReducer(defaultFacilityState, action);
@@ -294,7 +299,7 @@ describe('VAOS reducer: newAppointment', () => {
           'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
         ],
       });
-      expect(newState.facilities['323_983']).to.equal(facilities983);
+      expect(newState.facilities['323_983']).to.equal(facilities983Parsed);
     });
 
     it('should update facility choices if system changed and we have the list in state', () => {
@@ -308,7 +313,7 @@ describe('VAOS reducer: newAppointment', () => {
           vaSystem: '983',
         },
         facilities: {
-          '323_983': facilities983,
+          '323_983': facilities983Parsed,
         },
       };
 
@@ -340,7 +345,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         ],
         facilities: {
-          '323_983': facilities983.slice(0, 1),
+          '323_983': facilities983Parsed.slice(0, 1),
         },
       };
 

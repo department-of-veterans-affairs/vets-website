@@ -141,9 +141,7 @@ describe('VAOS selectors', () => {
           facilities: {
             '323_123': [
               {
-                institution: {
-                  institutionCode: '983',
-                },
+                institutionCode: '983',
               },
             ],
           },
