@@ -6,7 +6,6 @@ import { selectCurrentlyOpenEditModal } from '../selectors';
 import { openModal, createTransaction } from '../actions';
 
 import * as VET360 from '../constants';
-// import '../../../sass/_m-address-validation.scss';
 
 class AddressValidationModal extends React.Component {
   constructor(props) {
