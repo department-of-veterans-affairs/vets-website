@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
-import { getSystemIdentifiers } from '../api';
+import { getUserIdentifiers } from '../api';
 
 export const REGISTRATION_CHECK = 'vaos/REGISTRATION_CHECK';
 export const REGISTRATION_CHECK_SUCCEEDED = 'vaos/REGISTRATION_CHECK_SUCCEEDED';
@@ -13,11 +13,11 @@ export function checkRegistration() {
     });
 
     try {
-      const systemIds = await getSystemIdentifiers();
+      const userIds = await getUserIdentifiers();
 
       dispatch({
         type: REGISTRATION_CHECK_SUCCEEDED,
-        systemIds,
+        userIds,
       });
     } catch (e) {
       Sentry.captureException(e);
