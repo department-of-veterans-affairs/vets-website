@@ -75,6 +75,7 @@ module.exports = `
     fieldOffice {
       entity {
         ...on NodeHealthCareRegionPage {
+          entityLabel
           fieldPressReleaseBlurb {
             processed
           }
