@@ -51,7 +51,7 @@ export function transformFormToVARequest(state) {
       adminParent: true,
     },
     facility: {
-      name: facility.institution.authoritativeName,
+      name: facility.authoritativeName,
       facilityCode: data.vaFacility,
       parentSiteCode: data.vaSystem,
     },
