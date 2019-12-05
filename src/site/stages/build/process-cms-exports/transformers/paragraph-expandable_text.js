@@ -13,4 +13,7 @@ const transform = entity => {
   };
 };
 
-module.exports = transform;
+module.exports = {
+  filter: ['field_wysiwyg', 'field_text_expander'],
+  transform,
+};

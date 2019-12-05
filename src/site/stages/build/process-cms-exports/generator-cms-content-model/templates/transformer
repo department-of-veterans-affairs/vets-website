@@ -9,4 +9,7 @@ const transform = entity => ({
     <%_ }); _%>
   },
 });
-module.exports = transform;
+module.exports = {
+  filters: [<%- rawPropertyNames.map(key => `'${key}'`).join(', ') %>],
+  transform,
+};
