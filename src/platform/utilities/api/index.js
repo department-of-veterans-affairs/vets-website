@@ -17,7 +17,7 @@ const SSOeEndpoint = () => {
       environmentPrefix = '';
   }
 
-  return `${environmentPrefix}eauth.va.gov/favicon.ico`;
+  return `https://${environmentPrefix}eauth.va.gov/favicon.ico`;
 };
 
 function refreshSSOeSession() {
