@@ -178,7 +178,7 @@ describe('<AddressValidationModal/>', () => {
         .find('h3')
         .at(1)
         .text(),
-    ).to.equal("Your address update isn't valid");
+    ).to.equal('Please confirm your address');
     component.unmount();
   });
 });

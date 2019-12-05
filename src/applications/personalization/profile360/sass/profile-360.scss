@@ -10,6 +10,10 @@
   overflow-y: auto;
 }
 
+.address-validation-modal .va-modal-inner {
+  max-width: 50rem;
+}
+
 .vet360-profile-field-content {
   &.usa-input-error {
     margin-top: 0;
