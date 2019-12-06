@@ -11,7 +11,6 @@ const FACILITY_MENU_NAMES = [
   'va-altoona-health-care',
   'va-butler-health-care',
   'va-coatesville-health-care',
-  'va-altoona-health-care',
   'va-erie-health-care',
   'va-lebanon',
   'va-philadelphia-health-care',
