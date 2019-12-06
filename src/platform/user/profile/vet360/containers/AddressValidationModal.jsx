@@ -205,7 +205,7 @@ class AddressValidationModal extends React.Component {
         visible={isAddressValidationModalVisible}
       >
         <AlertBox
-          className=".vads-u-margin-bottom--1"
+          className="vads-u-margin-bottom--1"
           status="warning"
           headline={this.renderWarningHeadline()}
         >
