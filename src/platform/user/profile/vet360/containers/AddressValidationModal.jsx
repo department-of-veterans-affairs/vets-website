@@ -199,7 +199,6 @@ class AddressValidationModal extends React.Component {
             ? 'Edit mailing address'
             : 'Edit home address'
         }
-        cssClass="address-validation-modal"
         id="address-validation-warning"
         onClose={closeModal}
         visible={isAddressValidationModalVisible}
