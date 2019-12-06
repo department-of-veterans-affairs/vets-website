@@ -1,11 +1,14 @@
-const contentModelType = 'paragraph-list_of_link_teasers';
-
 module.exports = {
   type: 'object',
-  baseType: {
-    enum: ['paragraph'],
+  properties: {
+    entity: {
+      type: 'object',
+      properties: {
+        fieldTitle: { type: 'string' },
+        fieldVaParagraphs: { type: 'string' },
+      },
+      required: ['fieldTitle', 'fieldVaParagraphs'],
+    },
   },
-  contentModelType: {
-    enum: [contentModelType],
-  },
+  required: ['entity'],
 };
