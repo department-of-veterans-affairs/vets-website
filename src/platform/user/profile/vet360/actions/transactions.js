@@ -201,8 +201,8 @@ export const validateAddress = (
       // sort highest confidence score to lowest confidence score
       .sort(
         (firstAddress, secondAddress) =>
-          secondAddress.addressMetaData.confidenceScore -
-          firstAddress.addressMetaData.confidenceScore,
+          secondAddress?.addressMetaData?.confidenceScore -
+          firstAddress?.addressMetaData?.confidenceScore,
       )
       .map(address => address.address);
     const payloadWithSuggestedAddress = {

@@ -28,6 +28,6 @@ export const updateFormField = (
 
 export const updateSelectedAddress = (address, selectedId) => ({
   type: UPDATE_ADDRESS,
-  selectedAddress: { ...address },
+  selectedAddress: address,
   selectedId,
 });

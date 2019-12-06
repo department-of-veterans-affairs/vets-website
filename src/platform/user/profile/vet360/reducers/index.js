@@ -39,7 +39,7 @@ const initialState = {
       zipCode: '',
     },
     addressValidationError: false,
-    validationKey: '',
+    validationKey: null,
     selectedAddress: {},
     selectedId: '0',
   },

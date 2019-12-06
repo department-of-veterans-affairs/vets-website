@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
@@ -248,6 +249,22 @@ const mapDispatchToProps = dispatch => ({
   updateSelectedAddress: (address, selectedId) =>
     dispatch(updateSelectedAddress(address, selectedId)),
 });
+
+AddressValidationModal.propTypes = {
+  analyticsSectionName: PropTypes.string,
+  isAddressValidationModalVisible: PropTypes.bool.isRequired,
+  addressValidationError: PropTypes.bool.isRequired,
+  suggestedAddresses: PropTypes.array.isRequired,
+  addressValidationType: PropTypes.string.isRequired,
+  validationKey: PropTypes.number,
+  addressFromUser: PropTypes.object.isRequired,
+  selectedAddress: PropTypes.object.isRequired,
+  selectedId: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  updateSelectedAddress: PropTypes.func.isRequired,
+};
 
 export default connect(
   mapStateToProps,
