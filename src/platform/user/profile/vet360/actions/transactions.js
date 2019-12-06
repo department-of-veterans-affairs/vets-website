@@ -236,6 +236,7 @@ export const validateAddress = (
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationType: fieldName,
       addressValidationError: true,
+      validationKey: null, // add this in when changes are made to API / override logic
     });
   }
 };

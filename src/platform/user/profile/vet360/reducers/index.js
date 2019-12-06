@@ -204,6 +204,7 @@ export default function vet360(state = initialState, action) {
         ...state,
         addressValidationError: action.addressValidationError,
         addressValidationType: action.addressValidationType,
+        validationKey: action.validationKey,
         modal: 'addressValidation',
       };
 
