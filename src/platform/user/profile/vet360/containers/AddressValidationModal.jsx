@@ -3,28 +3,24 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { selectCurrentlyOpenEditModal } from '../selectors';
-import { openModal, createTransaction } from '../actions';
+import {
+  openModal,
+  createTransaction,
+  updateSelectedAddress,
+} from '../actions';
 
 import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedOption: '',
-      address: {},
-    };
-  }
-  onChangeHandler = address => event => {
-    this.setState({ selectedOption: event.target.name, address });
+  onChangeHandler = (address, selectedId) => _event => {
+    this.props.updateSelectedAddress(address, selectedId);
   };
 
   onSubmit = () => {
-    const { validationKey, fieldName } = this.props;
-    const { address } = this.state;
+    const { validationKey, fieldName, selectedAddress } = this.props;
+
     const payload = {
-      ...address,
+      ...selectedAddress,
       validationKey,
       addressPou:
         fieldName === VET360.FIELD_NAMES.MAILING_ADDRESS
@@ -123,6 +119,7 @@ class AddressValidationModal extends React.Component {
       validationKey,
       addressValidationError,
       addressValidationType,
+      selectedId,
     } = this.props;
     const {
       addressLine1,
@@ -134,9 +131,8 @@ class AddressValidationModal extends React.Component {
     } = address;
 
     const isAddressFromUser = id === 'userEntered';
-    const isOptionDisabled = isAddressFromUser && !validationKey;
     const showEditLinkErrorState = addressValidationError && validationKey;
-    const showEditLinkNonErrorState = !addressValidationError && !validationKey;
+    const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
 
     return (
@@ -145,9 +141,9 @@ class AddressValidationModal extends React.Component {
           style={{ zIndex: '1' }}
           type="radio"
           name={id}
-          disabled={isOptionDisabled}
-          checked={this.state.selectedOption === id}
-          onClick={this.onChangeHandler(address)}
+          disabled={!validationKey}
+          checked={selectedId === id}
+          onClick={this.onChangeHandler(address, id)}
         />
         <label
           htmlFor={id}
@@ -157,7 +153,9 @@ class AddressValidationModal extends React.Component {
             {addressLine1 && <span>{addressLine1}</span>}
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
-            <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
+            {city &&
+              stateCode &&
+              zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
                 <a onClick={() => this.props.openModal(addressValidationType)}>
@@ -176,13 +174,10 @@ class AddressValidationModal extends React.Component {
       isAddressValidationModalVisible,
       addressValidationType,
       suggestedAddresses,
-      userEnteredAddress,
+      addressFromUser,
     } = this.props;
 
     const shouldShowSuggestions = suggestedAddresses.length > 0;
-
-    const addressFromUser =
-      userEnteredAddress?.[`${addressValidationType}`]?.value || {};
 
     return (
       <Modal
@@ -225,17 +220,21 @@ class AddressValidationModal extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const addressValidationType = state.vet360.addressValidationType;
+  const addressValidationType =
+    state.vet360.addressValidation.addressValidationType;
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isAddressValidationModalVisible:
       selectCurrentlyOpenEditModal(state) === 'addressValidation',
-    addressValidationError: state.vet360.addressValidationError,
-    suggestedAddresses: state.vet360.suggestedAddresses,
+    addressValidationError:
+      state.vet360.addressValidation.addressValidationError,
+    suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
     addressValidationType,
-    userEnteredAddress: state.vet360.formFields,
-    validationKey: state.vet360.validationKey,
+    validationKey: state.vet360.addressValidation.validationKey,
+    addressFromUser: state.vet360.addressValidation.addressFromUser,
+    selectedAddress: state.vet360.addressValidation.selectedAddress,
+    selectedId: state.vet360.addressValidation.selectedId,
   };
 };
 
@@ -243,6 +242,8 @@ const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(openModal(null)),
   openModal: modalName => dispatch(openModal(modalName)),
   createTransaction,
+  updateSelectedAddress: (address, selectedId) =>
+    dispatch(updateSelectedAddress(address, selectedId)),
 });
 
 export default connect(
