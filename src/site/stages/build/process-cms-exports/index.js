@@ -118,7 +118,11 @@ const entityAssemblerFactory = contentDir => {
     }
 
     // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(filteredEntity);
+    const transformedEntity = transformEntity(
+      filteredEntity,
+      entity.uuid[0].value,
+      parents,
+    );
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
       /* eslint-disable no-console */
