@@ -38,7 +38,7 @@ module.exports = {
     'node.8822bbdd-f5f8-4700-8abb-5566431bd705.json',
   'node-office': 'node.c715d441-b6cb-4067-92eb-0650e97b7d62.json',
   'paragraph-link_teaser':
-    'paragraph.00023f85-7e3e-4595-8fdc-e964b142d406.json',
+    'paragraph.c5fec275-9ce2-480c-af68-a6ad65e9ff65.json',
   'paragraph-q_a': 'paragraph.000f52e7-99da-44a1-8b95-2dfe2c2b2682.json',
   'paragraph-q_a_section':
     'paragraph.0046948a-8267-4f38-a02a-a507703fb59a.json',
