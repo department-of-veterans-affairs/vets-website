@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { unescape } = require('lodash');
+const { unescape, snakeCase } = require('lodash');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -57,5 +57,27 @@ module.exports = {
    */
   getWysiwygString(value) {
     return unescape(value);
+  },
+
+  /**
+   * Finds the property name containing the UUID.
+   *
+   * @param {Object} parent - The entity to look in
+   * @param {string} uuid - The UUID to search for
+   * @return {string} - The snake_cased property name the UUID is
+   *                    found in
+   * @return {undefined} - If the UUID is not found
+   */
+  getRawParentFieldName(parent, uuid) {
+    let rawParentFieldName;
+    Object.keys(parent).forEach(key => {
+      if (!Array.isArray(parent[key])) return;
+
+      parent[key].forEach(prop => {
+        if (prop.target_uuid === uuid) rawParentFieldName = snakeCase(key);
+      });
+    });
+
+    return rawParentFieldName;
   },
 };
