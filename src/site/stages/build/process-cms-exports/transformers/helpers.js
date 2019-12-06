@@ -50,7 +50,6 @@ module.exports = {
   /**
    * Takes a string and applies the following:
    * - Transforms escaped unicode to characters
-   * - Unescapes HTML entities
    *
    * @param {string}
    * @return {string}
