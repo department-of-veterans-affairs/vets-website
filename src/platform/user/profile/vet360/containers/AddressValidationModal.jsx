@@ -1,34 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { selectCurrentlyOpenEditModal } from '../selectors';
-import { openModal, createTransaction } from '../actions';
+import {
+  openModal,
+  createTransaction,
+  updateSelectedAddress,
+} from '../actions';
 
 import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedOption: '',
-      address: {},
-    };
-  }
-
-  onChangeHandler = address => event => {
-    this.setState({ selectedOption: event.target.name, address });
+  onChangeHandler = (address, selectedId) => _event => {
+    this.props.updateSelectedAddress(address, selectedId);
   };
 
   onSubmit = () => {
-    const { validationKey, fieldName } = this.props;
-    const { address } = this.state;
+    const {
+      validationKey,
+      addressValidationType,
+      selectedAddress,
+    } = this.props;
     const payload = {
-      ...address,
+      ...selectedAddress,
       validationKey,
       addressPou:
-        fieldName === VET360.FIELD_NAMES.MAILING_ADDRESS
+        addressValidationType === VET360.FIELD_NAMES.MAILING_ADDRESS
           ? VET360.ADDRESS_POU.CORRESPONDENCE
           : VET360.ADDRESS_POU.RESIDENCE,
     };
@@ -38,7 +37,7 @@ class AddressValidationModal extends React.Component {
     this.props.createTransaction(
       VET360.API_ROUTES.ADDRESSES,
       method,
-      fieldName,
+      addressValidationType,
       payload,
       this.props.analyticsSectionName,
     );
@@ -92,7 +91,7 @@ class AddressValidationModal extends React.Component {
       (suggestedAddresses.length > 1 && !validationKey) ||
       (addressValidationError && !validationKey)
     ) {
-      warningHeadline = `We couldn't verify your address`;
+      warningHeadline = `We couldn’t verify your address`;
     }
 
     return warningHeadline;
@@ -116,14 +115,7 @@ class AddressValidationModal extends React.Component {
       );
     }
 
-    return (
-      <button
-        disabled={!this.state.selectedOption}
-        className="usa-button-primary"
-      >
-        Continue
-      </button>
-    );
+    return <button className="usa-button-primary">Continue</button>;
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
@@ -131,6 +123,7 @@ class AddressValidationModal extends React.Component {
       validationKey,
       addressValidationError,
       addressValidationType,
+      selectedId,
     } = this.props;
     const {
       addressLine1,
@@ -142,9 +135,8 @@ class AddressValidationModal extends React.Component {
     } = address;
 
     const isAddressFromUser = id === 'userEntered';
-    const isOptionDisabled = isAddressFromUser && !validationKey;
     const showEditLinkErrorState = addressValidationError && validationKey;
-    const showEditLinkNonErrorState = !addressValidationError && !validationKey;
+    const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
 
     return (
@@ -153,9 +145,9 @@ class AddressValidationModal extends React.Component {
           style={{ zIndex: '1' }}
           type="radio"
           name={id}
-          disabled={isOptionDisabled}
-          checked={this.state.selectedOption === id}
-          onClick={this.onChangeHandler(address)}
+          disabled={isAddressFromUser && !validationKey}
+          checked={selectedId === id}
+          onClick={this.onChangeHandler(address, id)}
         />
         <label
           htmlFor={id}
@@ -165,7 +157,9 @@ class AddressValidationModal extends React.Component {
             {addressLine1 && <span>{addressLine1}</span>}
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
-            <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
+            {city &&
+              stateCode &&
+              zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
                 <a onClick={() => this.props.openModal(addressValidationType)}>
@@ -184,13 +178,10 @@ class AddressValidationModal extends React.Component {
       isAddressValidationModalVisible,
       addressValidationType,
       suggestedAddresses,
-      userEnteredAddress,
+      addressFromUser,
     } = this.props;
 
     const shouldShowSuggestions = suggestedAddresses.length > 0;
-
-    const addressFromUser =
-      userEnteredAddress?.[`${addressValidationType}`]?.value || {};
 
     return (
       <Modal
@@ -233,17 +224,21 @@ class AddressValidationModal extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const addressValidationType = state.vet360.addressValidationType;
+  const addressValidationType =
+    state.vet360.addressValidation.addressValidationType;
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isAddressValidationModalVisible:
       selectCurrentlyOpenEditModal(state) === 'addressValidation',
-    addressValidationError: state.vet360.addressValidationError,
-    suggestedAddresses: state.vet360.suggestedAddresses,
+    addressValidationError:
+      state.vet360.addressValidation.addressValidationError,
+    suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
     addressValidationType,
-    userEnteredAddress: state.vet360.formFields,
-    validationKey: state.vet360.validationKey,
+    validationKey: state.vet360.addressValidation.validationKey,
+    addressFromUser: state.vet360.addressValidation.addressFromUser,
+    selectedAddress: state.vet360.addressValidation.selectedAddress,
+    selectedId: state.vet360.addressValidation.selectedId,
   };
 };
 
@@ -251,7 +246,25 @@ const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(openModal(null)),
   openModal: modalName => dispatch(openModal(modalName)),
   createTransaction,
+  updateSelectedAddress: (address, selectedId) =>
+    dispatch(updateSelectedAddress(address, selectedId)),
 });
+
+AddressValidationModal.propTypes = {
+  analyticsSectionName: PropTypes.string,
+  isAddressValidationModalVisible: PropTypes.bool.isRequired,
+  addressValidationError: PropTypes.bool.isRequired,
+  suggestedAddresses: PropTypes.array.isRequired,
+  addressValidationType: PropTypes.string.isRequired,
+  validationKey: PropTypes.number,
+  addressFromUser: PropTypes.object.isRequired,
+  selectedAddress: PropTypes.object.isRequired,
+  selectedId: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  updateSelectedAddress: PropTypes.func.isRequired,
+};
 
 export default connect(
   mapStateToProps,

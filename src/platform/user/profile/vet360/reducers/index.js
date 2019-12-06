@@ -13,6 +13,7 @@ import {
   VET360_CLEAR_TRANSACTION_STATUS,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
+  UPDATE_ADDRESS,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -26,11 +27,23 @@ const initialState = {
   metadata: {
     mostRecentErroredTransactionId: '',
   },
+  addressValidation: {
+    addressValidationType: '',
+    suggestedAddresses: [],
+    addressFromUser: {
+      addressLine1: '',
+      addressLine2: '',
+      addressLine3: '',
+      city: '',
+      stateCode: '',
+      zipCode: '',
+    },
+    addressValidationError: false,
+    validationKey: null,
+    selectedAddress: {},
+    selectedId: '0',
+  },
   transactionStatus: '',
-  addressValidationType: '',
-  suggestedAddresses: [],
-  addressValidationError: false,
-  validationKey: '',
 };
 
 export default function vet360(state = initialState, action) {
@@ -193,19 +206,38 @@ export default function vet360(state = initialState, action) {
     case ADDRESS_VALIDATION_CONFIRM:
       return {
         ...state,
-        addressValidationType: action.addressValidationType,
-        suggestedAddresses: action.suggestedAddresses,
+        addressValidation: {
+          ...state.addressValidation,
+          addressFromUser: action.addressFromUser,
+          addressValidationType: action.addressValidationType,
+          suggestedAddresses: action.suggestedAddresses,
+          validationKey: action.validationKey,
+          selectedAddress: action.selectedAddress,
+        },
         modal: 'addressValidation',
-        validationKey: action.validationKey,
       };
 
     case ADDRESS_VALIDATION_ERROR:
       return {
         ...state,
-        addressValidationError: action.addressValidationError,
-        addressValidationType: action.addressValidationType,
-        validationKey: action.validationKey,
+        addressValidation: {
+          ...state.addressValidation,
+          addressValidationError: action.addressValidationError,
+          addressValidationType: action.addressValidationType,
+          validationKey: action.validationKey,
+          addressFromUser: action.addressFromUser,
+        },
         modal: 'addressValidation',
+      };
+
+    case UPDATE_ADDRESS:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          selectedAddress: action.selectedAddress,
+          selectedId: action.selectedId,
+        },
       };
 
     default:
