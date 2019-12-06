@@ -46,9 +46,9 @@ export const WaitTimeAlert = ({
               <p>
                 The earliest appointment we can schedule for you is{' '}
                 {momentNextAvailableDate.format('MMMM D, YYYY')} at{' '}
-                {momentNextAvailableDate.format('h:mm a')} {timezone}. If this
-                date doesn't work, you can:
+                {momentNextAvailableDate.format('h:mm a')} {timezone}.
               </p>
+              <p>If this date doesn't work, you can:</p>
               <ul>
                 {eligibleForRequests && (
                   <li>

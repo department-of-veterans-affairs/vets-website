@@ -9,7 +9,7 @@ import { WaitTimeAlert } from '../../components/WaitTimeAlert';
 const today = moment().format('YYYY-MM-DD');
 
 describe('Wait Time Alert', () => {
-  it('should render an alert if preferred date is today', () => {
+  it('should render a warning alert if preferred date is today', () => {
     const tree = shallow(
       <WaitTimeAlert
         preferredDate={today}
@@ -21,6 +21,9 @@ describe('Wait Time Alert', () => {
 
     const alert = tree.find('AlertBox');
     expect(alert.prop('status')).to.equal('warning');
+    expect(alert.dive().text()).to.contain(
+      'If you have an urgent medical need, please:',
+    );
     tree.unmount();
   });
 
@@ -88,6 +91,7 @@ describe('Wait Time Alert', () => {
     expect(tree.exists('AlertBox')).to.equal(false);
     tree.unmount();
   });
+
   it('should render an info alert if type of care is not mental, preferred date is > 5 days and next available date is > 28 days away', () => {
     const preferredDate = moment()
       .add(6, 'days')
