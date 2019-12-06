@@ -70,5 +70,10 @@ module.exports = `
     }
     fieldEventRegistrationrequired
     fieldAdditionalInformationAbo {processed}
+    fieldOffice {
+      entity {
+        entityLabel
+      }
+    }
  }
 `;

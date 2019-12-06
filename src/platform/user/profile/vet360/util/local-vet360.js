@@ -282,7 +282,7 @@ export default {
           },
         },
       ],
-      validationKey: 178464079,
+      validationKey: 12345,
     };
   },
 };

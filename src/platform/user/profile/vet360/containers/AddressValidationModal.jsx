@@ -16,6 +16,7 @@ class AddressValidationModal extends React.Component {
       address: {},
     };
   }
+
   onChangeHandler = address => event => {
     this.setState({ selectedOption: event.target.name, address });
   };
@@ -44,11 +45,57 @@ class AddressValidationModal extends React.Component {
   };
 
   renderWarningText = () => {
-    const { addressValidationError } = this.props;
+    const {
+      addressValidationError,
+      validationKey,
+      suggestedAddresses,
+    } = this.props;
 
-    return addressValidationError
-      ? 'We’re sorry. It looks like the address you entered isn’t valid.  Please edit your address'
-      : 'We’re sorry. It looks like the address you entered isn’t valid.  Please enter your address again or choose a suggested address below';
+    let warningText;
+
+    if (suggestedAddresses.length > 1 && validationKey) {
+      warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below`;
+    }
+
+    if (suggestedAddresses.length > 1 && !validationKey) {
+      warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we won't be able to deliver your VA mail to that address.  Please edit the address you entered or choose a suggested address below.`;
+    }
+
+    if (addressValidationError && validationKey) {
+      warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it.`;
+    }
+
+    if (addressValidationError && !validationKey) {
+      warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we will not be able to deliver your VA mail to that address.  Please edit the address you entered.`;
+    }
+
+    return warningText;
+  };
+
+  renderWarningHeadline = () => {
+    const {
+      addressValidationError,
+      validationKey,
+      suggestedAddresses,
+    } = this.props;
+
+    let warningHeadline;
+
+    if (
+      (suggestedAddresses.length > 1 && validationKey) ||
+      (addressValidationError && validationKey)
+    ) {
+      warningHeadline = `Please confirm your address`;
+    }
+
+    if (
+      (suggestedAddresses.length > 1 && !validationKey) ||
+      (addressValidationError && !validationKey)
+    ) {
+      warningHeadline = `We couldn't verify your address`;
+    }
+
+    return warningHeadline;
   };
 
   renderPrimaryButton = () => {
@@ -69,7 +116,14 @@ class AddressValidationModal extends React.Component {
       );
     }
 
-    return <button className="usa-button-primary">Continue</button>;
+    return (
+      <button
+        disabled={!this.state.selectedOption}
+        className="usa-button-primary"
+      >
+        Continue
+      </button>
+    );
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
@@ -89,6 +143,9 @@ class AddressValidationModal extends React.Component {
 
     const isAddressFromUser = id === 'userEntered';
     const isOptionDisabled = isAddressFromUser && !validationKey;
+    const showEditLinkErrorState = addressValidationError && validationKey;
+    const showEditLinkNonErrorState = !addressValidationError && !validationKey;
+    const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
 
     return (
       <div key={id}>
@@ -110,7 +167,7 @@ class AddressValidationModal extends React.Component {
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
             <span>{` ${city}, ${stateCode} ${zipCode}`}</span>
             {isAddressFromUser &&
-              !addressValidationError && (
+              showEditLink && (
                 <a onClick={() => this.props.openModal(addressValidationType)}>
                   Edit Address
                 </a>
@@ -149,7 +206,7 @@ class AddressValidationModal extends React.Component {
         <AlertBox
           className="vads-u-margin-bottom--1"
           status="warning"
-          headline="Your address update isn't valid"
+          headline={this.renderWarningHeadline()}
         >
           <p>{this.renderWarningText()}</p>
         </AlertBox>
