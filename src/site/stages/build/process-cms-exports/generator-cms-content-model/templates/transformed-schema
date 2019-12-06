@@ -8,8 +8,8 @@ module.exports = {
         <%= key _%>: { type: 'string' },
         <%_ }); _%>
       },
-      required: [<%- propertyNames.map(n => `'${n}'`).join(', ') %>]
-    }
+      required: [<%- propertyNames.map(n => `'${n}'`).join(', ') %>],
+    },
   },
   required: ['entity'],
 };
