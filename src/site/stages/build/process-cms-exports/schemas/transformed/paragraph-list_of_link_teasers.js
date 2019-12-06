@@ -7,7 +7,7 @@ module.exports = {
       properties: {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['list_of_link_teasers'] },
-        fieldTitle: { type: 'string' },
+        fieldTitle: { type: ['string', 'null'] },
         fieldVaParagraphs: { type: 'array' },
       },
       required: ['fieldTitle', 'fieldVaParagraphs'],
