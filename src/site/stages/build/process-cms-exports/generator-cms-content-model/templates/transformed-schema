@@ -1,6 +1,8 @@
 module.exports = {
   type: 'object',
   properties: {
+    baseType: { enum: ['<%= baseType %>'] },
+    contentModelType: { enum: ['<%= contentModelType %>'] },
     entity: {
       type: 'object',
       properties: {

@@ -226,6 +226,8 @@ module.exports = class extends Generator {
       path.join(templatesPath, 'transformed-schema'),
       transformedSchemaPath,
       {
+        baseType: this.contentModelType.split('-')[0],
+        contentModelType: this.contentModelType,
         propertyNames: this.transformedPropertyNames,
       },
     );
