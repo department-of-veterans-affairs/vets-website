@@ -86,6 +86,17 @@ describe('<AppealListItemV2/>', () => {
     wrapper.unmount();
   });
 
+  it('should show the right date with submitted on', () => {
+    const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
+    expect(
+      wrapper
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('Submitted on: May 1, 2016');
+    wrapper.unmount();
+  });
+
   it('should correctly title a VHA Supplemental Claim', () => {
     const wrapper = shallow(<AppealListItemV2 {...vhaScProps} />);
     expect(
