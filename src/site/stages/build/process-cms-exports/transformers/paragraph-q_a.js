@@ -1,6 +1,6 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, getRawParentFieldName } = require('./helpers');
 
-const transform = entity => ({
+const transform = (entity, uuid, ancestors) => ({
   entity: {
     // TODO: Pass the ancestry tree into the transformer
     // TODO: Pass the UUID of the current entity into the transformer
@@ -12,7 +12,7 @@ const transform = entity => ({
     // For example, if this `paragraph-q_a` was in a
     // `fieldQuestions` property in the parent entity, the value of
     // `parentFieldName` would be `field_questions`
-    parentFieldName: '',
+    parentFieldName: getRawParentFieldName(ancestors[ancestors.length], uuid),
     entityType: 'paragraph',
     entityBundle: 'q_a',
     fieldAnswer: entity.fieldAnswer,
