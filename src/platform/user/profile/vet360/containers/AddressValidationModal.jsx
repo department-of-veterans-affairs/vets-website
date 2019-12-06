@@ -54,19 +54,19 @@ class AddressValidationModal extends React.Component {
     let warningText;
 
     if (suggestedAddresses.length > 1 && validationKey) {
-      warningText = `We couldn't fully confirm your address with the United States Postal Service-- so we need you to confirm that it is correct in order to be able to save it as your VA mailing address.  If the address you entered is not correct, please update it or pick a suggested address`;
+      warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below`;
     }
 
     if (suggestedAddresses.length > 1 && !validationKey) {
-      warningText = `We're sorry.  We couldn't verify your address with the United States Postal Service, so we will not be able to deliver your VA mail there.  Please edit the address you entered or select a suggested address below.`;
+      warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we won't be able to deliver your VA mail to that address.  Please edit the address you entered or choose a suggested address below.`;
     }
 
     if (addressValidationError && validationKey) {
-      warningText = `We couldn't fully confirm your address with the United States Postal Service-- so we need you to confirm that it is correct in order to be able to save it as your VA mailing address.  If the address you entered is not correct, please update it.`;
+      warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it.`;
     }
 
     if (addressValidationError && !validationKey) {
-      warningText = `We're sorry.  We couldn't verify your address with the United States Postal Service, so we will not be able to deliver your VA mail there.  Please edit the address you entered.`;
+      warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we will not be able to deliver your VA mail to that address.  Please edit the address you entered.`;
     }
 
     return warningText;
