@@ -20,6 +20,6 @@ const transform = (entity, uuid, ancestors) => ({
   },
 });
 module.exports = {
-  filters: ['field_answer', 'field_question'],
+  filter: ['field_answer', 'field_question'],
   transform,
 };
