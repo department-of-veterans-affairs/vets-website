@@ -1,0 +1,18 @@
+{
+  "entity": {
+    "parentFieldName": "field_questions",
+    "entityId": "4071",
+    "entityBundle": "q_a",
+    "fieldQuestion": "How long can I keep this dental insurance?",
+    "fieldAnswer": [
+      {
+        "entity": {
+          "entityBundle": "wysiwyg",
+          "fieldWysiwyg": {
+            "processed": "<p>At this time, we're allowed by law to continue this program until December 31, 2021. Please check back for more information in the future.</p>"
+          }
+        }
+      }
+    ]
+  }
+}
