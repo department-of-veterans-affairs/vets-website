@@ -38,11 +38,17 @@ function getEntityTransformer(entityType, verbose = true) {
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
+ * @param {string} uuid - The UUID of the current entity
+ * @param {Array<Object>} ancestors - All the current entity's
+ *                        ancestors. ancestors[1] is the child of
+ *                        ancestors[0], etc.
+ *                        ancestors[ancestors.length] is the current
+ *                        entity's direct parent.
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
  */
-function transformEntity(entity) {
+function transformEntity(entity, uuid, ancestors) {
   const contentModelType = getContentModelType(entity);
   const entityTransformer = getEntityTransformer(contentModelType);
 
@@ -50,7 +56,7 @@ function transformEntity(entity) {
   const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
   return entityTransformer
-    ? { contentModelType, ...entityTransformer(transformed) }
+    ? { contentModelType, ...entityTransformer(transformed, uuid, ancestors) }
     : transformed;
 }
 
