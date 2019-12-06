@@ -36,10 +36,14 @@ function getUserMessage(data) {
   return `${label}: ${data.reasonAdditionalInfo}`;
 }
 
-export function transformFormToVARequest({ data }) {
+export function transformFormToVARequest(state) {
+  const facility = getChosenFacilityInfo(state);
+  const data = getFormData(state);
+
   return {
     typeOfCare: data.typeOfCareId,
     typeOfCareId: data.typeOfCareId,
+    appointmentType: getTypeOfCare(data).name,
     cityState: {
       institutionCode: data.vaSystem,
       rootStationCode: data.vaSystem,
@@ -47,6 +51,7 @@ export function transformFormToVARequest({ data }) {
       adminParent: true,
     },
     facility: {
+      name: facility.authoritativeName,
       facilityCode: data.vaFacility,
       parentSiteCode: data.vaSystem,
     },
@@ -58,7 +63,9 @@ export function transformFormToVARequest({ data }) {
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     ...getRequestedDates(data),
-    bestTimeToCall: Object.entries(data.bestTimeToCall)
+    // The bad camel casing here is intentional, to match downstream
+    // system
+    bestTimetoCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
     emailPreferences: {
@@ -71,6 +78,7 @@ export function transformFormToVARequest({ data }) {
     },
     email: data.email,
     // defaulted values
+    status: 'Submitted',
     schedulingMethod: 'clerk',
     requestedPhoneCall: false,
     providerId: '0',
@@ -79,7 +87,7 @@ export function transformFormToVARequest({ data }) {
 }
 
 export function transformFormToCCRequest(state) {
-  const data = state.newAppointment.data;
+  const data = getFormData(state);
   let preferredProviders = [];
 
   if (data.hasCommunityCareProvider) {
@@ -130,6 +138,7 @@ export function transformFormToCCRequest(state) {
   return {
     typeOfCare: getTypeOfCare(data).ccId,
     typeOfCareId: getTypeOfCare(data).ccId,
+    appointmentType: getTypeOfCare(data).name,
     cityState: {
       institutionCode: data.communityCareSystemId,
       rootStationCode: data.communityCareSystemId,
@@ -137,6 +146,7 @@ export function transformFormToCCRequest(state) {
       adminParent: true,
     },
     facility: {
+      name: system.authoritativeName,
       facilityCode: data.communityCareSystemId,
       parentSiteCode: data.communityCareSystemId,
     },
@@ -145,7 +155,9 @@ export function transformFormToCCRequest(state) {
     )?.id,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
-    bestTimeToCall: Object.entries(data.bestTimeToCall)
+    // The bad camel casing here is intentional, to match downstream
+    // system
+    bestTimetoCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
     preferredProviders,

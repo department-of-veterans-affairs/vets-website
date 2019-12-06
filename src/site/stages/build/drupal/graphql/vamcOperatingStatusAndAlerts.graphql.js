@@ -8,6 +8,7 @@ module.exports = `
     fieldOffice {
       entity {
         ... on NodeHealthCareRegionPage {
+          entityLabel
           fieldLinkFacilityEmergList {
             url {
               path

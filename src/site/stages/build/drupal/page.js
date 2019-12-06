@@ -182,6 +182,53 @@ function getHubSidebar(navsArray, owner) {
   return { sidebar: {} };
 }
 
+// used to find the correct sidebar menu if the page belongs to a health care region
+function getFacilitySidebar(page, contentData) {
+  // for pages like New Releases, Stories, Events, and Detail Pages
+  const facilityPage =
+    page.fieldOffice &&
+    page.fieldOffice.entity &&
+    page.fieldOffice.entity.entityLabel;
+
+  // for Local Facility pages
+  const localFacilityPage = page.fieldRegionPage;
+
+  // if neither of those, check if it's a health care region page
+  if (
+    facilityPage ||
+    localFacilityPage ||
+    page.entityBundle === 'health_care_region_page'
+  ) {
+    let pageTitle = null;
+
+    if (!facilityPage) {
+      pageTitle = localFacilityPage
+        ? localFacilityPage.entity.title
+        : page.title;
+    }
+
+    // set the correct menuName based on the page
+    const facilityNavName = facilityPage
+      ? page.fieldOffice.entity.entityLabel
+      : pageTitle;
+
+    // choose the correct menu name to retrieve the object from contentData
+    const facilitySidebarNavName = Object.keys(contentData.data).find(
+      attribute =>
+        contentData.data[attribute]
+          ? contentData.data[attribute].name === facilityNavName
+          : false,
+    );
+
+    if (facilitySidebarNavName) {
+      return contentData.data[facilitySidebarNavName];
+    }
+  }
+
+  // return the default and most important of the menu structure
+  return { links: [] };
+}
+
 function compilePage(page, contentData) {
   const {
     data: {
@@ -196,7 +243,6 @@ function compilePage(page, contentData) {
       pensionBenefitsHubQuery: pensionHubSidebarNav = {},
       recordsBenefitsHubQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
-      facilitySidebarQuery: facilitySidebarNav = {},
       outreachSidebarQuery: outreachSidebarNav = {},
     },
   } = contentData;
@@ -221,7 +267,9 @@ function compilePage(page, contentData) {
   ];
   let sidebarNavItems;
 
-  const facilitySidebarNavItems = { facilitySidebar: facilitySidebarNav };
+  const facilitySidebarNavItems = {
+    facilitySidebar: getFacilitySidebar(page, contentData),
+  };
   const outreachSidebarNavItems = { outreachSidebar: outreachSidebarNav };
   const alertItems = { alert: alertsItem };
 
