@@ -1,9 +1,13 @@
 {
+  "contentModelType": "paragraph-list_of_link_teasers",
   "entity": {
+    "entityBundle": "list_of_link_teasers",
+    "entityType": "paragraph",
     "parentFieldName": "field_related_links",
     "fieldTitle": "Tools to help you manage your health if you're registered as a patient in a VA health facility",
     "fieldVaParagraphs": [
       {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
@@ -16,6 +20,7 @@
         }
       },
       {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
@@ -28,6 +33,7 @@
         }
       },
       {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
@@ -40,6 +46,7 @@
         }
       },
       {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
@@ -52,6 +59,7 @@
         }
       },
       {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
@@ -64,6 +72,7 @@
         }
       },
       {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
