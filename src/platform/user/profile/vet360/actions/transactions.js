@@ -218,7 +218,7 @@ export const validateAddress = (
     if (suggestedAddresses.length > 1) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
-        addressFromUser: { ...payload },
+        addressFromUser: payload,
         addressValidationType: fieldName,
         selectedAddress: suggestedAddresses[0], // always select the first address as the default
         suggestedAddresses,
