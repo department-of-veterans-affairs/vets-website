@@ -52,19 +52,19 @@ const entityAssemblerFactory = contentDir => {
    * @return {Object} - The entity with all the references filled in with
    *                    the body of the referenced entities.
    */
-  const assembleEntityTree = (entity, parents = []) => {
+  const assembleEntityTree = (entity, ancestors = []) => {
     // Avoid circular references
-    if (parents.includes(toId(entity))) {
+    if (ancestors.includes(toId(entity))) {
       /* eslint-disable no-console */
       console.log(`I'm my own grandpa! (${toId(entity)})`);
-      console.log(`  Parents:\n    ${parents.join('\n    ')}`);
+      console.log(`  Parents:\n    ${ancestors.join('\n    ')}`);
       /* eslint-enable no-console */
 
       // If we find a circular references, it needs to be addressed.
       // For now, just quit.
       throw new Error(
         `Circular reference found. ${
-          parents[parents.length - 1]
+          ancestors[ancestors.length - 1]
         } has a reference to an ancestor: ${toId(entity)}`,
       );
     }
@@ -110,7 +110,7 @@ const entityAssemblerFactory = contentDir => {
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleEntityTree(
               readEntity(contentDir, targetType, targetUuid),
-              parents.concat([toId(entity)]),
+              ancestors.concat([toId(entity)]),
             );
           }
         });
@@ -121,7 +121,7 @@ const entityAssemblerFactory = contentDir => {
     const transformedEntity = transformEntity(
       filteredEntity,
       entity.uuid[0].value,
-      parents,
+      ancestors,
     );
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
