@@ -17,13 +17,16 @@ class AddressValidationModal extends React.Component {
   };
 
   onSubmit = () => {
-    const { validationKey, fieldName, selectedAddress } = this.props;
-
+    const {
+      validationKey,
+      addressValidationType,
+      selectedAddress,
+    } = this.props;
     const payload = {
       ...selectedAddress,
       validationKey,
       addressPou:
-        fieldName === VET360.FIELD_NAMES.MAILING_ADDRESS
+        addressValidationType === VET360.FIELD_NAMES.MAILING_ADDRESS
           ? VET360.ADDRESS_POU.CORRESPONDENCE
           : VET360.ADDRESS_POU.RESIDENCE,
     };
@@ -33,7 +36,7 @@ class AddressValidationModal extends React.Component {
     this.props.createTransaction(
       VET360.API_ROUTES.ADDRESSES,
       method,
-      fieldName,
+      addressValidationType,
       payload,
       this.props.analyticsSectionName,
     );
@@ -87,7 +90,7 @@ class AddressValidationModal extends React.Component {
       (suggestedAddresses.length > 1 && !validationKey) ||
       (addressValidationError && !validationKey)
     ) {
-      warningHeadline = `We couldn't verify your address`;
+      warningHeadline = `We couldn’t verify your address`;
     }
 
     return warningHeadline;
@@ -141,7 +144,7 @@ class AddressValidationModal extends React.Component {
           style={{ zIndex: '1' }}
           type="radio"
           name={id}
-          disabled={!validationKey}
+          disabled={isAddressFromUser && !validationKey}
           checked={selectedId === id}
           onClick={this.onChangeHandler(address, id)}
         />
