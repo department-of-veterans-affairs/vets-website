@@ -5,7 +5,7 @@ module.exports = {
       type: 'object',
       properties: {
         fieldTitle: { type: 'string' },
-        fieldVaParagraphs: { type: 'string' },
+        fieldVaParagraphs: { type: 'array' },
       },
       required: ['fieldTitle', 'fieldVaParagraphs'],
     },
