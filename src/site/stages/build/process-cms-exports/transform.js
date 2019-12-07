@@ -44,6 +44,8 @@ function getEntityTransformer(entityType, verbose = true) {
  *                        ancestors[0], etc.
  *                        ancestors[ancestors.length] is the current
  *                        entity's direct parent.
+ *                        Each item in the array is like:
+ *                        { id: toId(entity), entity: entity }
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
