@@ -53,18 +53,22 @@ const entityAssemblerFactory = contentDir => {
    *                    the body of the referenced entities.
    */
   const assembleEntityTree = (entity, ancestors = []) => {
+    // TODO: Make ancestors an array of { id: toId(), entity }
+    // TODO: Modify the circular reference check to look for the ids
+    //       Prolly use ancestors.map(a => a.id).includes(toId(entity))
     // Avoid circular references
-    if (ancestors.includes(toId(entity))) {
+    const ancestorIds = ancestors.map(a => a.id);
+    if (ancestorIds.includes(toId(entity))) {
       /* eslint-disable no-console */
       console.log(`I'm my own grandpa! (${toId(entity)})`);
-      console.log(`  Parents:\n    ${ancestors.join('\n    ')}`);
+      console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
       /* eslint-enable no-console */
 
       // If we find a circular references, it needs to be addressed.
       // For now, just quit.
       throw new Error(
         `Circular reference found. ${
-          ancestors[ancestors.length - 1]
+          ancestorIds[ancestors.length - 1]
         } has a reference to an ancestor: ${toId(entity)}`,
       );
     }
@@ -110,7 +114,7 @@ const entityAssemblerFactory = contentDir => {
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleEntityTree(
               readEntity(contentDir, targetType, targetUuid),
-              ancestors.concat([toId(entity)]),
+              ancestors.concat([{ id: toId(entity), entity }]),
             );
           }
         });
