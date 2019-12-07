@@ -83,7 +83,7 @@ const entityAssemblerFactory = contentDir => {
       console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
       rawErrors.forEach(e => {
         console.warn(
-          `Data found at ${e.dataPath}:`,
+          chalk.yellow(`Data found at ${e.dataPath}:`),
           JSON.stringify(get(entity, e.dataPath.slice(1))),
         );
       });
@@ -136,7 +136,7 @@ const entityAssemblerFactory = contentDir => {
       console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
       transformedErrors.forEach(e => {
         console.warn(
-          `Data found at ${e.dataPath}:`,
+          chalk.yellow(`Data found at ${e.dataPath}:`),
           JSON.stringify(get(transformedEntity, e.dataPath.slice(1))),
         );
       });
