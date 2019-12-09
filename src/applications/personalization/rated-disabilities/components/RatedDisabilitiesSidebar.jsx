@@ -28,7 +28,6 @@ const RatedDisabilitiesSidebar = () => (
     <a
       href="/disability/about-disability-ratings/"
       aria-label="About VA disability ratings"
-      rel="noopener noreferrer"
       title="About VA disability ratings"
     >
       About VA disability ratings
