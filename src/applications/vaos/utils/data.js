@@ -58,6 +58,8 @@ export function transformFormToVARequest(state) {
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
+    otherPurposeOfVisit:
+      data.reasonForAppointment === 'other' ? 'See message' : null,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
       ?.serviceName,
     phoneNumber: data.phoneNumber,

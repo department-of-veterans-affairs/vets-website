@@ -68,6 +68,7 @@ describe('VAOS data transformation', () => {
         parentSiteCode: '983',
       },
       purposeOfVisit: 'Routine Follow-up',
+      otherPurposeOfVisit: null,
       visitType: 'Office Visit',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',

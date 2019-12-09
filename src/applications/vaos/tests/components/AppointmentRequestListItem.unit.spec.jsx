@@ -23,7 +23,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         state: 'MA',
         facilityCode: '983',
       },
-      appointmentRequestId: 'guid',
+      id: 'guid',
     };
 
     const messages = {
@@ -115,7 +115,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       optionTime1: 'PM',
       optionDate2: '05/23/2019',
       optionTime2: 'AM',
-      typeOfCareId: '1',
+      typeOfCareId: 'CCAUD',
       friendlyLocationName: 'Some location',
       status: 'Submitted',
       bestTimetoCall: ['Morning'],
@@ -124,7 +124,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
         state: 'MA',
         facilityCode: '983',
       },
-      appointmentRequestId: 'guid',
+      id: 'guid',
       ccAppointmentRequest: {
         preferredProviders: [
           {
