@@ -10,12 +10,6 @@ import {
   TYPES_OF_SLEEP_CARE,
 } from './constants';
 
-export function selectPendingAppointment(state, id) {
-  return (
-    state.appointments?.pending?.find?.(appt => appt.uniqueId === id) || null
-  );
-}
-
 export function getNewAppointment(state) {
   return state.newAppointment;
 }
