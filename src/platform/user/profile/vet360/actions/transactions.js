@@ -206,6 +206,7 @@ export const validateAddress = (
           firstAddress?.addressMetaData?.confidenceScore,
       )
       .map(address => ({
+        addressMetaData: { ...address.addressMetaData },
         ...inferAddressType(address.address),
         addressPou:
           fieldName === FIELD_NAMES.MAILING_ADDRESS
@@ -217,13 +218,16 @@ export const validateAddress = (
       id: payload?.id,
     };
 
-    // If multiple suggestions, present them to the modal
-    if (suggestedAddresses.length > 1) {
+    // If the highest confidence score is below 80 regardless of number of addresses, show the modal
+    if (
+      suggestedAddresses.length > 1 ||
+      suggestedAddresses[0]?.addressMetaData?.confidenceScore < 80
+    ) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
         addressFromUser: payload,
         addressValidationType: fieldName,
-        selectedAddress: suggestedAddresses[0], // always select the first address as the default
+        selectedAddress: suggestedAddresses[0].address, // always select the first address as the default
         suggestedAddresses,
         validationKey: response.validationKey,
       });

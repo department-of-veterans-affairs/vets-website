@@ -147,16 +147,28 @@ class AddressValidationModal extends React.Component {
     const showEditLinkErrorState = addressValidationError && validationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
+    const showFirstRadioButton =
+      (isAddressFromUser && validationKey) || !isAddressFromUser;
 
     return (
-      <div onClick={this.onChangeHandler(address, id)} key={id}>
-        <input
-          style={{ zIndex: '1' }}
-          type="radio"
-          name={id}
-          disabled={isAddressFromUser && !validationKey}
-          checked={selectedId === id}
-        />
+      <div
+        onClick={this.onChangeHandler(address, id)}
+        key={id}
+        className={
+          showFirstRadioButton
+            ? ''
+            : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5'
+        }
+      >
+        {showFirstRadioButton && (
+          <input
+            style={{ zIndex: '1' }}
+            type="radio"
+            name={id}
+            disabled={isAddressFromUser && !validationKey}
+            checked={selectedId === id}
+          />
+        )}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
