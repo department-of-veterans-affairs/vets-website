@@ -125,7 +125,7 @@ describe('validateAddress', () => {
       );
       expect(dispatch.firstCall.args[0].suggestedAddresses).to.deep.equal([
         {
-          addressLine1: '400 NW 65th St',
+          addressLine1: '400 N 65th St',
           addressType: 'DOMESTIC',
           city: 'Seattle',
           countryName: 'USA',
@@ -133,8 +133,8 @@ describe('validateAddress', () => {
           countyCode: '53033',
           countyName: 'King',
           stateCode: 'WA',
-          zipCode: '98117',
-          zipCodeSuffix: '5026',
+          zipCode: '98103',
+          zipCodeSuffix: '5252',
         },
         {
           addressLine1: '400 NW 65th St',
@@ -147,6 +147,30 @@ describe('validateAddress', () => {
           stateCode: 'WA',
           zipCode: '98117',
           zipCodeSuffix: '5026',
+        },
+        {
+          addressLine1: '400 NW 65th Street',
+          addressType: 'DOMESTIC',
+          city: 'Seattle',
+          countryName: 'USA',
+          countryCodeIso3: 'USA',
+          countyCode: '53033',
+          countyName: 'King',
+          stateCode: 'WA',
+          zipCode: '98117',
+          zipCodeSuffix: '5026',
+        },
+        {
+          addressLine1: '400 NE 65th St',
+          addressType: 'DOMESTIC',
+          city: 'Seattle',
+          countryName: 'USA',
+          countryCodeIso3: 'USA',
+          countyCode: '53033',
+          countyName: 'King',
+          stateCode: 'WA',
+          zipCode: '98115',
+          zipCodeSuffix: '6463',
         },
       ]);
     });

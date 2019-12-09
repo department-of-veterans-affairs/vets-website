@@ -10,6 +10,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     appointmentType: 'Testing',
     startDate: '2019-12-11T16:00:00Z',
     facilityId: '983',
+    clinicId: '123',
     vvsAppointments: [],
     vdsAppointments: [
       {

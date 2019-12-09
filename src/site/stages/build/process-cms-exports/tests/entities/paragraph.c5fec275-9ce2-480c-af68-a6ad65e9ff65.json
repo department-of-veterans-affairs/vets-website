@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "00023f85-7e3e-4595-8fdc-e964b142d406"
+            "value": "c5fec275-9ce2-480c-af68-a6ad65e9ff65"
         }
     ],
     "langcode": [
@@ -23,7 +23,7 @@
     ],
     "created": [
         {
-            "value": "2019-03-19T22:39:21+00:00",
+            "value": "2019-01-15T16:15:41+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -44,14 +44,14 @@
     ],
     "field_link": [
         {
-            "uri": "entity:node\/703",
-            "title": "VA health care copay rates for 2019",
+            "uri": "https:\/\/www.benefits.va.gov\/gibill\/my_story.asp",
+            "title": "My Story\u2014How Veterans and Servicemembers Use the GI Bill",
             "options": []
         }
     ],
     "field_link_summary": [
         {
-            "value": "Review copay rates for outpatient care, hospital stays, medications, and other health services."
+            "value": "Hear inspiring stories from Veterans and Servicemembers who\u2019ve advanced their education and training with the Post-9\/11 GI Bill."
         }
     ]
 }

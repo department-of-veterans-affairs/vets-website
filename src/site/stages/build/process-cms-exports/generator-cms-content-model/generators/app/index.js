@@ -222,10 +222,14 @@ module.exports = class extends Generator {
     this.fs.copyTpl(path.join(templatesPath, 'raw-schema'), rawSchemaPath, {
       propertyNames: this.rawPropertyNames,
     });
+    const [baseType, subType] = this.contentModelType.split('-');
     this.fs.copyTpl(
       path.join(templatesPath, 'transformed-schema'),
       transformedSchemaPath,
       {
+        baseType,
+        subType,
+        contentModelType: this.contentModelType,
         propertyNames: this.transformedPropertyNames,
       },
     );
@@ -243,15 +247,9 @@ module.exports = class extends Generator {
         entityType,
         entityBundle,
         propertyNames: this.transformedPropertyNames,
+        rawPropertyNames: this.rawPropertyNames,
       },
     );
-  }
-
-  writeFilter() {
-    // For now, just log out the filters. Once we get automagic filter
-    // importing, we can add this to the template.
-    this.log(chalk.green('Add the following to filters.js:'));
-    this.log(`${this.contentModelType}:`, this.rawPropertyNames);
   }
 
   partingWords() {

@@ -3,10 +3,22 @@
  *
  */
 
-const MENU_NAME = 'pittsburgh-health-care';
+// String Helpers
+const { camelize } = require('./../../../../../utilities/stringHelpers');
 
-module.exports = `
-  facilitySidebarQuery: menuByName(name: "${MENU_NAME}") {
+const FACILITY_MENU_NAMES = [
+  'pittsburgh-health-care',
+  'va-altoona-health-care',
+  'va-butler-health-care',
+  'va-coatesville-health-care',
+  'va-erie-health-care',
+  'va-lebanon',
+  'va-philadelphia-health-care',
+  'va-wilkes-barre-health-care',
+  'va-wilmington-health-care',
+];
+
+const FACILITY_SIDEBAR_QUERY = `
     name
     description
     links {
@@ -57,5 +69,18 @@ module.exports = `
         }
       }
     }
-  }
 `;
+
+let compiledQuery = '';
+
+FACILITY_MENU_NAMES.forEach(facilityMenuName => {
+  compiledQuery += `
+         ${camelize(
+           facilityMenuName,
+         )}FacilitySidebarQuery: menuByName(name: "${facilityMenuName}") {
+            ${FACILITY_SIDEBAR_QUERY}
+         }
+        `;
+});
+
+module.exports = compiledQuery;

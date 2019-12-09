@@ -167,4 +167,25 @@ describe('<ClaimsListItemV2>', () => {
     ).to.equal(`your-claims/${claim.id}/status`);
     tree.unmount();
   });
+
+  it('should render updated on and submitted on with proper date', () => {
+    const claim = {
+      id: 1,
+      attributes: {
+        phase: 8,
+        open: false,
+        phaseChangeDate: '2019-08-20',
+        dateFiled: '2019-02-10',
+      },
+    };
+    const tree = shallow(<ClaimsListItemV2 claim={claim} />);
+    expect(tree.find('h3').text()).to.contain('updated on August 20, 2019');
+    expect(
+      tree
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('Submitted on: February 10, 2019');
+    tree.unmount();
+  });
 });
