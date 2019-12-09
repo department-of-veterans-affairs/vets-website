@@ -40,7 +40,6 @@ function getEntityTransformer(entityType, verbose = true) {
  *                          transformation.
  * @param {Object} rest - Contains the lesser-used arguments for the
  *                        transformers.
- * TODO: Move these into a better JSDOC tag
  * @property {string} uuid - The UUID of the current entity
  * @property {Array<Object>} ancestors - All the current entity's
  *                        ancestors. ancestors[1] is the child of
@@ -49,6 +48,9 @@ function getEntityTransformer(entityType, verbose = true) {
  *                        current entity's direct parent.
  *                        Each item in the array is like:
  *                        { id: toId(entity), entity: entity }
+ * @property {string} parentFieldName - The name of the field in the
+ *                        entity's parent in which the current entity
+ *                        can be found.
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
