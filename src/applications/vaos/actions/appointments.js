@@ -1,11 +1,11 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS } from '../utils/constants';
+import { getMomentConfirmedDate } from '../utils/appointment';
 
 import {
   getConfirmedAppointments,
   getPendingAppointments,
-  getPastAppointments,
   getCancelReasons,
   getRequestMessages,
   updateAppointment,
@@ -25,11 +25,6 @@ export const FETCH_REQUEST_MESSAGES_FAILED =
 export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
   'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
 
-export const FETCH_PAST_APPOINTMENTS = 'vaos/FETCH_PAST_APPOINTMENTS';
-export const FETCH_PAST_APPOINTMENTS_FAILED =
-  'vaos/FETCH_PAST_APPOINTMENTS_FAILED';
-export const FETCH_PAST_APPOINTMENTS_SUCCEEDED =
-  'vaos/FETCH_PAST_APPOINTMENTS_SUCCEEDED';
 export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
 export const CANCEL_APPOINTMENT_CONFIRMED = 'vaos/CANCEL_APPOINTMENT_CONFIRMED';
 export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
@@ -132,21 +127,6 @@ export function fetchFutureAppointments() {
   };
 }
 
-export function fetchPastAppointments() {
-  return dispatch => {
-    dispatch({
-      type: FETCH_PAST_APPOINTMENTS,
-    });
-
-    getPastAppointments(moment().subtract(6, 'months')).then(data => {
-      dispatch({
-        type: FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-        data,
-      });
-    });
-  };
-}
-
 const UNABLE_TO_KEEP_APPT = '5';
 const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
 
@@ -172,10 +152,11 @@ export function confirmCancelAppointment() {
         await updateRequest({
           ...appointment,
           status: CANCELLED_REQUEST,
+          appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
         const cancelData = {
-          appointmentTime: moment(appointment.startDate).format(
+          appointmentTime: getMomentConfirmedDate(appointment).format(
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,

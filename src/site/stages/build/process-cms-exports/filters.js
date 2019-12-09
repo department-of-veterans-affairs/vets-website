@@ -1,4 +1,10 @@
-const { getContentModelType } = require('./helpers');
+const path = require('path');
+const { getContentModelType, getAllImportsFrom } = require('./helpers');
+
+// Dynamically read in all the filters
+// They must be named after the content model type (E.g. node-page.js)
+const filtersDir = path.join(__dirname, 'transformers');
+const filters = getAllImportsFrom(filtersDir, 'filter');
 
 /**
  * When reading through entity properties, ignore these.
@@ -6,20 +12,7 @@ const { getContentModelType } = require('./helpers');
 
 const whitelists = {
   global: ['title', 'baseType', 'contentModelType'],
-  'node-page': [
-    'field_intro_text',
-    'field_description',
-    'field_featured_content',
-    'field_content_block',
-    'field_alert',
-    'field_related_links',
-    'field_administration',
-    'field_page_last_built',
-    'metatag',
-    'changed',
-    'moderation_state',
-  ],
-  'paragraph-wysiwyg': ['field_wysiwyg'],
+  ...filters,
 };
 
 const missingFilters = new Set();

@@ -18,11 +18,38 @@ export const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-export const PURPOSE_TEXT = {
-  'routine-follow-up': 'Routine/Follow-up',
-  'new-issue': 'New issue',
-  'medication-concern': 'Medication concern',
-  other: 'My reason is not listed here',
+export const PURPOSE_TEXT = [
+  {
+    id: 'routine-follow-up',
+    short: 'Follow-up/Routine',
+    label: 'Routine or follow-up visit',
+    serviceName: 'Routine Follow-up',
+  },
+  {
+    id: 'new-issue',
+    short: 'New issue',
+    label: 'I have a new medical issue',
+    serviceName: 'New Issue',
+  },
+  {
+    id: 'medication-concern',
+    short: 'Medication concern',
+    label: 'I have a concern or question about my medication',
+    serviceName: 'Medication Concern',
+  },
+  {
+    id: 'other',
+    short: 'My reason is not listed here',
+    label: 'My reason is not listed here',
+    serviceName: 'Other',
+  },
+];
+
+export const REASON_ADDITIONAL_INFO_TITLES = {
+  default:
+    "Please give us additional details about your appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
+  other:
+    "Please give us additional details about what type of appointment you’re looking for. This will help us find you the right provider or facility for your appointment. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
 };
 
 export const TYPES_OF_CARE = [
@@ -71,7 +98,7 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '407',
-    name: 'Opthamology',
+    name: 'Ophthalmology',
     group: 'specialty',
   },
   {
@@ -81,7 +108,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCOPT',
   },
   {
-    id: 'tbd',
+    id: 'tbd-podiatry',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',
@@ -103,6 +130,11 @@ export const TYPES_OF_SLEEP_CARE = [
     name: 'Sleep medicine and home sleep testing',
   },
 ];
+
+export const FACILITY_TYPES = {
+  VAMC: 'vamc',
+  COMMUNITY_CARE: 'communityCare',
+};
 
 export const LANGUAGES = [
   {
@@ -198,14 +230,17 @@ export const TYPE_OF_VISIT = [
   {
     id: 'office',
     name: 'Office visit',
+    serviceName: 'Office Visit',
   },
   {
     id: 'phone',
     name: 'Phone call',
+    serviceName: 'Phone Call',
   },
   {
     id: 'telehealth',
-    name: 'Telehealth',
+    name: 'VA Video Connect',
+    serviceName: 'Video Conference',
   },
 ];
 
@@ -232,4 +267,3 @@ export const REASON_MAX_CHARS = {
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
-export const DIRECT_SCHEDULE_TYPES = new Set([PRIMARY_CARE, '502']);

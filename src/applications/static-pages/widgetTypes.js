@@ -7,4 +7,6 @@ export default {
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
+  FIND_VA_FORMS: 'find-va-forms',
+  HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
 };

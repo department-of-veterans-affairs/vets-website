@@ -1,7 +1,7 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { NULL_CONDITION_STRING } from '../constants';
+import { FORM_URL, NULL_CONDITION_STRING } from '../constants';
 
 export const contestedIssuesTitle = (
   <strong>Issues eligible for a Higher-Level Review</strong>
@@ -63,7 +63,7 @@ export const disabilitiesExplanation = (
         insurance, or education. Decisions for these benefit types won’t appear
         on this list. If you want to request Higher-Level Review for benefit
         types other than compensation or pension, you’ll need to fill out a{' '}
-        <a href="https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf">
+        <a href={FORM_URL}>
           Decision Review Request: Higher-Level Review (VA Form 20-0996)
         </a>
         .
@@ -73,9 +73,12 @@ export const disabilitiesExplanation = (
         decision letter about what form you’ll need to submit to request a
         Higher-Level Review.
         <p>
-          <button className="usa-button-secondary btn-see-all-issues">
+          <a
+            href="/disability/view-disability-rating/rating"
+            className="usa-button usa-button-secondary btn-see-all-issues"
+          >
             See all your issues
-          </button>
+          </a>
         </p>
       </li>
     </ul>

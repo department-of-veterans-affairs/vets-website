@@ -7,7 +7,7 @@ module.exports = {
       type: 'string',
     },
     fieldIntroText: {
-      type: 'string',
+      type: ['string', 'null'],
     },
     fieldDescription: {
       type: ['string', 'null'],
@@ -25,12 +25,7 @@ module.exports = {
       },
     },
     fieldAlert: {
-      type: 'object',
-      properties: {
-        entity: {
-          type: ['null'],
-        },
-      },
+      type: ['object', 'null'],
     },
     fieldRelatedLinks: {
       type: 'array',

@@ -65,7 +65,7 @@ export class VetTecVeteranPrograms extends React.Component {
     );
     return (
       <div key={index}>
-        <i className={icon} /> {label} {link}
+        <i className={icon} aria-hidden="true" /> {label} {link}
       </div>
     );
   };
@@ -77,7 +77,7 @@ export class VetTecVeteranPrograms extends React.Component {
     return (
       <div className="programs row">
         {availablePrograms.length > 0 && (
-          <div className="usa-width-one-half medium-6 large-6 column">
+          <div className="usa-width-one-half medium-6 large-6 column vads-u-margin-top--2">
             <h3>Available at this campus</h3>
             {availablePrograms.map((program, index) =>
               this.renderProgramLabel(program, index),

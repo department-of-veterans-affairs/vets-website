@@ -25,7 +25,7 @@
     border-radius: none;
     color: $color-gray-dark;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: normal;
     letter-spacing: 0.3px;
     line-height: 1.5;
     margin: 0;
@@ -45,21 +45,6 @@
     margin: 10px 23px;
   }
 
-  .va-sidenav-item-label-text {
-    background: none;
-    border-radius: none;
-    color: $color-gray-dark;
-    font-size: 15px;
-    font-weight: bold;
-    letter-spacing: 0.3px;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-
   .va-sidenav-toggle-expand {
     align-items: center;
     background: $color-gray-lightest;
@@ -73,25 +58,40 @@
 
   .va-sidenav-item-label {
     align-items: center;
+    background: none;
     border-radius: 0;
+    color: $color-gray-dark;
     display: flex;
+    font-size: 15px;
     justify-content: space-between;
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+    margin: 0;
     padding: 10px 23px;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
     transition: background 0.5s ease;
     width: 100%;
 
     &.selected {
-      a, button {
-        color: $color-gray-dark;
-      }
+      color: $color-gray-dark;
 
-      &.va-sidenav-item-label-duplicate {
+      &.va-sidenav-item-label-underlined {
         text-decoration: underline;
       }
     }
 
     &:hover {
       background: #f8f8f8; // I could not find the color in our design utilities.
+    }
+  }
+
+  .va-sidenav-item-label-bold {
+    font-weight: bold;
+
+    &:hover {
+      background: $color-white;
     }
   }
 
@@ -102,6 +102,11 @@
       letter-spacing: 0;
       line-height: 1.38;
       text-transform: none;
+      transition: color 0.5s ease;
+
+      &:hover {
+        color: $color-gray-dark;
+      }
     }
   }
 }

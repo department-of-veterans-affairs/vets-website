@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Vet360EditModal from '../../components/base/EditModal';
+import Vet360EditModal from '../../components/base/Vet360EditModal';
 
 describe('<Vet360EditModal/>', () => {
   let props = null;

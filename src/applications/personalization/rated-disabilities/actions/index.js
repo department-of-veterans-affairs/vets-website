@@ -1,5 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-import { getData } from '../util';
+import { getData, isServerError, isClientError } from '../util';
 
 export const FETCH_RATED_DISABILITIES_SUCCESS =
   'FETCH_RATED_DISABILITIES_SUCCESS';
@@ -9,8 +9,6 @@ export const FETCH_RATED_DISABILITIES_FAILED =
 export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
-const serverErrorRegex = /^5\d{2}$/;
-const serviceErrorRegex = /^4\d{2}$/;
 const DISABILITY_PREFIX = 'disability-ratings';
 
 export function fetchRatedDisabilities() {
@@ -21,15 +19,15 @@ export function fetchRatedDisabilities() {
 
     if (response.errors) {
       const errorCode = response.errors[0].code;
-      if (serverErrorRegex.test(errorCode)) {
+      if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
-          'error-key': '500 internal error',
+          'error-key': `${errorCode} internal error`,
         });
-      } else if (serviceErrorRegex.test(errorCode)) {
+      } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
-          'error-key': '401 no disabilities found',
+          'error-key': `${errorCode} no disabilities found`,
         });
       }
       dispatch({
@@ -48,25 +46,23 @@ export function fetchRatedDisabilities() {
 
 export function fetchTotalDisabilityRating() {
   return async dispatch => {
-    const response = await getData(
-      '/disability_compensation_form/rated_disabilities',
-    );
+    const response = await getData('/disability_compensation_form/rating_info');
 
     if (response.errors) {
       const errorCode = response.errors[0].code;
-      if (serverErrorRegex.test(errorCode)) {
+      if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': '500 internal error',
+          'error-key': `${errorCode} internal error`,
         });
-      } else if (serviceErrorRegex.test(errorCode)) {
+      } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
-          'error-key': '401 no combined rating found',
+          'error-key': `${errorCode} no combined rating found`,
         });
       }
       dispatch({
-        type: FETCH_TOTAL_RATING_SUCCEEDED,
+        type: FETCH_TOTAL_RATING_FAILED,
         response,
       });
     } else {

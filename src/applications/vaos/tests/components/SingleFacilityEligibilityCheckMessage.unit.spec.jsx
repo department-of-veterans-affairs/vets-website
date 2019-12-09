@@ -10,9 +10,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
       requestPastVisit: false,
       requestPastVisitValue: 24,
     };
-    const facility = {
-      institution: {},
-    };
+    const facility = {};
 
     const tree = mount(
       <SingleFacilityEligibilityCheckMessage
@@ -22,6 +20,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     );
 
     expect(tree.text()).to.contain('seen within the past 24 months');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -30,9 +29,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
       requestPastVisit: true,
       requestLimit: false,
     };
-    const facility = {
-      institution: {},
-    };
+    const facility = {};
 
     const tree = mount(
       <SingleFacilityEligibilityCheckMessage
@@ -42,6 +39,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     );
 
     expect(tree.text()).to.contain('more outstanding requests');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -50,9 +48,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
       requestPastVisit: true,
       requestLimit: true,
     };
-    const facility = {
-      institution: {},
-    };
+    const facility = {};
 
     const tree = mount(
       <SingleFacilityEligibilityCheckMessage
@@ -62,6 +58,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     );
 
     expect(tree.text()).to.contain('trouble verifying');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
 });

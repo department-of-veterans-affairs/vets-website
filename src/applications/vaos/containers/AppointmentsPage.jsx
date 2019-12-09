@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import environment from 'platform/utilities/environment';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -15,19 +14,11 @@ import {
   closeCancelAppointment,
   fetchRequestMessages,
 } from '../actions/appointments';
-import { getAppointmentType } from '../utils/appointment';
+import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-
-function getRealFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('983', '442').replace('984', '552');
-  }
-
-  return facilityId;
-}
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
@@ -63,7 +54,7 @@ export class AppointmentsPage extends Component {
       );
     } else if (hasAppointments) {
       content = (
-        <ul className="usa-unstyled-list">
+        <ul className="usa-unstyled-list" id="appointments-list">
           {future.map((appt, index) => {
             const type = getAppointmentType(appt);
 
@@ -177,8 +168,8 @@ export class AppointmentsPage extends Component {
                   Create a new appointment
                 </h2>
                 <p className="vads-u-margin-top--1">
-                  Schedule a new appointment at a VA Medical center, clinic, or
-                  Community care facility
+                  Schedule an appointment at a VA medical center, clinic, or
+                  Community Care facility.
                 </p>
                 <Link to="/new-appointment">
                   <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">

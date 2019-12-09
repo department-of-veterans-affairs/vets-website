@@ -11,6 +11,9 @@ import {
   VET360_TRANSACTION_UPDATE_REQUESTED,
   VET360_TRANSACTION_UPDATE_FAILED,
   VET360_CLEAR_TRANSACTION_STATUS,
+  ADDRESS_VALIDATION_CONFIRM,
+  ADDRESS_VALIDATION_ERROR,
+  UPDATE_ADDRESS,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -23,6 +26,22 @@ const initialState = {
   transactionsAwaitingUpdate: [],
   metadata: {
     mostRecentErroredTransactionId: '',
+  },
+  addressValidation: {
+    addressValidationType: '',
+    suggestedAddresses: [],
+    addressFromUser: {
+      addressLine1: '',
+      addressLine2: '',
+      addressLine3: '',
+      city: '',
+      stateCode: '',
+      zipCode: '',
+    },
+    addressValidationError: false,
+    validationKey: null,
+    selectedAddress: {},
+    selectedId: '0',
   },
   transactionStatus: '',
 };
@@ -183,6 +202,43 @@ export default function vet360(state = initialState, action) {
 
     case OPEN_MODAL:
       return { ...state, modal: action.modal };
+
+    case ADDRESS_VALIDATION_CONFIRM:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          addressFromUser: action.addressFromUser,
+          addressValidationType: action.addressValidationType,
+          suggestedAddresses: action.suggestedAddresses,
+          validationKey: action.validationKey,
+          selectedAddress: action.selectedAddress,
+        },
+        modal: 'addressValidation',
+      };
+
+    case ADDRESS_VALIDATION_ERROR:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          addressValidationError: action.addressValidationError,
+          addressValidationType: action.addressValidationType,
+          validationKey: action.validationKey,
+          addressFromUser: action.addressFromUser,
+        },
+        modal: 'addressValidation',
+      };
+
+    case UPDATE_ADDRESS:
+      return {
+        ...state,
+        addressValidation: {
+          ...state.addressValidation,
+          selectedAddress: action.selectedAddress,
+          selectedId: action.selectedId,
+        },
+      };
 
     default:
       return state;

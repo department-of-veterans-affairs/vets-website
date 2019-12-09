@@ -29,6 +29,8 @@ module.exports = `
           }
       }
     }
+    fieldGovdeliveryIdEmerg
+    fieldGovdeliveryIdNews
     fieldIntroText
 	  fieldRelatedLinks {
       entity {
@@ -64,6 +66,16 @@ module.exports = `
         path
       }
       title
+    }
+    fieldLinkFacilityEmergList {
+      url {
+        path
+      }
+    }
+    fieldLinkFacilityNewsList {
+      url {
+        path
+      }
     }
     fieldOperatingStatus {
       url {

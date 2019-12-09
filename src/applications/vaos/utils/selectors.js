@@ -1,9 +1,10 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getAppointmentId } from './appointment';
+import { getAppointmentId, getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
+  FACILITY_TYPES,
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -40,6 +41,7 @@ export function getFormPageInfo(state, pageKey) {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
+    hasDataFetchingError: getNewAppointment(state).hasDataFetchingError,
   };
 }
 
@@ -52,12 +54,16 @@ export function getTypeOfCare(data) {
 
   if (
     data.typeOfCareId === AUDIOLOGY &&
-    data.facilityType === 'communityCare'
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
   }
 
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+}
+
+export function getSystems(state) {
+  return getNewAppointment(state).systems;
 }
 
 export function getChosenFacilityInfo(state) {
@@ -66,7 +72,7 @@ export function getChosenFacilityInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
-      facility => facility.institution.institutionCode === data.vaFacility,
+      facility => facility.institutionCode === data.vaFacility,
     ) || null
   );
 }
@@ -205,9 +211,19 @@ export function getCancelInfo(state) {
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
+    facilityData,
   } = state.appointments;
 
+  let facility = null;
+  if (appointmentToCancel) {
+    facility =
+      facilityData[
+        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+      ];
+  }
+
   return {
+    facility,
     appointmentToCancel,
     showCancelModal,
     cancelAppointmentStatus,
@@ -233,3 +249,7 @@ export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
+export const vaosCommunityCare = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCare;
+export const vaosDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingDirect;

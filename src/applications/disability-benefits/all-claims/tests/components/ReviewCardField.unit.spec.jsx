@@ -52,7 +52,7 @@ describe('Schemaform: ReviewCardField', () => {
 
   it('should render', () => {
     const wrapper = shallow(<ReviewCardField {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.text()).to.contain('Thing');
     wrapper.unmount();
   });
 

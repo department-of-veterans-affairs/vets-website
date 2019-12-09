@@ -14,30 +14,34 @@ import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
 
 describe('VAOS <TypeOfCarePage>', () => {
   it('should render', () => {
-    const openFormPage = sinon.spy();
+    const openTypeOfCarePage = sinon.spy();
     const updateFormData = sinon.spy();
 
     const form = mount(
       <TypeOfCarePage
-        openFormPage={openFormPage}
+        openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         data={{}}
       />,
     );
 
-    expect(form.find('fieldset').length).to.equal(3);
+    expect(form.find('fieldset').length).to.equal(1);
     expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 
   it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
+    const openTypeOfCarePage = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
 
     const form = mount(
-      <TypeOfCarePage openFormPage={openFormPage} router={router} data={{}} />,
+      <TypeOfCarePage
+        openTypeOfCarePage={openTypeOfCarePage}
+        router={router}
+        data={{}}
+      />,
     );
 
     form.find('form').simulate('submit');
@@ -50,7 +54,7 @@ describe('VAOS <TypeOfCarePage>', () => {
   it('should call updateFormData after change', () => {
     mockFetch();
     setFetchJSONResponse(global.fetch, { data: [] });
-    const openFormPage = sinon.spy();
+    const openTypeOfCarePage = sinon.spy();
     const updateFormData = sinon.spy();
     const router = {
       push: sinon.spy(),
@@ -58,7 +62,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     const form = mount(
       <TypeOfCarePage
-        openFormPage={openFormPage}
+        openTypeOfCarePage={openTypeOfCarePage}
         updateFormData={updateFormData}
         router={router}
         data={{}}
@@ -73,12 +77,12 @@ describe('VAOS <TypeOfCarePage>', () => {
   });
 
   it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
+    const openTypeOfCarePage = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <TypeOfCarePage
-        openFormPage={openFormPage}
+        openTypeOfCarePage={openTypeOfCarePage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{ typeOfCareId: '323' }}
       />,
@@ -88,6 +92,27 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should list type of care in alphabetical order', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+
+    const form = mount(
+      <TypeOfCarePage
+        openTypeOfCarePage={openTypeOfCarePage}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('label').length).to.equal(12);
+    expect(
+      form
+        .find('label')
+        .at(0)
+        .text(),
+    ).to.contain('Amputation care');
     form.unmount();
   });
 });

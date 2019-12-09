@@ -6,6 +6,7 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getReasonForAppointment } from '../utils/selectors';
@@ -17,7 +18,8 @@ const initialSchema = {
   properties: {
     reasonForAppointment: {
       type: 'string',
-      enum: ['routine-follow-up', 'new-issue', 'medication-concern', 'other'],
+      enum: PURPOSE_TEXT.map(purpose => purpose.id),
+      enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
     },
     reasonAdditionalInfo: {
       type: 'string',
@@ -28,13 +30,9 @@ const initialSchema = {
 const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
-    'ui:title': 'Why do you want to make an appointment?',
-    'ui:options': {
-      labels: PURPOSE_TEXT,
-    },
+    'ui:title': 'Why are you making this appointment?',
   },
   reasonAdditionalInfo: {
-    'ui:title': 'Provide additional details for your appointment.',
     'ui:widget': 'textarea',
     'ui:options': {
       rows: 5,
@@ -93,6 +91,30 @@ export class ReasonForAppointmentPage extends React.Component {
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
+          />
+          <AlertBox
+            headline="If you are experiencing a medical emergency:"
+            className="vads-u-margin-y--3"
+            content={
+              <ul>
+                <li>
+                  Call <a href="tel:911">911</a>,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Call the Veterans Crisis hotline at{' '}
+                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Go to your nearest emergency room or VA medical center.{' '}
+                  <a href="/find-locations">
+                    Find your nearest VA medical center
+                  </a>
+                </li>
+              </ul>
+            }
+            status="warning"
           />
         </SchemaForm>
       </div>

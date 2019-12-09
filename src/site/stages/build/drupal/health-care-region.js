@@ -62,37 +62,40 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
 
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
-  const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
-    .sortBy('fieldServiceNameAndDescripti.entity.weight')
-    .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
-    .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
-    .value();
+  if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
+    const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
+      .sortBy('fieldServiceNameAndDescripti.entity.weight')
+      .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
+      .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
+      .value();
 
-  const hsEntityUrl = createEntityUrlObj(drupalPagePath);
-  const hsObj = {
-    fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
-    featuredContentHealthServices: page.fieldFeaturedContentHealthser,
-    facilitySidebar: sidebar,
-    entityUrl: hsEntityUrl,
-    alert: page.alert,
-    title: page.title,
-    regionNickname: page.fieldNicknameForThisFacility,
-    clinicalHealthServices,
-  };
-  const hsPage = updateEntityUrlObj(
-    hsObj,
-    drupalPagePath,
-    'Patient and health services',
-    'health-services',
-  );
-  const hsPath = hsPage.entityUrl.path;
-  hsPage.regionOrOffice = page.title;
-  hsPage.entityUrl = generateBreadCrumbs(hsPath);
+    const hsEntityUrl = createEntityUrlObj(drupalPagePath);
+    const hsObj = {
+      fieldClinicalHealthServi: page.fieldClinicalHealthCareServi,
+      featuredContentHealthServices: page.fieldFeaturedContentHealthser,
+      facilitySidebar: sidebar,
+      entityUrl: hsEntityUrl,
+      alert: page.alert,
+      title: page.title,
+      regionNickname: page.fieldNicknameForThisFacility,
+      clinicalHealthServices,
+    };
 
-  files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
-    hsPage,
-    'health_care_region_health_services_page.drupal.liquid',
-  );
+    const hsPage = updateEntityUrlObj(
+      hsObj,
+      drupalPagePath,
+      'Patient and health services',
+      'health-services',
+    );
+    const hsPath = hsPage.entityUrl.path;
+    hsPage.regionOrOffice = page.title;
+    hsPage.entityUrl = generateBreadCrumbs(hsPath);
+
+    files[`${drupalPagePath}/health-services/index.html`] = createFileObj(
+      hsPage,
+      'health_care_region_health_services_page.drupal.liquid',
+    );
+  }
 
   // Press Release listing page
   const prEntityUrl = createEntityUrlObj(drupalPagePath);

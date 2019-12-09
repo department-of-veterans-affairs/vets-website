@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { getTypeOfCare } from '../utils/selectors';
-import { PURPOSE_TEXT } from '../utils/constants';
+import { FACILITY_TYPES, PURPOSE_TEXT } from '../utils/constants';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -28,7 +28,7 @@ function formatBestTime(bestTime) {
 }
 
 export default function ConfirmationRequestInfo({ data, facility }) {
-  const isCommunityCare = data.facilityType === 'communityCare';
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
 
   return (
@@ -99,11 +99,10 @@ export default function ConfirmationRequestInfo({ data, facility }) {
               {!isCommunityCare && (
                 <>
                   <dt>
-                    <strong>{facility?.institution.authoritativeName}</strong>
+                    <strong>{facility?.authoritativeName}</strong>
                   </dt>
                   <dd>
-                    {facility?.institution.city},{' '}
-                    {facility?.institution.stateAbbrev}
+                    {facility?.city}, {facility?.stateAbbrev}
                   </dd>
                 </>
               )}
@@ -129,7 +128,13 @@ export default function ConfirmationRequestInfo({ data, facility }) {
           <div className="vads-u-flex--1">
             <dl className="vads-u-margin-y--0">
               <dt>
-                <strong>{PURPOSE_TEXT[data.reasonForAppointment]}</strong>
+                <strong>
+                  {
+                    PURPOSE_TEXT.find(
+                      purpose => purpose.id === data.reasonForAppointment,
+                    )?.short
+                  }
+                </strong>
               </dt>
               <dd>{data.reasonAdditionalInfo}</dd>
               <dt>

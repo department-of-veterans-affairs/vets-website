@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { TypeOfFacilityPage } from '../../containers/TypeOfFacilityPage';
+import { FACILITY_TYPES } from '../../utils/constants';
 
 describe('VAOS <TypeOfFacilityPage>', () => {
   it('should render', () => {
@@ -60,10 +61,10 @@ describe('VAOS <TypeOfFacilityPage>', () => {
       />,
     );
 
-    selectRadio(form, 'root_facilityType', 'communityCare');
+    selectRadio(form, 'root_facilityType', FACILITY_TYPES.COMMUNITY_CARE);
 
     expect(updateFormData.firstCall.args[2].facilityType).to.equal(
-      'communityCare',
+      FACILITY_TYPES.COMMUNITY_CARE,
     );
     form.unmount();
   });
@@ -76,7 +77,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
       <TypeOfFacilityPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ facilityType: 'communityCare' }}
+        data={{ facilityType: FACILITY_TYPES.COMMUNITY_CARE }}
       />,
     );
 

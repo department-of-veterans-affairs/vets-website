@@ -22,7 +22,6 @@ import OnlineClassesFilter from '../components/search/OnlineClassesFilter';
 import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -68,10 +67,7 @@ export class LandingPage extends React.Component {
       }
     });
 
-    // prod flag for CT-116 - #19864
-    if (environment.isProduction()) {
-      this.props.router.push({ pathname: 'search', query });
-    } else if (isVetTecSelected(this.props.filters)) {
+    if (isVetTecSelected(this.props.filters)) {
       delete query.vetTecProvider;
       this.props.router.push({ pathname: 'program-search', query });
     } else {
@@ -139,7 +135,7 @@ export class LandingPage extends React.Component {
         <div className="row">
           <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
-            <p className="subheading">
+            <p className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-color--gray-dark">
               Learn about education programs and compare benefits by school.
             </p>
 

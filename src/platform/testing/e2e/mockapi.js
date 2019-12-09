@@ -1,4 +1,4 @@
-"use strict";  // eslint-disable-line
+'use strict'; // eslint-disable-line
 
 // Simple mock api server. Allows scripting of a JSON API endpoint for end-to-end tests.
 //
@@ -47,10 +47,20 @@ function makeMockApiRouter(opts) {
 
     mockResponses[token] = mockResponses[token] || {};
     mockResponses[token][verb] = mockResponses[token][verb] || {};
-    mockResponses[token][verb][path] = {
-      status: req.body.status,
-      value: req.body.value,
-    };
+    if (req.body.query) {
+      mockResponses[token][verb][path] = mockResponses[token][verb][path] || {
+        query: true,
+      };
+      mockResponses[token][verb][path][req.body.query] = {
+        status: req.body.status,
+        value: req.body.value,
+      };
+    } else {
+      mockResponses[token][verb][path] = {
+        status: req.body.status,
+        value: req.body.value,
+      };
+    }
     const result = {
       result: `set token: ${token} ${verb} ${path} to ${JSON.stringify(
         req.body.value,
@@ -79,6 +89,20 @@ function makeMockApiRouter(opts) {
       result = {
         error: `mock not initialized for token: ${token} ${verb} ${path}`,
       };
+    }
+
+    if (result.query) {
+      const queryStrings = Object.keys(result).filter(qs => qs !== 'query');
+      const currentQuery = req.originalUrl.split('?')[1];
+      const match = queryStrings.find(qs => RegExp(qs).test(currentQuery));
+      if (match) {
+        result = result[match];
+      } else {
+        res.status(500);
+        result = {
+          error: `no mock with matching query string: ${token} ${verb} ${path}`,
+        };
+      }
     }
 
     if (result.status) {
