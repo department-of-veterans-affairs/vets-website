@@ -8,7 +8,10 @@ module.exports = {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['q_a_section'] },
         fieldAccordionDisplay: { type: 'boolean' },
-        fieldQuestions: { type: 'string' },
+        fieldQuestions: {
+          type: 'array',
+          items: { $ref: 'Paragraph' },
+        },
         fieldSectionHeader: { type: ['string', 'null'] },
         fieldSectionIntro: { type: ['string', 'null'] },
       },
