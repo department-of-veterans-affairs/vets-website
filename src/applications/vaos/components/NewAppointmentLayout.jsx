@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Breadcrumbs from './Breadcrumbs';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import NeedHelp from '../components/NeedHelp';
 
 export default class NewAppointmentLayout extends React.Component {
   componentDidMount() {
@@ -36,6 +37,7 @@ export default class NewAppointmentLayout extends React.Component {
               New appointment
             </span>
             {children}
+            <NeedHelp />
           </div>
         </div>
       </div>

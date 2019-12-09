@@ -139,9 +139,9 @@ class ObjectField extends React.Component {
         <>
           {!formContext.hideHeaderRow && (
             <div className="form-review-panel-page-header-row">
-              <h5 className="form-review-panel-page-header">
-                {!formContext.hideTitle ? title : null}
-              </h5>
+              {formContext.hideTitle || title.trim() === '' ? null : (
+                <h5 className="form-review-panel-page-header">{title}</h5>
+              )}
               <button
                 type="button"
                 className="edit-btn primary-outline"

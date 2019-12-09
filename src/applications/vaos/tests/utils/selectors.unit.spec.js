@@ -13,7 +13,6 @@ import {
   getPreferredDate,
   getReasonForAppointment,
   getTypeOfCare,
-  selectConfirmedAppointment,
   selectPendingAppointment,
   getCancelInfo,
 } from '../../utils/selectors';
@@ -82,30 +81,6 @@ describe('VAOS selectors', () => {
       expect(appt).to.be.null;
     });
   });
-  describe('selectConfirmedAppointment', () => {
-    it('should return appt matching id', () => {
-      const state = {
-        appointments: {
-          confirmed: [
-            {
-              appointmentRequestId: 'testing',
-            },
-          ],
-        },
-      };
-      const appt = selectConfirmedAppointment(state, 'testing');
-      expect(appt).to.equal(state.appointments.confirmed[0]);
-    });
-    it('should return null if no matching id', () => {
-      const state = {
-        appointments: {
-          confirmed: null,
-        },
-      };
-      const appt = selectConfirmedAppointment(state, 'testing');
-      expect(appt).to.be.null;
-    });
-  });
 
   describe('getFormPageInfo', () => {
     it('should return info needed for form pages', () => {
@@ -141,9 +116,7 @@ describe('VAOS selectors', () => {
           facilities: {
             '323_123': [
               {
-                institution: {
-                  institutionCode: '983',
-                },
+                institutionCode: '983',
               },
             ],
           },

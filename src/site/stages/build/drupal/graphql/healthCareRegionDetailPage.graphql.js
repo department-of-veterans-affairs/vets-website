@@ -89,6 +89,7 @@ module.exports = `
     fieldOffice {
       entity {
         ...on NodeHealthCareRegionPage {
+          entityLabel
           title
           fieldNicknameForThisFacility
         }

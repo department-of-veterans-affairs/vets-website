@@ -24,7 +24,7 @@ describe('VAOS scheduling eligibility logic', () => {
       resetFetch();
     });
     it('should fetch all data', async () => {
-      const eligibilityData = await getEligibilityData('983', '323');
+      const eligibilityData = await getEligibilityData('983', '323', '983');
 
       expect(Object.keys(eligibilityData)).to.deep.equal([
         'requestPastVisit',
@@ -35,7 +35,7 @@ describe('VAOS scheduling eligibility logic', () => {
       ]);
     });
     it('should skip pact if not primary care', async () => {
-      const eligibilityData = await getEligibilityData('983', '502');
+      const eligibilityData = await getEligibilityData('983', '502', '983');
 
       expect(Object.keys(eligibilityData)).to.deep.equal([
         'requestPastVisit',
