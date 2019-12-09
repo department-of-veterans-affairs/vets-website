@@ -15,7 +15,7 @@ export function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.clinicId) {
+  } else if (appt.clinicId || appt.vvsAppointments) {
     return APPOINTMENT_TYPES.vaAppointment;
   } else if (appt.appointmentTime) {
     return APPOINTMENT_TYPES.ccAppointment;
@@ -267,7 +267,7 @@ export function getRequestDateOptions(appt) {
 
   return options.reduce((formatted, option, index) => {
     formatted.push(
-      <li key={`${appt.uniqueId}-option-${index}`}>
+      <li key={`${appt.id}-option-${index}`}>
         {option.date.format('ddd, MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
       </li>,
     );

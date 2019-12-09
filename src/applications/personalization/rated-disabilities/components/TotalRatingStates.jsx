@@ -16,8 +16,8 @@ export const errorMessage = () => {
       <p>
         If you get this error again, please call VA.gov help desk at{' '}
         <a
-          href="tel:1-855-574-7286"
-          aria-label="Dial the telephone number 1-855-574-7286"
+          href="tel:18555747286"
+          aria-label="1. 8 5 5. 5 7 4. 7 2 8 6."
           title="Dial the telephone number 1-855-574-7286"
         >
           1-855-574-7286
@@ -61,8 +61,10 @@ export const totalRatingMessage = totalDisabilityRating => (
             Your combined disability rating is {totalDisabilityRating}%
           </strong>
           . This rating doesn’t include disabilities for your claims that are
-          still pending. You can check the status of your disability claims or
-          appeals with the Claim Status tool.
+          still pending. If you filed a new disability claim to add a condition,
+          or if you appealed a disability decision in the past 3 months, we
+          might still be processing your request. You can check the status of
+          your disability claims or appeals with the claim status tool.
         </p>
         <a
           href="/claim-or-appeal-status/"

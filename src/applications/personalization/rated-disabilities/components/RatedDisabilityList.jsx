@@ -35,8 +35,8 @@ class RatedDisabilityList extends React.Component {
           <p>
             If you get this error again, please call VA.gov help desk at{' '}
             <a
-              href="tel:1-855-574-7286"
-              aria-label="Dial the telephone number 1-855-574-7286"
+              href="tel:18555747286"
+              aria-label="1. 8 5 5. 5 7 4. 7 2 8 6."
               title="Dial the telephone number 1-855-574-7286"
             >
               1-855-574-7286
@@ -120,7 +120,7 @@ class RatedDisabilityList extends React.Component {
 
     return (
       <div className="vads-l-row">
-        <h2 className="vads-u-margin-y--1 vads-u-font-size--lg">
+        <h2 className="vads-u-margin-y--1p5 vads-u-font-size--lg">
           Individual disabilities
         </h2>
         <div className="vads-l-row">
