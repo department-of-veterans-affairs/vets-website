@@ -92,6 +92,8 @@ export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
+export const FORM_CLOSED_CONFIRMATION_PAGE =
+  'newAppointment/FORM_CLOSED_CONFIRMATION_PAGE';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -102,9 +104,9 @@ export function openFormPage(page, uiSchema, schema) {
   };
 }
 
-export function resetForm() {
+export function closeConfirmationPage() {
   return {
-    type: FORM_RESET,
+    type: FORM_CLOSED_CONFIRMATION_PAGE,
   };
 }
 

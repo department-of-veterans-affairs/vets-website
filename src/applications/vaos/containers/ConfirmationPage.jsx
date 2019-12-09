@@ -8,14 +8,14 @@ import {
   getFlowType,
   getChosenClinicInfo,
 } from '../utils/selectors';
-import { resetForm } from '../actions/newAppointment';
+import { closeConfirmationPage } from '../actions/newAppointment';
 import { FLOW_TYPES } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
 export class ConfirmationPage extends React.Component {
   componentWillUnmount() {
-    this.props.resetForm();
+    this.props.closeConfirmationPage();
   }
   render() {
     const { data, facility, clinic, flowType } = this.props;
@@ -62,7 +62,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  resetForm,
+  closeConfirmationPage,
 };
 
 export default connect(

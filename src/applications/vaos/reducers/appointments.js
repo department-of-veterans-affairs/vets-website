@@ -13,6 +13,8 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
+import { FORM_CLOSED_CONFIRMATION_PAGE } from '../actions/newAppointment';
+
 import {
   filterFutureConfirmedAppointments,
   filterFutureRequests,
@@ -138,6 +140,12 @@ export default function appointmentsReducer(state = initialState, action) {
         showCancelModal: false,
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
+      };
+    case FORM_CLOSED_CONFIRMATION_PAGE:
+      return {
+        ...state,
+        future: null,
+        futureStatus: FETCH_STATUS.notStarted,
       };
     default:
       return state;
