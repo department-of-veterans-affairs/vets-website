@@ -511,11 +511,8 @@ export function submitAppointmentOrRequest(router) {
 
         try {
           await buildPreferencesDataAndUpdate(newAppointment);
-          const messageBody = createMessageBody(
-            requestData.uniqueId,
-            newAppointment,
-          );
-          await sendRequestMessage(requestData.uniqueId, messageBody);
+          const messageBody = createMessageBody(requestData.id, newAppointment);
+          await sendRequestMessage(requestData.id, messageBody);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded

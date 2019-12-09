@@ -392,9 +392,8 @@ export function submitRequest(type, request) {
   if (USE_MOCK_DATA) {
     promise = Promise.resolve({
       data: {
-        attributes: {
-          uniqueId: 'testing',
-        },
+        id: 'testing',
+        attributes: {},
       },
     });
   } else {
@@ -405,7 +404,7 @@ export function submitRequest(type, request) {
     });
   }
 
-  return promise.then(resp => resp.data.attributes);
+  return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
 export function submitAppointment(appointment) {
