@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { find, filter, get, map, orderBy } from 'lodash';
+import { find, filter, get, includes, map, orderBy } from 'lodash';
 // Relative
 import NavItem from './NavItem';
 
@@ -76,7 +76,10 @@ class SideNav extends Component {
     const { navItemsLookup } = this.props;
 
     // Derive the parent-most nav item. This is O(n), which isn't great but I'm assuming there won't be 1000s of side nav items.
-    const parentMostNavItem = find(navItemsLookup, item => !item.parentID);
+    const parentMostNavItem = find(
+      navItemsLookup,
+      item => !item.parentID && includes(window.location.pathname, item.href),
+    );
     const parentMostID = get(parentMostNavItem, 'id');
 
     // Escape early if we have no nav items to render.
