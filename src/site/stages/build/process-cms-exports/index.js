@@ -53,9 +53,6 @@ const entityAssemblerFactory = contentDir => {
    *                    the body of the referenced entities.
    */
   const assembleEntityTree = (entity, ancestors = []) => {
-    // TODO: Make ancestors an array of { id: toId(), entity }
-    // TODO: Modify the circular reference check to look for the ids
-    //       Prolly use ancestors.map(a => a.id).includes(toId(entity))
     // Avoid circular references
     const ancestorIds = ancestors.map(a => a.id);
     if (ancestorIds.includes(toId(entity))) {
