@@ -84,7 +84,7 @@ describe('<RatedDisabilityList/>', () => {
         .find('h2')
         .first()
         .text(),
-    ).to.contain('Individual disability ratings');
+    ).to.contain('Individual disabilities');
     expect(
       list
         .find('p')
