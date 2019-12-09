@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import FormButtons from '../components/FormButtons';
 
 import {
@@ -14,7 +15,7 @@ import { getFormPageInfo } from '../utils/selectors';
 
 const initialSchema = {
   type: 'object',
-  required: ['phoneNumber', 'email'],
+  required: ['phoneNumber', 'email', 'bestTimeToCall'],
   properties: {
     phoneNumber: {
       type: 'string',
@@ -63,6 +64,11 @@ const uiSchema = {
   phoneNumber: phoneUI('Phone number'),
   bestTimeToCall: {
     'ui:title': 'Best times for us to call you',
+    'ui:validations': [validateBooleanGroup],
+    'ui:options': {
+      showFieldLabel: true,
+      classNames: 'vaos-form__checkboxgroup',
+    },
     morning: {
       'ui:title': 'Morning (8 a.m. – noon)',
       'ui:options': {
