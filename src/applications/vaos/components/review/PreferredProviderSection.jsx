@@ -11,7 +11,7 @@ export default function PreferredProviderSection(props) {
           <div className="vads-l-grid-container vads-u-padding--0">
             <div className="vads-l-row">
               <div className="vads-l-col--6">
-                <h3 className="vaos-appts__block-label">Preferred providers</h3>
+                <h3 className="vaos-appts__block-label">Preferred provider</h3>
               </div>
               <div className="vads-l-col--6 vads-u-text-align--right">
                 <Link
