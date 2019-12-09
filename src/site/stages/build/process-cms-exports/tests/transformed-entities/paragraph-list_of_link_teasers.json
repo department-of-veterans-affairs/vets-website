@@ -3,7 +3,7 @@
   "entity": {
     "entityBundle": "list_of_link_teasers",
     "entityType": "paragraph",
-    "parentFieldName": "field_related_links",
+    "parentFieldName": "",
     "fieldTitle": "Tools to help you manage your health if you're registered as a patient in a VA health facility",
     "fieldVaParagraphs": [
       {
