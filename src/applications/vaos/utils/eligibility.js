@@ -95,15 +95,21 @@ export function getEligibilityChecks(
   typeOfCareId,
   eligibilityData,
 ) {
+  // If we're missing this property, it means no DS checks were made
+  // because it's disabled
+  const directSchedulingEnabled =
+    typeof eligibilityData.directPastVisit !== 'undefined';
+
   return {
-    directPastVisit: hasVisitedInPastMonthsDirect(eligibilityData),
-    directPastVisitValue: eligibilityData.directPastVisit.durationInMonths,
-    directPACT: hasPACTeamIfPrimaryCare(
-      eligibilityData,
-      typeOfCareId,
-      vaFacility,
-    ),
-    directClinics: !!eligibilityData.clinics.length,
+    directPastVisit:
+      directSchedulingEnabled && hasVisitedInPastMonthsDirect(eligibilityData),
+    directPastVisitValue:
+      directSchedulingEnabled &&
+      eligibilityData.directPastVisit.durationInMonths,
+    directPACT:
+      directSchedulingEnabled &&
+      hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaFacility),
+    directClinics: directSchedulingEnabled && !!eligibilityData.clinics.length,
     requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
     requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
     requestLimit: isUnderRequestLimit(eligibilityData),
