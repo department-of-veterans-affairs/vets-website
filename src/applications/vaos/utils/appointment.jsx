@@ -389,3 +389,29 @@ export function getPurposeOfVisit(appt) {
       return appt.purposeOfVisit;
   }
 }
+
+export function getAppointmentTypeHeader(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+    case APPOINTMENT_TYPES.ccRequest:
+      return 'Community Care';
+    case APPOINTMENT_TYPES.request: {
+      if (appt.visitType === 'Video Conference') {
+        return 'VA Video Connect';
+      }
+
+      return 'VA Appointment';
+    }
+    case APPOINTMENT_TYPES.vaAppointment: {
+      if (isVideoVisit(appt)) {
+        return 'VA Video Connect';
+      }
+
+      return 'VA Appointment';
+    }
+    default:
+      return appt.purposeOfVisit;
+  }
+}

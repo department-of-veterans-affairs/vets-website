@@ -7,6 +7,7 @@ import {
   getAppointmentDateTime,
   getAppointmentInstructions,
   getAppointmentInstructionsHeader,
+  getAppointmentTypeHeader,
   hasInstructions,
   isVideoVisit,
 } from '../utils/appointment';
@@ -49,13 +50,7 @@ export default function ConfirmedAppointmentListItem({
   return (
     <li aria-labelledby={`card-${index}`} className={itemClasses}>
       <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-        {type === APPOINTMENT_TYPES.ccAppointment && 'Community Care'}
-        {type === APPOINTMENT_TYPES.vaAppointment &&
-          !isVideoVisit(appointment) &&
-          'VA Appointment'}
-        {type === APPOINTMENT_TYPES.vaAppointment &&
-          isVideoVisit(appointment) &&
-          'VA Video Connect'}
+        {getAppointmentTypeHeader(appointment)}
       </div>
       <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
         {getAppointmentDateTime(appointment)}

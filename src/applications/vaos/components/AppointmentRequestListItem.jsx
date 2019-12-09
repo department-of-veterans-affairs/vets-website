@@ -9,9 +9,9 @@ import {
   getRequestDateOptions,
   getRequestTimeToCall,
   getPurposeOfVisit,
+  getAppointmentTypeHeader,
   sentenceCase,
 } from '../utils/appointment';
-import { APPOINTMENT_TYPES } from '../utils/constants';
 
 export default class AppointmentRequestListItem extends React.Component {
   static propTypes = {
@@ -45,7 +45,6 @@ export default class AppointmentRequestListItem extends React.Component {
       cancelAppointment,
       showCancelButton,
       facility,
-      type,
     } = this.props;
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
@@ -68,47 +67,39 @@ export default class AppointmentRequestListItem extends React.Component {
         className={itemClasses}
       >
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-          {type === APPOINTMENT_TYPES.ccRequest && 'Community Care'}
-          {type === APPOINTMENT_TYPES.request &&
-            appointment.visitType !== 'Video Conference' &&
-            'VA Appointment'}
-          {type === APPOINTMENT_TYPES.request &&
-            appointment.visitType === 'Video Conference' &&
-            'VA Video Connect'}
+          {getAppointmentTypeHeader(appointment)}
         </div>
         <h2
           id={`card-${index}`}
-          className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2"
+          className="vads-u-font-size--h3 vads-u-margin-y--0"
         >
           {sentenceCase(appointment.appointmentType)} appointment
         </h2>
-        <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--2">
-          <div className="vaos-appts__status vads-u-padding-right--1">
+        <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
+          <div className="vads-u-margin-right--1">
             {canceled ? (
               <i className="fas fa-exclamation-circle" />
             ) : (
               <i className="fas fa-exclamation-triangle" />
             )}
           </div>
-          <div className="vaos-appts__status vads-u-flex--1">
-            <span className="vads-u-font-weight--bold vads-u-display--inline-block">
-              <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
-                {canceled ? (
-                  'Canceled'
-                ) : (
-                  <>
-                    <strong>Pending</strong>{' '}
-                    <div className="vads-u-font-weight--normal">
-                      The time and date of this appointment are still to be
-                      determined.
-                    </div>
-                  </>
-                )}
-              </div>
-            </span>
-          </div>
+          <span className="vads-u-font-weight--bold vads-u-flex--1">
+            <div className="vaos-appts__status-text vads-u-font-size--base vads-u-font-family--sans">
+              {canceled ? (
+                'Canceled'
+              ) : (
+                <>
+                  <strong>Pending</strong>{' '}
+                  <div className="vads-u-font-weight--normal">
+                    The time and date of this appointment are still to be
+                    determined.
+                  </div>
+                </>
+              )}
+            </div>
+          </span>
         </div>
-        <div className="vaos-appts__split-section">
+        <div className="vaos-appts__split-section vads-u-margin-top--2">
           <div className="vads-u-flex--1 vads-u-margin-right--1">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
@@ -163,17 +154,18 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
           </AdditionalInfo>
         </div>
-        {!showCancelButton || canceled ? null : (
-          <div className="vads-u-margin-top--2">
-            <button
-              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-              onClick={() => cancelAppointment(appointment)}
-              aria-label="Cancel appointment"
-            >
-              Cancel appointment
-            </button>
-          </div>
-        )}
+        {showCancelButton &&
+          !canceled && (
+            <div className="vads-u-margin-top--2">
+              <button
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                onClick={() => cancelAppointment(appointment)}
+                aria-label="Cancel appointment"
+              >
+                Cancel appointment
+              </button>
+            </div>
+          )}
       </li>
     );
   }
