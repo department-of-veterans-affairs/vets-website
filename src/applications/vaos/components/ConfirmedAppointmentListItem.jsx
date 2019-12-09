@@ -57,10 +57,10 @@ export default function ConfirmedAppointmentListItem({
           isVideoVisit(appointment) &&
           'VA Video Connect'}
       </div>
-      <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-bottom--2">
+      <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
         {getAppointmentDateTime(appointment)}
       </h2>
-      <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--2">
+      <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
         <div className="vaos-appts__status vads-u-flex--1">
           {canceled ? (
             <i className="fas fa-exclamation-circle" />
@@ -77,7 +77,7 @@ export default function ConfirmedAppointmentListItem({
         </div>
       </div>
 
-      <div className="vaos-appts__split-section">
+      <div className="vaos-appts__split-section vads-u-margin-top--2">
         <div className="vads-u-flex--1">
           {isVideoVisit(appointment) ? (
             <VideoVisitSection appointment={appointment} />
@@ -101,6 +101,7 @@ export default function ConfirmedAppointmentListItem({
           </div>
         )}
       </div>
+
       {allowCancel && (
         <div className="vads-u-margin-top--2">
           <button
