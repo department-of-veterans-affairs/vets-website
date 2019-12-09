@@ -42,8 +42,8 @@ function getEntityTransformer(entityType, verbose = true) {
  * @param {Array<Object>} ancestors - All the current entity's
  *                        ancestors. ancestors[1] is the child of
  *                        ancestors[0], etc.
- *                        ancestors[ancestors.length] is the current
- *                        entity's direct parent.
+ *                        ancestors[ancestors.length - 1] is the
+ *                        current entity's direct parent.
  *                        Each item in the array is like:
  *                        { id: toId(entity), entity: entity }
  *
