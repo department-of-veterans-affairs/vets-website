@@ -68,15 +68,15 @@ module.exports = {
    * @return {undefined} - If the UUID is not found
    */
   getRawParentFieldName(parent, uuid) {
-    let rawParentFieldName;
-    Object.keys(parent).forEach(key => {
-      if (!Array.isArray(parent[key])) return;
+    return Object.keys(parent).reduce((rawParentFieldName, key) => {
+      if (!Array.isArray(parent[key]) || rawParentFieldName)
+        return rawParentFieldName;
 
-      parent[key].forEach(prop => {
-        if (prop.target_uuid === uuid) rawParentFieldName = snakeCase(key);
-      });
-    });
-
-    return rawParentFieldName;
+      return parent[key].reduce((keyWithMatchedUUID, prop) => {
+        if (!keyWithMatchedUUID && prop.target_uuid === uuid)
+          return snakeCase(key);
+        return keyWithMatchedUUID;
+      }, null);
+    }, null);
   },
 };
