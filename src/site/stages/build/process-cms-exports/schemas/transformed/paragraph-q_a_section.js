@@ -9,8 +9,8 @@ module.exports = {
         entityBundle: { enum: ['q_a_section'] },
         fieldAccordionDisplay: { type: 'string' },
         fieldQuestions: { type: 'string' },
-        fieldSectionHeader: { type: 'string' },
-        fieldSectionIntro: { type: 'string' },
+        fieldSectionHeader: { type: ['string', 'null'] },
+        fieldSectionIntro: { type: ['string', 'null'] },
       },
       required: [
         'fieldAccordionDisplay',
