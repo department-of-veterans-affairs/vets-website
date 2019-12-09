@@ -44,7 +44,7 @@ export default function PreferredProviderSection(props) {
           <div className="vads-l-grid-container vads-u-padding--0">
             <div className="vads-l-row">
               <div className="vads-l-col--6">
-                <h3 className="vaos-appts__block-label">Preferred providers</h3>
+                <h3 className="vaos-appts__block-label">Preferred provider</h3>
               </div>
               <div className="vads-l-col--6 vads-u-text-align--right">
                 <Link
@@ -60,19 +60,15 @@ export default function PreferredProviderSection(props) {
             Provider not specified
             <br />
             <br />
-            <i>
-              Prefers provider to speak &nbsp;
-              {
-                LANGUAGES.find(
-                  language => language.id === props.data.preferredLanguage,
-                )?.value
-              }
-            </i>
+            Prefers provider to speak &nbsp;
+            {
+              LANGUAGES.find(
+                language => language.id === props.data.preferredLanguage,
+              )?.value
+            }
             <br />
-            <i>
-              Practice in &nbsp;
-              {props.vaCityState}
-            </i>
+            Practice in &nbsp;
+            {props.vaCityState}
           </span>
         </>
       )}
