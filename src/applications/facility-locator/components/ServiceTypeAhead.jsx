@@ -66,7 +66,6 @@ class ServiceTypeAhead extends Component {
             clearSelection();
           }
         }}
-        key={defaultSelectedItem}
       >
         {({
           getInputProps,
