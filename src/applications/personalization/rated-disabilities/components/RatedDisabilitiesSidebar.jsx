@@ -11,7 +11,7 @@ const RatedDisabilitiesSidebar = () => (
     </p>
     <a
       href="https://www.youtube.com/watch?v=oM7oYzL2DCg"
-      aria-label="view information on how you recieved the rating you did on YouTube"
+      aria-label="Compensation 101: How did I get this rating (YouTube)"
       target="_blank"
       rel="noopener noreferrer"
       title="view information on how you recieved the rating you did on YouTube"
@@ -33,8 +33,8 @@ const RatedDisabilitiesSidebar = () => (
       You can call us at
       <a
         className="vads-u-margin-left--0p5"
-        aria-label="Dial the telephone number 800-827-1000"
         href="tel:800-827-1000"
+        aria-label="Dial the telephone number 800-827-1000"
         title="Dial the telephone number 800-827-1000"
       >
         800-827-1000
