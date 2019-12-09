@@ -231,11 +231,30 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(true);
   });
 
-  it('hasVADomain should return true if  https://www.va.gov/testing ', () => {
-    const result = hasVADomain('https://www.va.gov/testing');
+  it('hasVADomain should return true if  https://va.gov/testing ', () => {
+    const result = hasVADomain('https://va.gov/testing');
 
     expect(result).to.eq(true);
   });
+
+  it('hasVADomain should return true if  http://www.va.gov/testing ', () => {
+    const result = hasVADomain('http://www.va.gov/testing');
+
+    expect(result).to.eq(true);
+  });
+
+  it('hasVADomain should return false if  https://clinic.va.gov/clinic', () => {
+    const result = hasVADomain('https://clinic.va.gov/clinic');
+
+    expect(result).to.eq(false);
+  });
+
+  it('hasVADomain should return false if  https://www.clinic.va.gov/clinic', () => {
+    const result = hasVADomain('https://clinic.va.gov/clinic');
+
+    expect(result).to.eq(false);
+  });
+
 
   it('hasVADomain should return false if  https://google.com/testing ', () => {
     const result = hasVADomain('https://google.com/testing');
