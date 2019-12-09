@@ -381,7 +381,7 @@ export function getPurposeOfVisit(appt) {
     case APPOINTMENT_TYPES.ccRequest:
       return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
         ?.short;
-    case APPOINTMENT_TYPES.vaRequest:
+    case APPOINTMENT_TYPES.request:
       return PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.purposeOfVisit,
       )?.short;

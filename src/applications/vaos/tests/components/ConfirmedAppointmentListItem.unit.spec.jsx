@@ -79,9 +79,12 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   });
 
   it('should display clinic name', () => {
-    expect(tree.find('.vaos-appts__split-section dt').text()).to.contain(
-      'C&P BEV AUDIO FTC1',
-    );
+    expect(
+      tree
+        .find('.vaos-appts__split-section dt')
+        .first()
+        .text(),
+    ).to.contain('C&P BEV AUDIO FTC1');
   });
 
   it('should not show facility address', () => {
@@ -169,6 +172,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
   );
 
   it('should contain link to video conference', () => {
-    expect(tree.find('VideoVisitLink').length).to.equal(1);
+    expect(tree.find('VideoVisitSection').length).to.equal(1);
   });
 });
