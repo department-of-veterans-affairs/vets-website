@@ -8,6 +8,7 @@ import {
   openModal,
   createTransaction,
   updateSelectedAddress,
+  updateValidationKeyAndSave,
 } from '../actions';
 
 import * as VET360 from '../constants';
@@ -22,17 +23,25 @@ class AddressValidationModal extends React.Component {
       validationKey,
       addressValidationType,
       selectedAddress,
+      selectedId,
     } = this.props;
+
     const payload = {
       ...selectedAddress,
       validationKey,
-      addressPou:
-        addressValidationType === VET360.FIELD_NAMES.MAILING_ADDRESS
-          ? VET360.ADDRESS_POU.CORRESPONDENCE
-          : VET360.ADDRESS_POU.RESIDENCE,
     };
 
     const method = payload.id ? 'PUT' : 'POST';
+
+    if (selectedId !== 'userEntered') {
+      this.props.updateValidationKeyAndSave(
+        VET360.API_ROUTES.ADDRESSES,
+        method,
+        addressValidationType,
+        payload,
+        this.props.analyticsSectionName,
+      );
+    }
 
     this.props.createTransaction(
       VET360.API_ROUTES.ADDRESSES,
@@ -140,14 +149,13 @@ class AddressValidationModal extends React.Component {
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
 
     return (
-      <div key={id}>
+      <div onClick={this.onChangeHandler(address, id)} key={id}>
         <input
           style={{ zIndex: '1' }}
           type="radio"
           name={id}
           disabled={isAddressFromUser && !validationKey}
           checked={selectedId === id}
-          onClick={this.onChangeHandler(address, id)}
         />
         <label
           htmlFor={id}
@@ -246,6 +254,7 @@ const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(openModal(null)),
   openModal: modalName => dispatch(openModal(modalName)),
   createTransaction,
+  updateValidationKeyAndSave,
   updateSelectedAddress: (address, selectedId) =>
     dispatch(updateSelectedAddress(address, selectedId)),
 });
