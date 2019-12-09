@@ -7,7 +7,7 @@ module.exports = {
       properties: {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['q_a_section'] },
-        fieldAccordionDisplay: { type: 'string' },
+        fieldAccordionDisplay: { type: 'boolean' },
         fieldQuestions: { type: 'string' },
         fieldSectionHeader: { type: ['string', 'null'] },
         fieldSectionIntro: { type: ['string', 'null'] },
