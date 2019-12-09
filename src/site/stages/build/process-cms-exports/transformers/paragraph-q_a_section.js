@@ -5,7 +5,7 @@ const transform = entity => ({
     entityType: 'paragraph',
     entityBundle: 'q_a_section',
     fieldAccordionDisplay: getDrupalValue(entity.fieldAccordionDisplay),
-    fieldQuestions: getDrupalValue(entity.fieldQuestions),
+    fieldQuestions: entity.fieldQuestions,
     fieldSectionHeader: getDrupalValue(entity.fieldSectionHeader),
     fieldSectionIntro: getDrupalValue(entity.fieldSectionIntro),
   },
