@@ -1,13 +1,8 @@
-/* eslint-disable no-continue, no-unused-vars */
-
-/**
- * TODO: Handle errors with sentry where appropriate, or find out what's best todo with these errors
- */
+/* eslint-disable no-continue */
 
 /**
  * Run vale lint on the page content and inject suggestions into the rendered HTML
  */
-const path = require('path');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const tmp = require('tmp');
@@ -16,14 +11,11 @@ const tmp = require('tmp');
  *  Method to execute vale check on a content string via helper script
  *
  * @param {String} content
+ * @return {Promise} resolves with vale results in object
  */
 async function runValeCheck(content) {
   const promise = new Promise((resolve, _reject) => {
-    const results = {};
-
-    /**
-     * TODO: We need to ensure some sort of check so bad content can't be passed in
-     */
+    const output = {};
     const vale = spawn('vale', [
       '--config=script/vale/.vale.ini',
       '--output=JSON',
@@ -31,29 +23,19 @@ async function runValeCheck(content) {
     ]);
 
     vale.stdout.on('data', data => {
-      results.results = data;
-      results.dataString = data.toString();
+      output.results = data;
     });
 
     vale.stderr.on('data', data => {
-      results.errors = data.toString();
-      // TODO log error somewhere
-      // console.log(`vale stderr: ${data.toString()}`);
+      output.errors = data.toString();
     });
 
     vale.on('exit', code => {
-      results.code = code.toString();
-      // TODO handle errors
-      // console.log(`child process exited with code ${code.toString()}`);
+      output.code = code.toString();
+      resolve(output);
     });
-
-    resolve(results);
   });
-  const results = await promise;
-  await new Promise((resolve, _reject) => {
-    setTimeout(resolve, 5000);
-  }); // Only works with this
-  return results;
+  return promise;
 }
 
 /**
@@ -67,11 +49,9 @@ function createTempFile(dataBuffer) {
 }
 
 /**
- * Inject the results into the page header banner element
+ * Build the page header banner element
  */
-function injectResultsIntoMarkup(file, issues) {
-  const { dom } = file;
-  const bannerEl = document.createElement('div');
+function buildDetailsMarkup(file, issues) {
   let details =
     '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--secondary-lighter vads-u-border-bottom--2px vads-u-padding--1">';
   details += `<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (${
@@ -99,10 +79,7 @@ function injectResultsIntoMarkup(file, issues) {
 
   details += issuesList;
   details += '</details>';
-
-  bannerEl.innerHTML = details;
-  const header = dom('header');
-  header.prepend(bannerEl, header.firstChild);
+  return details;
 }
 
 /**
@@ -118,42 +95,33 @@ function injectValeLinter(buildOptions) {
       done();
       return 'Plain language linting skipped';
     }
-    let issues;
 
-    for (const fileName of Object.keys(files)) {
-      if (!fileName.endsWith('.html')) continue;
+    Object.keys(files).forEach(fileName => {
+      if (!fileName.endsWith('.html')) return;
 
       /*
-       * Because the file is only linted for plain language on the preview server, which is dynamically served via preview.js, we need to read the contents directly and put them in a tmpfile. Passing contents in directly leads to very large argument lists which errors out.
+       * Because the file is only linted for plain language on the preview server, which is dynamically served via preview.js, we need to read the contents directly and put them in a tmpfile. Passing contents in directly leads to very large argument lists which causes vale to error out.
        */
       const file = files[fileName];
-      const contents = file.contents.toString('utf-8');
-      const tmpfile = createTempFile(new Buffer(contents));
+      const tmpfile = createTempFile(file.contents);
+      const { dom } = file;
 
       /**
        * Run the vale binary on the contents of the file
        */
-      issues = runValeCheck(tmpfile).then(
-        issuesObj => JSON.parse(issuesObj.dataString)[tmpfile],
-      );
+      runValeCheck(tmpfile)
+        .then(issuesObj => JSON.parse(issuesObj.results)[tmpfile])
+        .then(elements => {
+          const markup = buildDetailsMarkup(file, elements);
+          return markup;
+        })
+        .then(markup => {
+          dom('body').prepend(markup); // This doesn't work, though console.log(markup) would
+        });
 
-      const { dom } = file;
-      const issueElements = issues.then(issuesArray => issuesArray);
-      issueElements.then(elements => {
-        // console.log('There are ', issues.length, ' suggestions');
-        injectResultsIntoMarkup(file, elements);
-        for (const i of elements) {
-          // console.log(i.Message, i.Line, i.Span);
-        }
-      });
-
-      dom('body').append(
-        '<script type="text/javascript" src="/js/inject-lint-results.js"></script>',
-      );
       file.modified = true;
-    }
-    done();
-    return issues;
+    });
+    return done();
   };
 }
 
