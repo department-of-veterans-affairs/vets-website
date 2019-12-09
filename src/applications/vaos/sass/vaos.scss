@@ -232,3 +232,12 @@
 h1:focus {
   outline: none !important;
 }
+
+.vaos-form__checkboxgroup {
+  .schemaform-block {
+    margin-top: 0;
+  }
+  > .usa-input-error {
+    margin-top: 0;
+  }
+}

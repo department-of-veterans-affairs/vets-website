@@ -1,6 +1,6 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getAppointmentId, getRealFacilityId } from './appointment';
+import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
@@ -9,20 +9,6 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
 } from './constants';
-
-export function selectConfirmedAppointment(state, id) {
-  return (
-    state.appointments?.confirmed?.find?.(
-      appt => getAppointmentId(appt) === id,
-    ) || null
-  );
-}
-
-export function selectPendingAppointment(state, id) {
-  return (
-    state.appointments?.pending?.find?.(appt => appt.uniqueId === id) || null
-  );
-}
 
 export function getNewAppointment(state) {
   return state.newAppointment;

@@ -19,6 +19,7 @@ class VetTecSearchForm extends React.Component {
     clearAutocompleteSuggestions: PropTypes.func.isRequired,
     fetchAutocompleteSuggestions: PropTypes.func.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
+    handleProviderFilterChange: PropTypes.func.isRequired,
     updateAutocompleteSearchTerm: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
     searchResults: PropTypes.object.isRequired,
@@ -120,6 +121,8 @@ class VetTecSearchForm extends React.Component {
       filters={this.props.filters}
       providers={this.props.search.facets.provider}
       handleFilterChange={this.props.handleFilterChange}
+      handleProviderFilterChange={this.props.handleProviderFilterChange}
+      giVetTecProgramProviderFilters={this.props.giVetTecProgramProviderFilters}
     />
   );
 

@@ -2,6 +2,7 @@ const { expect } = require('chai');
 const {
   getWysiwygString,
   unescapeUnicode,
+  getRawParentFieldName,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -39,6 +40,19 @@ describe('CMS export transformer helpers', () => {
           `a ${character} ${character} a`,
         );
       });
+    });
+  });
+
+  describe('getParentField', () => {
+    it('should return the snake_cased property name of the field in which the UUID is found', () => {
+      const uuid = 42;
+      const parent = {
+        foo: 'bar',
+        // eslint-disable-next-line camelcase
+        pickMe: [{ target_uuid: uuid }],
+      };
+      const parentFieldName = getRawParentFieldName(parent, uuid);
+      expect(parentFieldName).to.equal('pick_me');
     });
   });
 });
