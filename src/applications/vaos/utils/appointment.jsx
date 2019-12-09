@@ -354,7 +354,10 @@ export function getAppointmentInstructions(appt) {
     case APPOINTMENT_TYPES.ccAppointment:
       return appt.instructionsToVeteran;
     case APPOINTMENT_TYPES.vaAppointment:
-      return appt.vdsAppointments[0].bookingNote;
+      return (
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes
+      );
     default:
       return '';
   }
@@ -375,6 +378,8 @@ export function getAppointmentInstructionsHeader(appt) {
 
 export function hasInstructions(appt) {
   return (
-    !!appt.instructionsToVeteran || !!appt.vdsAppointments?.[0]?.bookingNote
+    !!appt.instructionsToVeteran ||
+    !!appt.vdsAppointments?.[0]?.bookingNote ||
+    !!appt.vvsAppointments?.[0]?.bookingNotes
   );
 }

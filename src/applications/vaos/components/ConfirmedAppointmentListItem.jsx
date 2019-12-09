@@ -14,7 +14,7 @@ import {
   CANCELLED_APPOINTMENT_SET,
   APPOINTMENT_TYPES,
 } from '../utils/constants';
-import VideoVisitLink from './VideoVisitLink';
+import VideoVisitSection from './VideoVisitSection';
 
 export default function ConfirmedAppointmentListItem({
   appointment,
@@ -42,7 +42,7 @@ export default function ConfirmedAppointmentListItem({
     {
       'vads-u-border-top--4px': true,
       'vads-u-border-color--green': !canceled,
-      'vads-u-border-color--secondary-dark': !canceled,
+      'vads-u-border-color--secondary-dark': canceled,
     },
   );
 
@@ -80,7 +80,7 @@ export default function ConfirmedAppointmentListItem({
       <div className="vaos-appts__split-section">
         <div className="vads-u-flex--1">
           {isVideoVisit(appointment) ? (
-            <VideoVisitLink appointment={appointment} />
+            <VideoVisitSection appointment={appointment} />
           ) : (
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
@@ -101,8 +101,8 @@ export default function ConfirmedAppointmentListItem({
           </div>
         )}
       </div>
-      <div className="vads-u-margin-top--2">
-        {allowCancel && (
+      {allowCancel && (
+        <div className="vads-u-margin-top--2">
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"
@@ -114,8 +114,8 @@ export default function ConfirmedAppointmentListItem({
               on {getAppointmentDate(appointment)}
             </span>
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </li>
   );
 }
