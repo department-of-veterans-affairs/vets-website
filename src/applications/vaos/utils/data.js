@@ -94,26 +94,25 @@ export function transformFormToCCRequest(state) {
     const street = `${data.communityCareProvider.address.street}, ${
       data.communityCareProvider.address.street2
     }`;
-    preferredProviders = data.hasCommunityCareProvider
-      ? [
-          {
-            address: {
-              street,
-              city: data.communityCareProvider.address.city,
-              state: data.communityCareProvider.address.state,
-              zipCode: data.communityCareProvider.address.postalCode,
-            },
-            firstName: data.communityCareProvider.firstName,
-            lastName: data.communityCareProvider.lastName,
-            practiceName: data.communityCareProvider.practiceName,
-            providerStreet: street,
-            providerCity: data.communityCareProvider.address.city,
-            providerState: data.communityCareProvider.address.state,
-            providerZipCode1: data.communityCareProvider.address.postalCode,
-          },
-        ]
-      : [];
+    preferredProviders = [
+      {
+        address: {
+          street,
+          city: data.communityCareProvider.address.city,
+          state: data.communityCareProvider.address.state,
+          zipCode: data.communityCareProvider.address.postalCode,
+        },
+        firstName: data.communityCareProvider.firstName,
+        lastName: data.communityCareProvider.lastName,
+        practiceName: data.communityCareProvider.practiceName,
+        providerStreet: street,
+        providerCity: data.communityCareProvider.address.city,
+        providerState: data.communityCareProvider.address.state,
+        providerZipCode1: data.communityCareProvider.address.postalCode,
+      },
+    ];
   }
+
   const residentialAddress = selectVet360ResidentialAddress(state);
   const system = getSystems(state).find(
     sys => sys.institutionCode === data.communityCareSystemId,
