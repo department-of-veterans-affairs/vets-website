@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  getAppointmentId,
   getAppointmentTitle,
   filterFutureRequests,
   filterFutureConfirmedAppointments,
@@ -11,35 +10,10 @@ import {
 import moment from 'moment';
 
 describe('VAOS appointment helpers', () => {
-  describe('getAppointmentId', () => {
-    it('should return id for CC', () => {
-      const id = getAppointmentId({
-        appointmentRequestId: '1234',
-      });
-      expect(id).to.equal('1234');
-    });
-
-    it('should return id for video appt', () => {
-      const id = getAppointmentId({
-        vvsAppointments: [{ id: '1234' }],
-      });
-      expect(id).to.equal('1234');
-    });
-
-    it('should return id for VA facility appt', () => {
-      const id = getAppointmentId({
-        startDate: '2019-09-20T10:00:00',
-        clinicId: '233',
-        facilityId: '555',
-      });
-      expect(id).to.equal('va-555-233-2019-09-20T10:00:00');
-    });
-  });
-
   describe('getAppointmentTitle', () => {
     it('should return title for CC', () => {
       const id = getAppointmentTitle({
-        appointmentRequestId: '1234',
+        appointmentTime: '1234',
         providerPractice: 'Test Practice',
       });
       expect(id).to.equal('Community Care appointment');

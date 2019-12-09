@@ -23,7 +23,7 @@ export default class AppointmentRequestListItem extends React.Component {
 
   toggleShowMore = () => {
     const { appointment, messages, fetchMessages } = this.props;
-    const id = appointment.appointmentRequestId;
+    const id = appointment.id;
     const showMore = !this.state.showMore;
 
     if (showMore && !messages[id]) {
@@ -46,8 +46,7 @@ export default class AppointmentRequestListItem extends React.Component {
     const { showMore } = this.state;
     const canceled = appointment.status === 'Cancelled';
     const firstMessage =
-      messages?.[appointment.appointmentRequestId]?.[0]?.attributes
-        ?.messageText;
+      messages?.[appointment.id]?.[0]?.attributes?.messageText;
 
     return (
       <li

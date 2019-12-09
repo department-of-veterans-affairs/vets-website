@@ -222,10 +222,14 @@ module.exports = class extends Generator {
     this.fs.copyTpl(path.join(templatesPath, 'raw-schema'), rawSchemaPath, {
       propertyNames: this.rawPropertyNames,
     });
+    const [baseType, subType] = this.contentModelType.split('-');
     this.fs.copyTpl(
       path.join(templatesPath, 'transformed-schema'),
       transformedSchemaPath,
       {
+        baseType,
+        subType,
+        contentModelType: this.contentModelType,
         propertyNames: this.transformedPropertyNames,
       },
     );
