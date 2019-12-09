@@ -26,7 +26,7 @@ import {
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_RESET,
+  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -715,13 +715,13 @@ describe('VAOS reducer: newAppointment', () => {
     expect(newState.showTypeOfCareUnavailableModal).to.be.false;
   });
 
-  it('should reset form state', () => {
+  it('should reset form when confirmation page is closed', () => {
     const currentState = {
       data: { test: 'blah' },
       hasDataFetchingError: true,
     };
     const action = {
-      type: FORM_RESET,
+      type: FORM_CLOSED_CONFIRMATION_PAGE,
     };
 
     const newState = newAppointmentReducer(currentState, action);
