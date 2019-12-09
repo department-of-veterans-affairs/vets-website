@@ -1,6 +1,7 @@
 {
   "data": [
     {
+      "id": "8a4886886e4c8e22016e6613216d001f",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a4886886e4c8e22016e6613216d001f",
@@ -90,7 +91,6 @@
           "objectType": "CCAppointmentRequest",
           "link": []
         },
-        "appointmentRequestId": "8a4886886e4c8e22016e6613216d001f",
         "patientId": "1259897978",
         "date": "2019-11-13T11:42:40.033+0000",
         "uniqueId": "8a4886886e4c8e22016e6613216d001f",
@@ -132,6 +132,7 @@
       }
     },
     {
+      "id": "8a48912a6cab0202016cd3afd3ef008a",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48912a6cab0202016cd3afd3ef008a",
@@ -208,7 +209,6 @@
         "typeOfCareId": "323",
         "friendlyLocationName": "CHYSHR-Cheyenne VA Medical Center",
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48912a6cab0202016cd3afd3ef008a",
         "date": "2019-08-27T09:26:51.000+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48912a6cab0202016cd3afd3ef008a",
@@ -249,6 +249,7 @@
       }
     },
     {
+      "id": "8a48912a6cab0202016cb4fcaa8b0038",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48912a6cab0202016cb4fcaa8b0038",
@@ -310,7 +311,6 @@
         "typeOfCareId": "323",
         "friendlyLocationName": "DAYTSHR -Dayton VA Medical Center name2",
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48912a6cab0202016cb4fcaa8b0038",
         "date": "2019-08-21T12:22:33.252+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48912a6cab0202016cb4fcaa8b0038",
@@ -351,6 +351,7 @@
       }
     },
     {
+      "id": "8a48912a6c2409b9016c9a9afff101ee",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48912a6c2409b9016c9a9afff101ee",
@@ -426,7 +427,6 @@
         "typeOfCareId": "502",
         "friendlyLocationName": "CHYSHR-Cheyenne VA Medical Center",
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48912a6c2409b9016c9a9afff101ee",
         "date": "2019-08-16T07:25:44.000+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48912a6c2409b9016c9a9afff101ee",
@@ -467,6 +467,7 @@
       }
     },
     {
+      "id": "8a48e79e6c8c2187016c9bbde3ee002d",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48e79e6c8c2187016c9bbde3ee002d",
@@ -559,7 +560,6 @@
         "additionalInformation": "test",
         "friendlyLocationName": "CHYSHR-Cheyenne VA Medical Center",
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48e79e6c8c2187016c9bbde3ee002d",
         "date": "2019-08-16T12:43:28.000+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48e79e6c8c2187016c9bbde3ee002d",
@@ -600,6 +600,7 @@
       }
     },
     {
+      "id": "8a48dea06c84a667016c867b1ac00011",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48dea06c84a667016c867b1ac00011",
@@ -676,7 +677,6 @@
           "link": []
         },
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48dea06c84a667016c867b1ac00011",
         "date": "2019-08-12T09:38:30.376+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48dea06c84a667016c867b1ac00011",
@@ -717,6 +717,7 @@
       }
     },
     {
+      "id": "8a48912a6c2409b9016c7212651a01cc",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48912a6c2409b9016c7212651a01cc",
@@ -793,7 +794,6 @@
         "typeOfCareId": "323",
         "friendlyLocationName": "CHYSHR-Fort Collins VA Clinic",
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48912a6c2409b9016c7212651a01cc",
         "date": "2019-08-08T10:31:43.000+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48912a6c2409b9016c7212651a01cc",
@@ -834,6 +834,7 @@
       }
     },
     {
+      "id": "8a48912a6c2409b9016c720da97c01c5",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48912a6c2409b9016c720da97c01c5",
@@ -912,7 +913,6 @@
         "additionalInformation": "test",
         "friendlyLocationName": "CHYSHR-Cheyenne VA Medical Center",
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48912a6c2409b9016c720da97c01c5",
         "date": "2019-08-08T10:26:33.000+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48912a6c2409b9016c720da97c01c5",
@@ -953,6 +953,7 @@
       }
     },
     {
+      "id": "8a48912a6c2409b9016c525a4d490190",
       "attributes": {
         "dataIdentifier": {
           "uniqueId": "8a48912a6c2409b9016c525a4d490190",
@@ -1058,7 +1059,6 @@
           "link": []
         },
         "patientId": "1259897978",
-        "appointmentRequestId": "8a48912a6c2409b9016c525a4d490190",
         "date": "2019-08-02T06:42:25.000+0000",
         "assigningAuthority": "ICN",
         "uniqueId": "8a48912a6c2409b9016c525a4d490190",
