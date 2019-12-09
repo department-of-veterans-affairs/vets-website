@@ -1,11 +1,8 @@
-const { getDrupalValue, getRawParentFieldName } = require('./helpers');
+const { getDrupalValue } = require('./helpers');
 
-const transform = (entity, uuid, ancestors) => ({
+const transform = (entity, { parentFieldName }) => ({
   entity: {
-    parentFieldName: ancestors.length
-      ? getRawParentFieldName(ancestors[ancestors.length - 1].entity, uuid)
-      : // The entity in the unit test won't have any parents
-        '',
+    parentFieldName,
     entityType: 'paragraph',
     entityBundle: 'q_a',
     fieldAnswer: entity.fieldAnswer,
