@@ -48,11 +48,16 @@ const entityAssemblerFactory = contentDir => {
    * references with the contents of those entities recursively.
    *
    * @param {Object} entity - The entity object.
+   * @param {Array<Object>} ancestors - All the ancestors, each like:
+   *                          { id: toId(entity), entity }
+   * @param {string} parentFieldName - The name of the property of the
+   *                          parent in which the current entity can
+   *                          be found.
    *
-   * @return {Object} - The entity with all the references filled in with
-   *                    the body of the referenced entities.
+   * @return {Object} - The entity with all the references filled in
+   *                    with the body of the referenced entities.
    */
-  const assembleEntityTree = (entity, ancestors = []) => {
+  const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
     // Avoid circular references
     const ancestorIds = ancestors.map(a => a.id);
     if (ancestorIds.includes(toId(entity))) {
@@ -112,6 +117,7 @@ const entityAssemblerFactory = contentDir => {
             filteredEntity[key][index] = assembleEntityTree(
               readEntity(contentDir, targetType, targetUuid),
               ancestors.concat([{ id: toId(entity), entity }]),
+              key,
             );
           }
         });
@@ -119,11 +125,11 @@ const entityAssemblerFactory = contentDir => {
     }
 
     // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(
-      filteredEntity,
-      entity.uuid[0].value,
+    const transformedEntity = transformEntity(filteredEntity, {
+      uuid: entity.uuid[0].value,
       ancestors,
-    );
+      parentFieldName,
+    });
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
       /* eslint-disable no-console */

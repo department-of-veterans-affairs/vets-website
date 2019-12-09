@@ -105,13 +105,14 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    timezone,
-    availableSlots,
     availableDates,
-    loadingAppointmentSlots,
-    typeOfCareId,
+    availableSlots,
     eligibleForRequests: eligibilityStatus.request,
+    facilityId: data.vaFacility,
+    loadingAppointmentSlots,
     preferredDate: data.preferredDate,
+    timezone,
+    typeOfCareId,
   };
 }
 
