@@ -77,6 +77,6 @@ module.exports = {
           return snakeCase(key);
         return keyWithMatchedUUID;
       }, null);
-    }, null);
+    }, undefined);
   },
 };
