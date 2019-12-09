@@ -15,7 +15,7 @@ export function getAppointmentType(appt) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.clinicId) {
+  } else if (appt.clinicId || appt.vvsAppointments) {
     return APPOINTMENT_TYPES.vaAppointment;
   } else if (appt.appointmentTime) {
     return APPOINTMENT_TYPES.ccAppointment;
@@ -345,4 +345,36 @@ export function getRealFacilityId(facilityId) {
   }
 
   return facilityId;
+}
+
+export function getAppointmentInstructions(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return appt.instructionsToVeteran;
+    case APPOINTMENT_TYPES.vaAppointment:
+      return appt.vdsAppointments[0].bookingNote;
+    default:
+      return '';
+  }
+}
+
+export function getAppointmentInstructionsHeader(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return 'Special instructions';
+    case APPOINTMENT_TYPES.vaAppointment:
+      return 'Additional information';
+    default:
+      return '';
+  }
+}
+
+export function hasInstructions(appt) {
+  return (
+    !!appt.instructionsToVeteran || !!appt.vdsAppointments?.[0]?.bookingNote
+  );
 }
