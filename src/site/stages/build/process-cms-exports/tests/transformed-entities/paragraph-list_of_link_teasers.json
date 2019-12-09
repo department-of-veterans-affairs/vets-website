@@ -11,7 +11,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "/health-care/refill-track-prescriptions"
+              "path": "entity:node/27"
             },
             "title": "Refill and track your VA prescriptions",
             "options": []
@@ -24,7 +24,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "/health-care/secure-messaging"
+              "path": "entity:node/38"
             },
             "title": "Use VA Secure Messaging",
             "options": []
@@ -37,7 +37,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "/health-care/schedule-view-va-appointments"
+              "path": "entity:node/37"
             },
             "title": "Schedule and view your VA appointments",
             "options": []
@@ -50,7 +50,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "/health-care/view-test-and-lab-results"
+              "path": "entity:node/40"
             },
             "title": "View your VA lab and test results ",
             "options": []
@@ -63,7 +63,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "/health-care/order-hearing-aid-batteries-prosthetic-socks"
+              "path": "entity:node/36"
             },
             "title": "Order hearing aid batteries and prosthetic socks",
             "options": []
@@ -76,7 +76,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "/health-care/get-medical-records"
+              "path": "entity:node/33"
             },
             "title": "Get your VA medical records (also called \"VA Blue Button\")",
             "options": []

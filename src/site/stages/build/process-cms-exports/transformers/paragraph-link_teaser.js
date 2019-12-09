@@ -1,5 +1,15 @@
 const { getDrupalValue } = require('./helpers');
 
+/**
+ * This is currently a dummy function, but we may
+ * need it in the future to convert weird uris like
+ * `entity:node/27` to something resembling a
+ * relative url
+ */
+function uriToUrl(uri) {
+  return uri;
+}
+
 function transform(entity) {
   const { fieldLink, fieldLinkSummary } = entity;
   const { uri, title, options } = fieldLink[0] || {};
@@ -8,7 +18,7 @@ function transform(entity) {
     entity: {
       fieldLink: fieldLink[0]
         ? {
-            url: { path: uri },
+            url: { path: uriToUrl(uri) },
             title,
             options,
           }
