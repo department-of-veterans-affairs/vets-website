@@ -1,0 +1,24 @@
+module.exports = {
+  type: 'object',
+  properties: {
+    contentModelType: { enum: ['paragraph-q_a_section'] },
+    entity: {
+      type: 'object',
+      properties: {
+        entityType: { enum: ['paragraph'] },
+        entityBundle: { enum: ['q_a_section'] },
+        fieldAccordionDisplay: { type: 'string' },
+        fieldQuestions: { type: 'string' },
+        fieldSectionHeader: { type: 'string' },
+        fieldSectionIntro: { type: 'string' },
+      },
+      required: [
+        'fieldAccordionDisplay',
+        'fieldQuestions',
+        'fieldSectionHeader',
+        'fieldSectionIntro',
+      ],
+    },
+  },
+  required: ['entity'],
+};

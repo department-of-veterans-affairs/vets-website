@@ -1,0 +1,65 @@
+{
+  "entity": {
+    "entityType": "paragraph",
+    "entityBundle": "q_a_section",
+    "fieldSectionHeader": null,
+    "fieldSectionIntro": null,
+    "fieldAccordionDisplay": false,
+    "fieldQuestions": [
+      {
+        "entity": {
+          "parentFieldName": "field_questions",
+          "entityId": "2922",
+          "entityBundle": "q_a",
+          "fieldQuestion": "How do I access these services?",
+          "fieldAnswer": [
+            {
+              "entity": {
+                "entityBundle": "wysiwyg",
+                "fieldWysiwyg": {
+                  "processed": "<p>You may be able to use one or more of these services if you meet all of the requirements listed below.</p>\n\n<p><strong>All of these must be true:</strong></p>\n\n<ul><li>You’re signed up for VA health care, <strong>and</strong></li>\n\t<li>We conclude that you need a specific service to help with your ongoing treatment and personal care, <strong>and</strong></li>\n\t<li>The service (or space in the care setting) is available near you</li>\n</ul><p>We may also consider other factors, like your service-connected disability status or insurance coverage.</p>\n\n<p>To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at <a href=\"tel:+1-877-222-8387\">877-222-8387</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p>\n\n<p>If you’re not currently in the VA health care program, you can apply for benefits now.<br /><a href=\"/health-care/how-to-apply/\">Apply now</a></p>"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "entity": {
+          "parentFieldName": "field_questions",
+          "entityId": "2925",
+          "entityBundle": "q_a",
+          "fieldQuestion": "Does VA pay for these services?",
+          "fieldAnswer": [
+            {
+              "entity": {
+                "entityBundle": "wysiwyg",
+                "fieldWysiwyg": {
+                  "processed": "<p>We cover some of these services under your standard health benefits if you’re signed up for VA health care. You may still need to pay a copay for some covered services.<br /><a href=\"/health-care/how-to-apply/\">Apply for VA health care</a></p>\n\n<p>Other services aren’t covered under VA health care benefits. For these services, you may be able to pay through Medicaid, Medicare, or your own private insurance.</p>\n\n<p><a href=\"https://www.va.gov/geriatrics/guide/longtermcare/Paying_for_Long_Term_Care.asp#\">Learn more about paying for long-term care</a></p>"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "entity": {
+          "parentFieldName": "field_questions",
+          "entityId": "2927",
+          "entityBundle": "q_a",
+          "fieldQuestion": "Where can I get more information and support?",
+          "fieldAnswer": [
+            {
+              "entity": {
+                "entityBundle": "wysiwyg",
+                "fieldWysiwyg": {
+                  "processed": "<ul><li>Get help setting goals and priorities and making tough decisions about things like long-term care.<br /><a href=\"https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp\">Learn more about the shared decision-making process</a></li>\n\t<li>Find services and resources to help with geriatric (elder) and long-term care.<br /><a href=\"https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp\">Find services</a></li>\n\t<li>Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia.<br /><a href=\"https://www.va.gov/Geriatrics/\">Visit the geriatrics section of VA.gov</a></li>\n</ul>"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
