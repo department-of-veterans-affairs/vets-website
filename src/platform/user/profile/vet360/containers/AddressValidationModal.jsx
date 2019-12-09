@@ -61,11 +61,11 @@ class AddressValidationModal extends React.Component {
 
     let warningText;
 
-    if (suggestedAddresses.length > 1 && validationKey) {
+    if (suggestedAddresses.length && validationKey) {
       warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below`;
     }
 
-    if (suggestedAddresses.length > 1 && !validationKey) {
+    if (suggestedAddresses.length && !validationKey) {
       warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we won't be able to deliver your VA mail to that address.  Please edit the address you entered or choose a suggested address below.`;
     }
 
