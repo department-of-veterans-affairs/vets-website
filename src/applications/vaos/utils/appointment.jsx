@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
-import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
+import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
 
 import {
@@ -136,21 +136,11 @@ export function getAppointmentLocation(appt, facility) {
 
   if (facility) {
     return (
-      <>
-        <FacilityAddress
-          name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-          address={facility.address.physical}
-          phone={facility.phone?.main}
-        />
-        <br />
-        <a
-          href={`/find-locations/facility/vha_${facility.uniqueId}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          View facility details
-        </a>
-      </>
+      <FacilityAddress
+        name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
+        address={facility.address.physical}
+        phone={facility.phone?.main}
+      />
     );
   }
 
@@ -382,4 +372,20 @@ export function hasInstructions(appt) {
     !!appt.vdsAppointments?.[0]?.bookingNote ||
     !!appt.vvsAppointments?.[0]?.bookingNotes
   );
+}
+
+export function getPurposeOfVisit(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccRequest:
+      return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
+        ?.short;
+    case APPOINTMENT_TYPES.vaRequest:
+      return PURPOSE_TEXT.find(
+        purpose => purpose.serviceName === appt.purposeOfVisit,
+      )?.short;
+    default:
+      return appt.purposeOfVisit;
+  }
 }
