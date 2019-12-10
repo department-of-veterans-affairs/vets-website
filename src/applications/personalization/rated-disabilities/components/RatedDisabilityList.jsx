@@ -123,7 +123,7 @@ class RatedDisabilityList extends React.Component {
     return (
       <div className="vads-l-row">
         <h3 className="vads-u-font-family--sans vads-u-margin-y--1">
-          Individual disability ratings
+          Individual Disability ratings
         </h3>
         <div className="vads-u-border-top--1px vads-l-row">
           {formattedDisabilities.map((disability, index) => (
