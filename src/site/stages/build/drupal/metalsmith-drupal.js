@@ -23,8 +23,11 @@ const DRUPAL_HUB_NAV_FILENAME = 'hubNavNames.json';
 // If "--pull-drupal" is passed into the build args, then the build
 // should pull the latest Drupal data.
 const PULL_DRUPAL_BUILD_ARG = 'pull-drupal';
+// If "--use-cms-export" is passed into the build args, then the build
+// should use the files in the tome-sync export directory
+const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
 
-// We need to pull the Drupal content if we have --pull-drupal OR if
+// We need to pull the Drupal content if we have --pull-drupal or --use-cms-export, OR if
 // the content is not available in the cache.
 const shouldPullDrupal = buildOptions => {
   const drupalCache = path.join(
@@ -34,6 +37,7 @@ const shouldPullDrupal = buildOptions => {
   const isDrupalAvailableInCache = fs.existsSync(drupalCache);
   return (
     buildOptions[PULL_DRUPAL_BUILD_ARG] ||
+    buildOptions[USE_CMS_EXPORT_BUILD_ARG] ||
     (!isDrupalAvailableInCache &&
       buildOptions.buildtype !== ENVIRONMENTS.LOCALHOST) // Don't require a cache to build locally.
   );
