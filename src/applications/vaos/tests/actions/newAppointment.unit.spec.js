@@ -16,6 +16,7 @@ import {
   openClinicPage,
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
+  openSelectAppointmentPage,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -33,11 +34,14 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
+  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
+import slots from '../../api/slots.json';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -694,5 +698,34 @@ describe('VAOS newAppointment actions', () => {
     );
     expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
     expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
+  });
+
+  it('should open select appointment page and fetch appointment slots', async () => {
+    mockFetch();
+    setFetchJSONResponse(global.fetch, slots);
+
+    const state = {
+      newAppointment: {
+        data: {},
+      },
+    };
+    const getState = () => state;
+    const dispatch = sinon.spy();
+
+    const thunk = openSelectAppointmentPage('selectDateTime', {}, {});
+    await thunk(dispatch, getState);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+    );
+
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+    );
+
+    expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(89);
+    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
+
+    resetFetch();
   });
 });

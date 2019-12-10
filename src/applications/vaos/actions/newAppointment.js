@@ -417,6 +417,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 
       mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
     } catch (e) {
+      Sentry.captureException(e);
       mappedSlots = null;
     }
 
