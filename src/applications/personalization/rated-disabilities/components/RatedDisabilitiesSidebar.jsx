@@ -40,7 +40,7 @@ const RatedDisabilitiesSidebar = () => (
       <a
         className="vads-u-margin-left--0p5"
         href="tel:8008271000"
-        aria-label="8 0 0. 8 2 7. 1 0 0 0."
+        aria-label="800. 8 2 7. 1 0 0 0."
         title="Dial the telephone number 800-827-1000"
       >
         800-827-1000
