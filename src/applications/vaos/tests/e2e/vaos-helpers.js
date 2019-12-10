@@ -21,6 +21,10 @@ function initAppointmentListMock(token) {
             name: 'vaOnlineSchedulingCancel',
             value: true,
           },
+          {
+            name: 'vaOnlineSchedulingRequests',
+            value: true,
+          },
         ],
       },
     },

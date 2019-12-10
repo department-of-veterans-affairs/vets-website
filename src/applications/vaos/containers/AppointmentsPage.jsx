@@ -172,7 +172,10 @@ export class AppointmentsPage extends Component {
                   Community Care facility.
                 </p>
                 <Link to="/new-appointment">
-                  <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">
+                  <button
+                    id="new-appointment"
+                    className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md"
+                  >
                     Schedule an appointment
                   </button>
                 </Link>
