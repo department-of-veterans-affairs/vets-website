@@ -6,6 +6,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
+import ErrorMessage from '../components/ErrorMessage';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 import {
@@ -110,6 +111,7 @@ export class VAFacilityPage extends React.Component {
       noValidVAFacilities,
       eligibility,
       canScheduleAtChosenFacility,
+      hasDataFetchingError,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -118,6 +120,15 @@ export class VAFacilityPage extends React.Component {
       !loadingEligibility &&
       eligibility &&
       !canScheduleAtChosenFacility;
+
+    if (hasDataFetchingError) {
+      return (
+        <div>
+          {title}
+          <ErrorMessage />
+        </div>
+      );
+    }
 
     if (loadingSystems) {
       return (

@@ -7,6 +7,7 @@ import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
+import { FIELD_NAMES, ADDRESS_POU } from 'vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
   'VET360_TRANSACTIONS_FETCH_SUCCESS';
@@ -197,21 +198,29 @@ export const validateAddress = (
       : await localVet360.addressValidationSuccess();
     const { addresses } = response;
     const suggestedAddresses = addresses
-      .filter(
-        address =>
-          address.addressMetaData.deliveryPointValidation === 'CONFIRMED' &&
-          address.addressMetaData.confidenceScore >= 80,
+      // sort highest confidence score to lowest confidence score
+      .sort(
+        (firstAddress, secondAddress) =>
+          secondAddress?.addressMetaData?.confidenceScore -
+          firstAddress?.addressMetaData?.confidenceScore,
       )
       .map(address => address.address);
     const payloadWithSuggestedAddress = {
       ...suggestedAddresses[0],
       id: payload?.id,
+      addressPou:
+        fieldName === FIELD_NAMES.MAILING_ADDRESS
+          ? ADDRESS_POU.CORRESPONDENCE
+          : ADDRESS_POU.RESIDENCE,
     };
+
     // If multiple suggestions, present them to the modal
     if (suggestedAddresses.length > 1) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
+        addressFromUser: payload,
         addressValidationType: fieldName,
+        selectedAddress: suggestedAddresses[0], // always select the first address as the default
         suggestedAddresses,
         validationKey: response.validationKey,
       });
@@ -230,6 +239,8 @@ export const validateAddress = (
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationType: fieldName,
       addressValidationError: true,
+      addressFromUser: { ...payload },
+      validationKey: null, // add this in when changes are made to API / override logic
     });
   }
 };

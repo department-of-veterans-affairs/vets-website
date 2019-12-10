@@ -48,23 +48,29 @@ const entityAssemblerFactory = contentDir => {
    * references with the contents of those entities recursively.
    *
    * @param {Object} entity - The entity object.
+   * @param {Array<Object>} ancestors - All the ancestors, each like:
+   *                          { id: toId(entity), entity }
+   * @param {string} parentFieldName - The name of the property of the
+   *                          parent in which the current entity can
+   *                          be found.
    *
-   * @return {Object} - The entity with all the references filled in with
-   *                    the body of the referenced entities.
+   * @return {Object} - The entity with all the references filled in
+   *                    with the body of the referenced entities.
    */
-  const assembleEntityTree = (entity, parents = []) => {
+  const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
     // Avoid circular references
-    if (parents.includes(toId(entity))) {
+    const ancestorIds = ancestors.map(a => a.id);
+    if (ancestorIds.includes(toId(entity))) {
       /* eslint-disable no-console */
       console.log(`I'm my own grandpa! (${toId(entity)})`);
-      console.log(`  Parents:\n    ${parents.join('\n    ')}`);
+      console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
       /* eslint-enable no-console */
 
       // If we find a circular references, it needs to be addressed.
       // For now, just quit.
       throw new Error(
         `Circular reference found. ${
-          parents[parents.length - 1]
+          ancestorIds[ancestors.length - 1]
         } has a reference to an ancestor: ${toId(entity)}`,
       );
     }
@@ -83,7 +89,7 @@ const entityAssemblerFactory = contentDir => {
       console.warn(`${rawErrors.map(e => JSON.stringify(e, null, 2))}`);
       rawErrors.forEach(e => {
         console.warn(
-          `Data found at ${e.dataPath}:`,
+          chalk.yellow(`Data found at ${e.dataPath}:`),
           JSON.stringify(get(entity, e.dataPath.slice(1))),
         );
       });
@@ -110,7 +116,8 @@ const entityAssemblerFactory = contentDir => {
           if (targetUuid && targetType) {
             filteredEntity[key][index] = assembleEntityTree(
               readEntity(contentDir, targetType, targetUuid),
-              parents.concat([toId(entity)]),
+              ancestors.concat([{ id: toId(entity), entity }]),
+              key,
             );
           }
         });
@@ -118,7 +125,11 @@ const entityAssemblerFactory = contentDir => {
     }
 
     // Post-transformation JSON schema validation
-    const transformedEntity = transformEntity(filteredEntity);
+    const transformedEntity = transformEntity(filteredEntity, {
+      uuid: entity.uuid[0].value,
+      ancestors,
+      parentFieldName,
+    });
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
       /* eslint-disable no-console */
@@ -132,7 +143,7 @@ const entityAssemblerFactory = contentDir => {
       console.warn(`${transformedErrors.map(e => JSON.stringify(e, null, 2))}`);
       transformedErrors.forEach(e => {
         console.warn(
-          `Data found at ${e.dataPath}:`,
+          chalk.yellow(`Data found at ${e.dataPath}:`),
           JSON.stringify(get(transformedEntity, e.dataPath.slice(1))),
         );
       });

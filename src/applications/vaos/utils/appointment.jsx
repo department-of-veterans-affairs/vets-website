@@ -11,31 +11,25 @@ import {
 } from './timezone';
 
 export function getAppointmentType(appt) {
-  if (appt.optionDate1 && appt.ccAppointmentRequest?.preferredProviders) {
+  if (appt.typeOfCareId?.startsWith('CC')) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.appointmentRequestId) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  } else if (appt.startDate) {
+  } else if (appt.clinicId || appt.vvsAppointments) {
     return APPOINTMENT_TYPES.vaAppointment;
+  } else if (appt.appointmentTime) {
+    return APPOINTMENT_TYPES.ccAppointment;
   }
 
   return null;
 }
 
-export function getAppointmentId(appt) {
-  if (appt.appointmentRequestId) {
-    return appt.appointmentRequestId;
-  } else if (appt.vvsAppointments?.length) {
-    return appt.vvsAppointments[0].id;
-  }
-
-  return `va-${appt.facilityId}-${appt.clinicId}-${appt.startDate}`;
-}
-
 export function isCommunityCare(appt) {
-  return !!appt.appointmentRequestId;
+  const apptType = getAppointmentType(appt);
+  return (
+    apptType === APPOINTMENT_TYPES.ccRequest ||
+    apptType === APPOINTMENT_TYPES.ccAppointment
+  );
 }
 
 export function isGFEVideoVisit(appt) {
@@ -273,7 +267,7 @@ export function getRequestDateOptions(appt) {
 
   return options.reduce((formatted, option, index) => {
     formatted.push(
-      <li key={`${appt.uniqueId}-option-${index}`}>
+      <li key={`${appt.id}-option-${index}`}>
         {option.date.format('ddd, MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
       </li>,
     );

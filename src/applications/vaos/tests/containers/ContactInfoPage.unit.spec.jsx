@@ -35,7 +35,7 @@ describe('VAOS <ContactInfoPage>', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(router.push.called).to.be.false;
     form.unmount();
   });
@@ -70,7 +70,13 @@ describe('VAOS <ContactInfoPage>', () => {
       <ContactInfoPage
         openFormPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        data={{ phoneNumber: '5555555555', email: 'fake@va.gov' }}
+        data={{
+          phoneNumber: '5555555555',
+          email: 'fake@va.gov',
+          bestTimeToCall: {
+            morning: true,
+          },
+        }}
       />,
     );
 

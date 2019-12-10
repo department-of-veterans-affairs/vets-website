@@ -9,43 +9,66 @@ import {
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
     const state = {
-      data: {
-        phoneNumber: '5035551234',
-        bestTimeToCall: {
-          morning: true,
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            morning: true,
+          },
+          email: 'test@va.gov',
+          visitType: 'office',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'Testing',
+          calendarData: {
+            currentlySelectedDate: '2019-11-20',
+            selectedDates: [
+              {
+                date: '2019-11-20',
+                optionTime: 'PM',
+              },
+            ],
+            currentRowIndex: 3,
+          },
+          vaSystem: '983',
+          vaFacility: '983GB',
+          facilityType: 'vamc',
+          typeOfCareId: '323',
         },
-        email: 'test@va.gov',
-        visitType: 'office',
-        reasonForAppointment: 'routine-follow-up',
-        reasonAdditionalInfo: 'Testing',
-        calendarData: {
-          currentlySelectedDate: '2019-11-20',
-          selectedDates: [
+        facilities: {
+          '323_983': [
             {
-              date: '2019-11-20',
-              optionTime: 'PM',
+              institutionCode: '983GB',
+              name: 'CHYSHR-Cheyenne VA Medical Center',
+              city: 'Cheyenne',
+              stateAbbrev: 'WY',
+              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+              rootStationCode: '983',
+              parentStationCode: '983',
+              institutionTimezone: 'America/Denver',
             },
           ],
-          currentRowIndex: 3,
         },
-        vaSystem: '983',
-        vaFacility: '983GB',
-        facilityType: 'vamc',
-        typeOfCareId: '323',
       },
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
       typeOfCare: '323',
       typeOfCareId: '323',
+      appointmentType: 'Primary care',
       cityState: {
         institutionCode: '983',
         rootStationCode: '983',
         parentStationCode: '983',
         adminParent: true,
       },
-      facility: { facilityCode: '983GB', parentSiteCode: '983' },
+      status: 'Submitted',
+      facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
+        facilityCode: '983GB',
+        parentSiteCode: '983',
+      },
       purposeOfVisit: 'Routine Follow-up',
+      otherPurposeOfVisit: null,
       visitType: 'Office Visit',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
@@ -55,7 +78,7 @@ describe('VAOS data transformation', () => {
       optionTime1: 'PM',
       optionTime2: 'No Time Selected',
       optionTime3: 'No Time Selected',
-      bestTimeToCall: ['Morning'],
+      bestTimetoCall: ['Morning'],
       emailPreferences: {
         emailAddress: 'test@va.gov',
         notificationFrequency: 'Each new message',
@@ -94,7 +117,7 @@ describe('VAOS data transformation', () => {
             lastName: 'asdf',
             practiceName: 'Practice',
             address: {
-              street: '399 elm st',
+              street: '456 elm st',
               street2: 'sfasdf',
               state: 'MA',
               city: 'northampton',
@@ -153,6 +176,7 @@ describe('VAOS data transformation', () => {
     expect(data).to.deep.equal({
       typeOfCare: 'CCPRMYRTNE',
       typeOfCareId: 'CCPRMYRTNE',
+      appointmentType: 'Primary care',
       cityState: {
         institutionCode: '983',
         parentStationCode: '983',
@@ -160,20 +184,26 @@ describe('VAOS data transformation', () => {
         adminParent: true,
       },
       facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
         facilityCode: '983',
         parentSiteCode: '983',
       },
       purposeOfVisit: 'routine-follow-up',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
-      bestTimeToCall: ['Afternoon'],
+      bestTimetoCall: ['Afternoon'],
       preferredProviders: [
         {
-          address: { city: '', state: '', street: '', zipCode: '01050' },
+          address: {
+            street: '456 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
           practiceName: 'Practice',
           firstName: 'asdf',
           lastName: 'asdf',
-          providerStreet: '399 elm st, sfasdf',
+          providerStreet: '456 elm st, sfasdf',
           providerCity: 'northampton',
           providerState: 'MA',
           providerZipCode1: '01050',
@@ -240,15 +270,13 @@ describe('VAOS data transformation', () => {
         facilities: {
           '323_983': [
             {
-              institution: {
-                institutionCode: '983',
-                name: 'CHYSHR-Cheyenne VA Medical Center',
-                city: 'Cheyenne',
-                stateAbbrev: 'WY',
-                authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
-                rootStationCode: '983',
-                parentStationCode: '983',
-              },
+              institutionCode: '983',
+              name: 'CHYSHR-Cheyenne VA Medical Center',
+              city: 'Cheyenne',
+              stateAbbrev: 'WY',
+              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+              rootStationCode: '983',
+              parentStationCode: '983',
               institutionTimezone: 'America/Denver',
             },
           ],

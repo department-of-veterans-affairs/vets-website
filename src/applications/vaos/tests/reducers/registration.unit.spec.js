@@ -32,7 +32,7 @@ describe('VAOS reducer: registration', () => {
   it('should not pass checks if no icn or dfn', () => {
     const action = {
       type: REGISTRATION_CHECK_SUCCEEDED,
-      systemIds: [],
+      userIds: [],
     };
     const newState = registrationReducer(initialState, action);
 
@@ -44,7 +44,7 @@ describe('VAOS reducer: registration', () => {
   it('should pass checks if icn and dfn', () => {
     const action = {
       type: REGISTRATION_CHECK_SUCCEEDED,
-      systemIds: [
+      userIds: [
         { assigningAuthority: 'ICN' },
         { assigningAuthority: 'dfn-434' },
       ],
