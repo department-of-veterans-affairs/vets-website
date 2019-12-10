@@ -1,7 +1,8 @@
 {
+  "contentModelType": "taxonomy_term-administration",
   "entity": {
     "name": "Veterans Benefits Administration",
-    "entityId": "1",
+    "entityType": "taxonomy_term",
     "entityBundle": "administration",
     "fieldIntroText": null,
     "fieldDescription": null,
