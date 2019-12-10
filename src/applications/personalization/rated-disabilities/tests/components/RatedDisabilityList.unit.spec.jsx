@@ -60,10 +60,7 @@ describe('<RatedDisabilityList/>', () => {
     const date = moment(
       ratedDisabilities.ratedDisabilities[0].effectiveDate,
     ).format('DD/MM/YYYY');
-    const relatedTo =
-      ratedDisabilities.ratedDisabilities[0].specialIssues[0].name;
     const data = instance.formalizeData(ratedDisabilities.ratedDisabilities);
-    expect(data[0].relatedTo).to.equal(relatedTo);
     expect(data[0].effectiveDate).to.equal(date);
     wrapper.unmount();
   });
@@ -81,14 +78,14 @@ describe('<RatedDisabilityList/>', () => {
     const list = wrapper.find(RatedDisabilityListItem).shallow();
     expect(
       wrapper
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
     ).to.contain('Individual disability ratings');
     expect(
       list
-        .find('p')
-        .first()
+        .find('dt')
+        .at(1)
         .text(),
     ).to.contain(disability);
     expect(spy.calledOnce).to.be.true;

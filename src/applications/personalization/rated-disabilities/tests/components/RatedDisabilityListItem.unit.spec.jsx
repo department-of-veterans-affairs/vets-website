@@ -22,16 +22,10 @@ describe('<RatedDisabilityListItem />', () => {
     );
     expect(
       wrapper
-        .find('p')
-        .first()
+        .find('dt')
+        .at(1)
         .text(),
     ).to.equal(ratedDisability.name);
-    expect(
-      wrapper
-        .find('i')
-        .first()
-        .exists(),
-    ).to.be.true;
     wrapper.unmount();
   });
 
@@ -42,16 +36,10 @@ describe('<RatedDisabilityListItem />', () => {
     );
     expect(
       wrapper
-        .find('p')
-        .first()
+        .find('dt')
+        .at(1)
         .text(),
     ).to.equal(ratedDisability.name);
-    expect(
-      wrapper
-        .find('i')
-        .first()
-        .exists(),
-    ).to.be.false;
     wrapper.unmount();
   });
 });

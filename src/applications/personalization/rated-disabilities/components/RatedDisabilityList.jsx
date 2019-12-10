@@ -84,14 +84,7 @@ class RatedDisabilityList extends React.Component {
           ? moment(d.effectiveDate).format('DD/MM/YYYY')
           : null,
       };
-      const relatedTo = {
-        // Right now we only take the first value...but what if there is more than one?
-        relatedTo:
-          Array.isArray(d.specialIssues) && d.specialIssues.length > 0
-            ? d.specialIssues[0].name
-            : null,
-      };
-      const disability = Object.assign({}, d, effectiveDate, relatedTo);
+      const disability = Object.assign({}, d, effectiveDate);
       return disability;
     });
 
@@ -123,7 +116,7 @@ class RatedDisabilityList extends React.Component {
     return (
       <div className="vads-l-row">
         <h2 className="vads-u-font-family--sans vads-u-margin-y--1">
-          Individual Disability ratings
+          Individual disability ratings
         </h2>
         <div className="vads-u-border-top--1px vads-l-row">
           {formattedDisabilities.map((disability, index) => (
