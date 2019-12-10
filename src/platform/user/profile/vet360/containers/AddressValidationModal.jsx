@@ -291,6 +291,7 @@ AddressValidationModal.propTypes = {
   openModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
+  updateValidationKeyAndSave: PropTypes.func.isRequired,
 };
 
 export default connect(
