@@ -3,5 +3,5 @@ message: Use ’%s’ instead of ’%s.’
 level: suggestion
 ignorecase: true
 swap:
-  G.I.: GI
-  P.O.: PO
+  G\.I\.: GI
+  P\.O\.: PO

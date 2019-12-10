@@ -1,4 +1,5 @@
 /* eslint-disable no-continue */
+/* eslint-disable no-await-in-loop */
 
 /**
  * Run vale lint on the page content and inject suggestions into the rendered HTML
@@ -13,8 +14,8 @@ const tmp = require('tmp');
  * @param {String} content
  * @return {Promise} resolves with vale results in object
  */
-async function runValeCheck(content) {
-  const promise = new Promise((resolve, _reject) => {
+function runValeCheck(content) {
+  const promise = new Promise((resolve, reject) => {
     const output = {};
     const vale = spawn('vale', [
       '--config=script/vale/.vale.ini',
@@ -31,6 +32,9 @@ async function runValeCheck(content) {
     });
 
     vale.on('exit', code => {
+      if (code !== 0) {
+        reject('Vale exited with non-zero exit code:', code);
+      }
       output.code = code.toString();
       resolve(output);
     });
@@ -90,14 +94,14 @@ function buildDetailsMarkup(file, issues) {
  * @param {Function} done
  */
 function injectValeLinter(buildOptions) {
-  return (files, metalsmith, done) => {
+  return async (files, metalsmith, done) => {
     if (!buildOptions['lint-plain-language']) {
       done();
       return 'Plain language linting skipped';
     }
 
-    Object.keys(files).forEach(fileName => {
-      if (!fileName.endsWith('.html')) return;
+    for (const fileName of Object.keys(files)) {
+      if (!fileName.endsWith('.html')) continue;
 
       /*
        * Because the file is only linted for plain language on the preview server, which is dynamically served via preview.js, we need to read the contents directly and put them in a tmpfile. Passing contents in directly leads to very large argument lists which causes vale to error out.
@@ -106,21 +110,15 @@ function injectValeLinter(buildOptions) {
       const tmpfile = createTempFile(file.contents);
       const { dom } = file;
 
-      /**
-       * Run the vale binary on the contents of the file
-       */
-      runValeCheck(tmpfile)
-        .then(issuesObj => JSON.parse(issuesObj.results)[tmpfile])
-        .then(elements => {
-          const markup = buildDetailsMarkup(file, elements);
-          return markup;
-        })
-        .then(markup => {
-          dom('body').prepend(markup); // This doesn't work, though console.log(markup) would
-        });
+      const valeOutput = await runValeCheck(tmpfile);
 
+      const parsedOutput = JSON.parse(valeOutput.results)[tmpfile];
+      const elements = buildDetailsMarkup(file, parsedOutput);
+
+      dom('body').prepend(elements);
       file.modified = true;
-    });
+    }
+
     return done();
   };
 }
