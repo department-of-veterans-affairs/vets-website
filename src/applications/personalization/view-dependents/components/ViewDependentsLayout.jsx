@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import ViewDependentsList from './ViewDependentsList';
-import ViewDependentsSidebar from './ViewDependentsSidebar';
+import ViewDependentsList from './ViewDependentsList/ViewDependentsList';
+import ViewDependentsSidebar from './ViewDependentsSidebar/ViewDependentsSidebar';
+import ViewDependentsHeader from './ViewDependentsHeader/ViewDependentsHeader';
 
 class ViewDependentsLayout extends Component {
   render() {
@@ -37,11 +38,7 @@ class ViewDependentsLayout extends Component {
         <div className="vads-l-grid-container">
           <div className="vads-l-row">
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-              <div className="vads-l-row">
-                <div className="vads-l-col--12">
-                  <h1>Your Dependents</h1>
-                </div>
-              </div>
+              <ViewDependentsHeader />
               <ViewDependentsList />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--4">
