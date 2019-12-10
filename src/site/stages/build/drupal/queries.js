@@ -1,5 +1,6 @@
 const queries = {
   GET_ALL_PAGES: './graphql/GetAllPages.graphql',
+  GET_REMAINING_CONTENT: './graphql/GetRemainingContent.graphql',
   GET_LATEST_PAGE_BY_ID: './graphql/GetLatestPageById.graphql',
 };
 

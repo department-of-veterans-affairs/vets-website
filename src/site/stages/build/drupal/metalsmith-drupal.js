@@ -143,7 +143,10 @@ async function loadDrupal(buildOptions) {
     console.time(drupalTimer);
 
     // drupalPages = await contentApi.getAllPages();
-    drupalPages = contentApi.getExportedPages();
+    drupalPages = await contentApi.getRemainingContent();
+    drupalPages.data.nodeQuery = {
+      entities: contentApi.getExportedPages(),
+    };
 
     console.timeEnd(drupalTimer);
 

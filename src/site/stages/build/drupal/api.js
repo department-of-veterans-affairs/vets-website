@@ -115,6 +115,15 @@ function getDrupalClient(buildOptions) {
       });
     },
 
+    getRemainingContent(onlyPublishedContent = true) {
+      return this.query({
+        query: getQuery(queries.GET_REMAINING_CONTENT),
+        variables: {
+          onlyPublishedContent,
+        },
+      });
+    },
+
     getExportedPages() {
       const entities = readAllNodeNames().map(entityDetails =>
         readEntity(contentDir, ...entityDetails),
