@@ -8,4 +8,5 @@ export default {
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   FIND_VA_FORMS: 'find-va-forms',
+  CAREGIVERS_APP_STATUS: 'caregivers-app-status',
 };
