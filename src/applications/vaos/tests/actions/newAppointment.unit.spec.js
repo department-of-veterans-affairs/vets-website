@@ -136,6 +136,10 @@ describe('VAOS newAppointment actions', () => {
       },
     };
     const defaultState = {
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+      },
       newAppointment: {
         data: {
           typeOfCareId: '323',

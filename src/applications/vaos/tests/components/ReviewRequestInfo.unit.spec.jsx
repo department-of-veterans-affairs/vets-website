@@ -142,4 +142,41 @@ describe('VAOS <ReviewRequestInfo>', () => {
       );
     });
   });
+
+  describe('CC Request with no provider preferrence', () => {
+    const data = {
+      ...defaultData,
+      facilityType: 'communityCare',
+      hasCommunityCareProvider: false,
+      preferredLanguage: 'english',
+    };
+    const vaCityState = 'Cheyenne, WY';
+
+    let tree;
+    let text;
+
+    beforeEach(() => {
+      tree = mount(<ReviewRequestInfo data={data} vaCityState={vaCityState} />);
+      text = tree.text();
+    });
+
+    afterEach(() => {
+      tree.unmount();
+    });
+
+    it('should render CC request section', () => {
+      expect(text).to.contain('Community care appointment');
+    });
+
+    it('should render type of care section', () => {
+      expect(text).to.contain('Primary care');
+    });
+
+    it('should render preferred language', () => {
+      expect(text).to.contain('English');
+    });
+    it('should render preferred city and state', () => {
+      expect(text).to.contain('Cheyenne, WY');
+    });
+  });
 });

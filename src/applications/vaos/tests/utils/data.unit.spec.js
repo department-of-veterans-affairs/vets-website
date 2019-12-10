@@ -117,7 +117,7 @@ describe('VAOS data transformation', () => {
             lastName: 'asdf',
             practiceName: 'Practice',
             address: {
-              street: '399 elm st',
+              street: '456 elm st',
               street2: 'sfasdf',
               state: 'MA',
               city: 'northampton',
@@ -194,11 +194,16 @@ describe('VAOS data transformation', () => {
       bestTimetoCall: ['Afternoon'],
       preferredProviders: [
         {
-          address: { city: '', state: '', street: '', zipCode: '01050' },
+          address: {
+            street: '456 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
           practiceName: 'Practice',
           firstName: 'asdf',
           lastName: 'asdf',
-          providerStreet: '399 elm st, sfasdf',
+          providerStreet: '456 elm st, sfasdf',
           providerCity: 'northampton',
           providerState: 'MA',
           providerZipCode1: '01050',

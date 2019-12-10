@@ -4,7 +4,6 @@ import {
   getNewAppointment,
   getEligibilityStatus,
   vaosCommunityCare,
-  vaosDirectScheduling,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -168,9 +167,8 @@ export default {
     url: '/new-appointment/va-facility',
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
-      const directSchedulingEnabled = vaosDirectScheduling(state);
 
-      if (directSchedulingEnabled && eligibilityStatus.direct) {
+      if (eligibilityStatus.direct) {
         let appointments = null;
 
         // If we can't get the history, then continue anyway

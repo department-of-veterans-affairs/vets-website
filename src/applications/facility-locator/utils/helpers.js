@@ -162,17 +162,3 @@ export const formatOperatingHours = operatingHours => {
   // Return the formatted operating hours.
   return formattedOperatingHours;
 };
-
-/**
- *
- * @param {String} website for example google.com, https://va.gov/
- *
- * Uses a regular expression to find va.gov in the website domain
- *
- * @returns {boolean}
- *
- */
-export const hasVADomain = website => {
-  const regExp = /(https?:\/\/(.+?\.)?va\.gov(\/*)?)/g;
-  return regExp.test(website);
-};
