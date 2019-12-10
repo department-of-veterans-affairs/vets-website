@@ -1,15 +1,12 @@
-const { getDrupalValue, getRawParentFieldName } = require('./helpers');
+const { getDrupalValue } = require('./helpers');
 
-const transform = (entity, uuid, ancestors) => ({
+const transform = (entity, { parentFieldName }) => ({
   entity: {
     entityType: 'paragraph',
     entityBundle: 'list_of_link_teasers',
     fieldTitle: getDrupalValue(entity.fieldTitle),
     fieldVaParagraphs: entity.fieldVaParagraphs,
-    parentFieldName: ancestors.length
-      ? getRawParentFieldName(ancestors[ancestors.length - 1].entity, uuid)
-      : // The entity in the unit test won't have any parents
-        '',
+    parentFieldName,
   },
 });
 module.exports = {
