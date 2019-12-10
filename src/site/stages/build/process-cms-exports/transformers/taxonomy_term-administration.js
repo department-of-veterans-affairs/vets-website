@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, uriToUrl } = require('./helpers');
 
 const transform = entity => ({
   entity: {
@@ -12,7 +12,7 @@ const transform = entity => ({
     fieldIntroText: getDrupalValue(entity.fieldIntroText),
     fieldLink: {
       url: {
-        path: entity.fieldLink.uri,
+        path: uriToUrl(entity.fieldLink.uri),
       },
     },
     fieldSocialMediaLinks: getDrupalValue(entity.fieldSocialMediaLinks),
