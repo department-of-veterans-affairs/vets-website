@@ -18,7 +18,7 @@ module.exports = {
         fieldEmailUpdatesUrl: nullableString,
         fieldIntroText: nullableString,
         fieldLink: {
-          type: 'object',
+          type: ['object', 'null'],
           properties: {
             url: {
               type: 'object',

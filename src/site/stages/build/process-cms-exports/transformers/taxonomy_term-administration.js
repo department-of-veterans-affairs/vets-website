@@ -15,11 +15,13 @@ const transform = entity => {
       ),
       fieldEmailUpdatesUrl: getDrupalValue(entity.fieldEmailUpdatesUrl),
       fieldIntroText: getDrupalValue(entity.fieldIntroText),
-      fieldLink: {
-        url: {
-          path: uriToUrl(entity.fieldLink.uri),
-        },
-      },
+      fieldLink: entity.fieldLink.length
+        ? {
+            url: {
+              path: uriToUrl(entity.fieldLink[0].uri),
+            },
+          }
+        : null,
       fieldSocialMediaLinks: {
         platform: fsml.platform,
         value: fsml.value,
