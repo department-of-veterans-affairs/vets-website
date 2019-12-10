@@ -142,11 +142,14 @@ async function loadDrupal(buildOptions) {
 
     console.time(drupalTimer);
 
-    // drupalPages = await contentApi.getAllPages();
-    drupalPages = await contentApi.getRemainingContent();
-    drupalPages.data.nodeQuery = {
-      entities: contentApi.getExportedPages(),
-    };
+    if (buildOptions[USE_CMS_EXPORT_BUILD_ARG]) {
+      drupalPages = await contentApi.getRemainingContent();
+      drupalPages.data.nodeQuery = {
+        entities: contentApi.getExportedPages(),
+      };
+    } else {
+      drupalPages = await contentApi.getAllPages();
+    }
 
     console.timeEnd(drupalTimer);
 
