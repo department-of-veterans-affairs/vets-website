@@ -20,7 +20,8 @@ class AddressValidationModal extends React.Component {
     this.props.updateSelectedAddress(address, selectedId);
   };
 
-  onSubmit = () => {
+  onSubmit = event => {
+    event.preventDefault();
     const {
       validationKey,
       addressValidationType,
