@@ -518,24 +518,29 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
       let newSchema = action.schema;
-      const pastAppointmentDateMap = new Map();
-      state.pastAppointments.forEach(appt => {
-        const apptTime = appt.startDate;
-        const facilityId = state.data.vaFacility;
-        const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
-        if (
-          appt.facilityId === facilityId &&
-          (!latestApptTime || latestApptTime > apptTime)
-        ) {
-          pastAppointmentDateMap.set(appt.clinicId, apptTime);
-        }
-      });
+      let clinics =
+        state.clinics[
+          `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
+        ];
 
-      const clinics = state.clinics[
-        `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
-      ].filter(clinic => pastAppointmentDateMap.has(clinic.clinicId));
+      if (state.pastAppointments) {
+        const pastAppointmentDateMap = new Map();
+        state.pastAppointments.forEach(appt => {
+          const apptTime = appt.startDate;
+          const facilityId = state.data.vaFacility;
+          const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
+          if (
+            appt.facilityId === facilityId &&
+            (!latestApptTime || latestApptTime > apptTime)
+          ) {
+            pastAppointmentDateMap.set(appt.clinicId, apptTime);
+          }
+        });
 
-      // clinics.sort()
+        clinics = clinics.filter(clinic =>
+          pastAppointmentDateMap.has(clinic.clinicId),
+        );
+      }
 
       if (clinics.length === 1) {
         const clinic = clinics[0];
