@@ -16,9 +16,10 @@ function processAxeCheckResults(error, results) {
 
   results.violations.forEach(function(violation) {
     var violationEl = '<li class="vads-u-margin-y--1">';
+    var violationHelp = violation.help.replace(/\</g,'').replace(/>/g,'');
 
     violationEl += '<details>';
-    violationEl += '<summary><strong>' + violation.help + '</strong></summary>';
+    violationEl += '<summary><strong>' + violationHelp + '</strong></summary>';
     violationEl += '<ul class="usa-unstyled-list vads-u-padding-y--1 vads-u-padding-x--2">';
 
     violationEl += '<li><strong>Description</strong>: ' + violation.description + '</li>';
