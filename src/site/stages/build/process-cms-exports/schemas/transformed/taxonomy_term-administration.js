@@ -13,7 +13,17 @@ module.exports = {
         fieldEmailUpdatesLinkText: { type: 'string' },
         fieldEmailUpdatesUrl: { type: 'string' },
         fieldIntroText: { type: 'string' },
-        fieldLink: { type: 'string' },
+        fieldLink: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'object',
+              properties: {
+                path: { type: 'string' },
+              },
+            },
+          },
+        },
         fieldSocialMediaLinks: { type: 'string' },
       },
       required: [

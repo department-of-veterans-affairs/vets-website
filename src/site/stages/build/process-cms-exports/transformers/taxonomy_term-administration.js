@@ -10,7 +10,11 @@ const transform = entity => ({
     fieldEmailUpdatesLinkText: getDrupalValue(entity.fieldEmailUpdatesLinkText),
     fieldEmailUpdatesUrl: getDrupalValue(entity.fieldEmailUpdatesUrl),
     fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldLink: getDrupalValue(entity.fieldLink),
+    fieldLink: {
+      url: {
+        path: entity.fieldLink.uri,
+      },
+    },
     fieldSocialMediaLinks: getDrupalValue(entity.fieldSocialMediaLinks),
   },
 });
