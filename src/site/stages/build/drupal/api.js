@@ -8,13 +8,12 @@ const { queries, getQuery } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
-const { contentDir } = require('../process-cms-exports/helpers');
-const assembleEntityTree = require('../process-cms-exports')(contentDir);
-
 const {
+  contentDir,
   readAllNodeNames,
   readEntity,
 } = require('../process-cms-exports/helpers');
+const assembleEntityTree = require('../process-cms-exports')(contentDir);
 
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
