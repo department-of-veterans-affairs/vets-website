@@ -8,6 +8,14 @@ const { queries, getQuery } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
+const { contentDir } = require('../process-cms-exports/helpers');
+const assembleEntityTree = require('../process-cms-exports')(contentDir);
+
+const {
+  readAllNodeNames,
+  readEntity,
+} = require('../process-cms-exports/helpers');
+
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
@@ -106,6 +114,18 @@ function getDrupalClient(buildOptions) {
           onlyPublishedContent,
         },
       });
+    },
+
+    getExportedPages() {
+      const entities = readAllNodeNames().map(entityDetails =>
+        readEntity(contentDir, ...entityDetails),
+      );
+
+      const modifiedEntities = entities.map(entity =>
+        assembleEntityTree(entity),
+      );
+
+      return modifiedEntities;
     },
 
     getLatestPageById(nodeId) {
