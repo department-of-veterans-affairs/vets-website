@@ -227,7 +227,7 @@ export const validateAddress = (
         type: ADDRESS_VALIDATION_CONFIRM,
         addressFromUser: payload,
         addressValidationType: fieldName,
-        selectedAddress: suggestedAddresses[0].address, // always select the first address as the default
+        selectedAddress: suggestedAddresses[0], // always select the first address as the default
         suggestedAddresses,
         validationKey: response.validationKey,
       });
