@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { expect } from 'chai';
 import appointmentsReducer from '../../reducers/appointments';
 import {
@@ -12,7 +13,8 @@ import {
   CANCEL_APPOINTMENT_CLOSED,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
 } from '../../actions/appointments';
-import moment from 'moment';
+
+import { FORM_CLOSED_CONFIRMATION_PAGE } from '../../actions/newAppointment';
 
 import { FETCH_STATUS } from '../../utils/constants';
 
@@ -223,5 +225,19 @@ describe('VAOS reducer: appointments', () => {
         FETCH_STATUS.notStarted,
       );
     });
+  });
+  it('should reset future appt status after confirmation page is closed', () => {
+    const action = {
+      type: FORM_CLOSED_CONFIRMATION_PAGE,
+    };
+    const state = {
+      ...initialState,
+      futureStatus: FETCH_STATUS.succeeded,
+      future: [{}],
+    };
+
+    const newState = appointmentsReducer(state, action);
+    expect(newState.futureStatus).to.equal(FETCH_STATUS.notStarted);
+    expect(newState.future).to.be.null;
   });
 });
