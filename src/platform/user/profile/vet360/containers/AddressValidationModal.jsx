@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { selectCurrentlyOpenEditModal } from '../selectors';
@@ -9,6 +10,7 @@ import {
   createTransaction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
+  closeModal,
 } from '../actions';
 
 import * as VET360 from '../constants';
@@ -194,7 +196,6 @@ class AddressValidationModal extends React.Component {
 
   render() {
     const {
-      closeModal,
       isAddressValidationModalVisible,
       addressValidationType,
       suggestedAddresses,
@@ -211,7 +212,7 @@ class AddressValidationModal extends React.Component {
             : 'Edit home address'
         }
         id="address-validation-warning"
-        onClose={closeModal}
+        onClose={this.props.closeModal}
         visible={isAddressValidationModalVisible}
       >
         <AlertBox
@@ -263,12 +264,17 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  closeModal: () => dispatch(openModal(null)),
-  openModal: modalName => dispatch(openModal(modalName)),
-  createTransaction,
-  updateValidationKeyAndSave,
-  updateSelectedAddress: (address, selectedId) =>
-    dispatch(updateSelectedAddress(address, selectedId)),
+  dispatch,
+  ...bindActionCreators(
+    {
+      closeModal,
+      openModal,
+      updateSelectedAddress,
+      updateValidationKeyAndSave,
+      createTransaction,
+    },
+    dispatch,
+  ),
 });
 
 AddressValidationModal.propTypes = {
