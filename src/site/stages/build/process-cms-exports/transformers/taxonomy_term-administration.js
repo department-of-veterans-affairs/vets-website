@@ -15,7 +15,12 @@ const transform = entity => ({
         path: uriToUrl(entity.fieldLink.uri),
       },
     },
-    fieldSocialMediaLinks: getDrupalValue(entity.fieldSocialMediaLinks),
+    fieldSocialMediaLinks: {
+      ...entity.fieldSocialMediaLinks,
+      platformValues: JSON.stringify(
+        entity.fieldSocialMediaLinks.platformValues,
+      ),
+    },
   },
 });
 module.exports = {
