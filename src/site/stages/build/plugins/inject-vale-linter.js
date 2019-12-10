@@ -9,18 +9,19 @@ const fs = require('fs');
 const tmp = require('tmp');
 
 /**
- *  Method to execute vale check on a content string via helper script
+ *  Method to execute vale check on content via child process
  *
- * @param {String} content
+ * @param {String} contentFilename a tempfile name including the page content, to be passed to vale
  * @return {Promise} resolves with vale results in object
+ *
  */
-function runValeCheck(content) {
+function runValeCheck(contentFilename) {
   const promise = new Promise((resolve, reject) => {
     const output = {};
     const vale = spawn('vale', [
       '--config=script/vale/.vale.ini',
       '--output=JSON',
-      `${content}`,
+      `${contentFilename}`,
     ]);
 
     vale.stdout.on('data', data => {
@@ -43,8 +44,11 @@ function runValeCheck(content) {
 }
 
 /**
- * Create the vale temp file
+ * Method to create a tempfile for the page content
+ *
  * @param {Buffer} dataBuffer the content to write to file
+ * @return {String} filename of the generated tempfile
+ *
  */
 function createTempFile(dataBuffer) {
   const temp = tmp.fileSync({ prefix: 'vale-' });
@@ -54,8 +58,12 @@ function createTempFile(dataBuffer) {
 
 /**
  * Build the page header banner element
+ *
+ * @param {Object} issues an object containing a collection of linting issues
+ * @return {String} an HTML string containing elements to be injected into the DOM
+ *
  */
-function buildDetailsMarkup(file, issues) {
+function buildDetailsMarkup(issues) {
   let details =
     '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--secondary-lighter vads-u-border-bottom--2px vads-u-padding--1">';
   details += `<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (${
@@ -91,6 +99,7 @@ function buildDetailsMarkup(file, issues) {
  * @param {Object} files
  * @param {Metalsmith} metalsmith
  * @param {Function} done
+ *
  */
 function injectValeLinter(buildOptions) {
   return async (files, metalsmith, done) => {
@@ -106,18 +115,17 @@ function injectValeLinter(buildOptions) {
        * Because the file is only linted for plain language on the preview server, which is dynamically served via preview.js, we need to read the contents directly and put them in a tmpfile. Passing contents in directly leads to very large argument lists which causes vale to error out.
        */
       const file = files[fileName];
-      const tmpfile = createTempFile(file.contents);
+      const tempfile = createTempFile(file.contents);
       const { dom } = file;
 
-      const valeOutput = await runValeCheck(tmpfile);
+      const valeOutput = await runValeCheck(tempfile);
 
-      const parsedOutput = JSON.parse(valeOutput.results)[tmpfile];
-      const elements = buildDetailsMarkup(file, parsedOutput);
+      const parsedOutput = JSON.parse(valeOutput.results)[tempfile];
+      const elements = buildDetailsMarkup(parsedOutput);
 
       dom('body').prepend(elements);
       file.modified = true;
     }
-
     return done();
   };
 }
