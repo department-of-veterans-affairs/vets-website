@@ -379,6 +379,7 @@ export function openClinicPage(page, uiSchema, schema) {
 
 export function openSelectAppointmentPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const data = getState().newAppointment.data;
     let slots;
     let mappedSlots = [];
     let appointmentLength = null;
@@ -389,7 +390,13 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 
     try {
       const response = await getAvailableSlots(
-        getState().newAppointment.data.clinicId,
+        data.vaFacility,
+        data.typeOfCareId,
+        data.clinicId,
+        moment().format('YYYY-MM-DD'),
+        moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
       );
 
       slots = response[0]?.appointmentTimeSlot || [];
@@ -398,7 +405,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       const now = moment();
 
       mappedSlots = slots.reduce((acc, slot) => {
-        const dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
+        const dateObj = moment(slot.startDateTime);
         if (dateObj.isAfter(now)) {
           acc.push({
             date: dateObj.format('YYYY-MM-DD'),
