@@ -94,10 +94,10 @@ export default class AppointmentRequestListItem extends React.Component {
         <div className="vaos-form__title vads-u-margin-top--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {type === APPOINTMENT_TYPES.ccRequest && 'Community Care'}
           {type === APPOINTMENT_TYPES.request &&
-            appointment.visitType !== 'Telehealth' &&
+            appointment.visitType !== 'Video Conference' &&
             'VA Facility'}
           {type === APPOINTMENT_TYPES.request &&
-            appointment.visitType === 'Telehealth' &&
+            appointment.visitType === 'Video Conference' &&
             'VA Video Connect'}
         </div>
         <h2

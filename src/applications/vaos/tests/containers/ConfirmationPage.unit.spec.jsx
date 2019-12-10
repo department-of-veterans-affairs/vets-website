@@ -9,12 +9,12 @@ import { ConfirmationPage } from '../../containers/ConfirmationPage';
 describe('VAOS <ConfirmationPage>', () => {
   it('should render direct schedule view', () => {
     const flowType = FLOW_TYPES.DIRECT;
-    const resetForm = sinon.spy();
+    const closeConfirmationPage = sinon.spy();
     const data = {};
 
     const tree = shallow(
       <ConfirmationPage
-        resetForm={resetForm}
+        closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
       />,
@@ -23,17 +23,17 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(tree.find('ConfirmationDirectScheduleInfo').exists()).to.be.true;
 
     tree.unmount();
-    expect(resetForm.called).to.be.true;
+    expect(closeConfirmationPage.called).to.be.true;
   });
 
   it('should render request view', () => {
     const flowType = FLOW_TYPES.REQUEST;
-    const resetForm = sinon.spy();
+    const closeConfirmationPage = sinon.spy();
     const data = {};
 
     const tree = shallow(
       <ConfirmationPage
-        resetForm={resetForm}
+        closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
       />,
@@ -42,6 +42,6 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(tree.find('ConfirmationRequestInfo').exists()).to.be.true;
 
     tree.unmount();
-    expect(resetForm.called).to.be.true;
+    expect(closeConfirmationPage.called).to.be.true;
   });
 });

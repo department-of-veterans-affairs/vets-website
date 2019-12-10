@@ -67,4 +67,17 @@ describe('<VetTecProgramSearchResult>', () => {
     expect(wrapper.find('.preferred-flag')).to.have.lengthOf(1);
     wrapper.unmount();
   });
+
+  it('should display 0 hours as TBD', () => {
+    const props = {
+      ...defaultProps,
+      result: {
+        ...defaultProps.result,
+        lengthInHours: '0',
+      },
+    };
+    const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+    expect(wrapper.find('.info-flag').text()).to.eq('TBD');
+    wrapper.unmount();
+  });
 });
