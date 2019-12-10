@@ -508,19 +508,19 @@ export function submitAppointmentOrRequest(router) {
         });
       }
     } else {
+      const isCommunityCare =
+        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+      const eventType = isCommunityCare ? 'community-care' : 'request';
+
       recordEvent({
-        event: `${GA_PREFIX}-request-submission`,
+        event: `${GA_PREFIX}-${eventType}-submission`,
       });
+
       try {
         let requestBody;
         let requestData;
 
-        if (
-          newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
-        ) {
-          recordEvent({
-            event: `${GA_PREFIX}-community-care-submission`,
-          });
+        if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
@@ -543,7 +543,7 @@ export function submitAppointmentOrRequest(router) {
         });
 
         recordEvent({
-          event: `${GA_PREFIX}-request-submission-successful`,
+          event: `${GA_PREFIX}-${eventType}-submission-successful`,
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
@@ -552,7 +552,7 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_FAILED,
         });
         recordEvent({
-          event: `${GA_PREFIX}-request-submission-failed`,
+          event: `${GA_PREFIX}-${eventType}-submission-failed`,
         });
       }
     }
