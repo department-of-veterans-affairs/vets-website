@@ -8,7 +8,10 @@ module.exports = {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['list_of_link_teasers'] },
         fieldTitle: { type: ['string', 'null'] },
-        fieldVaParagraphs: { type: 'array' },
+        fieldVaParagraphs: {
+          type: 'array',
+          items: { $ref: 'transformed/paragraph-link_teaser' },
+        },
       },
       required: ['fieldTitle', 'fieldVaParagraphs'],
     },
