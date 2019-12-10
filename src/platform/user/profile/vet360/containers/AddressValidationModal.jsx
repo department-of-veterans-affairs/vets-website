@@ -264,7 +264,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatch,
   ...bindActionCreators(
     {
       closeModal,
