@@ -68,7 +68,9 @@ Example data:
           {% endfor %}
           {% endif %}
           {% for story in pagedItems %}
+            {% if story.fieldFeatured == false %}
               {% include "src/site/teasers/news_story_page.drupal.liquid" with node = story %}
+            {% endif %}
           {% endfor %}
           {% include "src/site/includes/pagination.drupal.liquid" %}
         </article>
