@@ -57,4 +57,14 @@ module.exports = {
   getWysiwygString(value) {
     return unescape(value);
   },
+
+  /**
+   * This is currently a dummy function, but we may
+   * need it in the future to convert weird uris like
+   * `entity:node/27` to something resembling a
+   * relative url
+   */
+  uriToUrl(uri) {
+    return uri;
+  },
 };
