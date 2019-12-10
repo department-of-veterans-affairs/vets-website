@@ -3,4 +3,12 @@
 #  @department-of-veterans-affairs/frontend-review-group will be requested for
 # review when someone opens a pull request.
 
-*       @department-of-veterans-affairs/frontend-review-group
+/* @department-of-veterans-affairs/frontend-review-group
+/certs/ @department-of-veterans-affairs/frontend-review-group
+/config/ @department-of-veterans-affairs/frontend-review-group
+/docs/ @department-of-veterans-affairs/frontend-review-group
+/jenkins/ @department-of-veterans-affairs/frontend-review-group
+/script/ @department-of-veterans-affairs/frontend-review-group
+/src/* @department-of-veterans-affairs/frontend-review-group
+/src/platform/ @department-of-veterans-affairs/frontend-review-group
+/src/site/ @department-of-veterans-affairs/frontend-review-group
