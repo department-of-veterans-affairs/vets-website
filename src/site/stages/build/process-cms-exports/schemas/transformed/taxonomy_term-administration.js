@@ -1,3 +1,7 @@
+/* eslint-disable camelcase */
+
+const nullableString = { type: ['string', 'null'] };
+
 module.exports = {
   type: 'object',
   properties: {
@@ -8,11 +12,11 @@ module.exports = {
         entityType: { enum: ['taxonomy_term'] },
         entityBundle: { enum: ['administration'] },
         name: { type: 'string' },
-        fieldAcronym: { type: 'string' },
-        fieldDescription: { type: 'string' },
-        fieldEmailUpdatesLinkText: { type: 'string' },
-        fieldEmailUpdatesUrl: { type: 'string' },
-        fieldIntroText: { type: 'string' },
+        fieldAcronym: nullableString,
+        fieldDescription: nullableString,
+        fieldEmailUpdatesLinkText: nullableString,
+        fieldEmailUpdatesUrl: nullableString,
+        fieldIntroText: nullableString,
         fieldLink: {
           type: 'object',
           properties: {
@@ -24,7 +28,17 @@ module.exports = {
             },
           },
         },
-        fieldSocialMediaLinks: { type: 'string' },
+        fieldSocialMediaLinks: {
+          type: 'object',
+          properties: {
+            facebook: { type: 'string' },
+            instagram: { type: 'string' },
+            linkedin: { type: 'string' },
+            twitter: { type: 'string' },
+            youtube: { type: 'string' },
+            youtube_channel: { type: 'string' },
+          },
+        },
       },
       required: [
         'name',

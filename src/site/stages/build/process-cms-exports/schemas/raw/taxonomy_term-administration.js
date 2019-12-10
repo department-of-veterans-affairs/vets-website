@@ -22,7 +22,7 @@ module.exports = {
         type: 'object',
         properties: {
           uri: { type: 'string' },
-          title: { type: 'string' },
+          title: { type: ['string', 'null'] },
           // All examples had an empty array at the time this was written
           // To find field_link options:
           // rg -U --multiline-dotall '"field_link": \[\s+\{.+?"options"' $(rg -l '"target_id": "administration"' taxonomy_term.*.json)
