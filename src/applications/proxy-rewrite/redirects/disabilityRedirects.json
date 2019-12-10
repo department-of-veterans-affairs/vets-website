@@ -6,6 +6,16 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity_parents.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/claims-postservice-index.asp",
     "dest": "/disability/eligibility/"
   },
