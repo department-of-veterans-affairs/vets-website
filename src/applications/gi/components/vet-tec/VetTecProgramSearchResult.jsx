@@ -22,6 +22,9 @@ class VetTecProgramSearchResult extends React.Component {
       ? formatCurrency(tuitionAmount)
       : 'TBD';
 
+    const displayHours =
+      lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
+
     const linkTo = {
       pathname: `profile/${facilityCode}/${description}`,
       query: version ? { version } : {},
@@ -87,7 +90,7 @@ class VetTecProgramSearchResult extends React.Component {
             <div className="row vads-u-padding-top--1p5">
               <div className="view-details columns vads-u-display--inline-block">
                 {isPresent(lengthInHours) && (
-                  <div className="info-flag">{`${lengthInHours} hours`}</div>
+                  <div className="info-flag">{displayHours}</div>
                 )}
                 <Link to={linkTo}>View details ›</Link>
               </div>
