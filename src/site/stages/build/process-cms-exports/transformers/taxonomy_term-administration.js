@@ -1,28 +1,33 @@
 const { getDrupalValue, uriToUrl } = require('./helpers');
 
-const transform = entity => ({
-  entity: {
-    entityType: 'taxonomy_term',
-    entityBundle: 'administration',
-    name: getDrupalValue(entity.name),
-    fieldAcronym: getDrupalValue(entity.fieldAcronym),
-    fieldDescription: getDrupalValue(entity.fieldDescription),
-    fieldEmailUpdatesLinkText: getDrupalValue(entity.fieldEmailUpdatesLinkText),
-    fieldEmailUpdatesUrl: getDrupalValue(entity.fieldEmailUpdatesUrl),
-    fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldLink: {
-      url: {
-        path: uriToUrl(entity.fieldLink.uri),
+const transform = entity => {
+  const fsml = entity.fieldSocialMediaLinks[0];
+
+  return {
+    entity: {
+      entityType: 'taxonomy_term',
+      entityBundle: 'administration',
+      name: getDrupalValue(entity.name),
+      fieldAcronym: getDrupalValue(entity.fieldAcronym),
+      fieldDescription: getDrupalValue(entity.fieldDescription),
+      fieldEmailUpdatesLinkText: getDrupalValue(
+        entity.fieldEmailUpdatesLinkText,
+      ),
+      fieldEmailUpdatesUrl: getDrupalValue(entity.fieldEmailUpdatesUrl),
+      fieldIntroText: getDrupalValue(entity.fieldIntroText),
+      fieldLink: {
+        url: {
+          path: uriToUrl(entity.fieldLink.uri),
+        },
+      },
+      fieldSocialMediaLinks: {
+        platform: fsml.platform,
+        value: fsml.value,
+        platformValues: JSON.stringify(fsml.platform_values),
       },
     },
-    fieldSocialMediaLinks: {
-      ...entity.fieldSocialMediaLinks,
-      platformValues: JSON.stringify(
-        entity.fieldSocialMediaLinks.platformValues,
-      ),
-    },
-  },
-});
+  };
+};
 module.exports = {
   filter: [
     'name',
