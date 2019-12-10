@@ -43,15 +43,15 @@ class AddressValidationModal extends React.Component {
         payload,
         this.props.analyticsSectionName,
       );
+    } else {
+      this.props.createTransaction(
+        VET360.API_ROUTES.ADDRESSES,
+        method,
+        addressValidationType,
+        payload,
+        this.props.analyticsSectionName,
+      );
     }
-
-    this.props.createTransaction(
-      VET360.API_ROUTES.ADDRESSES,
-      method,
-      addressValidationType,
-      payload,
-      this.props.analyticsSectionName,
-    );
   };
 
   renderWarningText = () => {
@@ -149,20 +149,20 @@ class AddressValidationModal extends React.Component {
     const showEditLinkErrorState = addressValidationError && validationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
-    const showFirstRadioButton =
+    const isFirstOptionOrEnabled =
       (isAddressFromUser && validationKey) || !isAddressFromUser;
 
     return (
       <div
-        onClick={this.onChangeHandler(address, id)}
+        onClick={isFirstOptionOrEnabled && this.onChangeHandler(address, id)}
         key={id}
         className={
-          showFirstRadioButton
+          isFirstOptionOrEnabled
             ? ''
             : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5'
         }
       >
-        {showFirstRadioButton && (
+        {isFirstOptionOrEnabled && (
           <input
             style={{ zIndex: '1' }}
             type="radio"
