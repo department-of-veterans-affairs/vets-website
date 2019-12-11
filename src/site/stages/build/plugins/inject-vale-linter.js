@@ -51,7 +51,7 @@ function runValeCheck(contentFilename) {
  *
  */
 function createTempFile(dataBuffer) {
-  const temp = tmp.fileSync({ prefix: 'vale-' });
+  const temp = tmp.fileSync({ prefix: 'vale-', postfix: '.html' });
   fs.writeSync(temp.fd, dataBuffer);
   return temp.name;
 }
@@ -64,10 +64,6 @@ function createTempFile(dataBuffer) {
  *
  */
 function buildDetailsMarkup(issues) {
-  if (typeof issues.length === 'undefined') {
-    return true;
-  }
-
   let details =
     '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--secondary-lighter vads-u-border-bottom--2px vads-u-padding--1">';
   details += `<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (${
@@ -132,9 +128,8 @@ function injectValeLinter(buildOptions) {
         const valeOutput = await runValeCheck(tempfile);
         if (typeof valeOutput.results.length === 'undefined') continue;
 
-        const parsedOutput = JSON.parse(valeOutput.results);
+        const parsedOutput = JSON.parse(valeOutput.results)[tempfile];
         const elements = buildDetailsMarkup(parsedOutput);
-
         dom('body').prepend(elements);
         file.modified = true;
       } catch (e) {
