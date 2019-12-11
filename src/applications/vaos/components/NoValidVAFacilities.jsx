@@ -51,7 +51,7 @@ export default function NoValidVAFacilities({
                 <span className="vads-u-font-weight--bold">
                   Mental health phone:{' '}
                 </span>
-                <a href={`tel:${phone?.mentalHealthClinic?.replace('-', '')}`}>
+                <a href={`tel:${phone.mentalHealthClinic.replace('-', '')}`}>
                   {phone?.mentalHealthClinic}
                 </a>
               </p>
