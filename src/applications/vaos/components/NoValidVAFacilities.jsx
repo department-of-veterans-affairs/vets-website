@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LocationDirectionsLink from 'applications/facility-locator/components/search-results/LocationDirectionsLink';
-import { titleCase } from '../utils/appointment';
+import FacilityDirectionsLink from './FacilityDirectionsLink';
+import FacilityHours from './FacilityHours';
 
 export default function NoValidVAFacilities({
   systemId,
@@ -11,13 +11,12 @@ export default function NoValidVAFacilities({
   const attributes = systemDetails?.attributes;
   const address = attributes?.address?.physical;
   const phone = attributes?.phone;
-  const hours = attributes?.hours;
 
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="warning"
-        headline={`We’re sorry. This location doesn’t allow online scheduling for ${typeOfCare} appointments`}
+        headline={`We’re sorry. None of the facilities in this health system allow online scheduling for ${typeOfCare} appointments`}
       >
         <p>
           You can’t schedule this type of appointment online. Please call the
@@ -39,21 +38,9 @@ export default function NoValidVAFacilities({
               {address?.city}, {address?.state} {address?.zip}
             </span>
             <br />
-            <LocationDirectionsLink location={systemDetails} hideIcon />
+            <FacilityDirectionsLink location={systemDetails} />
             <div className="vads-u-display--flex vads-u-margin-top--2">
-              <span className="vads-u-font-weight--bold">Hours:</span>
-              <ul className="usa-unstyled-list vads-u-margin-top--0">
-                {hours &&
-                  Object.keys(hours).map((day, index) => (
-                    <li key={`day-${index}`}>{titleCase(day)}</li>
-                  ))}
-              </ul>
-              <ul className="usa-unstyled-list vads-u-margin-top--0">
-                {hours &&
-                  Object.keys(hours).map((day, index) => (
-                    <li key={`hours-${index}`}>{hours[day]}</li>
-                  ))}
-              </ul>
+              <FacilityHours location={systemDetails} />
             </div>
             <p>
               <span className="vads-u-font-weight--bold">Main phone: </span>

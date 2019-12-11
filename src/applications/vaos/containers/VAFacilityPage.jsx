@@ -7,6 +7,7 @@ import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { FETCH_STATUS } from '../utils/constants';
 
 import {
   openFacilityPage,
@@ -69,11 +70,11 @@ const uiSchema = {
       const {
         vaSystem,
         typeOfCare,
-        loadingSystemDetails,
+        facilityDetailsStatus,
         systemDetails,
       } = formContext;
 
-      if (loadingSystemDetails) {
+      if (facilityDetailsStatus === FETCH_STATUS.loading) {
         return <LoadingIndicator message="Finding locations" />;
       }
 
@@ -128,7 +129,7 @@ export class VAFacilityPage extends React.Component {
       eligibility,
       canScheduleAtChosenFacility,
       typeOfCare,
-      loadingSystemDetails,
+      facilityDetailsStatus,
       systemDetails,
     } = this.props;
 
@@ -216,7 +217,7 @@ export class VAFacilityPage extends React.Component {
           formContext={{
             vaSystem: data.vaSystem,
             typeOfCare,
-            loadingSystemDetails,
+            facilityDetailsStatus,
             systemDetails,
           }}
           data={data}

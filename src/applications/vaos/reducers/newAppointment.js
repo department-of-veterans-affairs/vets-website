@@ -66,7 +66,7 @@ const initialState = {
   pageChangeInProgress: false,
   loadingSystems: false,
   loadingEligibility: false,
-  loadingFacilityDetails: false,
+  facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
   availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
@@ -416,12 +416,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_FETCH_FACILITY_DETAILS:
       return {
         ...state,
-        loadingFacilityDetails: true,
+        facilityDetailsStatus: FETCH_STATUS.loading,
       };
     case FORM_FETCH_FACILITY_DETAILS_SUCCEEDED:
       return {
         ...state,
-        loadingFacilityDetails: false,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
         facilityDetails: {
           ...state.facilityDetails,
           [action.facilityId]: action.facilityDetails,
