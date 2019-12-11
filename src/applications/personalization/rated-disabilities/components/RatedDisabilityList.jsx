@@ -19,14 +19,15 @@ class RatedDisabilityList extends React.Component {
   }
 
   noDisabilityRatingContent(errorCode) {
-    let headline;
     let status;
     let content;
     if (isServerError(errorCode)) {
-      headline = 'We’re sorry. Something went wrong on our end';
       status = 'error';
       content = (
         <>
+          <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+            We’re sorry. Something went wrong on our end
+          </h2>
           <p>
             Please refresh this page or check back later. You can also sign out
             of VA.gov and try signing back into this page.
@@ -34,8 +35,8 @@ class RatedDisabilityList extends React.Component {
           <p>
             If you get this error again, please call VA.gov help desk at{' '}
             <a
-              href="tel:1-855-574-7286"
-              aria-label="Dial the telephone number 1-855-574-7286"
+              href="tel:18555747286"
+              aria-label="1. 8 5 5. 5 7 4. 7 2 8 6."
               title="Dial the telephone number 1-855-574-7286"
             >
               1-855-574-7286
@@ -45,10 +46,12 @@ class RatedDisabilityList extends React.Component {
         </>
       );
     } else {
-      headline = 'We don’t have rated disabilities on file for you';
       status = 'info';
       content = (
         <>
+          <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+            We don’t have rated disabilities on file for you
+          </h2>
           <p>
             We’re sorry. We can’t find any rated disabilities for you. If you
             have a disability that was caused by or got worse because of your
@@ -57,7 +60,7 @@ class RatedDisabilityList extends React.Component {
           <a
             href="/disability/how-to-file-claim/"
             className="usa-link"
-            aria-label="go to the how-to-file-claim page"
+            aria-label="Learn how to file a claim for disability compensation"
           >
             Learn how to file a claim for disability compensation
           </a>
@@ -66,12 +69,7 @@ class RatedDisabilityList extends React.Component {
     }
     return (
       <div className="vads-u-margin-y--5">
-        <AlertBox
-          headline={headline}
-          content={content}
-          status={status}
-          isVisible
-        />
+        <AlertBox content={content} status={status} isVisible />
       </div>
     );
   }
@@ -122,10 +120,10 @@ class RatedDisabilityList extends React.Component {
 
     return (
       <div className="vads-l-row">
-        <h3 className="vads-u-font-family--sans vads-u-margin-y--1">
-          Individual disability ratings
-        </h3>
-        <div className="vads-u-border-top--1px vads-l-row">
+        <h2 className="vads-u-margin-y--1p5 vads-u-font-size--lg">
+          Individual disabilities
+        </h2>
+        <div className="vads-l-row">
           {formattedDisabilities.map((disability, index) => (
             <RatedDisabilityListItem ratedDisability={disability} key={index} />
           ))}

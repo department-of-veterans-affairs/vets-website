@@ -81,10 +81,10 @@ describe('<RatedDisabilityList/>', () => {
     const list = wrapper.find(RatedDisabilityListItem).shallow();
     expect(
       wrapper
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
-    ).to.contain('Individual disability ratings');
+    ).to.contain('Individual disabilities');
     expect(
       list
         .find('p')
@@ -112,7 +112,7 @@ describe('<RatedDisabilityList/>', () => {
     const alert = wrapper.find(AlertBox).shallow();
     expect(
       alert
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
     ).to.equal('We’re sorry. Something went wrong on our end');
@@ -136,7 +136,7 @@ describe('<RatedDisabilityList/>', () => {
     const alert = wrapper.find(AlertBox).shallow();
     expect(
       alert
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
     ).to.equal('We don’t have rated disabilities on file for you');
@@ -157,7 +157,7 @@ describe('<RatedDisabilityList/>', () => {
     const alert = wrapper.find(AlertBox).shallow();
     expect(
       alert
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
     ).to.equal('We don’t have rated disabilities on file for you');
