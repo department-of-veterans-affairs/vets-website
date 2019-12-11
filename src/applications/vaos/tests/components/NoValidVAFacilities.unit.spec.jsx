@@ -45,7 +45,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
     const tree = mount(<NoValidVAFacilities typeOfCare="Mental health" />);
 
     expect(tree.text()).to.contain(
-      'We’re sorry. This location doesn’t allow online scheduling for Mental health appointments',
+      'We’re sorry. None of the facilities in this health system allow online scheduling for Mental health appointments',
     );
     expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
