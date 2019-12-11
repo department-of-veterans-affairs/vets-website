@@ -1,13 +1,22 @@
-const contentModelType = 'paragraph-q_a';
-
 module.exports = {
   type: 'object',
   properties: {
-    baseType: {
-      enum: ['paragraph'],
-    },
-    contentModelType: {
-      enum: [contentModelType],
+    // entityId: { type: 'string' }, // Also should validate that the string is a number
+    contentModelType: { enum: ['paragraph-q_a'] },
+    entity: {
+      type: 'object',
+      properties: {
+        parentFieldName: { type: 'string' },
+        entityType: { enum: ['paragraph'] },
+        entityBundle: { enum: ['q_a'] },
+        fieldAnswer: {
+          type: 'array',
+          items: { $ref: 'Paragraph' },
+        },
+        fieldQuestion: { type: 'string' },
+      },
+      required: ['fieldAnswer', 'fieldQuestion'],
     },
   },
+  required: ['entity'],
 };

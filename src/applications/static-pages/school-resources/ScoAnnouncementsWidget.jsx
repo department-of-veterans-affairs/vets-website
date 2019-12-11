@@ -84,10 +84,10 @@ export default class ScoAnnouncementsWidget extends React.Component {
         {this.renderAnnouncements()}
         <p className="vads-u-margin-bottom--0">
           <a
-            href="https://benefits.va.gov/gibill/index.asp"
+            href="https://www.benefits.va.gov/GIBILL/index.asp#Announcements "
             className="vads-u-text-decoration--none"
           >
-            See past announcements...
+            See all announcements...
           </a>
         </p>
       </div>

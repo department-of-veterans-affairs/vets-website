@@ -6,7 +6,7 @@ import {
   selectVet360MobilePhoneString,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import { getTypeOfCare } from '../utils/selectors';
+import { getTypeOfCare, vaosDirectScheduling } from '../utils/selectors';
 import {
   getSystemIdentifiers,
   getSystemDetails,
@@ -92,6 +92,8 @@ export const FORM_SUBMIT_SUCCEEDED = 'newAppointment/FORM_SUBMIT_SUCCEEDED';
 export const FORM_SUBMIT_FAILED = 'newAppointment/FORM_SUBMIT_FAILED';
 export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
+export const FORM_CLOSED_CONFIRMATION_PAGE =
+  'newAppointment/FORM_CLOSED_CONFIRMATION_PAGE';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -102,9 +104,9 @@ export function openFormPage(page, uiSchema, schema) {
   };
 }
 
-export function resetForm() {
+export function closeConfirmationPage() {
   return {
-    type: FORM_RESET,
+    type: FORM_CLOSED_CONFIRMATION_PAGE,
   };
 }
 
@@ -177,6 +179,7 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
 
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
     let systems = newAppointment.systems;
     let facilities = null;
@@ -218,6 +221,7 @@ export function openFacilityPage(page, uiSchema, schema) {
           facilityId,
           typeOfCareId,
           systemId,
+          directSchedulingEnabled,
         );
       }
 
@@ -242,6 +246,7 @@ export function openFacilityPage(page, uiSchema, schema) {
 
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
+    const directSchedulingEnabled = vaosDirectScheduling(getState());
     const previousNewAppointmentState = getState().newAppointment;
     const typeOfCareId = getTypeOfCare(data)?.id;
     let facilities =
@@ -297,6 +302,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           data.vaFacility,
           typeOfCareId,
           data.vaSystem,
+          directSchedulingEnabled,
         );
 
         dispatch({
@@ -511,11 +517,8 @@ export function submitAppointmentOrRequest(router) {
 
         try {
           await buildPreferencesDataAndUpdate(newAppointment);
-          const messageBody = createMessageBody(
-            requestData.uniqueId,
-            newAppointment,
-          );
-          await sendRequestMessage(requestData.uniqueId, messageBody);
+          const messageBody = createMessageBody(requestData.id, newAppointment);
+          await sendRequestMessage(requestData.id, messageBody);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded

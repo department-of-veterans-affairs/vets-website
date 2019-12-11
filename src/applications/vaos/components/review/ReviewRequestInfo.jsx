@@ -5,7 +5,7 @@ import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
 import CommunityCareSection from './CommunityCareSection';
 
-export default function ReviewRequestInfo({ data }) {
+export default function ReviewRequestInfo({ data, facility, vaCityState }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVAAppointment = data.facilityType === FACILITY_TYPES.VAMC;
 
@@ -16,7 +16,13 @@ export default function ReviewRequestInfo({ data }) {
       <hr />
       <h3 className="vaos-appts__block-label">{getTypeOfCare(data)?.name}</h3>
       <hr />
-      {isCommunityCare && <CommunityCareSection data={data} />}
+      {isCommunityCare && (
+        <CommunityCareSection
+          data={data}
+          facility={facility}
+          vaCityState={vaCityState}
+        />
+      )}
       {isVAAppointment && <VAAppointmentSection data={data} />}
     </div>
   );

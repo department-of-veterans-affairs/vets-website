@@ -13,7 +13,6 @@ import {
   getPreferredDate,
   getReasonForAppointment,
   getTypeOfCare,
-  selectPendingAppointment,
   getCancelInfo,
 } from '../../utils/selectors';
 
@@ -54,31 +53,6 @@ describe('VAOS selectors', () => {
         },
       };
       expect(getFlowType(state)).to.equal('DIRECT');
-    });
-  });
-
-  describe('selectPendingAppointment', () => {
-    it('should return appt matching id', () => {
-      const state = {
-        appointments: {
-          pending: [
-            {
-              uniqueId: 'testing',
-            },
-          ],
-        },
-      };
-      const appt = selectPendingAppointment(state, 'testing');
-      expect(appt).to.equal(state.appointments.pending[0]);
-    });
-    it('should return null if no matching id', () => {
-      const state = {
-        appointments: {
-          pending: null,
-        },
-      };
-      const appt = selectPendingAppointment(state, 'testing');
-      expect(appt).to.be.null;
     });
   });
 

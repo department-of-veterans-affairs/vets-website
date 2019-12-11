@@ -1,60 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router';
-import newAppointmentFlow from '../../newAppointmentFlow';
 import ContactDetailSection from './ContactDetailSection';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import PreferredDatesSection from './PreferredDatesSection';
+import PreferredProviderSection from './PreferredProviderSection';
 
 export default function CommunityCareSection(props) {
   return (
     <>
-      {props.data.hasCommunityCareProvider && (
-        <>
-          <div className="vads-l-grid-container vads-u-padding--0">
-            <div className="vads-l-row">
-              <div className="vads-l-col--6">
-                <h3 className="vaos-appts__block-label">Preferred providers</h3>
-              </div>
-              <div className="vads-l-col--6 vads-u-text-align--right">
-                <Link
-                  to={newAppointmentFlow.ccPreferences.url}
-                  aria-label="Edit provider preference"
-                >
-                  Edit
-                </Link>
-              </div>
-            </div>
-          </div>
-          <span>
-            {props.data.communityCareProvider.practiceName}
-            <br />
-            {props.data.communityCareProvider.firstName} &nbsp;
-            {props.data.communityCareProvider.lastName}
-            <br />
-            {props.data.communityCareProvider.address.street}
-            <br />
-            {props.data.communityCareProvider.address.street2}
-            <br />
-            {props.data.communityCareProvider.address.city}, &nbsp;
-            {props.data.communityCareProvider.address.state} &nbsp;
-            {props.data.communityCareProvider.address.postalCode}
-          </span>
-        </>
-      )}
-      {!props.data.hasCommunityCareProvider && (
-        <>
-          <div className="vads-l-grid-container vads-u-padding--0">
-            <div className="vads-l-row">
-              <div className="vads-l-col--6">
-                <h3 className="vaos-appts__block-label">Not specified</h3>
-              </div>
-              <div className="vads-l-col--6 vads-u-text-align--right">
-                <Link to={newAppointmentFlow.ccPreferences.url}>Edit</Link>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      <PreferredProviderSection
+        data={props.data}
+        vaCityState={props.vaCityState}
+      />
       <hr />
       <ReasonForAppointmentSection data={props.data} />
       <hr />
