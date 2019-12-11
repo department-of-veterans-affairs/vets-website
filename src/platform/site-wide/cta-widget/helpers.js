@@ -250,7 +250,7 @@ export const serviceDescription = appId => {
       return 'apply for VET TEC';
 
     case widgetTypes.DIRECT_DEPOSIT:
-      return 'change your direct deposit information online';
+      return 'change your direct deposit information for disability compensation and payment benefits';
 
     default:
       return 'use this service';
