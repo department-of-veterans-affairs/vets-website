@@ -5,6 +5,9 @@ import recordEvent from 'platform/monitoring/record-event';
 export const errorMessage = () => {
   const message = (
     <>
+      <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+        We’re sorry. Something went wrong on our end
+      </h2>
       <p>
         Please refresh this page or check back later. You can also sign out of
         VA.gov and try signing back into this page.
@@ -12,8 +15,8 @@ export const errorMessage = () => {
       <p>
         If you get this error again, please call VA.gov help desk at{' '}
         <a
-          href="tel:1-855-574-7286"
-          aria-label="Dial the telephone number 1-855-574-7286"
+          href="tel:18555747286"
+          aria-label="1. 8 5 5. 5 7 4. 7 2 8 6."
           title="Dial the telephone number 1-855-574-7286"
         >
           1-855-574-7286
@@ -22,19 +25,15 @@ export const errorMessage = () => {
       </p>
     </>
   );
-  return (
-    <AlertBox
-      headline="We’re sorry. Something went wrong on our end"
-      content={message}
-      status="error"
-      isVisible
-    />
-  );
+  return <AlertBox content={message} status="error" isVisible />;
 };
 
 export const missingTotalMessage = () => {
   const message = (
     <>
+      <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+        We don’t have a disability rating on file for you
+      </h2>
       <p>
         We’re sorry. We can’t find a disability rating for you. If you have a
         disability that was caused by or got worse because of your service, you
@@ -43,20 +42,13 @@ export const missingTotalMessage = () => {
       <a
         href="/disability/how-to-file-claim/"
         className="usa-link"
-        aria-label="go to the how-to-file-claim page"
+        aria-label="Learn how to file a claim for disability compensation"
       >
         Learn how to file a claim for disability compensation
       </a>
     </>
   );
-  return (
-    <AlertBox
-      headline="We don’t have a disability rating on file for you"
-      content={message}
-      status="info"
-      isVisible
-    />
-  );
+  return <AlertBox content={message} status="info" isVisible />;
 };
 
 export const totalRatingMessage = totalDisabilityRating => (
