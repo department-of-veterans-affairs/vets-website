@@ -51,9 +51,10 @@ describe('Find VA Forms actions', () => {
   });
 
   describe('fetchFormsThunk', () => {
-    const oldWindow = global.window;
+    let oldWindow;
 
     beforeEach(() => {
+      oldWindow = global.window;
       global.window = {
         location: {
           search: '',

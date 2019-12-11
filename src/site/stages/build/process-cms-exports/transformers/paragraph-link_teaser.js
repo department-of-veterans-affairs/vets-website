@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, uriToUrl } = require('./helpers');
 
 function transform(entity) {
   const { fieldLink, fieldLinkSummary } = entity;
@@ -8,7 +8,7 @@ function transform(entity) {
     entity: {
       fieldLink: fieldLink[0]
         ? {
-            url: { path: uri },
+            url: { path: uriToUrl(uri) },
             title,
             options,
           }

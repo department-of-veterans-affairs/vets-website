@@ -3,5 +3,8 @@ const { getAllSchemasOfType } = require('./helpers');
 
 module.exports = {
   $id: 'BlockContent',
-  anyOf: getAllSchemasOfType('block_content'),
+  // Adding the catch-all object schema is a temporary fix
+  // until we have schemas & transformers for all
+  // block_content entities
+  anyOf: getAllSchemasOfType('block_content').concat([{ type: 'object' }]),
 };
