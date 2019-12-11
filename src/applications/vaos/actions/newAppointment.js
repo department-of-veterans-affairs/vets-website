@@ -177,8 +177,9 @@ export function fetchFacilityDetails(facilityId) {
 
     try {
       facilityDetails = await getFacilityInfo(facilityId);
-    } catch (e) {
+    } catch (error) {
       facilityDetails = null;
+      Sentry.captureException(error);
     }
 
     dispatch({
