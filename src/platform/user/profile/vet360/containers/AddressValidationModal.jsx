@@ -10,7 +10,7 @@ import {
   createTransaction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal,
+  closeModal as closeValidationModal,
 } from '../actions';
 
 import * as VET360 from '../constants';
@@ -213,7 +213,7 @@ class AddressValidationModal extends React.Component {
             : 'Edit home address'
         }
         id="address-validation-warning"
-        onClose={this.props.closeModal}
+        onClose={closeValidationModal}
         visible={isAddressValidationModalVisible}
       >
         <AlertBox
@@ -236,7 +236,10 @@ class AddressValidationModal extends React.Component {
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
-          <button className="usa-button-secondary" onClick={closeModal}>
+          <button
+            className="usa-button-secondary"
+            onClick={closeValidationModal}
+          >
             Cancel
           </button>
         </form>
@@ -267,7 +270,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
-      closeModal,
+      closeValidationModal,
       openModal,
       updateSelectedAddress,
       updateValidationKeyAndSave,

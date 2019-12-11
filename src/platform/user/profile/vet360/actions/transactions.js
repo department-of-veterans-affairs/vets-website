@@ -185,7 +185,7 @@ export const validateAddress = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
-  const addressPayload = { address: payload };
+  const addressPayload = { address: { ...payload } };
   const options = {
     body: JSON.stringify(addressPayload),
     method: 'POST',
