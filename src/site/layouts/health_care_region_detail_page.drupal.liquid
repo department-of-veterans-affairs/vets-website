@@ -5,7 +5,7 @@
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
-      {% if entityUrl.path contains "/safety-security/" %}
+      {% if entityUrl.path contains "/safety-security/" and buildtype != 'vagovprod' %}
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
           <article aria-labelledby="article-heading" role="region" class="usa-content">
             <h1 id="article-heading">{{ title }}</h1>
