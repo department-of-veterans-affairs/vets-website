@@ -201,22 +201,41 @@ export function getCommunityCare() {
 
 // GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
 // eslint-disable-next-line no-unused-vars
-export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (directOrRequest === 'direct') {
-        resolve({
-          durationInMonths: 24,
-          hasVisitedInPastMonths: !facilityId.includes('984'),
-        });
-      } else {
-        resolve({
-          durationInMonths: 12,
-          hasVisitedInPastMonths: facilityId !== '984',
-        });
-      }
-    }, 500);
-  });
+export function checkPastVisits(
+  systemId,
+  facilityId,
+  typeOfCareId,
+  directOrRequest,
+) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    let attributes;
+    if (directOrRequest === 'direct') {
+      attributes = {
+        durationInMonths: 24,
+        hasVisitedInPastMonths: !facilityId.includes('984'),
+      };
+    } else {
+      attributes = {
+        durationInMonths: 12,
+        hasVisitedInPastMonths: facilityId !== '984',
+      };
+    }
+
+    promise = Promise.resolve({
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes,
+      },
+    });
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
+    );
+  }
+
+  return promise.then(resp => resp.data.attributes);
 }
 
 export function getRequestLimits(facilityId, typeOfCareId) {
@@ -426,15 +445,15 @@ export function submitAppointment(appointment) {
   return promise.then(resp => resp.data.attributes);
 }
 
-export function sendRequestMessage(id, message) {
+export function sendRequestMessage(id, messageText) {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(message),
+      body: JSON.stringify({ messageText }),
     });
   }
 

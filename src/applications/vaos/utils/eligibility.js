@@ -18,12 +18,14 @@ export async function getEligibilityData(
   isDirectScheduleEnabled,
 ) {
   const eligibilityChecks = [
-    checkPastVisits(facilityId, typeOfCareId, 'request'),
+    checkPastVisits(systemId, facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
   ];
 
   if (isDirectScheduleEnabled) {
-    eligibilityChecks.push(checkPastVisits(facilityId, typeOfCareId, 'direct'));
+    eligibilityChecks.push(
+      checkPastVisits(systemId, facilityId, typeOfCareId, 'direct'),
+    );
     eligibilityChecks.push(getClinics(facilityId, typeOfCareId, systemId));
 
     if (typeOfCareId === PRIMARY_CARE) {
