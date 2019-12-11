@@ -16,7 +16,6 @@ import {
 import {
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
-  FORM_RESET,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
@@ -47,6 +46,7 @@ import {
   FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
+  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../actions/newAppointment';
 
 import {
@@ -172,7 +172,7 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_RESET: {
+    case FORM_CLOSED_CONFIRMATION_PAGE: {
       return {
         ...initialState,
         systems: state.systems,

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { unescape, snakeCase } = require('lodash');
+const { unescape } = require('lodash');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -59,24 +59,12 @@ module.exports = {
   },
 
   /**
-   * Finds the property name containing the UUID.
-   *
-   * @param {Object} parent - The entity to look in
-   * @param {string} uuid - The UUID to search for
-   * @return {string} - The snake_cased property name the UUID is
-   *                    found in
-   * @return {undefined} - If the UUID is not found
+   * This is currently a dummy function, but we may
+   * need it in the future to convert weird uris like
+   * `entity:node/27` to something resembling a
+   * relative url
    */
-  getRawParentFieldName(parent, uuid) {
-    return Object.keys(parent).reduce((rawParentFieldName, key) => {
-      if (!Array.isArray(parent[key]) || rawParentFieldName)
-        return rawParentFieldName;
-
-      return parent[key].reduce((keyWithMatchedUUID, prop) => {
-        if (!keyWithMatchedUUID && prop.target_uuid === uuid)
-          return snakeCase(key);
-        return keyWithMatchedUUID;
-      }, null);
-    }, undefined);
+  uriToUrl(uri) {
+    return uri;
   },
 };

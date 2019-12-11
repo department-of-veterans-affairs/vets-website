@@ -38,9 +38,10 @@ class VetTecApprovedPrograms extends React.Component {
     const programs = this.props.institution.programs;
     if (programs && programs.length) {
       const programRows = programs.map((program, index) => {
-        const programLength = isPresent(program.lengthInHours)
-          ? `${program.lengthInHours} hours`
-          : 'TBD';
+        const programLength =
+          isPresent(program.lengthInHours) && program.lengthInHours !== '0'
+            ? `${program.lengthInHours} hours`
+            : 'TBD';
         const tuition = isPresent(program.tuitionAmount)
           ? formatCurrency(program.tuitionAmount)
           : 'TBD';
@@ -68,7 +69,9 @@ class VetTecApprovedPrograms extends React.Component {
                 </label>
               </div>
             </td>
-            <td className="vads-u-padding-y--0">{programLength}</td>
+            <td className="vads-u-padding-y--0 program-length">
+              {programLength}
+            </td>
             <td className="vads-u-padding-y--0">{tuition}</td>
           </tr>
         );
