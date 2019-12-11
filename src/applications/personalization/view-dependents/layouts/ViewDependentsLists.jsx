@@ -3,6 +3,7 @@ import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsL
 
 class ViewDependentsLists extends Component {
   render() {
+    /*
     const onAwardDependents = [
       {
         name: 'Billy Bush',
@@ -23,6 +24,7 @@ class ViewDependentsLists extends Component {
         age: 32,
       },
     ];
+    */
 
     const onAwardSubhead = (
       <span>
@@ -47,12 +49,12 @@ class ViewDependentsLists extends Component {
         <ViewDependentsList
           header="Dependents on award"
           subHeader={onAwardSubhead}
-          dependents={onAwardDependents}
+          dependents={this.props.onAwardDependents}
         />
         <ViewDependentsList
           header="Dependents not on award"
           subHeader={notOnAwardSubhead}
-          dependents={notOnAwardDependents}
+          dependents={this.props.notOnAwardDependents}
         />
       </span>
     );

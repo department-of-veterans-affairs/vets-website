@@ -5,38 +5,47 @@ import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 import { fetchDependents } from '../actions/index';
 
 class ViewDependentsApp extends Component {
-  componentDidUpdate() {
-    this.props.fetchDependents();
+
+  state = {
+    loading: true, // app starts in loading state
+    error: null,
+    onAwardDependents: null,
+    notOnAwardDependents: null,
+  };
+  
+
+  componentDidMount() {
+    this.makeAPICall();
+  }
+
+  makeAPICall = () => {
+    this.setState({
+      loading: false,
+      onAwardDependents: [
+        {
+          name: "gidget",
+          social: "312-243-5634",
+          onAward: true,
+        }
+      ],
+      notOnAwardDependents: [
+        
+      ],
+    });
   }
 
   render() {
     return (
       <>
         <ViewDependentsLayout
-          fetchDependents={this.props.fetchDependents}
-          loading={this.props.loading}
-          error={this.props.error}
-          onAwardDependents={this.props.onAwardDependents}
-          notOnAwardDependents={this.props.notOnAwardDependents}
+          loading={this.state.loading}
+          error={this.state.error}
+          onAwardDependents={this.state.onAwardDependents}
+          notOnAwardDependents={this.state.notOnAwardDependents}
         />
       </>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  loading: state.loading, // app starts in loading state
-  error: state.error,
-  onAwardDependents: state.onAwardDependents,
-  notOnAwardDependents: state.notOnAwardDependents,
-});
-
-const mapDispatchToProps = {
-  fetchDependents,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ViewDependentsApp);
-export { ViewDependentsApp };
+export default ViewDependentsApp;

@@ -7,10 +7,6 @@ import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDepen
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
 
 class ViewDependentsLayout extends Component {
-  componentDidMount() {
-    this.props.fetchDependents();
-  }
-
   render() {
     const breadcrumbLinks = [
       <a href="/" aria-label="back to VA Home page" key="1">
@@ -47,7 +43,10 @@ class ViewDependentsLayout extends Component {
           <div className="vads-l-row">
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
               <ViewDependentsHeader />
-              <ViewDependentsLists />
+              <ViewDependentsLists 
+                onAwardDependents={this.props.onAwardDependents}
+                notOnAwardDependents={this.props.notOnAwardDependents}
+              />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col--4">
               <ViewDependentsSidebar />

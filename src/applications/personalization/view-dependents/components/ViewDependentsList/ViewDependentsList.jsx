@@ -6,7 +6,7 @@ class ViewDependentsList extends Component {
   render() {
     let mainContent;
 
-    if (this.props.dependents) {
+    if (this.props.dependents.length > 0) {
       mainContent = this.props.dependents.map((dependent, index) => (
         <ViewDependentsListItem
           key={index}
