@@ -125,6 +125,11 @@ describe('validateAddress', () => {
       );
       expect(dispatch.firstCall.args[0].suggestedAddresses).to.deep.equal([
         {
+          addressMetaData: {
+            confidenceScore: 100,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+          },
           addressLine1: '400 N 65th St',
           addressType: 'DOMESTIC',
           city: 'Seattle',
@@ -135,8 +140,16 @@ describe('validateAddress', () => {
           stateCode: 'WA',
           zipCode: '98103',
           zipCodeSuffix: '5252',
+          type: 'DOMESTIC',
+          addressPou: 'RESIDENCE/CHOICE',
         },
         {
+          addressMetaData: {
+            confidenceScore: 100,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
           addressLine1: '400 NW 65th St',
           addressType: 'DOMESTIC',
           city: 'Seattle',
@@ -147,8 +160,16 @@ describe('validateAddress', () => {
           stateCode: 'WA',
           zipCode: '98117',
           zipCodeSuffix: '5026',
+          type: 'DOMESTIC',
+          addressPou: 'RESIDENCE/CHOICE',
         },
         {
+          addressMetaData: {
+            confidenceScore: 100,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'CONFIRMED',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
           addressLine1: '400 NW 65th Street',
           addressType: 'DOMESTIC',
           city: 'Seattle',
@@ -159,8 +180,17 @@ describe('validateAddress', () => {
           stateCode: 'WA',
           zipCode: '98117',
           zipCodeSuffix: '5026',
+          type: 'DOMESTIC',
+          addressPou: 'RESIDENCE/CHOICE',
         },
         {
+          addressMetaData: {
+            confidenceScore: 98,
+            addressType: 'Domestic',
+            deliveryPointValidation:
+              'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
           addressLine1: '400 NE 65th St',
           addressType: 'DOMESTIC',
           city: 'Seattle',
@@ -171,6 +201,8 @@ describe('validateAddress', () => {
           stateCode: 'WA',
           zipCode: '98115',
           zipCodeSuffix: '6463',
+          type: 'DOMESTIC',
+          addressPou: 'RESIDENCE/CHOICE',
         },
       ]);
     });
