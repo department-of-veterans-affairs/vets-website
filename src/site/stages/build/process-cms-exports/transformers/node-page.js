@@ -50,6 +50,7 @@ function pageTransform(entity) {
 
   delete transformed.moderationState;
   delete transformed.metatag;
+  delete transformed.path;
 
   return transformed;
 }
