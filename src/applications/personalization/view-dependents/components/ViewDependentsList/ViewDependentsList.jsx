@@ -1,39 +1,41 @@
 import React, { Component } from 'react';
-import ViewDependentsListItem from './ViewDependentsListItem';
+import PropTypes from 'prop-types';
+import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem';
 
 class ViewDependentsList extends Component {
   render() {
+    let mainContent;
+
+    if (this.props.dependents) {
+      mainContent = this.props.dependents.map((dependent, index) => (
+        <ViewDependentsListItem
+          key={index}
+          name={dependent.name}
+          spouse={dependent.spouse}
+          onAward={dependent.onAward}
+          social={dependent.social}
+          birthdate={dependent.birthdate}
+          age={dependent.age}
+        />
+      ));
+    } else {
+      mainContent = <p>No dependents in this list.</p>;
+    }
+
     return (
       <>
-        <h3>Dependents on award</h3>
-        <p className="vads-u-padding-bottom--2">
-          Dependents on award have been added to you disability claim.{' '}
-          <strong>
-            If a dependents status has changed, you need to let the VA know.
-          </strong>
-        </p>
-        <ViewDependentsListItem
-          onAward
-          social="312-314-1415"
-          birthdate="05/05/1982"
-          age={37}
-        />
-        <h3>Dependents not on award</h3>
-        <p>
-          Dependents not on award may be awaiting a decision, or they were once
-          added to your disability claim and their status has changed.{' '}
-          <strong>Let the VA know if a dependent's status has changed</strong>{' '}
-          and they are now eligible to be added to your disability claim.
-        </p>
-        <ViewDependentsListItem
-          onAward
-          social="312-314-1415"
-          birthdate="05/05/1982"
-          age={37}
-        />
+        <h3>{this.props.header}</h3>
+        <p className="vads-u-padding-bottom--2">{this.props.subHeader}</p>
+        {mainContent}
       </>
     );
   }
 }
+
+ViewDependentsList.propTypes = {
+  dependents: PropTypes.array,
+  header: PropTypes.string,
+  subHeader: PropTypes.object,
+};
 
 export default ViewDependentsList;
