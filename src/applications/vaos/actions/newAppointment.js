@@ -393,8 +393,11 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
         data.vaFacility,
         data.typeOfCareId,
         data.clinicId,
-        moment().format('YYYY-MM-DD'),
-        moment()
+        moment(data.preferredDate)
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment(data.preferredDate)
+          .startOf('month')
           .add(90, 'days')
           .format('YYYY-MM-DD'),
       );

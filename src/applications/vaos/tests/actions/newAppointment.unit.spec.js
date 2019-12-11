@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
@@ -41,7 +42,6 @@ import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import slots from '../../api/slots.json';
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -702,11 +702,31 @@ describe('VAOS newAppointment actions', () => {
 
   it('should open select appointment page and fetch appointment slots', async () => {
     mockFetch();
-    setFetchJSONResponse(global.fetch, slots);
+    setFetchJSONResponse(global.fetch, {
+      data: [
+        {
+          attributes: {
+            appointmentLength: 30,
+            appointmentTimeSlot: [
+              {
+                startDateTime: moment()
+                  .add(30, 'minutes')
+                  .toISOString(),
+                endDateTime: moment()
+                  .add(60, 'minutes')
+                  .toISOString(),
+              },
+            ],
+          },
+        },
+      ],
+    });
 
     const state = {
       newAppointment: {
-        data: {},
+        data: {
+          preferredDate: '2019-01-01',
+        },
       },
     };
     const getState = () => state;
@@ -723,8 +743,8 @@ describe('VAOS newAppointment actions', () => {
       FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
     );
 
-    expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(89);
-    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
+    expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
+    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(30);
 
     resetFetch();
   });
