@@ -12,7 +12,7 @@ function runRatedDisabilitiesTest(browser) {
   );
   // This is checking for the top level <dl> tag in RatedDisabilityListItem
   browser.assert.visible(
-    '.vads-u-display--block.vads-l-col--12.vads-u-margin--0.vads-u-background-color--gray-lightest.vads-u-margin-top--0.vads-u-margin-bottom--2.vads-u-padding-top--1.vads-u-padding-bottom--2.vads-u-padding-x--2',
+    '.vads-u-display--block.vads-l-col--12.vads-u-background-color--gray-lightest.vads-u-margin-top--0.vads-u-margin-bottom--2.vads-u-padding-top--1.vads-u-padding-bottom--2.vads-u-padding-x--2',
   );
   // This is check for the first instance of a rated disability name
   browser.assert.containsText(
