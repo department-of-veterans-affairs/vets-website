@@ -25,7 +25,7 @@ function runValeCheck(contentFilename) {
     ]);
 
     vale.stdout.on('data', data => {
-      output.results = data;
+      output.results = data.toString();
     });
 
     vale.stderr.on('data', data => {
@@ -64,6 +64,10 @@ function createTempFile(dataBuffer) {
  *
  */
 function buildDetailsMarkup(issues) {
+  if (typeof issues.length === 'undefined') {
+    return true;
+  }
+
   let details =
     '<details class="vads-u-background-color--primary-alt-lightest vads-u-border-color--secondary-lighter vads-u-border-bottom--2px vads-u-padding--1">';
   details += `<summary><h4 class="vads-u-display--inline-block vads-u-margin-y--2">There are (${
@@ -77,7 +81,13 @@ function buildDetailsMarkup(issues) {
     let issueEl = '<li class=vads-u-margin-y--1">';
     issueEl += '<details>';
     issueEl += `<summary><strong>${issue.Message}</strong></summary>`;
+
     issueEl += `<ul class="usa-unstyled-list vads-u-padding-y--1 vads-u-padding-x--2">`;
+    issueEl += `<li><strong>Rule</strong>: ${issue.Check}</li>`;
+    issueEl += `<li><strong>Description</strong>: ${issue.Description}</li>`;
+    issueEl += `<li><strong>Learn More</strong>: <a href="${
+      issue.Link
+    }" target="blank" rel="noopener noreferrer">${issue.Link}</a></li>`;
 
     issueEl += '</ul>';
     issueEl += '</details>';
@@ -118,13 +128,18 @@ function injectValeLinter(buildOptions) {
       const tempfile = createTempFile(file.contents);
       const { dom } = file;
 
-      const valeOutput = await runValeCheck(tempfile);
+      try {
+        const valeOutput = await runValeCheck(tempfile);
+        if (typeof valeOutput.results.length === 'undefined') continue;
 
-      const parsedOutput = JSON.parse(valeOutput.results)[tempfile];
-      const elements = buildDetailsMarkup(parsedOutput);
+        const parsedOutput = JSON.parse(valeOutput.results);
+        const elements = buildDetailsMarkup(parsedOutput);
 
-      dom('body').prepend(elements);
-      file.modified = true;
+        dom('body').prepend(elements);
+        file.modified = true;
+      } catch (e) {
+        return e.message;
+      }
     }
     return done();
   };
