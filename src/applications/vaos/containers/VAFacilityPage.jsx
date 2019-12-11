@@ -7,7 +7,6 @@ import FormButtons from '../components/FormButtons';
 import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import SingleFacilityEligibilityCheckMessage from '../components/SingleFacilityEligibilityCheckMessage';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { FETCH_STATUS } from '../utils/constants';
 
 import {
   openFacilityPage,
@@ -66,26 +65,9 @@ const uiSchema = {
     },
   },
   vaFacilityMessage: {
-    'ui:field': ({ formContext }) => {
-      const {
-        vaSystem,
-        typeOfCare,
-        facilityDetailsStatus,
-        systemDetails,
-      } = formContext;
-
-      if (facilityDetailsStatus === FETCH_STATUS.loading) {
-        return <LoadingIndicator message="Finding locations" />;
-      }
-
-      return (
-        <NoValidVAFacilities
-          systemId={vaSystem}
-          typeOfCare={typeOfCare}
-          systemDetails={systemDetails}
-        />
-      );
-    },
+    'ui:field': ({ formContext }) => (
+      <NoValidVAFacilities formContext={formContext} />
+    ),
     'ui:options': {
       hideLabelText: true,
     },

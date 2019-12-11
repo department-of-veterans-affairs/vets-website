@@ -2,12 +2,21 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import FacilityDirectionsLink from './FacilityDirectionsLink';
 import FacilityHours from './FacilityHours';
+import { FETCH_STATUS } from '../utils/constants';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
-export default function NoValidVAFacilities({
-  systemId,
-  typeOfCare,
-  systemDetails,
-}) {
+export default function NoValidVAFacilities({ formContext }) {
+  const {
+    systemId,
+    typeOfCare,
+    facilityDetailsStatus,
+    systemDetails,
+  } = formContext;
+
+  if (facilityDetailsStatus === FETCH_STATUS.loading) {
+    return <LoadingIndicator message="Finding locations" />;
+  }
+
   const attributes = systemDetails?.attributes;
   const address = attributes?.address?.physical;
   const phone = attributes?.phone;
