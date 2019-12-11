@@ -12,6 +12,8 @@ import {
   updateValidationKeyAndSave,
   closeModal as closeValidationModal,
 } from '../actions';
+import { getValidationMessageKey } from '../../utilities';
+import { addressValidationMessages } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
@@ -53,60 +55,6 @@ class AddressValidationModal extends React.Component {
         this.props.analyticsSectionName,
       );
     }
-  };
-
-  renderWarningText = () => {
-    const {
-      addressValidationError,
-      validationKey,
-      suggestedAddresses,
-    } = this.props;
-
-    let warningText;
-
-    if (suggestedAddresses.length && validationKey) {
-      warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below`;
-    }
-
-    if (suggestedAddresses.length && !validationKey) {
-      warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we won't be able to deliver your VA mail to that address.  Please edit the address you entered or choose a suggested address below.`;
-    }
-
-    if (addressValidationError && validationKey) {
-      warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it.`;
-    }
-
-    if (addressValidationError && !validationKey) {
-      warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we will not be able to deliver your VA mail to that address.  Please edit the address you entered.`;
-    }
-
-    return warningText;
-  };
-
-  renderWarningHeadline = () => {
-    const {
-      addressValidationError,
-      validationKey,
-      suggestedAddresses,
-    } = this.props;
-
-    let warningHeadline;
-
-    if (
-      (suggestedAddresses.length > 1 && validationKey) ||
-      (addressValidationError && validationKey)
-    ) {
-      warningHeadline = `Please confirm your address`;
-    }
-
-    if (
-      (suggestedAddresses.length > 1 && !validationKey) ||
-      (addressValidationError && !validationKey)
-    ) {
-      warningHeadline = `We couldn’t verify your address`;
-    }
-
-    return warningHeadline;
   };
 
   renderPrimaryButton = () => {
@@ -201,7 +149,18 @@ class AddressValidationModal extends React.Component {
       addressValidationType,
       suggestedAddresses,
       addressFromUser,
+      validationKey,
+      addressValidationError,
     } = this.props;
+
+    const validationMessageKey = getValidationMessageKey(
+      suggestedAddresses,
+      validationKey,
+      addressValidationError,
+    );
+
+    const addressValidationMessage =
+      addressValidationMessages[validationMessageKey];
 
     const shouldShowSuggestions = suggestedAddresses.length > 0;
 
@@ -219,9 +178,9 @@ class AddressValidationModal extends React.Component {
         <AlertBox
           className="vads-u-margin-bottom--1"
           status="warning"
-          headline={this.renderWarningHeadline()}
+          headline={addressValidationMessage.headline}
         >
-          <p>{this.renderWarningText()}</p>
+          <p>{addressValidationMessage.modalText}</p>
         </AlertBox>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>

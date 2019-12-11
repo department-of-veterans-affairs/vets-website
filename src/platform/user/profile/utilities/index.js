@@ -141,3 +141,51 @@ export function teardownProfileSession() {
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearSentryLoginType();
 }
+
+export const getValidationMessageKey = (
+  suggestedAddresses,
+  validationKey,
+  addressValidationError,
+) => {
+  let validationErrorKey;
+  const singleSuggestion = suggestedAddresses.length === 1;
+  const containsBadUnitNumber =
+    suggestedAddresses.filter(
+      address =>
+        address.addressMetaData?.deliveryPointValidation ===
+        'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
+    ).length > 0;
+
+  const containsMissingUnitNumber =
+    suggestedAddresses.filter(
+      address =>
+        address.addressMetaData?.deliveryPointValidation ===
+        'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+    ).length > 0;
+
+  if (singleSuggestion && containsBadUnitNumber) {
+    validationErrorKey = validationKey
+      ? 'badUnitNumberOverride'
+      : 'badUnitNumber';
+  }
+
+  if (singleSuggestion && containsMissingUnitNumber) {
+    validationErrorKey = validationKey
+      ? 'missingUnitNumberOverride'
+      : 'missingUnitNumber';
+  }
+
+  if (!singleSuggestion && !addressValidationError) {
+    validationErrorKey = validationKey
+      ? 'showSuggestionsOverride'
+      : 'showSuggestions';
+  }
+
+  if (addressValidationError) {
+    validationErrorKey = validationKey
+      ? 'validationErrorOverride'
+      : 'validationError';
+  }
+
+  return validationErrorKey;
+};
