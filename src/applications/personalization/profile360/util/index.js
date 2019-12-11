@@ -52,10 +52,6 @@ export const hasAccountFlaggedError = errors =>
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY);
 
-export const hasFlaggedForFraudError = errors =>
-  hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
-  hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY);
-
 export const hasInvalidRoutingNumberError = errors =>
   hasErrorMessage(errors, INVALID_ROUTING_NUMBER_KEY) ||
   hasErrorMessage(errors, GENERIC_ERROR_KEY, 'Invalid Routing Number');

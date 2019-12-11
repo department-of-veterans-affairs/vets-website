@@ -2,7 +2,8 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import {
-  hasFlaggedForFraudError,
+  hasAccountFlaggedError,
+  hasRoutingNumberFlaggedError,
   hasInvalidAddressError,
   hasInvalidHomePhoneNumberError,
   hasInvalidRoutingNumberError,
@@ -11,6 +12,30 @@ import {
 } from '../util';
 
 function FlaggedAccount() {
+  return (
+    <>
+      <p>
+        We’re sorry. You can’t change your direct deposit information right now
+        because we’ve locked the ability to edit this information. We do this to
+        protect your bank account information and prevent fraud when we think
+        there may be a security issue.
+      </p>
+      <p>
+        To request that we unlock this function, please call us at{' '}
+        <span className="no-wrap">
+          <a href="tel:1-800-827-1000">800-827-1000</a>
+        </span>{' '}
+        (TTY: <span className="no-wrap">800-829-4833</span>
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+    </>
+  );
+}
+
+// TODO: Update this copy with messaging specific to the routing number being
+// flagged and blocked when the copy has been written:
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/4109
+function FlaggedRoutingNumber() {
   return (
     <>
       <p>
@@ -99,10 +124,12 @@ export default function PaymentInformationEditModalError({
     const { errors = [] } = responseError.error;
 
     if (
-      hasFlaggedForFraudError(errors) ||
+      hasAccountFlaggedError(errors) ||
       hasPaymentRestrictionIndicatorsError(errors)
     ) {
       content = <FlaggedAccount />;
+    } else if (hasRoutingNumberFlaggedError(errors)) {
+      content = <FlaggedRoutingNumber />;
     } else if (hasInvalidRoutingNumberError(errors)) {
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(errors)) {
