@@ -379,7 +379,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.loadingFacilityDetails).to.be.true;
+      expect(newState.facilityDetailsStatus).to.equal(FETCH_STATUS.loading);
     });
 
     it('should set facility detail loading', () => {
@@ -397,7 +397,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.loadingFacilityDetails).to.be.false;
+      expect(newState.facilityDetailsStatus).to.equal(FETCH_STATUS.succeeded);
       expect(newState.facilityDetails['123']).to.deep.equal(facilityDetails);
     });
   });
