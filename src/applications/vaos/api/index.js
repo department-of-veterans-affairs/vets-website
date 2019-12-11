@@ -110,7 +110,8 @@ export const getLongTermAppointmentHistory = (() => {
 
       // This is weird, but hopefully clear. There are four chunks with date
       // ranges from the array created above. We're trying to run them serially,
-      // which makes this more complicated than using Promise.all
+      // because we want to be careful about overloading the upstream service,
+      // so Promise.all doesn't fit here
       promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
         .then(newAppts => appointments.push(...newAppts))
         .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
