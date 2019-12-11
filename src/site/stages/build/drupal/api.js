@@ -125,8 +125,9 @@ function getDrupalClient(buildOptions) {
     },
 
     getExportedPages() {
-      const entities = readAllNodeNames().map(entityDetails =>
-        readEntity(contentDir, ...entityDetails),
+      const exportDir = buildOptions['cms-export-dir'] || contentDir;
+      const entities = readAllNodeNames(exportDir).map(entityDetails =>
+        readEntity(exportDir, ...entityDetails),
       );
 
       const modifiedEntities = entities.map(entity =>
