@@ -204,7 +204,7 @@ export function getClinicPageInfo(state, pageKey) {
     facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
-    loadingFacilityDetails: newAppointment.loadingFacilityDetails,
+    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
   };
 }
 
