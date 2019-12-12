@@ -184,7 +184,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  def long buildtime = unixTime = System.currentTimeMillis() / 1000L;
+  def long buildtime = System.currentTimeMillis() / 1000L;
   def buildDetails = buildDetails(envName, ref, buildtime)
   def drupalAddress = DRUPAL_ADDRESSES.get(envName)
   def drupalCred = DRUPAL_CREDENTIALS.get(envName)
