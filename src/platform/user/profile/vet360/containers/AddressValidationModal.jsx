@@ -10,7 +10,7 @@ import {
   createTransaction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal,
+  closeModal as closeAddressValidationModal,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
@@ -151,7 +151,6 @@ class AddressValidationModal extends React.Component {
       addressFromUser,
       validationKey,
       addressValidationError,
-      // eslint-disable-next-line no-shadow
       closeModal,
     } = this.props;
 
@@ -228,7 +227,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
-      closeModal,
+      closeModal: closeAddressValidationModal,
       openModal,
       updateSelectedAddress,
       updateValidationKeyAndSave,
