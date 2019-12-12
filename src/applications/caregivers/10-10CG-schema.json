@@ -161,6 +161,7 @@
             },
             "postalCode": {
               "type": "string",
+              "ui:title": "Postal Code",
               "maxLength": 10
             }
           }

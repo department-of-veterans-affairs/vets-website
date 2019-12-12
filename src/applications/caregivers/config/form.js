@@ -88,7 +88,11 @@ const formConfig = {
             [formFields.fullName]: fullNameUI,
             [formFields.ssn]: ssnUI,
             [formFields.veteranDateOfBirth]: currentOrPastDateUI(
-              'Date of birth',
+              'Date of Birth',
+            ),
+            [formFields.address]: address.uiSchema(
+              'Current Street Address',
+              false,
             ),
             [formFields.telephoneNumber]: phoneUI(
               'Telephone Number (Including Area Code)',
@@ -114,7 +118,8 @@ const formConfig = {
                 'Name of facility where you last received medical treatment:',
             },
             [formFields.facilityType]: {
-              'ui:title': ' ',
+              'ui:title':
+                'Type of facility where you last received medical treatment:',
             },
           },
           schema: {
@@ -128,7 +133,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [formFields.address]: address.schema(fullSchema, true),
+              [formFields.address]: address.schema(fullSchema, false),
               [formFields.telephoneNumber]: usaPhone,
               [formFields.cellNumber]: usaPhone,
               [formFields.email]: {
@@ -147,13 +152,13 @@ const formConfig = {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.previousTreatmentFacility]: {
-                type: 'string',
-                format: 'email',
-              },
               [formFields.facilityType]: {
                 type: 'string',
                 enum: ['Hospital', 'Clinic'],
+              },
+              [formFields.previousTreatmentFacility]: {
+                type: 'string',
+                format: 'email',
               },
             },
           },
@@ -194,7 +199,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [formFields.address]: address.schema(fullSchema, true),
+              [formFields.address]: address.schema(fullSchema, false),
               [formFields.email]: {
                 type: 'string',
                 format: 'email',
