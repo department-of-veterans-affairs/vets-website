@@ -150,6 +150,10 @@ export function getFacilityPageInfo(state, pageKey) {
       !formInfo.schema.properties.vaSystem,
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
+    hasDataFetchingError:
+      newAppointment.systemsStatus === FETCH_STATUS.failed ||
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
+      newAppointment.elibilityStatus === FETCH_STATUS.failed,
   };
 }
 

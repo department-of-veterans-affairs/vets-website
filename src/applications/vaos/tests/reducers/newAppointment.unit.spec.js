@@ -369,7 +369,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.childFacilitiesStatus).to.equal(FETCH_STATUS.failed);
     });
   });
   describe('fetch eligibility checks reducers', () => {

@@ -68,6 +68,7 @@ const initialState = {
   systems: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
+  childFacilitiesStatus: FETCH_STATUS.notStarted,
   systemsStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
   loadingFacilityDetails: false,
@@ -329,7 +330,7 @@ export default function formReducer(state = initialState, action) {
         newState,
       );
 
-      return newState;
+      return { ...newState, childFacilitiesStatus: FETCH_STATUS.loading };
     }
     case FORM_FETCH_CHILD_FACILITIES_SUCCEEDED: {
       const facilityUpdate = updateFacilitiesSchemaAndData(
@@ -362,6 +363,7 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacility: schema,
         },
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_FETCH_CHILD_FACILITIES_FAILED: {
@@ -373,7 +375,7 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pages,
-        hasDataFetchingError: true,
+        childFacilitiesStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_VA_SYSTEM_CHANGED: {
