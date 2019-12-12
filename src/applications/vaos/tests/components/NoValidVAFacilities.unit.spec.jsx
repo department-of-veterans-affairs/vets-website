@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { FETCH_STATUS } from '../../utils/constants';
 
 import NoValidVAFacilities from '../../components/NoValidVAFacilities';
 
@@ -41,8 +42,31 @@ const systemDetails = {
 };
 
 describe('VAOS <NoValidVAFacilities>', () => {
+  it('should display a loading indicator if FETCH_STATUS is loading', () => {
+    const formContext = {
+      facilityDetailsStatus: FETCH_STATUS.loading,
+    };
+    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+
+    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should not display a loading indicator if FETCH_STATUS is succeeded', () => {
+    const formContext = {
+      facilityDetailsStatus: FETCH_STATUS.succeeded,
+    };
+    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
+
+    expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    tree.unmount();
+  });
+
   it('should render alert message', () => {
-    const tree = mount(<NoValidVAFacilities typeOfCare="Mental health" />);
+    const formContext = {
+      typeOfCare: 'Mental health',
+    };
+    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
 
     expect(tree.text()).to.contain(
       'We’re sorry. None of the facilities in this health system allow online scheduling for Mental health appointments',
@@ -52,12 +76,11 @@ describe('VAOS <NoValidVAFacilities>', () => {
   });
 
   it('should render facility info if systemDetails provided', () => {
-    const tree = mount(
-      <NoValidVAFacilities
-        typeOfCare="Mental health"
-        systemDetails={systemDetails}
-      />,
-    );
+    const formContext = {
+      typeOfCare: 'Mental health',
+      systemDetails,
+    };
+    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
 
     expect(tree.text()).to.contain('Cheyenne VA Medical Center');
     expect(tree.text()).to.contain('307-778-7550');
@@ -67,9 +90,12 @@ describe('VAOS <NoValidVAFacilities>', () => {
   });
 
   it('should render a link to facility locator if no systemDetails provided', () => {
-    const tree = mount(
-      <NoValidVAFacilities typeOfCare="Mental health" systemId="442" />,
-    );
+    const formContext = {
+      typeOfCare: 'Mental health',
+      systemId: '442',
+    };
+
+    const tree = mount(<NoValidVAFacilities formContext={formContext} />);
 
     expect(tree.text()).to.contain(
       'You can find contact information for this medical center at',
