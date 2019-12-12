@@ -90,4 +90,23 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
+
+  it('should render alert message with aria label', () => {
+    const openFormPage = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openFormPage={openFormPage}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
+        data={{}}
+      />,
+    );
+    expect(form.find('[aria-atomic="true"]').exists()).to.be.true;
+    expect(form.text()).to.contain(
+      'If you have an urgent medical need, please',
+    );
+
+    form.unmount();
+  });
 });

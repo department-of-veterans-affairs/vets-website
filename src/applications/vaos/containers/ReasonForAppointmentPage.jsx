@@ -92,30 +92,32 @@ export class ReasonForAppointmentPage extends React.Component {
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
-          <AlertBox
-            headline="If you are experiencing a medical emergency:"
-            className="vads-u-margin-y--3"
-            content={
-              <ul>
-                <li>
-                  Call <a href="tel:911">911</a>,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Call the Veterans Crisis hotline at{' '}
-                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <a href="/find-locations">
-                    Find your nearest VA medical center
-                  </a>
-                </li>
-              </ul>
-            }
-            status="warning"
-          />
+          <div aria-atomic="true" aria-live="assertive">
+            <AlertBox
+              status="warning"
+              headline="If you have an urgent medical need, please:"
+              className="vads-u-margin-y--3"
+              content={
+                <ul>
+                  <li>
+                    Call <a href="tel:911">911</a>,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    Call the Veterans Crisis hotline at{' '}
+                    <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    Go to your nearest emergency room or VA medical center.{' '}
+                    <a href="/find-locations">
+                      Find your nearest VA medical center
+                    </a>
+                  </li>
+                </ul>
+              }
+            />
+          </div>
         </SchemaForm>
       </div>
     );
