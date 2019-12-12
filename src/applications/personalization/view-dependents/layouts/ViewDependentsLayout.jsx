@@ -43,7 +43,7 @@ class ViewDependentsLayout extends Component {
           <div className="vads-l-row">
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
               <ViewDependentsHeader />
-              <ViewDependentsLists 
+              <ViewDependentsLists
                 onAwardDependents={this.props.onAwardDependents}
                 notOnAwardDependents={this.props.notOnAwardDependents}
               />
