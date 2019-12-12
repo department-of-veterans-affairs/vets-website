@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
-import { APPOINTMENT_TYPES, TIME_TEXT } from './constants';
+import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
 
 import {
@@ -11,31 +11,25 @@ import {
 } from './timezone';
 
 export function getAppointmentType(appt) {
-  if (appt.optionDate1 && appt.ccAppointmentRequest?.preferredProviders) {
+  if (appt.typeOfCareId?.startsWith('CC')) {
     return APPOINTMENT_TYPES.ccRequest;
   } else if (appt.optionDate1) {
     return APPOINTMENT_TYPES.request;
-  } else if (appt.appointmentRequestId) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  } else if (appt.startDate) {
+  } else if (appt.clinicId || appt.vvsAppointments) {
     return APPOINTMENT_TYPES.vaAppointment;
+  } else if (appt.appointmentTime) {
+    return APPOINTMENT_TYPES.ccAppointment;
   }
 
   return null;
 }
 
-export function getAppointmentId(appt) {
-  if (appt.appointmentRequestId) {
-    return appt.appointmentRequestId;
-  } else if (appt.vvsAppointments?.length) {
-    return appt.vvsAppointments[0].id;
-  }
-
-  return `va-${appt.facilityId}-${appt.clinicId}-${appt.startDate}`;
-}
-
 export function isCommunityCare(appt) {
-  return !!appt.appointmentRequestId;
+  const apptType = getAppointmentType(appt);
+  return (
+    apptType === APPOINTMENT_TYPES.ccRequest ||
+    apptType === APPOINTMENT_TYPES.ccAppointment
+  );
 }
 
 export function isGFEVideoVisit(appt) {
@@ -142,21 +136,11 @@ export function getAppointmentLocation(appt, facility) {
 
   if (facility) {
     return (
-      <>
-        <FacilityAddress
-          name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-          address={facility.address.physical}
-          phone={facility.phone?.main}
-        />
-        <br />
-        <a
-          href={`/find-locations/facility/vha_${facility.uniqueId}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          View facility details
-        </a>
-      </>
+      <FacilityAddress
+        name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
+        address={facility.address.physical}
+        phone={facility.phone?.main}
+      />
     );
   }
 
@@ -273,7 +257,7 @@ export function getRequestDateOptions(appt) {
 
   return options.reduce((formatted, option, index) => {
     formatted.push(
-      <li key={`${appt.uniqueId}-option-${index}`}>
+      <li key={`${appt.id}-option-${index}`}>
         {option.date.format('ddd, MMMM D, YYYY')} {TIME_TEXT[option.optionTime]}
       </li>,
     );
@@ -351,4 +335,83 @@ export function getRealFacilityId(facilityId) {
   }
 
   return facilityId;
+}
+
+export function getAppointmentInstructions(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return appt.instructionsToVeteran;
+    case APPOINTMENT_TYPES.vaAppointment:
+      return (
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes
+      );
+    default:
+      return '';
+  }
+}
+
+export function getAppointmentInstructionsHeader(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+      return 'Special instructions';
+    case APPOINTMENT_TYPES.vaAppointment:
+      return 'Additional information';
+    default:
+      return '';
+  }
+}
+
+export function hasInstructions(appt) {
+  return (
+    !!appt.instructionsToVeteran ||
+    !!appt.vdsAppointments?.[0]?.bookingNote ||
+    !!appt.vvsAppointments?.[0]?.bookingNotes
+  );
+}
+
+export function getPurposeOfVisit(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccRequest:
+      return PURPOSE_TEXT.find(purpose => purpose.id === appt.purposeOfVisit)
+        ?.short;
+    case APPOINTMENT_TYPES.request:
+      return PURPOSE_TEXT.find(
+        purpose => purpose.serviceName === appt.purposeOfVisit,
+      )?.short;
+    default:
+      return appt.purposeOfVisit;
+  }
+}
+
+export function getAppointmentTypeHeader(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.ccAppointment:
+    case APPOINTMENT_TYPES.ccRequest:
+      return 'Community Care';
+    case APPOINTMENT_TYPES.request: {
+      if (appt.visitType === 'Video Conference') {
+        return 'VA Video Connect';
+      }
+
+      return 'VA Appointment';
+    }
+    case APPOINTMENT_TYPES.vaAppointment: {
+      if (isVideoVisit(appt)) {
+        return 'VA Video Connect';
+      }
+
+      return 'VA Appointment';
+    }
+    default:
+      return appt.purposeOfVisit;
+  }
 }

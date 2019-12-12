@@ -38,7 +38,7 @@ module.exports = {
     'node.8822bbdd-f5f8-4700-8abb-5566431bd705.json',
   'node-office': 'node.c715d441-b6cb-4067-92eb-0650e97b7d62.json',
   'paragraph-link_teaser':
-    'paragraph.00023f85-7e3e-4595-8fdc-e964b142d406.json',
+    'paragraph.c5fec275-9ce2-480c-af68-a6ad65e9ff65.json',
   'paragraph-q_a': 'paragraph.000f52e7-99da-44a1-8b95-2dfe2c2b2682.json',
   'paragraph-q_a_section':
     'paragraph.0046948a-8267-4f38-a02a-a507703fb59a.json',
@@ -57,7 +57,7 @@ module.exports = {
   'paragraph-table': 'paragraph.01fabcbd-1c2d-4118-912a-4e33fb5569c0.json',
   'paragraph-collapsible_panel':
     'paragraph.6a422b09-790c-4767-a0a6-ac254fe1284a.json',
-  'paragraph-process': 'paragraph.0307bf30-4675-4dde-8c4a-bcf0b2590e18.json',
+  'paragraph-process': 'paragraph.b0c6e29f-8add-4313-9235-ad48c9a45414.json',
   'paragraph-number_callout':
     'paragraph.04787f9f-6b8b-4bf5-b71f-28006db691ff.json',
   'paragraph-react_widget':
@@ -73,6 +73,6 @@ module.exports = {
   'taxonomy_term-health_care_service_taxonomy':
     'taxonomy_term.01495533-fca6-45a3-825b-26f7b7ede91c.json',
   'taxonomy_term-administration':
-    'taxonomy_term.06a029a4-9f72-4abb-a5af-f40f5cc437a0.json',
+    'taxonomy_term.2c331a6d-b525-4f0c-8bea-4ecde41c7ef0.json',
   user: 'user.febabc33-ac97-48c6-bc49-f9150dfc443f.json',
 };

@@ -23,10 +23,8 @@ export default function registrationReducer(state = initialState, action) {
       return {
         ...state,
         status: FETCH_STATUS.succeeded,
-        isEnrolled: action.systemIds.some(
-          id => id.assigningAuthority === 'ICN',
-        ),
-        hasRegisteredSystems: action.systemIds.some(id =>
+        isEnrolled: action.userIds.some(id => id.assigningAuthority === 'ICN'),
+        hasRegisteredSystems: action.userIds.some(id =>
           id.assigningAuthority.startsWith('dfn-'),
         ),
       };

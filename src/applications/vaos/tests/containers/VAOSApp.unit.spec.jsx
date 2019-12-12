@@ -29,7 +29,8 @@ describe('VAOS <VAOSApp>', () => {
 
     tree.unmount();
   });
-  it('should render app unavailble messages', () => {
+
+  it('should render app unavailable messages', () => {
     const user = {
       profile: {
         services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
@@ -56,6 +57,24 @@ describe('VAOS <VAOSApp>', () => {
         .find('AppUnavailable')
         .exists(),
     ).to.be.true;
+
+    tree.unmount();
+  });
+
+  it('should render error boundary UI', () => {
+    const user = {
+      profile: {
+        services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const tree = shallow(<VAOSApp user={user} showApplication />);
+    tree.setState({ hasError: true });
+    tree.update();
+    expect(tree.find('ErrorMessage').exists()).to.be.true;
 
     tree.unmount();
   });

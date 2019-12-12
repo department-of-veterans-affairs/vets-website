@@ -78,22 +78,21 @@ export class DateTimeSelectPage extends React.Component {
 
   render() {
     const {
-      schema,
-      data,
-      pageChangeInProgress,
-      availableSlots,
       availableDates,
+      availableSlots,
+      data,
+      eligibleForRequests,
+      facilityId,
       loadingAppointmentSlots,
+      pageChangeInProgress,
+      preferredDate,
+      schema,
       timezone,
       typeOfCareId,
-      preferredDate,
-      eligibleForRequests,
     } = this.props;
 
     const title = (
-      <h1 className="vads-u-font-size--h2">
-        What date and time would you like to make an appointment?
-      </h1>
+      <h1 className="vads-u-font-size--h2">Appointment calendar</h1>
     );
 
     if (loadingAppointmentSlots) {
@@ -109,11 +108,13 @@ export class DateTimeSelectPage extends React.Component {
       <div>
         {title}
         <WaitTimeAlert
-          preferredDate={preferredDate}
-          nextAvailableApptDate={availableDates?.[0]}
-          typeOfCareId={typeOfCareId}
           eligibleForRequests={eligibleForRequests}
+          facilityId={facilityId}
+          nextAvailableApptDate={availableSlots?.[0]?.datetime}
           onClickRequest={this.props.startRequestAppointmentFlow}
+          preferredDate={preferredDate}
+          timezone={timezone}
+          typeOfCareId={typeOfCareId}
         />
         <p>
           Please select a desired date and time for your appointment.

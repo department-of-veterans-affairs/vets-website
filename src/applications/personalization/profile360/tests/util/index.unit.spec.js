@@ -14,24 +14,29 @@ describe('profile utils', () => {
       'profile-section': 'direct-deposit-information',
       'error-key': error,
     });
-    const defaultDataObject = createEventDataObjectWithError('other-error');
+    const defaultDataObject = createEventDataObjectWithError(
+      'other-error-update',
+    );
     const badAddressDataObject = createEventDataObjectWithError(
-      'mailing-address-error',
+      'mailing-address-error-update',
     );
     const badHomePhoneDataObject = createEventDataObjectWithError(
-      'home-phone-error',
+      'home-phone-error-update',
     );
     const badWorkPhoneDataObject = createEventDataObjectWithError(
-      'work-phone-error',
+      'work-phone-error-update',
     );
-    const flaggedForFraudDataObject = createEventDataObjectWithError(
-      'flagged-for-fraud-error',
+    const accountFlaggedForFraudDataObject = createEventDataObjectWithError(
+      'account-flagged-for-fraud-error-update',
+    );
+    const routingNumberFlaggedForFraudDataObject = createEventDataObjectWithError(
+      'routing-number-flagged-for-fraud-error-update',
     );
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
-      'invalid-routing-number-error',
+      'invalid-routing-number-error-update',
     );
     const paymentRestrictionIndicatorsDataObject = createEventDataObjectWithError(
-      'payment-restriction-indicators-error',
+      'payment-restriction-indicators-error-update',
     );
     it('returns the correct data when passed nothing', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject();
@@ -107,47 +112,49 @@ describe('profile utils', () => {
       ]);
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
     });
-    it('returns the correct data when a flagged for fraud error is passed', () => {
+    it('returns the correct data when a routing number flagged for fraud error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
         {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
+          code: '135',
+          detail: 'Routing number related to potential fraud',
           meta: {
             messages: [
               {
                 key: 'cnp.payment.routing.number.fraud.message',
                 severity: 'ERROR',
-                text: '',
+                text: 'Routing number related to potential fraud',
               },
             ],
           },
-        },
-      ]);
-      expect(eventDataObject).to.deep.equal(flaggedForFraudDataObject);
-    });
-    it('returns the correct data when a flagged for fraud error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
           source: 'EVSS::PPIU::Service',
           status: '422',
+          title: 'Potential Fraud',
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(
+        routingNumberFlaggedForFraudDataObject,
+      );
+    });
+    it('returns the correct data when an account flagged for fraud error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          code: '136',
+          detail: 'The account has been flagged',
           meta: {
             messages: [
               {
                 key: 'cnp.payment.flashes.on.record.message',
                 severity: 'ERROR',
-                text: '',
+                text: 'Flashes on record',
               },
             ],
           },
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          title: 'Account Flagged',
         },
       ]);
-      expect(eventDataObject).to.deep.equal(flaggedForFraudDataObject);
+      expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([

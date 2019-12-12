@@ -1,5 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-import { getData } from '../util';
+import { getData, isServerError, isClientError } from '../util';
 
 export const FETCH_RATED_DISABILITIES_SUCCESS =
   'FETCH_RATED_DISABILITIES_SUCCESS';
@@ -9,8 +9,6 @@ export const FETCH_RATED_DISABILITIES_FAILED =
 export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
-const serverErrorRegex = /^5\d{2}$/;
-const serviceErrorRegex = /^4\d{2}$/;
 const DISABILITY_PREFIX = 'disability-ratings';
 
 export function fetchRatedDisabilities() {
@@ -21,12 +19,12 @@ export function fetchRatedDisabilities() {
 
     if (response.errors) {
       const errorCode = response.errors[0].code;
-      if (serverErrorRegex.test(errorCode)) {
+      if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
           'error-key': `${errorCode} internal error`,
         });
-      } else if (serviceErrorRegex.test(errorCode)) {
+      } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-list-load-failed`,
           'error-key': `${errorCode} no disabilities found`,
@@ -48,18 +46,16 @@ export function fetchRatedDisabilities() {
 
 export function fetchTotalDisabilityRating() {
   return async dispatch => {
-    const response = await getData(
-      '/disability_compensation_form/find_rating_info_pid',
-    );
+    const response = await getData('/disability_compensation_form/rating_info');
 
     if (response.errors) {
       const errorCode = response.errors[0].code;
-      if (serverErrorRegex.test(errorCode)) {
+      if (isServerError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
           'error-key': `${errorCode} internal error`,
         });
-      } else if (serviceErrorRegex.test(errorCode)) {
+      } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
           'error-key': `${errorCode} no combined rating found`,
