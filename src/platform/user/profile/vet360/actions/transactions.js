@@ -187,6 +187,7 @@ export const validateAddress = (
   analyticsSectionName,
 ) => async dispatch => {
   const addressPayload = { address: { ...payload } };
+
   const options = {
     body: JSON.stringify(addressPayload),
     method: 'POST',
@@ -258,8 +259,10 @@ export const updateValidationKeyAndSave = (
   analyticsSectionName,
 ) => async dispatch => {
   try {
+    const addressPayload = { address: { ...payload } };
+
     const options = {
-      body: JSON.stringify(payload),
+      body: JSON.stringify(addressPayload),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
