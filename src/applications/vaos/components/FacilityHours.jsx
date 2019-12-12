@@ -32,7 +32,7 @@ const FacilityHours = ({ location }) => {
         {sunday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Sunday</div>
-            <div>{sunday}</div>
+            <div className="vaos-facility-details__hours">{sunday}</div>
           </div>
         )}
 
@@ -40,7 +40,7 @@ const FacilityHours = ({ location }) => {
         {monday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Monday</div>
-            <div>{monday}</div>
+            <div className="vaos-facility-details__hours">{monday}</div>
           </div>
         )}
 
@@ -48,7 +48,7 @@ const FacilityHours = ({ location }) => {
         {tuesday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Tuesday</div>
-            <div>{tuesday}</div>
+            <div className="vaos-facility-details__hours">{tuesday}</div>
           </div>
         )}
 
@@ -56,7 +56,7 @@ const FacilityHours = ({ location }) => {
         {wednesday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Wednesday</div>
-            <div>{wednesday}</div>
+            <div className="vaos-facility-details__hours">{wednesday}</div>
           </div>
         )}
 
@@ -64,7 +64,7 @@ const FacilityHours = ({ location }) => {
         {thursday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Thursday</div>
-            <div>{thursday}</div>
+            <div className="vaos-facility-details__hours">{thursday}</div>
           </div>
         )}
 
@@ -72,7 +72,7 @@ const FacilityHours = ({ location }) => {
         {friday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Friday</div>
-            <div>{friday}</div>
+            <div className="vaos-facility-details__hours">{friday}</div>
           </div>
         )}
 
@@ -80,7 +80,7 @@ const FacilityHours = ({ location }) => {
         {saturday && (
           <div className="vads-u-display--flex">
             <div className="vaos-facility-details__day">Saturday</div>
-            <div>{saturday}</div>
+            <div className="vaos-facility-details__hours">{saturday}</div>
           </div>
         )}
       </div>
