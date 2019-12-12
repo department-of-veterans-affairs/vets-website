@@ -20,14 +20,17 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+  FORM_FETCH_CHILD_FACILITIES_FAILED,
   FORM_VA_SYSTEM_CHANGED,
   FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_ELIGIBILITY_CHECKS_FAILED,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -38,11 +41,13 @@ import {
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_FAILED,
   FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_UPDATE_CC_ELIGIBILITY,
+  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../actions/newAppointment';
 
 import {
@@ -71,6 +76,7 @@ const initialState = {
   availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
+  hasDataFetchingError: false,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -101,14 +107,12 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
       'properties.vaFacility',
       {
         type: 'string',
-        enum: availableFacilities.map(
-          facility => facility.institution.institutionCode,
-        ),
+        enum: availableFacilities.map(facility => facility.institutionCode),
         enumNames: availableFacilities.map(
           facility =>
-            `${facility.institution.authoritativeName} (${
-              facility.institution.city
-            }, ${facility.institution.stateAbbrev})`,
+            `${facility.authoritativeName} (${facility.city}, ${
+              facility.stateAbbrev
+            })`,
         ),
       },
       newSchema,
@@ -120,7 +124,7 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
     }
     newData = {
       ...newData,
-      vaFacility: availableFacilities[0]?.institution.institutionCode,
+      vaFacility: availableFacilities[0]?.institutionCode,
     };
   }
 
@@ -167,6 +171,17 @@ export default function formReducer(state = initialState, action) {
           ...newPages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_CLOSED_CONFIRMATION_PAGE: {
+      return {
+        ...initialState,
+        systems: state.systems,
+        facilities: state.facilities,
+        clinics: state.clinics,
+        eligibility: state.eligibility,
+        pastAppointments: state.pastAppointments,
+        submitStatus: FETCH_STATUS.notStarted,
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
@@ -298,6 +313,12 @@ export default function formReducer(state = initialState, action) {
         eligibility,
       };
     }
+    case FORM_PAGE_FACILITY_OPEN_FAILED: {
+      return {
+        ...state,
+        hasDataFetchingError: true,
+      };
+    }
     case FORM_FETCH_CHILD_FACILITIES: {
       let newState = unset('pages.vaFacility.properties.vaFacility', state);
       newState = unset(
@@ -309,6 +330,7 @@ export default function formReducer(state = initialState, action) {
         { type: 'string' },
         newState,
       );
+
       return newState;
     }
     case FORM_FETCH_CHILD_FACILITIES_SUCCEEDED: {
@@ -342,6 +364,18 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           vaFacility: schema,
         },
+      };
+    }
+    case FORM_FETCH_CHILD_FACILITIES_FAILED: {
+      const pages = unset(
+        'vaFacility.properties.vaFacilityLoading',
+        state.pages,
+      );
+
+      return {
+        ...state,
+        pages,
+        hasDataFetchingError: true,
       };
     }
     case FORM_VA_SYSTEM_CHANGED: {
@@ -398,6 +432,12 @@ export default function formReducer(state = initialState, action) {
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
         },
         loadingEligibility: false,
+      };
+    }
+    case FORM_ELIGIBILITY_CHECKS_FAILED: {
+      return {
+        ...state,
+        hasDataFetchingError: true,
       };
     }
     case START_DIRECT_SCHEDULE_FLOW:
@@ -602,6 +642,12 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           [action.page]: schema,
         },
+      };
+    }
+    case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED: {
+      return {
+        ...state,
+        hasDataFetchingError: true,
       };
     }
     case FORM_SUBMIT:

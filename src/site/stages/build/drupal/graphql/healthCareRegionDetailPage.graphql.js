@@ -60,35 +60,10 @@ module.exports = `
     }
     ${FIELD_RELATED_LINKS}
     ${FIELD_ALERT}
-    fieldMedia {
-      entity {
-        entityId
-        entityBundle
-        name
-        ...on MediaDocument {
-          fieldDocument {
-            entity {
-              ...on File {
-                filename
-                url
-              }
-            }
-          }
-        }
-        ...on MediaImage {
-          image {
-            alt
-            url
-          }
-        }
-        ...on MediaVideo {
-          fieldMediaVideoEmbedField
-        }
-      }
-    }
     fieldOffice {
       entity {
         ...on NodeHealthCareRegionPage {
+          entityLabel
           title
           fieldNicknameForThisFacility
         }

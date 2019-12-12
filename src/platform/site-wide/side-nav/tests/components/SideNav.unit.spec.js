@@ -35,20 +35,6 @@ describe('<SideNav>', () => {
     },
   };
 
-  const oldWindow = global.window;
-
-  beforeEach(() => {
-    global.window = {
-      location: {
-        pathname: '/',
-      },
-    };
-  });
-
-  afterEach(() => {
-    global.window = oldWindow;
-  });
-
   it('should not render when there are no nav items to show', () => {
     const wrapper = shallow(<SideNav />);
     expect(wrapper.type()).to.equal(null);

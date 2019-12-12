@@ -6,28 +6,38 @@ import {
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+  FORM_FETCH_CHILD_FACILITIES_FAILED,
   FORM_VA_SYSTEM_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_ELIGIBILITY_CHECKS_FAILED,
   START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_CLOSED_CONFIRMATION_PAGE,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import { FETCH_STATUS } from '../../utils/constants';
+
+const systemsParsed = systems.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
 
 const defaultState = {
   data: {},
@@ -37,6 +47,11 @@ const defaultState = {
   systems: null,
   facilities: {},
 };
+
+const facilities983Parsed = facilities983.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
 
 describe('VAOS reducer: newAppointment', () => {
   it('should set the new schema', () => {
@@ -137,7 +152,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const action = {
         ...defaultOpenPageAction,
-        systems,
+        systems: systemsParsed,
       };
 
       const newState = newAppointmentReducer(currentState, action);
@@ -164,8 +179,8 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set facilities when only one system', () => {
       const action = {
         ...defaultOpenPageAction,
-        systems: systems.slice(0, 1),
-        facilities: facilities983,
+        systems: systemsParsed.slice(0, 1),
+        facilities: facilities983Parsed,
       };
 
       const newState = newAppointmentReducer(defaultState, action);
@@ -194,8 +209,8 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set system and facility when there is only one', () => {
       const action = {
         ...defaultOpenPageAction,
-        systems: systems.slice(0, 1),
-        facilities: facilities983.slice(0, 1),
+        systems: systemsParsed.slice(0, 1),
+        facilities: facilities983Parsed.slice(0, 1),
       };
 
       const newState = newAppointmentReducer(defaultState, action);
@@ -204,12 +219,25 @@ describe('VAOS reducer: newAppointment', () => {
         action.systems[0].institutionCode,
       );
       expect(newState.data.vaFacility).to.equal(
-        action.facilities[0].institution.institutionCode,
+        action.facilities[0].institutionCode,
       );
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
         properties: {},
       });
+    });
+
+    it('should set error when failed', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        type: FORM_PAGE_FACILITY_OPEN_FAILED,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+
+      expect(newState.hasDataFetchingError).to.be.true;
     });
   });
 
@@ -239,7 +267,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         },
       },
-      systems,
+      systems: systemsParsed,
       facilities: {},
       loadingFacilities: true,
     };
@@ -259,7 +287,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set up facilities after they are fetched', () => {
       const action = {
         ...defaultFetchFacilitiesAction,
-        facilities: facilities983,
+        facilities: facilities983Parsed,
       };
 
       const newState = newAppointmentReducer(defaultFacilityState, action);
@@ -277,7 +305,7 @@ describe('VAOS reducer: newAppointment', () => {
           'CHYSHR-Wheatland VA Mobile Clinic (Cheyenne, WY)',
         ],
       });
-      expect(newState.facilities['323_983']).to.equal(facilities983);
+      expect(newState.facilities['323_983']).to.equal(facilities983Parsed);
     });
 
     it('should update facility choices if system changed and we have the list in state', () => {
@@ -291,7 +319,7 @@ describe('VAOS reducer: newAppointment', () => {
           vaSystem: '983',
         },
         facilities: {
-          '323_983': facilities983,
+          '323_983': facilities983Parsed,
         },
       };
 
@@ -323,7 +351,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         ],
         facilities: {
-          '323_983': facilities983.slice(0, 1),
+          '323_983': facilities983Parsed.slice(0, 1),
         },
       };
 
@@ -331,6 +359,18 @@ describe('VAOS reducer: newAppointment', () => {
 
       expect(newState.pages.vaFacility.properties.vaFacility).to.be.undefined;
       expect(newState.data.vaFacility).to.equal('983');
+    });
+    it('should set error when failed', () => {
+      const currentState = {
+        ...defaultState,
+      };
+      const action = {
+        type: FORM_FETCH_CHILD_FACILITIES_FAILED,
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+
+      expect(newState.hasDataFetchingError).to.be.true;
     });
   });
   describe('fetch eligibility checks reducers', () => {
@@ -368,6 +408,15 @@ describe('VAOS reducer: newAppointment', () => {
         action.eligibilityData.clinics,
       );
       expect(newState.eligibility['983_323']).to.not.be.undefined;
+    });
+
+    it('should set error state', () => {
+      const action = {
+        type: FORM_ELIGIBILITY_CHECKS_FAILED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.hasDataFetchingError).to.be.true;
     });
   });
 
@@ -576,7 +625,7 @@ describe('VAOS reducer: newAppointment', () => {
         },
         uiSchema: {},
         page: 'ccPreferences',
-        systems,
+        systems: systemsParsed,
       };
       const state = {
         ...defaultState,
@@ -598,6 +647,16 @@ describe('VAOS reducer: newAppointment', () => {
         enum: ['983', '984'],
         enumNames: ['Cheyenne, WY', 'Dayton, OH'],
       });
+    });
+
+    it('should set error', () => {
+      const action = {
+        type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+
+      expect(newState.hasDataFetchingError).to.be.true;
     });
   });
   describe('submit request', () => {
@@ -676,5 +735,20 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.showTypeOfCareUnavailableModal).to.be.false;
+  });
+
+  it('should reset form when confirmation page is closed', () => {
+    const currentState = {
+      data: { test: 'blah' },
+      hasDataFetchingError: true,
+    };
+    const action = {
+      type: FORM_CLOSED_CONFIRMATION_PAGE,
+    };
+
+    const newState = newAppointmentReducer(currentState, action);
+
+    expect(newState.data).to.deep.equal({});
+    expect(newState.hasDataFetchingError).to.be.false;
   });
 });

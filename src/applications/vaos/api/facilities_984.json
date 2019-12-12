@@ -1,76 +1,89 @@
-[ {
-  "institution" : {
-    "institutionCode" : "984",
-    "name" : "DAYTSHR -Dayton VA Medical Center name2",
-    "city" : "Dayton",
-    "stateAbbrev" : "OH",
-    "authoritativeName" : "DAYTSHR -Dayton VA Medical Center",
-    "rootStationCode" : "984",
-    "adminParent" : true,
-    "parentStationCode" : "984"
-  },
-  "requestSupported" : true,
-  "directSchedulingSupported" : true,
-  "expressTimes" : null,
-  "institutionTimezone" : "America/New_York"
-}, {
-  "institution" : {
-    "institutionCode" : "984GA",
-    "name" : "DAYTSHR -Middletown VA Clinic",
-    "city" : "Middletown",
-    "stateAbbrev" : "OH",
-    "authoritativeName" : "DAYTSHR -Middletown VA Clinic",
-    "rootStationCode" : "984",
-    "adminParent" : false,
-    "parentStationCode" : "984"
-  },
-  "requestSupported" : true,
-  "directSchedulingSupported" : true,
-  "expressTimes" : null,
-  "institutionTimezone" : "America/New_York"
-}, {
-  "institution" : {
-    "institutionCode" : "984GB",
-    "name" : "DAYTSHR -Lima VA Clinic",
-    "city" : "Lima",
-    "stateAbbrev" : "OH",
-    "authoritativeName" : "DAYTSHR -Lima VA Clinic",
-    "rootStationCode" : "984",
-    "adminParent" : false,
-    "parentStationCode" : "984"
-  },
-  "requestSupported" : true,
-  "directSchedulingSupported" : true,
-  "expressTimes" : null,
-  "institutionTimezone" : "America/New_York"
-}, {
-  "institution" : {
-    "institutionCode" : "984GC",
-    "name" : "DAYTSHR -Richmond VA Clinic",
-    "city" : "Richmond",
-    "stateAbbrev" : "IN",
-    "authoritativeName" : "DAYTSHR -Richmond VA Clinic",
-    "rootStationCode" : "984",
-    "adminParent" : false,
-    "parentStationCode" : "984"
-  },
-  "requestSupported" : true,
-  "directSchedulingSupported" : true,
-  "expressTimes" : null,
-  "institutionTimezone" : "America/New_York"
-}, {
-  "institution" : {
-    "institutionCode" : "984GD",
-    "name" : "DAYTSHR -Springfield VA Clinic",
-    "city" : "Springfield",
-    "stateAbbrev" : "OH",
-    "authoritativeName" : "DAYTSHR -Springfield VA Clinic",
-    "rootStationCode" : "984",
-    "adminParent" : false,
-    "parentStationCode" : "984"
-  },
-  "requestSupported" : true,
-  "directSchedulingSupported" : true,
-  "expressTimes" : null,
-  "institutionTimezone" : "America/New_York"
-} ]
+{
+  "data": [
+    {
+      "id": "984",
+      "type": "direct_scheduling_facility",
+      "attributes": {
+        "institutionCode": "984",
+        "city": "Dayton",
+        "stateAbbrev": "OH",
+        "authoritativeName": "DAYTSHR -Dayton VA Medical Center",
+        "rootStationCode": "984",
+        "adminParent": true,
+        "parentStationCode": "984",
+        "requestSupported": true,
+        "directSchedulingSupported": true,
+        "expressTimes": null,
+        "institutionTimezone": "America/New_York"
+      }
+    },
+    {
+      "id": "984GA",
+      "type": "direct_scheduling_facility",
+      "attributes": {
+        "institutionCode": "984GA",
+        "city": "Middletown",
+        "stateAbbrev": "OH",
+        "authoritativeName": "DAYTSHR -Middletown VA Clinic",
+        "rootStationCode": "984",
+        "adminParent": false,
+        "parentStationCode": "984",
+        "requestSupported": true,
+        "directSchedulingSupported": true,
+        "expressTimes": null,
+        "institutionTimezone": "America/New_York"
+      }
+    },
+    {
+      "id": "984GB",
+      "type": "direct_scheduling_facility",
+      "attributes": {
+        "institutionCode": "984GB",
+        "city": "Lima",
+        "stateAbbrev": "OH",
+        "authoritativeName": "DAYTSHR -Lima VA Clinic",
+        "rootStationCode": "984",
+        "adminParent": false,
+        "parentStationCode": "984",
+        "requestSupported": true,
+        "directSchedulingSupported": true,
+        "expressTimes": null,
+        "institutionTimezone": "America/New_York"
+      }
+    },
+    {
+      "id": "984GC",
+      "type": "direct_scheduling_facility",
+      "attributes": {
+        "institutionCode": "984GC",
+        "city": "Richmond",
+        "stateAbbrev": "IN",
+        "authoritativeName": "DAYTSHR -Richmond VA Clinic",
+        "rootStationCode": "984",
+        "adminParent": false,
+        "parentStationCode": "984",
+        "requestSupported": true,
+        "directSchedulingSupported": true,
+        "expressTimes": null,
+        "institutionTimezone": "America/New_York"
+      }
+    },
+    {
+      "id": "984GD",
+      "type": "direct_scheduling_facility",
+      "attributes": {
+        "institutionCode": "984GD",
+        "city": "Springfield",
+        "stateAbbrev": "OH",
+        "authoritativeName": "DAYTSHR -Springfield VA Clinic",
+        "rootStationCode": "984",
+        "adminParent": false,
+        "parentStationCode": "984",
+        "requestSupported": true,
+        "directSchedulingSupported": true,
+        "expressTimes": null,
+        "institutionTimezone": "America/New_York"
+      }
+    }
+  ]
+}

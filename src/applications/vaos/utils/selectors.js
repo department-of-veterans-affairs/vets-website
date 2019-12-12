@@ -1,6 +1,6 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getAppointmentId, getRealFacilityId } from './appointment';
+import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
@@ -9,20 +9,6 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
 } from './constants';
-
-export function selectConfirmedAppointment(state, id) {
-  return (
-    state.appointments?.confirmed?.find?.(
-      appt => getAppointmentId(appt) === id,
-    ) || null
-  );
-}
-
-export function selectPendingAppointment(state, id) {
-  return (
-    state.appointments?.pending?.find?.(appt => appt.uniqueId === id) || null
-  );
-}
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -41,6 +27,7 @@ export function getFormPageInfo(state, pageKey) {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
+    hasDataFetchingError: getNewAppointment(state).hasDataFetchingError,
   };
 }
 
@@ -71,7 +58,7 @@ export function getChosenFacilityInfo(state) {
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     facilities[`${typeOfCareId}_${data.vaSystem}`]?.find(
-      facility => facility.institution.institutionCode === data.vaFacility,
+      facility => facility.institutionCode === data.vaFacility,
     ) || null
   );
 }
@@ -118,13 +105,14 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    timezone,
-    availableSlots,
     availableDates,
-    loadingAppointmentSlots,
-    typeOfCareId,
+    availableSlots,
     eligibleForRequests: eligibilityStatus.request,
+    facilityId: data.vaFacility,
+    loadingAppointmentSlots,
     preferredDate: data.preferredDate,
+    timezone,
+    typeOfCareId,
   };
 }
 
@@ -251,3 +239,7 @@ export const vaosApplication = state => toggleValues(state).vaOnlineScheduling;
 export const vaosCancel = state => toggleValues(state).vaOnlineSchedulingCancel;
 export const vaosRequests = state =>
   toggleValues(state).vaOnlineSchedulingRequests;
+export const vaosCommunityCare = state =>
+  toggleValues(state).vaOnlineSchedulingCommunityCare;
+export const vaosDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingDirect;

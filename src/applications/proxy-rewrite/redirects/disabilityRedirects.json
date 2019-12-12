@@ -6,6 +6,16 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity_parents.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/claims-postservice-index.asp",
     "dest": "/disability/eligibility/"
   },
@@ -186,6 +196,11 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/school_certifying_officials/sco_info.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/gibill/school_resources.asp",
     "dest": "/school-administrators"
   },
@@ -196,7 +211,12 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/gibill/resources/education_resources/school_certifying_officials/sco_info.asp",
-    "dest": "/school-administrators"
+    "src": "/gibill/yellow_ribbon.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
   }
 ]

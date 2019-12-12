@@ -13,7 +13,10 @@ const ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY =
 const GA_ERROR_KEY_BAD_ADDRESS = 'mailing-address-error';
 const GA_ERROR_KEY_BAD_HOME_PHONE = 'home-phone-error';
 const GA_ERROR_KEY_BAD_WORK_PHONE = 'work-phone-error';
-const GA_ERROR_KEY_FLAGGED_FOR_FRAUD = 'flagged-for-fraud-error';
+const GA_ERROR_KEY_ACCOUNT_FLAGGED_FOR_FRAUD =
+  'account-flagged-for-fraud-error';
+const GA_ERROR_KEY_ROUTING_NUMBER_FLAGGED_FOR_FRAUD =
+  'routing-number-flagged-for-fraud-error';
 const GA_ERROR_KEY_INVALID_ROUTING_NUMBER = 'invalid-routing-number-error';
 const GA_ERROR_KEY_PAYMENT_RESTRICTIONS =
   'payment-restriction-indicators-error';
@@ -42,6 +45,12 @@ const hasErrorMessage = (errors, errorKey, errorText) => {
     err.meta.messages.some(message => message.key === errorKey),
   );
 };
+
+export const hasAccountFlaggedError = errors =>
+  hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY);
+
+export const hasRoutingNumberFlaggedError = errors =>
+  hasErrorMessage(errors, ROUTING_NUMBER_FLAGGED_FOR_FRAUD_KEY);
 
 export const hasFlaggedForFraudError = errors =>
   hasErrorMessage(errors, ACCOUNT_FLAGGED_FOR_FRAUD_KEY) ||
@@ -75,8 +84,10 @@ export const createDirectDepositAnalyticsDataObject = (
 ) => {
   const key = 'error-key';
   let errorCode = GA_ERROR_KEY_DEFAULT;
-  if (hasFlaggedForFraudError(errors)) {
-    errorCode = GA_ERROR_KEY_FLAGGED_FOR_FRAUD;
+  if (hasAccountFlaggedError(errors)) {
+    errorCode = GA_ERROR_KEY_ACCOUNT_FLAGGED_FOR_FRAUD;
+  } else if (hasRoutingNumberFlaggedError(errors)) {
+    errorCode = GA_ERROR_KEY_ROUTING_NUMBER_FLAGGED_FOR_FRAUD;
   } else if (hasInvalidRoutingNumberError(errors)) {
     errorCode = GA_ERROR_KEY_INVALID_ROUTING_NUMBER;
   } else if (hasInvalidAddressError(errors)) {

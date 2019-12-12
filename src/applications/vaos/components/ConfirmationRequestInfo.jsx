@@ -99,11 +99,10 @@ export default function ConfirmationRequestInfo({ data, facility }) {
               {!isCommunityCare && (
                 <>
                   <dt>
-                    <strong>{facility?.institution.authoritativeName}</strong>
+                    <strong>{facility?.authoritativeName}</strong>
                   </dt>
                   <dd>
-                    {facility?.institution.city},{' '}
-                    {facility?.institution.stateAbbrev}
+                    {facility?.city}, {facility?.stateAbbrev}
                   </dd>
                 </>
               )}
