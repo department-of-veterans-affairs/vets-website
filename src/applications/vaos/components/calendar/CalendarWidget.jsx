@@ -18,12 +18,12 @@ export default class CalendarWidget extends Component {
   static props = {
     // TODO: add "showWeekends" prop
     additionalOptions: PropTypes.object,
-    availableDates: PropTypes.array,
-    minDate: PropTypes.string,
-    maxDate: PropTypes.string,
+    availableDates: PropTypes.array, // ['YYYY-MM-DD']
+    minDate: PropTypes.string, // YYYY-MM-DD
+    maxDate: PropTypes.string, // YYYY-MM-DD
     maxSelections: PropTypes.number,
     monthsToShowAtOnce: PropTypes.number,
-    startMonth: PropTypes.string,
+    startMonth: PropTypes.string, // YYYY-MM
     onChange: PropTypes.func,
   };
 
@@ -53,6 +53,7 @@ export default class CalendarWidget extends Component {
     if (monthsToShowAtOnce > this.state.months.length) {
       const months = [];
       const startDate = startMonth ? moment(startMonth) : moment();
+
       for (let index = 0; index < monthsToShowAtOnce; index++) {
         months.push(startDate.clone().add(index, 'months'));
       }
@@ -105,9 +106,9 @@ export default class CalendarWidget extends Component {
       .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
       .format('YYYY-MM');
 
-    // If user preferred date is beyond our default of 90 days, display that month
-    if (startMonth && moment(startMonth).format('YYYY-MM') > defaultMaxMonth) {
-      return moment(startMonth).format('YYYY-MM');
+    // If provided start month is beyond our default, set that month as max month
+    if (startMonth && startMonth > defaultMaxMonth) {
+      return startMonth;
     }
 
     // If no available dates array provided, set max to default from now
