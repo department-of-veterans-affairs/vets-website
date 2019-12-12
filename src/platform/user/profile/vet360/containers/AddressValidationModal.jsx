@@ -10,7 +10,7 @@ import {
   createTransaction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal as closeValidationModal,
+  closeModal,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
 import { addressValidationMessages } from '../../constants/addressValidationMessages';
@@ -151,6 +151,8 @@ class AddressValidationModal extends React.Component {
       addressFromUser,
       validationKey,
       addressValidationError,
+      // eslint-disable-next-line no-shadow
+      closeModal,
     } = this.props;
 
     const validationMessageKey = getValidationMessageKey(
@@ -172,7 +174,7 @@ class AddressValidationModal extends React.Component {
             : 'Edit home address'
         }
         id="address-validation-warning"
-        onClose={closeValidationModal}
+        onClose={closeModal}
         visible={isAddressValidationModalVisible}
       >
         <AlertBox
@@ -195,10 +197,7 @@ class AddressValidationModal extends React.Component {
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
-          <button
-            className="usa-button-secondary"
-            onClick={closeValidationModal}
-          >
+          <button className="usa-button-secondary" onClick={closeModal}>
             Cancel
           </button>
         </form>
@@ -229,7 +228,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
-      closeValidationModal,
+      closeModal,
       openModal,
       updateSelectedAddress,
       updateValidationKeyAndSave,

@@ -175,6 +175,17 @@ export const getValidationMessageKey = (
       : 'missingUnitNumber';
   }
 
+  if (
+    singleSuggestion &&
+    !addressValidationError &&
+    !containsMissingUnitNumber &&
+    !containsBadUnitNumber
+  ) {
+    validationErrorKey = validationKey
+      ? 'showSuggestionsOverride'
+      : 'showSuggestions';
+  }
+
   if (!singleSuggestion && !addressValidationError) {
     validationErrorKey = validationKey
       ? 'showSuggestionsOverride'
@@ -182,10 +193,26 @@ export const getValidationMessageKey = (
   }
 
   if (addressValidationError) {
-    validationErrorKey = validationKey
-      ? 'validationErrorOverride'
-      : 'validationError';
+    validationErrorKey = 'validationError';
   }
 
   return validationErrorKey;
+};
+
+export const showAddressValidationModal = suggestedAddresses => {
+  if (
+    suggestedAddresses.length === 1 &&
+    (suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
+      'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER' ||
+      suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
+        'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER')
+  ) {
+    return true;
+  }
+
+  if (suggestedAddresses.length > 1) {
+    return true;
+  }
+
+  return suggestedAddresses[0]?.addressMetaData?.confidenceScore < 80;
 };

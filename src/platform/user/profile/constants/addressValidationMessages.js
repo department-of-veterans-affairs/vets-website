@@ -27,8 +27,4 @@ export const addressValidationMessages = {
     headline: `We couldn’t verify your address`,
     modalText: `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we will not be able to deliver your VA mail to that address.  Please edit the address you entered.`,
   },
-  validationErrorOverride: {
-    headline: 'Please confirm your address',
-    modalText: `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it.`,
-  },
 };
