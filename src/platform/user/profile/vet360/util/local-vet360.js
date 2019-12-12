@@ -215,7 +215,7 @@ export default {
             zipCodeSuffix: '5252',
           },
           addressMetaData: {
-            confidenceScore: 79.0,
+            confidenceScore: 100.0,
             addressType: 'Domestic',
             deliveryPointValidation: 'UNDELIVERABLE',
           },
