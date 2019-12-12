@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 // Example of an imported schema:
 import fullSchema from '../10-10CG-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
@@ -11,9 +9,8 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -22,127 +19,177 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
 
-import { directDepositWarning } from '../helpers';
-import toursOfDutyUI from '../definitions/toursOfDuty';
-
 const {
-  bankAccount,
-  dateRange,
   fullName,
   ssn,
-  toursOfDuty,
-  usaPhone,
+  veteranDateOfBirth,
   date,
+  dateRange,
+  usaPhone,
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
 const formFields = {
-  accountNumber: 'accountNumber',
-  accountType: 'accountType',
-  address: 'address',
-  altEmail: 'altEmail',
-  bankAccount: 'bankAccount',
-  email: 'email',
   fullName: 'fullName',
-  phoneNumber: 'phoneNumber',
-  routingNumber: 'routingNumber',
   ssn: 'ssn',
-  tours: 'toursOfDuty',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
+  veteranDateOfBirth: 'veteranDateOfBirth',
+  caregiverDateOfBirth: 'caregiverDateOfBirth',
   viewStopWarning: 'view:stopWarning',
-  date: 'caregiverDateOfBirth',
+  address: 'address',
+  email: 'email',
+  telephoneNumber: 'telephoneNumber',
+  cellNumber: 'cellNumber',
+  gender: 'gender',
+  vaEnrolled: 'vaEnrolled',
+  plannedClinic: 'plannedClinic',
+  previousTreatmentFacility: 'previousTreatmentFacility',
+  facilityType: 'facilityType',
 };
 
-const hasDirectDeposit = formData =>
-  formData[formFields.viewNoDirectDeposit] !== true;
-
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
-  contactInformation: 'contactInformation',
-  directDeposit: 'directDeposit',
-};
+/* TODO Chapters
+* 1 - Vet/Service Member
+* 2 - Primary Family Caregiver
+* 3 - Secondary Family Caregiver (optional -- many)
+*/
 
 const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'complex-form-',
+  trackingPrefix: 'caregiver-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '1234',
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to apply for caregiver benefits.',
+    noAuth:
+      'Please sign in again to continue your application for caregiver benefits.',
   },
-  title: 'Caregivers Form',
+  title: 'Application for Caregiver Benefits',
   defaultDefinitions: {
     fullName,
     ssn,
     date,
     dateRange,
     usaPhone,
+    veteranDateOfBirth,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    veteranChapter: {
+      title: 'VETERAN/SERVICE MEMBER',
       pages: {
-        [formPages.applicantInformation]: {
-          path: 'applicant-information',
+        veteranInfo: {
+          path: 'service-member',
           title: 'Applicant Information',
           uiSchema: {
             [formFields.fullName]: fullNameUI,
             [formFields.ssn]: ssnUI,
+            [formFields.veteranDateOfBirth]: currentOrPastDateUI(
+              'Date of birth',
+            ),
+            [formFields.telephoneNumber]: phoneUI(
+              'Telephone Number (Including Area Code)',
+            ),
+            [formFields.cellNumber]: phoneUI(
+              'Cell Number (Including Area Code)',
+            ),
+            [formFields.email]: {
+              'ui:title': 'Email Address',
+            },
+            [formFields.gender]: {
+              'ui:title': 'Gender',
+            },
+            [formFields.vaEnrolled]: {
+              'ui:title': 'Enrolled in VA Health Care?',
+            },
+            [formFields.plannedClinic]: {
+              'ui:title':
+                'Name of VA medical center or clinic where you receive or plan to receive health care services:',
+            },
+            [formFields.previousTreatmentFacility]: {
+              'ui:title':
+                'Name of facility where you last received medical treatment:',
+            },
+            [formFields.facilityType]: {
+              'ui:title': ' ',
+            },
           },
           schema: {
             type: 'object',
-            required: [formFields.fullName],
+            required: [],
             properties: {
               [formFields.fullName]: fullName,
               [formFields.ssn]: ssn,
-              [formFields.date]: dateUI,
+              [formFields.veteranDateOfBirth]: date,
+              [formFields.gender]: {
+                type: 'string',
+                enum: ['Male', 'Female'],
+              },
+              [formFields.address]: address.schema(fullSchema, true),
+              [formFields.telephoneNumber]: usaPhone,
+              [formFields.cellNumber]: usaPhone,
+              [formFields.email]: {
+                type: 'string',
+                format: 'email',
+              },
+              [formFields.gender]: {
+                type: 'string',
+                enum: ['Male', 'Female'],
+              },
+              [formFields.vaEnrolled]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [formFields.plannedClinic]: {
+                type: 'string',
+                format: 'email',
+              },
+              [formFields.previousTreatmentFacility]: {
+                type: 'string',
+                format: 'email',
+              },
+              [formFields.facilityType]: {
+                type: 'string',
+                enum: ['Hospital', 'Clinic'],
+              },
             },
           },
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    primaryCaregiverChapter: {
+      title: 'PRIMARY FAMILY CAREGIVER',
       pages: {
-        [formPages.serviceHistory]: {
+        primaryCaregiverInfo: {
           path: 'service-history',
           title: 'Service History',
           uiSchema: {
-            [formFields.tours]: toursOfDutyUI,
+            [formFields.fullName]: fullNameUI,
+            [formFields.veteranDateOfBirth]: currentOrPastDateUI(
+              'Date of birth',
+            ),
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.tours]: toursOfDuty,
+              [formFields.fullName]: fullName,
+              [formFields.veteranDateOfBirth]: date,
             },
           },
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    secondaryCaregiversChapter: {
+      title: 'PRIMARY FAMILY CAREGIVER (continued)',
       pages: {
-        [formPages.contactInformation]: {
+        secondaryCaregiverInfo: {
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: {
-            [formFields.address]: address.uiSchema('Mailing address'),
-            [formFields.email]: {
-              'ui:title': 'Primary email',
-            },
-            [formFields.altEmail]: {
-              'ui:title': 'Secondary email',
-            },
-            [formFields.phoneNumber]: phoneUI('Daytime phone'),
+            [formFields.fullName]: fullNameUI,
           },
           schema: {
             type: 'object',
@@ -152,59 +199,7 @@ const formConfig = {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.altEmail]: {
-                type: 'string',
-                format: 'email',
-              },
-              [formFields.phoneNumber]: usaPhone,
-            },
-          },
-        },
-        [formPages.directDeposit]: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: {
-            'ui:title': 'Direct deposit',
-            [formFields.viewNoDirectDeposit]: {
-              'ui:title': 'I don’t want to use direct deposit',
-            },
-            [formFields.bankAccount]: _.merge(bankAccountUI, {
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber,
-              ],
-              'ui:options': {
-                hideIf: formData => !hasDirectDeposit(formData),
-              },
-              [formFields.accountType]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.accountNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.routingNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-            }),
-            [formFields.viewStopWarning]: {
-              'ui:description': directDepositWarning,
-              'ui:options': {
-                hideIf: hasDirectDeposit,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.viewNoDirectDeposit]: {
-                type: 'boolean',
-              },
-              [formFields.bankAccount]: bankAccount,
-              [formFields.viewStopWarning]: {
-                type: 'object',
-                properties: {},
-              },
+              [formFields.telephoneNumber]: usaPhone,
             },
           },
         },

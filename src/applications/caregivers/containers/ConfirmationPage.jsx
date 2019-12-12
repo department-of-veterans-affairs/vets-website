@@ -59,8 +59,10 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  form: state.form,
-});
+function mapStateToProps(state) {
+  return {
+    form: state.form,
+  };
+}
 
 export default connect(mapStateToProps)(ConfirmationPage);

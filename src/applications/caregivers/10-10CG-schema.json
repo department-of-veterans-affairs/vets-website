@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "10-10CG  (10-10CG)",
+  "title": "Application for Comprehensive Assistance for Family Caregivers Program (10-10CG)",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -191,6 +191,7 @@
           "maxLength": 50
         },
         "street2": {
+          "ui:title": "Street Two",
           "type": "string",
           "minLength": 1,
           "maxLength": 50

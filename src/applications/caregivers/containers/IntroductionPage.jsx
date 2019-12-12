@@ -13,21 +13,20 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="10-10CG " />
-        <p>Equal to VA Form 10-10CG (10-10CG ).</p>
+        <FormTitle title="Caregiver Benefit Application" />
+        <p>
+          Equal to VA Application for Comprehensive Assistance for Family
+          Caregivers Program (10-10CG).
+        </p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
         >
-          Please complete the 10-10CG form to apply for Comprehensive Assistance
-          for Family Caregivers.
+          Please complete the 10-10CG form to apply for Caregiver benifits.
         </SaveInProgressIntro>
-        <h4>
-          Follow the steps below to apply for Comprehensive Assistance for
-          Family Caregivers.
-        </h4>
+        <h4>Follow the steps below to apply for Caregiver benifits.</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -48,10 +47,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h5>Apply</h5>
-              <p>
-                Complete this Comprehensive Assistance for Family Caregivers
-                form.
-              </p>
+              <p>Complete this Caregiver benifits form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
                 You can print this for your records.
