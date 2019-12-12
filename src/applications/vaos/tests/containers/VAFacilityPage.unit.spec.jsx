@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
+import { FETCH_STATUS } from '../../utils/constants';
 
 import { VAFacilityPage } from '../../containers/VAFacilityPage';
 
@@ -26,7 +27,7 @@ describe('VAOS <VAFacilityPage>', () => {
     const openFormPage = sinon.spy();
     const form = shallow(
       <VAFacilityPage
-        loadingSystems
+        systemsStatus={FETCH_STATUS.loading}
         data={defaultData}
         openFacilityPage={openFormPage}
       />,

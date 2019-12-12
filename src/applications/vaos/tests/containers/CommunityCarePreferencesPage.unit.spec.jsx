@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import useFormPageTester from '../useFormPageTester';
+import { FETCH_STATUS } from '../../utils/constants';
 
 import { CommunityCarePreferencesPage } from '../../containers/CommunityCarePreferencesPage';
 
@@ -21,7 +22,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPage
         openCommunityCarePreferencesPage={f => f}
-        loading
+        systemsStatus={FETCH_STATUS.loading}
       />,
     );
 

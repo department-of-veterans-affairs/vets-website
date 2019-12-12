@@ -69,7 +69,7 @@ const initialState = {
   ccEnabledSystems: null,
   pageChangeInProgress: false,
   systemsStatus: FETCH_STATUS.notStarted,
-  loadingEligibility: false,
+  eligibilityStatus: FETCH_STATUS.notStarted,
   loadingFacilityDetails: false,
   pastAppointments: null,
   availableSlots: null,
@@ -409,7 +409,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_ELIGIBILITY_CHECKS: {
       return {
         ...state,
-        loadingEligibility: true,
+        eligibilityStatus: FETCH_STATUS.loading,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
@@ -430,7 +430,7 @@ export default function formReducer(state = initialState, action) {
           ...state.eligibility,
           [`${state.data.vaFacility}_${action.typeOfCareId}`]: eligibility,
         },
-        loadingEligibility: false,
+        eligibilityStatus: FETCH_STATUS.succeeded,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {

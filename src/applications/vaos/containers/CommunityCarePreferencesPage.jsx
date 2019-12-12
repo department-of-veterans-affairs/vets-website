@@ -140,7 +140,7 @@ export class CommunityCarePreferencesPage extends React.Component {
       schema,
       data,
       pageChangeInProgress,
-      loading,
+      systemsStatus,
       hasDataFetchingError,
     } = this.props;
 
@@ -150,13 +150,13 @@ export class CommunityCarePreferencesPage extends React.Component {
           Share your community care provider preferences
         </h1>
         {hasDataFetchingError && <ErrorMessage />}
-        {(!schema || loading) &&
+        {(!schema || systemsStatus === FETCH_STATUS.loading) &&
           !hasDataFetchingError && (
             <LoadingIndicator message="Loading Community Care facilities" />
           )}
         {!!schema &&
           !hasDataFetchingError &&
-          !loading && (
+          systemsStatus === FETCH_STATUS.succeeded && (
             <SchemaForm
               name="ccPreferences"
               title="Community Care preferences"
@@ -182,7 +182,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    loading: state.newAppointment.systemsStatus === FETCH_STATUS.loading,
+    systemsStatus: state.newAppointment.systemsStatus,
   };
 }
 

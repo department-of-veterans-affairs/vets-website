@@ -379,7 +379,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.loadingEligibility).to.be.true;
+      expect(newState.eligibilityStatus).to.be.equal(FETCH_STATUS.loading);
     });
 
     it('should set eligibility and clinic info on state', () => {

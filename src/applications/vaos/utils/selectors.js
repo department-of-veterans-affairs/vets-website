@@ -8,7 +8,6 @@ import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
-  FETCH_STATUS,
 } from './constants';
 
 export function getNewAppointment(state) {
@@ -136,10 +135,9 @@ export function getFacilityPageInfo(state, pageKey) {
   return {
     ...formInfo,
     facility: getChosenFacilityInfo(state),
-    loadingSystems:
-      newAppointment.systemsStatus === FETCH_STATUS.loading || !formInfo.schema,
+    systemsStatus: newAppointment.systemsStatus,
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
-    loadingEligibility: newAppointment.loadingEligibility,
+    eligibilityStatus: newAppointment.eligibilityStatus,
     eligibility: getEligibilityChecks(state),
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
