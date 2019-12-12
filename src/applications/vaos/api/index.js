@@ -342,14 +342,28 @@ export function getSitesSupportingVAR() {
   });
 }
 
-export function getAvailableSlots() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./slots.json').then(module =>
-        resolve(module.default ? module.default : module),
-      );
-    }, 500);
-  });
+export function getAvailableSlots(
+  facilityId,
+  typeOfCareId,
+  clinicId,
+  startDate,
+  endDate,
+) {
+  let promise;
+
+  if (false && USE_MOCK_DATA) {
+    promise = import('./slots.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getCancelReasons(systemId) {
