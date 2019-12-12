@@ -44,6 +44,10 @@ const formFields = {
   plannedClinic: 'plannedClinic',
   previousTreatmentFacility: 'previousTreatmentFacility',
   facilityType: 'facilityType',
+  vetRelationship: 'vetRelationship',
+  medicaidEnrolled: 'medicaidEnrolled',
+  otherHealthInsurance: 'otherHealthInsurance',
+  otherHealthInsuranceName: 'otherHealthInsuranceName',
 };
 
 /* TODO Chapters
@@ -150,7 +154,6 @@ const formConfig = {
               },
               [formFields.plannedClinic]: {
                 type: 'string',
-                format: 'email',
               },
               [formFields.facilityType]: {
                 type: 'string',
@@ -158,7 +161,6 @@ const formConfig = {
               },
               [formFields.previousTreatmentFacility]: {
                 type: 'string',
-                format: 'email',
               },
             },
           },
@@ -176,12 +178,58 @@ const formConfig = {
             [formFields.veteranDateOfBirth]: currentOrPastDateUI(
               'Date of birth',
             ),
+            [formFields.address]: address.uiSchema(
+              'Current Street Address',
+              false,
+            ),
+            [formFields.telephoneNumber]: phoneUI(
+              'Telephone Number (Including Area Code)',
+            ),
+            [formFields.cellNumber]: phoneUI(
+              'Cell Number (Including Area Code)',
+            ),
+            [formFields.email]: {
+              'ui:title': 'Email Address',
+            },
+            [formFields.gender]: {
+              'ui:title': 'Gender',
+            },
+            [formFields.vetRelationship]: {
+              'ui:title':
+                'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
+            },
           },
           schema: {
             type: 'object',
             properties: {
               [formFields.fullName]: fullName,
+              [formFields.ssn]: ssn,
               [formFields.veteranDateOfBirth]: date,
+              [formFields.gender]: {
+                type: 'string',
+                enum: ['Male', 'Female'],
+              },
+              [formFields.address]: address.schema(fullSchema, false),
+              [formFields.telephoneNumber]: usaPhone,
+              [formFields.cellNumber]: usaPhone,
+              [formFields.email]: {
+                type: 'string',
+                format: 'email',
+              },
+              [formFields.vetRelationship]: {
+                type: 'string',
+              },
+              [formFields.medicaidEnrolled]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [formFields.otherHealthInsurance]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [formFields.otherHealthInsuranceName]: {
+                type: 'string',
+              },
             },
           },
         },
