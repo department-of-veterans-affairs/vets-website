@@ -1,12 +1,13 @@
 import React from 'react';
 import { getTypeOfCare } from '../../utils/selectors';
+import { FACILITY_TYPES } from '../../utils/constants';
 import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
 import CommunityCareSection from './CommunityCareSection';
 
-export default function ReviewRequestInfo({ data }) {
-  const isCommunityCare = data.facilityType === 'communityCare';
-  const isVAAppointment = data.facilityType === 'vamc';
+export default function ReviewRequestInfo({ data, facility, vaCityState }) {
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const isVAAppointment = data.facilityType === FACILITY_TYPES.VAMC;
 
   return (
     <div>
@@ -15,7 +16,13 @@ export default function ReviewRequestInfo({ data }) {
       <hr />
       <h3 className="vaos-appts__block-label">{getTypeOfCare(data)?.name}</h3>
       <hr />
-      {isCommunityCare && <CommunityCareSection data={data} />}
+      {isCommunityCare && (
+        <CommunityCareSection
+          data={data}
+          facility={facility}
+          vaCityState={vaCityState}
+        />
+      )}
       {isVAAppointment && <VAAppointmentSection data={data} />}
     </div>
   );

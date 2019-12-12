@@ -59,27 +59,6 @@
             {% endif %}
           {% endfor %}
 
-          {% if fieldMedia != empty %}
-            <section class="vads-u-margin-bottom--5">
-              <div class="vads-u-font-weight--bold vads-u-margin-bottom--1p5">Download media assets</div>
-              {% for asset in fieldMedia %}
-                {% assign a = asset.entity %}
-                <ul class="vads-u-margin-bottom--1 usa-unstyled-list">
-                  <li>
-                    {% case a.entityBundle %}
-                  {% when 'document' %}
-                    <a href="{{ a.fieldDocument.entity.url }}" download>{{ a.name }}</a>
-                  {% when a.entityBundle === 'image' %}
-                    <a href="{{ a.image.url }}" download>{{ a.name }}</a>
-                  {% when a.entityBundle === 'video' %}
-                    <a href="{{ a.fieldMediaVideoEmbedField }}">{{ a.name }}</a>
-                    {%  endcase %}
-                  </li>
-                </ul>
-              {% endfor %}
-            </section>
-          {%  endif %}
-
           {% if fieldRelatedLinks and fieldRelatedLinks.entity.fieldVaParagraphs and fieldRelatedLinks.entity.fieldVaParagraphs.0.entity.fieldLink %}
             <div class="va-nav-linkslist va-nav-linkslist--related">
               {% include 'src/site/paragraphs/list_of_link_teasers.drupal.liquid' entity = fieldRelatedLinks.entity %}

@@ -12,6 +12,7 @@ import {
   openFacilityPage,
   updateFacilityPageData,
   updateReasonForAppointmentData,
+  openTypeOfCarePage,
   openClinicPage,
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
@@ -31,12 +32,17 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
+  FORM_TYPE_OF_CARE_PAGE_OPENED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
-import { REASON_MAX_CHARS, FLOW_TYPES } from '../../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+} from '../../utils/constants';
 
 const testFlow = {
   page1: {
@@ -51,6 +57,11 @@ const testFlow = {
     next: 'page4',
   },
 };
+
+const facilities983Parsed = facilities983.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
 
 describe('VAOS newAppointment actions', () => {
   describe('routeToPageInFlow', () => {
@@ -125,6 +136,10 @@ describe('VAOS newAppointment actions', () => {
       },
     };
     const defaultState = {
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+      },
       newAppointment: {
         data: {
           typeOfCareId: '323',
@@ -167,6 +182,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch facilities if system was selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
       const state = set('newAppointment.data.vaSystem', '983', defaultState);
       const getState = () => state;
@@ -185,10 +201,38 @@ describe('VAOS newAppointment actions', () => {
         page: 'vaFacility',
         uiSchema: {},
         systems,
-        facilities: facilities983,
+        facilities: facilities983Parsed,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
+    });
+
+    it('should fetch eligibility info if facility is selected when opening page', async () => {
+      setFetchJSONResponse(global.fetch, clinics);
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaSystem: '983',
+            vaFacility: '983',
+          },
+          facilities: {
+            '323_983': facilities983Parsed,
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+      const firstAction = dispatch.firstCall.args[0];
+      expect(firstAction.type).to.equal(FORM_PAGE_FACILITY_OPEN_SUCCEEDED);
+
+      expect(firstAction.eligibilityData).to.not.be.null;
     });
 
     it('should not fetch anything if system did not change', async () => {
@@ -197,7 +241,7 @@ describe('VAOS newAppointment actions', () => {
         newAppointment: {
           ...defaultState.newAppointment,
           facilities: {
-            '323_983': facilities983,
+            '323_983': facilities983Parsed,
           },
           data: {
             ...defaultState.newAppointment.data,
@@ -225,7 +269,7 @@ describe('VAOS newAppointment actions', () => {
         set(
           'newAppointment.facilities',
           {
-            '323_983': facilities983,
+            '323_983': facilities983Parsed,
           },
           defaultState,
         );
@@ -245,6 +289,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should fetch facilities if system is selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -270,13 +315,21 @@ describe('VAOS newAppointment actions', () => {
       expect(succeededAction).to.deep.equal({
         type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
         uiSchema: {},
-        facilities: facilities983,
+        facilities: facilities983Parsed,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
-      setFetchJSONResponse(global.fetch, clinics);
+      setFetchJSONResponse(global.fetch, {
+        data: {
+          attributes: {
+            numberOfRequests: 0,
+            requestLimit: 0,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -287,7 +340,7 @@ describe('VAOS newAppointment actions', () => {
             vaSystem: '983',
           },
           facilities: {
-            '323_983': facilities983,
+            '323_983': facilities983Parsed,
           },
         },
       };
@@ -434,6 +487,15 @@ describe('VAOS newAppointment actions', () => {
       },
     };
 
+    beforeEach(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systems);
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
     it('should fetch systems', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
@@ -454,12 +516,24 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},
-        systems,
+        systems: systems.data.map(item => ({
+          ...item.attributes,
+          id: item.id,
+        })),
       });
     });
   });
   describe('form submit', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
+
     it('should send VA request', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -469,12 +543,29 @@ describe('VAOS newAppointment actions', () => {
       const getState = () => ({
         newAppointment: {
           data: {
+            typeOfCareId: '323',
             facilityType: 'vamc',
+            vaSystem: '983',
+            vaFacility: '983',
             calendarData: {
               selectedDates: [],
             },
             reasonForAppointment: 'routine-follow-up',
             bestTimeToCall: [],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institutionCode: '983',
+                name: 'CHYSHR-Cheyenne VA Medical Center',
+                city: 'Cheyenne',
+                stateAbbrev: 'WY',
+                authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+                rootStationCode: '983',
+                parentStationCode: '983',
+                institutionTimezone: 'America/Denver',
+              },
+            ],
           },
         },
       });
@@ -486,6 +577,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send CC request', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -507,7 +599,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             communityCareSystemId: '983',
             typeOfCareId: '323',
-            facilityType: 'communityCare',
+            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
             reasonForAppointment: 'routine-follow-up',
             calendarData: {
               selectedDates: [],
@@ -524,6 +616,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should make VA appointment', async () => {
+      setFetchJSONResponse(global.fetch, { data: { attributes: {} } });
       const router = {
         push: sinon.spy(),
       };
@@ -543,9 +636,7 @@ describe('VAOS newAppointment actions', () => {
           facilities: {
             '323_983': [
               {
-                institution: {
-                  institutionCode: '983',
-                },
+                institutionCode: '983',
               },
             ],
           },
@@ -574,5 +665,34 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
       expect(router.push.called).to.be.true;
     });
+  });
+  it('should open type of care page and pull contact info to prefill', () => {
+    const state = {
+      user: {
+        profile: {
+          vet360: {
+            email: {
+              emailAddress: 'test@va.gov',
+            },
+            homePhone: {
+              areaCode: '503',
+              extension: '0000',
+              phoneNumber: '2222222',
+            },
+          },
+        },
+      },
+    };
+    const getState = () => state;
+    const dispatch = sinon.spy();
+
+    const thunk = openTypeOfCarePage('typeOfCare', {}, {});
+    thunk(dispatch, getState);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FORM_TYPE_OF_CARE_PAGE_OPENED,
+    );
+    expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
+    expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
   });
 });

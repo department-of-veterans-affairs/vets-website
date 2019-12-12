@@ -294,9 +294,11 @@ describe('vet360 reducer', () => {
       },
     );
     expect(state.modal).to.eql('addressValidation');
-    expect(state.addressValidationType).to.eql('mailingAddress');
-    expect(state.suggestedAddresses).to.eql([]);
-    expect(state.validationKey).to.eql(123456);
+    expect(state.addressValidation.addressValidationType).to.eql(
+      'mailingAddress',
+    );
+    expect(state.addressValidation.suggestedAddresses).to.eql([]);
+    expect(state.addressValidation.validationKey).to.eql(123456);
   });
 
   it('should update addressValidation on error', () => {
@@ -310,7 +312,9 @@ describe('vet360 reducer', () => {
       },
     );
     expect(state.modal).to.eql('addressValidation');
-    expect(state.addressValidationError).to.eql(true);
-    expect(state.addressValidationType).to.eql('mailingAddress');
+    expect(state.addressValidation.addressValidationError).to.eql(true);
+    expect(state.addressValidation.addressValidationType).to.eql(
+      'mailingAddress',
+    );
   });
 });

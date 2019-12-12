@@ -1,24 +1,12 @@
-/* eslint-disable import/no-dynamic-require */
-
-const fs = require('fs');
 const path = require('path');
 
 const { mapKeys, camelCase } = require('lodash');
-const { getContentModelType } = require('./helpers');
+const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
 // Dynamically read in all the transformers
 // They must be named after the content model type (E.g. node-page.js)
 const transformersDir = path.join(__dirname, 'transformers');
-const transformers = fs
-  .readdirSync(transformersDir)
-  .filter(name => name.endsWith('.js'))
-  .reduce((t, fileName) => {
-    const contentModelType = path.parse(fileName).name;
-    // eslint-disable-next-line no-param-reassign
-    t[contentModelType] = require(path.join(transformersDir, fileName));
-    return t;
-  }, {});
-
+const transformers = getAllImportsFrom(transformersDir, 'transform');
 const missingTransformers = new Set();
 
 /**
@@ -50,11 +38,24 @@ function getEntityTransformer(entityType, verbose = true) {
  * @param {Object} entity - The contents of the entity itself before
  *                          reference expansion and property
  *                          transformation.
+ * @param {Object} rest - Contains the lesser-used arguments for the
+ *                        transformers.
+ * @property {string} uuid - The UUID of the current entity
+ * @property {Array<Object>} ancestors - All the current entity's
+ *                        ancestors. ancestors[1] is the child of
+ *                        ancestors[0], etc.
+ *                        ancestors[ancestors.length - 1] is the
+ *                        current entity's direct parent.
+ *                        Each item in the array is like:
+ *                        { id: toId(entity), entity: entity }
+ * @property {string} parentFieldName - The name of the field in the
+ *                        entity's parent in which the current entity
+ *                        can be found.
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
  */
-function transformEntity(entity) {
+function transformEntity(entity, rest) {
   const contentModelType = getContentModelType(entity);
   const entityTransformer = getEntityTransformer(contentModelType);
 
@@ -62,7 +63,7 @@ function transformEntity(entity) {
   const transformed = mapKeys(entity, (v, k) => camelCase(k));
 
   return entityTransformer
-    ? { contentModelType, ...entityTransformer(transformed) }
+    ? { contentModelType, ...entityTransformer(transformed, rest) }
     : transformed;
 }
 

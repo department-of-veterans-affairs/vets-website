@@ -58,12 +58,58 @@ Example data:
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+
 <div id="content" class="interior">
     <main class="va-l-detail-page va-facility-page">
-        <div class="usa-grid usa-grid-full">
-            {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
-            <div class="usa-width-three-fourths">
+        {% comment %} On prod environments, show the SideNav. {% endcomment %}
+        {% if buildtype == 'vagovprod' %}
+            <div class="usa-grid usa-grid-full">
+                {% comment %} SideNav {% endcomment %}
+                {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+
+                {% comment %} Content {% endcomment %}
+                <div class="usa-width-three-fourths">
+                    {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+                    {% if !entityPublished %}
+                        <div class="usa-alert usa-alert-info" >
+                            <div class="usa-alert-body">
+                                <p class="usa-alert-text">You are viewing a draft.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <article class="usa-content">
+                        <h1>{{ title }}</h1>
+                        {% assign image = fieldMedia.entity.image %}
+                        <img class="story-detail-img {% if fieldImageCaption == empty %}vads-u-margin-bottom--2p5{% else %}vads-u-margin-bottom--1{% endif %}" src="{{ image.derivative.url }}" alt="{{ image.alt }}" title="{{ image.title }}" width="100%">
+                        <div class="vads-u-font-size--sm vads-u-margin-bottom--2p5">{{ fieldImageCaption }}</div>
+                        {% if fieldAuthor != empty and fieldAuthor.entity != empty %}
+                            {% assign author = fieldAuthor.entity %}
+                            <div class="authored-by-line vads-u-margin-bottom--0p5 vads-u-font-weight--bold">By {{ author.title }}{% if author.fieldDescription != empty %}, {{ author.fieldDescription }} {% endif %}</div>
+                        {% endif %}
+                        <div class="created-line vads-u-margin-bottom--2p5">
+                            <time datetime="{{ created | dateFromUnix: 'YYYY-MM-DD'}}">{{ created | humanizeTimestamp }}</time>
+                        </div>
+
+                        {% include "src/site/facilities/story_social_share.drupal.liquid" %}
+
+                        <div class="usa-grid usa-grid-full vads-u-margin-bottom--2">
+                            <div class="va-introtext">
+                                <p>{{ fieldIntroText }}</p>
+                            </div>
+                            <div class="full-story">
+                                {{ fieldFullStory.processed }}
+                            </div>
+                        </div>
+                        <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="vads-u-display--block vads-u-margin-bottom--7" href="{{ fieldOffice.entity.entityUrl.path }}/stories">See all stories</a>
+                    </article>
+                </div>
+            </div>
+
+        {% comment %} On non-prod environments, do not show the SideNav. {% endcomment %}
+        {% else %}
+            <div class="usa-grid usa-grid-full">
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
                 {% if !entityPublished %}
                     <div class="usa-alert usa-alert-info" >
@@ -99,7 +145,7 @@ Example data:
                     <a onClick="recordEvent({ event: 'nav-secondary-button-click' });" class="vads-u-display--block vads-u-margin-bottom--7" href="{{ fieldOffice.entity.entityUrl.path }}/stories">See all stories</a>
                 </article>
             </div>
-        </div>
+        {% endif %}
     </main>
 </div>
 {% include "src/site/includes/footer.html" %}

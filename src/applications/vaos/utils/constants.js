@@ -108,7 +108,7 @@ export const TYPES_OF_CARE = [
     ccId: 'CCOPT',
   },
   {
-    id: 'tbd',
+    id: 'tbd-podiatry',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',
@@ -130,6 +130,11 @@ export const TYPES_OF_SLEEP_CARE = [
     name: 'Sleep medicine and home sleep testing',
   },
 ];
+
+export const FACILITY_TYPES = {
+  VAMC: 'vamc',
+  COMMUNITY_CARE: 'communityCare',
+};
 
 export const LANGUAGES = [
   {
@@ -262,4 +267,4 @@ export const REASON_MAX_CHARS = {
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
-export const DIRECT_SCHEDULE_TYPES = new Set([PRIMARY_CARE, '502']);
+export const GA_PREFIX = 'vaos';

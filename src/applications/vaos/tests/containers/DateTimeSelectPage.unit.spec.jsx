@@ -27,6 +27,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         openSelectAppointmentPage={openSelectAppointmentPage}
         updateFormData={updateFormData}
         data={{}}
+        facilityId="123"
         availableDates={availableDates}
         availableSlots={availableSlots}
       />,
@@ -47,6 +48,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         updateFormData={updateFormData}
         data={{}}
         availableDates={availableDates}
+        facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
@@ -75,6 +77,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         }}
         availableDates={availableDates}
         availableSlots={availableSlots}
+        facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
     );

@@ -112,6 +112,7 @@ describe('search reducer', () => {
               type: {
                 typeFacetKey: 'value',
               },
+              provider: [{ name: 'provider 1', count: 1 }],
             },
           },
         },
@@ -123,6 +124,7 @@ describe('search reducer', () => {
     expect(state.results[0].description).to.eql('RESULT_NAME');
     expect(state.facets.state.STATEFACETKEY).to.eql('value');
     expect(state.facets.type.TYPEFACETKEY).to.eql('value');
+    expect(state.facets.provider[0].name).to.eql('PROVIDER 1');
     expect(state.count).to.eql(1);
     expect(state.version).to.eql(1);
     expect(state.pagination.currentPage).to.eql(1);
