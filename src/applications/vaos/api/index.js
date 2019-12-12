@@ -486,7 +486,7 @@ export function sendRequestMessage(id, messageText) {
 
 export function getPreferences() {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
@@ -497,7 +497,7 @@ export function getPreferences() {
 
 export function updatePreferences(data) {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (false && USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/preferences`, {
