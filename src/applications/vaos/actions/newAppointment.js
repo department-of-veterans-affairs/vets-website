@@ -1,5 +1,8 @@
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
@@ -23,12 +26,13 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   REASON_MAX_CHARS,
+  GA_PREFIX,
 } from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  createMessageBody,
+  getUserMessage,
   createPreferenceBody,
 } from '../utils/data';
 
@@ -379,6 +383,7 @@ export function openClinicPage(page, uiSchema, schema) {
 
 export function openSelectAppointmentPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const data = getState().newAppointment.data;
     let slots;
     let mappedSlots = [];
     let appointmentLength = null;
@@ -389,7 +394,16 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 
     try {
       const response = await getAvailableSlots(
-        getState().newAppointment.data.clinicId,
+        data.vaFacility,
+        data.typeOfCareId,
+        data.clinicId,
+        moment(data.preferredDate)
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment(data.preferredDate)
+          .startOf('month')
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
       );
 
       slots = response[0]?.appointmentTimeSlot || [];
@@ -398,7 +412,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       const now = moment();
 
       mappedSlots = slots.reduce((acc, slot) => {
-        const dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
+        const dateObj = moment(slot.startDateTime);
         if (dateObj.isAfter(now)) {
           acc.push({
             date: dateObj.format('YYYY-MM-DD'),
@@ -410,6 +424,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 
       mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
     } catch (e) {
+      Sentry.captureException(e);
       mappedSlots = null;
     }
 
@@ -477,6 +492,9 @@ export function submitAppointmentOrRequest(router) {
     });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission`,
+      });
       try {
         const appointmentBody = transformFormToAppointment(getState());
         await submitAppointment(appointmentBody);
@@ -493,21 +511,33 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_SUCCEEDED,
         });
 
+        recordEvent({
+          event: `${GA_PREFIX}-direct-submission-successful`,
+        });
         router.push('/new-appointment/confirmation');
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+        recordEvent({
+          event: `${GA_PREFIX}-direct-submission-failed`,
+        });
       }
     } else {
+      const isCommunityCare =
+        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+      const eventType = isCommunityCare ? 'community-care' : 'request';
+
+      recordEvent({
+        event: `${GA_PREFIX}-${eventType}-submission`,
+      });
+
       try {
         let requestBody;
         let requestData;
 
-        if (
-          newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
-        ) {
+        if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
@@ -516,9 +546,9 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
+          const messageText = getUserMessage(newAppointment.data);
+          await sendRequestMessage(requestData.id, messageText);
           await buildPreferencesDataAndUpdate(newAppointment);
-          const messageBody = createMessageBody(requestData.id, newAppointment);
-          await sendRequestMessage(requestData.id, messageBody);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
@@ -529,11 +559,17 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_SUCCEEDED,
         });
 
+        recordEvent({
+          event: `${GA_PREFIX}-${eventType}-submission-successful`,
+        });
         router.push('/new-appointment/confirmation');
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+        });
+        recordEvent({
+          event: `${GA_PREFIX}-${eventType}-submission-failed`,
         });
       }
     }

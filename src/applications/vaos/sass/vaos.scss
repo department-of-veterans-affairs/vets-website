@@ -44,19 +44,6 @@
   }
 }
 
-.vaos-appts__video-visit {
-  align-items: center;
-
-  @media (max-width: $small-screen) {
-    align-items: flex-start;
-    flex-direction: column;
-
-    a {
-      margin: 0 0 4px !important;
-    }
-  }
-}
-
 .vaos-appts__block-label {
   margin: 0;
   margin-bottom: map-get($spacers, 0p5);
