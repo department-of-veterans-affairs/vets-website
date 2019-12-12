@@ -77,14 +77,12 @@ class ViewDependentsApp extends Component {
 
   render() {
     return (
-      <>
-        <ViewDependentsLayout
-          loading={this.state.loading}
-          error={this.state.error}
-          onAwardDependents={this.state.onAwardDependents}
-          notOnAwardDependents={this.state.notOnAwardDependents}
-        />
-      </>
+      <ViewDependentsLayout
+        loading={this.state.loading}
+        error={this.state.error}
+        onAwardDependents={this.state.onAwardDependents}
+        notOnAwardDependents={this.state.notOnAwardDependents}
+      />
     );
   }
 }
