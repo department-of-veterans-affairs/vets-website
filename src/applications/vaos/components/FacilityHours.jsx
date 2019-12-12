@@ -1,6 +1,5 @@
 // Dependencies
 import React from 'react';
-import { get } from 'lodash';
 // Relative
 import { formatOperatingHours } from '../utils/formatters';
 
@@ -9,19 +8,19 @@ import { formatOperatingHours } from '../utils/formatters';
  */
 const FacilityHours = ({ location }) => {
   // Derive the formatted hours info.
-  const hoursInfo = get(location, 'attributes.hours');
+  const hoursInfo = location?.attributes?.hours;
 
   // Derive the time ranges for each day.
-  const sunday = formatOperatingHours(get(hoursInfo, 'sunday'));
-  const monday = formatOperatingHours(get(hoursInfo, 'monday'));
-  const tuesday = formatOperatingHours(get(hoursInfo, 'tuesday'));
-  const wednesday = formatOperatingHours(get(hoursInfo, 'wednesday'));
-  const thursday = formatOperatingHours(get(hoursInfo, 'thursday'));
-  const friday = formatOperatingHours(get(hoursInfo, 'friday'));
-  const saturday = formatOperatingHours(get(hoursInfo, 'saturday'));
+  const sunday = formatOperatingHours(hoursInfo?.sunday);
+  const monday = formatOperatingHours(hoursInfo?.monday);
+  const tuesday = formatOperatingHours(hoursInfo?.tuesday);
+  const wednesday = formatOperatingHours(hoursInfo?.wednesday);
+  const thursday = formatOperatingHours(hoursInfo?.thursday);
+  const friday = formatOperatingHours(hoursInfo?.friday);
+  const saturday = formatOperatingHours(hoursInfo?.saturday);
 
   // Derive if the facility is a vet center.
-  const facilityType = get(location, 'attributes.facilityType');
+  const facilityType = location?.attributes?.facilityType;
   const isVetCenter = facilityType === 'vet_center';
 
   return (
