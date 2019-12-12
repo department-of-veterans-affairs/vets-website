@@ -1,6 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { inferAddressType } from 'applications/letters/utils/helpers';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import {
@@ -204,18 +205,24 @@ export const validateAddress = (
           secondAddress?.addressMetaData?.confidenceScore -
           firstAddress?.addressMetaData?.confidenceScore,
       )
-      .map(address => address.address);
+      .map(address => ({
+        addressMetaData: { ...address.addressMetaData },
+        ...inferAddressType(address.address),
+        addressPou:
+          fieldName === FIELD_NAMES.MAILING_ADDRESS
+            ? ADDRESS_POU.CORRESPONDENCE
+            : ADDRESS_POU.RESIDENCE,
+      }));
     const payloadWithSuggestedAddress = {
       ...suggestedAddresses[0],
       id: payload?.id,
-      addressPou:
-        fieldName === FIELD_NAMES.MAILING_ADDRESS
-          ? ADDRESS_POU.CORRESPONDENCE
-          : ADDRESS_POU.RESIDENCE,
     };
 
-    // If multiple suggestions, present them to the modal
-    if (suggestedAddresses.length > 1) {
+    // If the highest confidence score is below 80 regardless of number of addresses, show the modal
+    if (
+      suggestedAddresses.length > 1 ||
+      suggestedAddresses[0]?.addressMetaData?.confidenceScore < 80
+    ) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
         addressFromUser: payload,
@@ -231,6 +238,46 @@ export const validateAddress = (
         method,
         fieldName,
         payloadWithSuggestedAddress,
+        analyticsSectionName,
+      ),
+    );
+  } catch (error) {
+    return dispatch({
+      type: ADDRESS_VALIDATION_ERROR,
+      addressValidationType: fieldName,
+      addressValidationError: true,
+      addressFromUser: { ...payload },
+      validationKey: null, // add this in when changes are made to API / override logic
+    });
+  }
+};
+
+export const updateValidationKeyAndSave = (
+  route,
+  method,
+  fieldName,
+  payload,
+  analyticsSectionName,
+) => async dispatch => {
+  try {
+    const options = {
+      body: JSON.stringify(payload),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = isVet360Configured()
+      ? await apiRequest('/profile/address_validation', options)
+      : await localVet360.addressValidationSuccess();
+    const { validationKey } = response;
+
+    return dispatch(
+      createTransaction(
+        route,
+        method,
+        fieldName,
+        { ...payload, validationKey },
         analyticsSectionName,
       ),
     );

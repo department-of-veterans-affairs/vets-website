@@ -18,6 +18,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       friendlyLocationName: 'Some location',
       status: 'Submitted',
       bestTimetoCall: ['Morning'],
+      purposeOfVisit: 'Routine Follow-up',
       facility: {
         city: 'Northampton',
         state: 'MA',
@@ -49,15 +50,17 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     );
 
     expect(tree.text()).to.contain('Pending');
-    expect(tree.text()).to.contain('time and date are still to be determined');
+    expect(tree.text()).to.contain('still to be determined');
 
-    expect(tree.text()).to.contain('VA Facility');
+    expect(tree.text()).to.contain('VA Appointment');
     expect(tree.text()).to.contain('Testing appointment');
 
-    expect(tree.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(tree.find('.vaos-appts__cancel-btn').text()).to.equal(
+      'Cancel appointment',
+    );
 
-    const toggleExpand = tree.find('.vaos-appts__expand-link');
-    toggleExpand.simulate('click');
+    const toggleExpand = tree.find('AdditionalInfo');
+    toggleExpand.props().onClick();
 
     const preferredDates = tree.find('.vaos-appts__preferred-dates li');
 
@@ -70,7 +73,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     );
 
     const messageTree = tree.find('.vaos_appts__message');
-    expect(messageTree.find('dt').text()).to.equal('Additional information');
+    expect(messageTree.find('dt').text()).to.equal('Follow-up/Routine');
     expect(messageTree.find('dd').text()).to.equal('Some message');
 
     tree.unmount();
@@ -84,12 +87,13 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       typeOfCareId: '1',
       friendlyLocationName: 'Some location',
       status: 'Cancelled',
+      bestTimetoCall: [],
       facility: {
         city: 'Northampton',
         state: 'MA',
         facilityCode: '983',
       },
-      appointmentRequestId: 'guid',
+      id: 'guid',
     };
     const tree = shallow(
       <AppointmentRequestListItem
@@ -104,7 +108,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
       'Audiology (hearing aid support) appointment',
     );
 
-    expect(tree.find('.usa-button-secondary').length).to.equal(0);
+    expect(tree.find('.vaos-appts__cancel-btn').length).to.equal(0);
     tree.unmount();
   });
 
@@ -159,17 +163,19 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     );
 
     expect(tree.text()).to.contain('Pending');
-    expect(tree.text()).to.contain('time and date are still to be determined');
+    expect(tree.text()).to.contain('still to be determined');
 
     expect(tree.text()).to.contain('Testing appointment');
     expect(tree.text()).to.contain('Community Care');
     expect(tree.text()).to.contain('Test Practice');
     expect(tree.text()).to.contain('Jane Doe');
 
-    expect(tree.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(tree.find('.vaos-appts__cancel-btn').text()).to.equal(
+      'Cancel appointment',
+    );
 
-    const toggleExpand = tree.find('.vaos-appts__expand-link');
-    toggleExpand.simulate('click');
+    const toggleExpand = tree.find('AdditionalInfo');
+    toggleExpand.props().onClick();
 
     const preferredDates = tree.find('.vaos-appts__preferred-dates li');
 

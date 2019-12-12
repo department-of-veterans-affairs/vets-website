@@ -90,13 +90,12 @@ export const getLongTermAppointmentHistory = (() => {
   return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];
+      const ranges = [];
       let currentMonths = 0;
 
-      // This creates calls in six month chunks until we hit
-      // two years back. Done serially to lighten backend load
+      // Creating an array of start and end dates for each chunk
       while (currentMonths < MAX_HISTORY) {
-        promise = getConfirmedAppointments(
-          'va',
+        ranges.push([
           moment()
             .startOf('day')
             .subtract(currentMonths + MONTH_CHUNK, 'months')
@@ -105,12 +104,23 @@ export const getLongTermAppointmentHistory = (() => {
             .subtract(currentMonths, 'months')
             .startOf('day')
             .toISOString(),
-        ).then(newAppts => appointments.push(...newAppts));
-
+        ]);
         currentMonths += MONTH_CHUNK;
       }
 
-      promise = promise.then(() => appointments);
+      // This is weird, but hopefully clear. There are four chunks with date
+      // ranges from the array created above. We're trying to run them serially,
+      // because we want to be careful about overloading the upstream service,
+      // so Promise.all doesn't fit here
+      promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => getConfirmedAppointments('va', ranges[2][0], ranges[2][1]))
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => getConfirmedAppointments('va', ranges[3][0], ranges[3][1]))
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => appointments);
     }
     return promise;
   };
