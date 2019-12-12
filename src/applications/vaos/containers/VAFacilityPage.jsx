@@ -20,7 +20,6 @@ import { getFacilityPageInfo } from '../utils/selectors';
 import NoVASystems from '../components/NoVASystems';
 import NoValidVAFacilities from '../components/NoValidVAFacilities';
 import VAFacilityInfoMessage from '../components/VAFacilityInfoMessage';
-import { FETCH_STATUS } from '../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -103,9 +102,9 @@ export class VAFacilityPage extends React.Component {
       schema,
       data,
       pageChangeInProgress,
-      systemsStatus,
+      loadingSystems,
       loadingFacilities,
-      eligibilityStatus,
+      loadingEligibility,
       facility,
       singleValidVALocation,
       noValidVASystems,
@@ -118,7 +117,7 @@ export class VAFacilityPage extends React.Component {
     const notEligibleAtChosenFacility =
       data.vaFacility &&
       data.vaFacility.startsWith(data.vaSystem) &&
-      !eligibilityStatus === FETCH_STATUS.succeeded &&
+      !loadingEligibility &&
       eligibility &&
       !canScheduleAtChosenFacility;
 
@@ -131,7 +130,7 @@ export class VAFacilityPage extends React.Component {
       );
     }
 
-    if (systemsStatus === FETCH_STATUS.loading || !schema) {
+    if (loadingSystems) {
       return (
         <div>
           {title}
@@ -216,9 +215,7 @@ export class VAFacilityPage extends React.Component {
           <FormButtons
             onBack={this.goBack}
             disabled={disableSubmitButton}
-            pageChangeInProgress={
-              eligibilityStatus === FETCH_STATUS.loading || pageChangeInProgress
-            }
+            pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
         </SchemaForm>
       </div>
@@ -230,7 +227,7 @@ VAFacilityPage.propTypes = {
   schema: PropTypes.object,
   data: PropTypes.object.isRequired,
   facility: PropTypes.object,
-  systemsStatus: PropTypes.string,
+  loadingSystems: PropTypes.bool,
   loadingFacilities: PropTypes.bool,
   singleValidVALocation: PropTypes.bool,
   noValidVASystems: PropTypes.bool,

@@ -236,7 +236,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.failed);
     });
   });
 
@@ -415,7 +415,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.eligibilityStatus).to.be.equal(FETCH_STATUS.failed);
     });
   });
   describe('open clinic page reducers', () => {
@@ -634,7 +634,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.failed);
     });
   });
   describe('submit request', () => {
@@ -718,7 +718,8 @@ describe('VAOS reducer: newAppointment', () => {
   it('should reset form when confirmation page is closed', () => {
     const currentState = {
       data: { test: 'blah' },
-      hasDataFetchingError: true,
+      systemsStatus: FETCH_STATUS.succeeded,
+      eligibilityStatus: FETCH_STATUS.succeeded,
     };
     const action = {
       type: FORM_CLOSED_CONFIRMATION_PAGE,
@@ -727,6 +728,7 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.data).to.deep.equal({});
-    expect(newState.hasDataFetchingError).to.be.false;
+    expect(newState.systemsStatus).to.equal(FETCH_STATUS.notStarted);
+    expect(newState.eligibilityStatus).to.equal(FETCH_STATUS.notStarted);
   });
 });

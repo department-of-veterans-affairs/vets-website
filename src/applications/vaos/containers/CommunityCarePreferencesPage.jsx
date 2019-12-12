@@ -136,26 +136,18 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      systemsStatus,
-      hasDataFetchingError,
-    } = this.props;
+    const { schema, data, pageChangeInProgress, systemsStatus } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
           Share your community care provider preferences
         </h1>
-        {hasDataFetchingError && <ErrorMessage />}
-        {(!schema || systemsStatus === FETCH_STATUS.loading) &&
-          !hasDataFetchingError && (
-            <LoadingIndicator message="Loading Community Care facilities" />
-          )}
+        {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
+        {(!schema || systemsStatus === FETCH_STATUS.loading) && (
+          <LoadingIndicator message="Loading Community Care facilities" />
+        )}
         {!!schema &&
-          !hasDataFetchingError &&
           systemsStatus === FETCH_STATUS.succeeded && (
             <SchemaForm
               name="ccPreferences"

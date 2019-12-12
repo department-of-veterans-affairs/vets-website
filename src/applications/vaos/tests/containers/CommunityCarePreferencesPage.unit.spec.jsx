@@ -14,7 +14,13 @@ function CommunityCarePreferencesPageTester(props) {
     props.data,
     'openCommunityCarePreferencesPage',
   );
-  return <CommunityCarePreferencesPage {...props} {...formProps} />;
+  return (
+    <CommunityCarePreferencesPage
+      {...props}
+      {...formProps}
+      systemsStatus={FETCH_STATUS.succeeded}
+    />
+  );
 }
 
 describe('VAOS <CommunityCarePreferencesPage>', () => {
@@ -41,6 +47,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPageTester
         data={{ hasCommunityCareProvider: true }}
+        systemsStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -54,6 +61,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPageTester
         routeToNextAppointmentPage={routeToNextAppointmentPage}
+        systemsStatus={FETCH_STATUS.succeeded}
       />,
     );
 

@@ -75,7 +75,6 @@ const initialState = {
   availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
-  hasDataFetchingError: false,
 };
 
 function getFacilities(state, typeOfCareId, vaSystem) {
@@ -315,7 +314,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
       return {
         ...state,
-        hasDataFetchingError: true,
+        systemsStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_FETCH_CHILD_FACILITIES: {
@@ -436,7 +435,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_ELIGIBILITY_CHECKS_FAILED: {
       return {
         ...state,
-        hasDataFetchingError: true,
+        eligibilityStatus: FETCH_STATUS.failed,
       };
     }
     case START_DIRECT_SCHEDULE_FLOW:
@@ -648,7 +647,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED: {
       return {
         ...state,
-        hasDataFetchingError: true,
+        systemsStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_SUBMIT:
