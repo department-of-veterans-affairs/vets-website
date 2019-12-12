@@ -12,6 +12,8 @@ import {
   removeDateOptionPairFromSelectedArray,
 } from '../../utils/calendar';
 
+const DEFAULT_MAX_DAYS_AHEAD = 90;
+
 export default class CalendarWidget extends Component {
   static props = {
     // TODO: add "showWeekends" prop
@@ -71,7 +73,7 @@ export default class CalendarWidget extends Component {
   };
 
   getMaxMonth = () => {
-    const { availableDates, minDate, maxDate } = this.props;
+    const { availableDates, minDate, maxDate, startMonth } = this.props;
     if (Array.isArray(availableDates) && availableDates.length) {
       // sort available dates
       let sortedDates = this.sortDates(availableDates);
@@ -94,15 +96,22 @@ export default class CalendarWidget extends Component {
 
       const lastAvailableDateMonth = moment(
         sortedDates[sortedDates.length - 1],
-      ).format('YYYYMM');
+      ).format('YYYY-MM');
 
       return lastAvailableDateMonth;
     }
 
-    // If no available dates array provided, set max to 90 days from now
-    return moment()
-      .add(90, 'days')
-      .format('YYYYMM');
+    const defaultMaxMonth = moment()
+      .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
+      .format('YYYY-MM');
+
+    // If user preferred date is beyond our default of 90 days, display that month
+    if (startMonth && moment(startMonth).format('YYYY-MM') > defaultMaxMonth) {
+      return moment(startMonth).format('YYYY-MM');
+    }
+
+    // If no available dates array provided, set max to default from now
+    return defaultMaxMonth;
   };
 
   availableDatesChanged = prevDates => {
@@ -334,10 +343,10 @@ export default class CalendarWidget extends Component {
     const nextMonthToDisplay = months[months.length - 1]
       ?.clone()
       .add(1, 'months')
-      .format('YYYYMM');
+      .format('YYYY-MM');
 
     const prevDisabled =
-      months[0].format('YYYYMM') <= currentDate.format('YYYYMM');
+      months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
     const nextDisabled = nextMonthToDisplay > maxMonth;
 
     return (
@@ -372,7 +381,7 @@ export default class CalendarWidget extends Component {
         <div className="vaos-calendar__calendars vads-u-flex--1">
           {months.map(
             (month, index) =>
-              month.format('YYYYMM') <= maxMonth ? (
+              month.format('YYYY-MM') <= maxMonth ? (
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
