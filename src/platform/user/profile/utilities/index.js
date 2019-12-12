@@ -7,6 +7,11 @@ import {
 import localStorage from '../../../utilities/storage/localStorage';
 
 import {
+  BAD_UNIT_NUMBER,
+  MISSING_UNIT_NUMBER,
+} from '../constants/addressValidationMessages';
+
+import {
   isVet360Configured,
   mockContactInformation,
 } from 'vet360/util/local-vet360';
@@ -147,65 +152,55 @@ export const getValidationMessageKey = (
   validationKey,
   addressValidationError,
 ) => {
-  let validationErrorKey;
   const singleSuggestion = suggestedAddresses.length === 1;
+  const multipleSuggestions = suggestedAddresses.length > 1;
   const containsBadUnitNumber =
     suggestedAddresses.filter(
       address =>
-        address.addressMetaData?.deliveryPointValidation ===
-        'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
+        address.addressMetaData?.deliveryPointValidation === BAD_UNIT_NUMBER,
     ).length > 0;
 
   const containsMissingUnitNumber =
     suggestedAddresses.filter(
       address =>
         address.addressMetaData?.deliveryPointValidation ===
-        'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+        MISSING_UNIT_NUMBER,
     ).length > 0;
 
+  if (addressValidationError) {
+    return 'validationError';
+  }
+
   if (singleSuggestion && containsBadUnitNumber) {
-    validationErrorKey = validationKey
-      ? 'badUnitNumberOverride'
-      : 'badUnitNumber';
+    return validationKey ? 'badUnitNumberOverride' : 'badUnitNumber';
   }
 
   if (singleSuggestion && containsMissingUnitNumber) {
-    validationErrorKey = validationKey
-      ? 'missingUnitNumberOverride'
-      : 'missingUnitNumber';
+    return validationKey ? 'missingUnitNumberOverride' : 'missingUnitNumber';
   }
 
   if (
     singleSuggestion &&
-    !addressValidationError &&
     !containsMissingUnitNumber &&
     !containsBadUnitNumber
   ) {
-    validationErrorKey = validationKey
-      ? 'showSuggestionsOverride'
-      : 'showSuggestions';
+    return validationKey ? 'showSuggestionsOverride' : 'showSuggestions';
   }
 
-  if (!singleSuggestion && !addressValidationError) {
-    validationErrorKey = validationKey
-      ? 'showSuggestionsOverride'
-      : 'showSuggestions';
+  if (multipleSuggestions) {
+    return validationKey ? 'showSuggestionsOverride' : 'showSuggestions';
   }
 
-  if (addressValidationError) {
-    validationErrorKey = 'validationError';
-  }
-
-  return validationErrorKey;
+  return 'showSuggestions'; // defaulting here so the modal will show but not allow override
 };
 
 export const showAddressValidationModal = suggestedAddresses => {
   if (
     suggestedAddresses.length === 1 &&
     (suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
-      'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER' ||
+      BAD_UNIT_NUMBER ||
       suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
-        'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER')
+        MISSING_UNIT_NUMBER)
   ) {
     return true;
   }

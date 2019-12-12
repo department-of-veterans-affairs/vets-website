@@ -13,7 +13,7 @@ import {
   closeModal,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
-import { addressValidationMessages } from '../../constants/addressValidationMessages';
+import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
@@ -162,7 +162,7 @@ class AddressValidationModal extends React.Component {
     );
 
     const addressValidationMessage =
-      addressValidationMessages[validationMessageKey];
+      ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
     const shouldShowSuggestions = suggestedAddresses.length > 0;
 
