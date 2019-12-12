@@ -6,6 +6,8 @@ import {
   transformFormToAppointment,
 } from '../../utils/data';
 
+import { FETCH_STATUS } from '../../utils/constants';
+
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
     const state = {
@@ -164,7 +166,7 @@ describe('VAOS data transformation', () => {
         ],
         ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
-        loadingSystems: false,
+        systemsStatus: FETCH_STATUS.notStarted,
         loadingEligibility: false,
         loadingFacilityDetails: false,
         pastAppointments: null,

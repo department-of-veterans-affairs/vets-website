@@ -44,6 +44,7 @@ import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
 import {
   FACILITY_TYPES,
+  FETCH_STATUS,
   FLOW_TYPES,
   REASON_MAX_CHARS,
 } from '../../utils/constants';
@@ -149,7 +150,7 @@ describe('VAOS newAppointment actions', () => {
           typeOfCareId: '323',
         },
         pages: {},
-        loadingSystems: false,
+        systemsStatus: FETCH_STATUS.notStarted,
         systems,
         facilities: {},
         eligibility: {},
@@ -388,7 +389,7 @@ describe('VAOS newAppointment actions', () => {
             typeOfCareId: '323',
           },
           pages: {},
-          loadingSystems: false,
+          systemsStatus: FETCH_STATUS.notStarted,
           systems: null,
           facilities: {},
           eligibility: {},
@@ -486,7 +487,7 @@ describe('VAOS newAppointment actions', () => {
           typeOfCareId: '323',
         },
         pages: {},
-        loadingSystems: false,
+        systemsStatus: FETCH_STATUS.notStarted,
         ccEnabledSystems: ['983', '984'],
       },
     };

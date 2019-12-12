@@ -68,7 +68,7 @@ const initialState = {
   systems: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
-  loadingSystems: false,
+  systemsStatus: FETCH_STATUS.notStarted,
   loadingEligibility: false,
   loadingFacilityDetails: false,
   pastAppointments: null,
@@ -300,7 +300,7 @@ export default function formReducer(state = initialState, action) {
         ...state,
         systems,
         data,
-        loadingSystems: false,
+        systemsStatus: FETCH_STATUS.succeeded,
         facilities: {
           ...state.facilities,
           [`${action.typeOfCareId}_${newData.vaSystem}`]: facilities,
@@ -602,7 +602,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN: {
       return {
         ...state,
-        loadingSystems: true,
+        systemsStatus: FETCH_STATUS.loading,
       };
     }
     case FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED: {
@@ -636,7 +636,7 @@ export default function formReducer(state = initialState, action) {
 
       return {
         ...state,
-        loadingSystems: false,
+        systemsStatus: FETCH_STATUS.succeeded,
         systems: action.systems,
         data,
         pages: {

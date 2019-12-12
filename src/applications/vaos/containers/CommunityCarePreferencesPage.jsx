@@ -5,7 +5,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../components/FormButtons';
 import * as address from '../utils/address';
-import { LANGUAGES } from './../utils/constants';
+import { LANGUAGES, FETCH_STATUS } from './../utils/constants';
 import ErrorMessage from '../components/ErrorMessage';
 
 import {
@@ -182,7 +182,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    loading: state.newAppointment.loadingSystems,
+    loading: state.newAppointment.systemsStatus === FETCH_STATUS.loading,
   };
 }
 

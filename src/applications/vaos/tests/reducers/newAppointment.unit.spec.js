@@ -41,7 +41,7 @@ const systemsParsed = systems.data.map(item => ({
 const defaultState = {
   data: {},
   pages: {},
-  loadingSystems: false,
+  systemsStatus: FETCH_STATUS.notStarted,
   loadingFacilities: false,
   systems: null,
   facilities: {},
@@ -560,7 +560,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.loadingSystems).to.be.true;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.loading);
     });
 
     it('should remove system id if only one', () => {
@@ -578,13 +578,13 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        loadingSystems: true,
+        systemsStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983'],
       };
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.loadingSystems).to.be.false;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
         .be.undefined;
@@ -607,13 +607,13 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        loadingSystems: true,
+        systemsStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983', '984'],
       };
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.loadingSystems).to.be.false;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).not
         .to.be.undefined;
