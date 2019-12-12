@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getData } from '../util/index';
-import { getDependents } from '../redux/actions/index';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 
 class ViewDependentsApp extends Component {
@@ -13,15 +14,15 @@ class ViewDependentsApp extends Component {
   };
 
   componentDidMount() {
-    this.props.getDependents();
     this.makeAPICall();
-    console.log(this.props.allState);
   }
 
   async makeAPICall() {
-    
+    const response = await getData(
+      '/disability_compensation_form/rated_disabilities',
+    );
 
-    
+    if (response) {
       // this will be changed to pass the error to the state and the child components when mockup is provided for error states
       this.setState({
         loading: false,
@@ -48,33 +49,35 @@ class ViewDependentsApp extends Component {
           },
         ],
       });
-    
+    }
   }
 
   render() {
     return (
-      <ViewDependentsLayout
-        loading={this.state.loading}
-        error={this.state.error}
-        onAwardDependents={this.state.onAwardDependents}
-        notOnAwardDependents={this.state.notOnAwardDependents}
-      />
+      <RequiredLoginView
+          authRequired={1}
+          serviceRequired={backendServices.USER_PROFILE}
+          user={this.props.user}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}
+        >
+        <ViewDependentsLayout
+          loading={this.state.loading}
+          error={this.state.error}
+          onAwardDependents={this.state.onAwardDependents}
+          notOnAwardDependents={this.state.notOnAwardDependents}
+        />
+      </RequiredLoginView>
     );
   }
 }
 
 const mapStateToProps = state => ({
   user: state.user,
-  message: state.message,
-  allState: state,
 });
 
-const mapDispatchToProps = {
-  getDependents
-};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(ViewDependentsApp);
 export { ViewDependentsApp };
