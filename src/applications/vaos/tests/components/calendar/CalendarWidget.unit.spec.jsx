@@ -16,7 +16,7 @@ describe('VAOS <CalendarWidget>', () => {
     tree.unmount();
   });
 
-  it('should still rendar a calendar if startMonth is beyond 90 day default', () => {
+  it('should still render a calendar if startMonth is beyond 90 day default', () => {
     const tree = shallow(
       <CalendarWidget monthsToShowAtOnce={2} startMonth="2020-11-20" />,
     );
