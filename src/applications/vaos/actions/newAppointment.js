@@ -1,5 +1,8 @@
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import {
   selectVet360EmailAddress,
   selectVet360HomePhoneString,
@@ -23,6 +26,7 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   REASON_MAX_CHARS,
+  GA_PREFIX,
 } from '../utils/constants';
 import {
   transformFormToVARequest,
@@ -477,6 +481,9 @@ export function submitAppointmentOrRequest(router) {
     });
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
+      recordEvent({
+        event: `${GA_PREFIX}-direct-submission`,
+      });
       try {
         const appointmentBody = transformFormToAppointment(getState());
         await submitAppointment(appointmentBody);
@@ -493,21 +500,33 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_SUCCEEDED,
         });
 
+        recordEvent({
+          event: `${GA_PREFIX}-direct-submission-successful`,
+        });
         router.push('/new-appointment/confirmation');
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
+        recordEvent({
+          event: `${GA_PREFIX}-direct-submission-failed`,
+        });
       }
     } else {
+      const isCommunityCare =
+        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+      const eventType = isCommunityCare ? 'community-care' : 'request';
+
+      recordEvent({
+        event: `${GA_PREFIX}-${eventType}-submission`,
+      });
+
       try {
         let requestBody;
         let requestData;
 
-        if (
-          newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
-        ) {
+        if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
@@ -529,11 +548,17 @@ export function submitAppointmentOrRequest(router) {
           type: FORM_SUBMIT_SUCCEEDED,
         });
 
+        recordEvent({
+          event: `${GA_PREFIX}-${eventType}-submission-successful`,
+        });
         router.push('/new-appointment/confirmation');
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
+        });
+        recordEvent({
+          event: `${GA_PREFIX}-${eventType}-submission-failed`,
         });
       }
     }

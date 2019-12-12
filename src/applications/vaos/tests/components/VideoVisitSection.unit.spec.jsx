@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
-import VideoVisitLink from '../../components/VideoVisitLink';
+import VideoVisitSection from '../../components/VideoVisitSection';
 
 describe('Video visit', () => {
   const dateTime = moment()
@@ -31,13 +31,13 @@ describe('Video visit', () => {
 
   // console.log(tree.debug());
   it('should display link button', () => {
-    const tree = shallow(<VideoVisitLink appointment={appointment} />);
+    const tree = shallow(<VideoVisitSection appointment={appointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     tree.unmount();
   });
 
   it('should enable video link if appointment if appointment has started and is less than 240 min passed', () => {
-    const tree = shallow(<VideoVisitLink appointment={appointment} />);
+    const tree = shallow(<VideoVisitSection appointment={appointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     expect(tree.exists('.usa-button-disabled')).to.equal(false);
     tree.unmount();
@@ -62,7 +62,7 @@ describe('Video visit', () => {
       ],
     };
 
-    const tree = shallow(<VideoVisitLink appointment={pastAppointment} />);
+    const tree = shallow(<VideoVisitSection appointment={pastAppointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     expect(tree.exists('.usa-button-disabled')).to.equal(false);
     tree.unmount();
@@ -87,7 +87,7 @@ describe('Video visit', () => {
       ],
     };
 
-    const tree = shallow(<VideoVisitLink appointment={futureAppointment} />);
+    const tree = shallow(<VideoVisitSection appointment={futureAppointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     expect(tree.exists('.usa-button-disabled')).to.equal(true);
     tree.unmount();
@@ -102,7 +102,7 @@ describe('Video visit', () => {
         },
       ],
     };
-    const tree = shallow(<VideoVisitLink appointment={gfeAppt} />);
+    const tree = shallow(<VideoVisitSection appointment={gfeAppt} />);
     expect(tree.exists('.usa-button')).to.equal(false);
     expect(tree.find('span').text()).to.equal(
       'Join the video session from the device provided by the VA.',
