@@ -13,6 +13,7 @@ const CalendarCell = ({
   additionalOptions,
   selectedDates,
   handleSelectOption,
+  optionsError,
 }) => {
   if (date === null) {
     return (

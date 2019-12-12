@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import classNames from 'classnames';
 import CalendarCell from './CalendarCell';
-import CalendarRadioOption from './CalendarRadioOption';
-import CalendarCheckboxOption from './CalendarCheckboxOption';
-import {
-  isDateInSelectedArray,
-  isDateOptionPairInSelectedArray,
-} from './../../utils/calendar';
+import { isDateInSelectedArray } from './../../utils/calendar';
 
 export default class CalendarRow extends Component {
   static propTypes = {

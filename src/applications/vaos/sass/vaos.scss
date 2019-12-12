@@ -95,6 +95,9 @@
   width: 20%;
 }
 
+.vaos-calendar__calendar-week {
+  position: relative;
+}
 
 .vaos-calendar__calendar-day {
   width: 18%;
@@ -127,6 +130,10 @@
     left: 4px;
     top: 4px;
     font-size: 10px;
+  }
+
+  &.vaos-calendar__cell-current {
+    height: 120px;
   }
 
   &.vaos-calendar__cell-current button {
@@ -167,6 +174,12 @@
       color: $color-gray-light !important;
     }
   }
+}
+
+.vaos-calendar__calendar-options {
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 .vaos-calendar__options {
