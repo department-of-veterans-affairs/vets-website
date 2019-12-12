@@ -55,12 +55,12 @@ class ViewDependentsApp extends Component {
   render() {
     return (
       <RequiredLoginView
-          authRequired={1}
-          serviceRequired={backendServices.USER_PROFILE}
-          user={this.props.user}
-          loginUrl={this.props.loginUrl}
-          verifyUrl={this.props.verifyUrl}
-        >
+        authRequired={1}
+        serviceRequired={backendServices.USER_PROFILE}
+        user={this.props.user}
+        loginUrl={this.props.loginUrl}
+        verifyUrl={this.props.verifyUrl}
+      >
         <ViewDependentsLayout
           loading={this.state.loading}
           error={this.state.error}
@@ -76,8 +76,5 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-
-export default connect(
-  mapStateToProps,
-)(ViewDependentsApp);
+export default connect(mapStateToProps)(ViewDependentsApp);
 export { ViewDependentsApp };
