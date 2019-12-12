@@ -3,7 +3,6 @@ import {
   getFormData,
   getNewAppointment,
   getEligibilityStatus,
-  getClinicsForChosenFacility,
   vaosCommunityCare,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
@@ -21,7 +20,6 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
-import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -169,20 +167,20 @@ export default {
     url: '/new-appointment/va-facility',
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
-      const clinics = getClinicsForChosenFacility(state);
-      const facilityId = getFormData(state).vaFacility;
 
       if (eligibilityStatus.direct) {
-        try {
-          const appointments = await getLongTermAppointmentHistory();
+        let appointments = null;
 
-          if (hasEligibleClinics(facilityId, appointments, clinics)) {
-            dispatch(startDirectScheduleFlow(appointments));
-            return 'clinicChoice';
-          }
+        // If we can't get the history, then continue anyway
+        // and we'll show the full clinic list
+        try {
+          appointments = await getLongTermAppointmentHistory();
         } catch (error) {
           Sentry.captureException(error);
         }
+
+        dispatch(startDirectScheduleFlow(appointments));
+        return 'clinicChoice';
       }
 
       if (eligibilityStatus.request) {
