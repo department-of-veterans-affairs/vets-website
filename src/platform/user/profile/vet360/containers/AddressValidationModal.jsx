@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import { selectCurrentlyOpenEditModal } from '../selectors';
@@ -8,6 +9,8 @@ import {
   openModal,
   createTransaction,
   updateSelectedAddress,
+  updateValidationKeyAndSave,
+  closeModal as closeValidationModal,
 } from '../actions';
 
 import * as VET360 from '../constants';
@@ -17,30 +20,39 @@ class AddressValidationModal extends React.Component {
     this.props.updateSelectedAddress(address, selectedId);
   };
 
-  onSubmit = () => {
+  onSubmit = event => {
+    event.preventDefault();
     const {
       validationKey,
       addressValidationType,
       selectedAddress,
+      selectedId,
     } = this.props;
+
     const payload = {
       ...selectedAddress,
       validationKey,
-      addressPou:
-        addressValidationType === VET360.FIELD_NAMES.MAILING_ADDRESS
-          ? VET360.ADDRESS_POU.CORRESPONDENCE
-          : VET360.ADDRESS_POU.RESIDENCE,
     };
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    this.props.createTransaction(
-      VET360.API_ROUTES.ADDRESSES,
-      method,
-      addressValidationType,
-      payload,
-      this.props.analyticsSectionName,
-    );
+    if (selectedId !== 'userEntered') {
+      this.props.updateValidationKeyAndSave(
+        VET360.API_ROUTES.ADDRESSES,
+        method,
+        addressValidationType,
+        payload,
+        this.props.analyticsSectionName,
+      );
+    } else {
+      this.props.createTransaction(
+        VET360.API_ROUTES.ADDRESSES,
+        method,
+        addressValidationType,
+        payload,
+        this.props.analyticsSectionName,
+      );
+    }
   };
 
   renderWarningText = () => {
@@ -52,11 +64,11 @@ class AddressValidationModal extends React.Component {
 
     let warningText;
 
-    if (suggestedAddresses.length > 1 && validationKey) {
+    if (suggestedAddresses.length && validationKey) {
       warningText = `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below`;
     }
 
-    if (suggestedAddresses.length > 1 && !validationKey) {
+    if (suggestedAddresses.length && !validationKey) {
       warningText = `We’re sorry.  We couldn’t verify your address with the U.S. Postal Service, so we won't be able to deliver your VA mail to that address.  Please edit the address you entered or choose a suggested address below.`;
     }
 
@@ -138,17 +150,28 @@ class AddressValidationModal extends React.Component {
     const showEditLinkErrorState = addressValidationError && validationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
+    const isFirstOptionOrEnabled =
+      (isAddressFromUser && validationKey) || !isAddressFromUser;
 
     return (
-      <div key={id}>
-        <input
-          style={{ zIndex: '1' }}
-          type="radio"
-          name={id}
-          disabled={isAddressFromUser && !validationKey}
-          checked={selectedId === id}
-          onClick={this.onChangeHandler(address, id)}
-        />
+      <div
+        onClick={isFirstOptionOrEnabled && this.onChangeHandler(address, id)}
+        key={id}
+        className={
+          isFirstOptionOrEnabled
+            ? ''
+            : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5'
+        }
+      >
+        {isFirstOptionOrEnabled && (
+          <input
+            style={{ zIndex: '1' }}
+            type="radio"
+            name={id}
+            disabled={isAddressFromUser && !validationKey}
+            checked={selectedId === id}
+          />
+        )}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
@@ -174,7 +197,6 @@ class AddressValidationModal extends React.Component {
 
   render() {
     const {
-      closeModal,
       isAddressValidationModalVisible,
       addressValidationType,
       suggestedAddresses,
@@ -191,7 +213,7 @@ class AddressValidationModal extends React.Component {
             : 'Edit home address'
         }
         id="address-validation-warning"
-        onClose={closeModal}
+        onClose={closeValidationModal}
         visible={isAddressValidationModalVisible}
       >
         <AlertBox
@@ -214,7 +236,10 @@ class AddressValidationModal extends React.Component {
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
-          <button className="usa-button-secondary" onClick={closeModal}>
+          <button
+            className="usa-button-secondary"
+            onClick={closeValidationModal}
+          >
             Cancel
           </button>
         </form>
@@ -243,11 +268,16 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  closeModal: () => dispatch(openModal(null)),
-  openModal: modalName => dispatch(openModal(modalName)),
-  createTransaction,
-  updateSelectedAddress: (address, selectedId) =>
-    dispatch(updateSelectedAddress(address, selectedId)),
+  ...bindActionCreators(
+    {
+      closeValidationModal,
+      openModal,
+      updateSelectedAddress,
+      updateValidationKeyAndSave,
+      createTransaction,
+    },
+    dispatch,
+  ),
 });
 
 AddressValidationModal.propTypes = {
@@ -264,6 +294,7 @@ AddressValidationModal.propTypes = {
   openModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
+  updateValidationKeyAndSave: PropTypes.func.isRequired,
 };
 
 export default connect(

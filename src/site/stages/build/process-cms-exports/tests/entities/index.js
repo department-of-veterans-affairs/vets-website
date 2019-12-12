@@ -73,6 +73,6 @@ module.exports = {
   'taxonomy_term-health_care_service_taxonomy':
     'taxonomy_term.01495533-fca6-45a3-825b-26f7b7ede91c.json',
   'taxonomy_term-administration':
-    'taxonomy_term.06a029a4-9f72-4abb-a5af-f40f5cc437a0.json',
+    'taxonomy_term.2c331a6d-b525-4f0c-8bea-4ecde41c7ef0.json',
   user: 'user.febabc33-ac97-48c6-bc49-f9150dfc443f.json',
 };

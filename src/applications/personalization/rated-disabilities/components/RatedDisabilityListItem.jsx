@@ -29,7 +29,11 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
         <div className="vads-l-col--12 vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <p className="vads-u-margin--0">
             {decisionText === 'Service Connected' ? (
-              <i className="fas fa-medal vads-u-margin-right--0p5" />
+              <i
+                className="fas fa-medal vads-u-margin-right--0p5"
+                aria-hidden="true"
+                role="img"
+              />
             ) : null}
             <span className="vads-u-font-weight--bold">{decisionText}</span>{' '}
           </p>

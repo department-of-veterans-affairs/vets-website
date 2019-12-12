@@ -1,5 +1,5 @@
 // Dependencies
-import { each, get, uniqueId, isEmpty, set, trimEnd } from 'lodash';
+import { each, get, isEmpty, set, trimEnd, uniqueId } from 'lodash';
 
 /* Recursive function that expands all `parentID`s.
   @param {Object}, options:
@@ -133,11 +133,16 @@ const deriveNavItemsLookup = options => {
 */
 export const normalizeSideNavData = data => {
   // Derive properties we need from data.
-  const items = get(data, 'links');
+  const items = data?.links;
+
+  // Derive only nav items that are relevant for the current page.
+  const relevantNavItems = items.filter(item =>
+    window.location.pathname.includes(item?.url?.path),
+  );
 
   // Derive a nav items array and a lookup table.
   const navItemsLookup = deriveNavItemsLookup({
-    items,
+    items: relevantNavItems,
     navItemsLookup: {},
   });
 
