@@ -32,7 +32,7 @@ import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  createMessageBody,
+  getUserMessage,
   createPreferenceBody,
 } from '../utils/data';
 
@@ -546,9 +546,9 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
+          const messageText = getUserMessage(newAppointment.data);
+          await sendRequestMessage(requestData.id, messageText);
           await buildPreferencesDataAndUpdate(newAppointment);
-          const messageBody = createMessageBody(requestData.id, newAppointment);
-          await sendRequestMessage(requestData.id, messageBody);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded

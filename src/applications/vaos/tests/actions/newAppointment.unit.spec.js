@@ -328,12 +328,28 @@ describe('VAOS newAppointment actions', () => {
       setFetchJSONResponse(global.fetch, {
         data: {
           attributes: {
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: {
+          attributes: {
             numberOfRequests: 0,
             requestLimit: 0,
           },
         },
       });
-      setFetchJSONResponse(global.fetch.onCall(1), clinics);
+      setFetchJSONResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: {
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(3), clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
