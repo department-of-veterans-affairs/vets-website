@@ -7,6 +7,8 @@ import {
   getUserMessage,
 } from '../../utils/data';
 
+import { FETCH_STATUS } from '../../utils/constants';
+
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
     const state = {
@@ -165,8 +167,8 @@ describe('VAOS data transformation', () => {
         ],
         ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
-        loadingSystems: false,
-        loadingEligibility: false,
+        systemsStatus: FETCH_STATUS.succeeded,
+        eligibilityStatus: FETCH_STATUS.succeeded,
         loadingFacilityDetails: false,
         pastAppointments: null,
         submitStatus: 'succeeded',
