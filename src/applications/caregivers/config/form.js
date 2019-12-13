@@ -29,25 +29,46 @@ const {
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
-const formFields = {
-  fullName: 'fullName',
-  ssn: 'ssn',
-  veteranDateOfBirth: 'veteranDateOfBirth',
-  caregiverDateOfBirth: 'caregiverDateOfBirth',
-  viewStopWarning: 'view:stopWarning',
+
+const chapterOneFields = {
   address: 'address',
-  email: 'email',
-  telephoneNumber: 'telephoneNumber',
   cellNumber: 'cellNumber',
+  email: 'email',
+  fullName: 'fullName',
   gender: 'gender',
-  vaEnrolled: 'vaEnrolled',
+  medicaidEnrolled: 'medicaidEnrolled',
   plannedClinic: 'plannedClinic',
   previousTreatmentFacility: 'previousTreatmentFacility',
-  facilityType: 'facilityType',
-  vetRelationship: 'vetRelationship',
-  medicaidEnrolled: 'medicaidEnrolled',
+  ssn: 'ssn',
+  telephoneNumber: 'telephoneNumber',
+  vaEnrolled: 'vaEnrolled',
+};
+
+const chapterTwoFields = {
+  address: 'address',
+  caregiverDateOfBirth: 'caregiverDateOfBirth',
+  cellNumber: 'cellNumber',
+  email: 'email',
+  fullName: 'fullName',
+  gender: 'gender',
   otherHealthInsurance: 'otherHealthInsurance',
   otherHealthInsuranceName: 'otherHealthInsuranceName',
+  ssn: 'ssn',
+  telephoneNumber: 'telephoneNumber',
+  vetRelationship: 'vetRelationship',
+};
+
+const chapterThreeFields = {
+  address: 'address',
+  caregiverDateOfBirth: 'caregiverDateOfBirth',
+  cellNumber: 'cellNumber',
+  email: 'email',
+  fullName: 'fullName',
+  gender: 'gender',
+  ssn: 'ssn',
+  telephoneNumber: 'telephoneNumber',
+  vaEnrolled: 'vaEnrolled',
+  vetRelationship: 'vetRelationship',
 };
 
 /* TODO Chapters
@@ -89,39 +110,39 @@ const formConfig = {
           path: 'service-member',
           title: 'Applicant Information',
           uiSchema: {
-            [formFields.fullName]: fullNameUI,
-            [formFields.ssn]: ssnUI,
-            [formFields.veteranDateOfBirth]: currentOrPastDateUI(
+            [chapterOneFields.fullName]: fullNameUI,
+            [chapterOneFields.ssn]: ssnUI,
+            [chapterOneFields.veteranDateOfBirth]: currentOrPastDateUI(
               'Date of Birth',
             ),
-            [formFields.address]: address.uiSchema(
+            [chapterOneFields.address]: address.uiSchema(
               'Current Street Address',
               false,
             ),
-            [formFields.telephoneNumber]: phoneUI(
+            [chapterOneFields.telephoneNumber]: phoneUI(
               'Telephone Number (Including Area Code)',
             ),
-            [formFields.cellNumber]: phoneUI(
+            [chapterOneFields.cellNumber]: phoneUI(
               'Cell Number (Including Area Code)',
             ),
-            [formFields.email]: {
+            [chapterOneFields.email]: {
               'ui:title': 'Email Address',
             },
-            [formFields.gender]: {
+            [chapterOneFields.gender]: {
               'ui:title': 'Gender',
             },
-            [formFields.vaEnrolled]: {
+            [chapterOneFields.vaEnrolled]: {
               'ui:title': 'Enrolled in VA Health Care?',
             },
-            [formFields.plannedClinic]: {
+            [chapterOneFields.plannedClinic]: {
               'ui:title':
                 'Name of VA medical center or clinic where you receive or plan to receive health care services:',
             },
-            [formFields.previousTreatmentFacility]: {
+            [chapterOneFields.previousTreatmentFacility]: {
               'ui:title':
                 'Name of facility where you last received medical treatment:',
             },
-            [formFields.facilityType]: {
+            [chapterOneFields.facilityType]: {
               'ui:title':
                 'Type of facility where you last received medical treatment:',
             },
@@ -130,36 +151,36 @@ const formConfig = {
             type: 'object',
             required: [],
             properties: {
-              [formFields.fullName]: fullName,
-              [formFields.ssn]: ssn,
-              [formFields.veteranDateOfBirth]: date,
-              [formFields.gender]: {
+              [chapterOneFields.fullName]: fullName,
+              [chapterOneFields.ssn]: ssn,
+              [chapterOneFields.veteranDateOfBirth]: date,
+              [chapterOneFields.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [formFields.address]: address.schema(fullSchema, false),
-              [formFields.telephoneNumber]: usaPhone,
-              [formFields.cellNumber]: usaPhone,
-              [formFields.email]: {
+              [chapterOneFields.address]: address.schema(fullSchema, false),
+              [chapterOneFields.telephoneNumber]: usaPhone,
+              [chapterOneFields.cellNumber]: usaPhone,
+              [chapterOneFields.email]: {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.gender]: {
+              [chapterOneFields.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [formFields.vaEnrolled]: {
+              [chapterOneFields.vaEnrolled]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
-              [formFields.plannedClinic]: {
+              [chapterOneFields.plannedClinic]: {
                 type: 'string',
               },
-              [formFields.facilityType]: {
+              [chapterOneFields.facilityType]: {
                 type: 'string',
                 enum: ['Hospital', 'Clinic'],
               },
-              [formFields.previousTreatmentFacility]: {
+              [chapterOneFields.previousTreatmentFacility]: {
                 type: 'string',
               },
             },
@@ -174,69 +195,69 @@ const formConfig = {
           path: 'service-history',
           title: 'Service History',
           uiSchema: {
-            [formFields.fullName]: fullNameUI,
-            [formFields.veteranDateOfBirth]: currentOrPastDateUI(
+            [chapterTwoFields.fullName]: fullNameUI,
+            [chapterTwoFields.veteranDateOfBirth]: currentOrPastDateUI(
               'Date of birth',
             ),
-            [formFields.address]: address.uiSchema(
+            [chapterTwoFields.address]: address.uiSchema(
               'Current Street Address',
               false,
             ),
-            [formFields.telephoneNumber]: phoneUI(
+            [chapterTwoFields.telephoneNumber]: phoneUI(
               'Telephone Number (Including Area Code)',
             ),
-            [formFields.cellNumber]: phoneUI(
+            [chapterTwoFields.cellNumber]: phoneUI(
               'Cell Number (Including Area Code)',
             ),
-            [formFields.email]: {
+            [chapterTwoFields.email]: {
               'ui:title': 'Email Address',
             },
-            [formFields.gender]: {
+            [chapterTwoFields.gender]: {
               'ui:title': 'Gender',
             },
-            [formFields.vetRelationship]: {
+            [chapterTwoFields.vetRelationship]: {
               'ui:title':
                 'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
             },
-            [formFields.medicaidEnrolled]: {
+            [chapterTwoFields.medicaidEnrolled]: {
               'ui:title': 'medicaid?',
             },
-            [formFields.otherHealthInsurance]: {
+            [chapterTwoFields.otherHealthInsurance]: {
               'ui:title': 'Other health?',
             },
-            [formFields.otherHealthInsuranceName]: {
+            [chapterTwoFields.otherHealthInsuranceName]: {
               'ui:title': 'Other health name?',
             },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.fullName]: fullName,
-              [formFields.ssn]: ssn,
-              [formFields.veteranDateOfBirth]: date,
-              [formFields.gender]: {
+              [chapterTwoFields.fullName]: fullName,
+              [chapterTwoFields.ssn]: ssn,
+              [chapterTwoFields.caregiverDateOfBirth]: date,
+              [chapterTwoFields.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [formFields.address]: address.schema(fullSchema, false),
-              [formFields.telephoneNumber]: usaPhone,
-              [formFields.cellNumber]: usaPhone,
-              [formFields.email]: {
+              [chapterTwoFields.address]: address.schema(fullSchema, false),
+              [chapterTwoFields.telephoneNumber]: usaPhone,
+              [chapterTwoFields.cellNumber]: usaPhone,
+              [chapterTwoFields.email]: {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.vetRelationship]: {
+              [chapterTwoFields.vetRelationship]: {
                 type: 'string',
               },
-              [formFields.medicaidEnrolled]: {
-                type: 'string',
-                enum: ['Yes', 'No'],
-              },
-              [formFields.otherHealthInsurance]: {
+              [chapterTwoFields.medicaidEnrolled]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
-              [formFields.otherHealthInsuranceName]: {
+              [chapterTwoFields.otherHealthInsurance]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [chapterTwoFields.otherHealthInsuranceName]: {
                 type: 'string',
               },
             },
@@ -251,26 +272,49 @@ const formConfig = {
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: {
-            [formFields.fullName]: fullNameUI,
+            [chapterThreeFields.fullName]: fullNameUI,
+            [chapterThreeFields.veteranDateOfBirth]: currentOrPastDateUI(
+              'Date of birth',
+            ),
+            [chapterThreeFields.address]: address.uiSchema(
+              'Current Street Address',
+              false,
+            ),
+            [chapterThreeFields.telephoneNumber]: phoneUI(
+              'Telephone Number (Including Area Code)',
+            ),
+            [chapterThreeFields.cellNumber]: phoneUI(
+              'Cell Number (Including Area Code)',
+            ),
+            [chapterThreeFields.email]: {
+              'ui:title': 'Email Address',
+            },
+            [chapterThreeFields.gender]: {
+              'ui:title': 'Gender',
+            },
+            [chapterThreeFields.vetRelationship]: {
+              'ui:title':
+                'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
+            },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.fullName]: fullName,
-              [formFields.ssn]: ssn,
-              [formFields.veteranDateOfBirth]: date,
-              [formFields.gender]: {
+              [chapterThreeFields.fullName]: fullName,
+              [chapterThreeFields.ssn]: ssn,
+              [chapterThreeFields.caregiverDateOfBirth]: date,
+              [chapterThreeFields.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [formFields.address]: address.schema(fullSchema, false),
-              [formFields.telephoneNumber]: usaPhone,
-              [formFields.cellNumber]: usaPhone,
-              [formFields.email]: {
+              [chapterThreeFields.address]: address.schema(fullSchema, false),
+              [chapterThreeFields.telephoneNumber]: usaPhone,
+              [chapterThreeFields.cellNumber]: usaPhone,
+              [chapterThreeFields.email]: {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.vetRelationship]: {
+              [chapterThreeFields.vetRelationship]: {
                 type: 'string',
               },
             },
