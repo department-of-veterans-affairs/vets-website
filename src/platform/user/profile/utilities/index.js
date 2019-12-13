@@ -9,6 +9,7 @@ import localStorage from '../../../utilities/storage/localStorage';
 import {
   BAD_UNIT_NUMBER,
   MISSING_UNIT_NUMBER,
+  CONFIRMED,
 } from '../constants/addressValidationMessages';
 
 import {
@@ -195,12 +196,21 @@ export const getValidationMessageKey = (
 };
 
 export const showAddressValidationModal = suggestedAddresses => {
+  // pull the addressMetaData prop off the first suggestedAddresses element
+  const [{ addressMetaData } = {}] = suggestedAddresses;
+
   if (
     suggestedAddresses.length === 1 &&
-    (suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
-      BAD_UNIT_NUMBER ||
-      suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
-        MISSING_UNIT_NUMBER)
+    addressMetaData.confidenceScore > 80 &&
+    addressMetaData.deliveryPointValidation === CONFIRMED
+  ) {
+    return false;
+  }
+
+  if (
+    suggestedAddresses.length === 1 &&
+    (addressMetaData.deliveryPointValidation === BAD_UNIT_NUMBER ||
+      addressMetaData.deliveryPointValidation === MISSING_UNIT_NUMBER)
   ) {
     return true;
   }
@@ -209,5 +219,14 @@ export const showAddressValidationModal = suggestedAddresses => {
     return true;
   }
 
-  return suggestedAddresses[0]?.addressMetaData?.confidenceScore < 80;
+  if (
+    suggestedAddresses.length === 1 &&
+    addressMetaData.deliveryPointValidation !== CONFIRMED
+  ) {
+    return true;
+  }
+
+  return (
+    suggestedAddresses.length === 1 && addressMetaData.confidenceScore < 80
+  );
 };
