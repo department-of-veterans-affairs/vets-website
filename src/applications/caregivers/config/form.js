@@ -198,6 +198,15 @@ const formConfig = {
               'ui:title':
                 'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
             },
+            [formFields.medicaidEnrolled]: {
+              'ui:title': 'medicaid?',
+            },
+            [formFields.otherHealthInsurance]: {
+              'ui:title': 'Other health?',
+            },
+            [formFields.otherHealthInsuranceName]: {
+              'ui:title': 'Other health name?',
+            },
           },
           schema: {
             type: 'object',
@@ -247,12 +256,23 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              [formFields.fullName]: fullName,
+              [formFields.ssn]: ssn,
+              [formFields.veteranDateOfBirth]: date,
+              [formFields.gender]: {
+                type: 'string',
+                enum: ['Male', 'Female'],
+              },
               [formFields.address]: address.schema(fullSchema, false),
+              [formFields.telephoneNumber]: usaPhone,
+              [formFields.cellNumber]: usaPhone,
               [formFields.email]: {
                 type: 'string',
                 format: 'email',
               },
-              [formFields.telephoneNumber]: usaPhone,
+              [formFields.vetRelationship]: {
+                type: 'string',
+              },
             },
           },
         },
