@@ -23,9 +23,9 @@ describe('<RatedDisabilityListItem />', () => {
     expect(
       wrapper
         .find('dt')
-        .at(1)
+        .first()
         .text(),
-    ).to.equal(ratedDisability.name);
+    ).to.contain(ratedDisability.name);
     wrapper.unmount();
   });
 
@@ -37,9 +37,9 @@ describe('<RatedDisabilityListItem />', () => {
     expect(
       wrapper
         .find('dt')
-        .at(1)
+        .first()
         .text(),
-    ).to.equal(ratedDisability.name);
+    ).to.contain(ratedDisability.name);
     wrapper.unmount();
   });
 });

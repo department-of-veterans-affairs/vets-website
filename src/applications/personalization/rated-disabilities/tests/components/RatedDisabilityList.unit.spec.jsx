@@ -85,7 +85,7 @@ describe('<RatedDisabilityList/>', () => {
     expect(
       list
         .find('dt')
-        .at(1)
+        .first()
         .text(),
     ).to.contain(disability);
     expect(spy.calledOnce).to.be.true;
