@@ -277,50 +277,22 @@ export function getPacTeam(systemId) {
 }
 
 export function getFacilityInfo(facilityId) {
+  let promise;
+
   if (USE_MOCK_DATA) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          attributes: {
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              physical: {
-                zip: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                address1: '2360 East Pershing Boulevard',
-                address2: null,
-                address3: null,
-              },
-            },
-            phone: {
-              fax: '307-778-7381',
-              main: '307-778-7550',
-              pharmacy: '866-420-6337',
-              afterHours: '307-778-7550',
-              patientAdvocate: '307-778-7550 x7517',
-              mentalHealthClinic: '307-778-7349',
-              enrollmentCoordinator: '307-778-7550 x7579',
-            },
-            hours: {
-              monday: '24/7',
-              tuesday: '24/7',
-              wednesday: '24/7',
-              thursday: '24/7',
-              friday: '24/7',
-              saturday: '24/7',
-              sunday: '24/7',
-            },
-            lat: 41.1457280000001,
-            long: -104.7895949,
-          },
-        });
-      }, TEST_TIMEOUT || 2000);
-    });
+    if (facilityId === '984') {
+      promise = import('./facility_details_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = import('./facility_details_983.json').then(
+        module => (module.default ? module.default : module),
+      );
+    }
+  } else {
+    promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
-  return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
-    resp => resp.data,
-  );
+  return promise.then(resp => resp.data);
 }
 
 export function getFacilitiesInfo(facilityIds) {
