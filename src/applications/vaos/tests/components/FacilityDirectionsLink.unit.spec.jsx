@@ -42,11 +42,46 @@ const location = {
   },
 };
 
+const ccLocation = {
+  id: 'ccp_1669699724',
+  type: 'cc_provider',
+  attributes: {
+    uniqueId: '1669699724',
+    name: 'Ziad A Tomimi MD A Professional Medical Corporation',
+    address: {
+      street: '4445 Eastgate Mall',
+      city: 'San Diego',
+      state: 'CA',
+      zip: '92121',
+    },
+    email: 'unknown@unknown.com',
+    phone: null,
+    fax: null,
+    lat: 32.878391,
+    long: -117.210539,
+    prefContact: null,
+    accNewPatients: null,
+    gender: null,
+    specialty: [
+      { name: 'Clinic/Center - Primary Care', desc: 'Definition to come...' },
+    ],
+    caresitePhone: null,
+  },
+};
+
 describe('VAOS <FacilityDirectionsLink>', () => {
-  it('should render', () => {
+  it('should render directions for va facility', () => {
     const tree = shallow(<FacilityDirectionsLink location={location} />);
     expect(tree.find('a').props().href).to.equal(
       'https://maps.google.com?saddr=Current+Location&daddr=Marine Corps Air Station Miramar, 535 Miramar Way, San Diego, CA 92145',
+    );
+    tree.unmount();
+  });
+
+  it('should render directions for cc facility', () => {
+    const tree = shallow(<FacilityDirectionsLink location={ccLocation} />);
+    expect(tree.find('a').props().href).to.equal(
+      'https://maps.google.com?saddr=Current+Location&daddr=4445 Eastgate Mall, San Diego, CA 92121',
     );
     tree.unmount();
   });
