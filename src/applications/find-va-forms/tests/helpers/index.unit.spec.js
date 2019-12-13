@@ -27,8 +27,8 @@ describe('Find VA Forms helpers', () => {
       expect(result[0]).to.have.keys([
         'id',
         'attributes',
-        'tableFieldID',
-        'tableFieldFormName',
+        'tableFieldId',
+        'tableFieldTitle',
         'tableFieldDescription',
         'tableFieldAvailableOnline',
       ]);

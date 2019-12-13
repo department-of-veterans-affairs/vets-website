@@ -8,59 +8,89 @@ import { orderBy } from 'lodash';
 // Relative imports.
 import { updateResultsAction } from '../actions';
 
-const tableFields = [
+const fieldLabels = [
   {
     label: 'VA form number',
-    value: 'tableFieldID',
+    value: 'idLabel',
   },
   {
     label: 'Form name',
-    value: 'tableFieldFormName',
+    value: 'titleLabel',
   },
   {
     label: 'Description',
-    value: 'tableFieldDescription',
+    value: 'descriptionLabel',
   },
   {
     label: 'Available Online',
-    value: 'tableFieldAvailableOnline',
+    value: 'availableOnlineLabel',
   },
 ];
 
 class SearchResults extends Component {
+  static propTypes = {
+    // From mapStateToProps.
+    fetching: PropTypes.bool.isRequired,
+    query: PropTypes.string.isRequired,
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        // Original form data key-value pairs.
+        firstIssuedOn: PropTypes.string.isRequired,
+        formName: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        lastRevisionOn: PropTypes.string.isRequired,
+        pages: PropTypes.number.isRequired,
+        sha256: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        // Table field labels that can be JSX.
+        idLabel: PropTypes.node.isRequired,
+        titleLabel: PropTypes.node.isRequired,
+        descriptionLabel: PropTypes.node.isRequired,
+        availableOnlineLabel: PropTypes.node.isRequired,
+      }).isRequired,
+    ),
+    // From mapDispatchToProps.
+    updateResults: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      sortField: 'tableFieldID',
-      sortOrder: 'ASC',
+      selectedFieldLabel: 'idLabel',
+      selectedFieldOrder: 'ASC',
     };
   }
 
-  onHeaderClick = field => {
+  onHeaderClick = (fieldLabel, order) => {
+    const { selectedFieldLabel, selectedFieldOrder } = this.state;
+
+    // Derive the opposite sort order.
+    const oppositeFieldOrder = selectedFieldOrder === 'ASC' ? 'DESC' : 'ASC';
+
+    // Sort the results.
+    this.sortResults(
+      fieldLabel,
+      fieldLabel === selectedFieldLabel ? oppositeFieldOrder : order,
+    );
+  };
+
+  sortResults = (fieldLabel, selectedFieldOrder = 'ASC') => {
     const { results, updateResults } = this.props;
-    const { sortField, sortOrder } = this.state;
 
-    // Only toggle sort order if they clicked on the same sortField.
-    if (field === sortField) {
-      // Derive the opposite sort order.
-      const oppositeSortOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    // Update local state for SortableTable.
+    this.setState({ selectedFieldLabel: fieldLabel, selectedFieldOrder });
 
-      // Update our sortOrder in state.
-      this.setState({ sortOrder: oppositeSortOrder });
-
-      // Derive the sorted results.
-      const sortedResults = orderBy(results, field, oppositeSortOrder);
-
-      // Sort the results and update them in our store.
-      updateResults(sortedResults);
-      return;
-    }
-
-    // Otherwise, sort by the new field ASC.
-    this.setState({ sortField: field, sortOrder: 'ASC' });
+    // Derive the original field (not the JSX label).
+    const field = fieldLabel.replace('Label', '');
 
     // Derive the sorted results.
-    const sortedResults = orderBy(results, field, 'ASC');
+    const sortedResults = orderBy(
+      results,
+      field,
+      selectedFieldOrder.toLowerCase(),
+    );
 
     // Sort the results and update them in our store.
     updateResults(sortedResults);
@@ -69,7 +99,7 @@ class SearchResults extends Component {
   render() {
     const { onHeaderClick } = this;
     const { fetching, query, results } = this.props;
-    const { sortField, sortOrder } = this.state;
+    const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -98,36 +128,15 @@ class SearchResults extends Component {
 
         <SortableTable
           className="vads-u-margin--0"
-          currentSort={{ order: sortOrder, value: sortField }}
+          currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
           data={results}
-          fields={tableFields}
+          fields={fieldLabels}
           onHeaderClick={onHeaderClick}
         />
       </>
     );
   }
 }
-
-SearchResults.propTypes = {
-  // From mapStateToProps.
-  fetching: PropTypes.bool.isRequired,
-  query: PropTypes.string.isRequired,
-  results: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      attributes: PropTypes.shape({
-        firstIssuedOn: PropTypes.string.isRequired,
-        formName: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.string.isRequired,
-        pages: PropTypes.number.isRequired,
-        sha256: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-  ),
-};
 
 const mapStateToProps = state => ({
   fetching: state.findVAFormsReducer.fetching,
