@@ -216,10 +216,6 @@
   }
 }
 
-.vaos-facility-details__day {
-  width: 110px;
-}
-
 h1:focus {
   outline: none !important;
 }
@@ -228,7 +224,8 @@ h1:focus {
   .schemaform-block {
     margin-top: 0;
   }
-  > .usa-input-error {
+
+  >.usa-input-error {
     margin-top: 0;
   }
 }
