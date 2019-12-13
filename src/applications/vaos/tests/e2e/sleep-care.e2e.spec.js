@@ -33,7 +33,7 @@ module.exports = {
     client.click('[value="SLEEP"]').perform(() => {
       client
         .click('.rjsf [type="submit"]')
-        .pause(Timeouts.slow)
+        .waitForElementPresent('h1', Timeouts.slow)
         .assert.containsText('h1', 'Choose the type of sleep care you need');
     });
   },
@@ -41,21 +41,24 @@ module.exports = {
     client.click('[value="349"]').perform(() => {
       client
         .click('.rjsf [type="submit"]')
-        .assert.containsText(
-          'h1',
-          'Choose where you would prefer to receive your care',
-        );
+        .assert.containsText('h1', 'Choose a VA location for your appointment');
     });
   },
-  'Choose where you would prefer to receive your care': client => {
-    client.click('[value="communityCare"]').perform(() => {
+  'Choose a VA location for your appointment': client => {
+    client.click('[value="983"]').perform(() => {
       client
+        .waitForElementPresent(
+          '[name = "root_vaFacility"][value = "983GB"]',
+          Timeouts.normal,
+        )
+        .click('[name = "root_vaFacility"][value = "983GB"]')
+        .pause(Timeouts.normal)
         .click('.rjsf [type="submit"]')
+        .waitForElementPresent('h1', Timeouts.normal)
         .assert.containsText(
           'h1',
           'What date and time would you like to make an appointment?',
-        )
-        .pause(Timeouts.slow);
+        );
     });
   },
   'What date and time would you like to make an appointment?': client => {
@@ -67,36 +70,20 @@ module.exports = {
         client
           .click('.vaos-calendar__options input[id^="checkbox-0"]')
           .click('.rjsf [type="submit"]')
-          .assert.containsText(
-            'h1',
-            'Share your community care provider preferences',
-          );
+          .assert.containsText('h1', 'Reason for appointment');
       });
-  },
-  'Share your community care provider preferences': client => {
-    client.pause(Timeouts.normal);
-
-    client.click('input[value="983"]').perform(() => {
-      client
-        .click('#root_preferredLanguage [value="english"]')
-        .click('#root_hasCommunityCareProviderYes')
-        .setValue('#root_communityCareProvider_practiceName', 'practice name')
-        .setValue('#root_communityCareProvider_firstName', 'firstname')
-        .setValue('#root_communityCareProvider_lastName', 'lastname')
-        .setValue('#root_communityCareProvider_address_street', 'address1')
-        .setValue('#root_communityCareProvider_address_street2', 'address2')
-        .setValue('#root_communityCareProvider_address_city', 'city')
-        .click('#root_communityCareProvider_address_state [value="IL"]')
-        .setValue('#root_communityCareProvider_address_postalCode', '60613')
-        .setValue('#root_communityCareProvider_phone', '1234567890')
-        .click('.rjsf [type="submit"]')
-        .assert.containsText('h1', 'Reason for appointment');
-    });
   },
   'Reason for appointment': client => {
     client.click('#root_reasonForAppointment_0').perform(() => {
       client
         .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+        .click('.rjsf [type="submit"]')
+        .assert.containsText('h1', 'How would you like to be seen?');
+    });
+  },
+  'How would you like to be seen?': client => {
+    client.click('input#root_visitType_0').perform(() => {
+      client
         .click('.rjsf [type="submit"]')
         .assert.containsText('h1', 'Contact information');
     });

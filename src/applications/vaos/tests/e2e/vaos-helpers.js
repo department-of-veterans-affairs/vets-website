@@ -7,6 +7,8 @@ const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
 const systems = require('../../api/systems.json');
+const facilities = require('../../api/facilities.json');
+const facilities983 = require('../../api/facilities_983.json');
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -65,6 +67,10 @@ function initAppointmentListMock(token) {
             name: 'vaOnlineSchedulingRequests',
             value: true,
           },
+          {
+            name: 'vaOnlineSchedulingCommunityCare',
+            value: true,
+          },
         ],
       },
     },
@@ -100,6 +106,72 @@ function initAppointmentListMock(token) {
     path: '/v0/vaos/facilities/983/cancel_reasons',
     verb: 'get',
     value: cancelReasons,
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities',
+    verb: 'get',
+    value: facilities,
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/va',
+    verb: 'get',
+    value: facilities,
+  });
+  mock(token, {
+    path: '/v0/vaos/systems/983/direct_scheduling_facilities',
+    verb: 'get',
+    value: facilities983,
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983/limits',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          requestLimit: 1,
+          numberOfRequests: 0,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983GB/limits',
+    verb: 'get',
+    value: {
+      data: {
+        attributes: {
+          requestLimit: 1,
+          numberOfRequests: 0,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/appointment_requests',
+    verb: 'get',
+    value: facilities983,
+  });
+  mock(token, {
+    path: '/v0/vaos/appointment_requests',
+    verb: 'post',
+    query: 'type=va',
+    value: {
+      data: {
+        id: 'testing',
+        attributes: {},
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/appointment_requests',
+    verb: 'post',
+    query: 'type=cc',
+    value: {
+      data: {
+        id: 'testing',
+        attributes: {},
+      },
+    },
   });
 }
 

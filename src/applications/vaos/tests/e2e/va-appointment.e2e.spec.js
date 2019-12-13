@@ -33,7 +33,7 @@ module.exports = {
     client.click('[value="323"]').perform(() => {
       client
         .click('.rjsf [type="submit"]')
-        .pause(Timeouts.slow)
+        .waitForElementPresent('#root_facilityType_0', Timeouts.slow)
         .assert.containsText(
           'h1',
           'Choose where you would prefer to receive your care',
@@ -51,11 +51,14 @@ module.exports = {
   'Choose a VA location for your appointment': client => {
     client.click('[value="983"]').perform(() => {
       client
-        .pause(Timeouts.normal)
+        .waitForElementPresent(
+          '[name = "root_vaFacility"][value = "983GB"]',
+          Timeouts.normal,
+        )
         .click('[name = "root_vaFacility"][value = "983GB"]')
         .pause(Timeouts.normal)
         .click('.rjsf [type="submit"]')
-        .pause(Timeouts.normal)
+        .waitForElementPresent('h1', Timeouts.normal)
         .assert.containsText(
           'h1',
           'What date and time would you like to make an appointment?',
@@ -107,10 +110,12 @@ module.exports = {
   },
   'Review your appointment details': client => {
     client.click('button.usa-button.usa-button-primary').perform(() => {
-      client.assert.containsText(
-        'h1',
-        'Your appointment request has been submitted',
-      );
+      client
+        .waitForElementPresent('h1', Timeouts.slow)
+        .assert.containsText(
+          'h1',
+          'Your appointment request has been submitted',
+        );
     });
   },
   'Your appointment request has been submitted': client => {

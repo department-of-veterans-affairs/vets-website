@@ -33,7 +33,7 @@ module.exports = {
     client.click('[value="323"]').perform(() => {
       client
         .click('.rjsf [type="submit"]')
-        .pause(Timeouts.slow)
+        .waitForElementPresent('[value="communityCare"]', Timeouts.slow)
         .assert.containsText(
           'h1',
           'Choose where you would prefer to receive your care',
@@ -44,11 +44,11 @@ module.exports = {
     client.click('[value="communityCare"]').perform(() => {
       client
         .click('.rjsf [type="submit"]')
+        .waitForElementPresent('h1', Timeouts.slow)
         .assert.containsText(
           'h1',
           'What date and time would you like to make an appointment?',
-        )
-        .pause(Timeouts.slow);
+        );
     });
   },
   'What date and time would you like to make an appointment?': client => {
@@ -67,7 +67,6 @@ module.exports = {
       });
   },
   'Share your community care provider preferences': client => {
-    client.pause(Timeouts.normal);
     client.click('input[value="983"]').perform(() => {
       client
         .click('#root_preferredLanguage [value="english"]')

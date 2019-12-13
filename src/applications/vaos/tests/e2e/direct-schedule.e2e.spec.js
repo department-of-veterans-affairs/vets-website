@@ -33,18 +33,21 @@ module.exports = {
     client.click('[value="211"]').perform(() => {
       client
         .click('.rjsf [type="submit"]')
-        .pause(Timeouts.normal)
+        .waitForElementPresent('h1', Timeouts.normal)
         .assert.containsText('h1', 'Choose a VA location for your appointment');
     });
   },
   'Choose a VA location for your appointment': client => {
     client.click('[value="983"]').perform(() => {
       client
-        .pause(Timeouts.normal)
+        .waitForElementPresent(
+          '[name = "root_vaFacility"][value = "983"]',
+          Timeouts.normal,
+        )
         .click('[name = "root_vaFacility"][value = "983"]')
         .pause(Timeouts.normal)
         .click('.rjsf [type="submit"]')
-        .pause(Timeouts.normal)
+        .waitForElementPresent('h1', Timeouts.normal)
         .assert.containsText(
           'h1',
           'What date and time would you like to make an appointment?',
