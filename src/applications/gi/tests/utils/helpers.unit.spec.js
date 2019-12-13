@@ -7,7 +7,7 @@ import {
   addAllOption,
   isCountryUSA,
   isCountryInternational,
-  snakeCaseKeys,
+  rubyifyKeys,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -67,13 +67,19 @@ describe('GIBCT helpers:', () => {
     });
   });
 
-  describe('snakeCaseKeys', () => {
+  describe('rubyifyKeys', () => {
     it('should properly snake-case keys', () => {
       const data = {
         testKey: '',
       };
+      expect(rubyifyKeys(data)).to.have.key('test_key');
+    });
 
-      expect(snakeCaseKeys(data)).to.have.key('test_key');
+    it('should properly suffix keys for array fields', () => {
+      const data = {
+        testKey: ['a', 'b'],
+      };
+      expect(rubyifyKeys(data)).to.have.key('test_key[]');
     });
   });
 });

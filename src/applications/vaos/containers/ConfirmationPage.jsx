@@ -8,11 +8,15 @@ import {
   getFlowType,
   getChosenClinicInfo,
 } from '../utils/selectors';
+import { closeConfirmationPage } from '../actions/newAppointment';
 import { FLOW_TYPES } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
 export class ConfirmationPage extends React.Component {
+  componentWillUnmount() {
+    this.props.closeConfirmationPage();
+  }
   render() {
     const { data, facility, clinic, flowType } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
@@ -57,4 +61,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ConfirmationPage);
+const mapDispatchToProps = {
+  closeConfirmationPage,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);

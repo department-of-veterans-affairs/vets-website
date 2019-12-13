@@ -16,7 +16,7 @@ describe('<TotalRatedDisabilities />', () => {
       wrapper
         .find('div')
         .first()
-        .hasClass('total-rated-disabilities'),
+        .hasClass('vads-u-background-color--gray-lightest'),
     ).to.be.true;
     wrapper.unmount();
   });

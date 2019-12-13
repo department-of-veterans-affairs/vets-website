@@ -50,12 +50,21 @@ module.exports = {
   /**
    * Takes a string and applies the following:
    * - Transforms escaped unicode to characters
-   * - Unescapes HTML entities
    *
    * @param {string}
    * @return {string}
    */
   getWysiwygString(value) {
     return unescape(value);
+  },
+
+  /**
+   * This is currently a dummy function, but we may
+   * need it in the future to convert weird uris like
+   * `entity:node/27` to something resembling a
+   * relative url
+   */
+  uriToUrl(uri) {
+    return uri;
   },
 };

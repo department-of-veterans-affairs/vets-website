@@ -20,9 +20,9 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
       <h3 className="vaos-appts__block-label">
         {clinic.clinicFriendlyLocationName || clinic.clinicName}
       </h3>
-      {facility.institution.authoritativeName}
+      {facility.authoritativeName}
       <br />
-      {facility.institution.city}, {facility.institution.stateAbbrev}
+      {facility.city}, {facility.stateAbbrev}
       <hr />
       <ReasonForAppointmentSection data={data} />
       <hr />

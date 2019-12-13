@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 const fs = require('fs');
 const path = require('path');
 const get = require('lodash/get');
@@ -41,6 +42,26 @@ module.exports = {
   contentDir,
   typeProperties,
   getContentModelType,
+
+  /**
+   * Dynamically read in exported properties
+   * and put them into an object indexed by filename
+   *
+   * @param {String} dir - The directory to import all files from
+   * @param {String} prop - The name of the exported property to put into the dict
+   * @return {Object} - The dict of filenam -> exported prop mappings
+   */
+  getAllImportsFrom(dir, prop) {
+    return fs
+      .readdirSync(dir)
+      .filter(name => name.endsWith('.js'))
+      .reduce((t, fileName) => {
+        const contentModelType = path.parse(fileName).name;
+        // eslint-disable-next-line no-param-reassign
+        t[contentModelType] = require(path.join(dir, fileName))[prop];
+        return t;
+      }, {});
+  },
 
   /**
    * Use to consistently reference to an entity.

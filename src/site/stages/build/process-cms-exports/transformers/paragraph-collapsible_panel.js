@@ -17,4 +17,12 @@ const transform = entity => ({
     fieldVaParagraphs: entity.fieldVaParagraphs,
   },
 });
-module.exports = transform;
+module.exports = {
+  filter: [
+    'field_collapsible_panel_bordered',
+    'field_collapsible_panel_expand',
+    'field_collapsible_panel_multi',
+    'field_va_paragraphs',
+  ],
+  transform,
+};

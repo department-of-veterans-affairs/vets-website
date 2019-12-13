@@ -267,4 +267,4 @@ export const REASON_MAX_CHARS = {
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
-export const DIRECT_SCHEDULE_TYPES = new Set([PRIMARY_CARE, '502']);
+export const GA_PREFIX = 'vaos';

@@ -3,7 +3,7 @@ import {
   getFormData,
   getNewAppointment,
   getEligibilityStatus,
-  getClinicsForChosenFacility,
+  vaosCommunityCare,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -20,7 +20,6 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
-import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -71,34 +70,37 @@ export default {
     url: '/new-appointment',
     async next(state, dispatch) {
       let nextState = 'vaFacility';
+      const communityCareEnabled = vaosCommunityCare(state);
 
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
       } else if (isCommunityCare(state)) {
         try {
-          // Check if user registered systems support community care...
-          const userSystemIds = await getSystemIdentifiers();
-          const ccSites = await getSitesSupportingVAR();
-          const ccEnabledSystems = userSystemIds
-            .map(system => system.assigningAuthority.substr(4))
-            .filter(id => ccSites.some(site => site._id === id));
-          dispatch(updateCCEnabledSystems(ccEnabledSystems));
-
-          // Reroute to VA facility page if none of the user's registered systems support community care.
-          if (ccEnabledSystems.length) {
-            const data = await getCommunityCare(
-              '/vaos/community-care/eligibility',
+          if (communityCareEnabled) {
+            // Check if user registered systems support community care...
+            const userSystemIds = await getSystemIdentifiers();
+            const ccSites = await getSitesSupportingVAR();
+            const ccEnabledSystems = userSystemIds.filter(id =>
+              ccSites.some(site => site._id === id),
             );
+            dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
-            dispatch(updateCCEligibility(data.isEligible));
+            // Reroute to VA facility page if none of the user's registered systems support community care.
+            if (ccEnabledSystems.length) {
+              const data = await getCommunityCare(
+                '/vaos/community-care/eligibility',
+              );
 
-            if (data.isEligible) {
-              // If CC enabled systems and toc is podiatry, skip typeOfFacility
-              if (isPodiatry(state)) {
-                dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
-                return 'requestDateTime';
+              dispatch(updateCCEligibility(data.isEligible));
+
+              if (data.isEligible) {
+                // If CC enabled systems and toc is podiatry, skip typeOfFacility
+                if (isPodiatry(state)) {
+                  dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+                  return 'requestDateTime';
+                }
+                return 'typeOfFacility';
               }
-              return 'typeOfFacility';
             }
           }
 
@@ -111,10 +113,16 @@ export default {
           dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
           return 'vaFacility';
         } catch (e) {
+          Sentry.captureException(e);
+          Sentry.captureMessage(
+            'Community Care eligibility check failed with errors',
+          );
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
           return 'vaFacility';
         }
       }
 
+      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return nextState;
     },
     previous: 'home',
@@ -136,7 +144,7 @@ export default {
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    next: 'typeOfFacility',
+    next: 'vaFacility',
     previous: 'typeOfCare',
   },
   audiologyCareType: {
@@ -159,20 +167,20 @@ export default {
     url: '/new-appointment/va-facility',
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
-      const clinics = getClinicsForChosenFacility(state);
-      const facilityId = getFormData(state).vaFacility;
 
       if (eligibilityStatus.direct) {
-        try {
-          const appointments = await getLongTermAppointmentHistory();
+        let appointments = null;
 
-          if (hasEligibleClinics(facilityId, appointments, clinics)) {
-            dispatch(startDirectScheduleFlow(appointments));
-            return 'clinicChoice';
-          }
+        // If we can't get the history, then continue anyway
+        // and we'll show the full clinic list
+        try {
+          appointments = await getLongTermAppointmentHistory();
         } catch (error) {
           Sentry.captureException(error);
         }
+
+        dispatch(startDirectScheduleFlow(appointments));
+        return 'clinicChoice';
       }
 
       if (eligibilityStatus.request) {
@@ -184,8 +192,9 @@ export default {
     },
     previous(state) {
       let nextState = 'typeOfCare';
+      const communityCareEnabled = vaosCommunityCare(state);
 
-      if (isCCEligible(state)) {
+      if (communityCareEnabled && isCCEligible(state)) {
         nextState = 'typeOfFacility';
       }
 

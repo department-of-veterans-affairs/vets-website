@@ -242,7 +242,7 @@ export default {
         },
         {
           address: {
-            addressLine1: '400 NW 65th St',
+            addressLine1: '400 NW 65th Street',
             addressType: 'DOMESTIC',
             city: 'Seattle',
             countryName: 'USA',
@@ -282,7 +282,7 @@ export default {
           },
         },
       ],
-      validationKey: 178464079,
+      validationKey: 12345,
     };
   },
 };

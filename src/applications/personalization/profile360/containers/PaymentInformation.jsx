@@ -134,8 +134,8 @@ class PaymentInformation extends React.Component {
     }
   }
 
-  handleDirectDepositUpdateSubmit = data => {
-    this.props.savePaymentInformation(data);
+  handleDirectDepositUpdateSubmit = (data, isEnrollingInDirectDeposit) => {
+    this.props.savePaymentInformation(data, isEnrollingInDirectDeposit);
   };
 
   handleLinkClick = (linkType, gaProfileSection) => {
@@ -241,7 +241,9 @@ class PaymentInformation extends React.Component {
 
           <PaymentInformationEditModal
             onClose={this.props.editModalToggled}
-            onSubmit={this.handleDirectDepositUpdateSubmit}
+            onSubmit={data =>
+              this.handleDirectDepositUpdateSubmit(data, !directDepositIsSetUp)
+            }
             isEditing={this.props.paymentInformationUiState.isEditing}
             isSaving={this.props.paymentInformationUiState.isSaving}
             fields={this.props.paymentInformationUiState.editModalForm}

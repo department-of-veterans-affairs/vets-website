@@ -25,7 +25,7 @@ const INITIAL_STATE = {
     principlesOfExcellence: {},
     eightKeysToVeteranSuccess: {},
     stem: {},
-    provider: {},
+    provider: [],
   },
   links: {},
   results: [],
@@ -50,10 +50,16 @@ function uppercaseKeys(obj) {
   );
 }
 
-function normalizedFacets(facets) {
+function normalizedInstitutionFacets(facets) {
   const state = uppercaseKeys(facets.state);
   const type = uppercaseKeys(facets.type);
-  const provider = facets.provider ? uppercaseKeys(facets.provider) : {};
+  const provider = Array.isArray(facets.provider)
+    ? facets.provider.map(providerCount => ({
+        ...providerCount,
+        name: providerCount.name.toUpperCase(),
+      }))
+    : [];
+
   return { ...facets, state, type, provider };
 }
 
@@ -87,7 +93,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         results,
         pagination: derivePaging(camelPayload.links),
-        facets: normalizedFacets(camelPayload.meta.facets),
+        facets: normalizedInstitutionFacets(camelPayload.meta.facets),
         count: camelPayload.meta.count,
         version: camelPayload.meta.version,
         inProgress: false,
@@ -102,7 +108,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         results: programResults,
         pagination: derivePaging(programCamelPayload.links),
-        facets: normalizedFacets(programCamelPayload.meta.facets),
+        facets: normalizedInstitutionFacets(programCamelPayload.meta.facets),
         count: programCamelPayload.meta.count,
         version: programCamelPayload.meta.version,
         inProgress: false,

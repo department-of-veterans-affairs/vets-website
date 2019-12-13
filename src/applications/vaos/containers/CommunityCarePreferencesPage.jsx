@@ -6,6 +6,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../components/FormButtons';
 import * as address from '../utils/address';
 import { LANGUAGES } from './../utils/constants';
+import ErrorMessage from '../components/ErrorMessage';
 
 import {
   openCommunityCarePreferencesPage,
@@ -135,17 +136,26 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress, loading } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      loading,
+      hasDataFetchingError,
+    } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
           Share your community care provider preferences
         </h1>
-        {(!schema || loading) && (
-          <LoadingIndicator message="Loading Community Care facilities" />
-        )}
+        {hasDataFetchingError && <ErrorMessage />}
+        {(!schema || loading) &&
+          !hasDataFetchingError && (
+            <LoadingIndicator message="Loading Community Care facilities" />
+          )}
         {!!schema &&
+          !hasDataFetchingError &&
           !loading && (
             <SchemaForm
               name="ccPreferences"
