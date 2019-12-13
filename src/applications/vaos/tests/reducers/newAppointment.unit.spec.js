@@ -42,7 +42,7 @@ const systemsParsed = systems.data.map(item => ({
 const defaultState = {
   data: {},
   pages: {},
-  loadingSystems: false,
+  systemsStatus: FETCH_STATUS.notStarted,
   loadingFacilities: false,
   systems: null,
   facilities: {},
@@ -237,7 +237,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.failed);
     });
   });
 
@@ -370,7 +370,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.childFacilitiesStatus).to.equal(FETCH_STATUS.failed);
     });
   });
   describe('fetch eligibility checks reducers', () => {
@@ -380,7 +380,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.loadingEligibility).to.be.true;
+      expect(newState.eligibilityStatus).to.be.equal(FETCH_STATUS.loading);
     });
 
     it('should set eligibility and clinic info on state', () => {
@@ -416,7 +416,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
 
       const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.eligibilityStatus).to.be.equal(FETCH_STATUS.failed);
     });
   });
 
@@ -637,7 +637,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.loadingSystems).to.be.true;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.loading);
     });
 
     it('should remove system id if only one', () => {
@@ -655,13 +655,13 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        loadingSystems: true,
+        systemsStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983'],
       };
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.loadingSystems).to.be.false;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
         .be.undefined;
@@ -684,13 +684,13 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        loadingSystems: true,
+        systemsStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983', '984'],
       };
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.loadingSystems).to.be.false;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).not
         .to.be.undefined;
@@ -711,7 +711,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.hasDataFetchingError).to.be.true;
+      expect(newState.systemsStatus).to.equal(FETCH_STATUS.failed);
     });
   });
   describe('submit request', () => {
@@ -795,7 +795,8 @@ describe('VAOS reducer: newAppointment', () => {
   it('should reset form when confirmation page is closed', () => {
     const currentState = {
       data: { test: 'blah' },
-      hasDataFetchingError: true,
+      systemsStatus: FETCH_STATUS.succeeded,
+      eligibilityStatus: FETCH_STATUS.succeeded,
     };
     const action = {
       type: FORM_CLOSED_CONFIRMATION_PAGE,
@@ -804,6 +805,7 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.data).to.deep.equal({});
-    expect(newState.hasDataFetchingError).to.be.false;
+    expect(newState.systemsStatus).to.equal(FETCH_STATUS.notStarted);
+    expect(newState.eligibilityStatus).to.equal(FETCH_STATUS.notStarted);
   });
 });
