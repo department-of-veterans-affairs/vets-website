@@ -6,31 +6,67 @@ const Mock = require('platform/testing/e2e/mock-helpers');
 const Timeouts = require('platform/testing/e2e/timeouts');
 
 function runRatedDisabilitiesTest(browser) {
-  browser.assert.containsText(
-    '.usa-alert-heading',
-    'We’re sorry. Something went wrong on our end',
+  // Because error states for total rating and list are separate but contain identical classes,
+  // a list of elements needs to be collected and their values checked individually.
+  // Though the value checks are nested, they are still evaluated and pass correctly.
+  browser.elements(
+    'css selector',
+    'h2.vads-u-margin-y--0.vads-u-font-size--lg',
+    result => {
+      browser.assert.equal(result.value.length, 2);
+      const totalRatingErrorHeader = result.value[0];
+      const listErrorHeader = result.value[1];
+      browser.elementIdText(totalRatingErrorHeader.ELEMENT, el => {
+        browser
+          .expect(el.value)
+          .to.equal('We don’t have a disability rating on file for you');
+      });
+      browser.elementIdText(listErrorHeader.ELEMENT, el => {
+        browser
+          .expect(el.value)
+          .to.equal('We don’t have rated disabilities on file for you');
+      });
+    },
   );
   browser.assert.visible('.usa-alert-text');
-  browser.assert.containsText(
-    '.usa-alert-text p:nth-of-type(1)',
-    'Please refresh this page or check back later. You can also sign out of VA.gov and try signing back into this page.',
-  );
+  browser.elements('css selector', 'div.usa-alert-text > p', result => {
+    browser.assert.equal(result.value.length, 2);
+    const totalRatingErrorMessage = result.value[0];
+    const listErrorMessage = result.value[1];
+    browser.elementIdText(totalRatingErrorMessage.ELEMENT, el => {
+      browser
+        .expect(el.value)
+        .to.contain('We can’t find a disability rating for you.');
+    });
+    browser.elementIdText(listErrorMessage.ELEMENT, el => {
+      browser
+        .expect(el.value)
+        .to.contain('We can’t find any rated disabilities for you.');
+    });
+  });
 }
 
 function generateErrorData(token) {
-  return Mock(token, ErrorMockData);
+  const routes = [];
+  ErrorMockData.forEach(error => {
+    routes.push(Mock(token, error));
+  });
+  return routes;
 }
 
 function begin(browser) {
   browser.perform(done => {
     const token = Auth.getUserToken();
-    generateErrorData(token).then(() => {
+    Promise.all(generateErrorData(token)).then(() => {
       Auth.logIn(
         token,
         browser,
-        '/disability/check-disability-rating/rating',
+        '/disability/view-disability-rating/rating',
         3,
-      ).waitForElementVisible('.usa-alert-heading', Timeouts.verySlow);
+      ).waitForElementVisible(
+        'h2.vads-u-margin-y--0.vads-u-font-size--lg',
+        Timeouts.verySlow,
+      );
     });
     browser.pause(Timeouts.slow);
     runRatedDisabilitiesTest(browser);
