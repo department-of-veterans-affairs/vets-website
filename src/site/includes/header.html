@@ -3,80 +3,91 @@
 <!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
 <!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
 
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="HandheldFriendly" content="True">
-<meta name="MobileOptimized" content="320">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-{% if drupalTags %}
+  {% if drupalTags %}
   {% include "src/site/includes/metatags.drupal.liquid" %}
-{% else %}
+  {% else %}
   {% include "src/site/includes/metatags.liquid" %}
-{% endif %}
+  {% endif %}
 
-<script src="/js/record-event.js"></script>
-<script src="/js/settings.js"></script>
+  <script src="/js/record-event.js"></script>
+  <script src="/js/settings.js"></script>
 
-{% include 'src/site/includes/google-analytics' %}
+  {% include 'src/site/includes/google-analytics' %}
 
-<!-- Icons -->
-<link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
-<link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
+  <!-- Icons -->
+  <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+  <link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+  <link href="/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+  <link href="/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+  <link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
 
-<meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
-<meta name="msapplication-TileColor" content="#144073">
+  <meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
+  <meta name="msapplication-TileColor" content="#144073">
 
-<!-- CSS -->
-<link rel="stylesheet" data-entry-name="style.css">
-<link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
+  <!-- Preload main fonts -->
 
-<!-- Old IE -->
+  <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
-<!--[if lt IE 9]>
+  <!-- CSS -->
+  <link rel="stylesheet" data-entry-name="style.css">
+  <link rel="stylesheet" data-entry-name="{{ entryname | default: 'static-pages' }}.css">
+
+  <!-- Old IE -->
+
+  <!--[if lt IE 9]>
 <link rel='stylesheet' href='/assets/css/ie.css'>
 <![endif]-->
 
-<script defer nomodule data-entry-name="polyfills.js"></script>
-<script defer data-entry-name="vendor.js"></script>
-<script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
+  <script defer nomodule data-entry-name="polyfills.js"></script>
+  <script defer data-entry-name="vendor.js"></script>
+  <script defer data-entry-name="{{ entryname | default: 'static-pages' }}.js"></script>
 
-<!--
+  <!--
   We participate in the US government’s analytics program. See the data at analytics.usa.gov.
   https://github.com/digital-analytics-program/gov-wide-code
 -->
-<script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
+  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA"
+    id="_fed_an_ua_tag"></script>
 
-<script type="text/javascript">
-  window.VetsGov = window.VetsGov || {};
-  window.featureToggles = {{ featureToggles }};
-  window.VetsGov.headerFooter = {{ headerFooterData }};
-</script>
+  <script type="text/javascript">
+    window.VetsGov = window.VetsGov || {};
+    window.featureToggles = {{ featureToggles }};
+    window.VetsGov.headerFooter = {{ headerFooterData }};
+  </script>
 
 </head>
+
 <body class="{{ body_class }} merger">
   {{ google_analytics_noscript }}
   <a class="show-on-focus" href="#content">Skip to Content</a>
 
-{% if !noHeader %}
+  {% if !noHeader %}
   {% include "src/site/includes/top-nav.html" %}
-{% endif %}
+  {% endif %}
 
-{% if buildtype == 'vagovprod' %}
+  {% if buildtype == 'vagovprod' %}
   {% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
-{% endif %}
-{% include "src/site/components/banner_alerts.drupal.liquid" %}
+  {% endif %}
+  {% include "src/site/components/banner_alerts.drupal.liquid" %}
 
-{% if path == '' or path == '/' %}
+  {% if path == '' or path == '/' %}
   <div id="homepage-banner">
     <!-- Rendered from vets-website/src/applications/static-pages/renderHomepageBanner.js -->
   </div>
-{% endif %}
+  {% endif %}
 
-<script async src="/js/incompatible-browser.js"></script>
+  <script async src="/js/incompatible-browser.js"></script>

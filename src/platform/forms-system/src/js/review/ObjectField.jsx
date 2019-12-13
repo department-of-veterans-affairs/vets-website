@@ -139,7 +139,7 @@ class ObjectField extends React.Component {
         <>
           {!formContext.hideHeaderRow && (
             <div className="form-review-panel-page-header-row">
-              {formContext.hideTitle || title.trim() === '' ? null : (
+              {!title?.trim() || formContext.hideTitle ? null : (
                 <h5 className="form-review-panel-page-header">{title}</h5>
               )}
               <button
