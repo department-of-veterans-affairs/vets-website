@@ -43,7 +43,7 @@ export default function CalendarOptions({
     );
 
     return (
-      <fieldset className="vaos-calendar__calendar-options">
+      <fieldset className="vads-u-order--last">
         <legend className="vads-u-visibility--screen-reader">
           {additionalOptions.legend || 'Please select an option for this date'}
         </legend>

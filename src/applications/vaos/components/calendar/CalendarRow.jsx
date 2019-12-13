@@ -86,7 +86,7 @@ export default class CalendarRow extends Component {
               disabled={this.isCellDisabled(date)}
             />
           ))}
-          <div className="break" />
+          <div className="vaos-calendar__flex-line-break" />
         </div>
       </div>
     );
