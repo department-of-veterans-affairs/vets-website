@@ -141,7 +141,7 @@ describe('showAddressValidationModal', () => {
     ];
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
   });
-  it('returns false with single suggestion', () => {
+  it("returns false with single CONFIRMED suggestion that's over 80 confidence score", () => {
     const suggestedAddresses = [
       {
         address: {
@@ -159,14 +159,14 @@ describe('showAddressValidationModal', () => {
         addressMetaData: {
           confidenceScore: 81.0,
           addressType: 'Domestic',
-          deliveryPointValidation: 'UNDELIVERABLE',
+          deliveryPointValidation: 'CONFIRMED',
         },
       },
     ];
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(false);
   });
 
-  it('returns true with single suggestion under 80 confidence', () => {
+  it("returns true with single deliverable suggestion that's under 80 confidence", () => {
     const suggestedAddresses = [
       {
         address: {
@@ -183,6 +183,31 @@ describe('showAddressValidationModal', () => {
         },
         addressMetaData: {
           confidenceScore: 75.0,
+          addressType: 'Domestic',
+          deliveryPointValidation: 'CONFIRMED',
+        },
+      },
+    ];
+    expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
+  });
+
+  it('returns true with single suggestion over 80 confidence but undeliverable', () => {
+    const suggestedAddresses = [
+      {
+        address: {
+          addressLine1: '400 N 65th St',
+          addressType: 'DOMESTIC',
+          city: 'Seattle',
+          countryName: 'USA',
+          countryCodeIso3: 'USA',
+          countyCode: '53033',
+          countyName: 'King',
+          stateCode: 'WA',
+          zipCode: '98103',
+          zipCodeSuffix: '5252',
+        },
+        addressMetaData: {
+          confidenceScore: 81.0,
           addressType: 'Domestic',
           deliveryPointValidation: 'UNDELIVERABLE',
         },
