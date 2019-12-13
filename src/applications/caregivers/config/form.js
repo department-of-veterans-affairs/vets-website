@@ -58,16 +58,30 @@ const chapterTwoFields = {
 };
 
 const chapterThreeFields = {
-  address: 'secondaryCaregiverAddress',
-  caregiverDateOfBirth: 'secondaryCaregiverDateOfBirth',
-  cellNumber: 'secondaryCaregiverCellNumber',
-  email: 'secondaryCaregiverEmail',
-  fullName: 'secondaryCaregiverFullName',
-  gender: 'secondaryCaregiverGender',
-  ssn: 'secondaryCaregiverSsn',
-  telephoneNumber: 'secondaryCaregiverTelephoneNumber',
-  vaEnrolled: 'secondaryCaregiverVaEnrolled',
-  vetRelationship: 'secondaryCaregiverVetRelationship',
+  secondary: {
+    address: 'secondaryCaregiverAddress',
+    caregiverDateOfBirth: 'secondaryCaregiverDateOfBirth',
+    cellNumber: 'secondaryCaregiverCellNumber',
+    email: 'secondaryCaregiverEmail',
+    fullName: 'secondaryCaregiverFullName',
+    gender: 'secondaryCaregiverGender',
+    ssn: 'secondaryCaregiverSsn',
+    telephoneNumber: 'secondaryCaregiverTelephoneNumber',
+    vaEnrolled: 'secondaryCaregiverVaEnrolled',
+    vetRelationship: 'secondaryCaregiverVetRelationship',
+  },
+  tertiary: {
+    address: 'tertiaryCaregiverAddress',
+    caregiverDateOfBirth: 'tertiaryCaregiverDateOfBirth',
+    cellNumber: 'tertiaryCaregiverCellNumber',
+    email: 'tertiaryCaregiverEmail',
+    fullName: 'tertiaryCaregiverFullName',
+    gender: 'tertiaryCaregiverGender',
+    ssn: 'tertiaryCaregiverSsn',
+    telephoneNumber: 'tertiaryCaregiverTelephoneNumber',
+    vaEnrolled: 'tertiaryCaregiverVaEnrolled',
+    vetRelationship: 'tertiaryCaregiverVetRelationship',
+  },
 };
 
 /* TODO Chapters
@@ -107,7 +121,7 @@ const formConfig = {
       pages: {
         veteranInfo: {
           path: 'service-member',
-          title: 'Applicant Information',
+          title: 'Veteran Information',
           uiSchema: {
             [chapterOneFields.fullName]: fullNameUI,
             [chapterOneFields.ssn]: ssnUI,
@@ -266,34 +280,33 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'SECONDARY FAMILY CAREGIVER',
+      title: 'SECONDARY & TERTIARY FAMILY CAREGIVER',
       pages: {
         secondaryCaregiverInfo: {
           path: 'secondary-caregiver',
           title: 'Secondary Caregiver Information',
           uiSchema: {
-            [chapterThreeFields.fullName]: fullNameUI,
-            [chapterThreeFields.caregiverDateOfBirth]: currentOrPastDateUI(
-              'Date of birth',
-            ),
-            [chapterThreeFields.ssn]: ssnUI,
-            [chapterThreeFields.address]: address.uiSchema(
+            [chapterThreeFields.secondary.fullName]: fullNameUI,
+            [chapterThreeFields.secondary
+              .caregiverDateOfBirth]: currentOrPastDateUI('Date of birth'),
+            [chapterThreeFields.secondary.ssn]: ssnUI,
+            [chapterThreeFields.secondary.address]: address.uiSchema(
               'Current Street Address',
               false,
             ),
-            [chapterThreeFields.telephoneNumber]: phoneUI(
+            [chapterThreeFields.secondary.telephoneNumber]: phoneUI(
               'Telephone Number (Including Area Code)',
             ),
-            [chapterThreeFields.cellNumber]: phoneUI(
+            [chapterThreeFields.secondary.cellNumber]: phoneUI(
               'Cell Number (Including Area Code)',
             ),
-            [chapterThreeFields.email]: {
+            [chapterThreeFields.secondary.email]: {
               'ui:title': 'Email Address',
             },
-            [chapterThreeFields.gender]: {
+            [chapterThreeFields.secondary.gender]: {
               'ui:title': 'Gender',
             },
-            [chapterThreeFields.vetRelationship]: {
+            [chapterThreeFields.secondary.vetRelationship]: {
               'ui:title':
                 'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
             },
@@ -301,21 +314,79 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [chapterThreeFields.fullName]: fullName,
-              [chapterThreeFields.ssn]: ssn,
-              [chapterThreeFields.caregiverDateOfBirth]: date,
-              [chapterThreeFields.gender]: {
+              [chapterThreeFields.secondary.fullName]: fullName,
+              [chapterThreeFields.secondary.ssn]: ssn,
+              [chapterThreeFields.secondary.caregiverDateOfBirth]: date,
+              [chapterThreeFields.secondary.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [chapterThreeFields.address]: address.schema(fullSchema, false),
-              [chapterThreeFields.telephoneNumber]: usaPhone,
-              [chapterThreeFields.cellNumber]: usaPhone,
-              [chapterThreeFields.email]: {
+              [chapterThreeFields.secondary.address]: address.schema(
+                fullSchema,
+                false,
+              ),
+              [chapterThreeFields.secondary.telephoneNumber]: usaPhone,
+              [chapterThreeFields.secondary.cellNumber]: usaPhone,
+              [chapterThreeFields.secondary.email]: {
                 type: 'string',
                 format: 'email',
               },
-              [chapterThreeFields.vetRelationship]: {
+              [chapterThreeFields.secondary.vetRelationship]: {
+                type: 'string',
+              },
+            },
+          },
+        },
+        tertiaryCaregiverInfo: {
+          path: 'tertiary-caregiver',
+          title: 'Tertiary Caregiver Information',
+          uiSchema: {
+            [chapterThreeFields.tertiary.fullName]: fullNameUI,
+            [chapterThreeFields.tertiary
+              .caregiverDateOfBirth]: currentOrPastDateUI('Date of birth'),
+            [chapterThreeFields.tertiary.ssn]: ssnUI,
+            [chapterThreeFields.tertiary.address]: address.uiSchema(
+              'Current Street Address',
+              false,
+            ),
+            [chapterThreeFields.tertiary.telephoneNumber]: phoneUI(
+              'Telephone Number (Including Area Code)',
+            ),
+            [chapterThreeFields.tertiary.cellNumber]: phoneUI(
+              'Cell Number (Including Area Code)',
+            ),
+            [chapterThreeFields.tertiary.email]: {
+              'ui:title': 'Email Address',
+            },
+            [chapterThreeFields.tertiary.gender]: {
+              'ui:title': 'Gender',
+            },
+            [chapterThreeFields.tertiary.vetRelationship]: {
+              'ui:title':
+                'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              [chapterThreeFields.tertiary.fullName]: fullName,
+              [chapterThreeFields.tertiary.ssn]: ssn,
+              [chapterThreeFields.tertiary.caregiverDateOfBirth]: date,
+              [chapterThreeFields.tertiary.gender]: {
+                type: 'string',
+                enum: ['Male', 'Female'],
+              },
+              [chapterThreeFields.tertiary.address]: address.schema(
+                fullSchema,
+                false,
+              ),
+              [chapterThreeFields.tertiary.telephoneNumber]: usaPhone,
+              [chapterThreeFields.tertiary.cellNumber]: usaPhone,
+              [chapterThreeFields.tertiary.email]: {
+                type: 'string',
+                format: 'email',
+              },
+              [chapterThreeFields.tertiary.vetRelationship]: {
                 type: 'string',
               },
             },
