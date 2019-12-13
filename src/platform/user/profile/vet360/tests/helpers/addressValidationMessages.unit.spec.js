@@ -141,7 +141,7 @@ describe('showAddressValidationModal', () => {
     ];
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
   });
-  it('returns false with single CONFIRMED suggestion', () => {
+  it("returns false with single CONFIRMED suggestion that's over 80 confidence score", () => {
     const suggestedAddresses = [
       {
         address: {
@@ -166,7 +166,7 @@ describe('showAddressValidationModal', () => {
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(false);
   });
 
-  it('returns true with single suggestion under 80 confidence', () => {
+  it("returns true with single deliverable suggestion that's under 80 confidence", () => {
     const suggestedAddresses = [
       {
         address: {
@@ -184,7 +184,7 @@ describe('showAddressValidationModal', () => {
         addressMetaData: {
           confidenceScore: 75.0,
           addressType: 'Domestic',
-          deliveryPointValidation: 'UNDELIVERABLE',
+          deliveryPointValidation: 'CONFIRMED',
         },
       },
     ];

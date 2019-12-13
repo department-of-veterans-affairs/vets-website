@@ -196,21 +196,21 @@ export const getValidationMessageKey = (
 };
 
 export const showAddressValidationModal = suggestedAddresses => {
+  // pull the addressMetaData prop off the first suggestedAddresses element
+  const [{ addressMetaData } = {}] = suggestedAddresses;
+
   if (
     suggestedAddresses.length === 1 &&
-    suggestedAddresses[0]?.addressMetaData?.confidenceScore > 80 &&
-    suggestedAddresses[0]?.addressMetaData?.deliveryPointValidation ===
-      CONFIRMED
+    addressMetaData.confidenceScore > 80 &&
+    addressMetaData.deliveryPointValidation === CONFIRMED
   ) {
     return false;
   }
 
   if (
     suggestedAddresses.length === 1 &&
-    (suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
-      BAD_UNIT_NUMBER ||
-      suggestedAddresses[0].addressMetaData?.deliveryPointValidation ===
-        MISSING_UNIT_NUMBER)
+    (addressMetaData.deliveryPointValidation === BAD_UNIT_NUMBER ||
+      addressMetaData.deliveryPointValidation === MISSING_UNIT_NUMBER)
   ) {
     return true;
   }
@@ -221,13 +221,12 @@ export const showAddressValidationModal = suggestedAddresses => {
 
   if (
     suggestedAddresses.length === 1 &&
-    suggestedAddresses.addressMetaData?.deliveryPointValidation !== CONFIRMED
+    addressMetaData.deliveryPointValidation !== CONFIRMED
   ) {
     return true;
   }
 
   return (
-    suggestedAddresses.length === 1 &&
-    suggestedAddresses[0]?.addressMetaData?.confidenceScore < 80
+    suggestedAddresses.length === 1 && addressMetaData.confidenceScore < 80
   );
 };
