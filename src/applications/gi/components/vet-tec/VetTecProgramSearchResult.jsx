@@ -22,6 +22,9 @@ class VetTecProgramSearchResult extends React.Component {
       ? formatCurrency(tuitionAmount)
       : 'TBD';
 
+    const displayHours =
+      lengthInHours === '0' ? 'TBD' : `${lengthInHours} hours`;
+
     const linkTo = {
       pathname: `profile/${facilityCode}/${description}`,
       query: version ? { version } : {},
@@ -31,11 +34,18 @@ class VetTecProgramSearchResult extends React.Component {
       <div className="search-result">
         <div className="outer">
           <div className="inner">
-            <div className="row">
-              <div className="small-12 medium-6 columns">
+            <div className="row vads-u-padding-top--1p5">
+              <div className="small-12 medium-7 columns">
                 <h2>
                   <Link to={linkTo}>{description}</Link>
                 </h2>
+              </div>
+              <div className="small-12 medium-3 columns">
+                {renderPreferredProviderFlag(this.props.result)}
+              </div>
+            </div>
+            <div className="row vads-u-padding-top--1p5">
+              <div className="small-12 medium-7 columns">
                 <div style={{ position: 'relative', bottom: 0 }}>
                   <p className="institution-name vads-u-font-weight--bold">
                     {institutionName}
@@ -45,11 +55,8 @@ class VetTecProgramSearchResult extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="small-12 medium-6 columns estimated-benefits">
-                {renderPreferredProviderFlag(this.props.result)}
-                <h3 className="vads-u-padding-top--1p5">
-                  You may be eligible for up to:
-                </h3>
+              <div className="small-12 medium-5 columns estimated-benefits">
+                <h3>You may be eligible for up to:</h3>
                 <div className="row">
                   <div className="columns">
                     <h4>
@@ -80,10 +87,10 @@ class VetTecProgramSearchResult extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="row">
+            <div className="row vads-u-padding-top--1p5">
               <div className="view-details columns vads-u-display--inline-block">
                 {isPresent(lengthInHours) && (
-                  <div className="info-flag">{`${lengthInHours} hours`}</div>
+                  <div className="info-flag">{displayHours}</div>
                 )}
                 <Link to={linkTo}>View details ›</Link>
               </div>

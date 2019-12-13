@@ -1,12 +1,15 @@
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { inferAddressType } from 'applications/letters/utils/helpers';
+import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import {
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
+import { FIELD_NAMES, ADDRESS_POU } from 'vet360/constants';
 
 export const VET360_TRANSACTIONS_FETCH_SUCCESS =
   'VET360_TRANSACTIONS_FETCH_SUCCESS';
@@ -184,6 +187,7 @@ export const validateAddress = (
   analyticsSectionName,
 ) => async dispatch => {
   const addressPayload = { address: { ...payload } };
+
   const options = {
     body: JSON.stringify(addressPayload),
     method: 'POST',
@@ -194,18 +198,37 @@ export const validateAddress = (
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
-      : await localVet360.addressValidationSuccess(payload);
+      : await localVet360.addressValidationSuccess();
     const { addresses } = response;
-    addresses.filter(
-      address =>
-        address.addressMetaData?.deliveryPointValidation === 'CONFIRMED' &&
-        address.addressMetaData?.confidenceScore >= 80,
-    );
-    if (addresses.length > 1) {
+    const suggestedAddresses = addresses
+      // sort highest confidence score to lowest confidence score
+      .sort(
+        (firstAddress, secondAddress) =>
+          secondAddress?.addressMetaData?.confidenceScore -
+          firstAddress?.addressMetaData?.confidenceScore,
+      )
+      .map(address => ({
+        addressMetaData: { ...address.addressMetaData },
+        ...inferAddressType(address.address),
+        addressPou:
+          fieldName === FIELD_NAMES.MAILING_ADDRESS
+            ? ADDRESS_POU.CORRESPONDENCE
+            : ADDRESS_POU.RESIDENCE,
+      }));
+    const payloadWithSuggestedAddress = {
+      ...suggestedAddresses[0],
+      id: payload?.id,
+    };
+
+    const showModal = showAddressValidationModal(suggestedAddresses);
+
+    if (showModal) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
+        addressFromUser: payload,
         addressValidationType: fieldName,
-        suggestedAddresses: addresses,
+        selectedAddress: suggestedAddresses[0], // always select the first address as the default
+        suggestedAddresses,
         validationKey: response.validationKey,
       });
     }
@@ -214,7 +237,7 @@ export const validateAddress = (
         route,
         method,
         fieldName,
-        payload,
+        payloadWithSuggestedAddress,
         analyticsSectionName,
       ),
     );
@@ -223,6 +246,49 @@ export const validateAddress = (
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationType: fieldName,
       addressValidationError: true,
+      addressFromUser: { ...payload },
+    });
+  }
+};
+
+export const updateValidationKeyAndSave = (
+  route,
+  method,
+  fieldName,
+  payload,
+  analyticsSectionName,
+) => async dispatch => {
+  try {
+    const addressPayload = { address: { ...payload } };
+
+    const options = {
+      body: JSON.stringify(addressPayload),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = isVet360Configured()
+      ? await apiRequest('/profile/address_validation', options)
+      : await localVet360.addressValidationSuccess();
+    const { validationKey } = response;
+
+    return dispatch(
+      createTransaction(
+        route,
+        method,
+        fieldName,
+        { ...payload, validationKey },
+        analyticsSectionName,
+      ),
+    );
+  } catch (error) {
+    return dispatch({
+      type: ADDRESS_VALIDATION_ERROR,
+      addressValidationType: fieldName,
+      addressValidationError: true,
+      addressFromUser: { ...payload },
+      validationKey: null, // add this in when changes are made to API / override logic
     });
   }
 };

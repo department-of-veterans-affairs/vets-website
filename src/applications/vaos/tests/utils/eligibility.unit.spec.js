@@ -24,7 +24,12 @@ describe('VAOS scheduling eligibility logic', () => {
       resetFetch();
     });
     it('should fetch all data', async () => {
-      const eligibilityData = await getEligibilityData('983', '323');
+      const eligibilityData = await getEligibilityData(
+        '983',
+        '323',
+        '983',
+        true,
+      );
 
       expect(Object.keys(eligibilityData)).to.deep.equal([
         'requestPastVisit',
@@ -34,16 +39,13 @@ describe('VAOS scheduling eligibility logic', () => {
         'pacTeam',
       ]);
     });
-    it('should skip direct fetches if not a matching type', async () => {
-      const eligibilityData = await getEligibilityData('983', 'blah');
-
-      expect(Object.keys(eligibilityData)).to.deep.equal([
-        'requestPastVisit',
-        'requestLimits',
-      ]);
-    });
     it('should skip pact if not primary care', async () => {
-      const eligibilityData = await getEligibilityData('983', '502');
+      const eligibilityData = await getEligibilityData(
+        '983',
+        '502',
+        '983',
+        true,
+      );
 
       expect(Object.keys(eligibilityData)).to.deep.equal([
         'requestPastVisit',
@@ -73,7 +75,6 @@ describe('VAOS scheduling eligibility logic', () => {
       });
 
       expect(eligibilityChecks).to.deep.equal({
-        directTypes: true,
         directPastVisit: false,
         directPastVisitValue: 12,
         directPACT: false,
@@ -104,15 +105,14 @@ describe('VAOS scheduling eligibility logic', () => {
       });
 
       expect(eligibilityChecks).to.deep.equal({
-        directTypes: true,
         directPastVisit: true,
-        directPastVisitValue: null,
+        directPastVisitValue: 12,
         directPACT: true,
         directClinics: true,
         requestPastVisit: true,
-        requestPastVisitValue: null,
+        requestPastVisitValue: 24,
         requestLimit: true,
-        requestLimitValue: null,
+        requestLimitValue: 1,
       });
     });
   });
@@ -121,7 +121,6 @@ describe('VAOS scheduling eligibility logic', () => {
       const { direct, request } = isEligible({
         directPastVisit: false,
         directClinics: true,
-        directTypes: true,
         directPACT: true,
         requestPastVisit: true,
         requestLimit: true,

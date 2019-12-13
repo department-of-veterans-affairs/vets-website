@@ -69,7 +69,7 @@ export const schema = {
     },
     postalCode: {
       type: 'string',
-      maxLength: 51,
+      maxLength: 10,
     },
   },
 };

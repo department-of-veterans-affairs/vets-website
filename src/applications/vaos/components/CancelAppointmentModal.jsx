@@ -3,8 +3,8 @@ import React from 'react';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-import { FETCH_STATUS } from '../utils/constants';
-import { getStagingId } from '../utils/appointment';
+import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { getAppointmentType } from '../utils/appointment';
 
 export default class CancelAppointmentModal extends React.Component {
   render() {
@@ -14,6 +14,7 @@ export default class CancelAppointmentModal extends React.Component {
       cancelAppointmentStatus,
       onClose,
       onConfirm,
+      facility,
     } = this.props;
 
     if (!showCancelModal) {
@@ -42,6 +43,7 @@ export default class CancelAppointmentModal extends React.Component {
               Yes, cancel this appointment
             </LoadingButton>
             <button
+              className="usa-button-secondary"
               onClick={onClose}
               disabled={cancelAppointmentStatus === FETCH_STATUS.loading}
             >
@@ -69,75 +71,58 @@ export default class CancelAppointmentModal extends React.Component {
       );
     }
 
-    if (
-      !!appointmentToCancel.appointmentRequestId &&
-      cancelAppointmentStatus === FETCH_STATUS.failed
-    ) {
-      return (
-        <Modal
-          id="cancelAppt"
-          status="error"
-          visible
-          onClose={onClose}
-          title="We could not cancel this appointment"
-        >
-          Something went wrong when we tried to cancel your request.
-          <h4>What you can do</h4>
-          It may have just been a blip and you can try again.
-          <p>
-            <button onClick={onConfirm} className="va-button-link">
-              Try to cancel again
-            </button>
-          </p>
-          <p>
-            But you should probably{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`/find-locations/facility/vha_${getStagingId(
-                appointmentToCancel.facility?.facilityCode,
-              )}`}
-            >
-              contact the facility by phone
-            </a>
-            .
-          </p>
-        </Modal>
-      );
-    }
-
     if (cancelAppointmentStatus === FETCH_STATUS.failed) {
+      const appointmentType = getAppointmentType(appointmentToCancel);
       return (
         <Modal
           id="cancelAppt"
           status="error"
           visible
           onClose={onClose}
-          title="We could not cancel this appointment"
+          title="We couldn’t cancel your appointment"
         >
-          Something went wrong when we tried to cancel your appointment.
-          <h4>What you can do</h4>
-          It may have just been a blip and you can try again.
-          <p>
-            <button onClick={onConfirm} className="va-button-link">
-              Try to cancel again
-            </button>
-          </p>
-          <p>But you should probably contact the clinic by phone.</p>
-          <p>
-            {appointmentToCancel.clinicFriendlyName ||
-              appointmentToCancel.vdsAppointments[0].clinic.name}
-            <br />
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`/find-locations/facility/vha_${getStagingId(
-                appointmentToCancel.facilityId,
-              )}`}
-            >
-              View facility contact information
-            </a>
-          </p>
+          We’re sorry. Something went wrong when we tried to cancel this
+          appointment.
+          <h4>You can:</h4>
+          <ul>
+            <li>
+              Try to{' '}
+              <button onClick={onConfirm} className="va-button-link">
+                cancel this appointment again
+              </button>
+              , <strong>or</strong>
+            </li>
+            {(appointmentType === APPOINTMENT_TYPES.request ||
+              appointmentType === APPOINTMENT_TYPES.ccRequest) && (
+              <li>
+                Call the medical center to cancel
+                <br />
+                {appointmentToCancel.facility.name}
+                <br />
+                {!!facility?.phone?.main && (
+                  <a href={`tel:${facility.phone.main.replace(/-/g, '')}`}>
+                    {facility.phone.main}
+                  </a>
+                )}
+              </li>
+            )}
+            {appointmentType === APPOINTMENT_TYPES.vaAppointment && (
+              <li>
+                Call the medical center to cancel
+                <br />
+                {appointmentToCancel.clinicFriendlyName ||
+                  appointmentToCancel.vdsAppointments[0].clinic.name}
+                <br />
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="/find-locations"
+                >
+                  Find facility contact information
+                </a>
+              </li>
+            )}
+          </ul>
         </Modal>
       );
     }

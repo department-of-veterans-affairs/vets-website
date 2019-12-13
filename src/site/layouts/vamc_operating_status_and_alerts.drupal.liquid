@@ -1,3 +1,8 @@
+<style>
+    .facility-title-width {
+        max-width: 90%;
+    }
+</style>
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
@@ -82,8 +87,8 @@
                             <div
                                 class="vads-l-row vads-u-border-top--1px vads-u-border-color--gray-light">
                                 <div
-                                    class="vads-l-col--6 vads-u-display--flex operating-status-title">
-                                    <a class="vads-u-font-weight--bold"
+                                    class="vads-l-col--6 vads-u-margin-y--3 vads-u-display--flex operating-status-title">
+                                    <a class="facility-title-width vads-u-font-weight--bold"
                                         href="{{status.entity.entityUrl.path}}">{{ status.entity.title }}</a>
                                 </div>
                                 <div class="vads-l-col--6">
@@ -97,7 +102,7 @@
                                         </span>
                                         {% elsif status.entity.fieldOperatingStatusFacility == 'normal' %}
                                         <span
-                                            class="operating-status normal-hours vads-u-margin-top--2 vads-u-display--block">
+                                            class="operating-status normal-hours vads-u-margin-top--1p5 vads-u-display--block">
                                             Normal services and hours
                                         </span>
                                         {% elsif status.entity.fieldOperatingStatusFacility == 'limited' %}

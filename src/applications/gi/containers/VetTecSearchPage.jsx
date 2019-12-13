@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import {
   clearAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
@@ -21,6 +20,7 @@ import {
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { renderVetTecLogo } from '../utils/render';
@@ -68,11 +68,24 @@ export class VetTecSearchPage extends React.Component {
 
     const stringSearchParams = ['page', 'name'];
 
-    const query = _.pick(this.props.location.query, [
+    let providerQueryVal = this.props.location.query.provider
+      ? this.props.location.query.provider
+      : [];
+
+    if (typeof providerQueryVal === 'string') {
+      providerQueryVal = [providerQueryVal];
+    }
+
+    const queryParams = _.pick(this.props.location.query, [
       ...stringSearchParams,
       ...stringFilterParams,
       ...booleanFilterParams,
     ]);
+
+    const query = {
+      ...queryParams,
+      provider: providerQueryVal || [],
+    };
 
     // Update form selections based on query.
     const institutionFilter = _.omit(query, stringSearchParams);
@@ -91,8 +104,10 @@ export class VetTecSearchPage extends React.Component {
 
   updateSearchResults = () => {
     const queryFilterFields = this.getQueryFilterFields();
-    this.props.institutionFilterChange(queryFilterFields.institutionFilter);
-    this.props.fetchProgramSearchResults(queryFilterFields.query);
+    if (!_.isEqual(this.props.search.query, queryFilterFields.query)) {
+      this.props.institutionFilterChange(queryFilterFields.institutionFilter);
+      this.props.fetchProgramSearchResults(queryFilterFields.query);
+    }
   };
 
   handlePageSelect = page => {
@@ -100,6 +115,10 @@ export class VetTecSearchPage extends React.Component {
       ...this.props.location,
       query: { ...this.props.location.query, page },
     });
+  };
+
+  handleProviderFilterChange = provider => {
+    this.handleFilterChange('provider', provider.provider);
   };
 
   handleFilterChange = (field, value) => {
@@ -223,7 +242,7 @@ export class VetTecSearchPage extends React.Component {
           <div className="vads-u-display--block single-column-display-none  vettec-logo-container">
             {renderVetTecLogo(classNames('vettec-logo'))}
           </div>
-          <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end">
+          <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--flex-end vads-u-margin-top--neg3">
             <div className="vads-l-col--9 search-results-count">
               {this.renderSearchResultsHeader(this.props.search)}
             </div>
@@ -245,6 +264,7 @@ export class VetTecSearchPage extends React.Component {
               this.props.fetchProgramAutocompleteSuggestions
             }
             handleFilterChange={this.handleFilterChange}
+            handleProviderFilterChange={this.handleProviderFilterChange}
             updateAutocompleteSearchTerm={
               this.props.updateAutocompleteSearchTerm
             }
@@ -254,6 +274,9 @@ export class VetTecSearchPage extends React.Component {
             eligibility={this.props.eligibility}
             showModal={this.props.showModal}
             eligibilityChange={this.props.eligibilityChange}
+            giVetTecProgramProviderFilters={
+              this.props.giVetTecProgramProviderFilters
+            }
           />
         </div>
       </ScrollElement>
@@ -269,12 +292,13 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
+  giVetTecProgramProviderFilters: toggleValues(state)
+    .giVetTecProgramProviderFilters,
 });
 
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,

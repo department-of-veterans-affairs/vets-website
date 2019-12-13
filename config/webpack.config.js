@@ -121,8 +121,9 @@ const configGenerator = (buildOptions, apps) => {
           use: {
             loader: 'url-loader',
             options: {
-              limit: 10000,
+              limit: 7000,
               mimetype: 'application/font-woff',
+              name: '[name].[ext]',
             },
           },
         },
@@ -130,6 +131,9 @@ const configGenerator = (buildOptions, apps) => {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           use: {
             loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
           },
         },
         {

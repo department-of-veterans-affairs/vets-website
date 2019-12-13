@@ -50,7 +50,7 @@ class VetTecCalculatorForm extends React.Component {
     <div>
       <label
         htmlFor="vetTecTuitionFees"
-        className="vads-u-display--inline-block"
+        className="vads-u-display--inline-block vads-u-margin-y--0"
         id="tuition-fees-label"
       >
         {' '}

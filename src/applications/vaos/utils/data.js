@@ -1,7 +1,13 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
-import { getTypeOfCare, getSystems } from './selectors';
+import {
+  getTypeOfCare,
+  getSystems,
+  getFormData,
+  getChosenClinicInfo,
+  getChosenFacilityInfo,
+} from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
 function getRequestedDates(data) {
@@ -22,10 +28,22 @@ function getRequestedDates(data) {
   );
 }
 
-export function transformFormToVARequest({ data }) {
+export function getUserMessage(data) {
+  const label = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  ).short;
+
+  return `${label}: ${data.reasonAdditionalInfo}`;
+}
+
+export function transformFormToVARequest(state) {
+  const facility = getChosenFacilityInfo(state);
+  const data = getFormData(state);
+
   return {
     typeOfCare: data.typeOfCareId,
     typeOfCareId: data.typeOfCareId,
+    appointmentType: getTypeOfCare(data).name,
     cityState: {
       institutionCode: data.vaSystem,
       rootStationCode: data.vaSystem,
@@ -33,18 +51,23 @@ export function transformFormToVARequest({ data }) {
       adminParent: true,
     },
     facility: {
+      name: facility.authoritativeName,
       facilityCode: data.vaFacility,
       parentSiteCode: data.vaSystem,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
+    otherPurposeOfVisit:
+      data.reasonForAppointment === 'other' ? 'See message' : null,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
       ?.serviceName,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
     ...getRequestedDates(data),
-    bestTimeToCall: Object.entries(data.bestTimeToCall)
+    // The bad camel casing here is intentional, to match downstream
+    // system
+    bestTimetoCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
     emailPreferences: {
@@ -57,36 +80,41 @@ export function transformFormToVARequest({ data }) {
     },
     email: data.email,
     // defaulted values
+    status: 'Submitted',
     schedulingMethod: 'clerk',
     requestedPhoneCall: false,
     providerId: '0',
-    pproviderOption: '',
+    providerOption: '',
   };
 }
 
 export function transformFormToCCRequest(state) {
-  const data = state.newAppointment.data;
-  const preferredProviders = data.hasCommunityCareProvider
-    ? [
-        {
-          address: {
-            city: '',
-            state: '',
-            street: '',
-            zipCode: data.communityCareProvider.address.postalCode,
-          },
-          firstName: data.communityCareProvider.firstName,
-          lastName: data.communityCareProvider.lastName,
-          practiceName: data.communityCareProvider.practiceName,
-          providerStreet: `${data.communityCareProvider.address.street}, ${
-            data.communityCareProvider.address.street2
-          }`,
-          providerCity: data.communityCareProvider.address.city,
-          providerState: data.communityCareProvider.address.state,
-          providerZipCode1: data.communityCareProvider.address.postalCode,
+  const data = getFormData(state);
+  let preferredProviders = [];
+
+  if (data.hasCommunityCareProvider) {
+    const street = `${data.communityCareProvider.address.street}, ${
+      data.communityCareProvider.address.street2
+    }`;
+    preferredProviders = [
+      {
+        address: {
+          street,
+          city: data.communityCareProvider.address.city,
+          state: data.communityCareProvider.address.state,
+          zipCode: data.communityCareProvider.address.postalCode,
         },
-      ]
-    : [];
+        firstName: data.communityCareProvider.firstName,
+        lastName: data.communityCareProvider.lastName,
+        practiceName: data.communityCareProvider.practiceName,
+        providerStreet: street,
+        providerCity: data.communityCareProvider.address.city,
+        providerState: data.communityCareProvider.address.state,
+        providerZipCode1: data.communityCareProvider.address.postalCode,
+      },
+    ];
+  }
+
   const residentialAddress = selectVet360ResidentialAddress(state);
   const system = getSystems(state).find(
     sys => sys.institutionCode === data.communityCareSystemId,
@@ -111,6 +139,7 @@ export function transformFormToCCRequest(state) {
   return {
     typeOfCare: getTypeOfCare(data).ccId,
     typeOfCareId: getTypeOfCare(data).ccId,
+    appointmentType: getTypeOfCare(data).name,
     cityState: {
       institutionCode: data.communityCareSystemId,
       rootStationCode: data.communityCareSystemId,
@@ -118,6 +147,7 @@ export function transformFormToCCRequest(state) {
       adminParent: true,
     },
     facility: {
+      name: system.authoritativeName,
       facilityCode: data.communityCareSystemId,
       parentSiteCode: data.communityCareSystemId,
     },
@@ -126,7 +156,9 @@ export function transformFormToCCRequest(state) {
     )?.id,
     phoneNumber: data.phoneNumber,
     verifyPhoneNumber: data.phoneNumber,
-    bestTimeToCall: Object.entries(data.bestTimeToCall)
+    // The bad camel casing here is intentional, to match downstream
+    // system
+    bestTimetoCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
     preferredProviders,
@@ -147,7 +179,79 @@ export function transformFormToCCRequest(state) {
     inpatient: false,
     status: 'Submitted',
     providerId: '0',
-    pproviderOption: '',
+    providerOption: '',
+  };
+}
+
+export function transformFormToAppointment(state) {
+  const data = getFormData(state);
+  const clinic = getChosenClinicInfo(state);
+  const facility = getChosenFacilityInfo(state);
+  const slot = data.calendarData.selectedDates[0];
+  const purpose = getUserMessage(data);
+  const appointmentLength = parseInt(
+    state.newAppointment.appointmentLength,
+    10,
+  );
+
+  return {
+    clinic,
+    direct: {
+      purpose,
+      desiredDate: moment(slot.date, 'YYYY-MM-DD').format(
+        'MM/DD/YYYY [00:00:00]',
+      ),
+      dateTime: moment(slot.datetime).format('MM/DD/YYYY HH:mm:ss'),
+      apptLength: appointmentLength,
+    },
+    // These times are a lie, they're actually in local time, but the upstream
+    // service expects the 0 offset.
+    desiredDate: `${slot.date}T00:00:00+00:00`,
+    dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
+    duration: appointmentLength,
+    bookingNotes: purpose,
+    patients: {
+      patient: [
+        {
+          contactInformation: {
+            preferredEmail: data.email,
+            timeZone: facility.institutionTimezone,
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: facility.name,
+              siteCode: facility.rootStationCode,
+              timeZone: facility.institutionTimezone,
+            },
+            clinic: {
+              ien: clinic.clinicId,
+              name: clinic.clinicName,
+            },
+          },
+        },
+      ],
+    },
+    // defaulted values
+    apptType: 'P',
+    purpose: '9',
+    lvl: '1',
+    ekg: '',
+    lab: '',
+    xRay: '',
+    schedulingRequestType: 'NEXT_AVAILABLE_APPT',
+    type: 'REGULAR',
+    appointmentKind: 'TRADITIONAL',
+    schedulingMethod: 'direct',
+    providers: {
+      provider: [
+        {
+          location: {
+            type: 'VA',
+          },
+        },
+      ],
+    },
   };
 }
 
@@ -157,19 +261,5 @@ export function createPreferenceBody(preferences, data) {
     emailAddress: data.email,
     notificationFrequency: 'Each new message',
     emailAllowed: true,
-  };
-}
-
-export function createMessageBody(id, { data }) {
-  const label = PURPOSE_TEXT.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  ).short;
-
-  return {
-    AppointmentRequestId: id,
-    messageText: `${label} - ${data.reasonAdditionalInfo}`,
-    isLastMessage: true,
-    messageDateTime: '',
-    messageSent: true,
   };
 }

@@ -38,9 +38,10 @@ class VetTecApprovedPrograms extends React.Component {
     const programs = this.props.institution.programs;
     if (programs && programs.length) {
       const programRows = programs.map((program, index) => {
-        const programLength = isPresent(program.lengthInHours)
-          ? `${program.lengthInHours} hours`
-          : 'TBD';
+        const programLength =
+          isPresent(program.lengthInHours) && program.lengthInHours !== '0'
+            ? `${program.lengthInHours} hours`
+            : 'TBD';
         const tuition = isPresent(program.tuitionAmount)
           ? formatCurrency(program.tuitionAmount)
           : 'TBD';
@@ -50,7 +51,7 @@ class VetTecApprovedPrograms extends React.Component {
             this.state.selectedProgram.toLowerCase();
         return (
           <tr key={index}>
-            <td>
+            <td className="vads-u-padding-y--0">
               <div className="form-radio-buttons gids-radio-buttons">
                 <input
                   id={`radio-${index}`}
@@ -68,15 +69,17 @@ class VetTecApprovedPrograms extends React.Component {
                 </label>
               </div>
             </td>
-            <td>{programLength}</td>
-            <td>{tuition}</td>
+            <td className="vads-u-padding-y--0 program-length">
+              {programLength}
+            </td>
+            <td className="vads-u-padding-y--0">{tuition}</td>
           </tr>
         );
       });
 
       return (
-        <div>
-          <p>Select a program below to view your estimated benefits.</p>
+        <div className="vads-u-margin-top--2">
+          <span>Select a program below to view your estimated benefits.</span>
           <table className="vet-tec-programs-table">
             <colgroup>
               <col className="name-col" />

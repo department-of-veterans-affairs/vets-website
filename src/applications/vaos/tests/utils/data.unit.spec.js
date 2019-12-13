@@ -3,48 +3,73 @@ import { expect } from 'chai';
 import {
   transformFormToCCRequest,
   transformFormToVARequest,
+  transformFormToAppointment,
+  getUserMessage,
 } from '../../utils/data';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
     const state = {
-      data: {
-        phoneNumber: '5035551234',
-        bestTimeToCall: {
-          morning: true,
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            morning: true,
+          },
+          email: 'test@va.gov',
+          visitType: 'office',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'Testing',
+          calendarData: {
+            currentlySelectedDate: '2019-11-20',
+            selectedDates: [
+              {
+                date: '2019-11-20',
+                optionTime: 'PM',
+              },
+            ],
+            currentRowIndex: 3,
+          },
+          vaSystem: '983',
+          vaFacility: '983GB',
+          facilityType: 'vamc',
+          typeOfCareId: '323',
         },
-        email: 'test@va.gov',
-        visitType: 'office',
-        reasonForAppointment: 'routine-follow-up',
-        reasonAdditionalInfo: 'Testing',
-        calendarData: {
-          currentlySelectedDate: '2019-11-20',
-          selectedDates: [
+        facilities: {
+          '323_983': [
             {
-              date: '2019-11-20',
-              optionTime: 'PM',
+              institutionCode: '983GB',
+              name: 'CHYSHR-Cheyenne VA Medical Center',
+              city: 'Cheyenne',
+              stateAbbrev: 'WY',
+              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+              rootStationCode: '983',
+              parentStationCode: '983',
+              institutionTimezone: 'America/Denver',
             },
           ],
-          currentRowIndex: 3,
         },
-        vaSystem: '983',
-        vaFacility: '983GB',
-        facilityType: 'vamc',
-        typeOfCareId: '323',
       },
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
       typeOfCare: '323',
       typeOfCareId: '323',
+      appointmentType: 'Primary care',
       cityState: {
         institutionCode: '983',
         rootStationCode: '983',
         parentStationCode: '983',
         adminParent: true,
       },
-      facility: { facilityCode: '983GB', parentSiteCode: '983' },
+      status: 'Submitted',
+      facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
+        facilityCode: '983GB',
+        parentSiteCode: '983',
+      },
       purposeOfVisit: 'Routine Follow-up',
+      otherPurposeOfVisit: null,
       visitType: 'Office Visit',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
@@ -54,7 +79,7 @@ describe('VAOS data transformation', () => {
       optionTime1: 'PM',
       optionTime2: 'No Time Selected',
       optionTime3: 'No Time Selected',
-      bestTimeToCall: ['Morning'],
+      bestTimetoCall: ['Morning'],
       emailPreferences: {
         emailAddress: 'test@va.gov',
         notificationFrequency: 'Each new message',
@@ -66,7 +91,7 @@ describe('VAOS data transformation', () => {
       schedulingMethod: 'clerk',
       requestedPhoneCall: false,
       providerId: '0',
-      pproviderOption: '',
+      providerOption: '',
     });
   });
   it('should transform form into CC request', () => {
@@ -93,7 +118,7 @@ describe('VAOS data transformation', () => {
             lastName: 'asdf',
             practiceName: 'Practice',
             address: {
-              street: '399 elm st',
+              street: '456 elm st',
               street2: 'sfasdf',
               state: 'MA',
               city: 'northampton',
@@ -152,6 +177,7 @@ describe('VAOS data transformation', () => {
     expect(data).to.deep.equal({
       typeOfCare: 'CCPRMYRTNE',
       typeOfCareId: 'CCPRMYRTNE',
+      appointmentType: 'Primary care',
       cityState: {
         institutionCode: '983',
         parentStationCode: '983',
@@ -159,20 +185,26 @@ describe('VAOS data transformation', () => {
         adminParent: true,
       },
       facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
         facilityCode: '983',
         parentSiteCode: '983',
       },
       purposeOfVisit: 'routine-follow-up',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
-      bestTimeToCall: ['Afternoon'],
+      bestTimetoCall: ['Afternoon'],
       preferredProviders: [
         {
-          address: { city: '', state: '', street: '', zipCode: '01050' },
+          address: {
+            street: '456 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
           practiceName: 'Practice',
           firstName: 'asdf',
           lastName: 'asdf',
-          providerStreet: '399 elm st, sfasdf',
+          providerStreet: '456 elm st, sfasdf',
           providerCity: 'northampton',
           providerState: 'MA',
           providerZipCode1: '01050',
@@ -198,7 +230,133 @@ describe('VAOS data transformation', () => {
       inpatient: false,
       status: 'Submitted',
       providerId: '0',
-      pproviderOption: '',
+      providerOption: '',
     });
+  });
+
+  it('should transform form into VA appointment', () => {
+    const state = {
+      user: {
+        profile: {
+          vet360: {},
+        },
+      },
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            morning: true,
+          },
+          email: 'test@va.gov',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'asdfasdf',
+          calendarData: {
+            currentlySelectedDate: '2019-11-22',
+            selectedDates: [
+              {
+                date: '2019-11-22',
+                datetime: '2019-11-22T09:30:00',
+              },
+            ],
+            currentRowIndex: 3,
+          },
+          preferredDate: '2019-12-02',
+          clinicId: '308',
+          vaSystem: '983',
+          vaFacility: '983',
+          facilityType: 'vamc',
+          typeOfCareId: '323',
+        },
+        appointmentLength: '30',
+        facilities: {
+          '323_983': [
+            {
+              institutionCode: '983',
+              name: 'CHYSHR-Cheyenne VA Medical Center',
+              city: 'Cheyenne',
+              stateAbbrev: 'WY',
+              authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+              rootStationCode: '983',
+              parentStationCode: '983',
+              institutionTimezone: 'America/Denver',
+            },
+          ],
+        },
+        clinics: {
+          '983_323': [
+            {
+              siteCode: '983',
+              clinicId: '308',
+              clinicName: 'CHY PC KILPATRICK',
+              clinicFriendlyLocationName: 'Green Team Clinic1',
+              institutionName: 'CHYSHR-Cheyenne VA Medical Center',
+              institutionCode: '983',
+            },
+          ],
+        },
+      },
+    };
+    const data = transformFormToAppointment(state);
+    expect(data).to.deep.equal({
+      clinic: {
+        siteCode: '983',
+        clinicId: '308',
+        clinicName: 'CHY PC KILPATRICK',
+        clinicFriendlyLocationName: 'Green Team Clinic1',
+        institutionName: 'CHYSHR-Cheyenne VA Medical Center',
+        institutionCode: '983',
+      },
+      direct: {
+        purpose: 'Follow-up/Routine: asdfasdf',
+        desiredDate: '11/22/2019 00:00:00',
+        dateTime: '11/22/2019 09:30:00',
+        apptLength: 30,
+      },
+      desiredDate: '2019-11-22T00:00:00+00:00',
+      dateTime: '2019-11-22T09:30:00+00:00',
+      duration: 30,
+      bookingNotes: 'Follow-up/Routine: asdfasdf',
+      patients: {
+        patient: [
+          {
+            contactInformation: {
+              preferredEmail: 'test@va.gov',
+              timeZone: 'America/Denver',
+            },
+            location: {
+              type: 'VA',
+              facility: {
+                name: 'CHYSHR-Cheyenne VA Medical Center',
+                siteCode: '983',
+                timeZone: 'America/Denver',
+              },
+              clinic: { ien: '308', name: 'CHY PC KILPATRICK' },
+            },
+          },
+        ],
+      },
+      apptType: 'P',
+      purpose: '9',
+      lvl: '1',
+      ekg: '',
+      lab: '',
+      xRay: '',
+      schedulingRequestType: 'NEXT_AVAILABLE_APPT',
+      type: 'REGULAR',
+      appointmentKind: 'TRADITIONAL',
+      schedulingMethod: 'direct',
+      providers: { provider: [{ location: { type: 'VA' } }] },
+    });
+  });
+
+  it('should get concatenated user message', () => {
+    const data = {
+      reasonAdditionalInfo: 'Second half',
+      reasonForAppointment: 'routine-follow-up',
+    };
+
+    const message = getUserMessage(data);
+
+    expect(message).to.equal('Follow-up/Routine: Second half');
   });
 });

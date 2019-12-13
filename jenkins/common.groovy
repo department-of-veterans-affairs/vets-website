@@ -65,7 +65,7 @@ def runDeploy(String jobName, String ref, boolean waitForDeploy) {
   ], wait: waitForDeploy
 }
 
-def buildDetails(String buildtype, String ref) {
+def buildDetails(String buildtype, String ref, Long buildtime) {
   return """\
 BUILDTYPE=${buildtype}
 NODE_ENV=production
@@ -74,6 +74,7 @@ CHANGE_TARGET=${env.CHANGE_TARGET}
 BUILD_ID=${env.BUILD_ID}
 BUILD_NUMBER=${env.BUILD_NUMBER}
 REF=${ref}
+BUILDTIME=${buildtime}
 """
 }
 
@@ -183,7 +184,8 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  def buildDetails = buildDetails(envName, ref)
+  def long buildtime = System.currentTimeMillis() / 1000L;
+  def buildDetails = buildDetails(envName, ref, buildtime)
   def drupalAddress = DRUPAL_ADDRESSES.get(envName)
   def drupalCred = DRUPAL_CREDENTIALS.get(envName)
   def drupalMode = useCache ? '' : '--pull-drupal'

@@ -31,9 +31,9 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.expect
     .element('.claim-list-item-header-v2')
-    // .text.to.equal('Disability Compensation Claim – Received September 23, 2008');
+    // .text.to.equal('Disability Compensation Claim – updated on September 23, 2008');
     .text.to.equal(
-      'Claim for disability compensation\nreceived September 23, 2008',
+      'Claim for disability compensation\nupdated on October 31, 2016',
     );
 
   // Click to detail view

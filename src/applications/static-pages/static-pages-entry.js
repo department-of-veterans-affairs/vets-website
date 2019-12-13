@@ -20,6 +20,10 @@ import createDisabilityFormWizard from '../disability-benefits/wizard/createWiza
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
+import createFindVaForms, {
+  findVaFormsWidgetReducer,
+} from '../find-va-forms/createFindVaForms';
+import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
 
 // No-react styles.
 import './sass/static-pages.scss';
@@ -42,7 +46,11 @@ import {
 // Set further errors to have the appropriate source tag
 Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
-const store = createCommonStore(facilityReducer);
+const store = createCommonStore({
+  ...facilityReducer,
+  ...findVaFormsWidgetReducer,
+});
+
 Sentry.withScope(scope => {
   scope.setTag('source', 'site-wide');
   startSitewideComponents(store);
@@ -76,6 +84,11 @@ createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 
+createHigherLevelReviewApplicationStatus(
+  store,
+  widgetTypes.HIGHER_LEVEL_REVIEW_APP_STATUS,
+);
+
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_530,
   applyHeading: 'How do I apply?',
@@ -97,6 +110,8 @@ createBasicFacilityListWidget();
 
 createScoEventsWidget();
 createScoAnnouncementsWidget();
+
+createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 
 // homepage widgets
 if (location.pathname === '/') {

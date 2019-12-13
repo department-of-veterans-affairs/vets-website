@@ -1,9 +1,8 @@
-import _ from 'lodash';
 import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
-import { snakeCaseKeys } from '../utils/helpers';
+import { rubyifyKeys } from '../utils/helpers';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -169,10 +168,7 @@ export function institutionFilterChange(filter) {
 }
 
 export function fetchInstitutionSearchResults(query = {}) {
-  const url = appendQuery(
-    `${api.url}/institutions/search`,
-    snakeCaseKeys(query),
-  );
+  const url = appendQuery(`${api.url}/institutions/search`, rubyifyKeys(query));
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -193,7 +189,7 @@ export function fetchInstitutionSearchResults(query = {}) {
 export function fetchProgramSearchResults(query = {}) {
   const url = appendQuery(
     `${api.url}/institution_programs/search`,
-    snakeCaseKeys(query),
+    rubyifyKeys(query),
   );
 
   return dispatch => {
@@ -227,26 +223,15 @@ export function fetchProfile(facilityCode, version) {
         });
       })
       .then(institution => {
-        const institutionZIP = _.get(institution, 'data.attributes.zip');
-        const bahUrl = `${api.url}/zipcode_rates/${institutionZIP}`;
-
-        return (
-          fetch(bahUrl, api.settings)
-            .then(res => res.json())
-            // if there's an error from the zipRatesPayload the reducer will just use the values from the institution end point.
-            .then(zipRatesPayload => {
-              const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
-              withPreview(dispatch, {
-                type: FETCH_PROFILE_SUCCEEDED,
-                payload: {
-                  ...institution,
-                  AVGVABAH,
-                  AVGDODBAH,
-                },
-                zipRatesPayload,
-              });
-            })
-        );
+        const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
+        return withPreview(dispatch, {
+          type: FETCH_PROFILE_SUCCEEDED,
+          payload: {
+            ...institution,
+            AVGVABAH,
+            AVGDODBAH,
+          },
+        });
       })
       .catch(err => {
         dispatch({ type: FETCH_PROFILE_FAILED, err });

@@ -47,24 +47,31 @@ export default class ScoAnnouncementsWidget extends React.Component {
   };
 
   renderAnnouncements = () => {
-    const announcements = this.props.announcements
-      .filter(this.shouldDisplay)
-      .sort(this.eventComparer)
-      .map((announcement, index) => {
-        const displayDate = moment(announcement.date).format('M/D/YYYY');
-        const content = `${displayDate} — ${announcement.name}`;
-        return (
-          <li key={index} className="hub-page-link-list__item">
-            {announcement.url ? (
-              <a href={announcement.url} onClick={this.recordClickEvent}>
-                <b>{content}</b>
-              </a>
-            ) : (
-              <b>{content}</b>
-            )}
-          </li>
-        );
-      });
+    const announcements =
+      this.props.announcements &&
+      this.props.announcements.filter(this.shouldDisplay).length > 0 ? (
+        this.props.announcements
+          .filter(this.shouldDisplay)
+          .sort(this.eventComparer)
+          .map((announcement, index) => {
+            const displayDate = moment(announcement.date).format('M/D/YYYY');
+            const content = `${displayDate} — ${announcement.name}`;
+            return (
+              <li key={index} className="hub-page-link-list__item">
+                {announcement.url ? (
+                  <a href={announcement.url} onClick={this.recordClickEvent}>
+                    <b>{content}</b>
+                  </a>
+                ) : (
+                  <b>{content}</b>
+                )}
+              </li>
+            );
+          })
+      ) : (
+        <p>No new announcements are available at this time.</p>
+      );
+
     return <ul className="va-nav-linkslist-list">{announcements}</ul>;
   };
 
@@ -77,10 +84,10 @@ export default class ScoAnnouncementsWidget extends React.Component {
         {this.renderAnnouncements()}
         <p className="vads-u-margin-bottom--0">
           <a
-            href="https://benefits.va.gov/gibill/index.asp"
+            href="https://www.benefits.va.gov/GIBILL/index.asp#Announcements "
             className="vads-u-text-decoration--none"
           >
-            See past updates...
+            See all announcements...
           </a>
         </p>
       </div>
