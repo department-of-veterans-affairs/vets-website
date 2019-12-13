@@ -29,46 +29,45 @@ const {
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
-
 const chapterOneFields = {
-  address: 'address',
-  cellNumber: 'cellNumber',
-  email: 'email',
-  fullName: 'fullName',
-  gender: 'gender',
-  medicaidEnrolled: 'medicaidEnrolled',
-  plannedClinic: 'plannedClinic',
-  previousTreatmentFacility: 'previousTreatmentFacility',
+  address: 'veteranAddress',
+  cellNumber: 'veteranCellNumber',
+  email: 'veteranEmail',
+  fullName: 'veteranFullName',
+  gender: 'veteranGender',
+  medicaidEnrolled: 'veteranMedicaidEnrolled',
+  plannedClinic: 'veteranPlannedClinic',
+  previousTreatmentFacility: 'veteranPreviousTreatmentFacility',
   ssn: 'ssn',
-  telephoneNumber: 'telephoneNumber',
-  vaEnrolled: 'vaEnrolled',
+  telephoneNumber: 'veteranTelephoneNumber',
+  vaEnrolled: 'veteranVaEnrolled',
 };
 
 const chapterTwoFields = {
-  address: 'address',
-  caregiverDateOfBirth: 'caregiverDateOfBirth',
-  cellNumber: 'cellNumber',
-  email: 'email',
-  fullName: 'fullName',
-  gender: 'gender',
-  otherHealthInsurance: 'otherHealthInsurance',
+  address: 'primaryCaregiverAddress',
+  caregiverDateOfBirth: 'primaryCaregiverDateOfBirth',
+  cellNumber: 'primaryCaregiverCellNumber',
+  email: 'primaryCaregiverEmail',
+  fullName: 'primaryCaregiverFullName',
+  gender: 'primaryCaregiverGender',
+  otherHealthInsurance: 'OtherHealthInsurance',
   otherHealthInsuranceName: 'otherHealthInsuranceName',
-  ssn: 'ssn',
-  telephoneNumber: 'telephoneNumber',
-  vetRelationship: 'vetRelationship',
+  ssn: 'primaryCaregiverSsn',
+  telephoneNumber: 'primaryCaregiverTelephoneNumber',
+  vetRelationship: 'primaryCaregiverVetRelationship',
 };
 
 const chapterThreeFields = {
-  address: 'address',
-  caregiverDateOfBirth: 'caregiverDateOfBirth',
-  cellNumber: 'cellNumber',
-  email: 'email',
-  fullName: 'fullName',
-  gender: 'gender',
-  ssn: 'ssn',
-  telephoneNumber: 'telephoneNumber',
-  vaEnrolled: 'vaEnrolled',
-  vetRelationship: 'vetRelationship',
+  address: 'secondaryCaregiverAddress',
+  caregiverDateOfBirth: 'secondaryCaregiverDateOfBirth',
+  cellNumber: 'secondaryCaregiverCellNumber',
+  email: 'secondaryCaregiverEmail',
+  fullName: 'secondaryCaregiverFullName',
+  gender: 'secondaryCaregiverGender',
+  ssn: 'secondaryCaregiverSsn',
+  telephoneNumber: 'secondaryCaregiverTelephoneNumber',
+  vaEnrolled: 'secondaryCaregiverVaEnrolled',
+  vetRelationship: 'secondaryCaregiverVetRelationship',
 };
 
 /* TODO Chapters
@@ -192,11 +191,12 @@ const formConfig = {
       title: 'PRIMARY FAMILY CAREGIVER',
       pages: {
         primaryCaregiverInfo: {
-          path: 'service-history',
-          title: 'Service History',
+          path: 'primary-caregiver',
+          title: 'Primary Caregiver Information',
           uiSchema: {
             [chapterTwoFields.fullName]: fullNameUI,
-            [chapterTwoFields.veteranDateOfBirth]: currentOrPastDateUI(
+            [chapterTwoFields.ssn]: ssnUI,
+            [chapterTwoFields.caregiverDateOfBirth]: currentOrPastDateUI(
               'Date of birth',
             ),
             [chapterTwoFields.address]: address.uiSchema(
@@ -220,13 +220,13 @@ const formConfig = {
                 'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
             },
             [chapterTwoFields.medicaidEnrolled]: {
-              'ui:title': 'medicaid?',
+              'ui:title': 'Enrolled in Medicaid or Medicare?',
             },
             [chapterTwoFields.otherHealthInsurance]: {
-              'ui:title': 'Other health?',
+              'ui:title': 'Other Health Insurance?',
             },
             [chapterTwoFields.otherHealthInsuranceName]: {
-              'ui:title': 'Other health name?',
+              'ui:title': 'Other Health Insurance Name?',
             },
           },
           schema: {
@@ -266,16 +266,17 @@ const formConfig = {
       },
     },
     secondaryCaregiversChapter: {
-      title: 'PRIMARY FAMILY CAREGIVER (continued)',
+      title: 'SECONDARY FAMILY CAREGIVER',
       pages: {
         secondaryCaregiverInfo: {
-          path: 'contact-information',
-          title: 'Contact Information',
+          path: 'secondary-caregiver',
+          title: 'Secondary Caregiver Information',
           uiSchema: {
             [chapterThreeFields.fullName]: fullNameUI,
-            [chapterThreeFields.veteranDateOfBirth]: currentOrPastDateUI(
+            [chapterThreeFields.caregiverDateOfBirth]: currentOrPastDateUI(
               'Date of birth',
             ),
+            [chapterThreeFields.ssn]: ssnUI,
             [chapterThreeFields.address]: address.uiSchema(
               'Current Street Address',
               false,
