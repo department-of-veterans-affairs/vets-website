@@ -7,7 +7,18 @@ module.exports = {
       properties: {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['table'] },
-        fieldTable: { type: 'string' },
+        fieldTable: {
+          type: 'object',
+          required: ['tableValue', 'value'],
+          properties: {
+            tableValue: {
+              type: 'string',
+            },
+            value: {
+              type: 'object',
+            },
+          },
+        },
       },
       required: ['fieldTable'],
     },
