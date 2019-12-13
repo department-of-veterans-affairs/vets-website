@@ -1,7 +1,6 @@
 {
   "contentModelType": "paragraph-table",
   "entity": {
-    "entityId": "4586",
     "entityBundle": "table",
     "fieldTable": {
       "tableValue": "<strong>School name</strong> <strong>VSOC counselor email address</strong> <strong>Regional office</strong> Cameron University Alfred Finch <a href=\"mailto:Alfred.Finch@va.gov\">Alfred.Finch@va.gov</a> Muskogee (351)",
