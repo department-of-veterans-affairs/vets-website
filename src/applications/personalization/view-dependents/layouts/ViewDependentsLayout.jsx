@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
@@ -31,30 +30,23 @@ class ViewDependentsLayout extends Component {
       </a>,
     ];
 
-    let mainContent;
-
-    if (this.props.loading) {
-      mainContent = (
-        <LoadingIndicator message="Loading your dependents" setFocus />
-      );
-    } else {
-      mainContent = (
-        <div className="vads-l-grid-container">
-          <div className="vads-l-row">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-              <ViewDependentsHeader />
-              <ViewDependentsLists
-                onAwardDependents={this.props.onAwardDependents}
-                notOnAwardDependents={this.props.notOnAwardDependents}
-              />
-            </div>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              <ViewDependentsSidebar />
-            </div>
+    const mainContent = (
+      <div className="vads-l-grid-container">
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <ViewDependentsHeader />
+            <ViewDependentsLists
+              loading={this.props.loading}
+              onAwardDependents={this.props.onAwardDependents}
+              notOnAwardDependents={this.props.notOnAwardDependents}
+            />
+          </div>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--4">
+            <ViewDependentsSidebar />
           </div>
         </div>
-      );
-    }
+      </div>
+    );
 
     return (
       <div>

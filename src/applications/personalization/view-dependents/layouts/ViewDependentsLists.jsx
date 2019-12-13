@@ -47,11 +47,13 @@ class ViewDependentsLists extends Component {
     return (
       <span>
         <ViewDependentsList
+          loading={this.props.loading}
           header="Dependents on award"
           subHeader={onAwardSubhead}
           dependents={this.props.onAwardDependents}
         />
         <ViewDependentsList
+          loading={this.props.loading}
           header="Dependents not on award"
           subHeader={notOnAwardSubhead}
           dependents={this.props.notOnAwardDependents}

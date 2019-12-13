@@ -14,16 +14,16 @@ class ViewDependentsApp extends Component {
   };
 
   componentDidMount() {
-    this.makeAPICall();
+    this.fetchAllDependents();
   }
 
-  async makeAPICall() {
+  async fetchAllDependents() {
     const response = await getData(
       '/disability_compensation_form/rated_disabilities',
     );
 
     if (response) {
-      // this will be changed to pass the error to the state and the child components when mockup is provided for error states
+      // this will be changed to pass the error to the state and thus the child components when a mockup is provided for error states
       this.setState({
         loading: false,
         onAwardDependents: [

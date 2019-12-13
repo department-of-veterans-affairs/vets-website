@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem';
 
 class ViewDependentsList extends Component {
   render() {
     let mainContent;
 
-    if (this.props.dependents.length > 0) {
+    if (this.props.loading) {
+      mainContent = (
+        <LoadingIndicator message="Loading your dependents" setFocus />
+      );
+    } else if (this.props.dependents.length > 0) {
       mainContent = this.props.dependents.map((dependent, index) => (
         <ViewDependentsListItem
           key={index}
