@@ -1,0 +1,30 @@
+// omit.js uses export default function
+const { default: omit } = require('platform/utilities/data/omit');
+
+const { getDrupalValue } = require('./helpers');
+
+const transform = entity => ({
+  entity: {
+    entityType: 'paragraph',
+    entityBundle: 'react_widget',
+    fieldButtonFormat: getDrupalValue(entity.fieldButtonFormat),
+    fieldCtaWidget: getDrupalValue(entity.fieldCtaWidget),
+    fieldDefaultLink: getDrupalValue(entity.fieldDefaultLink),
+    fieldErrorMessage: omit(['format'], entity.fieldErrorMessage[0]),
+    fieldLoadingMessage: getDrupalValue(entity.fieldLoadingMessage),
+    fieldTimeout: getDrupalValue(entity.fieldTimeout),
+    fieldWidgetType: getDrupalValue(entity.fieldWidgetType),
+  },
+});
+module.exports = {
+  filter: [
+    'field_button_format',
+    'field_cta_widget',
+    'field_default_link',
+    'field_error_message',
+    'field_loading_message',
+    'field_timeout',
+    'field_widget_type',
+  ],
+  transform,
+};
