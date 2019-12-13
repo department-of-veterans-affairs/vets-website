@@ -1,14 +1,9 @@
-const { getFilter } = require('../../filters');
-
 /* eslint-disable camelcase */
+
 module.exports = {
   type: 'object',
   properties: {
-    field_table: {
-      type: 'array',
-      maxItems: 1,
-      items: { type: 'object' },
-    },
+    field_table: { $ref: 'GenericNestedString' },
   },
-  required: getFilter('paragraph-table'),
+  required: ['field_table'],
 };

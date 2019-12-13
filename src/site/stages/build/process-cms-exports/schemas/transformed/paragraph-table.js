@@ -1,21 +1,16 @@
 module.exports = {
   type: 'object',
   properties: {
+    contentModelType: { enum: ['paragraph-table'] },
     entity: {
       type: 'object',
-      required: ['fieldTable'],
-      fieldTable: {
-        type: 'object',
-        required: ['tableValue', 'value'],
-        properties: {
-          tableValue: {
-            type: 'string',
-          },
-          value: {
-            type: 'array',
-          },
-        },
+      properties: {
+        entityType: { enum: ['paragraph'] },
+        entityBundle: { enum: ['table'] },
+        fieldTable: { type: 'string' },
       },
+      required: ['fieldTable'],
     },
   },
+  required: ['entity'],
 };
