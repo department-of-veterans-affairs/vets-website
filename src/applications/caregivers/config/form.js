@@ -15,6 +15,11 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import {
+  chapterOneFields,
+  chapterTwoFields,
+  chapterThreeFields,
+} from './constants';
 
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
@@ -28,66 +33,10 @@ const {
   usaPhone,
 } = commonDefinitions;
 
-// Define all the fields in the form to aid reuse
-const chapterOneFields = {
-  address: 'veteranAddress',
-  cellNumber: 'veteranCellNumber',
-  email: 'veteranEmail',
-  fullName: 'veteranFullName',
-  gender: 'veteranGender',
-  medicaidEnrolled: 'veteranMedicaidEnrolled',
-  plannedClinic: 'veteranPlannedClinic',
-  previousTreatmentFacility: 'veteranPreviousTreatmentFacility',
-  ssn: 'ssn',
-  telephoneNumber: 'veteranTelephoneNumber',
-  vaEnrolled: 'veteranVaEnrolled',
-};
-
-const chapterTwoFields = {
-  address: 'primaryCaregiverAddress',
-  caregiverDateOfBirth: 'primaryCaregiverDateOfBirth',
-  cellNumber: 'primaryCaregiverCellNumber',
-  email: 'primaryCaregiverEmail',
-  fullName: 'primaryCaregiverFullName',
-  gender: 'primaryCaregiverGender',
-  otherHealthInsurance: 'OtherHealthInsurance',
-  otherHealthInsuranceName: 'otherHealthInsuranceName',
-  ssn: 'primaryCaregiverSsn',
-  telephoneNumber: 'primaryCaregiverTelephoneNumber',
-  vetRelationship: 'primaryCaregiverVetRelationship',
-};
-
-const chapterThreeFields = {
-  secondary: {
-    address: 'secondaryCaregiverAddress',
-    caregiverDateOfBirth: 'secondaryCaregiverDateOfBirth',
-    cellNumber: 'secondaryCaregiverCellNumber',
-    email: 'secondaryCaregiverEmail',
-    fullName: 'secondaryCaregiverFullName',
-    gender: 'secondaryCaregiverGender',
-    ssn: 'secondaryCaregiverSsn',
-    telephoneNumber: 'secondaryCaregiverTelephoneNumber',
-    vaEnrolled: 'secondaryCaregiverVaEnrolled',
-    vetRelationship: 'secondaryCaregiverVetRelationship',
-  },
-  tertiary: {
-    address: 'tertiaryCaregiverAddress',
-    caregiverDateOfBirth: 'tertiaryCaregiverDateOfBirth',
-    cellNumber: 'tertiaryCaregiverCellNumber',
-    email: 'tertiaryCaregiverEmail',
-    fullName: 'tertiaryCaregiverFullName',
-    gender: 'tertiaryCaregiverGender',
-    ssn: 'tertiaryCaregiverSsn',
-    telephoneNumber: 'tertiaryCaregiverTelephoneNumber',
-    vaEnrolled: 'tertiaryCaregiverVaEnrolled',
-    vetRelationship: 'tertiaryCaregiverVetRelationship',
-  },
-};
-
 /* TODO Chapters
 * 1 - Vet/Service Member
 * 2 - Primary Family Caregiver
-* 3 - Secondary Family Caregiver (optional -- many)
+* 3 - Secondary & Tertiary Family Caregiver (optional -- up to 2 conditionally)
 */
 
 const formConfig = {
