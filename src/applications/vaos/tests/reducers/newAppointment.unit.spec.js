@@ -431,7 +431,7 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.facilityDetailsStatus).to.equal(FETCH_STATUS.loading);
     });
 
-    it('should update state with facility details set set facilityDetailsStatus to succeeded', () => {
+    it('should update state with facility details and set facilityDetailsStatus to succeeded', () => {
       const facilityDetails = {
         attributes: {
           name: 'test',
