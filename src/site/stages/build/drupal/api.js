@@ -13,7 +13,7 @@ const {
   readAllNodeNames,
   readEntity,
 } = require('../process-cms-exports/helpers');
-const assembleEntityTree = require('../process-cms-exports')(contentDir);
+const entityTreeFactory = require('../process-cms-exports');
 
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
@@ -129,6 +129,7 @@ function getDrupalClient(buildOptions) {
       const entities = readAllNodeNames(exportDir).map(entityDetails =>
         readEntity(exportDir, ...entityDetails),
       );
+      const assembleEntityTree = entityTreeFactory(exportDir || contentDir);
 
       const modifiedEntities = entities.map(entity =>
         assembleEntityTree(entity),
