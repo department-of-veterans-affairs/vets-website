@@ -1,3 +1,10 @@
+function sanitizeString(dirtyString, elem) {
+  var sanitizedString = document.createElement(elem);
+  sanitizedString.innerText = dirtyString;
+
+  return sanitizedString.outerHTML;
+}
+
 function processAxeCheckResults(error, results) {
   if (error) {
     console.log('Error executing the Axe check!');
@@ -18,24 +25,20 @@ function processAxeCheckResults(error, results) {
     var violationEl = '<li class="vads-u-margin-y--1">';
 
     violationEl += '<details>';
-    violationEl += '<summary><strong>' + violation.help + '</strong></summary>';
+    violationEl += '<summary>' + sanitizeString(violation.help, 'strong') + '</summary>';
     violationEl += '<ul class="usa-unstyled-list vads-u-padding-y--1 vads-u-padding-x--2">';
 
-    violationEl += '<li><strong>Description</strong>: ' + violation.description + '</li>';
-    violationEl += '<li><strong>Impact</strong>: ' + violation.impact + '</li>';
-    violationEl += '<li><strong>Tags</strong>: ' + violation.tags.join(', ') + '</li>';
-    violationEl += '<li><strong>Help</strong>: <a href="' + violation.helpUrl + '" target="blank" rel="noopener noreferrer">' + violation.helpUrl + '</a></li>';
+    violationEl += '<li><strong>Description</strong>: ' + sanitizeString(violation.description, 'span') + '</li>';
+    violationEl += '<li><strong>Impact</strong>: ' + sanitizeString(violation.impact, 'span') + '</li>';
+    violationEl += '<li><strong>Tags</strong>: ' + sanitizeString(violation.tags.join(', '), 'span') + '</li>';
+    violationEl += '<li><strong>Help</strong>: <a href="' + violation.helpUrl + '" target="blank" rel="noopener noreferrer">' + sanitizeString(violation.helpUrl, 'span') + '</a></li>';
 
     var nodeList = '<li><strong>HTML</strong>:';
     nodeList += '<ol>';
 
     violation.nodes.forEach(function(node) {
       var nodeEl = '<li>';
-      var code = document.createElement('code');
-
-      code.innerText = node.html;
-      nodeEl += code.outerHTML + '</li>';
-
+      nodeEl += sanitizeString(node.html, 'code');
       nodeList += nodeEl;
     });
 
