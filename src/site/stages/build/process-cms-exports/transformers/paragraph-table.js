@@ -22,4 +22,7 @@ function tableTransform(entity) {
   // ];
 }
 
-module.exports = tableTransform;
+module.exports = {
+  filter: ['field_table'],
+  transform: tableTransform,
+};
