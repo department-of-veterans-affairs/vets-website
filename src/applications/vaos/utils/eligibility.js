@@ -1,8 +1,4 @@
-import {
-  PRIMARY_CARE,
-  DISABLED_LIMIT_VALUE,
-  CANCELLED_APPOINTMENT_SET,
-} from '../utils/constants';
+import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
 
 import {
   checkPastVisits,
@@ -18,12 +14,14 @@ export async function getEligibilityData(
   isDirectScheduleEnabled,
 ) {
   const eligibilityChecks = [
-    checkPastVisits(facilityId, typeOfCareId, 'request'),
+    checkPastVisits(systemId, facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
   ];
 
   if (isDirectScheduleEnabled) {
-    eligibilityChecks.push(checkPastVisits(facilityId, typeOfCareId, 'direct'));
+    eligibilityChecks.push(
+      checkPastVisits(systemId, facilityId, typeOfCareId, 'direct'),
+    );
     eligibilityChecks.push(getClinics(facilityId, typeOfCareId, systemId));
 
     if (typeOfCareId === PRIMARY_CARE) {
@@ -143,22 +141,4 @@ export function getEligibleFacilities(facilities) {
   return facilities.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
-}
-
-export function hasEligibleClinics(facilityId, pastAppointments, clinics) {
-  const pastClinicIds = new Set(
-    pastAppointments
-      .filter(
-        appt =>
-          appt.facilityId === facilityId &&
-          appt.clinicId &&
-          !CANCELLED_APPOINTMENT_SET.has(
-            appt.vdsAppointments?.[0]?.currentStatus || 'FUTURE',
-          ),
-      )
-      .map(appt => appt.clinicId),
-  );
-
-  // TODO: Reproduce scenario when clinics is null
-  return clinics?.some(clinic => pastClinicIds.has(clinic.clinicId));
 }

@@ -2,6 +2,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { inferAddressType } from 'applications/letters/utils/helpers';
+import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import {
@@ -218,11 +219,9 @@ export const validateAddress = (
       id: payload?.id,
     };
 
-    // If the highest confidence score is below 80 regardless of number of addresses, show the modal
-    if (
-      suggestedAddresses.length > 1 ||
-      suggestedAddresses[0]?.addressMetaData?.confidenceScore < 80
-    ) {
+    const showModal = showAddressValidationModal(suggestedAddresses);
+
+    if (showModal) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
         addressFromUser: payload,
@@ -247,7 +246,6 @@ export const validateAddress = (
       addressValidationType: fieldName,
       addressValidationError: true,
       addressFromUser: { ...payload },
-      validationKey: null, // add this in when changes are made to API / override logic
     });
   }
 };

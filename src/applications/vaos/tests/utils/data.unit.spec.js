@@ -4,6 +4,7 @@ import {
   transformFormToCCRequest,
   transformFormToVARequest,
   transformFormToAppointment,
+  getUserMessage,
 } from '../../utils/data';
 
 describe('VAOS data transformation', () => {
@@ -346,5 +347,16 @@ describe('VAOS data transformation', () => {
       schedulingMethod: 'direct',
       providers: { provider: [{ location: { type: 'VA' } }] },
     });
+  });
+
+  it('should get concatenated user message', () => {
+    const data = {
+      reasonAdditionalInfo: 'Second half',
+      reasonForAppointment: 'routine-follow-up',
+    };
+
+    const message = getUserMessage(data);
+
+    expect(message).to.equal('Follow-up/Routine: Second half');
   });
 });

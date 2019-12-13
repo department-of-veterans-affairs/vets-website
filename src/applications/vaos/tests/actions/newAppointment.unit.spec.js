@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import set from 'platform/utilities/data/set';
@@ -16,6 +17,7 @@ import {
   openClinicPage,
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
+  openSelectAppointmentPage,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -33,6 +35,8 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
+  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
@@ -324,12 +328,28 @@ describe('VAOS newAppointment actions', () => {
       setFetchJSONResponse(global.fetch, {
         data: {
           attributes: {
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: {
+          attributes: {
             numberOfRequests: 0,
             requestLimit: 0,
           },
         },
       });
-      setFetchJSONResponse(global.fetch.onCall(1), clinics);
+      setFetchJSONResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: {
+            durationInMonths: 0,
+            hasVisitedInPastMonths: false,
+          },
+        },
+      });
+      setFetchJSONResponse(global.fetch.onCall(3), clinics);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -694,5 +714,54 @@ describe('VAOS newAppointment actions', () => {
     );
     expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
     expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
+  });
+
+  it('should open select appointment page and fetch appointment slots', async () => {
+    mockFetch();
+    setFetchJSONResponse(global.fetch, {
+      data: [
+        {
+          attributes: {
+            appointmentLength: 30,
+            appointmentTimeSlot: [
+              {
+                startDateTime: moment()
+                  .add(30, 'minutes')
+                  .toISOString(),
+                endDateTime: moment()
+                  .add(60, 'minutes')
+                  .toISOString(),
+              },
+            ],
+          },
+        },
+      ],
+    });
+
+    const state = {
+      newAppointment: {
+        data: {
+          preferredDate: '2019-01-01',
+        },
+      },
+    };
+    const getState = () => state;
+    const dispatch = sinon.spy();
+
+    const thunk = openSelectAppointmentPage('selectDateTime', {}, {});
+    await thunk(dispatch, getState);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+    );
+
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+    );
+
+    expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
+    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(30);
+
+    resetFetch();
   });
 });

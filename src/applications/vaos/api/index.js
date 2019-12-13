@@ -90,13 +90,12 @@ export const getLongTermAppointmentHistory = (() => {
   return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];
+      const ranges = [];
       let currentMonths = 0;
 
-      // This creates calls in six month chunks until we hit
-      // two years back. Done serially to lighten backend load
+      // Creating an array of start and end dates for each chunk
       while (currentMonths < MAX_HISTORY) {
-        promise = getConfirmedAppointments(
-          'va',
+        ranges.push([
           moment()
             .startOf('day')
             .subtract(currentMonths + MONTH_CHUNK, 'months')
@@ -105,12 +104,23 @@ export const getLongTermAppointmentHistory = (() => {
             .subtract(currentMonths, 'months')
             .startOf('day')
             .toISOString(),
-        ).then(newAppts => appointments.push(...newAppts));
-
+        ]);
         currentMonths += MONTH_CHUNK;
       }
 
-      promise = promise.then(() => appointments);
+      // This is weird, but hopefully clear. There are four chunks with date
+      // ranges from the array created above. We're trying to run them serially,
+      // because we want to be careful about overloading the upstream service,
+      // so Promise.all doesn't fit here
+      promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => getConfirmedAppointments('va', ranges[2][0], ranges[2][1]))
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => getConfirmedAppointments('va', ranges[3][0], ranges[3][1]))
+        .then(newAppts => appointments.push(...newAppts))
+        .then(() => appointments);
     }
     return promise;
   };
@@ -201,22 +211,41 @@ export function getCommunityCare() {
 
 // GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
 // eslint-disable-next-line no-unused-vars
-export function checkPastVisits(facilityId, typeOfCareId, directOrRequest) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (directOrRequest === 'direct') {
-        resolve({
-          durationInMonths: 24,
-          hasVisitedInPastMonths: !facilityId.includes('984'),
-        });
-      } else {
-        resolve({
-          durationInMonths: 12,
-          hasVisitedInPastMonths: facilityId !== '984',
-        });
-      }
-    }, 500);
-  });
+export function checkPastVisits(
+  systemId,
+  facilityId,
+  typeOfCareId,
+  directOrRequest,
+) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    let attributes;
+    if (directOrRequest === 'direct') {
+      attributes = {
+        durationInMonths: 24,
+        hasVisitedInPastMonths: !facilityId.includes('984'),
+      };
+    } else {
+      attributes = {
+        durationInMonths: 12,
+        hasVisitedInPastMonths: facilityId !== '984',
+      };
+    }
+
+    promise = Promise.resolve({
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes,
+      },
+    });
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/visits/${directOrRequest}?system_id=${systemId}&type_of_care_id=${typeOfCareId}`,
+    );
+  }
+
+  return promise.then(resp => resp.data.attributes);
 }
 
 export function getRequestLimits(facilityId, typeOfCareId) {
@@ -332,14 +361,28 @@ export function getSitesSupportingVAR() {
   });
 }
 
-export function getAvailableSlots() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./slots.json').then(module =>
-        resolve(module.default ? module.default : module),
-      );
-    }, 500);
-  });
+export function getAvailableSlots(
+  facilityId,
+  typeOfCareId,
+  clinicId,
+  startDate,
+  endDate,
+) {
+  let promise;
+
+  if (false && USE_MOCK_DATA) {
+    promise = import('./slots.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = apiRequest(
+      `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getCancelReasons(systemId) {
@@ -426,15 +469,15 @@ export function submitAppointment(appointment) {
   return promise.then(resp => resp.data.attributes);
 }
 
-export function sendRequestMessage(id, message) {
+export function sendRequestMessage(id, messageText) {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/appointment_requests/${id}/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(message),
+      body: JSON.stringify({ messageText }),
     });
   }
 
@@ -443,7 +486,7 @@ export function sendRequestMessage(id, message) {
 
 export function getPreferences() {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
@@ -454,7 +497,7 @@ export function getPreferences() {
 
 export function updatePreferences(data) {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({ data: { attributes: {} } });
   } else {
     promise = apiRequest(`/vaos/preferences`, {
