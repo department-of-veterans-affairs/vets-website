@@ -110,7 +110,11 @@ export class ReasonForAppointmentPage extends React.Component {
                   </li>
                   <li>
                     Go to your nearest emergency room or VA medical center.{' '}
-                    <a href="/find-locations">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="/find-locations"
+                    >
                       Find your nearest VA medical center
                     </a>
                   </li>
