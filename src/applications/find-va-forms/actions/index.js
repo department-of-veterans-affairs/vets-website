@@ -6,6 +6,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_RESULTS,
 } from '../constants';
 
 export const fetchFormsAction = query => ({
@@ -20,6 +21,11 @@ export const fetchFormsFailure = () => ({
 export const fetchFormsSuccess = response => ({
   response,
   type: FETCH_FORMS_SUCCESS,
+});
+
+export const updateResultsAction = results => ({
+  results,
+  type: UPDATE_RESULTS,
 });
 
 // ============
