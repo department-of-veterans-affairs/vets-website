@@ -9,6 +9,9 @@ import {
   UPDATE_RESULTS,
 } from '../constants';
 
+// ============
+// Fetch Forms (via API)
+// ============
 export const fetchFormsAction = query => ({
   query,
   type: FETCH_FORMS,
@@ -23,6 +26,9 @@ export const fetchFormsSuccess = response => ({
   type: FETCH_FORMS_SUCCESS,
 });
 
+// ============
+// Update Results (no API)
+// ============
 export const updateResultsAction = results => ({
   results,
   type: UPDATE_RESULTS,
