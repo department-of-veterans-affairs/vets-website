@@ -86,6 +86,7 @@ export default class CalendarRow extends Component {
               disabled={this.isCellDisabled(date)}
             />
           ))}
+          <div className="break" />
         </div>
       </div>
     );

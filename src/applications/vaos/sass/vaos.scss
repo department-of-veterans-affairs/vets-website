@@ -96,13 +96,18 @@
 }
 
 .vaos-calendar__calendar-week {
-  position: relative;
+  flex-wrap: wrap;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
 }
 
 .vaos-calendar__calendar-day {
-  width: 18%;
+  flex-grow: 1;
+  flex-basis: 0;
   margin: 8px;
-  max-width: 117px;
 
   button {
     width: 100%;
@@ -111,6 +116,7 @@
     border: 1px solid $color-gray-medium;
     border-radius: 5px;
     padding: 12px;
+    margin: 0;
 
     &:hover {
       border-color: $color-primary-darker;
@@ -130,10 +136,6 @@
     left: 4px;
     top: 4px;
     font-size: 10px;
-  }
-
-  &.vaos-calendar__cell-current {
-    height: 120px;
   }
 
   &.vaos-calendar__cell-current button {
@@ -177,15 +179,33 @@
 }
 
 .vaos-calendar__calendar-options {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  order: 7;
 }
 
 .vaos-calendar__options {
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+  margin-top: 8px;
+
+  @include media($small-screen) {
+    margin-top: 0;
+  }
+}
+
+.vaos-calendar__option-cell {
+  padding: 8px;
+  width: 50%;
+
+  @include media($small-screen) {
+    width: 33%;
+  }
+  @include media($small-desktop-screen) {
+    width: 25%;
+  }
+  @include media($large-screen) {
+    width: 20%;
+  }
 }
 
 .vaos-calendar__option {
@@ -193,11 +213,8 @@
   justify-content: center;
   align-items: center;
   border: 1px solid $color-primary;
-  width: 18%;
-  max-width: 117px;
   border-radius: 5px;
-  padding: 8px 0;
-  margin: 8px;
+  padding: 8px 4px;
 
 
   input[type="radio"],
@@ -218,13 +235,6 @@
 
 @media (max-width: $small-screen) {
   .vaos-calendar__calendar-day {
-    margin: 4px;
-  }
-
-  .vaos-calendar__option {
-    max-width: unset;
-    width: 47%;
-    padding: 8px;
     margin: 4px;
   }
 }

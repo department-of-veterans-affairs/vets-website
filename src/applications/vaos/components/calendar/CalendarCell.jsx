@@ -34,21 +34,25 @@ const CalendarCell = ({
   });
 
   return (
-    <div role="cell" className={cssClasses}>
-      <button
-        id={`date-cell-${date}`}
-        onClick={() => onClick(date)}
-        disabled={disabled}
-        aria-label={ariaDate}
-        aria-expanded={isCurrentlySelected}
-        type="button"
-      >
-        {inSelectedArray && <i className="fas fa-check vads-u-color--white" />}
-        {dateDay}
-        {isCurrentlySelected && (
-          <span className="vaos-calendar__cell-selected-triangle" />
-        )}
-      </button>
+    <>
+      <div role="cell" className={cssClasses}>
+        <button
+          id={`date-cell-${date}`}
+          onClick={() => onClick(date)}
+          disabled={disabled}
+          aria-label={ariaDate}
+          aria-expanded={isCurrentlySelected}
+          type="button"
+        >
+          {inSelectedArray && (
+            <i className="fas fa-check vads-u-color--white" />
+          )}
+          {dateDay}
+          {isCurrentlySelected && (
+            <span className="vaos-calendar__cell-selected-triangle" />
+          )}
+        </button>
+      </div>
       {isCurrentlySelected && (
         <CalendarOptions
           selectedCellIndex={index}
@@ -59,7 +63,7 @@ const CalendarCell = ({
           selectedDates={selectedDates}
         />
       )}
-    </div>
+    </>
   );
 };
 
