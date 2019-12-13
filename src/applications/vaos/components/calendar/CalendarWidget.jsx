@@ -12,16 +12,18 @@ import {
   removeDateOptionPairFromSelectedArray,
 } from '../../utils/calendar';
 
+const DEFAULT_MAX_DAYS_AHEAD = 90;
+
 export default class CalendarWidget extends Component {
   static props = {
     // TODO: add "showWeekends" prop
     additionalOptions: PropTypes.object,
-    availableDates: PropTypes.array,
-    minDate: PropTypes.string,
-    maxDate: PropTypes.string,
+    availableDates: PropTypes.array, // ['YYYY-MM-DD']
+    minDate: PropTypes.string, // YYYY-MM-DD
+    maxDate: PropTypes.string, // YYYY-MM-DD
     maxSelections: PropTypes.number,
     monthsToShowAtOnce: PropTypes.number,
-    startMonth: PropTypes.string,
+    startMonth: PropTypes.string, // YYYY-MM
     onChange: PropTypes.func,
   };
 
@@ -51,6 +53,7 @@ export default class CalendarWidget extends Component {
     if (monthsToShowAtOnce > this.state.months.length) {
       const months = [];
       const startDate = startMonth ? moment(startMonth) : moment();
+
       for (let index = 0; index < monthsToShowAtOnce; index++) {
         months.push(startDate.clone().add(index, 'months'));
       }
@@ -71,7 +74,7 @@ export default class CalendarWidget extends Component {
   };
 
   getMaxMonth = () => {
-    const { availableDates, minDate, maxDate } = this.props;
+    const { availableDates, minDate, maxDate, startMonth } = this.props;
     if (Array.isArray(availableDates) && availableDates.length) {
       // sort available dates
       let sortedDates = this.sortDates(availableDates);
@@ -94,15 +97,22 @@ export default class CalendarWidget extends Component {
 
       const lastAvailableDateMonth = moment(
         sortedDates[sortedDates.length - 1],
-      ).format('YYYYMM');
+      ).format('YYYY-MM');
 
       return lastAvailableDateMonth;
     }
 
-    // If no available dates array provided, set max to 90 days from now
-    return moment()
-      .add(90, 'days')
-      .format('YYYYMM');
+    const defaultMaxMonth = moment()
+      .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
+      .format('YYYY-MM');
+
+    // If provided start month is beyond our default, set that month as max month
+    if (startMonth && startMonth > defaultMaxMonth) {
+      return startMonth;
+    }
+
+    // If no available dates array provided, set max to default from now
+    return defaultMaxMonth;
   };
 
   availableDatesChanged = prevDates => {
@@ -334,10 +344,10 @@ export default class CalendarWidget extends Component {
     const nextMonthToDisplay = months[months.length - 1]
       ?.clone()
       .add(1, 'months')
-      .format('YYYYMM');
+      .format('YYYY-MM');
 
     const prevDisabled =
-      months[0].format('YYYYMM') <= currentDate.format('YYYYMM');
+      months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
     const nextDisabled = nextMonthToDisplay > maxMonth;
 
     return (
@@ -372,7 +382,7 @@ export default class CalendarWidget extends Component {
         <div className="vaos-calendar__calendars vads-u-flex--1">
           {months.map(
             (month, index) =>
-              month.format('YYYYMM') <= maxMonth ? (
+              month.format('YYYY-MM') <= maxMonth ? (
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
