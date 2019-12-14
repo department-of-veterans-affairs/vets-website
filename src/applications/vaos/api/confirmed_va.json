@@ -4,7 +4,7 @@
       "id": "22cdc6741c00ac67b6cbf6b972d084c0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-12-07T16:00:00Z",
+        "startDate": "2020-12-07T16:00:00Z",
         "clinicId": "308",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -13,7 +13,7 @@
           {
             "bookingNote": "RP test",
             "appointmentLength": "60",
-            "appointmentTime": "2019-12-07T16:00:00Z",
+            "appointmentTime": "2020-12-07T16:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -30,7 +30,7 @@
       "id": "17dd714287e151195b99164cc1a8e49a",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-07T17:00:00Z",
+        "startDate": "2020-11-07T17:00:00Z",
         "clinicId": "455",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -39,7 +39,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-07T17:00:00Z",
+            "appointmentTime": "2020-11-07T17:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -56,7 +56,7 @@
       "id": "1dbdbd7dc057dfa8804bdad7922ad9d5",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-07T18:00:00Z",
+        "startDate": "2020-11-07T18:00:00Z",
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -65,7 +65,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-07T18:00:00Z",
+            "appointmentTime": "2020-11-07T18:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -82,7 +82,7 @@
       "id": "227785b2bc55ddc7f5fc8e7e605a1436",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-07T22:00:00Z",
+        "startDate": "2020-11-07T22:00:00Z",
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -91,7 +91,7 @@
           {
             "bookingNote": "Test",
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-07T22:00:00Z",
+            "appointmentTime": "2020-11-07T22:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -108,7 +108,7 @@
       "id": "1ce12cadba443b10796b2b08c9014f35",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-11T15:00:00Z",
+        "startDate": "2020-11-11T15:00:00Z",
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -117,7 +117,7 @@
           {
             "bookingNote": "Prohi",
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-11T15:00:00Z",
+            "appointmentTime": "2020-11-11T15:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -134,7 +134,7 @@
       "id": "4801b409952163910e8555838886285c",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-11T16:00:00Z",
+        "startDate": "2020-11-11T16:00:00Z",
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
@@ -143,7 +143,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "30",
-            "appointmentTime": "2019-11-11T16:00:00Z",
+            "appointmentTime": "2020-11-11T16:00:00Z",
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
@@ -160,7 +160,7 @@
       "id": "50e8a64cc27db1e571d7af4c2353abd4",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-11T22:00:00Z",
+        "startDate": "2020-11-11T22:00:00Z",
         "clinicId": "455",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -169,7 +169,7 @@
           {
             "bookingNote": "qrqw",
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-11T22:00:00Z",
+            "appointmentTime": "2020-11-11T22:00:00Z",
             "clinic": {
               "name": "CHY PC CASSIDY",
               "askForCheckIn": false,
@@ -186,7 +186,7 @@
       "id": "f183c1079a800aa475a6752261284bf0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-12T17:00:00Z",
+        "startDate": "2020-11-12T17:00:00Z",
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
@@ -195,7 +195,7 @@
           {
             "bookingNote": "TEST MORRISON X",
             "appointmentLength": "30",
-            "appointmentTime": "2019-11-12T17:00:00Z",
+            "appointmentTime": "2020-11-12T17:00:00Z",
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
@@ -212,7 +212,7 @@
       "id": "aa0b61b838b982ec192c7b060f677437",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-13T17:00:00Z",
+        "startDate": "2020-11-13T17:00:00Z",
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
@@ -221,7 +221,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "30",
-            "appointmentTime": "2019-11-13T17:00:00Z",
+            "appointmentTime": "2020-11-13T17:00:00Z",
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
@@ -238,7 +238,7 @@
       "id": "5a45c368a4260110b92ad065f453d0cd",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-14T13:00:00Z",
+        "startDate": "2020-11-14T13:00:00Z",
         "clinicId": "3748",
         "clinicFriendlyName": "AUDIOLOGY FELLOW (AM)",
         "facilityId": "984",
@@ -247,7 +247,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "15",
-            "appointmentTime": "2019-11-14T13:00:00Z",
+            "appointmentTime": "2020-11-14T13:00:00Z",
             "clinic": {
               "name": "DAY AUDIOLOGY FELLOW 1",
               "askForCheckIn": false,
@@ -264,7 +264,7 @@
       "id": "60622b2f8cb5b99435d23614482ee98e",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-14T18:00:00Z",
+        "startDate": "2020-11-14T18:00:00Z",
         "clinicId": "1020",
         "clinicFriendlyName": "WHEATLAND AUDIOLOGY",
         "facilityId": "983",
@@ -273,7 +273,7 @@
           {
             "bookingNote": "RP test",
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-14T18:00:00Z",
+            "appointmentTime": "2020-11-14T18:00:00Z",
             "clinic": {
               "name": "WHT AUDIO VAR2",
               "askForCheckIn": false,
@@ -290,7 +290,7 @@
       "id": "241fe504bbe31d0d54d726bb02f023e9",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-15T20:00:00Z",
+        "startDate": "2020-11-15T20:00:00Z",
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -299,7 +299,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-15T20:00:00Z",
+            "appointmentTime": "2020-11-15T20:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -316,7 +316,7 @@
       "id": "c2e2d8879bee720c100f3c6611fa410d",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-18T15:00:00Z",
+        "startDate": "2020-11-18T15:00:00Z",
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -325,7 +325,7 @@
           {
             "bookingNote": "test visual field",
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-18T15:00:00Z",
+            "appointmentTime": "2020-11-18T15:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -342,7 +342,7 @@
       "id": "0ad3a5a68965120c843017b8a04a51ab",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-18T16:00:00Z",
+        "startDate": "2020-11-18T16:00:00Z",
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
@@ -351,7 +351,7 @@
           {
             "bookingNote": "checking prohi",
             "appointmentLength": "30",
-            "appointmentTime": "2019-11-18T16:00:00Z",
+            "appointmentTime": "2020-11-18T16:00:00Z",
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
@@ -368,7 +368,7 @@
       "id": "abee9501dffe3bc0e9cc21e7ce4719d6",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-20T15:00:00Z",
+        "startDate": "2020-11-20T15:00:00Z",
         "clinicId": "408",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -377,7 +377,7 @@
           {
             "bookingNote": "TEST",
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-20T15:00:00Z",
+            "appointmentTime": "2020-11-20T15:00:00Z",
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
@@ -394,7 +394,7 @@
       "id": "20ab081dfe1ec140f21191127733a20c",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-20T17:00:00Z",
+        "startDate": "2020-11-20T17:00:00Z",
         "clinicId": "437",
         "clinicFriendlyName": "VISUAL FIELD",
         "facilityId": "983",
@@ -403,7 +403,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "30",
-            "appointmentTime": "2019-11-20T17:00:00Z",
+            "appointmentTime": "2020-11-20T17:00:00Z",
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
@@ -420,7 +420,7 @@
       "id": "9182c2bde1af0c76b75340b523f7b8cb",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-21T16:00:00Z",
+        "startDate": "2020-11-21T16:00:00Z",
         "clinicId": "945",
         "clinicFriendlyName": "C&P BEV AUDIO FTC",
         "facilityId": "983",
@@ -429,7 +429,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "60",
-            "appointmentTime": "2019-11-21T16:00:00Z",
+            "appointmentTime": "2020-11-21T16:00:00Z",
             "clinic": {
               "name": "ZZFTC C&P AUDIO BEV",
               "askForCheckIn": false,
@@ -446,7 +446,7 @@
       "id": "9effc41f1dc18b33fe3a6014d1b9aea0",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-22T13:35:00Z",
+        "startDate": "2020-11-22T13:35:00Z",
         "clinicId": null,
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -455,9 +455,9 @@
         "vvsAppointments": [
           {
             "id": "250afc0b-8551-4a79-bbc9-cf5cdd6575c2",
-            "appointmentKind": "ADHOC",
+            "appointmentKind": "MOBILE_GFE",
             "sourceSystem": "SM",
-            "dateTime": "2019-11-22T13:35:00Z",
+            "dateTime": "2020-11-22T13:35:00Z",
             "duration": 20,
             "status": { "description": "F", "code": "FUTURE" },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
@@ -518,7 +518,7 @@
       "id": "05760f00c80ae60ce49879cf37a05fc8",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-25T15:17:00Z",
+        "startDate": "2020-11-25T15:17:00Z",
         "clinicId": null,
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -529,7 +529,7 @@
             "id": "8a74bdfa-0e66-4848-87f5-0d9bb413ae6d",
             "appointmentKind": "ADHOC",
             "sourceSystem": "SM",
-            "dateTime": "2019-11-25T15:17:00Z",
+            "dateTime": "2020-11-25T15:17:00Z",
             "duration": 20,
             "status": { "description": "F", "code": "FUTURE" },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
@@ -590,7 +590,7 @@
       "id": "4227b97525d391317293f4d129d53106",
       "type": "va_appointments",
       "attributes": {
-        "startDate": "2019-11-27T15:00:00Z",
+        "startDate": "2020-11-27T15:00:00Z",
         "clinicId": "1140",
         "clinicFriendlyName": null,
         "facilityId": "983",
@@ -599,7 +599,7 @@
           {
             "bookingNote": null,
             "appointmentLength": "20",
-            "appointmentTime": "2019-11-27T15:00:00Z",
+            "appointmentTime": "2020-11-27T15:00:00Z",
             "clinic": {
               "name": "MARCYTESTSLOTS",
               "askForCheckIn": false,

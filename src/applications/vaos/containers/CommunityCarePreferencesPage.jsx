@@ -5,7 +5,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../components/FormButtons';
 import * as address from '../utils/address';
-import { LANGUAGES } from './../utils/constants';
+import { LANGUAGES, FETCH_STATUS } from './../utils/constants';
 import ErrorMessage from '../components/ErrorMessage';
 
 import {
@@ -136,27 +136,19 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      loading,
-      hasDataFetchingError,
-    } = this.props;
+    const { schema, data, pageChangeInProgress, systemsStatus } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
           Share your community care provider preferences
         </h1>
-        {hasDataFetchingError && <ErrorMessage />}
-        {(!schema || loading) &&
-          !hasDataFetchingError && (
-            <LoadingIndicator message="Loading Community Care facilities" />
-          )}
+        {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
+        {(!schema || systemsStatus === FETCH_STATUS.loading) && (
+          <LoadingIndicator message="Loading Community Care facilities" />
+        )}
         {!!schema &&
-          !hasDataFetchingError &&
-          !loading && (
+          systemsStatus === FETCH_STATUS.succeeded && (
             <SchemaForm
               name="ccPreferences"
               title="Community Care preferences"
@@ -182,7 +174,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    loading: state.newAppointment.loadingSystems,
+    systemsStatus: state.newAppointment.systemsStatus,
   };
 }
 

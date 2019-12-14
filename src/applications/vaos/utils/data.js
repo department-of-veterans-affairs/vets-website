@@ -28,7 +28,7 @@ function getRequestedDates(data) {
   );
 }
 
-function getUserMessage(data) {
+export function getUserMessage(data) {
   const label = PURPOSE_TEXT.find(
     purpose => purpose.id === data.reasonForAppointment,
   ).short;
@@ -261,15 +261,5 @@ export function createPreferenceBody(preferences, data) {
     emailAddress: data.email,
     notificationFrequency: 'Each new message',
     emailAllowed: true,
-  };
-}
-
-export function createMessageBody(id, { data }) {
-  return {
-    AppointmentRequestId: id,
-    messageText: getUserMessage(data),
-    isLastMessage: true,
-    messageDateTime: '',
-    messageSent: true,
   };
 }

@@ -7,6 +7,12 @@ import {
 import localStorage from '../../../utilities/storage/localStorage';
 
 import {
+  BAD_UNIT_NUMBER,
+  MISSING_UNIT_NUMBER,
+  CONFIRMED,
+} from '../constants/addressValidationMessages';
+
+import {
   isVet360Configured,
   mockContactInformation,
 } from 'vet360/util/local-vet360';
@@ -141,3 +147,86 @@ export function teardownProfileSession() {
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearSentryLoginType();
 }
+
+export const getValidationMessageKey = (
+  suggestedAddresses,
+  validationKey,
+  addressValidationError,
+) => {
+  const singleSuggestion = suggestedAddresses.length === 1;
+  const multipleSuggestions = suggestedAddresses.length > 1;
+  const containsBadUnitNumber =
+    suggestedAddresses.filter(
+      address =>
+        address.addressMetaData?.deliveryPointValidation === BAD_UNIT_NUMBER,
+    ).length > 0;
+
+  const containsMissingUnitNumber =
+    suggestedAddresses.filter(
+      address =>
+        address.addressMetaData?.deliveryPointValidation ===
+        MISSING_UNIT_NUMBER,
+    ).length > 0;
+
+  if (addressValidationError) {
+    return 'validationError';
+  }
+
+  if (singleSuggestion && containsBadUnitNumber) {
+    return validationKey ? 'badUnitNumberOverride' : 'badUnitNumber';
+  }
+
+  if (singleSuggestion && containsMissingUnitNumber) {
+    return validationKey ? 'missingUnitNumberOverride' : 'missingUnitNumber';
+  }
+
+  if (
+    singleSuggestion &&
+    !containsMissingUnitNumber &&
+    !containsBadUnitNumber
+  ) {
+    return validationKey ? 'showSuggestionsOverride' : 'showSuggestions';
+  }
+
+  if (multipleSuggestions) {
+    return validationKey ? 'showSuggestionsOverride' : 'showSuggestions';
+  }
+
+  return 'showSuggestions'; // defaulting here so the modal will show but not allow override
+};
+
+export const showAddressValidationModal = suggestedAddresses => {
+  // pull the addressMetaData prop off the first suggestedAddresses element
+  const [{ addressMetaData } = {}] = suggestedAddresses;
+
+  if (
+    suggestedAddresses.length === 1 &&
+    addressMetaData.confidenceScore > 80 &&
+    addressMetaData.deliveryPointValidation === CONFIRMED
+  ) {
+    return false;
+  }
+
+  if (
+    suggestedAddresses.length === 1 &&
+    (addressMetaData.deliveryPointValidation === BAD_UNIT_NUMBER ||
+      addressMetaData.deliveryPointValidation === MISSING_UNIT_NUMBER)
+  ) {
+    return true;
+  }
+
+  if (suggestedAddresses.length > 1) {
+    return true;
+  }
+
+  if (
+    suggestedAddresses.length === 1 &&
+    addressMetaData.deliveryPointValidation !== CONFIRMED
+  ) {
+    return true;
+  }
+
+  return (
+    suggestedAddresses.length === 1 && addressMetaData.confidenceScore < 80
+  );
+};

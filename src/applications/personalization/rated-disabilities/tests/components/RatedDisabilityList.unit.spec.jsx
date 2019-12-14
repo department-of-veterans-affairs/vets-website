@@ -60,10 +60,7 @@ describe('<RatedDisabilityList/>', () => {
     const date = moment(
       ratedDisabilities.ratedDisabilities[0].effectiveDate,
     ).format('DD/MM/YYYY');
-    const relatedTo =
-      ratedDisabilities.ratedDisabilities[0].specialIssues[0].name;
     const data = instance.formalizeData(ratedDisabilities.ratedDisabilities);
-    expect(data[0].relatedTo).to.equal(relatedTo);
     expect(data[0].effectiveDate).to.equal(date);
     wrapper.unmount();
   });
@@ -87,7 +84,7 @@ describe('<RatedDisabilityList/>', () => {
     ).to.contain('Individual disabilities');
     expect(
       list
-        .find('p')
+        .find('dt')
         .first()
         .text(),
     ).to.contain(disability);
