@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ViewDependentsLayout from '../components/ViewDependentsLayout';
+import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 
 class ViewDependentsApp extends Component {
   render() {
