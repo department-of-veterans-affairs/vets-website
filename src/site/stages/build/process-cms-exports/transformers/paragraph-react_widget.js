@@ -9,8 +9,15 @@ const transform = entity => ({
     entityBundle: 'react_widget',
     fieldButtonFormat: getDrupalValue(entity.fieldButtonFormat),
     fieldCtaWidget: getDrupalValue(entity.fieldCtaWidget),
-    fieldDefaultLink: getDrupalValue(entity.fieldDefaultLink),
-    fieldErrorMessage: omit(['format'], entity.fieldErrorMessage[0]),
+    fieldDefaultLink: entity.fieldDefaultLink[0]
+      ? {
+          url: { path: entity.fieldDefaultLink[0].uri },
+          title: entity.fieldDefaultLink[0].title,
+        }
+      : null,
+    fieldErrorMessage: entity.fieldErrorMessage[0]
+      ? omit(['format'], entity.fieldErrorMessage[0])
+      : null,
     fieldLoadingMessage: getDrupalValue(entity.fieldLoadingMessage),
     fieldTimeout: getDrupalValue(entity.fieldTimeout),
     fieldWidgetType: getDrupalValue(entity.fieldWidgetType),
