@@ -16,6 +16,7 @@ module.exports = {
         },
         required: ['uri', 'title', 'options'],
       },
+      maxItems: 1,
     },
     field_error_message: { $ref: 'GenericNestedString' },
     field_loading_message: { $ref: 'GenericNestedString' },
