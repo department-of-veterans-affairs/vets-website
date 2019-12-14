@@ -7,8 +7,8 @@ const transform = entity => {
       entityType: 'paragraph',
       entityBundle: 'table',
       fieldTable: {
-        tableValue: []
-          .concat(...combineItemsInIndexedObject(fieldTable))
+        tableValue: combineItemsInIndexedObject(fieldTable)
+          .map(arr => arr.join(' '))
           .join(' '),
         // This is to get the `format` & `caption` fields in
         ...entity.fieldTable[0],
