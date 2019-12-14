@@ -1,5 +1,5 @@
 // omit.js uses export default function
-const { default: omit } = require('platform/utilities/data/omit');
+const omit = require('lodash/fp/omit');
 
 const { getDrupalValue } = require('./helpers');
 
