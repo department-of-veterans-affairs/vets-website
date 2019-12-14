@@ -1,15 +1,4 @@
-const { getDrupalValue } = require('./helpers');
-
-const combineItemsInIndexedObject = obj => {
-  const values = [];
-  for (const [key, value] of Object.entries(obj)) {
-    if (Number.isInteger(Number.parseInt(key, 10))) {
-      values.push(value);
-    }
-  }
-
-  return values;
-};
+const { combineItemsInIndexedObject, getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   entity: {
