@@ -24,13 +24,13 @@ module.exports = {
         // It probably _should_ just be a string, but it isn't...
         // fieldErrorMessage: { type: 'string' },
         fieldErrorMessage: {
-          type: 'object',
+          type: ['object', 'null'],
           properties: {
             value: { type: 'string' },
           },
           required: ['value'],
         },
-        fieldLoadingMessage: { type: 'string' },
+        fieldLoadingMessage: { type: ['string', 'null'] },
         fieldTimeout: { type: 'number' },
         fieldWidgetType: { type: 'string' },
       },
