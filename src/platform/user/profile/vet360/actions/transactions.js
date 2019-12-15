@@ -187,10 +187,10 @@ export const validateAddress = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
-  const addressPayload = { address: addCountryCodeIso3ToAddress(payload) };
+  const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
 
   const options = {
-    body: JSON.stringify(addressPayload),
+    body: JSON.stringify(userEnteredAddress),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -200,13 +200,13 @@ export const validateAddress = (
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVet360.addressValidationSuccess();
-    const { addresses } = response;
+    const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
       .sort(
         (firstAddress, secondAddress) =>
-          secondAddress?.addressMetaData?.confidenceScore -
-          firstAddress?.addressMetaData?.confidenceScore,
+          secondAddress.addressMetaData?.confidenceScore -
+          firstAddress.addressMetaData?.confidenceScore,
       )
       .map(address => ({
         addressMetaData: { ...address.addressMetaData },
@@ -218,21 +218,26 @@ export const validateAddress = (
       }));
     const payloadWithSuggestedAddress = {
       ...suggestedAddresses[0],
-      id: payload?.id,
     };
+    // only add the id to the payload if it existed on the user-entered address
+    if (payload.id) {
+      payloadWithSuggestedAddress.id = payload.id;
+    }
 
     const showModal = showAddressValidationModal(suggestedAddresses);
 
+    // show the modal if the API doesn't find a single solid match for the address
     if (showModal) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
-        addressFromUser: payload,
+        addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
         selectedAddress: suggestedAddresses[0], // always select the first address as the default
         suggestedAddresses,
-        validationKey: response.validationKey,
+        validationKey,
       });
     }
+    // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(
         route,
