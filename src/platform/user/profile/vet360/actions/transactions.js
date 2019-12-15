@@ -6,6 +6,7 @@ import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import {
+  addCountryCodeIso3ToAddress,
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
@@ -186,7 +187,7 @@ export const validateAddress = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
-  const addressPayload = { address: { ...payload } };
+  const addressPayload = { address: addCountryCodeIso3ToAddress(payload) };
 
   const options = {
     body: JSON.stringify(addressPayload),

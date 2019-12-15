@@ -1,4 +1,5 @@
 import * as VET360 from '../constants';
+import countries from '../constants/countries.json';
 
 export const PENDING_STATUSES = new Set([
   VET360.TRANSACTION_STATUS.RECEIVED,
@@ -87,4 +88,17 @@ export function hasMVIError(transaction) {
 
 export function hasUserIsDeceasedError(transaction) {
   return matchErrorCode(DECEASED_ERROR_CODES, transaction);
+}
+
+// Adds a countryCodeIso3 to an address based on the countryCode value
+export function addCountryCodeIso3ToAddress(address) {
+  if (!address.countryName) return { ...address };
+
+  const countryData = countries.find(
+    country => country.countryName === address.countryName,
+  );
+
+  if (!countryData) return { ...address };
+
+  return { ...address, countryCodeIso3: countryData.countryCodeISO3 };
 }
