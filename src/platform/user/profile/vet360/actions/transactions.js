@@ -208,6 +208,7 @@ export const validateAddress = (
           secondAddress.addressMetaData?.confidenceScore -
           firstAddress.addressMetaData?.confidenceScore,
       )
+      // add the address type and POU to each suggestion
       .map(address => ({
         addressMetaData: { ...address.addressMetaData },
         ...inferAddressType(address.address),
