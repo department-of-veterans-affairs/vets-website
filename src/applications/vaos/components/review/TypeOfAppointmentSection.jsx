@@ -1,20 +1,22 @@
 import React from 'react';
 import { FACILITY_TYPES } from '../../utils/constants';
+import { getTypeOfCare } from '../../utils/selectors';
 
-export default function TypeOfAppointmentSection(props) {
-  if (props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE) {
-    return (
-      <h2 className="usa-alert-heading vads-u-padding-top--1">
-        Community care appointment
+export default function TypeOfAppointmentSection({ data }) {
+  const typeOfCare = getTypeOfCare(data)?.name;
+  const typeOfAppt =
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+      ? 'Community Care Appointment'
+      : 'VA Appointment';
+
+  return (
+    <>
+      <span className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
+        {typeOfAppt}
+      </span>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        {typeOfCare}
       </h2>
-    );
-  } else if (props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
-    return (
-      <h2 className="usa-alert-heading vads-u-padding-top--1">
-        VA appointment
-      </h2>
-    );
-  }
-  // TODO: Add direct schedule???
-  return null;
+    </>
+  );
 }

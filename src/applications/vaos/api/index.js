@@ -362,7 +362,7 @@ export function getAvailableSlots(
 ) {
   let promise;
 
-  if (false && USE_MOCK_DATA) {
+  if (USE_MOCK_DATA) {
     promise = import('./slots.json').then(
       module => (module.default ? module.default : module),
     );

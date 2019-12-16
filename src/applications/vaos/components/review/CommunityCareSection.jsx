@@ -11,11 +11,11 @@ export default function CommunityCareSection(props) {
         data={props.data}
         vaCityState={props.vaCityState}
       />
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={props.data} />
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <PreferredDatesSection data={props.data} />
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <ContactDetailSection data={props.data} />
     </>
   );
