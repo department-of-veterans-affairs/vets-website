@@ -300,7 +300,7 @@ export function getPacTeam(systemId) {
       promise = Promise.resolve({ data: [] });
     }
   } else {
-    promise = apiRequest(`/vaos/systems${systemId}/pact`);
+    promise = apiRequest(`/vaos/systems/${systemId}/pact`);
   }
 
   return promise.then(resp =>
