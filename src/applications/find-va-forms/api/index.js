@@ -15,8 +15,6 @@ export const fetchFormsApi = async (URL, query) => {
     data: filteredData,
   };
 
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
   // Give back the normalized forms data.
   const normalizedForms = normalizeFormsForTable(forms);
 
