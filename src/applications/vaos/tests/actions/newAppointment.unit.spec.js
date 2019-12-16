@@ -11,6 +11,7 @@ import {
 import {
   routeToPageInFlow,
   openFacilityPage,
+  fetchFacilityDetails,
   updateFacilityPageData,
   updateReasonForAppointmentData,
   openTypeOfCarePage,
@@ -22,6 +23,8 @@ import {
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+  FORM_FETCH_FACILITY_DETAILS,
+  FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_VA_SYSTEM_CHANGED,
@@ -126,6 +129,25 @@ describe('VAOS newAppointment actions', () => {
         });
     });
   });
+
+  describe('fetchFacilityDetails', () => {
+    mockFetch();
+    it('should fetch facility details', async () => {
+      setFetchJSONResponse(global.fetch, {});
+      const dispatch = sinon.spy();
+      const thunk = fetchFacilityDetails('123');
+
+      await thunk(dispatch);
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      );
+    });
+    resetFetch();
+  });
+
   describe('openFacilityPage', () => {
     const defaultSchema = {
       type: 'object',
@@ -425,10 +447,9 @@ describe('VAOS newAppointment actions', () => {
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_CLINIC_PAGE_OPENED);
-      expect(dispatch.secondCall.args[0].type).to.equal(
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       );
-      expect(dispatch.secondCall.args[0].facilityDetails).to.not.be.undefined;
     });
   });
 

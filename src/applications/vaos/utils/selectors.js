@@ -150,6 +150,7 @@ export function getFacilityPageInfo(state, pageKey) {
       !formInfo.schema.properties.vaSystem,
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
+    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.systemsStatus === FETCH_STATUS.failed ||
       newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
@@ -195,7 +196,7 @@ export function getClinicPageInfo(state, pageKey) {
     facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
-    loadingFacilityDetails: newAppointment.loadingFacilityDetails,
+    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
   };
 }
 

@@ -6,7 +6,6 @@ import {
   transformFormToAppointment,
   getUserMessage,
 } from '../../utils/data';
-
 import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS data transformation', () => {
@@ -169,7 +168,7 @@ describe('VAOS data transformation', () => {
         pageChangeInProgress: false,
         systemsStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,
-        loadingFacilityDetails: false,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
         pastAppointments: null,
         submitStatus: 'succeeded',
         reasonRemainingChar: 78,
