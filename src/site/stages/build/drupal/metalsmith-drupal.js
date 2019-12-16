@@ -143,7 +143,7 @@ async function loadDrupal(buildOptions) {
     console.time(drupalTimer);
 
     if (buildOptions[USE_CMS_EXPORT_BUILD_ARG]) {
-      drupalPages = await contentApi.getRemainingContent();
+      drupalPages = await contentApi.getNonNodeContent();
       drupalPages.data.nodeQuery = {
         entities: contentApi.getExportedPages(),
       };

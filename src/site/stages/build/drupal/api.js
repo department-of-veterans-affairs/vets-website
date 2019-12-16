@@ -115,7 +115,7 @@ function getDrupalClient(buildOptions) {
       });
     },
 
-    getRemainingContent(onlyPublishedContent = true) {
+    getNonNodeContent(onlyPublishedContent = true) {
       return this.query({
         query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
         variables: {
