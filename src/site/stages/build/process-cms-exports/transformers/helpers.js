@@ -50,7 +50,8 @@ module.exports = {
   /**
    * This function takes an object where the keys are integers
    * and returns the object as an array where each index corresponds
-   * to the key of the original object
+   * to the key of the original object. This exists because we encountered
+   * an object that looked like `{"0": "foo", "1": "bar", "caption": "Hi!"}`
    *
    * @param {object}
    * @return {array}
