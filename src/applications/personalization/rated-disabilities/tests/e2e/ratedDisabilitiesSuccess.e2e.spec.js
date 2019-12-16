@@ -7,15 +7,16 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 
 function runRatedDisabilitiesTest(browser) {
   browser.assert.containsText(
-    '.vads-u-font-family--sans.vads-u-margin-y--1',
-    'Individual disability ratings',
+    'h2.vads-u-margin-y--1p5',
+    'Individual disabilities',
   );
+  // This is checking for the top level <dl> tag in RatedDisabilityListItem
   browser.assert.visible(
-    '.vads-u-font-weight--bold.vads-u-margin-top--0p25.vads-u-margin-bottom--0.vads-u-margin-x--0.vads-u-font-size--base',
+    '.vads-u-display--block.vads-l-col--12.vads-u-background-color--gray-lightest.vads-u-margin-top--0.vads-u-margin-bottom--2.vads-u-padding-top--1.vads-u-padding-bottom--2.vads-u-padding-x--2',
   );
-  browser.assert.containsText(
-    'p.vads-u-font-weight--bold.vads-u-margin-top--0p25.vads-u-margin-bottom--0.vads-u-margin-x--0.vads-u-font-size--base:nth-of-type(1)',
-    'Diabetes mellitus0',
+  // This is check for the first instance of a rated disability name
+  browser.assert.elementPresent(
+    '.vads-u-display--block.vads-u-font-size--h3.vads-u-font-weight--bold.vads-u-margin--0',
   );
 }
 
@@ -30,12 +31,9 @@ function begin(browser) {
       Auth.logIn(
         token,
         browser,
-        '/disability/check-disability-rating/rating',
+        '/disability/view-disability-rating/rating',
         3,
-      ).waitForElementVisible(
-        '.vads-u-font-family--sans.vads-u-margin-y--1',
-        Timeouts.verySlow,
-      );
+      ).waitForElementVisible('h2.vads-u-margin-y--1p5', Timeouts.verySlow);
     });
     browser.pause(Timeouts.slow);
     runRatedDisabilitiesTest(browser);
