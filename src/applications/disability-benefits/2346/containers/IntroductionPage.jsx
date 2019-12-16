@@ -4,6 +4,7 @@ import { focusElement } from '../../../../platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '../../../../platform/forms/save-in-progress/SaveInProgressIntro';
+import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -13,6 +14,50 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
+        <SortableTable
+          className="va-table"
+          currentSort={{
+            value: 'String',
+            order: 'ASC',
+          }}
+          fields={[
+            {
+              label: 'Name',
+              value: 'name',
+            },
+            {
+              label: 'Email',
+              value: 'email',
+            },
+            {
+              label: 'Message',
+              value: 'message',
+            },
+          ]}
+          data={[
+            {
+              id: 1,
+              name: 'Joe',
+              email: 'joe@joe.com',
+              message: 'Hello',
+              rowClass: 'class',
+            },
+            {
+              id: 2,
+              name: 'Bob',
+              email: 'bob@bob.com',
+              message: 'Hola',
+              rowClass: 'class',
+            },
+            {
+              id: 3,
+              name: 'Tom',
+              email: 'tom@tom.com',
+              message: "What's Up",
+              rowClass: 'class',
+            },
+          ]}
+        />
         <FormTitle title="Form-2346" />
         <p>Equal to VA Form 2346 (Form-2346).</p>
         <SaveInProgressIntro
