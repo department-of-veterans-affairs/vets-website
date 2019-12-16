@@ -67,7 +67,7 @@ const uiSchema = {
   },
   vaFacilityMessage: {
     'ui:field': ({ formContext }) => (
-      <NoValidVAFacilities systemId={formContext.vaSystem} />
+      <NoValidVAFacilities formContext={formContext} />
     ),
     'ui:options': {
       hideLabelText: true,
@@ -111,6 +111,9 @@ export class VAFacilityPage extends React.Component {
       noValidVAFacilities,
       eligibility,
       canScheduleAtChosenFacility,
+      typeOfCare,
+      facilityDetailsStatus,
+      systemDetails,
       hasDataFetchingError,
     } = this.props;
 
@@ -204,7 +207,12 @@ export class VAFacilityPage extends React.Component {
           onChange={newData =>
             this.props.updateFacilityPageData(pageKey, uiSchema, newData)
           }
-          formContext={{ vaSystem: data.vaSystem }}
+          formContext={{
+            vaSystem: data.vaSystem,
+            typeOfCare,
+            facilityDetailsStatus,
+            systemDetails,
+          }}
           data={data}
         >
           {notEligibleAtChosenFacility && (

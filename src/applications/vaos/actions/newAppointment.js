@@ -32,11 +32,14 @@ import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  createMessageBody,
+  getUserMessage,
   createPreferenceBody,
 } from '../utils/data';
 
-import { getEligibilityData } from '../utils/eligibility';
+import {
+  getEligibilityData,
+  getEligibleFacilities,
+} from '../utils/eligibility';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -60,6 +63,10 @@ export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_FETCH_CHILD_FACILITIES_FAILED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
+export const FORM_FETCH_FACILITY_DETAILS =
+  'newAppointment/FORM_FETCH_FACILITY_DETAILS';
+export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
 export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
   'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
@@ -181,6 +188,29 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
   };
 }
 
+export function fetchFacilityDetails(facilityId) {
+  let facilityDetails;
+
+  return async dispatch => {
+    dispatch({
+      type: FORM_FETCH_FACILITY_DETAILS,
+    });
+
+    try {
+      facilityDetails = await getFacilityInfo(facilityId);
+    } catch (error) {
+      facilityDetails = null;
+      Sentry.captureException(error);
+    }
+
+    dispatch({
+      type: FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      facilityDetails,
+      facilityId,
+    });
+  };
+}
+
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
@@ -270,6 +300,14 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         );
 
+        const availableFacilities = getEligibleFacilities(facilities);
+
+        // If no available facilities, fetch system details to display contact info
+        if (!availableFacilities?.length) {
+          const systemId = data.vaSystem;
+          dispatch(fetchFacilityDetails(systemId));
+        }
+
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
           uiSchema,
@@ -356,33 +394,26 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
 
 export function openClinicPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
-    let facilityDetails;
-
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED,
     });
 
-    try {
-      facilityDetails = await getFacilityInfo(
-        getState().newAppointment.data.vaFacility,
-      );
-    } catch (e) {
-      Sentry.captureException(e);
-      facilityDetails = null;
-    }
+    await dispatch(
+      fetchFacilityDetails(getState().newAppointment.data.vaFacility),
+    );
 
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       page,
       uiSchema,
       schema,
-      facilityDetails,
     });
   };
 }
 
 export function openSelectAppointmentPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
+    const data = getState().newAppointment.data;
     let slots;
     let mappedSlots = [];
     let appointmentLength = null;
@@ -393,7 +424,16 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 
     try {
       const response = await getAvailableSlots(
-        getState().newAppointment.data.clinicId,
+        data.vaFacility,
+        data.typeOfCareId,
+        data.clinicId,
+        moment(data.preferredDate)
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment(data.preferredDate)
+          .startOf('month')
+          .add(90, 'days')
+          .format('YYYY-MM-DD'),
       );
 
       slots = response[0]?.appointmentTimeSlot || [];
@@ -402,7 +442,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
       const now = moment();
 
       mappedSlots = slots.reduce((acc, slot) => {
-        const dateObj = moment(slot.startDateTime, 'MM/DD/YYYY LTS');
+        const dateObj = moment(slot.startDateTime);
         if (dateObj.isAfter(now)) {
           acc.push({
             date: dateObj.format('YYYY-MM-DD'),
@@ -414,6 +454,7 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
 
       mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
     } catch (e) {
+      Sentry.captureException(e);
       mappedSlots = null;
     }
 
@@ -535,9 +576,9 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
+          const messageText = getUserMessage(newAppointment.data);
+          await sendRequestMessage(requestData.id, messageText);
           await buildPreferencesDataAndUpdate(newAppointment);
-          const messageBody = createMessageBody(requestData.id, newAppointment);
-          await sendRequestMessage(requestData.id, messageBody);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded

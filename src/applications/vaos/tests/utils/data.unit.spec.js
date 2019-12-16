@@ -4,7 +4,9 @@ import {
   transformFormToCCRequest,
   transformFormToVARequest,
   transformFormToAppointment,
+  getUserMessage,
 } from '../../utils/data';
+import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
@@ -164,9 +166,9 @@ describe('VAOS data transformation', () => {
         ],
         ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
-        loadingSystems: false,
-        loadingEligibility: false,
-        loadingFacilityDetails: false,
+        systemsStatus: FETCH_STATUS.succeeded,
+        eligibilityStatus: FETCH_STATUS.succeeded,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
         pastAppointments: null,
         submitStatus: 'succeeded',
         reasonRemainingChar: 78,
@@ -346,5 +348,16 @@ describe('VAOS data transformation', () => {
       schedulingMethod: 'direct',
       providers: { provider: [{ location: { type: 'VA' } }] },
     });
+  });
+
+  it('should get concatenated user message', () => {
+    const data = {
+      reasonAdditionalInfo: 'Second half',
+      reasonForAppointment: 'routine-follow-up',
+    };
+
+    const message = getUserMessage(data);
+
+    expect(message).to.equal('Follow-up/Routine: Second half');
   });
 });
