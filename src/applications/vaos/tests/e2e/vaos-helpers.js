@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 const moment = require('moment');
 const mock = require('../../../../platform/testing/e2e/mock-helpers');
+const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
 const confirmedVA = require('../../api/confirmed_va.json');
 const confirmedCC = require('../../api/confirmed_cc.json');
@@ -46,6 +47,70 @@ function updateRequestDates(data) {
     item.attributes.optionDate1 = futureDateStr;
   });
   return data;
+}
+
+function newAppointmentTest(client) {
+  client
+    .click('#new-appointment')
+    .waitForElementVisible('.rjsf [type="submit"]', Timeouts.normal)
+    .axeCheck('.main');
+  return client;
+}
+
+function appointmentDateTimeTest(client, assertText) {
+  client
+    .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+    .click('.vaos-calendar__options input[id^="checkbox-0"]')
+    .click('.rjsf [type="submit"]')
+    .assert.containsText('h1', assertText);
+
+  return client;
+}
+
+function appointmentReasonTest(client, nextPageHeader) {
+  client
+    .click('#root_reasonForAppointment_0')
+    .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+    .click('.rjsf [type="submit"]')
+    .assert.containsText('h1', nextPageHeader);
+
+  return client;
+}
+
+function howToBeSeenTest(client) {
+  client
+    .click('input#root_visitType_0')
+    .click('.rjsf [type="submit"]')
+    .waitForElementVisible('h1', Timeouts.slow)
+    .assert.containsText('h1', 'Contact information');
+}
+
+function contactInformationTest(client) {
+  client
+    .fill('input#root_phoneNumber', '5035551234')
+    .click('input#root_bestTimeToCall_morning')
+    .fill('input#root_email', 'mail@gmail.com')
+    .click('.rjsf [type="submit"]')
+    .assert.containsText('h1', 'Review your appointment details');
+
+  return client;
+}
+
+function reviewAppointmentTest(client) {
+  client
+    .click('button.usa-button.usa-button-primary')
+    .assert.containsText('h1', 'Your appointment request has been submitted');
+
+  return client;
+}
+
+function appointmentSubmittedTest(client) {
+  // client.click('.usa-button[href$="new-appointment/"]')
+  client
+    .click('.usa-button[href$="appointments/"]')
+    .assert.containsText('h1', 'VA appointments');
+
+  return client;
 }
 
 function initAppointmentListMock(token) {
@@ -177,4 +242,11 @@ function initAppointmentListMock(token) {
 
 module.exports = {
   initAppointmentListMock,
+  newAppointmentTest,
+  appointmentDateTimeTest,
+  appointmentReasonTest,
+  howToBeSeenTest,
+  contactInformationTest,
+  reviewAppointmentTest,
+  appointmentSubmittedTest,
 };
