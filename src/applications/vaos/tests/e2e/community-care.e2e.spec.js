@@ -65,6 +65,7 @@ module.exports = {
       .setValue('#root_communityCareProvider_address_postalCode', '60613')
       .setValue('#root_communityCareProvider_phone', '1234567890')
       .click('.rjsf [type="submit"]')
+      .waitForElementPresent('h1', Timeouts.slow)
       .assert.containsText('h1', 'Reason for appointment');
   },
   'Reason for appointment': client => {
