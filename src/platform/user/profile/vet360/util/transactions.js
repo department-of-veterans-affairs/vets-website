@@ -90,7 +90,7 @@ export function hasUserIsDeceasedError(transaction) {
   return matchErrorCode(DECEASED_ERROR_CODES, transaction);
 }
 
-// Adds a countryCodeIso3 to an address based on the countryCode value
+// Adds a countryCodeIso3 to an address based on the countryName value
 export function addCountryCodeIso3ToAddress(address) {
   if (!address.countryName) return { ...address };
 
