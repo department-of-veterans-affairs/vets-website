@@ -8,6 +8,9 @@ import { orderBy } from 'lodash';
 // Relative imports.
 import { updateResultsAction } from '../actions';
 
+const ASCENDING = 'ASC';
+const DESCENDING = 'DESC';
+
 const fieldLabels = [
   {
     label: 'VA form number',
@@ -59,7 +62,7 @@ class SearchResults extends Component {
     super(props);
     this.state = {
       selectedFieldLabel: 'idLabel',
-      selectedFieldOrder: 'ASC',
+      selectedFieldOrder: ASCENDING,
     };
   }
 
@@ -67,7 +70,8 @@ class SearchResults extends Component {
     const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Derive the opposite sort order.
-    const oppositeFieldOrder = selectedFieldOrder === 'ASC' ? 'DESC' : 'ASC';
+    const oppositeFieldOrder =
+      selectedFieldOrder === ASCENDING ? DESCENDING : ASCENDING;
 
     // Sort the results.
     this.sortResults(
@@ -76,7 +80,7 @@ class SearchResults extends Component {
     );
   };
 
-  sortResults = (fieldLabel, selectedFieldOrder = 'ASC') => {
+  sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
     const { results, updateResults } = this.props;
 
     // Update local state for SortableTable.
@@ -150,7 +154,4 @@ const mapDispatchToProps = dispatch => ({
 
 export { SearchResults };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchResults);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
