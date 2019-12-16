@@ -23,6 +23,9 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-va-forms/createFindVaForms';
+import createDlcForm2346, {
+  form2346WidgetReducer,
+} from '../disability-benefits/2346/createDlcForm2346';
 import createHigherLevelReviewApplicationStatus from '../../applications/disability-benefits/996/components/createHLRApplicationStatus';
 
 // No-react styles.
@@ -49,6 +52,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 const store = createCommonStore({
   ...facilityReducer,
   ...findVaFormsWidgetReducer,
+  ...form2346WidgetReducer,
 });
 
 Sentry.withScope(scope => {
@@ -112,6 +116,7 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
+createDlcForm2346(store, widgetTypes.DLC_FORM_2346);
 
 // homepage widgets
 if (location.pathname === '/') {

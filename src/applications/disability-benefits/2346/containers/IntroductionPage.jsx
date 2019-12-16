@@ -22,44 +22,79 @@ class IntroductionPage extends React.Component {
           }}
           fields={[
             {
-              label: 'Name',
-              value: 'name',
+              label: 'Issue Date',
+              value: 'issuedate',
             },
             {
-              label: 'Email',
-              value: 'email',
+              label: 'Battery',
+              value: 'battery',
             },
             {
-              label: 'Message',
-              value: 'message',
+              label: 'Make',
+              value: 'make',
+            },{
+              label: 'Model',
+              value: 'model',
+            },
+            {
+              label: 'Serial Number',
+              value: 'serial',
+            },
+            {
+              label: 'Date Last Ordered',
+              value: 'lastordered',
+            },{
+              label: 'Check To Order Batteries',
+              value: 'checkmark',
             },
           ]}
           data={[
             {
-              id: 1,
-              name: 'Joe',
-              email: 'joe@joe.com',
-              message: 'Hello',
-              rowClass: 'class',
-            },
-            {
-              id: 2,
-              name: 'Bob',
-              email: 'bob@bob.com',
-              message: 'Hola',
-              rowClass: 'class',
-            },
-            {
-              id: 3,
-              name: 'Tom',
-              email: 'tom@tom.com',
-              message: "What's Up",
-              rowClass: 'class',
-            },
+              issuedate: '11/03/2011',
+              battery: 'Z4A2O3',
+              make: 'BERNAFON',
+              model: 'RESOUND QUATTRO 3110',
+              serial: 'W6G0L6',
+              lastordered: '08/28/2018',
+              checkmark: <input type="checkbox" />,
+            }
           ]}
         />
+        <table>
+  <caption>Bordered table</caption>
+  <thead>
+    <tr>
+      <th scope="col">Document title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Declaration of Independence</th>
+      <td>Statement adopted by the Continental Congress declaring independence from the British Empire.</td>
+      <div><input type='checkbox' /></div>
+    </tr>
+    <tr>
+      <th scope="row">Bill of Rights</th>
+      <td>The first ten amendments of the U.S. Constitution guaranteeing rights and freedoms.</td>
+      <td>1791</td>
+    </tr>
+    <tr>
+      <th scope="row">Declaration of Sentiments</th>
+      <td>A document written during the Seneca Falls Convention outlining the rights that American women should be entitled to as citizens.</td>
+      <td>1848</td>
+    </tr>
+    <tr>
+      <th scope="row">Emancipation Proclamation</th>
+      <td>An executive order granting freedom to slaves in designated southern states.</td>
+      <td>1863</td>
+    </tr>
+  </tbody>
+</table>
         <FormTitle title="Form-2346" />
         <p>Equal to VA Form 2346 (Form-2346).</p>
+        <input type="checkbox" id="horns" name="horns"></input>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}

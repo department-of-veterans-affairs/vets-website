@@ -1,5 +1,5 @@
 import '../../../platform/polyfills';
-import './sass/2346.scss';
+import './sass/form-2346.scss';
 
 import startApp from '../../../platform/startup';
 

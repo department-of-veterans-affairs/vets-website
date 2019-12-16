@@ -3,7 +3,8 @@ import {
   FETCH_DATA_FAILURE,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
-} from './dlcTypes';
+} from '../constants';
+import { getDlcDataApi, updateDlcDataApi } from '../api';
 
 export const fetchDataSuccess = data => ({
   type: FETCH_DATA_SUCCESS,
@@ -24,7 +25,7 @@ export const updateDataFailure = () => ({
 
 export const getDLCData = () => async dispatch => {
   try {
-    const { data } = await fetch('http://localhost:3000/v0/dalc/hab/1010');
+    const { data } = await getDlcDataApi();
     dispatch({ type: FETCH_DATA_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: FETCH_DATA_FAILURE, payload: 'error fetching data' });
@@ -33,19 +34,7 @@ export const getDLCData = () => async dispatch => {
 
 export const updateDLCData = id => async dispatch => {
   try {
-    const { data } = await fetch('http://localhost:3000/v0/dalc/hab/1010', {
-      method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
+    const { data } = await updateDlcDataApi();
     dispatch({ type: UPDATE_DATA_SUCCESS, id, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_DATA_FAILURE, payload: 'error updating data' });
