@@ -117,7 +117,7 @@ function getDrupalClient(buildOptions) {
 
     getRemainingContent(onlyPublishedContent = true) {
       return this.query({
-        query: getQuery(queries.GET_REMAINING_CONTENT),
+        query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
         variables: {
           onlyPublishedContent,
         },
