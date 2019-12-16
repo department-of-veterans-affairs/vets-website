@@ -7,11 +7,11 @@ import fullSchema from '../10-10CG-schema.json';
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
+import * as addressUI from 'platform/forms-system/src/js/definitions/address';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import definitions from '../definitions/caregiverUI';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -23,6 +23,23 @@ import {
 
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
+
+const {
+  address,
+  cellNumber,
+  dateOfBirth,
+  email,
+  facilityType,
+  gender,
+  medicaidEnrolled,
+  otherHealthInsurance,
+  otherHealthInsuranceName,
+  plannedClinic,
+  previousTreatmentFacility,
+  telephoneNumber,
+  vaEnrolled,
+  vetRelationship,
+} = definitions.items;
 
 const {
   fullName,
@@ -74,40 +91,16 @@ const formConfig = {
           uiSchema: {
             [chapterOneFields.fullName]: fullNameUI,
             [chapterOneFields.ssn]: ssnUI,
-            [chapterOneFields.veteranDateOfBirth]: currentOrPastDateUI(
-              'Date of Birth',
-            ),
-            [chapterOneFields.address]: address.uiSchema(
-              'Current Street Address',
-              false,
-            ),
-            [chapterOneFields.telephoneNumber]: phoneUI(
-              'Telephone Number (Including Area Code)',
-            ),
-            [chapterOneFields.cellNumber]: phoneUI(
-              'Cell Number (Including Area Code)',
-            ),
-            [chapterOneFields.email]: {
-              'ui:title': 'Email Address',
-            },
-            [chapterOneFields.gender]: {
-              'ui:title': 'Gender',
-            },
-            [chapterOneFields.vaEnrolled]: {
-              'ui:title': 'Enrolled in VA Health Care?',
-            },
-            [chapterOneFields.plannedClinic]: {
-              'ui:title':
-                'Name of VA medical center or clinic where you receive or plan to receive health care services:',
-            },
-            [chapterOneFields.previousTreatmentFacility]: {
-              'ui:title':
-                'Name of facility where you last received medical treatment:',
-            },
-            [chapterOneFields.facilityType]: {
-              'ui:title':
-                'Type of facility where you last received medical treatment:',
-            },
+            [chapterOneFields.veteranDateOfBirth]: dateOfBirth,
+            [chapterOneFields.address]: address,
+            [chapterOneFields.telephoneNumber]: telephoneNumber,
+            [chapterOneFields.cellNumber]: cellNumber,
+            [chapterOneFields.email]: email,
+            [chapterOneFields.gender]: gender,
+            [chapterOneFields.vaEnrolled]: vaEnrolled,
+            [chapterOneFields.plannedClinic]: plannedClinic,
+            [chapterOneFields.previousTreatmentFacility]: previousTreatmentFacility,
+            [chapterOneFields.facilityType]: facilityType,
           },
           schema: {
             type: 'object',
@@ -120,7 +113,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [chapterOneFields.address]: address.schema(fullSchema, false),
+              [chapterOneFields.address]: addressUI.schema(fullSchema, false),
               [chapterOneFields.telephoneNumber]: usaPhone,
               [chapterOneFields.cellNumber]: usaPhone,
               [chapterOneFields.email]: {
@@ -162,35 +155,15 @@ const formConfig = {
             [chapterTwoFields.caregiverDateOfBirth]: currentOrPastDateUI(
               'Date of birth',
             ),
-            [chapterTwoFields.address]: address.uiSchema(
-              'Current Street Address',
-              false,
-            ),
-            [chapterTwoFields.telephoneNumber]: phoneUI(
-              'Telephone Number (Including Area Code)',
-            ),
-            [chapterTwoFields.cellNumber]: phoneUI(
-              'Cell Number (Including Area Code)',
-            ),
-            [chapterTwoFields.email]: {
-              'ui:title': 'Email Address',
-            },
-            [chapterTwoFields.gender]: {
-              'ui:title': 'Gender',
-            },
-            [chapterTwoFields.vetRelationship]: {
-              'ui:title':
-                'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
-            },
-            [chapterTwoFields.medicaidEnrolled]: {
-              'ui:title': 'Enrolled in Medicaid or Medicare?',
-            },
-            [chapterTwoFields.otherHealthInsurance]: {
-              'ui:title': 'Other Health Insurance?',
-            },
-            [chapterTwoFields.otherHealthInsuranceName]: {
-              'ui:title': 'Other Health Insurance Name?',
-            },
+            [chapterTwoFields.address]: address,
+            [chapterTwoFields.telephoneNumber]: telephoneNumber,
+            [chapterTwoFields.cellNumber]: cellNumber,
+            [chapterTwoFields.email]: email,
+            [chapterTwoFields.gender]: gender,
+            [chapterTwoFields.vetRelationship]: vetRelationship,
+            [chapterTwoFields.medicaidEnrolled]: medicaidEnrolled,
+            [chapterTwoFields.otherHealthInsurance]: otherHealthInsurance,
+            [chapterTwoFields.otherHealthInsuranceName]: otherHealthInsuranceName,
           },
           schema: {
             type: 'object',
@@ -202,7 +175,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [chapterTwoFields.address]: address.schema(fullSchema, false),
+              [chapterTwoFields.address]: addressUI.schema(fullSchema, false),
               [chapterTwoFields.telephoneNumber]: usaPhone,
               [chapterTwoFields.cellNumber]: usaPhone,
               [chapterTwoFields.email]: {
@@ -236,29 +209,14 @@ const formConfig = {
           title: 'Secondary Caregiver Information',
           uiSchema: {
             [chapterThreeFields.secondary.fullName]: fullNameUI,
-            [chapterThreeFields.secondary
-              .caregiverDateOfBirth]: currentOrPastDateUI('Date of birth'),
+            [chapterThreeFields.secondary.caregiverDateOfBirth]: dateOfBirth,
             [chapterThreeFields.secondary.ssn]: ssnUI,
-            [chapterThreeFields.secondary.address]: address.uiSchema(
-              'Current Street Address',
-              false,
-            ),
-            [chapterThreeFields.secondary.telephoneNumber]: phoneUI(
-              'Telephone Number (Including Area Code)',
-            ),
-            [chapterThreeFields.secondary.cellNumber]: phoneUI(
-              'Cell Number (Including Area Code)',
-            ),
-            [chapterThreeFields.secondary.email]: {
-              'ui:title': 'Email Address',
-            },
-            [chapterThreeFields.secondary.gender]: {
-              'ui:title': 'Gender',
-            },
-            [chapterThreeFields.secondary.vetRelationship]: {
-              'ui:title':
-                'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
-            },
+            [chapterThreeFields.secondary.address]: address,
+            [chapterThreeFields.secondary.telephoneNumber]: telephoneNumber,
+            [chapterThreeFields.secondary.cellNumber]: cellNumber,
+            [chapterThreeFields.secondary.email]: email,
+            [chapterThreeFields.secondary.gender]: gender,
+            [chapterThreeFields.secondary.vetRelationship]: vetRelationship,
           },
           schema: {
             type: 'object',
@@ -270,7 +228,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [chapterThreeFields.secondary.address]: address.schema(
+              [chapterThreeFields.secondary.address]: addressUI.schema(
                 fullSchema,
                 false,
               ),
@@ -291,29 +249,14 @@ const formConfig = {
           title: 'Tertiary Caregiver Information',
           uiSchema: {
             [chapterThreeFields.tertiary.fullName]: fullNameUI,
-            [chapterThreeFields.tertiary
-              .caregiverDateOfBirth]: currentOrPastDateUI('Date of birth'),
+            [chapterThreeFields.tertiary.caregiverDateOfBirth]: dateOfBirth,
             [chapterThreeFields.tertiary.ssn]: ssnUI,
-            [chapterThreeFields.tertiary.address]: address.uiSchema(
-              'Current Street Address',
-              false,
-            ),
-            [chapterThreeFields.tertiary.telephoneNumber]: phoneUI(
-              'Telephone Number (Including Area Code)',
-            ),
-            [chapterThreeFields.tertiary.cellNumber]: phoneUI(
-              'Cell Number (Including Area Code)',
-            ),
-            [chapterThreeFields.tertiary.email]: {
-              'ui:title': 'Email Address',
-            },
-            [chapterThreeFields.tertiary.gender]: {
-              'ui:title': 'Gender',
-            },
-            [chapterThreeFields.tertiary.vetRelationship]: {
-              'ui:title':
-                'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
-            },
+            [chapterThreeFields.tertiary.address]: address,
+            [chapterThreeFields.tertiary.telephoneNumber]: telephoneNumber,
+            [chapterThreeFields.tertiary.cellNumber]: cellNumber,
+            [chapterThreeFields.tertiary.email]: email,
+            [chapterThreeFields.tertiary.gender]: gender,
+            [chapterThreeFields.tertiary.vetRelationship]: vetRelationship,
           },
           schema: {
             type: 'object',
@@ -325,7 +268,7 @@ const formConfig = {
                 type: 'string',
                 enum: ['Male', 'Female'],
               },
-              [chapterThreeFields.tertiary.address]: address.schema(
+              [chapterThreeFields.tertiary.address]: addressUI.schema(
                 fullSchema,
                 false,
               ),

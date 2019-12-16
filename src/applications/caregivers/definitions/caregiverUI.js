@@ -1,4 +1,6 @@
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ServicePeriodView from '../../../platform/forms/components/ServicePeriodView';
 
 export default {
@@ -9,31 +11,41 @@ export default {
     hideTitle: true,
   },
   items: {
-    dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
-      'End of service must be after start of service',
-    ),
-    serviceBranch: {
-      'ui:title': 'Branch of service',
+    dateOfBirth: currentOrPastDateUI('Date of Birth'),
+    address: address.uiSchema('Current Street Address', false),
+    telephoneNumber: phoneUI('Telephone Number (Including Area Code)'),
+    cellNumber: phoneUI('Cell Number (Including Area Code)'),
+    email: {
+      'ui:title': 'Email Address',
     },
-    serviceStatus: {
+    gender: {
+      'ui:title': 'Gender',
+    },
+    vaEnrolled: {
+      'ui:title': 'Enrolled in VA Health Care?',
+    },
+    plannedClinic: {
       'ui:title':
-        'Type of service (Active duty, drilling reservist, IRR, etc.)',
+        'Name of VA medical center or clinic where you receive or plan to receive health care services:',
     },
-    applyPeriodToSelected: {
-      'ui:title': 'Apply this service period to the benefit I’m applying for.',
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
+    previousTreatmentFacility: {
+      'ui:title': 'Name of facility where you last received medical treatment:',
     },
-    benefitsToApplyTo: {
-      'ui:title': 'Please explain how you’d like this service period applied.',
-      'ui:widget': 'textarea',
-      'ui:options': {
-        expandUnder: 'applyPeriodToSelected',
-        expandUnderCondition: false,
-      },
+    facilityType: {
+      'ui:title': 'Type of facility where you last received medical treatment:',
+    },
+    vetRelationship: {
+      'ui:title':
+        'Relationship to Veteran (e.g., Spouse, Parent, Child, Other):',
+    },
+    medicaidEnrolled: {
+      'ui:title': 'Enrolled in Medicaid or Medicare?',
+    },
+    otherHealthInsurance: {
+      'ui:title': 'Other Health Insurance?',
+    },
+    otherHealthInsuranceName: {
+      'ui:title': 'Other Health Insurance Name?',
     },
   },
 };
