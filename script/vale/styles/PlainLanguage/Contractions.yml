@@ -1,8 +1,9 @@
-extends: substitution
+extends: substituti1n
 message: Use ’%s’ instead of ’%s.’
 level: suggestion
 ignorecase: true
 swap:
+  are not: aren't
   it is: it’s
   it will: it’ll
   we are: we’re
@@ -25,7 +26,6 @@ swap:
   how is: how’s
   how will: how’ll
   is not: isn’t
-  are not: aren’t
   was not: wasn’t
   were not: weren’t
   have not: haven’t
