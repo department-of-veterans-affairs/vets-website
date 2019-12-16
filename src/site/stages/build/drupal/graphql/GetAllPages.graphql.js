@@ -9,7 +9,8 @@ const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.gra
 const fragments = require('./fragments.graphql');
 const newsStoryPage = require('./newStoryPage.graphql');
 const sidebarQuery = require('./navigation-fragments/sidebar.nav.graphql');
-const alertsQuery = require('./bannerAlerts.graphql');
+const alertsQuery = require('./alerts.graphql');
+const bannerAlertsQuery = require('./bannerAlerts.graphql');
 const eventPage = require('./eventPage.graphql');
 const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav.graphql');
 const outreachSidebarQuery = require('./navigation-fragments/outreachSidebar.nav.graphql');
@@ -80,6 +81,7 @@ module.exports = `
     ${facilitySidebarQuery}
     ${outreachSidebarQuery}
     ${alertsQuery}
+    ${bannerAlertsQuery}
     ${outreachAssetsQuery}
     ${homePageQuery}
     ${
