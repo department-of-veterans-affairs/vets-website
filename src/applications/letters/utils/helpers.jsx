@@ -491,7 +491,10 @@ export function getStateName(stateCode) {
  */
 export function inferAddressType(address) {
   let type = ADDRESS_TYPES.domestic;
-  if (address.countryName !== 'USA') {
+  if (
+    address.countryName !== 'USA' &&
+    address.countryName !== 'United States'
+  ) {
     type = ADDRESS_TYPES.international;
   } else if (MILITARY_STATES.has(address.stateCode)) {
     type = ADDRESS_TYPES.military;
