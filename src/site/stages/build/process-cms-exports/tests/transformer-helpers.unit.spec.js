@@ -20,10 +20,12 @@ describe('CMS export transformer helpers', () => {
 
   describe('combineItemsInIndexedObject', () => {
     it('turns an index-keyed object into an array', () => {
+      /* eslint-disable quote-props */
       const obj = {
-        1: ['world'],
-        0: ['hello'],
+        '1': ['world'],
+        '0': ['hello'],
       };
+      /* eslint-enable quote-props */
       const arr = [['hello'], ['world']];
 
       expect(combineItemsInIndexedObject(obj)).to.deep.equal(arr);
