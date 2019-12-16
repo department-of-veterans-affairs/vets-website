@@ -126,7 +126,7 @@ export class SearchPage extends React.Component {
     const query = {
       ...this.props.location.query,
       [field]: value,
-      name: field,
+      name: field === 'category' ? this.props.autocomplete.searchTerm : field,
     };
     // Don’t update the route if the query hasn’t changed.
     if (
