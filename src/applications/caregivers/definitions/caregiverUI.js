@@ -1,14 +1,11 @@
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import ServicePeriodView from '../../../platform/forms/components/ServicePeriodView';
 
 export default {
-  'ui:title': 'Caregiver Information',
+  'ui:title': 'Application for Caregiver Benefits',
   'ui:options': {
-    itemName: 'Service Period',
-    viewField: ServicePeriodView,
-    hideTitle: true,
+    hideTitle: false,
   },
   items: {
     dateOfBirth: currentOrPastDateUI('Date of Birth'),

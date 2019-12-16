@@ -8,7 +8,6 @@ import fullSchema from '../10-10CG-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import * as addressUI from 'platform/forms-system/src/js/definitions/address';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import definitions from '../definitions/caregiverUI';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -19,7 +18,7 @@ import {
   chapterOneFields,
   chapterTwoFields,
   chapterThreeFields,
-} from './constants';
+} from '../definitions/constants';
 
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
@@ -152,9 +151,7 @@ const formConfig = {
           uiSchema: {
             [chapterTwoFields.fullName]: fullNameUI,
             [chapterTwoFields.ssn]: ssnUI,
-            [chapterTwoFields.caregiverDateOfBirth]: currentOrPastDateUI(
-              'Date of birth',
-            ),
+            [chapterTwoFields.caregiverDateOfBirth]: dateOfBirth,
             [chapterTwoFields.address]: address,
             [chapterTwoFields.telephoneNumber]: telephoneNumber,
             [chapterTwoFields.cellNumber]: cellNumber,
