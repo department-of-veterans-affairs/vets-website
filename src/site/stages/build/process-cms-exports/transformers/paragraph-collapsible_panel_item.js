@@ -6,7 +6,9 @@ const transform = entity => ({
     entityBundle: 'collapsible_panel_item',
     fieldTitle: getDrupalValue(entity.fieldTitle),
     fieldVaParagraphs: entity.fieldVaParagraphs,
-    fieldWysiwyg: { processed: getWysiwygString(entity.fieldWysiwyg[0].value) },
+    fieldWysiwyg: {
+      processed: getWysiwygString(getDrupalValue(entity.fieldWysiwyg)),
+    },
   },
 });
 module.exports = {
