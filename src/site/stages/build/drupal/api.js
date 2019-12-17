@@ -8,6 +8,13 @@ const { queries, getQuery } = require('./queries');
 
 const syswidecas = require('syswide-cas');
 
+const {
+  contentDir,
+  readAllNodeNames,
+  readEntity,
+} = require('../process-cms-exports/helpers');
+const entityTreeFactory = require('../process-cms-exports');
+
 function encodeCredentials({ user, password }) {
   const credentials = `${user}:${password}`;
   const credentialsEncoded = Buffer.from(credentials).toString('base64');
@@ -106,6 +113,29 @@ function getDrupalClient(buildOptions) {
           onlyPublishedContent,
         },
       });
+    },
+
+    getNonNodeContent(onlyPublishedContent = true) {
+      return this.query({
+        query: getQuery(queries.GET_ALL_PAGES, { useTomeSync: true }),
+        variables: {
+          onlyPublishedContent,
+        },
+      });
+    },
+
+    getExportedPages() {
+      const exportDir = buildOptions['cms-export-dir'] || contentDir;
+      const entities = readAllNodeNames(exportDir).map(entityDetails =>
+        readEntity(exportDir, ...entityDetails),
+      );
+      const assembleEntityTree = entityTreeFactory(exportDir || contentDir);
+
+      const modifiedEntities = entities.map(entity =>
+        assembleEntityTree(entity),
+      );
+
+      return modifiedEntities;
     },
 
     getLatestPageById(nodeId) {

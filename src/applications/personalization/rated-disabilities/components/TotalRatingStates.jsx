@@ -1,7 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import PercentageCalloutBox from '../components/PercentageCalloutBox';
 
 export const errorMessage = () => {
   const message = (
@@ -53,37 +52,31 @@ export const missingTotalMessage = () => {
 };
 
 export const totalRatingMessage = totalDisabilityRating => (
-  <div className="total-rated-disabilities">
-    <div className="vads-l-row medium-screen:vads-u-padding-bottom--2p5">
-      <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--9 vads-u-padding-right--1p5">
-        <p>
-          <strong>
-            Your combined disability rating is {totalDisabilityRating}%
-          </strong>
-          . This rating doesn’t include disabilities for your claims that are
-          still pending. If you filed a new disability claim to add a condition,
-          or if you appealed a disability decision in the past 3 months, we
-          might still be processing your request. You can check the status of
-          your disability claims or appeals with the claim status tool.
-        </p>
-        <a
-          href="/claim-or-appeal-status/"
-          arial-label="check your claims or appeals status"
-          title="check your claims or appeals status"
-          onClick={() => {
-            recordEvent({ event: 'disability-navigation-check-claims' });
-          }}
-        >
-          Check your claims or appeals
-        </a>
-      </div>
-      <div className="vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3 medium-screen:vads-u-padding-top--2p5">
-        <PercentageCalloutBox
-          value={totalDisabilityRating}
-          isPercentage
-          label="Your combined VA disability rating"
-        />
-      </div>
+  <>
+    <h2 className="vads-u-margin-top--0">Your combined disability rating</h2>
+    <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
+      <dl className="vads-u-display--block vads-u-margin--0">
+        <dt className="vads-u-display--inline-block vads-u-font-size--h2 vads-u-font-weight--bold vads-u-margin--0 vads-u-border-color--gray-light vads-u-border-bottom--1px">
+          {totalDisabilityRating}%
+        </dt>
+        <dd className="vads-u-display--inline-block vads-u-margin-y--1">
+          This rating doesn’t include any disabilities for your claims that are
+          still pending. You can check the status of your disability claims or
+          appeals with the claim status tool.
+        </dd>
+      </dl>
+      <a
+        href="/claim-or-appeal-status/"
+        arial-label="check your claims or appeals status"
+        title="check your claims or appeals status"
+        onClick={() => {
+          recordEvent({
+            event: 'disability-navigation-check-claims',
+          });
+        }}
+      >
+        Check your claims or appeals
+      </a>
     </div>
-  </div>
+  </>
 );
