@@ -9,26 +9,10 @@ import { TYPE_OF_VISIT } from '../../utils/constants';
 export default function VAAppointmentSection({ data, facility }) {
   return (
     <>
-      <div className="vads-l-grid-container vads-u-padding--0">
-        <div className="vads-l-row">
-          <div className="vads-l-col--6">
-            <h3 className="vaos-appts__block-label">
-              {facility.authoritativeName}
-            </h3>
-          </div>
-          <div className="vads-l-col--6 vads-u-text-align--right">
-            <Link
-              to={newAppointmentFlow.vaFacility.url}
-              aria-label="Edit location of appointment"
-            >
-              Edit
-            </Link>
-          </div>
-        </div>
-      </div>
-      {facility.city}, {facility.stateAbbrev}
-      <hr className="vads-u-margin-y--2" />
       <PreferredDatesSection data={data} />
+      <hr className="vads-u-margin-y--2" />
+      <h3 className="vaos-appts__block-label">{facility.authoritativeName}</h3>
+      {facility.city}, {facility.stateAbbrev}
       <hr className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
       <hr className="vads-u-margin-y--2" />

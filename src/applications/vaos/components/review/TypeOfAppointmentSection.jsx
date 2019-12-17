@@ -6,7 +6,7 @@ export default function TypeOfAppointmentSection({ data }) {
   const typeOfCare = getTypeOfCare(data)?.name;
   const typeOfAppt =
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
-      ? 'Community Care Appointment'
+      ? 'Community Care'
       : 'VA Appointment';
 
   return (
