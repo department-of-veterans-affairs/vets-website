@@ -244,7 +244,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       const facilityId =
-        newAppointment.data.vaFacility || facilities?.[0].facilityId;
+        newAppointment.data.vaFacility || facilities?.[0]?.facilityId;
       if (
         facilityId &&
         !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
