@@ -1,7 +1,8 @@
 {
+  "contentModelType": "taxonomy_term-health_care_service_taxonomy",
   "entity": {
-    "entityId": "86",
     "entityBundle": "health_care_service_taxonomy",
+    "entityType": "taxonomy_term",
     "fieldAlsoKnownAs": "Digestive care, GI",
     "fieldCommonlyTreatedCondition": "reflux, GERD, Barrett's esophagus, endoscopy, colonoscopy",
     "name": "Gastroenterology",
