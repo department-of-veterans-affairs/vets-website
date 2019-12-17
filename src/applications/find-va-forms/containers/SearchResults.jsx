@@ -10,8 +10,7 @@ import { updateResultsAction } from '../actions';
 
 const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
-
-const fieldLabels = [
+const FIELD_LABELS = [
   {
     label: 'VA form number',
     value: 'idLabel',
@@ -35,7 +34,7 @@ class SearchResults extends Component {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
     query: PropTypes.string.isRequired,
-    results: PropTypes.arrayOf(
+    data: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
         firstIssuedOn: PropTypes.string.isRequired,
@@ -134,7 +133,7 @@ class SearchResults extends Component {
           className="vads-u-margin--0"
           currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
           data={results}
-          fields={fieldLabels}
+          fields={FIELD_LABELS}
           onHeaderClick={onHeaderClick}
         />
       </>
