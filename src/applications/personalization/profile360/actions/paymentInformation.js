@@ -1,5 +1,5 @@
 import { getData, createDirectDepositAnalyticsDataObject } from '../util';
-import recordEvent from 'platform/monitoring/record-event';
+import recordAnalyticsEvent from 'platform/monitoring/record-event';
 
 export const PAYMENT_INFORMATION_FETCH_STARTED =
   'FETCH_PAYMENT_INFORMATION_STARTED';
@@ -20,7 +20,7 @@ export const PAYMENT_INFORMATION_SAVE_SUCCEEDED =
 export const PAYMENT_INFORMATION_SAVE_FAILED =
   'PAYMENT_INFORMATION_SAVE_FAILED';
 
-export function fetchPaymentInformation() {
+export function fetchPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
     dispatch({ type: PAYMENT_INFORMATION_FETCH_STARTED });
 
@@ -45,6 +45,7 @@ export function fetchPaymentInformation() {
 export function savePaymentInformation(
   fields,
   isEnrollingInDirectDeposit = false,
+  recordEvent = recordAnalyticsEvent,
 ) {
   return async dispatch => {
     let gaClientId;

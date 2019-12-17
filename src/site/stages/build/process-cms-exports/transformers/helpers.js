@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { unescape } = require('lodash');
+const { sortBy, unescape } = require('lodash');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -46,6 +46,25 @@ module.exports = {
   getDrupalValue,
   createMetaTag,
   unescapeUnicode,
+
+  /**
+   * This function takes an object where the keys are integers
+   * and returns the object as an array where each index corresponds
+   * to the key of the original object. This exists because we encountered
+   * an object that looked like `{"0": "foo", "1": "bar", "caption": "Hi!"}`
+   *
+   * @param {object}
+   * @return {array}
+   */
+  combineItemsInIndexedObject(obj) {
+    const values = [];
+    for (const [key, value] of Object.entries(obj)) {
+      if (Number.isInteger(Number.parseInt(key, 10))) {
+        values.push([key, value]);
+      }
+    }
+    return sortBy(values, [item => item[0]]).map(item => item[1]);
+  },
 
   /**
    * Takes a string and applies the following:

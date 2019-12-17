@@ -2,27 +2,28 @@
   "contentModelType": "node-page",
   "title": "Principles of Excellence program",
   "changed": 1569363746,
-  "fieldAdministration": [
-    {
-      "contentModelType": "taxonomy_term-administration",
-      "entity": {
-        "entityType": "taxonomy_term",
-        "entityBundle": "administration",
-        "name": "Education benefits hub",
-        "fieldAcronym": null,
-        "fieldDescription": null,
-        "fieldEmailUpdatesLinkText": null,
-        "fieldEmailUpdatesUrl": null,
-        "fieldIntroText": null,
-        "fieldLink": null,
-        "fieldSocialMediaLinks": {
-          "platform": null,
-          "value": null,
-          "platformValues": "{\"facebook\":{\"value\":\"\"},\"instagram\":{\"value\":\"\"},\"linkedin\":{\"value\":\"\"},\"twitter\":{\"value\":\"\"},\"youtube\":{\"value\":\"\"},\"youtube_channel\":{\"value\":\"\"}}"
-        }
+  "entityUrl": {
+    "path": "/education/choosing-a-school/principles-of-excellence"
+  },
+  "fieldAdministration": {
+    "contentModelType": "taxonomy_term-administration",
+    "entity": {
+      "entityType": "taxonomy_term",
+      "entityBundle": "administration",
+      "name": "Education benefits hub",
+      "fieldAcronym": null,
+      "fieldDescription": null,
+      "fieldEmailUpdatesLinkText": null,
+      "fieldEmailUpdatesUrl": null,
+      "fieldIntroText": null,
+      "fieldLink": null,
+      "fieldSocialMediaLinks": {
+        "platform": null,
+        "value": null,
+        "platformValues": "{\"facebook\":{\"value\":\"\"},\"instagram\":{\"value\":\"\"},\"linkedin\":{\"value\":\"\"},\"twitter\":{\"value\":\"\"},\"youtube\":{\"value\":\"\"},\"youtube_channel\":{\"value\":\"\"}}"
       }
     }
-  ],
+  },
   "fieldAlert": null,
   "fieldContentBlock": [
     {
