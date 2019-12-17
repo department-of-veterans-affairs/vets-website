@@ -4,6 +4,7 @@ import {
   getNewAppointment,
   getEligibilityStatus,
   vaosCommunityCare,
+  getTypeOfCare,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -87,13 +88,14 @@ export default {
 
             // Reroute to VA facility page if none of the user's registered systems support community care.
             if (ccEnabledSystems.length) {
-              const data = await getCommunityCare(
-                '/vaos/community-care/eligibility',
+              const response = await getCommunityCare(
+                getTypeOfCare(getNewAppointment(state).data).cceType,
               );
+              console.log(response);
 
-              dispatch(updateCCEligibility(data.isEligible));
+              dispatch(updateCCEligibility(response.eligible));
 
-              if (data.isEligible) {
+              if (response.eligible) {
                 // If CC enabled systems and toc is podiatry, skip typeOfFacility
                 if (isPodiatry(state)) {
                   dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));

@@ -444,6 +444,11 @@ describe('VAOS newAppointmentFlow', () => {
     it('next should go to requestDateTime page if CC support and typeOfCare is podiatry', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          attributes: { eligible: true },
+        },
+      });
       const state = {
         featureToggles: {
           loading: false,
