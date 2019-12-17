@@ -289,20 +289,23 @@ export function getClinics(facilityId, typeOfCareId, systemId) {
   );
 }
 
-// GET /vaos/systems/{systemId}/pact
-// eslint-disable-next-line no-unused-vars
 export function getPacTeam(systemId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (systemId === '983') {
-        import('./pact.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
-      } else {
-        resolve([]);
-      }
-    }, 750);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    if (systemId.includes('983')) {
+      promise = import('./pact.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = Promise.resolve({ data: [] });
+    }
+  } else {
+    promise = apiRequest(`/vaos/systems/${systemId}/pact`);
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getFacilityInfo(facilityId) {
