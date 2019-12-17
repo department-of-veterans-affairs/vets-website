@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ClinicChoicePage } from '../../containers/ClinicChoicePage';
+import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS <ClinicChoicePage>', () => {
   const defaultProps = {
@@ -36,7 +37,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       <ClinicChoicePage
         openClinicPage={openClinicPage}
         updateFormData={updateFormData}
-        loadingFacilityDetails
+        facilityDetailsStatus={FETCH_STATUS.loading}
         data={{}}
       />,
     );

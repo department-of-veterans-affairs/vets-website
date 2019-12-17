@@ -195,6 +195,11 @@ export const getValidationMessageKey = (
   return 'showSuggestions'; // defaulting here so the modal will show but not allow override
 };
 
+// Determines if we need to prompt the user to pick from a list of suggested
+// addresses and/or edit the address that they had entered. The only time the
+// address validation modal will _not_ be shown to the user is if the validation
+// API came back with one valid address suggestion that it is very confident is
+// the address the user entered.
 export const showAddressValidationModal = suggestedAddresses => {
   // pull the addressMetaData prop off the first suggestedAddresses element
   const [{ addressMetaData } = {}] = suggestedAddresses;
@@ -207,26 +212,5 @@ export const showAddressValidationModal = suggestedAddresses => {
     return false;
   }
 
-  if (
-    suggestedAddresses.length === 1 &&
-    (addressMetaData.deliveryPointValidation === BAD_UNIT_NUMBER ||
-      addressMetaData.deliveryPointValidation === MISSING_UNIT_NUMBER)
-  ) {
-    return true;
-  }
-
-  if (suggestedAddresses.length > 1) {
-    return true;
-  }
-
-  if (
-    suggestedAddresses.length === 1 &&
-    addressMetaData.deliveryPointValidation !== CONFIRMED
-  ) {
-    return true;
-  }
-
-  return (
-    suggestedAddresses.length === 1 && addressMetaData.confidenceScore < 80
-  );
+  return true;
 };

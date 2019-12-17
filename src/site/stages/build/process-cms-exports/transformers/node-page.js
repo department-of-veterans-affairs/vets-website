@@ -17,6 +17,10 @@ function pageTransform(entity) {
   const transformed = Object.assign({}, entity, {
     title: getDrupalValue(title),
     entityBundle: 'page',
+    entityUrl: {
+      path: entity.path[0].alias.replace(/\\/g, ''),
+    },
+    fieldAdministration: entity.fieldAdministration[0],
 
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
@@ -46,6 +50,7 @@ function pageTransform(entity) {
 
   delete transformed.moderationState;
   delete transformed.metatag;
+  delete transformed.path;
 
   return transformed;
 }
@@ -63,6 +68,7 @@ module.exports = {
     'metatag',
     'changed',
     'moderation_state',
+    'path',
   ],
   transform: pageTransform,
 };
