@@ -40,14 +40,7 @@ const {
   vetRelationship,
 } = definitions.items;
 
-const {
-  fullName,
-  ssn,
-  veteranDateOfBirth,
-  date,
-  dateRange,
-  usaPhone,
-} = commonDefinitions;
+const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
 /* TODO Chapters
 * 1 - Vet/Service Member
@@ -78,7 +71,6 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
-    veteranDateOfBirth,
   },
   chapters: {
     veteranChapter: {
@@ -124,15 +116,14 @@ const formConfig = {
                 enum: ['Male', 'Female'],
               },
               [chapterOneFields.vaEnrolled]: {
-                type: 'string',
-                enum: ['Yes', 'No'],
+                type: 'boolean',
               },
               [chapterOneFields.plannedClinic]: {
                 type: 'string',
               },
               [chapterOneFields.facilityType]: {
                 type: 'string',
-                enum: ['Hospital', 'Clinic'],
+                enum: ['hospital', 'clinic'],
               },
               [chapterOneFields.previousTreatmentFacility]: {
                 type: 'string',
@@ -183,12 +174,10 @@ const formConfig = {
                 type: 'string',
               },
               [chapterTwoFields.medicaidEnrolled]: {
-                type: 'string',
-                enum: ['Yes', 'No'],
+                type: 'boolean',
               },
               [chapterTwoFields.otherHealthInsurance]: {
-                type: 'string',
-                enum: ['Yes', 'No'],
+                type: 'boolean',
               },
               [chapterTwoFields.otherHealthInsuranceName]: {
                 type: 'string',

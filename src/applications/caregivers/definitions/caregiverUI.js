@@ -14,12 +14,15 @@ export default {
     cellNumber: phoneUI('Cell Number (Including Area Code)'),
     email: {
       'ui:title': 'Email Address',
+      'ui:widget': 'email',
     },
     gender: {
       'ui:title': 'Gender',
+      'ui:widget': 'radio',
     },
     vaEnrolled: {
       'ui:title': 'Enrolled in VA Health Care?',
+      'ui:widget': 'yesNo',
     },
     plannedClinic: {
       'ui:title':
@@ -30,6 +33,8 @@ export default {
     },
     facilityType: {
       'ui:title': 'Type of facility where you last received medical treatment:',
+      'ui:widget': 'radio',
+      'ui:options': { labels: { hospital: 'Hospital', clinic: 'Clinic' } },
     },
     vetRelationship: {
       'ui:title':
@@ -37,9 +42,11 @@ export default {
     },
     medicaidEnrolled: {
       'ui:title': 'Enrolled in Medicaid or Medicare?',
+      'ui:widget': 'yesNo',
     },
     otherHealthInsurance: {
       'ui:title': 'Other Health Insurance?',
+      'ui:widget': 'yesNo',
     },
     otherHealthInsuranceName: {
       'ui:title': 'Other Health Insurance Name?',

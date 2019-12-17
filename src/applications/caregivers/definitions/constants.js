@@ -11,6 +11,8 @@ export const chapterOneFields = {
   ssn: 'ssn',
   telephoneNumber: 'veteranTelephoneNumber',
   vaEnrolled: 'veteranVaEnrolled',
+  veteranDateOfBirth: 'veteranDateOfBirth',
+  facilityType: 'facilityType',
 };
 
 export const chapterTwoFields = {
@@ -20,6 +22,7 @@ export const chapterTwoFields = {
   email: 'primaryCaregiverEmail',
   fullName: 'primaryCaregiverFullName',
   gender: 'primaryCaregiverGender',
+  medicaidEnrolled: 'caregiverMedicaidEnrolled',
   otherHealthInsurance: 'OtherHealthInsurance',
   otherHealthInsuranceName: 'otherHealthInsuranceName',
   ssn: 'primaryCaregiverSsn',
