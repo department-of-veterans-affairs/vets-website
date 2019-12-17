@@ -17,10 +17,26 @@ module.exports = {
           },
           required: ['processed'],
         },
-        parent: { type: 'string' },
-        fieldAlsoKnownAs: { type: 'string' },
-        fieldCommonlyTreatedCondition: { type: 'string' },
-        fieldHealthServiceApiId: { type: 'string' },
+        parent: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              entity: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                },
+                required: ['name'],
+              },
+            },
+            required: ['entity'],
+          },
+          maxItems: 1,
+        },
+        fieldAlsoKnownAs: { type: ['string', 'null'] },
+        fieldCommonlyTreatedCondition: { type: ['string', 'null'] },
+        fieldHealthServiceApiId: { type: ['string', 'null'] },
       },
       required: [
         'name',

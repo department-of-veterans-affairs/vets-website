@@ -9,7 +9,7 @@ const transform = entity => ({
     parent: [
       {
         entity: {
-          name: getDrupalValue(entity.parent.name),
+          name: entity.parent[0].entity ? entity.parent[0].entity.name : '',
         },
       },
     ],
