@@ -171,12 +171,16 @@ module.exports = class extends Generator {
   }
 
   async getFilters() {
+    const guesses = allSnakeCasedPropertyNames(this.transformedTestData);
     this.rawPropertyNames = (await this.prompt([
       {
         type: 'checkbox',
         name: 'names',
         message: 'Which keys do you want to keep?',
-        choices: Object.keys(this.exampleEntity),
+        choices: Object.keys(this.exampleEntity).map(key => ({
+          value: key,
+          checked: guesses.has(key),
+        })),
       },
     ])).names;
   }
