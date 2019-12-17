@@ -4,7 +4,11 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
-import { getAppointmentType } from '../utils/appointment';
+import { getAppointmentType, isVideoVisit } from '../utils/appointment';
+import {
+  formatPhoneNumber,
+  formatPhoneNumberForHref,
+} from '../utils/formatters';
 
 export default class CancelAppointmentModal extends React.Component {
   render() {
@@ -19,6 +23,52 @@ export default class CancelAppointmentModal extends React.Component {
 
     if (!showCancelModal) {
       return null;
+    }
+
+    const isVideo = isVideoVisit(appointmentToCancel);
+    const isCC =
+      getAppointmentType(appointmentToCancel) ===
+      APPOINTMENT_TYPES.ccAppointment;
+
+    if (isVideo || isCC) {
+      const facilityName = isVideo
+        ? facility.name
+        : appointmentToCancel.providerPractice;
+
+      const phone = isVideo
+        ? facility?.phone?.main
+        : appointmentToCancel.providerPhone;
+
+      return (
+        <Modal
+          id="cancelAppt"
+          status="warning"
+          visible
+          onClose={onClose}
+          title="You have to call your provider to cancel this appointment"
+        >
+          <p>
+            {isVideo ? 'VA Video Connect' : 'Community Care'} appointments can’t
+            be canceled online. Please call the below VA facility to cancel your
+            appointment.
+          </p>
+          {phone && (
+            <p>
+              {facilityName}
+              <br />
+              <a href={`tel:${formatPhoneNumberForHref(phone)}`}>
+                {formatPhoneNumber(phone)}
+              </a>
+            </p>
+          )}
+
+          <div className="vads-u-margin-top--2">
+            <button className="usa-button" onClick={onClose}>
+              OK
+            </button>
+          </div>
+        </Modal>
+      );
     }
 
     if (
@@ -100,7 +150,7 @@ export default class CancelAppointmentModal extends React.Component {
                 {appointmentToCancel.facility.name}
                 <br />
                 {!!facility?.phone?.main && (
-                  <a href={`tel:${facility.phone.main.replace(/-/g, '')}`}>
+                  <a href={`tel:${facility.phone.main.replace(/\D/g, '')}`}>
                     {facility.phone.main}
                   </a>
                 )}

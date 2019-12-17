@@ -32,11 +32,7 @@ export default function ConfirmedAppointmentListItem({
     );
   }
 
-  const allowCancel =
-    showCancelButton &&
-    !canceled &&
-    type !== APPOINTMENT_TYPES.ccAppointment &&
-    !isVideoVisit(appointment);
+  const allowCancel = showCancelButton && !canceled;
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',

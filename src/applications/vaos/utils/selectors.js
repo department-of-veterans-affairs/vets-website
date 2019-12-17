@@ -1,14 +1,15 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getRealFacilityId } from './appointment';
+import { getRealFacilityId, getAppointmentType } from './appointment';
 import { isEligible } from './eligibility';
 import { getTimezoneAbbrBySystemId } from './timezone';
 import {
-  FACILITY_TYPES,
-  TYPES_OF_CARE,
+  APPOINTMENT_TYPES,
   AUDIOLOGY_TYPES_OF_CARE,
-  TYPES_OF_SLEEP_CARE,
+  FACILITY_TYPES,
   FETCH_STATUS,
+  TYPES_OF_CARE,
+  TYPES_OF_SLEEP_CARE,
 } from './constants';
 
 export function getNewAppointment(state) {
@@ -210,10 +211,13 @@ export function getCancelInfo(state) {
 
   let facility = null;
   if (appointmentToCancel) {
-    facility =
-      facilityData[
-        getRealFacilityId(appointmentToCancel.facility?.facilityCode)
-      ];
+    const appointmentType = getAppointmentType(appointmentToCancel);
+    const facilityId =
+      appointmentType === APPOINTMENT_TYPES.request ||
+      appointmentType === APPOINTMENT_TYPES.ccRequest
+        ? getRealFacilityId(appointmentToCancel.facility?.facilityCode)
+        : getRealFacilityId(appointmentToCancel.facilityId);
+    facility = facilityData[facilityId];
   }
 
   return {

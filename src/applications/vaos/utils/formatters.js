@@ -42,6 +42,16 @@ export function formatTypeOfCare(careLabel) {
   return careLabel.slice(0, 1).toLowerCase() + careLabel.slice(1);
 }
 
+export function formatPhoneNumberForHref(phone) {
+  return phone.replace(/\D/g, '');
+}
+
+export function formatPhoneNumber(phone) {
+  return phone
+    .replace(/[^\d]+/g, '')
+    .replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+}
+
 export const formatOperatingHours = operatingHours => {
   if (!operatingHours) return operatingHours;
   // Remove all whitespace.
