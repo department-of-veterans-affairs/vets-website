@@ -261,21 +261,23 @@ describe('<PaymentInformationEditModalError />', () => {
 
     wrapper = shallow(
       <PaymentInformationEditModalError
-        responseError={{ error: routingNumberFlaggedError }}
+        responseError={{ error: restrictionIndicatorsPresentError }}
       />,
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
     );
     wrapper.unmount();
+  });
 
-    wrapper = shallow(
+  it('renders the flagged routing number error', () => {
+    const wrapper = shallow(
       <PaymentInformationEditModalError
-        responseError={{ error: restrictionIndicatorsPresentError }}
+        responseError={{ error: routingNumberFlaggedError }}
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
+      'We’re sorry. The bank routing number you entered requires additional verification before we can save your information. To use this bank routing number, you’ll need to call us at <span class="no-wrap"><a href="tel:1-800-827-1000">800-827-1000</a></span> (TTY: <span class="no-wrap">800-829-4833</span>). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
     );
     wrapper.unmount();
   });
