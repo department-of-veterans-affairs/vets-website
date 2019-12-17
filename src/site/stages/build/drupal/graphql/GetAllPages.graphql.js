@@ -32,12 +32,18 @@ const {
 } = require('./../../../../utilities/stringHelpers');
 
 const officePage = require('./officePage.graphql');
-/**
- * Queries for all of the pages out of Drupal
- * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
- */
-module.exports = `
 
+let regString = '';
+queryParamToBeChanged.forEach(param => {
+  regString += `${param}|`;
+});
+
+const regex = new RegExp(`${regString}`, 'g');
+
+const buildQuery = ({ useTomeSync }) => {
+  const nodeContentFragments = useTomeSync
+    ? ''
+    : `
   ${fragments}
   ${landingPage}
   ${page}
@@ -52,8 +58,13 @@ module.exports = `
   ${bioPage}
   ${benefitListingPage}
   ${eventListingPage}
+`;
 
-  query GetAllPages($today: String!, $onlyPublishedContent: Boolean!) {
+  const todayQueryVar = useTomeSync ? '' : '$today: String!,';
+
+  const nodeQuery = useTomeSync
+    ? ''
+    : `
     nodeQuery(limit: 2000, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent }
@@ -74,7 +85,18 @@ module.exports = `
         ... benefitListingPage
         ... eventListingPage
       }
-    }
+    }`;
+
+  /**
+   * Queries for all of the pages out of Drupal
+   * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
+   */
+  const query = `
+
+  ${nodeContentFragments}
+
+  query GetAllPages(${todayQueryVar} $onlyPublishedContent: Boolean!) {
+      ${nodeQuery}
     ${icsFileQuery}
     ${sidebarQuery}
     ${facilitySidebarQuery}
@@ -91,12 +113,7 @@ module.exports = `
   }
 `;
 
-const query = module.exports;
+  return query.replace(regex, updateQueryString);
+};
 
-let regString = '';
-queryParamToBeChanged.forEach(param => {
-  regString += `${param}|`;
-});
-
-const regex = new RegExp(`${regString}`, 'g');
-module.exports = query.replace(regex, updateQueryString);
+module.exports = buildQuery;
