@@ -150,7 +150,11 @@ export default class CancelAppointmentModal extends React.Component {
                 {appointmentToCancel.facility.name}
                 <br />
                 {!!facility?.phone?.main && (
-                  <a href={`tel:${facility.phone.main.replace(/\D/g, '')}`}>
+                  <a
+                    href={`tel:${formatPhoneNumberForHref(
+                      facility.phone.main,
+                    )}`}
+                  >
                     {facility.phone.main}
                   </a>
                 )}

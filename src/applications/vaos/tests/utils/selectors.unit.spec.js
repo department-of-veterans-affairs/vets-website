@@ -297,15 +297,41 @@ describe('VAOS selectors', () => {
       });
     });
   });
+
   describe('getCancelInfo', () => {
-    it('should fetch facility in info', () => {
+    const request = {
+      typeOfCareId: 'CCAUDHEAR',
+      facility: {
+        facilityCode: '123',
+      },
+    };
+
+    const video = {
+      facilityId: '123',
+      vvsAppointments: [{}],
+    };
+
+    it('should fetch facility in info for request cancellation', () => {
       const state = {
         appointments: {
-          appointmentToCancel: {
-            facility: {
-              facilityCode: '123',
-            },
+          appointmentToCancel: request,
+          facilityData: {
+            123: {},
           },
+        },
+      };
+
+      const cancelInfo = getCancelInfo(state);
+
+      expect(cancelInfo.facility).to.equal(
+        state.appointments.facilityData['123'],
+      );
+    });
+
+    it('should fetch facility in info for video visit cancellation', () => {
+      const state = {
+        appointments: {
+          appointmentToCancel: video,
           facilityData: {
             123: {},
           },
