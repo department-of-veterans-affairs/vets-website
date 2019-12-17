@@ -15,6 +15,7 @@ node('vetsgov-general-purpose') {
               color: "warning",
               channel: "cms-notifications")
 
+    currentBuild.result = 'FAILURE'
     return
   }
 
