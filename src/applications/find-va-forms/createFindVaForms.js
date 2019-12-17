@@ -8,7 +8,6 @@ import reducer from './reducers';
 export { reducer as findVaFormsWidgetReducer };
 
 export default (store, widgetType) => {
-  console.log('widgetType', widgetType);
   // Derive the element to render our widget.
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 

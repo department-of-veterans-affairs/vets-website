@@ -153,4 +153,7 @@ const mapDispatchToProps = dispatch => ({
 
 export { SearchResults };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchResults);
