@@ -5,7 +5,7 @@
     "entityBundle": "collapsible_panel_item",
     "fieldTitle": "Arkansas",
     "fieldWysiwyg": {
-      "processed": ""
+      "processed": "<div id=\"Arkansas\" class=\"usa-accordion-content\"> </div>"
     },
     "fieldVaParagraphs": [
       {
