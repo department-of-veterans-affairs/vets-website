@@ -1,0 +1,20 @@
+{
+  "entity": {
+    "entityId": "86",
+    "entityBundle": "health_care_service_taxonomy",
+    "fieldAlsoKnownAs": "Digestive care, GI",
+    "fieldCommonlyTreatedCondition": "reflux, GERD, Barrett's esophagus, endoscopy, colonoscopy",
+    "name": "Gastroenterology",
+    "description": {
+      "processed": "<p>Our gastrointestinal (GI) specialists offer screening and treatment for conditions affecting your GI tract, gallbladder, liver and pancreas—like reflux, Crohn’s disease, hepatitis and pancreatitis.</p>"
+    },
+    "parent": [
+      {
+        "entity": {
+          "name": "Specialty care"
+        }
+      }
+    ],
+    "fieldHealthServiceApiId": "gastroenterology"
+  }
+}
