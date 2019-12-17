@@ -21,6 +21,24 @@ const templatesPath = path.join(
   'generator-cms-content-model/templates/',
 );
 
+/**
+ * Takes an object and returns all the property names of itself and
+ * its nested objects recursively.
+ *
+ * @param {Object} obj - The object to get the property names from
+ * @return {Set<string>} - All the unique property names in snake_case
+ */
+const allSnakeCasedPropertyNames = obj =>
+  new Set(
+    _.flatten(
+      Object.keys(obj).map(key => {
+        if (typeof obj[key] === 'object' && !Array.isArray(obj[key]))
+          return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([key]);
+        return key;
+      }),
+    ),
+  );
+
 module.exports = class extends Generator {
   async getContentModelType() {
     this.contentModelType = (await this.prompt([
