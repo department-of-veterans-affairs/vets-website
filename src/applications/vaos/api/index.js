@@ -211,9 +211,7 @@ export function getCommunityCare(typeOfCare) {
     promise = apiRequest(`/vaos/community_care/eligibility/${typeOfCare}`);
   }
 
-  return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
-  );
+  return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
 // GET /vaos/facilities/{facilityId}/visits/{directOrRequest}

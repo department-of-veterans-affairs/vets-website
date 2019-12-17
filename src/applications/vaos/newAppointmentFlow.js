@@ -91,7 +91,6 @@ export default {
               const response = await getCommunityCare(
                 getTypeOfCare(getNewAppointment(state).data).cceType,
               );
-              console.log(response);
 
               dispatch(updateCCEligibility(response.eligible));
 
