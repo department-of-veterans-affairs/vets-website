@@ -1,5 +1,5 @@
 import React from 'react';
-import { FACILITY_TYPES } from '../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
 import CommunityCareSection from './CommunityCareSection';
@@ -12,7 +12,7 @@ export default function ReviewRequestInfo({ data, facility, vaCityState }) {
   return (
     <div>
       <h1 className="vads-u-font-size--h2">Review your appointment</h1>
-      <Description data={data} />
+      <Description data={data} flowType={FLOW_TYPES.REQUEST} />
       <TypeOfAppointmentSection data={data} />
       <hr className="vads-u-margin-y--2" />
       {isCommunityCare && (

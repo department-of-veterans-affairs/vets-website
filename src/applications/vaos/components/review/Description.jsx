@@ -3,13 +3,13 @@ import { getTypeOfCare } from '../../utils/selectors';
 import { FLOW_TYPES, FACILITY_TYPES } from '../../utils/constants';
 import { lowerCase } from '../../utils/appointment';
 
-export default function Description({ data }) {
+export default function Description({ data, flowType }) {
   const typeOfCare = lowerCase(getTypeOfCare(data).name);
   const description =
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
       ? 'Community Care'
       : typeOfCare;
-  const isDirectSchedule = data.flowType === FLOW_TYPES.DIRECT;
+  const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
   return (
     <>

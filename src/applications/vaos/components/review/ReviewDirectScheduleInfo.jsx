@@ -1,4 +1,5 @@
 import React from 'react';
+import { FLOW_TYPES } from '../../utils/constants';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import ContactDetailSection from './ContactDetailSection';
 import AppointmentDate from './AppointmentDate';
@@ -9,7 +10,7 @@ export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
   return (
     <div>
       <h1 className="vads-u-font-size--h2">Review your appointment details</h1>
-      <Description data={data} />
+      <Description data={data} flowType={FLOW_TYPES.DIRECT} />
       <TypeOfAppointmentSection data={data} />
       <hr className="vads-u-margin-y--2" />
       <AppointmentDate
