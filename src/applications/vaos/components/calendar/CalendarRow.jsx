@@ -55,14 +55,15 @@ export default class CalendarRow extends Component {
 
   render() {
     const {
+      additionalOptions,
       cells,
       currentlySelectedDate,
       handleSelectDate,
-      rowNumber,
-      selectedDates,
-      additionalOptions,
       handleSelectOption,
       optionsError,
+      rowNumber,
+      selectedDates,
+      selectedIndicatorType,
     } = this.props;
 
     return (
@@ -74,16 +75,17 @@ export default class CalendarRow extends Component {
           {cells.map((date, index) => (
             <CalendarCell
               additionalOptions={additionalOptions}
-              key={`row-${rowNumber}-cell-${index}`}
-              index={index}
+              currentlySelectedDate={currentlySelectedDate}
               date={date}
+              disabled={this.isCellDisabled(date)}
+              handleSelectOption={handleSelectOption}
+              index={index}
+              inSelectedArray={isDateInSelectedArray(date, selectedDates)}
+              key={`row-${rowNumber}-cell-${index}`}
+              onClick={() => handleSelectDate(date, rowNumber)}
               optionsError={optionsError}
               selectedDates={selectedDates}
-              handleSelectOption={handleSelectOption}
-              currentlySelectedDate={currentlySelectedDate}
-              inSelectedArray={isDateInSelectedArray(date, selectedDates)}
-              onClick={() => handleSelectDate(date, rowNumber)}
-              disabled={this.isCellDisabled(date)}
+              selectedIndicatorType={selectedIndicatorType}
             />
           ))}
           <div className="vaos-calendar__flex-line-break" />
