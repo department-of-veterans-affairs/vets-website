@@ -9,9 +9,10 @@
     },
     "fieldVaParagraphs": [
       {
+	"contentModelType": "paragraph-table",
         "entity": {
-          "entityId": "4534",
           "entityBundle": "table",
+	  "entityType": "paragraph",
           "fieldTable": {
             "tableValue": "<strong>School name</strong> <strong>VSOC counselor email address</strong> <strong>Regional office</strong> University of Arkansas Brian Burgess <a href=\"mailto:Brian.Burgess@va.gov\">Brian.Burgess@va.gov</a> Little Rock (350) Northwest Arkansas Community College Brian Burgess <a href=\"mailto:Brian.Burgess@va.gov\">Brian.Burgess@va.gov</a> Little Rock (350)",
             "value": {
