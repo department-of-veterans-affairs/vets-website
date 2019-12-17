@@ -286,7 +286,7 @@ export default function formReducer(state = initialState, action) {
       let eligibility = state.eligibility;
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
-          newData.vaFacility,
+          newData.vaSystem,
           action.typeOfCareId,
           action.eligibilityData,
         );
@@ -416,7 +416,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(
-        state.data.vaFacility,
+        state.data.vaSystem,
         action.typeOfCareId,
         action.eligibilityData,
       );

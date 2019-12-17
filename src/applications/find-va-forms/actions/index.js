@@ -6,8 +6,12 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_RESULTS,
 } from '../constants';
 
+// ============
+// Fetch Forms (via API)
+// ============
 export const fetchFormsAction = query => ({
   query,
   type: FETCH_FORMS,
@@ -17,9 +21,17 @@ export const fetchFormsFailure = () => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = response => ({
-  response,
+export const fetchFormsSuccess = results => ({
+  results,
   type: FETCH_FORMS_SUCCESS,
+});
+
+// ============
+// Update Results (no API)
+// ============
+export const updateResultsAction = results => ({
+  results,
+  type: UPDATE_RESULTS,
 });
 
 // ============
@@ -44,10 +56,10 @@ export const fetchFormsThunk = query => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive forms.
-    const response = await fetchFormsApi(URL, query);
+    const results = await fetchFormsApi(URL, query);
 
     // If we are here, the API request succeeded.
-    dispatch(fetchFormsSuccess(response));
+    dispatch(fetchFormsSuccess(results));
   } catch (error) {
     // If we are here, the API request failed.
     dispatch(fetchFormsFailure());
