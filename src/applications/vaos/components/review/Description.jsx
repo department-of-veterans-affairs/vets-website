@@ -14,7 +14,7 @@ export default function Description({ data, flowType }) {
   return (
     <>
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
-        You're {isDirectSchedule ? 'scheduling' : 'requesting'} a {description}{' '}
+        You’re {isDirectSchedule ? 'scheduling' : 'requesting'} a {description}{' '}
         appointment
       </h2>
       {isDirectSchedule && (
