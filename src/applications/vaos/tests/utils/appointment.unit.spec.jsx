@@ -4,12 +4,25 @@ import {
   getAppointmentTitle,
   filterFutureRequests,
   filterFutureConfirmedAppointments,
+  sentenceCase,
   sortFutureRequests,
   sortFutureConfirmedAppointments,
 } from '../../utils/appointment';
 import moment from 'moment';
 
 describe('VAOS appointment helpers', () => {
+  describe('sentenceCase', () => {
+    it('should return a string in sentence case', () => {
+      expect(sentenceCase('Apples and Oranges')).to.equal('Apples and oranges');
+    });
+
+    it('should ignore capital words', () => {
+      expect(sentenceCase('MOVE! Weight Management')).to.equal(
+        'MOVE! weight management',
+      );
+    });
+  });
+
   describe('getAppointmentTitle', () => {
     it('should return title for CC', () => {
       const id = getAppointmentTitle({

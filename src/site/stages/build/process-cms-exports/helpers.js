@@ -101,9 +101,9 @@ module.exports = {
   /**
    * Get all the starting nodes
    */
-  readAllNodeNames() {
+  readAllNodeNames(dirName = contentDir) {
     return fs
-      .readdirSync(contentDir)
+      .readdirSync(dirName)
       .filter(name => name.startsWith('node'))
       .map(name => name.split('.').slice(0, 2));
   },
