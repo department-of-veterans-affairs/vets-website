@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "../../../platform/forms/sass/m-schemaform";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '../../../platform/forms/sass/m-schemaform';
 
 .vaos-option-list__icon {
   display: inline-block;
@@ -69,12 +69,12 @@
   text-transform: uppercase;
 }
 
-.vaos-form__checkbox>.schemaform-label {
+.vaos-form__checkbox > .schemaform-label {
   margin-top: 0;
 }
 
 .vaos-form__detailed-radio {
-  input[type="radio"]+label::before {
+  input[type='radio'] + label::before {
     margin-top: 0.6em;
   }
 
@@ -222,18 +222,17 @@
   border-radius: 5px;
   padding: 8px 4px;
 
-
-  input[type="radio"],
-  input[type="checkbox"] {
+  input[type='radio'],
+  input[type='checkbox'] {
     width: unset;
   }
 
-  input[type=radio]+label::before {
+  input[type='radio'] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
   }
 
-  input[type=checkbox]+label::before {
+  input[type='checkbox'] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
   }
@@ -254,7 +253,7 @@ h1:focus {
     margin-top: 0;
   }
 
-  >.usa-input-error {
+  > .usa-input-error {
     margin-top: 0;
   }
 }
