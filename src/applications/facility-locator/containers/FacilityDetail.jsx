@@ -31,14 +31,18 @@ class FacilityDetail extends Component {
       prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
 
     if (justLoaded) {
-      if (
-        hasVADomain(
-          this.props.facility.attributes &&
-            this.props.facility.attributes.website,
-        )
-      ) {
-        window.location.replace(this.props.facility.attributes.website);
+      // Run in staging for QA
+      if (process.env.BUILDTYPE === 'vagovstaging') {
+        if (
+          hasVADomain(
+            this.props.facility.attributes &&
+              this.props.facility.attributes.website,
+          )
+        ) {
+          window.location.replace(this.props.facility.attributes.website);
+        }
       }
+
       this.__previousDocTitle = document.title;
       document.title = `${
         this.props.facility.attributes.name
