@@ -32,7 +32,7 @@ export default class CancelAppointmentModal extends React.Component {
 
     if (isVideo || isCC) {
       const facilityName = isVideo
-        ? facility.name
+        ? facility?.name
         : appointmentToCancel.providerPractice;
 
       const phone = isVideo
