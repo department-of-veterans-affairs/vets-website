@@ -33,8 +33,10 @@ const allSnakeCasedPropertyNames = obj =>
     _.flatten(
       Object.keys(obj).map(key => {
         if (typeof obj[key] === 'object' && !Array.isArray(obj[key]))
-          return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([key]);
-        return key;
+          return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([
+            _.snakeCase(key),
+          ]);
+        return _.snakeCase(key);
       }),
     ),
   );
