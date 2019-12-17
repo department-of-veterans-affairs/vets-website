@@ -8,23 +8,21 @@ const CalendarRadioOption = ({
   onChange,
   label,
 }) => (
-  <div className="vaos-calendar__option-cell">
-    <div className="vaos-calendar__option">
-      <input
-        id={`radio-${index}`}
-        type="radio"
-        name={fieldName}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      <label
-        className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-        htmlFor={`radio-${index}`}
-      >
-        {label}
-      </label>
-    </div>
+  <div className="vaos-calendar__option">
+    <input
+      id={`radio-${index}`}
+      type="radio"
+      name={fieldName}
+      value={value}
+      checked={checked}
+      onChange={onChange}
+    />
+    <label
+      className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
+      htmlFor={`radio-${index}`}
+    >
+      {label}
+    </label>
   </div>
 );
 

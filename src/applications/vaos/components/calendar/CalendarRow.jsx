@@ -68,7 +68,7 @@ export default class CalendarRow extends Component {
     return (
       <div>
         <div
-          className="vaos-calendar__calendar-week vads-u-display--flex vads-u-justify-content--space-between"
+          className="vads-u-flex-wrap--wrap vads-u-display--flex vads-u-justify-content--space-between"
           role="row"
         >
           {cells.map((date, index) => (

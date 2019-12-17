@@ -42,7 +42,7 @@ describe('VAOS <CalendarRow>', () => {
       />,
     );
 
-    const row = tree.find('.vaos-calendar__calendar-week');
+    const row = tree.find('.vads-u-flex-wrap--wrap');
     expect(row.length).to.equal(1);
     const cells = tree.find('CalendarCell');
     expect(cells.length).to.equal(5);

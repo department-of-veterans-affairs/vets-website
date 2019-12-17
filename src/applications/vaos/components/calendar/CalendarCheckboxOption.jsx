@@ -8,23 +8,21 @@ const CalendarCheckboxOption = ({
   onChange,
   label,
 }) => (
-  <div className="vaos-calendar__option-cell">
-    <div className="vaos-calendar__option">
-      <input
-        id={`checkbox-${index}`}
-        type="checkbox"
-        name={fieldName}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      <label
-        className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-        htmlFor={`checkbox-${index}`}
-      >
-        {label}
-      </label>
-    </div>
+  <div className="vaos-calendar__option">
+    <input
+      id={`checkbox-${index}`}
+      type="checkbox"
+      name={fieldName}
+      value={value}
+      checked={checked}
+      onChange={onChange}
+    />
+    <label
+      className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
+      htmlFor={`checkbox-${index}`}
+    >
+      {label}
+    </label>
   </div>
 );
 

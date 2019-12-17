@@ -67,26 +67,31 @@ export default function CalendarOptions({
               fieldName,
             );
 
-            return additionalOptions?.maxSelections > 1 ? (
-              <CalendarCheckboxOption
-                key={`checkbox-${index}`}
-                index={index}
-                fieldName={fieldName}
-                value={o.value}
-                checked={checked}
-                onChange={() => handleSelectOption(dateObj)}
-                label={o.label}
-              />
-            ) : (
-              <CalendarRadioOption
-                key={`radio-${index}`}
-                index={index}
-                fieldName={fieldName}
-                value={o.value}
-                checked={checked}
-                onChange={() => handleSelectOption(dateObj)}
-                label={o.label}
-              />
+            return (
+              <div
+                key={`option-${index}`}
+                className="vaos-calendar__option-cell"
+              >
+                {additionalOptions?.maxSelections > 1 ? (
+                  <CalendarCheckboxOption
+                    index={index}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                  />
+                ) : (
+                  <CalendarRadioOption
+                    index={index}
+                    fieldName={fieldName}
+                    value={o.value}
+                    checked={checked}
+                    onChange={() => handleSelectOption(dateObj)}
+                    label={o.label}
+                  />
+                )}
+              </div>
             );
           })}
         </div>
