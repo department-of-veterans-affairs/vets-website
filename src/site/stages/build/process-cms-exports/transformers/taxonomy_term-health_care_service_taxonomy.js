@@ -5,8 +5,14 @@ const transform = entity => ({
     entityType: 'taxonomy_term',
     entityBundle: 'health_care_service_taxonomy',
     name: getDrupalValue(entity.name),
-    description: getDrupalValue(entity.description),
-    parent: getDrupalValue(entity.parent),
+    description: { processed: getDrupalValue(entity.description) },
+    parent: [
+      {
+        entity: {
+          name: getDrupalValue(entity.parent.name),
+        },
+      },
+    ],
     fieldAlsoKnownAs: getDrupalValue(entity.fieldAlsoKnownAs),
     fieldCommonlyTreatedCondition: getDrupalValue(
       entity.fieldCommonlyTreatedCondition,

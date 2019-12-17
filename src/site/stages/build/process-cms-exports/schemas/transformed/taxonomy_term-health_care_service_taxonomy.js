@@ -8,7 +8,15 @@ module.exports = {
         entityType: { enum: ['taxonomy_term'] },
         entityBundle: { enum: ['health_care_service_taxonomy'] },
         name: { type: 'string' },
-        description: { type: 'string' },
+        description: {
+          type: 'object',
+          properties: {
+            processed: {
+              type: ['string', 'null'],
+            },
+          },
+          required: ['processed'],
+        },
         parent: { type: 'string' },
         fieldAlsoKnownAs: { type: 'string' },
         fieldCommonlyTreatedCondition: { type: 'string' },
