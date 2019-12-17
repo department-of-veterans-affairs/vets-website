@@ -25,12 +25,17 @@ describe('Find VA Forms helpers', () => {
       expect(result).to.be.instanceOf(Array);
       expect(result).to.be.not.be.empty;
       expect(result[0]).to.have.keys([
+        'applyOnlineURL',
+        'availableOnline',
+        'availableOnlineLabel',
+        'description',
+        'descriptionLabel',
         'id',
-        'attributes',
-        'tableFieldID',
-        'tableFieldFormName',
-        'tableFieldDescription',
-        'tableFieldAvailableOnline',
+        'idLabel',
+        'title',
+        'titleLabel',
+        'type',
+        'url',
       ]);
     });
   });
