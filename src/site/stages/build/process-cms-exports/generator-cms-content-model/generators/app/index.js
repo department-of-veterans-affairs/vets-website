@@ -133,6 +133,9 @@ module.exports = class extends Generator {
         chalk.green(`Found transformed entity test file:`),
         transformedEntityTestFile,
       );
+      this.transformedTestData = JSON.parse(
+        fs.readFileSync(transformedEntityTestFile),
+      );
       return;
     }
     // TODO: Generate search suggestions
