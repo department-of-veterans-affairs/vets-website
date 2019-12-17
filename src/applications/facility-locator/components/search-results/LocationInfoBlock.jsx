@@ -5,12 +5,12 @@ import { LocationType } from '../../constants';
 import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
+import { hasVADomain } from '../../utils/helpers';
 
 const LocationInfoBlock = ({ location }) => {
-  const { name } = location.attributes;
+  const { name, website } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const distance = location.distance;
-
   return (
     <div>
       {isProvider ? (
@@ -25,9 +25,15 @@ const LocationInfoBlock = ({ location }) => {
         </span>
       ) : (
         <span>
-          <Link to={`facility/${location.id}`}>
-            <h2 className="vads-u-font-size--h5">{name}</h2>
-          </Link>
+          {hasVADomain(website) && process.env.BUILDTYPE === 'vagovstaging' ? (
+            <a href={website}>
+              <h2 className="vads-u-font-size--h5">{name}</h2>
+            </a>
+          ) : (
+            <Link to={`facility/${location.id}`}>
+              <h2 className="vads-u-font-size--h5">{name}</h2>
+            </Link>
+          )}
           <FacilityTypeDescription location={location} />
         </span>
       )}

@@ -13,7 +13,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import FacilityTypeDescription from '../components/FacilityTypeDescription';
-import { hasVADomain } from '../utils/helpers';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line
@@ -31,18 +30,6 @@ class FacilityDetail extends Component {
       prevProps.currentQuery.inProgress && !this.props.currentQuery.inProgress;
 
     if (justLoaded) {
-      // Run in staging for QA
-      if (process.env.BUILDTYPE === 'vagovstaging') {
-        if (
-          hasVADomain(
-            this.props.facility.attributes &&
-              this.props.facility.attributes.website,
-          )
-        ) {
-          window.location.replace(this.props.facility.attributes.website);
-        }
-      }
-
       this.__previousDocTitle = document.title;
       document.title = `${
         this.props.facility.attributes.name
