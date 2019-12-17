@@ -210,14 +210,12 @@ export const genBBoxFromAddress = query => {
         query: query.searchString,
       })
       .send()
-      .then(res => {
-        console.log({res})
-
+      .then(({ body: { features } }) => {
         const zip =
-          res.features[0].context.find(v => v.id.includes('postcode')) || {};
-        const coordinates = res.features[0].center;
-        const zipCode = zip.text || res.features[0].place_name;
-        const featureBox = res.features[0].box;
+          features[0].context.find(v => v.id.includes('postcode')) || {};
+        const coordinates = features[0].center;
+        const zipCode = zip.text || features[0].place_name;
+        const featureBox = features[0].box;
 
         let minBounds = [
           coordinates[0] - BOUNDING_RADIUS,
@@ -245,12 +243,12 @@ export const genBBoxFromAddress = query => {
               longitude: coordinates[0],
             },
             bounds: minBounds,
-            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
+            zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
             currentPage: 1,
           },
         });
       })
-      .catch(error => console.log(error));
+      .catch(error => dispatch({ type: SEARCH_FAILED, error }));
   };
 };
 
