@@ -43,59 +43,62 @@ export default function CalendarOptions({
     );
 
     return (
-      <fieldset className="vads-u-order--last">
-        <legend className="vads-u-visibility--screen-reader">
-          {additionalOptions.legend || 'Please select an option for this date'}
-        </legend>
-        <div className={cssClasses}>
-          {optionsError && (
-            <span
-              className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
-              role="alert"
-            >
-              <span className="sr-only">Error</span> {optionsError}
-            </span>
-          )}
-          {selectedDateOptions.map((o, index) => {
-            const dateObj = {
-              date: currentlySelectedDate,
-              [fieldName]: o.value,
-            };
-            const checked = isDateOptionPairInSelectedArray(
-              dateObj,
-              selectedDates,
-              fieldName,
-            );
-
-            return (
-              <div
-                key={`option-${index}`}
-                className="vaos-calendar__option-cell"
+      <div role="cell" className="vads-u-order--last vads-u-width--full">
+        <fieldset>
+          <legend className="vads-u-visibility--screen-reader">
+            {additionalOptions.legend ||
+              'Please select an option for this date'}
+          </legend>
+          <div className={cssClasses}>
+            {optionsError && (
+              <span
+                className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
+                role="alert"
               >
-                {additionalOptions?.maxSelections > 1 ? (
-                  <CalendarCheckboxOption
-                    index={index}
-                    fieldName={fieldName}
-                    value={o.value}
-                    checked={checked}
-                    onChange={() => handleSelectOption(dateObj)}
-                    label={o.label}
-                  />
-                ) : (
-                  <CalendarRadioOption
-                    index={index}
-                    fieldName={fieldName}
-                    value={o.value}
-                    checked={checked}
-                    onChange={() => handleSelectOption(dateObj)}
-                    label={o.label}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </fieldset>
+                <span className="sr-only">Error</span> {optionsError}
+              </span>
+            )}
+            {selectedDateOptions.map((o, index) => {
+              const dateObj = {
+                date: currentlySelectedDate,
+                [fieldName]: o.value,
+              };
+              const checked = isDateOptionPairInSelectedArray(
+                dateObj,
+                selectedDates,
+                fieldName,
+              );
+
+              return (
+                <div
+                  key={`option-${index}`}
+                  className="vaos-calendar__option-cell"
+                >
+                  {additionalOptions?.maxSelections > 1 ? (
+                    <CalendarCheckboxOption
+                      index={index}
+                      fieldName={fieldName}
+                      value={o.value}
+                      checked={checked}
+                      onChange={() => handleSelectOption(dateObj)}
+                      label={o.label}
+                    />
+                  ) : (
+                    <CalendarRadioOption
+                      index={index}
+                      fieldName={fieldName}
+                      value={o.value}
+                      checked={checked}
+                      onChange={() => handleSelectOption(dateObj)}
+                      label={o.label}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </fieldset>
+      </div>
     );
   }
   return null;
