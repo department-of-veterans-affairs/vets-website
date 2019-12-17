@@ -16,6 +16,10 @@ import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
+const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+
+const mbxClient = mbxGeo(mapboxClient);
+
 /**
  * Sync form state with Redux state.
  * (And implicitly cause updates back in VAMap)
@@ -193,59 +197,60 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = 'place,region,postcode,locality';
+    let types = ['place', 'region', 'postcode', 'locality'];
     // check for postcode search
     if (query.searchString.match(/^\s*\d{5}\s*$/)) {
       types = 'postcode';
     }
-    mapboxClient.geocodeForward(
-      query.searchString,
-      { country: 'us,pr,ph,gu,as,mp', types },
-      (error, res) => {
-        if (!error && !isEmpty(res.features)) {
-          const zip =
-            res.features[0].context.find(v => v.id.includes('postcode')) || {};
-          const coordinates = res.features[0].center;
-          const zipCode = zip.text || res.features[0].place_name;
-          const featureBox = res.features[0].box;
 
-          let minBounds = [
-            coordinates[0] - BOUNDING_RADIUS,
-            coordinates[1] - BOUNDING_RADIUS,
-            coordinates[0] + BOUNDING_RADIUS,
-            coordinates[1] + BOUNDING_RADIUS,
+    mbxClient
+      .forwardGeocode({
+        countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
+        types,
+        query: query.searchString,
+      })
+      .send()
+      .then(res => {
+        console.log({res})
+
+        const zip =
+          res.features[0].context.find(v => v.id.includes('postcode')) || {};
+        const coordinates = res.features[0].center;
+        const zipCode = zip.text || res.features[0].place_name;
+        const featureBox = res.features[0].box;
+
+        let minBounds = [
+          coordinates[0] - BOUNDING_RADIUS,
+          coordinates[1] - BOUNDING_RADIUS,
+          coordinates[0] + BOUNDING_RADIUS,
+          coordinates[1] + BOUNDING_RADIUS,
+        ];
+
+        if (featureBox) {
+          minBounds = [
+            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
+            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
+            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
+            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
-
-          if (featureBox) {
-            minBounds = [
-              Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
-              Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
-              Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
-              Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
-            ];
-          }
-          dispatch({
-            type: SEARCH_QUERY_UPDATED,
-            payload: {
-              ...query,
-              context: zipCode,
-              inProgress: true,
-              position: {
-                latitude: coordinates[1],
-                longitude: coordinates[0],
-              },
-              bounds: minBounds,
-              zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
-              currentPage: 1,
-            },
-          });
-
-          return;
         }
-
-        dispatch({ type: SEARCH_FAILED, error });
-      },
-    );
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            ...query,
+            context: zipCode,
+            inProgress: true,
+            position: {
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            },
+            bounds: minBounds,
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
+            currentPage: 1,
+          },
+        });
+      })
+      .catch(error => console.log(error));
   };
 };
 
