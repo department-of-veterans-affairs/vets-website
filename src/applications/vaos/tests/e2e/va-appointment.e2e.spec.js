@@ -46,7 +46,7 @@ module.exports = {
       .click('[value="983"]')
       .waitForElementPresent(
         '[name = "root_vaFacility"][value = "983GB"]',
-        Timeouts.normal,
+        Timeouts.slow,
       )
       .click('[name = "root_vaFacility"][value = "983GB"]')
       .pause(Timeouts.normal)
