@@ -4,7 +4,7 @@ const transform = entity => ({
   entity: {
     entityType: 'block_content',
     entityBundle: 'alert',
-    fieldAlertContent: getDrupalValue(entity.fieldAlertContent),
+    fieldAlertContent: entity.fieldAlertContent[0],
     fieldAlertDismissable: getDrupalValue(entity.fieldAlertDismissable),
     fieldAlertTitle: getDrupalValue(entity.fieldAlertTitle),
     fieldAlertType: getDrupalValue(entity.fieldAlertType),

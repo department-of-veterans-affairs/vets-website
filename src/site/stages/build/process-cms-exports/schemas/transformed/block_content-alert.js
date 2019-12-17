@@ -7,8 +7,8 @@ module.exports = {
       properties: {
         entityType: { enum: ['block_content'] },
         entityBundle: { enum: ['alert'] },
-        fieldAlertContent: { type: 'string' },
-        fieldAlertDismissable: { type: 'string' },
+        fieldAlertContent: { $ref: 'Paragraph' },
+        fieldAlertDismissable: { type: ['boolean', 'null'] },
         fieldAlertTitle: { type: 'string' },
         fieldAlertType: { type: 'string' },
         fieldReusability: { type: 'string' },
