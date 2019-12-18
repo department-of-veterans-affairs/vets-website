@@ -42,42 +42,10 @@ describe('VAOS <CalendarRow>', () => {
       />,
     );
 
-    const row = tree.find('.vaos-calendar__calendar-week');
+    const row = tree.find('.vads-u-flex-wrap--wrap');
     expect(row.length).to.equal(1);
     const cells = tree.find('CalendarCell');
     expect(cells.length).to.equal(5);
-    tree.unmount();
-  });
-
-  it('should render radio buttons when maxSelections === 1', () => {
-    const tree = shallow(
-      <CalendarRow
-        cells={dayCells}
-        currentlySelectedDate="2019-10-21"
-        rowNumber="0"
-        selectedDates={selectedDates}
-        additionalOptions={{ maxSelections: 1, getOptionsByDate }}
-      />,
-    );
-
-    const radios = tree.find('CalendarRadioOption');
-    expect(radios.length).to.equal(2);
-    tree.unmount();
-  });
-
-  it('should render checkboxes when maxSelections > 1', () => {
-    const tree = shallow(
-      <CalendarRow
-        cells={dayCells}
-        currentlySelectedDate="2019-10-21"
-        rowNumber="0"
-        selectedDates={selectedDates}
-        additionalOptions={{ maxSelections: 2, getOptionsByDate }}
-      />,
-    );
-
-    const checks = tree.find('CalendarCheckboxOption');
-    expect(checks.length).to.equal(2);
     tree.unmount();
   });
 });

@@ -45,6 +45,7 @@ import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
+import pacTeam from '../../api/pact.json';
 import {
   FACILITY_TYPES,
   FETCH_STATUS,
@@ -262,6 +263,32 @@ describe('VAOS newAppointment actions', () => {
       expect(firstAction.eligibilityData).to.not.be.null;
     });
 
+    it('should skip eligibility request and succeed if facility list is empty', async () => {
+      setFetchJSONResponse(global.fetch, { data: [] });
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.data.vaSystem', '983', defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        systems,
+        facilities: [],
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
     it('should not fetch anything if system did not change', async () => {
       const dispatch = sinon.spy();
       const getState = () => ({
@@ -373,6 +400,7 @@ describe('VAOS newAppointment actions', () => {
         },
       });
       setFetchJSONResponse(global.fetch.onCall(3), clinics);
+      setFetchJSONResponse(global.fetch.onCall(4), pacTeam);
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,

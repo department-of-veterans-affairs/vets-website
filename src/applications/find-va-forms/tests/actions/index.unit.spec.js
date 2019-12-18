@@ -40,11 +40,11 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsSuccess', () => {
     it('should return an action in the shape we expect', () => {
-      const response = {};
-      const result = fetchFormsSuccess(response);
+      const results = {};
+      const result = fetchFormsSuccess(results);
 
       expect(result).to.be.deep.equal({
-        response,
+        results,
         type: FETCH_FORMS_SUCCESS,
       });
     });
@@ -100,7 +100,7 @@ describe('Find VA Forms actions', () => {
       const secondCallAction = dispatch.secondCall.args[0];
 
       expect(secondCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
-      expect(secondCallAction.response).to.have.keys(['data']);
+      expect(secondCallAction.results).to.be.an('array');
     });
   });
 });
