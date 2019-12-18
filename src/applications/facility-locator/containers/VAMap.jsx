@@ -317,7 +317,7 @@ class VAMap extends Component {
           context: zipCode,
         });
       })
-      .catch(error => console.log(error));
+      .catch();
   };
 
   handleSearch = () => {
