@@ -1,16 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CalendarSelectedIndicatorBubbles = ({ selectedDates, fieldName }) => (
+const CalendarSelectedIndicatorBubbles = ({
+  date,
+  selectedDates,
+  fieldName,
+}) => (
   <div className="vaos-calendar__indicator-bubbles-container">
     {[...selectedDates]
+      .filter(currentDate => currentDate.date === date)
       .sort((a, b) => (a[fieldName] < b[fieldName] ? -1 : 1))
-      .map((date, index) => (
+      .map((d, index) => (
         <div
-          key={`${date}-bubble-${index}`}
-          className="vaos-calendar__indicator-bubble"
+          key={`${d}-bubble-${index}`}
+          className="vaos-calendar__indicator-bubble vads-u-border--2px vads-u-border-color--white vads-u-background-color--base"
         >
-          {date[fieldName]}
+          {d[fieldName]}
         </div>
       ))}
   </div>
