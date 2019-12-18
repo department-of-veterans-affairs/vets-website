@@ -2,12 +2,34 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import CalendarSelectedIndicatorBubbles from '../../../components/calendar/CalendarSelectedIndicatorBubbles';
+import CalendarSelectedIndicator from '../../../components/calendar/CalendarSelectedIndicator';
+import { CALENDAR_INDICATOR_TYPES } from '../../../utils/constants';
 
-describe('VAOS <CalendarSelectedIndicatorBubbles>', () => {
-  it('should render', () => {
+describe('VAOS <CalendarSelectedIndicator>', () => {
+  it('should render a checkbox by default', () => {
     const tree = shallow(
-      <CalendarSelectedIndicatorBubbles
+      <CalendarSelectedIndicator
+        date="2018-10-04"
+        selectedDates={[
+          {
+            date: '2018-10-04',
+            optionTime: 'PM',
+          },
+          {
+            date: '2018-10-04',
+            optionTime: 'AM',
+          },
+        ]}
+      />,
+    );
+    expect(tree.find('.vaos-calendar__indicator-bubble').length).to.equal(0);
+    expect(tree.find('.fa-check').length).to.equal(1);
+    tree.unmount();
+  });
+
+  it('should render a bubbles if indicatorType is set to bubbles', () => {
+    const tree = shallow(
+      <CalendarSelectedIndicator
         date="2018-10-04"
         selectedDates={[
           {
@@ -20,6 +42,7 @@ describe('VAOS <CalendarSelectedIndicatorBubbles>', () => {
           },
         ]}
         fieldName="optionTime"
+        selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
       />,
     );
     const bubbles = tree.find('.vaos-calendar__indicator-bubble');

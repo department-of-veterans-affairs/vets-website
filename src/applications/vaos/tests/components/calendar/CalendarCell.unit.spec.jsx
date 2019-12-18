@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import CalendarCell from '../../../components/calendar/CalendarCell';
-import { CALENDAR_INDICATOR_TYPES } from '../../../utils/constants';
 
 describe('VAOS <CalendarCell>', () => {
   it('should render a calendar cell button with proper label and values', () => {
@@ -20,35 +19,8 @@ describe('VAOS <CalendarCell>', () => {
     expect(cell.exists()).to.be.true;
     expect(tree.find('.vaos-calendar__cell-current').length).to.equal(1);
     expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(1);
-    expect(cell.text()).to.equal('4');
-    expect(cell.find('.fa-check').exists()).to.be.true;
-    tree.unmount();
-  });
-
-  it('should render a selected bubble indicators button if indicatoryType is set', () => {
-    const tree = shallow(
-      <CalendarCell
-        date="2018-10-04"
-        currentlySelectedDate="2018-10-04"
-        isCurrentlySelected
-        inSelectedArray
-        disabled={false}
-        selectedDates={[
-          {
-            date: '2018-10-04',
-            optionTime: 'AM',
-          },
-        ]}
-        additionalOptions={{ fieldName: 'optionTime' }}
-        selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
-      />,
-    );
-    const cell = tree.find('button#date-cell-2018-10-04');
-    expect(cell.exists()).to.be.true;
-    expect(tree.find('.vaos-calendar__cell-current').length).to.equal(1);
-    expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(1);
-    expect(cell.find('.fa-check').exists()).to.be.false;
-    expect(cell.find('CalendarSelectedIndicatorBubbles').length).to.equal(1);
+    expect(cell.text()).to.contain('4');
+    expect(cell.find('CalendarSelectedIndicator').exists()).to.be.true;
     tree.unmount();
   });
 
