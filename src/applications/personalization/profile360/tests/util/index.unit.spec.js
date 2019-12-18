@@ -2,7 +2,8 @@ import { expect } from 'chai';
 
 import {
   createDirectDepositAnalyticsDataObject,
-  hasFlaggedForFraudError,
+  hasAccountFlaggedError,
+  hasRoutingNumberFlaggedError,
   hasInvalidHomePhoneNumberError,
 } from '../../util';
 
@@ -224,7 +225,29 @@ describe('profile utils', () => {
   });
 
   describe('PaymentInformation error parsing methods', () => {
-    it('hasFlaggedForFraudError returns true on error', () => {
+    it('hasRoutingNumberFlaggedError returns true on error', () => {
+      const errors = [
+        {
+          code: '135',
+          detail: 'Routing number related to potential fraud',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.routing.number.fraud.message',
+                severity: 'ERROR',
+                text: 'Routing number related to potential fraud',
+              },
+            ],
+          },
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          title: 'Potential Fraud',
+        },
+      ];
+      expect(hasRoutingNumberFlaggedError(errors)).to.equal(true);
+    });
+
+    it('hasAccountFlaggedError returns true on error', () => {
       const errors = [
         {
           title: 'Account Flagged',
@@ -243,7 +266,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasFlaggedForFraudError(errors)).to.equal(true);
+      expect(hasAccountFlaggedError(errors)).to.equal(true);
     });
 
     it('hasInvalidHomePhoneNumberError returns false if text does not contain night phone', () => {

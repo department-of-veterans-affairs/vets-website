@@ -1,0 +1,43 @@
+extends: substitution
+message: Use ’%s’ instead of ’%s’.
+level: suggestion
+ignorecase: true
+swap:
+  (?:log in|login): sign in
+  (?:log out|logout): sign out
+  "(?:LetsEncrypt|Let’s Encrypt)": Let’s Encrypt
+  "(?:ReHat|RedHat)": RedHat
+  "Mac ?OS ?X": Mac OS X
+  "mongoDB": MongoDB
+  "node[.]?js": Node.js
+  "Post?gr?e(?:SQL)": PostgreSQL
+  "java[ -]?scripts?": JavaScript
+  automattic: Automattic
+  centOS: CentOS
+  cloudflare: Cloudflare
+  debian: Debian
+  fedora: Fedora
+  gentoo: Gentoo
+  homebrew: Homebrew
+  linode cli: Linode CLI
+  linode manager: Linode Manager
+  linode: Linode
+  longview: Longview
+  macOS: macOS
+  metabase: Metabase
+  miniconda: Miniconda
+  nodebalancer: NodeBalancer
+  nodebalancers: NodeBalancers
+  openSUSE: OpenSUSE
+  slackware: Slackware
+  ubuntu: Ubuntu
+  wordpress: WordPress
+  yaml: YAML
+  urls: URLs
+  uris: URIs
+  Cuda: CUDA
+  gpu: GPU
+  stackscript: StackScript
+  typescript: TypeScript
+  pulumi: Pulumi
+  markdown: Markdown

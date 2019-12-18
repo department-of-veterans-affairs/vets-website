@@ -197,16 +197,21 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   );
 }
 
-export function getCommunityCare() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        isEligible: true,
-        reason: 'User is within x miles of facility',
-        effectiveDate: '2017-10-08T23:35:12-05:00',
-      });
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getCommunityCare(typeOfCare) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve({
+      data: {
+        id: 'PrimaryCare',
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    });
+  } else {
+    promise = apiRequest(`/vaos/community_care/eligibility/${typeOfCare}`);
+  }
+
+  return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
 // GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
@@ -289,47 +294,42 @@ export function getClinics(facilityId, typeOfCareId, systemId) {
   );
 }
 
-// GET /vaos/systems/{systemId}/pact
-// eslint-disable-next-line no-unused-vars
 export function getPacTeam(systemId) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (systemId === '983') {
-        import('./pact.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
-      } else {
-        resolve([]);
-      }
-    }, 750);
-  });
+  let promise;
+  if (USE_MOCK_DATA) {
+    if (systemId.includes('983')) {
+      promise = import('./pact.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = Promise.resolve({ data: [] });
+    }
+  } else {
+    promise = apiRequest(`/vaos/systems/${systemId}/pact`);
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+  );
 }
 
 export function getFacilityInfo(facilityId) {
+  let promise;
+
   if (USE_MOCK_DATA) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          attributes: {
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              physical: {
-                zip: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                address1: '2360 East Pershing Boulevard',
-                address2: null,
-                address3: null,
-              },
-            },
-          },
-        });
-      }, TEST_TIMEOUT || 2000);
-    });
+    if (facilityId === '984') {
+      promise = import('./facility_details_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = import('./facility_details_983.json').then(
+        module => (module.default ? module.default : module),
+      );
+    }
+  } else {
+    promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
-  return apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`).then(
-    resp => resp.data,
-  );
+  return promise.then(resp => resp.data);
 }
 
 export function getFacilitiesInfo(facilityIds) {
@@ -370,7 +370,7 @@ export function getAvailableSlots(
 ) {
   let promise;
 
-  if (false && USE_MOCK_DATA) {
+  if (USE_MOCK_DATA) {
     promise = import('./slots.json').then(
       module => (module.default ? module.default : module),
     );

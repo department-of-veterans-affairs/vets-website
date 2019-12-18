@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ViewDependentsListItem = props => (
   <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
     <div className="vads-l-row">
       <div className="vads-l-col--9">
         <p className="vads-u-font-weight--bold vads-u-margin-top--0p25 vads-u-margin-bottom--0 vads-u-margin-x--0 vads-u-font-size--lg">
-          Jesse Cohn
+          {props.name}
         </p>
       </div>
       {props.spouse ? (
@@ -50,16 +51,16 @@ const ViewDependentsListItem = props => (
         ) : null}
       </div>
     </div>
-    {props.changeStatus ? (
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--12">
-          <button href="#" className="usa-button-secondary">
-            Change Status
-          </button>
-        </div>
-      </div>
-    ) : null}
   </div>
 );
+
+ViewDependentsListItem.propTypes = {
+  name: PropTypes.string,
+  spouse: PropTypes.bool,
+  onAward: PropTypes.bool,
+  social: PropTypes.string,
+  birthdate: PropTypes.string,
+  age: PropTypes.number,
+};
 
 export default ViewDependentsListItem;
