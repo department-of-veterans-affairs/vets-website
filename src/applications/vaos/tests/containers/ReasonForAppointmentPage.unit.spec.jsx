@@ -8,12 +8,12 @@ import { ReasonForAppointmentPage } from '../../containers/ReasonForAppointmentP
 
 describe('VAOS <ReasonForAppointmentPage>', () => {
   it('should render', () => {
-    const openFormPage = sinon.spy();
+    const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
 
     const form = mount(
       <ReasonForAppointmentPage
-        openFormPage={openFormPage}
+        openReasonForAppointment={openReasonForAppointment}
         updateReasonForAppointmentData={updateReasonForAppointmentData}
         data={{}}
       />,
@@ -25,14 +25,14 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   });
 
   it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
+    const openReasonForAppointment = sinon.spy();
     const router = {
       push: sinon.spy(),
     };
 
     const form = mount(
       <ReasonForAppointmentPage
-        openFormPage={openFormPage}
+        openReasonForAppointment={openReasonForAppointment}
         router={router}
         data={{}}
       />,
@@ -48,7 +48,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   });
 
   it('should call updateReasonForAppointmentData after change', () => {
-    const openFormPage = sinon.spy();
+    const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
     const router = {
       push: sinon.spy(),
@@ -56,7 +56,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     const form = mount(
       <ReasonForAppointmentPage
-        openFormPage={openFormPage}
+        openReasonForAppointment={openReasonForAppointment}
         updateReasonForAppointmentData={updateReasonForAppointmentData}
         router={router}
         data={{}}
@@ -72,12 +72,12 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   });
 
   it('should submit with valid data', () => {
-    const openFormPage = sinon.spy();
+    const openReasonForAppointment = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <ReasonForAppointmentPage
-        openFormPage={openFormPage}
+        openReasonForAppointment={openReasonForAppointment}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{
           reasonForAppointment: 'routine-follow-up',
@@ -92,12 +92,12 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   });
 
   it('should render alert message with aria label', () => {
-    const openFormPage = sinon.spy();
+    const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
 
     const form = mount(
       <ReasonForAppointmentPage
-        openFormPage={openFormPage}
+        openReasonForAppointment={openReasonForAppointment}
         updateReasonForAppointmentData={updateReasonForAppointmentData}
         data={{}}
       />,
