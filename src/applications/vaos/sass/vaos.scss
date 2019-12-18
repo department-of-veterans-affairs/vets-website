@@ -90,7 +90,6 @@
   }
 }
 
-
 .vaos-calendar__weekday {
   width: 20%;
 }
@@ -124,7 +123,6 @@
     background-color: $color-primary;
     border-color: $color-primary;
     color: $color-white;
-
   }
 
   .fa-check {
@@ -152,6 +150,7 @@
       clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
       transform: rotate(-45deg);
       border-radius: 0 0 0 0.25em;
+      z-index: -1;
     }
   }
 
@@ -160,6 +159,19 @@
     border-color: $color-gray-lightest;
     color: $color-gray-light;
   }
+}
+
+.vaos-calendar__indicator-bubbles-container {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+}
+
+.vaos-calendar__indicator-bubble {
+  padding: 3px 6px;
+  border-radius: 25px;
+  font-size: 12px;
+  margin-bottom: 11px;
 }
 
 .vaos-calendar__nav-links {
@@ -192,9 +204,11 @@
   @include media($small-screen) {
     width: 33%;
   }
+
   @include media($small-desktop-screen) {
     width: 25%;
   }
+
   @include media($large-screen) {
     width: 20%;
   }

@@ -19,7 +19,8 @@ describe('VAOS <CalendarCell>', () => {
     expect(cell.exists()).to.be.true;
     expect(tree.find('.vaos-calendar__cell-current').length).to.equal(1);
     expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(1);
-    expect(cell.text()).to.equal('4');
+    expect(cell.text()).to.contain('4');
+    expect(cell.find('CalendarSelectedIndicator').exists()).to.be.true;
     tree.unmount();
   });
 
