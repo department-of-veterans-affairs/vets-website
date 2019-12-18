@@ -13,15 +13,7 @@ class ViewDependentsList extends Component {
       );
     } else if (this.props.dependents.length > 0) {
       mainContent = this.props.dependents.map((dependent, index) => (
-        <ViewDependentsListItem
-          key={index}
-          name={dependent.name}
-          spouse={dependent.spouse}
-          onAward={dependent.onAward}
-          social={dependent.social}
-          birthdate={dependent.birthdate}
-          age={dependent.age}
-        />
+        <ViewDependentsListItem key={index} {...dependent} />
       ));
     } else {
       mainContent = <p>No dependents in this list.</p>;
