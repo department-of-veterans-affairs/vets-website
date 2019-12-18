@@ -11,13 +11,13 @@ export const chapterOneFields = {
   ssn: 'ssn',
   telephoneNumber: 'veteranTelephoneNumber',
   vaEnrolled: 'veteranVaEnrolled',
-  veteranDateOfBirth: 'veteranDateOfBirth',
+  dateOfBirth: 'veteranDateOfBirth',
   facilityType: 'facilityType',
 };
 
 export const chapterTwoFields = {
   address: 'primaryCaregiverAddress',
-  caregiverDateOfBirth: 'primaryCaregiverDateOfBirth',
+  dateOfBirth: 'primaryCaregiverDateOfBirth',
   cellNumber: 'primaryCaregiverCellNumber',
   email: 'primaryCaregiverEmail',
   fullName: 'primaryCaregiverFullName',
@@ -33,7 +33,7 @@ export const chapterTwoFields = {
 export const chapterThreeFields = {
   secondary: {
     address: 'secondaryCaregiverAddress',
-    caregiverDateOfBirth: 'secondaryCaregiverDateOfBirth',
+    dateOfBirth: 'secondaryCaregiverDateOfBirth',
     cellNumber: 'secondaryCaregiverCellNumber',
     email: 'secondaryCaregiverEmail',
     fullName: 'secondaryCaregiverFullName',
@@ -45,7 +45,7 @@ export const chapterThreeFields = {
   },
   tertiary: {
     address: 'tertiaryCaregiverAddress',
-    caregiverDateOfBirth: 'tertiaryCaregiverDateOfBirth',
+    dateOfBirth: 'tertiaryCaregiverDateOfBirth',
     cellNumber: 'tertiaryCaregiverCellNumber',
     email: 'tertiaryCaregiverEmail',
     fullName: 'tertiaryCaregiverFullName',

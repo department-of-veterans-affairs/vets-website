@@ -82,7 +82,7 @@ const formConfig = {
           uiSchema: {
             [chapterOneFields.fullName]: fullNameUI,
             [chapterOneFields.ssn]: ssnUI,
-            [chapterOneFields.veteranDateOfBirth]: dateOfBirth,
+            [chapterOneFields.dateOfBirth]: dateOfBirth,
             [chapterOneFields.address]: address,
             [chapterOneFields.telephoneNumber]: telephoneNumber,
             [chapterOneFields.cellNumber]: cellNumber,
@@ -95,11 +95,16 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [],
+            required: [
+              chapterOneFields.fullName,
+              chapterOneFields.ssn,
+              chapterOneFields.dateOfBirth,
+              chapterOneFields.plannedClinic,
+            ],
             properties: {
               [chapterOneFields.fullName]: fullName,
               [chapterOneFields.ssn]: ssn,
-              [chapterOneFields.veteranDateOfBirth]: date,
+              [chapterOneFields.dateOfBirth]: date,
               [chapterOneFields.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
@@ -142,7 +147,7 @@ const formConfig = {
           uiSchema: {
             [chapterTwoFields.fullName]: fullNameUI,
             [chapterTwoFields.ssn]: ssnUI,
-            [chapterTwoFields.caregiverDateOfBirth]: dateOfBirth,
+            [chapterTwoFields.dateOfBirth]: dateOfBirth,
             [chapterTwoFields.address]: address,
             [chapterTwoFields.telephoneNumber]: telephoneNumber,
             [chapterTwoFields.cellNumber]: cellNumber,
@@ -155,10 +160,15 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [
+              chapterTwoFields.fullName,
+              chapterTwoFields.ssn,
+              chapterTwoFields.dateOfBirth,
+            ],
             properties: {
               [chapterTwoFields.fullName]: fullName,
               [chapterTwoFields.ssn]: ssn,
-              [chapterTwoFields.caregiverDateOfBirth]: date,
+              [chapterTwoFields.dateOfBirth]: date,
               [chapterTwoFields.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
@@ -195,7 +205,7 @@ const formConfig = {
           title: 'Secondary Caregiver Information',
           uiSchema: {
             [chapterThreeFields.secondary.fullName]: fullNameUI,
-            [chapterThreeFields.secondary.caregiverDateOfBirth]: dateOfBirth,
+            [chapterThreeFields.secondary.dateOfBirth]: dateOfBirth,
             [chapterThreeFields.secondary.ssn]: ssnUI,
             [chapterThreeFields.secondary.address]: address,
             [chapterThreeFields.secondary.telephoneNumber]: telephoneNumber,
@@ -209,7 +219,7 @@ const formConfig = {
             properties: {
               [chapterThreeFields.secondary.fullName]: fullName,
               [chapterThreeFields.secondary.ssn]: ssn,
-              [chapterThreeFields.secondary.caregiverDateOfBirth]: date,
+              [chapterThreeFields.secondary.dateOfBirth]: date,
               [chapterThreeFields.secondary.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
@@ -235,7 +245,7 @@ const formConfig = {
           title: 'Tertiary Caregiver Information',
           uiSchema: {
             [chapterThreeFields.tertiary.fullName]: fullNameUI,
-            [chapterThreeFields.tertiary.caregiverDateOfBirth]: dateOfBirth,
+            [chapterThreeFields.tertiary.dateOfBirth]: dateOfBirth,
             [chapterThreeFields.tertiary.ssn]: ssnUI,
             [chapterThreeFields.tertiary.address]: address,
             [chapterThreeFields.tertiary.telephoneNumber]: telephoneNumber,
@@ -249,7 +259,7 @@ const formConfig = {
             properties: {
               [chapterThreeFields.tertiary.fullName]: fullName,
               [chapterThreeFields.tertiary.ssn]: ssn,
-              [chapterThreeFields.tertiary.caregiverDateOfBirth]: date,
+              [chapterThreeFields.tertiary.dateOfBirth]: date,
               [chapterThreeFields.tertiary.gender]: {
                 type: 'string',
                 enum: ['Male', 'Female'],
