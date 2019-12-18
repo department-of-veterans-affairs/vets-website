@@ -209,7 +209,7 @@ export const validateAddress = (
           secondAddress.addressMetaData?.confidenceScore -
           firstAddress.addressMetaData?.confidenceScore,
       )
-      // add the address type and POU to each suggestion
+      // add the address type, POU, and original id to each suggestion
       .map(address => ({
         addressMetaData: { ...address.addressMetaData },
         ...inferAddressType(address.address),
@@ -217,6 +217,7 @@ export const validateAddress = (
           fieldName === FIELD_NAMES.MAILING_ADDRESS
             ? ADDRESS_POU.CORRESPONDENCE
             : ADDRESS_POU.RESIDENCE,
+        id: payload.id || null,
       }));
     const confirmedSuggestions = suggestedAddresses.filter(
       suggestion =>
@@ -225,10 +226,6 @@ export const validateAddress = (
     const payloadWithSuggestedAddress = {
       ...confirmedSuggestions[0],
     };
-    // only add the id to the payload if it existed on the user-entered address
-    if (payload.id) {
-      payloadWithSuggestedAddress.id = payload.id;
-    }
 
     // we use the unfiltered list of suggested addresses to determine if we need
     // to show the modal because the only time we will skip the modal is if one
