@@ -5,7 +5,9 @@ const transform = entity => ({
     entityType: 'taxonomy_term',
     entityBundle: 'health_care_service_taxonomy',
     name: getDrupalValue(entity.name),
-    description: { processed: getDrupalValue(entity.description) },
+    description: {
+      processed: getDrupalValue(entity.description),
+    },
     parent: [
       {
         entity: {
