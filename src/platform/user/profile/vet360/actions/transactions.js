@@ -5,6 +5,7 @@ import { inferAddressType } from 'applications/letters/utils/helpers';
 import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
+import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
   addCountryCodeIso3ToAddress,
   isSuccessfulTransaction,
@@ -141,8 +142,6 @@ export function createTransaction(
   analyticsSectionName,
 ) {
   return async dispatch => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const options = {
       body: JSON.stringify(payload),
       method,
@@ -219,14 +218,21 @@ export const validateAddress = (
             ? ADDRESS_POU.CORRESPONDENCE
             : ADDRESS_POU.RESIDENCE,
       }));
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
     const payloadWithSuggestedAddress = {
-      ...suggestedAddresses[0],
+      ...confirmedSuggestions[0],
     };
     // only add the id to the payload if it existed on the user-entered address
     if (payload.id) {
       payloadWithSuggestedAddress.id = payload.id;
     }
 
+    // we use the unfiltered list of suggested addresses to determine if we need
+    // to show the modal because the only time we will skip the modal is if one
+    // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
 
     // show the modal if the API doesn't find a single solid match for the address
@@ -235,7 +241,7 @@ export const validateAddress = (
         type: ADDRESS_VALIDATION_CONFIRM,
         addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
-        selectedAddress: suggestedAddresses[0], // always select the first address as the default
+        selectedAddress: confirmedSuggestions[0], // always select the first address as the default
         suggestedAddresses,
         validationKey,
       });
