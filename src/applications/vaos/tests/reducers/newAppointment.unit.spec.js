@@ -651,11 +651,18 @@ describe('VAOS reducer: newAppointment', () => {
         uiSchema: {},
       };
 
-      const newState = newAppointmentReducer(state, action);
+      let newState = newAppointmentReducer(state, action);
       expect(
         newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
           .title,
       ).to.equal(REASON_ADDITIONAL_INFO_TITLES.other);
+
+      state.data.reasonForAppointment = 'follow-up';
+      newState = newAppointmentReducer(state, action);
+      expect(
+        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+          .title,
+      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.default);
     });
 
     it('should not set additional info title if reason for appointment is unset', () => {
