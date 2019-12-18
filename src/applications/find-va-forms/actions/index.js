@@ -56,7 +56,7 @@ export const fetchFormsThunk = (
 
   try {
     // Attempt to make the API request to retreive forms.
-    const results = await fetchFormsApi(URL, query);
+    const results = await fetchFormsApi(query);
 
     // If we are here, the API request succeeded.
     dispatch(fetchFormsSuccess(results));

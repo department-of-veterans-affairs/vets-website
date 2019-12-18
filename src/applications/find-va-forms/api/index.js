@@ -1,19 +1,22 @@
 // Dependencies.
 import { orderBy } from 'lodash';
 // Relative imports.
-import mockForms from '../constants/example.json';
+import { apiRequest } from '../../../platform/utilities/api';
 import { normalizeFormsForTable } from '../helpers';
 
-// `fetchFormsApi` will need to be updated to make the request to api.va.gov once the endpoint is ready.
-// fetch(`https://api.va.gov/find-va-forms?q=${query}`);
-export const fetchFormsApi = async (URL, query) => {
-  const filteredData = mockForms.data.filter(form =>
-    form.attributes.title?.toLowerCase().includes(query),
-  );
+export const fetchFormsApi = async query => {
+  let FORMS_URL = '/forms';
 
-  const forms = {
-    data: filteredData,
-  };
+  // Add the `query` query param if provided.
+  if (query) {
+    FORMS_URL = `${FORMS_URL}?query=${query}`;
+  }
+
+  // Make the request for the forms.
+  const response = await apiRequest(FORMS_URL);
+
+  // Derive the forms.
+  const forms = response?.data;
 
   // Give back the normalized forms data.
   const normalizedForms = normalizeFormsForTable(forms);
