@@ -21,6 +21,8 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_FETCH_FACILITY_DETAILS,
+  FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
@@ -31,7 +33,6 @@ import {
   FORM_ELIGIBILITY_CHECKS_FAILED,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
-  FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
@@ -71,7 +72,7 @@ const initialState = {
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   systemsStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
-  loadingFacilityDetails: false,
+  facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
   availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
@@ -285,7 +286,7 @@ export default function formReducer(state = initialState, action) {
       let eligibility = state.eligibility;
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
-          newData.vaFacility,
+          newData.vaSystem,
           action.typeOfCareId,
           action.eligibilityData,
         );
@@ -415,7 +416,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(
-        state.data.vaFacility,
+        state.data.vaSystem,
         action.typeOfCareId,
         action.eligibilityData,
       );
@@ -453,12 +454,20 @@ export default function formReducer(state = initialState, action) {
         flowType: FLOW_TYPES.REQUEST,
         reasonRemainingChar: REASON_MAX_CHARS.request,
       };
-    case FORM_CLINIC_PAGE_OPENED: {
+    case FORM_FETCH_FACILITY_DETAILS:
       return {
         ...state,
-        loadingFacilityDetails: true,
+        facilityDetailsStatus: FETCH_STATUS.loading,
       };
-    }
+    case FORM_FETCH_FACILITY_DETAILS_SUCCEEDED:
+      return {
+        ...state,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
+        facilityDetails: {
+          ...state.facilityDetails,
+          [action.facilityId]: action.facilityDetails,
+        },
+      };
     case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED: {
       return {
         ...state,
@@ -589,11 +598,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         data,
-        loadingFacilityDetails: false,
-        facilityDetails: {
-          ...state.facilityDetails,
-          [state.data.vaFacility]: action.facilityDetails,
-        },
         pages: {
           ...state.pages,
           [action.page]: schema,

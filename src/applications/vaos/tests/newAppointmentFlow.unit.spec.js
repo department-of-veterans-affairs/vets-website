@@ -444,6 +444,11 @@ describe('VAOS newAppointmentFlow', () => {
     it('next should go to requestDateTime page if CC support and typeOfCare is podiatry', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: {
+          attributes: { eligible: true },
+        },
+      });
       const state = {
         featureToggles: {
           loading: false,
@@ -491,6 +496,11 @@ describe('VAOS newAppointmentFlow', () => {
     it('next should be type of facility page if CC support', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: {
+          attributes: { eligible: true },
+        },
+      });
       const state = {
         featureToggles: {
           loading: false,

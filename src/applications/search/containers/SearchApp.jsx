@@ -164,7 +164,7 @@ class SearchApp extends React.Component {
       return (
         <div>
           <h4 className={SCREENREADER_FOCUS_CLASSNAME}>
-            Our Top Recommendations for You
+            Our top recommendations for you
           </h4>
           <ul className="results-list">
             {recommendedResults.map(r =>

@@ -95,11 +95,15 @@
   width: 20%;
 }
 
+.vaos-calendar__flex-line-break {
+  flex-basis: 100%;
+  height: 0;
+}
 
 .vaos-calendar__calendar-day {
-  width: 18%;
+  flex-grow: 1;
+  flex-basis: 0;
   margin: 8px;
-  max-width: 117px;
 
   button {
     width: 100%;
@@ -108,6 +112,7 @@
     border: 1px solid $color-gray-medium;
     border-radius: 5px;
     padding: 12px;
+    margin: 0;
 
     &:hover {
       border-color: $color-primary-darker;
@@ -173,6 +178,26 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+  margin-top: 8px;
+
+  @include media($small-screen) {
+    margin-top: 0;
+  }
+}
+
+.vaos-calendar__option-cell {
+  padding: 8px;
+  width: 50%;
+
+  @include media($small-screen) {
+    width: 33%;
+  }
+  @include media($small-desktop-screen) {
+    width: 25%;
+  }
+  @include media($large-screen) {
+    width: 20%;
+  }
 }
 
 .vaos-calendar__option {
@@ -180,11 +205,8 @@
   justify-content: center;
   align-items: center;
   border: 1px solid $color-primary;
-  width: 18%;
-  max-width: 117px;
   border-radius: 5px;
-  padding: 8px 0;
-  margin: 8px;
+  padding: 8px 4px;
 
 
   input[type="radio"],
@@ -207,13 +229,6 @@
   .vaos-calendar__calendar-day {
     margin: 4px;
   }
-
-  .vaos-calendar__option {
-    max-width: unset;
-    width: 47%;
-    padding: 8px;
-    margin: 4px;
-  }
 }
 
 h1:focus {
@@ -224,7 +239,8 @@ h1:focus {
   .schemaform-block {
     margin-top: 0;
   }
-  > .usa-input-error {
+
+  >.usa-input-error {
     margin-top: 0;
   }
 }
