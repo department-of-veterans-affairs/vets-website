@@ -3,9 +3,8 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_RESULTS,
 } from '../constants';
-
-import { normalizeFormsForTable } from '../helpers';
 
 const initialState = {
   fetching: false,
@@ -22,9 +21,10 @@ export default (state = initialState, action) => {
       return { ...state, fetching: false };
     }
     case FETCH_FORMS_SUCCESS: {
-      // Normalize the forms data we get back from the API resopnse.
-      const results = normalizeFormsForTable(action.response);
-      return { ...state, fetching: false, results };
+      return { ...state, fetching: false, results: action.results };
+    }
+    case UPDATE_RESULTS: {
+      return { ...state, results: action.results };
     }
     default: {
       return { ...state };
