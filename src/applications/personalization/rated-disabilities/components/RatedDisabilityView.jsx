@@ -37,7 +37,7 @@ class RatedDisabilityView extends React.Component {
             <div className="vads-l-col--12 medium-screen:vads-l-col--8">
               <div className="vads-l-row">
                 <div className="vads-l-col--12">
-                  <h1>Your VA disability rating</h1>
+                  <h1>Your VA disability ratings</h1>
                 </div>
               </div>
               <TotalRatedDisabilities
