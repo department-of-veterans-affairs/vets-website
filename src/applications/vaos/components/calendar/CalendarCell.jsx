@@ -2,8 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import CalendarOptions from './CalendarOptions';
-import CalendarSelectedIndicatorBubbles from './CalendarSelectedIndicatorBubbles';
-import { CALENDAR_INDICATOR_TYPES } from '../../utils/constants';
+import CalendarSelectedIndicator from './CalendarSelectedIndicator';
 
 const CalendarCell = ({
   additionalOptions,
@@ -36,22 +35,6 @@ const CalendarCell = ({
     'vaos-calendar__cell-selected': inSelectedArray,
   });
 
-  let selectedIndicator = <i className="fas fa-check vads-u-color--white" />;
-
-  if (
-    selectedDates?.length &&
-    inSelectedArray &&
-    selectedIndicatorType === CALENDAR_INDICATOR_TYPES.BUBBLES
-  ) {
-    selectedIndicator = (
-      <CalendarSelectedIndicatorBubbles
-        date={date}
-        selectedDates={selectedDates}
-        fieldName={additionalOptions.fieldName}
-      />
-    );
-  }
-
   return (
     <>
       <div role="cell" className={cssClasses}>
@@ -63,7 +46,14 @@ const CalendarCell = ({
           aria-expanded={isCurrentlySelected}
           type="button"
         >
-          {inSelectedArray && selectedIndicator}
+          {inSelectedArray && (
+            <CalendarSelectedIndicator
+              date={date}
+              fieldName={additionalOptions?.fieldName}
+              selectedDates={selectedDates}
+              selectedIndicatorType={selectedIndicatorType}
+            />
+          )}
           {dateDay}
           {isCurrentlySelected && (
             <span className="vaos-calendar__cell-selected-triangle" />
