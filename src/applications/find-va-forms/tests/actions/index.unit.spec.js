@@ -51,34 +51,28 @@ describe('Find VA Forms actions', () => {
   });
 
   describe('fetchFormsThunk', () => {
-    let oldWindow;
+    let mockedLocation;
+    let mockedHistory;
 
     beforeEach(() => {
-      oldWindow = global.window;
-      global.window = {
-        ...global.window,
-        location: {
-          search: '',
-          pathname: '',
-        },
-        history: {
-          replaceState: sinon.stub(),
-        },
+      mockedLocation = {
+        search: '',
+        pathname: '',
       };
-    });
 
-    afterEach(() => {
-      global.window = oldWindow;
+      mockedHistory = {
+        replaceState: sinon.stub(),
+      };
     });
 
     it('updates search params', async () => {
       const dispatch = () => {};
       const query = 'health';
-      const thunk = fetchFormsThunk(query);
+      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
 
       await thunk(dispatch);
 
-      const replaceStateStub = global.window.history.replaceState;
+      const replaceStateStub = mockedHistory.replaceState;
 
       expect(replaceStateStub.calledOnce).to.be.true;
       expect(replaceStateStub.firstCall.args[2]).to.be.equal('?q=health');
@@ -87,7 +81,7 @@ describe('Find VA Forms actions', () => {
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const query = 'health';
-      const thunk = fetchFormsThunk(query);
+      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
 
       await thunk(dispatch);
 

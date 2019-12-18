@@ -20,7 +20,6 @@ describe('Find VA Forms <SearchForm>', () => {
     const oldWindow = global.window;
 
     global.window = {
-      ...global.window,
       location: {
         search: '?q=testing',
       },
