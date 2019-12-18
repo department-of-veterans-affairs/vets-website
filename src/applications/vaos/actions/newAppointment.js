@@ -25,8 +25,8 @@ import {
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
   GA_PREFIX,
+  REASON_MAX_CHARS,
 } from '../utils/constants';
 import {
   transformFormToVARequest,
@@ -90,6 +90,8 @@ export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
+  'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
@@ -359,6 +361,15 @@ export function updateFacilityPageData(page, uiSchema, data) {
         });
       }
     }
+  };
+}
+
+export function openReasonForAppointment(page, uiSchema, schema) {
+  return {
+    type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+    page,
+    uiSchema,
+    schema,
   };
 }
 
