@@ -56,6 +56,7 @@ describe('Find VA Forms actions', () => {
     beforeEach(() => {
       oldWindow = global.window;
       global.window = {
+        ...global.window,
         location: {
           search: '',
           pathname: '',
