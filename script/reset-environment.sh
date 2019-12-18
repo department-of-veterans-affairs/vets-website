@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 if ! [ -x "$(command -v yarn)" ]; then
     echo "Installing yarn..."
-    npm i -g yarn@1.12.3
+    npm i -g yarn@1.21.1
     if [ $? -eq 0 ]; then
         echo "Yarn successfulling installed globally."
-    else 
+    else
         echo "Yarn failed to install...please install manually."
         exit 1
     fi
@@ -13,7 +13,7 @@ else
     if [ "$yarn_version" != "1.21.1" ]; then
         echo "Install yarn version 1.21.1 [y/N]: "
         read input
-        case "$input" in 
+        case "$input" in
             y|Y|yes|Yes)
                 npm i -g yarn@1.21.1
                 ;;
