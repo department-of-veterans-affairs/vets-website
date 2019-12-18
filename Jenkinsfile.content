@@ -10,8 +10,8 @@ node('vetsgov-general-purpose') {
   refStatusState = getGithubCommitState("vets-website", ref)
   if ("${refStatusState}" != "SUCCESS") {
     message = "Web content refresh on ${params.env} aborted due to '${refStatusState}' status on vets-website commit ${ref}."
-    echo message
-    slackSend(message: message,
+    echo "${message}"
+    slackSend(message: "${message}",
               color: "warning",
               channel: "cms-notifications")
 
@@ -44,8 +44,8 @@ node('vetsgov-general-purpose') {
     if (params.env != "vagovprod" && params.deploy) {
       commonStages.runDeploy("deploys/vets-website-${params.env}", ref, true)
       message = "Web content refresh in ${params.env} completed."
-      echo message
-      slackSend(message: message,
+      echo "${message}"
+      slackSend(message: "${message}",
                 color: "good",
                 channel: "cms-notifications")
     }
