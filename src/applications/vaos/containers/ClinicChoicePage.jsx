@@ -5,6 +5,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import FacilityAddress from '../components/FacilityAddress';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { FETCH_STATUS } from '../utils/constants';
 
 import {
   openClinicPage,
@@ -41,9 +42,11 @@ export class ClinicChoicePage extends React.Component {
 
   componentDidUpdate(oldProps) {
     const previouslyLoading =
-      !oldProps.schema || oldProps.loadingFacilityDetails;
+      !oldProps.schema ||
+      oldProps.facilityDetailsStatus === FETCH_STATUS.loading;
     const currentlyLoading =
-      !this.props.schema || this.props.loadingFacilityDetails;
+      !this.props.schema ||
+      this.props.facilityDetailsStatus === FETCH_STATUS.loading;
 
     if (previouslyLoading && !currentlyLoading) {
       scrollAndFocus();
@@ -66,10 +69,10 @@ export class ClinicChoicePage extends React.Component {
       facilityDetails,
       typeOfCare,
       clinics,
-      loadingFacilityDetails,
+      facilityDetailsStatus,
     } = this.props;
 
-    if (!schema || loadingFacilityDetails) {
+    if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
       return (
         <LoadingIndicator message="Loading your facility and clinic info" />
       );

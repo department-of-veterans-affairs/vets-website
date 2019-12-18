@@ -25,8 +25,8 @@ import {
 import {
   FACILITY_TYPES,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
   GA_PREFIX,
+  REASON_MAX_CHARS,
 } from '../utils/constants';
 import {
   transformFormToVARequest,
@@ -36,7 +36,10 @@ import {
   createPreferenceBody,
 } from '../utils/data';
 
-import { getEligibilityData } from '../utils/eligibility';
+import {
+  getEligibilityData,
+  getEligibleFacilities,
+} from '../utils/eligibility';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -60,6 +63,10 @@ export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
 export const FORM_FETCH_CHILD_FACILITIES_FAILED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
+export const FORM_FETCH_FACILITY_DETAILS =
+  'newAppointment/FORM_FETCH_FACILITY_DETAILS';
+export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
 export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
 export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
   'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
@@ -83,6 +90,8 @@ export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL';
+export const FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED =
+  'newAppointment/FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED';
 export const FORM_REASON_FOR_APPOINTMENT_CHANGED =
   'newAppointment/FORM_REASON_FOR_APPOINTMENT_CHANGED';
 export const FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN =
@@ -181,6 +190,29 @@ export function openTypeOfCarePage(page, uiSchema, schema) {
   };
 }
 
+export function fetchFacilityDetails(facilityId) {
+  let facilityDetails;
+
+  return async dispatch => {
+    dispatch({
+      type: FORM_FETCH_FACILITY_DETAILS,
+    });
+
+    try {
+      facilityDetails = await getFacilityInfo(facilityId);
+    } catch (error) {
+      facilityDetails = null;
+      Sentry.captureException(error);
+    }
+
+    dispatch({
+      type: FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
+      facilityDetails,
+      facilityId,
+    });
+  };
+}
+
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
@@ -214,7 +246,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       const facilityId =
-        newAppointment.data.vaFacility || facilities?.[0].facilityId;
+        newAppointment.data.vaFacility || facilities?.[0]?.facilityId;
       if (
         facilityId &&
         !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
@@ -270,6 +302,14 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         );
 
+        const availableFacilities = getEligibleFacilities(facilities);
+
+        // If no available facilities, fetch system details to display contact info
+        if (!availableFacilities?.length) {
+          const systemId = data.vaSystem;
+          dispatch(fetchFacilityDetails(systemId));
+        }
+
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
           uiSchema,
@@ -324,6 +364,15 @@ export function updateFacilityPageData(page, uiSchema, data) {
   };
 }
 
+export function openReasonForAppointment(page, uiSchema, schema) {
+  return {
+    type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+    page,
+    uiSchema,
+    schema,
+  };
+}
+
 export function updateReasonForAppointmentData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
@@ -356,27 +405,19 @@ export function updateReasonForAppointmentData(page, uiSchema, data) {
 
 export function openClinicPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
-    let facilityDetails;
-
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED,
     });
 
-    try {
-      facilityDetails = await getFacilityInfo(
-        getState().newAppointment.data.vaFacility,
-      );
-    } catch (e) {
-      Sentry.captureException(e);
-      facilityDetails = null;
-    }
+    await dispatch(
+      fetchFacilityDetails(getState().newAppointment.data.vaFacility),
+    );
 
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
       page,
       uiSchema,
       schema,
-      facilityDetails,
     });
   };
 }

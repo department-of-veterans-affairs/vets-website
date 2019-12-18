@@ -61,9 +61,22 @@ export function titleCase(str) {
 }
 
 export function sentenceCase(str) {
-  return `${str.charAt(0).toUpperCase()}${str
-    .substr(1, str.length - 1)
-    .toLowerCase()}`;
+  return str
+    .split(' ')
+    .map((word, index) => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      if (index === 0) {
+        return `${word.charAt(0).toUpperCase()}${word
+          .substr(1, word.length - 1)
+          .toLowerCase()}`;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
 }
 
 export function getLocationHeader(appt) {

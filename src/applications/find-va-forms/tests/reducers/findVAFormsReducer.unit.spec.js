@@ -32,7 +32,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
       fetching: true,
       results: null,
     };
-    const action = { type: FETCH_FORMS_SUCCESS, response: { data: [] } };
+    const action = { type: FETCH_FORMS_SUCCESS, results: [] };
     const state = findVAFormsReducer(initialState, action);
 
     expect(state.fetching).to.be.false;

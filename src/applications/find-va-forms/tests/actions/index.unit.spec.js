@@ -40,44 +40,39 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsSuccess', () => {
     it('should return an action in the shape we expect', () => {
-      const response = {};
-      const result = fetchFormsSuccess(response);
+      const results = {};
+      const result = fetchFormsSuccess(results);
 
       expect(result).to.be.deep.equal({
-        response,
+        results,
         type: FETCH_FORMS_SUCCESS,
       });
     });
   });
 
   describe('fetchFormsThunk', () => {
-    let oldWindow;
+    let mockedLocation;
+    let mockedHistory;
 
     beforeEach(() => {
-      oldWindow = global.window;
-      global.window = {
-        location: {
-          search: '',
-          pathname: '',
-        },
-        history: {
-          replaceState: sinon.stub(),
-        },
+      mockedLocation = {
+        search: '',
+        pathname: '',
       };
-    });
 
-    afterEach(() => {
-      global.window = oldWindow;
+      mockedHistory = {
+        replaceState: sinon.stub(),
+      };
     });
 
     it('updates search params', async () => {
       const dispatch = () => {};
       const query = 'health';
-      const thunk = fetchFormsThunk(query);
+      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
 
       await thunk(dispatch);
 
-      const replaceStateStub = global.window.history.replaceState;
+      const replaceStateStub = mockedHistory.replaceState;
 
       expect(replaceStateStub.calledOnce).to.be.true;
       expect(replaceStateStub.firstCall.args[2]).to.be.equal('?q=health');
@@ -86,7 +81,7 @@ describe('Find VA Forms actions', () => {
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const query = 'health';
-      const thunk = fetchFormsThunk(query);
+      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
 
       await thunk(dispatch);
 
@@ -100,7 +95,7 @@ describe('Find VA Forms actions', () => {
       const secondCallAction = dispatch.secondCall.args[0];
 
       expect(secondCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
-      expect(secondCallAction.response).to.have.keys(['data']);
+      expect(secondCallAction.results).to.be.an('array');
     });
   });
 });

@@ -21,6 +21,8 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_FETCH_FACILITY_DETAILS,
+  FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
@@ -31,12 +33,12 @@ import {
   FORM_ELIGIBILITY_CHECKS_FAILED,
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
-  FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -71,7 +73,7 @@ const initialState = {
   childFacilitiesStatus: FETCH_STATUS.notStarted,
   systemsStatus: FETCH_STATUS.notStarted,
   eligibilityStatus: FETCH_STATUS.notStarted,
-  loadingFacilityDetails: false,
+  facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
   availableSlots: null,
   submitStatus: FETCH_STATUS.notStarted,
@@ -128,6 +130,12 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   }
 
   return { schema: newSchema, data: newData };
+}
+
+function getReasonAdditionalInfoTitle(reason) {
+  return reason === 'other'
+    ? REASON_ADDITIONAL_INFO_TITLES.other
+    : REASON_ADDITIONAL_INFO_TITLES.default;
 }
 
 export default function formReducer(state = initialState, action) {
@@ -285,7 +293,7 @@ export default function formReducer(state = initialState, action) {
       let eligibility = state.eligibility;
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
-          newData.vaFacility,
+          newData.vaSystem,
           action.typeOfCareId,
           action.eligibilityData,
         );
@@ -415,7 +423,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(
-        state.data.vaFacility,
+        state.data.vaSystem,
         action.typeOfCareId,
         action.eligibilityData,
       );
@@ -453,12 +461,20 @@ export default function formReducer(state = initialState, action) {
         flowType: FLOW_TYPES.REQUEST,
         reasonRemainingChar: REASON_MAX_CHARS.request,
       };
-    case FORM_CLINIC_PAGE_OPENED: {
+    case FORM_FETCH_FACILITY_DETAILS:
       return {
         ...state,
-        loadingFacilityDetails: true,
+        facilityDetailsStatus: FETCH_STATUS.loading,
       };
-    }
+    case FORM_FETCH_FACILITY_DETAILS_SUCCEEDED:
+      return {
+        ...state,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
+        facilityDetails: {
+          ...state.facilityDetails,
+          [action.facilityId]: action.facilityDetails,
+        },
+      };
     case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED: {
       return {
         ...state,
@@ -486,18 +502,39 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      const { data, schema } = setupFormData(
+        state.data,
+        action.schema,
+        action.uiSchema,
+      );
+
+      let reasonSchema = { ...schema };
+
+      if (state.data?.reasonForAppointment) {
+        reasonSchema = set(
+          'properties.reasonAdditionalInfo.title',
+          getReasonAdditionalInfoTitle(state.data.reasonForAppointment),
+          reasonSchema,
+        );
+      }
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: reasonSchema,
+        },
+      };
+    }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       let newSchema = state.pages.reasonForAppointment;
 
       // Update additional info title based on radio selection
-      const additionalInfoTitle =
-        action.data.reasonForAppointment === 'other'
-          ? REASON_ADDITIONAL_INFO_TITLES.other
-          : REASON_ADDITIONAL_INFO_TITLES.default;
-
       newSchema = set(
         'properties.reasonAdditionalInfo.title',
-        additionalInfoTitle,
+        getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
         newSchema,
       );
 
@@ -589,11 +626,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         data,
-        loadingFacilityDetails: false,
-        facilityDetails: {
-          ...state.facilityDetails,
-          [state.data.vaFacility]: action.facilityDetails,
-        },
         pages: {
           ...state.pages,
           [action.page]: schema,

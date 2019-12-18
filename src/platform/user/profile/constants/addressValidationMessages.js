@@ -13,7 +13,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   },
   missingUnitNumberOverride: {
     headline: 'Please add a unit number',
-    modalText: `It looks like your address is missing a unit number. Please edit your address to add a unit number. If you don’t have a unit number and the address you entered below is correct, please select Continue`,
+    modalText: `It looks like your address is missing a unit number. Please edit your address to add a unit number. If you don’t have a unit number and the address you entered below is correct, please select Continue.`,
   },
   showSuggestions: {
     headline: `We couldn’t verify your address`,
@@ -21,7 +21,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   },
   showSuggestionsOverride: {
     headline: 'Please confirm your address',
-    modalText: `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below`,
+    modalText: `We couldn’t confirm your address with the U.S. Postal Service.  Please verify your address so we can save it to your VA profile.  If the address you entered isn’t correct, please edit it or choose a suggested address below.`,
   },
   validationError: {
     headline: `We couldn’t verify your address`,
