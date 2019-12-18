@@ -28,7 +28,7 @@ function getRequestedDates(data) {
   );
 }
 
-export function getUserMessage(data) {
+function getUserMessage(data) {
   const label = PURPOSE_TEXT.find(
     purpose => purpose.id === data.reasonForAppointment,
   ).short;
@@ -169,6 +169,7 @@ export function transformFormToCCRequest(state) {
     ...getRequestedDates(data),
     ...cityState,
     // defaulted values
+    visitType: 'Office Visit',
     requestedPhoneCall: false,
     email: data.email,
     officeHours: [],

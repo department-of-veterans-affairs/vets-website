@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import {
   openReasonForAppointment,
   updateReasonForAppointmentData,
@@ -58,12 +59,21 @@ export class ReasonForAppointmentPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      reasonRemainingChar,
-    } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
+
+    const isOverLimit =
+      (data.reasonAdditionalInfo?.length || 0) >
+      schema?.properties.reasonAdditionalInfo?.maxLength;
+    const remainingCharacters = Math.abs(
+      schema?.properties.reasonAdditionalInfo?.maxLength -
+        (data.reasonAdditionalInfo?.length || 0),
+    );
+    const characterLimitClasses = classNames(
+      'vads-u-font-style--italic vads-u-margin-top--neg3 vads-u-margin-bottom--2p5',
+      {
+        'vads-u-color--secondary-dark': isOverLimit,
+      },
+    );
 
     return (
       <div>
@@ -84,8 +94,11 @@ export class ReasonForAppointmentPage extends React.Component {
           data={data}
         >
           {data.reasonForAppointment && (
-            <div className="vads-u-font-style--italic vads-u-margin-top--neg3 vads-u-margin-bottom--2p5">
-              {reasonRemainingChar} characters remaining
+            <div className={characterLimitClasses}>
+              {remainingCharacters}{' '}
+              {isOverLimit
+                ? 'characters over the limit'
+                : 'characters remaining'}
             </div>
           )}
           <FormButtons

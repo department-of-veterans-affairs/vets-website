@@ -503,13 +503,20 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
-      const { data, schema } = setupFormData(
-        state.data,
-        action.schema,
-        action.uiSchema,
-      );
+      let reasonMaxChars = REASON_MAX_CHARS.request;
 
-      let reasonSchema = { ...schema };
+      if (state.flowType === FLOW_TYPES.DIRECT) {
+        reasonMaxChars =
+          REASON_MAX_CHARS.direct -
+          (state.data.reasonForAppointment?.length || 0) -
+          2;
+      }
+
+      let reasonSchema = set(
+        'properties.reasonAdditionalInfo.maxLength',
+        reasonMaxChars,
+        action.schema,
+      );
 
       if (state.data?.reasonForAppointment) {
         reasonSchema = set(
@@ -519,12 +526,18 @@ export default function formReducer(state = initialState, action) {
         );
       }
 
+      const { data, schema } = setupFormData(
+        state.data,
+        reasonSchema,
+        action.uiSchema,
+      );
+
       return {
         ...state,
         data,
         pages: {
           ...state.pages,
-          [action.page]: reasonSchema,
+          [action.page]: schema,
         },
       };
     }
@@ -537,6 +550,16 @@ export default function formReducer(state = initialState, action) {
         getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
         newSchema,
       );
+
+      if (state.flowType === FLOW_TYPES.DIRECT) {
+        newSchema = set(
+          'properties.reasonAdditionalInfo.maxLength',
+          REASON_MAX_CHARS.direct -
+            (action.data.reasonForAppointment?.length || 0) -
+            2,
+          newSchema,
+        );
+      }
 
       const { data, schema } = updateSchemaAndData(
         newSchema,
