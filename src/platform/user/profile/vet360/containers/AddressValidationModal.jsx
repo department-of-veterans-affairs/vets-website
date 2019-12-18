@@ -228,7 +228,7 @@ const mapStateToProps = state => {
     validationKey: state.vet360.addressValidation.validationKey,
     addressFromUser: state.vet360.addressValidation.addressFromUser,
     selectedAddress: state.vet360.addressValidation.selectedAddress,
-    selectedId: state.vet360.addressValidation.selectedId,
+    selectedId: state.vet360.addressValidation.selectedAddressId,
   };
 };
 

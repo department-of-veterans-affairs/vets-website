@@ -141,6 +141,8 @@ export function createTransaction(
   analyticsSectionName,
 ) {
   return async dispatch => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     const options = {
       body: JSON.stringify(payload),
       method,
