@@ -223,7 +223,7 @@
   "optionalDependencies": {},
   "engines": {
     "node": "10.15.3",
-    "yarn": "1.21.1"
+    "yarn": "1.12.3"
   },
   "private": true,
   "dependencies": {
