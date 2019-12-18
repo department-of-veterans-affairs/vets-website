@@ -39,11 +39,13 @@ const CalendarCell = ({
   let selectedIndicator = <i className="fas fa-check vads-u-color--white" />;
 
   if (
-    selectedDates.length &&
+    selectedDates?.length &&
+    inSelectedArray &&
     selectedIndicatorType === CALENDAR_INDICATOR_TYPES.BUBBLES
   ) {
     selectedIndicator = (
       <CalendarSelectedIndicatorBubbles
+        date={date}
         selectedDates={selectedDates}
         fieldName={additionalOptions.fieldName}
       />

@@ -154,6 +154,7 @@
       clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
       transform: rotate(-45deg);
       border-radius: 0 0 0 0.25em;
+      z-index: -1;
     }
   }
 
@@ -166,17 +167,15 @@
 
 .vaos-calendar__indicator-bubbles-container {
   position: absolute;
-  top: -10px;
-  left: -10px;
+  top: -7px;
+  left: -7px;
 }
 
 .vaos-calendar__indicator-bubble {
-  border: 2px solid white;
   padding: 3px 6px;
   border-radius: 25px;
   font-size: 12px;
-  background: #0071BB;
-  margin-bottom: 2px;
+  margin-bottom: 11px;
 }
 
 .vaos-calendar__nav-links {
