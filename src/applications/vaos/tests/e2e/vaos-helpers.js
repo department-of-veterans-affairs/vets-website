@@ -238,6 +238,48 @@ function initAppointmentListMock(token) {
       },
     },
   });
+  mock(token, {
+    path: '/v0/vaos/facilities/983GB/visits/request',
+    verb: 'get',
+    // query: 'type=cc',
+    value: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 12,
+          hasVisitedInPastMonths: true,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983/visits/request',
+    verb: 'get',
+    // query: 'type=cc',
+    value: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: true,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/community_care/eligibility/PrimaryCare',
+    verb: 'get',
+    // query: 'type=cc',
+    value: {
+      data: {
+        id: 'PrimaryCare',
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    },
+  });
 }
 
 module.exports = {
