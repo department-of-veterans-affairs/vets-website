@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
+import { orderBy, slice } from 'lodash';
 // Relative imports.
 import { updateResultsAction } from '../actions';
 
@@ -28,6 +29,7 @@ const FIELD_LABELS = [
     value: 'availableOnlineLabel',
   },
 ];
+const MAX_PAGE_LIST_LENGTH = 10;
 
 class SearchResults extends Component {
   static propTypes = {
@@ -60,8 +62,10 @@ class SearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
       selectedFieldLabel: 'idLabel',
       selectedFieldOrder: ASCENDING,
+      startIndex: 0,
     };
   }
 
@@ -77,6 +81,14 @@ class SearchResults extends Component {
       fieldLabel,
       fieldLabel === selectedFieldLabel ? oppositeFieldOrder : order,
     );
+  };
+
+  onPageSelect = page => {
+    // Derive the new start index.
+    const startIndex = page * MAX_PAGE_LIST_LENGTH - 1;
+
+    // Update the page and the new start index.
+    this.setState({ page, startIndex });
   };
 
   sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
@@ -100,9 +112,14 @@ class SearchResults extends Component {
   };
 
   render() {
-    const { onHeaderClick } = this;
+    const { onHeaderClick, onPageSelect } = this;
     const { fetching, query, results } = this.props;
-    const { selectedFieldLabel, selectedFieldOrder } = this.state;
+    const {
+      page,
+      selectedFieldLabel,
+      selectedFieldOrder,
+      startIndex,
+    } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -123,19 +140,40 @@ class SearchResults extends Component {
       );
     }
 
+    // Derive the last index.
+    const lastIndex = startIndex + MAX_PAGE_LIST_LENGTH;
+
+    // Derive the display labels.
+    const startLabel = startIndex + 1;
+    const lastLabel =
+      lastIndex + 1 > results.length ? results.length : lastIndex + 1;
+
     return (
       <>
         <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Showing results for "<strong>{query}</strong>"
+          Displaying {startLabel} - {lastLabel} out of {results.length} results
+          for "<strong>{query}</strong>"
         </h2>
 
+        {/* Table of Forms */}
         <SortableTable
           className="vads-u-margin--0"
           currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
-          data={results}
+          data={slice(results, startIndex, lastIndex)}
           fields={FIELD_LABELS}
           onHeaderClick={onHeaderClick}
         />
+
+        {/* Pagination Row */}
+        {results.length > MAX_PAGE_LIST_LENGTH && (
+          <Pagination
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            onPageSelect={onPageSelect}
+            page={page}
+            pages={Math.floor(results.length / MAX_PAGE_LIST_LENGTH)}
+            showLastPage
+          />
+        )}
       </>
     );
   }
