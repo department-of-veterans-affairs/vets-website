@@ -30,6 +30,27 @@ module.exports = {
       },
       maxItems: 1,
     },
+    metatag: {
+      // Probably should be a common schema
+      type: 'object',
+      properties: {
+        value: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            twitter_cards_type: { type: 'string' },
+            og_site_name: { type: 'string' },
+            twitter_cards_description: { type: 'string' },
+            description: { type: 'string' },
+            twitter_cards_title: { type: 'string' },
+            twitter_cards_site: { type: 'string' },
+            og_title: { type: 'string' },
+            og_description: { type: 'string' },
+            og_image_height: { type: 'string' }, // Which is also a number
+          },
+        },
+      },
+    },
     field_additional_information_abo: { $ref: 'GenericNestedString' },
     field_address: {
       type: 'array',
@@ -106,6 +127,7 @@ module.exports = {
     'uid',
     'changed',
     'path',
+    'metatag',
     'field_additional_information_abo',
     'field_address',
     'field_body',
