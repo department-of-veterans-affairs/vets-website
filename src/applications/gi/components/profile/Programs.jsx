@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import environment from 'platform/utilities/environment';
 
 export class Programs extends React.Component {
   constructor(props) {
@@ -7,69 +8,121 @@ export class Programs extends React.Component {
     this.renderProgramLabel = this.renderProgramLabel.bind(this);
 
     const { institution } = props;
-    this.programs = {
-      yr: {
-        modal: 'yribbon',
-        text: 'Yellow Ribbon',
-        link: false,
-      },
+    this.programs = environment.isProduction()
+      ? {
+          yr: {
+            modal: 'yribbon',
+            text: 'Yellow Ribbon',
+            link: false,
+          },
 
-      studentVeteran: {
-        modal: 'vetgroups',
-        text: 'Student Veteran Group',
-        link: {
-          href: institution.studentVeteranLink,
-          text: 'Site',
-        },
-      },
+          studentVeteran: {
+            modal: 'vetgroups',
+            text: 'Student Veteran Group',
+            link: {
+              href: institution.studentVeteranLink,
+              text: 'Site',
+            },
+          },
 
-      poe: {
-        modal: 'poe',
-        text: 'Principles of Excellence',
-        link: false,
-      },
+          poe: {
+            modal: 'poe',
+            text: 'Principles of Excellence',
+            link: false,
+          },
 
-      eightKeys: {
-        modal: 'eightKeys',
-        text: '8 Keys to Veteran Success',
-        link: false,
-      },
+          eightKeys: {
+            modal: 'eightKeys',
+            text: '8 Keys to Veteran Success',
+            link: false,
+          },
 
-      vetSuccessName: {
-        modal: 'vsoc',
-        text: 'VetSuccess on Campus',
-        link: {
-          href:
-            institution.vetSuccessEmail &&
-            `mailto:${institution.vetSuccessEmail}`,
-          text: `Email ${institution.vetSuccessName}`,
-        },
-      },
+          vetSuccessName: {
+            modal: 'vsoc',
+            text: 'VetSuccess on Campus',
+            link: {
+              href:
+                institution.vetSuccessEmail &&
+                `mailto:${institution.vetSuccessEmail}`,
+              text: `Email ${institution.vetSuccessName}`,
+            },
+          },
 
-      dodmou: {
-        modal: 'ta',
-        text: 'Military Tuition Assistance (TA)',
-        link: false,
-      },
+          dodmou: {
+            modal: 'ta',
+            text: 'Military Tuition Assistance (TA)',
+            link: false,
+          },
 
-      priorityEnrollment: {
-        modal: 'priEnroll',
-        text: 'Priority Enrollment',
-        link: false,
-      },
+          priorityEnrollment: {
+            modal: 'priEnroll',
+            text: 'Priority Enrollment',
+            link: false,
+          },
 
-      onlineOnly: {
-        modal: 'onlineOnlyDistanceLearning',
-        text: 'Online Only',
-        link: false,
-      },
+          onlineOnly: {
+            modal: 'onlineOnlyDistanceLearning',
+            text: 'Online Only',
+            link: false,
+          },
 
-      distanceLearning: {
-        modal: 'onlineOnlyDistanceLearning',
-        text: 'Distance Learning',
-        link: false,
-      },
-    };
+          distanceLearning: {
+            modal: 'onlineOnlyDistanceLearning',
+            text: 'Distance Learning',
+            link: false,
+          },
+        }
+      : {
+          yr: {
+            modal: 'yribbon',
+            text: 'Yellow Ribbon',
+            link: false,
+          },
+
+          studentVeteran: {
+            modal: 'vetgroups',
+            text: 'Student Veteran Group',
+            link: {
+              href: institution.studentVeteranLink,
+              text: 'Site',
+            },
+          },
+
+          poe: {
+            modal: 'poe',
+            text: 'Principles of Excellence',
+            link: false,
+          },
+
+          eightKeys: {
+            modal: 'eightKeys',
+            text: '8 Keys to Veteran Success',
+            link: false,
+          },
+
+          vetSuccessName: {
+            modal: 'vsoc',
+            text: 'VetSuccess on Campus',
+            link: {
+              href:
+                institution.vetSuccessEmail &&
+                `mailto:${institution.vetSuccessEmail}`,
+              text: `Email ${institution.vetSuccessName}`,
+            },
+          },
+
+          dodmou: {
+            modal: 'ta',
+            text: 'Military Tuition Assistance (TA)',
+            link: false,
+          },
+
+          priorityEnrollment: {
+            modal: 'priEnroll',
+            text: 'Priority Enrollment',
+            link: false,
+          },
+        };
   }
 
   renderProgramLabel(programKey, available) {
