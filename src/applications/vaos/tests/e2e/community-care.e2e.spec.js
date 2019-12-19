@@ -65,7 +65,7 @@ module.exports = {
       .setValue('#root_communityCareProvider_address_street', 'address1')
       .setValue('#root_communityCareProvider_address_street2', 'address2')
       .setValue('#root_communityCareProvider_address_city', 'city')
-      .click('#root_communityCareProvider_address_state [value="IL"]')
+      .selectDropdown('root_communityCareProvider_address_state', 'IL')
       .setValue('#root_communityCareProvider_address_postalCode', '60613')
       .setValue('#root_communityCareProvider_phone', '1234567890')
       .click('.rjsf [type="submit"]')
