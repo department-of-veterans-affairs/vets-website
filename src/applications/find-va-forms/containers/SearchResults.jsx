@@ -7,7 +7,7 @@ import SortableTable from '@department-of-veterans-affairs/formation-react/Sorta
 import { connect } from 'react-redux';
 import { orderBy, slice } from 'lodash';
 // Relative imports.
-import { updateResultsAction } from '../actions';
+import { updatePaginationAction, updateResultsAction } from '../actions';
 
 const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
@@ -34,9 +34,7 @@ const MAX_PAGE_LIST_LENGTH = 10;
 class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
-    fetching: PropTypes.bool.isRequired,
-    query: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(
+    results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
         firstIssuedOn: PropTypes.string.isRequired,
@@ -55,17 +53,20 @@ class SearchResults extends Component {
         availableOnlineLabel: PropTypes.node.isRequired,
       }).isRequired,
     ),
+    fetching: PropTypes.bool.isRequired,
+    query: PropTypes.string.isRequired,
+    page: PropTypes.number.isRequired,
+    startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
+    updatePagination: PropTypes.func.isRequired,
     updateResults: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
       selectedFieldLabel: 'idLabel',
       selectedFieldOrder: ASCENDING,
-      startIndex: 0,
     };
   }
 
@@ -84,18 +85,31 @@ class SearchResults extends Component {
   };
 
   onPageSelect = page => {
+    const { results, updatePagination } = this.props;
+
     // Derive the new start index.
-    const startIndex = page * MAX_PAGE_LIST_LENGTH - 1;
+    let startIndex = page * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;
+
+    // Ensure the start index is not greater than the total amount of results.
+    if (startIndex >= results.length) {
+      startIndex = results.length - 1;
+    }
 
     // Update the page and the new start index.
-    this.setState({ page, startIndex });
+    updatePagination(page, startIndex);
   };
 
   sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
-    const { results, updateResults } = this.props;
+    const { results, updatePagination, updateResults } = this.props;
 
     // Update local state for SortableTable.
-    this.setState({ selectedFieldLabel: fieldLabel, selectedFieldOrder });
+    this.setState({
+      selectedFieldLabel: fieldLabel,
+      selectedFieldOrder,
+    });
+
+    // Reset pagination values.
+    updatePagination();
 
     // Derive the original field (not the JSX label).
     const field = fieldLabel.replace('Label', '');
@@ -113,13 +127,8 @@ class SearchResults extends Component {
 
   render() {
     const { onHeaderClick, onPageSelect } = this;
-    const { fetching, query, results } = this.props;
-    const {
-      page,
-      selectedFieldLabel,
-      selectedFieldOrder,
-      startIndex,
-    } = this.state;
+    const { fetching, page, query, results, startIndex } = this.props;
+    const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
@@ -146,7 +155,10 @@ class SearchResults extends Component {
     // Derive the display labels.
     const startLabel = startIndex + 1;
     const lastLabel =
-      lastIndex + 1 > results.length ? results.length : lastIndex + 1;
+      lastIndex + 1 > results.length ? results.length : lastIndex;
+
+    // Derive the total number of pages.
+    const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
     return (
       <>
@@ -170,7 +182,7 @@ class SearchResults extends Component {
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
             onPageSelect={onPageSelect}
             page={page}
-            pages={Math.floor(results.length / MAX_PAGE_LIST_LENGTH)}
+            pages={totalPages}
             showLastPage
           />
         )}
@@ -181,11 +193,15 @@ class SearchResults extends Component {
 
 const mapStateToProps = state => ({
   fetching: state.findVAFormsReducer.fetching,
+  page: state.findVAFormsReducer.page,
   query: state.findVAFormsReducer.query,
   results: state.findVAFormsReducer.results,
+  startIndex: state.findVAFormsReducer.startIndex,
 });
 
 const mapDispatchToProps = dispatch => ({
+  updatePagination: (page, startIndex) =>
+    dispatch(updatePaginationAction(page, startIndex)),
   updateResults: results => dispatch(updateResultsAction(results)),
 });
 
