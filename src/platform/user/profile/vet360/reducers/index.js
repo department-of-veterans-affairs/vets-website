@@ -13,7 +13,7 @@ import {
   VET360_CLEAR_TRANSACTION_STATUS,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
-  UPDATE_ADDRESS,
+  UPDATE_SELECTED_ADDRESS,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -41,7 +41,7 @@ const initialState = {
     addressValidationError: false,
     validationKey: null,
     selectedAddress: {},
-    selectedId: '0',
+    selectedAddressId: '0',
   },
   transactionStatus: '',
 };
@@ -213,6 +213,7 @@ export default function vet360(state = initialState, action) {
           suggestedAddresses: action.suggestedAddresses,
           validationKey: action.validationKey,
           selectedAddress: action.selectedAddress,
+          selectedAddressId: '0',
         },
         modal: 'addressValidation',
       };
@@ -230,13 +231,13 @@ export default function vet360(state = initialState, action) {
         modal: 'addressValidation',
       };
 
-    case UPDATE_ADDRESS:
+    case UPDATE_SELECTED_ADDRESS:
       return {
         ...state,
         addressValidation: {
           ...state.addressValidation,
           selectedAddress: action.selectedAddress,
-          selectedId: action.selectedId,
+          selectedAddressId: action.selectedAddressId,
         },
       };
 

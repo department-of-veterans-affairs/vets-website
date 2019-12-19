@@ -5,6 +5,7 @@ import { inferAddressType } from 'applications/letters/utils/helpers';
 import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
+import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
   addCountryCodeIso3ToAddress,
   isSuccessfulTransaction,
@@ -208,7 +209,7 @@ export const validateAddress = (
           secondAddress.addressMetaData?.confidenceScore -
           firstAddress.addressMetaData?.confidenceScore,
       )
-      // add the address type and POU to each suggestion
+      // add the address type, POU, and original id to each suggestion
       .map(address => ({
         addressMetaData: { ...address.addressMetaData },
         ...inferAddressType(address.address),
@@ -216,15 +217,19 @@ export const validateAddress = (
           fieldName === FIELD_NAMES.MAILING_ADDRESS
             ? ADDRESS_POU.CORRESPONDENCE
             : ADDRESS_POU.RESIDENCE,
+        id: payload.id || null,
       }));
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
     const payloadWithSuggestedAddress = {
-      ...suggestedAddresses[0],
+      ...confirmedSuggestions[0],
     };
-    // only add the id to the payload if it existed on the user-entered address
-    if (payload.id) {
-      payloadWithSuggestedAddress.id = payload.id;
-    }
 
+    // we use the unfiltered list of suggested addresses to determine if we need
+    // to show the modal because the only time we will skip the modal is if one
+    // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
 
     // show the modal if the API doesn't find a single solid match for the address
@@ -233,7 +238,7 @@ export const validateAddress = (
         type: ADDRESS_VALIDATION_CONFIRM,
         addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
-        selectedAddress: suggestedAddresses[0], // always select the first address as the default
+        selectedAddress: confirmedSuggestions[0], // always select the first address as the default
         suggestedAddresses,
         validationKey,
       });
