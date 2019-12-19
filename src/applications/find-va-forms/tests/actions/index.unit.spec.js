@@ -13,6 +13,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_PAGINATION,
 } from '../../constants';
 
 describe('Find VA Forms actions', () => {
@@ -92,10 +93,17 @@ describe('Find VA Forms actions', () => {
         }),
       ).to.be.true;
 
-      const secondCallAction = dispatch.secondCall.args[0];
+      expect(
+        dispatch.secondCall.calledWith({
+          page: 1,
+          startIndex: 0,
+          type: UPDATE_PAGINATION,
+        }),
+      ).to.be.true;
 
-      expect(secondCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
-      expect(secondCallAction.results).to.be.an('array');
+      const thirdCallAction = dispatch.thirdCall.args[0];
+      expect(thirdCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
+      expect(thirdCallAction.results).to.be.an('array');
     });
   });
 });
