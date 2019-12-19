@@ -82,7 +82,7 @@ class AddressValidationModal extends React.Component {
 
     return (
       <LoadingButton isLoading={isLoading} className="usa-button-primary">
-        Continue
+        Update
       </LoadingButton>
     );
   };
