@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/mapHelpers';
 import {
@@ -15,9 +16,14 @@ import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
-const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+let mbxClient;
 
-const mbxClient = mbxGeo(mapboxClient);
+if (process.env.BUILDTYPE === 'vagovstaging') {
+  const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+  mbxClient = mbxGeo(mapboxClient);
+} else {
+  mbxClient = mapboxClient;
+}
 
 /**
  * Sync form state with Redux state.
@@ -196,58 +202,113 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality'];
+    let types =
+      process.env.BUILDTYPE === 'vagovstaging'
+        ? ['place', 'region', 'postcode', 'locality']
+        : 'place,region,postcode,locality';
     // check for postcode search
     if (query.searchString.match(/^\s*\d{5}\s*$/)) {
       types = 'postcode';
     }
 
-    mbxClient
-      .forwardGeocode({
-        countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
-        types,
-        query: query.searchString,
-      })
-      .send()
-      .then(({ body: { features } }) => {
-        const zip =
-          features[0].context.find(v => v.id.includes('postcode')) || {};
-        const coordinates = features[0].center;
-        const zipCode = zip.text || features[0].place_name;
-        const featureBox = features[0].box;
+    if (process.env.BUILDTYPE === 'vagovstaging') {
+      mbxClient
+        .forwardGeocode({
+          countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
+          types,
+          query: query.searchString,
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
+          const coordinates = features[0].center;
+          const zipCode = zip.text || features[0].place_name;
+          const featureBox = features[0].box;
 
-        let minBounds = [
-          coordinates[0] - BOUNDING_RADIUS,
-          coordinates[1] - BOUNDING_RADIUS,
-          coordinates[0] + BOUNDING_RADIUS,
-          coordinates[1] + BOUNDING_RADIUS,
-        ];
-
-        if (featureBox) {
-          minBounds = [
-            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
-            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
-            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
-            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+          let minBounds = [
+            coordinates[0] - BOUNDING_RADIUS,
+            coordinates[1] - BOUNDING_RADIUS,
+            coordinates[0] + BOUNDING_RADIUS,
+            coordinates[1] + BOUNDING_RADIUS,
           ];
-        }
-        dispatch({
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            ...query,
-            context: zipCode,
-            inProgress: true,
-            position: {
-              latitude: coordinates[1],
-              longitude: coordinates[0],
+
+          if (featureBox) {
+            minBounds = [
+              Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
+              Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
+              Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
+              Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+            ];
+          }
+          dispatch({
+            type: SEARCH_QUERY_UPDATED,
+            payload: {
+              ...query,
+              context: zipCode,
+              inProgress: true,
+              position: {
+                latitude: coordinates[1],
+                longitude: coordinates[0],
+              },
+              bounds: minBounds,
+              zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
+              currentPage: 1,
             },
-            bounds: minBounds,
-            zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
-            currentPage: 1,
-          },
-        });
-      })
-      .catch(error => dispatch({ type: SEARCH_FAILED, error }));
+          });
+        })
+        .catch(error => dispatch({ type: SEARCH_FAILED, error }));
+    } else {
+      mbxClient.geocodeForward(
+        query.searchString,
+        { country: 'us,pr,ph,gu,as,mp', types },
+        (error, res) => {
+          if (!error && !isEmpty(res.features)) {
+            const zip =
+              res.features[0].context.find(v => v.id.includes('postcode')) ||
+              {};
+            const coordinates = res.features[0].center;
+            const zipCode = zip.text || res.features[0].place_name;
+            const featureBox = res.features[0].box;
+
+            let minBounds = [
+              coordinates[0] - BOUNDING_RADIUS,
+              coordinates[1] - BOUNDING_RADIUS,
+              coordinates[0] + BOUNDING_RADIUS,
+              coordinates[1] + BOUNDING_RADIUS,
+            ];
+
+            if (featureBox) {
+              minBounds = [
+                Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
+                Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
+                Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
+                Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+              ];
+            }
+            dispatch({
+              type: SEARCH_QUERY_UPDATED,
+              payload: {
+                ...query,
+                context: zipCode,
+                inProgress: true,
+                position: {
+                  latitude: coordinates[1],
+                  longitude: coordinates[0],
+                },
+                bounds: minBounds,
+                zoomLevel:
+                  res.features[0].id.split('.')[0] === 'region' ? 7 : 9,
+                currentPage: 1,
+              },
+            });
+
+            return;
+          }
+
+          dispatch({ type: SEARCH_FAILED, error });
+        },
+      );
+    }
   };
 };
 

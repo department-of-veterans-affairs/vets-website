@@ -1,8 +1,14 @@
 import { mapboxClient } from '../components/MapboxClient';
 
-const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+let mbxClient;
 
-const mbxClient = mbxGeo(mapboxClient);
+if (process.env.BUILDTYPE === 'vagovstaging') {
+  const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+  mbxClient = mbxGeo(mapboxClient);
+} else {
+  mbxClient = mapboxClient;
+}
+
 /** ****************************************************
  * Helper functions specifically requiring the
  * MapboxClient API.
@@ -43,27 +49,42 @@ export const getBoxCenter = bounds => {
  *
  * @param {Number} lon Longitude coordinate
  * @param {Number} lat Latitude coordinate
- * @param {*[]} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
  *   default => `'address,postcode'`
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocode = async (
-  lon,
-  lat,
-  types = ['address', 'postcode'],
-) => {
-  const response = await mbxClient
-    .reverseGeocode({ query: [lon, lat], types })
-    .send();
+export const reverseGeocode = async (lon, lat) => {
+  const types =
+    process.env.BUILDTYPE === 'vagovstaging'
+      ? ['address', 'postcode']
+      : 'address,postcode';
+
+  if (process.env.BUILDTYPE === 'vagovstaging') {
+    const response = await mbxClient
+      .reverseGeocode({ query: [lon, lat], types })
+      .send()
+      .catch();
+    const {
+      entity: {
+        features: {
+          0: { place_name: placeName },
+        },
+      },
+    } = response.body;
+
+    return placeName;
+  }
   const {
     entity: {
       features: {
         0: { place_name: placeName },
       },
     },
-  } = response.body;
+  } = await mbxClient.geocodeReverse(
+    { longitude: lon, latitude: lat },
+    { types },
+  );
 
   return placeName;
 };

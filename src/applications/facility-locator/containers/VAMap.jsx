@@ -30,10 +30,14 @@ import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 
-const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+let mbxClient;
 
-const mbxClient = mbxGeo(mapboxClient);
-
+if (process.env.BUILDTYPE === 'vagovstaging') {
+  const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+  mbxClient = mbxGeo(mapboxClient);
+} else {
+  mbxClient = mapboxClient;
+}
 const otherToolsLink = (
   <p>
     Can’t find what you’re looking for?
@@ -288,20 +292,47 @@ class VAMap extends Component {
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
   genBBoxFromCoords = position => {
-    mbxClient
-      .forwardGeocode({
-        position,
-        types: ['address'],
-      })
-      .send()
-      .then(({ body: { features } }) => {
-        const coordinates = features[0].center;
-        const placeName = features[0].place_name;
+    if (process.env.BUILDTYPE === 'vagovstaging') {
+      mbxClient
+        .forwardGeocode({
+          position,
+          types: ['address'],
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          const coordinates = features[0].center;
+          const placeName = features[0].place_name;
+          const zipCode =
+            features[0].context.find(v => v.id.includes('postcode')).text || '';
+
+          this.props.updateSearchQuery({
+            bounds: features[0].bbox || [
+              coordinates[0] - BOUNDING_RADIUS,
+              coordinates[1] - BOUNDING_RADIUS,
+              coordinates[0] + BOUNDING_RADIUS,
+              coordinates[1] + BOUNDING_RADIUS,
+            ],
+            searchString: placeName,
+            context: zipCode,
+            position,
+          });
+
+          this.updateUrlParams({
+            address: placeName,
+            context: zipCode,
+          });
+        })
+        .catch();
+    } else {
+      mbxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
+        const coordinates = res.features[0].center;
+        const placeName = res.features[0].place_name;
         const zipCode =
-          features[0].context.find(v => v.id.includes('postcode')).text || '';
+          res.features[0].context.find(v => v.id.includes('postcode')).text ||
+          '';
 
         this.props.updateSearchQuery({
-          bounds: features[0].bbox || [
+          bounds: res.features[0].bbox || [
             coordinates[0] - BOUNDING_RADIUS,
             coordinates[1] - BOUNDING_RADIUS,
             coordinates[0] + BOUNDING_RADIUS,
@@ -316,8 +347,8 @@ class VAMap extends Component {
           address: placeName,
           context: zipCode,
         });
-      })
-      .catch();
+      });
+    }
   };
 
   handleSearch = () => {
