@@ -55,6 +55,10 @@ module.exports = {
       .click('input[value="983"]')
       .click('#root_preferredLanguage [value="english"]')
       .click('#root_hasCommunityCareProviderYes')
+      .waitForElementPresent(
+        '#root_communityCareProvider_practiceName',
+        Timeouts.slow,
+      )
       .setValue('#root_communityCareProvider_practiceName', 'practice name')
       .setValue('#root_communityCareProvider_firstName', 'firstname')
       .setValue('#root_communityCareProvider_lastName', 'lastname')
