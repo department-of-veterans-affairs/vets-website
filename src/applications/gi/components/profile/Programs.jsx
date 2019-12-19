@@ -118,7 +118,7 @@ export class Programs extends React.Component {
     const it = this.props.institution;
     const programs = Object.keys(this.programs);
     const available = programs.filter(key => !!it[key] === true);
-    // prod flag for BAH 4227. There is also flag in VetTecPrograms.jsx
+    // prod flag for BAH 4227. There are also flag in VetTecPrograms.jsx and VetTecInstitutionProfile.jsx
     if (environment.isProduction()) {
       const notAvailable = programs.filter(key => !!it[key] === false);
       return (

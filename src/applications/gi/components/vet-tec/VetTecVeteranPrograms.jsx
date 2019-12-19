@@ -74,7 +74,7 @@ export class VetTecVeteranPrograms extends React.Component {
   render() {
     const programs = this.programs();
     const availablePrograms = programs.filter(program => program.available);
-    // prod flag for BAH 4227. There is also flag in Programs.jsx
+    // prod flag for BAH 4227. There are also flags in Programs.jsx and VetTecInstitutionProfile.jsx
     if (environment.isProduction()) {
       const notAvailablePrograms = programs.filter(
         program => !program.available,
