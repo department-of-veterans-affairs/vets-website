@@ -208,7 +208,11 @@ export const genBBoxFromAddress = query => {
         : 'place,region,postcode,locality';
     // check for postcode search
     if (query.searchString.match(/^\s*\d{5}\s*$/)) {
-      types = 'postcode';
+      if (process.env.BUILDTYPE === 'vagovstaging') {
+        types = ['postcode'];
+      } else {
+        types = 'postcode';
+      }
     }
 
     if (process.env.BUILDTYPE === 'vagovstaging') {
