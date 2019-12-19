@@ -54,7 +54,6 @@ module.exports = {
     client
       .click('input[value="983"]')
       .click('#root_preferredLanguage [value="english"]')
-      .click('#root_hasCommunityCareProviderYes')
       .selectYesNo('root_hasCommunityCareProvider', true)
       .waitForElementPresent(
         '#root_communityCareProvider_practiceName',
