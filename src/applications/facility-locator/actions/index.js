@@ -220,7 +220,8 @@ export const genBBoxFromAddress = query => {
         })
         .send()
         .then(({ body: { features } }) => {
-          const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
+          const zip =
+            features[0].context.find(v => v.id.includes('postcode')) || {};
           const coordinates = features[0].center;
           const zipCode = zip.text || features[0].place_name;
           const featureBox = features[0].box;
