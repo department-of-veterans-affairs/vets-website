@@ -1,0 +1,130 @@
+{
+  "entityBundle": "event",
+  "entityId": "372",
+  "entityPublished": true,
+  "title": "Veterans Town Hall on the Move",
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "/pittsburgh-health-care",
+          "routed": true
+        },
+        "text": "VA Pittsburgh health care"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "News and events"
+      },
+      {
+        "url": {
+          "path": "/pittsburgh-health-care/events",
+          "routed": false
+        },
+        "text": "Events"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "Veterans Town Hall on the Move"
+      }
+    ],
+    "path": "/pittsburgh-health-care/events/veterans-town-hall-on-the-move"
+  },
+  "entityMetatags": [
+    {
+      "__typename": "MetaValue",
+      "key": "title",
+      "value": "VA Pittsburgh health care | Veterans Town Hall on the Move | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:card",
+      "value": "summary_large_image"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:site_name",
+      "value": "Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:description",
+      "value": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "description",
+      "value": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:title",
+      "value": "Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:site",
+      "value": "@DeptVetAffairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:title",
+      "value": "Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:description",
+      "value": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend."
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:image:height",
+      "value": "314"
+    }
+  ],
+  "changed": 1568123027,
+  "fieldMedia": null,
+  "uid": {
+    "targetId": 86,
+    "entity": {
+      "name": "Howard.Brande@va.gov",
+      "timezone": null
+    }
+  },
+  "fieldDate": {
+    "startDate": "2019-05-30 21:00:00 UTC",
+    "value": "2019-05-30T21:00:00",
+    "endDate": "2019-05-30 22:00:00 UTC",
+    "endValue": "2019-05-30T22:00:00"
+  },
+  "fieldAddress": {
+    "addressLine1": "168 Park Ave",
+    "addressLine2": "",
+    "locality": "Washington",
+    "administrativeArea": "PA"
+  },
+  "fieldFacilityLocation": null,
+  "fieldLocationHumanreadable": "American Legion Post 175 ",
+  "fieldDescription": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.",
+  "fieldBody": {
+    "processed": "<p>VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.</p>\n\n<p>Front line employees, including experts from the Veterans Benefits Administration, will be available to offer on-the-spot assistance with individual questions and concerns.</p>"
+  },
+  "fieldEventCost": null,
+  "fieldEventCta": null,
+  "fieldLink": null,
+  "fieldEventRegistrationrequired": false,
+  "fieldAdditionalInformationAbo": null
+}
