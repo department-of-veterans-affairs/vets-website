@@ -99,8 +99,7 @@ function contactInformationTest(client) {
 function reviewAppointmentTest(client) {
   client
     .click('button.usa-button.usa-button-primary')
-    .waitForElementPresent('.usa-alert-success', Timeouts.normal)
-    .assert.containsText('h1', 'Your appointment request has been submitted');
+    .waitForElementPresent('.usa-alert-success', Timeouts.normal);
 
   return client;
 }
