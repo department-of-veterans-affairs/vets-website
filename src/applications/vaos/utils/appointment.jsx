@@ -395,10 +395,17 @@ export function getAppointmentInstructionsHeader(appt) {
 }
 
 export function hasInstructions(appt) {
+  if (appt.instructionsToVeteran) {
+    return true;
+  }
+
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
   return (
-    !!appt.instructionsToVeteran ||
-    !!appt.vdsAppointments?.[0]?.bookingNote ||
-    !!appt.vvsAppointments?.[0]?.bookingNotes
+    !!bookingNotes &&
+    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
   );
 }
 

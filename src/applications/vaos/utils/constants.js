@@ -39,7 +39,7 @@ export const PURPOSE_TEXT = [
   },
   {
     id: 'other',
-    short: 'My reason is not listed here',
+    short: 'My reason is not listed',
     label: 'My reason is not listed here',
     serviceName: 'Other',
   },
