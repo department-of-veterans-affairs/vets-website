@@ -1,4 +1,5 @@
 // Dependencies.
+import appendQuery from 'append-query';
 import { orderBy } from 'lodash';
 // Relative imports.
 import { apiRequest } from '../../../platform/utilities/api';
@@ -9,7 +10,7 @@ export const fetchFormsApi = async query => {
 
   // Add the `query` query param if provided.
   if (query) {
-    FORMS_URL = `${FORMS_URL}?query=${query}`;
+    FORMS_URL = appendQuery(FORMS_URL, { query });
   }
 
   // Make the request for the forms.
