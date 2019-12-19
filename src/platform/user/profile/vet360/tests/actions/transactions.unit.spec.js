@@ -54,6 +54,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '5252',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
         {
           addressMetaData: {
@@ -74,26 +75,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '5026',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
-        },
-        {
-          addressMetaData: {
-            confidenceScore: 100,
-            addressType: 'Domestic',
-            deliveryPointValidation: 'CONFIRMED',
-            residentialDeliveryIndicator: 'RESIDENTIAL',
-          },
-          addressLine1: '400 NW 65th Street',
-          addressType: 'DOMESTIC',
-          city: 'Seattle',
-          countryName: 'United States',
-          countryCodeIso3: 'USA',
-          countyCode: '53033',
-          countyName: 'King',
-          stateCode: 'WA',
-          zipCode: '98117',
-          zipCodeSuffix: '5026',
-          type: 'DOMESTIC',
-          addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
         {
           addressMetaData: {
@@ -115,6 +97,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '6463',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
       ]);
     });

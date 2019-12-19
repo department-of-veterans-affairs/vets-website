@@ -197,16 +197,21 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
   );
 }
 
-export function getCommunityCare() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        isEligible: true,
-        reason: 'User is within x miles of facility',
-        effectiveDate: '2017-10-08T23:35:12-05:00',
-      });
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getCommunityCare(typeOfCare) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = Promise.resolve({
+      data: {
+        id: 'PrimaryCare',
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    });
+  } else {
+    promise = apiRequest(`/vaos/community_care/eligibility/${typeOfCare}`);
+  }
+
+  return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
 // GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
@@ -365,7 +370,7 @@ export function getAvailableSlots(
 ) {
   let promise;
 
-  if (false && USE_MOCK_DATA) {
+  if (USE_MOCK_DATA) {
     promise = import('./slots.json').then(
       module => (module.default ? module.default : module),
     );

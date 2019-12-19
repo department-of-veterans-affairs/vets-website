@@ -28,11 +28,15 @@ import {
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_CLOSED_CONFIRMATION_PAGE,
+  FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
-import { FETCH_STATUS } from '../../utils/constants';
+import {
+  FETCH_STATUS,
+  REASON_ADDITIONAL_INFO_TITLES,
+} from '../../utils/constants';
 
 const systemsParsed = systems.data.map(item => ({
   ...item.attributes,
@@ -629,6 +633,56 @@ describe('VAOS reducer: newAppointment', () => {
       ]);
     });
   });
+
+  describe('Reason for appointment page', () => {
+    it('should set additional info title if reason for appointment is already in data', () => {
+      const state = {
+        ...defaultState,
+        data: { ...defaultState.data, reasonForAppointment: 'other' },
+      };
+
+      const action = {
+        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+        page: 'reasonForAppointment',
+        schema: {
+          type: 'object',
+          properties: {},
+        },
+        uiSchema: {},
+      };
+
+      let newState = newAppointmentReducer(state, action);
+      expect(
+        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+          .title,
+      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.other);
+
+      state.data.reasonForAppointment = 'follow-up';
+      newState = newAppointmentReducer(state, action);
+      expect(
+        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+          .title,
+      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.default);
+    });
+
+    it('should not set additional info title if reason for appointment is unset', () => {
+      const action = {
+        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+        page: 'reasonForAppointment',
+        schema: {
+          type: 'object',
+          properties: {},
+        },
+        uiSchema: {},
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(
+        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo,
+      ).to.equal(undefined);
+    });
+  });
+
   describe('CC preferences page', () => {
     it('should set loading state', () => {
       const action = {

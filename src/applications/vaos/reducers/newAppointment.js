@@ -38,6 +38,7 @@ import {
   FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+  FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
@@ -129,6 +130,12 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   }
 
   return { schema: newSchema, data: newData };
+}
+
+function getReasonAdditionalInfoTitle(reason) {
+  return reason === 'other'
+    ? REASON_ADDITIONAL_INFO_TITLES.other
+    : REASON_ADDITIONAL_INFO_TITLES.default;
 }
 
 export default function formReducer(state = initialState, action) {
@@ -495,18 +502,39 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
+    case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      const { data, schema } = setupFormData(
+        state.data,
+        action.schema,
+        action.uiSchema,
+      );
+
+      let reasonSchema = { ...schema };
+
+      if (state.data?.reasonForAppointment) {
+        reasonSchema = set(
+          'properties.reasonAdditionalInfo.title',
+          getReasonAdditionalInfoTitle(state.data.reasonForAppointment),
+          reasonSchema,
+        );
+      }
+
+      return {
+        ...state,
+        data,
+        pages: {
+          ...state.pages,
+          [action.page]: reasonSchema,
+        },
+      };
+    }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       let newSchema = state.pages.reasonForAppointment;
 
       // Update additional info title based on radio selection
-      const additionalInfoTitle =
-        action.data.reasonForAppointment === 'other'
-          ? REASON_ADDITIONAL_INFO_TITLES.other
-          : REASON_ADDITIONAL_INFO_TITLES.default;
-
       newSchema = set(
         'properties.reasonAdditionalInfo.title',
-        additionalInfoTitle,
+        getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
         newSchema,
       );
 

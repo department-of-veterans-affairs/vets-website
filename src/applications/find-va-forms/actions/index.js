@@ -37,22 +37,22 @@ export const updateResultsAction = results => ({
 // ============
 // Redux Thunks
 // ============
-export const fetchFormsThunk = query => async dispatch => {
+export const fetchFormsThunk = (
+  query,
+  location = window.location,
+  history = window.history,
+) => async dispatch => {
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
 
   // Derive the current query params.
-  const queryParams = new URLSearchParams(window.location.search);
+  const queryParams = new URLSearchParams(location.search);
 
   // Update the query params with the new `query`.
   queryParams.set('q', query);
 
   // Update the URL with the new query param.
-  window.history.replaceState(
-    {},
-    '',
-    `${window.location.pathname}?${queryParams}`,
-  );
+  history.replaceState({}, '', `${location.pathname}?${queryParams}`);
 
   try {
     // Attempt to make the API request to retreive forms.
