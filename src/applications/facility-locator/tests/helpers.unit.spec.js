@@ -215,56 +215,56 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(expected);
   });
 
-  it('hasVADomain should return true if https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/ ', () => {
+  it('isVADomain should return true if https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/ ', () => {
     const result = isVADomain(
       'https://www.va.gov/pittsburgh-health-care/locations/beaver-county-va-clinic/',
     );
     expect(result).to.eq(true);
   });
 
-  it('hasVADomain should return true if  https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
+  it('isVADomain should return true if  https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
     const result = isVADomain(
       'https://www.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
     );
     expect(result).to.eq(true);
   });
 
-  it('hasVADomain should return true if  https://va.gov/testing ', () => {
+  it('isVADomain should return true if  https://va.gov/testing ', () => {
     const result = isVADomain('https://va.gov/testing');
 
     expect(result).to.eq(true);
   });
 
-  it('hasVADomain should return true if  http://www.va.gov/testing ', () => {
+  it('isVADomain should return true if  http://www.va.gov/testing ', () => {
     const result = isVADomain('http://www.va.gov/testing');
 
     expect(result).to.eq(true);
   });
 
-  it('hasVADomain should return false if  https://clinic.va.gov/clinic', () => {
+  it('isVADomain should return false if  https://clinic.va.gov/clinic', () => {
     const result = isVADomain('https://clinic.va.gov/clinic');
 
     expect(result).to.eq(false);
   });
 
-  it('hasVADomain should return false if  https://www.clinic.va.gov/clinic', () => {
+  it('isVADomain should return false if  https://www.clinic.va.gov/clinic', () => {
     const result = isVADomain('https://clinic.va.gov/clinic');
 
     expect(result).to.eq(false);
   });
 
-  it('hasVADomain should return false if  https://google.com/testing ', () => {
+  it('isVADomain should return false if  https://google.com/testing ', () => {
     const result = isVADomain('https://google.com/testing');
 
     expect(result).to.eq(false);
   });
 
-  it('hasVADomain should return false if  https://example.ex/testing ', () => {
+  it('isVADomain should return false if  https://example.ex/testing ', () => {
     const result = isVADomain('https://example.ex/testing');
     expect(result).to.eq(false);
   });
 
-  it('hasVADomain should return false if http://some.com/va.gov ', () => {
+  it('isVADomain should return false if http://some.com/va.gov ', () => {
     const result = isVADomain('http://some.com/va.gov');
     expect(result).to.eq(false);
   });
