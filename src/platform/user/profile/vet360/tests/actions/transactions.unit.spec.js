@@ -54,6 +54,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '5252',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
         {
           addressMetaData: {
@@ -74,6 +75,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '5026',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
         {
           addressMetaData: {
@@ -95,6 +97,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '6463',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
       ]);
     });
