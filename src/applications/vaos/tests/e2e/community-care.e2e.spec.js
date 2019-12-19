@@ -52,6 +52,7 @@ module.exports = {
   },
   'Share your community care provider preferences': client => {
     client
+      .waitForElementPresent('#root_communityCareSystemId_0', Timeouts.slow)
       .selectRadio('root_communityCareSystemId', '983')
       .selectDropdown('root_preferredLanguage', 'english')
       .selectYesNo('root_hasCommunityCareProvider', true)
