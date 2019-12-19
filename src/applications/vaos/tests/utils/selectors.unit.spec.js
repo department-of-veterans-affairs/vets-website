@@ -294,6 +294,7 @@ describe('VAOS selectors', () => {
         ccId: 'CCPRMYRTNE',
         group: 'primary',
         name: 'Primary care',
+        cceType: 'PrimaryCare',
       });
     });
   });

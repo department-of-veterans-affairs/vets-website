@@ -13,7 +13,10 @@ import {
   closeModal as closeAddressValidationModal,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
-import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import {
+  ADDRESS_VALIDATION_MESSAGES,
+  CONFIRMED,
+} from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
@@ -154,6 +157,11 @@ class AddressValidationModal extends React.Component {
       closeModal,
     } = this.props;
 
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
+
     const validationMessageKey = getValidationMessageKey(
       suggestedAddresses,
       validationKey,
@@ -163,7 +171,7 @@ class AddressValidationModal extends React.Component {
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
-    const shouldShowSuggestions = suggestedAddresses.length > 0;
+    const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
     return (
       <Modal
@@ -192,7 +200,7 @@ class AddressValidationModal extends React.Component {
             </span>
           )}
           {shouldShowSuggestions &&
-            suggestedAddresses.map((address, index) =>
+            confirmedSuggestions.map((address, index) =>
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
@@ -220,7 +228,7 @@ const mapStateToProps = state => {
     validationKey: state.vet360.addressValidation.validationKey,
     addressFromUser: state.vet360.addressValidation.addressFromUser,
     selectedAddress: state.vet360.addressValidation.selectedAddress,
-    selectedId: state.vet360.addressValidation.selectedId,
+    selectedId: state.vet360.addressValidation.selectedAddressId,
   };
 };
 
