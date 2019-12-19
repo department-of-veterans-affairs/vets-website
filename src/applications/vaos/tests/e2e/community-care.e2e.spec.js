@@ -52,8 +52,8 @@ module.exports = {
   },
   'Share your community care provider preferences': client => {
     client
-      .click('input[value="983"]')
-      .click('#root_preferredLanguage [value="english"]')
+      .selectRadio('root_communityCareSystemId', '983')
+      .selectDropdown('root_preferredLanguage', 'english')
       .selectYesNo('root_hasCommunityCareProvider', true)
       .waitForElementPresent(
         '#root_communityCareProvider_practiceName',
