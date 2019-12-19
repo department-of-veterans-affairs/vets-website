@@ -4,10 +4,15 @@ import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import ContactDetailSection from './ContactDetailSection';
 import AppointmentDate from './AppointmentDate';
 
-export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
+export default function ReviewDirectScheduleInfo({
+  data,
+  facility,
+  clinic,
+  pageTitle,
+}) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Review your appointment details</h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AppointmentDate
         dates={data.calendarData.selectedDates}
         systemId={data.vaSystem}

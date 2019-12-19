@@ -94,10 +94,13 @@ const uiSchema = {
 };
 
 const pageKey = 'contactInfo';
+const pageTitle = 'Test - Contact information';
+const VA = ' | Veterans Affairs';
 
 export class ContactInfoPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = pageTitle + VA;
   }
 
   goBack = () => {
@@ -113,7 +116,7 @@ export class ContactInfoPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">Contact information</h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
 
         <SchemaForm
           name="Contact info"

@@ -76,17 +76,15 @@ const uiSchema = {
 };
 
 const pageKey = 'vaFacility';
-
-const title = (
-  <h1 className="vads-u-font-size--h2">
-    Choose a VA location for your appointment
-  </h1>
-);
+const pageTitle = 'Test - Choose a VA location for your appointment';
+const VA = ' | Veterans Affairs';
+const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
     scrollAndFocus();
     this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
+    document.title = pageTitle + VA;
   }
 
   goBack = () => {

@@ -35,10 +35,13 @@ const uiSchema = {
 };
 
 const pageKey = 'preferredDate';
+const pageTitle = 'Test - What is the earliest date you would like to be seen?';
+const VA = ' | Veterans Affairs';
 
 export class PreferredDatePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = pageTitle + VA;
   }
 
   goBack = () => {
@@ -54,9 +57,7 @@ export class PreferredDatePage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          What is the earliest date you would like to be seen?
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <legend className="schemaform-label vads-u-max-width--none vads-u-margin-bottom--1p5">
           What is the earliest date you'd like to be seen
           {typeOfCare && ` for ${typeOfCare}`}?
