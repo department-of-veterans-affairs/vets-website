@@ -4,6 +4,7 @@ const {
   getAllImportsFrom,
   typeProperties,
 } = require('./helpers');
+const { omit } = require('lodash/fp');
 
 // Dynamically read in all the filters
 // They must be named after the content model type (E.g. node-page.js)
@@ -70,7 +71,7 @@ function getFilteredEntity(entity) {
   const entityTypeFilter = getFilter(contentModelType);
 
   // There is no filter; return the raw entity
-  if (!entityTypeFilter.length) return entity;
+  if (!entityTypeFilter.length) return omit(ignoreList, entity);
 
   const entityFilter = new Set([...whitelists.global, ...entityTypeFilter]);
   return Object.keys(entity).reduce((newEntity, key) => {
