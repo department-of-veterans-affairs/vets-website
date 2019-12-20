@@ -113,12 +113,7 @@ class RatedDisabilityList extends React.Component {
 
     return (
       <div className="vads-l-row">
-        <h2 className="vads-u-margin-bottom--0p5 vads-u-margin-top--1p5">
-          Your individual ratings
-        </h2>
-        <p className="vads-u-font-weight--bold vads-u-margin-bottom--1p5 vads-u-margin-top--0">
-          This is your rating for a single condition
-        </p>
+        <h2 className="vads-u-margin-y--1p5">Your individual ratings</h2>
         <div className="vads-l-row">
           {formattedDisabilities.map((disability, index) => (
             <RatedDisabilityListItem ratedDisability={disability} key={index} />
