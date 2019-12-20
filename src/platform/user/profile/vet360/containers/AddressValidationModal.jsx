@@ -110,6 +110,17 @@ class AddressValidationModal extends React.Component {
     const isFirstOptionOrEnabled =
       (isAddressFromUser && validationKey) || !isAddressFromUser;
 
+    // calculate label height so input and label match in size
+    // this enables the entire label to be clickable
+    // 24 is the height of each span within the label
+    const labelHeight =
+      Object.values({
+        addressLine1,
+        addressLine2,
+        addressLine3,
+        city,
+      }).filter(val => Boolean(val)).length * 24;
+
     return (
       <div
         key={id}
@@ -121,7 +132,7 @@ class AddressValidationModal extends React.Component {
       >
         {isFirstOptionOrEnabled && (
           <input
-            style={{ zIndex: '1', height: '120px' }}
+            style={{ height: `${labelHeight}px` }}
             type="radio"
             name={id}
             disabled={isAddressFromUser && !validationKey}
