@@ -508,7 +508,8 @@ export default function formReducer(state = initialState, action) {
         const prependText = PURPOSE_TEXT.find(
           purpose => purpose.id === state.data.reasonForAppointment,
         )?.short;
-        reasonMaxChars = REASON_MAX_CHARS.direct - prependText.length - 2;
+        reasonMaxChars =
+          REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
       }
 
       let reasonSchema = set(
@@ -556,7 +557,7 @@ export default function formReducer(state = initialState, action) {
         )?.short;
         newSchema = set(
           'properties.reasonAdditionalInfo.maxLength',
-          REASON_MAX_CHARS.direct - prependText.length - 2,
+          REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2,
           newSchema,
         );
       }
