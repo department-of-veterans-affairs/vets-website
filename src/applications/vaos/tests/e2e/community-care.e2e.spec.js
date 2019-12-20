@@ -52,20 +52,25 @@ module.exports = {
   },
   'Share your community care provider preferences': client => {
     client
-      .click('input[value="983"]')
-      .click('#root_preferredLanguage [value="english"]')
-      .click('#root_hasCommunityCareProviderYes')
+      .waitForElementPresent('#root_communityCareSystemId_0', Timeouts.slow)
+      .selectRadio('root_communityCareSystemId', '983')
+      .selectDropdown('root_preferredLanguage', 'english')
+      .selectYesNo('root_hasCommunityCareProvider', true)
+      .waitForElementPresent(
+        '#root_communityCareProvider_practiceName',
+        Timeouts.slow,
+      )
       .setValue('#root_communityCareProvider_practiceName', 'practice name')
       .setValue('#root_communityCareProvider_firstName', 'firstname')
       .setValue('#root_communityCareProvider_lastName', 'lastname')
       .setValue('#root_communityCareProvider_address_street', 'address1')
       .setValue('#root_communityCareProvider_address_street2', 'address2')
       .setValue('#root_communityCareProvider_address_city', 'city')
-      .click('#root_communityCareProvider_address_state [value="IL"]')
+      .selectDropdown('root_communityCareProvider_address_state', 'IL')
       .setValue('#root_communityCareProvider_address_postalCode', '60613')
       .setValue('#root_communityCareProvider_phone', '1234567890')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.slow)
+      .waitForElementPresent('#root_reasonForAppointment_0', Timeouts.slow)
       .assert.containsText('h1', 'Reason for appointment');
   },
   'Reason for appointment': client => {

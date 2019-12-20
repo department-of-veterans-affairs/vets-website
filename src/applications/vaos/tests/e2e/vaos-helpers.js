@@ -91,7 +91,7 @@ function contactInformationTest(client) {
     .click('input#root_bestTimeToCall_morning')
     .fill('input#root_email', 'mail@gmail.com')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', 'Review your appointment details');
+    .assert.containsText('h1', 'Review your appointment');
 
   return client;
 }
@@ -99,7 +99,7 @@ function contactInformationTest(client) {
 function reviewAppointmentTest(client) {
   client
     .click('button.usa-button.usa-button-primary')
-    .assert.containsText('h1', 'Your appointment request has been submitted');
+    .waitForElementPresent('.usa-alert-success', Timeouts.normal);
 
   return client;
 }

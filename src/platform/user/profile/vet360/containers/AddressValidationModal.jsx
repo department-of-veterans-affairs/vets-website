@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { selectCurrentlyOpenEditModal } from '../selectors';
 import {
   openModal,
@@ -21,8 +22,8 @@ import {
 import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
-  onChangeHandler = (address, selectedId) => _event => {
-    this.props.updateSelectedAddress(address, selectedId);
+  onChangeHandler = (address, selectedAddressId) => _event => {
+    this.props.updateSelectedAddress(address, selectedAddressId);
   };
 
   onSubmit = event => {
@@ -31,7 +32,7 @@ class AddressValidationModal extends React.Component {
       validationKey,
       addressValidationType,
       selectedAddress,
-      selectedId,
+      selectedAddressId,
     } = this.props;
 
     const payload = {
@@ -41,7 +42,7 @@ class AddressValidationModal extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    if (selectedId !== 'userEntered') {
+    if (selectedAddressId !== 'userEntered') {
       this.props.updateValidationKeyAndSave(
         VET360.API_ROUTES.ADDRESSES,
         method,
@@ -65,6 +66,7 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       addressValidationType,
       validationKey,
+      isLoading,
     } = this.props;
 
     if (addressValidationError && !validationKey) {
@@ -78,7 +80,11 @@ class AddressValidationModal extends React.Component {
       );
     }
 
-    return <button className="usa-button-primary">Continue</button>;
+    return (
+      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+        Update
+      </LoadingButton>
+    );
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
@@ -86,7 +92,7 @@ class AddressValidationModal extends React.Component {
       validationKey,
       addressValidationError,
       addressValidationType,
-      selectedId,
+      selectedAddressId,
     } = this.props;
     const {
       addressLine1,
@@ -106,21 +112,22 @@ class AddressValidationModal extends React.Component {
 
     return (
       <div
-        onClick={isFirstOptionOrEnabled && this.onChangeHandler(address, id)}
         key={id}
         className={
           isFirstOptionOrEnabled
-            ? ''
-            : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5'
+            ? 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center'
+            : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5 vads-u-justify-content--center vads-u-display--flex vads-u-flex-direction--column'
         }
       >
         {isFirstOptionOrEnabled && (
           <input
-            style={{ zIndex: '1' }}
             type="radio"
             name={id}
             disabled={isAddressFromUser && !validationKey}
-            checked={selectedId === id}
+            onChange={
+              isFirstOptionOrEnabled && this.onChangeHandler(address, id)
+            }
+            checked={selectedAddressId === id}
           />
         )}
         <label
@@ -219,6 +226,8 @@ const mapStateToProps = state => {
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
+    isLoading:
+      state.vet360.fieldTransactionMap[addressValidationType]?.isPending,
     isAddressValidationModalVisible:
       selectCurrentlyOpenEditModal(state) === 'addressValidation',
     addressValidationError:
@@ -228,7 +237,7 @@ const mapStateToProps = state => {
     validationKey: state.vet360.addressValidation.validationKey,
     addressFromUser: state.vet360.addressValidation.addressFromUser,
     selectedAddress: state.vet360.addressValidation.selectedAddress,
-    selectedId: state.vet360.addressValidation.selectedAddressId,
+    selectedAddressId: state.vet360.addressValidation.selectedAddressId,
   };
 };
 
@@ -254,7 +263,7 @@ AddressValidationModal.propTypes = {
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,
   selectedAddress: PropTypes.object.isRequired,
-  selectedId: PropTypes.string.isRequired,
+  selectedAddressId: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,

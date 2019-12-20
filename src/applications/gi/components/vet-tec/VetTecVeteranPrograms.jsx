@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 export class VetTecVeteranPrograms extends React.Component {
   programs = () => {
@@ -73,25 +74,47 @@ export class VetTecVeteranPrograms extends React.Component {
   render() {
     const programs = this.programs();
     const availablePrograms = programs.filter(program => program.available);
-    const notAvailablePrograms = programs.filter(program => !program.available);
+    // prod flag for BAH 4227. There are also flags in Programs.jsx and VetTecInstitutionProfile.jsx
+    if (environment.isProduction()) {
+      const notAvailablePrograms = programs.filter(
+        program => !program.available,
+      );
+      return (
+        <div className="programs row">
+          {availablePrograms.length > 0 && (
+            <div className="usa-width-one-half medium-6 large-6 column vads-u-margin-top--2">
+              <h3>Available at this campus</h3>
+              {availablePrograms.map((program, index) =>
+                this.renderProgramLabel(program, index),
+              )}
+              <br />
+            </div>
+          )}
+          {notAvailablePrograms.length > 0 && (
+            <div className="usa-width-one-half medium-6 large-6 column">
+              <h3>Not available at this campus</h3>
+              {notAvailablePrograms.map((program, index) =>
+                this.renderProgramLabel(program, index),
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
     return (
       <div className="programs row">
-        {availablePrograms.length > 0 && (
+        {availablePrograms.length > 0 ? (
           <div className="usa-width-one-half medium-6 large-6 column vads-u-margin-top--2">
-            <h3>Available at this campus</h3>
             {availablePrograms.map((program, index) =>
               this.renderProgramLabel(program, index),
             )}
             <br />
           </div>
-        )}
-        {notAvailablePrograms.length > 0 && (
-          <div className="usa-width-one-half medium-6 large-6 column">
-            <h3>Not available at this campus</h3>
-            {notAvailablePrograms.map((program, index) =>
-              this.renderProgramLabel(program, index),
-            )}
-          </div>
+        ) : (
+          <p>
+            Please contact the school or their military office directly for
+            information on the Veteran programs they offer.
+          </p>
         )}
       </div>
     );

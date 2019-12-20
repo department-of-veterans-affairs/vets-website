@@ -1,5 +1,7 @@
 import React from 'react';
 
-const ViewDependentsSidebar = () => <div>The Sidebar</div>;
+const ViewDependentsSidebar = props => (
+  <div className="medium-screen:vads-u-padding-left--4">{props.children}</div>
+);
 
 export default ViewDependentsSidebar;
