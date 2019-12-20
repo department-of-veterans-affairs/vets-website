@@ -9,7 +9,7 @@ import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Review your appointment details</h1>
+      <h1 className="vads-u-font-size--h2">Review your appointment</h1>
       <Description data={data} flowType={FLOW_TYPES.DIRECT} />
       <TypeOfAppointmentSection data={data} />
       <hr className="vads-u-margin-y--2" />
