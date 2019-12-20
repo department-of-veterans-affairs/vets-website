@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CalendarWidget from './calendar/CalendarWidget';
 import moment from 'moment';
+
+import CalendarWidget from './calendar/CalendarWidget';
+import { CALENDAR_INDICATOR_TYPES } from '../utils/constants';
 
 const DateTimeRequestField = ({ onChange, formData }) => (
   <CalendarWidget
@@ -17,6 +19,7 @@ const DateTimeRequestField = ({ onChange, formData }) => (
       .format('YYYY-MM-DD')}
     currentlySelectedDate={formData?.currentlySelectedDate}
     selectedDates={formData?.selectedDates}
+    selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
     additionalOptions={{
       fieldName: 'optionTime',
       required: true,

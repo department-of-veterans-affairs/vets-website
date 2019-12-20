@@ -311,12 +311,13 @@ export default class CalendarWidget extends Component {
 
   renderWeeks = month => {
     const {
-      availableDates,
       additionalOptions,
-      selectedDates,
+      availableDates,
       currentlySelectedDate,
-      minDate,
       maxDate,
+      minDate,
+      selectedDates,
+      selectedIndicatorType,
     } = this.props;
 
     return getCalendarWeeks(month).map((week, index) => (
@@ -331,6 +332,7 @@ export default class CalendarWidget extends Component {
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
         selectedDates={selectedDates || []}
+        selectedIndicatorType={selectedIndicatorType}
         currentlySelectedDate={currentlySelectedDate}
         optionsError={
           this.state.currentRowIndex === index ? this.state.optionsError : null
