@@ -58,9 +58,9 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
       expect(
         tree
           .find(AppointmentDate)
-          .find('h2')
+          .find('h3')
           .text(),
-      ).to.equal('December 20, 2019 at 10:00 a.m. CT');
+      ).to.equal('Friday, December 20, 2019 at 10:00 a.m. CT');
     });
 
     it('should render type of care section', () => {

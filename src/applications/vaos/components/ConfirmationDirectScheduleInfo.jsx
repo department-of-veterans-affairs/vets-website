@@ -24,7 +24,7 @@ export default function ConfirmationDirectScheduleInfo({
             'MMMM D, YYYY [at] hh:mm a',
           )}{' '}
         </h2>
-        <hr />
+        <hr className="vads-u-margin-y--2" />
         <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--2">
           {getTypeOfCare(data)?.name} appointment
         </h3>

@@ -7,15 +7,15 @@ import PreferredProviderSection from './PreferredProviderSection';
 export default function CommunityCareSection(props) {
   return (
     <>
+      <PreferredDatesSection data={props.data} />
+      <hr className="vads-u-margin-y--2" />
       <PreferredProviderSection
         data={props.data}
         vaCityState={props.vaCityState}
       />
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={props.data} />
-      <hr />
-      <PreferredDatesSection data={props.data} />
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <ContactDetailSection data={props.data} />
     </>
   );
