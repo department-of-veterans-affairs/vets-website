@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { selectCurrentlyOpenEditModal } from '../selectors';
 import {
   openModal,
@@ -65,6 +66,7 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       addressValidationType,
       validationKey,
+      isLoading,
     } = this.props;
 
     if (addressValidationError && !validationKey) {
@@ -78,7 +80,11 @@ class AddressValidationModal extends React.Component {
       );
     }
 
-    return <button className="usa-button-primary">Continue</button>;
+    return (
+      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+        Update
+      </LoadingButton>
+    );
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
@@ -219,6 +225,8 @@ const mapStateToProps = state => {
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
+    isLoading:
+      state.vet360.fieldTransactionMap[addressValidationType]?.isPending,
     isAddressValidationModalVisible:
       selectCurrentlyOpenEditModal(state) === 'addressValidation',
     addressValidationError:
