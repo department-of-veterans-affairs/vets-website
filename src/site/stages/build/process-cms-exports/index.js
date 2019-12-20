@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const get = require('lodash/get');
 
-const { getFilteredEntity, ignoreList } = require('./filters');
+const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
 const { toId, readEntity, getContentModelType } = require('./helpers');
 
@@ -73,9 +73,6 @@ const entityAssemblerFactory = contentDir => {
 
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
-      // eslint-disable-next-line no-continue
-      if (ignoreList.includes(key)) continue;
-
       // Properties with target_uuids are always arrays from tome-sync
       if (Array.isArray(prop)) {
         prop.forEach((item, index) => {
