@@ -1,5 +1,9 @@
 const path = require('path');
-const { getContentModelType, getAllImportsFrom } = require('./helpers');
+const {
+  getContentModelType,
+  getAllImportsFrom,
+  typeProperties,
+} = require('./helpers');
 
 // Dynamically read in all the filters
 // They must be named after the content model type (E.g. node-page.js)
@@ -7,8 +11,30 @@ const filtersDir = path.join(__dirname, 'transformers');
 const filters = getAllImportsFrom(filtersDir, 'filter');
 
 /**
- * When reading through entity properties, ignore these.
+ * A list of properties to ignore.
+ *
+ * This list comes from the typeProperties, which we never want to
+ * expand, and a temporary list of properties we don't want to filter
+ * out on a per-content-model basis.
+ *
+ * Additionally, this is useful for temporarily ignoring entity
+ * expansion of certain properties before we've created a filter for
+ * that content model.
  */
+const ignoreList = typeProperties.concat([
+  'roles',
+  'field_facility_location',
+  'field_regional_health_service',
+  'field_region_page',
+  'field_office',
+  'field_banner_alert', // Hrm...
+  // All attributes which reference the user
+  'owner_id',
+  'revision_uid',
+  'revision_user',
+  'uid',
+  'user_id',
+]);
 
 const whitelists = {
   global: ['title', 'baseType', 'contentModelType'],
@@ -57,4 +83,5 @@ function getFilteredEntity(entity) {
 module.exports = {
   getFilteredEntity,
   getFilter,
+  ignoreList,
 };
