@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import {
   openReasonForAppointment,
   updateReasonForAppointmentData,
@@ -12,6 +11,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getReasonForAppointment } from '../utils/selectors';
 import { PURPOSE_TEXT } from '../utils/constants';
+import TextareaWidget from '../components/TextareaWidget';
 
 const initialSchema = {
   type: 'object',
@@ -34,7 +34,7 @@ const uiSchema = {
     'ui:title': 'Why are you making this appointment?',
   },
   reasonAdditionalInfo: {
-    'ui:widget': 'textarea',
+    'ui:widget': TextareaWidget,
     'ui:options': {
       rows: 5,
       expandUnder: 'reasonForAppointment',
@@ -61,20 +61,6 @@ export class ReasonForAppointmentPage extends React.Component {
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
 
-    const isOverLimit =
-      (data.reasonAdditionalInfo?.length || 0) >
-      schema?.properties.reasonAdditionalInfo?.maxLength;
-    const remainingCharacters = Math.abs(
-      schema?.properties.reasonAdditionalInfo?.maxLength -
-        (data.reasonAdditionalInfo?.length || 0),
-    );
-    const characterLimitClasses = classNames(
-      'vads-u-font-style--italic vads-u-margin-top--neg3 vads-u-margin-bottom--2p5',
-      {
-        'vads-u-color--secondary-dark': isOverLimit,
-      },
-    );
-
     return (
       <div>
         <h1 className="vads-u-font-size--h2">Reason for appointment</h1>
@@ -93,14 +79,6 @@ export class ReasonForAppointmentPage extends React.Component {
           }
           data={data}
         >
-          {data.reasonForAppointment && (
-            <div className={characterLimitClasses}>
-              {remainingCharacters}{' '}
-              {isOverLimit
-                ? 'characters over the limit'
-                : 'characters remaining'}
-            </div>
-          )}
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
