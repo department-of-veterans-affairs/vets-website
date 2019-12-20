@@ -12,6 +12,7 @@ import {
   updateSelectedAddress,
   updateValidationKeyAndSave,
   closeModal as closeAddressValidationModal,
+  resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
 import {
@@ -161,7 +162,13 @@ class AddressValidationModal extends React.Component {
       validationKey,
       addressValidationError,
       closeModal,
+      resetAddressValidation,
     } = this.props;
+
+    const resetDataAndCloseModal = () => {
+      resetAddressValidation();
+      closeModal();
+    };
 
     const confirmedSuggestions = suggestedAddresses.filter(
       suggestion =>
@@ -187,7 +194,7 @@ class AddressValidationModal extends React.Component {
             : 'Edit home address'
         }
         id="address-validation-warning"
-        onClose={closeModal}
+        onClose={resetDataAndCloseModal}
         visible={isAddressValidationModalVisible}
       >
         <AlertBox
@@ -210,7 +217,10 @@ class AddressValidationModal extends React.Component {
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
-          <button className="usa-button-secondary" onClick={closeModal}>
+          <button
+            className="usa-button-secondary"
+            onClick={resetDataAndCloseModal}
+          >
             Cancel
           </button>
         </form>
@@ -248,6 +258,7 @@ const mapDispatchToProps = dispatch => ({
       updateSelectedAddress,
       updateValidationKeyAndSave,
       createTransaction,
+      resetAddressValidation: resetAddressValidationAction,
     },
     dispatch,
   ),
