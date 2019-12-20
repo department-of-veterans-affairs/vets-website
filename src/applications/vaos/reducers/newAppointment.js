@@ -56,6 +56,7 @@ import {
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
   FETCH_STATUS,
+  PURPOSE_TEXT,
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -453,13 +454,11 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pastAppointments: action.appointments,
         flowType: FLOW_TYPES.DIRECT,
-        reasonRemainingChar: REASON_MAX_CHARS.direct,
       };
     case START_REQUEST_APPOINTMENT_FLOW:
       return {
         ...state,
         flowType: FLOW_TYPES.REQUEST,
-        reasonRemainingChar: REASON_MAX_CHARS.request,
       };
     case FORM_FETCH_FACILITY_DETAILS:
       return {
@@ -506,10 +505,10 @@ export default function formReducer(state = initialState, action) {
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
-        reasonMaxChars =
-          REASON_MAX_CHARS.direct -
-          (state.data.reasonForAppointment?.length || 0) -
-          2;
+        const prependText = PURPOSE_TEXT.find(
+          purpose => purpose.id === state.data.reasonForAppointment,
+        )?.short;
+        reasonMaxChars = REASON_MAX_CHARS.direct - prependText.length - 2;
       }
 
       let reasonSchema = set(
@@ -552,11 +551,12 @@ export default function formReducer(state = initialState, action) {
       );
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
+        const prependText = PURPOSE_TEXT.find(
+          purpose => purpose.id === action.data.reasonForAppointment,
+        )?.short;
         newSchema = set(
           'properties.reasonAdditionalInfo.maxLength',
-          REASON_MAX_CHARS.direct -
-            (action.data.reasonForAppointment?.length || 0) -
-            2,
+          REASON_MAX_CHARS.direct - prependText.length - 2,
           newSchema,
         );
       }
@@ -574,7 +574,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           reasonForAppointment: schema,
         },
-        reasonRemainingChar: action.remainingCharacters,
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {

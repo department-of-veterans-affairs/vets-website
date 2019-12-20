@@ -170,12 +170,7 @@ export function getChosenClinicInfo(state) {
 }
 
 export function getReasonForAppointment(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
-  const reasonRemainingChar = getNewAppointment(state).reasonRemainingChar;
-  return {
-    ...formInfo,
-    reasonRemainingChar,
-  };
+  return getFormPageInfo(state, pageKey);
 }
 
 export function getClinicsForChosenFacility(state) {
