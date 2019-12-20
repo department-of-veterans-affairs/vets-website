@@ -4,6 +4,12 @@ import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcr
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
+import ViewDependentsSidebarBlock from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlock';
+import {
+  firstSidebarBlock,
+  secondSidebarBlock,
+  thirdSidebarBlock,
+} from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
 
 class ViewDependentsLayout extends Component {
   render() {
@@ -42,7 +48,20 @@ class ViewDependentsLayout extends Component {
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-            <ViewDependentsSidebar />
+            <ViewDependentsSidebar>
+              <ViewDependentsSidebarBlock
+                heading={firstSidebarBlock.heading}
+                content={firstSidebarBlock.content}
+              />
+              <ViewDependentsSidebarBlock
+                heading={secondSidebarBlock.heading}
+                content={secondSidebarBlock.content}
+              />
+              <ViewDependentsSidebarBlock
+                heading={thirdSidebarBlock.heading}
+                content={thirdSidebarBlock.content}
+              />
+            </ViewDependentsSidebar>
           </div>
         </div>
       </div>
