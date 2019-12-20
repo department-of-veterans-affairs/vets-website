@@ -6,6 +6,7 @@ import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import { isVADomain } from '../../utils/helpers';
+import environments from '../../../../platform/utilities/environment';
 
 const LocationInfoBlock = ({ location }) => {
   const { name, website } = location.attributes;
@@ -25,7 +26,7 @@ const LocationInfoBlock = ({ location }) => {
         </span>
       ) : (
         <span>
-          {isVADomain(website) && process.env.BUILDTYPE === 'vagovstaging' ? (
+          {isVADomain(website) && environments.isStaging() ? (
             <a href={website}>
               <h2 className="vads-u-font-size--h5">{name}</h2>
             </a>
