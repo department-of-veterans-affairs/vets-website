@@ -25,7 +25,9 @@ export class AddressSection extends React.Component {
     const addressContent = (
       <div className="step-content">
         <p>Downloaded documents will list your address as:</p>
-        <MailingAddress />
+        <div className="va-profile-wrapper">
+          <MailingAddress />
+        </div>
         <p>
           When you download a letter, it will show this address. If this address
           is incorrect you may want to update it, but your letter will still be

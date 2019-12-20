@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  openFormPage,
+  openReasonForAppointment,
   updateReasonForAppointmentData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -46,7 +46,7 @@ const pageKey = 'reasonForAppointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
@@ -133,7 +133,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openFormPage,
+  openReasonForAppointment,
   updateReasonForAppointmentData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,

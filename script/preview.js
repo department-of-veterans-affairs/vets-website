@@ -6,7 +6,7 @@ const commandLineArgs = require('command-line-args');
 const path = require('path');
 const express = require('express');
 const proxy = require('express-http-proxy');
-const createPipieline = require('../src/site/stages/preview');
+const createPipeline = require('../src/site/stages/preview');
 
 const getDrupalClient = require('../src/site/stages/build/drupal/api');
 const {
@@ -35,6 +35,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'destination', type: String, defaultValue: null },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'accessibility', type: Boolean, defaultValue: true },
+  { name: 'lint-plain-language', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
     type: String,
@@ -112,7 +113,7 @@ app.get('/health', (req, res) => {
 
 app.get('/preview', async (req, res, next) => {
   try {
-    const smith = await createPipieline({
+    const smith = await createPipeline({
       ...options,
       isPreviewServer: true,
       port: process.env.PORT || 3001,

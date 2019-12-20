@@ -384,26 +384,6 @@ export default {
           },
           {
             address: {
-              addressLine1: '400 NW 65th Street',
-              addressType: 'DOMESTIC',
-              city: 'Seattle',
-              countryName: 'United States',
-              countryCodeIso3: 'USA',
-              countyCode: '53033',
-              countyName: 'King',
-              stateCode: 'WA',
-              zipCode: '98117',
-              zipCodeSuffix: '5026',
-            },
-            addressMetaData: {
-              confidenceScore: 100.0,
-              addressType: 'Domestic',
-              deliveryPointValidation: 'CONFIRMED',
-              residentialDeliveryIndicator: 'RESIDENTIAL',
-            },
-          },
-          {
-            address: {
               addressLine1: '400 NE 65th St',
               addressType: 'DOMESTIC',
               city: 'Seattle',
@@ -424,7 +404,7 @@ export default {
             },
           },
         ],
-        validationKey: 12345,
+        validationKey: -2009470897,
       },
       1000,
     );
