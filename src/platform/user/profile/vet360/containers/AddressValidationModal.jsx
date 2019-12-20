@@ -121,7 +121,7 @@ class AddressValidationModal extends React.Component {
       >
         {isFirstOptionOrEnabled && (
           <input
-            style={{ zIndex: '1', height: '100%' }}
+            style={{ zIndex: '1', height: '120px' }}
             type="radio"
             name={id}
             disabled={isAddressFromUser && !validationKey}
