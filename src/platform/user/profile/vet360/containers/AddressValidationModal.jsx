@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { selectCurrentlyOpenEditModal } from '../selectors';
 import {
   openModal,
@@ -13,7 +14,10 @@ import {
   closeModal as closeAddressValidationModal,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
-import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import {
+  ADDRESS_VALIDATION_MESSAGES,
+  CONFIRMED,
+} from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
@@ -62,6 +66,7 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       addressValidationType,
       validationKey,
+      isLoading,
     } = this.props;
 
     if (addressValidationError && !validationKey) {
@@ -75,7 +80,11 @@ class AddressValidationModal extends React.Component {
       );
     }
 
-    return <button className="usa-button-primary">Continue</button>;
+    return (
+      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+        Update
+      </LoadingButton>
+    );
   };
 
   renderAddressOption = (address, id = 'userEntered') => {
@@ -154,6 +163,11 @@ class AddressValidationModal extends React.Component {
       closeModal,
     } = this.props;
 
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
+
     const validationMessageKey = getValidationMessageKey(
       suggestedAddresses,
       validationKey,
@@ -163,7 +177,7 @@ class AddressValidationModal extends React.Component {
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
-    const shouldShowSuggestions = suggestedAddresses.length > 0;
+    const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
     return (
       <Modal
@@ -192,7 +206,7 @@ class AddressValidationModal extends React.Component {
             </span>
           )}
           {shouldShowSuggestions &&
-            suggestedAddresses.map((address, index) =>
+            confirmedSuggestions.map((address, index) =>
               this.renderAddressOption(address, String(index)),
             )}
           {this.renderPrimaryButton()}
@@ -211,6 +225,8 @@ const mapStateToProps = state => {
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
+    isLoading:
+      state.vet360.fieldTransactionMap[addressValidationType]?.isPending,
     isAddressValidationModalVisible:
       selectCurrentlyOpenEditModal(state) === 'addressValidation',
     addressValidationError:
@@ -220,7 +236,7 @@ const mapStateToProps = state => {
     validationKey: state.vet360.addressValidation.validationKey,
     addressFromUser: state.vet360.addressValidation.addressFromUser,
     selectedAddress: state.vet360.addressValidation.selectedAddress,
-    selectedId: state.vet360.addressValidation.selectedId,
+    selectedId: state.vet360.addressValidation.selectedAddressId,
   };
 };
 

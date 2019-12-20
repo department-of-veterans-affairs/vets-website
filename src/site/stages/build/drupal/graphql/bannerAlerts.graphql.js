@@ -3,7 +3,7 @@
  */
 
 module.exports = `
-  alerts: nodeQuery(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "full_width_banner_alert"}]}) {
+  bannerAlerts: nodeQuery(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "full_width_banner_alert"}]}) {
     entities {
       ... on NodeFullWidthBannerAlert {
         title

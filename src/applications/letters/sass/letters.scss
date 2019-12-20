@@ -211,3 +211,7 @@ label + div {
 
 // --- End copy from _m-schemaform.css --- //
 
+.va-profile-wrapper .va-modal-inner {
+  max-height: 100%;
+  overflow-y: auto;
+}

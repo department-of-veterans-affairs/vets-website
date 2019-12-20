@@ -5,7 +5,9 @@ import { inferAddressType } from 'applications/letters/utils/helpers';
 import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
+import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
+  addCountryCodeIso3ToAddress,
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
@@ -186,10 +188,10 @@ export const validateAddress = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
-  const addressPayload = { address: { ...payload } };
+  const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
 
   const options = {
-    body: JSON.stringify(addressPayload),
+    body: JSON.stringify(userEnteredAddress),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -199,14 +201,15 @@ export const validateAddress = (
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVet360.addressValidationSuccess();
-    const { addresses } = response;
+    const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
       .sort(
         (firstAddress, secondAddress) =>
-          secondAddress?.addressMetaData?.confidenceScore -
-          firstAddress?.addressMetaData?.confidenceScore,
+          secondAddress.addressMetaData?.confidenceScore -
+          firstAddress.addressMetaData?.confidenceScore,
       )
+      // add the address type, POU, and original id to each suggestion
       .map(address => ({
         addressMetaData: { ...address.addressMetaData },
         ...inferAddressType(address.address),
@@ -214,24 +217,33 @@ export const validateAddress = (
           fieldName === FIELD_NAMES.MAILING_ADDRESS
             ? ADDRESS_POU.CORRESPONDENCE
             : ADDRESS_POU.RESIDENCE,
+        id: payload.id || null,
       }));
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
     const payloadWithSuggestedAddress = {
-      ...suggestedAddresses[0],
-      id: payload?.id,
+      ...confirmedSuggestions[0],
     };
 
+    // we use the unfiltered list of suggested addresses to determine if we need
+    // to show the modal because the only time we will skip the modal is if one
+    // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
 
+    // show the modal if the API doesn't find a single solid match for the address
     if (showModal) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
-        addressFromUser: payload,
+        addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
-        selectedAddress: suggestedAddresses[0], // always select the first address as the default
+        selectedAddress: confirmedSuggestions[0], // always select the first address as the default
         suggestedAddresses,
-        validationKey: response.validationKey,
+        validationKey,
       });
     }
+    // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(
         route,
