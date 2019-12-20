@@ -241,6 +241,18 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(true);
   });
 
+  it('isVADomain should return true if  http://www.staging.va.gov/testing ', () => {
+    const result = isVADomain('http://www.staging.va.gov/testing');
+
+    expect(result).to.eq(true);
+  });
+
+  it('isVADomain should return true if  http://staging.va.gov/testing ', () => {
+    const result = isVADomain('http://staging.va.gov/testing');
+
+    expect(result).to.eq(true);
+  });
+
   it('isVADomain should return false if  https://clinic.va.gov/clinic', () => {
     const result = isVADomain('https://clinic.va.gov/clinic');
 
