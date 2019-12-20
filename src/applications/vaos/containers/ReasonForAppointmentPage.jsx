@@ -9,7 +9,7 @@ import {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import { getReasonForAppointment } from '../utils/selectors';
+import { getFormPageInfo } from '../utils/selectors';
 import { PURPOSE_TEXT } from '../utils/constants';
 import TextareaWidget from '../components/TextareaWidget';
 
@@ -120,7 +120,7 @@ export class ReasonForAppointmentPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return getReasonForAppointment(state, pageKey);
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
