@@ -1,33 +1,30 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, utcToEpochTime } = require('./helpers');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'node',
-    entityBundle: 'event',
-    title: getDrupalValue(entity.title),
-    uid: getDrupalValue(entity.uid),
-    changed: getDrupalValue(entity.changed),
-    path: getDrupalValue(entity.path),
-    fieldAdditionalInformationAbo: getDrupalValue(
-      entity.fieldAdditionalInformationAbo,
-    ),
-    fieldAddress: getDrupalValue(entity.fieldAddress),
-    fieldBody: getDrupalValue(entity.fieldBody),
-    fieldDate: getDrupalValue(entity.fieldDate),
-    fieldDescription: getDrupalValue(entity.fieldDescription),
-    fieldEventCost: getDrupalValue(entity.fieldEventCost),
-    fieldEventCta: getDrupalValue(entity.fieldEventCta),
-    fieldEventRegistrationrequired: getDrupalValue(
-      entity.fieldEventRegistrationrequired,
-    ),
-    fieldFacilityLocation: getDrupalValue(entity.fieldFacilityLocation),
-    fieldLink: getDrupalValue(entity.fieldLink),
-    fieldLocationHumanreadable: getDrupalValue(
-      entity.fieldLocationHumanreadable,
-    ),
-    fieldMedia: getDrupalValue(entity.fieldMedia),
-  },
+  entityType: 'node',
+  entityBundle: 'event',
+  title: getDrupalValue(entity.title),
+  uid: entity.uid,
+  changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  path: getDrupalValue(entity.path),
+  fieldAdditionalInformationAbo: getDrupalValue(
+    entity.fieldAdditionalInformationAbo,
+  ),
+  fieldAddress: getDrupalValue(entity.fieldAddress),
+  fieldBody: getDrupalValue(entity.fieldBody),
+  fieldDate: getDrupalValue(entity.fieldDate),
+  fieldDescription: getDrupalValue(entity.fieldDescription),
+  fieldEventCost: getDrupalValue(entity.fieldEventCost),
+  fieldEventCta: getDrupalValue(entity.fieldEventCta),
+  fieldEventRegistrationrequired: getDrupalValue(
+    entity.fieldEventRegistrationrequired,
+  ),
+  fieldFacilityLocation: getDrupalValue(entity.fieldFacilityLocation),
+  fieldLink: getDrupalValue(entity.fieldLink),
+  fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
+  fieldMedia: getDrupalValue(entity.fieldMedia),
 });
+
 module.exports = {
   filter: [
     'title',

@@ -1,5 +1,6 @@
 const assert = require('assert');
 const { sortBy, unescape } = require('lodash');
+const moment = require('moment-timezone');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -85,5 +86,13 @@ module.exports = {
    */
   uriToUrl(uri) {
     return uri;
+  },
+
+  /**
+   * Takes a timestamp like 2019-09-10T13:43:47+00:00
+   * and returns the epoch time.
+   */
+  utcToEpochTime(timeString) {
+    return moment.tz(timeString, 'UTC').unix();
   },
 };
