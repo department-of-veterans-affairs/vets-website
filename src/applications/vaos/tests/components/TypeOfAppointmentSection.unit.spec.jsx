@@ -10,7 +10,7 @@ describe('VAOS <TypeOfAppointmentSection>', () => {
     const data = { facilityType: FACILITY_TYPES.COMMUNITY_CARE };
     const tree = shallow(<TypeOfAppointmentSection data={data} />);
 
-    expect(tree.find('h2').text()).to.equal('Community care appointment');
+    expect(tree.text()).to.contain('Community Care');
 
     tree.unmount();
   });
@@ -19,7 +19,7 @@ describe('VAOS <TypeOfAppointmentSection>', () => {
     const data = { facilityType: 'garbage' };
     const tree = shallow(<TypeOfAppointmentSection data={data} />);
 
-    expect(tree.find('h2').text()).to.equal('VA appointment');
+    expect(tree.text()).to.contain('VA Appointment');
 
     tree.unmount();
   });
