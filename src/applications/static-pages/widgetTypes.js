@@ -9,5 +9,4 @@ export default {
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   FIND_VA_FORMS: 'find-va-forms',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
-  DLC_FORM_2346: 'dlc-form-2346',
 };

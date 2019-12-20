@@ -3,5 +3,9 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "2346",
   "rootUrl": "/disability-benefits/2346",
-  "production": false
+  "production": false,
+  "template": {
+    "layout": "page-react.html",
+    "vagovprod": false
+  }
 }
