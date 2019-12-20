@@ -237,7 +237,7 @@ export default function vet360(state = initialState, action) {
         addressValidation: {
           ...state.addressValidation,
           selectedAddress: action.selectedAddress,
-          selectedAddressId: action.selectedAddressId,
+          selectedAddressId: action.selectedId,
         },
       };
 

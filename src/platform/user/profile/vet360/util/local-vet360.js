@@ -227,6 +227,85 @@ export default {
       1000,
     );
   },
+  addressValidationSuccessTwoConfirmedSuggestions() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '575 20th St',
+              addressType: 'DOMESTIC',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '06075',
+              countyName: 'San Francisco',
+              stateCode: 'CA',
+              zipCode: '94107',
+              zipCodeSuffix: '4345',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'BUSINESS',
+            },
+          },
+          {
+            address: {
+              addressLine1: '575 20th Ave',
+              addressType: 'DOMESTIC',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '06075',
+              countyName: 'San Francisco',
+              stateCode: 'CA',
+              zipCode: '94121',
+              zipCodeSuffix: '3122',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
+          },
+        ],
+        validationKey: -773295895,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessSingleLowConfidenceSuggestion() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '400 N 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98103',
+              zipCodeSuffix: '5252',
+            },
+            addressMetaData: {
+              confidenceScore: 77.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+            },
+          },
+        ],
+        validationKey: -245128725,
+      },
+      1000,
+    );
+  },
   addressValidationSuccessSingleMissingUnitNumber() {
     return asyncReturn(
       {
