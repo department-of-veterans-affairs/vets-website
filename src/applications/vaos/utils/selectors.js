@@ -127,8 +127,8 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
-export function getFacilityPageInfo(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
+export function getFacilityPageInfo(state) {
+  const formInfo = getFormPageInfo(state, 'vaFacility');
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const eligibilityStatus = getEligibilityStatus(state);
