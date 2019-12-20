@@ -38,6 +38,7 @@ const initialAddressValidationState = {
 
 const initialState = {
   modal: null,
+  modalData: null,
   formFields: {},
   transactions: [],
   fieldTransactionMap: {},
@@ -206,7 +207,7 @@ export default function vet360(state = initialState, action) {
     }
 
     case OPEN_MODAL:
-      return { ...state, modal: action.modal };
+      return { ...state, modal: action.modal, modalData: action.modalData };
 
     case ADDRESS_VALIDATION_CONFIRM:
       return {

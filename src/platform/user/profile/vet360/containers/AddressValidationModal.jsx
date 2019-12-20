@@ -68,13 +68,16 @@ class AddressValidationModal extends React.Component {
       addressValidationType,
       validationKey,
       isLoading,
+      addressFromUser,
     } = this.props;
 
     if (addressValidationError && !validationKey) {
       return (
         <button
           className="usa-button-primary"
-          onClick={() => this.props.openModal(addressValidationType)}
+          onClick={() =>
+            this.props.openModal(addressValidationType, addressFromUser)
+          }
         >
           Edit Address
         </button>
@@ -94,6 +97,7 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       addressValidationType,
       selectedId,
+      addressFromUser,
     } = this.props;
     const {
       addressLine1,
@@ -143,7 +147,11 @@ class AddressValidationModal extends React.Component {
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
-                <a onClick={() => this.props.openModal(addressValidationType)}>
+                <a
+                  onClick={() =>
+                    this.props.openModal(addressValidationType, addressFromUser)
+                  }
+                >
                   Edit Address
                 </a>
               )}
