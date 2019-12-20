@@ -190,7 +190,6 @@ class AddressValidationModal extends React.Component {
         id="address-validation-warning"
         onClose={closeModal}
         visible={isAddressValidationModalVisible}
-        focusSelector="input"
       >
         <AlertBox
           className="vads-u-margin-bottom--1"
