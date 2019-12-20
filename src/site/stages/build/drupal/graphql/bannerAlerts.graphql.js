@@ -46,9 +46,6 @@ module.exports = `
                 entity {
                   ... on NodeHealthCareRegionPage {
                     title
-                    fieldLinkFacilityEmergList {
-                      uri
-                    }
                     entityUrl {
                       path
                     }
