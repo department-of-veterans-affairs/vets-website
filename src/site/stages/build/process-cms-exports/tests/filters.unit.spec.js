@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
+
 const { expect } = require('chai');
-const { getFilter } = require('../filters');
+const { getFilter, getFilteredEntity } = require('../filters');
 
 describe('CMS export filter helpers', () => {
   describe('getFilter', () => {
@@ -23,6 +25,30 @@ describe('CMS export filter helpers', () => {
   });
 
   describe('getFilteredEntity', () => {
-    it('should find the filter', () => {});
+    it("should filter out properties that don't appear in the content model's filters or global whitelist", () => {
+      expect(
+        getFilteredEntity({
+          contentModelType: 'paragraph-wysiwyg',
+          field_wysiwyg: 'keep this',
+          filter_me_out: 'discard this',
+        }),
+      ).to.deep.equal({
+        contentModelType: 'paragraph-wysiwyg',
+        field_wysiwyg: 'keep this',
+      });
+    });
+
+    it('should use a common blacklist for content models which have no filters specified', () => {
+      expect(
+        getFilteredEntity({
+          contentModelType: 'some entity we know nothing about yet',
+          uid: 'discard this',
+          keep_me: 'keep this',
+        }),
+      ).to.deep.equal({
+        contentModelType: 'some entity we know nothing about yet',
+        keep_me: 'keep this',
+      });
+    });
   });
 });
