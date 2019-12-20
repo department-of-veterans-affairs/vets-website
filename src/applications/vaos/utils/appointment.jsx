@@ -79,6 +79,19 @@ export function sentenceCase(str) {
     .join(' ');
 }
 
+export function lowerCase(str) {
+  return str
+    .split(' ')
+    .map(word => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
+
 export function getLocationHeader(appt) {
   const type = getAppointmentType(appt);
 

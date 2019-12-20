@@ -1,31 +1,32 @@
 import React from 'react';
-import { getTypeOfCare } from '../../utils/selectors';
+import { FLOW_TYPES } from '../../utils/constants';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import ContactDetailSection from './ContactDetailSection';
 import AppointmentDate from './AppointmentDate';
+import Description from './Description';
+import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 
 export default function ReviewDirectScheduleInfo({ data, facility, clinic }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Review your appointment details</h1>
+      <h1 className="vads-u-font-size--h2">Review your appointment</h1>
+      <Description data={data} flowType={FLOW_TYPES.DIRECT} />
+      <TypeOfAppointmentSection data={data} />
+      <hr className="vads-u-margin-y--2" />
       <AppointmentDate
         dates={data.calendarData.selectedDates}
         systemId={data.vaSystem}
       />
-      <hr />
-      <h2 className="vaos-appts__block-label vads-u-margin-top--2">
-        {getTypeOfCare(data)?.name}
-      </h2>
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">
         {clinic.clinicFriendlyLocationName || clinic.clinicName}
       </h3>
       {facility.authoritativeName}
       <br />
       {facility.city}, {facility.stateAbbrev}
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <ReasonForAppointmentSection data={data} />
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       <ContactDetailSection data={data} />
     </div>
   );

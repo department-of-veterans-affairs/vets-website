@@ -60,15 +60,14 @@ export default function PreferredProviderSection(props) {
             Provider not specified
             <br />
             <br />
-            Prefers provider to speak &nbsp;
+            Prefers provider to speak{' '}
             {
               LANGUAGES.find(
                 language => language.id === props.data.preferredLanguage,
               )?.value
             }
             <br />
-            Practice in &nbsp;
-            {props.vaCityState}
+            Practice in {props.vaCityState}
           </span>
         </>
       )}
