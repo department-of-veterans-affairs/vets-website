@@ -63,7 +63,7 @@ class AddressEditModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  modalData: state?.vet360?.modalData,
+  modalData: state.vet360?.modalData,
 });
 
 export default connect(mapStateToProps)(AddressEditModal);
