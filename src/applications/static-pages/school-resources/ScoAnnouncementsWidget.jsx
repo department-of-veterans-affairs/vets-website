@@ -69,7 +69,9 @@ export default class ScoAnnouncementsWidget extends React.Component {
             );
           })
       ) : (
-        <p>No new announcements are available at this time.</p>
+        <li>
+          <p>No new announcements are available at this time.</p>
+        </li>
       );
 
     return <ul className="va-nav-linkslist-list">{announcements}</ul>;

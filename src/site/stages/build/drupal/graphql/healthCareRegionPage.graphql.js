@@ -61,22 +61,6 @@ module.exports = `
       }
       title
     }
-    fieldLinks {
-      url {
-        path
-      }
-      title
-    }
-    fieldLinkFacilityEmergList {
-      url {
-        path
-      }
-    }
-    fieldLinkFacilityNewsList {
-      url {
-        path
-      }
-    }
     fieldOperatingStatus {
       url {
         path

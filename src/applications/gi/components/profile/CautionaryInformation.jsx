@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import environment from 'platform/utilities/environment';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
   if (!thisCampus && !allCampuses) return null;
@@ -143,6 +144,7 @@ export class CautionaryInformation extends React.Component {
               >
                 student complaints
               </a>
+              {environment.isProduction() ? '' : ' in the last 24 months'}
             </h3>
             <span>
               &nbsp;(
