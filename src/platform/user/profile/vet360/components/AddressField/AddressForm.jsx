@@ -18,6 +18,14 @@ import {
  * Validation is managed in the vet360 reducer
  */
 class AddressForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isMilitaryAddress: false,
+    };
+  }
+
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
     this.id = _.uniqueId('address-input-');
@@ -26,6 +34,11 @@ class AddressForm extends React.Component {
   componentDidMount() {
     focusElement('h5');
   }
+
+  onChange = event => {
+    event.preventDefault();
+    this.setState({ isMilitaryAddress: !this.state.isMilitaryAddress });
+  };
 
   getAdjustedStateNames = () => {
     // Reformat the state name data so that it can be
@@ -46,9 +59,29 @@ class AddressForm extends React.Component {
     const isUSA = this.props.address.countryName === 'United States';
     const adjustedStateNames = this.getAdjustedStateNames();
     const isMilitaryState = MILITARY_STATES.has(this.props.address.stateCode);
+    const { isMailingAddress } = this.props;
 
     return (
       <div>
+        {isMailingAddress && (
+          <div>
+            <input
+              type="checkbox"
+              name="is-military-base-mailing-address"
+              id="is-military-base-mailing-address"
+              autoComplete="false"
+              checked={this.state.isMilitaryAddress}
+              onChange={this.onChange}
+            />
+            <label
+              className="vads-u-margin-top--10px"
+              htmlFor="is-military-base-mailing-address"
+            >
+              I live on a United States military base outside of the United
+              States.
+            </label>
+          </div>
+        )}
         <ErrorableSelect
           errorMessage={errorMessages.countryName}
           label="Country"
@@ -202,6 +235,7 @@ const addressShape = PropTypes.shape({
 });
 
 AddressForm.propTypes = {
+  isMailingAddress: PropTypes.bool.isRequired,
   onInput: PropTypes.func.isRequired,
   address: addressShape.isRequired,
   errorMessages: addressShape.isRequired,
