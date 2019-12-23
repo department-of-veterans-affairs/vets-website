@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -35,8 +36,7 @@ class AddressForm extends React.Component {
     focusElement('h5');
   }
 
-  onChange = event => {
-    event.preventDefault();
+  onChange = () => {
     this.setState({ isMilitaryAddress: !this.state.isMilitaryAddress });
   };
 
@@ -80,6 +80,18 @@ class AddressForm extends React.Component {
               I live on a United States military base outside of the United
               States.
             </label>
+            <div>
+              <AdditionalInfo
+                lassName="vads-u-margin-left--0"
+                status="info"
+                triggerText="Learn more about military base addresses"
+              >
+                <span>
+                  The United States is automatically chosen as your country if
+                  you live on a military base outside of the country.
+                </span>
+              </AdditionalInfo>
+            </div>
           </div>
         )}
         <ErrorableSelect
