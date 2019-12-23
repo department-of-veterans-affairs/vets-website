@@ -93,7 +93,9 @@ export default class ScoEventsWidget extends React.Component {
             </li>
           ))
       ) : (
-        <p>No new events are available at this time.</p>
+        <li>
+          <p>No new events are available at this time.</p>
+        </li>
       );
     return (
       <ul id="get" className="hub-page-link-list">
