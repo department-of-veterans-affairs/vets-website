@@ -1,5 +1,7 @@
-export const getDlcDataApi = async () => fetch('http://localhost:3000/v0/dalc/hab/1010');
-export const updateDlcDataApi = async data => fetch('http://localhost:3000/v0/dalc/hab/1010', {
+import { apiRequest } from '../../../../platform/utilities/api';
+
+export const getDlcDataApi = async () => apiRequest('/dalc/hab/1010');
+export const updateDlcDataApi = async data => apiRequest('/dalc/hab/1010', {
     method: 'PUT', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

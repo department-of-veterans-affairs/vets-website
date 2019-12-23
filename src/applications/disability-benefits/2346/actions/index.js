@@ -25,10 +25,10 @@ export const updateDataFailure = () => ({
 
 export const getDLCData = () => async dispatch => {
   try {
-    const { data } = await getDlcDataApi();
-    dispatch({ type: FETCH_DATA_SUCCESS, payload: data });
+    const { data }  = await getDlcDataApi();
+    dispatch(fetchDataSuccess(data.atrributes));
   } catch (error) {
-    dispatch({ type: FETCH_DATA_FAILURE, payload: 'error fetching data' });
+    dispatch(fetchDataFailure('failed to retrieve data from api'));
   }
 };
 

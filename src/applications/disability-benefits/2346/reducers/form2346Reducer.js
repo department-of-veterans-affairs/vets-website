@@ -6,7 +6,7 @@ import {
   } from '../constants';
 
   const initialState = {
-      data: {},
+      data: [],
   }
 
   export default (state = initialState, action) => {
