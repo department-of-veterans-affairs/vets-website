@@ -269,6 +269,11 @@ export const REASON_MAX_CHARS = {
   direct: 150,
 };
 
+export const CALENDAR_INDICATOR_TYPES = {
+  CHECK: 'check',
+  BUBBLES: 'bubbles',
+};
+
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';

@@ -27,25 +27,25 @@ class ViewDependentsLists extends Component {
     */
 
     const onAwardSubhead = (
-      <span>
+      <>
         Dependents on award have been added to you disability claim.{' '}
         <strong>
           If a dependents status has changed, you need to let the VA know.
         </strong>
-      </span>
+      </>
     );
 
     const notOnAwardSubhead = (
-      <span>
+      <>
         Dependents not on award may be awaiting a decision, or they were once
         added to your disability claim and their status has changed.{' '}
         <strong>Let the VA know if a dependent's status has changed</strong> and
         they are now eligible to be added to your disability claim.
-      </span>
+      </>
     );
 
     return (
-      <span>
+      <div>
         <ViewDependentsList
           loading={this.props.loading}
           header="Dependents on award"
@@ -58,7 +58,7 @@ class ViewDependentsLists extends Component {
           subHeader={notOnAwardSubhead}
           dependents={this.props.notOnAwardDependents}
         />
-      </span>
+      </div>
     );
   }
 }
