@@ -5,7 +5,6 @@ import ViewDependentsLayout from '../../layouts/ViewDependentsLayout';
 
 describe('<ViewDependentsLayout />', () => {
   const mockState = {
-    loading: false,
     onAwardDependents: [
       {
         name: 'Billy Blank',
@@ -33,7 +32,7 @@ describe('<ViewDependentsLayout />', () => {
   it('should render', () => {
     const wrapper = mount(
       <ViewDependentsLayout
-        loading={mockState.loading}
+        loading={false}
         error={false}
         onAwardDependents={mockState.onAwardDependents}
         notOnAwardDependents={mockState.notOnAwardDependents}

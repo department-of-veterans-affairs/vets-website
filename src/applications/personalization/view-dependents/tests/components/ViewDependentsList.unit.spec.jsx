@@ -30,17 +30,12 @@ const onAwardDependents = [
 
 const emptyDependents = [];
 
-const mockData = {
-  loading: 'John Jacob',
-  header: 'Dependents on award',
-};
-
 describe('<ViewDependentsList />', () => {
   it('Should Render', () => {
     const wrapper = shallow(
       <ViewDependentsList
-        loading={mockData.loading}
-        header={mockData.header}
+        loading={false}
+        header="Dependents on award"
         subHeader={onAwardSubhead}
         dependents={onAwardDependents}
       />,
@@ -54,7 +49,7 @@ describe('<ViewDependentsList />', () => {
     const wrapper = shallow(
       <ViewDependentsList
         loading
-        header={mockData.header}
+        header="Dependents on award"
         subHeader={onAwardSubhead}
         dependents={onAwardDependents}
       />,
@@ -68,7 +63,7 @@ describe('<ViewDependentsList />', () => {
     const wrapper = shallow(
       <ViewDependentsList
         loading={false}
-        header={mockData.header}
+        header="Dependents on award"
         subHeader={onAwardSubhead}
         dependents={emptyDependents}
       />,
