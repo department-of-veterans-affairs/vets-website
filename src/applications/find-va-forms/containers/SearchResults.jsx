@@ -29,9 +29,9 @@ const FIELD_LABELS = [
     value: 'availableOnlineLabel',
   },
 ];
-const MAX_PAGE_LIST_LENGTH = 10;
+export const MAX_PAGE_LIST_LENGTH = 10;
 
-class SearchResults extends Component {
+export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
     results: PropTypes.arrayOf(
@@ -204,8 +204,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updatePaginationAction(page, startIndex)),
   updateResults: results => dispatch(updateResultsAction(results)),
 });
-
-export { SearchResults };
 
 export default connect(
   mapStateToProps,
