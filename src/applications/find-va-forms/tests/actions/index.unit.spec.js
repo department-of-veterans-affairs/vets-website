@@ -1,28 +1,30 @@
 // Dependencies.
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 // Relative imports.
 import {
   fetchFormsAction,
   fetchFormsFailure,
   fetchFormsSuccess,
   fetchFormsThunk,
+  updatePaginationAction,
+  updateResultsAction,
 } from '../../actions';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../../constants';
 
 describe('Find VA Forms actions', () => {
   describe('fetchFormsAction', () => {
     it('should return an action in the shape we expect', () => {
       const query = 'some text';
-      const result = fetchFormsAction(query);
+      const action = fetchFormsAction(query);
 
-      expect(result).to.be.deep.equal({
+      expect(action).to.be.deep.equal({
         type: FETCH_FORMS,
         query,
       });
@@ -31,9 +33,9 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsFailure', () => {
     it('should return an action in the shape we expect', () => {
-      const result = fetchFormsFailure();
+      const action = fetchFormsFailure();
 
-      expect(result).to.be.deep.equal({
+      expect(action).to.be.deep.equal({
         type: FETCH_FORMS_FAILURE,
       });
     });
@@ -41,12 +43,36 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsSuccess', () => {
     it('should return an action in the shape we expect', () => {
-      const results = {};
-      const result = fetchFormsSuccess(results);
+      const results = [];
+      const action = fetchFormsSuccess(results);
 
-      expect(result).to.be.deep.equal({
+      expect(action).to.be.deep.equal({
         results,
         type: FETCH_FORMS_SUCCESS,
+      });
+    });
+  });
+
+  describe('updateResultsAction', () => {
+    it('should return an action in the shape we expect', () => {
+      const results = [];
+      const action = updateResultsAction(results);
+
+      expect(action).to.be.deep.equal({
+        results,
+        type: UPDATE_RESULTS,
+      });
+    });
+  });
+
+  describe('updatePaginationAction', () => {
+    it('should return an action in the shape we expect', () => {
+      const action = updatePaginationAction();
+
+      expect(action).to.be.deep.equal({
+        page: 1,
+        startIndex: 0,
+        type: UPDATE_PAGINATION,
       });
     });
   });
