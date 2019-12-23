@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import ViewDependentsListItem from '../../components/ViewDependentsList/ViewDependentsListItem';
 
-const mockData = {
-  name: 'Cindy See',
-  social: '312-243-5634',
-  onAward: true,
-  birthdate: '05-05-1953',
-  spouse: true,
-  age: 32,
-};
-
 describe('<ViewDependentsListItem />', () => {
+  const mockData = {
+    name: 'Cindy See',
+    social: '312-243-5634',
+    onAward: true,
+    birthdate: '05-05-1953',
+    spouse: true,
+    age: 32,
+  };
+
   it('Should Render', () => {
     const wrapper = shallow(
       <ViewDependentsListItem
