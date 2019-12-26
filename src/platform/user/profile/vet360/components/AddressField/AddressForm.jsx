@@ -24,6 +24,12 @@ class AddressForm extends React.Component {
 
     this.state = {
       isMilitaryAddress: false,
+      addressFromRedux: {
+        stateCode: this.props.address.stateCode,
+        city: this.props.address.city,
+        countryName: this.props.address.countryName,
+        zipCode: this.props.address.zipCode,
+      },
     };
   }
 
@@ -36,7 +42,27 @@ class AddressForm extends React.Component {
     focusElement('h5');
   }
 
-  onChange = () => {
+  onChange = async () => {
+    const { onInput } = this.props;
+    const {
+      stateCode,
+      city,
+      countryName,
+      zipCode,
+    } = this.state.addressFromRedux;
+    if (this.state.isMilitaryAddress) {
+      // If military base is unchecked, we don't want the user to lose their previously entered data
+      await onInput('countryName', countryName);
+      await onInput('city', city);
+      await onInput('stateCode', stateCode);
+      await onInput('zipCode', zipCode);
+    } else {
+      // Set fields back to empty to force field validation.
+      await onInput('countryName', 'United States');
+      await onInput('city', null);
+      await onInput('stateCode', null);
+      await onInput('zipCode', null);
+    }
     this.setState({ isMilitaryAddress: !this.state.isMilitaryAddress });
   };
 
@@ -50,15 +76,45 @@ class AddressForm extends React.Component {
     _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
       statesList.push({ label: value, value: key });
     });
+    if (this.state.isMilitaryAddress) {
+      return statesList.filter(state => MILITARY_STATES.has(state.value));
+    }
 
     return statesList;
+  };
+
+  getCountryOptions = () => {
+    if (this.state.isMilitaryAddress) {
+      return ['United States'];
+    }
+    return this.props.countries;
+  };
+
+  getStateCode = () => {
+    if (this.state.isMilitaryAddress) {
+      return MILITARY_STATES.has(this.props.address.stateCode)
+        ? this.props.address.stateCode
+        : null;
+    }
+    return this.props.address.stateCode;
+  };
+
+  getCityName = () => {
+    if (this.state.isMilitaryAddress) {
+      return MILITARY_CITIES.has(this.props.address.city)
+        ? this.props.address.city
+        : null;
+    }
+    return this.props.address.city;
   };
 
   render() {
     const errorMessages = this.props.errorMessages;
     const isUSA = this.props.address.countryName === 'United States';
     const adjustedStateNames = this.getAdjustedStateNames();
-    const isMilitaryState = MILITARY_STATES.has(this.props.address.stateCode);
+    const isMilitaryState =
+      MILITARY_STATES.has(this.props.address.stateCode) ||
+      this.state.isMilitaryAddress;
     const { isMailingAddress } = this.props;
 
     return (
@@ -80,7 +136,7 @@ class AddressForm extends React.Component {
               I live on a United States military base outside of the United
               States.
             </label>
-            <div>
+            <div className="vads-u-padding-x--2p5">
               <AdditionalInfo
                 lassName="vads-u-margin-left--0"
                 status="info"
@@ -99,8 +155,9 @@ class AddressForm extends React.Component {
           label="Country"
           name="country"
           autocomplete="country"
-          options={this.props.countries}
+          options={this.getCountryOptions()}
           value={this.props.address.countryName}
+          disabled={this.state.isMilitaryAddress}
           required
           onValueChange={update => this.props.onInput('countryName', update)}
         />
@@ -157,14 +214,18 @@ class AddressForm extends React.Component {
           <ErrorableSelect
             errorMessage={errorMessages.city}
             label={
-              <span>
-                City <em>(or APO/FPO/DPO)</em>
-              </span>
+              this.state.isMilitaryAddress ? (
+                <span>APO/FPO/DPO</span>
+              ) : (
+                <span>
+                  City <em>(or APO/FPO/DPO)</em>
+                </span>
+              )
             }
             name="city"
             autocomplete="address-level2"
             options={Array.from(MILITARY_CITIES)}
-            value={this.props.address.city}
+            value={this.getCityName()}
             required
             onValueChange={update => this.props.onInput('city', update, true)}
           />
@@ -178,7 +239,7 @@ class AddressForm extends React.Component {
             name="state"
             autocomplete="address-level1"
             options={adjustedStateNames}
-            value={this.props.address.stateCode}
+            value={this.getStateCode()}
             required
             onValueChange={update =>
               this.props.onInput('stateCode', update, true)
