@@ -227,6 +227,7 @@ class AddressValidationModal extends React.Component {
             )}
           {this.renderPrimaryButton()}
           <button
+            type="button"
             className="usa-button-secondary"
             onClick={resetDataAndCloseModal}
           >
