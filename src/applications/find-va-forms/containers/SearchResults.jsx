@@ -21,12 +21,12 @@ const FIELD_LABELS = [
     value: 'titleLabel',
   },
   {
-    label: 'Description',
-    value: 'descriptionLabel',
+    label: 'Issue Date',
+    value: 'firstIssuedOnLabel',
   },
   {
-    label: 'Available Online',
-    value: 'availableOnlineLabel',
+    label: 'Revision Date',
+    value: 'lastRevisionOnLabel',
   },
 ];
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -37,10 +37,10 @@ export class SearchResults extends Component {
     results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
-        firstIssuedOn: PropTypes.string.isRequired,
+        firstIssuedOn: PropTypes.number.isRequired,
         formName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.string.isRequired,
+        lastRevisionOn: PropTypes.number.isRequired,
         pages: PropTypes.number.isRequired,
         sha256: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -49,8 +49,8 @@ export class SearchResults extends Component {
         // Table field labels that can be JSX.
         idLabel: PropTypes.node.isRequired,
         titleLabel: PropTypes.node.isRequired,
-        descriptionLabel: PropTypes.node.isRequired,
-        availableOnlineLabel: PropTypes.node.isRequired,
+        firstIssuedOnLabel: PropTypes.node.isRequired,
+        lastRevisionOnLabel: PropTypes.node.isRequired,
       }).isRequired,
     ),
     fetching: PropTypes.bool.isRequired,
