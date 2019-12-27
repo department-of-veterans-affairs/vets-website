@@ -6,6 +6,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_PAGINATION,
   UPDATE_RESULTS,
 } from '../constants';
 
@@ -27,6 +28,15 @@ export const fetchFormsSuccess = results => ({
 });
 
 // ============
+// Pagination Actions
+// ============
+export const updatePaginationAction = (page = 1, startIndex = 0) => ({
+  page,
+  startIndex,
+  type: UPDATE_PAGINATION,
+});
+
+// ============
 // Update Results (no API)
 // ============
 export const updateResultsAction = results => ({
@@ -44,6 +54,9 @@ export const fetchFormsThunk = (
 ) => async dispatch => {
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
+
+  // Reset the pagination.
+  dispatch(updatePaginationAction());
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);

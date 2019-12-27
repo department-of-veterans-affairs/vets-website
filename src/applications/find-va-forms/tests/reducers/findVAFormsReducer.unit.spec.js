@@ -11,8 +11,10 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
 
     expect(result).to.be.deep.equal({
       fetching: false,
+      page: 1,
       query: '',
       results: null,
+      startIndex: 0,
     });
   });
 
@@ -22,8 +24,10 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
 
     expect(state).to.be.deep.equal({
       fetching: true,
+      page: 1,
       query: 'testing',
       results: null,
+      startIndex: 0,
     });
   });
 
