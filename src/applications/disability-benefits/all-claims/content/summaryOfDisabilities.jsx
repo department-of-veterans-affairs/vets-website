@@ -1,6 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
+
 import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
+import formConfig from '../config/form';
 import { NULL_CONDITION_STRING } from '../constants';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
@@ -49,14 +52,24 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
+  const orientationPath =
+    formConfig?.chapters.disabilities.pages.disabilitiesOrientation.path || '/';
+
   return (
-    <div>
+    <>
       <p>
         Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please go back one screen and
-        add it.
+        If a disability is missing from the list, please go back and{' '}
+        <Link
+          aria-label="Add missing disabilities"
+          title="Add missing disabilities"
+          to={orientationPath}
+        >
+          add it
+        </Link>
+        .
       </p>
       <ul>{selectedDisabilitiesList}</ul>
-    </div>
+    </>
   );
 };
