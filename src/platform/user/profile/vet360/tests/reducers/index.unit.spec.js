@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import vet360 from '../../reducers';
 import * as VET360 from '../../constants';
+import { ADDRESS_VALIDATION_RESET } from '../../actions';
 
 describe('vet360 reducer', () => {
   it('should return array of transaction data', () => {
@@ -316,5 +317,53 @@ describe('vet360 reducer', () => {
     expect(state.addressValidation.addressValidationType).to.eql(
       'mailingAddress',
     );
+  });
+
+  describe('ADDRESS_VALIDATION_RESET action', () => {
+    it('resets the addressValidation state', () => {
+      const state = {
+        modal: 'modalName',
+        modalData: { foo: 'bar' },
+        addressValidation: {
+          addressValidationType: 'address',
+          suggestedAddresses: [{ street: '123 Main St' }],
+          addressFromUser: {
+            addressLine1: '123 main',
+            addressLine2: '',
+            addressLine3: '',
+            city: 'sf',
+            stateCode: 'CA',
+            zipCode: '12345',
+          },
+          addressValidationError: false,
+          validationKey: 1234,
+          selectedAddress: {},
+          selectedAddressId: '0',
+        },
+      };
+      const action = {
+        type: ADDRESS_VALIDATION_RESET,
+      };
+      const expectedState = {
+        ...state,
+        addressValidation: {
+          addressValidationType: '',
+          suggestedAddresses: [],
+          addressFromUser: {
+            addressLine1: '',
+            addressLine2: '',
+            addressLine3: '',
+            city: '',
+            stateCode: '',
+            zipCode: '',
+          },
+          addressValidationError: false,
+          validationKey: null,
+          selectedAddress: {},
+          selectedAddressId: '0',
+        },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
   });
 });
