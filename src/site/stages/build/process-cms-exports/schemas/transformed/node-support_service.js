@@ -8,7 +8,21 @@ module.exports = {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['support_service'] },
         title: { type: 'string' },
-        fieldLink: { type: 'string' },
+        fieldLink: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'object',
+              properties: {
+                path: { type: 'string' },
+              },
+              required: ['path'],
+            },
+            title: { type: 'string' },
+            options: { type: 'array' },
+          },
+          required: ['url', 'title', 'options'],
+        },
         fieldPhoneNumber: { type: 'string' },
       },
       required: ['title', 'fieldLink', 'fieldPhoneNumber'],

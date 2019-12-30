@@ -5,7 +5,13 @@ const transform = entity => ({
     entityType: 'node',
     entityBundle: 'support_service',
     title: getDrupalValue(entity.title),
-    fieldLink: getDrupalValue(entity.fieldLink),
+    fieldLink: {
+      url: {
+        path: entity.fieldLink[0].uri,
+      },
+      title: entity.fieldLink[0].title,
+      options: entity.fieldLink[0].options,
+    },
     fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   },
 });
