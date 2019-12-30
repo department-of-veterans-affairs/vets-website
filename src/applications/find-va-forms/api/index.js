@@ -2,11 +2,16 @@
 import appendQuery from 'append-query';
 import { orderBy } from 'lodash';
 // Relative imports.
+import STUBBED_RESPONSE from '../constants/STUBBED_RESPONSE';
 import { apiRequest } from '../../../platform/utilities/api';
 import { normalizeFormsForTable } from '../helpers';
 
-export const fetchFormsApi = async query => {
+export const fetchFormsApi = async (query, options = {}) => {
+  // Derive options properties.
+  const mockRequest = options?.mockRequest || false;
+
   let FORMS_URL = '/forms';
+  let response = STUBBED_RESPONSE;
 
   // Add the `query` query param if provided.
   if (query) {
@@ -14,7 +19,9 @@ export const fetchFormsApi = async query => {
   }
 
   // Make the request for the forms.
-  const response = await apiRequest(FORMS_URL);
+  if (!mockRequest) {
+    response = await apiRequest(FORMS_URL);
+  }
 
   // Derive the forms.
   const forms = response?.data;
