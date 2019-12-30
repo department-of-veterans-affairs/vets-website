@@ -47,11 +47,12 @@ export const updateResultsAction = results => ({
 // ============
 // Redux Thunks
 // ============
-export const fetchFormsThunk = (
-  query,
-  location = window.location,
-  history = window.history,
-) => async dispatch => {
+export const fetchFormsThunk = (query, options = {}) => async dispatch => {
+  // Derive options properties.
+  const location = options?.location || window.location;
+  const history = options?.history || window.history;
+  const mockRequest = options?.mockRequest || false;
+
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
 
@@ -69,7 +70,7 @@ export const fetchFormsThunk = (
 
   try {
     // Attempt to make the API request to retreive forms.
-    const results = await fetchFormsApi(URL, query);
+    const results = await fetchFormsApi(query, { mockRequest });
 
     // If we are here, the API request succeeded.
     dispatch(fetchFormsSuccess(results));

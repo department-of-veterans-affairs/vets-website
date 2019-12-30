@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 
-export const normalizeFormsForTable = ({ data: forms }) =>
+export const normalizeFormsForTable = forms =>
   forms.map(form => {
     // Derive the form properties.
     const id = form?.id;

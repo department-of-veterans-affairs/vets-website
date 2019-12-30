@@ -16,9 +16,7 @@ describe('Find VA Forms helpers', () => {
         },
       };
 
-      const response = {
-        data: [form],
-      };
+      const response = [form];
 
       const result = normalizeFormsForTable(response);
 
