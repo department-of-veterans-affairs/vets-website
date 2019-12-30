@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "0005d6c0-7b1e-4454-afe2-9176705a52a1"
+            "value": "10e78352-6dc0-411a-8c41-807f78d9a921"
         }
     ],
     "langcode": [
@@ -31,7 +31,7 @@
     ],
     "name": [
         {
-            "value": "s-004_ibc-policy-for-partnership-with-pitt2019c.doc"
+            "value": "authorizationtopurchaseorusex-rayequipment_va_rsc313x.doc"
         }
     ],
     "thumbnail": [
@@ -58,7 +58,7 @@
     ],
     "changed": [
         {
-            "value": "2019-08-21T00:57:50+00:00",
+            "value": "2019-08-21T00:49:25+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -85,7 +85,7 @@
     },
     "path": [
         {
-            "alias": "\/media\/document\/454",
+            "alias": "\/media\/document\/330",
             "langcode": "en",
             "pathauto": 1
         }
@@ -95,7 +95,7 @@
             "display": null,
             "description": null,
             "target_type": "file",
-            "target_uuid": "1a709dfa-5ca5-4d21-98bd-28b0c181f29d"
+            "target_uuid": "aed04564-efd5-482f-be12-760f305af696"
         }
     ],
     "field_media_in_library": [
