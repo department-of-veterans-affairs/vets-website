@@ -4,7 +4,7 @@ const transform = entity => ({
   entity: {
     entityType: 'node',
     entityBundle: 'office',
-    title: getDrupalValue(entity.title),
+    entityLabel: getDrupalValue(entity.title),
   },
 });
 module.exports = {

@@ -7,9 +7,9 @@ module.exports = {
       properties: {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['office'] },
-        title: { type: 'string' },
+        entityLabel: { type: 'string' },
       },
-      required: ['title'],
+      required: ['entityLabel'],
     },
   },
   required: ['entity'],
