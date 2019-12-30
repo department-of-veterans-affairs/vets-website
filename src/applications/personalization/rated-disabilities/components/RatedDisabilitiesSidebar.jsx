@@ -23,7 +23,7 @@ const RatedDisabilitiesSidebar = () => (
       Learn about VA disability ratings
     </h3>
     <p>
-      To learn how we determined your combined VA disability rating, use our
+      To learn how we determined your VA combined disability rating, use our
       disability rating calculator and ratings table.
     </p>
     <a

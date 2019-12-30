@@ -32,12 +32,12 @@ export const missingTotalMessage = () => {
   const message = (
     <>
       <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
-        We don’t have a disability rating on file for you
+        We don’t have a combined disability rating on file for you
       </h2>
       <p>
-        We can’t find a disability rating for you. If you have a disability that
-        was caused by or got worse because of your service, you can file a claim
-        for disability benefits.
+        We can’t find a combined disability rating for you. If you have a
+        disability that was caused by or got worse because of your service, you
+        can file a claim for disability benefits.
       </p>
       <a
         href="/disability/how-to-file-claim/"
