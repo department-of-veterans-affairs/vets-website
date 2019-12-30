@@ -16,14 +16,14 @@ export class SchoolLocations extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { viewMore: false };
+    this.state = { viewAll: false };
   }
 
   institutionIsBeingViewed = facilityCode =>
     facilityCode === this.props.institution.facilityCode;
 
-  shouldHideViewMore = (facilityMap, maxRows) =>
-    this.totalRows(facilityMap) > maxRows && !this.state.viewMore;
+  shouldHideViewAll = (facilityMap, maxRows) =>
+    this.totalRows(facilityMap) > maxRows && !this.state.viewAll;
 
   totalRows = ({ branches, extensions }) => {
     let totalRows = 1 + branches.length + extensions.length; // always has a main row
@@ -52,8 +52,12 @@ export class SchoolLocations extends React.Component {
     return <a href={`${facilityCode}${query}`}>{name}</a>;
   };
 
-  handleViewMoreClicked = () => {
-    this.setState({ viewMore: true });
+  handleViewAllClicked = () => {
+    this.setState({ viewAll: true });
+  };
+
+  handleViewLessClicked = () => {
+    this.setState({ viewAll: false });
   };
 
   schoolLocationTableInfo = (city, state, country, zip) => {
@@ -119,7 +123,7 @@ export class SchoolLocations extends React.Component {
   renderExtensionRows = (rows, extensions, maxRows) => {
     for (const extension of extensions) {
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+      if (!this.state.viewAll && rows.length >= maxRows - 1) {
         break;
       }
       const nameLabel = (
@@ -135,7 +139,7 @@ export class SchoolLocations extends React.Component {
   renderBranchRows = (rows, branches, maxRows) => {
     for (const branch of branches) {
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+      if (!this.state.viewAll && rows.length >= maxRows - 1) {
         break;
       }
 
@@ -210,7 +214,7 @@ export class SchoolLocations extends React.Component {
   renderBranchItems = (rows, branches, maxRows) => {
     for (const branch of branches) {
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+      if (!this.state.viewAll && rows.length >= maxRows - 1) {
         break;
       }
 
@@ -232,7 +236,7 @@ export class SchoolLocations extends React.Component {
   renderExtensionItems = (rows, extensions, maxRows) => {
     for (const extension of extensions) {
       // check if should add more rows
-      if (!this.state.viewMore && rows.length >= maxRows - 1) {
+      if (!this.state.viewAll && rows.length >= maxRows - 1) {
         break;
       }
       const nameLabel = <span>{extension.institution}</span>;
@@ -270,21 +274,29 @@ export class SchoolLocations extends React.Component {
     );
   };
 
-  renderViewMore = main => {
+  renderViewButtons = main => {
     const maxRows = this.numberOfRowsToDisplay(main);
 
-    if (this.shouldHideViewMore(main, maxRows)) {
+    if (this.shouldHideViewAll(main, maxRows)) {
       return (
         <button
           type="button"
           className="va-button-link learn-more-button"
-          onClick={this.handleViewMoreClicked}
+          onClick={this.handleViewAllClicked}
         >
-          View more...
+          View all
         </button>
       );
     }
-    return null;
+    return (
+      <button
+        type="button"
+        className="va-button-link learn-more-button"
+        onClick={this.handleViewLessClicked}
+      >
+        View less...
+      </button>
+    );
   };
 
   render() {
@@ -304,7 +316,7 @@ export class SchoolLocations extends React.Component {
         </span>
         {this.renderFacilityMapTable(main)}
         {this.renderFacilityMapList(main)}
-        {this.renderViewMore(main)}
+        {this.renderViewButtons(main)}
       </div>
     );
   }
