@@ -95,7 +95,11 @@ describe('Find VA Forms actions', () => {
     it('updates search params', async () => {
       const dispatch = () => {};
       const query = 'health';
-      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
+      const thunk = fetchFormsThunk(query, {
+        location: mockedLocation,
+        history: mockedHistory,
+        mockRequest: true,
+      });
 
       await thunk(dispatch);
 
@@ -108,7 +112,11 @@ describe('Find VA Forms actions', () => {
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const query = 'health';
-      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
+      const thunk = fetchFormsThunk(query, {
+        location: mockedLocation,
+        history: mockedHistory,
+        mockRequest: true,
+      });
 
       await thunk(dispatch);
 
