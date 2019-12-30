@@ -1,6 +1,8 @@
 import {
+  resetAddressValidation,
   validateAddress,
   ADDRESS_VALIDATION_CONFIRM,
+  ADDRESS_VALIDATION_RESET,
 } from '../../actions/transactions';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -21,6 +23,13 @@ const payload = {
   addressPou: 'CORRESPONDENCE',
 };
 const analyticsSectionName = 'bar';
+
+describe('resetAddressValidation', () => {
+  it('creates the correct action', () => {
+    const action = resetAddressValidation();
+    expect(action).to.deep.equal({ type: ADDRESS_VALIDATION_RESET });
+  });
+});
 
 describe('validateAddress', () => {
   it('verify return data', () => {
@@ -54,6 +63,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '5252',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
         {
           addressMetaData: {
@@ -74,6 +84,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '5026',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
         {
           addressMetaData: {
@@ -95,6 +106,7 @@ describe('validateAddress', () => {
           zipCodeSuffix: '6463',
           type: 'DOMESTIC',
           addressPou: 'RESIDENCE/CHOICE',
+          id: 123,
         },
       ]);
     });

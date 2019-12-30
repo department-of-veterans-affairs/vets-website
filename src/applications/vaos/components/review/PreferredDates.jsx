@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDateLong } from '../../../../platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 
 function PreferredDates(props) {
   const dates = props.dates?.map((selected, i) => (

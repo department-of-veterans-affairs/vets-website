@@ -2,18 +2,20 @@ import React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import CalendarOptions from './CalendarOptions';
+import CalendarSelectedIndicator from './CalendarSelectedIndicator';
 
 const CalendarCell = ({
-  date,
-  currentlySelectedDate,
-  inSelectedArray,
-  disabled,
-  onClick,
-  index,
   additionalOptions,
-  selectedDates,
+  currentlySelectedDate,
+  date,
+  disabled,
   handleSelectOption,
+  index,
+  inSelectedArray,
+  onClick,
   optionsError,
+  selectedDates,
+  selectedIndicatorType,
 }) => {
   if (date === null) {
     return (
@@ -45,7 +47,12 @@ const CalendarCell = ({
           type="button"
         >
           {inSelectedArray && (
-            <i className="fas fa-check vads-u-color--white" />
+            <CalendarSelectedIndicator
+              date={date}
+              fieldName={additionalOptions?.fieldName}
+              selectedDates={selectedDates}
+              selectedIndicatorType={selectedIndicatorType}
+            />
           )}
           {dateDay}
           {isCurrentlySelected && (
