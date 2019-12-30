@@ -1,24 +1,11 @@
-const { getDrupalValue, uriToUrl } = require('./helpers');
+const { getDrupalValue, createLink } = require('./helpers');
 
-function transform(entity) {
-  const { fieldLink, fieldLinkSummary } = entity;
-  const { uri, title, options } = fieldLink[0] || {};
-
-  const transformed = {
-    entity: {
-      fieldLink: fieldLink[0]
-        ? {
-            url: { path: uriToUrl(uri) },
-            title,
-            options,
-          }
-        : null,
-      fieldLinkSummary: getDrupalValue(fieldLinkSummary),
-    },
-  };
-
-  return transformed;
-}
+const transform = entity => ({
+  entity: {
+    fieldLink: createLink(entity.fieldLink),
+    fieldLinkSummary: getDrupalValue(entity.fieldLinkSummary),
+  },
+});
 
 module.exports = {
   filter: ['field_link', 'field_link_summary'],
