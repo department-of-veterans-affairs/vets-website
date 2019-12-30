@@ -15,10 +15,11 @@ import {
 import LocatorApi from '../api';
 import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
+import environments from '../../../platform/utilities/environment';
 
 let mbxClient;
 
-if (process.env.BUILDTYPE === 'vagovstaging') {
+if (environments.isStaging()) {
   const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
   mbxClient = mbxGeo(mapboxClient);
 } else {
@@ -202,20 +203,19 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types =
-      process.env.BUILDTYPE === 'vagovstaging'
-        ? ['place', 'region', 'postcode', 'locality']
-        : 'place,region,postcode,locality';
+    let types = environments.isStaging()
+      ? ['place', 'region', 'postcode', 'locality']
+      : 'place,region,postcode,locality';
     // check for postcode search
     if (query.searchString.match(/^\s*\d{5}\s*$/)) {
-      if (process.env.BUILDTYPE === 'vagovstaging') {
+      if (environments.isStaging()) {
         types = ['postcode'];
       } else {
         types = 'postcode';
       }
     }
 
-    if (process.env.BUILDTYPE === 'vagovstaging') {
+    if (environments.isStaging()) {
       mbxClient
         .forwardGeocode({
           countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],

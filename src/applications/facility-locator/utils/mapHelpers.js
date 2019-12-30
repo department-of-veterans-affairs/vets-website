@@ -1,8 +1,9 @@
 import { mapboxClient } from '../components/MapboxClient';
+import environments from '../../../platform/utilities/environment';
 
 let mbxClient;
 
-if (process.env.BUILDTYPE === 'vagovstaging') {
+if (environments.isStaging()) {
   const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
   mbxClient = mbxGeo(mapboxClient);
 } else {
@@ -55,12 +56,11 @@ export const getBoxCenter = bounds => {
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocode = async (lon, lat) => {
-  const types =
-    process.env.BUILDTYPE === 'vagovstaging'
-      ? ['address', 'postcode']
-      : 'address,postcode';
+  const types = environments.isStaging()
+    ? ['address', 'postcode']
+    : 'address,postcode';
 
-  if (process.env.BUILDTYPE === 'vagovstaging') {
+  if (environments.isStaging()) {
     const response = await mbxClient
       .reverseGeocode({ query: [lon, lat], types })
       .send()

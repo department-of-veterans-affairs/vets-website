@@ -29,10 +29,11 @@ import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
+import environments from '../../../platform/utilities/environment';
 
 let mbxClient;
 
-if (process.env.BUILDTYPE === 'vagovstaging') {
+if (environments.isStaging()) {
   const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
   mbxClient = mbxGeo(mapboxClient);
 } else {
@@ -292,7 +293,7 @@ class VAMap extends Component {
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
   genBBoxFromCoords = position => {
-    if (process.env.BUILDTYPE === 'vagovstaging') {
+    if (environments.isStaging()) {
       mbxClient
         .forwardGeocode({
           position,
