@@ -7,10 +7,22 @@ module.exports = {
       properties: {
         entityType: { enum: ['media'] },
         entityBundle: { enum: ['document'] },
-        name: { type: 'string' },
-        path: { type: 'string' },
+        fieldDocument: {
+          type: 'object',
+          properties: {
+            entity: {
+              type: 'object',
+              properties: {
+                filename: { type: 'string' },
+                url: { type: 'string' },
+              },
+              required: ['filename', 'url'],
+            },
+          },
+          required: ['entity'],
+        },
       },
-      required: ['name', 'path'],
+      required: ['fieldDocument'],
     },
   },
   required: ['entity'],
