@@ -9,7 +9,7 @@ module.exports = {
         entityBundle: { enum: ['support_service'] },
         title: { type: 'string' },
         fieldLink: {
-          type: 'object',
+          type: ['object', 'null'],
           properties: {
             url: {
               type: 'object',
@@ -23,7 +23,7 @@ module.exports = {
           },
           required: ['url', 'title', 'options'],
         },
-        fieldPhoneNumber: { type: 'string' },
+        fieldPhoneNumber: { type: ['string', 'null'] },
       },
       required: ['title', 'fieldLink', 'fieldPhoneNumber'],
     },
