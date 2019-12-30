@@ -43,13 +43,12 @@ const uiSchema = {
 };
 
 const pageKey = 'typeOfCare';
-const pageTitle = 'Test - Choose the type of care you need';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'Choose the type of care you need';
 
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   onChange = newData => {

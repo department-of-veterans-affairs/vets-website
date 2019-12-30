@@ -17,8 +17,7 @@ import DateTimeSelectField from '../components/DateTimeSelectField';
 import WaitTimeAlert from '../components/WaitTimeAlert';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Test - Appointment calendar';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'Appointment calendar';
 
 const initialSchema = {
   type: 'object',
@@ -66,7 +65,7 @@ export class DateTimeSelectPage extends React.Component {
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     this.props.openSelectAppointmentPage(pageKey, uiSchema, initialSchema);
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {

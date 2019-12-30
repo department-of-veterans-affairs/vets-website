@@ -26,7 +26,6 @@ export default function ReviewRequestInfo({
           data={data}
           facility={facility}
           vaCityState={vaCityState}
-          pageTitle={pageTitle}
         />
       )}
       {isVAAppointment && <VAAppointmentSection data={data} />}

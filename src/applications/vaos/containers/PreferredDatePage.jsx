@@ -35,13 +35,12 @@ const uiSchema = {
 };
 
 const pageKey = 'preferredDate';
-const pageTitle = 'Test - What is the earliest date you would like to be seen?';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'What is the earliest date you would like to be seen?';
 
 export class PreferredDatePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle}  | Veterans Affairs`;
   }
 
   goBack = () => {

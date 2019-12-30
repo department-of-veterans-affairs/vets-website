@@ -13,25 +13,25 @@ import { FLOW_TYPES } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
-const VA = ' | Veterans Affairs';
-
 export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    let apptType = '';
+  constructor(props) {
+    super(props);
+    let pageTitle;
     if (this.props.flowType === 'direct') {
-      apptType = 'Your appointment has been scheduled';
-    } else {
-      apptType = 'Your appointment request has been submitted';
-    }
+      pageTitle = 'Your appointment has been scheduled';
+    } else pageTitle = 'Your appointment request has been submitted';
 
-    const pageTitle = apptType + VA;
-    document.title = pageTitle;
+    this.pageTitle = pageTitle;
+  }
+
+  componentDidMount() {
+    document.title = `${this.pageTitle} | Veterans Affairs`;
   }
 
   componentWillUnmount() {
     this.props.closeConfirmationPage();
   }
-  render(pageTitle) {
+  render() {
     const { data, facility, clinic, flowType } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
@@ -42,14 +42,14 @@ export class ConfirmationPage extends React.Component {
             data={data}
             facility={facility}
             clinic={clinic}
-            pageTitle={pageTitle}
+            pageTitle={this.pageTitle}
           />
         )}
         {!isDirectSchedule && (
           <ConfirmationRequestInfo
             data={data}
             facility={facility}
-            pageTitle={pageTitle}
+            pageTitle={this.pageTitle}
           />
         )}
         <div className="vads-u-margin-y--2">

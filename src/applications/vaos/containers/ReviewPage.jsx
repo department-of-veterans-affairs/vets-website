@@ -15,12 +15,11 @@ import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../actions/newAppointment';
 
-const pageTitle = 'Test - Review your appointment details';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'Review your appointment details';
 
 export class ReviewPage extends React.Component {
   componentDidMount() {
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   render() {

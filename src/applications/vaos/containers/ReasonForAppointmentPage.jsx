@@ -43,12 +43,11 @@ const uiSchema = {
 };
 
 const pageKey = 'reasonForAppointment';
-const pageTitle = 'Test - Reason for appointment';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'Reason for appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle}  | Veterans Affairs`;
     this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
   }
 

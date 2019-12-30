@@ -27,15 +27,13 @@ function formatBestTime(bestTime) {
   return 'Anytime during the day';
 }
 
-export default function ConfirmationRequestInfo({ data, facility }) {
+export default function ConfirmationRequestInfo({ data, facility, pageTitle }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        Your appointment request has been submitted
-      </h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AlertBox status="success">
         <strong>Your appointment request has been submitted.</strong> We're
         reviewing your request. You don't have anything to do right now. A

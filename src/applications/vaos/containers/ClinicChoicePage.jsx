@@ -79,14 +79,19 @@ export class ClinicChoicePage extends React.Component {
     }
 
     const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-
+    let pageTitle;
+    if (schema.properties.clinicId.enum.length === 2) {
+      pageTitle = `Make a ${typeOfCareLabel} appointment at your last clinic`;
+      document.title = `${pageTitle} | Veterans Affairs`;
+    } else if (schema.properties.clinicId.enum.length > 2) {
+      pageTitle = `Select your VA clinic for your ${typeOfCareLabel} appointment`;
+      document.title = `${pageTitle} | Veterans Affairs`;
+    }
     return (
       <div>
         {schema.properties.clinicId.enum.length === 2 && (
           <>
-            <h1 className="vads-u-font-size--h2">
-              Make a {typeOfCareLabel} appointment at your last clinic
-            </h1>
+            <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
             Your last {typeOfCareLabel} appointment was at{' '}
             {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
             {facilityDetails && (
@@ -101,9 +106,7 @@ export class ClinicChoicePage extends React.Component {
         )}
         {schema.properties.clinicId.enum.length > 2 && (
           <>
-            <h1 className="vads-u-font-size--h2">
-              Select your VA clinic for your {typeOfCareLabel} appointment
-            </h1>
+            <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
             In the last 24 months you have had {typeOfCareLabel} appointments in
             the following clinics, located at:
             {facilityDetails && (

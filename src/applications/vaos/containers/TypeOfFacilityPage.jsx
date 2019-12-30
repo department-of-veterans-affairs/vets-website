@@ -55,13 +55,12 @@ const uiSchema = {
 };
 
 const pageKey = 'typeOfFacility';
-const pageTitle = 'Test - Choose where you would prefer to receive your care';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'Choose where you would prefer to receive your care';
 
 export class TypeOfFacilityPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {

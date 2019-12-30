@@ -94,13 +94,12 @@ const uiSchema = {
 };
 
 const pageKey = 'contactInfo';
-const pageTitle = 'Test - Contact information';
-const VA = ' | Veterans Affairs';
+const pageTitle = 'Contact information';
 
 export class ContactInfoPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
-    document.title = pageTitle + VA;
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
