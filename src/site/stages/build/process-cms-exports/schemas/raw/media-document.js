@@ -4,7 +4,17 @@ module.exports = {
   type: 'object',
   properties: {
     name: { $ref: 'GenericNestedString' },
-    path: { $ref: 'GenericNestedString' },
+    path: {
+      type: 'array',
+      maxItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          alias: { type: 'string' },
+        },
+        required: ['alias'],
+      },
+    },
   },
   required: ['name', 'path'],
 };

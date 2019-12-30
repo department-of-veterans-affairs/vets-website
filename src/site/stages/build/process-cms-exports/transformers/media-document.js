@@ -5,7 +5,7 @@ const transform = entity => ({
     entityType: 'media',
     entityBundle: 'document',
     name: getDrupalValue(entity.name),
-    path: getDrupalValue(entity.path),
+    path: entity.path[0].alias,
   },
 });
 module.exports = {
