@@ -2,7 +2,8 @@ import {
     FETCH_DATA_SUCCESS,
     FETCH_DATA_FAILURE,
     UPDATE_DATA_FAILURE,
-    UPDATE_DATA_SUCCESS
+    UPDATE_DATA_SUCCESS,
+    CHECKBOX_STATE_UPDATE
   } from '../constants';
 
   const initialState = {
@@ -34,6 +35,13 @@ import {
                   ...state,
                   error: action.payload
               };
+          // BUG: Checkbox state defects -@maharielrosario at 12/30/2019, 5:58:40 PM
+          // Checkbox state overwrites DLC API data
+          case CHECKBOX_STATE_UPDATE:
+            return {
+                ...state,
+                data: action.payload
+            };
 
           default:
               return state;

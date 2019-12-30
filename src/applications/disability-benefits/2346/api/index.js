@@ -1,7 +1,7 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 
-export const getDlcDataApi = async () => apiRequest('/dalc/hab/1010');
-export const updateDlcDataApi = async data => apiRequest('/dalc/hab/1010', {
+export const getDLCDataApi = async () => apiRequest('/dlc/orderstatus/1014/1');
+export const updateDLCDataApi = async data => apiRequest('/dlc/orderstatus/1014/1', {
     method: 'PUT', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

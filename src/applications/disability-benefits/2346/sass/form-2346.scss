@@ -6,3 +6,17 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+  .disability-container {
+    .checkbox {
+      opacity: 1;
+      height: 25px;
+      width: 25px;
+      margin-left: 20px;
+    }
+
+    table.va-sortable-table.va-table > tbody > tr > td {
+      padding-bottom: 1.8em;
+    }
+
+  }
