@@ -1,9 +1,9 @@
 import React from 'react';
-import { getTypeOfCare } from '../../utils/selectors';
-import { FACILITY_TYPES } from '../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
 import CommunityCareSection from './CommunityCareSection';
+import Description from './Description';
 
 export default function ReviewRequestInfo({
   data,
@@ -17,10 +17,9 @@ export default function ReviewRequestInfo({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <Description data={data} flowType={FLOW_TYPES.REQUEST} />
       <TypeOfAppointmentSection data={data} />
-      <hr />
-      <h3 className="vaos-appts__block-label">{getTypeOfCare(data)?.name}</h3>
-      <hr />
+      <hr className="vads-u-margin-y--2" />
       {isCommunityCare && (
         <CommunityCareSection
           data={data}
@@ -28,7 +27,9 @@ export default function ReviewRequestInfo({
           vaCityState={vaCityState}
         />
       )}
-      {isVAAppointment && <VAAppointmentSection data={data} />}
+      {isVAAppointment && (
+        <VAAppointmentSection facility={facility} data={data} />
+      )}
     </div>
   );
 }

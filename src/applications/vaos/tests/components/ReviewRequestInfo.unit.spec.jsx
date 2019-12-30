@@ -55,7 +55,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
 
     // console.log(tree.debug());
     it('should render VA request section', () => {
-      expect(text).to.contain('VA appointment');
+      expect(text).to.contain('VA Appointment');
     });
 
     it('should render type of care section', () => {
@@ -111,7 +111,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render CC request section', () => {
-      expect(text).to.contain('Community care appointment');
+      expect(text).to.contain('Community Care');
     });
 
     it('should render type of care section', () => {
@@ -165,7 +165,7 @@ describe('VAOS <ReviewRequestInfo>', () => {
     });
 
     it('should render CC request section', () => {
-      expect(text).to.contain('Community care appointment');
+      expect(text).to.contain('Community Care');
     });
 
     it('should render type of care section', () => {

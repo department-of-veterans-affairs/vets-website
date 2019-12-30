@@ -24,7 +24,6 @@ import MVIError from './MVIError';
 import {
   directDepositIsSetUp,
   directDepositAddressIsSetUp,
-  profileShowDirectDeposit,
   profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
 
@@ -90,7 +89,6 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
-      showDirectDepositFeature,
       showDirectDepositLink,
       showReceiveTextNotifications,
     } = this.props;
@@ -125,12 +123,10 @@ class ProfileView extends React.Component {
               <ContactInformation
                 showReceiveTextNotifications={showReceiveTextNotifications}
               />
-              {showDirectDepositFeature && (
-                <>
-                  <div id="direct-deposit" />
-                  <PaymentInformation />
-                </>
-              )}
+              <>
+                <div id="direct-deposit" />
+                <PaymentInformation />
+              </>
               <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
@@ -194,7 +190,6 @@ class ProfileView extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    showDirectDepositFeature: profileShowDirectDeposit(state),
     showDirectDepositLink:
       directDepositIsSetUp(state) || directDepositAddressIsSetUp(state),
     showReceiveTextNotifications: profileShowReceiveTextNotifications(state),

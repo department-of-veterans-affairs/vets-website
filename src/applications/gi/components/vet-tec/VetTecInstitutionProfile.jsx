@@ -11,6 +11,7 @@ import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 const VetTecInstitutionProfile = ({
   institution,
@@ -39,7 +40,15 @@ const VetTecInstitutionProfile = ({
           <AccordionItem button="Estimate your benefits">
             <VetTecCalculator showModal={showModal} />
           </AccordionItem>
-          {displayVeteranPrograms() && (
+          {/* prod flag for BAH 4227. There are also flags in Programs.jsx and VetTecPrograms.jsx */}
+          {environment.isProduction() && displayVeteranPrograms() ? (
+            <AccordionItem button="Veteran programs">
+              <VetTecVeteranPrograms
+                institution={institution}
+                onShowModal={showModal}
+              />
+            </AccordionItem>
+          ) : (
             <AccordionItem button="Veteran programs">
               <VetTecVeteranPrograms
                 institution={institution}

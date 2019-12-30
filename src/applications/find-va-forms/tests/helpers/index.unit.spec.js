@@ -16,9 +16,7 @@ describe('Find VA Forms helpers', () => {
         },
       };
 
-      const response = {
-        data: [form],
-      };
+      const response = [form];
 
       const result = normalizeFormsForTable(response);
 
@@ -27,11 +25,13 @@ describe('Find VA Forms helpers', () => {
       expect(result[0]).to.have.keys([
         'applyOnlineURL',
         'availableOnline',
-        'availableOnlineLabel',
         'description',
-        'descriptionLabel',
+        'firstIssuedOn',
+        'firstIssuedOnLabel',
         'id',
         'idLabel',
+        'lastRevisionOn',
+        'lastRevisionOnLabel',
         'title',
         'titleLabel',
         'type',
