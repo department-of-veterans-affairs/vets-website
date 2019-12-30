@@ -31,9 +31,9 @@ const LocationInfoBlock = ({ location }) => {
               <h2 className="vads-u-font-size--h5">{name}</h2>
             </a>
           ) : (
-            <Link to={`facility/${location.id}`}>
-              <h2 className="vads-u-font-size--h5">{name}</h2>
-            </Link>
+            <h2 className="vads-u-font-size--h5">
+              <Link to={`facility/${location.id}`}>{name}</Link>
+            </h2>
           )}
           <FacilityTypeDescription location={location} />
         </span>
