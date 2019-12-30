@@ -3,8 +3,7 @@ import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
 
-const TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE = 15;
-const DEFAULT_ROWS_VIEWABLE = 10;
+const DEFAULT_ROWS_VIEWABLE = window.outerWidth > 781 ? 10 : 5;
 
 export class SchoolLocations extends React.Component {
   static propTypes = {
@@ -16,14 +15,19 @@ export class SchoolLocations extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { viewAll: false };
+    const initialViewableRows = this.numberOfRowsToDisplay(
+      props.institution.facilityMap.main,
+    );
+    this.state = {
+      viewAll: false,
+      viewableRowCount: initialViewableRows,
+      initialRowCount: initialViewableRows,
+      totalRowCount: this.totalRows(props.institution.facilityMap.main),
+    };
   }
 
   institutionIsBeingViewed = facilityCode =>
     facilityCode === this.props.institution.facilityCode;
-
-  shouldHideViewAll = (facilityMap, maxRows) =>
-    this.totalRows(facilityMap) > maxRows && !this.state.viewAll;
 
   totalRows = ({ branches, extensions }) => {
     let totalRows = 1 + branches.length + extensions.length; // always has a main row
@@ -36,10 +40,9 @@ export class SchoolLocations extends React.Component {
   numberOfRowsToDisplay = facilityMap => {
     const totalRows = this.totalRows(facilityMap);
 
-    return totalRows > DEFAULT_ROWS_VIEWABLE &&
-      totalRows <= TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE
-      ? TOTAL_ROWS_DISPLAYED_WITHOUT_VIEW_MORE
-      : DEFAULT_ROWS_VIEWABLE;
+    return totalRows > DEFAULT_ROWS_VIEWABLE
+      ? DEFAULT_ROWS_VIEWABLE
+      : totalRows;
   };
 
   createLinkTo = (facilityCode, name) => {
@@ -53,11 +56,29 @@ export class SchoolLocations extends React.Component {
   };
 
   handleViewAllClicked = () => {
-    this.setState({ viewAll: true });
+    this.setState({
+      viewableRowCount: this.state.totalRowCount,
+      viewAll: true,
+    });
   };
 
   handleViewLessClicked = () => {
-    this.setState({ viewAll: false });
+    this.setState({
+      viewableRowCount: this.state.initialRowCount,
+      viewAll: false,
+    });
+  };
+
+  showMoreClicked = () => {
+    const remainingRowCount =
+      this.state.totalRowCount - this.state.viewableRowCount;
+    if (remainingRowCount >= 10) {
+      this.setState({ viewableRowCount: this.state.viewableRowCount + 10 });
+    } else {
+      this.setState({
+        viewableRowCount: this.state.viewableRowCount + remainingRowCount,
+      });
+    }
   };
 
   schoolLocationTableInfo = (city, state, country, zip) => {
@@ -93,7 +114,6 @@ export class SchoolLocations extends React.Component {
     ) : (
       name
     );
-
     return (
       <tr key={`${facilityCode}-${type}`} className={`${type}-row`}>
         <td>{nameLabel}</td>
@@ -166,7 +186,7 @@ export class SchoolLocations extends React.Component {
   };
 
   renderFacilityMapTable = main => {
-    const maxRows = this.numberOfRowsToDisplay(main);
+    const maxRows = this.state.viewableRowCount;
     return (
       <table className="locations-table">
         <thead>
@@ -185,7 +205,7 @@ export class SchoolLocations extends React.Component {
   };
 
   renderFacilityMapList = main => {
-    const maxRows = this.numberOfRowsToDisplay(main);
+    const maxRows = this.state.viewableRowCount;
     return (
       <div className="locations-list">
         {this.renderMainListItem(main.institution)}
@@ -274,28 +294,58 @@ export class SchoolLocations extends React.Component {
     );
   };
 
-  renderViewButtons = main => {
-    const maxRows = this.numberOfRowsToDisplay(main);
+  renderViewButtons = () => {
+    const viewableRowCount = this.state.viewableRowCount;
+    const totalRowCount = this.state.totalRowCount;
 
-    if (this.shouldHideViewAll(main, maxRows)) {
+    if (totalRowCount > DEFAULT_ROWS_VIEWABLE) {
+      if (viewableRowCount !== totalRowCount) {
+        const remainingRowCount = totalRowCount - viewableRowCount;
+        const showNextCount = remainingRowCount < 10 ? remainingRowCount : 10;
+        return (
+          <div>
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.showMoreClicked}
+            >
+              Show next {showNextCount}
+            </button>
+            &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={this.handleViewAllClicked}
+            >
+              View all
+            </button>
+          </div>
+        );
+      }
       return (
-        <button
-          type="button"
-          className="va-button-link learn-more-button"
-          onClick={this.handleViewAllClicked}
-        >
-          View all
-        </button>
+        <div>
+          <button
+            type="button"
+            className="va-button-link learn-more-button"
+            onClick={this.handleViewLessClicked}
+          >
+            ...View less
+          </button>
+        </div>
       );
     }
+    return null;
+  };
+
+  renderViewCount = () => {
+    const totalRows = this.state.totalRowCount;
+    const viewableRows = this.state.viewableRowCount;
     return (
-      <button
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={this.handleViewLessClicked}
-      >
-        View less...
-      </button>
+      <div>
+        <i>
+          Showing {viewableRows} out of {totalRows}
+        </i>
+      </div>
     );
   };
 
@@ -316,7 +366,8 @@ export class SchoolLocations extends React.Component {
         </span>
         {this.renderFacilityMapTable(main)}
         {this.renderFacilityMapList(main)}
-        {this.renderViewButtons(main)}
+        {this.renderViewCount()}
+        {this.renderViewButtons()}
       </div>
     );
   }
