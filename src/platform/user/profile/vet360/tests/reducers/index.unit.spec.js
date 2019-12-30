@@ -2,7 +2,10 @@ import { expect } from 'chai';
 
 import vet360 from '../../reducers';
 import * as VET360 from '../../constants';
-import { ADDRESS_VALIDATION_RESET } from '../../actions';
+import {
+  ADDRESS_VALIDATION_RESET,
+  UPDATE_SELECTED_ADDRESS,
+} from '../../actions';
 
 describe('vet360 reducer', () => {
   it('should return array of transaction data', () => {
@@ -360,6 +363,34 @@ describe('vet360 reducer', () => {
           addressValidationError: false,
           validationKey: null,
           selectedAddress: {},
+          selectedAddressId: '0',
+        },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('UPDATE_SELECTED_ADDRESS action', () => {
+    it('sets the selectedAddress and selectedAddressId from the action', () => {
+      const state = {
+        metadata: {},
+        otherData: true,
+        addressValidation: {
+          selectedAddress: { street: '456 elm' },
+          selectedAddressId: 'userEntered',
+        },
+      };
+      const action = {
+        type: UPDATE_SELECTED_ADDRESS,
+        selectedAddress: {
+          street: '123 main',
+        },
+        selectedAddressId: '0',
+      };
+      const expectedState = {
+        ...state,
+        addressValidation: {
+          selectedAddress: { street: '123 main' },
           selectedAddressId: '0',
         },
       };
