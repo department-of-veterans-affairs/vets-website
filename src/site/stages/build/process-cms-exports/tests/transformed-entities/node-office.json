@@ -1,5 +1,7 @@
 {
+  "contentModelType": "node-office",
   "entity": {
+    "entityBundle": "office",
     "entityLabel": "VA Central Office",
     "entityType": "node"
   }
