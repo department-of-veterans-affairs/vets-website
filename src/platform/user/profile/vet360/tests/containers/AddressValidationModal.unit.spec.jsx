@@ -13,6 +13,7 @@ describe('<AddressValidationModal/>', () => {
           },
         },
         modal: 'addressValidation',
+        modalData: null,
         addressValidation: {
           addressFromUser: {
             addressLine1: '12345 1st Ave',
