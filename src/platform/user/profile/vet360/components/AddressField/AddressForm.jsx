@@ -19,19 +19,15 @@ import {
  * Validation is managed in the vet360 reducer
  */
 class AddressForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isMilitaryAddress: false,
-      addressFromRedux: {
-        stateCode: this.props.address.stateCode,
-        city: this.props.address.city,
-        countryName: this.props.address.countryName,
-        zipCode: this.props.address.zipCode,
-      },
-    };
-  }
+  state = {
+    isMilitaryAddress: false,
+    addressFromRedux: {
+      stateCode: this.props.address.stateCode,
+      city: this.props.address.city,
+      countryName: this.props.address.countryName,
+      zipCode: this.props.address.zipCode,
+    },
+  };
 
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
@@ -130,7 +126,7 @@ class AddressForm extends React.Component {
               onChange={this.onChange}
             />
             <label
-              className="vads-u-margin-top--10px"
+              className="vads-u-margin-top--1p5"
               htmlFor="is-military-base-mailing-address"
             >
               I live on a United States military base outside of the United
@@ -194,11 +190,7 @@ class AddressForm extends React.Component {
         {!isMilitaryState && (
           <ErrorableTextInput
             errorMessage={errorMessages.city}
-            label={
-              <span>
-                City <em>(or APO/FPO/DPO)</em>
-              </span>
-            }
+            label={<span>City</span>}
             name="city"
             autocomplete="address-level2"
             charMax={100}
