@@ -1,6 +1,7 @@
 {
+  "contentModelType": "node-support_service",
   "entity": {
-    "entityId": "76",
+    "entityType": "node",
     "entityBundle": "support_service",
     "title": "All other VA life insurance programs:",
     "fieldLink": {
