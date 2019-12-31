@@ -121,7 +121,7 @@ class AddressValidationModal extends React.Component {
         className={
           isFirstOptionOrEnabled
             ? 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center'
-            : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5 vads-u-justify-content--center vads-u-display--flex vads-u-flex-direction--column'
+            : 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-left--2 vads-u-margin-bottom--1p5'
         }
       >
         {isFirstOptionOrEnabled && (
