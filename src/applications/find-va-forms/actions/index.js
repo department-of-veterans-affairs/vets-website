@@ -79,7 +79,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
     // If we are here, the API request failed.
     dispatch(
       fetchFormsFailure(
-        'Something went wrong. Our servers may be offline. Please try again later.',
+        'We’re sorry. Something went wrong on our end. Please try again later.',
       ),
     );
   }
