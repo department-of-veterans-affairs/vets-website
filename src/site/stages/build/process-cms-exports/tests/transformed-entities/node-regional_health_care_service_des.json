@@ -1,0 +1,26 @@
+{
+  "entityBundle": "regional_health_care_service_des",
+  "fieldBody": {
+    "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>We offer compassionate care to patients living with HIV or hepatitis. Services we offer include: </p>\n\n<ul><li>Hepatitis C screenings</li>\n\t<li>HIV testing</li>\n\t<li>HIV counseling</li>\n\t<li>HIV treatment and prevention care, including PEP (post-exposure prophylaxis)</li>\n</ul>"
+  },
+  "fieldServiceNameAndDescripti": {
+    "entity": {
+      "entityId": "87",
+      "entityBundle": "health_care_service_taxonomy",
+      "fieldAlsoKnownAs": null,
+      "fieldCommonlyTreatedCondition": "HIV/AIDS, hepatitis A/B/C",
+      "name": "HIV/hepatitis",
+      "description": {
+        "processed": "<p>If you have a diagnosis of HIV or hepatitis A, B or C, we can provide you with the latest treatment methods and support. We also offer prevention education and testing for these infectious diseases.</p>"
+      },
+      "parent": [
+        {
+          "entity": {
+            "name": "Specialty care"
+          }
+        }
+      ],
+      "fieldHealthServiceApiId": null
+    }
+  }
+}
