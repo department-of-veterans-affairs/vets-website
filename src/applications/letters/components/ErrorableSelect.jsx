@@ -86,13 +86,16 @@ class ErrorableSelect extends React.Component {
         </label>
         {errorSpan}
         <select
-          className={this.props.additionalClass}
+          className={`${this.props.additionalClass} ${
+            this.props.disabled ? 'vads-u-background-color--gray-lighter' : ''
+          }`}
           aria-describedby={errorSpanId}
           id={this.selectId}
           name={this.props.name}
           autoComplete={this.props.autocomplete}
           value={selectedValue || ''}
           onChange={this.handleChange}
+          disabled={this.props.disabled}
         >
           {this.props.includeBlankOption && (
             <option value="">{this.props.emptyDescription}</option>
@@ -132,6 +135,7 @@ ErrorableSelect.propTypes = {
 
 ErrorableSelect.defaultProps = {
   includeBlankOption: true,
+  disabled: false,
 };
 
 export default ErrorableSelect;
