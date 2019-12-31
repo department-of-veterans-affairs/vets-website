@@ -1,6 +1,7 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
@@ -34,6 +35,10 @@ export const MAX_PAGE_LIST_LENGTH = 10;
 export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
+    error: PropTypes.string.isRequired,
+    fetching: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
+    query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
@@ -53,9 +58,6 @@ export class SearchResults extends Component {
         lastRevisionOnLabel: PropTypes.node.isRequired,
       }).isRequired,
     ),
-    fetching: PropTypes.bool.isRequired,
-    query: PropTypes.string.isRequired,
-    page: PropTypes.number.isRequired,
     startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
@@ -127,12 +129,23 @@ export class SearchResults extends Component {
 
   render() {
     const { onHeaderClick, onPageSelect } = this;
-    const { fetching, page, query, results, startIndex } = this.props;
+    const { error, fetching, page, query, results, startIndex } = this.props;
     const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
       return <LoadingIndicator message="Loading search results..." />;
+    }
+
+    // Show the error alert box if there was an error.
+    if (error) {
+      return (
+        <AlertBox
+          headline="Something went wrong"
+          content={error}
+          status="error"
+        />
+      );
     }
 
     // Do not render if we have not fetched, yet.
@@ -192,6 +205,7 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
+  error: state.findVAFormsReducer.error,
   fetching: state.findVAFormsReducer.fetching,
   page: state.findVAFormsReducer.page,
   query: state.findVAFormsReducer.query,
