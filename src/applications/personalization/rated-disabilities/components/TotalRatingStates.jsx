@@ -62,7 +62,7 @@ export const totalRatingMessage = totalDisabilityRating => (
         <dd className="vads-u-display--inline-block vads-u-margin-y--1">
           This rating doesn’t include any disabilities for your claims that are
           still in process. You can check the status of your disability claims
-          or appeals with the claim status tool.
+          or appeals with the Claim Status tool.
         </dd>
       </dl>
       <a
