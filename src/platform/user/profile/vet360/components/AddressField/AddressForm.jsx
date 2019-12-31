@@ -205,15 +205,7 @@ class AddressForm extends React.Component {
         {isMilitaryState && (
           <ErrorableSelect
             errorMessage={errorMessages.city}
-            label={
-              this.state.isMilitaryAddress ? (
-                <span>APO/FPO/DPO</span>
-              ) : (
-                <span>
-                  City <em>(or APO/FPO/DPO)</em>
-                </span>
-              )
-            }
+            label={<span>APO/FPO/DPO</span>}
             name="city"
             autocomplete="address-level2"
             options={Array.from(MILITARY_CITIES)}
