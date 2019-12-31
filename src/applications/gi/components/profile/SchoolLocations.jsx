@@ -303,15 +303,16 @@ export class SchoolLocations extends React.Component {
         const remainingRowCount = totalRowCount - viewableRowCount;
         const showNextCount = remainingRowCount < 10 ? remainingRowCount : 10;
         return (
-          <div>
+          <div className="vads-u-padding-top--1">
             <button
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.showMoreClicked}
             >
               Show next {showNextCount}
+              <i className="fas fa-chevron-down fa-xs vads-u-padding-left--1" />
             </button>
-            &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <span className="vads-u-padding--2">|</span>
             <button
               type="button"
               className="va-button-link learn-more-button"
@@ -323,7 +324,7 @@ export class SchoolLocations extends React.Component {
         );
       }
       return (
-        <div>
+        <div className="vads-u-padding-top--1">
           <button
             type="button"
             className="va-button-link learn-more-button"
@@ -341,7 +342,7 @@ export class SchoolLocations extends React.Component {
     const totalRows = this.state.totalRowCount;
     const viewableRows = this.state.viewableRowCount;
     return (
-      <div>
+      <div className="vads-u-padding-top--2">
         <i>
           Showing {viewableRows} out of {totalRows}
         </i>
