@@ -13,13 +13,32 @@ import {
   VET360_CLEAR_TRANSACTION_STATUS,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
-  UPDATE_ADDRESS,
+  ADDRESS_VALIDATION_RESET,
+  UPDATE_SELECTED_ADDRESS,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
 
+const initialAddressValidationState = {
+  addressValidationType: '',
+  suggestedAddresses: [],
+  addressFromUser: {
+    addressLine1: '',
+    addressLine2: '',
+    addressLine3: '',
+    city: '',
+    stateCode: '',
+    zipCode: '',
+  },
+  addressValidationError: false,
+  validationKey: null,
+  selectedAddress: {},
+  selectedAddressId: '0',
+};
+
 const initialState = {
   modal: null,
+  modalData: null,
   formFields: {},
   transactions: [],
   fieldTransactionMap: {},
@@ -28,20 +47,7 @@ const initialState = {
     mostRecentErroredTransactionId: '',
   },
   addressValidation: {
-    addressValidationType: '',
-    suggestedAddresses: [],
-    addressFromUser: {
-      addressLine1: '',
-      addressLine2: '',
-      addressLine3: '',
-      city: '',
-      stateCode: '',
-      zipCode: '',
-    },
-    addressValidationError: false,
-    validationKey: null,
-    selectedAddress: {},
-    selectedId: '0',
+    ...initialAddressValidationState,
   },
   transactionStatus: '',
 };
@@ -201,7 +207,7 @@ export default function vet360(state = initialState, action) {
     }
 
     case OPEN_MODAL:
-      return { ...state, modal: action.modal };
+      return { ...state, modal: action.modal, modalData: action.modalData };
 
     case ADDRESS_VALIDATION_CONFIRM:
       return {
@@ -213,6 +219,7 @@ export default function vet360(state = initialState, action) {
           suggestedAddresses: action.suggestedAddresses,
           validationKey: action.validationKey,
           selectedAddress: action.selectedAddress,
+          selectedAddressId: '0',
         },
         modal: 'addressValidation',
       };
@@ -230,13 +237,19 @@ export default function vet360(state = initialState, action) {
         modal: 'addressValidation',
       };
 
-    case UPDATE_ADDRESS:
+    case ADDRESS_VALIDATION_RESET:
+      return {
+        ...state,
+        addressValidation: { ...initialAddressValidationState },
+      };
+
+    case UPDATE_SELECTED_ADDRESS:
       return {
         ...state,
         addressValidation: {
           ...state.addressValidation,
           selectedAddress: action.selectedAddress,
-          selectedId: action.selectedId,
+          selectedAddressId: action.selectedAddressId,
         },
       };
 

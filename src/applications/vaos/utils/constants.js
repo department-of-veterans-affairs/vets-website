@@ -58,6 +58,7 @@ export const TYPES_OF_CARE = [
     name: 'Primary care',
     group: 'primary',
     ccId: 'CCPRMYRTNE',
+    cceType: 'PrimaryCare',
   },
   {
     id: '160',
@@ -84,6 +85,7 @@ export const TYPES_OF_CARE = [
     name: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
     ccId: ['CCAUDHEAR', 'CCAUDRTNE'],
+    cceType: 'Audiology',
   },
   {
     id: '372',
@@ -95,6 +97,7 @@ export const TYPES_OF_CARE = [
     name: 'Nutrition and food',
     group: 'specialty',
     ccId: 'CCNUTRN',
+    cceType: 'Nutrition',
   },
   {
     id: '407',
@@ -106,12 +109,14 @@ export const TYPES_OF_CARE = [
     name: 'Optometry',
     group: 'specialty',
     ccId: 'CCOPT',
+    cceType: 'Optometry',
   },
   {
     id: 'tbd-podiatry',
     name: 'Podiatry',
     ccId: 'CCPOD',
     group: 'specialty',
+    cceType: 'Podiatry',
   },
   {
     id: 'SLEEP',
@@ -262,6 +267,11 @@ export const DISTANCES = [
 export const REASON_MAX_CHARS = {
   request: 100,
   direct: 150,
+};
+
+export const CALENDAR_INDICATOR_TYPES = {
+  CHECK: 'check',
+  BUBBLES: 'bubbles',
 };
 
 export const DISABLED_LIMIT_VALUE = 0;

@@ -21,6 +21,26 @@ const templatesPath = path.join(
   'generator-cms-content-model/templates/',
 );
 
+/**
+ * Takes an object and returns all the property names of itself and
+ * its nested objects recursively.
+ *
+ * @param {Object} obj - The object to get the property names from
+ * @return {Set<string>} - All the unique property names in snake_case
+ */
+const allSnakeCasedPropertyNames = obj =>
+  new Set(
+    _.flatten(
+      Object.keys(obj).map(key => {
+        if (typeof obj[key] === 'object' && !Array.isArray(obj[key]))
+          return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([
+            _.snakeCase(key),
+          ]);
+        return _.snakeCase(key);
+      }),
+    ),
+  );
+
 module.exports = class extends Generator {
   async getContentModelType() {
     this.contentModelType = (await this.prompt([
@@ -100,15 +120,70 @@ module.exports = class extends Generator {
     }
   }
 
-  async getFilters() {
+  async getTransformedTestData() {
     this.log(JSON.stringify(this.exampleEntity, null, 2));
 
+    const transformedEntityTestFile = path.join(
+      processEntitiesRoot,
+      'tests/transformed-entities',
+      `${this.contentModelType}.json`,
+    );
+    if (fs.existsSync(transformedEntityTestFile)) {
+      this.log(
+        chalk.green(`Found transformed entity test file:`),
+        transformedEntityTestFile,
+      );
+      this.transformedTestData = JSON.parse(
+        fs.readFileSync(transformedEntityTestFile),
+      );
+      return;
+    }
+    // TODO: Generate search suggestions
+    // TODO: Search pages.json and find matches
+    // TODO: Ask for new search parameters if necessary
+
+    this.transformedTestData = (await this.prompt([
+      {
+        type: 'editor',
+        name: 'data',
+        message: 'Enter the corresponding entity data from pages.json.',
+        validate: input => {
+          try {
+            JSON.parse(input);
+            return true;
+          } catch (e) {
+            this.log(chalk.red('\nJSON parsing error:'), e.message);
+            this.log(chalk.red('Input:'), input);
+            return 'Please provide valid JSON.';
+          }
+        },
+      },
+    ])).data;
+    this.transformedTestData = JSON.parse(this.transformedTestData);
+
+    fs.writeFileSync(
+      transformedEntityTestFile,
+      JSON.stringify(this.transformedTestData, null, 2),
+      'utf8',
+    );
+
+    this.log(
+      chalk.green(`Wrote transformed entity test file:`),
+      transformedEntityTestFile,
+    );
+  }
+
+  async getFilters() {
+    const guesses = allSnakeCasedPropertyNames(this.transformedTestData);
     this.rawPropertyNames = (await this.prompt([
       {
         type: 'checkbox',
         name: 'names',
         message: 'Which keys do you want to keep?',
-        choices: Object.keys(this.exampleEntity),
+        choices: Object.keys(this.exampleEntity).map(key => ({
+          value: key,
+          checked: guesses.has(key),
+        })),
       },
     ])).names;
   }
@@ -155,54 +230,6 @@ module.exports = class extends Generator {
           });
         } else this.log(`${propName} is not an array. That's unexpected.`);
       });
-  }
-
-  async getTransformedTestData() {
-    const transformedEntityTestFile = path.join(
-      processEntitiesRoot,
-      'tests/transformed-entities',
-      `${this.contentModelType}.json`,
-    );
-    if (fs.existsSync(transformedEntityTestFile)) {
-      this.log(
-        chalk.green(`Found transformed entity test file:`),
-        transformedEntityTestFile,
-      );
-      return;
-    }
-    // TODO: Generate search suggestions
-    // TODO: Search pages.json and find matches
-    // TODO: Ask for new search parameters if necessary
-
-    this.transformedTestData = (await this.prompt([
-      {
-        type: 'editor',
-        name: 'data',
-        message: 'Enter the corresponding entity data from pages.json.',
-        validate: input => {
-          try {
-            JSON.parse(input);
-            return true;
-          } catch (e) {
-            this.log(chalk.red('\nJSON parsing error:'), e.message);
-            this.log(chalk.red('Input:'), input);
-            return 'Please provide valid JSON.';
-          }
-        },
-      },
-    ])).data;
-    this.transformedTestData = JSON.parse(this.transformedTestData);
-
-    fs.writeFileSync(
-      transformedEntityTestFile,
-      JSON.stringify(this.transformedTestData, null, 2),
-      'utf8',
-    );
-
-    this.log(
-      chalk.green(`Wrote transformed entity test file:`),
-      transformedEntityTestFile,
-    );
   }
 
   writeSchemas() {

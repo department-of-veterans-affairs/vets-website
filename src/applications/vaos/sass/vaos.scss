@@ -1,5 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "../../../platform/forms/sass/m-schemaform";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '../../../platform/forms/sass/m-schemaform';
 
 .vaos-option-list__icon {
   display: inline-block;
@@ -69,12 +69,12 @@
   text-transform: uppercase;
 }
 
-.vaos-form__checkbox>.schemaform-label {
+.vaos-form__checkbox > .schemaform-label {
   margin-top: 0;
 }
 
 .vaos-form__detailed-radio {
-  input[type="radio"]+label::before {
+  input[type='radio'] + label::before {
     margin-top: 0.6em;
   }
 
@@ -90,16 +90,19 @@
   }
 }
 
-
 .vaos-calendar__weekday {
   width: 20%;
 }
 
+.vaos-calendar__flex-line-break {
+  flex-basis: 100%;
+  height: 0;
+}
 
 .vaos-calendar__calendar-day {
-  width: 18%;
+  flex-grow: 1;
+  flex-basis: 0;
   margin: 8px;
-  max-width: 117px;
 
   button {
     width: 100%;
@@ -108,6 +111,7 @@
     border: 1px solid $color-gray-medium;
     border-radius: 5px;
     padding: 12px;
+    margin: 0;
 
     &:hover {
       border-color: $color-primary-darker;
@@ -119,7 +123,6 @@
     background-color: $color-primary;
     border-color: $color-primary;
     color: $color-white;
-
   }
 
   .fa-check {
@@ -147,6 +150,7 @@
       clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
       transform: rotate(-45deg);
       border-radius: 0 0 0 0.25em;
+      z-index: -1;
     }
   }
 
@@ -155,6 +159,19 @@
     border-color: $color-gray-lightest;
     color: $color-gray-light;
   }
+}
+
+.vaos-calendar__indicator-bubbles-container {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+}
+
+.vaos-calendar__indicator-bubble {
+  padding: 3px 6px;
+  border-radius: 25px;
+  font-size: 12px;
+  margin-bottom: 11px;
 }
 
 .vaos-calendar__nav-links {
@@ -173,6 +190,28 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+  margin-top: 8px;
+
+  @include media($small-screen) {
+    margin-top: 0;
+  }
+}
+
+.vaos-calendar__option-cell {
+  padding: 8px;
+  width: 50%;
+
+  @include media($small-screen) {
+    width: 33%;
+  }
+
+  @include media($small-desktop-screen) {
+    width: 25%;
+  }
+
+  @include media($large-screen) {
+    width: 20%;
+  }
 }
 
 .vaos-calendar__option {
@@ -180,24 +219,19 @@
   justify-content: center;
   align-items: center;
   border: 1px solid $color-primary;
-  width: 18%;
-  max-width: 117px;
   border-radius: 5px;
-  padding: 8px 0;
-  margin: 8px;
-
-
-  input[type="radio"],
-  input[type="checkbox"] {
+  padding: 8px 4px;
+  input[type='radio'],
+  input[type='checkbox'] {
     width: unset;
   }
 
-  input[type=radio]+label::before {
+  input[type='radio'] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
   }
 
-  input[type=checkbox]+label::before {
+  input[type='checkbox'] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
   }
@@ -205,13 +239,6 @@
 
 @media (max-width: $small-screen) {
   .vaos-calendar__calendar-day {
-    margin: 4px;
-  }
-
-  .vaos-calendar__option {
-    max-width: unset;
-    width: 47%;
-    padding: 8px;
     margin: 4px;
   }
 }
@@ -225,7 +252,7 @@ h1:focus {
     margin-top: 0;
   }
 
-  >.usa-input-error {
+  > .usa-input-error {
     margin-top: 0;
   }
 }

@@ -7,7 +7,13 @@ describe('<AddressValidationModal/>', () => {
   const fakeStore = {
     getState: () => ({
       vet360: {
+        fieldTransactionMap: {
+          mailingAddress: {
+            isPending: false,
+          },
+        },
         modal: 'addressValidation',
+        modalData: null,
         addressValidation: {
           addressFromUser: {
             addressLine1: '12345 1st Ave',
@@ -83,7 +89,7 @@ describe('<AddressValidationModal/>', () => {
       <AddressValidationModal store={fakeStore} />,
     );
 
-    expect(component.find('.usa-button-primary').text()).to.equal('Continue');
+    expect(component.find('LoadingButton').text()).to.equal('Update');
     expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
     component.unmount();
   });
@@ -92,6 +98,11 @@ describe('<AddressValidationModal/>', () => {
     const newFakeStore = {
       getState: () => ({
         vet360: {
+          fieldTransactionMap: {
+            mailingAddress: {
+              isPending: false,
+            },
+          },
           modal: 'addressValidation',
           addressValidation: {
             addressFromUser: {

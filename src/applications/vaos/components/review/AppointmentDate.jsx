@@ -4,12 +4,11 @@ import { getTimezoneAbbrBySystemId } from '../../utils/timezone';
 
 export default function AppointmentDate(props) {
   const dates = props.dates?.map((selected, i) => (
-    <h2 key={i} className="vads-u-font-size--md">
+    <h3 key={i} className="vaos-appts__block-label">
       {moment(selected.datetime, 'YYYY-MM-DDThh:mm:ssZ').format(
-        'MMMM DD, YYYY [at] h:mm a ',
+        'dddd, MMMM DD, YYYY [at] h:mm a ',
       ) + getTimezoneAbbrBySystemId(props.systemId)}
-      <br />
-    </h2>
+    </h3>
   ));
 
   return dates;

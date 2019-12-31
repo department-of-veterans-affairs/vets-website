@@ -9,16 +9,18 @@ describe('VAOS <CalendarCell>', () => {
     const tree = shallow(
       <CalendarCell
         date="2018-10-04"
+        currentlySelectedDate="2018-10-04"
         isCurrentlySelected
         inSelectedArray
         disabled={false}
       />,
     );
     const cell = tree.find('button#date-cell-2018-10-04');
-    expect(cell.length).to.equal(1);
+    expect(cell.exists()).to.be.true;
     expect(tree.find('.vaos-calendar__cell-current').length).to.equal(1);
     expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(1);
-    expect(cell.text()).to.equal('4');
+    expect(cell.text()).to.contain('4');
+    expect(cell.find('CalendarSelectedIndicator').exists()).to.be.true;
     tree.unmount();
   });
 

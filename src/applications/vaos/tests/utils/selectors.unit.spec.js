@@ -6,6 +6,7 @@ import {
   getClinicPageInfo,
   getClinicsForChosenFacility,
   getDateTimeSelect,
+  getFacilityPageInfo,
   getFlowType,
   getFormData,
   getFormPageInfo,
@@ -74,6 +75,29 @@ describe('VAOS selectors', () => {
       );
       expect(pageInfo.data).to.equal(state.newAppointment.data);
       expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
+    });
+  });
+
+  describe('getFacilityPageInfo', () => {
+    it('should return typeOfCare string and begin loading systems', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaSystem: '983',
+          },
+          facilities: {},
+          eligibility: {},
+          systems: [{}],
+          facilityDetails: {},
+        },
+      };
+
+      const newState = getFacilityPageInfo(state);
+      expect(newState.typeOfCare).to.equal('Pharmacy');
+      expect(newState.loadingSystems).to.be.true;
     });
   });
 
@@ -294,6 +318,7 @@ describe('VAOS selectors', () => {
         ccId: 'CCPRMYRTNE',
         group: 'primary',
         name: 'Primary care',
+        cceType: 'PrimaryCare',
       });
     });
   });

@@ -9,12 +9,6 @@ module.exports = `
       entity {
         ... on NodeHealthCareRegionPage {
           entityLabel
-          fieldLinkFacilityEmergList {
-            url {
-              path
-              routed
-            }
-          }
         }
       }
     }
