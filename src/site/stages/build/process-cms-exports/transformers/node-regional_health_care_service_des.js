@@ -5,9 +5,7 @@ const transform = entity => ({
     entityType: 'node',
     entityBundle: 'regional_health_care_service_des',
     fieldBody: getDrupalValue(entity.fieldBody),
-    fieldServiceNameAndDescripti: getDrupalValue(
-      entity.fieldServiceNameAndDescripti,
-    ),
+    fieldServiceNameAndDescripti: entity.fieldServiceNameAndDescripti[0],
   },
 });
 module.exports = {
