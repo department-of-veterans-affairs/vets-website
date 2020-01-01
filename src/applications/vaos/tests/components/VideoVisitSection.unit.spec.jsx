@@ -64,7 +64,10 @@ describe('Video visit', () => {
     };
 
     const tree = shallow(<VideoVisitSection appointment={pastAppointment} />);
-    expect(tree.exists('.usa-button')).to.equal(true);
+    const link = tree.find('.usa-button');
+    expect(link.length).to.equal(1);
+    expect(link.props()['aria-describedby']).to.equal(undefined);
+    expect(tree.exists('span')).to.equal(false);
     expect(tree.exists('.usa-button-disabled')).to.equal(false);
     tree.unmount();
   });
