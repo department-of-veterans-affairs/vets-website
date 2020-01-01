@@ -17,9 +17,8 @@ export default function NoValidVAFacilities({ formContext }) {
     return <LoadingIndicator message="Finding locations" />;
   }
 
-  const attributes = systemDetails?.attributes;
-  const address = attributes?.address?.physical;
-  const phone = attributes?.phone;
+  const address = systemDetails?.address?.physical;
+  const phone = systemDetails?.phone;
 
   return (
     <div aria-atomic="true" aria-live="assertive">
@@ -35,7 +34,7 @@ export default function NoValidVAFacilities({ formContext }) {
             {systemDetails ? (
               <div className="vads-u-padding-left--2 vads-u-border-left--4px vads-u-border-color--primary">
                 <span className="vads-u-font-weight--bold">
-                  {attributes?.name}
+                  {systemDetails?.name}
                 </span>
                 <br />
                 <span>{address?.address1}</span>

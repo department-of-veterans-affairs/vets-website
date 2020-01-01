@@ -4,8 +4,16 @@ import { compact, isEmpty } from 'lodash';
 
 class FacilityDirectionsLink extends Component {
   buildAddressArray = location => {
-    if (location.type === 'cc_provider') {
-      const { address } = location.attributes;
+    if (location?.address?.street) {
+      const { address } = location;
+      return compact([
+        address.street,
+        `${address.city}, ${address.state} ${address.zipCode}`,
+      ]);
+    }
+
+    if (location?.type === 'cc_provider') {
+      const { address } = location;
 
       if (!isEmpty(address)) {
         return compact([
@@ -20,7 +28,7 @@ class FacilityDirectionsLink extends Component {
 
     const {
       address: { physical: address },
-    } = location.attributes;
+    } = location;
 
     return compact([
       address.address1,
@@ -32,27 +40,30 @@ class FacilityDirectionsLink extends Component {
 
   render() {
     const { location } = this.props;
-    let address = this.buildAddressArray(location);
+    if (location) {
+      let address = this.buildAddressArray(location);
 
-    if (address.length !== 0) {
-      address = address.join(', ');
-    } else {
-      // If we don't have an address fallback on coords
-      const { lat, long } = location.attributes;
-      address = `${lat},${long}`;
+      if (address.length !== 0) {
+        address = address.join(', ');
+      } else {
+        // If we don't have an address fallback on coords
+        const { lat, long } = location;
+        address = `${lat},${long}`;
+      }
+
+      return (
+        <span>
+          <a
+            href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Directions
+          </a>
+        </span>
+      );
     }
-
-    return (
-      <span>
-        <a
-          href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Directions
-        </a>
-      </span>
-    );
+    return null;
   }
 }
 
