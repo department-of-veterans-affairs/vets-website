@@ -1,5 +1,5 @@
 import React from 'react';
-import LocationDirectionsLink from '../components/FacilityDirectionsLink';
+import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 
 export default function FacilityAddress({ name, facility }) {
   const address = facility?.address?.physical;
@@ -21,7 +21,7 @@ export default function FacilityAddress({ name, facility }) {
       {!!address.address3 && <br />}
       {address.city}, {address.state} {address.zip}
       <br />
-      <LocationDirectionsLink location={facility} />
+      <FacilityDirectionsLink location={facility} />
       <br />
       <br />
       {!!phone && (
