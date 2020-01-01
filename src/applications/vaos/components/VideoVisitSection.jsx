@@ -34,7 +34,11 @@ export default function VideoVisitSection({ appointment }) {
       linkContent = (
         <div className="vaos-appts__video-visit">
           <a
-            aria-describedby={`description-join-link-${appointment.id}`}
+            aria-describedby={
+              disableVideoLink
+                ? `description-join-link-${appointment.id}`
+                : undefined
+            }
             href={videoLink}
             target="_blank"
             rel="noopener noreferrer"

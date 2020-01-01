@@ -15,6 +15,7 @@ describe('Video visit', () => {
   const appointment = {
     facilityId: '984',
     clinicId: '456',
+    id: '123',
     vvsAppointments: [
       {
         patients: [
@@ -90,6 +91,11 @@ describe('Video visit', () => {
     const tree = shallow(<VideoVisitSection appointment={futureAppointment} />);
     expect(tree.exists('.usa-button')).to.equal(true);
     expect(tree.exists('.usa-button-disabled')).to.equal(true);
+
+    const describedById = 'description-join-link-123';
+    const link = tree.find('.usa-button');
+    expect(link.props()['aria-describedby']).to.equal(describedById);
+    expect(tree.exists(`span#${describedById}`)).to.be.true;
     tree.unmount();
   });
 
