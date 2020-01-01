@@ -4,14 +4,6 @@ import { compact, isEmpty } from 'lodash';
 
 class FacilityDirectionsLink extends Component {
   buildAddressArray = location => {
-    if (location?.address?.street) {
-      const { address } = location;
-      return compact([
-        address.street,
-        `${address.city}, ${address.state} ${address.zipCode}`,
-      ]);
-    }
-
     if (location?.type === 'cc_provider') {
       const { address } = location;
 
@@ -24,6 +16,14 @@ class FacilityDirectionsLink extends Component {
       }
 
       return [];
+    }
+
+    if (location?.address?.street) {
+      const { address } = location;
+      return compact([
+        address.street,
+        `${address.city}, ${address.state} ${address.zipCode}`,
+      ]);
     }
 
     const {
