@@ -418,6 +418,30 @@ export default {
       1000,
     );
   },
+  addressValidationError() {
+    return asyncReturn(
+      {
+        errors: [
+          {
+            title: 'Address Validation Error',
+            detail: {
+              messages: [
+                {
+                  code: 'ADDRVAL108',
+                  key: 'CandidateAddressNotFound',
+                  severity: 'INFO',
+                  text: 'No Candidate Address Found',
+                },
+              ],
+            },
+            code: 'VET360_AV_ERROR',
+            status: '400',
+          },
+        ],
+      },
+      1000,
+    );
+  },
   addressValidationSuccess() {
     return asyncReturn(
       {
