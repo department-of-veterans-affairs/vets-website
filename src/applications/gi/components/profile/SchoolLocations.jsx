@@ -5,6 +5,8 @@ import { locationInfo } from '../../utils/helpers';
 
 const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
+const NEXT_ROWS_VIEWABLE = 10;
+
 export class SchoolLocations extends React.Component {
   static propTypes = {
     institution: PropTypes.object,
@@ -72,8 +74,10 @@ export class SchoolLocations extends React.Component {
   showMoreClicked = () => {
     const remainingRowCount =
       this.state.totalRowCount - this.state.viewableRowCount;
-    if (remainingRowCount >= 10) {
-      this.setState({ viewableRowCount: this.state.viewableRowCount + 10 });
+    if (remainingRowCount >= NEXT_ROWS_VIEWABLE) {
+      this.setState({
+        viewableRowCount: this.state.viewableRowCount + NEXT_ROWS_VIEWABLE,
+      });
     } else {
       this.setState({
         viewableRowCount: this.state.viewableRowCount + remainingRowCount,
@@ -301,7 +305,10 @@ export class SchoolLocations extends React.Component {
     if (totalRowCount > DEFAULT_ROWS_VIEWABLE) {
       if (viewableRowCount !== totalRowCount) {
         const remainingRowCount = totalRowCount - viewableRowCount;
-        const showNextCount = remainingRowCount < 10 ? remainingRowCount : 10;
+        const showNextCount =
+          remainingRowCount < NEXT_ROWS_VIEWABLE
+            ? remainingRowCount
+            : NEXT_ROWS_VIEWABLE;
         return (
           <div className="vads-u-padding-top--1">
             <button
