@@ -15,6 +15,7 @@ import {
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
+  ADDRESS_VALIDATION_INITIALIZE,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -209,9 +210,22 @@ export default function vet360(state = initialState, action) {
     case OPEN_MODAL:
       return { ...state, modal: action.modal, modalData: action.modalData };
 
+    case ADDRESS_VALIDATION_INITIALIZE:
+      return {
+        ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: { isPending: true },
+        },
+      };
+
     case ADDRESS_VALIDATION_CONFIRM:
       return {
         ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.addressValidationType]: { isPending: false },
+        },
         addressValidation: {
           ...state.addressValidation,
           addressFromUser: action.addressFromUser,
@@ -227,6 +241,10 @@ export default function vet360(state = initialState, action) {
     case ADDRESS_VALIDATION_ERROR:
       return {
         ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.addressValidationType]: { isPending: false },
+        },
         addressValidation: {
           ...state.addressValidation,
           addressValidationError: action.addressValidationError,
