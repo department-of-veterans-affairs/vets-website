@@ -369,11 +369,19 @@ export function getAppointmentInstructions(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return appt.instructionsToVeteran;
-    case APPOINTMENT_TYPES.vaAppointment:
-      return (
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const bookingNotes =
         appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes
-      );
+        appt.vvsAppointments?.[0]?.bookingNotes;
+
+      const instructions = bookingNotes.split(': ', 2);
+
+      if (instructions.length > 1) {
+        return instructions[1];
+      }
+
+      return '';
+    }
     default:
       return '';
   }
@@ -385,18 +393,32 @@ export function getAppointmentInstructionsHeader(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return 'Special instructions';
-    case APPOINTMENT_TYPES.vaAppointment:
-      return 'Additional information';
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const bookingNotes =
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes;
+
+      const instructions = bookingNotes.split(': ', 2);
+
+      return instructions[0];
+    }
     default:
       return '';
   }
 }
 
 export function hasInstructions(appt) {
+  if (appt.instructionsToVeteran) {
+    return true;
+  }
+
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
   return (
-    !!appt.instructionsToVeteran ||
-    !!appt.vdsAppointments?.[0]?.bookingNote ||
-    !!appt.vvsAppointments?.[0]?.bookingNotes
+    !!bookingNotes &&
+    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
   );
 }
 
