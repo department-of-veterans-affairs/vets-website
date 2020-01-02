@@ -86,7 +86,7 @@ function howToBeSeenTest(client) {
     .click('input#root_visitType_0')
     .click('.rjsf [type="submit"]')
     .waitForElementVisible('h1', Timeouts.slow)
-    .assert.containsText('h1', 'Contact information');
+    .assert.containsText('h1', 'Your contact information');
 }
 
 function contactInformationTest(client) {

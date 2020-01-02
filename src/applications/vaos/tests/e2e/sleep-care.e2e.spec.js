@@ -48,13 +48,13 @@ module.exports = {
       .pause(Timeouts.normal)
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText(
-        'h1',
-        'What date and time would you like to make an appointment?',
-      );
+      .assert.containsText('h1', 'Choose a day and time for your appointment');
   },
   'What date and time would you like to make an appointment?': client => {
-    VAOSHelpers.appointmentDateTimeTest(client, 'Reason for appointment');
+    VAOSHelpers.appointmentDateTimeTest(
+      client,
+      'Choose a reason for your appointment',
+    );
   },
   'Reason for appointment': client => {
     VAOSHelpers.appointmentReasonTest(client, 'How would you like to be seen?');

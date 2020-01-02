@@ -66,10 +66,10 @@ module.exports = {
       .setValue('#root_communityCareProvider_phone', '1234567890')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_reasonForAppointment_0', Timeouts.slow)
-      .assert.containsText('h1', 'Reason for appointment');
+      .assert.containsText('h1', 'Choose a reason for your appointment');
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'Contact information');
+    VAOSHelpers.appointmentReasonTest(client, 'Your contact information');
   },
   'Contact information': client => {
     VAOSHelpers.contactInformationTest(client);
