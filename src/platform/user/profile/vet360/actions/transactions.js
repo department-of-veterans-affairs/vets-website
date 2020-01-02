@@ -32,6 +32,7 @@ export const VET360_CLEAR_TRANSACTION_STATUS =
   'VET360_CLEAR_TRANSACTION_STATUS';
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
+export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
 
 export function clearTransactionStatus() {
   return {
@@ -304,3 +305,7 @@ export const updateValidationKeyAndSave = (
     });
   }
 };
+
+export const resetAddressValidation = () => ({
+  type: ADDRESS_VALIDATION_RESET,
+});

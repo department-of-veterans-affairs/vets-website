@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { FIELD_NAMES, ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
 
@@ -7,7 +8,7 @@ import Vet360EditModal from '../base/Vet360EditModal';
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
 import AddressForm from './AddressForm';
 
-export default class AddressEditModal extends React.Component {
+class AddressEditModal extends React.Component {
   onBlur = field => {
     this.props.onChange(this.props.field.value, field);
   };
@@ -21,7 +22,11 @@ export default class AddressEditModal extends React.Component {
   };
 
   getInitialFormValues = () =>
+    this.props.modalData ||
     this.props.data || { countryName: USA.COUNTRY_NAME };
+
+  getIsMailingAddress = () =>
+    this.props.title.toLowerCase().includes('mailing');
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
@@ -37,6 +42,7 @@ export default class AddressEditModal extends React.Component {
         />
       )}
       <AddressForm
+        isMailingAddress={this.getIsMailingAddress()}
         address={this.props.field.value}
         onInput={this.onInput}
         onBlur={this.onBlur}
@@ -59,3 +65,9 @@ export default class AddressEditModal extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  modalData: state.vet360?.modalData,
+});
+
+export default connect(mapStateToProps)(AddressEditModal);
