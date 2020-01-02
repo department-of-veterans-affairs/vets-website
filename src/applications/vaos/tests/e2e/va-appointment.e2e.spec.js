@@ -29,12 +29,9 @@ module.exports = {
       .click('[value="323"]')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_facilityType_0', Timeouts.slow)
-      .assert.containsText(
-        'h1',
-        'Choose where you would prefer to receive your care',
-      );
+      .assert.containsText('h1', 'Choose where you want to receive your care');
   },
-  'Choose where you would prefer to receive your care': client => {
+  'Choose where you want to receive your care': client => {
     client
       .click('[value="vamc"]')
       .click('.rjsf [type="submit"]')
@@ -52,10 +49,7 @@ module.exports = {
       .pause(Timeouts.normal)
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText(
-        'h1',
-        'What date and time would you like to make an appointment?',
-      );
+      .assert.containsText('h1', 'Choose a day and time for your appointment');
   },
   'What date and time would you like to make an appointment?': client => {
     VAOSHelpers.appointmentDateTimeTest(client, 'Reason for appointment');
