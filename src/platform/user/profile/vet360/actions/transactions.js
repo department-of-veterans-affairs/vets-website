@@ -240,7 +240,7 @@ export const validateAddress = (
         addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
         selectedAddress: confirmedSuggestions[0], // always select the first address as the default
-        suggestedAddresses,
+        confirmedSuggestions,
         validationKey,
       });
     }

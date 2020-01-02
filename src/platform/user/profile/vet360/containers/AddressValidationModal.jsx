@@ -15,10 +15,7 @@ import {
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
-import {
-  ADDRESS_VALIDATION_MESSAGES,
-  CONFIRMED,
-} from '../../constants/addressValidationMessages';
+import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
@@ -69,7 +66,12 @@ class AddressValidationModal extends React.Component {
       validationKey,
       isLoading,
       addressFromUser,
+      confirmedSuggestions,
+      selectedAddressId,
     } = this.props;
+
+    const disableButton =
+      selectedAddressId !== 'userEntered' && confirmedSuggestions.length === 0;
 
     if (addressValidationError && !validationKey) {
       return (
@@ -85,7 +87,11 @@ class AddressValidationModal extends React.Component {
     }
 
     return (
-      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+      <LoadingButton
+        disabled={disableButton}
+        isLoading={isLoading}
+        className="usa-button-primary"
+      >
         Update
       </LoadingButton>
     );
@@ -166,7 +172,7 @@ class AddressValidationModal extends React.Component {
     const {
       isAddressValidationModalVisible,
       addressValidationType,
-      suggestedAddresses,
+      confirmedSuggestions,
       addressFromUser,
       validationKey,
       addressValidationError,
@@ -179,13 +185,8 @@ class AddressValidationModal extends React.Component {
       closeModal();
     };
 
-    const confirmedSuggestions = suggestedAddresses.filter(
-      suggestion =>
-        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
-    );
-
     const validationMessageKey = getValidationMessageKey(
-      suggestedAddresses,
+      confirmedSuggestions,
       validationKey,
       addressValidationError,
     );
@@ -251,7 +252,7 @@ const mapStateToProps = state => {
       selectCurrentlyOpenEditModal(state) === 'addressValidation',
     addressValidationError:
       state.vet360.addressValidation.addressValidationError,
-    suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
+    confirmedSuggestions: state.vet360.addressValidation.confirmedSuggestions,
     addressValidationType,
     validationKey: state.vet360.addressValidation.validationKey,
     addressFromUser: state.vet360.addressValidation.addressFromUser,
@@ -278,7 +279,7 @@ AddressValidationModal.propTypes = {
   analyticsSectionName: PropTypes.string,
   isAddressValidationModalVisible: PropTypes.bool.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
-  suggestedAddresses: PropTypes.array.isRequired,
+  confirmedSuggestions: PropTypes.array.isRequired,
   addressValidationType: PropTypes.string.isRequired,
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,

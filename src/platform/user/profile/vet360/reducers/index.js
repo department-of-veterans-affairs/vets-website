@@ -21,7 +21,7 @@ import { isFailedTransaction } from '../util/transactions';
 
 const initialAddressValidationState = {
   addressValidationType: '',
-  suggestedAddresses: [],
+  confirmedSuggestions: [],
   addressFromUser: {
     addressLine1: '',
     addressLine2: '',
@@ -216,7 +216,7 @@ export default function vet360(state = initialState, action) {
           ...state.addressValidation,
           addressFromUser: action.addressFromUser,
           addressValidationType: action.addressValidationType,
-          suggestedAddresses: action.suggestedAddresses,
+          confirmedSuggestions: action.confirmedSuggestions,
           validationKey: action.validationKey,
           selectedAddress: action.selectedAddress,
           selectedAddressId: '0',
