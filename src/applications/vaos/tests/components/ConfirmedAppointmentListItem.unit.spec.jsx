@@ -157,7 +157,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     clinicId: '456',
     vvsAppointments: [
       {
-        bookingNotes: 'My reason is not listed: Booking note',
+        bookingNotes: 'My reason isn’t listed: Booking note',
         patients: {
           patient: [
             {
@@ -182,6 +182,6 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
 
   it('should show booking note', () => {
     expect(tree.text()).to.contain('Booking note');
-    expect(tree.text()).to.contain('My reason is not listed');
+    expect(tree.text()).to.contain('My reason isn’t listed');
   });
 });
