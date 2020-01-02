@@ -305,21 +305,39 @@ describe('vet360 reducer', () => {
     expect(state.addressValidation.validationKey).to.eql(123456);
   });
 
-  it('should update addressValidation on error', () => {
-    const state = vet360(
-      {},
-      {
+  describe('ADDRESS_VALIDATION_ERROR', () => {
+    it('sets the correct data on the redux state', () => {
+      const state = {
+        metadata: {},
+        otherData: true,
+        modal: null,
+        addressValidation: {
+          suggestedAddresses: [{ street: '123 oak st' }],
+          selectedAddress: { street: '456 elm' },
+          selectedAddressId: 'userEntered',
+        },
+      };
+      const action = {
         type: 'ADDRESS_VALIDATION_ERROR',
         addressValidationError: true,
         addressValidationType: 'mailingAddress',
+        addressFromUser: { street: '987 main' },
+      };
+      const expectedState = {
+        ...state,
+        addressValidation: {
+          addressValidationError: true,
+          addressValidationType: 'mailingAddress',
+          addressFromUser: { street: '987 main' },
+          selectedAddress: {},
+          selectedAddressId: '0',
+          suggestedAddresses: [],
+          validationKey: null,
+        },
         modal: 'addressValidation',
-      },
-    );
-    expect(state.modal).to.eql('addressValidation');
-    expect(state.addressValidation.addressValidationError).to.eql(true);
-    expect(state.addressValidation.addressValidationType).to.eql(
-      'mailingAddress',
-    );
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
   });
 
   describe('ADDRESS_VALIDATION_RESET action', () => {

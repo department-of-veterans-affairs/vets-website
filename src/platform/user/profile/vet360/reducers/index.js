@@ -228,10 +228,10 @@ export default function vet360(state = initialState, action) {
       return {
         ...state,
         addressValidation: {
-          ...state.addressValidation,
+          ...initialAddressValidationState,
           addressValidationError: action.addressValidationError,
           addressValidationType: action.addressValidationType,
-          validationKey: action.validationKey,
+          validationKey: action.validationKey || null,
           addressFromUser: action.addressFromUser,
         },
         modal: 'addressValidation',
