@@ -59,9 +59,9 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
     <>
       <p>
         Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please go back and{' '}
+        If a disability is missing from the list, please{' '}
         <Link aria-label="Add missing disabilities" to={orientationPath}>
-          add it
+          go back and add it
         </Link>
         .
       </p>
