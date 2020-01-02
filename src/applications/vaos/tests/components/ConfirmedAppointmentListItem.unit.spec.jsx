@@ -87,8 +87,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     ).to.contain('C&P BEV AUDIO FTC1');
   });
 
-  it('should show facility address', () => {
-    expect(tree.find('FacilityAddress').exists()).to.be.true;
+  it('should not show facility address', () => {
+    expect(tree.find('FacilityAddress').exists()).to.be.false;
   });
 });
 
