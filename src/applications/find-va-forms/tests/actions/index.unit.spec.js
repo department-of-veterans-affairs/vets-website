@@ -1,27 +1,30 @@
 // Dependencies.
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 // Relative imports.
 import {
   fetchFormsAction,
   fetchFormsFailure,
   fetchFormsSuccess,
   fetchFormsThunk,
+  updatePaginationAction,
+  updateResultsAction,
 } from '../../actions';
 import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../../constants';
 
 describe('Find VA Forms actions', () => {
   describe('fetchFormsAction', () => {
     it('should return an action in the shape we expect', () => {
       const query = 'some text';
-      const result = fetchFormsAction(query);
+      const action = fetchFormsAction(query);
 
-      expect(result).to.be.deep.equal({
+      expect(action).to.be.deep.equal({
         type: FETCH_FORMS,
         query,
       });
@@ -30,9 +33,10 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsFailure', () => {
     it('should return an action in the shape we expect', () => {
-      const result = fetchFormsFailure();
+      const action = fetchFormsFailure('test');
 
-      expect(result).to.be.deep.equal({
+      expect(action).to.be.deep.equal({
+        error: 'test',
         type: FETCH_FORMS_FAILURE,
       });
     });
@@ -40,12 +44,36 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsSuccess', () => {
     it('should return an action in the shape we expect', () => {
-      const results = {};
-      const result = fetchFormsSuccess(results);
+      const results = [];
+      const action = fetchFormsSuccess(results);
 
-      expect(result).to.be.deep.equal({
+      expect(action).to.be.deep.equal({
         results,
         type: FETCH_FORMS_SUCCESS,
+      });
+    });
+  });
+
+  describe('updateResultsAction', () => {
+    it('should return an action in the shape we expect', () => {
+      const results = [];
+      const action = updateResultsAction(results);
+
+      expect(action).to.be.deep.equal({
+        results,
+        type: UPDATE_RESULTS,
+      });
+    });
+  });
+
+  describe('updatePaginationAction', () => {
+    it('should return an action in the shape we expect', () => {
+      const action = updatePaginationAction();
+
+      expect(action).to.be.deep.equal({
+        page: 1,
+        startIndex: 0,
+        type: UPDATE_PAGINATION,
       });
     });
   });
@@ -68,7 +96,11 @@ describe('Find VA Forms actions', () => {
     it('updates search params', async () => {
       const dispatch = () => {};
       const query = 'health';
-      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
+      const thunk = fetchFormsThunk(query, {
+        location: mockedLocation,
+        history: mockedHistory,
+        mockRequest: true,
+      });
 
       await thunk(dispatch);
 
@@ -81,7 +113,11 @@ describe('Find VA Forms actions', () => {
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const query = 'health';
-      const thunk = fetchFormsThunk(query, mockedLocation, mockedHistory);
+      const thunk = fetchFormsThunk(query, {
+        location: mockedLocation,
+        history: mockedHistory,
+        mockRequest: true,
+      });
 
       await thunk(dispatch);
 
@@ -92,10 +128,17 @@ describe('Find VA Forms actions', () => {
         }),
       ).to.be.true;
 
-      const secondCallAction = dispatch.secondCall.args[0];
+      expect(
+        dispatch.secondCall.calledWith({
+          page: 1,
+          startIndex: 0,
+          type: UPDATE_PAGINATION,
+        }),
+      ).to.be.true;
 
-      expect(secondCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
-      expect(secondCallAction.results).to.be.an('array');
+      const thirdCallAction = dispatch.thirdCall.args[0];
+      expect(thirdCallAction.type).to.be.equal(FETCH_FORMS_SUCCESS);
+      expect(thirdCallAction.results).to.be.an('array');
     });
   });
 });

@@ -69,7 +69,11 @@ function appointmentDateTimeTest(client, assertText) {
 
 function appointmentReasonTest(client, nextPageHeader) {
   client
-    .click('#root_reasonForAppointment_0')
+    .selectRadio('root_reasonForAppointment', 'other')
+    .waitForElementPresent(
+      'textarea#root_reasonAdditionalInfo',
+      Timeouts.normal,
+    )
     .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
     .click('.rjsf [type="submit"]')
     .assert.containsText('h1', nextPageHeader);
