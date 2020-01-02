@@ -206,7 +206,7 @@ export const showAddressValidationModal = suggestedAddresses => {
 
   if (
     suggestedAddresses.length === 1 &&
-    addressMetaData.confidenceScore > 80 &&
+    addressMetaData.confidenceScore > 90 &&
     addressMetaData.deliveryPointValidation === CONFIRMED
   ) {
     return false;
