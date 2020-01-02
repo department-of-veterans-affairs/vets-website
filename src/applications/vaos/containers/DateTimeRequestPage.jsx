@@ -79,11 +79,11 @@ export class DateTimeRequestPage extends React.Component {
     return (
       <div className="vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
-          What date and time would you like to make an appointment?
+          Choose a day and time for your appointment
         </h1>
         <p>
-          You may choose up to three dates. A scheduling clerk will contact you
-          to coordinate the best time for you.
+          You can choose up to 3 dates. A scheduling coordinator will call you
+          to schedule the best time for your appointment.
         </p>
         <SchemaForm
           name="Request appointment"

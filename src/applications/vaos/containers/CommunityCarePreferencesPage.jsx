@@ -57,12 +57,12 @@ const initialSchema = {
 const addressUISchema = address.uiSchema();
 const uiSchema = {
   communityCareSystemId: {
-    'ui:title': 'What is the closest city and state for your appointment?',
+    'ui:title': 'What’s the closest city and state to you?',
     'ui:widget': 'radio',
   },
   preferredLanguage: {
     'ui:title':
-      'Do you have a preferred language for your Community Care provider?',
+      'Do you prefer that your Community Care provider speak a certain language?',
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
@@ -141,7 +141,7 @@ export class CommunityCarePreferencesPage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">
-          Share your community care provider preferences
+          Tell us your Community Care preferences
         </h1>
         {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
         {(!schema || systemsStatus === FETCH_STATUS.loading) && (

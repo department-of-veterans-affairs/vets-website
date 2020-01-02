@@ -31,7 +31,7 @@ const initialSchema = {
 const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
-    'ui:title': 'Why are you making this appointment?',
+    'ui:title': 'Please let us know why you’re making this appointment.',
   },
   reasonAdditionalInfo: {
     'ui:widget': TextareaWidget,
@@ -63,7 +63,9 @@ export class ReasonForAppointmentPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">Reason for appointment</h1>
+        <h1 className="vads-u-font-size--h2">
+          Choose a reason for your appointment
+        </h1>
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"

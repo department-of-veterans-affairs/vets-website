@@ -133,12 +133,6 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   return { schema: newSchema, data: newData };
 }
 
-function getReasonAdditionalInfoTitle(reason) {
-  return reason === 'other'
-    ? REASON_ADDITIONAL_INFO_TITLES.other
-    : REASON_ADDITIONAL_INFO_TITLES.default;
-}
-
 export default function formReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
@@ -518,13 +512,13 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      if (state.data?.reasonForAppointment) {
-        reasonSchema = set(
-          'properties.reasonAdditionalInfo.title',
-          getReasonAdditionalInfoTitle(state.data.reasonForAppointment),
-          reasonSchema,
-        );
-      }
+      reasonSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        state.flowType === FLOW_TYPES.DIRECT
+          ? REASON_ADDITIONAL_INFO_TITLES.direct
+          : REASON_ADDITIONAL_INFO_TITLES.request,
+        reasonSchema,
+      );
 
       const { data, schema } = setupFormData(
         state.data,
@@ -543,13 +537,6 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       let newSchema = state.pages.reasonForAppointment;
-
-      // Update additional info title based on radio selection
-      newSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
-        newSchema,
-      );
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
         const prependText = PURPOSE_TEXT.find(

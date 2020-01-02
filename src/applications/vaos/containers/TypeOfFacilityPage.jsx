@@ -25,7 +25,7 @@ const initialSchema = {
 const uiSchema = {
   facilityType: {
     'ui:title':
-      'You are eligible to see either a VA provider or community care provider for this type of service.',
+      'You’re eligible to see either a VA provider or Community Care provider for this type of care.',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -42,10 +42,10 @@ const uiSchema = {
         [FACILITY_TYPES.COMMUNITY_CARE]: (
           <>
             <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Community care facility
+              Community Care facility
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              Go to a community care facility near your home
+              Go to a Community Care facility near your home
             </span>
           </>
         ),
@@ -75,7 +75,7 @@ export class TypeOfFacilityPage extends React.Component {
     return (
       <div className="vaos-form__facility-type vaos-form__detailed-radio">
         <h1 className="vads-u-font-size--h2">
-          Choose where you would prefer to receive your care
+          Choose where you want to receive your care
         </h1>
         <SchemaForm
           name="Type of appointment"

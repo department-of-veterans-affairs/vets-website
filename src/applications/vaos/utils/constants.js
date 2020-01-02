@@ -39,17 +39,17 @@ export const PURPOSE_TEXT = [
   },
   {
     id: 'other',
-    short: 'My reason is not listed',
-    label: 'My reason is not listed here',
+    short: 'My reason isn’t listed',
+    label: 'My reason isn’t listed here',
     serviceName: 'Other',
   },
 ];
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  default:
-    "Please give us additional details about your appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
-  other:
-    "Please give us additional details about what type of appointment you’re looking for. This will help us find you the right provider or facility for your appointment. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
+  request:
+    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
+  direct:
+    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
 };
 
 export const TYPES_OF_CARE = [
