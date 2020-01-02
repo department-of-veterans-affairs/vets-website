@@ -1,22 +1,20 @@
 const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'node',
-    entityBundle: 'health_care_region_detail_page',
-    title: getDrupalValue(entity.title),
-    changed: getDrupalValue(entity.changed),
-    path: getDrupalValue(entity.path),
-    fieldAlert: getDrupalValue(entity.fieldAlert),
-    fieldContentBlock: getDrupalValue(entity.fieldContentBlock),
-    fieldFeaturedContent: getDrupalValue(entity.fieldFeaturedContent),
-    fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldOffice: getDrupalValue(entity.fieldOffice),
-    fieldRelatedLinks: getDrupalValue(entity.fieldRelatedLinks),
-    fieldTableOfContentsBoolean: getDrupalValue(
-      entity.fieldTableOfContentsBoolean,
-    ),
-  },
+  entityType: 'node',
+  entityBundle: 'health_care_region_detail_page',
+  title: getDrupalValue(entity.title),
+  changed: getDrupalValue(entity.changed),
+  path: getDrupalValue(entity.path),
+  fieldAlert: getDrupalValue(entity.fieldAlert),
+  fieldContentBlock: getDrupalValue(entity.fieldContentBlock),
+  fieldFeaturedContent: getDrupalValue(entity.fieldFeaturedContent),
+  fieldIntroText: getDrupalValue(entity.fieldIntroText),
+  fieldOffice: getDrupalValue(entity.fieldOffice),
+  fieldRelatedLinks: getDrupalValue(entity.fieldRelatedLinks),
+  fieldTableOfContentsBoolean: getDrupalValue(
+    entity.fieldTableOfContentsBoolean,
+  ),
 });
 module.exports = {
   filter: [
