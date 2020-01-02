@@ -1,0 +1,36 @@
+module.exports = {
+  type: 'object',
+  properties: {
+    contentModelType: { enum: ['node-health_care_region_detail_page'] },
+    entity: {
+      type: 'object',
+      properties: {
+        entityType: { enum: ['node'] },
+        entityBundle: { enum: ['health_care_region_detail_page'] },
+        title: { type: 'string' },
+        changed: { type: 'string' },
+        path: { type: 'string' },
+        fieldAlert: { type: 'string' },
+        fieldContentBlock: { type: 'string' },
+        fieldFeaturedContent: { type: 'string' },
+        fieldIntroText: { type: 'string' },
+        fieldOffice: { type: 'string' },
+        fieldRelatedLinks: { type: 'string' },
+        fieldTableOfContentsBoolean: { type: 'string' },
+      },
+      required: [
+        'title',
+        'changed',
+        'path',
+        'fieldAlert',
+        'fieldContentBlock',
+        'fieldFeaturedContent',
+        'fieldIntroText',
+        'fieldOffice',
+        'fieldRelatedLinks',
+        'fieldTableOfContentsBoolean',
+      ],
+    },
+  },
+  required: ['entity'],
+};

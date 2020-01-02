@@ -1,0 +1,250 @@
+{
+  "title": "Medical records office",
+  "entityBundle": "health_care_region_detail_page",
+  "entityId": "221",
+  "entityPublished": true,
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "/pittsburgh-health-care",
+          "routed": true
+        },
+        "text": "VA Pittsburgh health care"
+      }
+    ],
+    "path": "/pittsburgh-health-care/medical-records-office"
+  },
+  "entityMetatags": [
+    {
+      "__typename": "MetaValue",
+      "key": "title",
+      "value": "VA Pittsburgh Health Care | Medical Records Office | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:card",
+      "value": "summary_large_image"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:site_name",
+      "value": "Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:description",
+      "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "description",
+      "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:title",
+      "value": "Medical records office | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:site",
+      "value": "@DeptVetAffairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:title",
+      "value": "Medical records office | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:description",
+      "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office."
+    }
+  ],
+  "changed": 1570734834,
+  "fieldIntroText": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office.",
+  "fieldTableOfContentsBoolean": true,
+  "fieldFeaturedContent": [],
+  "fieldContentBlock": [
+    {
+      "entity": {
+        "entityType": "paragraph",
+        "entityBundle": "wysiwyg",
+        "fieldWysiwyg": {
+          "processed": "<h2>Get your records online</h2>\n\n<p>Access your VA medical records online with VA Blue Button. Sign in to view, organize, and share your VA medical records and other personal health information. We don't charge any fees to send copies directly to health care providers.</p>\n\n<h3>VA Blue Button</h3>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityType": "paragraph",
+        "entityBundle": "react_widget",
+        "fieldTimeout": 20,
+        "fieldCtaWidget": true,
+        "fieldWidgetType": "health-records",
+        "fieldDefaultLink": null,
+        "fieldButtonFormat": false,
+        "fieldErrorMessage": {
+          "value": "<strong>We’re sorry. Something went wrong when we tried to load your saved application.</strong><br/>Please try refreshing your browser in a few minutes."
+        },
+        "fieldLoadingMessage": null
+      }
+    },
+    {
+      "entity": {
+        "entityType": "paragraph",
+        "entityBundle": "wysiwyg",
+        "fieldWysiwyg": {
+          "processed": "<h2>Get your records in person</h2>\n\n<p>We can help you get copies of your VA medical records. We can also help you update your records. Call or come to the Release of Information office at our University Drive or Heinz campus.</p>\n\n<p><strong>What to bring</strong></p>\n\n<ul><li>A completed and signed Individuals’ Request For a Copy of Their Own Health Information (VA Form 10-5345a). <a href=\"https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-fill.pdf]\">Download VA Form 10-5345a (PDF)</a></li>\n\t<li>Your Veteran Health Identification Card (VHIC)</li>\n</ul><h3>Release of Information office locations</h3>\n\n<p class=\"va-address-block\"><a href=\"https://www.va.gov/pittsburgh-health-care/locations\">University Drive campus</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to  4:30 p.m. ET<br /><strong>Phone: </strong></p>\n\n<p class=\"va-address-block\"><a href=\"https://www.va.gov/pittsburgh-health-care/locations\">Heinz campus</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to  4:30 p.m. ET<br /><strong>Phone: </strong>412-822-1135</p>\n\n<ul></ul><h2>Get your records by mail or fax</h2>\n\n<p>To request a copy of your VA medical records by mail or fax, send a signed and completed VA Form 10-5345a to our Release of Information office.</p>\n\n<p><a href=\"https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-fill.pdf\">Download VA Form 10-5345a (PDF)</a></p>\n\n<p class=\"va-address-block\"><strong>Mail your signed form to</strong><br />\nVA Pittsburgh Medical Center Attention: Release of Information<br />\n1010 Delafield Road (136H4-A)<br />\nPittsburgh, PA 15215</p>\n\n<p class=\"va-address-block\"><strong>Fax your signed form to</strong><br />\n412-822-1161, ext. 329</p>\n\n<p>We process mailed or faxed requests within 10-14 days. For privacy reasons, we can’t accept requests for medical records by email.</p>\n\n<h2>How we share your records with providers outside VA</h2>\n\n<p>The Veterans Health Information Exchange (VHIE) program lets us electronically share your health information with health care providers who treat you, including <a href=\"https://www.va.gov/VLER/vler-health-your-area.asp\">participating non-VA providers</a> if you receive care outside of VA.</p>\n\n<p>This program is voluntary, and you can choose not to share your information (opt out of sharing).</p>\n\n<p><a href=\"https://www.va.gov/health-care/get-medical-records/#the-veterans-health-informatio\">Learn more about VHIE</a></p>\n\n<h3>To opt out of sharing</h3>\n\n<p>Fill out, sign, and date VA Form 10-10164 (Opt Out of Sharing Protected Health Information).</p>\n\n<p>Mail the signed, completed form to our ROI office. You can also bring it with you or ask for this form when you visit us.</p>\n\n<p><a href=\"https://www.va.gov/vaforms/medical/pdf/10-10164-fill.pdf\">Download VA Form 10-10164 (PDF)</a></p>\n\n<p><strong>Note: </strong>If you had revoked your permission to share, before September 30, 2019, your opt out status will stay active. You don’t need to submit form 10-10164.</p>\n\n<h3>To allow sharing after opting out</h3>\n\n<p>If you change your mind and want to share your health information, you’ll need to submit VA Form 10-10163 (Request for and Permission to Participate in Sharing Protected Health Information).</p>\n\n<p>Mail the signed, completed form to our ROI office. You can also bring it with you or ask for this form when you visit us.</p>\n\n<p><a href=\"https://www.va.gov/vaforms/medical/pdf/10-10163-fill.pdf\">Download VA Form 10-10163 (PDF)</a></p>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityType": "paragraph",
+        "entityBundle": "wysiwyg",
+        "fieldWysiwyg": {
+          "processed": "<h2>Questions about medical records</h2>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityType": "paragraph",
+        "entityBundle": "collapsible_panel",
+        "fieldCollapsiblePanelMulti": false,
+        "fieldCollapsiblePanelExpand": false,
+        "fieldCollapsiblePanelBordered": false,
+        "fieldVaParagraphs": [
+          {
+            "entity": {
+              "entityId": "7399",
+              "entityBundle": "collapsible_panel_item",
+              "fieldTitle": "Can I get someone else's medical records?",
+              "fieldWysiwyg": {
+                "processed": "<p>You can get another person's medical records if you’re listed as having Power of Attorney (POA) or you’re the patient’s next of kin.</p>"
+              },
+              "fieldVaParagraphs": []
+            }
+          },
+          {
+            "entity": {
+              "entityId": "7417",
+              "entityBundle": "collapsible_panel_item",
+              "fieldTitle": "Can I get records of a deceased patient?",
+              "fieldWysiwyg": {
+                "processed": "<p>You can get the records of a deceased patient if you have:</p>\n\n<ul><li>A copy of their death certificate</li>\n\t<li>A valid photo ID for yourself</li>\n\t<li>Any POA paperwork or will showing you have a legal right to their record</li>\n</ul>"
+              },
+              "fieldVaParagraphs": []
+            }
+          },
+          {
+            "entity": {
+              "entityId": "7418",
+              "entityBundle": "collapsible_panel_item",
+              "fieldTitle": "Can I get records on a CD or DVD?",
+              "fieldWysiwyg": {
+                "processed": "<p>Yes. If you’re making the request in person, you can tell us what format you would like. If you’re using <a href=\"https://www.va.gov/vaforms/medical/pdf/vha-10-5345a-fill.pdf\">VA Form 10-5345a</a>, check the “CD-ROM” or “Other” box (and write in DVD).</p>"
+              },
+              "fieldVaParagraphs": []
+            }
+          },
+          {
+            "entity": {
+              "entityId": "7419",
+              "entityBundle": "collapsible_panel_item",
+              "fieldTitle": "Can I get radiology images and X-rays?",
+              "fieldWysiwyg": {
+                "processed": "<p>Yes, we provide all available images on DVD.</p>\n\n<p>If you have a <a href=\"https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/home\">My HealtheVet Premium account</a>, you can also view or download many kinds of radiology images online. A Premium account is one where you’ve gone through extra identity authentication. </p>"
+              },
+              "fieldVaParagraphs": []
+            }
+          },
+          {
+            "entity": {
+              "entityId": "7420",
+              "entityBundle": "collapsible_panel_item",
+              "fieldTitle": "Can I get a proof of health insurance document?",
+              "fieldWysiwyg": {
+                "processed": "<p>Please ask at a <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"025c24e5-1d49-4be2-a738-4c213c006a41\" href=\"/pittsburgh-health-care/register-for-care\" title=\"Register for care\">patient registration office</a>, and they will provide you documentation of your VA coverage.</p>"
+              },
+              "fieldVaParagraphs": []
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "fieldRelatedLinks": {
+    "entity": {
+      "parentFieldName": "field_related_links",
+      "fieldTitle": "More information",
+      "fieldVaParagraphs": [
+        {
+          "entity": {
+            "fieldLink": {
+              "url": {
+                "path": "https://www.va.gov/change-address/"
+              },
+              "title": "Change your address on file with VA",
+              "options": []
+            },
+            "fieldLinkSummary": "Find out how to change your address and other information in your VA.gov profile. This will update your information across several VA benefits and services. "
+          }
+        },
+        {
+          "entity": {
+            "fieldLink": {
+              "url": {
+                "path": "https://www.va.gov/health-care/update-health-information/"
+              },
+              "title": "Update your VA health benefits information",
+              "options": []
+            },
+            "fieldLinkSummary": "Update your personal, financial, or insurance information with VA Form 10-10EZR. "
+          }
+        },
+        {
+          "entity": {
+            "fieldLink": {
+              "url": {
+                "path": "https://www.va.gov/records/"
+              },
+              "title": "Access and manage your records",
+              "options": []
+            },
+            "fieldLinkSummary": "Apply for a printed Veteran ID card, get your VA benefit letters and military service records, and learn how to apply for a discharge upgrade. "
+          }
+        },
+        {
+          "entity": {
+            "fieldLink": {
+              "url": {
+                "path": "https://www.missionact.va.gov/"
+              },
+              "title": "MISSION Act and VA health care",
+              "options": []
+            },
+            "fieldLinkSummary": "Learn how we're making it easier for you to get health care through VA facilities, mobile health clinics, virtual telehealth, and community care providers."
+          }
+        }
+      ]
+    }
+  },
+  "fieldAlert": null,
+  "fieldOffice": {
+    "entity": {
+      "entityLabel": "VA Pittsburgh health care",
+      "title": "VA Pittsburgh health care",
+      "fieldNicknameForThisFacility": "VA Pittsburgh"
+    }
+  }
+}
