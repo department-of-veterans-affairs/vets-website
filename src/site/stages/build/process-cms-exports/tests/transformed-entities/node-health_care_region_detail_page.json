@@ -1,7 +1,8 @@
 {
   "title": "Medical records office",
+  "contentModelType": "node-health_care_region_detail_page",
   "entityBundle": "health_care_region_detail_page",
-  "entityId": "221",
+  "entityType": "node",
   "entityPublished": true,
   "entityUrl": {
     "breadcrumb": [
@@ -75,6 +76,7 @@
   "fieldFeaturedContent": [],
   "fieldContentBlock": [
     {
+      "contentModelType": "paragraph-wysiwyg",
       "entity": {
         "entityType": "paragraph",
         "entityBundle": "wysiwyg",
@@ -84,6 +86,7 @@
       }
     },
     {
+      "contentModelType": "paragraph-react_widget",
       "entity": {
         "entityType": "paragraph",
         "entityBundle": "react_widget",
@@ -99,6 +102,7 @@
       }
     },
     {
+      "contentModelType": "paragraph-wysiwyg",
       "entity": {
         "entityType": "paragraph",
         "entityBundle": "wysiwyg",
@@ -108,6 +112,7 @@
       }
     },
     {
+      "contentModelType": "paragraph-wysiwyg",
       "entity": {
         "entityType": "paragraph",
         "entityBundle": "wysiwyg",
@@ -117,6 +122,7 @@
       }
     },
     {
+      "contentModelType": "paragraph-collapsible_panel",
       "entity": {
         "entityType": "paragraph",
         "entityBundle": "collapsible_panel",
@@ -125,8 +131,9 @@
         "fieldCollapsiblePanelBordered": false,
         "fieldVaParagraphs": [
           {
+            "contentModelType": "paragraph-collapsible_panel_item",
             "entity": {
-              "entityId": "7399",
+              "entityType": "paragraph",
               "entityBundle": "collapsible_panel_item",
               "fieldTitle": "Can I get someone else's medical records?",
               "fieldWysiwyg": {
@@ -136,8 +143,9 @@
             }
           },
           {
+            "contentModelType": "paragraph-collapsible_panel_item",
             "entity": {
-              "entityId": "7417",
+              "entityType": "paragraph",
               "entityBundle": "collapsible_panel_item",
               "fieldTitle": "Can I get records of a deceased patient?",
               "fieldWysiwyg": {
@@ -147,8 +155,9 @@
             }
           },
           {
+            "contentModelType": "paragraph-collapsible_panel_item",
             "entity": {
-              "entityId": "7418",
+              "entityType": "paragraph",
               "entityBundle": "collapsible_panel_item",
               "fieldTitle": "Can I get records on a CD or DVD?",
               "fieldWysiwyg": {
@@ -158,8 +167,9 @@
             }
           },
           {
+            "contentModelType": "paragraph-collapsible_panel_item",
             "entity": {
-              "entityId": "7419",
+              "entityType": "paragraph",
               "entityBundle": "collapsible_panel_item",
               "fieldTitle": "Can I get radiology images and X-rays?",
               "fieldWysiwyg": {
@@ -169,8 +179,9 @@
             }
           },
           {
+            "contentModelType": "paragraph-collapsible_panel_item",
             "entity": {
-              "entityId": "7420",
+              "entityType": "paragraph",
               "entityBundle": "collapsible_panel_item",
               "fieldTitle": "Can I get a proof of health insurance document?",
               "fieldWysiwyg": {
@@ -184,11 +195,15 @@
     }
   ],
   "fieldRelatedLinks": {
+    "contentModelType": "paragraph-list_of_link_teasers",
     "entity": {
       "parentFieldName": "field_related_links",
+      "entityBundle": "list_of_link_teasers",
+      "entityType": "paragraph",
       "fieldTitle": "More information",
       "fieldVaParagraphs": [
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -201,6 +216,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -213,6 +229,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -225,6 +242,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
