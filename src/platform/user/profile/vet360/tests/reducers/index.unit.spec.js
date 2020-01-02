@@ -5,6 +5,7 @@ import * as VET360 from '../../constants';
 import {
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
+  ADDRESS_VALIDATION_INITIALIZE,
 } from '../../actions';
 
 describe('vet360 reducer', () => {
@@ -410,6 +411,26 @@ describe('vet360 reducer', () => {
         addressValidation: {
           selectedAddress: { street: '123 main' },
           selectedAddressId: '0',
+        },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('ADDRESS_VALIDATION_INITIALIZE action', () => {
+    it('sets inProgress to true', () => {
+      const state = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: false },
+        },
+      };
+      const action = {
+        type: ADDRESS_VALIDATION_INITIALIZE,
+        fieldName: 'mailingAddress',
+      };
+      const expectedState = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: true },
         },
       };
       expect(vet360(state, action)).to.eql(expectedState);
