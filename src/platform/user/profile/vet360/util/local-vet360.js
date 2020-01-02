@@ -295,7 +295,7 @@ export default {
               zipCodeSuffix: '5252',
             },
             addressMetaData: {
-              confidenceScore: 77.0,
+              confidenceScore: 87.0,
               addressType: 'Domestic',
               deliveryPointValidation: 'CONFIRMED',
             },

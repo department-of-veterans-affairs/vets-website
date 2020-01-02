@@ -141,7 +141,8 @@ describe('showAddressValidationModal', () => {
     ];
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
   });
-  it("returns false with single CONFIRMED suggestion that's over 80 confidence score", () => {
+
+  it("returns false with single CONFIRMED suggestion that's over 90 confidence score", () => {
     const suggestedAddresses = [
       {
         address: {
@@ -157,7 +158,7 @@ describe('showAddressValidationModal', () => {
           zipCodeSuffix: '5252',
         },
         addressMetaData: {
-          confidenceScore: 81.0,
+          confidenceScore: 91.0,
           addressType: 'Domestic',
           deliveryPointValidation: 'CONFIRMED',
         },
@@ -166,7 +167,7 @@ describe('showAddressValidationModal', () => {
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(false);
   });
 
-  it("returns true with single deliverable suggestion that's under 80 confidence", () => {
+  it("returns true with single deliverable suggestion that's under 90 confidence", () => {
     const suggestedAddresses = [
       {
         address: {
@@ -182,7 +183,7 @@ describe('showAddressValidationModal', () => {
           zipCodeSuffix: '5252',
         },
         addressMetaData: {
-          confidenceScore: 75.0,
+          confidenceScore: 87.0,
           addressType: 'Domestic',
           deliveryPointValidation: 'CONFIRMED',
         },
@@ -191,7 +192,7 @@ describe('showAddressValidationModal', () => {
     expect(showAddressValidationModal(suggestedAddresses)).to.equal(true);
   });
 
-  it('returns true with single suggestion over 80 confidence but undeliverable', () => {
+  it('returns true with single suggestion over 90 confidence but undeliverable', () => {
     const suggestedAddresses = [
       {
         address: {
@@ -207,7 +208,7 @@ describe('showAddressValidationModal', () => {
           zipCodeSuffix: '5252',
         },
         addressMetaData: {
-          confidenceScore: 81.0,
+          confidenceScore: 91.0,
           addressType: 'Domestic',
           deliveryPointValidation: 'UNDELIVERABLE',
         },
