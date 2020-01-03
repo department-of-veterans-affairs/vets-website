@@ -1,12 +1,14 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
+import { orderBy, slice } from 'lodash';
 // Relative imports.
-import { updateResultsAction } from '../actions';
+import { updatePaginationAction, updateResultsAction } from '../actions';
 
 const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
@@ -20,27 +22,30 @@ const FIELD_LABELS = [
     value: 'titleLabel',
   },
   {
-    label: 'Description',
-    value: 'descriptionLabel',
+    label: 'Issue Date',
+    value: 'firstIssuedOnLabel',
   },
   {
-    label: 'Available Online',
-    value: 'availableOnlineLabel',
+    label: 'Revision Date',
+    value: 'lastRevisionOnLabel',
   },
 ];
+export const MAX_PAGE_LIST_LENGTH = 10;
 
-class SearchResults extends Component {
+export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
+    error: PropTypes.string.isRequired,
     fetching: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
     query: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(
+    results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
-        firstIssuedOn: PropTypes.string.isRequired,
+        firstIssuedOn: PropTypes.number.isRequired,
         formName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        lastRevisionOn: PropTypes.string.isRequired,
+        lastRevisionOn: PropTypes.number.isRequired,
         pages: PropTypes.number.isRequired,
         sha256: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
@@ -49,11 +54,13 @@ class SearchResults extends Component {
         // Table field labels that can be JSX.
         idLabel: PropTypes.node.isRequired,
         titleLabel: PropTypes.node.isRequired,
-        descriptionLabel: PropTypes.node.isRequired,
-        availableOnlineLabel: PropTypes.node.isRequired,
+        firstIssuedOnLabel: PropTypes.node.isRequired,
+        lastRevisionOnLabel: PropTypes.node.isRequired,
       }).isRequired,
     ),
+    startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
+    updatePagination: PropTypes.func.isRequired,
     updateResults: PropTypes.func.isRequired,
   };
 
@@ -79,11 +86,32 @@ class SearchResults extends Component {
     );
   };
 
+  onPageSelect = page => {
+    const { results, updatePagination } = this.props;
+
+    // Derive the new start index.
+    let startIndex = page * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;
+
+    // Ensure the start index is not greater than the total amount of results.
+    if (startIndex >= results.length) {
+      startIndex = results.length - 1;
+    }
+
+    // Update the page and the new start index.
+    updatePagination(page, startIndex);
+  };
+
   sortResults = (fieldLabel, selectedFieldOrder = ASCENDING) => {
-    const { results, updateResults } = this.props;
+    const { results, updatePagination, updateResults } = this.props;
 
     // Update local state for SortableTable.
-    this.setState({ selectedFieldLabel: fieldLabel, selectedFieldOrder });
+    this.setState({
+      selectedFieldLabel: fieldLabel,
+      selectedFieldOrder,
+    });
+
+    // Reset pagination values.
+    updatePagination();
 
     // Derive the original field (not the JSX label).
     const field = fieldLabel.replace('Label', '');
@@ -100,13 +128,24 @@ class SearchResults extends Component {
   };
 
   render() {
-    const { onHeaderClick } = this;
-    const { fetching, query, results } = this.props;
+    const { onHeaderClick, onPageSelect } = this;
+    const { error, fetching, page, query, results, startIndex } = this.props;
     const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
       return <LoadingIndicator message="Loading search results..." />;
+    }
+
+    // Show the error alert box if there was an error.
+    if (error) {
+      return (
+        <AlertBox
+          headline="Something went wrong"
+          content={error}
+          status="error"
+        />
+      );
     }
 
     // Do not render if we have not fetched, yet.
@@ -123,35 +162,62 @@ class SearchResults extends Component {
       );
     }
 
+    // Derive the last index.
+    const lastIndex = startIndex + MAX_PAGE_LIST_LENGTH;
+
+    // Derive the display labels.
+    const startLabel = startIndex + 1;
+    const lastLabel =
+      lastIndex + 1 > results.length ? results.length : lastIndex;
+
+    // Derive the total number of pages.
+    const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
+
     return (
       <>
         <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Showing results for "<strong>{query}</strong>"
+          Displaying {startLabel} - {lastLabel} out of {results.length} results
+          for "<strong>{query}</strong>"
         </h2>
 
+        {/* Table of Forms */}
         <SortableTable
           className="vads-u-margin--0"
           currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
-          data={results}
+          data={slice(results, startIndex, lastIndex)}
           fields={FIELD_LABELS}
           onHeaderClick={onHeaderClick}
         />
+
+        {/* Pagination Row */}
+        {results.length > MAX_PAGE_LIST_LENGTH && (
+          <Pagination
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            onPageSelect={onPageSelect}
+            page={page}
+            pages={totalPages}
+            showLastPage
+          />
+        )}
       </>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  error: state.findVAFormsReducer.error,
   fetching: state.findVAFormsReducer.fetching,
+  page: state.findVAFormsReducer.page,
   query: state.findVAFormsReducer.query,
   results: state.findVAFormsReducer.results,
+  startIndex: state.findVAFormsReducer.startIndex,
 });
 
 const mapDispatchToProps = dispatch => ({
+  updatePagination: (page, startIndex) =>
+    dispatch(updatePaginationAction(page, startIndex)),
   updateResults: results => dispatch(updateResultsAction(results)),
 });
-
-export { SearchResults };
 
 export default connect(
   mapStateToProps,

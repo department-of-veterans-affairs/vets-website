@@ -3,6 +3,7 @@ const VAOSHelpers = require('./vaos-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = {
+  '@disabled': true,
   after: (client, done) => {
     client.deleteCookies();
     client.end();

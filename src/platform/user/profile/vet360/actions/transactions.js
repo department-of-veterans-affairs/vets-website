@@ -32,6 +32,8 @@ export const VET360_CLEAR_TRANSACTION_STATUS =
   'VET360_CLEAR_TRANSACTION_STATUS';
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
+export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
+export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
 
 export function clearTransactionStatus() {
   return {
@@ -189,7 +191,10 @@ export const validateAddress = (
   analyticsSectionName,
 ) => async dispatch => {
   const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
-
+  dispatch({
+    type: ADDRESS_VALIDATION_INITIALIZE,
+    fieldName,
+  });
   const options = {
     body: JSON.stringify(userEnteredAddress),
     method: 'POST',
@@ -197,6 +202,7 @@ export const validateAddress = (
       'Content-Type': 'application/json',
     },
   };
+
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
@@ -304,3 +310,7 @@ export const updateValidationKeyAndSave = (
     });
   }
 };
+
+export const resetAddressValidation = () => ({
+  type: ADDRESS_VALIDATION_RESET,
+});

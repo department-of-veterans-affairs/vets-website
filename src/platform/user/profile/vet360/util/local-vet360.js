@@ -295,7 +295,7 @@ export default {
               zipCodeSuffix: '5252',
             },
             addressMetaData: {
-              confidenceScore: 77.0,
+              confidenceScore: 87.0,
               addressType: 'Domestic',
               deliveryPointValidation: 'CONFIRMED',
             },
@@ -412,6 +412,30 @@ export default {
               addressType: 'Unknown',
               deliveryPointValidation: 'MISSING_ZIP',
             },
+          },
+        ],
+      },
+      1000,
+    );
+  },
+  addressValidationError() {
+    return asyncReturn(
+      {
+        errors: [
+          {
+            title: 'Address Validation Error',
+            detail: {
+              messages: [
+                {
+                  code: 'ADDRVAL108',
+                  key: 'CandidateAddressNotFound',
+                  severity: 'INFO',
+                  text: 'No Candidate Address Found',
+                },
+              ],
+            },
+            code: 'VET360_AV_ERROR',
+            status: '400',
           },
         ],
       },

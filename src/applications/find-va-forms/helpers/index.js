@@ -1,15 +1,18 @@
 // Dependencies.
 import React from 'react';
+import moment from 'moment';
 
-export const normalizeFormsForTable = ({ data: forms }) =>
+export const normalizeFormsForTable = forms =>
   forms.map(form => {
     // Derive the form properties.
     const id = form?.id;
     const downloadURL = form?.attributes?.url || '';
     const title = form?.attributes?.title || '';
-    const description = form?.attributes?.description || '';
-    const availableOnline = form?.attributes?.availableOnline;
-    const applyOnlineURL = form?.attributes?.applyOnlineURL;
+    const firstIssuedOn = moment(form?.attributes?.firstIssuedOn, 'YYYY-MM-DD');
+    const lastRevisionOn = moment(
+      form?.attributes?.lastRevisionOn,
+      'YYYY-MM-DD',
+    );
 
     // Derive the ID field.
     const idLabel = (
@@ -18,22 +21,17 @@ export const normalizeFormsForTable = ({ data: forms }) =>
       </a>
     );
 
-    // Derive the available online field.
-    const availableOnlineLabel = availableOnline ? (
-      <a href={applyOnlineURL} rel="noopener noreferrer">
-        Apply now
-      </a>
-    ) : (
-      ''
-    );
-
     return {
+      ...form.attributes,
+      // Overridden form values.
       id,
       type: form.type,
-      ...form.attributes,
+      firstIssuedOn: firstIssuedOn.unix(),
+      lastRevisionOn: lastRevisionOn.unix(),
+      // JSX Labels.
       idLabel,
       titleLabel: title,
-      descriptionLabel: description,
-      availableOnlineLabel,
+      firstIssuedOnLabel: firstIssuedOn.format('MM-DD-YYYY'),
+      lastRevisionOnLabel: lastRevisionOn.format('MM-DD-YYYY'),
     };
   });

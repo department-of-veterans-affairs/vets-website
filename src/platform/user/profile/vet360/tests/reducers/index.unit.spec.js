@@ -2,6 +2,11 @@ import { expect } from 'chai';
 
 import vet360 from '../../reducers';
 import * as VET360 from '../../constants';
+import {
+  ADDRESS_VALIDATION_RESET,
+  UPDATE_SELECTED_ADDRESS,
+  ADDRESS_VALIDATION_INITIALIZE,
+} from '../../actions';
 
 describe('vet360 reducer', () => {
   it('should return array of transaction data', () => {
@@ -301,20 +306,140 @@ describe('vet360 reducer', () => {
     expect(state.addressValidation.validationKey).to.eql(123456);
   });
 
-  it('should update addressValidation on error', () => {
-    const state = vet360(
-      {},
-      {
+  describe('ADDRESS_VALIDATION_ERROR', () => {
+    it('sets the correct data on the redux state', () => {
+      const state = {
+        metadata: {},
+        otherData: true,
+        modal: null,
+        addressValidation: {
+          suggestedAddresses: [{ street: '123 oak st' }],
+          selectedAddress: { street: '456 elm' },
+          selectedAddressId: 'userEntered',
+        },
+        fieldTransactionMap: {
+          mailingAddress: { isPending: true },
+        },
+      };
+      const action = {
         type: 'ADDRESS_VALIDATION_ERROR',
         addressValidationError: true,
         addressValidationType: 'mailingAddress',
+        addressFromUser: { street: '987 main' },
+      };
+      const expectedState = {
+        ...state,
+        addressValidation: {
+          addressValidationError: true,
+          addressValidationType: 'mailingAddress',
+          addressFromUser: { street: '987 main' },
+          selectedAddress: {},
+          selectedAddressId: '0',
+          suggestedAddresses: [],
+          validationKey: null,
+        },
+        fieldTransactionMap: {
+          mailingAddress: { isPending: false },
+        },
         modal: 'addressValidation',
-      },
-    );
-    expect(state.modal).to.eql('addressValidation');
-    expect(state.addressValidation.addressValidationError).to.eql(true);
-    expect(state.addressValidation.addressValidationType).to.eql(
-      'mailingAddress',
-    );
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('ADDRESS_VALIDATION_RESET action', () => {
+    it('resets the addressValidation state', () => {
+      const state = {
+        modal: 'modalName',
+        modalData: { foo: 'bar' },
+        addressValidation: {
+          addressValidationType: 'address',
+          suggestedAddresses: [{ street: '123 Main St' }],
+          addressFromUser: {
+            addressLine1: '123 main',
+            addressLine2: '',
+            addressLine3: '',
+            city: 'sf',
+            stateCode: 'CA',
+            zipCode: '12345',
+          },
+          addressValidationError: false,
+          validationKey: 1234,
+          selectedAddress: {},
+          selectedAddressId: '0',
+        },
+      };
+      const action = {
+        type: ADDRESS_VALIDATION_RESET,
+      };
+      const expectedState = {
+        ...state,
+        addressValidation: {
+          addressValidationType: '',
+          suggestedAddresses: [],
+          addressFromUser: {
+            addressLine1: '',
+            addressLine2: '',
+            addressLine3: '',
+            city: '',
+            stateCode: '',
+            zipCode: '',
+          },
+          addressValidationError: false,
+          validationKey: null,
+          selectedAddress: {},
+          selectedAddressId: '0',
+        },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('UPDATE_SELECTED_ADDRESS action', () => {
+    it('sets the selectedAddress and selectedAddressId from the action', () => {
+      const state = {
+        metadata: {},
+        otherData: true,
+        addressValidation: {
+          selectedAddress: { street: '456 elm' },
+          selectedAddressId: 'userEntered',
+        },
+      };
+      const action = {
+        type: UPDATE_SELECTED_ADDRESS,
+        selectedAddress: {
+          street: '123 main',
+        },
+        selectedAddressId: '0',
+      };
+      const expectedState = {
+        ...state,
+        addressValidation: {
+          selectedAddress: { street: '123 main' },
+          selectedAddressId: '0',
+        },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
+  });
+
+  describe('ADDRESS_VALIDATION_INITIALIZE action', () => {
+    it('sets inProgress to true', () => {
+      const state = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: false },
+        },
+      };
+      const action = {
+        type: ADDRESS_VALIDATION_INITIALIZE,
+        fieldName: 'mailingAddress',
+      };
+      const expectedState = {
+        fieldTransactionMap: {
+          mailingAddress: { isPending: true },
+        },
+      };
+      expect(vet360(state, action)).to.eql(expectedState);
+    });
   });
 });

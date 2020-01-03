@@ -1,6 +1,9 @@
 import {
+  resetAddressValidation,
   validateAddress,
   ADDRESS_VALIDATION_CONFIRM,
+  ADDRESS_VALIDATION_INITIALIZE,
+  ADDRESS_VALIDATION_RESET,
 } from '../../actions/transactions';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -22,6 +25,13 @@ const payload = {
 };
 const analyticsSectionName = 'bar';
 
+describe('resetAddressValidation', () => {
+  it('creates the correct action', () => {
+    const action = resetAddressValidation();
+    expect(action).to.deep.equal({ type: ADDRESS_VALIDATION_RESET });
+  });
+});
+
 describe('validateAddress', () => {
   it('verify return data', () => {
     const dispatch = sinon.spy();
@@ -33,9 +43,12 @@ describe('validateAddress', () => {
       analyticsSectionName,
     )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
+        ADDRESS_VALIDATION_INITIALIZE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
         ADDRESS_VALIDATION_CONFIRM,
       );
-      expect(dispatch.firstCall.args[0].suggestedAddresses).to.deep.equal([
+      expect(dispatch.secondCall.args[0].suggestedAddresses).to.deep.equal([
         {
           addressMetaData: {
             confidenceScore: 100,

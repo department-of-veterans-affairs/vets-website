@@ -50,7 +50,6 @@ import {
   FACILITY_TYPES,
   FETCH_STATUS,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
 } from '../../utils/constants';
 
 const testFlow = {
@@ -481,19 +480,12 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  describe('reasonForAppointment', () => {
+  describe('updateReasonForAppointmentData', () => {
     const reasonForAppointment = 'new-issue';
     const reasonAdditionalInfo = 'test';
 
-    it('update values and calculates remaining characters for direct schedule reason', async () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-        },
-      };
-
-      const dispatch = sinon.spy();
-      const thunk = updateReasonForAppointmentData(
+    it('sends reason for appointment changed action', () => {
+      const action = updateReasonForAppointmentData(
         'reasonForAppointment',
         {},
         {
@@ -502,45 +494,10 @@ describe('VAOS newAppointment actions', () => {
         },
       );
 
-      await thunk(dispatch, () => state);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_REASON_FOR_APPOINTMENT_CHANGED,
-      );
-      expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
-        REASON_MAX_CHARS.direct -
-          reasonForAppointment.length -
-          1 -
-          reasonAdditionalInfo.length,
-      );
-    });
-
-    it('update values and calculates remaining characters for request message', async () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.REQUEST,
-        },
-      };
-
-      const dispatch = sinon.spy();
-      const thunk = updateReasonForAppointmentData(
-        'reasonForAppointment',
-        {},
-        {
-          reasonForAppointment,
-          reasonAdditionalInfo,
-        },
-      );
-
-      await thunk(dispatch, () => state);
-      expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
-        REASON_MAX_CHARS.request -
-          reasonForAppointment.length -
-          1 -
-          reasonAdditionalInfo.length,
-      );
+      expect(action.type).to.equal(FORM_REASON_FOR_APPOINTMENT_CHANGED);
     });
   });
+
   describe('openCommunityCarePreferencesPage', () => {
     const defaultSchema = {
       type: 'object',
