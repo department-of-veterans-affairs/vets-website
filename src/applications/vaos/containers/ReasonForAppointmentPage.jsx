@@ -9,8 +9,9 @@ import {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import { getReasonForAppointment } from '../utils/selectors';
+import { getFormPageInfo } from '../utils/selectors';
 import { PURPOSE_TEXT } from '../utils/constants';
+import TextareaWidget from '../components/TextareaWidget';
 
 const initialSchema = {
   type: 'object',
@@ -33,7 +34,7 @@ const uiSchema = {
     'ui:title': 'Why are you making this appointment?',
   },
   reasonAdditionalInfo: {
-    'ui:widget': 'textarea',
+    'ui:widget': TextareaWidget,
     'ui:options': {
       rows: 5,
       expandUnder: 'reasonForAppointment',
@@ -60,12 +61,7 @@ export class ReasonForAppointmentPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      reasonRemainingChar,
-    } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <div>
@@ -85,11 +81,6 @@ export class ReasonForAppointmentPage extends React.Component {
           }
           data={data}
         >
-          {data.reasonForAppointment && (
-            <div className="vads-u-font-style--italic vads-u-margin-top--neg3 vads-u-margin-bottom--2p5">
-              {reasonRemainingChar} characters remaining
-            </div>
-          )}
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
@@ -131,7 +122,7 @@ export class ReasonForAppointmentPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return getReasonForAppointment(state, pageKey);
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {

@@ -33,6 +33,7 @@ export const VET360_CLEAR_TRANSACTION_STATUS =
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
+export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
 
 export function clearTransactionStatus() {
   return {
@@ -190,7 +191,10 @@ export const validateAddress = (
   analyticsSectionName,
 ) => async dispatch => {
   const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
-
+  dispatch({
+    type: ADDRESS_VALIDATION_INITIALIZE,
+    fieldName,
+  });
   const options = {
     body: JSON.stringify(userEnteredAddress),
     method: 'POST',
@@ -198,6 +202,7 @@ export const validateAddress = (
       'Content-Type': 'application/json',
     },
   };
+
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
@@ -228,6 +233,8 @@ export const validateAddress = (
       ...confirmedSuggestions[0],
     };
 
+    const selectedAddressId = confirmedSuggestions.length > 0 ? '0' : null;
+
     // we use the unfiltered list of suggested addresses to determine if we need
     // to show the modal because the only time we will skip the modal is if one
     // and only one confirmed address came back from the API
@@ -241,6 +248,7 @@ export const validateAddress = (
         addressValidationType: fieldName,
         selectedAddress: confirmedSuggestions[0], // always select the first address as the default
         suggestedAddresses,
+        selectedAddressId,
         validationKey,
       });
     }

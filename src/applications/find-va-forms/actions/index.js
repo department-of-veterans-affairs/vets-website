@@ -18,7 +18,8 @@ export const fetchFormsAction = query => ({
   type: FETCH_FORMS,
 });
 
-export const fetchFormsFailure = () => ({
+export const fetchFormsFailure = error => ({
+  error,
   type: FETCH_FORMS_FAILURE,
 });
 
@@ -76,6 +77,10 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
     dispatch(fetchFormsSuccess(results));
   } catch (error) {
     // If we are here, the API request failed.
-    dispatch(fetchFormsFailure());
+    dispatch(
+      fetchFormsFailure(
+        'We’re sorry. Something went wrong on our end. Please try again later.',
+      ),
+    );
   }
 };
