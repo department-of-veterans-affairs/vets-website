@@ -14,11 +14,11 @@ const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
 const FIELD_LABELS = [
   {
-    label: 'VA form number',
+    label: 'Form #',
     value: 'idLabel',
   },
   {
-    label: 'Form name',
+    label: 'Form Name',
     value: 'titleLabel',
   },
   {
