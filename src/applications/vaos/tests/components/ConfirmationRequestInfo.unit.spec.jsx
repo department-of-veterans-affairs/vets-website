@@ -27,9 +27,14 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
       parentStationCode: '983',
       institutionTimezone: 'America/Denver',
     };
+    const pageTitle = 'Your appointment request has been submitted';
 
     const tree = shallow(
-      <ConfirmationRequestInfo data={data} facility={facility} />,
+      <ConfirmationRequestInfo
+        data={data}
+        facility={facility}
+        pageTitle={pageTitle}
+      />,
     );
 
     const text = tree
@@ -37,11 +42,17 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
       .at(1)
       .dive()
       .text();
+
+    const heading = tree.find('h1');
+
     expect(text).not.to.contain('Community Care');
     expect(text).to.contain('CHYSHR-Sidney VA Clinic');
     expect(text).to.contain('Sidney, NE');
 
     expect(tree.find('AlertBox').exists()).to.be.true;
+    expect(tree);
+    expect(heading.exists()).to.be.true;
+    expect(heading.text()).to.equal(pageTitle);
 
     tree.unmount();
   });
@@ -84,11 +95,14 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
       institutionTimezone: 'America/Denver',
     };
 
+    const pageTitle = 'Your appointment request has been submitted';
+
     const tree = shallow(
       <ConfirmationRequestInfo
         data={data}
         facility={facility}
         vaCityState="Cheyenne, WY"
+        pageTitle={pageTitle}
       />,
     );
 
@@ -97,6 +111,8 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
       .at(1)
       .dive()
       .text();
+    const heading = tree.find('h1');
+
     expect(text).to.contain('Community Care');
     expect(text).not.to.contain('CHYSHR-Sidney VA Clinic');
     expect(text).to.contain('Jane Doe');
@@ -104,6 +120,9 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     expect(text).to.contain('Northampton, MA');
 
     expect(tree.find('AlertBox').exists()).to.be.true;
+    expect(tree.find('h1').exists()).to.be.true;
+    expect(heading.exists()).to.be.true;
+    expect(heading.text()).to.equal(pageTitle);
 
     tree.unmount();
   });

@@ -11,8 +11,11 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
         selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
       },
     };
+    const pageTitle = 'Your appointment has been scheduled';
 
-    const tree = shallow(<ConfirmationDirectScheduleInfo data={data} />);
+    const tree = shallow(
+      <ConfirmationDirectScheduleInfo data={data} pageTitle={pageTitle} />,
+    );
 
     expect(
       tree
@@ -21,6 +24,8 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
         .dive()
         .text(),
     ).to.contain('December 20, 2019 at 10:00 a.m.');
+
+    expect(tree.find('h1').text()).to.equal(pageTitle);
 
     tree.unmount();
   });

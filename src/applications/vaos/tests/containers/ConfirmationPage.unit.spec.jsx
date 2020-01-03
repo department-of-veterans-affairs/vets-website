@@ -21,6 +21,7 @@ describe('VAOS <ConfirmationPage>', () => {
     );
 
     expect(tree.find('ConfirmationDirectScheduleInfo').exists()).to.be.true;
+    expect(document.title).contain('Your appointment has been scheduled');
 
     tree.unmount();
     expect(closeConfirmationPage.called).to.be.true;
@@ -40,6 +41,9 @@ describe('VAOS <ConfirmationPage>', () => {
     );
 
     expect(tree.find('ConfirmationRequestInfo').exists()).to.be.true;
+    expect(document.title).contain(
+      'Your appointment request has been submitted',
+    );
 
     tree.unmount();
     expect(closeConfirmationPage.called).to.be.true;
