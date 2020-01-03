@@ -14,6 +14,8 @@ const transform = entity => {
     title: getDrupalValue(entity.title),
 
     changed: getTimeAsSeconds(getDrupalValue(entity.changed)),
+
+    entityPublished: getDrupalValue(entity.moderationState) === 'published',
     entityMetatags: [
       createMetaTag('MetaValue', 'title', metaTags.title),
       createMetaTag('MetaValue', 'twitter:card', 'summary_large_image'),
@@ -49,6 +51,7 @@ module.exports = {
     'title',
     'changed',
     'metatag',
+    'moderation_state',
     'path',
     'field_alert',
     'field_content_block',
