@@ -1,4 +1,5 @@
 import { snakeCase } from 'lodash';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const formatNumber = value => {
   const str = (+value).toString();
@@ -64,3 +65,10 @@ export const rubyifyKeys = query =>
   }, {});
 
 export const isPresent = value => value && value !== '';
+
+export const getStateNameForCode = stateCode => {
+  const filteredStates = constants.states.USA.filter(
+    state => state.value === stateCode,
+  );
+  return filteredStates.length > 0 ? filteredStates[0].label : stateCode;
+};
