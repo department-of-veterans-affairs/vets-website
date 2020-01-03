@@ -182,7 +182,7 @@ export class SearchResults extends Component {
 
         {/* Table of Forms */}
         <SortableTable
-          className="vads-u-margin--0"
+          className="find-va-forms-table vads-u-margin--0"
           currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
           data={slice(results, startIndex, lastIndex)}
           fields={FIELD_LABELS}
