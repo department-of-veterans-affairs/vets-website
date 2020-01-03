@@ -1,4 +1,8 @@
-const { getDrupalValue, createMetaTag } = require('./helpers');
+const {
+  getDrupalValue,
+  getTimeAsSeconds,
+  createMetaTag,
+} = require('./helpers');
 
 const transform = entity => {
   const {
@@ -8,7 +12,8 @@ const transform = entity => {
     entityType: 'node',
     entityBundle: 'health_care_region_detail_page',
     title: getDrupalValue(entity.title),
-    changed: getDrupalValue(entity.changed),
+
+    changed: getTimeAsSeconds(getDrupalValue(entity.changed)),
     entityMetatags: [
       createMetaTag('MetaValue', 'title', metaTags.title),
       createMetaTag('MetaValue', 'twitter:card', 'summary_large_image'),

@@ -122,4 +122,8 @@ module.exports = {
   utcToEpochTime(timeString) {
     return moment.tz(timeString, 'UTC').unix();
   },
+
+  getTimeAsSeconds(value) {
+    return new Date(value).getTime() / 1000;
+  },
 };

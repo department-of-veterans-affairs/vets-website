@@ -1,6 +1,10 @@
 const moment = require('moment-timezone');
 const { flatten, isEmpty } = require('lodash');
-const { getDrupalValue, createMetaTag } = require('./helpers');
+const {
+  getDrupalValue,
+  getTimeAsSeconds,
+  createMetaTag,
+} = require('./helpers');
 
 function pageTransform(entity) {
   const {
@@ -24,7 +28,7 @@ function pageTransform(entity) {
 
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
-    changed: new Date(getDrupalValue(changed)).getTime() / 1000,
+    changed: getTimeAsSeconds(getDrupalValue(changed)),
     fieldPageLastBuilt: {
       // Assume the raw data is in UTC
       date: moment

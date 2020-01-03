@@ -5,7 +5,7 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['health_care_region_detail_page'] },
     title: { type: 'string' },
-    changed: { type: 'string' },
+    changed: { type: 'number' },
     entityUrl: {
       type: 'object',
       properties: {
