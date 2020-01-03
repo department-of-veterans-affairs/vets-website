@@ -38,9 +38,9 @@ export default function ConfirmationRequestInfo({ data, facility }) {
       </h1>
       <AlertBox status="success">
         <strong>Your appointment request has been submitted.</strong>
-        <br /> We're reviewing your request. You don't have anything to do right
-        now. A scheduler will contact you to schedule the first available
-        appointment.
+        <br />
+        We’re reviewing your request. You don’t have anything to do right now. A
+        scheduler will contact you to schedule the first available appointment.
       </AlertBox>
       <AlertBox backgroundOnly status="info">
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
