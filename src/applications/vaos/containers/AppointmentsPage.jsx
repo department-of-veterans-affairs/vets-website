@@ -21,7 +21,7 @@ import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
-const pageTitle = 'VA Appointments';
+const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {

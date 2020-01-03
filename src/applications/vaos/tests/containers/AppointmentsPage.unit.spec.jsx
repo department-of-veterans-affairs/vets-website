@@ -230,7 +230,7 @@ describe('VAOS <AppointmentsPage>', () => {
     };
 
     const fetchFutureAppointments = sinon.spy();
-    const pageTitle = 'VA Appointments';
+    const pageTitle = 'VA appointments';
     const tree = shallow(
       <AppointmentsPage
         fetchFutureAppointments={fetchFutureAppointments}
