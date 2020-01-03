@@ -17,7 +17,8 @@ import {
 import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
 
 const sortedCare = TYPES_OF_CARE.sort(
-  (careA, careB) => (careA.name > careB.name ? 1 : -1),
+  (careA, careB) =>
+    careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
 );
 
 const initialSchema = {
@@ -27,7 +28,7 @@ const initialSchema = {
     typeOfCareId: {
       type: 'string',
       enum: sortedCare.map(care => care.id || care.ccId),
-      enumNames: sortedCare.map(care => care.name),
+      enumNames: sortedCare.map(care => care.label || care.name),
     },
   },
 };

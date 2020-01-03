@@ -26,9 +26,8 @@ const initialSchema = {
 const uiSchema = {
   visitType: {
     'ui:widget': 'radio',
-    'ui:options': {
-      hideLabelText: true,
-    },
+    'ui:title':
+      'Please let us know how you would like to be seen for this appointment.',
   },
 };
 
@@ -52,7 +51,7 @@ export class TypeOfVisitPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">How would you like to be seen?</h1>
+        <h1 className="vads-u-font-size--h2">Choose a type of appointment</h1>
         <SchemaForm
           name="Type of visit"
           title="Type of visit"

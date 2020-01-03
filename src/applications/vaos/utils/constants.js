@@ -82,7 +82,8 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '203',
-    name: 'Audiology and speech (including hearing aid support)',
+    name: 'Audiology and speech',
+    label: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
     ccId: ['CCAUDHEAR', 'CCAUDRTNE'],
     cceType: 'Audiology',
@@ -114,6 +115,7 @@ export const TYPES_OF_CARE = [
   {
     id: 'tbd-podiatry',
     name: 'Podiatry',
+    label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',
@@ -244,7 +246,7 @@ export const TYPE_OF_VISIT = [
   },
   {
     id: 'telehealth',
-    name: 'VA Video Connect',
+    name: 'Telehealth (through VA Video Connect)',
     serviceName: 'Video Conference',
   },
 ];
