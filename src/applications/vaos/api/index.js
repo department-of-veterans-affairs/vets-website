@@ -487,7 +487,7 @@ export function sendRequestMessage(id, messageText) {
 export function getPreferences() {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: {} } });
+    promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
   }
