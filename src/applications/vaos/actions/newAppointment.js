@@ -494,8 +494,8 @@ export function updateCCEligibility(isEligible) {
 async function buildPreferencesDataAndUpdate(newAppointment) {
   const preferenceData = await getPreferences();
   const preferenceBody = createPreferenceBody(
-    newAppointment.data,
     preferenceData,
+    newAppointment.data,
   );
   return updatePreferences(preferenceBody);
 }

@@ -256,7 +256,7 @@ export function transformFormToAppointment(state) {
   };
 }
 
-export function createPreferenceBody(data, preferences) {
+export function createPreferenceBody(preferences, data) {
   return {
     ...preferences,
     emailAddress: data.email,
