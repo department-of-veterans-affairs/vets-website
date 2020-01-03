@@ -57,7 +57,7 @@ module.exports = {
     );
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'How would you like to be seen?');
+    VAOSHelpers.appointmentReasonTest(client, 'Choose a type of appointment');
   },
   'How would you like to be seen?': client => {
     VAOSHelpers.howToBeSeenTest(client);
