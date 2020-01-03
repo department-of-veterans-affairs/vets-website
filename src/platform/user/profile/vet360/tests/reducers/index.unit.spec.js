@@ -317,6 +317,9 @@ describe('vet360 reducer', () => {
           selectedAddress: { street: '456 elm' },
           selectedAddressId: 'userEntered',
         },
+        fieldTransactionMap: {
+          mailingAddress: { isPending: true },
+        },
       };
       const action = {
         type: 'ADDRESS_VALIDATION_ERROR',
@@ -334,6 +337,9 @@ describe('vet360 reducer', () => {
           selectedAddressId: '0',
           suggestedAddresses: [],
           validationKey: null,
+        },
+        fieldTransactionMap: {
+          mailingAddress: { isPending: false },
         },
         modal: 'addressValidation',
       };
