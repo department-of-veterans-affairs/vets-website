@@ -69,7 +69,10 @@ class AddressValidationModal extends React.Component {
       validationKey,
       isLoading,
       addressFromUser,
+      selectedAddressId,
     } = this.props;
+
+    const disableButton = selectedAddressId === null;
 
     if (addressValidationError && !validationKey) {
       return (
@@ -85,7 +88,11 @@ class AddressValidationModal extends React.Component {
     }
 
     return (
-      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+      <LoadingButton
+        disabled={disableButton}
+        isLoading={isLoading}
+        className="usa-button-primary"
+      >
         Update
       </LoadingButton>
     );

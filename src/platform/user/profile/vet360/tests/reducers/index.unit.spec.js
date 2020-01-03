@@ -366,7 +366,7 @@ describe('vet360 reducer', () => {
           addressValidationError: false,
           validationKey: 1234,
           selectedAddress: {},
-          selectedAddressId: '0',
+          selectedAddressId: null,
         },
       };
       const action = {
@@ -388,7 +388,7 @@ describe('vet360 reducer', () => {
           addressValidationError: false,
           validationKey: null,
           selectedAddress: {},
-          selectedAddressId: '0',
+          selectedAddressId: null,
         },
       };
       expect(vet360(state, action)).to.eql(expectedState);
