@@ -14,7 +14,7 @@ const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
 const FIELD_LABELS = [
   {
-    label: 'Form #',
+    label: 'Form ID',
     value: 'idLabel',
   },
   {
