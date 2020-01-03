@@ -173,18 +173,23 @@ class AddressValidationModal extends React.Component {
     const {
       isAddressValidationModalVisible,
       addressValidationType,
+      suggestedAddresses,
       addressFromUser,
       validationKey,
       addressValidationError,
       closeModal,
       resetAddressValidation,
-      suggestedAddresses,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
       resetAddressValidation();
       closeModal();
     };
+
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
 
     const validationMessageKey = getValidationMessageKey(
       suggestedAddresses,
@@ -194,11 +199,6 @@ class AddressValidationModal extends React.Component {
 
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
-
-    const confirmedSuggestions = suggestedAddresses.filter(
-      suggestion =>
-        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
-    );
 
     const shouldShowSuggestions = confirmedSuggestions.length > 0;
 
@@ -285,7 +285,7 @@ AddressValidationModal.propTypes = {
   analyticsSectionName: PropTypes.string,
   isAddressValidationModalVisible: PropTypes.bool.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
-  confirmedSuggestions: PropTypes.array.isRequired,
+  suggestedAddresses: PropTypes.array.isRequired,
   addressValidationType: PropTypes.string.isRequired,
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,
