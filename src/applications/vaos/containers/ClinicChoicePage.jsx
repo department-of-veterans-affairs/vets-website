@@ -102,10 +102,10 @@ export class ClinicChoicePage extends React.Component {
         {schema.properties.clinicId.enum.length > 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Select your VA clinic for your {typeOfCareLabel} appointment
+              Choose your VA clinic for your {typeOfCareLabel} appointment
             </h1>
-            In the last 24 months you have had {typeOfCareLabel} appointments in
-            the following clinics, located at:
+            In the last 24 months you have had a {typeOfCareLabel} appointment
+            in the following clinics, located at:
             {facilityDetails && (
               <p>
                 <FacilityAddress

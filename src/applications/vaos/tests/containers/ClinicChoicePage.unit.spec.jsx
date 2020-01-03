@@ -92,10 +92,10 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('h1').text()).to.equal(
-      'Select your VA clinic for your primary care appointment',
+      'Choose your VA clinic for your primary care appointment',
     );
     expect(form.text()).to.contain(
-      'In the last 24 months you have had primary care appointments in the following clinics, located at',
+      'In the last 24 months you have had a primary care appointment in the following clinics, located at',
     );
     form.unmount();
   });

@@ -614,7 +614,7 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
+                'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
               enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
               enumNames: clinics
                 .map(

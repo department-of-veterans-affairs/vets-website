@@ -15,8 +15,10 @@ export default function ConfirmationDirectScheduleInfo({
         Your appointment has been scheduled
       </h1>
       <AlertBox status="success">
-        <strong>Your appointment is confirmed.</strong> Please see your
-        appointment details below.
+        <strong>Your appointment has been scheduled.</strong>
+        <br />
+        Your appointment is confirmed. Please see your appointment details
+        below.
       </AlertBox>
       <AlertBox backgroundOnly status="info">
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">

@@ -92,7 +92,9 @@ export class DateTimeSelectPage extends React.Component {
     } = this.props;
 
     const title = (
-      <h1 className="vads-u-font-size--h2">Appointment calendar</h1>
+      <h1 className="vads-u-font-size--h2">
+        Tell us the date and time you’d like your appointment
+      </h1>
     );
 
     if (loadingAppointmentSlots) {
@@ -117,8 +119,8 @@ export class DateTimeSelectPage extends React.Component {
           typeOfCareId={typeOfCareId}
         />
         <p>
-          Please select a desired date and time for your appointment.
-          {timezone && ` Appointment times are displayed in ${timezone}.`}
+          Please select date and time for your appointment.{' '}
+          {timezone && ` Appointment times are shown in ${timezone}.`}
         </p>
         <SchemaForm
           name="Schedule appointment"
