@@ -56,6 +56,22 @@ export function fetchDisabilityRating({ onDone }) {
   // );
 }
 
+export function isAddingDependent(form = {}) {
+  return form['view:selectable686Options']['view:addDependent'];
+}
+
+export function isRemovingDependent(form = {}) {
+  return form['view:removeDependent'];
+}
+
+export function isReportingDivorce(form = {}) {
+  return form['view:reportDivorce'];
+}
+
+export function isReportingDeath(form = {}) {
+  return form['view:reportDeath'];
+}
+
 export function isMarried(form = {}) {
   return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }

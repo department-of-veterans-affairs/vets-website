@@ -30,6 +30,7 @@ import {
   getMarriageTitleWithCurrent,
   getSpouseMarriageTitle,
   hasBeenMarried,
+  isAddingDependent,
   isCurrentMarriage,
   isDomesticAddress,
   isInternationalAddressText,
@@ -346,6 +347,47 @@ const formConfig = {
     vaFileNumber,
   },
   chapters: {
+    taskWizard: {
+      title: '686c Options',
+      pages: {
+        tasks: {
+          title: '686c Options',
+          path: '686-task-wizard',
+          uiSchema: {
+            'view:selectable686Options': {
+              'ui:options': { showFieldLabel: true },
+              'ui:title': 'I want to use the 686c to...',
+              'view:addDependent': {
+                'ui:title': 'add a dependent',
+              },
+              'view:removeDependent': {
+                'ui:title': 'remove a dependent',
+              },
+              'view:reportDivorce': {
+                'ui:title': 'report a divorce',
+              },
+              'view:reportDeath': {
+                'ui:title': 'report a death',
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:selectable686Options': {
+                type: 'object',
+                properties: {
+                  'view:addDependent': { type: 'boolean' },
+                  'view:removeDependent': { type: 'boolean' },
+                  'view:reportDivorce': { type: 'boolean' },
+                  'view:reportDeath': { type: 'boolean' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
@@ -822,6 +864,7 @@ const formConfig = {
       title: 'Veteran’s Unmarried Children',
       pages: {
         dependents: {
+          depends: isAddingDependent,
           path: 'unmarried-children',
           title: 'Veteran’s Unmarried Children',
           uiSchema: {
@@ -883,6 +926,7 @@ const formConfig = {
           },
         },
         childrenInformation: {
+          depends: isAddingDependent,
           path: 'unmarried-children/information/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
@@ -1003,6 +1047,7 @@ const formConfig = {
           },
         },
         childrenAddress: {
+          depends: isAddingDependent,
           path: 'unmarried-children/address/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
