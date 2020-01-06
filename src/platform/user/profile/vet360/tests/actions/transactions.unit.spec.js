@@ -2,6 +2,7 @@ import {
   resetAddressValidation,
   validateAddress,
   ADDRESS_VALIDATION_CONFIRM,
+  ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_RESET,
 } from '../../actions/transactions';
 import sinon from 'sinon';
@@ -42,9 +43,12 @@ describe('validateAddress', () => {
       analyticsSectionName,
     )(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
+        ADDRESS_VALIDATION_INITIALIZE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
         ADDRESS_VALIDATION_CONFIRM,
       );
-      expect(dispatch.firstCall.args[0].suggestedAddresses).to.deep.equal([
+      expect(dispatch.secondCall.args[0].suggestedAddresses).to.deep.equal([
         {
           addressMetaData: {
             confidenceScore: 100,

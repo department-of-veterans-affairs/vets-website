@@ -25,6 +25,9 @@ class AddressEditModal extends React.Component {
     this.props.modalData ||
     this.props.data || { countryName: USA.COUNTRY_NAME };
 
+  getIsMailingAddress = () =>
+    this.props.title.toLowerCase().includes('mailing');
+
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
     this.props.onChange(newAddressValue, null, true);
@@ -39,6 +42,7 @@ class AddressEditModal extends React.Component {
         />
       )}
       <AddressForm
+        isMailingAddress={this.getIsMailingAddress()}
         address={this.props.field.value}
         onInput={this.onInput}
         onBlur={this.onBlur}

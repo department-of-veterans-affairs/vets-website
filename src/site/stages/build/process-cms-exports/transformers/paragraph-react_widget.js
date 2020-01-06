@@ -1,7 +1,7 @@
 // omit.js uses export default function
 const omit = require('lodash/fp/omit');
 
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, createLink } = require('./helpers');
 
 const transform = entity => ({
   entity: {
@@ -9,12 +9,7 @@ const transform = entity => ({
     entityBundle: 'react_widget',
     fieldButtonFormat: getDrupalValue(entity.fieldButtonFormat),
     fieldCtaWidget: getDrupalValue(entity.fieldCtaWidget),
-    fieldDefaultLink: entity.fieldDefaultLink[0]
-      ? {
-          url: { path: entity.fieldDefaultLink[0].uri },
-          title: entity.fieldDefaultLink[0].title,
-        }
-      : null,
+    fieldDefaultLink: createLink(entity.fieldDefaultLink, ['url', 'title']),
     fieldErrorMessage: entity.fieldErrorMessage[0]
       ? omit(['format'], entity.fieldErrorMessage[0])
       : null,

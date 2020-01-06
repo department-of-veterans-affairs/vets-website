@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { sortBy, unescape } = require('lodash');
+const { sortBy, unescape, pick } = require('lodash');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -42,6 +42,16 @@ function createMetaTag(type, key, value) {
   };
 }
 
+/**
+ * This is currently a dummy function, but we may
+ * need it in the future to convert weird uris like
+ * `entity:node/27` to something resembling a
+ * relative url
+ */
+function uriToUrl(uri) {
+  return uri;
+}
+
 module.exports = {
   getDrupalValue,
   createMetaTag,
@@ -78,12 +88,28 @@ module.exports = {
   },
 
   /**
-   * This is currently a dummy function, but we may
-   * need it in the future to convert weird uris like
-   * `entity:node/27` to something resembling a
-   * relative url
+   * Takes an array meant to contain only one object.
+   * If this object exists, an object will be returned matching what is expected for "fieldLink" objects,
+   * otherwise null is returned.
+   *
+   * If the optional parameter is used, the returned object will only contain those attributes.
+   *
+   * @param {array} fieldLink
+   * @param {array} attrs
+   * @return {object}
    */
-  uriToUrl(uri) {
-    return uri;
+  createLink(fieldLink, attrs = ['url', 'title', 'options']) {
+    const { uri, title, options } = fieldLink[0] || {};
+
+    return fieldLink[0]
+      ? pick(
+          {
+            url: { path: uriToUrl(uri) },
+            title,
+            options,
+          },
+          attrs,
+        )
+      : null;
   },
 };

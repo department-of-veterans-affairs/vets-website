@@ -10,6 +10,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     const result = findVAFormsReducer(undefined, emptyAction);
 
     expect(result).to.be.deep.equal({
+      error: '',
       fetching: false,
       page: 1,
       query: '',
@@ -23,6 +24,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     const state = findVAFormsReducer(undefined, action);
 
     expect(state).to.be.deep.equal({
+      error: '',
       fetching: true,
       page: 1,
       query: 'testing',

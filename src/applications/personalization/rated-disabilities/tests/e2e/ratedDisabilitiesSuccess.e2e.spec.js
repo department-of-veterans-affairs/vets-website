@@ -8,7 +8,7 @@ const Timeouts = require('platform/testing/e2e/timeouts');
 function runRatedDisabilitiesTest(browser) {
   browser.assert.containsText(
     'h2.vads-u-margin-y--1p5',
-    'Individual disabilities',
+    'Your individual ratings',
   );
   // This is checking for the top level <dl> tag in RatedDisabilityListItem
   browser.assert.visible(
