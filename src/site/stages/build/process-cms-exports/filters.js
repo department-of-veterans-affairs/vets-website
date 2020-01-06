@@ -84,5 +84,4 @@ function getFilteredEntity(entity) {
 module.exports = {
   getFilteredEntity,
   getFilter,
-  ignoreList,
 };
