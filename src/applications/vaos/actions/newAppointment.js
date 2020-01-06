@@ -415,8 +415,8 @@ export function openSelectAppointmentPage(page, uiSchema, schema) {
           .startOf('month')
           .format('YYYY-MM-DD'),
         moment(data.preferredDate)
-          .startOf('month')
-          .add(90, 'days')
+          .add(1, 'months')
+          .endOf('month')
           .format('YYYY-MM-DD'),
       );
 
