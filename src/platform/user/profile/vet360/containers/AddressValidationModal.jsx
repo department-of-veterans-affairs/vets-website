@@ -290,7 +290,7 @@ AddressValidationModal.propTypes = {
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,
   selectedAddress: PropTypes.object.isRequired,
-  selectedAddressId: PropTypes.string.isRequired,
+  selectedAddressId: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
