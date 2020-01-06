@@ -17,6 +17,11 @@ import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 import environments from '../../../platform/utilities/environment';
 
+/**
+ New: mbxClient is the new instance for the API calls and
+ The new SDK requires to pass the mapbox client to geocode services
+ otherwise use the client as it is
+*/
 let mbxClient;
 
 if (environments.isStaging()) {
@@ -203,6 +208,9 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: SEARCH_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
+    /**
+      New sdk requires types to be an array otherwise string
+     */
     let types = environments.isStaging()
       ? ['place', 'region', 'postcode', 'locality']
       : 'place,region,postcode,locality';
@@ -215,6 +223,9 @@ export const genBBoxFromAddress = query => {
       }
     }
 
+    /**
+     * New SDk uses forwardGeocode fn to make the API call(promise)
+     */
     if (environments.isStaging()) {
       mbxClient
         .forwardGeocode({
@@ -263,6 +274,9 @@ export const genBBoxFromAddress = query => {
         })
         .catch(error => dispatch({ type: SEARCH_FAILED, error }));
     } else {
+      /**
+       * Current SDk uses geocodeForward fn to make the API all (callback)
+       */
       mbxClient.geocodeForward(
         query.searchString,
         { country: 'us,pr,ph,gu,as,mp', types },

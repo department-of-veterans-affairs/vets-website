@@ -1,6 +1,10 @@
 import { mapboxClient } from '../components/MapboxClient';
 import environments from '../../../platform/utilities/environment';
-
+/**
+ New: mbxClient is the new instance for the API calls and
+ The new SDK requires to pass the mapbox client to geocode services
+ otherwise use the client as it is
+ */
 let mbxClient;
 
 if (environments.isStaging()) {
@@ -56,10 +60,18 @@ export const getBoxCenter = bounds => {
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocode = async (lon, lat) => {
+  /**
+   * New sdk requires types to be an array otherwise string
+   */
   const types = environments.isStaging()
     ? ['address', 'postcode']
     : 'address,postcode';
 
+  /**
+   * New SDk uses reverseGeocode fn
+   * //https://github.com/mapbox/mapbox-sdk-js/blob/master/docs/services.md#reversegeocode
+   * current SDK geocodeReverse fn
+   */
   if (environments.isStaging()) {
     const response = await mbxClient
       .reverseGeocode({ query: [lon, lat], types })

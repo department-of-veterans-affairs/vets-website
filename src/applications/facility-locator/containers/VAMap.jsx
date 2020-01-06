@@ -30,7 +30,11 @@ import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import environments from '../../../platform/utilities/environment';
-
+/**
+ New: mbxClient is the new instance for the API calls and
+ The new SDK requires to pass the mapbox client to geocode services
+ otherwise use the client as it is
+ */
 let mbxClient;
 
 if (environments.isStaging()) {
@@ -294,6 +298,9 @@ class VAMap extends Component {
    */
   genBBoxFromCoords = position => {
     if (environments.isStaging()) {
+      /**
+       * New SDk uses forwardGeocode fn to make the API call(promise)
+       */
       mbxClient
         .forwardGeocode({
           position,
@@ -325,6 +332,9 @@ class VAMap extends Component {
         })
         .catch();
     } else {
+      /**
+       * Current SDk uses geocodeForward fn to make the API all (callback)
+       */
       mbxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
         const coordinates = res.features[0].center;
         const placeName = res.features[0].place_name;
