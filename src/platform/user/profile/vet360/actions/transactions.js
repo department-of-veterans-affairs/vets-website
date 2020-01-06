@@ -233,6 +233,8 @@ export const validateAddress = (
       ...confirmedSuggestions[0],
     };
 
+    const selectedAddressId = confirmedSuggestions.length > 0 ? '0' : null;
+
     // we use the unfiltered list of suggested addresses to determine if we need
     // to show the modal because the only time we will skip the modal is if one
     // and only one confirmed address came back from the API
@@ -246,6 +248,7 @@ export const validateAddress = (
         addressValidationType: fieldName,
         selectedAddress: confirmedSuggestions[0], // always select the first address as the default
         suggestedAddresses,
+        selectedAddressId,
         validationKey,
       });
     }

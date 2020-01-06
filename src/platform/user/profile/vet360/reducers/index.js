@@ -34,7 +34,7 @@ const initialAddressValidationState = {
   addressValidationError: false,
   validationKey: null,
   selectedAddress: {},
-  selectedAddressId: '0',
+  selectedAddressId: null,
 };
 
 const initialState = {
@@ -233,7 +233,7 @@ export default function vet360(state = initialState, action) {
           suggestedAddresses: action.suggestedAddresses,
           validationKey: action.validationKey,
           selectedAddress: action.selectedAddress,
-          selectedAddressId: '0',
+          selectedAddressId: action.selectedAddressId,
         },
         modal: 'addressValidation',
       };
