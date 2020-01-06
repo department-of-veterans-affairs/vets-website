@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 const transform = entity => ({
   entity: {
@@ -6,7 +6,7 @@ const transform = entity => ({
     entityBundle: 'health_care_service_taxonomy',
     name: getDrupalValue(entity.name),
     description: {
-      processed: getDrupalValue(entity.description),
+      processed: getWysiwygString(getDrupalValue(entity.description)),
     },
     parent: [
       {
