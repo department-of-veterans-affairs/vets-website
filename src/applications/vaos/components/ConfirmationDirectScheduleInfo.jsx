@@ -2,11 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import FacilityAddress from './FacilityAddress';
 import { PURPOSE_TEXT } from '../utils/constants';
 
 export default function ConfirmationDirectScheduleInfo({
   data,
-  facility,
+  facilityDetails,
   clinic,
 }) {
   return (
@@ -44,9 +45,16 @@ export default function ConfirmationDirectScheduleInfo({
                 {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
               </dt>
               <dd>
-                {facility?.authoritativeName}
-                <br />
-                {facility?.city}, {facility?.stateAbbrev}
+                {!!facilityDetails && (
+                  <>
+                    {facilityDetails.attributes.name}
+                    <br />
+                    <FacilityAddress
+                      address={facilityDetails.attributes.address.physical}
+                      phone={facilityDetails.attributes.phone?.main}
+                    />
+                  </>
+                )}
               </dd>
             </dl>
           </div>

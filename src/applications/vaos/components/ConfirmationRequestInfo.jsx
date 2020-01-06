@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import { getTypeOfCare } from '../utils/selectors';
 import { FACILITY_TYPES, PURPOSE_TEXT } from '../utils/constants';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import FacilityAddress from './FacilityAddress';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -28,7 +29,7 @@ function formatBestTime(bestTime) {
   return 'Anytime during the day';
 }
 
-export default function ConfirmationRequestInfo({ data, facility }) {
+export default function ConfirmationRequestInfo({ data, facilityDetails }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
 
@@ -111,16 +112,20 @@ export default function ConfirmationRequestInfo({ data, facility }) {
                     </dd>
                   </>
                 )}
-              {!isCommunityCare && (
-                <>
-                  <dt>
-                    <strong>{facility?.authoritativeName}</strong>
-                  </dt>
-                  <dd>
-                    {facility?.city}, {facility?.stateAbbrev}
-                  </dd>
-                </>
-              )}
+              {!isCommunityCare &&
+                !!facilityDetails && (
+                  <>
+                    <dt>
+                      <strong>{facilityDetails.attributes.name}</strong>
+                    </dt>
+                    <dd>
+                      <FacilityAddress
+                        address={facilityDetails.attributes.address.physical}
+                        phone={facilityDetails.attributes.phone?.main}
+                      />
+                    </dd>
+                  </>
+                )}
             </dl>
           </div>
           <div className="vads-u-flex--1 vaos-appts__preferred-dates">
