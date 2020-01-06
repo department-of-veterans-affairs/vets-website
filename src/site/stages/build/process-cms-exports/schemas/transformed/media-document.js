@@ -14,7 +14,7 @@ module.exports = {
               type: 'object',
               properties: {
                 filename: { type: 'string' },
-                url: { type: 'string' },
+                url: { type: ['string', 'null'] },
               },
               required: ['filename', 'url'],
             },

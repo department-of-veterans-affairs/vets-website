@@ -10,7 +10,7 @@ module.exports = {
       items: {
         type: 'object',
         properties: {
-          alias: { type: 'string' },
+          alias: { type: ['string', 'null'] },
         },
         required: ['alias'],
       },
