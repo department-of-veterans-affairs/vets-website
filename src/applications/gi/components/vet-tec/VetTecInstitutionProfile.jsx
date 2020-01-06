@@ -11,7 +11,6 @@ import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 import _ from 'lodash';
-import environment from 'platform/utilities/environment';
 
 const VetTecInstitutionProfile = ({
   institution,
