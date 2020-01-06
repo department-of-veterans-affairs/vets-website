@@ -334,7 +334,7 @@ describe('vet360 reducer', () => {
           addressValidationType: 'mailingAddress',
           addressFromUser: { street: '987 main' },
           selectedAddress: {},
-          selectedAddressId: '0',
+          selectedAddressId: null,
           suggestedAddresses: [],
           validationKey: null,
         },
