@@ -8,6 +8,7 @@ import {
 } from '../constants';
 
 const initialState = {
+  error: '',
   fetching: false,
   page: 1,
   query: '',
@@ -18,10 +19,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORMS: {
-      return { ...state, fetching: true, query: action.query };
+      return { ...state, error: '', fetching: true, query: action.query };
     }
     case FETCH_FORMS_FAILURE: {
-      return { ...state, fetching: false };
+      return { ...state, error: action.error, fetching: false };
     }
     case FETCH_FORMS_SUCCESS: {
       return { ...state, fetching: false, results: action.results };
