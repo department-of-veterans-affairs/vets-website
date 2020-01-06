@@ -116,13 +116,10 @@ export default function ConfirmationRequestInfo({ data, facilityDetails }) {
                 !!facilityDetails && (
                   <>
                     <dt>
-                      <strong>{facilityDetails.attributes.name}</strong>
+                      <strong>{facilityDetails.name}</strong>
                     </dt>
                     <dd>
-                      <FacilityAddress
-                        address={facilityDetails.attributes.address.physical}
-                        phone={facilityDetails.attributes.phone?.main}
-                      />
+                      <FacilityAddress facility={facilityDetails} />
                     </dd>
                   </>
                 )}

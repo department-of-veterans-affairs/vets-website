@@ -47,12 +47,9 @@ export default function ConfirmationDirectScheduleInfo({
               <dd>
                 {!!facilityDetails && (
                   <>
-                    {facilityDetails.attributes.name}
+                    {facilityDetails.name}
                     <br />
-                    <FacilityAddress
-                      address={facilityDetails.attributes.address.physical}
-                      phone={facilityDetails.attributes.phone?.main}
-                    />
+                    <FacilityAddress facility={facilityDetails} />
                   </>
                 )}
               </dd>
