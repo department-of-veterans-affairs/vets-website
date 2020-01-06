@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
@@ -10,6 +10,8 @@ export default function ConfirmationDirectScheduleInfo({
   facilityDetails,
   clinic,
 }) {
+  const [isAdditionalInfoOpen, toggleAdditionalInfo] = useState(false);
+
   return (
     <div>
       <h1 className="vads-u-font-size--h2">
@@ -69,7 +71,10 @@ export default function ConfirmationDirectScheduleInfo({
           </div>
         </div>
         <div className="vads-u-margin-top--2">
-          <AdditionalInfo triggerText="Show more">
+          <AdditionalInfo
+            triggerText={isAdditionalInfoOpen ? 'Show less' : 'Show more'}
+            onClick={() => toggleAdditionalInfo(!isAdditionalInfoOpen)}
+          >
             <div className="vaos-appts__split-section">
               <div className="vaos_appts__message vads-u-flex--1" />
               <div className="vads-u-flex--1">

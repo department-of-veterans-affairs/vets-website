@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
@@ -32,6 +32,7 @@ function formatBestTime(bestTime) {
 export default function ConfirmationRequestInfo({ data, facilityDetails }) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVideoVisit = data.visitType === 'telehealth';
+  const [isAdditionalInfoOpen, toggleAdditionalInfo] = useState(false);
 
   return (
     <div>
@@ -148,7 +149,10 @@ export default function ConfirmationRequestInfo({ data, facilityDetails }) {
           </div>
         </div>
         <div className="vads-u-margin-top--2">
-          <AdditionalInfo triggerText={'Show more'}>
+          <AdditionalInfo
+            triggerText={isAdditionalInfoOpen ? 'Show less' : 'Show more'}
+            onClick={() => toggleAdditionalInfo(!isAdditionalInfoOpen)}
+          >
             <div className="vaos-appts__split-section">
               <div className="vaos_appts__message vads-u-flex--1">
                 <dl className="vads-u-margin--0">
