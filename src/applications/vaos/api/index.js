@@ -329,7 +329,7 @@ export function getFacilityInfo(facilityId) {
   } else {
     promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
-  return promise.then(resp => resp.data);
+  return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
 
 export function getFacilitiesInfo(facilityIds) {

@@ -51,7 +51,11 @@ class AddFilesForm extends React.Component {
     this.add = this.add.bind(this);
     this.getErrorMessage = this.getErrorMessage.bind(this);
     this.submit = this.submit.bind(this);
-    this.state = { errorMessage: null, checked: false };
+    this.state = {
+      errorMessage: null,
+      checked: false,
+      errorMessageCheckbox: null,
+    };
   }
   getErrorMessage() {
     if (this.state.errorMessage) {
@@ -87,6 +91,12 @@ class AddFilesForm extends React.Component {
     }
   }
   submit() {
+    this.setState(
+      this.state.checked
+        ? { errorMessageCheckbox: null }
+        : { errorMessageCheckbox: 'Please accept the above' },
+    );
+
     if (
       this.props.files.length > 0 &&
       this.props.files.every(isValidDocument) &&
@@ -185,11 +195,7 @@ class AddFilesForm extends React.Component {
             this.setState({ checked });
           }}
           checked={this.state.checked}
-          errorMessage={
-            !this.state.checked
-              ? 'Please accept the above to submit files for review.'
-              : null
-          }
+          errorMessage={this.state.errorMessageCheckbox}
           label={
             <div>
               <strong>
