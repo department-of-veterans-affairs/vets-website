@@ -371,13 +371,9 @@ export function getAvailableSlots(
   let promise;
 
   if (USE_MOCK_DATA) {
-    promise = new Promise(resolve => {
-      setTimeout(() => {
-        import('./slots.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
-      }, TEST_TIMEOUT || 1500);
-    });
+    promise = import('./slots.json').then(
+      module => (module.default ? module.default : module),
+    );
   } else {
     promise = apiRequest(
       `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
@@ -491,7 +487,7 @@ export function sendRequestMessage(id, messageText) {
 export function getPreferences() {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: {} } });
+    promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
   }
