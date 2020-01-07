@@ -38,15 +38,38 @@ describe('<VetTecVeteranPrograms>', () => {
     wrapper.unmount();
   });
 
+  it('should render correct data if VetSuccess on Campus program is available', () => {
+    const props = {
+      ...defaultProps,
+      institution: {
+        programs: [
+          {
+            ...defaultProps.institution.programs[0],
+            studentVetGroup: null,
+            studentVetGroupWebsite: null,
+            vetSuccessName: 'Y',
+            vetSuccessEmail: 'admin@test.com',
+          },
+        ],
+      },
+    };
+    const wrapper = mount(<VetTecVeteranPrograms {...props} />);
+    expect(wrapper.length).to.eq(1);
+    expect(wrapper.find('button').text()).to.eq('VetSuccess on Campus');
+    wrapper.unmount();
+  });
+
   it('should display the contact school message if veteran programs are not available', () => {
     const props = {
       ...defaultProps,
       institution: {
-        programs: {
-          ...defaultProps.programs,
-          studentVetGroup: null,
-          studentVetGroupWebsite: null,
-        },
+        programs: [
+          {
+            ...defaultProps.institution.programs[0],
+            studentVetGroup: null,
+            studentVetGroupWebsite: null,
+          },
+        ],
       },
     };
     const wrapper = mount(<VetTecVeteranPrograms {...props} />);
