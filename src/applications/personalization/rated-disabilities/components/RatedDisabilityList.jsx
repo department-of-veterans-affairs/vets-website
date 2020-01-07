@@ -33,7 +33,7 @@ class RatedDisabilityList extends React.Component {
             of VA.gov and try signing back into this page.
           </p>
           <p>
-            If you get this error again, please call VA.gov help desk at{' '}
+            If you get this error again, please call the VA.gov help desk at{' '}
             <a
               href="tel:18555747286"
               aria-label="1. 8 5 5. 5 7 4. 7 2 8 6."
@@ -53,9 +53,9 @@ class RatedDisabilityList extends React.Component {
             We don’t have rated disabilities on file for you
           </h2>
           <p>
-            We’re sorry. We can’t find any rated disabilities for you. If you
-            have a disability that was caused by or got worse because of your
-            service, you can file a claim for disability benefits.
+            We can’t find any rated disabilities for you. If you have a
+            disability that was caused by or got worse because of your service,
+            you can file a claim for disability benefits.
           </p>
           <a
             href="/disability/how-to-file-claim/"
@@ -113,7 +113,7 @@ class RatedDisabilityList extends React.Component {
 
     return (
       <div className="vads-l-row">
-        <h2 className="vads-u-margin-y--1p5">Individual disabilities</h2>
+        <h2 className="vads-u-margin-y--1p5">Your individual ratings</h2>
         <div className="vads-l-row">
           {formattedDisabilities.map((disability, index) => (
             <RatedDisabilityListItem ratedDisability={disability} key={index} />
