@@ -19,17 +19,20 @@ const availableSlots = [
 
 describe('VAOS <DateTimeSelectPage>', () => {
   it('should render', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const updateFormData = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{}}
         facilityId="123"
         availableDates={availableDates}
         availableSlots={availableSlots}
+        loadingStatus="succeeded"
       />,
     );
 
@@ -38,19 +41,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should not submit empty form', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const updateFormData = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{}}
         availableDates={availableDates}
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
+        loadingStatus="succeeded"
       />,
     );
 
@@ -60,13 +66,15 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should submit with selected data', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const updateFormData = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{
           calendarData: {
@@ -77,6 +85,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         }}
         availableDates={availableDates}
         availableSlots={availableSlots}
+        loadingStatus="succeeded"
         facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,

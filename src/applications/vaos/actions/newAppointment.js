@@ -401,7 +401,7 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function getAppointmentSlots(startDate, endDate, callback) {
+export function getAppointmentSlots(startDate, endDate) {
   return async (dispatch, getState) => {
     const newAppointment = getNewAppointment(getState());
     const availableSlots = newAppointment.availableSlots || [];
@@ -478,10 +478,6 @@ export function getAppointmentSlots(startDate, endDate, callback) {
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
           appointmentLength,
         });
-
-        if (callback) {
-          callback();
-        }
       } catch (e) {
         Sentry.captureException(e);
         dispatch({
