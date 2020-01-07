@@ -16,38 +16,77 @@ function fakeUtc(timeString) {
   return `${timeString.replace('T', ' ')} UTC`;
 }
 
-const transform = entity => ({
-  entityType: 'node',
-  entityBundle: 'event',
-  title: getDrupalValue(entity.title),
-  uid: entity.uid[0],
-  changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  path: getDrupalValue(entity.path),
-  fieldAdditionalInformationAbo: getDrupalValue(
-    entity.fieldAdditionalInformationAbo,
-  ),
-  // The keys of fieldAddress[0] are snake_case, but we want camelCase
-  fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
-  fieldBody: {
-    processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
-  },
-  fieldDate: {
-    startDate: fakeUtc(entity.fieldDate[0].value),
-    value: entity.fieldDate[0].value,
-    endDate: fakeUtc(entity.fieldDate[0].end_value),
-    endValue: entity.fieldDate[0].end_value,
-  },
-  fieldDescription: getDrupalValue(entity.fieldDescription),
-  fieldEventCost: getDrupalValue(entity.fieldEventCost),
-  fieldEventCta: getDrupalValue(entity.fieldEventCta),
-  fieldEventRegistrationrequired: getDrupalValue(
-    entity.fieldEventRegistrationrequired,
-  ),
-  fieldFacilityLocation: getDrupalValue(entity.fieldFacilityLocation),
-  fieldLink: getDrupalValue(entity.fieldLink),
-  fieldLocationHumanreadable: getDrupalValue(entity.fieldLocationHumanreadable),
-  fieldMedia: getDrupalValue(entity.fieldMedia),
-});
+// Same as the createMetaTag in the transformer helpers, but uses
+// __typename instead of type. Because consistency.
+function createMetaTag(type, key, value) {
+  return {
+    __typename: type,
+    key,
+    value,
+  };
+}
+
+const transform = entity => {
+  const metaTags = entity.metatag.value;
+
+  return {
+    entityType: 'node',
+    entityBundle: 'event',
+    title: getDrupalValue(entity.title),
+    uid: entity.uid[0],
+    changed: utcToEpochTime(getDrupalValue(entity.changed)),
+    entityUrl: {
+      breadcrumb: [], // TODO: Get the breadcrumb from the CMS export when it's available
+      path: entity.path[0].alias,
+    },
+    entityMetatags: [
+      createMetaTag('MetaValue', 'title', metaTags.title),
+      createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
+      createMetaTag('MetaProperty', 'og:site_name', metaTags.og_site_name),
+      createMetaTag(
+        'MetaValue',
+        'twitter:description',
+        metaTags.twitter_cards_description,
+      ),
+      createMetaTag('MetaValue', 'description', metaTags.description),
+      createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
+      createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+      createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
+      createMetaTag(
+        'MetaProperty',
+        'og:image:height',
+        metaTags.og_image_height,
+      ),
+    ],
+    fieldAdditionalInformationAbo: getDrupalValue(
+      entity.fieldAdditionalInformationAbo,
+    ),
+    // The keys of fieldAddress[0] are snake_case, but we want camelCase
+    fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
+    fieldBody: {
+      processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
+    },
+    fieldDate: {
+      startDate: fakeUtc(entity.fieldDate[0].value),
+      value: entity.fieldDate[0].value,
+      endDate: fakeUtc(entity.fieldDate[0].end_value),
+      endValue: entity.fieldDate[0].end_value,
+    },
+    fieldDescription: getDrupalValue(entity.fieldDescription),
+    fieldEventCost: getDrupalValue(entity.fieldEventCost),
+    fieldEventCta: getDrupalValue(entity.fieldEventCta),
+    fieldEventRegistrationrequired: getDrupalValue(
+      entity.fieldEventRegistrationrequired,
+    ),
+    fieldFacilityLocation: getDrupalValue(entity.fieldFacilityLocation),
+    fieldLink: getDrupalValue(entity.fieldLink),
+    fieldLocationHumanreadable: getDrupalValue(
+      entity.fieldLocationHumanreadable,
+    ),
+    fieldMedia: getDrupalValue(entity.fieldMedia),
+  };
+};
 
 module.exports = {
   filter: [
@@ -67,6 +106,7 @@ module.exports = {
     'field_link',
     'field_location_humanreadable',
     'field_media',
+    'metatag',
   ],
   transform,
 };

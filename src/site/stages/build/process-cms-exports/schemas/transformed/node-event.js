@@ -32,7 +32,8 @@ module.exports = {
       required: ['breadcrumb', 'path'],
     },
     entityMetaTags: {
-      // Probably should be a common schema
+      // Probably should be a common schema...except it's got
+      // __typename instead of type, so it's different.
       type: 'array',
       items: {
         type: 'object',
