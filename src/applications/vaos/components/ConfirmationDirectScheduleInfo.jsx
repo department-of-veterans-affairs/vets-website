@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 import FacilityAddress from './FacilityAddress';
 import { PURPOSE_TEXT } from '../utils/constants';
 
@@ -10,8 +9,6 @@ export default function ConfirmationDirectScheduleInfo({
   facilityDetails,
   clinic,
 }) {
-  const [isAdditionalInfoOpen, toggleAdditionalInfo] = useState(false);
-
   return (
     <div>
       <h1 className="vads-u-font-size--h2">
@@ -69,28 +66,6 @@ export default function ConfirmationDirectScheduleInfo({
               <dd>{data.reasonAdditionalInfo}</dd>
             </dl>
           </div>
-        </div>
-        <div className="vads-u-margin-top--2">
-          <AdditionalInfo
-            triggerText={isAdditionalInfoOpen ? 'Show less' : 'Show more'}
-            onClick={() => toggleAdditionalInfo(!isAdditionalInfoOpen)}
-          >
-            <div className="vaos-appts__split-section">
-              <div className="vaos_appts__message vads-u-flex--1" />
-              <div className="vads-u-flex--1">
-                <dl className="vads-u-margin--0">
-                  <dt className="vads-u-font-weight--bold vads-u-display--block">
-                    Your contact details
-                  </dt>
-                  <dd>
-                    {data.email}
-                    <br />
-                    {data.phoneNumber}
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </AdditionalInfo>
         </div>
       </div>
     </div>
