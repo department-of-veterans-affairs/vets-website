@@ -18,7 +18,7 @@ export function getBackendStatuses() {
     // default to empty array
     const { downtimeStart, downtimeEnd } = scheduledDowntimeWindow;
     const globalDowntimeActive =
-      /* toggleValues(state).vaGlobalDowntimeNotification */ true &&
+      toggleValues(state).vaGlobalDowntimeNotification &&
       moment().isAfter(downtimeStart) &&
       moment().isBefore(downtimeEnd);
     dispatch({
