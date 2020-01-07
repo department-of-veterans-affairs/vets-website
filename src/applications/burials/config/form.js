@@ -109,7 +109,7 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   downtime: {
-    dependencies: [externalServices.icmhs],
+    dependencies: [externalServices.global],
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',

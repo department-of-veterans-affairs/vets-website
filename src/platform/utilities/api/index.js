@@ -89,6 +89,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
+      console.log(response.ok);
       const data = isJson(response)
         ? response.json()
         : Promise.resolve(response);

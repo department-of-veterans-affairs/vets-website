@@ -1,5 +1,10 @@
+import moment from 'moment';
 import { apiRequest } from '../../../utilities/api';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { createGlobalMaintenanceWindow } from '../util/helpers';
+import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
 
+export const ERROR_SCHEDULE_DOWNTIME = 'ERROR_SCHEDULE_DOWNTIME';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
@@ -50,18 +55,42 @@ export function dismissDowntimeWarning(appTitle) {
 }
 
 export function getScheduledDowntime() {
-  return async dispatch => {
+  return async (dispatch, state) => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
     let data;
+
+    // create global downtime data if feature toggle is enabled and if
+    // current time is in downtime window
+    // default to empty array
+    const { downtimeStart, downtimeEnd } = scheduledDowntimeWindow;
+    const globalDowntimeData =
+      /* toggleValues(state).vaGlobalDowntimeNotification */ (true &&
+        moment().isAfter(downtimeStart) &&
+        moment().isBefore(downtimeEnd) &&
+        createGlobalMaintenanceWindow({
+          startTime: downtimeStart,
+          endTime: downtimeEnd,
+        })) ||
+      [];
     try {
       const response = await apiRequest('/maintenance_windows/');
-      data = response.data;
+      if (!response.ok) {
+        dispatch({
+          type: ERROR_SCHEDULE_DOWNTIME,
+          data: globalDowntimeData,
+        });
+      } else {
+        data = response.data;
+
+        dispatch({
+          type: RECEIVE_SCHEDULED_DOWNTIME,
+          data,
+        });
+      }
     } catch (err) {
-      // Probably in a test environment and the route isn't mocked.
-    } finally {
       dispatch({
-        type: RECEIVE_SCHEDULED_DOWNTIME,
-        data,
+        type: ERROR_SCHEDULE_DOWNTIME,
+        data: globalDowntimeData,
       });
     }
   };
