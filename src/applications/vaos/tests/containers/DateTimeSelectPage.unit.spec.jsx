@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DateTimeSelectPage } from '../../containers/DateTimeSelectPage';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const availableDates = ['2019-10-29'];
 const availableSlots = [
@@ -32,7 +33,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         facilityId="123"
         availableDates={availableDates}
         availableSlots={availableSlots}
-        loadingStatus="succeeded"
+        loadingStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -56,7 +57,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        loadingStatus="succeeded"
+        loadingStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -85,7 +86,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         }}
         availableDates={availableDates}
         availableSlots={availableSlots}
-        loadingStatus="succeeded"
+        loadingStatus={FETCH_STATUS.succeeded}
         facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
