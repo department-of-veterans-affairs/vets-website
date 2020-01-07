@@ -196,6 +196,11 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/compensation/NPRC1973Fire.asp",
+    "dest": "/records/get-military-service-records/reconstruct-records/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/gibill/resources/education_resources/school_certifying_officials/sco_info.asp",
     "dest": "/school-administrators"
   },
@@ -218,5 +223,65 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
     "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/#does-my-school-participate-in-"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/disabledvet.asp",
+    "dest": "/life-insurance/options-eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/sgli.asp",
+    "dest": "/life-insurance/options-eligibility/sgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/sglidisabled.asp",
+    "dest": "/life-insurance/options-eligibility/sgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/fsgli.asp",
+    "dest": "/life-insurance/options-eligibility/fsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/tsgli.asp",
+    "dest": "/life-insurance/options-eligibility/tsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/apply-for-VGLI.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vgli.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vgli_rates_new.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/getvgli.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/s-dvi.asp",
+    "dest": "/life-insurance/options-eligibility/s-dvi/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vmli.asp",
+    "dest": "/life-insurance/options-eligibility/vmli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/abo.asp",
+    "dest": "/life-insurance/totally-disabled-or-terminally-ill/"
   }
 ]

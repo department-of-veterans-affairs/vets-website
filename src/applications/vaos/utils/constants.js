@@ -39,7 +39,7 @@ export const PURPOSE_TEXT = [
   },
   {
     id: 'other',
-    short: 'My reason is not listed here',
+    short: 'My reason is not listed',
     label: 'My reason is not listed here',
     serviceName: 'Other',
   },
@@ -267,6 +267,11 @@ export const DISTANCES = [
 export const REASON_MAX_CHARS = {
   request: 100,
   direct: 150,
+};
+
+export const CALENDAR_INDICATOR_TYPES = {
+  CHECK: 'check',
+  BUBBLES: 'bubbles',
 };
 
 export const DISABLED_LIMIT_VALUE = 0;

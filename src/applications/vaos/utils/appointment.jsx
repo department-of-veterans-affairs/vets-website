@@ -3,6 +3,7 @@ import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
+import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 
 import {
   getTimezoneBySystemId,
@@ -79,6 +80,19 @@ export function sentenceCase(str) {
     .join(' ');
 }
 
+export function lowerCase(str) {
+  return str
+    .split(' ')
+    .map(word => {
+      if (/^[^a-z]*$/.test(word)) {
+        return word;
+      }
+
+      return word.toLowerCase();
+    })
+    .join(' ');
+}
+
 export function getLocationHeader(appt) {
   const type = getAppointmentType(appt);
 
@@ -117,6 +131,8 @@ export function getAppointmentLocation(appt, facility) {
         {appt.address.street}
         <br />
         {appt.address.city}, {appt.address.state} {appt.address.zipCode}
+        <br />
+        <FacilityDirectionsLink location={appt} />
       </>
     );
   }
@@ -151,8 +167,7 @@ export function getAppointmentLocation(appt, facility) {
     return (
       <FacilityAddress
         name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-        address={facility.address.physical}
-        phone={facility.phone?.main}
+        facility={facility}
       />
     );
   }
@@ -356,11 +371,19 @@ export function getAppointmentInstructions(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return appt.instructionsToVeteran;
-    case APPOINTMENT_TYPES.vaAppointment:
-      return (
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const bookingNotes =
         appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes
-      );
+        appt.vvsAppointments?.[0]?.bookingNotes;
+
+      const instructions = bookingNotes.split(': ', 2);
+
+      if (instructions.length > 1) {
+        return instructions[1];
+      }
+
+      return '';
+    }
     default:
       return '';
   }
@@ -372,18 +395,32 @@ export function getAppointmentInstructionsHeader(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return 'Special instructions';
-    case APPOINTMENT_TYPES.vaAppointment:
-      return 'Additional information';
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const bookingNotes =
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes;
+
+      const instructions = bookingNotes.split(': ', 2);
+
+      return instructions[0];
+    }
     default:
       return '';
   }
 }
 
 export function hasInstructions(appt) {
+  if (appt.instructionsToVeteran) {
+    return true;
+  }
+
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
   return (
-    !!appt.instructionsToVeteran ||
-    !!appt.vdsAppointments?.[0]?.bookingNote ||
-    !!appt.vvsAppointments?.[0]?.bookingNotes
+    !!bookingNotes &&
+    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
   );
 }
 

@@ -329,7 +329,7 @@ export function getFacilityInfo(facilityId) {
   } else {
     promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
-  return promise.then(resp => resp.data);
+  return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
 
 export function getFacilitiesInfo(facilityIds) {
@@ -487,7 +487,7 @@ export function sendRequestMessage(id, messageText) {
 export function getPreferences() {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: {} } });
+    promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
   }

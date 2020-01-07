@@ -8,7 +8,7 @@ import { formatOperatingHours } from '../utils/formatters';
  */
 const FacilityHours = ({ location }) => {
   // Derive the formatted hours info.
-  const hoursInfo = location?.attributes?.hours;
+  const hoursInfo = location?.hours;
 
   // Derive the time ranges for each day.
   const sunday = formatOperatingHours(hoursInfo?.sunday);
@@ -20,7 +20,7 @@ const FacilityHours = ({ location }) => {
   const saturday = formatOperatingHours(hoursInfo?.saturday);
 
   // Derive if the facility is a vet center.
-  const facilityType = location?.attributes?.facilityType;
+  const facilityType = location?.facilityType;
   const isVetCenter = facilityType === 'vet_center';
 
   return (

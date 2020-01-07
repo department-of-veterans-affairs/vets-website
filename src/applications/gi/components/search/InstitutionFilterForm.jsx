@@ -5,6 +5,7 @@ import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
 import { addAllOption } from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -111,18 +112,26 @@ class InstitutionFilterForm extends React.Component {
           label="Independent Study"
           onChange={this.handleCheckboxChange}
         />
-        <Checkbox
-          checked={filters.onlineOnly}
-          name="onlineOnly"
-          label="Online Only"
-          onChange={this.handleCheckboxChange}
-        />
-        <Checkbox
-          checked={filters.distanceLearning}
-          name="distanceLearning"
-          label="Distance Learning"
-          onChange={this.handleCheckboxChange}
-        />
+        <div>
+          {environment.isProduction() ? (
+            <div>
+              <Checkbox
+                checked={filters.onlineOnly}
+                name="onlineOnly"
+                label="Online Only"
+                onChange={this.handleCheckboxChange}
+              />
+              <Checkbox
+                checked={filters.distanceLearning}
+                name="distanceLearning"
+                label="Distance Learning"
+                onChange={this.handleCheckboxChange}
+              />
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
       </div>
     );
   };

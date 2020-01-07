@@ -127,8 +127,9 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
-export function getFacilityPageInfo(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
+export function getFacilityPageInfo(state) {
+  const formInfo = getFormPageInfo(state, 'vaFacility');
+  const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const eligibilityStatus = getEligibilityStatus(state);
 
@@ -145,9 +146,7 @@ export function getFacilityPageInfo(state, pageKey) {
       eligibilityStatus.direct || eligibilityStatus.request,
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVASystems:
-      !formInfo.data.vaSystem &&
-      formInfo.schema &&
-      !formInfo.schema.properties.vaSystem,
+      !data.vaSystem && formInfo.schema && !formInfo.schema.properties.vaSystem,
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
@@ -155,6 +154,8 @@ export function getFacilityPageInfo(state, pageKey) {
       newAppointment.systemsStatus === FETCH_STATUS.failed ||
       newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.elibilityStatus === FETCH_STATUS.failed,
+    typeOfCare: getTypeOfCare(data)?.name,
+    systemDetails: newAppointment?.facilityDetails[data.vaSystem],
   };
 }
 
@@ -167,15 +168,6 @@ export function getChosenClinicInfo(state) {
       clinic => clinic.clinicId === data.clinicId,
     ) || null
   );
-}
-
-export function getReasonForAppointment(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
-  const reasonRemainingChar = getNewAppointment(state).reasonRemainingChar;
-  return {
-    ...formInfo,
-    reasonRemainingChar,
-  };
 }
 
 export function getClinicsForChosenFacility(state) {
