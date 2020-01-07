@@ -873,14 +873,9 @@ const formConfig = {
           uiSchema: {
             'ui:description':
               'Please provide details about your unmarried children.',
-            'view:hasUnmarriedChildren': {
-              'ui:widget': 'yesNo',
-              'ui:title': 'Do you have unmarried children?',
-            },
             dependents: {
               'ui:options': {
                 itemName: 'Child',
-                expandUnder: 'view:hasUnmarriedChildren',
                 viewField: DependentField,
               },
               'ui:errorMessages': {
@@ -907,11 +902,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['view:hasUnmarriedChildren'],
             properties: {
-              'view:hasUnmarriedChildren': {
-                type: 'boolean',
-              },
               dependents: {
                 type: 'array',
                 minItems: 1,
