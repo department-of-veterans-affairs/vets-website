@@ -1,14 +1,17 @@
 name: Linting
-on: [push]
+on: push
 
 jobs:
-  prose:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-
+        uses: actions/checkout@v1
       - name: Vale
         uses: errata-ai/vale-action@v1.0.4
+        with:
+          styles: |
+            https://github.com/errata-ai/write-good/releases/latest/download/write-good.zip
+          config: https://gist.githubusercontent.com/jdkato/171186055d382c6065273fe5a7eeeb61/raw/7be13a5a030a5b760bebe8d83bbe7ee7cd092b10/.vale.ini
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
