@@ -9,7 +9,7 @@ module.exports = {
   'crop-2_1': 'crop.1d1c14bc-edb7-4dfc-baf5-cf0ad1810da7.json',
   entity_subqueue: 'entity_subqueue.0af013c4-9e81-4a3e-b74f-437536621cc3.json',
   file: 'file.0a3713c8-3533-4676-a894-c79ace11ea53.json',
-  'media-document': 'media.0005d6c0-7b1e-4454-afe2-9176705a52a1.json',
+  'media-document': 'media.10e78352-6dc0-411a-8c41-807f78d9a921.json',
   'media-image': 'media.003339cb-d979-442e-853e-7e56c8f86002.json',
   'media-video': 'media.012ecad1-2030-4ca6-a48f-996921a5816a.json',
   'menu_link_content-burials-and-memorials-benef':
