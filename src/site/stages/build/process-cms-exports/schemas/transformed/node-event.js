@@ -44,6 +44,7 @@ module.exports = {
         },
       },
     },
+    entityPublished: { type: 'boolean' },
     changed: { type: 'number' },
     uid: {
       type: 'object',
@@ -111,6 +112,9 @@ module.exports = {
     'title',
     'uid',
     'changed',
+    'entityUrl',
+    'entityMetatags',
+    'entityPublished',
     'fieldAdditionalInformationAbo',
     'fieldAddress',
     'fieldBody',

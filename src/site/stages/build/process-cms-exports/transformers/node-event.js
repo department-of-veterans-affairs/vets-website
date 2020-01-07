@@ -36,7 +36,8 @@ const transform = entity => {
     uid: entity.uid[0],
     changed: utcToEpochTime(getDrupalValue(entity.changed)),
     entityUrl: {
-      breadcrumb: [], // TODO: Get the breadcrumb from the CMS export when it's available
+      // TODO: Get the breadcrumb from the CMS export when it's available
+      breadcrumb: [],
       path: entity.path[0].alias,
     },
     entityMetatags: [
@@ -59,6 +60,8 @@ const transform = entity => {
         metaTags.og_image_height,
       ),
     ],
+    // TODO: Verify this will always be true from the CMS export
+    entityPublished: true,
     fieldAdditionalInformationAbo: getDrupalValue(
       entity.fieldAdditionalInformationAbo,
     ),
