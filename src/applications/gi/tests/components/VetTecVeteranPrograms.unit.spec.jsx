@@ -38,7 +38,7 @@ describe('<VetTecVeteranPrograms>', () => {
     wrapper.unmount();
   });
 
-  it('should display please contact message if veteran program is not available', () => {
+  it('should display the contact school message if veteran programs are not available', () => {
     const props = {
       ...defaultProps,
       institution: {
