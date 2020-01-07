@@ -8,7 +8,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Vale
-        uses: ./ # Uses an action in the root directory
+        uses: ./script/vale/.vale.ini
         with:
           styles: |
             https://github.com/errata-ai/write-good/releases/latest/download/write-good.zip
