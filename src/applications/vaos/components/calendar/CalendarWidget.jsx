@@ -7,6 +7,7 @@ import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 import {
+  getMaxMonth,
   getCalendarWeeks,
   isDateInSelectedArray,
   isDateOptionPairInSelectedArray,
@@ -15,8 +16,6 @@ import {
 } from '../../utils/calendar';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { FETCH_STATUS } from '../../utils/constants';
-
-const DEFAULT_MAX_DAYS_AHEAD = 90;
 
 export default class CalendarWidget extends Component {
   static props = {
@@ -41,11 +40,13 @@ export default class CalendarWidget extends Component {
   constructor(props) {
     super(props);
 
+    const { maxDate, startMonth } = this.props;
+
     const currentDate = moment();
     this.state = {
       currentDate,
       months: [currentDate],
-      maxMonth: this.getMaxMonth(),
+      maxMonth: getMaxMonth(maxDate, startMonth),
       optionsError: null,
     };
     this.currentDate = currentDate;
@@ -67,33 +68,6 @@ export default class CalendarWidget extends Component {
       });
     }
   }
-
-  getMaxMonth = () => {
-    const { maxDate, startMonth } = this.props;
-
-    const defaultMaxMonth = moment()
-      .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
-      .format('YYYY-MM');
-
-    // If provided start month is beyond our default, set that month as max month
-    if (startMonth && startMonth > defaultMaxMonth) {
-      return startMonth;
-    }
-
-    if (
-      maxDate &&
-      moment(maxDate)
-        .startOf('month')
-        .isAfter(defaultMaxMonth)
-    ) {
-      return moment(maxDate)
-        .startOf('month')
-        .format('YYYY-MM');
-    }
-
-    // If no available dates array provided, set max to default from now
-    return defaultMaxMonth;
-  };
 
   handlePrev = () => {
     const { onClickPrev } = this.props;
