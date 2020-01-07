@@ -11,20 +11,12 @@
             "value": "en"
           }
         ],
-        "bundle": [
-          {
-            "target_id": "image",
-            "target_type": "media_type",
-            "target_uuid": "92f64a34-81e5-4094-82a9-4fe61d7f2227"
-          }
-        ],
         "revisionCreated": [
           {
             "value": "2019-01-28T20:46:40+00:00",
             "format": "Y-m-d\\TH:i:sP"
           }
         ],
-        "revisionUser": [],
         "revisionLogMessage": [],
         "status": [
           {
@@ -42,12 +34,6 @@
             "derivative": {
               "url": "public://hub_promos/records.png"
             }
-          }
-        ],
-        "uid": [
-          {
-            "target_type": "user",
-            "target_uuid": "b02c2ff5-dfe1-4542-beec-3fd410a3f267"
           }
         ],
         "created": [
