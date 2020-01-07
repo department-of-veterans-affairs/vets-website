@@ -10,8 +10,5 @@ jobs:
 
       - name: Vale
         uses: errata-ai/vale-action@v1.0.4
-        with:
-          styles: ./script/vale/styles
-          config: ./script/vale/.vale.ini
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
