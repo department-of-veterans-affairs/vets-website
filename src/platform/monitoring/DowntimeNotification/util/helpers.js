@@ -32,7 +32,6 @@ export function createGlobalMaintenanceWindow({
   endTime,
   externalServices = defaultExternalServices,
 }) {
-
   return [
     {
       attributes: {
