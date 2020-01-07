@@ -1,15 +1,5 @@
 .find-va-forms-table {
   th {
-    &:nth-of-type(1) {
-      width: 120px;
-    }
-
-    &:nth-of-type(3) {
-      width: 125px;
-    }
-
-    &:nth-of-type(4) {
-      width: 145px;
-    }
+    min-width: 120px;
   }
 }
