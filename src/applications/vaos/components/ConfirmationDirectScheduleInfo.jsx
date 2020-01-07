@@ -18,7 +18,7 @@ export default function ConfirmationDirectScheduleInfo({
         <strong>Your appointment is confirmed.</strong> Please see your
         appointment details below.
       </AlertBox>
-      <div className="vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--green">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--green">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           VA Appointment
         </div>

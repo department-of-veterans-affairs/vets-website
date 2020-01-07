@@ -44,7 +44,7 @@ export default function ConfirmationRequestInfo({ data, facilityDetails }) {
         reviewing your request. You don't have anything to do right now. A
         scheduler will contact you to schedule the first available appointment.
       </AlertBox>
-      <div className="vaos-appts__list-item vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--warning-message">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--warning-message">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {isCommunityCare && 'Community Care'}
           {isVideoVisit && 'VA Video Connect'}
