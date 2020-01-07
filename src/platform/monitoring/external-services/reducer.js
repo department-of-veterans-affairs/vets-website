@@ -18,13 +18,15 @@ export default function externalServiceStatuses(state = INITIAL_STATE, action) {
       return {
         ...state,
         loading: false,
-        statuses: [
-          {
-            service: 'Global',
-            serviceId: 'global',
-            status: 'maintenance',
-          },
-        ],
+        statuses: action.globalDowntimeActive
+          ? [
+              {
+                service: 'Global',
+                serviceId: 'global',
+                status: 'maintenance',
+              },
+            ]
+          : [],
       };
 
     case FETCH_BACKEND_STATUSES_SUCCESS: {
