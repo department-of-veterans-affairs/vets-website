@@ -57,6 +57,7 @@ module.exports = {
   getDrupalValue,
   createMetaTag,
   unescapeUnicode,
+  uriToUrl,
 
   /**
    * This function takes an object where the keys are integers
