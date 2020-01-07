@@ -3,6 +3,7 @@ import moment from './moment-tz';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
+import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 
 import {
   getTimezoneBySystemId,
@@ -130,6 +131,8 @@ export function getAppointmentLocation(appt, facility) {
         {appt.address.street}
         <br />
         {appt.address.city}, {appt.address.state} {appt.address.zipCode}
+        <br />
+        <FacilityDirectionsLink location={appt} />
       </>
     );
   }
@@ -164,8 +167,7 @@ export function getAppointmentLocation(appt, facility) {
     return (
       <FacilityAddress
         name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-        address={facility.address.physical}
-        phone={facility.phone?.main}
+        facility={facility}
       />
     );
   }

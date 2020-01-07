@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "01495533-fca6-45a3-825b-26f7b7ede91c"
+            "value": "023f7f13-50bb-4eef-9570-78bdad529a3c"
         }
     ],
     "langcode": [
@@ -23,18 +23,18 @@
     ],
     "name": [
         {
-            "value": "Rheumatology"
+            "value": "Gastroenterology"
         }
     ],
     "description": [
         {
-            "value": "<p>Our team cares for and treats Veterans with joint and autoimmune conditions.<\/p>\r\n",
+            "value": "<p>Our gastrointestinal (GI) specialists offer screening and treatment for conditions affecting your GI tract, gallbladder, liver&nbsp;and pancreas\u2014like reflux, Crohn\u2019s disease, hepatitis and pancreatitis.<\/p>\r\n",
             "format": "rich_text"
         }
     ],
     "weight": [
         {
-            "value": 45
+            "value": 16
         }
     ],
     "parent": [
@@ -45,7 +45,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-13T20:43:51+00:00",
+            "value": "2019-10-30T16:44:30+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -56,11 +56,11 @@
     ],
     "metatag": {
         "value": {
-            "title": "Rheumatology | Veterans Affairs",
-            "canonical_url": "http:\/\/default\/health-care\/rheumatology",
+            "title": "Gastroenterology | Veterans Affairs",
+            "canonical_url": "http:\/\/default\/health-care\/gastroenterology",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "description": "Our team cares for and treats Veterans with joint and autoimmune conditions.",
+            "description": "Our gastrointestinal (GI) specialists offer screening and treatment for conditions affecting your GI tract, gallbladder, liver\u00a0and pancreas\u2014like reflux, Crohn\u2019s disease, hepatitis and pancreatitis.",
             "twitter_cards_title": "| Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
             "og_title": "| Veterans Affairs"
@@ -68,22 +68,26 @@
     },
     "path": [
         {
-            "alias": "\/health-care\/rheumatology",
+            "alias": "\/health-care\/gastroenterology",
             "langcode": "en",
             "pathauto": 1
         }
     ],
     "field_also_known_as": [
         {
-            "value": "Arthritis and joint conditions"
+            "value": "Digestive care, GI"
         }
     ],
     "field_commonly_treated_condition": [
         {
-            "value": "arthritis, Crohn's disease, gout, lupus"
+            "value": "reflux, GERD, Barrett's esophagus, endoscopy, colonoscopy"
         }
     ],
-    "field_health_service_api_id": [],
+    "field_health_service_api_id": [
+        {
+            "value": "gastroenterology"
+        }
+    ],
     "field_owner": [
         {
             "target_type": "taxonomy_term",

@@ -38,52 +38,10 @@
         ],
         "thumbnail": [
           {
-            "uuid": "63ab88b7-ab8d-4a52-b59e-b93b63056cd2",
-            "langcode": [
-              {
-                "value": "en"
-              }
-            ],
-            "uid": [],
-            "filename": [
-              {
-                "value": "records.png"
-              }
-            ],
-            "uri": [
-              {
-                "value": "public://hub_promos/records.png"
-              }
-            ],
-            "filemime": [
-              {
-                "value": "image/png"
-              }
-            ],
-            "filesize": [
-              {
-                "value": 58286
-              }
-            ],
-            "status": [
-              {
-                "value": true
-              }
-            ],
-            "created": [
-              {
-                "value": "2019-01-28T20:45:49+00:00",
-                "format": "Y-m-d\\TH:i:sP"
-              }
-            ],
-            "changed": [
-              {
-                "value": "2019-01-28T20:46:40+00:00",
-                "format": "Y-m-d\\TH:i:sP"
-              }
-            ],
-            "baseType": "file",
-            "contentModelType": "file"
+            "contentModelType": "file",
+            "derivative": {
+              "url": "public://hub_promos/records.png"
+            }
           }
         ],
         "uid": [
@@ -141,52 +99,10 @@
         "fieldOwner": [],
         "image": [
           {
-            "uuid": "63ab88b7-ab8d-4a52-b59e-b93b63056cd2",
-            "langcode": [
-              {
-                "value": "en"
-              }
-            ],
-            "uid": [],
-            "filename": [
-              {
-                "value": "records.png"
-              }
-            ],
-            "uri": [
-              {
-                "value": "public://hub_promos/records.png"
-              }
-            ],
-            "filemime": [
-              {
-                "value": "image/png"
-              }
-            ],
-            "filesize": [
-              {
-                "value": 58286
-              }
-            ],
-            "status": [
-              {
-                "value": true
-              }
-            ],
-            "created": [
-              {
-                "value": "2019-01-28T20:45:49+00:00",
-                "format": "Y-m-d\\TH:i:sP"
-              }
-            ],
-            "changed": [
-              {
-                "value": "2019-01-28T20:46:40+00:00",
-                "format": "Y-m-d\\TH:i:sP"
-              }
-            ],
-            "baseType": "file",
-            "contentModelType": "file"
+            "contentModelType": "file",
+            "derivative": {
+              "url": "public://hub_promos/records.png"
+            }
           }
         ],
         "baseType": "media",
