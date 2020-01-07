@@ -17,7 +17,6 @@ class VetTecCalculatorForm extends React.Component {
 
   handleInputChange = event => {
     const { name: field, value } = event.target;
-
     this.props.onInputChange({ field, value });
   };
 
