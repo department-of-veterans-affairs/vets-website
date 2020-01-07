@@ -2,7 +2,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneAbbrBySystemId } from './timezone';
+import { getTimezoneDescBySystemId } from './timezone';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
@@ -99,7 +99,7 @@ export function getDateTimeSelect(state, pageKey) {
   }, []);
 
   const timezone = data.vaSystem
-    ? getTimezoneAbbrBySystemId(data.vaSystem)
+    ? getTimezoneDescBySystemId(data.vaSystem)
     : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
 

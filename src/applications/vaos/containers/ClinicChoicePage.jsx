@@ -110,7 +110,7 @@ export class ClinicChoicePage extends React.Component {
               <p>
                 <FacilityAddress
                   name={facilityDetails.name}
-                  address={facilityDetails.address.physical}
+                  facility={facilityDetails}
                 />
               </p>
             )}
