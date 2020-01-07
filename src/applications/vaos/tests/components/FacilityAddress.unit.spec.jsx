@@ -49,14 +49,6 @@ describe('VAOS <FacilityAddress>', () => {
     expect(tree.text()).to.contain(address.state);
     expect(tree.text()).to.contain(address.zip);
     expect(tree.text()).to.contain(facility.phone.main);
-    expect(tree.exists('FacilityDirectionsLink')).to.be.false;
-    tree.unmount();
-  });
-
-  it('should show directions link if showDirectionsLink === true', () => {
-    const tree = shallow(
-      <FacilityAddress facility={facility} showDirectionsLink />,
-    );
     expect(tree.exists('FacilityDirectionsLink')).to.be.true;
     tree.unmount();
   });
