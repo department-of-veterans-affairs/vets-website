@@ -96,18 +96,26 @@ export default class CalendarWidget extends Component {
   };
 
   handlePrev = () => {
+    const { onClickPrev } = this.props;
     const updatedMonths = this.state.months.map(m =>
       m.subtract(this.props.monthsToShowAtOnce, 'months'),
     );
-    this.props.onClickPrev(updatedMonths);
+
+    if (onClickPrev) {
+      onClickPrev(updatedMonths);
+    }
     this.setState({ months: updatedMonths });
   };
 
   handleNext = () => {
+    const { onClickNext } = this.props;
     const updatedMonths = this.state.months.map(m =>
       m.add(this.props.monthsToShowAtOnce, 'months'),
     );
-    this.props.onClickNext(updatedMonths);
+
+    if (onClickNext) {
+      onClickNext(updatedMonths);
+    }
     this.setState({ months: updatedMonths });
   };
 
