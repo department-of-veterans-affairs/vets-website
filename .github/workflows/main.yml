@@ -12,6 +12,6 @@ jobs:
         with:
           styles: |
             https://github.com/errata-ai/write-good/releases/latest/download/write-good.zip
-          config: https://github.com/department-of-veterans-affairs/vets-website/blob/55889c9ccac176951e8e9bfa78e15bcb6188c5fc/.vale.ini
+          config: https://raw.githubusercontent.com/department-of-veterans-affairs/vets-website/55889c9ccac176951e8e9bfa78e15bcb6188c5fc/.vale.ini
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
