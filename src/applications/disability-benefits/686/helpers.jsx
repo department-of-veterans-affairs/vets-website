@@ -56,20 +56,20 @@ export function fetchDisabilityRating({ onDone }) {
   // );
 }
 
-export function isAddingDependent(form = {}) {
-  return form['view:selectable686Options']['view:addDependent'];
+export function isAddingChild(form = {}) {
+  return form['view:selectable686Options']['view:addChild'];
 }
 
-export function isRemovingDependent(form = {}) {
-  return form['view:removeDependent'];
+export function isAddingSpouse(form = {}) {
+  return form['view:selectable686Options']['view:addSpouse'];
 }
 
 export function isReportingDivorce(form = {}) {
-  return form['view:reportDivorce'];
+  return form['view:selectable686Options']['view:reportDivorce'];
 }
 
 export function isReportingDeath(form = {}) {
-  return form['view:reportDeath'];
+  return form['view:selectable686Options']['view:reportDeath'];
 }
 
 export function isMarried(form = {}) {

@@ -30,7 +30,8 @@ import {
   getMarriageTitleWithCurrent,
   getSpouseMarriageTitle,
   hasBeenMarried,
-  isAddingDependent,
+  isAddingChild,
+  isAddingSpouse,
   isCurrentMarriage,
   isDomesticAddress,
   isInternationalAddressText,
@@ -320,7 +321,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_21_686C,
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
   savedFormMessages: {
     notFound:
       'Please start over to apply to add a dependent to your VA compensation benefits.',
@@ -357,11 +358,11 @@ const formConfig = {
             'view:selectable686Options': {
               'ui:options': { showFieldLabel: true },
               'ui:title': 'I want to use the 686c to...',
-              'view:addDependent': {
-                'ui:title': 'add a dependent',
+              'view:addChild': {
+                'ui:title': 'add a child',
               },
-              'view:removeDependent': {
-                'ui:title': 'remove a dependent',
+              'view:addSpouse': {
+                'ui:title': 'add a spouse',
               },
               'view:reportDivorce': {
                 'ui:title': 'report a divorce',
@@ -377,8 +378,8 @@ const formConfig = {
               'view:selectable686Options': {
                 type: 'object',
                 properties: {
-                  'view:addDependent': { type: 'boolean' },
-                  'view:removeDependent': { type: 'boolean' },
+                  'view:addChild': { type: 'boolean' },
+                  'view:addSpouse': { type: 'boolean' },
                   'view:reportDivorce': { type: 'boolean' },
                   'view:reportDeath': { type: 'boolean' },
                 },
@@ -459,6 +460,7 @@ const formConfig = {
       title: 'Household Information',
       pages: {
         marriageInformation: {
+          depends: isAddingSpouse,
           title: 'Marriage history',
           path: 'household/marriage-information',
           uiSchema: {
@@ -493,6 +495,7 @@ const formConfig = {
           },
         },
         marriageHistory: {
+          depends: isAddingSpouse,
           title: (form, { pagePerItemIndex }) =>
             getMarriageTitleWithCurrent(form, pagePerItemIndex),
           path: 'household/marriages/:index',
@@ -864,7 +867,7 @@ const formConfig = {
       title: 'Veteran’s Unmarried Children',
       pages: {
         dependents: {
-          depends: isAddingDependent,
+          depends: isAddingChild,
           path: 'unmarried-children',
           title: 'Veteran’s Unmarried Children',
           uiSchema: {
@@ -926,7 +929,7 @@ const formConfig = {
           },
         },
         childrenInformation: {
-          depends: isAddingDependent,
+          depends: isAddingChild,
           path: 'unmarried-children/information/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
@@ -1047,7 +1050,7 @@ const formConfig = {
           },
         },
         childrenAddress: {
-          depends: isAddingDependent,
+          depends: isAddingChild,
           path: 'unmarried-children/address/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
