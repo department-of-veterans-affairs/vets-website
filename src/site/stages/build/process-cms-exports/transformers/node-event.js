@@ -60,8 +60,8 @@ const transform = entity => {
         metaTags.og_image_height,
       ),
     ],
-    // TODO: Verify this will always be true from the CMS export
-    entityPublished: true,
+    // TODO: Verify this is how to derive the entityPublished state
+    entityPublished: entity.moderationState[0].value === 'published',
     fieldAdditionalInformationAbo: getDrupalValue(
       entity.fieldAdditionalInformationAbo,
     ),
@@ -110,6 +110,7 @@ module.exports = {
     'field_location_humanreadable',
     'field_media',
     'metatag',
+    'moderation_state',
   ],
   transform,
 };
