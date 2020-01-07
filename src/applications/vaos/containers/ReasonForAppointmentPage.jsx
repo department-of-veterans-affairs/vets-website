@@ -48,7 +48,7 @@ const pageTitle = 'Reason for appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    document.title = `${pageTitle}  | Veterans Affairs`;
+    document.title = `${pageTitle} | Veterans Affairs`;
     this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
   }
 
