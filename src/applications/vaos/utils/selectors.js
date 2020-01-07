@@ -85,7 +85,7 @@ export function getPreferredDate(state, pageKey) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
-  const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
+  const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
@@ -109,7 +109,7 @@ export function getDateTimeSelect(state, pageKey) {
     availableSlots,
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
-    loadingAppointmentSlots,
+    appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
     typeOfCareId,

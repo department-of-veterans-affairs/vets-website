@@ -25,6 +25,15 @@ class DateTimeSelectField extends Component {
     return options;
   };
 
+  getAppointmentSlots = months => {
+    const getSlots = this.props.formContext.getAppointmentSlots;
+    const startDate = months[0].startOf('month').format('YYYY-MM-DD');
+    const endDate = months[months.length - 1]
+      .endOf('month')
+      .format('YYYY-MM-DD');
+    getSlots(startDate, endDate);
+  };
+
   render() {
     const { formContext, formData } = this.props;
     const { currentlySelectedDate, selectedDates } = formData;
@@ -40,6 +49,9 @@ class DateTimeSelectField extends Component {
         availableDates={formContext?.availableDates}
         currentlySelectedDate={currentlySelectedDate}
         selectedDates={selectedDates}
+        loadingStatus={formContext?.loadingStatus}
+        onClickPrev={this.getAppointmentSlots}
+        onClickNext={this.getAppointmentSlots}
         additionalOptions={{
           fieldName: 'datetime',
           required: true,

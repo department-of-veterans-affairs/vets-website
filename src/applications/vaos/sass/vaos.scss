@@ -90,6 +90,17 @@
   }
 }
 
+.vaos-calendar__loading {
+  opacity: 0.3;
+}
+
+.vaos-calendar__loading-overlay {
+  position: absolute;
+  width: 100%;
+  top: 25%;
+  z-index: 10000;
+}
+
 .vaos-calendar__weekday {
   width: 20%;
 }
@@ -182,6 +193,11 @@
 
     &:disabled {
       color: $color-gray-light !important;
+      background: none;
+    }
+
+    &:hover {
+      background: none;
     }
   }
 }
@@ -221,6 +237,7 @@
   border: 1px solid $color-primary;
   border-radius: 5px;
   padding: 8px 4px;
+
   input[type='radio'],
   input[type='checkbox'] {
     width: unset;
