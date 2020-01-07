@@ -10,8 +10,6 @@ jobs:
       - name: Vale
         uses: errata-ai/vale-action@v1.0.4
         with:
-          styles: |
-            https://github.com/errata-ai/write-good/releases/latest/download/write-good.zip
-          config: https://raw.githubusercontent.com/department-of-veterans-affairs/vets-website/master/script/vale/.vale.ini
+          config: https://raw.githubusercontent.com/department-of-veterans-affairs/vets-website/master/.vale.ini
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
