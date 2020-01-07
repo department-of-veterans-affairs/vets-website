@@ -170,7 +170,11 @@ export function getSystemDetails(systemIds) {
   }
 
   return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+    resp.data
+      .map(item => ({ ...item.attributes, id: item.id }))
+      // Sometimes facilities that aren't in our codes list come back, because they're
+      // marked as parents. We don't want this, so we're filtering them out
+      .filter(item => item.rootStationNumber === item.institutionCode),
   );
 }
 
@@ -188,7 +192,7 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${systemId}`,
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}`,
     );
   }
 
