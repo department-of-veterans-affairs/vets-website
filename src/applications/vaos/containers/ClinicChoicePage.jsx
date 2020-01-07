@@ -92,8 +92,8 @@ export class ClinicChoicePage extends React.Component {
             {facilityDetails && (
               <p>
                 <FacilityAddress
-                  name={facilityDetails.attributes.name}
-                  address={facilityDetails.attributes.address.physical}
+                  name={facilityDetails.name}
+                  address={facilityDetails.address.physical}
                 />
               </p>
             )}
@@ -109,8 +109,8 @@ export class ClinicChoicePage extends React.Component {
             {facilityDetails && (
               <p>
                 <FacilityAddress
-                  name={facilityDetails.attributes.name}
-                  address={facilityDetails.attributes.address.physical}
+                  name={facilityDetails.name}
+                  address={facilityDetails.address.physical}
                 />
               </p>
             )}
