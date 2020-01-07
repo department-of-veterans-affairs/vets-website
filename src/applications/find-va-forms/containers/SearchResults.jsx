@@ -14,19 +14,19 @@ const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
 const FIELD_LABELS = [
   {
-    label: 'Form ID',
+    label: 'Form number',
     value: 'idLabel',
   },
   {
-    label: 'Form Name',
+    label: 'Form name',
     value: 'titleLabel',
   },
   {
-    label: 'Issue Date',
+    label: 'Issue date',
     value: 'firstIssuedOnLabel',
   },
   {
-    label: 'Revision Date',
+    label: 'Revision date',
     value: 'lastRevisionOnLabel',
   },
 ];
