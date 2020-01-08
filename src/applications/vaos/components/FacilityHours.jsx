@@ -11,21 +11,21 @@ const FacilityHours = ({ location }) => {
   const hoursInfo = location?.hours;
 
   const days = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ];
 
   const dayObjects = days
-    .map(d => ({
-      day: `${d.charAt(0).toUpperCase()}${d.slice(1)}`,
-      hours: formatOperatingHours(hoursInfo?.[d]),
+    .map(day => ({
+      day,
+      hours: formatOperatingHours(hoursInfo?.[day.toLowerCase()]),
     }))
-    .filter(o => !!o.hours);
+    .filter(day => !!day.hours);
 
   // Derive if the facility is a vet center.
   const facilityType = location?.facilityType;
