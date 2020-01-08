@@ -2,7 +2,7 @@ const {
   getDrupalValue,
   utcToEpochTime,
   getWysiwygString,
-  uriToUrl,
+  createLink,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 const assert = require('assert');
@@ -88,9 +88,7 @@ const transform = entity => {
       entity.fieldEventRegistrationrequired,
     ),
     fieldFacilityLocation: entity.fieldFacilityLocation[0] || null,
-    fieldLink: entity.fieldLink[0]
-      ? { url: { path: uriToUrl(entity.fieldLink.uri) } }
-      : null,
+    fieldLink: createLink(entity.fieldLink),
     fieldLocationHumanreadable: getDrupalValue(
       entity.fieldLocationHumanreadable,
     ),
