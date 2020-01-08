@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
+import debounce from 'platform/utilities/data/debounce';
 import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
 import { isDateOptionPairInSelectedArray } from './../../utils/calendar';
@@ -12,6 +13,33 @@ export default function CalendarOptions({
   selectedDates,
   selectedCellIndex,
 }) {
+  const [fieldsetHeight, setFieldsetHeight] = useState(0);
+  const [fieldsetNode, setFieldsetNode] = useState(null);
+
+  const measuredHeight = useCallback(node => {
+    if (node !== null) {
+      setFieldsetHeight(node.getBoundingClientRect().height);
+    }
+    setFieldsetNode(node);
+  }, []);
+
+  useEffect(() => {
+    const onResize = debounce(50, () => {
+      if (fieldsetNode) {
+        const newHeight = fieldsetNode.getBoundingClientRect().height;
+        if (newHeight !== fieldsetHeight) {
+          setFieldsetHeight(newHeight);
+        }
+      }
+    });
+
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  });
+
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
     currentlySelectedDate,
   );
@@ -24,7 +52,7 @@ export default function CalendarOptions({
     const beginningCellIndex = [0, 1];
     const endCellIndexes = [3, 4];
 
-    // If list of items is won't fill row, align items closer to selected cell
+    // If list of items won't fill row, align items closer to selected cell
     const cssClasses = classNames(
       'vaos-calendar__options',
       selectedDateOptions.length < maxCellsPerRow
@@ -43,8 +71,11 @@ export default function CalendarOptions({
     );
 
     return (
-      <div role="cell" className="vads-u-order--last vads-u-width--full">
-        <fieldset>
+      <div style={{ height: fieldsetHeight }}>
+        <fieldset
+          ref={measuredHeight}
+          className="vaos-calendar__options-container"
+        >
           <legend className="vads-u-visibility--screen-reader">
             {additionalOptions.legend ||
               'Please select an option for this date'}

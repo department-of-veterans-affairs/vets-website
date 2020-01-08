@@ -186,15 +186,17 @@
   }
 }
 
+.vaos-calendar__options-container {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  margin-top: 8px;
+}
+
 .vaos-calendar__options {
   display: flex;
   flex-wrap: wrap;
   margin: 0;
-  margin-top: 8px;
-
-  @include media($small-screen) {
-    margin-top: 0;
-  }
 }
 
 .vaos-calendar__option-cell {

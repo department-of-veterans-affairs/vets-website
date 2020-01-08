@@ -88,7 +88,6 @@ export default class CalendarRow extends Component {
               selectedIndicatorType={selectedIndicatorType}
             />
           ))}
-          <div className="vaos-calendar__flex-line-break" />
         </div>
       </div>
     );

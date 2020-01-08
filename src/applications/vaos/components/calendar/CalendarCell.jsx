@@ -59,17 +59,17 @@ const CalendarCell = ({
             <span className="vaos-calendar__cell-selected-triangle" />
           )}
         </button>
+        {isCurrentlySelected && (
+          <CalendarOptions
+            selectedCellIndex={index}
+            currentlySelectedDate={currentlySelectedDate}
+            additionalOptions={additionalOptions}
+            handleSelectOption={handleSelectOption}
+            optionsError={optionsError}
+            selectedDates={selectedDates}
+          />
+        )}
       </div>
-      {isCurrentlySelected && (
-        <CalendarOptions
-          selectedCellIndex={index}
-          currentlySelectedDate={currentlySelectedDate}
-          additionalOptions={additionalOptions}
-          handleSelectOption={handleSelectOption}
-          optionsError={optionsError}
-          selectedDates={selectedDates}
-        />
-      )}
     </>
   );
 };
