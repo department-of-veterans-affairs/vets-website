@@ -448,93 +448,99 @@ class CalculatorForm extends React.Component {
     const value = shouldRenderEnrolled ? enrolledValue : enrolledOldValue;
 
     return (
-      <div>
-        <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'Enrolled',
-            modal: 'calcEnrolled',
-            ariaLabel: ariaLabels.learnMore.calcEnrolled,
-          })}
-          name={name}
-          alt="Enrolled"
-          options={options}
-          visible
-          value={value}
-          onChange={this.handleInputChange}
-        />
-      </div>
+      <Dropdown
+        label={this.renderLearnMoreLabel({
+          text: 'Enrolled',
+          modal: 'calcEnrolled',
+          ariaLabel: ariaLabels.learnMore.calcEnrolled,
+        })}
+        name={name}
+        alt="Enrolled"
+        options={options}
+        visible
+        value={value}
+        onChange={this.handleInputChange}
+      />
     );
   };
 
   renderCalendar = () => {
     if (!this.props.displayedInputs.calendar) return null;
 
-    let dependentDropdowns;
+    return (
+      <Dropdown
+        label={this.renderLearnMoreLabel({
+          text: 'School Calendar',
+          modal: 'calcSchoolCalendar',
+          ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+        })}
+        name="calendar"
+        alt="School calendar"
+        options={[
+          { value: 'semesters', label: 'Semesters' },
+          { value: 'quarters', label: 'Quarters' },
+          { value: 'nontraditional', label: 'Non-Traditional' },
+        ]}
+        visible
+        value={this.props.inputs.calendar}
+        onChange={this.handleInputChange}
+      />
+    );
+  };
+
+  renderNumberNontradTerms = () => {
+    if (!this.props.displayedInputs.calendar) return null;
 
     if (this.props.inputs.calendar === 'nontraditional') {
-      dependentDropdowns = (
-        <div>
-          <Dropdown
-            label="How many terms per year?"
-            name="numberNontradTerms"
-            alt="How many terms per year?"
-            options={[
-              { value: '3', label: 'Three' },
-              { value: '2', label: 'Two' },
-              { value: '1', label: 'One' },
-            ]}
-            visible
-            value={this.props.inputs.numberNontradTerms}
-            onChange={this.handleInputChange}
-          />
-          <Dropdown
-            label="How long is each term?"
-            name="lengthNontradTerms"
-            alt="How long is each term?"
-            options={[
-              { value: '1', label: '1 month' },
-              { value: '2', label: '2 months' },
-              { value: '3', label: '3 months' },
-              { value: '4', label: '4 months' },
-              { value: '5', label: '5 months' },
-              { value: '6', label: '6 months' },
-              { value: '7', label: '7 months' },
-              { value: '8', label: '8 months' },
-              { value: '9', label: '9 months' },
-              { value: '10', label: '10 months' },
-              { value: '11', label: '11 months' },
-              { value: '12', label: '12 months' },
-            ]}
-            visible
-            value={this.props.inputs.lengthNontradTerms}
-            onChange={this.handleInputChange}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div>
+      return (
         <Dropdown
-          label={this.renderLearnMoreLabel({
-            text: 'School Calendar',
-            modal: 'calcSchoolCalendar',
-            ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
-          })}
-          name="calendar"
-          alt="School calendar"
+          label="How many terms per year?"
+          name="numberNontradTerms"
+          alt="How many terms per year?"
           options={[
-            { value: 'semesters', label: 'Semesters' },
-            { value: 'quarters', label: 'Quarters' },
-            { value: 'nontraditional', label: 'Non-Traditional' },
+            { value: '3', label: 'Three' },
+            { value: '2', label: 'Two' },
+            { value: '1', label: 'One' },
           ]}
           visible
-          value={this.props.inputs.calendar}
+          value={this.props.inputs.numberNontradTerms}
           onChange={this.handleInputChange}
         />
-        {dependentDropdowns}
-      </div>
-    );
+      );
+    }
+    return null;
+  };
+
+  renderLengthNontradTerms = () => {
+    if (!this.props.displayedInputs.calendar) return null;
+
+    if (this.props.inputs.calendar === 'nontraditional') {
+      return (
+        <Dropdown
+          label="How long is each term?"
+          name="lengthNontradTerms"
+          alt="How long is each term?"
+          options={[
+            { value: '1', label: '1 month' },
+            { value: '2', label: '2 months' },
+            { value: '3', label: '3 months' },
+            { value: '4', label: '4 months' },
+            { value: '5', label: '5 months' },
+            { value: '6', label: '6 months' },
+            { value: '7', label: '7 months' },
+            { value: '8', label: '8 months' },
+            { value: '9', label: '9 months' },
+            { value: '10', label: '10 months' },
+            { value: '11', label: '11 months' },
+            { value: '12', label: '12 months' },
+          ]}
+          visible
+          value={this.props.inputs.lengthNontradTerms}
+          onChange={this.handleInputChange}
+        />
+      );
+    }
+    return null;
   };
 
   renderKicker = () => {
@@ -816,7 +822,11 @@ class CalculatorForm extends React.Component {
         {this.renderScholarships()}
         {this.renderTuitionAssist()}
         {this.renderEnrolled()}
-        {this.renderCalendar()}
+        <fieldset>
+          {this.renderCalendar()}
+          {this.renderNumberNontradTerms()}
+          {this.renderLengthNontradTerms()}
+        </fieldset>
         {this.renderOnlineClasses()}
         {this.renderExtensionBeneficiaryZIP()}
         {this.renderKicker()}
