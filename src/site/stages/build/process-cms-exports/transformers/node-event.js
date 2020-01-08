@@ -63,11 +63,13 @@ const transform = entity => {
     ],
     // TODO: Verify this is how to derive the entityPublished state
     entityPublished: entity.moderationState[0].value === 'published',
-    fieldAdditionalInformationAbo: {
-      processed: getWysiwygString(
-        getDrupalValue(entity.fieldAdditionalInformationAbo),
-      ),
-    },
+    fieldAdditionalInformationAbo: entity.fieldAdditionalInformationAbo.value
+      ? {
+          processed: getWysiwygString(
+            getDrupalValue(entity.fieldAdditionalInformationAbo),
+          ),
+        }
+      : null,
     // The keys of fieldAddress[0] are snake_case, but we want camelCase
     fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
     fieldBody: {
