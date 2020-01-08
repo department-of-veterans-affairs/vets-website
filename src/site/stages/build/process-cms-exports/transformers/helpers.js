@@ -58,6 +58,29 @@ module.exports = {
   unescapeUnicode,
 
   /**
+   * Takes an entity and crop type, finds the appropriate image crop,
+   * and returns the entity with the correct URL and dimensions
+   *
+   * @param {Object} entity - The media-image entity
+   * @param {String} cropType - The name of the crop type.
+   *                            Note: This is subject to change during
+   *                            implementation
+   *
+   * @return {Object} - A new entity with the updated URL and dimensions
+   */
+  getImage(entity) {
+    assert(
+      entity.contentModelType === 'media-image',
+      `Expected getImage() to be called with a 'media-image' entity. Instead found ${
+        entity.contentModelType
+      }`,
+    );
+
+    // TODO: Return a new entity with updated URL and dimensions
+    return entity;
+  },
+
+  /**
    * This function takes an object where the keys are integers
    * and returns the object as an array where each index corresponds
    * to the key of the original object. This exists because we encountered

@@ -4,6 +4,7 @@ const {
   createLink,
   getWysiwygString,
   unescapeUnicode,
+  getImage,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -109,6 +110,22 @@ describe('CMS export transformer helpers', () => {
         },
         title: 'Hello, World!',
       });
+    });
+  });
+
+  describe('getImage', () => {
+    it('TEMPORARILY returns the original entity passed into it', () => {
+      const entity = { contentModelType: 'media-image', foo: 'bar' };
+      expect(getImage(entity)).to.equal(entity);
+    });
+
+    it('Throws an exception when an entity other than a media-image is passed in', done => {
+      try {
+        getImage({ contentModelType: 'media-document' });
+        done(new Error('getImage() should have thrown an exeption'));
+      } catch (e) {
+        done();
+      }
     });
   });
 });
