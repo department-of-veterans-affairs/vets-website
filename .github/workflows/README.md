@@ -1,6 +1,6 @@
 ### Jobs
 
-- `lint`: Uses `vale` to pefrom plain language linting
+- `lint`: Uses `vale` to pefrom plain language linting on content for va.gov
 
 #### Resources
 
