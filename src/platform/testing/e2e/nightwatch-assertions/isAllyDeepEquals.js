@@ -25,5 +25,7 @@ exports.assertion = function isAllyDeepEquals(selector, balanceBool) {
   this.expected = balanceBool;
   this.pass = value => value === this.expected;
   this.value = result => result.value[0] === result.value[1];
-  this.command = callback => this.api.allyDeepEquals(selector, callback);
+  this.command = callback => {
+    this.api.allyDeepEquals(selector, callback);
+  };
 };
