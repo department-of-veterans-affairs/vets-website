@@ -1,10 +1,10 @@
-const { getDrupalValue } = require('./helpers');
+// const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   entity: {
     entityType: 'media',
     entityBundle: 'image',
-    image: getDrupalValue(entity.image),
+    image: entity.image,
   },
 });
 module.exports = {
