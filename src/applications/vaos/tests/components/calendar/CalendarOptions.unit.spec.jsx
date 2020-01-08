@@ -50,4 +50,24 @@ describe('VAOS <CalendarOptions>', () => {
     expect(checks.length).to.equal(2);
     tree.unmount();
   });
+
+  it('should update height after resize', done => {
+    const tree = mount(
+      <CalendarOptions
+        currentlySelectedDate="2019-10-21"
+        selectedDates={selectedDates}
+        additionalOptions={{ maxSelections: 1, getOptionsByDate }}
+      />,
+    );
+    tree.update();
+
+    window.dispatchEvent(new Event('resize'));
+
+    setTimeout(() => {
+      // this test doesn't really do anything other than excercise the code and make
+      // sure it doesn't error
+      tree.unmount();
+      done();
+    }, 60);
+  });
 });
