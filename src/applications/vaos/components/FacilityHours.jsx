@@ -23,13 +23,10 @@ const FacilityHours = ({ location }) => {
   ];
 
   const dayObjects = days
-    .map(d => {
-      const day = `${d.charAt(0).toUpperCase()}${d.slice(1)}`;
-      return {
-        day,
-        hours: formatOperatingHours(hoursInfo?.[d]),
-      };
-    })
+    .map(d => ({
+      day: `${d.charAt(0).toUpperCase()}${d.slice(1)}`,
+      hours: formatOperatingHours(hoursInfo?.[d]),
+    }))
     .filter(o => !!o.hours);
 
   // Derive if the facility is a vet center.
