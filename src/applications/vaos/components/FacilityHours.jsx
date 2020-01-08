@@ -20,7 +20,7 @@ const FacilityHours = ({ location }) => {
     'Saturday',
   ];
 
-  const dayObjects = days
+  const dayHours = days
     .map(day => ({
       day,
       hours: formatOperatingHours(hoursInfo?.[day.toLowerCase()]),
@@ -41,7 +41,7 @@ const FacilityHours = ({ location }) => {
             </div>
             <div className="vads-l-col--9 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--9">
               <div className="vads-l-row">
-                {dayObjects.map((d, index) => (
+                {dayHours.map((d, index) => (
                   <React.Fragment key={`hours-${index}`}>
                     <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--5 medium-screen:small-screen:vads-l-col--3">
                       <span className="vads-u-display--none small-screen:vads-u-display--inline">
