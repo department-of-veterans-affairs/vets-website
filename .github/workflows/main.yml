@@ -10,5 +10,7 @@ jobs:
 
       - name: Vale
         uses: errata-ai/vale-action@v1.0.4
+        with:
+          debug: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
