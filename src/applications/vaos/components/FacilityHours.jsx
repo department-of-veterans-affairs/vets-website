@@ -1,5 +1,6 @@
 // Dependencies
 import React from 'react';
+import isMobile from 'ismobilejs';
 // Relative
 import { formatOperatingHours } from '../utils/formatters';
 
@@ -9,15 +10,27 @@ import { formatOperatingHours } from '../utils/formatters';
 const FacilityHours = ({ location }) => {
   // Derive the formatted hours info.
   const hoursInfo = location?.hours;
+  const mobile = isMobile.phone;
 
-  // Derive the time ranges for each day.
-  const sunday = formatOperatingHours(hoursInfo?.sunday);
-  const monday = formatOperatingHours(hoursInfo?.monday);
-  const tuesday = formatOperatingHours(hoursInfo?.tuesday);
-  const wednesday = formatOperatingHours(hoursInfo?.wednesday);
-  const thursday = formatOperatingHours(hoursInfo?.thursday);
-  const friday = formatOperatingHours(hoursInfo?.friday);
-  const saturday = formatOperatingHours(hoursInfo?.saturday);
+  const days = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
+
+  const dayObjects = days
+    .map(d => {
+      const day = `${d.charAt(0).toUpperCase()}${d.slice(1)}`;
+      return {
+        day,
+        hours: formatOperatingHours(hoursInfo?.[d]),
+      };
+    })
+    .filter(o => !!o.hours);
 
   // Derive if the facility is a vet center.
   const facilityType = location?.facilityType;
@@ -28,94 +41,21 @@ const FacilityHours = ({ location }) => {
       <div className="vads-l-row">
         <div className="vads-l-col--8 xsmall-screen:vads-l-col--12">
           <div className="vads-l-row">
-            <div className="vads-l-col--3 xsmall-screen:vads-l-col--4 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-font-weight--bold">
+            <div className="vads-l-col--3 xsmall-screen:vads-l-col--4 small-screen:vads-l-col--3 medium-screen:vads-l-col--3 vads-u-font-weight--bold">
               Hours:
             </div>
-            <div className="vads-l-col--9 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--6">
+            <div className="vads-l-col--9 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--9">
               <div className="vads-l-row">
-                {/* Sunday */}
-                {sunday && (
+                {dayObjects.map(d => (
                   <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Sunday
+                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--5 medium-screen:small-screen:vads-l-col--3">
+                      {mobile ? d.day.slice(0, 3) : d.day}
                     </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {sunday}
+                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--7 medium-screen:small-screen:vads-l-col--9">
+                      {d.hours}
                     </div>
                   </>
-                )}
-
-                {/* Monday */}
-                {monday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Monday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {monday}
-                    </div>
-                  </>
-                )}
-
-                {/* Tuesday */}
-                {tuesday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Tuesday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {tuesday}
-                    </div>
-                  </>
-                )}
-
-                {/* Wednesday */}
-                {wednesday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Wednesday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {wednesday}
-                    </div>
-                  </>
-                )}
-
-                {/* Thursday */}
-                {thursday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Thursday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {thursday}
-                    </div>
-                  </>
-                )}
-
-                {/* Friday */}
-                {friday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Friday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {friday}
-                    </div>
-                  </>
-                )}
-
-                {/* Saturday */}
-                {saturday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Saturday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {saturday}
-                    </div>
-                  </>
-                )}
+                ))}
               </div>
             </div>
           </div>
