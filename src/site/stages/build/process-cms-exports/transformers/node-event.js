@@ -92,7 +92,7 @@ const transform = entity => {
     fieldLocationHumanreadable: getDrupalValue(
       entity.fieldLocationHumanreadable,
     ),
-    fieldMedia: getDrupalValue(entity.fieldMedia),
+    fieldMedia: entity.fieldMedia[0] || null,
   };
 };
 
