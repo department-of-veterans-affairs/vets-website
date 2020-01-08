@@ -34,13 +34,17 @@ describe('External services actions', () => {
         },
       };
 
+      const state = {
+        featureToggles: {},
+      };
+
       mockApiRequest(response);
       const dispatch = sinon.spy();
-      return getBackendStatuses()(dispatch).then(() => {
+      return getBackendStatuses()(dispatch, state).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           LOADING_BACKEND_STATUSES,
         );
-        expect(dispatch.secondCall.args[0]).to.eql({
+        expect(dispatch.thirdCall.args[0]).to.eql({
           type: FETCH_BACKEND_STATUSES_SUCCESS,
           data: response.data,
         });
@@ -52,13 +56,16 @@ describe('External services actions', () => {
         data: { attributes: { code: 400 } },
       };
 
+      const state = {
+        featureToggles: {},
+      };
       mockApiRequest(response, false);
       const dispatch = sinon.spy();
-      return getBackendStatuses()(dispatch).then(() => {
+      return getBackendStatuses()(dispatch, state).then(() => {
         expect(dispatch.firstCall.args[0].type).to.equal(
           LOADING_BACKEND_STATUSES,
         );
-        expect(dispatch.secondCall.args[0].type).to.equal(
+        expect(dispatch.thirdCall.args[0].type).to.equal(
           FETCH_BACKEND_STATUSES_FAILURE,
         );
       });
