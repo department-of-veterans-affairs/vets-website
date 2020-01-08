@@ -154,7 +154,7 @@ const formConfig = {
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
-  title: 'Apply for disability compensation',
+  title: 'File for disability compensation',
   subTitle: 'Form 21-526EZ',
   preSubmitInfo,
   chapters: {

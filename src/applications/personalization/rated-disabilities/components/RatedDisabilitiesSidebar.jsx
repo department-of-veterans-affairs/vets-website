@@ -7,7 +7,8 @@ const RatedDisabilitiesSidebar = () => (
     </h3>
     <p>
       Your total disability rating is based on evidence you provide, the results
-      of your VA claim exam, and information from other sources.
+      of your VA claim exam, and information from other sources, like federal
+      agencies.
     </p>
     <a
       href="https://www.youtube.com/watch?v=oM7oYzL2DCg"
@@ -22,8 +23,8 @@ const RatedDisabilitiesSidebar = () => (
       Learn about VA disability ratings
     </h3>
     <p>
-      To see how your combined VA disability rating was determined, use our
-      disability rating calculator and ratings tables.
+      To learn how we determined your VA combined disability rating, use our
+      disability rating calculator and ratings table.
     </p>
     <a
       href="/disability/about-disability-ratings/"
