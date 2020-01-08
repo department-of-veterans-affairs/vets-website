@@ -1,4 +1,4 @@
 extends: spelling
-message: "Did you really mean ’%s’?"
+message: 'Did you really mean ’%s’?'
 level: suggestion
-ignore: script/vale/dictionary.txt
+ignore: .github/styles/dictionary.txt
