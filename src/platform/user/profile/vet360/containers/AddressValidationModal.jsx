@@ -15,10 +15,7 @@ import {
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
-import {
-  ADDRESS_VALIDATION_MESSAGES,
-  CONFIRMED,
-} from '../../constants/addressValidationMessages';
+import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
@@ -69,10 +66,18 @@ class AddressValidationModal extends React.Component {
       validationKey,
       isLoading,
       addressFromUser,
-      selectedAddressId,
+      confirmedSuggestions,
     } = this.props;
 
-    const disableButton = selectedAddressId === null;
+    let buttonText = 'Update';
+
+    if (confirmedSuggestions.length === 0 && validationKey) {
+      buttonText = 'Use this address';
+    }
+
+    if (confirmedSuggestions.length === 1) {
+      buttonText = 'Use suggested address';
+    }
 
     if (addressValidationError && !validationKey) {
       return (
@@ -88,12 +93,8 @@ class AddressValidationModal extends React.Component {
     }
 
     return (
-      <LoadingButton
-        disabled={disableButton}
-        isLoading={isLoading}
-        className="usa-button-primary"
-      >
-        Update
+      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+        {buttonText}
       </LoadingButton>
     );
   };
@@ -105,6 +106,7 @@ class AddressValidationModal extends React.Component {
       addressValidationType,
       addressFromUser,
       selectedAddressId,
+      confirmedSuggestions,
     } = this.props;
     const {
       addressLine1,
@@ -116,6 +118,7 @@ class AddressValidationModal extends React.Component {
     } = address;
 
     const isAddressFromUser = id === 'userEntered';
+    const isNotSingleSuggestion = confirmedSuggestions.length > 1;
     const showEditLinkErrorState = addressValidationError && validationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
@@ -125,23 +128,20 @@ class AddressValidationModal extends React.Component {
     return (
       <div
         key={id}
-        className={
-          isFirstOptionOrEnabled
-            ? 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center'
-            : 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-left--2 vads-u-margin-bottom--1p5'
-        }
+        className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
       >
-        {isFirstOptionOrEnabled && (
-          <input
-            type="radio"
-            name={id}
-            disabled={isAddressFromUser && !validationKey}
-            onChange={
-              isFirstOptionOrEnabled && this.onChangeHandler(address, id)
-            }
-            checked={selectedAddressId === id}
-          />
-        )}
+        {isFirstOptionOrEnabled &&
+          isNotSingleSuggestion && (
+            <input
+              type="radio"
+              name={id}
+              disabled={isAddressFromUser && !validationKey}
+              onChange={
+                isFirstOptionOrEnabled && this.onChangeHandler(address, id)
+              }
+              checked={selectedAddressId === id}
+            />
+          )}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
@@ -179,17 +179,13 @@ class AddressValidationModal extends React.Component {
       addressValidationError,
       closeModal,
       resetAddressValidation,
+      confirmedSuggestions,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
       resetAddressValidation();
       closeModal();
     };
-
-    const confirmedSuggestions = suggestedAddresses.filter(
-      suggestion =>
-        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
-    );
 
     const validationMessageKey = getValidationMessageKey(
       suggestedAddresses,
@@ -259,6 +255,7 @@ const mapStateToProps = state => {
     addressValidationError:
       state.vet360.addressValidation.addressValidationError,
     suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
+    confirmedSuggestions: state.vet360.addressValidation.confirmedSuggestions,
     addressValidationType,
     validationKey: state.vet360.addressValidation.validationKey,
     addressFromUser: state.vet360.addressValidation.addressFromUser,
@@ -286,6 +283,7 @@ AddressValidationModal.propTypes = {
   isAddressValidationModalVisible: PropTypes.bool.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
+  confirmedSuggestions: PropTypes.array.isRequired,
   addressValidationType: PropTypes.string.isRequired,
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,

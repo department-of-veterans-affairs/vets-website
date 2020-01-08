@@ -336,6 +336,7 @@ describe('vet360 reducer', () => {
           selectedAddress: {},
           selectedAddressId: null,
           suggestedAddresses: [],
+          confirmedSuggestions: [],
           validationKey: null,
         },
         fieldTransactionMap: {
@@ -354,6 +355,7 @@ describe('vet360 reducer', () => {
         modalData: { foo: 'bar' },
         addressValidation: {
           addressValidationType: 'address',
+          confirmedSuggestions: [],
           suggestedAddresses: [{ street: '123 Main St' }],
           addressFromUser: {
             addressLine1: '123 main',
@@ -377,6 +379,7 @@ describe('vet360 reducer', () => {
         addressValidation: {
           addressValidationType: '',
           suggestedAddresses: [],
+          confirmedSuggestions: [],
           addressFromUser: {
             addressLine1: '',
             addressLine2: '',
