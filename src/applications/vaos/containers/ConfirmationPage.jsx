@@ -17,7 +17,7 @@ export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
     let pageTitle;
-    if (this.props.flowType === 'direct') {
+    if (this.props.flowType === FLOW_TYPES.DIRECT) {
       pageTitle = 'Your appointment has been scheduled';
     } else {
       pageTitle = 'Your appointment request has been submitted';
