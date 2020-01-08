@@ -14,6 +14,8 @@ export function getMaxMonth(maxDate, startMonth) {
     .format('YYYY-MM');
 
   // If provided start month is beyond our default, set that month as max month
+  // This is needed in the case of direct schedule if the user selects a date
+  // beyond the max date
   if (startMonth && startMonth > defaultMaxMonth) {
     return startMonth;
   }

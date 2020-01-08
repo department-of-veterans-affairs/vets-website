@@ -77,6 +77,7 @@ const initialState = {
   eligibilityStatus: FETCH_STATUS.notStarted,
   facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
+  appointmentSlotsStatus: FETCH_STATUS.notStarted,
   availableSlots: null,
   fetchedAppointmentSlotMonths: [],
   submitStatus: FETCH_STATUS.notStarted,
