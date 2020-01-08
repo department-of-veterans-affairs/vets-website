@@ -63,6 +63,12 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getChosenFacilityDetails(state) {
+  const data = getFormData(state);
+  const facilityDetails = getNewAppointment(state).facilityDetails;
+  return facilityDetails[data.vaFacility] || null;
+}
+
 export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);

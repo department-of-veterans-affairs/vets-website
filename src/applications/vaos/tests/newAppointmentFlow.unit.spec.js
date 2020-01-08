@@ -95,6 +95,7 @@ describe('VAOS newAppointmentFlow', () => {
         clinics: {
           '983_323': [
             {
+              siteCode: '983',
               clinicId: '308',
             },
           ],
