@@ -19,6 +19,7 @@ describe('getScheduledDowntime', () => {
     headers: {
       get: key => ({ 'content-type': 'application/json' }[key]),
     },
+    url: 'foo/bar',
   };
   const fetch = sinon.spy(() => Promise.resolve(fetchResponse));
 
@@ -71,8 +72,14 @@ describe('getScheduledDowntime', () => {
         },
       ],
     };
+
+    const state = {
+      featureToggles: {
+        vaGlobalDowntimeNotification: true,
+      },
+    };
     fetchResponse.json = () => Promise.resolve(raw);
-    actionCreator(dispatch)
+    actionCreator(dispatch, state)
       .then(() => {
         const [firstArgs, secondArgs] = dispatch.args;
         const firstAction = firstArgs[0];
