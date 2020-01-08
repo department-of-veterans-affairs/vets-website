@@ -75,9 +75,12 @@ describe('VAOS <ClinicChoicePage>', () => {
       <ClinicChoicePage
         openClinicPage={openClinicPage}
         updateFormData={updateFormData}
+        facilityDetailsStatus={FETCH_STATUS.loading}
         {...defaultProps}
       />,
     );
+
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
@@ -123,6 +126,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       <ClinicChoicePage
         openClinicPage={openClinicPage}
         updateFormData={updateFormData}
+        facilityDetailsStatus={FETCH_STATUS.loading}
         {...defaultProps}
         schema={{
           type: 'object',
@@ -136,6 +140,8 @@ describe('VAOS <ClinicChoicePage>', () => {
         }}
       />,
     );
+
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
 
     expect(form.find('input').length).to.equal(3);
     expect(form.find('h1').text()).to.equal(pageTitle);
