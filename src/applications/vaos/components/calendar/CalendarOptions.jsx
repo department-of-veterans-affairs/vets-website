@@ -19,8 +19,8 @@ export default function CalendarOptions({
   const measuredHeight = useCallback(node => {
     if (node !== null) {
       setFieldsetHeight(node.getBoundingClientRect().height);
+      setFieldsetNode(node);
     }
-    setFieldsetNode(node);
   }, []);
 
   useEffect(() => {

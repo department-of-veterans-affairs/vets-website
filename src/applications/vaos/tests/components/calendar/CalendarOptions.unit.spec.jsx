@@ -59,13 +59,15 @@ describe('VAOS <CalendarOptions>', () => {
         additionalOptions={{ maxSelections: 1, getOptionsByDate }}
       />,
     );
-    tree.update();
+    // This is like doing .update(), but works with useEffect
+    tree.setProps();
 
     window.dispatchEvent(new Event('resize'));
 
     setTimeout(() => {
       // this test doesn't really do anything other than excercise the code and make
       // sure it doesn't error
+      tree.setProps();
       tree.unmount();
       done();
     }, 60);
