@@ -93,7 +93,7 @@ export class ClinicChoicePage extends React.Component {
               <p>
                 <FacilityAddress
                   name={facilityDetails.name}
-                  address={facilityDetails.address.physical}
+                  facility={facilityDetails}
                 />
               </p>
             )}
@@ -107,12 +107,12 @@ export class ClinicChoicePage extends React.Component {
             In the last 24 months you have had {typeOfCareLabel} appointments in
             the following clinics, located at:
             {facilityDetails && (
-              <p>
+              <div className="vads-u-margin-y--2p5">
                 <FacilityAddress
                   name={facilityDetails.name}
-                  address={facilityDetails.address.physical}
+                  facility={facilityDetails}
                 />
-              </p>
+              </div>
             )}
           </>
         )}

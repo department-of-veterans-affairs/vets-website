@@ -1,7 +1,7 @@
-import get from '../../../../platform/utilities/data/get';
-import set from '../../../../platform/utilities/data/set';
-import { requestStates } from '../../../../platform/utilities/constants';
+import set from 'platform/utilities/data/set';
+import { requestStates } from 'platform/utilities/constants';
 import { itfStatuses } from '../constants';
+import { isNotExpired } from '../utils';
 import {
   ITF_FETCH_INITIATED,
   ITF_FETCH_SUCCEEDED,
@@ -35,23 +35,32 @@ export default (state = initialState, action) => {
       return set('fetchCallState', requestStates.pending, state);
     case ITF_FETCH_SUCCEEDED: {
       const newState = set('fetchCallState', requestStates.succeeded, state);
+      newState.currentITF = null;
 
-      // The full list is potentially more than just compensation ITFs, but we don't need those
-      const itfList = get('attributes.intentToFile', action.data).filter(
+      // The full list is potentially more than just compensation ITFs, but we
+      // don't need those
+      const itfList = (action.data?.attributes?.intentToFile || []).filter(
         i => i.type === 'compensation',
       );
       const activeITF = itfList.find(i => i.status === itfStatuses.active);
+      const latestITF = findLastITF(itfList);
 
-      // Set the curentITFStatus
-      if (activeITF) {
-        // Pulled the active ITF out like this in case it's not technically the latest (not sure that's possible, though)
-        newState.currentITF = activeITF;
-        return newState;
+      if (activeITF?.expirationDate) {
+        // Pulled the active ITF out like this in case it's not technically the
+        // latest (not sure that's possible, though)
+        if (isNotExpired(activeITF.expirationDate)) {
+          newState.currentITF = activeITF;
+        } else {
+          newState.previousITF = activeITF;
+        }
       }
-
-      // No active ITF found; use the one with the last expiration date
-      newState.currentITF = findLastITF(itfList);
-
+      if (!newState.currentITF && latestITF?.expirationDate) {
+        if (isNotExpired(latestITF.expirationDate)) {
+          newState.currentITF = latestITF;
+        } else {
+          newState.previousITF = latestITF;
+        }
+      }
       return newState;
     }
     case ITF_FETCH_FAILED:
@@ -60,7 +69,7 @@ export default (state = initialState, action) => {
       return set('creationCallState', requestStates.pending, state);
     case ITF_CREATION_SUCCEEDED: {
       const newState = set('creationCallState', requestStates.succeeded, state);
-      newState.previousITF = state.currentITF;
+      newState.previousITF = state.currentITF || state.previousITF;
       newState.currentITF = action.data.attributes.intentToFile;
       return newState;
     }
