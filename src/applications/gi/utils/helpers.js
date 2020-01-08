@@ -69,6 +69,6 @@ export const isPresent = value => value && value !== '';
 export const getStateNameForCode = stateCode => {
   const stateLabel = constants.states.USA.find(
     state => state.value === stateCode,
-  ).label;
-  return stateLabel !== undefined ? stateLabel : stateCode;
+  );
+  return stateLabel !== undefined ? stateLabel.label : stateCode;
 };
