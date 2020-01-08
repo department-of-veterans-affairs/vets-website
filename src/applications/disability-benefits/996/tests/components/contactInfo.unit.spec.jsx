@@ -36,7 +36,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     // country
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -58,7 +58,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     // country, state
     expect(form.find('select').length).to.equal(2);
     // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7);
     form.unmount();
   });
 
@@ -81,7 +81,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     // country
     expect(form.find('select').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -199,6 +199,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     form.unmount();
   });
 
+  /*
   it('expands forwarding address fields when forwarding address checked', () => {
     const form = mount(
       <DefinitionTester
@@ -396,6 +397,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
+  */
 
   it('does not submit without required info', () => {
     const onSubmit = sinon.spy();
@@ -430,7 +432,7 @@ describe('Higher-Level Review 0996 contact information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(9);
+    expect(form.find('.usa-input-error-message').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

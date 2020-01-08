@@ -34,15 +34,24 @@ export default function VideoVisitSection({ appointment }) {
       linkContent = (
         <div className="vaos-appts__video-visit">
           <a
+            aria-describedby={
+              disableVideoLink
+                ? `description-join-link-${appointment.id}`
+                : undefined
+            }
             href={videoLink}
             target="_blank"
             rel="noopener noreferrer"
             className={linkClasses}
+            onClick={disableVideoLink ? e => e.preventDefault() : undefined}
           >
             Join session
           </a>
           {disableVideoLink && (
-            <span className="vads-u-display--block vads-u-font-style--italic">
+            <span
+              id={`description-join-link-${appointment.id}`}
+              className="vads-u-display--block vads-u-font-style--italic"
+            >
               You can join VA Video Connect 30 minutes prior to the start time
             </span>
           )}

@@ -22,17 +22,11 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import {
-  FACILITY_TYPES,
-  FLOW_TYPES,
-  GA_PREFIX,
-  REASON_MAX_CHARS,
-} from '../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  getUserMessage,
   createPreferenceBody,
 } from '../utils/data';
 
@@ -374,32 +368,11 @@ export function openReasonForAppointment(page, uiSchema, schema) {
 }
 
 export function updateReasonForAppointmentData(page, uiSchema, data) {
-  return async (dispatch, getState) => {
-    const newAppointment = getState().newAppointment;
-    const reasonMaxChars =
-      newAppointment.flowType === FLOW_TYPES.DIRECT
-        ? REASON_MAX_CHARS.direct
-        : REASON_MAX_CHARS.request;
-
-    let reasonAdditionalInfo = data.reasonAdditionalInfo;
-    let remainingCharacters =
-      reasonMaxChars - data.reasonForAppointment.length - 1;
-
-    if (reasonAdditionalInfo) {
-      // Max length for reason
-      const maxTextAreaLength =
-        reasonMaxChars - data.reasonForAppointment.length - 1;
-      reasonAdditionalInfo = reasonAdditionalInfo.substr(0, maxTextAreaLength);
-      remainingCharacters = maxTextAreaLength - reasonAdditionalInfo.length;
-    }
-
-    dispatch({
-      type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
-      page,
-      uiSchema,
-      data: { ...data, reasonAdditionalInfo },
-      remainingCharacters,
-    });
+  return {
+    type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+    page,
+    uiSchema,
+    data,
   };
 }
 
@@ -520,7 +493,10 @@ export function updateCCEligibility(isEligible) {
 
 async function buildPreferencesDataAndUpdate(newAppointment) {
   const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(newAppointment, preferenceData);
+  const preferenceBody = createPreferenceBody(
+    preferenceData,
+    newAppointment.data,
+  );
   return updatePreferences(preferenceBody);
 }
 
@@ -587,8 +563,10 @@ export function submitAppointmentOrRequest(router) {
         }
 
         try {
-          const messageText = getUserMessage(newAppointment.data);
-          await sendRequestMessage(requestData.id, messageText);
+          await sendRequestMessage(
+            requestData.id,
+            newAppointment.data.reasonAdditionalInfo,
+          );
           await buildPreferencesDataAndUpdate(newAppointment);
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit

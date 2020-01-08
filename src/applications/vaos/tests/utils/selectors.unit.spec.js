@@ -12,7 +12,6 @@ import {
   getFormPageInfo,
   getNewAppointment,
   getPreferredDate,
-  getReasonForAppointment,
   getTypeOfCare,
   getCancelInfo,
 } from '../../utils/selectors';
@@ -268,29 +267,6 @@ describe('VAOS selectors', () => {
       expect(data.timezone).to.equal('MT');
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
-    });
-  });
-
-  describe('getReasonForAppointment', () => {
-    it('should return reason data and remaining characters for textarea', () => {
-      const data = {
-        reasonForAppointment: 'new-issue',
-        reasonAdditionalInfo: 'test',
-      };
-
-      const state = {
-        newAppointment: {
-          pages: {
-            reasonForAppointment: {},
-          },
-          data,
-          reasonRemainingChar: 130,
-        },
-      };
-
-      const pageInfo = getReasonForAppointment(state, 'reasonForAppointment');
-      expect(pageInfo.data).to.eql(data);
-      expect(pageInfo.reasonRemainingChar).to.equal(130);
     });
   });
 
