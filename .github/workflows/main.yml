@@ -1,5 +1,5 @@
-name: Linting
-on: [push]
+name: CI
+on: push
 
 jobs:
   lint:
