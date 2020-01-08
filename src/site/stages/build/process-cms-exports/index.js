@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const get = require('lodash/get');
+const omit = require('lodash/fp/omit');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
@@ -78,12 +79,22 @@ const entityAssemblerFactory = contentDir => {
         prop.forEach((item, index) => {
           const { target_uuid: targetUuid, target_type: targetType } = item;
 
-          // We found a reference! Override it with the expanded entity.
+          // We found a reference! Override it with the expanded
+          // entity. Make sure to keep the "extra" properties (only
+          // replace target_type and target_uuid with the expanded
+          // entity). Most of the time, these will be the only
+          // properties in the entity reference, but there are rare
+          // instances (media-image, for example) that have entity
+          // references with "extra" properties that we need to
+          // preserve.
           if (targetUuid && targetType) {
-            filteredEntity[key][index] = assembleEntityTree(
-              readEntity(contentDir, targetType, targetUuid),
-              ancestors.concat([{ id: toId(entity), entity }]),
-              key,
+            filteredEntity[key][index] = Object.assign(
+              omit(['target_type', 'target_uuid'], filteredEntity[key][index]),
+              assembleEntityTree(
+                readEntity(contentDir, targetType, targetUuid),
+                ancestors.concat([{ id: toId(entity), entity }]),
+                key,
+              ),
             );
           }
         });
