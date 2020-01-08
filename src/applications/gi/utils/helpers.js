@@ -67,8 +67,8 @@ export const rubyifyKeys = query =>
 export const isPresent = value => value && value !== '';
 
 export const getStateNameForCode = stateCode => {
-  const filteredStates = constants.states.USA.filter(
+  const stateLabel = constants.states.USA.find(
     state => state.value === stateCode,
-  );
-  return filteredStates.length > 0 ? filteredStates[0].label : stateCode;
+  ).label;
+  return stateLabel !== undefined ? stateLabel : stateCode;
 };
