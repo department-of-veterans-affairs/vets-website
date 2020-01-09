@@ -22,7 +22,7 @@ function getPageTitle(schema, typeOfCare) {
   if (schema?.properties.clinicId.enum.length === 2) {
     pageTitle = `Make a ${typeOfCareLabel} appointment at your last clinic`;
   } else if (schema?.properties.clinicId.enum.length > 2) {
-    pageTitle = `Choose your VA clinic for your {typeOfCareLabel} appointment`;
+    pageTitle = `Choose your VA clinic for your ${typeOfCareLabel} appointment`;
   }
   return pageTitle;
 }

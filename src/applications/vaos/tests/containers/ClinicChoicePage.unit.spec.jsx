@@ -120,7 +120,7 @@ describe('VAOS <ClinicChoicePage>', () => {
   it('document title should match h1 text in multi clinic choice', () => {
     const openClinicPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const pageTitle = 'Select your VA clinic for your primary care appointment';
+    const pageTitle = 'Choose your VA clinic for your primary care appointment';
 
     const form = mount(
       <ClinicChoicePage
