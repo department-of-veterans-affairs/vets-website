@@ -75,6 +75,9 @@ export function getScheduledDowntime() {
     try {
       await apiRequest('/maintenance_windows/')
         .then(({ data }) => {
+          if (data.errors?.[0].status === '500') {
+            Promise.reject();
+          }
           dispatch({
             type: RECEIVE_SCHEDULED_DOWNTIME,
             data,

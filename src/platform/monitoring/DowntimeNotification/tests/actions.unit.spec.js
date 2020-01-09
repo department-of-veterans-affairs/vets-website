@@ -107,4 +107,23 @@ describe('getScheduledDowntime', () => {
       'ERROR_SCHEDULED_DOWNTIME was dispatched',
     );
   });
+
+  it('invokes downtime if the response body has error data', async () => {
+    const actionCreator = getScheduledDowntime();
+    const state = {};
+
+    setFetchJSONResponse(global.fetch, { errors: [{ status: '500' }] });
+    await actionCreator(dispatch, state);
+    const [firstArgs, secondArgs] = dispatch.args;
+    const firstAction = firstArgs[0];
+    const secondAction = secondArgs[0];
+    expect(firstAction.type).to.be.equal(
+      RETRIEVE_SCHEDULED_DOWNTIME,
+      'RETRIEVE_SCHEDULED_DOWNTIME was dispatched',
+    );
+    expect(secondAction.type).to.be.equal(
+      ERROR_SCHEDULE_DOWNTIME,
+      'ERROR_SCHEDULED_DOWNTIME was dispatched',
+    );
+  });
 });
