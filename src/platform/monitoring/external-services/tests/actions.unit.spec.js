@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
 import sinon from 'sinon';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
@@ -65,6 +67,85 @@ describe('External services actions', () => {
         expect(dispatch.thirdCall.args[0].type).to.equal(
           FETCH_BACKEND_STATUSES_FAILURE,
         );
+      });
+    });
+
+    describe('downtime notifications', () => {
+      const datetimeFormat = 'YYYY-MM-DD';
+      const timezone = 'America/New_York';
+      const dispatch = sinon.spy();
+      const now = momentTZ.tz(moment().format(datetimeFormat), timezone);
+      const tomorrow = momentTZ.tz(
+        moment()
+          .add(1, 'day')
+          .format(datetimeFormat),
+        timezone,
+      );
+
+      beforeEach(() => {
+        dispatch.reset();
+      });
+
+      it('should handle global downtime being active', () => {
+        const downtimeWindow = {
+          downtimeStart: now,
+          downtimeEnd: tomorrow,
+        };
+        const state = {
+          featureToggles: {
+            vaGlobalDowntimeNotification: true,
+          },
+        };
+
+        return getBackendStatuses(downtimeWindow)(dispatch, state).then(() => {
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: FETCH_BACKEND_STATUSES_FAILURE,
+            globalDowntimeActive: true,
+          });
+        });
+      });
+
+      it('should handle global downtime being inactive', () => {
+        const downtimeWindow = {
+          downtimeStart: tomorrow,
+          downtimeEnd: momentTZ.tz(
+            moment()
+              .add(6, 'day')
+              .format(datetimeFormat),
+            timezone,
+          ),
+        };
+        const state = {
+          featureToggles: {
+            vaGlobalDowntimeNotification: true,
+          },
+        };
+
+        return getBackendStatuses(downtimeWindow)(dispatch, state).then(() => {
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: FETCH_BACKEND_STATUSES_FAILURE,
+            globalDowntimeActive: false,
+          });
+        });
+      });
+
+      it('should respect the feature toggle even during a downtime window', () => {
+        const downtimeWindow = {
+          downtimeStart: now,
+          downtimeEnd: tomorrow,
+        };
+        const state = {
+          featureToggles: {
+            vaGlobalDowntimeNotification: false,
+          },
+        };
+
+        return getBackendStatuses(downtimeWindow)(dispatch, state).then(() => {
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: FETCH_BACKEND_STATUSES_FAILURE,
+            globalDowntimeActive: false,
+          });
+        });
       });
     });
   });

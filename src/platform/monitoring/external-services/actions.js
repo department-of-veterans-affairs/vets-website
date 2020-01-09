@@ -9,14 +9,14 @@ export const LOADING_BACKEND_STATUSES = 'LOADING_BACKEND_STATUSES';
 
 const BASE_URL = '/backend_statuses';
 
-export function getBackendStatuses() {
+export function getBackendStatuses(downtimeWindow = scheduledDowntimeWindow) {
   return (dispatch, state) => {
     dispatch({ type: LOADING_BACKEND_STATUSES });
 
     // create global downtime data if feature toggle is enabled and if
     // current time is in downtime window
     // default to empty array
-    const { downtimeStart, downtimeEnd } = scheduledDowntimeWindow;
+    const { downtimeStart, downtimeEnd } = downtimeWindow;
     const globalDowntimeActive =
       toggleValues(state).vaGlobalDowntimeNotification &&
       moment().isAfter(downtimeStart) &&
