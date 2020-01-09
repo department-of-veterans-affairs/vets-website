@@ -34,9 +34,7 @@ describe('External services actions', () => {
         },
       };
 
-      const state = {
-        featureToggles: {},
-      };
+      const state = {};
 
       mockApiRequest(response);
       const dispatch = sinon.spy();
@@ -56,9 +54,8 @@ describe('External services actions', () => {
         data: { attributes: { code: 400 } },
       };
 
-      const state = {
-        featureToggles: {},
-      };
+      const state = {};
+
       mockApiRequest(response, false);
       const dispatch = sinon.spy();
       return getBackendStatuses()(dispatch, state).then(() => {
