@@ -21,7 +21,6 @@ describe('getScheduledDowntime', () => {
   before(() => {
     global.sessionStorage = {};
     global.window.dataLayer = [];
-    mockFetch();
   });
 
   after(() => {
@@ -29,9 +28,11 @@ describe('getScheduledDowntime', () => {
     global.window.dataLayer = old.dataLayer;
   });
 
-  beforeEach(() => {
-    sinon.spy();
+  beforeEach(() => mockFetch());
+
+  afterEach(() => {
     resetFetch();
+    dispatch.reset();
   });
 
   it('dispatches the correct actions and maps the data correctly', done => {
@@ -68,7 +69,6 @@ describe('getScheduledDowntime', () => {
 
     const state = {};
 
-    mockFetch();
     setFetchJSONResponse(global.fetch, raw);
     actionCreator(dispatch, state)
       .then(() => {
