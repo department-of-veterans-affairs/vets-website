@@ -8,12 +8,11 @@ export default function ConfirmationDirectScheduleInfo({
   data,
   facilityDetails,
   clinic,
+  pageTitle,
 }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        Your appointment has been scheduled
-      </h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AlertBox status="success">
         <strong>Your appointment is confirmed.</strong> Please see your
         appointment details below.

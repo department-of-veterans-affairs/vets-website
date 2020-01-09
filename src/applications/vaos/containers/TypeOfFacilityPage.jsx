@@ -55,10 +55,12 @@ const uiSchema = {
 };
 
 const pageKey = 'typeOfFacility';
+const pageTitle = 'Choose where you would prefer to receive your care';
 
 export class TypeOfFacilityPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -74,9 +76,7 @@ export class TypeOfFacilityPage extends React.Component {
 
     return (
       <div className="vaos-form__facility-type vaos-form__detailed-radio">
-        <h1 className="vads-u-font-size--h2">
-          Choose where you would prefer to receive your care
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"

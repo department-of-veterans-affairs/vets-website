@@ -36,6 +36,7 @@ describe('VAOS <ReviewPage>', () => {
         .children()
         .text(),
     ).to.equal('Request appointment');
+    expect(document.title).contain('Review your appointment details');
 
     tree.unmount();
   });
