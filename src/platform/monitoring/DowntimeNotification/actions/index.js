@@ -57,7 +57,6 @@ export function dismissDowntimeWarning(appTitle) {
 export function getScheduledDowntime() {
   return async (dispatch, state) => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
-    let data;
 
     // create global downtime data if feature toggle is enabled and if
     // current time is in downtime window
@@ -72,21 +71,21 @@ export function getScheduledDowntime() {
           endTime: downtimeEnd,
         })) ||
       [];
-    try {
-      const response = await apiRequest('/maintenance_windows/');
-      if (!response.ok) {
-        dispatch({
-          type: ERROR_SCHEDULE_DOWNTIME,
-          data: globalDowntimeData,
-        });
-      } else {
-        data = response.data;
 
-        dispatch({
-          type: RECEIVE_SCHEDULED_DOWNTIME,
-          data,
-        });
-      }
+    try {
+      await apiRequest('/maintenance_windows/')
+        .then(({ data }) => {
+          dispatch({
+            type: RECEIVE_SCHEDULED_DOWNTIME,
+            data,
+          });
+        })
+        .catch(() =>
+          dispatch({
+            type: ERROR_SCHEDULE_DOWNTIME,
+            data: globalDowntimeData,
+          }),
+        );
     } catch (err) {
       dispatch({
         type: ERROR_SCHEDULE_DOWNTIME,
