@@ -1,12 +1,12 @@
 {
     "uid": [
         {
-            "value": 310
+            "value": 65
         }
     ],
     "uuid": [
         {
-            "value": "febabc33-ac97-48c6-bc49-f9150dfc443f"
+            "value": "fd71292f-3dc7-409d-b0e8-500204cb005a"
         }
     ],
     "langcode": [
@@ -26,7 +26,7 @@
     ],
     "name": [
         {
-            "value": "josh.quag"
+            "value": "Jeffrey.Brauer@va.gov"
         }
     ],
     "mail": [],
@@ -42,13 +42,13 @@
     ],
     "created": [
         {
-            "value": "2019-05-10T21:19:18+00:00",
+            "value": "2019-03-11T19:25:47+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2019-09-19T00:16:48+00:00",
+            "value": "2019-09-19T00:17:21+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -57,6 +57,11 @@
             "target_id": "content_publisher",
             "target_type": "user_role",
             "target_uuid": "2782bb1f-74f1-4ac9-b2f8-5dd3cc9bfec1"
+        },
+        {
+            "target_id": "admnistrator_users",
+            "target_type": "user_role",
+            "target_uuid": "f238afd7-c738-4625-a432-2f9eaebf9283"
         },
         {
             "target_id": "administrator",
@@ -71,8 +76,8 @@
     ],
     "metatag": {
         "value": {
-            "title": "josh.quag | Veterans Affairs",
-            "canonical_url": "http:\/\/default\/user\/310",
+            "title": "Jeffrey.Brauer@va.gov | Veterans Affairs",
+            "canonical_url": "http:\/\/default\/user\/65",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
             "description": "Veterans Affairs",
@@ -83,7 +88,7 @@
     },
     "revision_log_settings": [
         {
-            "value": "a:2:{s:13:\"block_content\";a:3:{s:5:\"alert\";i:1;s:8:\"megamenu\";i:1;s:5:\"promo\";i:1;}s:4:\"node\";a:15:{s:18:\"documentation_page\";i:1;s:5:\"event\";i:1;s:13:\"event_listing\";i:1;s:26:\"health_care_local_facility\";i:1;s:30:\"health_care_region_detail_page\";i:1;s:23:\"health_care_region_page\";i:1;s:12:\"landing_page\";i:1;s:10:\"news_story\";i:1;s:6:\"office\";i:1;s:14:\"outreach_asset\";i:1;s:4:\"page\";i:1;s:14:\"person_profile\";i:1;s:13:\"press_release\";i:1;s:19:\"publication_listing\";i:1;s:15:\"support_service\";i:1;}}"
+            "value": "a:2:{s:13:\"block_content\";a:3:{s:5:\"alert\";i:1;s:8:\"megamenu\";i:1;s:5:\"promo\";i:1;}s:4:\"node\";a:15:{s:18:\"documentation_page\";i:1;s:5:\"event\";i:1;s:13:\"event_listing\";i:1;s:26:\"health_care_local_facility\";i:1;s:30:\"health_care_region_detail_page\";i:1;s:23:\"health_care_region_page\";i:1;s:12:\"landing_page\";i:1;s:10:\"news_story\";i:1;s:6:\"office\";i:1;s:14:\"outreach_asset\";i:1;s:14:\"person_profile\";i:1;s:13:\"press_release\";i:1;s:19:\"publication_listing\";i:1;s:15:\"support_service\";i:1;s:4:\"page\";i:1;}}"
         }
     ],
     "path": [
