@@ -92,7 +92,7 @@ class ScheduledMaintenance extends Component {
       <PromoBanner
         className="scheduled-maintenance"
         onClose={dismiss}
-        render={() => <div style={{ display: '' }}>{deriveMessage()}</div>}
+        render={() => <div>{deriveMessage()}</div>}
         type={PROMO_BANNER_TYPES.announcement}
       />
     );
