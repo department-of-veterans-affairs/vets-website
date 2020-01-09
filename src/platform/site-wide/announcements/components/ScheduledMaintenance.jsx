@@ -23,7 +23,6 @@ class ScheduledMaintenance extends Component {
   refreshIn = milliseconds => {
     clearTimeout(this.rerenderTimeout);
     this.rerenderTimeout = setTimeout(() => {
-      console.log('force updating');
       this.forceUpdate();
     }, milliseconds);
   };
