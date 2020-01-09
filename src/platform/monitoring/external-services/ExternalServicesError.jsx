@@ -12,6 +12,7 @@ const OPERATIONAL_STATUSES = ['active'];
  * @property {node} children - Content to be rendered if there are failing dependencies.
  * @property {Array<string>} dependencies - Upstream services required by the application.
  * @property {function} getBackendStatuses - Gets the statuses of external backend services.
+ * @property {function} onRender - Function that gets called if this component gets rendered.
  */
 class ExternalServicesError extends React.Component {
   static propTypes = {
@@ -20,12 +21,16 @@ class ExternalServicesError extends React.Component {
       PropTypes.oneOf(Object.values(EXTERNAL_SERVICES)),
     ).isRequired,
     getBackendStatuses: PropTypes.func.isRequired,
+    onRender: PropTypes.func,
   };
 
   componentDidMount() {
-    if (this.props.shouldGetBackendStatuses) {
-      this.props.getBackendStatuses();
+    const { onRender, shouldGetBackendStatuses, statuses } = this.props;
+    const shouldRender = statuses.some(this.isFailingDependency);
+    if (shouldGetBackendStatuses) {
+      getBackendStatuses();
     }
+    if (shouldRender && onRender) onRender();
   }
 
   /**
