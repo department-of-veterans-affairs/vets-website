@@ -20,8 +20,8 @@ const defaultProps = {
 describe('<InstitutionFilterForm>', () => {
   it('Should display full state or US territory name based on state abbreviation', () => {
     const wrapper = mount(<InstitutionFilterForm {...defaultProps} />);
-    const stateCode = wrapper.find('option[value="PR"]').text();
-    expect(getStateNameForCode(stateCode)).to.eq('Puerto Rico');
+    const stateLabel = wrapper.find('option[value="PR"]').text();
+    expect(stateLabel).to.eq('Puerto Rico');
     wrapper.unmount();
   });
 
