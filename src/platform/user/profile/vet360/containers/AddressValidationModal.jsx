@@ -79,7 +79,10 @@ class AddressValidationModal extends React.Component {
       buttonText = 'Use suggested address';
     }
 
-    if (addressValidationError && !validationKey) {
+    if (
+      addressValidationError ||
+      (!confirmedSuggestions.length && !validationKey)
+    ) {
       return (
         <button
           className="usa-button-primary"
@@ -128,7 +131,7 @@ class AddressValidationModal extends React.Component {
     return (
       <div
         key={id}
-        className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
+        className="vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-bottom--1p5"
       >
         {isFirstOptionOrEnabled &&
           greaterThanOneSuggestion && (
@@ -301,7 +304,7 @@ AddressValidationModal.propTypes = {
   addressValidationType: PropTypes.string.isRequired,
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,
-  selectedAddress: PropTypes.object.isRequired,
+  selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
