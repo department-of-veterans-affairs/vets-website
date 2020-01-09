@@ -73,11 +73,8 @@ describe('getScheduledDowntime', () => {
       ],
     };
 
-    const state = {
-      featureToggles: {
-        vaGlobalDowntimeNotification: true,
-      },
-    };
+    const state = {};
+
     fetchResponse.json = () => Promise.resolve(raw);
     actionCreator(dispatch, state)
       .then(() => {
