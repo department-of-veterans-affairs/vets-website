@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
-import momentTZ from 'moment-timezone';
+import moment from 'moment-timezone';
 import sinon from 'sinon';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
@@ -71,16 +70,12 @@ describe('External services actions', () => {
     });
 
     describe('downtime notifications', () => {
-      const datetimeFormat = 'YYYY-MM-DD';
       const timezone = 'America/New_York';
       const dispatch = sinon.spy();
-      const now = momentTZ.tz(moment().format(datetimeFormat), timezone);
-      const tomorrow = momentTZ.tz(
-        moment()
-          .add(1, 'day')
-          .format(datetimeFormat),
-        timezone,
-      );
+      const now = moment().tz(timezone);
+      const tomorrow = moment()
+        .tz(timezone)
+        .add(1, 'day');
 
       beforeEach(() => {
         dispatch.reset();
@@ -127,12 +122,9 @@ describe('External services actions', () => {
 
         const downtimeWindow = {
           downtimeStart: tomorrow,
-          downtimeEnd: momentTZ.tz(
-            moment()
-              .add(6, 'day')
-              .format(datetimeFormat),
-            timezone,
-          ),
+          downtimeEnd: moment()
+            .tz(timezone)
+            .add(6, 'day'),
         };
         const state = {
           featureToggles: {
