@@ -15,10 +15,6 @@ class ScheduledMaintenance extends Component {
     dismiss: PropTypes.func.isRequired,
   };
 
-  static isEnabled() {
-    return true;
-  }
-
   deriveMessage = () => {
     const {
       announcement: { startsAt, expiresAt },
@@ -40,7 +36,7 @@ class ScheduledMaintenance extends Component {
     }
 
     // Message if scheduled maintenance is about to happen.
-    if (now.isAfter(startsAt.subtract(1, 'hours'))) {
+    if (now.isAfter(startsAt.subtract(60, 'minutes'))) {
       return `We’ll be starting site maintenance in ${startsAt.diff(
         now,
         'minutes',
@@ -67,7 +63,7 @@ class ScheduledMaintenance extends Component {
     }
 
     // Do not render if it's before scheduled maintenance.
-    if (now.isBefore(startsAt.subtract(1, 'hours'))) {
+    if (now.isBefore(startsAt.subtract(60, 'minutes'))) {
       return null;
     }
 

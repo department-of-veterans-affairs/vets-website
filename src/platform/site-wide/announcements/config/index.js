@@ -23,8 +23,7 @@ const config = {
       name: 'scheduled-maintenance',
       paths: /(.)/,
       component: ScheduledMaintenance,
-      disabled: !ScheduledMaintenance.isEnabled(),
-      startsAt: moment.tz('2020-01-09 13:40', 'America/New_York'),
+      startsAt: moment.tz('2020-01-09 17:00', 'America/New_York'),
       expiresAt: moment.tz('2020-01-10 00:01', 'America/New_York'),
     },
     {

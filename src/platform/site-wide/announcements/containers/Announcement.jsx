@@ -34,27 +34,25 @@ export class Announcement extends Component {
         showEverytime = false,
         relatedAnnouncements = [],
       },
-      dismissAnnouncement,
       dismissed,
     } = this.props;
 
     // Dismiss announcement.
-    dismissAnnouncement(announcementName, showEverytime);
+    this.props.dismissAnnouncement(announcementName, showEverytime);
 
     // Dismiss each related announcement.
     relatedAnnouncements
       .filter(
-        relatedAnnouncementName =>
-          !dismissed.includes(relatedAnnouncementName),
+        relatedAnnouncementName => !dismissed.includes(relatedAnnouncementName),
       )
       .forEach(relatedAnnouncementName => {
-        dismissAnnouncement(relatedAnnouncementName);
+        this.props.dismissAnnouncement(relatedAnnouncementName);
       });
   };
 
   render() {
     const { dismiss } = this;
-    const { announcement, isLoggedIn, profile } = this.props;
+    const { announcement, profile } = this.props;
 
     // Do not render if there's no announcement.
     if (!announcement) {
@@ -65,7 +63,7 @@ export class Announcement extends Component {
       <announcement.component
         announcement={announcement}
         dismiss={dismiss}
-        isLoggedIn={isLoggedIn}
+        isLoggedIn={this.props.isLoggedIn}
         profile={profile}
       />
     );

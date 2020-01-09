@@ -15,22 +15,6 @@ const isExpiredAnnouncement = announcement => {
   return !hasExpired;
 };
 
-// Checks if the announcement has started.
-const isStartedAnnouncement = announcement => {
-  if (!announcement.startsAt) return true;
-
-  const startsAtDate = moment.tz(announcement.startsAt, 'America/New_York');
-  const hasStarted = moment()
-    .tz('America/New_York')
-    .isSameOrAfter(startsAtDate);
-  // console.log('announcement', announcement);
-  // console.log('startsAtDate', startsAtDate);
-  // console.log('hasStarted', hasStarted);
-  // console.log('========');
-
-  return hasStarted;
-};
-
 export const selectAnnouncement = (
   state,
   config = _config,
@@ -42,7 +26,6 @@ export const selectAnnouncement = (
   if (announcements.isInitialized) {
     announcement = config.announcements
       .filter(a => !a.disabled)
-      .filter(isStartedAnnouncement)
       .filter(isExpiredAnnouncement)
       .filter(a => !announcements.dismissed.includes(a.name))
       .find(a => a.paths.test(path));
