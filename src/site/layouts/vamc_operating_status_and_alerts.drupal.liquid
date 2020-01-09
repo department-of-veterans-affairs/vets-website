@@ -71,11 +71,9 @@
                         </ul>
                     </section>
 
-                    {% if fieldBannerAlert.0.entity %}
+                    {% if fieldBannerAlert.0.entity and fieldBannerAlert.0.entity.status == true %}
                     {% include "src/site/components/situation_updates.drupal.liquid" with fieldBannerAlert %}
                     {% endif %}
-
-
 
                     {% if fieldFacilityOperatingStatus.0.entity %}
                     <section id="operating-statuses"

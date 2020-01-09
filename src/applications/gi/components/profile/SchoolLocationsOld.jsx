@@ -236,7 +236,10 @@ export class SchoolLocationsOld extends React.Component {
       if (!this.state.viewMore && rows.length >= maxRows - 1) {
         break;
       }
-      const nameLabel = <span>{extension.institution}</span>;
+      const nameLabel = (
+        <div className="vads-u-padding-left--1">{extension.institution}</div>
+      );
+
       rows.push(this.renderItem(extension, 'extension', nameLabel));
     }
   };

@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   getFormData,
-  getChosenFacilityInfo,
   getFlowType,
   getChosenClinicInfo,
+  getChosenFacilityDetails,
 } from '../utils/selectors';
-import { closeConfirmationPage } from '../actions/newAppointment';
-import { FLOW_TYPES } from '../utils/constants';
+import {
+  closeConfirmationPage,
+  fetchFacilityDetails,
+} from '../actions/newAppointment';
+import { FLOW_TYPES, FACILITY_TYPES } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
@@ -28,13 +31,19 @@ export class ConfirmationPage extends React.Component {
 
   componentDidMount() {
     document.title = `${this.pageTitle} | Veterans Affairs`;
+    if (
+      !this.props.facilityDetails &&
+      !this.props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
+    ) {
+      this.props.fetchFacilityDetails(this.props.data.vaFacility);
+    }
   }
 
   componentWillUnmount() {
     this.props.closeConfirmationPage();
   }
   render() {
-    const { data, facility, clinic, flowType } = this.props;
+    const { data, facilityDetails, clinic, flowType } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
@@ -42,7 +51,7 @@ export class ConfirmationPage extends React.Component {
         {isDirectSchedule && (
           <ConfirmationDirectScheduleInfo
             data={data}
-            facility={facility}
+            facilityDetails={facilityDetails}
             clinic={clinic}
             pageTitle={this.pageTitle}
           />
@@ -50,7 +59,7 @@ export class ConfirmationPage extends React.Component {
         {!isDirectSchedule && (
           <ConfirmationRequestInfo
             data={data}
-            facility={facility}
+            facilityDetails={facilityDetails}
             pageTitle={this.pageTitle}
           />
         )}
@@ -69,14 +78,14 @@ export class ConfirmationPage extends React.Component {
 
 ConfirmationPage.propTypes = {
   data: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  facilityDetails: PropTypes.object,
   clinic: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
     data: getFormData(state),
-    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityDetails(state),
     clinic: getChosenClinicInfo(state),
     flowType: getFlowType(state),
   };
@@ -84,6 +93,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   closeConfirmationPage,
+  fetchFacilityDetails,
 };
 
 export default connect(

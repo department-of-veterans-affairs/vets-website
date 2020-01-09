@@ -1,6 +1,7 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
-import { requestStates } from '../../../../platform/utilities/constants';
+import { requestStates } from 'platform/utilities/constants';
 import { itfStatuses } from '../constants';
 
 import {
@@ -44,13 +45,17 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.active,
-                expirationDate: '2014-07-28T19:53:45.810+0000',
+                expirationDate: moment()
+                  .add(1, 'days')
+                  .format(),
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: '2015-07-28T19:53:45.810+0000',
+                expirationDate: moment()
+                  .add(1, 'year')
+                  .format(),
               },
             ],
           },
@@ -73,12 +78,16 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.expired,
-                expirationDate: '2014-07-28T19:53:45.810+0000',
+                expirationDate: moment()
+                  .subtract(1, 'd')
+                  .format(),
               },
               {
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: '2015-07-28T19:53:45.810+0000',
+                expirationDate: moment()
+                  .add(1, 'd')
+                  .format(),
               },
             ],
           },
@@ -87,6 +96,45 @@ describe('ITF reducer', () => {
       const newState = itf(initialState, action);
       expect(newState.currentITF.status).to.equal(itfStatuses.duplicate);
     });
+  });
+
+  it('should not set a currentITF if the active & latest expiration date have passed', () => {
+    const action = {
+      type: ITF_FETCH_SUCCEEDED,
+      data: {
+        attributes: {
+          intentToFile: [
+            {
+              type: 'something not compensation',
+              status: itfStatuses.active,
+            },
+            {
+              type: 'compensation',
+              status: itfStatuses.expired,
+              expirationDate: moment()
+                .subtract(3, 'd')
+                .format(),
+            },
+            {
+              type: 'compensation',
+              status: itfStatuses.duplicate,
+              expirationDate: moment()
+                .subtract(2, 'd')
+                .format(),
+            },
+            {
+              type: 'compensation',
+              status: itfStatuses.active,
+              expirationDate: moment()
+                .subtract(1, 'd')
+                .format(),
+            },
+          ],
+        },
+      },
+    };
+    const newState = itf(initialState, action);
+    expect(newState.currentITF).to.be.null;
   });
 
   it('should handle ITF_FETCH_FAILED', () => {

@@ -15,11 +15,11 @@ export const errorMessage = () => {
       <p>
         If you get this error again, please call the VA.gov help desk at{' '}
         <a
-          href="tel:18555747286"
-          aria-label="1. 8 5 5. 5 7 4. 7 2 8 6."
-          title="Dial the telephone number 1-855-574-7286"
+          href="tel:8446982311"
+          aria-label="8 4 4. 6 9 8. 2 3 1 1."
+          title="Dial the telephone number 844-698-2311"
         >
-          1-855-574-7286
+          844-698-2311
         </a>{' '}
         (TTY:711). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
       </p>

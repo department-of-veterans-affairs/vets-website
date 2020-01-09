@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import ConfirmationDirectScheduleInfo from '../../components/ConfirmationDirectScheduleInfo';
@@ -13,17 +13,11 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
     };
     const pageTitle = 'Your appointment has been scheduled';
 
-    const tree = shallow(
+    const tree = mount(
       <ConfirmationDirectScheduleInfo data={data} pageTitle={pageTitle} />,
     );
 
-    expect(
-      tree
-        .find('AlertBox')
-        .at(1)
-        .dive()
-        .text(),
-    ).to.contain('December 20, 2019 at 10:00 a.m.');
+    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m.');
 
     expect(tree.find('h1').text()).to.equal(pageTitle);
 

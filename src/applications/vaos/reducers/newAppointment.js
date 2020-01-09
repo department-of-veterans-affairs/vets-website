@@ -588,10 +588,10 @@ export default function formReducer(state = initialState, action) {
         const pastAppointmentDateMap = new Map();
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
-          const facilityId = state.data.vaFacility;
+          const systemId = state.data.vaSystem;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
-            appt.facilityId === facilityId &&
+            appt.facilityId === systemId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
