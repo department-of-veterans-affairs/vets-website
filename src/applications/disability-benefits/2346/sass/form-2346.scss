@@ -1,22 +1,31 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
-@import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
+@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-process-list';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-form-process';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar';
+@import '../../../../platform/forms/sass/m-schemaform';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
+@import '~@department-of-veterans-affairs/formation/sass/modules/m-omb-info';
+@import '../../../../platform/forms/sass/m-form-confirmation';
 
-  .disability-container {
-    .checkbox {
+@mixin th-styles {
+  background-color: $color-gray-lightest;
+  font-weight: $font-bold;
+}
+.form2346 {
+  &.vads-c-table {
+    &__checkbox {
       opacity: 1;
       height: 25px;
       width: 25px;
-      margin-left: 20px;
+      -webkit-appearance: checkbox;
+      margin-top: -10px;
     }
-
-    table.va-sortable-table.va-table > tbody > tr > td {
-      padding-bottom: 1.8em;
+    &__th {
+      @include th-styles;
+      &--narrow {
+        @include th-styles;
+        width: 93px;
+      }
     }
-
   }
+}

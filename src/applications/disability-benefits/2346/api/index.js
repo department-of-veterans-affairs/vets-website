@@ -1,7 +1,8 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 
 export const getDLCDataApi = async () => apiRequest('/dlc/orderstatus/1014/1');
-export const updateDLCDataApi = async data => apiRequest('/dlc/orderstatus/1014/1', {
+export const updateDLCDataApi = async data =>
+  apiRequest('/dlc/orderstatus/1014/1', {
     method: 'PUT', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -14,4 +15,3 @@ export const updateDLCDataApi = async data => apiRequest('/dlc/orderstatus/1014/
     referrer: 'no-referrer', // no-referrer, *client
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-

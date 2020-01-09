@@ -4,6 +4,5 @@ import form2346Reducer from './form2346Reducer';
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),
-  form2346Reducer
+  form2346Reducer,
 };
-
