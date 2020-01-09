@@ -36,41 +36,39 @@ const CalendarCell = ({
   });
 
   return (
-    <>
-      <div role="cell" className={cssClasses}>
-        <button
-          id={`date-cell-${date}`}
-          onClick={() => onClick(date)}
-          disabled={disabled}
-          aria-label={ariaDate}
-          aria-expanded={isCurrentlySelected}
-          type="button"
-        >
-          {inSelectedArray && (
-            <CalendarSelectedIndicator
-              date={date}
-              fieldName={additionalOptions?.fieldName}
-              selectedDates={selectedDates}
-              selectedIndicatorType={selectedIndicatorType}
-            />
-          )}
-          {dateDay}
-          {isCurrentlySelected && (
-            <span className="vaos-calendar__cell-selected-triangle" />
-          )}
-        </button>
-        {isCurrentlySelected && (
-          <CalendarOptions
-            selectedCellIndex={index}
-            currentlySelectedDate={currentlySelectedDate}
-            additionalOptions={additionalOptions}
-            handleSelectOption={handleSelectOption}
-            optionsError={optionsError}
+    <div role="cell" className={cssClasses}>
+      <button
+        id={`date-cell-${date}`}
+        onClick={() => onClick(date)}
+        disabled={disabled}
+        aria-label={ariaDate}
+        aria-expanded={isCurrentlySelected}
+        type="button"
+      >
+        {inSelectedArray && (
+          <CalendarSelectedIndicator
+            date={date}
+            fieldName={additionalOptions?.fieldName}
             selectedDates={selectedDates}
+            selectedIndicatorType={selectedIndicatorType}
           />
         )}
-      </div>
-    </>
+        {dateDay}
+        {isCurrentlySelected && (
+          <span className="vaos-calendar__cell-selected-triangle" />
+        )}
+      </button>
+      {isCurrentlySelected && (
+        <CalendarOptions
+          selectedCellIndex={index}
+          currentlySelectedDate={currentlySelectedDate}
+          additionalOptions={additionalOptions}
+          handleSelectOption={handleSelectOption}
+          optionsError={optionsError}
+          selectedDates={selectedDates}
+        />
+      )}
+    </div>
   );
 };
 
