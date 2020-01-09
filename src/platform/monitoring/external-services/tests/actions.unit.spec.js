@@ -87,6 +87,9 @@ describe('External services actions', () => {
       });
 
       it('should handle global downtime being active', () => {
+        const response = {
+          data: { attributes: { code: 400 } },
+        };
         const downtimeWindow = {
           downtimeStart: now,
           downtimeEnd: tomorrow,
@@ -97,6 +100,7 @@ describe('External services actions', () => {
           },
         };
 
+        mockApiRequest(response);
         return getBackendStatuses(downtimeWindow)(dispatch, state).then(() => {
           expect(dispatch.secondCall.args[0]).to.eql({
             type: FETCH_BACKEND_STATUSES_FAILURE,
@@ -106,6 +110,21 @@ describe('External services actions', () => {
       });
 
       it('should handle global downtime being inactive', () => {
+        const response = {
+          data: {
+            attributes: {
+              statuses: [
+                {
+                  service: 'Master Veterans Index (MVI)',
+                  serviceId: 'mvi',
+                  status: 'active',
+                  lastIncidentTimestamp: '2019-07-09T07:00:40.000-04:00',
+                },
+              ],
+            },
+          },
+        };
+
         const downtimeWindow = {
           downtimeStart: tomorrow,
           downtimeEnd: momentTZ.tz(
@@ -121,6 +140,8 @@ describe('External services actions', () => {
           },
         };
 
+        mockApiRequest(response);
+
         return getBackendStatuses(downtimeWindow)(dispatch, state).then(() => {
           expect(dispatch.secondCall.args[0]).to.eql({
             type: FETCH_BACKEND_STATUSES_FAILURE,
@@ -130,6 +151,9 @@ describe('External services actions', () => {
       });
 
       it('should respect the feature toggle even during a downtime window', () => {
+        const response = {
+          data: { attributes: { code: 400 } },
+        };
         const downtimeWindow = {
           downtimeStart: now,
           downtimeEnd: tomorrow,
@@ -140,6 +164,7 @@ describe('External services actions', () => {
           },
         };
 
+        mockApiRequest(response);
         return getBackendStatuses(downtimeWindow)(dispatch, state).then(() => {
           expect(dispatch.secondCall.args[0]).to.eql({
             type: FETCH_BACKEND_STATUSES_FAILURE,
