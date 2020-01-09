@@ -25,10 +25,11 @@ class ExternalServicesError extends React.Component {
   };
 
   componentDidMount() {
-    const { onRender, shouldGetBackendStatuses, statuses } = this.props;
-    const shouldRender = statuses.some(this.isFailingDependency);
-    if (shouldGetBackendStatuses) {
-      getBackendStatuses();
+    const { onRender, statuses } = this.props;
+    const shouldRender = statuses?.some(this.isFailingDependency);
+
+    if (this.props.shouldGetBackendStatuses) {
+      this.props.getBackendStatuses();
     }
     if (shouldRender && onRender) onRender();
   }
