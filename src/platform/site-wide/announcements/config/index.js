@@ -1,10 +1,14 @@
-import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
-import Profile360Intro from '../components/Profile360Intro';
-import PersonalizationBanner from '../components/PersonalizationBanner';
-import VAPlusVetsModal from '../components/VAPlusVetsModal';
-import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import VeteransDayProclamation from '../components/VeteransDayProclamation';
+// Node modules.
+import moment from 'moment-timezone';
+// Relative imports.
 import ExploreVAModal from '../components/ExploreVAModal';
+import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
+import PersonalizationBanner from '../components/PersonalizationBanner';
+import Profile360Intro from '../components/Profile360Intro';
+import ScheduledMaintenance from '../components/ScheduledMaintenance';
+import VAPlusVetsModal from '../components/VAPlusVetsModal';
+import VeteransDayProclamation from '../components/VeteransDayProclamation';
+import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 
 const config = {
   announcements: [
@@ -14,6 +18,14 @@ const config = {
       component: VAPlusVetsModal,
       disabled: !VAPlusVetsModal.isEnabled(),
       showEverytime: true,
+    },
+    {
+      name: 'scheduled-maintenance',
+      paths: /(.)/,
+      component: ScheduledMaintenance,
+      disabled: !ScheduledMaintenance.isEnabled(),
+      startsAt: moment.tz('2020-01-09 13:40', 'America/New_York'),
+      expiresAt: moment.tz('2020-01-10 00:01', 'America/New_York'),
     },
     {
       name: 'explore-va',

@@ -14,7 +14,7 @@ export class Announcement extends Component {
       name: PropTypes.string.isRequired,
       showEverytime: PropTypes.bool,
       relatedAnnouncements: PropTypes.array,
-    }).isRequired,
+    }),
     dismissed: PropTypes.array,
     isLoggedIn: PropTypes.bool,
     profile: PropTypes.object,
