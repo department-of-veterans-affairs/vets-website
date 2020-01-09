@@ -1,4 +1,18 @@
 import { mapboxClient } from '../components/MapboxClient';
+import environments from '../../../platform/utilities/environment';
+/**
+ New: mbxClient is the new instance for the API calls and
+ The new SDK requires to pass the mapbox client to geocode services
+ otherwise use the client as it is
+ */
+let mbxClient;
+
+if (environments.isStaging()) {
+  const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+  mbxClient = mbxGeo(mapboxClient);
+} else {
+  mbxClient = mapboxClient;
+}
 
 /** ****************************************************
  * Helper functions specifically requiring the
@@ -40,20 +54,46 @@ export const getBoxCenter = bounds => {
  *
  * @param {Number} lon Longitude coordinate
  * @param {Number} lat Latitude coordinate
- * @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
  *   default => `'address,postcode'`
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
+export const reverseGeocode = async (lon, lat) => {
+  /**
+   * New sdk requires types to be an array otherwise string
+   */
+  const types = environments.isStaging()
+    ? ['address', 'postcode']
+    : 'address,postcode';
+
+  /**
+   * New SDk uses reverseGeocode fn
+   * //https://github.com/mapbox/mapbox-sdk-js/blob/master/docs/services.md#reversegeocode
+   * current SDK geocodeReverse fn
+   */
+  if (environments.isStaging()) {
+    const response = await mbxClient
+      .reverseGeocode({ query: [lon, lat], types })
+      .send()
+      .catch();
+    const {
+      entity: {
+        features: {
+          0: { place_name: placeName },
+        },
+      },
+    } = response.body;
+
+    return placeName;
+  }
   const {
     entity: {
       features: {
         0: { place_name: placeName },
       },
     },
-  } = await mapboxClient.geocodeReverse(
+  } = await mbxClient.geocodeReverse(
     { longitude: lon, latitude: lat },
     { types },
   );
