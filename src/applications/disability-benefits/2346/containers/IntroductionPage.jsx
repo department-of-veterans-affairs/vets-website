@@ -112,6 +112,7 @@ class IntroductionPage extends React.Component {
           );
         default:
       }
+      return UIDataObjKey;
     });
 
     const UITableRowsAndData = UIDataObjs.map(UIDataObj => {
