@@ -5,40 +5,33 @@ import {
   RECEIVE_SCHEDULED_DOWNTIME,
   RETRIEVE_SCHEDULED_DOWNTIME,
 } from '../actions';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
 
 describe('getScheduledDowntime', () => {
   const dispatch = sinon.spy();
   const old = {
     sessionStorage: global.sessionStorage,
-    fetch: global.fetch,
     dataLayer: global.window.dataLayer,
   };
-  const fetchResponse = {
-    ok: true,
-    json() {},
-    headers: {
-      get: key => ({ 'content-type': 'application/json' }[key]),
-    },
-    url: 'foo/bar',
-  };
-  const fetch = sinon.spy(() => Promise.resolve(fetchResponse));
 
   before(() => {
     global.sessionStorage = {};
-    global.fetch = fetch;
     global.window.dataLayer = [];
+    mockFetch();
   });
 
   after(() => {
-    global.fetch = old.fetch;
     global.sessionStorage = old.sessionStorage;
     global.window.dataLayer = old.dataLayer;
   });
 
   beforeEach(() => {
     sinon.spy();
-    fetch.reset();
-    fetchResponse.json = () => {};
+    resetFetch();
   });
 
   it('dispatches the correct actions and maps the data correctly', done => {
@@ -75,7 +68,8 @@ describe('getScheduledDowntime', () => {
 
     const state = {};
 
-    fetchResponse.json = () => Promise.resolve(raw);
+    mockFetch();
+    setFetchJSONResponse(global.fetch, raw);
     actionCreator(dispatch, state)
       .then(() => {
         const [firstArgs, secondArgs] = dispatch.args;
