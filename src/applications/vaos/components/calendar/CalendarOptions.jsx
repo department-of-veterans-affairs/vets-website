@@ -119,7 +119,7 @@ export default function CalendarOptions({
                 >
                   {additionalOptions?.maxSelections > 1 ? (
                     <CalendarCheckboxOption
-                      index={`${currentlySelectedDate}_${index}`}
+                      id={`${currentlySelectedDate}_${index}`}
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}
@@ -128,7 +128,7 @@ export default function CalendarOptions({
                     />
                   ) : (
                     <CalendarRadioOption
-                      index={`${currentlySelectedDate}_${index}`}
+                      id={`${currentlySelectedDate}_${index}`}
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}

@@ -60,7 +60,9 @@ function newAppointmentTest(client) {
 function appointmentDateTimeTest(client, assertText) {
   client
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
-    .click('.vaos-calendar__options input[id^="checkbox-0"]')
+    .click(
+      '.vaos-calendar__cell-current .vaos-calendar__options input[id$="-0"]',
+    )
     .click('.rjsf [type="submit"]')
     .assert.containsText('h1', assertText);
 
