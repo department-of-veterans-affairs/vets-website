@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
+  getChosenFacilityDetails,
   getClinicPageInfo,
   getClinicsForChosenFacility,
   getDateTimeSelect,
@@ -122,6 +123,27 @@ describe('VAOS selectors', () => {
 
       expect(getChosenFacilityInfo(state)).to.equal(
         state.newAppointment.facilities['323_123'][0],
+      );
+    });
+  });
+
+  describe('getChosenFacilityDetails', () => {
+    it('should return a stored facility details object', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            vaFacility: '983',
+          },
+          facilityDetails: {
+            983: {
+              institutionCode: '983',
+            },
+          },
+        },
+      };
+
+      expect(getChosenFacilityDetails(state)).to.equal(
+        state.newAppointment.facilityDetails['983'],
       );
     });
   });

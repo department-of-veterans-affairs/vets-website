@@ -44,9 +44,11 @@ const uiSchema = {
 };
 
 const pageKey = 'reasonForAppointment';
+const pageTitle = 'Choose a reason for your appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
+    document.title = `${pageTitle} | Veterans Affairs`;
     this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
   }
 
@@ -63,9 +65,7 @@ export class ReasonForAppointmentPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Choose a reason for your appointment
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"

@@ -117,6 +117,7 @@ const uiSchema = {
 };
 
 const pageKey = 'ccPreferences';
+const pageTitle = 'Tell us your Community Care preferences';
 
 export class CommunityCarePreferencesPage extends React.Component {
   componentDidMount() {
@@ -125,6 +126,7 @@ export class CommunityCarePreferencesPage extends React.Component {
       uiSchema,
       initialSchema,
     );
+    document.title = `${pageTitle}  | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -140,9 +142,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Tell us your Community Care preferences
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
         {(!schema || systemsStatus === FETCH_STATUS.loading) && (
           <LoadingIndicator message="Loading Community Care facilities" />

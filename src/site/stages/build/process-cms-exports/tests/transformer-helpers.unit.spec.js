@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const {
   combineItemsInIndexedObject,
+  createLink,
   getWysiwygString,
   unescapeUnicode,
 } = require('../transformers/helpers');
@@ -53,6 +54,60 @@ describe('CMS export transformer helpers', () => {
         expect(unescapeUnicode(`a ${codePoint} ${codePoint} a`)).to.equal(
           `a ${character} ${character} a`,
         );
+      });
+    });
+  });
+
+  describe('createLink', () => {
+    it('should return null for an empty array', () => {
+      expect(createLink([])).to.equal(null);
+    });
+
+    it('returns a properly formatted link object', () => {
+      const fieldLink = [
+        {
+          uri: 'foo',
+          title: 'Hello, World!',
+          options: ['big'],
+        },
+      ];
+
+      expect(createLink(fieldLink)).to.deep.equal({
+        url: {
+          path: 'foo',
+        },
+        title: 'Hello, World!',
+        options: ['big'],
+      });
+    });
+
+    it('can select only part of the returned object properties', () => {
+      const fieldLink = [
+        {
+          uri: 'foo',
+          title: 'Hello, World!',
+          options: ['big'],
+        },
+      ];
+
+      const urlOnly = ['url'];
+      const titleOnly = ['title'];
+
+      expect(createLink(fieldLink, urlOnly)).to.deep.equal({
+        url: {
+          path: 'foo',
+        },
+      });
+
+      expect(createLink(fieldLink, titleOnly)).to.deep.equal({
+        title: 'Hello, World!',
+      });
+
+      expect(createLink(fieldLink, [...urlOnly, ...titleOnly])).to.deep.equal({
+        url: {
+          path: 'foo',
+        },
+        title: 'Hello, World!',
       });
     });
   });

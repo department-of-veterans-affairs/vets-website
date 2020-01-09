@@ -35,10 +35,12 @@ const uiSchema = {
 };
 
 const pageKey = 'preferredDate';
+const pageTitle = 'Tell us when you want to schedule your appointment';
 
 export class PreferredDatePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle}  | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -54,9 +56,7 @@ export class PreferredDatePage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Tell us when you want to schedule your appointment
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <legend className="schemaform-label vads-u-max-width--none vads-u-margin-bottom--1p5">
           When is the earliest you want to be seen?
           <span className="schemaform-required-span">(*Required)</span>

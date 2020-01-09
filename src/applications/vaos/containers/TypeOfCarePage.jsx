@@ -44,10 +44,12 @@ const uiSchema = {
 };
 
 const pageKey = 'typeOfCare';
+const pageTitle = 'Choose the type of care you need';
 
 export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   onChange = newData => {
@@ -78,9 +80,7 @@ export class TypeOfCarePage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Choose the type of care you need
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Type of care"
           title="Type of care"

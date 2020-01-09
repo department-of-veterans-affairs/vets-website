@@ -16,6 +16,17 @@ import {
 import { getClinicPageInfo } from '../utils/selectors';
 import { formatTypeOfCare } from '../utils/formatters';
 
+function getPageTitle(schema, typeOfCare) {
+  const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+  let pageTitle = 'Clinic choice';
+  if (schema?.properties.clinicId.enum.length === 2) {
+    pageTitle = `Make a ${typeOfCareLabel} appointment at your last clinic`;
+  } else if (schema?.properties.clinicId.enum.length > 2) {
+    pageTitle = `Choose your VA clinic for your {typeOfCareLabel} appointment`;
+  }
+  return pageTitle;
+}
+
 const initialSchema = {
   type: 'object',
   required: ['clinicId'],
@@ -50,6 +61,10 @@ export class ClinicChoicePage extends React.Component {
 
     if (previouslyLoading && !currentlyLoading) {
       scrollAndFocus();
+      document.title = `${getPageTitle(
+        this.props.schema,
+        this.props.typeOfCare,
+      )} | Veterans Affairs`;
     }
   }
 
@@ -85,7 +100,7 @@ export class ClinicChoicePage extends React.Component {
         {schema.properties.clinicId.enum.length === 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Make a {typeOfCareLabel} appointment at your last clinic
+              {getPageTitle(schema, typeOfCare)}
             </h1>
             Your last {typeOfCareLabel} appointment was at{' '}
             {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
@@ -93,7 +108,7 @@ export class ClinicChoicePage extends React.Component {
               <p>
                 <FacilityAddress
                   name={facilityDetails.name}
-                  address={facilityDetails.address.physical}
+                  facility={facilityDetails}
                 />
               </p>
             )}
@@ -102,17 +117,17 @@ export class ClinicChoicePage extends React.Component {
         {schema.properties.clinicId.enum.length > 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Choose your VA clinic for your {typeOfCareLabel} appointment
+              {getPageTitle(schema, typeOfCare)}
             </h1>
             In the last 24 months you have had a {typeOfCareLabel} appointment
             in the following clinics, located at:
             {facilityDetails && (
-              <p>
+              <div className="vads-u-margin-y--2p5">
                 <FacilityAddress
                   name={facilityDetails.name}
                   facility={facilityDetails}
                 />
-              </p>
+              </div>
             )}
           </>
         )}

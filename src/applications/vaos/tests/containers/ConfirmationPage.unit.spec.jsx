@@ -11,9 +11,11 @@ describe('VAOS <ConfirmationPage>', () => {
     const flowType = FLOW_TYPES.DIRECT;
     const closeConfirmationPage = sinon.spy();
     const data = {};
+    const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
       <ConfirmationPage
+        fetchFacilityDetails={fetchFacilityDetails}
         closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
@@ -21,6 +23,8 @@ describe('VAOS <ConfirmationPage>', () => {
     );
 
     expect(tree.find('ConfirmationDirectScheduleInfo').exists()).to.be.true;
+    expect(document.title).contain('Your appointment has been scheduled');
+    expect(fetchFacilityDetails.called).to.be.true;
 
     tree.unmount();
     expect(closeConfirmationPage.called).to.be.true;
@@ -30,9 +34,11 @@ describe('VAOS <ConfirmationPage>', () => {
     const flowType = FLOW_TYPES.REQUEST;
     const closeConfirmationPage = sinon.spy();
     const data = {};
+    const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
       <ConfirmationPage
+        fetchFacilityDetails={fetchFacilityDetails}
         closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
@@ -40,6 +46,10 @@ describe('VAOS <ConfirmationPage>', () => {
     );
 
     expect(tree.find('ConfirmationRequestInfo').exists()).to.be.true;
+    expect(fetchFacilityDetails.called).to.be.true;
+    expect(document.title).contain(
+      'Your appointment request has been submitted',
+    );
 
     tree.unmount();
     expect(closeConfirmationPage.called).to.be.true;

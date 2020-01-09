@@ -3,43 +3,12 @@ const get = require('lodash/get');
 
 const { getFilteredEntity } = require('./filters');
 const { transformEntity } = require('./transform');
-const {
-  typeProperties,
-  toId,
-  readEntity,
-  getContentModelType,
-} = require('./helpers');
+const { toId, readEntity, getContentModelType } = require('./helpers');
 
 const {
   validateRawEntity,
   validateTransformedEntity,
 } = require('./schema-validation');
-
-/**
- * A list of properties to ignore.
- *
- * This list comes from the typeProperties, which we never want to
- * expand, and a temporary list of properties we don't want to filter
- * out on a per-content-model basis.
- *
- * Additionally, this is useful for temporarily ignoring entity
- * expansion of certain properties before we've created a filter for
- * that content model.
- */
-const ignoreList = typeProperties.concat([
-  'roles',
-  'field_facility_location',
-  'field_regional_health_service',
-  'field_region_page',
-  'field_office',
-  'field_banner_alert', // Hrm...
-  // All attributes which reference the user
-  'owner_id',
-  'revision_uid',
-  'revision_user',
-  'uid',
-  'user_id',
-]);
 
 const entityAssemblerFactory = contentDir => {
   /**
@@ -104,9 +73,6 @@ const entityAssemblerFactory = contentDir => {
 
     // Recursively expand entity references
     for (const [key, prop] of Object.entries(filteredEntity)) {
-      // eslint-disable-next-line no-continue
-      if (ignoreList.includes(key)) continue;
-
       // Properties with target_uuids are always arrays from tome-sync
       if (Array.isArray(prop)) {
         prop.forEach((item, index) => {
