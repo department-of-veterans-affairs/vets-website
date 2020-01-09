@@ -28,6 +28,7 @@ module.exports = {
   'Choose the type of care you need': client => {
     client
       .click('[value="323"]')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('[value="communityCare"]', Timeouts.slow)
       .assert.containsText(
@@ -38,6 +39,7 @@ module.exports = {
   'Choose where you would prefer to receive your care': client => {
     client
       .click('[value="communityCare"]')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('h1', Timeouts.slow)
       .assert.containsText(
@@ -70,6 +72,7 @@ module.exports = {
       .selectDropdown('root_communityCareProvider_address_state', 'IL')
       .setValue('#root_communityCareProvider_address_postalCode', '60613')
       .setValue('#root_communityCareProvider_phone', '1234567890')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_reasonForAppointment_0', Timeouts.slow)
       .assert.containsText('h1', 'Reason for appointment');

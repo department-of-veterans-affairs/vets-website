@@ -19,7 +19,6 @@ module.exports = {
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
-    // .axeCheck('.main');
   },
   'Select new appointment': client => {
     VAOSHelpers.newAppointmentTest(client);
@@ -27,6 +26,7 @@ module.exports = {
   'Choose the type of care you need': client => {
     client
       .click('[value="323"]')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_facilityType_0', Timeouts.slow)
       .assert.containsText(
@@ -37,6 +37,7 @@ module.exports = {
   'Choose where you would prefer to receive your care': client => {
     client
       .click('[value="vamc"]')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .assert.containsText('h1', 'Choose a VA location for your appointment')
       .pause(Timeouts.slow);
@@ -50,6 +51,7 @@ module.exports = {
       )
       .click('[name = "root_vaFacility"][value = "983GB"]')
       .pause(Timeouts.normal)
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('h1', Timeouts.normal)
       .assert.containsText(
