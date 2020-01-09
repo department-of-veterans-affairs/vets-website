@@ -54,6 +54,7 @@ describe('VAOS <CalendarOptions>', () => {
   it('should update height after resize', done => {
     const tree = mount(
       <CalendarOptions
+        isCurrentlySelected
         currentlySelectedDate="2019-10-21"
         selectedDates={selectedDates}
         additionalOptions={{ maxSelections: 1, getOptionsByDate }}
