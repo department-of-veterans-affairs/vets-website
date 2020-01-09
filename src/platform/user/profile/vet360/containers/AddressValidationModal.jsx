@@ -118,7 +118,7 @@ class AddressValidationModal extends React.Component {
     } = address;
 
     const isAddressFromUser = id === 'userEntered';
-    const isNotSingleSuggestion = confirmedSuggestions.length > 1;
+    const greaterThanOneSuggestion = confirmedSuggestions.length > 1;
     const showEditLinkErrorState = addressValidationError && validationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
@@ -131,7 +131,7 @@ class AddressValidationModal extends React.Component {
         className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1p5"
       >
         {isFirstOptionOrEnabled &&
-          isNotSingleSuggestion && (
+          greaterThanOneSuggestion && (
             <input
               type="radio"
               name={id}
@@ -283,7 +283,21 @@ AddressValidationModal.propTypes = {
   isAddressValidationModalVisible: PropTypes.bool.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
-  confirmedSuggestions: PropTypes.array.isRequired,
+  confirmedSuggestions: PropTypes.arrayOf(
+    PropTypes.shape({
+      addressLine1: PropTypes.string.isRequired,
+      addressType: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      countryName: PropTypes.string.isRequired,
+      countryCodeIso3: PropTypes.string.isRequired,
+      countyCode: PropTypes.string.isRequired,
+      countyName: PropTypes.string.isRequired,
+      stateCode: PropTypes.string.isRequired,
+      zipCode: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      addressPou: PropTypes.string.isRequired,
+    }),
+  ),
   addressValidationType: PropTypes.string.isRequired,
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,
