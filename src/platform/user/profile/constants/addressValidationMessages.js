@@ -1,7 +1,17 @@
 import React from 'react';
 
+export const ADDRESS_VALIDATION_TYPES = Object.freeze({
+  BAD_UNIT: 'badUnitNumber',
+  BAD_UNIT_OVERRIDE: 'badUnitNumberOverride',
+  MISSING_UNIT: 'missingUnitNumber',
+  MISSING_UNIT_OVERRIDE: 'missingUnitNumberOverride',
+  SHOW_SUGGESTIONS: 'showSuggestions',
+  SHOW_SUGGESTIONS_OVERRIDE: 'showSuggestionsOverride',
+  VALIDATION_ERROR: 'validationError',
+});
+
 export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
-  badUnitNumber: {
+  [ADDRESS_VALIDATION_TYPES.BAD_UNIT]: {
     headline: 'Please update your unit number',
     ModalText: ({ editFunction }) => (
       <p>
@@ -12,7 +22,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       </p>
     ),
   },
-  badUnitNumberOverride: {
+  [ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE]: {
     headline: 'Please update or confirm your unit number',
     ModalText: ({ editFunction }) => (
       <p>
@@ -24,7 +34,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       </p>
     ),
   },
-  missingUnitNumber: {
+  [ADDRESS_VALIDATION_TYPES.MISSING_UNIT]: {
     headline: 'Please add a unit number',
     ModalText: ({ editFunction }) => (
       <p>
@@ -35,7 +45,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       </p>
     ),
   },
-  missingUnitNumberOverride: {
+  [ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE]: {
     headline: 'Please add a unit number',
     ModalText: ({ editFunction }) => (
       <p>
@@ -46,7 +56,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       </p>
     ),
   },
-  showSuggestions: {
+  [ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS]: {
     headline: `We couldn’t verify your address`,
     ModalText: ({ editFunction }) => (
       <p>
@@ -57,7 +67,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       </p>
     ),
   },
-  showSuggestionsOverride: {
+  [ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE]: {
     headline: 'Please confirm your address',
     ModalText: ({ editFunction }) => (
       <p>
@@ -68,7 +78,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       </p>
     ),
   },
-  validationError: {
+  [ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR]: {
     headline: `We couldn’t verify your address`,
     ModalText: ({ editFunction }) => (
       <p>
