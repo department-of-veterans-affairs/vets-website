@@ -6,6 +6,7 @@ import CalendarCheckboxOption from './CalendarCheckboxOption';
 import { isDateOptionPairInSelectedArray } from './../../utils/calendar';
 
 export default function CalendarOptions({
+  isCurrentlySelected,
   currentlySelectedDate,
   additionalOptions,
   handleSelectOption,
@@ -16,28 +17,35 @@ export default function CalendarOptions({
   const [fieldsetHeight, setFieldsetHeight] = useState(0);
   const [fieldsetNode, setFieldsetNode] = useState(null);
 
-  const measuredHeight = useCallback(node => {
-    if (node !== null) {
-      setFieldsetHeight(node.getBoundingClientRect().height);
-      setFieldsetNode(node);
-    }
-  }, []);
+  const measuredHeight = useCallback(
+    node => {
+      if (node !== null && isCurrentlySelected) {
+        setFieldsetHeight(node.getBoundingClientRect().height);
+        setFieldsetNode(node);
+      }
+    },
+    [isCurrentlySelected],
+  );
 
   useEffect(() => {
-    const onResize = debounce(50, () => {
-      if (fieldsetNode) {
-        const newHeight = fieldsetNode.getBoundingClientRect().height;
-        if (newHeight !== fieldsetHeight) {
-          setFieldsetHeight(newHeight);
+    if (isCurrentlySelected) {
+      const onResize = debounce(50, () => {
+        if (fieldsetNode) {
+          const newHeight = fieldsetNode.getBoundingClientRect().height;
+          if (newHeight !== fieldsetHeight) {
+            setFieldsetHeight(newHeight);
+          }
         }
-      }
-    });
+      });
 
-    window.addEventListener('resize', onResize);
+      window.addEventListener('resize', onResize);
 
-    return () => {
-      window.removeEventListener('resize', onResize);
-    };
+      return () => {
+        window.removeEventListener('resize', onResize);
+      };
+    }
+
+    return undefined;
   });
 
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
@@ -71,7 +79,11 @@ export default function CalendarOptions({
     );
 
     return (
-      <div style={{ height: fieldsetHeight }}>
+      <div
+        aria-hidden={isCurrentlySelected ? 'false' : 'true'}
+        className={isCurrentlySelected ? undefined : 'vads-u-display--none'}
+        style={{ height: fieldsetHeight }}
+      >
         <fieldset
           ref={measuredHeight}
           className="vaos-calendar__options-container"
@@ -107,7 +119,7 @@ export default function CalendarOptions({
                 >
                   {additionalOptions?.maxSelections > 1 ? (
                     <CalendarCheckboxOption
-                      index={index}
+                      index={`${currentlySelectedDate}_${index}`}
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}
@@ -116,7 +128,7 @@ export default function CalendarOptions({
                     />
                   ) : (
                     <CalendarRadioOption
-                      index={index}
+                      index={`${currentlySelectedDate}_${index}`}
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}
