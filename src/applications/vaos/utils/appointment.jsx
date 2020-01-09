@@ -168,6 +168,7 @@ export function getAppointmentLocation(appt, facility) {
       <FacilityAddress
         name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
         facility={facility}
+        showDirectionsLink
       />
     );
   }

@@ -1,4 +1,6 @@
-const mock = require('../../../../platform/testing/e2e/mock-helpers');
+import moment from 'moment';
+
+const mock = require('platform/testing/e2e/mock-helpers');
 
 function initDocumentUploadMock() {
   mock(null, {
@@ -41,7 +43,9 @@ function initItfMock(token) {
             {
               id: '1',
               creationDate: '2014-07-28T19:53:45.810+00:00',
-              expirationDate: '2015-08-28T19:47:52.786+00:00',
+              expirationDate: moment()
+                .add(1, 'd')
+                .format(),
               participantId: 1,
               source: 'EBN',
               status: 'active',

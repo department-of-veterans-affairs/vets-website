@@ -276,7 +276,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 export function getClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId.includes('983')) {
+    if (facilityId === '983') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
