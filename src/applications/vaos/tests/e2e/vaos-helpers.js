@@ -284,6 +284,23 @@ function initAppointmentListMock(token) {
       },
     },
   });
+  mock(token, {
+    path: '/v0/vaos/community_care/eligibility/supported_sites',
+    verb: 'get',
+    query: 'site_codes[]=983',
+    value: {
+      data: [
+        {
+          id: '983',
+          type: 'object_type',
+          attributes: {
+            name: 'Cheyenne',
+            timezone: 'US/Mountain',
+          },
+        },
+      ],
+    },
+  });
 }
 
 module.exports = {
