@@ -37,8 +37,8 @@ class ScheduledMaintenance extends Component {
 
     // Message if scheduled maintenance is about to happen.
     if (now.isAfter(startsAt.subtract(60, 'minutes'))) {
-      return `We’ll be starting site maintenance in ${startsAt.diff(
-        now,
+      return `We’ll be starting site maintenance in ${now.diff(
+        startsAt,
         'minutes',
       )} minutes. If you’re using our tools or services right now, please sign in or create an account to save your work.`;
     }
