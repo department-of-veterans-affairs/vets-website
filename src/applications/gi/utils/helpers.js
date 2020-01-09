@@ -70,5 +70,5 @@ export const getStateNameForCode = stateCode => {
   const stateLabel = constants.states.USA.find(
     state => state.value.toUpperCase() === stateCode.toUpperCase(),
   );
-  return stateLabel !== undefined ? stateLabel.label : stateCode;
+  return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
 };
