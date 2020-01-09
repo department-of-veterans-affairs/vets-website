@@ -26,14 +26,13 @@ const initialSchema = {
 const uiSchema = {
   visitType: {
     'ui:widget': 'radio',
-    'ui:options': {
-      hideLabelText: true,
-    },
+    'ui:title':
+      'Please let us know how you would like to be seen for this appointment.',
   },
 };
 
 const pageKey = 'visitType';
-const pageTitle = 'How would you like to be seen?';
+const pageTitle = 'Choose a type of appointment';
 
 export class TypeOfVisitPage extends React.Component {
   componentDidMount() {

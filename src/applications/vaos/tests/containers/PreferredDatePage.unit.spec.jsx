@@ -88,7 +88,7 @@ describe('VAOS <PreferredDatePage>', () => {
   it('document title should match h1 text', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const pageTitle = 'What is the earliest date you would like to be seen?';
+    const pageTitle = 'Tell us when you want to schedule your appointment';
 
     const form = mount(
       <PreferredDatePage

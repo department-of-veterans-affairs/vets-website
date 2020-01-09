@@ -112,7 +112,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
   it('document title should match h1 text', () => {
     const openReasonForAppointment = sinon.spy();
     const updateReasonForAppointmentData = sinon.spy();
-    const pageTitle = 'Reason for appointment';
+    const pageTitle = 'Choose a reason for your appointment';
 
     const form = mount(
       <ReasonForAppointmentPage

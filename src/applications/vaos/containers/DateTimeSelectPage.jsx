@@ -17,7 +17,7 @@ import DateTimeSelectField from '../components/DateTimeSelectField';
 import WaitTimeAlert from '../components/WaitTimeAlert';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Appointment calendar';
+const pageTitle = 'Tell us the date and time you’d like your appointment';
 
 const initialSchema = {
   type: 'object',
@@ -115,8 +115,8 @@ export class DateTimeSelectPage extends React.Component {
           typeOfCareId={typeOfCareId}
         />
         <p>
-          Please select a desired date and time for your appointment.
-          {timezone && ` Appointment times are displayed in ${timezone}.`}
+          Please select date and time for your appointment.{' '}
+          {timezone && ` Appointment times are shown in ${timezone}.`}
         </p>
         <SchemaForm
           name="Schedule appointment"

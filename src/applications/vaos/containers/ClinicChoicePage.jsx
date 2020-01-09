@@ -22,7 +22,7 @@ function getPageTitle(schema, typeOfCare) {
   if (schema?.properties.clinicId.enum.length === 2) {
     pageTitle = `Make a ${typeOfCareLabel} appointment at your last clinic`;
   } else if (schema?.properties.clinicId.enum.length > 2) {
-    pageTitle = `Select your VA clinic for your ${typeOfCareLabel} appointment`;
+    pageTitle = `Choose your VA clinic for your ${typeOfCareLabel} appointment`;
   }
   return pageTitle;
 }
@@ -119,8 +119,8 @@ export class ClinicChoicePage extends React.Component {
             <h1 className="vads-u-font-size--h2">
               {getPageTitle(schema, typeOfCare)}
             </h1>
-            In the last 24 months you have had {typeOfCareLabel} appointments in
-            the following clinics, located at:
+            In the last 24 months you have had a {typeOfCareLabel} appointment
+            in the following clinics, located at:
             {facilityDetails && (
               <div className="vads-u-margin-y--2p5">
                 <FacilityAddress

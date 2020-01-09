@@ -84,7 +84,7 @@ describe('VAOS <TypeOfVisitPage>', () => {
   it('document title should match h1 text', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const pageTitle = 'How would you like to be seen?';
+    const pageTitle = 'Choose a type of appointment';
 
     const form = mount(
       <TypeOfVisitPage
