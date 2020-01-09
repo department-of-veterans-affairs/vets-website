@@ -1,619 +1,1004 @@
-[
-	{
-		"_id": "523",
-		"name": "Boston",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "689",
-		"name": "West Haven",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "608",
-		"name": "Manchester",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "405",
-		"name": "White River Junction",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "516",
-		"name": "Bay Pines",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "546",
-		"name": "Miami",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "548",
-		"name": "West Palm Beach",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "573",
-		"name": "Gainesville",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "672",
-		"name": "San Juan",
-		"timezone": "America/Puerto_Rico"
-	},
-	{
-		"_id": "673",
-		"name": "Tampa",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "675",
-		"name": "Orlando",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "436",
-		"name": "Fort Harrison",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "442",
-		"name": "Cheyenne",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "554",
-		"name": "Denver",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "575",
-		"name": "Grand Junction",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "623",
-		"name": "Muskogee",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "635",
-		"name": "Oklahoma City",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "666",
-		"name": "Sheridan",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "558",
-		"name": "Durham",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "565",
-		"name": "Fayetteville",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "590",
-		"name": "Hampton",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "652",
-		"name": "Richmond",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "658",
-		"name": "Salem",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "659",
-		"name": "Salisbury",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "537",
-		"name": "Chicago",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "550",
-		"name": "Danville",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "556",
-		"name": "North Chicago",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "578",
-		"name": "Hines",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "585",
-		"name": "Iron Mountain",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "607",
-		"name": "Madison",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "676",
-		"name": "Tomah",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "695",
-		"name": "Milwaukee",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "512",
-		"name": "Baltimore",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "517",
-		"name": "Beckley",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "540",
-		"name": "Clarksburg",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "581",
-		"name": "Huntington",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "613",
-		"name": "Martinsburg",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "688",
-		"name": "Washington",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "596",
-		"name": "Lexington",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "603",
-		"name": "Louisville",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "614",
-		"name": "Memphis",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "621",
-		"name": "Mountain Home",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "626",
-		"name": "Nashville",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "526",
-		"name": "Bronx",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "528",
-		"name": "Buffalo",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "561",
-		"name": "East Orange",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "630",
-		"name": "New York",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "632",
-		"name": "Northport",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "589",
-		"name": "Kansas City",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "657",
-		"name": "St. Louis",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "460",
-		"name": "Wilmington",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "503",
-		"name": "Altoona",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "529",
-		"name": "Butler",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "542",
-		"name": "Coatesville",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "562",
-		"name": "Erie",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "595",
-		"name": "Lebanon",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "642",
-		"name": "Philadelphia",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "646",
-		"name": "Pittsburgh",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "693",
-		"name": "Wilkes-Barre",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "506",
-		"name": "Ann Arbor",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "515",
-		"name": "Battle Creek",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "539",
-		"name": "Cincinnati",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "552",
-		"name": "Dayton",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "757",
-		"name": "Columbus",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "553",
-		"name": "Detroit",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "610",
-		"name": "Marion",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "655",
-		"name": "Saginaw",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "501",
-		"name": "Albuquerque",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "644",
-		"name": "Phoenix",
-		"timezone": "US/Arizona"
-	},
-	{
-		"_id": "649",
-		"name": "Prescott",
-		"timezone": "US/Arizona"
-	},
-	{
-		"_id": "600",
-		"name": "Long Beach",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "605",
-		"name": "Loma Linda",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "664",
-		"name": "San Diego",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "691",
-		"name": "Los Angeles",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "502",
-		"name": "Pineville",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "520",
-		"name": "Biloxi",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "564",
-		"name": "Fayetteville",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "580",
-		"name": "Houston",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "586",
-		"name": "Jackson",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "598",
-		"name": "Little Rock",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "667",
-		"name": "Shreveport",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "629",
-		"name": "New Orleans",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "437",
-		"name": "Fargo",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "438",
-		"name": "Sioux Falls",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "568",
-		"name": "Fort Meade",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "618",
-		"name": "Minneapolis",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "636",
-		"name": "Omaha",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "656",
-		"name": "St. Cloud",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "463",
-		"name": "Anchorage",
-		"timezone": "US/Alaska"
-	},
-	{
-		"_id": "531",
-		"name": "Boise",
-		"timezone": "US/Mountain"
-	},
-	{
-		"_id": "648",
-		"name": "Portland",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "653",
-		"name": "Roseburg",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "663",
-		"name": "Seattle",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "668",
-		"name": "Spokane",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "687",
-		"name": "Walla Walla",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "692",
-		"name": "White City",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "459",
-		"name": "Honolulu",
-		"timezone": "US/Hawaii"
-	},
-	{
-		"_id": "570",
-		"name": "Fresno",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "593",
-		"name": "North Las Vegas",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "612",
-		"name": "Mather",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "640",
-		"name": "Palo Alto",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "654",
-		"name": "Reno",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "662",
-		"name": "San Francisco",
-		"timezone": "US/Pacific"
-	},
-	{
-		"_id": "402",
-		"name": "Augusta",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "518",
-		"name": "Bedford",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "631",
-		"name": "Leeds",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "650",
-		"name": "Providence",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "508",
-		"name": "Decatur",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "509",
-		"name": "Augusta",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "521",
-		"name": "Birmingham",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "534",
-		"name": "Charleston",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "544",
-		"name": "Columbia",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "557",
-		"name": "Dublin",
-		"timezone": "US/Eastern"
-	},
-	{
-		"_id": "619",
-		"name": "Central Alabama",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "679",
-		"name": "Tuscaloosa",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "504",
-		"name": "Amarillo",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "519",
-		"name": "Big Spring",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "549",
-		"name": "North Texas",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "671",
-		"name": "South Texas",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "674",
-		"name": "Central Texas",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "740",
-		"name": "Harlingen",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "756",
-		"name": "El Paso",
-		"timezone": "US/Central"
-	},
-	{
-		"_id": "541",
-		"name": "Cleveland",
-		"timezone": "US/Eastern"
-	},
-  { "_id": "983", "name": "Cheyenne", "timezone": "US/Mountain" },
-  { "_id": "984", "name": "Dayton", "timezone": "US/Eastern" }
-]
+{
+  "data": [
+    {
+      "id": "523",
+      "type": "object_type",
+      "attributes": {
+        "name": "Boston",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "689",
+      "type": "object_type",
+      "attributes": {
+        "name": "West Haven",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "608",
+      "type": "object_type",
+      "attributes": {
+        "name": "Manchester",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "405",
+      "type": "object_type",
+      "attributes": {
+        "name": "White River Junction",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "516",
+      "type": "object_type",
+      "attributes": {
+        "name": "Bay Pines",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "546",
+      "type": "object_type",
+      "attributes": {
+        "name": "Miami",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "548",
+      "type": "object_type",
+      "attributes": {
+        "name": "West Palm Beach",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "573",
+      "type": "object_type",
+      "attributes": {
+        "name": "Gainesville",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "672",
+      "type": "object_type",
+      "attributes": {
+        "name": "San Juan",
+        "timezone": "America/Puerto_Rico"
+      }
+    },
+    {
+      "id": "673",
+      "type": "object_type",
+      "attributes": {
+        "name": "Tampa",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "675",
+      "type": "object_type",
+      "attributes": {
+        "name": "Orlando",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "436",
+      "type": "object_type",
+      "attributes": {
+        "name": "Fort Harrison",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "442",
+      "type": "object_type",
+      "attributes": {
+        "name": "Cheyenne",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "554",
+      "type": "object_type",
+      "attributes": {
+        "name": "Denver",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "575",
+      "type": "object_type",
+      "attributes": {
+        "name": "Grand Junction",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "623",
+      "type": "object_type",
+      "attributes": {
+        "name": "Muskogee",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "635",
+      "type": "object_type",
+      "attributes": {
+        "name": "Oklahoma City",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "666",
+      "type": "object_type",
+      "attributes": {
+        "name": "Sheridan",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "558",
+      "type": "object_type",
+      "attributes": {
+        "name": "Durham",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "565",
+      "type": "object_type",
+      "attributes": {
+        "name": "Fayetteville",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "590",
+      "type": "object_type",
+      "attributes": {
+        "name": "Hampton",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "652",
+      "type": "object_type",
+      "attributes": {
+        "name": "Richmond",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "658",
+      "type": "object_type",
+      "attributes": {
+        "name": "Salem",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "659",
+      "type": "object_type",
+      "attributes": {
+        "name": "Salisbury",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "537",
+      "type": "object_type",
+      "attributes": {
+        "name": "Chicago",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "550",
+      "type": "object_type",
+      "attributes": {
+        "name": "Danville",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "556",
+      "type": "object_type",
+      "attributes": {
+        "name": "North Chicago",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "578",
+      "type": "object_type",
+      "attributes": {
+        "name": "Hines",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "585",
+      "type": "object_type",
+      "attributes": {
+        "name": "Iron Mountain",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "607",
+      "type": "object_type",
+      "attributes": {
+        "name": "Madison",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "676",
+      "type": "object_type",
+      "attributes": {
+        "name": "Tomah",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "695",
+      "type": "object_type",
+      "attributes": {
+        "name": "Milwaukee",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "512",
+      "type": "object_type",
+      "attributes": {
+        "name": "Baltimore",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "517",
+      "type": "object_type",
+      "attributes": {
+        "name": "Beckley",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "540",
+      "type": "object_type",
+      "attributes": {
+        "name": "Clarksburg",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "581",
+      "type": "object_type",
+      "attributes": {
+        "name": "Huntington",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "613",
+      "type": "object_type",
+      "attributes": {
+        "name": "Martinsburg",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "688",
+      "type": "object_type",
+      "attributes": {
+        "name": "Washington",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "596",
+      "type": "object_type",
+      "attributes": {
+        "name": "Lexington",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "603",
+      "type": "object_type",
+      "attributes": {
+        "name": "Louisville",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "614",
+      "type": "object_type",
+      "attributes": {
+        "name": "Memphis",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "621",
+      "type": "object_type",
+      "attributes": {
+        "name": "Mountain Home",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "626",
+      "type": "object_type",
+      "attributes": {
+        "name": "Nashville",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "526",
+      "type": "object_type",
+      "attributes": {
+        "name": "Bronx",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "528",
+      "type": "object_type",
+      "attributes": {
+        "name": "Buffalo",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "561",
+      "type": "object_type",
+      "attributes": {
+        "name": "East Orange",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "630",
+      "type": "object_type",
+      "attributes": {
+        "name": "New York",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "632",
+      "type": "object_type",
+      "attributes": {
+        "name": "Northport",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "589",
+      "type": "object_type",
+      "attributes": {
+        "name": "Kansas City",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "657",
+      "type": "object_type",
+      "attributes": {
+        "name": "St. Louis",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "460",
+      "type": "object_type",
+      "attributes": {
+        "name": "Wilmington",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "503",
+      "type": "object_type",
+      "attributes": {
+        "name": "Altoona",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "529",
+      "type": "object_type",
+      "attributes": {
+        "name": "Butler",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "542",
+      "type": "object_type",
+      "attributes": {
+        "name": "Coatesville",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "562",
+      "type": "object_type",
+      "attributes": {
+        "name": "Erie",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "595",
+      "type": "object_type",
+      "attributes": {
+        "name": "Lebanon",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "642",
+      "type": "object_type",
+      "attributes": {
+        "name": "Philadelphia",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "646",
+      "type": "object_type",
+      "attributes": {
+        "name": "Pittsburgh",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "693",
+      "type": "object_type",
+      "attributes": {
+        "name": "Wilkes-Barre",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "506",
+      "type": "object_type",
+      "attributes": {
+        "name": "Ann Arbor",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "515",
+      "type": "object_type",
+      "attributes": {
+        "name": "Battle Creek",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "539",
+      "type": "object_type",
+      "attributes": {
+        "name": "Cincinnati",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "552",
+      "type": "object_type",
+      "attributes": {
+        "name": "Dayton",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "757",
+      "type": "object_type",
+      "attributes": {
+        "name": "Columbus",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "553",
+      "type": "object_type",
+      "attributes": {
+        "name": "Detroit",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "610",
+      "type": "object_type",
+      "attributes": {
+        "name": "Marion",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "655",
+      "type": "object_type",
+      "attributes": {
+        "name": "Saginaw",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "501",
+      "type": "object_type",
+      "attributes": {
+        "name": "Albuquerque",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "644",
+      "type": "object_type",
+      "attributes": {
+        "name": "Phoenix",
+        "timezone": "US/Arizona"
+      }
+    },
+    {
+      "id": "649",
+      "type": "object_type",
+      "attributes": {
+        "name": "Prescott",
+        "timezone": "US/Arizona"
+      }
+    },
+    {
+      "id": "600",
+      "type": "object_type",
+      "attributes": {
+        "name": "Long Beach",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "605",
+      "type": "object_type",
+      "attributes": {
+        "name": "Loma Linda",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "664",
+      "type": "object_type",
+      "attributes": {
+        "name": "San Diego",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "691",
+      "type": "object_type",
+      "attributes": {
+        "name": "Los Angeles",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "502",
+      "type": "object_type",
+      "attributes": {
+        "name": "Pineville",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "520",
+      "type": "object_type",
+      "attributes": {
+        "name": "Biloxi",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "564",
+      "type": "object_type",
+      "attributes": {
+        "name": "Fayetteville",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "580",
+      "type": "object_type",
+      "attributes": {
+        "name": "Houston",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "586",
+      "type": "object_type",
+      "attributes": {
+        "name": "Jackson",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "598",
+      "type": "object_type",
+      "attributes": {
+        "name": "Little Rock",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "667",
+      "type": "object_type",
+      "attributes": {
+        "name": "Shreveport",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "629",
+      "type": "object_type",
+      "attributes": {
+        "name": "New Orleans",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "437",
+      "type": "object_type",
+      "attributes": {
+        "name": "Fargo",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "438",
+      "type": "object_type",
+      "attributes": {
+        "name": "Sioux Falls",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "568",
+      "type": "object_type",
+      "attributes": {
+        "name": "Fort Meade",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "618",
+      "type": "object_type",
+      "attributes": {
+        "name": "Minneapolis",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "636",
+      "type": "object_type",
+      "attributes": {
+        "name": "Omaha",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "656",
+      "type": "object_type",
+      "attributes": {
+        "name": "St. Cloud",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "463",
+      "type": "object_type",
+      "attributes": {
+        "name": "Anchorage",
+        "timezone": "US/Alaska"
+      }
+    },
+    {
+      "id": "531",
+      "type": "object_type",
+      "attributes": {
+        "name": "Boise",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "648",
+      "type": "object_type",
+      "attributes": {
+        "name": "Portland",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "653",
+      "type": "object_type",
+      "attributes": {
+        "name": "Roseburg",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "663",
+      "type": "object_type",
+      "attributes": {
+        "name": "Seattle",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "668",
+      "type": "object_type",
+      "attributes": {
+        "name": "Spokane",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "687",
+      "type": "object_type",
+      "attributes": {
+        "name": "Walla Walla",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "692",
+      "type": "object_type",
+      "attributes": {
+        "name": "White City",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "459",
+      "type": "object_type",
+      "attributes": {
+        "name": "Honolulu",
+        "timezone": "US/Hawaii"
+      }
+    },
+    {
+      "id": "570",
+      "type": "object_type",
+      "attributes": {
+        "name": "Fresno",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "593",
+      "type": "object_type",
+      "attributes": {
+        "name": "North Las Vegas",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "612",
+      "type": "object_type",
+      "attributes": {
+        "name": "Mather",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "640",
+      "type": "object_type",
+      "attributes": {
+        "name": "Palo Alto",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "654",
+      "type": "object_type",
+      "attributes": {
+        "name": "Reno",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "662",
+      "type": "object_type",
+      "attributes": {
+        "name": "San Francisco",
+        "timezone": "US/Pacific"
+      }
+    },
+    {
+      "id": "402",
+      "type": "object_type",
+      "attributes": {
+        "name": "Augusta",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "518",
+      "type": "object_type",
+      "attributes": {
+        "name": "Bedford",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "631",
+      "type": "object_type",
+      "attributes": {
+        "name": "Leeds",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "650",
+      "type": "object_type",
+      "attributes": {
+        "name": "Providence",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "508",
+      "type": "object_type",
+      "attributes": {
+        "name": "Decatur",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "509",
+      "type": "object_type",
+      "attributes": {
+        "name": "Augusta",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "521",
+      "type": "object_type",
+      "attributes": {
+        "name": "Birmingham",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "534",
+      "type": "object_type",
+      "attributes": {
+        "name": "Charleston",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "544",
+      "type": "object_type",
+      "attributes": {
+        "name": "Columbia",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "557",
+      "type": "object_type",
+      "attributes": {
+        "name": "Dublin",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "619",
+      "type": "object_type",
+      "attributes": {
+        "name": "Central Alabama",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "679",
+      "type": "object_type",
+      "attributes": {
+        "name": "Tuscaloosa",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "504",
+      "type": "object_type",
+      "attributes": {
+        "name": "Amarillo",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "519",
+      "type": "object_type",
+      "attributes": {
+        "name": "Big Spring",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "549",
+      "type": "object_type",
+      "attributes": {
+        "name": "North Texas",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "671",
+      "type": "object_type",
+      "attributes": {
+        "name": "South Texas",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "674",
+      "type": "object_type",
+      "attributes": {
+        "name": "Central Texas",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "740",
+      "type": "object_type",
+      "attributes": {
+        "name": "Harlingen",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "756",
+      "type": "object_type",
+      "attributes": {
+        "name": "El Paso",
+        "timezone": "US/Central"
+      }
+    },
+    {
+      "id": "541",
+      "type": "object_type",
+      "attributes": {
+        "name": "Cleveland",
+        "timezone": "US/Eastern"
+      }
+    },
+    {
+      "id": "983",
+      "type": "object_type",
+      "attributes": {
+        "name": "Cheyenne",
+        "timezone": "US/Mountain"
+      }
+    },
+    {
+      "id": "984",
+      "type": "object_type",
+      "attributes": {
+        "name": "Dayton",
+        "timezone": "US/Eastern"
+      }
+    }
+  ]
+}
