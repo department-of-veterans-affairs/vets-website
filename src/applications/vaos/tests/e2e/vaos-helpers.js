@@ -285,7 +285,7 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
-    path: '/v0/vaos/community_care/eligibility/supported_sites',
+    path: '/v0/vaos/community_care/supported_sites',
     verb: 'get',
     query: 'site_codes[]=983',
     value: {
