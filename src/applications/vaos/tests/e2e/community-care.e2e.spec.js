@@ -30,20 +30,14 @@ module.exports = {
       .click('[value="323"]')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('[value="communityCare"]', Timeouts.slow)
-      .assert.containsText(
-        'h1',
-        'Choose where you would prefer to receive your care',
-      );
+      .assert.containsText('h1', 'Choose where you want to receive your care');
   },
-  'Choose where you would prefer to receive your care': client => {
+  'Choose where you want to receive your care': client => {
     client
       .click('[value="communityCare"]')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('h1', Timeouts.slow)
-      .assert.containsText(
-        'h1',
-        'What date and time would you like to make an appointment?',
-      );
+      .assert.containsText('h1', 'Choose a day and time for your appointment');
   },
   'What date and time would you like to make an appointment?': client => {
     VAOSHelpers.appointmentDateTimeTest(
@@ -72,10 +66,10 @@ module.exports = {
       .setValue('#root_communityCareProvider_phone', '1234567890')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_reasonForAppointment_0', Timeouts.slow)
-      .assert.containsText('h1', 'Reason for appointment');
+      .assert.containsText('h1', 'Choose a reason for your appointment');
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'Contact information');
+    VAOSHelpers.appointmentReasonTest(client, 'Your contact information');
   },
   'Contact information': client => {
     VAOSHelpers.contactInformationTest(client);
