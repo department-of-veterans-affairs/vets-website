@@ -69,7 +69,10 @@ class AddressValidationModal extends React.Component {
       validationKey,
       isLoading,
       addressFromUser,
+      selectedAddressId,
     } = this.props;
+
+    const disableButton = selectedAddressId === null;
 
     if (addressValidationError && !validationKey) {
       return (
@@ -85,7 +88,11 @@ class AddressValidationModal extends React.Component {
     }
 
     return (
-      <LoadingButton isLoading={isLoading} className="usa-button-primary">
+      <LoadingButton
+        disabled={disableButton}
+        isLoading={isLoading}
+        className="usa-button-primary"
+      >
         Update
       </LoadingButton>
     );
@@ -121,7 +128,7 @@ class AddressValidationModal extends React.Component {
         className={
           isFirstOptionOrEnabled
             ? 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center'
-            : 'vads-u-margin-left--2 vads-u-margin-bottom--1p5 vads-u-justify-content--center vads-u-display--flex vads-u-flex-direction--column'
+            : 'vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-left--2 vads-u-margin-bottom--1p5'
         }
       >
         {isFirstOptionOrEnabled && (
@@ -283,7 +290,7 @@ AddressValidationModal.propTypes = {
   validationKey: PropTypes.number,
   addressFromUser: PropTypes.object.isRequired,
   selectedAddress: PropTypes.object.isRequired,
-  selectedAddressId: PropTypes.string.isRequired,
+  selectedAddressId: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,

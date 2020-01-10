@@ -68,11 +68,14 @@ export const srSubstitute = (srIgnored, substitutionText) => (
   </span>
 );
 
+// moment().isSameOrBefore() => true; so expirationDate can't be undefined
+export const isNotExpired = (expirationDate = '') =>
+  moment().isSameOrBefore(expirationDate);
+
 export const isActiveITF = currentITF => {
   if (currentITF) {
     const isActive = currentITF.status === itfStatuses.active;
-    const isNotExpired = moment().isBefore(currentITF.expirationDate);
-    return isActive && isNotExpired;
+    return isActive && isNotExpired(currentITF.expirationDate);
   }
   return false;
 };

@@ -56,6 +56,7 @@ import {
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
   FETCH_STATUS,
+  PURPOSE_TEXT,
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -130,12 +131,6 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   }
 
   return { schema: newSchema, data: newData };
-}
-
-function getReasonAdditionalInfoTitle(reason) {
-  return reason === 'other'
-    ? REASON_ADDITIONAL_INFO_TITLES.other
-    : REASON_ADDITIONAL_INFO_TITLES.default;
 }
 
 export default function formReducer(state = initialState, action) {
@@ -453,13 +448,11 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pastAppointments: action.appointments,
         flowType: FLOW_TYPES.DIRECT,
-        reasonRemainingChar: REASON_MAX_CHARS.direct,
       };
     case START_REQUEST_APPOINTMENT_FLOW:
       return {
         ...state,
         flowType: FLOW_TYPES.REQUEST,
-        reasonRemainingChar: REASON_MAX_CHARS.request,
       };
     case FORM_FETCH_FACILITY_DETAILS:
       return {
@@ -503,40 +496,58 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
-      const { data, schema } = setupFormData(
-        state.data,
+      let reasonMaxChars = REASON_MAX_CHARS.request;
+
+      if (state.flowType === FLOW_TYPES.DIRECT) {
+        const prependText = PURPOSE_TEXT.find(
+          purpose => purpose.id === state.data.reasonForAppointment,
+        )?.short;
+        reasonMaxChars =
+          REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
+      }
+
+      let reasonSchema = set(
+        'properties.reasonAdditionalInfo.maxLength',
+        reasonMaxChars,
         action.schema,
-        action.uiSchema,
       );
 
-      let reasonSchema = { ...schema };
+      reasonSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        state.flowType === FLOW_TYPES.DIRECT
+          ? REASON_ADDITIONAL_INFO_TITLES.direct
+          : REASON_ADDITIONAL_INFO_TITLES.request,
+        reasonSchema,
+      );
 
-      if (state.data?.reasonForAppointment) {
-        reasonSchema = set(
-          'properties.reasonAdditionalInfo.title',
-          getReasonAdditionalInfoTitle(state.data.reasonForAppointment),
-          reasonSchema,
-        );
-      }
+      const { data, schema } = setupFormData(
+        state.data,
+        reasonSchema,
+        action.uiSchema,
+      );
 
       return {
         ...state,
         data,
         pages: {
           ...state.pages,
-          [action.page]: reasonSchema,
+          [action.page]: schema,
         },
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       let newSchema = state.pages.reasonForAppointment;
 
-      // Update additional info title based on radio selection
-      newSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
-        newSchema,
-      );
+      if (state.flowType === FLOW_TYPES.DIRECT) {
+        const prependText = PURPOSE_TEXT.find(
+          purpose => purpose.id === action.data.reasonForAppointment,
+        )?.short;
+        newSchema = set(
+          'properties.reasonAdditionalInfo.maxLength',
+          REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2,
+          newSchema,
+        );
+      }
 
       const { data, schema } = updateSchemaAndData(
         newSchema,
@@ -551,7 +562,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           reasonForAppointment: schema,
         },
-        reasonRemainingChar: action.remainingCharacters,
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
@@ -565,10 +575,10 @@ export default function formReducer(state = initialState, action) {
         const pastAppointmentDateMap = new Map();
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
-          const facilityId = state.data.vaFacility;
+          const systemId = state.data.vaSystem;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
-            appt.facilityId === facilityId &&
+            appt.facilityId === systemId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
@@ -604,7 +614,7 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
+                'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
               enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
               enumNames: clinics
                 .map(

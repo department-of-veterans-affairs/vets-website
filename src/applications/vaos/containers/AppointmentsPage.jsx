@@ -21,10 +21,13 @@ import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
+const pageTitle = 'VA appointments';
+
 export class AppointmentsPage extends Component {
   componentDidMount() {
     scrollAndFocus();
     this.props.fetchFutureAppointments();
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   recordStartEvent() {
@@ -168,7 +171,7 @@ export class AppointmentsPage extends Component {
         <Breadcrumbs />
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
-            <h1 className="vads-u-flex--1">VA appointments</h1>
+            <h1 className="vads-u-flex--1">{pageTitle}</h1>
             {showScheduleButton && (
               <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
                 <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">

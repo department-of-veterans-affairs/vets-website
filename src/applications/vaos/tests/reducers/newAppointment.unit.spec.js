@@ -29,6 +29,7 @@ import {
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_CLOSED_CONFIRMATION_PAGE,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+  FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../actions/newAppointment';
 
 import systems from '../../api/facilities.json';
@@ -36,6 +37,9 @@ import facilities983 from '../../api/facilities_983.json';
 import {
   FETCH_STATUS,
   REASON_ADDITIONAL_INFO_TITLES,
+  FLOW_TYPES,
+  REASON_MAX_CHARS,
+  PURPOSE_TEXT,
 } from '../../utils/constants';
 
 const systemsParsed = systems.data.map(item => ({
@@ -635,7 +639,7 @@ describe('VAOS reducer: newAppointment', () => {
   });
 
   describe('Reason for appointment page', () => {
-    it('should set additional info title if reason for appointment is already in data', () => {
+    it('should set additional info title when page opened', () => {
       const state = {
         ...defaultState,
         data: { ...defaultState.data, reasonForAppointment: 'other' },
@@ -646,40 +650,96 @@ describe('VAOS reducer: newAppointment', () => {
         page: 'reasonForAppointment',
         schema: {
           type: 'object',
-          properties: {},
+          properties: {
+            reasonAdditionalInfo: {
+              type: 'string',
+            },
+          },
         },
         uiSchema: {},
       };
 
-      let newState = newAppointmentReducer(state, action);
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .title,
-      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.other);
+      const newState = newAppointmentReducer(state, action);
 
-      state.data.reasonForAppointment = 'follow-up';
-      newState = newAppointmentReducer(state, action);
       expect(
         newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
           .title,
-      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.default);
+      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
 
-    it('should not set additional info title if reason for appointment is unset', () => {
+    it('page open should set max characters', async () => {
+      const currentState = {
+        ...defaultState,
+        flowType: FLOW_TYPES.DIRECT,
+        data: {
+          reasonForAppointment: 'other',
+        },
+      };
+
       const action = {
         type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
         page: 'reasonForAppointment',
         schema: {
           type: 'object',
-          properties: {},
+          properties: {
+            reasonAdditionalInfo: {
+              type: 'string',
+            },
+          },
         },
         uiSchema: {},
       };
 
-      const newState = newAppointmentReducer(defaultState, action);
+      const newState = newAppointmentReducer(currentState, action);
+
       expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo,
-      ).to.equal(undefined);
+        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+          .maxLength,
+      ).to.equal(
+        REASON_MAX_CHARS.direct -
+          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+          2,
+      );
+    });
+
+    it('change should set max characters', async () => {
+      const currentState = {
+        ...defaultState,
+        flowType: FLOW_TYPES.DIRECT,
+        data: {
+          reasonForAppointment: 'medication-concern',
+        },
+        pages: {
+          reasonForAppointment: {
+            type: 'object',
+            properties: {
+              reasonAdditionalInfo: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
+
+      const action = {
+        type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
+        page: 'reasonForAppointment',
+        uiSchema: {},
+        data: {
+          reasonForAppointment: 'other',
+        },
+      };
+
+      const newState = newAppointmentReducer(currentState, action);
+
+      expect(
+        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
+          .maxLength,
+      ).to.equal(
+        REASON_MAX_CHARS.direct -
+          PURPOSE_TEXT.find(purpose => purpose.id === 'other').short.length -
+          2,
+      );
     });
   });
 

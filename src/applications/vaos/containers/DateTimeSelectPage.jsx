@@ -17,6 +17,7 @@ import DateTimeSelectField from '../components/DateTimeSelectField';
 import WaitTimeAlert from '../components/WaitTimeAlert';
 
 const pageKey = 'selectDateTime';
+const pageTitle = 'Tell us the date and time you’d like your appointment';
 
 const initialSchema = {
   type: 'object',
@@ -64,6 +65,7 @@ export class DateTimeSelectPage extends React.Component {
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     this.props.openSelectAppointmentPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -91,14 +93,10 @@ export class DateTimeSelectPage extends React.Component {
       typeOfCareId,
     } = this.props;
 
-    const title = (
-      <h1 className="vads-u-font-size--h2">Appointment calendar</h1>
-    );
-
     if (loadingAppointmentSlots) {
       return (
         <div>
-          {title}
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           <LoadingIndicator message="Finding appointment availability..." />
         </div>
       );
@@ -106,7 +104,7 @@ export class DateTimeSelectPage extends React.Component {
 
     return (
       <div>
-        {title}
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <WaitTimeAlert
           eligibleForRequests={eligibleForRequests}
           facilityId={facilityId}
@@ -117,8 +115,8 @@ export class DateTimeSelectPage extends React.Component {
           typeOfCareId={typeOfCareId}
         />
         <p>
-          Please select a desired date and time for your appointment.
-          {timezone && ` Appointment times are displayed in ${timezone}.`}
+          Please select date and time for your appointment.{' '}
+          {timezone && ` Appointment times are shown in ${timezone}.`}
         </p>
         <SchemaForm
           name="Schedule appointment"

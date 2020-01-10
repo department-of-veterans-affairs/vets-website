@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
+  getChosenFacilityDetails,
   getClinicPageInfo,
   getClinicsForChosenFacility,
   getDateTimeSelect,
@@ -12,7 +13,6 @@ import {
   getFormPageInfo,
   getNewAppointment,
   getPreferredDate,
-  getReasonForAppointment,
   getTypeOfCare,
   getCancelInfo,
 } from '../../utils/selectors';
@@ -123,6 +123,27 @@ describe('VAOS selectors', () => {
 
       expect(getChosenFacilityInfo(state)).to.equal(
         state.newAppointment.facilities['323_123'][0],
+      );
+    });
+  });
+
+  describe('getChosenFacilityDetails', () => {
+    it('should return a stored facility details object', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            vaFacility: '983',
+          },
+          facilityDetails: {
+            983: {
+              institutionCode: '983',
+            },
+          },
+        },
+      };
+
+      expect(getChosenFacilityDetails(state)).to.equal(
+        state.newAppointment.facilityDetails['983'],
       );
     });
   });
@@ -265,32 +286,9 @@ describe('VAOS selectors', () => {
       };
 
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.equal('MT');
+      expect(data.timezone).to.equal('Mountain time (MT)');
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
-    });
-  });
-
-  describe('getReasonForAppointment', () => {
-    it('should return reason data and remaining characters for textarea', () => {
-      const data = {
-        reasonForAppointment: 'new-issue',
-        reasonAdditionalInfo: 'test',
-      };
-
-      const state = {
-        newAppointment: {
-          pages: {
-            reasonForAppointment: {},
-          },
-          data,
-          reasonRemainingChar: 130,
-        },
-      };
-
-      const pageInfo = getReasonForAppointment(state, 'reasonForAppointment');
-      expect(pageInfo.data).to.eql(data);
-      expect(pageInfo.reasonRemainingChar).to.equal(130);
     });
   });
 

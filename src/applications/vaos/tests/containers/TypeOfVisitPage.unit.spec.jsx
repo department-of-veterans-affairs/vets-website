@@ -80,4 +80,22 @@ describe('VAOS <TypeOfVisitPage>', () => {
     expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
+
+  it('document title should match h1 text', () => {
+    const openFormPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const pageTitle = 'Choose a type of appointment';
+
+    const form = mount(
+      <TypeOfVisitPage
+        openFormPage={openFormPage}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
+    form.unmount();
+  });
 });

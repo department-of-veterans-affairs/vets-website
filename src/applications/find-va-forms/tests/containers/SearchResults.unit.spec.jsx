@@ -19,6 +19,15 @@ describe('Find VA Forms <SearchResults>', () => {
     tree.unmount();
   });
 
+  it('renders an error alert box', () => {
+    const tree = shallow(<SearchResults error="test" />);
+
+    expect(tree.html()).to.include('test');
+    expect(tree.html()).to.include('Something went wrong');
+
+    tree.unmount();
+  });
+
   it('renders nothing', () => {
     const tree = shallow(<SearchResults />);
 

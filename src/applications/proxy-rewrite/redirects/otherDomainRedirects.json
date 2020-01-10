@@ -1,6 +1,26 @@
 [
   {
     "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_at_sea.asp",
+    "dest": "/burials-memorials/eligibility/burial-at-sea/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/private_cemetery.asp",
+    "dest": "/burials-memorials/eligibility/burial-in-private-cemetery/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/CEM/pre-need/FAQ/",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/replacements.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
     "src": "/cem/burial_benefits/index.asp",
     "dest": "/burials-memorials/"
   },
