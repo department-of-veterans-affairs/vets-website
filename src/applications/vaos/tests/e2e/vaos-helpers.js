@@ -8,6 +8,7 @@ const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
 const systems = require('../../api/systems.json');
+const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
 
@@ -288,18 +289,7 @@ function initAppointmentListMock(token) {
     path: '/v0/vaos/community_care/supported_sites',
     verb: 'get',
     query: 'site_codes[]=983',
-    value: {
-      data: [
-        {
-          id: '983',
-          type: 'object_type',
-          attributes: {
-            name: 'Cheyenne',
-            timezone: 'US/Mountain',
-          },
-        },
-      ],
-    },
+    value: supportedSites,
   });
 }
 
