@@ -87,16 +87,18 @@ describe('GIBCT helpers:', () => {
   describe('sortOptionsByStateName', () => {
     it('should sort an array of objects by label', () => {
       const data = [
-        { value: 'AP', label: 'Apple' },
-        { value: 'OG', label: 'Orange' },
-        { value: 'GP', label: 'Grape' },
-        { value: 'BN', label: 'Banana' },
+        { value: 'AK', label: 'Alaska' },
+        { value: 'AL', label: 'Alabama' },
+        { value: 'AR', label: 'Arkansas' },
+        { value: 'AZ', label: 'Arizona' },
+        { value: 'CA', label: 'California' },
       ];
       const sortedData = [
-        { value: 'AP', label: 'Apple' },
-        { value: 'BN', label: 'Banana' },
-        { value: 'GP', label: 'Grape' },
-        { value: 'OG', label: 'Orange' },
+        { value: 'AL', label: 'Alabama' },
+        { value: 'AK', label: 'Alaska' },
+        { value: 'AZ', label: 'Arizona' },
+        { value: 'AR', label: 'Arkansas' },
+        { value: 'CA', label: 'California' },
       ];
       expect(data.sort(sortOptionsByStateName)).to.deep.equal(sortedData);
     });
