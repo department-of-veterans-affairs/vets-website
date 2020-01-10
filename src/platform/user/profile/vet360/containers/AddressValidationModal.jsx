@@ -217,7 +217,11 @@ class AddressValidationModal extends React.Component {
           status="warning"
           headline={addressValidationMessage.headline}
         >
-          <p>{addressValidationMessage.modalText}</p>
+          <addressValidationMessage.ModalText
+            editFunction={() => {
+              this.props.openModal(addressValidationType, addressFromUser);
+            }}
+          />
         </AlertBox>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>
