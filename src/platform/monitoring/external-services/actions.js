@@ -29,6 +29,11 @@ export function getBackendStatuses(downtimeWindow = scheduledDowntimeWindow) {
       .then(({ data }) =>
         dispatch({ type: FETCH_BACKEND_STATUSES_SUCCESS, data }),
       )
-      .catch(() => dispatch({ type: FETCH_BACKEND_STATUSES_FAILURE }));
+      .catch(() =>
+        dispatch({
+          type: FETCH_BACKEND_STATUSES_FAILURE,
+          globalDowntimeActive,
+        }),
+      );
   };
 }
