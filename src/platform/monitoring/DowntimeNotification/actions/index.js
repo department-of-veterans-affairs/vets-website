@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { apiRequest } from '../../../utilities/api';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import environment from 'platform/utilities/environment';
 import { createGlobalMaintenanceWindow } from '../util/helpers';
 import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
 
@@ -55,7 +55,7 @@ export function dismissDowntimeWarning(appTitle) {
 }
 
 export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
-  return async (dispatch, state) => {
+  return async dispatch => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
 
     // create global downtime data if feature toggle is enabled and if
@@ -64,7 +64,8 @@ export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
     const { downtimeStart, downtimeEnd } = downtimeWindow;
 
     const globalDowntimeData =
-      (moment().isAfter(downtimeStart) &&
+      (!environment.isLocalhost() &&
+        moment().isAfter(downtimeStart) &&
         moment().isBefore(downtimeEnd) &&
         createGlobalMaintenanceWindow({
           startTime: downtimeStart,

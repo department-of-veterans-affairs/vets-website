@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import moment from 'moment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import environment from 'platform/utilities/environment';
 import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
 
 export const FETCH_BACKEND_STATUSES_FAILURE = 'FETCH_BACKEND_STATUSES_FAILURE';
@@ -10,7 +10,7 @@ export const LOADING_BACKEND_STATUSES = 'LOADING_BACKEND_STATUSES';
 const BASE_URL = '/backend_statuses';
 
 export function getBackendStatuses(downtimeWindow = scheduledDowntimeWindow) {
-  return (dispatch, state) => {
+  return dispatch => {
     dispatch({ type: LOADING_BACKEND_STATUSES });
 
     // create global downtime data if feature toggle is enabled and if
@@ -18,7 +18,9 @@ export function getBackendStatuses(downtimeWindow = scheduledDowntimeWindow) {
     // default to empty array
     const { downtimeStart, downtimeEnd } = downtimeWindow;
     const globalDowntimeActive =
-      moment().isAfter(downtimeStart) && moment().isBefore(downtimeEnd);
+      !environment.isLocalhost() &&
+      moment().isAfter(downtimeStart) &&
+      moment().isBefore(downtimeEnd);
     dispatch({
       type: FETCH_BACKEND_STATUSES_FAILURE,
       globalDowntimeActive,
