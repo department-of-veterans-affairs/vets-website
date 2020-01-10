@@ -41,7 +41,7 @@ module.exports = {
   'What date and time would you like to make an appointment?': client => {
     VAOSHelpers.appointmentDateTimeTest(
       client,
-      'Share your community care provider preferences',
+      'Tell us your Community Care preferences',
     );
   },
   'Share your community care provider preferences': client => {
