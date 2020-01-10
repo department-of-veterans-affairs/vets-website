@@ -54,14 +54,15 @@ export function dismissDowntimeWarning(appTitle) {
   };
 }
 
-export function getScheduledDowntime() {
+export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
   return async (dispatch, state) => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
 
     // create global downtime data if feature toggle is enabled and if
     // current time is in downtime window
     // default to empty array
-    const { downtimeStart, downtimeEnd } = scheduledDowntimeWindow;
+    const { downtimeStart, downtimeEnd } = downtimeWindow;
+
     const globalDowntimeData =
       (toggleValues(state).vaGlobalDowntimeNotification &&
         moment().isAfter(downtimeStart) &&
