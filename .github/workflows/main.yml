@@ -2,7 +2,7 @@ name: Linting
 on: [push]
 
 jobs:
-  'Plain Language':
+  plain-language:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
