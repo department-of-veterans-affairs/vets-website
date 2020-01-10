@@ -11,6 +11,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from 'platform/utilities/data/index';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 const { get, omit, set } = dataUtils;
 
@@ -157,6 +158,9 @@ const formConfig = {
     dateRange,
     usaPhone,
     ssnLastFour,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   savedFormMessages: {
     notFound:
