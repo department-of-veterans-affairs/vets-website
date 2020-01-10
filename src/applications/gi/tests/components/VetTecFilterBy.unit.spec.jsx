@@ -27,6 +27,38 @@ describe('<VetTecFilterBy>', () => {
     wrapper.unmount();
   });
 
+  it('sorts provider filters correctly', () => {
+    const props = {
+      filters: {
+        provider: [],
+      },
+      providers: [
+        {
+          name: 'PROVIDER 1',
+          count: 1,
+        },
+        {
+          name: 'A PROVIDER',
+          count: 1,
+        },
+      ],
+      showModal: () => {},
+      handleProviderFilterChange: () => {},
+      handleFilterChange: () => {},
+      giVetTecProgramProviderFilters: true,
+    };
+
+    const wrapper = mount(<VetTecFilterBy {...props} />);
+    expect(wrapper.find('.vet-tec-provider-filters input')).to.have.lengthOf(2);
+    expect(
+      wrapper
+        .find('.vet-tec-provider-filters input')
+        .at(0)
+        .props().name,
+    ).to.eq('A PROVIDER');
+    wrapper.unmount();
+  });
+
   it('sets selected provider filter as checked', () => {
     const props = {
       filters: {
