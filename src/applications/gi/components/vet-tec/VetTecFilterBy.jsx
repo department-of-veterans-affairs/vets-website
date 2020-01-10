@@ -59,7 +59,7 @@ class VetTecFilterBy extends React.Component {
 
   renderProviderFilters = () => {
     const checkBoxes = this.props.providers
-      .sort((a, b) => a.name > b.name)
+      .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(provider => (
         <div key={provider.name}>
           <Checkbox

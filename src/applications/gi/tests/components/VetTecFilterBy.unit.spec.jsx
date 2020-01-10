@@ -34,12 +34,12 @@ describe('<VetTecFilterBy>', () => {
       },
       providers: [
         {
-          name: 'PROVIDER 1',
+          name: 'C PROVIDER',
           count: 1,
         },
         {
           name: 'A PROVIDER',
-          count: 1,
+          count: 2,
         },
       ],
       showModal: () => {},
@@ -49,13 +49,14 @@ describe('<VetTecFilterBy>', () => {
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
+
     expect(wrapper.find('.vet-tec-provider-filters input')).to.have.lengthOf(2);
     expect(
       wrapper
-        .find('.vet-tec-provider-filters input')
+        .find('.vet-tec-provider-filters label')
         .at(0)
-        .props().name,
-    ).to.eq('A PROVIDER');
+        .text(),
+    ).to.eq('A PROVIDER (2)');
     wrapper.unmount();
   });
 
