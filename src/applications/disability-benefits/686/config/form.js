@@ -352,23 +352,39 @@ const formConfig = {
       title: '686c Options',
       pages: {
         tasks: {
-          title: '686c Options',
+          title: 'Choose what you want to do',
           path: '686-task-wizard',
           uiSchema: {
             'view:selectable686Options': {
               'ui:options': { showFieldLabel: true },
-              'ui:title': 'I want to use the 686c to...',
+              'ui:title': 'What would you like to do? (Check all that apply)',
               'view:addChild': {
-                'ui:title': 'add a child',
+                'ui:title': 'Claim additional benefits for a child',
               },
               'view:addSpouse': {
-                'ui:title': 'add a spouse',
+                'ui:title': 'Claim additional benefits for a spouse',
               },
               'view:reportDivorce': {
-                'ui:title': 'report a divorce',
+                'ui:title': 'Report a divorce',
+              },
+              'view:reportChildNotInHousehold': {
+                'ui:title':
+                  'Report that a stepchild is no longer a member of your household',
               },
               'view:reportDeath': {
-                'ui:title': 'report a death',
+                'ui:title':
+                  'Report the death of a spouse, child or dependent parent',
+              },
+              'view:reportMarriageOfChildUnder18': {
+                'ui:title': 'Report the marriage of a child under 18',
+              },
+              'view:reportChild18OrOlderIsNotAttendingSchool': {
+                'ui:title':
+                  'Report that a child 18 or older has stopped attending school',
+              },
+              'view:requestApprovalOfSchoolAttendanceOfChild18OrOlder': {
+                'ui:title':
+                  'Request approval of school attendance for child 18 or older',
               },
             },
           },
@@ -382,6 +398,14 @@ const formConfig = {
                   'view:addSpouse': { type: 'boolean' },
                   'view:reportDivorce': { type: 'boolean' },
                   'view:reportDeath': { type: 'boolean' },
+                  'view:reportChildNotInHousehold': { type: 'boolean' },
+                  'view:reportMarriageOfChildUnder18': { type: 'boolean' },
+                  'view:reportChild18OrOlderIsNotAttendingSchool': {
+                    type: 'boolean',
+                  },
+                  'view:requestApprovalOfSchoolAttendanceOfChild18OrOlder': {
+                    type: 'boolean',
+                  },
                 },
               },
             },
