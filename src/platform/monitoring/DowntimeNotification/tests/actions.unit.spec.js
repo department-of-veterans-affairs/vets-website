@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment-timezone';
 import {
   getScheduledDowntime,
   ERROR_SCHEDULE_DOWNTIME,
@@ -12,6 +13,8 @@ import {
   setFetchJSONFailure,
   resetFetch,
 } from 'platform/testing/unit/helpers';
+
+import defaultExternalServices from '../config/externalServices';
 
 describe('getScheduledDowntime', () => {
   const dispatch = sinon.spy();
@@ -105,6 +108,39 @@ describe('getScheduledDowntime', () => {
     expect(secondAction.type).to.be.equal(
       ERROR_SCHEDULE_DOWNTIME,
       'ERROR_SCHEDULED_DOWNTIME was dispatched',
+    );
+  });
+
+  // This test passes when the individual file is run
+  // but it fails when all tests are run using `test:unit`
+  it.skip('creates a global maintenance window', async () => {
+    const timezone = 'America/New_York';
+    const now = moment().tz(timezone);
+    const tomorrow = moment()
+      .tz(timezone)
+      .add(1, 'day');
+    const globalDowntimeWindow = {
+      downtimeStart: now,
+      downtimeEnd: tomorrow,
+    };
+    const state = {
+      featureToggles: {
+        vaGlobalDowntimeNotification: true,
+      },
+    };
+    const actionCreator = getScheduledDowntime(globalDowntimeWindow);
+    setFetchJSONFailure(global.fetch, {});
+    await actionCreator(dispatch, state);
+    const secondArgs = dispatch.args[1];
+    const secondAction = secondArgs[0];
+
+    expect(secondAction.data.length).to.be.eql(
+      Object.keys(defaultExternalServices).length + 1,
+    );
+    expect(secondAction.data[0].attributes).to.have.keys(
+      'startTime',
+      'endTime',
+      'externalService',
     );
   });
 
