@@ -96,4 +96,25 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
+
+  it('document title should match h1 text', () => {
+    const openSelectAppointmentPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const pageTitle = 'Tell us the date and time you’d like your appointment';
+
+    const form = mount(
+      <DateTimeSelectPage
+        openSelectAppointmentPage={openSelectAppointmentPage}
+        updateFormData={updateFormData}
+        data={{}}
+        facilityId="123"
+        availableDates={availableDates}
+        availableSlots={availableSlots}
+      />,
+    );
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).to.contain(pageTitle);
+    form.unmount();
+  });
 });

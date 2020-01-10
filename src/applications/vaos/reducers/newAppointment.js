@@ -136,12 +136,6 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   return { schema: newSchema, data: newData };
 }
 
-function getReasonAdditionalInfoTitle(reason) {
-  return reason === 'other'
-    ? REASON_ADDITIONAL_INFO_TITLES.other
-    : REASON_ADDITIONAL_INFO_TITLES.default;
-}
-
 export default function formReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
@@ -515,13 +509,13 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      if (state.data?.reasonForAppointment) {
-        reasonSchema = set(
-          'properties.reasonAdditionalInfo.title',
-          getReasonAdditionalInfoTitle(state.data.reasonForAppointment),
-          reasonSchema,
-        );
-      }
+      reasonSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        state.flowType === FLOW_TYPES.DIRECT
+          ? REASON_ADDITIONAL_INFO_TITLES.direct
+          : REASON_ADDITIONAL_INFO_TITLES.request,
+        reasonSchema,
+      );
 
       const { data, schema } = setupFormData(
         state.data,
@@ -540,13 +534,6 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       let newSchema = state.pages.reasonForAppointment;
-
-      // Update additional info title based on radio selection
-      newSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
-        newSchema,
-      );
 
       if (state.flowType === FLOW_TYPES.DIRECT) {
         const prependText = PURPOSE_TEXT.find(
@@ -585,10 +572,10 @@ export default function formReducer(state = initialState, action) {
         const pastAppointmentDateMap = new Map();
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
-          const facilityId = state.data.vaFacility;
+          const systemId = state.data.vaSystem;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
-            appt.facilityId === facilityId &&
+            appt.facilityId === systemId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
@@ -624,7 +611,7 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
+                'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
               enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
               enumNames: clinics
                 .map(

@@ -57,12 +57,12 @@ const initialSchema = {
 const addressUISchema = address.uiSchema();
 const uiSchema = {
   communityCareSystemId: {
-    'ui:title': 'What is the closest city and state for your appointment?',
+    'ui:title': 'What’s the closest city and state to you?',
     'ui:widget': 'radio',
   },
   preferredLanguage: {
     'ui:title':
-      'Do you have a preferred language for your Community Care provider?',
+      'Do you prefer that your Community Care provider speak a certain language?',
   },
   hasCommunityCareProvider: {
     'ui:widget': 'yesNo',
@@ -117,6 +117,7 @@ const uiSchema = {
 };
 
 const pageKey = 'ccPreferences';
+const pageTitle = 'Tell us your Community Care preferences';
 
 export class CommunityCarePreferencesPage extends React.Component {
   componentDidMount() {
@@ -125,6 +126,7 @@ export class CommunityCarePreferencesPage extends React.Component {
       uiSchema,
       initialSchema,
     );
+    document.title = `${pageTitle}  | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -140,9 +142,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          Share your community care provider preferences
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
         {(!schema || systemsStatus === FETCH_STATUS.loading) && (
           <LoadingIndicator message="Loading Community Care facilities" />

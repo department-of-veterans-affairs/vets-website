@@ -19,6 +19,7 @@ import WaitTimeAlert from '../components/WaitTimeAlert';
 import { FETCH_STATUS } from '../utils/constants';
 
 const pageKey = 'selectDateTime';
+const pageTitle = 'Tell us the date and time you’d like your appointment';
 
 const initialSchema = {
   type: 'object',
@@ -76,6 +77,7 @@ export class DateTimeSelectPage extends React.Component {
         .endOf('month')
         .format('YYYY-MM-DD'),
     );
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -105,7 +107,7 @@ export class DateTimeSelectPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">Appointment calendar</h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         {appointmentSlotsStatus !== FETCH_STATUS.loading && (
           <WaitTimeAlert
             eligibleForRequests={eligibleForRequests}

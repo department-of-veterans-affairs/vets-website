@@ -35,6 +35,7 @@ module.exports = `
     fieldBannerAlert {
       entity {
         ... on NodeFullWidthBannerAlert {
+          status
           title
           fieldBannerAlertSituationinfo {
             processed
