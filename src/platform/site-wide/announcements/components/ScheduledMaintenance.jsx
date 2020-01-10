@@ -40,7 +40,7 @@ class ScheduledMaintenance extends Component {
       return '';
     }
 
-    // Message if there is scheduled maintenance *in progress*.
+    // MESSAGE 3: if there is scheduled maintenance *in progress*.
     if (now.isAfter(downtimeStartsAt)) {
       return `We're doing work on VA.gov. If you have trouble using online tools, check back after ${expiresAt.format(
         'MMM Do [at] h:mm a z',
@@ -50,7 +50,7 @@ class ScheduledMaintenance extends Component {
     // Derive cloned downtimeStartsAt since moment mutates with .subtract... :(
     const clonedDowntimeStartsAt = downtimeStartsAt.clone();
 
-    // Message if scheduled maintenance *is about to* happen.
+    // MESSAGE 2: if scheduled maintenance *is really about to* happen.
     if (now.isAfter(clonedDowntimeStartsAt.subtract(60, 'minutes'))) {
       // Update in a few seconds to update the minute number on the UI.
       this.refreshIn(60000);
@@ -59,6 +59,18 @@ class ScheduledMaintenance extends Component {
         now,
         'minutes',
       )} minutes. If you’re filling out a form, sign in or create an account to save your work.`;
+    }
+
+    // Derive cloned downtimeStartsAt since moment mutates with .subtract... :(
+    const cloned2DowntimeStartsAt = downtimeStartsAt.clone();
+
+    // MESSAGE 1: if scheduled maintenance *is about to* happen.
+    if (now.isAfter(cloned2DowntimeStartsAt.subtract(12, 'hours'))) {
+      return `We'll be doing site maintenance on ${downtimeStartsAt.format(
+        'MMM Do [at] h:mm a',
+      )} until ${expiresAt.format(
+        'h:mm a z',
+      )}. You won’t be able to sign in or use some tools during this time.`;
     }
 
     // No message if scheduled maintenance is not about to happen.
@@ -75,16 +87,16 @@ class ScheduledMaintenance extends Component {
     // Derive the timestamp for the present.
     const now = moment().tz('America/New_York');
 
-    // Derive cloned downtimeStartsAt since moment mutates with .subtract... :(
-    const clonedDowntimeStartsAt = downtimeStartsAt.clone();
-
     // Do not render if it's after the expiration date.
     if (now.isAfter(expiresAt)) {
       return null;
     }
 
+    // Derive cloned downtimeStartsAt since moment mutates with .subtract... :(
+    const clonedDowntimeStartsAt = downtimeStartsAt.clone();
+
     // Do not render if it's before scheduled maintenance.
-    if (now.isBefore(clonedDowntimeStartsAt.subtract(60, 'minutes'))) {
+    if (now.isBefore(clonedDowntimeStartsAt.subtract(12, 'hours'))) {
       return null;
     }
 
