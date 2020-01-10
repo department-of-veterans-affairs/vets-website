@@ -8,6 +8,7 @@ const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
 const systems = require('../../api/systems.json');
+const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
 
@@ -86,7 +87,7 @@ function howToBeSeenTest(client) {
     .click('input#root_visitType_0')
     .click('.rjsf [type="submit"]')
     .waitForElementVisible('h1', Timeouts.slow)
-    .assert.containsText('h1', 'Contact information');
+    .assert.containsText('h1', 'Your contact information');
 }
 
 function contactInformationTest(client) {
@@ -148,6 +149,11 @@ function initAppointmentListMock(token) {
     path: '/v0/vaos/systems',
     verb: 'get',
     value: systems,
+  });
+  mock(token, {
+    path: '/v0/vaos/community_care/supported_sites',
+    verb: 'get',
+    value: supportedSites,
   });
   mock(token, {
     path: '/v0/vaos/appointments',

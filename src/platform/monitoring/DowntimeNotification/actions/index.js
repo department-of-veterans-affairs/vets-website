@@ -1,5 +1,10 @@
+import moment from 'moment';
 import { apiRequest } from '../../../utilities/api';
+import environment from 'platform/utilities/environment';
+import { createGlobalMaintenanceWindow } from '../util/helpers';
+import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
 
+export const ERROR_SCHEDULE_DOWNTIME = 'ERROR_SCHEDULE_DOWNTIME';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
@@ -49,19 +54,46 @@ export function dismissDowntimeWarning(appTitle) {
   };
 }
 
-export function getScheduledDowntime() {
+export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
   return async dispatch => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
-    let data;
+
+    // create global downtime data if feature toggle is enabled and if
+    // current time is in downtime window
+    // default to empty array
+    const { downtimeStart, downtimeEnd } = downtimeWindow;
+
+    const globalDowntimeData =
+      (!environment.isLocalhost() &&
+        moment().isAfter(downtimeStart) &&
+        moment().isBefore(downtimeEnd) &&
+        createGlobalMaintenanceWindow({
+          startTime: downtimeStart,
+          endTime: downtimeEnd,
+        })) ||
+      [];
+
     try {
-      const response = await apiRequest('/maintenance_windows/');
-      data = response.data;
+      await apiRequest('/maintenance_windows/')
+        .then(({ data }) => {
+          if (data.errors?.[0].status === '500') {
+            Promise.reject();
+          }
+          dispatch({
+            type: RECEIVE_SCHEDULED_DOWNTIME,
+            data,
+          });
+        })
+        .catch(() =>
+          dispatch({
+            type: ERROR_SCHEDULE_DOWNTIME,
+            data: globalDowntimeData,
+          }),
+        );
     } catch (err) {
-      // Probably in a test environment and the route isn't mocked.
-    } finally {
       dispatch({
-        type: RECEIVE_SCHEDULED_DOWNTIME,
-        data,
+        type: ERROR_SCHEDULE_DOWNTIME,
+        data: globalDowntimeData,
       });
     }
   };

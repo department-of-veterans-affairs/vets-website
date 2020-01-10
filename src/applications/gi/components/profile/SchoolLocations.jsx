@@ -151,10 +151,7 @@ export class SchoolLocations extends React.Component {
         break;
       }
       const nameLabel = (
-        <span>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          {extension.institution}
-        </span>
+        <div className="vads-u-padding-left--1">{extension.institution}</div>
       );
       rows.push(this.renderRow(extension, 'extension', nameLabel));
     }

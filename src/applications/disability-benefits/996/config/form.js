@@ -12,6 +12,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../content/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // import { capitalizeEachWord } from '../../all-claims/utils';
 
@@ -81,6 +82,9 @@ const formConfig = {
     veteranDetailsDescription,
   },
   preSubmitInfo,
+  downtime: {
+    dependencies: [externalServices.global],
+  },
   chapters: {
     veteranDetails: {
       title: 'Veteran details',

@@ -10,6 +10,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
@@ -65,6 +67,9 @@ const formConfig = {
     date,
     dateRange,
     educationType,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',

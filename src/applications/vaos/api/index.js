@@ -2,8 +2,6 @@ import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-// This wil go away once we stop mocking api calls
-const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
     return facilityId.replace('983', '442');
@@ -170,7 +168,11 @@ export function getSystemDetails(systemIds) {
   }
 
   return promise.then(resp =>
-    resp.data.map(item => ({ ...item.attributes, id: item.id })),
+    resp.data
+      .map(item => ({ ...item.attributes, id: item.id }))
+      // Sometimes facilities that aren't in our codes list come back, because they're
+      // marked as parents. We don't want this, so we're filtering them out
+      .filter(item => item.rootStationCode === item.institutionCode),
   );
 }
 
@@ -188,7 +190,7 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${systemId}`,
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}`,
     );
   }
 
@@ -276,7 +278,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 export function getClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId.includes('983')) {
+    if (facilityId === '983') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
@@ -329,7 +331,7 @@ export function getFacilityInfo(facilityId) {
   } else {
     promise = apiRequest(`/facilities/va/vha_${getStagingId(facilityId)}`);
   }
-  return promise.then(resp => resp.data);
+  return promise.then(resp => ({ id: resp.data.id, ...resp.data.attributes }));
 }
 
 export function getFacilitiesInfo(facilityIds) {
@@ -351,14 +353,23 @@ export function getFacilitiesInfo(facilityIds) {
   return promise.then(resp => resp.data.map(item => item.attributes));
 }
 
-export function getSitesSupportingVAR() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./sites-supporting-var.json').then(module =>
-        resolve(module.default ? module.default : module),
-      );
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getSitesSupportingVAR(systemIds) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = import('./sites-supporting-var.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = apiRequest(
+      `/vaos/community_care/supported_sites?${systemIds
+        .map(id => `site_codes[]=${id}`)
+        .join('&')}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ id: item.id, ...item.attributes })),
+  );
 }
 
 export function getAvailableSlots(
@@ -487,7 +498,7 @@ export function sendRequestMessage(id, messageText) {
 export function getPreferences() {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({ data: { attributes: {} } });
+    promise = Promise.resolve({ data: { attributes: { emailAllowed: true } } });
   } else {
     promise = apiRequest(`/vaos/preferences`);
   }

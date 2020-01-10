@@ -3,7 +3,7 @@ import merge from 'lodash/merge';
 // import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import fullSchema from '../20-0996-schema.json';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+// import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
@@ -15,6 +15,9 @@ import {
   phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
 
+import { errorMessages, patternMessages } from '../constants';
+
+/*
 import { hasForwardingAddress, forwardingCountryIsUSA } from '../helpers';
 import {
   ForwardingAddressViewField,
@@ -23,12 +26,12 @@ import {
   ForwardingAddressReviewWidget,
 } from '../content/ForwardingAddress';
 import { checkDateRange } from '../validations';
-import { errorMessages, patternMessages } from '../constants';
 import ForwardingAddressReviewField from '../containers/ForwardingAddressReviewField';
+*/
 
 const {
   mailingAddress,
-  forwardingAddress,
+  // forwardingAddress,
   emailAddress,
   phone,
 } = fullSchema.properties;
@@ -99,6 +102,7 @@ const contactInfo = {
         },
       },
     ),
+    /*
     'view:hasForwardingAddress': {
       'ui:title': forwardingAddressCheckboxLabel,
       'ui:field': 'StringField',
@@ -179,6 +183,7 @@ const contactInfo = {
         },
       },
     ),
+    */
     'view:contactInfoDescription': {
       'ui:description': contactInfoUpdateHelp,
     },
@@ -196,6 +201,7 @@ const contactInfo = {
         },
       },
       mailingAddress,
+      /*
       'view:hasForwardingAddress': {
         type: 'boolean',
       },
@@ -204,6 +210,7 @@ const contactInfo = {
         type: 'object',
         properties: {},
       },
+      */
     },
   },
 };

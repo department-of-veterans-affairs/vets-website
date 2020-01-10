@@ -109,4 +109,21 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     form.unmount();
   });
+  it('document title should match h1 text', () => {
+    const openReasonForAppointment = sinon.spy();
+    const updateReasonForAppointmentData = sinon.spy();
+    const pageTitle = 'Choose a reason for your appointment';
+
+    const form = mount(
+      <ReasonForAppointmentPage
+        openReasonForAppointment={openReasonForAppointment}
+        updateReasonForAppointmentData={updateReasonForAppointmentData}
+        data={{}}
+      />,
+    );
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
+    form.unmount();
+  });
 });

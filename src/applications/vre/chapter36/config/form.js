@@ -18,6 +18,7 @@ import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import preSubmitInfo from '../../../../platform/forms/preSubmitInfo';
@@ -178,6 +179,9 @@ const formConfig = {
     vaFileNumber,
     dateRange,
     requiredDateRange,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   chapters: {
     applicantInformation: {

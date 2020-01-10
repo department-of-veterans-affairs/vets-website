@@ -1,9 +1,9 @@
 const join = require('path').join;
 const _ = require('lodash/fp');
 
-const testForm = require('../../../../platform/testing/e2e/form-tester');
-const formFiller = require('../../../../platform/testing/e2e/form-tester/form-filler');
-const getTestDataSets = require('../../../../platform/testing/e2e/form-tester/util')
+const testForm = require('platform/testing/e2e/form-tester');
+const formFiller = require('platform/testing/e2e/form-tester/form-filler');
+const getTestDataSets = require('platform/testing/e2e/form-tester/util')
   .getTestDataSets;
 const PageHelpers = require('./disability-benefits-helpers');
 
