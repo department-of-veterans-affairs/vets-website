@@ -40,9 +40,11 @@ class IntroductionPage extends React.Component {
         </p>
         <AuthorizationComponent
           formConfig={this.props.route.formConfig}
+          downtime={this.props.route.formConfig.downtime}
           isVisible
         >
           <SaveInProgressIntro
+            downtime={this.props.route.formConfig.downtime}
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
@@ -132,6 +134,7 @@ class IntroductionPage extends React.Component {
           <SaveInProgressIntro
             buttonOnly
             disabled
+            downtime={this.props.route.formConfig.downtime}
             messages={this.props.route.formConfig.savedFormMessages}
             pageList={this.props.route.pageList}
             startText="Start the declaration of dependents application"
