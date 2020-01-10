@@ -9,6 +9,29 @@ import ScheduledMaintenance from '../components/ScheduledMaintenance';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 
+const scheduledMaintenance = {
+  name: 'scheduled-maintenance',
+  paths: /(.)/,
+  component: ScheduledMaintenance,
+  // This is just used as a prop and not in selectors.
+  downtimeStartsAt: moment.tz('2020-01-11 22:00', 'America/New_York'),
+  expiresAt: moment.tz('2020-01-12 00:01', 'America/New_York'),
+};
+
+const scheduledMaintenanceMessage = ScheduledMaintenance.deriveMessage(
+  scheduledMaintenance.downtimeStartsAt,
+  scheduledMaintenance.expiresAt,
+);
+
+// The scheduled maintenance announcement has three different states, each of which should be separately dismissible
+// This spoofs it by deriving the announcement's name property in the config.
+if (scheduledMaintenanceMessage) {
+  const stateId = scheduledMaintenanceMessage.slice(1, 10);
+  scheduledMaintenance.name = `scheduled-maintenance-${stateId}`;
+} else {
+  scheduledMaintenance.disabled = true;
+}
+
 const config = {
   announcements: [
     {
@@ -18,14 +41,7 @@ const config = {
       disabled: !VAPlusVetsModal.isEnabled(),
       showEverytime: true,
     },
-    {
-      name: 'scheduled-maintenance',
-      paths: /(.)/,
-      component: ScheduledMaintenance,
-      // This is just used as a prop and not in selectors.
-      downtimeStartsAt: moment.tz('2020-01-11 22:00', 'America/New_York'),
-      expiresAt: moment.tz('2020-01-12 00:01', 'America/New_York'),
-    },
+    scheduledMaintenance,
     {
       name: 'explore-va',
       paths: /(.)/,

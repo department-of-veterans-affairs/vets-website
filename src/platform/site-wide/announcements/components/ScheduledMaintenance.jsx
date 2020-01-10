@@ -15,23 +15,7 @@ class ScheduledMaintenance extends Component {
     dismiss: PropTypes.func.isRequired,
   };
 
-  componentWillUnmount() {
-    // Prevent memory leaks by clearing timeouts.
-    clearTimeout(this.rerenderTimeout);
-  }
-
-  refreshIn = milliseconds => {
-    clearTimeout(this.rerenderTimeout);
-    this.rerenderTimeout = setTimeout(() => {
-      this.forceUpdate();
-    }, milliseconds);
-  };
-
-  deriveMessage = () => {
-    const {
-      announcement: { downtimeStartsAt, expiresAt },
-    } = this.props;
-
+  static deriveMessage(downtimeStartsAt, expiresAt, component) {
     // Derive the timestamp for the present.
     const now = moment().tz('America/New_York');
 
@@ -53,7 +37,9 @@ class ScheduledMaintenance extends Component {
     // MESSAGE 2: if scheduled maintenance *is really about to* happen.
     if (now.isAfter(clonedDowntimeStartsAt.subtract(60, 'minutes'))) {
       // Update in a few seconds to update the minute number on the UI.
-      this.refreshIn(60000);
+      if (component) {
+        component.refreshIn(60000);
+      }
 
       return `Scheduled maintenance starts in ${downtimeStartsAt.diff(
         now,
@@ -75,10 +61,21 @@ class ScheduledMaintenance extends Component {
 
     // No message if scheduled maintenance is not about to happen.
     return '';
+  }
+
+  componentWillUnmount() {
+    // Prevent memory leaks by clearing timeouts.
+    clearTimeout(this.rerenderTimeout);
+  }
+
+  refreshIn = milliseconds => {
+    clearTimeout(this.rerenderTimeout);
+    this.rerenderTimeout = setTimeout(() => {
+      this.forceUpdate();
+    }, milliseconds);
   };
 
   render() {
-    const { deriveMessage } = this;
     const {
       announcement: { downtimeStartsAt, expiresAt },
       dismiss,
@@ -103,7 +100,15 @@ class ScheduledMaintenance extends Component {
     return (
       <PromoBanner
         onClose={dismiss}
-        render={() => <div>{deriveMessage()}</div>}
+        render={() => (
+          <div>
+            {ScheduledMaintenance.deriveMessage(
+              downtimeStartsAt,
+              expiresAt,
+              this,
+            )}
+          </div>
+        )}
         type={PROMO_BANNER_TYPES.announcement}
       />
     );
