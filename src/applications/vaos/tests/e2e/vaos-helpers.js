@@ -151,6 +151,12 @@ function initAppointmentListMock(token) {
     value: systems,
   });
   mock(token, {
+    path: '/v0/vaos/community_care/supported_sites',
+    verb: 'get',
+    // query: 'site_codes[]=983',
+    value: supportedSites,
+  });
+  mock(token, {
     path: '/v0/vaos/appointments',
     verb: 'get',
     query: 'type=va',
@@ -284,12 +290,6 @@ function initAppointmentListMock(token) {
         attributes: { eligible: true },
       },
     },
-  });
-  mock(token, {
-    path: '/v0/vaos/community_care/supported_sites',
-    verb: 'get',
-    query: 'site_codes[]=983',
-    value: supportedSites,
   });
 }
 
