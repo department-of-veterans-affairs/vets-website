@@ -11,7 +11,7 @@ module.exports = `
     title
     fieldIntroText
     entityId
-    reverseFieldOfficeNode(limit: 500, filter: {conditions: [{field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
+    reverseFieldOfficeNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
         entities {
           ... on NodeEvent {
             title
@@ -49,7 +49,7 @@ module.exports = `
     fieldOffice {
       targetId
       entity {
-        reverseFieldOfficeNode(limit: 500, sort: {field: "changed", direction: DESC}) {
+        reverseFieldOfficeNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}]}, sort: {field: "changed", direction: DESC}) {
             entities {
               ... on NodeEvent {
                 title
