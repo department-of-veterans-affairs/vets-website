@@ -219,4 +219,21 @@ describe('VAOS <VAFacilityPage>', () => {
     expect(form.find('.usa-alert').exists()).to.be.true;
     form.unmount();
   });
+
+  it('document title should match h1 text', () => {
+    const openFormPage = sinon.spy();
+    const pageTitle = 'Choose a VA location for your appointment';
+
+    const form = mount(
+      <VAFacilityPage
+        data={{}}
+        schema={defaultSchema}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
+    form.unmount();
+  });
 });

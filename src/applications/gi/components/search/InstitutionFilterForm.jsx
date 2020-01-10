@@ -4,7 +4,7 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
-import { addAllOption } from '../../utils/helpers';
+import { addAllOption, getStateNameForCode } from '../../utils/helpers';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -47,7 +47,7 @@ class InstitutionFilterForm extends React.Component {
   renderStateFilter = () => {
     const options = Object.keys(this.props.search.facets.state).map(state => ({
       value: state,
-      label: state,
+      label: getStateNameForCode(state),
     }));
 
     return (
