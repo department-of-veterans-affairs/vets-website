@@ -98,13 +98,15 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('document title should match h1 text', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const pageTitle = 'Tell us the date and time you’d like your appointment';
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{}}
         facilityId="123"
