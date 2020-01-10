@@ -7,7 +7,6 @@ import PersonalizationBanner from '../components/PersonalizationBanner';
 import Profile360Intro from '../components/Profile360Intro';
 import ScheduledMaintenance from '../components/ScheduledMaintenance';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
-import VeteransDayProclamation from '../components/VeteransDayProclamation';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 
 const config = {
@@ -39,12 +38,6 @@ const config = {
       name: 'welcome-to-new-va',
       paths: /^\/$/,
       component: WelcomeToNewVAModal,
-    },
-    {
-      name: 'veterans-day-proclamation-edited',
-      paths: /^\/$/,
-      component: VeteransDayProclamation,
-      expiresAt: '2019-11-12',
     },
     {
       name: 'find-benefits-intro',
