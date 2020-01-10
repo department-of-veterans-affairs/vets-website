@@ -1,14 +1,14 @@
-name: Plain Language Linting
+name: Linting
 on: [push]
 
 jobs:
-  vale:
+  'Plain Language':
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Vale
+      - name: Run Vale
         uses: errata-ai/vale-action@v1.0.4
         with:
           styles: |
