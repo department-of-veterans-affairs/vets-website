@@ -43,7 +43,7 @@ We use sentence-case capitalization for most content, including page titles, hea
 
 #### Specific style and formatting of commonly used words on VA.gov
 
---service member: this should be lowercase and two words. Don't write as service member
+--service member: this should be lowercase and two words. Don't write as Servicemember
 --active duty: Hyphenate when it modifies a noun and don’t capitalize. (for example, active-duty service member
 --federal: don't capitalize for generic usage (for example, federal agency)
 --GI: this shouldn't have any periods. Don't write as G.I.
