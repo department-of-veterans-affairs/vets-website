@@ -5,6 +5,7 @@ import {
   RETRIEVE_SCHEDULED_DOWNTIME,
   INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS,
   DISMISS_DOWNTIME_APPROACHING_MODAL,
+  ERROR_SCHEDULE_DOWNTIME,
 } from '../actions';
 
 const initialState = {
@@ -16,6 +17,13 @@ const initialState = {
 
 export default function scheduledDowntime(state = initialState, action) {
   switch (action.type) {
+    case ERROR_SCHEDULE_DOWNTIME:
+      return {
+        ...state,
+        isReady: true,
+        isPending: false,
+        serviceMap: createServiceMap(action.data),
+      };
     case RECEIVE_SCHEDULED_DOWNTIME:
       return {
         ...state,

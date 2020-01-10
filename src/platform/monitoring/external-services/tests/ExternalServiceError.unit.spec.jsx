@@ -25,6 +25,7 @@ describe('<ExternalServicesError>', () => {
   });
 
   it('should not render anything when services are up', () => {
+    const onRender = sinon.spy();
     const dependencies = ['mvi'];
     const statuses = [{ serviceId: 'mvi', status: 'active' }];
     const wrapper = shallow(
@@ -32,26 +33,46 @@ describe('<ExternalServicesError>', () => {
         {...props}
         dependencies={dependencies}
         statuses={statuses}
+        onRender={onRender}
       >
         <div id="error-message" />
       </ExternalServicesError>,
     );
     expect(wrapper.find('#error-message').exists()).to.be.false;
+    expect(onRender.calledOnce).to.be.false;
     wrapper.unmount();
   });
 
-  it('should render anything when services are down', () => {
-    const wrapper = shallow(
-      <ExternalServicesError
-        {...props}
-        dependencies={['mvi']}
-        statuses={[{ serviceId: 'mvi', status: 'down' }]}
-      >
-        <div id="error-message" />
-      </ExternalServicesError>,
-    );
-    expect(wrapper.find('#error-message').exists()).to.be.true;
-    wrapper.unmount();
+  describe('when services are down', () => {
+    it('should render anything', () => {
+      const wrapper = shallow(
+        <ExternalServicesError
+          {...props}
+          dependencies={['mvi']}
+          statuses={[{ serviceId: 'mvi', status: 'down' }]}
+        >
+          <div id="error-message" />
+        </ExternalServicesError>,
+      );
+      expect(wrapper.find('#error-message').exists()).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should trigger a callback', () => {
+      const onRender = sinon.spy();
+      const wrapper = shallow(
+        <ExternalServicesError
+          {...props}
+          dependencies={['mvi']}
+          statuses={[{ serviceId: 'mvi', status: 'down' }]}
+          onRender={onRender}
+        >
+          <div id="error-message" />
+        </ExternalServicesError>,
+      );
+      expect(onRender.calledOnce).to.be.true;
+      wrapper.unmount();
+    });
   });
 });
 

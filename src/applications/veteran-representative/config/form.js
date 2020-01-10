@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preSubmitInfo from '../../../platform/forms/preSubmitInfo';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import fullNameUI from '../../../platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -64,6 +65,9 @@ const formConfig = {
     fullName,
     address,
     vaFileNumber,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   preSubmitInfo,
   chapters: {
