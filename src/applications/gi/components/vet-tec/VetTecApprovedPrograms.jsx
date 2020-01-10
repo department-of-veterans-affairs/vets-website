@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import VetTecContactInformation from './VetTecContactInformation';
 import { calculatorInputChange } from '../../actions';
 import { formatCurrency, isPresent } from '../../utils/helpers';
@@ -30,6 +31,11 @@ class VetTecApprovedPrograms extends React.Component {
   };
 
   handleInputChange = (event, index, vetTecProgramName) => {
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'Program Name Radio Button',
+      'gibct-form-value': vetTecProgramName,
+    });
     this.setState({ selectedProgram: vetTecProgramName });
     this.setProgramFields(vetTecProgramName);
   };
