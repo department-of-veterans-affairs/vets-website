@@ -1,28 +1,12 @@
 {
+  "contentModelType": "node-health_care_region_page",
   "entity": {
     "entityLabel": "VA Pittsburgh health care",
     "entityType": "node",
     "entityBundle": "health_care_region_page",
-    "entityId": "318",
     "entityPublished": true,
     "title": "VA Pittsburgh health care",
     "entityUrl": {
-      "breadcrumb": [
-        {
-          "url": {
-            "path": "/",
-            "routed": true
-          },
-          "text": "Home"
-        },
-        {
-          "url": {
-            "path": "",
-            "routed": true
-          },
-          "text": "VA Pittsburgh health care"
-        }
-      ],
       "path": "/pittsburgh-health-care"
     },
     "entityMetatags": [
@@ -64,7 +48,7 @@
       {
         "__typename": "MetaLink",
         "key": "image_src",
-        "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
+        "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
       },
       {
         "__typename": "MetaProperty",
@@ -79,12 +63,12 @@
       {
         "__typename": "MetaValue",
         "key": "twitter:image",
-        "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
+        "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
       },
       {
         "__typename": "MetaProperty",
         "key": "og:image",
-        "value": "https://dev.cms.va.gov/sites/default/files/2019-04/UD%20front.jpg"
+        "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
       }
     ],
     "fieldNicknameForThisFacility": "VA Pittsburgh"
