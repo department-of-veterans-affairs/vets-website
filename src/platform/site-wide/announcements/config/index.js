@@ -24,8 +24,8 @@ const config = {
       paths: /(.)/,
       component: ScheduledMaintenance,
       // This is just used as a prop and not in selectors.
-      downtimeStartsAt: moment.tz('2020-01-09 17:00', 'America/New_York'),
-      expiresAt: moment.tz('2020-01-09 18:00', 'America/New_York'),
+      downtimeStartsAt: moment.tz('2020-01-11 22:00', 'America/New_York'),
+      expiresAt: moment.tz('2020-01-12 00:01', 'America/New_York'),
     },
     {
       name: 'explore-va',
