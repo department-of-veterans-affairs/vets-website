@@ -1,15 +1,32 @@
-import React from 'react';
+// Node modules.
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
+// Relative imports.
 import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
-
 import { initDismissedAnnouncements, dismissAnnouncement } from '../actions';
 
-class Announcement extends React.Component {
+export class Announcement extends Component {
+  static propTypes = {
+    // From mapStateToProps.
+    announcement: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      showEverytime: PropTypes.bool,
+      relatedAnnouncements: PropTypes.array,
+    }),
+    dismissed: PropTypes.array,
+    isLoggedIn: PropTypes.bool,
+    profile: PropTypes.object,
+    // From mapDispatchToProps.
+    dismissAnnouncement: PropTypes.func.isRequired,
+    initDismissedAnnouncements: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     this.props.initDismissedAnnouncements();
   }
+
   dismiss = () => {
     const {
       announcement: {
@@ -17,33 +34,39 @@ class Announcement extends React.Component {
         showEverytime = false,
         relatedAnnouncements = [],
       },
+      dismissed,
     } = this.props;
 
+    // Dismiss announcement.
     this.props.dismissAnnouncement(announcementName, showEverytime);
 
+    // Dismiss each related announcement.
     relatedAnnouncements
       .filter(
-        relatedAnnouncementName =>
-          !this.props.dismissed.includes(relatedAnnouncementName),
+        relatedAnnouncementName => !dismissed.includes(relatedAnnouncementName),
       )
       .forEach(relatedAnnouncementName => {
         this.props.dismissAnnouncement(relatedAnnouncementName);
       });
   };
-  render() {
-    const { announcement } = this.props;
 
-    if (announcement) {
-      return (
-        <announcement.component
-          announcement={announcement}
-          isLoggedIn={this.props.isLoggedIn}
-          profile={this.props.profile}
-          dismiss={this.dismiss}
-        />
-      );
+  render() {
+    const { dismiss } = this;
+    const { announcement, profile } = this.props;
+
+    // Do not render if there's no announcement.
+    if (!announcement) {
+      return <div />;
     }
-    return <div />;
+
+    return (
+      <announcement.component
+        announcement={announcement}
+        dismiss={dismiss}
+        isLoggedIn={this.props.isLoggedIn}
+        profile={profile}
+      />
+    );
   }
 }
 
@@ -55,11 +78,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  initDismissedAnnouncements,
   dismissAnnouncement,
+  initDismissedAnnouncements,
 };
 
-export { Announcement };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
