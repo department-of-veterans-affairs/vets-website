@@ -361,7 +361,7 @@ export function getSitesSupportingVAR(systemIds) {
     );
   } else {
     promise = apiRequest(
-      `/vaos/community_care/supported_sites?site_codes=${systemIds
+      `/vaos/community_care/supported_sites?${systemIds
         .map(id => `site_codes[]=${id}`)
         .join('&')}`,
     );
