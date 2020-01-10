@@ -8,10 +8,17 @@ module.exports = {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['health_care_region_page'] },
         title: { type: 'string' },
-        path: { type: 'string' },
+        entityUrl: {
+          type: 'object',
+          properties: {
+            // TODO: add breadcrumb
+            path: { type: 'string' },
+          },
+          required: ['path'],
+        },
         fieldNicknameForThisFacility: { type: 'string' },
       },
-      required: ['title', 'path', 'fieldNicknameForThisFacility'],
+      required: ['title', 'fieldNicknameForThisFacility'],
     },
   },
   required: ['entity'],

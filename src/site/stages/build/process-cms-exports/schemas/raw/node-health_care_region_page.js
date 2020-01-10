@@ -17,5 +17,10 @@ module.exports = {
     },
     field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
   },
-  required: ['title', 'path', 'field_nickname_for_this_facility'],
+  required: [
+    'title',
+    'moderation_state',
+    'path',
+    'field_nickname_for_this_facility',
+  ],
 };
