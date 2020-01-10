@@ -4,9 +4,10 @@ import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from '../../../utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import {
+  ADDRESS_VALIDATION_TYPES,
   BAD_UNIT_NUMBER,
   MISSING_UNIT_NUMBER,
   CONFIRMED,
@@ -169,15 +170,19 @@ export const getValidationMessageKey = (
     ).length > 0;
 
   if (addressValidationError) {
-    return 'validationError';
+    return ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR;
   }
 
   if (singleSuggestion && containsBadUnitNumber) {
-    return validationKey ? 'badUnitNumberOverride' : 'badUnitNumber';
+    return validationKey
+      ? ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE
+      : ADDRESS_VALIDATION_TYPES.BAD_UNIT;
   }
 
   if (singleSuggestion && containsMissingUnitNumber) {
-    return validationKey ? 'missingUnitNumberOverride' : 'missingUnitNumber';
+    return validationKey
+      ? ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE
+      : ADDRESS_VALIDATION_TYPES.MISSING_UNIT;
   }
 
   if (
@@ -185,14 +190,18 @@ export const getValidationMessageKey = (
     !containsMissingUnitNumber &&
     !containsBadUnitNumber
   ) {
-    return validationKey ? 'showSuggestionsOverride' : 'showSuggestions';
+    return validationKey
+      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
+      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS;
   }
 
   if (multipleSuggestions) {
-    return validationKey ? 'showSuggestionsOverride' : 'showSuggestions';
+    return validationKey
+      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
+      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS;
   }
 
-  return 'showSuggestions'; // defaulting here so the modal will show but not allow override
+  return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS; // defaulting here so the modal will show but not allow override
 };
 
 // Determines if we need to prompt the user to pick from a list of suggested
