@@ -81,7 +81,7 @@ describe('External services actions', () => {
         dispatch.reset();
       });
 
-      it('should handle global downtime being active', () => {
+      xit('should handle global downtime being active', () => {
         const response = {
           data: { attributes: { code: 400 } },
         };
@@ -104,7 +104,7 @@ describe('External services actions', () => {
         });
       });
 
-      it('should handle global downtime being inactive', () => {
+      xit('should handle global downtime being inactive', () => {
         const response = {
           data: {
             attributes: {
@@ -142,7 +142,7 @@ describe('External services actions', () => {
         });
       });
 
-      it('should respect the feature toggle even during a downtime window', () => {
+      xit('should respect the feature toggle even during a downtime window', () => {
         const response = {
           data: { attributes: { code: 400 } },
         };

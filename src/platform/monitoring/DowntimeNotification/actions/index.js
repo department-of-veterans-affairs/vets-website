@@ -64,8 +64,7 @@ export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
     const { downtimeStart, downtimeEnd } = downtimeWindow;
 
     const globalDowntimeData =
-      (toggleValues(state).vaGlobalDowntimeNotification &&
-        moment().isAfter(downtimeStart) &&
+      (moment().isAfter(downtimeStart) &&
         moment().isBefore(downtimeEnd) &&
         createGlobalMaintenanceWindow({
           startTime: downtimeStart,
