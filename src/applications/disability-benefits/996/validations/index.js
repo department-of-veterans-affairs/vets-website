@@ -1,6 +1,12 @@
 import { isValidDate } from '../helpers';
 import { errorMessages } from '../constants';
 
+export const optInCheckboxRequired = (errors, isChecked) => {
+  if (!isChecked) {
+    errors.addError(errorMessages.optOutCheckbox);
+  }
+};
+
 // This function does _additional_ date validation; it doesn't need to
 // add error messages for missing values
 export const checkDateRange = (errors, { from = '', to = '' } = {}) => {
