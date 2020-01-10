@@ -1,3 +1,4 @@
+import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
@@ -11,37 +12,16 @@ class IntroductionPage extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      isChecked: false,
-    };
-
-    this.updateCheckedState = this.updateCheckedState.bind(this);
-    this.createDlcUIData = this.createDlcUIData.bind(this);
+    this.createDlcUIData =      this.createDlcUIData.bind(this);
   }
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    this.props.getDLCData();
-  }
-
-  updateCheckedState(event) {
-    // NOTE: using computed property name snytax
-    // to manage individual checkbox state -@maharielrosario at 1/8/2020, 8:05:12 PM
-
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value,
-    });
+    this.props.getDLCData()  ;
   }
 
   createDlcUIData(initDataObjs) {
-    let UIDataObjs = initDataObjs;
-
-    // for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.eslint(no-restricted-syntax)
+    let UIDataObjs =   initDataObjs;
 
     (function removeNonUIProps() {
       for (const UIDataObj of UIDataObjs) {
@@ -55,25 +35,22 @@ class IntroductionPage extends React.Component {
       }
     })();
 
-    (function createCheckboxProps(context) {
+    (function createCheckboxProp() {
       UIDataObjs = UIDataObjs.map(UIDataObj => {
         const checkbox = (
-          <input
-            key={UIDataObj.id}
-            name={`checkbox-${UIDataObj.id}`}
-            type="checkbox"
-            className="form2346 vads-c-table__checkbox vads-u-margin-left--2p5"
-            onChange={context.updateCheckedState}
-            checked={context.state.name}
+          <ErrorableCheckbox
+            className="vads-u-margin-left--2p5"
+            onValueChange={value => value}
+            id={UIDataObj.id}
           />
         );
 
         return {
-          ...UIDataObj,
-          checkbox,
+          ...UIDataObj  ,
+          checkbox   ,
         };
       });
-    })(this);
+    })();
 
     const UITableHeaders = Object.keys(UIDataObjs[0]).map(UIDataObjKey => {
       switch (UIDataObjKey) {
@@ -130,7 +107,6 @@ class IntroductionPage extends React.Component {
     return {
       UITableHeaders,
       UITableRowsAndData,
-      UIDataObjs,
     };
   }
 
@@ -161,7 +137,12 @@ class IntroductionPage extends React.Component {
                 {dlcTableRowsAndData}
               </tbody>
             </table>
-            <button>Submit Your Order</button>
+            <button
+              type="button"
+              className="usa-button-primary va-button-primary"
+            >
+              Submit Your Order
+            </button>
           </>
         )}
       </div>
@@ -202,7 +183,4 @@ const mapDispatchToProps = {
   updateDLCData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
