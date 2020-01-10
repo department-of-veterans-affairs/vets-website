@@ -73,11 +73,11 @@ export const getStateNameForCode = stateCode => {
   return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
 };
 
-export const sortOptionsByStateName = (a, b) => {
-  if (a.label < b.label) {
+export const sortOptionsByStateName = (stateA, stateB) => {
+  if (stateA.label < stateB.label) {
     return -1;
   }
-  if (a.label > b.label) {
+  if (stateA.label > stateB.label) {
     return 1;
   }
   return 0;
