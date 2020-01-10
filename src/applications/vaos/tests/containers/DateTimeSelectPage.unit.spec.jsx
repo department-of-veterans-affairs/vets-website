@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DateTimeSelectPage } from '../../containers/DateTimeSelectPage';
+import { FETCH_STATUS } from '../../utils/constants';
 
 const availableDates = ['2019-10-29'];
 const availableSlots = [
@@ -19,17 +20,20 @@ const availableSlots = [
 
 describe('VAOS <DateTimeSelectPage>', () => {
   it('should render', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const updateFormData = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{}}
         facilityId="123"
         availableDates={availableDates}
         availableSlots={availableSlots}
+        loadingStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -38,19 +42,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should not submit empty form', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const updateFormData = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{}}
         availableDates={availableDates}
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
+        loadingStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -60,13 +67,15 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should submit with selected data', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const updateFormData = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{
           calendarData: {
@@ -77,6 +86,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         }}
         availableDates={availableDates}
         availableSlots={availableSlots}
+        loadingStatus={FETCH_STATUS.succeeded}
         facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
@@ -88,13 +98,15 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('document title should match h1 text', () => {
-    const openSelectAppointmentPage = sinon.spy();
+    const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
     const pageTitle = 'Tell us the date and time you’d like your appointment';
 
     const form = mount(
       <DateTimeSelectPage
-        openSelectAppointmentPage={openSelectAppointmentPage}
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
         updateFormData={updateFormData}
         data={{}}
         facilityId="123"

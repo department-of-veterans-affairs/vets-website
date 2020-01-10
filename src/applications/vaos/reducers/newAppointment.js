@@ -21,6 +21,9 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -34,8 +37,6 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
-  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -76,7 +77,9 @@ const initialState = {
   eligibilityStatus: FETCH_STATUS.notStarted,
   facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
+  appointmentSlotsStatus: FETCH_STATUS.notStarted,
   availableSlots: null,
+  fetchedAppointmentSlotMonths: [],
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
 };
@@ -468,31 +471,25 @@ export default function formReducer(state = initialState, action) {
           [action.facilityId]: action.facilityDetails,
         },
       };
-    case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED: {
+    case FORM_FETCH_AVAILABLE_APPOINTMENTS: {
       return {
         ...state,
-        loadingAppointmentSlots: true,
-        availableSlots: [],
-        appointmentLength: null,
+        appointmentSlotsStatus: FETCH_STATUS.loading,
       };
     }
-    case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED: {
-      const { data, schema } = setupFormData(
-        state.data,
-        action.schema,
-        action.uiSchema,
-      );
-
+    case FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED: {
       return {
         ...state,
-        loadingAppointmentSlots: false,
+        appointmentSlotsStatus: FETCH_STATUS.succeeded,
         availableSlots: action.availableSlots,
+        fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
         appointmentLength: action.appointmentLength,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: schema,
-        },
+      };
+    }
+    case FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED: {
+      return {
+        ...state,
+        appointmentSlotsStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
