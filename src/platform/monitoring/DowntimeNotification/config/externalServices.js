@@ -10,6 +10,8 @@ export default {
   // Enrollment System (HCA submissions)
   es: 'es',
   evss: 'evss',
+  // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
+  global: 'global',
   // ID.me, identity provider
   idme: 'idme',
   // Master Veteran Index (source of veteran profile info)

@@ -1,11 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 
 import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
 import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
-import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
 import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
 import VetTecVeteranPrograms from '../../components/vet-tec/VetTecVeteranPrograms';
 import VetTecApplicationProcess from '../../components/vet-tec/VetTecApplicationProcess';
@@ -103,42 +102,6 @@ describe('<VetTecApplicationProcess>', () => {
     );
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-});
-
-describe('<VetTecApprovedProgram>', () => {
-  it('should render', () => {
-    const defaultProps = {
-      store: createCommonStore(),
-      institution,
-    };
-    const wrapper = shallow(<VetTecApprovedPrograms {...defaultProps} />);
-    const vdom = wrapper.html();
-    expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-
-  it('should display 0 hours as TBD', () => {
-    const defaultProps = {
-      store: createCommonStore(),
-      institution: {
-        ...institution,
-        programs: [
-          {
-            description: 'Program Name',
-            schoolLocale: 'City',
-            providerWebsite: 'https://galvanize.edu',
-            phoneAreaCode: '843',
-            phoneNumber: '333-3333',
-            lengthInHours: '0',
-          },
-        ],
-      },
-    };
-    const wrapper = mount(<VetTecApprovedPrograms {...defaultProps} />);
-    expect(wrapper.find('.program-length').length).to.eq(1);
-    expect(wrapper.find('.program-length').text()).to.eq('TBD');
     wrapper.unmount();
   });
 });

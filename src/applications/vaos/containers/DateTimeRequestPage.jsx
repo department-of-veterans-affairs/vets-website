@@ -13,6 +13,7 @@ import { getFormPageInfo } from '../utils/selectors';
 import DateTimeRequestField from '../components/DateTimeRequestField';
 
 const pageKey = 'requestDateTime';
+const pageTitle = 'Choose a day and time for your appointment';
 
 const initialSchema = {
   type: 'object',
@@ -61,6 +62,7 @@ export class DateTimeRequestPage extends React.Component {
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -78,12 +80,10 @@ export class DateTimeRequestPage extends React.Component {
 
     return (
       <div className="vaos-form__detailed-radio">
-        <h1 className="vads-u-font-size--h2">
-          What date and time would you like to make an appointment?
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <p>
-          You may choose up to three dates. A scheduling clerk will contact you
-          to coordinate the best time for you.
+          You can choose up to 3 dates. A scheduling coordinator will call you
+          to schedule the best time for your appointment.
         </p>
         <SchemaForm
           name="Request appointment"

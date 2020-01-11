@@ -17,7 +17,20 @@ import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectSche
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
 export class ConfirmationPage extends React.Component {
+  constructor(props) {
+    super(props);
+    let pageTitle;
+    if (this.props.flowType === FLOW_TYPES.DIRECT) {
+      pageTitle = 'Your appointment has been scheduled';
+    } else {
+      pageTitle = 'Your appointment request has been submitted';
+    }
+
+    this.pageTitle = pageTitle;
+  }
+
   componentDidMount() {
+    document.title = `${this.pageTitle} | Veterans Affairs`;
     if (
       !this.props.facilityDetails &&
       !this.props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
@@ -40,12 +53,14 @@ export class ConfirmationPage extends React.Component {
             data={data}
             facilityDetails={facilityDetails}
             clinic={clinic}
+            pageTitle={this.pageTitle}
           />
         )}
         {!isDirectSchedule && (
           <ConfirmationRequestInfo
             data={data}
             facilityDetails={facilityDetails}
+            pageTitle={this.pageTitle}
           />
         )}
         <div className="vads-u-margin-y--2">

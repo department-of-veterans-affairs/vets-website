@@ -31,7 +31,7 @@ const initialSchema = {
 const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
-    'ui:title': 'Why are you making this appointment?',
+    'ui:title': 'Please let us know why you’re making this appointment.',
   },
   reasonAdditionalInfo: {
     'ui:widget': TextareaWidget,
@@ -44,9 +44,11 @@ const uiSchema = {
 };
 
 const pageKey = 'reasonForAppointment';
+const pageTitle = 'Choose a reason for your appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
+    document.title = `${pageTitle} | Veterans Affairs`;
     this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
   }
 
@@ -63,7 +65,7 @@ export class ReasonForAppointmentPage extends React.Component {
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">Reason for appointment</h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"

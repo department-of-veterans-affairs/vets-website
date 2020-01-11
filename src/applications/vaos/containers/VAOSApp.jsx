@@ -35,8 +35,12 @@ export class VAOSApp extends React.Component {
 
     if (this.state.hasError) {
       return (
-        <div className="vads-u-margin-y--2">
-          <ErrorMessage />
+        <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
+              <ErrorMessage />
+            </div>
+          </div>
         </div>
       );
     }

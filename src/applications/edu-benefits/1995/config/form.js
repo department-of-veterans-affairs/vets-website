@@ -12,6 +12,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -47,6 +48,9 @@ const formConfig = {
     serviceBefore1977,
     date,
     dateRange,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   title: 'Update your education benefits',
   subTitle: 'Form 22-1995',

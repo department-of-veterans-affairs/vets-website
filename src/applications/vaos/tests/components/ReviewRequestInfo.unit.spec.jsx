@@ -47,13 +47,27 @@ const facility = {
   institutionTimezone: 'America/Denver',
 };
 
+const pageTitle = 'Review your appointment details';
+
 describe('VAOS <ReviewRequestInfo>', () => {
   describe('VA Request', () => {
     const data = { ...defaultData };
-    const tree = mount(<ReviewRequestInfo data={data} facility={facility} />);
+    const tree = mount(
+      <ReviewRequestInfo
+        data={data}
+        facility={facility}
+        pageTitle={pageTitle}
+      />,
+    );
     const text = tree.text();
+    const heading = tree.find('h1');
 
     // console.log(tree.debug());
+    it('should render page heading', () => {
+      expect(heading.exists()).to.be.true;
+      expect(heading.text()).to.equal(pageTitle);
+    });
+
     it('should render VA request section', () => {
       expect(text).to.contain('VA Appointment');
     });
@@ -100,14 +114,27 @@ describe('VAOS <ReviewRequestInfo>', () => {
     };
     let tree;
     let text;
+    let heading;
 
     beforeEach(() => {
-      tree = mount(<ReviewRequestInfo data={data} facility={facility} />);
+      tree = mount(
+        <ReviewRequestInfo
+          data={data}
+          facility={facility}
+          pageTitle={pageTitle}
+        />,
+      );
       text = tree.text();
+      heading = tree.find('h1');
     });
 
     afterEach(() => {
       tree.unmount();
+    });
+
+    it('should render page heading', () => {
+      expect(heading.exists()).to.be.true;
+      expect(heading.text()).to.equal(pageTitle);
     });
 
     it('should render CC request section', () => {

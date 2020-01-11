@@ -8,7 +8,7 @@ module.exports = {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['downloadable_file'] },
         fieldMarkup: { type: ['string', 'null'] },
-        fieldMedia: { $ref: 'transformed/media-document' },
+        fieldMedia: { $ref: 'Media' },
         fieldTitle: { type: 'string' },
       },
       required: ['fieldMarkup', 'fieldMedia', 'fieldTitle'],

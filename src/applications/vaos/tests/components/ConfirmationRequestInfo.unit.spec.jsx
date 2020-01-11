@@ -29,17 +29,28 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
         },
       },
     };
+    const pageTitle = 'Your appointment request has been submitted';
 
     const tree = mount(
-      <ConfirmationRequestInfo data={data} facilityDetails={facilityDetails} />,
+      <ConfirmationRequestInfo
+        data={data}
+        facilityDetails={facilityDetails}
+        pageTitle={pageTitle}
+      />,
     );
 
     const text = tree.text();
+
+    const heading = tree.find('h1');
+
     expect(text).not.to.contain('Community Care');
     expect(text).to.contain('CHYSHR-Sidney VA Clinic');
     expect(text).to.contain('Cheyenne, WY');
 
     expect(tree.find('AlertBox').exists()).to.be.true;
+    expect(tree);
+    expect(heading.exists()).to.be.true;
+    expect(heading.text()).to.equal(pageTitle);
 
     tree.unmount();
   });
@@ -84,15 +95,19 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
       },
     };
 
+    const pageTitle = 'Your appointment request has been submitted';
     const tree = mount(
       <ConfirmationRequestInfo
         data={data}
         facilityDetails={facilityDetails}
         vaCityState="Cheyenne, WY"
+        pageTitle={pageTitle}
       />,
     );
 
     const text = tree.text();
+    const heading = tree.find('h1');
+
     expect(text).to.contain('Community Care');
     expect(text).not.to.contain('CHYSHR-Sidney VA Clinic');
     expect(text).to.contain('Jane Doe');
@@ -100,6 +115,9 @@ describe('VAOS <ConfirmationRequestInfo>', () => {
     expect(text).to.contain('Northampton, MA');
 
     expect(tree.find('AlertBox').exists()).to.be.true;
+    expect(tree.find('h1').exists()).to.be.true;
+    expect(heading.exists()).to.be.true;
+    expect(heading.text()).to.equal(pageTitle);
 
     tree.unmount();
   });

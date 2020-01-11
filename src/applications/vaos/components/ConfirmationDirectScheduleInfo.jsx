@@ -8,15 +8,16 @@ export default function ConfirmationDirectScheduleInfo({
   data,
   facilityDetails,
   clinic,
+  pageTitle,
 }) {
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        Your appointment has been scheduled
-      </h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       <AlertBox status="success">
-        <strong>Your appointment is confirmed.</strong> Please see your
-        appointment details below.
+        <strong>Your appointment has been scheduled.</strong>
+        <br />
+        Your appointment is confirmed. Please see your appointment details
+        below.
       </AlertBox>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--green">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
