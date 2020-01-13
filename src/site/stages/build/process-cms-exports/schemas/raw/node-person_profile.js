@@ -3,7 +3,7 @@
 module.exports = {
   type: 'object',
   properties: {
-    path: { $ref: 'GenericNestedString' },
+    path: { $ref: 'path' },
     field_body: { $ref: 'GenericNestedString' },
     field_description: { $ref: 'GenericNestedString' },
     field_email_address: { $ref: 'GenericNestedString' },
