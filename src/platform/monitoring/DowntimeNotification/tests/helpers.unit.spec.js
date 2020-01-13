@@ -122,10 +122,10 @@ describe('createGlobalMaintenanceWindow', () => {
     const globalMaintWindow = downtimeHelpers.createGlobalMaintenanceWindow({
       startTime,
       endTime,
-      externalServices: { mvi: 'mvi' },
+      externalServices: { mvi: 'mvi', global: 'global' },
     });
 
-    expect(globalMaintWindow.length).to.eql(2);
+    expect(globalMaintWindow.length).to.eql(3);
     expect(globalMaintWindow[0]).to.eql(globalWindow);
     expect(globalMaintWindow[1]).to.eql({
       attributes: {
