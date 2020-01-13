@@ -21,6 +21,7 @@ class IntroductionPage extends React.Component {
           Rehabilitation).
         </p>
         <SaveInProgressIntro
+          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VR&E Application"
@@ -98,6 +99,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VR&E Application"

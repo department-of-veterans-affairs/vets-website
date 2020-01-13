@@ -248,7 +248,7 @@ export const serviceDescription = appId => {
       return 'see your claim or appeal status';
 
     case widgetTypes.LETTERS:
-      return 'get your VA Benefit Letters';
+      return 'get your VA benefit letters';
 
     case widgetTypes.VETERAN_ID_CARD:
       return 'apply for a Veteran ID Card';

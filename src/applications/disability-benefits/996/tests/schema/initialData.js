@@ -1,20 +1,9 @@
 // Test data for HLR
 import { addXMonths } from '../../helpers';
-import { selectors } from '../../constants';
-
-// FLAG for testing
-const legacyOptInApproved = false;
-const optOutStepVisible = !legacyOptInApproved;
 
 export default {
-  // Show opt out step if true; set to false if legacyOptInApproved is
-  // already true
-  [selectors.optOutStepVisible]: optOutStepVisible,
-  // `legacyOptInApproved` is set to true:
-  // - if the veteran does not have any appeals in the legacy system
-  // - if the veteran does have a legacy appeal, but only set _after_ the
-  //  veteran submits the new form
-  legacyOptInApproved,
+  // Opt out of old appeals checkbox
+  legacyOptInApproved: false,
 
   fullName: { first: 'MIKE', last: 'WAZOWSKI' },
   // full SSN isn't necessary

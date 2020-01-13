@@ -1,0 +1,175 @@
+{
+  "contentModelType": "node-event",
+  "entityType": "node",
+  "entityBundle": "event",
+  "title": "Veterans Town Hall on the Move",
+  "uid": {
+    "uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35",
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "preferredLangcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "preferredAdminLangcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "name": [
+      {
+        "value": "Howard.Brande@va.gov"
+      }
+    ],
+    "mail": [],
+    "timezone": [
+      {
+        "value": "America/New_York"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "created": [
+      {
+        "value": "2019-03-18T16:08:26+00:00",
+        "format": "Y-m-d\\TH:i:sP"
+      }
+    ],
+    "changed": [
+      {
+        "value": "2019-11-04T21:04:32+00:00",
+        "format": "Y-m-d\\TH:i:sP"
+      }
+    ],
+    "defaultLangcode": [
+      {
+        "value": true
+      }
+    ],
+    "metatag": {
+      "value": {
+        "title": "Howard.Brande@va.gov | Veterans Affairs",
+        "canonical_url": "http://default/user/86",
+        "twitter_cards_type": "summary_large_image",
+        "og_site_name": "Veterans Affairs",
+        "description": "Veterans Affairs",
+        "twitter_cards_title": "| Veterans Affairs",
+        "twitter_cards_site": "@DeptVetAffairs",
+        "og_title": "| Veterans Affairs"
+      }
+    },
+    "revisionLogSettings": [
+      {
+        "value": "a:2:{s:13:\"block_content\";a:3:{s:5:\"alert\";i:1;s:8:\"megamenu\";i:1;s:5:\"promo\";i:1;}s:4:\"node\";a:15:{s:18:\"documentation_page\";i:1;s:5:\"event\";i:1;s:13:\"event_listing\";i:1;s:26:\"health_care_local_facility\";i:1;s:30:\"health_care_region_detail_page\";i:1;s:23:\"health_care_region_page\";i:1;s:12:\"landing_page\";i:1;s:10:\"news_story\";i:1;s:6:\"office\";i:1;s:14:\"outreach_asset\";i:1;s:4:\"page\";i:1;s:14:\"person_profile\";i:1;s:13:\"press_release\";i:1;s:19:\"publication_listing\";i:1;s:15:\"support_service\";i:1;}}"
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en",
+        "pathauto": 0
+      }
+    ],
+    "baseType": "user",
+    "contentModelType": "user"
+  },
+  "changed": 1568123027,
+  "entityUrl": {
+    "breadcrumb": [],
+    "path": "/pittsburgh-health-care/events/veterans-town-hall-on-the-move"
+  },
+  "entityMetatags": [
+    {
+      "__typename": "MetaValue",
+      "key": "title",
+      "value": "VA Pittsburgh health care | Veterans Town Hall on the Move | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:card",
+      "value": "summary_large_image"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:site_name",
+      "value": "Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:description",
+      "value": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "description",
+      "value": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:title",
+      "value": "Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:site",
+      "value": "@DeptVetAffairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:title",
+      "value": "Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:description",
+      "value": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend."
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:image:height",
+      "value": "314"
+    }
+  ],
+  "entityPublished": true,
+  "fieldAdditionalInformationAbo": null,
+  "fieldAddress": {
+    "langcode": "",
+    "countryCode": "US",
+    "administrativeArea": "PA",
+    "locality": "Washington",
+    "dependentLocality": null,
+    "postalCode": null,
+    "sortingCode": null,
+    "addressLine1": "168 Park Ave",
+    "addressLine2": "",
+    "organization": null,
+    "givenName": null,
+    "additionalName": null,
+    "familyName": null
+  },
+  "fieldBody": {
+    "processed": "<p>VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.</p>\r\n\r\n<p>Front line employees, including experts from the Veterans Benefits Administration, will be available to offer on-the-spot assistance with individual questions and concerns.</p>\r\n"
+  },
+  "fieldDate": {
+    "startDate": "2019-05-30 21:00:00 UTC",
+    "value": "2019-05-30T21:00:00",
+    "endDate": "2019-05-30 22:00:00 UTC",
+    "endValue": "2019-05-30T22:00:00"
+  },
+  "fieldDescription": "VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.",
+  "fieldEventCost": null,
+  "fieldEventCta": null,
+  "fieldEventRegistrationrequired": false,
+  "fieldFacilityLocation": null,
+  "fieldLink": null,
+  "fieldLocationHumanreadable": "American Legion Post 175 ",
+  "fieldMedia": null
+}

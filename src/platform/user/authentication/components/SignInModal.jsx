@@ -11,6 +11,8 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
+import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
+
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
   login(loginType);
@@ -24,6 +26,15 @@ const vaGovFullDomain = environment.BASE_URL;
 const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 class SignInModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      globalDowntime: false,
+    };
+
+    this.setGlobalDowntimeState = this.setGlobalDowntimeState.bind(this);
+  }
+
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
       recordEvent({ event: 'login-modal-opened' });
@@ -32,8 +43,12 @@ class SignInModal extends React.Component {
     }
   }
 
-  downtimeBanner = (dependencies, headline, status, message) => (
-    <ExternalServicesError dependencies={dependencies}>
+  setGlobalDowntimeState() {
+    this.setState({ globalDowntime: true });
+  }
+
+  downtimeBanner = (dependencies, headline, status, message, onRender) => (
+    <ExternalServicesError dependencies={dependencies} onRender={onRender}>
       <div className="downtime-notification row">
         <div className="columns small-12">
           <div className="form-warning-banner">
@@ -47,7 +62,7 @@ class SignInModal extends React.Component {
     </ExternalServicesError>
   );
 
-  renderModalContent = () => (
+  renderModalContent = ({ globalDowntime }) => (
     <main className="login">
       <div className="row">
         <div className="columns">
@@ -95,6 +110,16 @@ class SignInModal extends React.Component {
           'warning',
           'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
         )}
+        {this.downtimeBanner(
+          [EXTERNAL_SERVICES.global],
+          'You may have trouble signing in or using some tools or services',
+          'warning',
+          `We’re doing some work on VA.gov right now. We hope to finish our work by ${
+            scheduledDowntimeWindow.downtimeEnd
+          }. If you have trouble signing in or using any tools or services, please check back after then.`,
+          this.setGlobalDowntimeState,
+        )}
+
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">
@@ -114,14 +139,22 @@ class SignInModal extends React.Component {
               <div className="signin-actions">
                 <h5>Sign in with an existing account</h5>
                 <div>
-                  <button className="dslogon" onClick={handleDsLogon}>
+                  <button
+                    disabled={globalDowntime}
+                    className="dslogon"
+                    onClick={handleDsLogon}
+                  >
                     <img
                       alt="DS Logon"
                       src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
                     />
                     <strong> Sign in with DS Logon</strong>
                   </button>
-                  <button className="mhv" onClick={handleMhv}>
+                  <button
+                    disabled={globalDowntime}
+                    className="mhv"
+                    onClick={handleMhv}
+                  >
                     <img
                       alt="My HealtheVet"
                       src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
@@ -129,6 +162,7 @@ class SignInModal extends React.Component {
                     <strong> Sign in with My HealtheVet</strong>
                   </button>
                   <button
+                    disabled={globalDowntime}
                     className="usa-button-primary va-button-primary"
                     onClick={handleIdMe}
                   >
@@ -142,6 +176,7 @@ class SignInModal extends React.Component {
                   <div className="alternate-signin">
                     <h5>Don't have those accounts?</h5>
                     <button
+                      disabled={globalDowntime}
                       className="idme-create usa-button usa-button-secondary"
                       onClick={signup}
                     >
@@ -248,7 +283,7 @@ class SignInModal extends React.Component {
         onClose={this.props.onClose}
         id="signin-signup-modal"
       >
-        {this.renderModalContent()}
+        {this.renderModalContent(this.state)}
       </Modal>
     );
   }

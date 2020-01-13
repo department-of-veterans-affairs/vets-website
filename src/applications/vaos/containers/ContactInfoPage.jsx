@@ -61,9 +61,9 @@ const uiSchema = {
       </p>
     </>
   ),
-  phoneNumber: phoneUI('Phone number'),
+  phoneNumber: phoneUI('Your phone number'),
   bestTimeToCall: {
-    'ui:title': 'Best times for us to call you',
+    'ui:title': 'What are the best times for us to call you?',
     'ui:validations': [validateBooleanGroup],
     'ui:options': {
       showFieldLabel: true,
@@ -89,12 +89,12 @@ const uiSchema = {
     },
   },
   email: {
-    'ui:title': 'Email address',
+    'ui:title': 'Your email address',
   },
 };
 
 const pageKey = 'contactInfo';
-const pageTitle = 'Contact information';
+const pageTitle = 'Your contact information';
 
 export class ContactInfoPage extends React.Component {
   componentDidMount() {

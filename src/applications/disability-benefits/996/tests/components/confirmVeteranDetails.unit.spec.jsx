@@ -9,7 +9,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
-const { confirmVeteranDetails } = formConfig.chapters.veteranDetails.pages;
+const { confirmVeteranDetails } = formConfig.chapters.step1.pages;
 
 describe('Confirm Veteran Details', () => {
   it('should render Veteran details (Name, last 4 SSN & VA File, gender)', () => {

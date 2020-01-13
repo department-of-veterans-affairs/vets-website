@@ -29,6 +29,7 @@ describe('<AddressValidationModal/>', () => {
           addressValidationType: 'mailingAddress',
           userEnteredAddress: {},
           validationKey: 1234,
+          confirmedSuggestions: [],
           suggestedAddresses: [
             {
               addressLine1: '12345 1st Ave',
@@ -89,7 +90,7 @@ describe('<AddressValidationModal/>', () => {
       <AddressValidationModal store={fakeStore} />,
     );
 
-    expect(component.find('LoadingButton').text()).to.equal('Update');
+    expect(component.find('LoadingButton').text()).to.equal('Use this address');
     expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
     component.unmount();
   });
@@ -116,6 +117,7 @@ describe('<AddressValidationModal/>', () => {
             isAddressValidationModalVisible: true,
             addressValidationError: true,
             suggestedAddresses: [],
+            confirmedSuggestions: [],
             addressValidationType: 'mailingAddress',
             userEnteredAddress: {},
             validationKey: null,
@@ -137,9 +139,257 @@ describe('<AddressValidationModal/>', () => {
     component.unmount();
   });
 
-  it('validates inputs', () => {
+  it('renders multiple suggestion button text', () => {
+    const newFakeStore = {
+      getState: () => ({
+        vet360: {
+          fieldTransactionMap: {
+            mailingAddress: {
+              isPending: false,
+            },
+          },
+          modal: 'addressValidation',
+          addressValidation: {
+            addressFromUser: {
+              addressLine1: '12345 1st Ave',
+              addressLine2: 'bldg 2',
+              addressLine3: 'apt 23',
+              city: 'Tampa',
+              stateCode: 'FL',
+              zipCode: '12346',
+            },
+            isAddressValidationModalVisible: true,
+            addressValidationError: false,
+            suggestedAddresses: [
+              {
+                addressLine1: '12345 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Tampa',
+                stateCode: 'FL',
+                zipCode: '12346',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+              {
+                addressLine1: '22222 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Saint Petersburg',
+                stateCode: 'FL',
+                zipCode: '55555',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+            ],
+            confirmedSuggestions: [
+              {
+                addressLine1: '12345 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Tampa',
+                stateCode: 'FL',
+                zipCode: '12346',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+              {
+                addressLine1: '22222 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Saint Petersburg',
+                stateCode: 'FL',
+                zipCode: '55555',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+            ],
+            addressValidationType: 'mailingAddress',
+            userEnteredAddress: {},
+            validationKey: 12345,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
     const component = enzyme.mount(
-      <AddressValidationModal store={fakeStore} />,
+      <AddressValidationModal store={newFakeStore} />,
+    );
+
+    expect(component.find('LoadingButton').text()).to.equal('Update');
+    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    component.unmount();
+  });
+
+  it('renders use suggested button text', () => {
+    const newFakeStore = {
+      getState: () => ({
+        vet360: {
+          fieldTransactionMap: {
+            mailingAddress: {
+              isPending: false,
+            },
+          },
+          modal: 'addressValidation',
+          addressValidation: {
+            addressFromUser: {
+              addressLine1: '12345 1st Ave',
+              addressLine2: 'bldg 2',
+              addressLine3: 'apt 23',
+              city: 'Tampa',
+              stateCode: 'FL',
+              zipCode: '12346',
+            },
+            isAddressValidationModalVisible: true,
+            addressValidationError: false,
+            suggestedAddresses: [
+              {
+                addressLine1: '12345 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Tampa',
+                stateCode: 'FL',
+                zipCode: '12346',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+              {
+                addressLine1: '22222 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Saint Petersburg',
+                stateCode: 'FL',
+                zipCode: '55555',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+            ],
+            confirmedSuggestions: [
+              {
+                addressLine1: '12345 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Tampa',
+                stateCode: 'FL',
+                zipCode: '12346',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+            ],
+            addressValidationType: 'mailingAddress',
+            userEnteredAddress: {},
+            validationKey: null,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const component = enzyme.mount(
+      <AddressValidationModal store={newFakeStore} />,
+    );
+
+    expect(component.find('LoadingButton').text()).to.equal(
+      'Use suggested address',
+    );
+    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    component.unmount();
+  });
+
+  it('validates inputs', () => {
+    const newFakeStore = {
+      getState: () => ({
+        vet360: {
+          fieldTransactionMap: {
+            mailingAddress: {
+              isPending: false,
+            },
+          },
+          modal: 'addressValidation',
+          addressValidation: {
+            addressFromUser: {
+              addressLine1: '12345 1st Ave',
+              addressLine2: 'bldg 2',
+              addressLine3: 'apt 23',
+              city: 'Tampa',
+              stateCode: 'FL',
+              zipCode: '12346',
+            },
+            isAddressValidationModalVisible: true,
+            addressValidationError: true,
+            suggestedAddresses: [],
+            confirmedSuggestions: [
+              {
+                addressLine1: '12345 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Tampa',
+                stateCode: 'FL',
+                zipCode: '12346',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+              {
+                addressLine1: '22222 1st Ave',
+                addressLine2: 'bldg 2',
+                addressLine3: 'apt 23',
+                city: 'Saint Petersburg',
+                stateCode: 'FL',
+                zipCode: '55555',
+                addressMetaData: {
+                  confidenceScore: 100.0,
+                  addressType: 'Domestic',
+                  deliveryPointValidation: 'CONFIRMED',
+                  residentialDeliveryIndicator: 'MIXED',
+                },
+              },
+            ],
+            addressValidationType: 'mailingAddress',
+            userEnteredAddress: {},
+            validationKey: null,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const component = enzyme.mount(
+      <AddressValidationModal store={newFakeStore} />,
     );
 
     expect(

@@ -89,7 +89,7 @@ describe('VAOS <ContactInfoPage>', () => {
 
   it('document title should match h1 text', () => {
     const openFormPage = sinon.spy();
-    const pageTitle = 'Contact information';
+    const pageTitle = 'Your contact information';
 
     const form = mount(
       <ContactInfoPage openFormPage={openFormPage} data={{}} />,

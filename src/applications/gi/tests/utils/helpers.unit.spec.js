@@ -8,6 +8,7 @@ import {
   isCountryUSA,
   isCountryInternational,
   rubyifyKeys,
+  sortOptionsByStateName,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -80,6 +81,26 @@ describe('GIBCT helpers:', () => {
         testKey: ['a', 'b'],
       };
       expect(rubyifyKeys(data)).to.have.key('test_key[]');
+    });
+  });
+
+  describe('sortOptionsByStateName', () => {
+    it('should sort an array of objects by label', () => {
+      const data = [
+        { value: 'AK', label: 'Alaska' },
+        { value: 'AL', label: 'Alabama' },
+        { value: 'AR', label: 'Arkansas' },
+        { value: 'AZ', label: 'Arizona' },
+        { value: 'CA', label: 'California' },
+      ];
+      const sortedData = [
+        { value: 'AL', label: 'Alabama' },
+        { value: 'AK', label: 'Alaska' },
+        { value: 'AZ', label: 'Arizona' },
+        { value: 'AR', label: 'Arkansas' },
+        { value: 'CA', label: 'California' },
+      ];
+      expect(data.sort(sortOptionsByStateName)).to.deep.equal(sortedData);
     });
   });
 });

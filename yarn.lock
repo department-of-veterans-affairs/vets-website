@@ -706,10 +706,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.0.2.tgz#3397ce40266a1a05758c564ab2ba1b8ea8f73f16"
-  integrity sha512-68J5tGjqkH7rE7noNJqr8XiCpWSLopayHXl5Nd39Y+SCiT8DqGHlVXuvFalCzl2T0zqGHRWNsXa4CnRPT3NpfA==
+"@department-of-veterans-affairs/formation-react@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.1.0.tgz#e3b533f45108621db794e5fa10093447983c4eb0"
+  integrity sha512-EABr7nJkfgzVi7vBdmsVJcXvdxZNhH4IfWMWTtJ1EEFAwQgPKaZ5TDShMnWIWzkn4uoFfO4iV2clSYHJAgvbaQ==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -717,10 +717,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.8.0":
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.8.0.tgz#10f943ae706ee886ed3f77a5a267d7f15c87383c"
-  integrity sha512-wMvi8+Y44estkKb2/FojbaOiV0z5LLNbvSyUBs2QDnVZ4VQlwQkTvw1+v9FD0Yv5VWmaK6mrx7F+QAXHdTMrRw==
+"@department-of-veterans-affairs/formation@^6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.9.0.tgz#dd855292248a71e7bdcbe10a2a28aa2cfe229bff"
+  integrity sha512-wgYdDA6VwnxeiGYiYuY01l5Q2GyodPT2eorFOnjbIDx9tvScYwS/AqGfi+eppFEMCFci/qsLxEDFTfrDnGtp3Q==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"

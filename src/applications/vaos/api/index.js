@@ -2,8 +2,6 @@ import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-// This wil go away once we stop mocking api calls
-const TEST_TIMEOUT = navigator.userAgent === 'node.js' ? 1 : null;
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
     return facilityId.replace('983', '442');
@@ -355,14 +353,23 @@ export function getFacilitiesInfo(facilityIds) {
   return promise.then(resp => resp.data.map(item => item.attributes));
 }
 
-export function getSitesSupportingVAR() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      import('./sites-supporting-var.json').then(module =>
-        resolve(module.default ? module.default : module),
-      );
-    }, TEST_TIMEOUT || 1500);
-  });
+export function getSitesSupportingVAR(systemIds) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = import('./sites-supporting-var.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    promise = apiRequest(
+      `/vaos/community_care/supported_sites?${systemIds
+        .map(id => `site_codes[]=${id}`)
+        .join('&')}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ id: item.id, ...item.attributes })),
+  );
 }
 
 export function getAvailableSlots(
