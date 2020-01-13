@@ -1,0 +1,36 @@
+module.exports = {
+  type: 'object',
+  properties: {
+    contentModelType: { enum: ['node-person_profile'] },
+    entity: {
+      type: 'object',
+      properties: {
+        entityType: { enum: ['node'] },
+        entityBundle: { enum: ['person_profile'] },
+        path: { type: 'string' },
+        fieldBody: { type: 'string' },
+        fieldDescription: { type: 'string' },
+        fieldEmailAddress: { type: 'string' },
+        fieldLastName: { type: 'string' },
+        fieldMedia: { type: 'string' },
+        fieldNameFirst: { type: 'string' },
+        fieldOffice: { type: 'string' },
+        fieldPhoneNumber: { type: 'string' },
+        fieldSuffix: { type: 'string' },
+      },
+      required: [
+        'path',
+        'fieldBody',
+        'fieldDescription',
+        'fieldEmailAddress',
+        'fieldLastName',
+        'fieldMedia',
+        'fieldNameFirst',
+        'fieldOffice',
+        'fieldPhoneNumber',
+        'fieldSuffix',
+      ],
+    },
+  },
+  required: ['entity'],
+};
