@@ -10,7 +10,7 @@ const transform = entity => ({
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
   fieldLastName: getDrupalValue(entity.fieldLastName),
-  fieldMedia: getDrupalValue(entity.fieldMedia),
+  fieldMedia: entity.fieldMedia.length > 0 ? entity.fieldMedia[0] : null,
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
   fieldOffice: {
     entity: {

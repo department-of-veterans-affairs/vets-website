@@ -8,15 +8,15 @@ module.exports = {
       // This one doesn't have a breadcrumb, interestingly enough
       type: 'object',
       properties: {
-        path: { type: 'string' },
+        path: { type: ['string', 'null'] },
       },
       required: ['path'],
     },
     fieldBody: { type: ['string', 'null'] },
-    fieldDescription: { type: 'string' },
+    fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },
     fieldLastName: { type: 'string' },
-    fieldMedia: { type: ['string', 'null'] },
+    fieldMedia: { type: ['object', 'null'] },
     fieldNameFirst: { type: 'string' },
     fieldOffice: {
       type: 'object',
@@ -32,8 +32,8 @@ module.exports = {
       },
       required: ['entity'],
     },
-    fieldPhoneNumber: { type: 'string' },
-    fieldSuffix: { type: 'string' },
+    fieldPhoneNumber: { type: ['string', 'null'] },
+    fieldSuffix: { type: ['string', 'null'] },
   },
   required: [
     'fieldBody',
