@@ -21,7 +21,7 @@ class VetTecCalculatorForm extends React.Component {
   };
 
   trackChange = (fieldName, event) => {
-    const value = formatCurrency(+event.target.value.replace(/[^0-9.]+/g, ''));
+    const value = +event.target.value.replace(/[^0-9.]+/g, '');
 
     recordEvent({
       event: 'gibct-form-change',
