@@ -167,13 +167,12 @@ export const formatOperatingHours = operatingHours => {
  *
  * @param {String} website for example google.com, https://va.gov/
  *
- * Uses a regular expression to find va.gov in the website domain
+ * Uses a regular expression to find va.gov, www.va.gov or staging.va.gov in the website domain
  *
  * @returns {boolean}
  *
  */
 export const isVADomain = website => {
-  const regExp1 = /https?:\/\/(?:www\.|staging\.)?va\.gov(\/*)/g;
-  const regExp2 = /https?:\/\/(?:www.staging)?\.?va\.gov(\/*)/g;
-  return regExp1.test(website) || regExp2.test(website);
+  const regExp1 = /https?:\/\/(?:www\.|staging\.)?va\.gov(\/*)/;
+  return regExp1.test(website);
 };

@@ -229,8 +229,10 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(true);
   });
 
-  it('isVADomain should return true if  https://va.gov/testing ', () => {
-    const result = isVADomain('https://va.gov/testing');
+  it('isVADomain should return true if  https://va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
+    const result = isVADomain(
+      'https://va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
+    );
 
     expect(result).to.eq(true);
   });
@@ -241,16 +243,18 @@ describe('Validate ID Strings for Breadcrumb', () => {
     expect(result).to.eq(true);
   });
 
-  it('isVADomain should return true if  http://www.staging.va.gov/testing ', () => {
-    const result = isVADomain('http://www.staging.va.gov/testing');
+  it('isVADomain should return true if  http://staging.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/ ', () => {
+    const result = isVADomain(
+      'http://staging.va.gov/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center/',
+    );
 
     expect(result).to.eq(true);
   });
 
-  it('isVADomain should return true if  http://staging.va.gov/testing ', () => {
-    const result = isVADomain('http://staging.va.gov/testing');
+  it('isVADomain should false true if  http://www.staging.va.gov/testing ', () => {
+    const result = isVADomain('http://www.staging.va.gov/testing');
 
-    expect(result).to.eq(true);
+    expect(result).to.eq(false);
   });
 
   it('isVADomain should return false if  https://clinic.va.gov/clinic', () => {
