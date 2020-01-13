@@ -22,8 +22,9 @@ module.exports = {
           type: 'array',
           items: {
             type: 'object',
+            additionalProperties: false,
             properties: {
-              // __typename: { type: 'string' },
+              __typename: { type: 'string' },
               key: { type: 'string' },
               value: { type: 'string' },
             },

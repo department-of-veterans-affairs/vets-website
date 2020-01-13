@@ -22,7 +22,7 @@ const transform = ({
     entityLabel: getDrupalValue(title),
     title: getDrupalValue(title),
     entityUrl: {
-      path: path[0].alias.replace(/\\/g, ''),
+      path: path[0].alias,
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
     entityMetatags: [
