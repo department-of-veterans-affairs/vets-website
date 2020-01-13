@@ -1,5 +1,5 @@
-@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
-@import '../../../platform/forms/sass/m-schemaform';
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "../../../platform/forms/sass/m-schemaform";
 
 .vaos-option-list__icon {
   display: inline-block;
@@ -46,7 +46,7 @@
 }
 
 .vaos-form__detailed-radio {
-  input[type='radio'] + label::before {
+  input[type="radio"] + label::before {
     margin-top: 0.6em;
   }
 
@@ -86,7 +86,7 @@
   flex-grow: 1;
   flex-basis: 0;
   margin: 4px;
-  
+
   @include media($small-screen) {
     margin: 8px;
   }
