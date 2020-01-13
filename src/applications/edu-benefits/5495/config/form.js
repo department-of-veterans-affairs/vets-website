@@ -8,6 +8,8 @@ import environment from 'platform/utilities/environment';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -56,6 +58,9 @@ const formConfig = {
     school,
     educationType,
     date,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',

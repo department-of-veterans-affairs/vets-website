@@ -40,6 +40,7 @@ const allSnakeCasedPropertyNames = obj =>
           return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([
             _.snakeCase(key),
           ]);
+
         return _.snakeCase(key);
       }),
     ),

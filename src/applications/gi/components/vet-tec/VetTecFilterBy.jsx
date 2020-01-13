@@ -58,24 +58,26 @@ class VetTecFilterBy extends React.Component {
     });
 
   renderProviderFilters = () => {
-    const checkBoxes = this.props.providers.sort().map(provider => (
-      <div key={provider.name}>
-        <Checkbox
-          checked={this.props.filters.provider.includes(provider.name)}
-          name={provider.name}
-          label={`${provider.name} (${provider.count})`}
-          onChange={() =>
-            this.handleProviderFilterChange(
-              provider.name,
-              this.props.filters.provider.includes(provider.name),
-            )
-          }
-        />
-      </div>
-    ));
+    const checkBoxes = this.props.providers
+      .sort((a, b) => (a.name > b.name ? 1 : -1))
+      .map(provider => (
+        <div key={provider.name}>
+          <Checkbox
+            checked={this.props.filters.provider.includes(provider.name)}
+            name={provider.name}
+            label={`${provider.name} (${provider.count})`}
+            onChange={() =>
+              this.handleProviderFilterChange(
+                provider.name,
+                this.props.filters.provider.includes(provider.name),
+              )
+            }
+          />
+        </div>
+      ));
 
     return (
-      <div>
+      <div className="vet-tec-provider-filters">
         <p>Filter by provider</p>
         {checkBoxes}
       </div>

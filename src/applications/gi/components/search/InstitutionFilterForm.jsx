@@ -4,7 +4,11 @@ import React from 'react';
 import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import SearchResultTypeOfInstitutionFilter from './SearchResultTypeOfInstitutionFilter';
-import { addAllOption, getStateNameForCode } from '../../utils/helpers';
+import {
+  addAllOption,
+  getStateNameForCode,
+  sortOptionsByStateName,
+} from '../../utils/helpers';
 
 class InstitutionFilterForm extends React.Component {
   handleDropdownChange = e => {
@@ -49,13 +53,13 @@ class InstitutionFilterForm extends React.Component {
       value: state,
       label: getStateNameForCode(state),
     }));
-
+    const sortedOptions = options.sort(sortOptionsByStateName);
     return (
       <Dropdown
         label="State"
         name="state"
         alt="Filter results by state"
-        options={addAllOption(options)}
+        options={addAllOption(sortedOptions)}
         value={this.props.filters.state}
         onChange={this.handleDropdownChange}
         visible

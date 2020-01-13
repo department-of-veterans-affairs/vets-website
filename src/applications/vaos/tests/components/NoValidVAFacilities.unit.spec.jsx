@@ -67,7 +67,7 @@ describe('VAOS <NoValidVAFacilities>', () => {
     const tree = mount(<NoValidVAFacilities formContext={formContext} />);
 
     expect(tree.text()).to.contain(
-      'We’re sorry. None of the facilities in this health system allow online scheduling for Mental health appointments',
+      'There are no mental health appointments at this location',
     );
     expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();

@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
+
 import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 import {
+  getMaxMonth,
   getCalendarWeeks,
   isDateInSelectedArray,
   isDateOptionPairInSelectedArray,
   removeDateFromSelectedArray,
   removeDateOptionPairFromSelectedArray,
 } from '../../utils/calendar';
-
-const DEFAULT_MAX_DAYS_AHEAD = 90;
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { FETCH_STATUS } from '../../utils/constants';
 
 export default class CalendarWidget extends Component {
   static props = {
     // TODO: add "showWeekends" prop
     additionalOptions: PropTypes.object,
     availableDates: PropTypes.array, // ['YYYY-MM-DD']
+    loadingStatus: PropTypes.string,
     minDate: PropTypes.string, // YYYY-MM-DD
     maxDate: PropTypes.string, // YYYY-MM-DD
     maxSelections: PropTypes.number,
@@ -36,11 +40,13 @@ export default class CalendarWidget extends Component {
   constructor(props) {
     super(props);
 
+    const { maxDate, startMonth } = this.props;
+
     const currentDate = moment();
     this.state = {
       currentDate,
       months: [currentDate],
-      maxMonth: this.getMaxMonth(),
+      maxMonth: getMaxMonth(maxDate, startMonth),
       optionsError: null,
     };
     this.currentDate = currentDate;
@@ -63,98 +69,27 @@ export default class CalendarWidget extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.availableDatesChanged(prevProps.availableDates)) {
-      this.setMaxMonth();
-    }
-  }
-
-  setMaxMonth = () => {
-    this.setState({ maxMonth: this.getMaxMonth() });
-  };
-
-  getMaxMonth = () => {
-    const { availableDates, minDate, maxDate, startMonth } = this.props;
-    if (Array.isArray(availableDates) && availableDates.length) {
-      // sort available dates
-      let sortedDates = this.sortDates(availableDates);
-
-      if (
-        minDate &&
-        moment(minDate).isValid() &&
-        maxDate &&
-        moment(maxDate).isValid()
-      ) {
-        // filter those that are out of minDate/maxDate range
-        sortedDates = sortedDates.filter(d => {
-          const momentDate = moment(d);
-          return (
-            momentDate.isSameOrAfter(moment(minDate), 'day') &&
-            momentDate.isSameOrBefore(moment(maxDate), 'day')
-          );
-        });
-      }
-
-      const lastAvailableDateMonth = moment(
-        sortedDates[sortedDates.length - 1],
-      ).format('YYYY-MM');
-
-      return lastAvailableDateMonth;
-    }
-
-    const defaultMaxMonth = moment()
-      .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
-      .format('YYYY-MM');
-
-    // If provided start month is beyond our default, set that month as max month
-    if (startMonth && startMonth > defaultMaxMonth) {
-      return startMonth;
-    }
-
-    // If no available dates array provided, set max to default from now
-    return defaultMaxMonth;
-  };
-
-  availableDatesChanged = prevDates => {
-    const availableDates = this.props.availableDates;
-    const availDatesIsArray = Array.isArray(availableDates);
-    const prevDatesIsArray = Array.isArray(prevDates);
-
-    if (
-      (!prevDatesIsArray && availDatesIsArray) ||
-      (prevDatesIsArray && !availDatesIsArray)
-    ) {
-      // If types of either changed
-      return true;
-    } else if (prevDatesIsArray && Array.isArray(availableDates)) {
-      if (prevDates.length !== availableDates.length) {
-        return true;
-      }
-
-      for (let index = 0; index < prevDates.length; index++) {
-        if (prevDates[index] !== availableDates[index]) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-
-  sortDates = array =>
-    array.sort((a, b) => moment.utc(a.timeStamp).diff(moment.utc(b.timeStamp)));
-
   handlePrev = () => {
+    const { onClickPrev } = this.props;
     const updatedMonths = this.state.months.map(m =>
       m.subtract(this.props.monthsToShowAtOnce, 'months'),
     );
+
+    if (onClickPrev) {
+      onClickPrev(updatedMonths);
+    }
     this.setState({ months: updatedMonths });
   };
 
   handleNext = () => {
+    const { onClickNext } = this.props;
     const updatedMonths = this.state.months.map(m =>
       m.add(this.props.monthsToShowAtOnce, 'months'),
     );
+
+    if (onClickNext) {
+      onClickNext(updatedMonths);
+    }
     this.setState({ months: updatedMonths });
   };
 
@@ -377,11 +312,29 @@ export default class CalendarWidget extends Component {
   };
 
   render() {
+    const { loadingStatus } = this.props;
     const { maxMonth, months } = this.state;
+    const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
+      'vaos-calendar__loading': loadingStatus === FETCH_STATUS.loading,
+    });
+
+    if (loadingStatus === FETCH_STATUS.failed) {
+      return (
+        <p>
+          There was a problem loading appointment availability. Please try again
+          later.
+        </p>
+      );
+    }
 
     return (
-      <div className="vaos-calendar vads-u-margin-top--4 vads-u-display--flex">
-        <div className="vaos-calendar__calendars vads-u-flex--1">
+      <div className="vaos-calendar, vads-u-margin-top--4 vads-u-display--flex">
+        {loadingStatus === FETCH_STATUS.loading && (
+          <div className="vaos-calendar__loading-overlay">
+            <LoadingIndicator message="Finding appointment availability..." />
+          </div>
+        )}
+        <div className={calendarCss}>
           {months.map(
             (month, index) =>
               month.format('YYYY-MM') <= maxMonth ? (

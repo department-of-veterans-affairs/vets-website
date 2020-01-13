@@ -31,7 +31,7 @@ const initialSchema = {
 const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
-    'ui:title': 'Why are you making this appointment?',
+    'ui:title': 'Please let us know why you’re making this appointment.',
   },
   reasonAdditionalInfo: {
     'ui:widget': TextareaWidget,
@@ -44,7 +44,7 @@ const uiSchema = {
 };
 
 const pageKey = 'reasonForAppointment';
-const pageTitle = 'Reason for appointment';
+const pageTitle = 'Choose a reason for your appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {

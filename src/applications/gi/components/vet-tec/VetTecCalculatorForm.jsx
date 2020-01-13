@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { formatCurrency } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 
@@ -17,6 +18,16 @@ class VetTecCalculatorForm extends React.Component {
   handleInputChange = event => {
     const { name: field, value } = event.target;
     this.props.onInputChange({ field, value });
+  };
+
+  trackChange = (fieldName, event) => {
+    const value = +event.target.value.replace(/[^0-9.]+/g, '');
+
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': fieldName,
+      'gibct-form-value': value,
+    });
   };
 
   renderScholarships = onShowModal => (
@@ -42,6 +53,7 @@ class VetTecCalculatorForm extends React.Component {
         name="vetTecScholarships"
         value={formatCurrency(this.props.inputs.vetTecScholarships)}
         onChange={this.handleInputChange}
+        onBlur={event => this.trackChange('Scholarships Text Field', event)}
       />
     </div>
   );
@@ -70,6 +82,7 @@ class VetTecCalculatorForm extends React.Component {
         name="vetTecTuitionFees"
         value={formatCurrency(this.props.inputs.vetTecTuitionFees)}
         onChange={this.handleInputChange}
+        onBlur={event => this.trackChange('Tuition & Fees Text Field', event)}
       />
     </div>
   );

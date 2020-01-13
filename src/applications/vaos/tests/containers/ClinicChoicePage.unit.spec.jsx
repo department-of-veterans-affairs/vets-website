@@ -111,7 +111,7 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     expect(form.find('input').length).to.equal(3);
     expect(form.text()).to.contain(
-      'In the last 24 months you have had primary care appointments in the following clinics, located at',
+      'In the last 24 months you have had a primary care appointment in the following clinics, located at',
     );
 
     form.unmount();
@@ -120,7 +120,7 @@ describe('VAOS <ClinicChoicePage>', () => {
   it('document title should match h1 text in multi clinic choice', () => {
     const openClinicPage = sinon.spy();
     const updateFormData = sinon.spy();
-    const pageTitle = 'Select your VA clinic for your primary care appointment';
+    const pageTitle = 'Choose your VA clinic for your primary care appointment';
 
     const form = mount(
       <ClinicChoicePage

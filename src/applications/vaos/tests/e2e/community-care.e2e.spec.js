@@ -3,7 +3,6 @@ const VAOSHelpers = require('./vaos-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = {
-  '@disabled': true,
   after: (client, done) => {
     client.deleteCookies();
     client.end();
@@ -31,26 +30,20 @@ module.exports = {
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('[value="communityCare"]', Timeouts.slow)
-      .assert.containsText(
-        'h1',
-        'Choose where you would prefer to receive your care',
-      );
+      .assert.containsText('h1', 'Choose where you want to receive your care');
   },
-  'Choose where you would prefer to receive your care': client => {
+  'Choose where you want to receive your care': client => {
     client
       .click('[value="communityCare"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('h1', Timeouts.slow)
-      .assert.containsText(
-        'h1',
-        'What date and time would you like to make an appointment?',
-      );
+      .assert.containsText('h1', 'Choose a day and time for your appointment');
   },
   'What date and time would you like to make an appointment?': client => {
     VAOSHelpers.appointmentDateTimeTest(
       client,
-      'Share your community care provider preferences',
+      'Tell us your Community Care preferences',
     );
   },
   'Share your community care provider preferences': client => {
@@ -75,10 +68,10 @@ module.exports = {
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
       .waitForElementPresent('#root_reasonForAppointment_0', Timeouts.slow)
-      .assert.containsText('h1', 'Reason for appointment');
+      .assert.containsText('h1', 'Choose a reason for your appointment');
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'Contact information');
+    VAOSHelpers.appointmentReasonTest(client, 'Your contact information');
   },
   'Contact information': client => {
     VAOSHelpers.contactInformationTest(client);
