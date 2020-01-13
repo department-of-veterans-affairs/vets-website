@@ -34,28 +34,6 @@ const defaultProps = {
   },
 };
 
-const showLegacyComponent = {
-  user: {
-    login: {
-      currentlyLoggedIn: true,
-    },
-  },
-  form: {
-    isInLegacySystem: true,
-  },
-};
-
-const doNotShowLegacyComponent = {
-  user: {
-    login: {
-      currentlyLoggedIn: true,
-    },
-  },
-  form: {
-    isInLegacySystem: false,
-  },
-};
-
 const globalWin = {
   location: {
     pathname: '/introduction',
@@ -75,37 +53,6 @@ describe('IntroductionPage', () => {
     expect(callToActionWidget.first().props().appId).to.equal(
       'higher-level-review',
     );
-    tree.unmount();
-
-    global.window = oldWindow;
-  });
-
-  it('should render OptOutFromLegacySystem', () => {
-    const oldWindow = global.window;
-    global.window = globalWin;
-
-    const props = { ...defaultProps, ...showLegacyComponent };
-    const tree = shallow(<IntroductionPage {...props} />);
-
-    const optOutFromLegacySystem = tree.find('OptOutFromLegacySystem');
-    expect(optOutFromLegacySystem.length).to.equal(1);
-    expect(optOutFromLegacySystem.first().props().appId).to.equal(
-      'opt-out-from-legacy-appeal-system',
-    );
-    tree.unmount();
-
-    global.window = oldWindow;
-  });
-
-  it('should not render OptOutFromLegacySystem if withdrawn', () => {
-    const oldWindow = global.window;
-    global.window = globalWin;
-
-    const props = { ...defaultProps, ...doNotShowLegacyComponent };
-    const tree = shallow(<IntroductionPage {...props} />);
-
-    const optOutFromLegacySystem = tree.find('OptOutFromLegacySystem');
-    expect(optOutFromLegacySystem.length).to.equal(0);
     tree.unmount();
 
     global.window = oldWindow;
