@@ -10,7 +10,7 @@ module.exports = {
     field_last_name: { $ref: 'GenericNestedString' },
     field_media: { $ref: 'GenericNestedString' },
     field_name_first: { $ref: 'GenericNestedString' },
-    field_office: { $ref: 'GenericNestedString' },
+    field_office: { $ref: 'EntityReferenceArray' },
     field_phone_number: { $ref: 'GenericNestedString' },
     field_suffix: { $ref: 'GenericNestedString' },
   },
