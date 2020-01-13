@@ -1,4 +1,12 @@
-const { createMetaTag, getDrupalValue } = require('./helpers');
+const { getDrupalValue } = require('./helpers');
+
+function createMetaTag(type, key, value) {
+  return {
+    __typename: type,
+    key,
+    value,
+  };
+}
 
 const transform = ({
   title,
