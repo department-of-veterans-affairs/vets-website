@@ -12,7 +12,12 @@ const transform = entity => ({
   fieldLastName: getDrupalValue(entity.fieldLastName),
   fieldMedia: getDrupalValue(entity.fieldMedia),
   fieldNameFirst: getDrupalValue(entity.fieldNameFirst),
-  fieldOffice: entity.fieldOffice[0],
+  fieldOffice: {
+    entity: {
+      entityLabel: entity.fieldOffice[0].entity.entityLabel,
+      entityType: entity.fieldOffice[0].entity.entityType,
+    },
+  },
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldSuffix: getDrupalValue(entity.fieldSuffix),
 });

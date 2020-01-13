@@ -18,7 +18,20 @@ module.exports = {
     fieldLastName: { type: 'string' },
     fieldMedia: { type: ['string', 'null'] },
     fieldNameFirst: { type: 'string' },
-    fieldOffice: { type: 'object' },
+    fieldOffice: {
+      type: 'object',
+      properties: {
+        entity: {
+          type: 'object',
+          properties: {
+            entityLabel: { type: 'string' },
+            entityType: { type: 'string' },
+          },
+          required: ['entityLabel', 'entityType'],
+        },
+      },
+      required: ['entity'],
+    },
     fieldPhoneNumber: { type: 'string' },
     fieldSuffix: { type: 'string' },
   },
