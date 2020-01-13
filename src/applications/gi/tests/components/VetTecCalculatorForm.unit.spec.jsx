@@ -28,7 +28,7 @@ describe('<VetTecCalculatorForm>', () => {
     expect(recordedEvent['gibct-form-field']).to.eq(
       'Tuition & Fees Text Field',
     );
-    expect(recordedEvent['gibct-form-value']).to.eq('$0');
+    expect(recordedEvent['gibct-form-value']).to.eq(0);
     wrapper.unmount();
   });
 
@@ -39,7 +39,7 @@ describe('<VetTecCalculatorForm>', () => {
 
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent['gibct-form-field']).to.eq('Scholarships Text Field');
-    expect(recordedEvent['gibct-form-value']).to.eq('$0');
+    expect(recordedEvent['gibct-form-value']).to.eq(0);
     wrapper.unmount();
   });
 });
