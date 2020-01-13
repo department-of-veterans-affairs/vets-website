@@ -136,7 +136,7 @@ export default function ConfirmationRequestInfo({
               </dt>
               <dd>
                 <ul className="usa-unstyled-list">
-                  {data.calendarData.selectedDates.map(
+                  {data.calendarData?.selectedDates.map(
                     ({ date, optionTime }) => (
                       <li key={`${date}-${optionTime}`}>
                         {moment(date).format('MMMM D, YYYY')}{' '}
