@@ -97,6 +97,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          downtime={this.props.route.formConfig.downtime}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}

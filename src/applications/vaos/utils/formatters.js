@@ -1,4 +1,3 @@
-import { first, includes, last, replace, split, toLower } from 'lodash';
 import moment from 'moment';
 
 export function formatTimeToCall(timeToCall) {
@@ -45,17 +44,17 @@ export function formatTypeOfCare(careLabel) {
 export const formatOperatingHours = operatingHours => {
   if (!operatingHours) return operatingHours;
   // Remove all whitespace.
-  const sanitizedOperatingHours = replace(operatingHours, ' ', '');
+  const sanitizedOperatingHours = operatingHours.replace(' ', '');
 
   // Escape early if it is 'Sunrise - Sunset'.
-  if (toLower(sanitizedOperatingHours) === 'sunrise-sunset') {
+  if (sanitizedOperatingHours.toLowerCase() === 'sunrise-sunset') {
     return 'All Day';
   }
 
   // Derive if the hours are closed.
   const isClosed =
     sanitizedOperatingHours === '-' ||
-    includes(toLower(sanitizedOperatingHours), 'close');
+    sanitizedOperatingHours.toLowerCase().includes('close');
 
   // Escape early if it is '-' or 'Closed'.
   if (isClosed) {
@@ -63,19 +62,19 @@ export const formatOperatingHours = operatingHours => {
   }
 
   // Derive the opening and closing hours.
-  const hours = split(sanitizedOperatingHours, '-');
-  const openingHour = first(hours);
-  const closingHour = last(hours);
+  const hours = sanitizedOperatingHours.split('-');
+  const openingHour = hours[0];
+  const closingHour = hours[hours.length - 1];
 
   // Format the hours based on 'hmmA' format.
   let formattedOpeningHour = moment(openingHour, 'hmmA').format('h:mma');
   let formattedClosingHour = moment(closingHour, 'hmmA').format('h:mma');
 
   // Attempt to format the hours based on 'h:mmA' if theere's a colon.
-  if (includes(openingHour, ':')) {
+  if (openingHour.includes(':')) {
     formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mma');
   }
-  if (includes(closingHour, ':')) {
+  if (closingHour.includes(':')) {
     formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mma');
   }
 

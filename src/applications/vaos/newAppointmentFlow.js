@@ -5,6 +5,7 @@ import {
   getEligibilityStatus,
   vaosCommunityCare,
   getTypeOfCare,
+  getClinicsForChosenFacility,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -80,9 +81,9 @@ export default {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
             const userSystemIds = await getSystemIdentifiers();
-            const ccSites = await getSitesSupportingVAR();
+            const ccSites = await getSitesSupportingVAR(userSystemIds);
             const ccEnabledSystems = userSystemIds.filter(id =>
-              ccSites.some(site => site._id === id),
+              ccSites.some(site => site.id === id),
             );
             dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
@@ -180,8 +181,25 @@ export default {
           Sentry.captureException(error);
         }
 
-        dispatch(startDirectScheduleFlow(appointments));
-        return 'clinicChoice';
+        if (appointments) {
+          const clinics = getClinicsForChosenFacility(state);
+          const hasMatchingClinics = clinics.some(
+            clinic =>
+              !!appointments.find(
+                appt =>
+                  clinic.siteCode === appt.facilityId &&
+                  clinic.clinicId === appt.clinicId,
+              ),
+          );
+
+          if (hasMatchingClinics) {
+            dispatch(startDirectScheduleFlow(appointments));
+            return 'clinicChoice';
+          }
+        } else {
+          dispatch(startDirectScheduleFlow(appointments));
+          return 'clinicChoice';
+        }
       }
 
       if (eligibilityStatus.request) {

@@ -1,5 +1,80 @@
 [
   {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/eligible.asp",
+    "dest": "www.va.gov/burials-memorials/eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/Women_and_Minority_Veterans.asp",
+    "dest": "/burials-memorials/eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_at_sea.asp",
+    "dest": "/burials-memorials/eligibility/burial-at-sea/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/private_cemetery.asp",
+    "dest": "/burials-memorials/eligibility/burial-in-private-cemetery/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_flags.asp",
+    "dest": "/burials-memorials/memorial-items/burial-flags/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/index.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/eligibility.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/order_instructions.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/apply_by_fax.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/order_by_mail.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/pmc.asp",
+    "dest": "/burials-memorials/memorial-items/presidential-memorial-certificates/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/pre-need/index.asp",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/CEM/pre-need/FAQ/",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/committal_service.asp",
+    "dest": "/burials-memorials/what-to-expect-at-military-funeral/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/replacements.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
     "domain": "www.benefits.va.gov",
     "src": "/compensation/types-disability.asp",
     "dest": "/disability/"

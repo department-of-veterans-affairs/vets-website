@@ -216,6 +216,30 @@ describe('VAOS <AppointmentsPage>', () => {
     expect(tree.find('ConfirmedAppointmentListItem').length).to.equal(2);
     expect(tree.find('AppointmentRequestListItem').length).to.equal(1);
     expect(tree.find('.usa-button').length).to.equal(1);
+
+    tree.unmount();
+  });
+
+  it('document title should match h1 text', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+    };
+
+    const fetchFutureAppointments = sinon.spy();
+    const pageTitle = 'VA appointments';
+    const tree = shallow(
+      <AppointmentsPage
+        fetchFutureAppointments={fetchFutureAppointments}
+        {...defaultProps}
+      />,
+    );
+    expect(fetchFutureAppointments.called).to.be.true;
+    expect(tree.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
     tree.unmount();
   });
 });

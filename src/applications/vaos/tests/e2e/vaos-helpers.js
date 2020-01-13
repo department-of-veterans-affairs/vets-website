@@ -8,6 +8,7 @@ const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
 const systems = require('../../api/systems.json');
+const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
 
@@ -61,6 +62,7 @@ function appointmentDateTimeTest(client, assertText) {
   client
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
     .click('.vaos-calendar__options input[id^="checkbox-0"]')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .assert.containsText('h1', assertText);
 
@@ -75,6 +77,7 @@ function appointmentReasonTest(client, nextPageHeader) {
       Timeouts.normal,
     )
     .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .assert.containsText('h1', nextPageHeader);
 
@@ -84,9 +87,10 @@ function appointmentReasonTest(client, nextPageHeader) {
 function howToBeSeenTest(client) {
   client
     .click('input#root_visitType_0')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .waitForElementVisible('h1', Timeouts.slow)
-    .assert.containsText('h1', 'Contact information');
+    .assert.containsText('h1', 'Your contact information');
 }
 
 function contactInformationTest(client) {
@@ -94,6 +98,7 @@ function contactInformationTest(client) {
     .fill('input#root_phoneNumber', '5035551234')
     .click('input#root_bestTimeToCall_morning')
     .fill('input#root_email', 'mail@gmail.com')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
     .assert.containsText('h1', 'Review your appointment');
 
@@ -102,6 +107,7 @@ function contactInformationTest(client) {
 
 function reviewAppointmentTest(client) {
   client
+    .axeCheck('.main')
     .click('button.usa-button.usa-button-primary')
     .waitForElementPresent('.usa-alert-success', Timeouts.normal);
 
@@ -111,6 +117,7 @@ function reviewAppointmentTest(client) {
 function appointmentSubmittedTest(client) {
   // client.click('.usa-button[href$="new-appointment/"]')
   client
+    .axeCheck('.main')
     .click('.usa-button[href$="appointments/"]')
     .assert.containsText('h1', 'VA appointments');
 
@@ -148,6 +155,11 @@ function initAppointmentListMock(token) {
     path: '/v0/vaos/systems',
     verb: 'get',
     value: systems,
+  });
+  mock(token, {
+    path: '/v0/vaos/community_care/supported_sites',
+    verb: 'get',
+    value: supportedSites,
   });
   mock(token, {
     path: '/v0/vaos/appointments',
@@ -245,7 +257,6 @@ function initAppointmentListMock(token) {
   mock(token, {
     path: '/v0/vaos/facilities/983GB/visits/request',
     verb: 'get',
-    // query: 'type=cc',
     value: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -260,7 +271,6 @@ function initAppointmentListMock(token) {
   mock(token, {
     path: '/v0/vaos/facilities/983/visits/request',
     verb: 'get',
-    // query: 'type=cc',
     value: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -275,7 +285,6 @@ function initAppointmentListMock(token) {
   mock(token, {
     path: '/v0/vaos/community_care/eligibility/PrimaryCare',
     verb: 'get',
-    // query: 'type=cc',
     value: {
       data: {
         id: 'PrimaryCare',

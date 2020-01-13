@@ -1,6 +1,5 @@
 import React from 'react';
-import externalServiceStatus from '../config/externalServiceStatus';
-import DowntimeNotificationWrapper from './Wrapper';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 // eslint-disable-next-line no-unused-vars
 export function DownMessaging({ endTime, appTitle }) {
@@ -12,13 +11,19 @@ export function DownMessaging({ endTime, appTitle }) {
   );
 }
 
-export default function Down({ endTime, appTitle }) {
+export default function Down() {
   return (
-    <DowntimeNotificationWrapper status={externalServiceStatus.down}>
-      <div className="usa-content">
-        <h3>The {appTitle} is down for maintenance</h3>
-        <DownMessaging endTime={endTime} appTitle={appTitle} />
-      </div>
-    </DowntimeNotificationWrapper>
+    <AlertBox
+      className="vads-u-margin-bottom--4"
+      headline={`This tool is down for maintenance.`}
+      isVisible
+      status="warning"
+    >
+      <p>
+        We’re making some updates to this tool to help make it even better for
+        Veterans, service members, and family members like you. We’re sorry it’s
+        not working right now. Please check back soon.
+      </p>
+    </AlertBox>
   );
 }
