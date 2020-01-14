@@ -140,7 +140,7 @@ export const VetTecContactInformation = ({ institution }) => {
               className="vads-l-row vettec-sco-list vads-u-margin--0 primary-sco-list"
               aria-labelledby="primary-contact-header"
             >
-              {primarySCOs.map(sco => VetTecScoContact(sco))}
+              {primarySCOs.map((sco, index) => VetTecScoContact(sco, index))}
             </ul>
           </div>
         </div>
