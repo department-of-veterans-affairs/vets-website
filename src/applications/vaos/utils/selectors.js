@@ -245,3 +245,4 @@ export const vaosCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
+export const selectFeatureFlagLoading = state => toggleValues(state).loading;
