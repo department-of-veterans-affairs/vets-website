@@ -18,11 +18,10 @@ export default class AddToCalendar extends React.Component {
       <a
         href={`data:text/calendar;charset=utf8,${encodeURIComponent(text)}`}
         download={filename}
-        aria-label="Add to calendar on"
+        aria-label={`Add to calendar on ${getAppointmentDate(appointment)}`}
         className="va-button-link  vads-u-margin-right--4 vads-u-flex--0"
       >
         Add to calendar
-        <span className="sr-only"> on {getAppointmentDate(appointment)}</span>
       </a>
     );
   }
