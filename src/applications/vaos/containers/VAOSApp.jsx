@@ -10,7 +10,10 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import { vaosApplication, selectFeatureFlagLoading } from '../utils/selectors';
+import {
+  vaosApplication,
+  selectFeatureToggleLoading,
+} from '../utils/selectors';
 import RegistrationCheck from './RegistrationCheck';
 import AppUnavailable from '../components/AppUnavailable';
 import ErrorMessage from '../components/ErrorMessage';
@@ -32,7 +35,12 @@ export class VAOSApp extends React.Component {
   }
 
   render() {
-    const { user, children, showApplication, loadingFeatureFlags } = this.props;
+    const {
+      user,
+      children,
+      showApplication,
+      loadingFeatureToggles,
+    } = this.props;
 
     if (this.state.hasError) {
       return (
@@ -55,7 +63,7 @@ export class VAOSApp extends React.Component {
         ]}
         user={user}
       >
-        {loadingFeatureFlags && (
+        {loadingFeatureToggles && (
           <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
             <div className="vads-l-row">
               <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
@@ -64,7 +72,7 @@ export class VAOSApp extends React.Component {
             </div>
           </div>
         )}
-        {!loadingFeatureFlags &&
+        {!loadingFeatureToggles &&
           showApplication && (
             <DowntimeNotification
               appTitle="VA online scheduling"
@@ -73,7 +81,7 @@ export class VAOSApp extends React.Component {
               <RegistrationCheck>{children}</RegistrationCheck>
             </DowntimeNotification>
           )}
-        {!showApplication && !loadingFeatureFlags && <AppUnavailable />}
+        {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
       </RequiredLoginView>
     );
   }
@@ -83,7 +91,7 @@ function mapStateToProps(state) {
   return {
     user: selectUser(state),
     showApplication: vaosApplication(state),
-    loadingFeatureFlags: selectFeatureFlagLoading(state),
+    loadingFeatureToggles: selectFeatureToggleLoading(state),
   };
 }
 
