@@ -43,13 +43,14 @@ export default function NeedHelp() {
           <li>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. ET</li>
         </ul>
       </div>
-      {/* TODO: Re-add once we have the proper URL
-    
-    <a href="" className="vads-u-display--block vads-u-margin-top--2">
-      Leave feedback for this application
-    </a> 
-    
-    */}
+      <a
+        href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE"
+        className="vads-u-display--block vads-u-margin-top--2"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Leave feedback for this application
+      </a>
     </div>
   );
 }
