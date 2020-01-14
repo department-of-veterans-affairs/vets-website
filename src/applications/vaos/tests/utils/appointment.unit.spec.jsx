@@ -24,6 +24,7 @@ import {
   getRealFacilityId,
   getRequestDateOptions,
   getRequestTimeToCall,
+  getStagingId,
   getVideoVisitLink,
   hasInstructions,
   isCommunityCare,
@@ -140,7 +141,12 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  xdescribe('getStagingId', () => {});
+  describe('getStagingId', () => {
+    it('should return the staging id for not production environemnts', () => {
+      expect(getStagingId('983')).to.equal('442');
+      expect(getStagingId('984')).to.equal('984');
+    });
+  });
 
   describe('titleCase', () => {
     it('should return capitalize the 1st letter of each word in a sentence', () => {
@@ -325,9 +331,10 @@ describe('VAOS appointment helpers', () => {
       expect(React.isValidElement(component)).to.be.true;
     });
 
-    xit('should return appointment location for VA appointment', () => {
+    it('should return appointment location for VA appointment', () => {
       const component = getAppointmentLocation({
         ...vaAppointment,
+        vvsAppointments: [],
       });
       expect(React.isValidElement(component)).to.be.true;
     });
@@ -342,6 +349,27 @@ describe('VAOS appointment helpers', () => {
         },
       });
 
+      expect(React.isValidElement(component)).to.be.true;
+    });
+
+    it('should return appointment location for a VA appointment request', () => {
+      const component = getAppointmentLocation({
+        ...vaAppointmentRequest,
+        facility: {
+          facilityCode: '983',
+        },
+      });
+      expect(React.isValidElement(component)).to.be.true;
+    });
+
+    it('should return appointment location for a community care appointment request', () => {
+      const component = getAppointmentLocation({
+        ...communityCareAppointmentRequest,
+        facilityId: '983',
+        ccAppointmentRequest: {
+          preferredProviders: [{}],
+        },
+      });
       expect(React.isValidElement(component)).to.be.true;
     });
   });
@@ -463,6 +491,10 @@ describe('VAOS appointment helpers', () => {
         }),
       ).to.equal('MT');
     });
+
+    it('should return empty string for invalid appointment', () => {
+      expect(getAppointmentTimezoneAbbreviation({})).to.equal('');
+    });
   });
 
   describe('getAppointmentDate', () => {
@@ -487,15 +519,18 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  xdescribe('getRequestDateOptions', () => {
+  describe('getRequestDateOptions', () => {
     it('should return valid JSX component', () => {
       const component = getRequestDateOptions({
-        id: 'id',
         optionDate1: now,
         optionTime1: 'AM',
+        optionDate2: now,
+        optionTime2: 'PM',
+        optionDate3: moment().add(1, 'days'),
+        optionTime3: 'PM',
       });
       // console.log(ReactDOMServer.renderToString(component));
-      expect(React.isValidElement(component)).to.be.true;
+      expect(React.isValidElement(component[0])).to.be.true;
     });
   });
 
@@ -512,12 +547,28 @@ describe('VAOS appointment helpers', () => {
       ).to.equal('Call in the evening');
     });
 
-    it('should return "Call in the morning" or "Call in the evening"', () => {
+    it('should return "Call in the morning or in the evening"', () => {
       expect(
         getRequestTimeToCall({
           bestTimetoCall: ['In the morning', 'In the evening'],
         }),
       ).to.equal('Call in the morning or in the evening');
+    });
+
+    it('should return "Call in the morning, in the afternoon, or in the evening"', () => {
+      expect(
+        getRequestTimeToCall({
+          bestTimetoCall: [
+            'In the morning',
+            'In the afternoon',
+            'In the evening',
+          ],
+        }),
+      ).to.equal('Call in the morning, in the afternoon, or in the evening');
+    });
+
+    it('should return null', () => {
+      expect(getRequestTimeToCall({ bestTimetoCall: [] })).to.be.null;
     });
   });
 
@@ -704,6 +755,10 @@ describe('VAOS appointment helpers', () => {
       expect(getAppointmentInstructions(appt)).to.equal('Note1');
     });
 
+    it('should return no appointment booking notes when vdsAppointment and vvsAppointment is not defined', () => {
+      expect(getAppointmentInstructions(vaAppointment)).to.equal('');
+    });
+
     it('should return no appointment booking notes for VA appointment request', () => {
       expect(getAppointmentInstructions(vaAppointmentRequest)).to.equal('');
     });
@@ -787,7 +842,10 @@ describe('VAOS appointment helpers', () => {
   describe('getPurposeOfVisit', () => {
     it('should return purpose of visit for community care appointment request', () => {
       expect(
-        getPurposeOfVisit({ purposeOfVisit: 'Follow-up/Routine' }),
+        getPurposeOfVisit({
+          ...communityCareAppointmentRequest,
+          purposeOfVisit: 'routine-follow-up',
+        }),
       ).to.equal('Follow-up/Routine');
     });
 
