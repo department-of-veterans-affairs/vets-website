@@ -1,0 +1,35 @@
+{
+  "entity": {
+    "fieldBody": {
+      "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Women's Health Center</strong><br />\nBuilding 1<br /><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"71ffee52-a47f-4909-ad7e-21ece5728be3\" href=\"/pittsburgh-health-care/university-drive-campus-map\" title=\"University Drive campus map\">Map of University Drive campus</a><br /><strong>Phone:</strong> <br /><a href=\"tel:+14123606289\">412-360-6289</a> - Women's Health Coordinator<br /><a href=\"tel:+14123603753\">412-360-3753</a> - Maternity Care Coordinator<br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone:</strong><br /><a href=\"tel:+14123603306\">412-360-3306</a> - mammogram<br /><a href=\"tel:+4128223000\">412-822-3000</a> - primary care</p>\n\n<p><a class=\"usa-button\" href=\"/pittsburgh-health-care/make-an-appointment/\">Schedule a primary care appointment online</a></p>"
+    },
+    "fieldRegionalHealthService": {
+      "entity": {
+        "entityBundle": "regional_health_care_service_des",
+        "fieldBody": {
+          "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Our women's health program offers women Veterans comprehensive care, including: </p>\n\n<ul><li>Primary care</li>\n\t<li>Gynecology</li>\n\t<li>Maternity care, childbirth education classes, and postpartum support</li>\n\t<li>Ultrasounds and mammograms</li>\n\t<li>Mental health care and counseling</li>\n\t<li>Lifestyle wellness services</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"90ce90bd-5443-44b3-a72b-6370911d77ae\" href=\"/pittsburgh-health-care/women-veteran-care\" title=\"Women Veteran care\">Learn more and connect with a care coordinator</a></p>"
+        },
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "entityId": "57",
+            "entityBundle": "health_care_service_taxonomy",
+            "fieldAlsoKnownAs": null,
+            "fieldCommonlyTreatedCondition": "women's primary care, mental health, obstetrics and gynecology, pap smear, mammogram",
+            "name": "Women Veteran care",
+            "description": {
+              "processed": "<p>We offer women’s health services to meet your specific needs such as disease screenings, mental health treatment, recovery from military sexual trauma, maternity care and female-specific medical equipment.</p>"
+            },
+            "parent": [
+              {
+                "entity": {
+                  "name": "Social programs and services"
+                }
+              }
+            ],
+            "fieldHealthServiceApiId": null
+          }
+        }
+      }
+    }
+  }
+}
