@@ -4,6 +4,7 @@ const {
   createLink,
   getWysiwygString,
   unescapeUnicode,
+  createMetaTagArray,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -109,6 +110,114 @@ describe('CMS export transformer helpers', () => {
         },
         title: 'Hello, World!',
       });
+    });
+  });
+
+  describe('createMetaTagArray', () => {
+    it('should create all the tags', () => {
+      /* eslint-disable camelcase */
+      const raw = {
+        title:
+          'VA Pittsburgh health care | Veterans Town Hall on the Move | Veterans Affairs',
+        twitter_cards_type: 'summary_large_image',
+        og_site_name: 'Veterans Affairs',
+        twitter_cards_description:
+          'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        description:
+          'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        twitter_cards_title:
+          'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        twitter_cards_site: '@DeptVetAffairs',
+        og_title:
+          'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        og_description:
+          'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        og_image_height: '314',
+      };
+      /* eslint-enable camelcase */
+
+      const transformed = [
+        {
+          __typename: 'MetaValue',
+          key: 'title',
+          value:
+            'VA Pittsburgh health care | Veterans Town Hall on the Move | Veterans Affairs',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:card',
+          value: 'summary_large_image',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:site_name',
+          value: 'Veterans Affairs',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:description',
+          value:
+            'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'description',
+          value:
+            'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:title',
+          value:
+            'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:site',
+          value: '@DeptVetAffairs',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:title',
+          value:
+            'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:description',
+          value:
+            'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:image:height',
+          value: '314',
+        },
+      ];
+
+      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+    });
+
+    it('should omit tags with no value', () => {
+      const raw = {
+        title: 'foo',
+      };
+
+      const transformed = [
+        {
+          __typename: 'MetaValue',
+          key: 'title',
+          value: 'foo',
+        },
+      ];
+
+      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+    });
+
+    it('should ignore unrecognized tags', () => {
+      const raw = { unknown: 'Dunno' };
+      const transformed = [];
+      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
     });
   });
 });
