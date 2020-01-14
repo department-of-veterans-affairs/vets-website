@@ -4,7 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    path: { $ref: 'path' },
+    path: { $ref: 'RawPath' },
     metatag: {
       // Probably should be a common schema
       type: 'object',

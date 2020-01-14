@@ -1,5 +1,5 @@
 module.exports = {
-  $id: 'path',
+  $id: 'RawPath',
   type: 'array',
   maxItems: 1,
   items: {
