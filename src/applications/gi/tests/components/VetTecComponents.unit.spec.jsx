@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 
-import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
-import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
 import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
 import VetTecVeteranPrograms from '../../components/vet-tec/VetTecVeteranPrograms';
 import VetTecApplicationProcess from '../../components/vet-tec/VetTecApplicationProcess';
@@ -49,8 +47,30 @@ const institution = {
     {
       facilityCode: '2V000203',
       institutionName: 'GALVANIZE INC',
-      priority: 'PRIMARY',
+      priority: 'SECONDARY',
       firstName: 'MARTIN',
+      lastName: 'INDIATSI',
+      title: 'SCHOOL CERTIFYING OFFICIAL',
+      phoneAreaCode: '303',
+      phoneNumber: '749-0110',
+      phoneExtension: null,
+      email: 'VABENEFITS@GALVANIZE.COM',
+    },
+    {
+      priority: 'primary',
+      firstName: 'TOM',
+      lastName: 'TERST',
+      title: 'TEST',
+      phoneAreaCode: '555',
+      phoneNumber: '123-9874',
+      phoneExtension: '222',
+      email: 'TEST@GALVALNIZE.COM',
+    },
+    {
+      facilityCode: '2V000203',
+      institutionName: 'GALVANIZE INC',
+      priority: 'secondary',
+      firstName: 'MARTY',
       lastName: 'INDIATSI',
       title: 'SCHOOL CERTIFYING OFFICIAL',
       phoneAreaCode: '303',
@@ -60,40 +80,6 @@ const institution = {
     },
   ],
 };
-
-describe('<VetTecScoContact>', () => {
-  it('should render', () => {
-    const wrapper = shallow(<VetTecScoContact />);
-    const vdom = wrapper.html();
-    expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-
-  it('return null when no sco is supplied', () => {
-    expect(VetTecScoContact()).to.be.null;
-  });
-
-  it('return the contact information for an SCO', () => {
-    const wrapper = shallow(
-      VetTecScoContact(institution.versionedSchoolCertifyingOfficials[1]),
-    );
-
-    expect(wrapper.text().includes('MARTIN INDIATSI')).to.be.true;
-    expect(wrapper.text().includes('SCHOOL CERTIFYING OFFICIAL')).to.be.true;
-    wrapper.unmount();
-  });
-});
-
-describe('<VetTecContactInformation>', () => {
-  it('should render', () => {
-    const wrapper = shallow(
-      <VetTecContactInformation institution={institution} />,
-    );
-    const vdom = wrapper.html();
-    expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-});
 
 describe('<VetTecApplicationProcess>', () => {
   it('should render', () => {

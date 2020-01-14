@@ -16,11 +16,11 @@ export const VetTecContactInformation = ({ institution }) => {
   );
 
   const primarySCOs = versionedSchoolCertifyingOfficials.filter(
-    SCO => SCO.priority === 'PRIMARY',
+    SCO => SCO.priority.toUpperCase() === 'PRIMARY',
   );
 
   const secondarySCOs = versionedSchoolCertifyingOfficials.filter(
-    SCO => SCO.priority === 'SECONDARY',
+    SCO => SCO.priority.toUpperCase() === 'SECONDARY',
   );
 
   const renderPhysicalAddress = () =>
@@ -137,7 +137,7 @@ export const VetTecContactInformation = ({ institution }) => {
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
             <ul
-              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              className="vads-l-row vettec-sco-list vads-u-margin--0 primary-sco-list"
               aria-labelledby="primary-contact-header"
             >
               {primarySCOs.map(sco => VetTecScoContact(sco))}
@@ -161,10 +161,10 @@ export const VetTecContactInformation = ({ institution }) => {
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
             <ul
-              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              className="vads-l-row vettec-sco-list vads-u-margin--0 secondary-sco-list"
               aria-labelledby="secondary-contact-header"
             >
-              {secondarySCOs.map(sco => VetTecScoContact(sco))}
+              {secondarySCOs.map((sco, index) => VetTecScoContact(sco, index))}
             </ul>
           </div>
         </div>
