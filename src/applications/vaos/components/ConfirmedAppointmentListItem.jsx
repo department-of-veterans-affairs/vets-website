@@ -10,13 +10,13 @@ import {
   getAppointmentTypeHeader,
   hasInstructions,
   isVideoVisit,
-  exportICSFile,
 } from '../utils/appointment';
 import {
   CANCELLED_APPOINTMENT_SET,
   APPOINTMENT_TYPES,
 } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
+import AddToCalendar from './AddToCalendar';
 
 export default function ConfirmedAppointmentListItem({
   appointment,
@@ -101,34 +101,13 @@ export default function ConfirmedAppointmentListItem({
       {!allowCancel &&
         !canceled && (
           <div className="vads-u-margin-top--2">
-            <button
-              onClick={() => exportICSFile(appointment, facility)}
-              aria-label="App appointment to calendar"
-              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-            >
-              Add to calendar
-              <span className="sr-only">
-                {' '}
-                on {getAppointmentDate(appointment)}
-              </span>
-            </button>
+            <AddToCalendar appointment={appointment} facility={facility} />
           </div>
         )}
 
       {allowCancel && (
         <div className="vads-u-margin-top--2">
-          <button
-            onClick={() => exportICSFile(appointment, facility)}
-            aria-label="App appointment to calendar"
-            className="vaos-appts__cancel-btn va-button-link vads-u-margin-right--4 vads-u-flex--0"
-          >
-            Add to calendar
-            <span className="sr-only">
-              {' '}
-              on {getAppointmentDate(appointment)}
-            </span>
-          </button>
-
+          <AddToCalendar appointment={appointment} facility={facility} />
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"

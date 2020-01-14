@@ -372,8 +372,8 @@ export function getAppointmentInstructions(appt) {
       return appt.instructionsToVeteran;
     case APPOINTMENT_TYPES.vaAppointment: {
       const bookingNotes =
-        appt.vdsAppointments[0]?.bookingNote ||
-        appt.vvsAppointments[0]?.bookingNotes;
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes;
 
       const instructions = bookingNotes?.split(': ', 2);
 
@@ -396,8 +396,8 @@ export function getAppointmentInstructionsHeader(appt) {
       return 'Special instructions';
     case APPOINTMENT_TYPES.vaAppointment: {
       const bookingNotes =
-        appt.vdsAppointments[0]?.bookingNote ||
-        appt.vvsAppointments[0]?.bookingNotes;
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes;
 
       const instructions = bookingNotes?.split(': ', 2);
 
@@ -471,7 +471,7 @@ export function getAppointmentTypeHeader(appt) {
  * @param {*} appt
  * @returns
  */
-function getAppointmentDuration(appt) {
+export function getAppointmentDuration(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
@@ -494,7 +494,7 @@ function getAppointmentDuration(appt) {
  * @param {*} facility
  * @returns 'undefined' if there is no address
  */
-function getAppointmentAddress(appt, facility) {
+export function getAppointmentAddress(appt, facility) {
   if (isVideoVisit(appt)) {
     return 'Video conference';
   }
@@ -527,9 +527,6 @@ export function generateICS(appt, facility) {
   const cal = new ICS.VCALENDAR();
   const event = new ICS.VEVENT();
 
-  // TODO: Which one is better????
-  // getAppointmentTitle(appt);
-  // getAppointmentTypeHeader(appt);
   const subject = getAppointmentTypeHeader(appt);
   const description = `${getAppointmentInstructionsHeader(
     appt,
@@ -556,34 +553,4 @@ export function generateICS(appt, facility) {
   cal.addComponent(event);
 
   return cal.toString();
-}
-
-/**
- * Function to generate ICS file suitable for import into Calendar.
- *
- * @export
- * @param {*} appt
- * @param {*} facility
- */
-export function exportICSFile(appt, facility) {
-  const title = getAppointmentTypeHeader(appt);
-  const filename = `${title.replace(' ', '_')}.ics`;
-
-  function download(text) {
-    const element = document.createElement('a');
-    element.setAttribute(
-      'href',
-      `data:text/calendar;charset=utf8,${encodeURIComponent(text)}`,
-    );
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-  }
-
-  download(generateICS(appt, facility));
 }
