@@ -9,6 +9,7 @@ describe('VAOS <NeedHelp>', () => {
     const tree = shallow(<NeedHelp />);
 
     expect(tree.find('h2').text()).to.contain('Need help?');
+    expect(tree.hasClass('vads-u-margin-top--9')).to.equal(true);
 
     const links = tree.find('a');
     expect(links.length).to.equal(4);
@@ -20,6 +21,12 @@ describe('VAOS <NeedHelp>', () => {
     expect(links.at(2).text()).to.equal('877-222-8387');
     expect(links.at(3).props().href).to.equal('tel:8008778339');
     expect(links.at(3).text()).to.equal('800-877-8339');
+    tree.unmount();
+  });
+  it('should render extra margin space', () => {
+    const tree = shallow(<NeedHelp />);
+
+    expect(tree.hasClass('vads-u-margin-top--9')).to.equal(true);
     tree.unmount();
   });
 });
