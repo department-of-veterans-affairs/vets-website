@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 const { flatten, isEmpty } = require('lodash');
-const { getDrupalValue, createMetaTag } = require('./helpers');
+const { getDrupalValue, createMetaTagArray } = require('./helpers');
 
 function pageTransform(entity) {
   const {
@@ -36,14 +36,7 @@ function pageTransform(entity) {
     // ).toUTCString(),
 
     entityPublished: published === 'published',
-    entityMetaTags: [
-      createMetaTag('MetaValue', 'title', metaTags.title),
-      createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
-      createMetaTag('MetaProperty', 'og:site_name', metaTags.og_site_name),
-      createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
-      createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
-      createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
-    ],
+    entityMetaTags: createMetaTagArray(metaTags, 'type'),
   });
 
   transformed.fieldAlert = !isEmpty(flatten(fieldAlert)) ? fieldAlert[0] : null;
