@@ -41,7 +41,31 @@ module.exports = {
       required: ['entity'],
     },
     fieldPdfVersion: { type: ['string', 'null'] },
-    fieldPressReleaseContact: { $ref: 'transformed/node-person_profile' },
+    fieldPressReleaseContact: {
+      type: 'array',
+      maxItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          entity: {
+            type: 'object',
+            properties: {
+              title: { type: 'string' },
+              fieldDescription: { type: 'string' },
+              fieldPhoneNumber: { type: 'string' },
+              fieldEmailAddress: { type: 'string' },
+            },
+            required: [
+              'title',
+              'fieldDescription',
+              'fieldPhoneNumber',
+              'fieldEmailAddress',
+            ],
+          },
+        },
+        required: ['entity'],
+      },
+    },
     fieldPressReleaseDownloads: { type: 'array' },
     fieldPressReleaseFulltext: { type: 'string' },
     fieldReleaseDate: {

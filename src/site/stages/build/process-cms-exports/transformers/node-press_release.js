@@ -22,7 +22,18 @@ const transform = entity => ({
     },
   },
   fieldPdfVersion: getDrupalValue(entity.fieldPdfVersion),
-  fieldPressReleaseContact: entity.fieldPressReleaseContact[0],
+  fieldPressReleaseContact: [
+    {
+      entity: {
+        title: `${entity.fieldPressReleaseContact[0].fieldNameFirst} ${
+          entity.fieldPressReleaseContact[0].fieldLastName
+        }`,
+        fieldDescription: entity.fieldPressReleaseContact[0].fieldDescription,
+        fieldPhoneNumber: entity.fieldPressReleaseContact[0].fieldPhoneNumber,
+        fieldEmailAddress: entity.fieldPressReleaseContact[0].fieldEmailAddress,
+      },
+    },
+  ],
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
   fieldPressReleaseFulltext: getDrupalValue(entity.fieldPressReleaseFulltext),
   fieldReleaseDate: {
