@@ -8,7 +8,11 @@ module.exports = {
     path: { $ref: 'RawPath' },
     field_alert: { $ref: 'GenericNestedString' },
     field_content_block: { $ref: 'EntityReferenceArray' },
-    field_featured_content: { $ref: 'GenericNestedString' },
+    field_featured_content: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
     field_intro_text: { $ref: 'GenericNestedString' },
     field_office: {
       type: 'array',
