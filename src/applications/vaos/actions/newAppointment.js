@@ -254,7 +254,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         const systemId =
           newAppointment.data.vaSystem || systems[0].institutionCode;
         eligibilityData = await getEligibilityData(
-          facilityId,
+          facilities.find(facility => facility.institutionCode === facilityId),
           typeOfCareId,
           systemId,
           directSchedulingEnabled,
@@ -343,7 +343,9 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
       try {
         const eligibilityData = await getEligibilityData(
-          data.vaFacility,
+          facilities.find(
+            facility => facility.institutionCode === data.vaFacility,
+          ),
           typeOfCareId,
           data.vaSystem,
           directSchedulingEnabled,

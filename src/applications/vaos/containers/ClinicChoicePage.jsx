@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import FacilityAddress from '../components/FacilityAddress';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { FETCH_STATUS } from '../utils/constants';
@@ -85,6 +86,8 @@ export class ClinicChoicePage extends React.Component {
       typeOfCare,
       clinics,
       facilityDetailsStatus,
+      eligibility,
+      canMakeRequests,
     } = this.props;
 
     if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
@@ -94,6 +97,7 @@ export class ClinicChoicePage extends React.Component {
     }
 
     const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+    const continueDisabled = data.clinicId === 'NONE' && !canMakeRequests;
 
     return (
       <div>
@@ -142,8 +146,15 @@ export class ClinicChoicePage extends React.Component {
           }
           data={data}
         >
+          {data.clinicId === 'NONE' &&
+            !canMakeRequests && (
+              <div className="vads-u-margin-top--2">
+                <EligibilityCheckMessage eligibility={eligibility} />
+              </div>
+            )}
           <FormButtons
             onBack={this.goBack}
+            disabled={continueDisabled}
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>
