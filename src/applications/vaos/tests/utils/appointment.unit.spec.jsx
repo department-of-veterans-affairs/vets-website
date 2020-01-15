@@ -1021,4 +1021,109 @@ describe('VAOS appointment helpers', () => {
       expect(ics).to.contain('END:VCALENDAR');
     });
   });
+
+  describe('getAppointmentDuration', () => {
+    it('should return the default appointment duration', () => {
+      expect(getAppointmentDuration({})).to.equal(60);
+    });
+    it('should return the appointment duration for VA appointment', () => {
+      expect(
+        getAppointmentDuration({
+          ...vaAppointment,
+          vdsAppointments: [{ appointmentLength: 30 }],
+        }),
+      ).to.equal(30);
+    });
+  });
+
+  describe('getAppointmentAddress', () => {
+    it('should return address for video appointment', () => {
+      const appt = {
+        vvsAppointments: [
+          {
+            dateTime: now,
+            appointmentKind: 'MOBILE_GFE',
+          },
+        ],
+      };
+      expect(getAppointmentAddress(appt)).to.equal('Video conference');
+    });
+
+    it('should return address for community care appointment', () => {
+      const appt = {
+        ...communityCareAppointment,
+        address: {
+          street: 'Street',
+          city: 'City',
+          state: 'State',
+          zipCode: 'Zipcode',
+        },
+      };
+      expect(getAppointmentAddress(appt)).to.equal(
+        'Street City, State Zipcode',
+      );
+    });
+
+    it('should return address for facility if defined', () => {
+      const facility = {
+        address: {
+          physical: {
+            address1: 'Address 1',
+            city: 'City',
+            state: 'State',
+            zip: 'Zip',
+          },
+        },
+      };
+      expect(getAppointmentAddress(vaAppointmentRequest, facility)).to.equal(
+        'Address 1 City, State Zip',
+      );
+    });
+
+    it('should return undefined for everything else', () => {
+      expect(getAppointmentAddress(vaAppointmentRequest, null)).to.be.undefined;
+    });
+  });
+
+  describe('generateICS', () => {
+    it('should generate valid ICS calendar commands', () => {
+      const appt = {
+        typeOfCareId: 'CC',
+        appointmentTime: now,
+      };
+
+      const facility = {
+        address: {
+          physical: {
+            address1: 'Address 1',
+            city: 'City',
+            state: 'State',
+            zip: 'Zip',
+          },
+        },
+      };
+
+      const momentDate = moment(now);
+      const dtStamp = momentDate.format('YYYYMMDDTHHmmss');
+      const dtStart = momentDate.format('YYYYMMDDTHHmmss');
+      const dtEnd = momentDate
+        .clone()
+        .add(60, 'minutes')
+        .format('YYYYMMDDTHHmmss');
+      const ics = generateICS(appt, facility);
+      expect(ics).to.contain('BEGIN:VCALENDAR');
+      expect(ics).to.contain('VERSION:2.0');
+      expect(ics).to.contain('PRODID:VA');
+      expect(ics).to.contain('BEGIN:VEVENT');
+      expect(ics).to.contain('UID:');
+      expect(ics).to.contain('SUMMARY:Community Care');
+      expect(ics).to.contain('DESCRIPTION:. ');
+      expect(ics).to.contain('LOCATION:Address 1 City, State Zip');
+      expect(ics).to.contain(`DTSTAMP:${dtStamp}`);
+      expect(ics).to.contain(`DTSTART:${dtStart}`);
+      expect(ics).to.contain(`DTEND:${dtEnd}`);
+      expect(ics).to.contain('END:VEVENT');
+      expect(ics).to.contain('END:VCALENDAR');
+    });
+  });
 });
