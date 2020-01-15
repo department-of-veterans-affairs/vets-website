@@ -15,7 +15,7 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
   } else if (!eligibility.requestSupported) {
     message = (
       <>
-        However, this facility does not allow online scheduling for this type of
+        However, this facility does not allow online requests for this type of
         care.
       </>
     );
