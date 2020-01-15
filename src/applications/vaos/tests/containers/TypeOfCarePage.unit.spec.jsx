@@ -3,11 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  resetFetch,
-  mockFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
@@ -73,7 +69,6 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(updateFormData.firstCall.args[2].typeOfCareId).to.equal('323');
     form.unmount();
-    resetFetch();
   });
 
   it('should submit with valid data', () => {
