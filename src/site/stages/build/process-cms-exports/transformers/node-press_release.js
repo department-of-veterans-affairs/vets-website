@@ -1,35 +1,33 @@
 const { getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'node',
-    entityBundle: 'press_release',
-    title: getDrupalValue(entity.title),
-    entityUrl: {
-      path: entity.path[0].alias,
-    },
-    fieldAddress: {
-      locality: entity.fieldAddress[0].locality,
-      // The things in fieldAddress don't get camelCased
-      administrativeArea: entity.fieldAddress[0].administrative_area,
-    },
-    fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldOffice: {
-      entity: {
-        entityLabel: entity.fieldOffice[0].entity.entityLabel,
-        fieldPressReleaseBlurb: {
-          processed: 'test',
-        },
+  entityType: 'node',
+  entityBundle: 'press_release',
+  title: getDrupalValue(entity.title),
+  entityUrl: {
+    path: entity.path[0].alias,
+  },
+  fieldAddress: {
+    locality: entity.fieldAddress[0].locality,
+    // The things in fieldAddress don't get camelCased
+    administrativeArea: entity.fieldAddress[0].administrative_area,
+  },
+  fieldIntroText: getDrupalValue(entity.fieldIntroText),
+  fieldOffice: {
+    entity: {
+      entityLabel: entity.fieldOffice[0].entity.entityLabel,
+      fieldPressReleaseBlurb: {
+        processed: 'test',
       },
     },
-    fieldPdfVersion: getDrupalValue(entity.fieldPdfVersion),
-    fieldPressReleaseContact: entity.fieldPressReleaseContact[0],
-    fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
-    fieldPressReleaseFulltext: getDrupalValue(entity.fieldPressReleaseFulltext),
-    fieldReleaseDate: {
-      value: getDrupalValue(entity.fieldReleaseDate),
-      date: getDrupalValue(entity.fieldReleaseDate),
-    },
+  },
+  fieldPdfVersion: getDrupalValue(entity.fieldPdfVersion),
+  fieldPressReleaseContact: entity.fieldPressReleaseContact[0],
+  fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
+  fieldPressReleaseFulltext: getDrupalValue(entity.fieldPressReleaseFulltext),
+  fieldReleaseDate: {
+    value: getDrupalValue(entity.fieldReleaseDate),
+    date: getDrupalValue(entity.fieldReleaseDate),
   },
 });
 module.exports = {
