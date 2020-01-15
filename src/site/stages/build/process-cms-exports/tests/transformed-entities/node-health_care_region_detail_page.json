@@ -5,22 +5,6 @@
   "entityType": "node",
   "entityPublished": true,
   "entityUrl": {
-    "breadcrumb": [
-      {
-        "url": {
-          "path": "/",
-          "routed": true
-        },
-        "text": "Home"
-      },
-      {
-        "url": {
-          "path": "/pittsburgh-health-care",
-          "routed": true
-        },
-        "text": "VA Pittsburgh health care"
-      }
-    ],
     "path": "/pittsburgh-health-care/medical-records-office"
   },
   "entityMetatags": [

@@ -8,6 +8,7 @@ module.exports = {
     changed: { type: 'number' },
     entityUrl: {
       type: 'object',
+      // TODO: Add breadcrumb here
       properties: {
         path: { type: 'string' },
       },
