@@ -7,9 +7,18 @@ module.exports = {
       properties: {
         entityType: { enum: ['paragraph'] },
         entityBundle: { enum: ['staff_profile'] },
-        fieldStaffProfile: { type: 'string' },
+        queryFieldStaffProfile: {
+          type: 'object',
+          properties: {
+            entities: {
+              type: 'array',
+              maxItems: 1,
+              items: { $ref: 'transformed/node-person_profile' },
+            },
+          },
+        },
       },
-      required: ['fieldStaffProfile'],
+      required: ['queryFieldStaffProfile'],
     },
   },
   required: ['entity'],

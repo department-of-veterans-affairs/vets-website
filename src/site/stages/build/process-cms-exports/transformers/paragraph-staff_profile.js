@@ -1,10 +1,14 @@
-const { getDrupalValue } = require('./helpers');
-
 const transform = entity => ({
   entity: {
     entityType: 'paragraph',
     entityBundle: 'staff_profile',
-    fieldStaffProfile: getDrupalValue(entity.fieldStaffProfile),
+    queryFieldStaffProfile: {
+      entities: [
+        {
+          ...entity.fieldStaffProfile[0],
+        },
+      ],
+    },
   },
 });
 module.exports = {
