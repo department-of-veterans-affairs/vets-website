@@ -217,8 +217,12 @@ export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
+    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     let systems = newAppointment.systems;
-    let facilities = null;
+    let facilities =
+      newAppointment.facilities[
+        `${typeOfCareId}_${newAppointment.data.vaSystem}`
+      ] || null;
     let eligibilityData = null;
 
     try {
@@ -230,13 +234,8 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
       const canShowFacilities =
         newAppointment.data.vaSystem || systems?.length === 1;
-      const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
-      const hasExistingFacilities = !!newAppointment.facilities[
-        `${typeOfCareId}_${newAppointment.data.vaSystem}`
-      ];
-
-      if (canShowFacilities && !hasExistingFacilities) {
+      if (canShowFacilities && !facilities) {
         const systemId =
           newAppointment.data.vaSystem || systems[0].institutionCode;
         facilities = await getFacilitiesBySystemAndTypeOfCare(

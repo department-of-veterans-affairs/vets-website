@@ -115,6 +115,7 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           eligibility: {
             '983_323': {
+              directSupported: true,
               directPastVisit: true,
               directPACT: true,
               directClinics: true,
@@ -142,9 +143,11 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           eligibility: {
             '983_323': {
+              directSupported: true,
               directPastVisit: false,
               directPACT: true,
               directClinics: true,
+              requestSupported: true,
               requestPastVisit: true,
               requestLimit: true,
             },
