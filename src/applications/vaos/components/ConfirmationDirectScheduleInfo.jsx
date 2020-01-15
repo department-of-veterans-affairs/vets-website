@@ -28,18 +28,16 @@ export default function ConfirmationDirectScheduleInfo({
             'MMMM D, YYYY [at] hh:mm a',
           )}{' '}
         </h2>
-        <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
-          <div className="vaos-appts__status vads-u-flex--1">
-            <i className="fas fa-check-circle" />
-            <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
-              Confirmed
-              <span className="sr-only"> appointment</span>
-            </span>
-          </div>
+        <div className="vads-u-margin-top--2">
+          <i className="fas fa-check-circle" />
+          <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
+            Confirmed
+            <span className="sr-only"> appointment</span>
+          </span>
         </div>
 
-        <div className="vaos-appts__split-section vads-u-margin-top--2">
-          <div className="vads-u-flex--1">
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {clinic?.clinicFriendlyLocationName || clinic?.clinicName}
@@ -55,7 +53,7 @@ export default function ConfirmationDirectScheduleInfo({
               </dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1">
+          <div className="vads-u-flex--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {

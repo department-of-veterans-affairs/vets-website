@@ -70,8 +70,8 @@ export default function ConfirmationRequestInfo({
             </div>
           </span>
         </div>
-        <div className="vaos-appts__split-section vads-u-margin-top--2">
-          <div className="vads-u-flex--1 vads-u-margin-right--1">
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               {isCommunityCare &&
                 !data.hasCommunityCareProvider && (
@@ -129,14 +129,14 @@ export default function ConfirmationRequestInfo({
                 )}
             </dl>
           </div>
-          <div className="vads-u-flex--1 vaos-appts__preferred-dates">
+          <div className="vads-u-flex--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 Preferred date and time
               </dt>
               <dd>
                 <ul className="usa-unstyled-list">
-                  {data.calendarData.selectedDates.map(
+                  {data.calendarData?.selectedDates.map(
                     ({ date, optionTime }) => (
                       <li key={`${date}-${optionTime}`}>
                         {moment(date).format('MMMM D, YYYY')}{' '}
@@ -156,7 +156,7 @@ export default function ConfirmationRequestInfo({
             triggerText={isAdditionalInfoOpen ? 'Show less' : 'Show more'}
             onClick={() => toggleAdditionalInfo(!isAdditionalInfoOpen)}
           >
-            <div className="vaos-appts__split-section">
+            <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold">
@@ -169,7 +169,7 @@ export default function ConfirmationRequestInfo({
                   <dd>{data.reasonAdditionalInfo}</dd>
                 </dl>
               </div>
-              <div className="vads-u-flex--1">
+              <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold vads-u-display--block">
                     Your contact details
