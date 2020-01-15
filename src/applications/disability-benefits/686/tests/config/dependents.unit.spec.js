@@ -6,11 +6,16 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-  selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 dependent info', () => {
+  const {
+    schema: wizardSchema,
+    uiSchema: wizardUiSchema,
+  } = formConfig.chapters.taskWizard.pages.tasks;
+
   const {
     schema,
     uiSchema,
@@ -25,7 +30,7 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(4);
     form.unmount();
   });
 
@@ -40,43 +45,28 @@ describe('686 dependent info', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
+  // with the wizard, if the checkbox value for addChild is false, then this component isn't rendered
+  // and an applicant has no dependents.
   it('should submit form if applicant has no dependents', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        schema={schema}
+        schema={wizardSchema}
         definitions={formConfig.defaultDefinitions}
         data={{}}
         onSubmit={onSubmit}
-        uiSchema={uiSchema}
+        uiSchema={wizardUiSchema}
       />,
     );
-
-    selectRadio(form, 'root_view:hasUnmarriedChildren', 'N');
-
+    selectCheckbox(form, 'root_view:selectable686Options_view:addChild', false);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should expand dependent info if applicant has dependents', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        data={{}}
-        uiSchema={uiSchema}
-      />,
-    );
-    selectRadio(form, 'root_view:hasUnmarriedChildren', 'Y');
-
-    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -91,7 +81,6 @@ describe('686 dependent info', () => {
         onSubmit={onSubmit}
       />,
     );
-    selectRadio(form, 'root_view:hasUnmarriedChildren', 'Y');
     fillData(form, 'input#root_dependents_0_fullName_first', 'test');
     fillData(form, 'input#root_dependents_0_fullName_last', 'test');
     fillData(form, 'select#root_dependents_0_childDateOfBirthMonth', '1');
@@ -113,7 +102,6 @@ describe('686 dependent info', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectRadio(form, 'root_view:hasUnmarriedChildren', 'Y');
     fillData(form, 'input#root_dependents_0_fullName_first', 'test');
     fillData(form, 'input#root_dependents_0_fullName_last', 'test');
     fillData(form, 'select#root_dependents_0_childDateOfBirthMonth', '1');
