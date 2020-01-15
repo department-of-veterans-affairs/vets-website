@@ -217,26 +217,6 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.vaFacility.previous(state);
       expect(nextState).to.equal('typeOfCare');
     });
-
-    it('should return to typeOfCare if selected type of care is not CC eligible', () => {
-      const state = {
-        ...defaultState,
-        newAppointment: {
-          ...defaultState.newAppointment,
-          data: {
-            typeOfCareId: '502',
-            vaSystem: '983',
-            vaFacility: '983',
-            facilityType: FACILITY_TYPES.VAMC,
-          },
-          ccEnabledSystems: ['983'],
-          isCCEligible: true,
-        },
-      };
-
-      const nextState = newAppointmentFlow.vaFacility.previous(state);
-      expect(nextState).to.equal('typeOfCare');
-    });
   });
   describe('request date/time page', () => {
     it('should go to CC preferences page if CC', () => {
@@ -277,20 +257,6 @@ describe('VAOS newAppointmentFlow', () => {
       const nextState = newAppointmentFlow.requestDateTime.previous(state);
 
       expect(nextState).to.equal('typeOfFacility');
-    });
-    it('should go back to audiology preferences page if type of care is audiology', () => {
-      const state = {
-        newAppointment: {
-          data: {
-            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-            typeOfCareId: '203',
-          },
-        },
-      };
-
-      const nextState = newAppointmentFlow.requestDateTime.previous(state);
-
-      expect(nextState).to.equal('audiologyCareType');
     });
     it('should go back to va facility page if not cc', () => {
       const state = {
