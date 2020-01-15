@@ -8,19 +8,58 @@ module.exports = {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['press_release'] },
         title: { type: 'string' },
-        path: { type: 'string' },
-        fieldAddress: { type: 'string' },
+        entityUrl: {
+          type: 'object',
+          properties: {
+            path: { type: 'string' },
+          },
+          required: ['path'],
+        },
+        fieldAddress: {
+          type: 'object',
+          properties: {
+            locality: { type: 'string' },
+            administrativeArea: { type: 'string' },
+          },
+          required: ['locality', 'administrativeArea'],
+        },
         fieldIntroText: { type: 'string' },
-        fieldOffice: { type: 'string' },
-        fieldPdfVersion: { type: 'string' },
-        fieldPressReleaseContact: { type: 'string' },
-        fieldPressReleaseDownloads: { type: 'string' },
+        fieldOffice: {
+          type: 'object',
+          properties: {
+            entity: {
+              type: 'object',
+              properties: {
+                entityLabel: { type: 'string' },
+                fieldPressReleaseBlurb: {
+                  type: 'object',
+                  properties: {
+                    processed: { type: 'string' },
+                  },
+                },
+              },
+              required: ['entityLabel', 'fieldPressReleaseBlurb'],
+            },
+          },
+          required: ['entity'],
+        },
+        fieldPdfVersion: { type: ['string', 'null'] },
+        fieldPressReleaseContact: { $ref: 'transformed/node-person_profile' },
+        fieldPressReleaseDownloads: { type: 'array' },
         fieldPressReleaseFulltext: { type: 'string' },
-        fieldReleaseDate: { type: 'string' },
+        fieldReleaseDate: {
+          type: 'object',
+          // These properties are strings resembling dates
+          properties: {
+            value: { type: 'string' },
+            date: { type: 'string' },
+          },
+          required: ['value', 'date'],
+        },
       },
       required: [
         'title',
-        'path',
+        'entityUrl',
         'fieldAddress',
         'fieldIntroText',
         'fieldOffice',

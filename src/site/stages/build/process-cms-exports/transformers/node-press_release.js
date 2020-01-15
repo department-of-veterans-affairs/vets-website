@@ -5,17 +5,31 @@ const transform = entity => ({
     entityType: 'node',
     entityBundle: 'press_release',
     title: getDrupalValue(entity.title),
-    path: getDrupalValue(entity.path),
-    fieldAddress: getDrupalValue(entity.fieldAddress),
+    entityUrl: {
+      path: entity.path[0].alias,
+    },
+    fieldAddress: {
+      locality: entity.fieldAddress[0].locality,
+      // The things in fieldAddress don't get camelCased
+      administrativeArea: entity.fieldAddress[0].administrative_area,
+    },
     fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldOffice: getDrupalValue(entity.fieldOffice),
+    fieldOffice: {
+      entity: {
+        entityLabel: entity.fieldOffice[0].entity.entityLabel,
+        fieldPressReleaseBlurb: {
+          processed: 'test',
+        },
+      },
+    },
     fieldPdfVersion: getDrupalValue(entity.fieldPdfVersion),
-    fieldPressReleaseContact: getDrupalValue(entity.fieldPressReleaseContact),
-    fieldPressReleaseDownloads: getDrupalValue(
-      entity.fieldPressReleaseDownloads,
-    ),
+    fieldPressReleaseContact: entity.fieldPressReleaseContact[0],
+    fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
     fieldPressReleaseFulltext: getDrupalValue(entity.fieldPressReleaseFulltext),
-    fieldReleaseDate: getDrupalValue(entity.fieldReleaseDate),
+    fieldReleaseDate: {
+      value: getDrupalValue(entity.fieldReleaseDate),
+      date: getDrupalValue(entity.fieldReleaseDate),
+    },
   },
 });
 module.exports = {
