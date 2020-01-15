@@ -114,10 +114,6 @@ module.exports = {
     return moment.tz(timeString, 'UTC').unix();
   },
 
-  getTimeAsSeconds(value) {
-    return new Date(value).getTime() / 1000;
-  },
-
   createMetaTagArray(metaTags, typeName = '__typename') {
     function createMetaTag(type, key, value) {
       return {

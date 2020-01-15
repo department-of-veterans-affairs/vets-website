@@ -1,6 +1,6 @@
 const {
   getDrupalValue,
-  getTimeAsSeconds,
+  utcToEpochTime,
   createMetaTagArray,
 } = require('./helpers');
 
@@ -9,7 +9,7 @@ const transform = entity => ({
   entityBundle: 'health_care_region_detail_page',
   title: getDrupalValue(entity.title),
 
-  changed: getTimeAsSeconds(getDrupalValue(entity.changed)),
+  changed: utcToEpochTime(getDrupalValue(entity.changed)),
 
   entityPublished: getDrupalValue(entity.moderationState) === 'published',
   entityMetatags: createMetaTagArray(entity.metatag.value),

@@ -3,7 +3,7 @@ const { flatten, isEmpty } = require('lodash');
 
 const {
   getDrupalValue,
-  getTimeAsSeconds,
+  utcToEpochTime,
   createMetaTagArray,
 } = require('./helpers');
 
@@ -29,7 +29,7 @@ function pageTransform(entity) {
 
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
-    changed: getTimeAsSeconds(getDrupalValue(changed)),
+    changed: utcToEpochTime(getDrupalValue(changed)),
     fieldPageLastBuilt: {
       // Assume the raw data is in UTC
       date: moment
