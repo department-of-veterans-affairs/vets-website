@@ -8,9 +8,7 @@ const transform = entity => ({
   entityType: 'node',
   entityBundle: 'health_care_region_detail_page',
   title: getDrupalValue(entity.title),
-
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-
   entityPublished: getDrupalValue(entity.moderationState) === 'published',
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityUrl: {
