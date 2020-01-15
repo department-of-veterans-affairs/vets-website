@@ -9,12 +9,11 @@ import fullSchema from '../20-0996-schema.json';
 
 // import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from '../content/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
-// import { capitalizeEachWord } from '../../all-claims/utils';
+import FormFooter from '../components/FormFooter';
+import GetFormHelp from '../content/GetFormHelp';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,10 +24,9 @@ import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
 import contestedIssueFollowup from '../pages/contestedIssueFollowup';
-
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
-
 import informalConference from '../pages/informalConference';
+import optOutOfOldAppeals from '../pages/optOutOfOldAppeals';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
@@ -38,6 +36,7 @@ import { hasSelectedIssues } from '../helpers';
 const {
   name,
   fullName,
+  legacyOptInApproved,
   address,
   phone,
   date,
@@ -61,6 +60,15 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_20_0996,
   version: 0,
   prefillEnabled: true,
+  // beforeLoad: props => { console.log('form config before load', props); },
+  // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
+  //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
+  // },
+  // verifyRequiredPrefill: true,
+  // prefillTransformer: (pages, formData, metadata) => {
+  //   console.log('prefill transformer', pages, formData, metadata);
+  //   return { pages, formData, metadata };
+  // },
   savedFormMessages: {
     notFound: errorMessages.savedFormNotFound,
     noAuth: errorMessages.savedFormNoAuth,
@@ -70,6 +78,7 @@ const formConfig = {
   defaultDefinitions: {
     name,
     fullName,
+    legacyOptInApproved,
     address,
     phone,
     date,
@@ -86,9 +95,19 @@ const formConfig = {
     dependencies: [externalServices.global],
   },
   chapters: {
-    veteranDetails: {
+    step1: {
       title: 'Veteran details',
       pages: {
+        // Added this as the first step of the form, but the progress bar & step
+        // 1 of 4 header are hidden using CSS; also the footer is placed. Done
+        // to match the design.
+        optOutOfOldAppeals: {
+          title: ' ',
+          path: 'opt-out-of-old-appeals',
+          uiSchema: optOutOfOldAppeals.uiSchema,
+          schema: optOutOfOldAppeals.schema,
+          initialData,
+        },
         confirmVeteranDetails: {
           title: 'Confirm Veteran details',
           path: 'veteran-details',

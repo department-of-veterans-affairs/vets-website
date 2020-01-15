@@ -63,8 +63,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   it('should have a status of "confirmed"', () => {
     expect(
       tree
-        .find('.vaos-appts__status span')
-        .at(0)
+        .find('span')
+        .at(2)
         .text(),
     ).to.contain('Confirmed');
   });
@@ -81,7 +81,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   it('should display clinic name', () => {
     expect(
       tree
-        .find('.vaos-appts__split-section dt')
+        .find('dt')
         .first()
         .text(),
     ).to.contain('C&P BEV AUDIO FTC1');
@@ -116,8 +116,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   it('should have a status of "confirmed"', () => {
     expect(
       tree
-        .find('.vaos-appts__status span')
-        .at(0)
+        .find('span')
+        .at(2)
         .text(),
     ).to.contain('Confirmed');
   });
@@ -132,13 +132,11 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   });
 
   it('should display clinic name', () => {
-    expect(tree.find('.vaos-appts__split-section dt').text()).to.contain(
-      'My Clinic',
-    );
+    expect(tree.find('dt').text()).to.contain('My Clinic');
   });
 
   it('should display clinic address', () => {
-    expect(tree.find('.vaos-appts__split-section dd').text()).to.contain(
+    expect(tree.find('dd').text()).to.contain(
       '123 second stNorthampton, MA 22222',
     );
   });

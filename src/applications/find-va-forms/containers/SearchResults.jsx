@@ -22,10 +22,6 @@ const FIELD_LABELS = [
     value: 'titleLabel',
   },
   {
-    label: 'Issue date',
-    value: 'firstIssuedOnLabel',
-  },
-  {
     label: 'Revision date',
     value: 'lastRevisionOnLabel',
   },
@@ -42,7 +38,6 @@ export class SearchResults extends Component {
     results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
-        firstIssuedOn: PropTypes.number.isRequired,
         formName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         lastRevisionOn: PropTypes.number.isRequired,
@@ -54,7 +49,6 @@ export class SearchResults extends Component {
         // Table field labels that can be JSX.
         idLabel: PropTypes.node.isRequired,
         titleLabel: PropTypes.node.isRequired,
-        firstIssuedOnLabel: PropTypes.node.isRequired,
         lastRevisionOnLabel: PropTypes.node.isRequired,
       }).isRequired,
     ),
