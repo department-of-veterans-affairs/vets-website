@@ -1,0 +1,36 @@
+module.exports = {
+  type: 'object',
+  properties: {
+    contentModelType: { enum: ['node-press_release'] },
+    entity: {
+      type: 'object',
+      properties: {
+        entityType: { enum: ['node'] },
+        entityBundle: { enum: ['press_release'] },
+        title: { type: 'string' },
+        path: { type: 'string' },
+        fieldAddress: { type: 'string' },
+        fieldIntroText: { type: 'string' },
+        fieldOffice: { type: 'string' },
+        fieldPdfVersion: { type: 'string' },
+        fieldPressReleaseContact: { type: 'string' },
+        fieldPressReleaseDownloads: { type: 'string' },
+        fieldPressReleaseFulltext: { type: 'string' },
+        fieldReleaseDate: { type: 'string' },
+      },
+      required: [
+        'title',
+        'path',
+        'fieldAddress',
+        'fieldIntroText',
+        'fieldOffice',
+        'fieldPdfVersion',
+        'fieldPressReleaseContact',
+        'fieldPressReleaseDownloads',
+        'fieldPressReleaseFulltext',
+        'fieldReleaseDate',
+      ],
+    },
+  },
+  required: ['entity'],
+};
