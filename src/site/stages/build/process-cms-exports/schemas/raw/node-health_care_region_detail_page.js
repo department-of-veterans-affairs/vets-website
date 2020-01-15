@@ -5,17 +5,7 @@ module.exports = {
   properties: {
     title: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
-    path: {
-      type: 'array',
-      maxItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          alias: { type: 'string' },
-        },
-        required: ['alias'],
-      },
-    },
+    path: { $ref: 'RawPath' },
     field_alert: { $ref: 'GenericNestedString' },
     field_content_block: { $ref: 'EntityReferenceArray' },
     field_featured_content: { $ref: 'GenericNestedString' },
