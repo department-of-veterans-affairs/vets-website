@@ -19,7 +19,7 @@ module.exports = {
         processed: { type: 'string' },
       },
     },
-    fieldImageCaption: { type: 'string' },
+    fieldImageCaption: { type: ['string', 'null'] },
     fieldIntroText: { type: 'string' },
     fieldMedia: { oneOf: [{ $ref: 'Media' }, { type: 'null' }] },
     fieldOffice: {
