@@ -23,7 +23,7 @@ describe('VAOS <CalendarNavigation>', () => {
     tree.unmount();
   });
 
-  it('should disable buttons if disabled props are passed', () => {
+  it('should handle clicks if prevOnClick or nextOnClick props are passed', () => {
     const prevOnClick = sinon.spy();
     const nextOnClick = sinon.spy();
     const tree = shallow(
