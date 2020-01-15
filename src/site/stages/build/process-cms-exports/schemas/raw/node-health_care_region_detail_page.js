@@ -10,8 +10,16 @@ module.exports = {
     field_content_block: { $ref: 'EntityReferenceArray' },
     field_featured_content: { $ref: 'GenericNestedString' },
     field_intro_text: { $ref: 'GenericNestedString' },
-    field_office: { $ref: 'EntityReferenceArray' },
-    field_related_links: { $ref: 'EntityReferenceArray' },
+    field_office: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
+    field_related_links: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
     field_table_of_contents_boolean: { $ref: 'GenericNestedBoolean' },
   },
   required: [
