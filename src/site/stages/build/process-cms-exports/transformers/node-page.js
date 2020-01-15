@@ -18,7 +18,7 @@ function pageTransform(entity) {
     title: getDrupalValue(title),
     entityBundle: 'page',
     entityUrl: {
-      path: entity.path[0].alias.replace(/\\/g, ''),
+      path: entity.path[0].alias,
     },
     fieldAdministration: entity.fieldAdministration[0],
 
