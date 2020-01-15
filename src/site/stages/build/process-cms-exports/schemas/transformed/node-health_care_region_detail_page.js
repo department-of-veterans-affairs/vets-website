@@ -22,7 +22,12 @@ module.exports = {
     fieldFeaturedContent: { type: 'array' },
     fieldIntroText: { type: 'string' },
     fieldOffice: { type: 'object' },
-    fieldRelatedLinks: { $ref: 'transformed/paragraph-list_of_link_teasers' },
+    fieldRelatedLinks: {
+      oneOf: [
+        { $ref: 'transformed/paragraph-list_of_link_teasers' },
+        { type: 'null' },
+      ],
+    },
     fieldTableOfContentsBoolean: { type: 'boolean' },
   },
   required: [

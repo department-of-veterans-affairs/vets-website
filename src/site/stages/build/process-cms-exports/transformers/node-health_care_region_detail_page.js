@@ -21,7 +21,8 @@ const transform = entity => ({
   fieldFeaturedContent: entity.fieldFeaturedContent,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],
-  fieldRelatedLinks: entity.fieldRelatedLinks[0],
+  fieldRelatedLinks:
+    entity.fieldRelatedLinks.length > 0 ? entity.fieldRelatedLinks[0] : null,
   fieldTableOfContentsBoolean: getDrupalValue(
     entity.fieldTableOfContentsBoolean,
   ),
