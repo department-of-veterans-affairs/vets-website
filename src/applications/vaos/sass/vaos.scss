@@ -216,7 +216,7 @@
 
   input[type="radio"],
   input[type="checkbox"] {
-    width: unset;
+    width: auto;
   }
 
   input[type="radio"] + label::before {
