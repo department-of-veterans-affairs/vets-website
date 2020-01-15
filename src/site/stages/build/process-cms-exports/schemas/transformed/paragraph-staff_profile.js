@@ -16,6 +16,7 @@ module.exports = {
               items: { $ref: 'transformed/node-person_profile' },
             },
           },
+          required: ['entities'],
         },
       },
       required: ['queryFieldStaffProfile'],
