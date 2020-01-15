@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -76,6 +77,33 @@ describe('VAOS <CalendarWidget>', () => {
         .at(0)
         .text(),
     ).to.equal('November 2019');
+
+    tree.unmount();
+  });
+
+  it('should pass click handlers to CalendarNavigation', () => {
+    const prevOnClick = sinon.spy();
+    const nextOnClick = sinon.spy();
+
+    const tree = shallow(
+      <CalendarWidget
+        monthsToShowAtOnce={2}
+        startMonth="2019-11-20"
+        onClickPrev={prevOnClick}
+        onClickNext={nextOnClick}
+      />,
+    );
+
+    const buttons = tree
+      .find('CalendarNavigation')
+      .dive()
+      .find('button');
+
+    buttons.at(0).simulate('click');
+    expect(prevOnClick.called).to.be.true;
+    buttons.at(1).simulate('click');
+    expect(nextOnClick.called).to.be.true;
+    tree.unmount();
 
     tree.unmount();
   });
