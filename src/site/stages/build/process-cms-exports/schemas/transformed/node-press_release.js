@@ -5,6 +5,18 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['press_release'] },
     title: { type: 'string' },
+    entityMetatags: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          __typename: { type: 'string' },
+          key: { type: 'string' },
+          value: { type: 'string' },
+        },
+        required: ['__typename', 'key', 'value'],
+      },
+    },
     entityUrl: {
       type: 'object',
       properties: {

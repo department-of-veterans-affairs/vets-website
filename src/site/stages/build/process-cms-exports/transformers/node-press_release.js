@@ -1,9 +1,10 @@
-const { getDrupalValue } = require('./helpers');
+const { createMetaTagArray, getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'press_release',
   title: getDrupalValue(entity.title),
+  entityMetatags: createMetaTagArray(entity.metatag.value),
   entityUrl: {
     path: entity.path[0].alias,
   },
@@ -44,6 +45,7 @@ const transform = entity => ({
 module.exports = {
   filter: [
     'title',
+    'metatag',
     'path',
     'field_address',
     'field_intro_text',
