@@ -10,12 +10,12 @@ module.exports = {
       administrative_area: { type: 'string' }, // Looks like this acts like 'state'
       country_code: { type: 'string' },
       address_line1: { type: 'string' },
-      address_line2: { type: 'string' },
+      address_line2: { type: ['string', 'null'] },
       dependent_locality: { type: ['string', 'null'] },
       postal_code: { type: ['string', 'null'] },
       sorting_code: { type: ['string', 'null'] },
       // Why are these even here???
-      langcode: { type: 'string' },
+      langcode: { type: ['string', 'null'] },
       given_name: { type: ['string', 'null'] },
       family_name: { type: ['string', 'null'] },
       additional_name: { type: ['string', 'null'] },
