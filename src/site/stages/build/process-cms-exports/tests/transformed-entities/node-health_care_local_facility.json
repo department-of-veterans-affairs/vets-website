@@ -1,0 +1,755 @@
+{
+  "entityBundle": "health_care_local_facility",
+  "entityId": "89",
+  "entityPublished": true,
+  "title": "Westmoreland County VA Clinic",
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "/pittsburgh-health-care",
+          "routed": true
+        },
+        "text": "VA Pittsburgh health care"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "Services and locations"
+      },
+      {
+        "url": {
+          "path": "/pittsburgh-health-care/locations",
+          "routed": false
+        },
+        "text": "Locations"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "Westmoreland County clinic"
+      }
+    ],
+    "path": "/pittsburgh-health-care/locations/westmoreland-county-va-clinic"
+  },
+  "entityMetatags": [
+    {
+      "__typename": "MetaValue",
+      "key": "title",
+      "value": "VA Pittsburgh Health Care | Westmoreland County Clinic"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:card",
+      "value": "summary_large_image"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:site_name",
+      "value": "Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:description",
+      "value": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:title",
+      "value": "Westmoreland County VA Clinic | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:site",
+      "value": "@DeptVetAffairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "description",
+      "value": "Westmoreland County Outpatient VA Clinic - where you can receive general medical care, physical exams, laboratory, radiology, dietary and podiatry services."
+    },
+    {
+      "__typename": "MetaLink",
+      "key": "image_src",
+      "value": "http://va-gov-cms.lndo.site/sites/default/files/2019-08/Westmoreland_County_CBOC.jpg"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:title",
+      "value": "Westmoreland County VA Clinic | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "keywords",
+      "value": "VA Outpatient Clinic Westmoreland County"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:description",
+      "value": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:image",
+      "value": "http://va-gov-cms.lndo.site/sites/default/files/2019-08/Westmoreland_County_CBOC.jpg"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:image",
+      "value": "http://va-gov-cms.lndo.site/sites/default/files/2019-08/Westmoreland_County_CBOC.jpg"
+    }
+  ],
+  "changed": 1572551751,
+  "fieldFacilityLocatorApiId": "vha_646GB",
+  "fieldNicknameForThisFacility": "Westmoreland County clinic",
+  "fieldIntroText": "The Westmoreland County outpatient clinic offers Veterans general medical care, including physical exams, lab work, x-rays, nutrition counseling, and foot care.",
+  "fieldOperatingStatusFacility": "normal",
+  "fieldLocationServices": [
+    {
+      "entity": {
+        "entityId": "4204",
+        "entityBundle": "health_care_local_facility_servi",
+        "fieldTitle": "Parking",
+        "fieldWysiwyg": {
+          "processed": "<p><strong>Cost:</strong> Free</p>\n\n<p>The clinic is in a separate building southwest of the Westmoreland Mall. As you enter from Route 30, keep to the right to drive around the mall and park directly in front of the clinic.</p>\n\n<p><strong>Wheelchair availability:</strong> The Westmoreland County outpatient clinic has wheelchairs available in the building.</p>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityId": "2779",
+        "entityBundle": "health_care_local_facility_servi",
+        "fieldTitle": "Transportation services and schedules",
+        "fieldWysiwyg": {
+          "processed": "<h4 dir=\"ltr\">Van services for Veterans</h4>\n\n<h5 dir=\"ltr\">DAV vans</h5>\n\n<p dir=\"ltr\"><strong>Hours:</strong> 8:00 a.m. – 4:30 p.m., individual van schedules vary</p>\n\n<p dir=\"ltr\">We work with Disabled American Veterans and county Veterans Affairs directors to provide transportation for Veterans and authorized caregivers to get to scheduled medical appointments.</p>\n\n<h5 dir=\"ltr\">Non-DAV van services</h5>\n\n<p dir=\"ltr\">Many localities in the region provide other van services to Veterans.</p>\n\n<p dir=\"ltr\"><a href=\"/pittsburgh-health-care/dav-vans-transportation-for-veterans\">Learn more about DAV and the other van services available in your county</a></p>\n\n<h4 dir=\"ltr\">Local transportation services</h4>\n\n<p dir=\"ltr\">Westmoreland Transit offers regular transit service in the area.</p>\n\n<p dir=\"ltr\"><a href=\"https://www.westmorelandtransit.com/schedules/\">Regular bus service</a><br /><a href=\"https://www.westmorelandtransit.com/go-westmoreland/senior-shared-ride-transportation/\">Shared Ride service</a>, for seniors<br /><a href=\"https://www.westmorelandtransit.com/go-westmoreland/ada-complementary-paratransit/\">Paratransit service</a><br /><a href=\"https://www.westmorelandtransit.com/go-westmoreland/persons-disabilities-transportation/\">PwD service</a>, for younger riders with disabilities<br /><a href=\"https://www.westmorelandtransit.com/go-westmoreland/medical-assistance-transportation-program/\">Medical Assistance Transportation Program</a></p>\n\n<h4 dir=\"ltr\">Additional travel options</h4>\n\n<p dir=\"ltr\">See <a href=\"https://www.pittsburgh.va.gov/docs/Transportation_Guidebook_508.pdf\">our printable transportation guide</a> for an extensive list of transportation options from across the region, including VA shuttles, taxi companies, and local transit services in many counties. It also includes information on shuttle services to University Drive from other VA facilities in the region, where you can transfer to a Heinz shuttle.</p>\n\n<h4 dir=\"ltr\">Beneficiary travel</h4>\n\n<p dir=\"ltr\">Beneficiary travel benefits include round-trip transportation from your home to the medical center, mileage reimbursement, or special mode transport. </p>\n\n<p dir=\"ltr\"><a href=\"https://www.pittsburgh.va.gov/services/beneficiary-travel.asp\">Find out if you qualify for beneficiary travel benefits</a></p>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityId": "5342",
+        "entityBundle": "health_care_local_facility_servi",
+        "fieldTitle": "Lodging for patients and families",
+        "fieldWysiwyg": {
+          "processed": "<h4>Nearby hotels</h4>\n\n<p>There is no lodging at the Westmoreland County outpatient clinic. If you need to travel to the clinic for multiple days, try one of these hotels. When booking, ask if there is a Veteran rate. Many hotels have shuttle vans, so check with the hotel you’re staying at if you need help getting to the clinic.</p>\n\n<ul><li dir=\"ltr\"><a href=\"https://www.redroof.com/property/pa/Greensburg/RRI1104\">Red Roof Inn Greensburg</a><br /><a href=\"tel: +1724-216-5951\">724-216-5951</a></li>\n\t<li dir=\"ltr\"><a href=\"https://www.hilton.com/en/hotels/gbgpahx-hampton-greensburg/\">Hampton Inn Greensburg</a><br /><a href=\"tel: +1-724-838-8800\">724-838-8800</a></li>\n</ul>"
+        }
+      }
+    }
+  ],
+  "fieldAddress": {
+    "addressLine1": "5274 Route 30, Suite 10",
+    "locality": "Greensburg",
+    "administrativeArea": "PA",
+    "postalCode": "15601-7833"
+  },
+  "fieldPhoneNumber": "724-216-0317",
+  "fieldMentalHealthPhone": "412-360-6600",
+  "fieldFacilityHours": {
+    "value": [
+      [
+        "Mon",
+        "800AM-430PM"
+      ],
+      [
+        "Tue",
+        "800AM-430PM"
+      ],
+      [
+        "Wed",
+        "800AM-430PM"
+      ],
+      [
+        "Thu",
+        "800AM-430PM"
+      ],
+      [
+        "Fri",
+        "800AM-430PM"
+      ],
+      [
+        "Sat",
+        "Closed"
+      ],
+      [
+        "Sun",
+        "Closed"
+      ]
+    ]
+  },
+  "fieldMainLocation": false,
+  "fieldMedia": {
+    "entity": {
+      "image": {
+        "alt": "Exterior of Westmoreland County CBOC",
+        "title": "",
+        "derivative": {
+          "url": "http://va-gov-cms.lndo.site/sites/default/files/styles/3_2_medium_thumbnail/public/2019-08/Westmoreland_County_CBOC.jpg?itok=TACnTcg2",
+          "width": 480,
+          "height": 320
+        }
+      }
+    }
+  },
+  "fieldRegionPage": {
+    "entity": {
+      "entityBundle": "health_care_region_page",
+      "entityId": "318",
+      "entityPublished": true,
+      "title": "VA Pittsburgh health care",
+      "fieldNicknameForThisFacility": "VA Pittsburgh",
+      "fieldRelatedLinks": {
+        "entity": {
+          "parentFieldName": "field_related_links",
+          "fieldTitle": "In the spotlight at VA Pittsburgh",
+          "fieldVaParagraphs": [
+            {
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "/pittsburgh-health-care/patient-advocates"
+                  },
+                  "title": "Get help from a patient advocate",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "/pittsburgh-health-care/medical-records-office"
+                  },
+                  "title": "Medical records office",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "/pittsburgh-health-care/contact-us"
+                  },
+                  "title": "Phone directory",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "/pittsburgh-health-care/billing-insurance"
+                  },
+                  "title": "Billing and insurance",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "/pittsburgh-health-care/volunteer-or-donate"
+                  },
+                  "title": "Become a volunteer",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "/pittsburgh-health-care/about#annual-reports-and-newsletters"
+                  },
+                  "title": "Annual reports and newsletters",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "fieldFacebook": null,
+  "fieldTwitter": null,
+  "fieldFlickr": null,
+  "fieldInstagram": null,
+  "fieldEmailSubscription": null,
+  "fieldLocalHealthCareService": [
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3><strong>Location and contact information</strong></h3>\n\n<p class=\"va-address-block\"><strong>Phone: </strong><a href=\"tel: +1412-360-1572\">412-360-1572</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone: </strong><a href=\"tel: +1412-360-1572\">412-360-1572</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at Pittsburgh VA</h3>\n\n<p>Our comprehensive laboratories provide a full range of clinical and diagnostic testing services. We offer:</p>\n\n<ul><li>Analysis of blood, urine, and other bodily fluids for disease management</li>\n\t<li>Testing for infectious diseases</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "88",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Blood draw and clinical testing",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Laboratory and pathology",
+                "description": {
+                  "processed": "<p>We offer blood tests and other advanced testing services to help you and your VA health care team monitor your health, find and understand any health problems and make informed treatment decisions.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Specialty care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3 id=\"location-and-contact-informati-633\">Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Our patient advocates work hard to make sure you receive the best possible care. They offer help with:</p>\n\n<ul><li>Patient concerns with the care team</li>\n\t<li>Advocating for patient and family rights</li>\n\t<li>Specialist advocacy for Former Prisoners of War, Minority Veterans, and OEF/OIF/OND transitioning Veterans</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"1e8a72b4-c54c-432e-b53a-ef6a7969f40e\" href=\"/pittsburgh-health-care/patient-advocates\" title=\"Patient advocates\">Learn more and connect with a patient advocate</a></p>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "118",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Patient advocates",
+                "description": {
+                  "processed": "<p>VA wants to make sure that you get the best possible care. If you need help finding care or getting problems resolved, please contact a patient advocate.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Phone: </strong><a href=\"tel: +14128223000\">412-822-3000</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed?</strong> No<br /><strong>Phone: </strong><a href=\"tel: +14128223000\">412-822-3000</a></p>\n\n<p> </p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<ul><li>Arthritis care; foot and ankle fracture care</li>\n\t<li>Repair of cartilage and torn tendons and ligaments</li>\n\t<li>Injections to reduce pain and swelling</li>\n\t<li>Joint arthroplasty and replacement</li>\n\t<li>Minimally invasive surgery; rehabilitation</li>\n\t<li>Foot health maintenance, including bunion removal, resurfacing, and nail trimming</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "64",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Foot, ankle and lower extremities",
+                "fieldCommonlyTreatedCondition": "arthritis, bunions, diabetic foot care, foot deformities, skin and nail conditions",
+                "name": "Podiatry",
+                "description": {
+                  "processed": "<p>Our podiatry specialists evaluate and treat a wide range of injuries, diseases and disorders that affect your feet and ankles—from ingrown toenails to inflammation to diabetic foot ulcers.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Specialty care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Primary Care Services<br />\nPhone: </strong><a href=\"tel: +17242160317\">724-216-0317</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. </p>\n\n<p><strong>Referral needed?</strong> No</p>\n\n<p><strong>Phone: </strong><a href=\"tel: +17242160317\">724-216-0317</a><br /><br /><a class=\"usa-button\" data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"4578cb13-d680-426f-8f2d-ff000e990cb3\" href=\"/health-care/schedule-view-va-appointments\" title=\"Schedule and view VA appointments online\">Schedule an appointment online</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Primary care is offered at all VA Pittsburgh health care facilities. Your primary care team can help coordinate many other services as part of your care, including:</p>\n\n<ul><li>Labs and blood work</li>\n\t<li>Mental health care</li>\n\t<li>Women's health care</li>\n\t<li>Radiology</li>\n\t<li>Social services</li>\n\t<li>Telehealth</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "37",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Family and internal medicine",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Primary care",
+                "description": {
+                  "processed": "<p>Your VA primary care provider will work closely with you to plan for all the care you need to stay healthy and well throughout your life. They will also work with family members or caregivers who support you.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Primary care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": "primaryCare"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Phone: </strong><a href=\"tel: +14128223000\">412-822-3000</a><br /><strong>Hours:</strong> Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone: </strong><a href=\"tel: +14128223000\">412-822-3000</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<ul><li>Xrays</li>\n\t<li>Ultrasounds</li>\n\t<li>Computer Tomography (CT)</li>\n\t<li>Positron Emission Tomography (PET)</li>\n\t<li>Magnetic Resonance Imaging (MRI)</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "124",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Radiology",
+                "description": {
+                  "processed": "<p>Our radiology service uses imaging to help screen for, diagnose and treat disease. We provide X-rays, ultrasound, mammography, MRI, CT and PET scans and other imaging procedures.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Specialty care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Environmental Health Coordinator</strong><br />\nPhone: <a href=\"tel: +14128221707\">412-822-1707</a><br /><strong>Email: </strong><a href=\"mailto:douglas.turner5@va.gov\">douglas.turner5@va.gov</a></p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed?</strong> No<br /><strong>Walk-ins accepted?</strong> No<br /><strong>Phone:</strong> <a href=\"tel: +14128221707\">412-822-1707</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Registry exams, services, and care coordination for Veterans exposed to environmental hazards such as:</p>\n\n<ul dir=\"ltr\"><li>Ionizing radiation</li>\n\t<li>Agent Orange</li>\n\t<li>Gulf War hazards</li>\n\t<li>Depleted Uranium (DU)</li>\n\t<li>Toxic Embedded Fragment (shrapnel)</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "59",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Military exposures: Agent Orange, burn pit, Gulf War",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Registry exams",
+                "description": {
+                  "processed": "<p>If you were exposed to toxic chemicals or other hazards during your military service, we offer you a free exam. This exam helps you identify potential health risks and helps us monitor issues so we can better serve you.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Minority Veterans Program</strong><br /><strong>Phone:</strong> <a href=\"tel: +14128223537\">412-822-3537</a><br /><strong>Email:</strong> <a href=\"mailto:heather.steele@va.gov\">heather.steele@va.gov</a><br /><strong>Hours: </strong>Monday – Friday, 7:00 a.m. to 3:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone:</strong> <a href=\"tel: +14128223537\">412-822-3537</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Our Minority Veterans Program serves all Veterans, including African Americans, Asian Americans, Hispanic Americans and Native Americans, including American Indians, Alaskan Natives, Native Hawaiians, and Pacific Island Americans. We focus on: </p>\n\n<ul><li>Management of the medical center in their efforts to address the needs of minority Veterans</li>\n\t<li>The needs of minority Veterans in the local community</li>\n\t<li>Identifying barriers and creating a more accessible environment for minority Veterans</li>\n\t<li>Informing Veterans of VA benefits, services, and programs</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f72b858b-5f36-4844-a47d-f1a92065bdc3\" href=\"/pittsburgh-health-care/minority-veteran-care\" title=\"Minority Veteran care\">Learn more and connect with a care coordinator</a> </p>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "152",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Minority Veteran care",
+                "description": {
+                  "processed": "<p>We offer resources and support for minority Veterans to help address your specific needs with benefits and services at VA.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3><strong>Location and contact information</strong></h3>\n\n<p class=\"va-address-block\"><strong>Suite 10</strong><br /><strong>Phone: </strong><a href=\"tel: +17247096005\">7</a><a href=\"tel: +17244394990\">24-</a><a href=\"tel: +17242507790\">2</a><a href=\"tel: +17242167833\">16-7833</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:00 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed?</strong> Yes<br /><strong>Walk-ins accepted?</strong> No<br /><strong>Phone: </strong><a href=\"tel: +17247096005\">7</a><a href=\"tel: +17244394990\">24-</a><a href=\"tel: +17242507790\">2</a><a href=\"tel: +17242167833\">16-7833</a></p>\n\n<p> </p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>We offer compassionate care to patients living with HIV or hepatitis. Services we offer include: </p>\n\n<ul><li>Hepatitis C screenings</li>\n\t<li>HIV testing</li>\n\t<li>HIV counseling</li>\n\t<li>HIV treatment and prevention care, including PEP (post-exposure prophylaxis)</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "87",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": "HIV/AIDS, hepatitis A/B/C",
+                "name": "HIV/hepatitis",
+                "description": {
+                  "processed": "<p>If you have a diagnosis of HIV or hepatitis A, B or C, we can provide you with the latest treatment methods and support. We also offer prevention education and testing for these infectious diseases.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Specialty care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\">Suite 10<br /><strong>Phone: </strong><a href=\"tel: +17242167833\">724-216-7833</a></p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone: </strong><a href=\"tel: +17242167833\">724-216-7833</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Our women's health program offers women Veterans comprehensive care, including: </p>\n\n<ul><li>Primary care</li>\n\t<li>Gynecology</li>\n\t<li>Maternity care, childbirth education classes, and postpartum support</li>\n\t<li>Ultrasounds and mammograms</li>\n\t<li>Mental health care and counseling</li>\n\t<li>Lifestyle wellness services</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"90ce90bd-5443-44b3-a72b-6370911d77ae\" href=\"/pittsburgh-health-care/women-veteran-care\" title=\"Women Veteran care\">Learn more and connect with a care coordinator</a></p>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "57",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": "women's primary care, mental health, obstetrics and gynecology, pap smear, mammogram",
+                "name": "Women Veteran care",
+                "description": {
+                  "processed": "<p>We offer women’s health services to meet your specific needs such as disease screenings, mental health treatment, recovery from military sexual trauma, maternity care and female-specific medical equipment.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Intimate Partner Violence Champion<br />\nPhone: </strong><a href=\"tel: +17247096005\">724-</a><a href=\"tel: +17242507790\">216-0317</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. to 4:30 p.m. ET</p>\n\n<p class=\"va-address-block\"><strong>National Domestic Violence 24-hour Hotline</strong><br /><strong>Phone:</strong> <a href=\"tel: +18007997233\">1-800-799-SAFE (7233)</a> or <a href=\"tel: +18007873224\">1-800-787-3224 (TTY)</a><br /><strong>Hours:</strong> 24/7</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed? </strong>No​​​​​​​<br />\n​​​​​​​<strong>Phone: </strong><a href=\"tel: +17247096005\">724-</a><a href=\"tel: +17242507790\">216-0317</a></p>\n\n<p> </p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>The Veteran population is at greater risk for experiencing and/or using violence in their intimate relationships than the civilian population. Contact us for help with:</p>\n\n<ul><li>Emotional intimate partner violence (IPV), which commonly begins before other types of IPV</li>\n\t<li>Physical IPV</li>\n\t<li>Sexual IPV, whether by physical force or by trying to convince a partner </li>\n\t<li>Stalking, which includes continuous unwanted contact, following, talking, or sending things</li>\n\t<li>Threats of violence</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "151",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "domestic violence, abuse",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Intimate partner violence",
+                "description": {
+                  "processed": "<p>If you feel that you or a loved one are in or may be in a potentially abusive or violent relationship, we can help.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>Phone:</strong> <a href=\"tel: +14128221069\">412-822-1069</a><br /><strong>Phone:</strong> <a href=\"tel: +14128221069\">412-</a><a href=\"tel: +14123601210\">360-1210</a></p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone:</strong> <a href=\"tel: +14128221069\">412-822-1069</a><br /><strong>Phone:</strong> <a href=\"tel: +14128221069\">412-</a><a href=\"tel: +14123601210\">360-1210</a></p>\n\n<p> </p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>Our LGBT Veteran care coordinators can answer your questions, advocate for your right to quality care, handle complaints or concerns you have about your care, and help you get started with any of our services for LGBT Veterans. These include:</p>\n\n<ul><li>Mental health services, including psychosocial assessments for hormone therapy and gender confirming surgeries</li>\n\t<li>Creative arts therapies</li>\n\t<li>Hormone therapy</li>\n\t<li>Gender-affirming prosthetics</li>\n\t<li>HIV and STI testing, counseling, and care, including PEP (post-exposure prophylaxis) and PrEP (pre-exposure prophylaxis) for Veterans at risk for HIV</li>\n\t<li>Other prevention, screening, wellness, and testing services</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"9660b498-8159-419c-a467-344ba8c0d6a5\" href=\"/pittsburgh-health-care/lgbt-veteran-care\" title=\"LGBT Veteran care\">Learn more and connect with a care coordinator</a></p>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "54",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Lesbian, gay, bisexual and transgender",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "LGBT Veteran care",
+                "description": {
+                  "processed": "<p>If you're a Veteran who identifies as lesbian, gay, bisexual, transgender or a related identity, we’re committed to serving your needs. The LGBT Veteran care coordinator at your VA health care facility can help you get the care you need in a safe, sensitive environment.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information </h3>\n\n<p class=\"va-address-block\"><strong>Psychology / Social Work</strong><br /><strong>Phone:</strong><a href=\"tel: +17247096005\"> 7</a><a href=\"tel: +17244394990\">24-</a><a href=\"tel: +17242507790\">2</a><a href=\"tel: +17242160317\">16-0317</a><br /><strong>Hours: </strong>Monday – Friday, 8:00 a.m. – 4:30 p.m. ET</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</p>\n\n<p><strong>Phone: </strong><a href=\"tel: +17247096005\">7</a><a href=\"tel: +17244394990\">24-</a><a href=\"tel: +17242507790\">2</a><a href=\"tel: +17242160317\">16-0317</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>We provide care for military sexual trauma in our mental (behavioral) health clinics. Our services include: </p>\n\n<ul><li>Counseling</li>\n\t<li>Psychiatric care</li>\n\t<li>Walk-in care</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "116",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Military sexual trauma",
+                "description": {
+                  "processed": "<p>Military sexual trauma can happen to both men and women. If you experienced sexual assault or harassment during military service—no matter when you served—we provide counseling and treatment.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Mental health care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><strong>MOVE! group meetings</strong><br /><strong>Phone: </strong><a href=\"tel: +14128223114\">412-822-3114</a><br /><strong>Email: </strong><a href=\"mailto:melanie.erskine@va.gov\">melanie.erskine@va.gov</a><br /><strong>Hours:</strong> Tuesday, 2:00 p.m. to 3:00 p.m. ET<br />\n               Wednesday, 9:00 a.m. to 10:00 a.m. ET               </p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.<br /><br /><strong>Phone: </strong><a href=\"tel: +14128223114\">412-822-3114</a><br /><strong>Email: </strong><a href=\"mailto:melanie.erskine@va.gov\">melanie.erskine@va.gov</a></p>\n\n<p><a class=\"usa-button\" data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"4578cb13-d680-426f-8f2d-ff000e990cb3\" href=\"/health-care/schedule-view-va-appointments\" title=\"Schedule and view VA appointments online\">Schedule an appointment online</a></p>"
+        },
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\n\n<p>The MOVE! Program offers comprehensive support, including:</p>\n\n<ul dir=\"ltr\"><li>Weight loss support groups</li>\n\t<li>Cooking classes</li>\n</ul>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "52",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": "overweight, obesity, diabetes, high blood pressure",
+                "name": "MOVE! weight management",
+                "description": {
+                  "processed": "<p>We offer easy-to-follow weight management plans backed by the latest science. Our experts can help you reduce health risks, prevent or reverse some diseases and live a better—and even longer—life.</p>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Specialty care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
