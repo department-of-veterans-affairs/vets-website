@@ -558,6 +558,20 @@
             "availability": true
           },
           {
+            "startDateTime": "2020-01-22T15:40:00.000+00:00",
+            "endDateTime": "2020-01-22T16:00:00.000+00:00",
+            "bookingStatus": "1",
+            "remainingAllowedOverBookings": "3",
+            "availability": true
+          },
+          {
+            "startDateTime": "2020-01-22T16:40:00.000+00:00",
+            "endDateTime": "2020-01-22T17:00:00.000+00:00",
+            "bookingStatus": "1",
+            "remainingAllowedOverBookings": "3",
+            "availability": true
+          },
+          {
             "startDateTime": "2020-01-24T14:00:00.000+00:00",
             "endDateTime": "2020-01-24T14:20:00.000+00:00",
             "bookingStatus": "1",
@@ -567,13 +581,6 @@
           {
             "startDateTime": "2020-01-24T14:20:00.000+00:00",
             "endDateTime": "2020-01-24T14:40:00.000+00:00",
-            "bookingStatus": "1",
-            "remainingAllowedOverBookings": "3",
-            "availability": true
-          },
-          {
-            "startDateTime": "2020-01-24T14:40:00.000+00:00",
-            "endDateTime": "2020-01-24T15:00:00.000+00:00",
             "bookingStatus": "1",
             "remainingAllowedOverBookings": "3",
             "availability": true

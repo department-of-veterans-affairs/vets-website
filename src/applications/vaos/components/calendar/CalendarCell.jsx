@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
+import debounce from 'platform/utilities/data/debounce';
 import CalendarOptions from './CalendarOptions';
 import CalendarSelectedIndicator from './CalendarSelectedIndicator';
 
@@ -17,6 +18,49 @@ const CalendarCell = ({
   selectedDates,
   selectedIndicatorType,
 }) => {
+  const [optionsHeight, setOptionsHeight] = useState(0);
+  const [optionsNode, setOptionsNode] = useState(null);
+  const buttonRef = useRef();
+
+  const optionsHeightRef = useCallback(
+    node => {
+      const isCurrentlySelected = currentlySelectedDate === date;
+      if (buttonRef !== null && node !== null && isCurrentlySelected) {
+        setOptionsHeight(
+          node.getBoundingClientRect().height +
+            buttonRef.current.getBoundingClientRect().height,
+        );
+        setOptionsNode(node);
+      }
+    },
+    [currentlySelectedDate, date],
+  );
+
+  useEffect(() => {
+    const isCurrentlySelected = currentlySelectedDate === date;
+    if (isCurrentlySelected) {
+      const onResize = debounce(50, () => {
+        if (optionsNode) {
+          const newHeight =
+            optionsNode.getBoundingClientRect().height +
+            buttonRef.current.getBoundingClientRect().height;
+
+          if (newHeight !== optionsHeight) {
+            setOptionsHeight(newHeight);
+          }
+        }
+      });
+
+      window.addEventListener('resize', onResize);
+
+      return () => {
+        window.removeEventListener('resize', onResize);
+      };
+    }
+
+    return undefined;
+  });
+
   if (date === null) {
     return (
       <div role="cell" className="vaos-calendar__calendar-day">
@@ -36,7 +80,11 @@ const CalendarCell = ({
   });
 
   return (
-    <div role="cell" className={cssClasses}>
+    <div
+      role="cell"
+      className={cssClasses}
+      style={{ height: isCurrentlySelected ? optionsHeight : 'auto' }}
+    >
       <button
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
@@ -44,6 +92,7 @@ const CalendarCell = ({
         aria-label={ariaDate}
         aria-expanded={isCurrentlySelected}
         type="button"
+        ref={buttonRef}
       >
         {inSelectedArray && (
           <CalendarSelectedIndicator
@@ -66,6 +115,7 @@ const CalendarCell = ({
         handleSelectOption={handleSelectOption}
         optionsError={optionsError}
         selectedDates={selectedDates}
+        optionsHeightRef={optionsHeightRef}
       />
     </div>
   );

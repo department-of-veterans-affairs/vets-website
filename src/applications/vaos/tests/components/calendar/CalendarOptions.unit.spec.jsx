@@ -50,27 +50,4 @@ describe('VAOS <CalendarOptions>', () => {
     expect(checks.length).to.equal(2);
     tree.unmount();
   });
-
-  it('should update height after resize', done => {
-    const tree = mount(
-      <CalendarOptions
-        isCurrentlySelected
-        currentlySelectedDate="2019-10-21"
-        selectedDates={selectedDates}
-        additionalOptions={{ maxSelections: 1, getOptionsByDate }}
-      />,
-    );
-    // This is like doing .update(), but works with useEffect
-    tree.setProps();
-
-    window.dispatchEvent(new Event('resize'));
-
-    setTimeout(() => {
-      // this test doesn't really do anything other than excercise the code and make
-      // sure it doesn't error
-      tree.setProps();
-      tree.unmount();
-      done();
-    }, 60);
-  });
 });

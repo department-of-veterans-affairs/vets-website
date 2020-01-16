@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import debounce from 'platform/utilities/data/debounce';
 import CalendarRadioOption from './CalendarRadioOption';
 import CalendarCheckboxOption from './CalendarCheckboxOption';
 import { isDateOptionPairInSelectedArray } from './../../utils/calendar';
@@ -13,41 +12,8 @@ export default function CalendarOptions({
   optionsError,
   selectedDates,
   selectedCellIndex,
+  optionsHeightRef,
 }) {
-  const [fieldsetHeight, setFieldsetHeight] = useState(0);
-  const [fieldsetNode, setFieldsetNode] = useState(null);
-
-  const measuredHeight = useCallback(
-    node => {
-      if (node !== null && isCurrentlySelected) {
-        setFieldsetHeight(node.getBoundingClientRect().height);
-        setFieldsetNode(node);
-      }
-    },
-    [isCurrentlySelected],
-  );
-
-  useEffect(() => {
-    if (isCurrentlySelected) {
-      const onResize = debounce(50, () => {
-        if (fieldsetNode) {
-          const newHeight = fieldsetNode.getBoundingClientRect().height;
-          if (newHeight !== fieldsetHeight) {
-            setFieldsetHeight(newHeight);
-          }
-        }
-      });
-
-      window.addEventListener('resize', onResize);
-
-      return () => {
-        window.removeEventListener('resize', onResize);
-      };
-    }
-
-    return undefined;
-  });
-
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
     currentlySelectedDate,
   );
@@ -80,14 +46,11 @@ export default function CalendarOptions({
 
     return (
       <div
-        aria-hidden={isCurrentlySelected ? 'false' : 'true'}
-        className={isCurrentlySelected ? undefined : 'vads-u-display--none'}
-        style={{ height: fieldsetHeight }}
+        hidden={!isCurrentlySelected}
+        className="vaos-calendar__options-container"
+        ref={optionsHeightRef}
       >
-        <fieldset
-          ref={measuredHeight}
-          className="vaos-calendar__options-container"
-        >
+        <fieldset>
           <legend className="vads-u-visibility--screen-reader">
             {additionalOptions.legend ||
               'Please select an option for this date'}
