@@ -18,7 +18,6 @@ describe('<VetTecFilterBy>', () => {
       showModal: () => {},
       handleProviderFilterChange: () => {},
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
@@ -45,7 +44,6 @@ describe('<VetTecFilterBy>', () => {
       showModal: () => {},
       handleProviderFilterChange: () => {},
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
@@ -74,7 +72,6 @@ describe('<VetTecFilterBy>', () => {
       showModal: () => {},
       handleProviderFilterChange: () => {},
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
@@ -105,7 +102,6 @@ describe('<VetTecFilterBy>', () => {
         selectedVal = provider;
       },
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
