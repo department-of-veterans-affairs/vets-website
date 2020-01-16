@@ -1,31 +1,77 @@
 /* eslint-disable camelcase */
 
+const tupleSchema = {
+  type: 'array',
+  items: { type: 'string' },
+  minItems: 2,
+  maxItems: 2,
+};
+
 module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
     moderation_state: { $ref: 'GenericNestedString' },
-    metatag: { $ref: 'GenericNestedString' },
-    path: { $ref: 'GenericNestedString' },
-    field_address: { $ref: 'GenericNestedString' },
-    field_email_subscription: { $ref: 'GenericNestedString' },
-    field_facebook: { $ref: 'GenericNestedString' },
-    field_facility_hours: { $ref: 'GenericNestedString' },
+    metatag: { $ref: 'RawMetaTags' },
+    path: { $ref: 'RawPath' },
+    field_address: { $ref: 'RawAddress' },
+    field_facility_hours: {
+      type: 'array',
+      maxItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          value: {
+            // It's either an array, or an object masquerading as an array with
+            // an additional `caption` property
+            type: ['array', 'object'],
+            items: tupleSchema,
+            properties: {
+              0: tupleSchema,
+              1: tupleSchema,
+              2: tupleSchema,
+              3: tupleSchema,
+              4: tupleSchema,
+              5: tupleSchema,
+              6: tupleSchema,
+              caption: { type: 'string' },
+            },
+            required: ['0', '1', '2', '3', '4', '5', '6', 'caption'],
+          },
+          format: { type: 'null' }, // Only ever seen it as null
+          caption: { type: ['string', 'null'] },
+        },
+        required: ['value', 'format', 'caption'],
+      },
+    },
     field_facility_locator_api_id: { $ref: 'GenericNestedString' },
-    field_flickr: { $ref: 'GenericNestedString' },
-    field_instagram: { $ref: 'GenericNestedString' },
     field_intro_text: { $ref: 'GenericNestedString' },
-    field_local_health_care_service_: { $ref: 'GenericNestedString' },
-    field_location_services: { $ref: 'GenericNestedString' },
-    field_main_location: { $ref: 'GenericNestedString' },
-    field_media: { $ref: 'GenericNestedString' },
+    field_local_health_care_service_: { $ref: 'EntityReferenceArray' },
+    field_location_services: { $ref: 'EntityReferenceArray' },
+    field_main_location: { $ref: 'GenericNestedBoolean' },
+    field_media: {
+      type: 'array',
+      items: { $ref: 'EntityReference' },
+      maxItems: 1,
+    },
     field_mental_health_phone: { $ref: 'GenericNestedString' },
     field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
     field_operating_status_facility: { $ref: 'GenericNestedString' },
     field_phone_number: { $ref: 'GenericNestedString' },
-    field_region_page: { $ref: 'GenericNestedString' },
+    field_region_page: {
+      type: 'array',
+      items: { $ref: 'EntityReference' },
+      maxItems: 1,
+    },
+
+    // Not sure what any of the following should be; all entities had only empty arrays for these
+    // jq --slurp 'map(select(.type[0].target_id == "health_care_local_facility")) | map(.field_email_subscription) | map(select(. != []))' node.*.json
+    field_email_subscription: { $ref: 'GenericNestedString' },
+    field_facebook: { $ref: 'GenericNestedString' },
     field_twitter: { $ref: 'GenericNestedString' },
+    field_instagram: { $ref: 'GenericNestedString' },
+    field_flickr: { $ref: 'GenericNestedString' },
   },
   required: [
     'title',
