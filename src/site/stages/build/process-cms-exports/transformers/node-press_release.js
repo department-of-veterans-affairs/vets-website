@@ -19,14 +19,7 @@ const transform = entity => ({
     administrativeArea: entity.fieldAddress[0].administrative_area,
   },
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: {
-    entity: {
-      entityLabel: entity.fieldOffice[0].entity.entityLabel,
-      fieldPressReleaseBlurb: {
-        processed: 'test',
-      },
-    },
-  },
+  fieldOffice: entity.fieldOffice[0],
   fieldPdfVersion: getDrupalValue(entity.fieldPdfVersion),
   fieldPressReleaseContact: [
     {

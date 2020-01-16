@@ -33,25 +33,7 @@ module.exports = {
       required: ['locality', 'administrativeArea'],
     },
     fieldIntroText: { type: 'string' },
-    fieldOffice: {
-      type: 'object',
-      properties: {
-        entity: {
-          type: 'object',
-          properties: {
-            entityLabel: { type: 'string' },
-            fieldPressReleaseBlurb: {
-              type: 'object',
-              properties: {
-                processed: { type: 'string' },
-              },
-            },
-          },
-          required: ['entityLabel', 'fieldPressReleaseBlurb'],
-        },
-      },
-      required: ['entity'],
-    },
+    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
     fieldPdfVersion: { type: ['string', 'null'] },
     fieldPressReleaseContact: {
       type: 'array',

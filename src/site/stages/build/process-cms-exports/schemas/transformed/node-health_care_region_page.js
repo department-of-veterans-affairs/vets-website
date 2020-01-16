@@ -17,6 +17,12 @@ module.exports = {
           required: ['path'],
         },
         fieldNicknameForThisFacility: { type: 'string' },
+        fieldPressReleaseBlurb: {
+          type: 'object',
+          properties: {
+            processed: { type: 'string' },
+          },
+        },
         // TODO: Figure out the type vs. __typename stuff
         entityMetaTags: {
           type: 'array',
@@ -31,7 +37,11 @@ module.exports = {
           },
         },
       },
-      required: ['title', 'fieldNicknameForThisFacility'],
+      required: [
+        'title',
+        'fieldNicknameForThisFacility',
+        'fieldPressReleaseBlurb',
+      ],
     },
   },
   required: ['entity'],

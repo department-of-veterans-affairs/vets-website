@@ -79,10 +79,81 @@
   ],
   "fieldPressReleaseDownloads": [],
   "fieldOffice": {
+    "contentModelType": "node-health_care_region_page",
     "entity": {
+      "entityBundle": "health_care_region_page",
+      "entityType": "node",
       "entityLabel": "VA Pittsburgh health care",
+      "title": "VA Pittsburgh health care",
+      "fieldNicknameForThisFacility": "VA Pittsburgh",
+      "entityUrl": {
+        "path": "/pittsburgh-health-care"
+      },
+      "entityMetatags": [
+        {
+          "__typename": "MetaValue",
+          "key": "title",
+          "value": "VA Pittsburgh Health Care | Veterans Affairs"
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:card",
+          "value": "summary_large_image"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:site_name",
+          "value": "Veterans Affairs"
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:description",
+          "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "description",
+          "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:title",
+          "value": "VA Pittsburgh health care | Veterans Affairs"
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:site",
+          "value": "@DeptVetAffairs"
+        },
+        {
+          "__typename": "MetaLink",
+          "key": "image_src",
+          "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:title",
+          "value": "VA Pittsburgh health care | Veterans Affairs"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:description",
+          "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
+        },
+        {
+          "__typename": "MetaValue",
+          "key": "twitter:image",
+          "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
+        },
+        {
+          "__typename": "MetaProperty",
+          "key": "og:image",
+          "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
+        }
+      ],
+      "entityPublished": true,
       "fieldPressReleaseBlurb": {
-        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>"
+        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
       }
     }
   }
