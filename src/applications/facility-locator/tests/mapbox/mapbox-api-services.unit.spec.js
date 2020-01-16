@@ -12,8 +12,8 @@ const mbxClient = mbxGeo(mapboxClient);
 
 import { BOUNDING_RADIUS } from '../../constants';
 
-describe('Locator MapBox SDK services Tests', () => {
-  describe('Test1', async () => {
+describe('Locator MapBox SDK services tests', () => {
+  describe('Test the generation of bounding box from a lat/long geocoordinate and updates for placeName and zipcode', async () => {
     const {
       body: { features },
     } = await mbxClient
