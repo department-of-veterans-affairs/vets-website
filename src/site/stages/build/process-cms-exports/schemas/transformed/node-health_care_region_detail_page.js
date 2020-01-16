@@ -19,7 +19,11 @@ module.exports = {
       type: 'array',
       items: { $ref: 'Paragraph' },
     },
-    fieldFeaturedContent: { type: 'array' },
+    fieldFeaturedContent: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'Paragraph' },
+    },
     fieldIntroText: { type: 'string' },
     fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
     fieldRelatedLinks: {
