@@ -9,7 +9,11 @@ import {
   selectVet360MobilePhoneString,
 } from 'platform/user/selectors';
 import newAppointmentFlow from '../newAppointmentFlow';
-import { getTypeOfCare, vaosDirectScheduling } from '../utils/selectors';
+import {
+  getTypeOfCare,
+  vaosDirectScheduling,
+  getNewAppointment,
+} from '../utils/selectors';
 import {
   getSystemIdentifiers,
   getSystemDetails,
@@ -55,6 +59,12 @@ export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
+export const FORM_FETCH_AVAILABLE_APPOINTMENTS =
+  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS';
+export const FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED';
+export const FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED =
+  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED';
 export const FORM_FETCH_CHILD_FACILITIES_FAILED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
@@ -76,10 +86,6 @@ export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
   'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
-export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED =
-  'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED';
-export const FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED =
-  'newAppointment/FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -395,61 +401,90 @@ export function openClinicPage(page, uiSchema, schema) {
   };
 }
 
-export function openSelectAppointmentPage(page, uiSchema, schema) {
+export function getAppointmentSlots(startDate, endDate) {
   return async (dispatch, getState) => {
-    const data = getState().newAppointment.data;
-    let slots;
-    let mappedSlots = [];
-    let appointmentLength = null;
+    const newAppointment = getNewAppointment(getState());
+    const availableSlots = newAppointment.availableSlots || [];
+    const { data } = newAppointment;
 
-    dispatch({
-      type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
-    });
+    const fetchedAppointmentSlotMonths = [
+      ...newAppointment.fetchedAppointmentSlotMonths,
+    ];
 
-    try {
-      const response = await getAvailableSlots(
-        data.vaFacility,
-        data.typeOfCareId,
-        data.clinicId,
-        moment(data.preferredDate)
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment(data.preferredDate)
-          .startOf('month')
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+    const startDateMonth = moment(startDate).format('YYYY-MM');
+    const endDateMonth = moment(endDate).format('YYYY-MM');
 
-      slots = response[0]?.appointmentTimeSlot || [];
-      appointmentLength = response[0]?.appointmentLength;
+    const fetchedStartMonth = fetchedAppointmentSlotMonths.includes(
+      startDateMonth,
+    );
+    const fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
 
-      const now = moment();
+    if (!fetchedStartMonth || !fetchedEndMonth) {
+      let mappedSlots = [];
+      let appointmentLength = null;
+      dispatch({ type: FORM_FETCH_AVAILABLE_APPOINTMENTS });
 
-      mappedSlots = slots.reduce((acc, slot) => {
-        const dateObj = moment(slot.startDateTime);
-        if (dateObj.isAfter(now)) {
-          acc.push({
-            date: dateObj.format('YYYY-MM-DD'),
-            datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),
-          });
+      try {
+        const startDateString = !fetchedStartMonth
+          ? startDate
+          : moment(endDate)
+              .startOf('month')
+              .format('YYYY-MM-DD');
+        const endDateString = !fetchedEndMonth
+          ? endDate
+          : moment(startDate)
+              .endOf('month')
+              .format('YYYY-MM-DD');
+
+        const response = await getAvailableSlots(
+          data.vaFacility,
+          data.typeOfCareId,
+          data.clinicId,
+          startDateString,
+          endDateString,
+        );
+
+        const fetchedSlots = response[0]?.appointmentTimeSlot || [];
+        appointmentLength = response[0]?.appointmentLength;
+
+        const now = moment();
+
+        mappedSlots = fetchedSlots.reduce((acc, slot) => {
+          const dateObj = moment(slot.startDateTime);
+          if (dateObj.isAfter(now)) {
+            acc.push({
+              date: dateObj.format('YYYY-MM-DD'),
+              datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),
+            });
+          }
+          return acc;
+        }, []);
+
+        if (!fetchedStartMonth) {
+          fetchedAppointmentSlotMonths.push(startDateMonth);
         }
-        return acc;
-      }, []);
 
-      mappedSlots = mappedSlots.sort((a, b) => a.date.localeCompare(b.date));
-    } catch (e) {
-      Sentry.captureException(e);
-      mappedSlots = null;
+        if (!fetchedEndMonth) {
+          fetchedAppointmentSlotMonths.push(endDateMonth);
+        }
+
+        const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
+          a.date.localeCompare(b.date),
+        );
+
+        dispatch({
+          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+          availableSlots: sortedSlots,
+          fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
+          appointmentLength,
+        });
+      } catch (e) {
+        Sentry.captureException(e);
+        dispatch({
+          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+        });
+      }
     }
-
-    dispatch({
-      type: FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
-      page,
-      uiSchema,
-      schema,
-      availableSlots: mappedSlots,
-      appointmentLength,
-    });
   };
 }
 

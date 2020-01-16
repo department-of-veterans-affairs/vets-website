@@ -74,5 +74,5 @@ module.exports = {
     'taxonomy_term.023f7f13-50bb-4eef-9570-78bdad529a3c.json',
   'taxonomy_term-administration':
     'taxonomy_term.2c331a6d-b525-4f0c-8bea-4ecde41c7ef0.json',
-  user: 'user.febabc33-ac97-48c6-bc49-f9150dfc443f.json',
+  user: 'user.fd71292f-3dc7-409d-b0e8-500204cb005a.json',
 };

@@ -2,7 +2,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneAbbrBySystemId } from './timezone';
+import { getTimezoneDescBySystemId } from './timezone';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
@@ -63,6 +63,12 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getChosenFacilityDetails(state) {
+  const data = getFormData(state);
+  const facilityDetails = getNewAppointment(state).facilityDetails;
+  return facilityDetails[data.vaFacility] || null;
+}
+
 export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
@@ -85,7 +91,7 @@ export function getPreferredDate(state, pageKey) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
-  const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
+  const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
@@ -99,7 +105,7 @@ export function getDateTimeSelect(state, pageKey) {
   }, []);
 
   const timezone = data.vaSystem
-    ? getTimezoneAbbrBySystemId(data.vaSystem)
+    ? getTimezoneDescBySystemId(data.vaSystem)
     : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
 
@@ -109,7 +115,7 @@ export function getDateTimeSelect(state, pageKey) {
     availableSlots,
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
-    loadingAppointmentSlots,
+    appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
     typeOfCareId,
@@ -239,3 +245,4 @@ export const vaosCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
+export const selectFeatureToggleLoading = state => toggleValues(state).loading;

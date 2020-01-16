@@ -2,7 +2,7 @@ import React from 'react';
 
 import KeywordSearch from '../search/KeywordSearch';
 import CheckboxGroup from '../CheckboxGroup';
-import { addAllOption } from '../../utils/helpers';
+import { addAllOption, getStateNameForCode } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
@@ -99,7 +99,7 @@ class VetTecSearchForm extends React.Component {
       .sort()
       .map(state => ({
         value: state,
-        label: state,
+        label: getStateNameForCode(state),
       }));
 
     return (
@@ -122,7 +122,6 @@ class VetTecSearchForm extends React.Component {
       providers={this.props.search.facets.provider}
       handleFilterChange={this.props.handleFilterChange}
       handleProviderFilterChange={this.props.handleProviderFilterChange}
-      giVetTecProgramProviderFilters={this.props.giVetTecProgramProviderFilters}
     />
   );
 

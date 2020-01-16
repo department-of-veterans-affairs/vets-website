@@ -5,12 +5,13 @@ import { LocationType } from '../../constants';
 import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
+import { isVADomain } from '../../utils/helpers';
+import environments from '../../../../platform/utilities/environment';
 
 const LocationInfoBlock = ({ location }) => {
-  const { name } = location.attributes;
+  const { name, website } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const distance = location.distance;
-
   return (
     <div>
       {isProvider ? (
@@ -25,9 +26,15 @@ const LocationInfoBlock = ({ location }) => {
         </span>
       ) : (
         <span>
-          <h2 className="vads-u-font-size--h5">
-            <Link to={`facility/${location.id}`}>{name}</Link>
-          </h2>
+          {isVADomain(website) && environments.isStaging() ? (
+            <a href={website}>
+              <h2 className="vads-u-font-size--h5">{name}</h2>
+            </a>
+          ) : (
+            <h2 className="vads-u-font-size--h5">
+              <Link to={`facility/${location.id}`}>{name}</Link>
+            </h2>
+          )}
           <FacilityTypeDescription location={location} />
         </span>
       )}

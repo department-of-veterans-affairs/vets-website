@@ -62,7 +62,7 @@ describe('VAOS <AppointmentRequestListItem>', () => {
     const toggleExpand = tree.find('AdditionalInfo');
     toggleExpand.props().onClick();
 
-    const preferredDates = tree.find('.vaos-appts__preferred-dates li');
+    const preferredDates = tree.find('ul li');
 
     expect(preferredDates.at(0).text()).to.equal(
       'Wed, May 22, 2019 in the afternoon',
@@ -176,8 +176,10 @@ describe('VAOS <AppointmentRequestListItem>', () => {
 
     const toggleExpand = tree.find('AdditionalInfo');
     toggleExpand.props().onClick();
-
-    const preferredDates = tree.find('.vaos-appts__preferred-dates li');
+    const preferredDates = tree
+      .find('ul')
+      .at(1)
+      .find('li');
 
     expect(preferredDates.at(0).text()).to.equal(
       'Wed, May 22, 2019 in the afternoon',

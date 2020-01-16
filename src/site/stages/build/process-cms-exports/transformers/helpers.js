@@ -1,5 +1,6 @@
 const assert = require('assert');
 const { sortBy, unescape, pick } = require('lodash');
+const moment = require('moment-timezone');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -34,14 +35,6 @@ function getDrupalValue(arr) {
   return null;
 }
 
-function createMetaTag(type, key, value) {
-  return {
-    type,
-    key,
-    value,
-  };
-}
-
 /**
  * This is currently a dummy function, but we may
  * need it in the future to convert weird uris like
@@ -54,8 +47,8 @@ function uriToUrl(uri) {
 
 module.exports = {
   getDrupalValue,
-  createMetaTag,
   unescapeUnicode,
+  uriToUrl,
 
   /**
    * This function takes an object where the keys are integers
@@ -111,5 +104,51 @@ module.exports = {
           attrs,
         )
       : null;
+  },
+
+  /**
+   * Takes a timestamp like 2019-09-10T13:43:47+00:00
+   * and returns the epoch time.
+   */
+  utcToEpochTime(timeString) {
+    return moment.tz(timeString, 'UTC').unix();
+  },
+
+  createMetaTagArray(metaTags, typeName = '__typename') {
+    function createMetaTag(type, key, value) {
+      return {
+        [typeName]: type,
+        key,
+        value,
+      };
+    }
+
+    return [
+      createMetaTag('MetaValue', 'title', metaTags.title),
+      createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
+      createMetaTag('MetaProperty', 'og:site_name', metaTags.og_site_name),
+      createMetaTag(
+        'MetaValue',
+        'twitter:description',
+        metaTags.twitter_cards_description,
+      ),
+      createMetaTag('MetaValue', 'description', metaTags.description),
+      createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
+      createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaLink', 'image_src', metaTags.image_src),
+      createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+      createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
+      createMetaTag(
+        'MetaProperty',
+        'og:image:height',
+        metaTags.og_image_height,
+      ),
+      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
+    ].filter(t => t.value);
+  },
+
+  isPublished(moderationState) {
+    return moderationState === 'published';
   },
 };

@@ -1,12 +1,12 @@
 {
     "uid": [
         {
-            "value": 310
+            "value": 86
         }
     ],
     "uuid": [
         {
-            "value": "febabc33-ac97-48c6-bc49-f9150dfc443f"
+            "value": "c0745381-8e20-40da-9540-5a7d2eee1b35"
         }
     ],
     "langcode": [
@@ -26,7 +26,7 @@
     ],
     "name": [
         {
-            "value": "josh.quag"
+            "value": "Howard.Brande@va.gov"
         }
     ],
     "mail": [],
@@ -42,13 +42,13 @@
     ],
     "created": [
         {
-            "value": "2019-05-10T21:19:18+00:00",
+            "value": "2019-03-18T16:08:26+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2019-09-19T00:16:48+00:00",
+            "value": "2019-11-04T21:04:32+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -57,6 +57,21 @@
             "target_id": "content_publisher",
             "target_type": "user_role",
             "target_uuid": "2782bb1f-74f1-4ac9-b2f8-5dd3cc9bfec1"
+        },
+        {
+            "target_id": "admnistrator_users",
+            "target_type": "user_role",
+            "target_uuid": "f238afd7-c738-4625-a432-2f9eaebf9283"
+        },
+        {
+            "target_id": "redirect_administrator",
+            "target_type": "user_role",
+            "target_uuid": "c342cb58-27f8-4a6a-b698-15b68416f3b7"
+        },
+        {
+            "target_id": "content_admin",
+            "target_type": "user_role",
+            "target_uuid": "bfc758cc-8eee-4aed-909c-a5ccbb83f318"
         },
         {
             "target_id": "administrator",
@@ -71,8 +86,8 @@
     ],
     "metatag": {
         "value": {
-            "title": "josh.quag | Veterans Affairs",
-            "canonical_url": "http:\/\/default\/user\/310",
+            "title": "Howard.Brande@va.gov | Veterans Affairs",
+            "canonical_url": "http:\/\/default\/user\/86",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
             "description": "Veterans Affairs",

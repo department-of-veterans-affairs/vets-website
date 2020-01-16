@@ -9,7 +9,16 @@
 
 .schemaform-intro {
   padding: 0 0 2rem 0;
+
+  .process-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .omb-info--container {
+    margin-top: 1em;
+  }
 }
+
 
 /* Global */
 .nowrap {
@@ -22,14 +31,46 @@
   margin-bottom: 1em;
 }
 
-/* Intro page */
-aside.process {
-  /* fix gaps around the sign-in block */
-  padding-bottom: 0;
+/* Opt out of old appeals styles */
+article[data-location="opt-out-of-old-appeals"] {
+  /* Hide form progression & step number to match design */
+  .progress-bar-segmented,
+  .schemaform-chapter-progress,
+  /* Hide title & (*Required) label above opt-out checkbox */
+  #root_legacyOptInApproved-label,
+  /* Hide save form link */
+  .form-progress-buttons + div {
+    display: none;
+  }
 
-  &+ .usa-alert-continue {
+  /* Reduce opt-out title spacing */
+  .confirmation-page-title {
     margin-top: 0;
-    margin-bottom: 2em;
+  }
+
+  /* Remove left padding to align left side, per design */
+  .progress-box {
+    padding-left: 0;
+  }
+
+  /* Move checkbox error message _below_ the checkbox, per spec:
+   * https://design.va.gov/patterns/form-feedback#errors-on-checkboxes;
+   * necessary for this custom checkbox widget
+   */
+  .usa-input-error{
+    display: flex;
+    flex-direction: column;
+    flex-flow: column-reverse;
+  }
+
+  /* Maintain margin above checkbox with error */
+  .schemaform-first-field > .usa-input-error {
+    margin-top: 1.8em;
+  }
+
+  /* Reduce padding below footer link and site footer */
+  .help-footer-box {
+    padding-bottom: 0;
   }
 }
 

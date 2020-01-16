@@ -18,12 +18,43 @@ describe('<VetTecFilterBy>', () => {
       showModal: () => {},
       handleProviderFilterChange: () => {},
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
     expect(wrapper.find('input')).to.have.lengthOf(2);
     expect(wrapper.find('input[name="PROVIDER 1"]')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('sorts provider filters correctly', () => {
+    const props = {
+      filters: {
+        provider: [],
+      },
+      providers: [
+        {
+          name: 'C PROVIDER',
+          count: 1,
+        },
+        {
+          name: 'A PROVIDER',
+          count: 2,
+        },
+      ],
+      showModal: () => {},
+      handleProviderFilterChange: () => {},
+      handleFilterChange: () => {},
+    };
+
+    const wrapper = mount(<VetTecFilterBy {...props} />);
+
+    expect(wrapper.find('.vet-tec-provider-filters input')).to.have.lengthOf(2);
+    expect(
+      wrapper
+        .find('.vet-tec-provider-filters label')
+        .at(0)
+        .text(),
+    ).to.eq('A PROVIDER (2)');
     wrapper.unmount();
   });
 
@@ -41,7 +72,6 @@ describe('<VetTecFilterBy>', () => {
       showModal: () => {},
       handleProviderFilterChange: () => {},
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);
@@ -72,7 +102,6 @@ describe('<VetTecFilterBy>', () => {
         selectedVal = provider;
       },
       handleFilterChange: () => {},
-      giVetTecProgramProviderFilters: true,
     };
 
     const wrapper = mount(<VetTecFilterBy {...props} />);

@@ -336,6 +336,7 @@ describe('vet360 reducer', () => {
           selectedAddress: {},
           selectedAddressId: null,
           suggestedAddresses: [],
+          confirmedSuggestions: [],
           validationKey: null,
         },
         fieldTransactionMap: {
@@ -354,6 +355,7 @@ describe('vet360 reducer', () => {
         modalData: { foo: 'bar' },
         addressValidation: {
           addressValidationType: 'address',
+          confirmedSuggestions: [],
           suggestedAddresses: [{ street: '123 Main St' }],
           addressFromUser: {
             addressLine1: '123 main',
@@ -377,6 +379,7 @@ describe('vet360 reducer', () => {
         addressValidation: {
           addressValidationType: '',
           suggestedAddresses: [],
+          confirmedSuggestions: [],
           addressFromUser: {
             addressLine1: '',
             addressLine2: '',
@@ -435,6 +438,23 @@ describe('vet360 reducer', () => {
         fieldName: 'mailingAddress',
       };
       const expectedState = {
+        addressValidation: {
+          addressFromUser: {
+            addressLine1: '',
+            addressLine2: '',
+            addressLine3: '',
+            city: '',
+            stateCode: '',
+            zipCode: '',
+          },
+          addressValidationError: false,
+          addressValidationType: '',
+          confirmedSuggestions: [],
+          selectedAddress: {},
+          selectedAddressId: null,
+          suggestedAddresses: [],
+          validationKey: null,
+        },
         fieldTransactionMap: {
           mailingAddress: { isPending: true },
         },

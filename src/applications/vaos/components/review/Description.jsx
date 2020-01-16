@@ -4,7 +4,7 @@ import { FLOW_TYPES, FACILITY_TYPES } from '../../utils/constants';
 import { lowerCase } from '../../utils/appointment';
 
 export default function Description({ data, flowType }) {
-  const typeOfCare = lowerCase(getTypeOfCare(data).name);
+  const typeOfCare = lowerCase(getTypeOfCare(data)?.name);
   const description =
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
       ? 'Community Care'

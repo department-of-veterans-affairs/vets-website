@@ -10,6 +10,7 @@ export const EXTERNAL_SERVICES = {
   // Enrollment System (HCA submissions)
   es: 'es',
   evss: 'evss',
+  global: 'global',
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
   // ID.me, identity provider
