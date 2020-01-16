@@ -1,16 +1,13 @@
+// Node modules.
 import { expect } from 'chai';
-
 import MapboxClient from '@mapbox/mapbox-sdk';
-
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+// Relative imports.
+import { BOUNDING_RADIUS } from '../../constants';
 import { mapboxToken } from '../../utils/mapboxToken';
 
 const mapboxClient = MapboxClient({ accessToken: mapboxToken });
-
-const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
-
 const mbxClient = mbxGeo(mapboxClient);
-
-import { BOUNDING_RADIUS } from '../../constants';
 
 describe('Locator MapBox SDK services tests', () => {
   describe('Test the generation of bounding box from a lat/long geocoordinate and updates for placeName and zipcode', async () => {

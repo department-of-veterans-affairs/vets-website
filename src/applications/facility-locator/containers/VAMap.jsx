@@ -299,7 +299,7 @@ class VAMap extends Component {
   genBBoxFromCoords = position => {
     if (environments.isStaging()) {
       /**
-       * New SDk uses forwardGeocode fn to make the API call(promise)
+       * New SDk uses reverseGeocode fn to make the API call (promise)
        */
       mbxClient
         .reverseGeocode({
@@ -333,7 +333,7 @@ class VAMap extends Component {
         .catch();
     } else {
       /**
-       * Current SDk uses geocodeReverse fn to make the API all (callback)
+       * Current SDk uses geocodeReverse fn to make the API call (callback)
        */
       mbxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
         const coordinates = res.features[0].center;
