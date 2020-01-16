@@ -24,8 +24,12 @@ const CalendarCell = ({
 
   const optionsHeightRef = useCallback(
     node => {
-      const isCurrentlySelected = currentlySelectedDate === date;
-      if (buttonRef !== null && node !== null && isCurrentlySelected) {
+      if (
+        buttonRef !== null &&
+        node !== null &&
+        date !== null &&
+        currentlySelectedDate === date
+      ) {
         setOptionsHeight(
           node.getBoundingClientRect().height +
             buttonRef.current.getBoundingClientRect().height,
@@ -37,10 +41,9 @@ const CalendarCell = ({
   );
 
   useEffect(() => {
-    const isCurrentlySelected = currentlySelectedDate === date;
-    if (isCurrentlySelected) {
+    if (date !== null && currentlySelectedDate === date) {
       const onResize = debounce(50, () => {
-        if (optionsNode) {
+        if (optionsNode && buttonRef.current) {
           const newHeight =
             optionsNode.getBoundingClientRect().height +
             buttonRef.current.getBoundingClientRect().height;
@@ -107,16 +110,17 @@ const CalendarCell = ({
           <span className="vaos-calendar__cell-selected-triangle" />
         )}
       </button>
-      <CalendarOptions
-        isCurrentlySelected={isCurrentlySelected}
-        selectedCellIndex={index}
-        currentlySelectedDate={date}
-        additionalOptions={additionalOptions}
-        handleSelectOption={handleSelectOption}
-        optionsError={optionsError}
-        selectedDates={selectedDates}
-        optionsHeightRef={optionsHeightRef}
-      />
+      {isCurrentlySelected && (
+        <CalendarOptions
+          selectedCellIndex={index}
+          currentlySelectedDate={date}
+          additionalOptions={additionalOptions}
+          handleSelectOption={handleSelectOption}
+          optionsError={optionsError}
+          selectedDates={selectedDates}
+          optionsHeightRef={optionsHeightRef}
+        />
+      )}
     </div>
   );
 };

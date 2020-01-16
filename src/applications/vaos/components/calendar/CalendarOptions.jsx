@@ -5,7 +5,6 @@ import CalendarCheckboxOption from './CalendarCheckboxOption';
 import { isDateOptionPairInSelectedArray } from './../../utils/calendar';
 
 export default function CalendarOptions({
-  isCurrentlySelected,
   currentlySelectedDate,
   additionalOptions,
   handleSelectOption,
@@ -45,11 +44,7 @@ export default function CalendarOptions({
     );
 
     return (
-      <div
-        hidden={!isCurrentlySelected}
-        className="vaos-calendar__options-container"
-        ref={optionsHeightRef}
-      >
+      <div className="vaos-calendar__options-container" ref={optionsHeightRef}>
         <fieldset>
           <legend className="vads-u-visibility--screen-reader">
             {additionalOptions.legend ||
