@@ -4,37 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    metatag: {
-      // Probably should be a common schema
-      type: 'object',
-      properties: {
-        value: {
-          type: 'object',
-          properties: {
-            title: { type: 'string' },
-            twitter_cards_type: { type: 'string' },
-            og_site_name: { type: 'string' },
-            twitter_cards_description: { type: 'string' },
-            description: { type: 'string' },
-            twitter_cards_title: { type: 'string' },
-            twitter_cards_site: { type: 'string' },
-            og_title: { type: 'string' },
-            og_description: { type: 'string' },
-          },
-          required: [
-            'title',
-            'twitter_cards_type',
-            'og_site_name',
-            'twitter_cards_description',
-            'description',
-            'twitter_cards_title',
-            'twitter_cards_site',
-            'og_title',
-            'og_description',
-          ],
-        },
-      },
-    },
+    metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_address: {
       type: 'array',

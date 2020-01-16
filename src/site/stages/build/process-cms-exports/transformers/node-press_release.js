@@ -1,4 +1,9 @@
-const { createMetaTagArray, getDrupalValue } = require('./helpers');
+const {
+  createMetaTagArray,
+  getDrupalValue,
+  getWysiwygString,
+  isPublished,
+} = require('./helpers');
 
 const transform = entity => ({
   entityType: 'node',
@@ -36,11 +41,16 @@ const transform = entity => ({
     },
   ],
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
-  fieldPressReleaseFulltext: getDrupalValue(entity.fieldPressReleaseFulltext),
+  fieldPressReleaseFulltext: {
+    processed: getWysiwygString(
+      getDrupalValue(entity.fieldPressReleaseFulltext),
+    ),
+  },
   fieldReleaseDate: {
     value: getDrupalValue(entity.fieldReleaseDate),
     date: getDrupalValue(entity.fieldReleaseDate),
   },
+  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
 });
 module.exports = {
   filter: [
@@ -55,6 +65,7 @@ module.exports = {
     'field_press_release_downloads',
     'field_press_release_fulltext',
     'field_release_date',
+    'moderation_state',
   ],
   transform,
 };

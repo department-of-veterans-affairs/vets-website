@@ -79,7 +79,15 @@ module.exports = {
       },
     },
     fieldPressReleaseDownloads: { type: 'array' },
-    fieldPressReleaseFulltext: { type: 'string' },
+    fieldPressReleaseFulltext: {
+      type: 'object',
+      properties: {
+        processed: {
+          type: 'string',
+        },
+      },
+      required: ['processed'],
+    },
     fieldReleaseDate: {
       type: 'object',
       // These properties are strings resembling dates
