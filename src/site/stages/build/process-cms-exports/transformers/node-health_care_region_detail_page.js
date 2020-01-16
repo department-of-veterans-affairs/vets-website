@@ -1,4 +1,5 @@
 const {
+  isPublished,
   getDrupalValue,
   utcToEpochTime,
   createMetaTagArray,
@@ -9,7 +10,7 @@ const transform = entity => ({
   entityBundle: 'health_care_region_detail_page',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  entityPublished: getDrupalValue(entity.moderationState) === 'published',
+  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityUrl: {
     path: entity.path[0].alias,
