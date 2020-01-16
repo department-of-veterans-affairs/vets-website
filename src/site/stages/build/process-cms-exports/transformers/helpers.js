@@ -135,6 +135,7 @@ module.exports = {
       createMetaTag('MetaValue', 'description', metaTags.description),
       createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
       createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaLink', 'image_src', metaTags.image_src),
       createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
       createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
       createMetaTag(
@@ -142,6 +143,12 @@ module.exports = {
         'og:image:height',
         metaTags.og_image_height,
       ),
+      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
     ].filter(t => t.value);
+  },
+
+  isPublished(moderationState) {
+    return moderationState === 'published';
   },
 };
