@@ -7,6 +7,8 @@ const submitFormFor = eventName =>
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
 
+    let timer;
+
     // Copied and pasted from USFS with a couple changes:
     // 1. Sets `withCredentials` to true
     // 2. Sends the Authorization header with the user token
@@ -24,6 +26,7 @@ const submitFormFor = eventName =>
           const responseBody =
             'response' in req ? req.response : req.responseText;
           const results = JSON.parse(responseBody);
+          clearTimeout(timer);
           resolve(results);
         } else {
           let error;
@@ -37,6 +40,7 @@ const submitFormFor = eventName =>
             error = new Error(`vets_server_error: ${req.statusText}`);
           }
           error.statusText = req.statusText;
+          clearTimeout(timer);
           reject(error);
         }
       });
@@ -44,23 +48,34 @@ const submitFormFor = eventName =>
       req.addEventListener('error', () => {
         const error = new Error('client_error: Network request failed');
         error.statusText = req.statusText;
+        clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('abort', () => {
         const error = new Error('client_error: Request aborted');
         error.statusText = req.statusText;
+        clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('timeout', () => {
         const error = new Error('client_error: Request timed out');
         error.statusText = req.statusText;
+        clearTimeout(timer);
         reject(error);
       });
 
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.setRequestHeader('Content-Type', 'application/json');
+
+      // Throw an error after 30 seconds
+      timer = setTimeout(() => {
+        const error = new Error('client_error: Request taking too long');
+        // eslint-disable-next-line no-console
+        console.log(req, form, JSON.parse(body));
+        reject(error);
+      }, 3e4);
 
       req.send(body);
     });
