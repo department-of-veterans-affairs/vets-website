@@ -1,53 +1,17 @@
 {
+  "contentModelType": "node-press_release",
   "entityBundle": "press_release",
-  "entityId": "846",
+  "entityType": "node",
   "entityPublished": true,
   "title": "VA Pittsburgh Announces Outstanding Physicians for 2018",
   "entityUrl": {
-    "breadcrumb": [
-      {
-        "url": {
-          "path": "/",
-          "routed": true
-        },
-        "text": "Home"
-      },
-      {
-        "url": {
-          "path": "/pittsburgh-health-care",
-          "routed": true
-        },
-        "text": "VA Pittsburgh health care"
-      },
-      {
-        "url": {
-          "path": "",
-          "routed": true
-        },
-        "text": "News and events"
-      },
-      {
-        "url": {
-          "path": "/pittsburgh-health-care/news-releases",
-          "routed": false
-        },
-        "text": "News releases"
-      },
-      {
-        "url": {
-          "path": "",
-          "routed": true
-        },
-        "text": "VA Pittsburgh Announces Outstanding Physicians for 2018"
-      }
-    ],
-    "path": "/pittsburgh-health-care/news-releases/va-pittsburgh-announces-outstanding-physicians-for-2018-0"
+    "path": "/pittsburgh-health-care/press-releases/va-pittsburgh-announces-outstanding-physicians-for-2018-0"
   },
   "entityMetatags": [
     {
       "__typename": "MetaValue",
       "key": "title",
-      "value": "VA Pittsburgh health care | VA Pittsburgh Announces Outstanding Physicians for 2018 | VA.gov CMS"
+      "value": "VA Pittsburgh health care | VA Pittsburgh Announces Outstanding Physicians for 2018 | Veterans Affairs"
     },
     {
       "__typename": "MetaValue",
@@ -57,7 +21,7 @@
     {
       "__typename": "MetaProperty",
       "key": "og:site_name",
-      "value": "VA.gov CMS"
+      "value": "Veterans Affairs"
     },
     {
       "__typename": "MetaValue",
@@ -72,7 +36,7 @@
     {
       "__typename": "MetaValue",
       "key": "twitter:title",
-      "value": "VA Pittsburgh Announces Outstanding Physicians for 2018 | VA Pittsburgh health care | VA.gov CMS"
+      "value": "VA Pittsburgh Announces Outstanding Physicians for 2018 | VA Pittsburgh health care | Veterans Affairs"
     },
     {
       "__typename": "MetaValue",
@@ -82,7 +46,7 @@
     {
       "__typename": "MetaProperty",
       "key": "og:title",
-      "value": "VA Pittsburgh Announces Outstanding Physicians for 2018 | VA Pittsburgh health care | VA.gov CMS"
+      "value": "VA Pittsburgh Announces Outstanding Physicians for 2018 | VA Pittsburgh health care | Veterans Affairs"
     },
     {
       "__typename": "MetaProperty",
@@ -101,7 +65,7 @@
   },
   "fieldIntroText": "VA Pittsburgh Healthcare System recognized an oncologist and an internist as Outstanding Physicians of the Year for 2018. Oncologist Dr. Sandra Blakowski and internist Dr. Jo-Anne Suffoletto have more than 40 years’ combined service caring for Veterans in western Pennsylvania. ",
   "fieldPressReleaseFulltext": {
-    "processed": "<p>Dr. Blakowski specializes in palliative care, which is the active treatment of patients with life-limiting illnesses. She spearheaded VA Pittsburgh’s groundbreaking No Veteran Dies Alone and Honors Escort programs.</p>\n\n<p>\"Bringing palliative care to every Veteran who needs it and training all VA staff in its importance will continue long after this award is forgotten,\" Blakowski said. Her mantra, \"That through education and valued relationships we can reach Veterans where they need us most,\" has remained unchanged throughout her many years of service.</p>\n\n<p>Dr. Suffoletto specializes in internal medicine with an area of interest in women's health. Suffoletto also oversees patient and staff education as the health care system's associate chief of staff for education and innovative learning.</p>\n\n<p>\"I love working with our Veterans here at VA Pittsburgh. I find our patients to be extraordinarily resilient and kind people. I am humbled by how appreciative they are for the care that they receive,\" Suffoletto said. \"And I love being a part of their health care community, especially when I see the way our Veterans care for each other in the hospital and in the outpatient clinics.\"</p>\n\n<p>Photos available upon request.</p>"
+    "processed": "<p>Dr. Blakowski specializes in palliative care, which is the active treatment of patients with life-limiting illnesses. She spearheaded VA Pittsburgh’s groundbreaking No Veteran Dies Alone and Honors Escort programs.</p>\r\n\r\n<p>\"Bringing palliative care to every Veteran who needs it and training all VA staff in its importance will continue long after this award is forgotten,\" Blakowski said. Her mantra, \"That through education and valued relationships we can reach Veterans where they need us most,\" has remained unchanged throughout her many years of service.</p>\r\n\r\n<p>Dr. Suffoletto specializes in internal medicine with an area of interest in women's health. Suffoletto also oversees patient and staff education as the health care system's associate chief of staff for education and innovative learning.</p>\r\n\r\n<p>\"I love working with our Veterans here at VA Pittsburgh. I find our patients to be extraordinarily resilient and kind people. I am humbled by how appreciative they are for the care that they receive,\" Suffoletto said. \"And I love being a part of their health care community, especially when I see the way our Veterans care for each other in the hospital and in the outpatient clinics.\"</p>\r\n\r\n<p>Photos available upon request.</p>\r\n"
   },
   "fieldPressReleaseContact": [
     {
