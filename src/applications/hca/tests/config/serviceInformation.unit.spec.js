@@ -29,7 +29,7 @@ describe('Hca serviceInformation', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(5);
+    expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
 
@@ -47,7 +47,7 @@ describe('Hca serviceInformation', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(4);
 
     expect(onSubmit.called).to.be.false;
     form.unmount();
@@ -74,6 +74,7 @@ describe('Hca serviceInformation', () => {
         .add(130, 'days')
         .format('YYYY-MM-DD'),
     );
+    fillData(form, 'select#root_dischargeType', 'general');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

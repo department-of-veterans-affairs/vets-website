@@ -80,7 +80,7 @@ export function sentenceCase(str) {
     .join(' ');
 }
 
-export function lowerCase(str) {
+export function lowerCase(str = '') {
   return str
     .split(' ')
     .map(word => {
