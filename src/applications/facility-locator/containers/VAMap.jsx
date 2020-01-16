@@ -29,6 +29,7 @@ import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import environments from '../../../platform/utilities/environment';
 /**
  New: mbxClient is the new instance for the API calls and
@@ -406,6 +407,17 @@ class VAMap extends Component {
     });
   };
 
+  handlePageSelect = page => {
+    const { currentQuery } = this.props;
+
+    this.props.searchWithBounds({
+      bounds: currentQuery.bounds,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
+      page,
+    });
+  };
+
   centerMap = () => {
     setTimeout(() => {
       if (this.refs.map && this.refs.facilityMarkers) {
@@ -585,7 +597,11 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, showCommunityCares } = this.props;
+    const {
+      currentQuery,
+      showCommunityCares,
+      pagination: { currentPage, totalPages },
+    } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
@@ -649,6 +665,11 @@ class VAMap extends Component {
             </Map>
           </div>
         </div>
+        <Pagination
+          onPageSelect={this.handlePageSelect}
+          page={currentPage}
+          pages={totalPages}
+        />
       </div>
     );
   };

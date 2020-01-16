@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 
 import { facilityTypes } from '../config';
 
@@ -37,17 +36,6 @@ class ResultsList extends Component {
     }
   }
 
-  handlePageSelect = page => {
-    const { currentQuery } = this.props;
-
-    this.props.searchWithBounds({
-      bounds: currentQuery.bounds,
-      facilityType: currentQuery.facilityType,
-      serviceType: currentQuery.serviceType,
-      page,
-    });
-  };
-
   render() {
     const {
       context,
@@ -58,7 +46,7 @@ class ResultsList extends Component {
       results,
       error,
       isMobile,
-      pagination: { currentPage, totalPages, totalEntries },
+      pagination: { totalEntries },
     } = this.props;
 
     if (inProgress) {
@@ -210,11 +198,6 @@ class ResultsList extends Component {
               ),
           )}
         </div>
-        <Pagination
-          onPageSelect={this.handlePageSelect}
-          page={currentPage}
-          pages={totalPages}
-        />
       </div>
     );
   }

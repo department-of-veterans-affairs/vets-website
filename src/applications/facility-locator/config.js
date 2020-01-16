@@ -28,19 +28,19 @@ export const api = {
 export const ccLocatorEnabled = () => true;
 
 export const facilityTypes = {
-  [LocationType.ALL]: 'All Facilities',
-  [FacilityType.VA_HEALTH_FACILITY]: 'VA Health',
-  [FacilityType.VA_CEMETARY]: 'Cemetery',
+  // [LocationType.ALL]: 'All Facilities',
+  [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
+  [FacilityType.VA_CEMETARY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
-  [FacilityType.VET_CENTER]: 'Vet Center',
-  [LocationType.HEALTH]: 'VA Health',
-  [LocationType.CC_PROVIDER]: 'Community Care (Non-VA Health)',
-  [LocationType.CEMETARY]: 'Cemetery',
-  [LocationType.BENEFITS]: 'Benefits',
+  [FacilityType.VET_CENTER]: 'Vet Centers',
+  [LocationType.HEALTH]: 'VA health',
+  [LocationType.CC_PROVIDER]: 'VA Community Care (In network)',
+  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.BENEFITS]: 'VA benefits',
 };
 
 export const healthServices = {
-  All: 'Show all facilities',
+  All: 'All VA health services',
   PrimaryCare: 'Primary Care',
   MentalHealthCare: 'Mental Health Care',
   DentalServices: 'Dental Services',
@@ -59,7 +59,7 @@ export const healthServices = {
 };
 
 export const benefitsServices = {
-  All: 'Show all facilities',
+  All: 'All VA benefit services',
   ApplyingForBenefits: 'Applying for benefits',
   BurialClaimAssistance: 'Burial claim help',
   DisabilityClaimAssistance: 'Disability claim help',
