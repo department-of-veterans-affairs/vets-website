@@ -21,22 +21,7 @@ module.exports = {
     },
     fieldFeaturedContent: { type: 'array' },
     fieldIntroText: { type: 'string' },
-    // This isn't a full transformed/node-office entity because we only want some of the items in it
-    fieldOffice: {
-      type: 'object',
-      properties: {
-        entity: {
-          type: 'object',
-          properties: {
-            entityLabel: { type: 'string' },
-            fieldNicknameForThisFacility: { type: 'string' },
-            title: { type: 'string' },
-          },
-          required: ['entityLabel', 'fieldNicknameForThisFacility', 'title'],
-        },
-      },
-      required: ['entity'],
-    },
+    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
     fieldRelatedLinks: {
       oneOf: [
         { $ref: 'transformed/paragraph-list_of_link_teasers' },

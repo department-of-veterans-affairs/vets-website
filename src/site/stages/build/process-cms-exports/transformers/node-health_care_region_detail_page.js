@@ -18,16 +18,8 @@ const transform = entity => ({
   fieldContentBlock: entity.fieldContentBlock,
   fieldFeaturedContent: entity.fieldFeaturedContent,
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
-  fieldOffice: {
-    entity: {
-      entityLabel: entity.fieldOffice[0].entity.entityLabel,
-      fieldNicknameForThisFacility:
-        entity.fieldOffice[0].entity.fieldNicknameForThisFacility,
-      title: entity.fieldOffice[0].entity.title,
-    },
-  },
-  fieldRelatedLinks:
-    entity.fieldRelatedLinks.length > 0 ? entity.fieldRelatedLinks[0] : null,
+  fieldOffice: entity.fieldOffice[0] || null,
+  fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldTableOfContentsBoolean: getDrupalValue(
     entity.fieldTableOfContentsBoolean,
   ),
