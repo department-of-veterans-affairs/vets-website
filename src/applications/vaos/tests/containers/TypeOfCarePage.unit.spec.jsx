@@ -69,6 +69,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(updateFormData.firstCall.args[2].typeOfCareId).to.equal('323');
     form.unmount();
+    global.fetch.resetHistory();
   });
 
   it('should submit with valid data', () => {
