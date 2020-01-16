@@ -26,7 +26,7 @@ describe('686 marriage info', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
   });
 
   it('should render marriage count', () => {
@@ -45,7 +45,7 @@ describe('686 marriage info', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(5);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
