@@ -6,6 +6,7 @@ function Vet360ProfileFieldHeading({ children, onEditClick }) {
       <h3 style={{ display: 'inline-block' }}>{children}</h3>{' '}
       {onEditClick && (
         <button
+          aria-label={`Edit ${children}`}
           type="button"
           data-action="edit"
           onClick={onEditClick}
