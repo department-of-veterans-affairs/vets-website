@@ -201,23 +201,23 @@ Example data:
                         </dd>
                       </dl>
                   {% endif %}
-
-                  <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
-                      <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
-                      {% if start_timestamp < current_timestamp %}
-                          <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
-                      {% else %}
-                          {% if fieldLink %}
-                              <p class="vads-u-margin--0"><a
-                                          href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
-                              </p>
-                          {% endif %}
-                          {% if fieldAdditionalInformationAbo %}
-                              <p class="vads-u-margin--0">{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
-                          {% endif %}
-
-                      {% endif %}
-                  </div>
+                  {% if fieldLink or fieldEventCta or fieldAdditionalInformationAbo %}
+                    <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
+                        <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
+                        {% if start_timestamp < current_timestamp %}
+                            <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
+                        {% else %}
+                            {% if fieldLink %}
+                                <p class="vads-u-margin--0"><a
+                                            href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
+                                </p>
+                            {% endif %}
+                            {% if fieldAdditionalInformationAbo %}
+                                <p class="vads-u-margin--0">{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                  {% endif %}
               </div>
 
                   <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
@@ -225,7 +225,7 @@ Example data:
                   </div>
               </div>
 
-            <div class="usa-grid usa-grid-full">
+            <div class="usa-grid usa-grid-full vads-u-margin-top--2">
               <div class="event-description">
                 {{ fieldBody.processed }}
               </div>
@@ -329,31 +329,31 @@ Example data:
                       </dd>
                     </dl>
                 {% endif %}
-
-                <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
-                    <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
-                    {% if start_timestamp < current_timestamp %}
-                        <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
-                    {% else %}
-                        {% if fieldLink %}
-                            <p class="vads-u-margin--0"><a
-                                        href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
-                            </p>
-                        {% endif %}
-                        {% if fieldAdditionalInformationAbo %}
-                            <p class="vads-u-margin--0">{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
-                        {% endif %}
-
-                    {% endif %}
-                </div>
+                {% if fieldLink or fieldEventCta or fieldAdditionalInformationAbo %}
+                  <div class="registration vads-u-margin-top--4 vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--1">
+                      <p class="vads-u-font-weight--bold vads-u-margin-top--0 vads-u-margin-bottom--1">Registration</p>
+                      {% if start_timestamp < current_timestamp %}
+                          <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
+                      {% else %}
+                          {% if fieldLink %}
+                              <p class="vads-u-margin--0"><a
+                                          href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
+                              </p>
+                          {% endif %}
+                          {% if fieldAdditionalInformationAbo %}
+                              <p class="vads-u-margin--0">{{ fieldAdditionalInformationAbo.processed | outputLinks }}</p>
+                          {% endif %}
+                      {% endif %}
+                  </div>
+                {% endif %}
             </div>
 
                 <div class="usa-width-one-half va-c-event-share vads-u-margin-bottom--1">
                     {% include "src/site/includes/social-share.drupal.liquid" %}
                 </div>
-            </div>
+          </div>
 
-          <div class="usa-grid usa-grid-full">
+          <div class="usa-grid usa-grid-full vads-u-margin-top--2">
             <div class="event-description">
               {{ fieldBody.processed }}
             </div>

@@ -111,8 +111,7 @@ class VetTecFilterBy extends React.Component {
           onChange={this.handleFilterChange}
           options={options}
         />
-        {this.props.giVetTecProgramProviderFilters &&
-          this.renderProviderFilters()}
+        {this.renderProviderFilters()}
       </div>
     );
   }
