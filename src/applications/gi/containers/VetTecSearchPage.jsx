@@ -20,7 +20,6 @@ import {
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import VetTecProgramSearchResult from '../components/vet-tec/VetTecProgramSearchResult';
 import VetTecSearchForm from '../components/vet-tec/VetTecSearchForm';
 import { renderVetTecLogo } from '../utils/render';
@@ -274,9 +273,6 @@ export class VetTecSearchPage extends React.Component {
             eligibility={this.props.eligibility}
             showModal={this.props.showModal}
             eligibilityChange={this.props.eligibilityChange}
-            giVetTecProgramProviderFilters={
-              this.props.giVetTecProgramProviderFilters
-            }
           />
         </div>
       </ScrollElement>
@@ -292,8 +288,6 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
-  giVetTecProgramProviderFilters: toggleValues(state)
-    .giVetTecProgramProviderFilters,
 });
 
 const mapDispatchToProps = {
