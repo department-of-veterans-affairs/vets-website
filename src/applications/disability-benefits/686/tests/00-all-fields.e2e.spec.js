@@ -4,6 +4,7 @@ const PageHelpers = require('./686-helpers');
 const testData = require('./schema/maximal-test.json');
 const ENVIRONMENTS = require('../../../../site/constants/environments');
 const FormsTestHelpers = require('platform/testing/e2e/form-helpers');
+const manifest = require('../manifest.json');
 
 const runTest = E2eHelpers.createE2eTest(client => {
   PageHelpers.initApplicationSubmitMock();
@@ -135,3 +136,5 @@ const runTest = E2eHelpers.createE2eTest(client => {
 });
 
 module.exports = runTest;
+module.exports['@disabled'] =
+  manifest.template[process.env.BUILDTYPE] === false;

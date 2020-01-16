@@ -1,6 +1,6 @@
 const E2eHelpers = require('platform/testing/e2e/helpers');
-const manifest = require('applications/disability-benefits/686/manifest.json');
 const Timeouts = require('platform/testing/e2e/timeouts.js');
+const manifest = require('../manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   client
@@ -11,4 +11,5 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.end();
 });
 
-module.exports['@disabled'] = manifest.e2eTestsDisabled;
+module.exports['@disabled'] =
+  manifest.template[process.env.BUILDTYPE] === false;
