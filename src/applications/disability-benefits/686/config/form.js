@@ -1102,6 +1102,9 @@ const formConfig = {
               'When did this child get married?',
             ),
           },
+          // 4908 NOTE: These properties will need to be udpated once the schema file for the 686
+          // has been given corresponding properties for this chapter. For now they reference definitions.
+          // they will map to reportMarriageOfChild.properties.<key-name>
           schema: {
             type: 'object',
             properties: {
