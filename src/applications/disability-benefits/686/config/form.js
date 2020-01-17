@@ -1080,6 +1080,38 @@ const formConfig = {
         },
       },
     },
+    reportMarriageOfChild: {
+      title: 'Report the marriage of a child',
+      pages: {
+        reportChildMarriedInformation: {
+          title: 'Information of child that has been married',
+          path: 'report-marriage-of-child',
+          uiSchema: {
+            marriedChildName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Child’s first name',
+              },
+              middle: {
+                'ui:title': 'Child’s middle name',
+              },
+              last: {
+                'ui:title': 'Child’s last name',
+              },
+            }),
+            dateChildMarried: currentOrPastDateUI(
+              'When did this child get married?',
+            ),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              marriedChildName: fullName,
+              dateChildMarried: date,
+            },
+          },
+        },
+      },
+    },
   },
 };
 
