@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { focusElement } from '../../../../platform/utilities/ui';
 import { getDLCData, updateDLCData } from '../actions';
 
-class IntroductionPage extends React.Component {
+class OrderHistory extends React.Component {
   // NOTE: Using React state for checkboxes -@maharielrosario at 1/8/2020, 7:47:21 PM
   // When discussed with other devs, the concensus was to have a stateful
   // component to house our checkboxes' state. But all other state is in Redux.
@@ -12,16 +12,16 @@ class IntroductionPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.createDlcUIData =      this.createDlcUIData.bind(this);
+    this.createDlcUIData = this.createDlcUIData.bind(this);
   }
 
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-    this.props.getDLCData()  ;
+    this.props.getDLCData();
   }
 
   createDlcUIData(initDataObjs) {
-    let UIDataObjs =   initDataObjs;
+    let UIDataObjs = initDataObjs;
 
     (function removeNonUIProps() {
       for (const UIDataObj of UIDataObjs) {
@@ -46,8 +46,8 @@ class IntroductionPage extends React.Component {
         );
 
         return {
-          ...UIDataObj  ,
-          checkbox   ,
+          ...UIDataObj,
+          checkbox,
         };
       });
     })();
@@ -183,4 +183,4 @@ const mapDispatchToProps = {
   updateDLCData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IntroductionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory);
