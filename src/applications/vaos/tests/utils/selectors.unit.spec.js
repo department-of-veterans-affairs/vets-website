@@ -293,15 +293,19 @@ describe('VAOS selectors', () => {
   });
 
   describe('getClinicPageInfo', () => {
-    it('should return info needed for then clinic page', () => {
+    it('should return info needed for the clinic page', () => {
       const state = {
         newAppointment: {
           pages: {},
           data: {
             typeOfCareId: '323',
+            vaFacility: '983',
           },
           pageChangeInProgress: false,
           clinics: {},
+          eligibility: {
+            '983_323': {},
+          },
         },
       };
       const pageInfo = getClinicPageInfo(state, 'clinicChoice');
