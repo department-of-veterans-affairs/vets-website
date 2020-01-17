@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Vet360ProfileFieldHeading({ children, onEditClick }) {
   return (
@@ -18,5 +19,9 @@ function Vet360ProfileFieldHeading({ children, onEditClick }) {
     </div>
   );
 }
+
+Vet360ProfileFieldHeading.propTypes = {
+  children: PropTypes.string.isRequired,
+};
 
 export default Vet360ProfileFieldHeading;
