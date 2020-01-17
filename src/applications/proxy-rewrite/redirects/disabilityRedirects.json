@@ -75,6 +75,11 @@
     "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
   },
   {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/need.asp",
+    "dest": "/burials-memorials/schedule-a-burial/"
+  },
+  {
     "domain": "www.benefits.va.gov",
     "src": "/compensation/types-disability.asp",
     "dest": "/disability/"
