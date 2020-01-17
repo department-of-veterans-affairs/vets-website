@@ -1,15 +1,20 @@
-import React from 'react';
+// Node modules.
+import React, { Component } from 'react';
+// Relative imports.
+import SearchForm from './SearchForm';
+import SearchResults from './SearchResults';
 
-export default class YellowRibbonApp extends React.Component {
+class YellowRibbonApp extends Component {
   render() {
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
-            <h1 className="vads-u-margin-top--2">Yellow Ribbon Schools</h1>
-          </div>
+          <SearchForm />
+          <SearchResults />
         </div>
       </div>
     );
   }
 }
+
+export default YellowRibbonApp;
