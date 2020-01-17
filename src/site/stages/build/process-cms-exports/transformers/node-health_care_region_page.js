@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 function createMetaTag(type, key, value) {
   return {
@@ -27,7 +27,7 @@ const transform = ({
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
     fieldPressReleaseBlurb: {
-      processed: getDrupalValue(fieldPressReleaseBlurb),
+      processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
     },
     entityMetatags: [
       createMetaTag('MetaValue', 'title', metaTags.title),

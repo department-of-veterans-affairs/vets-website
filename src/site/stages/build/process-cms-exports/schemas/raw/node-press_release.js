@@ -34,7 +34,11 @@ module.exports = {
       maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
-    field_pdf_version: { $ref: 'GenericNestedString' },
+    field_pdf_version: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
     field_press_release_contact: {
       type: 'array',
       maxItems: 1,

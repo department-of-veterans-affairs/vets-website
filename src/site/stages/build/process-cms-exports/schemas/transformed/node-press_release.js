@@ -34,7 +34,7 @@ module.exports = {
     },
     fieldIntroText: { type: 'string' },
     fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
-    fieldPdfVersion: { type: ['string', 'null'] },
+    fieldPdfVersion: { $ref: 'Media' },
     fieldPressReleaseContact: {
       type: 'array',
       maxItems: 1,
@@ -45,9 +45,9 @@ module.exports = {
             type: 'object',
             properties: {
               title: { type: 'string' },
-              fieldDescription: { type: 'string' },
+              fieldDescription: { type: ['string', 'null'] },
               fieldPhoneNumber: { type: 'string' },
-              fieldEmailAddress: { type: 'string' },
+              fieldEmailAddress: { type: ['string', 'null'] },
             },
             required: [
               'title',

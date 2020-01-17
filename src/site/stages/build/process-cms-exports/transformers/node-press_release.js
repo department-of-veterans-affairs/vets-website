@@ -20,21 +20,27 @@ const transform = entity => ({
     // The things in fieldAddress don't get camelCased
     administrativeArea: entity.fieldAddress[0].administrative_area,
   },
+
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],
-  fieldPdfVersion: getDrupalValue(entity.fieldPdfVersion),
-  fieldPressReleaseContact: [
-    {
-      entity: {
-        title: `${entity.fieldPressReleaseContact[0].fieldNameFirst} ${
-          entity.fieldPressReleaseContact[0].fieldLastName
-        }`,
-        fieldDescription: entity.fieldPressReleaseContact[0].fieldDescription,
-        fieldPhoneNumber: entity.fieldPressReleaseContact[0].fieldPhoneNumber,
-        fieldEmailAddress: entity.fieldPressReleaseContact[0].fieldEmailAddress,
-      },
-    },
-  ],
+  fieldPdfVersion: entity.fieldPdfVersion[0] || null,
+  fieldPressReleaseContact: entity.fieldPressReleaseContact[0]
+    ? [
+        {
+          entity: {
+            title: `${entity.fieldPressReleaseContact[0].fieldNameFirst} ${
+              entity.fieldPressReleaseContact[0].fieldLastName
+            }`,
+            fieldDescription:
+              entity.fieldPressReleaseContact[0].fieldDescription,
+            fieldPhoneNumber:
+              entity.fieldPressReleaseContact[0].fieldPhoneNumber,
+            fieldEmailAddress:
+              entity.fieldPressReleaseContact[0].fieldEmailAddress,
+          },
+        },
+      ]
+    : [],
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
   fieldPressReleaseFulltext: {
     processed: getWysiwygString(
