@@ -242,7 +242,7 @@ export const serviceDescription = appId => {
       return 'check your GI Bill Benefits';
 
     case widgetTypes.DISABILITY_BENEFITS:
-      return 'apply for disability benefits';
+      return 'file for disability benefits';
 
     case widgetTypes.CLAIMS_AND_APPEALS:
       return 'see your claim or appeal status';

@@ -213,7 +213,11 @@ export default {
       let nextState = 'typeOfCare';
       const communityCareEnabled = vaosCommunityCare(state);
 
-      if (communityCareEnabled && isCCEligible(state)) {
+      if (
+        communityCareEnabled &&
+        isCCEligible(state) &&
+        isCommunityCare(state)
+      ) {
         nextState = 'typeOfFacility';
       }
 
@@ -258,6 +262,9 @@ export default {
       }
 
       if (isCCFacility(state)) {
+        if (isCCAudiology(state)) {
+          return 'audiologyCareType';
+        }
         return 'typeOfFacility';
       }
 
