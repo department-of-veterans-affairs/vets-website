@@ -46,6 +46,7 @@ class DateTimeSelectField extends Component {
           maxSelections: 1,
           getOptionsByDate: this.getOptionsByDate,
         }}
+        loadingStatus={formContext?.loadingStatus}
         onChange={this.props.onChange}
         onClickNext={formContext?.getAppointmentSlots}
         onClickPrev={formContext?.getAppointmentSlots}
