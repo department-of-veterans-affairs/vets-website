@@ -213,6 +213,17 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
+/*
+ * The facility page can be opened with data in a variety of states and conditions.
+ * We always need the list of systems (VAMCs) they can access. After that:
+ *
+ * 1. A user has multiple systems to choose from, so we just need to display them
+ * 2. A user has only one system, so we also need to fetch facilities
+ * 3. A user might only have one system and facility available, so we need to also
+ *    do eligibility checks
+ * 4. A user might already have been on this page, in which case we may have some 
+ *    of the above data already and don't want to make another api call
+*/
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
@@ -231,6 +242,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         const userSystemIds = await getSystemIdentifiers();
         systems = await getSystemDetails(userSystemIds);
       }
+
       const canShowFacilities = !!systemId || systems?.length === 1;
 
       if (canShowFacilities && !systemId) {
