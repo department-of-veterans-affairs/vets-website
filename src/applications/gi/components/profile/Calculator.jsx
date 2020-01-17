@@ -92,20 +92,16 @@ export class Calculator extends React.Component {
         </button>
         <div>
           {expanded ? (
-            <form>
-              <CalculatorForm
-                profile={profile}
-                eligibility={this.props.eligibility}
-                eligibilityChange={this.props.eligibilityChange}
-                inputs={inputs}
-                displayedInputs={displayed}
-                onShowModal={this.props.showModal}
-                onInputChange={this.props.calculatorInputChange}
-                onBeneficiaryZIPCodeChanged={
-                  this.props.beneficiaryZIPCodeChanged
-                }
-              />
-            </form>
+            <CalculatorForm
+              profile={profile}
+              eligibility={this.props.eligibility}
+              eligibilityChange={this.props.eligibilityChange}
+              inputs={inputs}
+              displayedInputs={displayed}
+              onShowModal={this.props.showModal}
+              onInputChange={this.props.calculatorInputChange}
+              onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+            />
           ) : null}
         </div>
       </div>
