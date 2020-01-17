@@ -16,7 +16,7 @@ const initialState = {
   startIndex: 0,
 };
 
-const yellowRibbonReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_RESULTS: {
       return { ...state, error: '', fetching: true, query: action.query };
@@ -37,8 +37,4 @@ const yellowRibbonReducer = (state = initialState, action) => {
       return { ...state };
     }
   }
-};
-
-export default {
-  yellowRibbonReducer,
 };
