@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   getAppointmentTitle,
-  filterFutureRequests,
+  filterRequests,
   filterFutureConfirmedAppointments,
   sentenceCase,
   sortFutureRequests,
@@ -130,10 +130,10 @@ describe('VAOS appointment helpers', () => {
     expect(sorted[0].startDate).to.equal('2099-04-27T05:35:00');
   });
 
-  it('should filter future requests', () => {
+  it('should filter requests', () => {
     const requests = [
       {
-        status: 'Booked',
+        status: 'Booked', // booked - should not show
         appointmentType: 'Primary Care',
         optionDate1: now
           .clone()
@@ -141,17 +141,15 @@ describe('VAOS appointment helpers', () => {
           .format('MM/DD/YYYY'),
       },
       {
-        attributes: {
-          status: 'Submitted',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(-2, 'days')
-            .format('MM/DD/YYYY'),
-        },
+        status: 'Submitted', // open past date - should show
+        appointmentType: 'Primary Care',
+        optionDate1: now
+          .clone()
+          .subtract(2, 'days')
+          .format('MM/DD/YYYY'),
       },
       {
-        status: 'Submitted',
+        status: 'Submitted', // future date - should show
         appointmentType: 'Primary Care',
         optionDate1: now
           .clone()
@@ -159,17 +157,25 @@ describe('VAOS appointment helpers', () => {
           .format('MM/DD/YYYY'),
       },
       {
-        status: 'Cancelled',
+        status: 'Cancelled', // cancelled future date - should show
         appointmentType: 'Primary Care',
         optionDate1: now
           .clone()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
       },
+      {
+        status: 'Cancelled', // cancelled past date - should not show
+        appointmentType: 'Primary Care',
+        optionDate1: now
+          .clone()
+          .add(-3, 'days')
+          .format('MM/DD/YYYY'),
+      },
     ];
 
-    const filteredRequests = requests.filter(r => filterFutureRequests(r, now));
-    expect(filteredRequests.length).to.equal(2);
+    const filteredRequests = requests.filter(r => filterRequests(r, now));
+    expect(filteredRequests.length).to.equal(3);
   });
 
   it('should sort future requests', () => {
