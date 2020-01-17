@@ -217,6 +217,7 @@ export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
+    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     let systems = newAppointment.systems;
     let facilities = null;
     let eligibilityData = null;
@@ -236,13 +237,10 @@ export function openFacilityPage(page, uiSchema, schema) {
         systemId = systems[0].institutionCode;
       }
 
-      const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
+      facilities =
+        newAppointment.facilities[`${typeOfCareId}_${systemId}`] || null;
 
-      const hasExistingFacilities = !!newAppointment.facilities[
-        `${typeOfCareId}_${systemId}`
-      ];
-
-      if (canShowFacilities && !hasExistingFacilities) {
+      if (canShowFacilities && !facilities) {
         facilities = await getFacilitiesBySystemAndTypeOfCare(
           systemId,
           typeOfCareId,
@@ -255,12 +253,12 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId = facilities[0].institutionCode;
       }
 
-      const hasExistingEligibility = !!newAppointment.eligibility[
-        `${facilityId}_${typeOfCareId}`
-      ];
-      if (eligibilityDataNeeded && !hasExistingEligibility) {
+      eligibilityData =
+        newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+
+      if (eligibilityDataNeeded && !eligibilityData) {
         eligibilityData = await getEligibilityData(
-          facilityId,
+          facilities.find(facility => facility.institutionCode === facilityId),
           typeOfCareId,
           systemId,
           directSchedulingEnabled,
@@ -349,7 +347,9 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
       try {
         const eligibilityData = await getEligibilityData(
-          data.vaFacility,
+          facilities.find(
+            facility => facility.institutionCode === data.vaFacility,
+          ),
           typeOfCareId,
           data.vaSystem,
           directSchedulingEnabled,

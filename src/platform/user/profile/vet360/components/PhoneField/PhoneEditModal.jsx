@@ -94,23 +94,28 @@ class PhoneEditModal extends React.Component {
           international number, please check back later.
         </p>
       </AlertBox>
-
-      <PhoneTextInput
-        additionalClass="usa-only-phone"
-        label="Number"
-        charMax={14}
-        required
-        field={{ value: this.props.field.value.inputPhoneNumber, dirty: false }}
-        onValueChange={this.onChange('inputPhoneNumber')}
-        errorMessage={this.props.field.validations.inputPhoneNumber}
-      />
-
-      <ErrorableTextInput
-        label="Extension"
-        charMax={10}
-        field={{ value: this.props.field.value.extension, dirty: false }}
-        onValueChange={this.onChange('extension')}
-      />
+      <div className="vads-u-padding-y--1p5">
+        <PhoneTextInput
+          additionalClass="usa-only-phone"
+          label="Number"
+          charMax={14}
+          required
+          field={{
+            value: this.props.field.value.inputPhoneNumber,
+            dirty: false,
+          }}
+          onValueChange={this.onChange('inputPhoneNumber')}
+          errorMessage={this.props.field.validations.inputPhoneNumber}
+        />
+      </div>
+      <div className="vads-u-padding-y--1p5">
+        <ErrorableTextInput
+          label="Extension"
+          charMax={10}
+          field={{ value: this.props.field.value.extension, dirty: false }}
+          onValueChange={this.onChange('extension')}
+        />
+      </div>
 
       <ReceiveTextMessagesCheckbox
         showReceiveTextNotifications={this.props.showReceiveTextNotifications}

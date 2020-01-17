@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Vet360ProfileFieldHeading({ children, onEditClick }) {
   return (
@@ -6,6 +7,7 @@ function Vet360ProfileFieldHeading({ children, onEditClick }) {
       <h3 style={{ display: 'inline-block' }}>{children}</h3>{' '}
       {onEditClick && (
         <button
+          aria-label={`Edit ${children}`}
           type="button"
           data-action="edit"
           onClick={onEditClick}
@@ -17,5 +19,10 @@ function Vet360ProfileFieldHeading({ children, onEditClick }) {
     </div>
   );
 }
+
+Vet360ProfileFieldHeading.propTypes = {
+  children: PropTypes.string.isRequired,
+  onEditClick: PropTypes.func,
+};
 
 export default Vet360ProfileFieldHeading;
