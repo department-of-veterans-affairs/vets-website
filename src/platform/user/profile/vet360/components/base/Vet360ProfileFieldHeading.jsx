@@ -22,6 +22,7 @@ function Vet360ProfileFieldHeading({ children, onEditClick }) {
 
 Vet360ProfileFieldHeading.propTypes = {
   children: PropTypes.string.isRequired,
+  onEditClick: PropTypes.func,
 };
 
 export default Vet360ProfileFieldHeading;
