@@ -36,13 +36,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
       '/education/apply-for-education-benefits/application/1990N',
     );
 
-  client.expect.element('.usa-alert-warning').to.be.present;
+  client.expect.element('main .usa-alert-warning').to.be.present;
 
   // Select non-veteran
   client.click('#serviceBenefitBasedOn-1').expect.element('#apply-now-link').not
     .to.be.present;
 
-  client.expect.element('.usa-alert-warning').not.to.be.present;
+  client.expect.element('main .usa-alert-warning').not.to.be.present;
 
   client.waitForElementVisible(
     'label[for="sponsorDeceasedDisabledMIA-0"]',
@@ -86,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#sponsorTransferredBenefits-1')
     .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
-  client.expect.element('.usa-alert-warning').to.be.present;
+  client.expect.element('main .usa-alert-warning').to.be.present;
 
   client.expect
     .element('#apply-now-link')
@@ -109,7 +109,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('#transferredEduBenefits-2')
     .waitForElementVisible('#apply-now-link', Timeouts.normal);
 
-  client.expect.element('.usa-alert-warning').not.to.be.present;
+  client.expect.element('main .usa-alert-warning').not.to.be.present;
 
   client.expect
     .element('#apply-now-link')
