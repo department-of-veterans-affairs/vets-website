@@ -1,6 +1,6 @@
 // import fullSchema from 'vets-json-schema/dist/2346-schema.json';
 
-import ConfirmAddress from '../containers/ConfirmAddress';
+import ConfirmAddress from '../Components/ConfirmAddress';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.properties;
