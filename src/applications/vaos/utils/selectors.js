@@ -188,6 +188,7 @@ export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const facilityDetails = newAppointment.facilityDetails;
+  const eligibility = getEligibilityChecks(state);
 
   return {
     ...formPageInfo,
@@ -195,6 +196,8 @@ export function getClinicPageInfo(state, pageKey) {
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
+    eligibility,
+    canMakeRequests: isEligible(eligibility).request,
   };
 }
 
