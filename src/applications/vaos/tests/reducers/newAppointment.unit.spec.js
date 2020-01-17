@@ -219,6 +219,13 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultOpenPageAction,
         systems: systemsParsed.slice(0, 1),
         facilities: facilities983Parsed.slice(0, 1),
+        eligibilityData: {
+          clinics: [],
+          requestPastVisit: {},
+          directPastVisit: {},
+          requestLimits: {},
+          pacTeam: [],
+        },
       };
 
       const newState = newAppointmentReducer(defaultState, action);
@@ -233,6 +240,9 @@ describe('VAOS reducer: newAppointment', () => {
         type: 'object',
         properties: {},
       });
+      expect(newState.clinics['983_323']).to.equal(
+        action.eligibilityData.clinics,
+      );
     });
 
     it('should set error when failed', () => {
