@@ -220,6 +220,8 @@ export function openFacilityPage(page, uiSchema, schema) {
     let systems = newAppointment.systems;
     let facilities = null;
     let eligibilityData = null;
+    let systemId = newAppointment.data.vaSystem;
+    let facilityId = newAppointment.data.vaFacility;
 
     try {
       // If we have the VA systems in our state, we don't need to
@@ -232,27 +234,24 @@ export function openFacilityPage(page, uiSchema, schema) {
         newAppointment.data.vaSystem || systems?.length === 1;
       const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
+      systemId = systemId || systems?.[0]?.institutionCode;
       const hasExistingFacilities = !!newAppointment.facilities[
-        `${typeOfCareId}_${newAppointment.data.vaSystem}`
+        `${typeOfCareId}_${systemId}`
       ];
 
       if (canShowFacilities && !hasExistingFacilities) {
-        const systemId =
-          newAppointment.data.vaSystem || systems[0].institutionCode;
         facilities = await getFacilitiesBySystemAndTypeOfCare(
           systemId,
           typeOfCareId,
         );
       }
 
-      const facilityId =
-        newAppointment.data.vaFacility || facilities?.[0]?.institutionCode;
-      if (
-        facilityId &&
-        !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
-      ) {
-        const systemId =
-          newAppointment.data.vaSystem || systems[0].institutionCode;
+      const shouldFetchEligibility = !!facilityId || facilities?.length === 1;
+      facilityId = facilityId || facilities?.[0]?.institutionCode;
+      const hasExistingEligibility = !!newAppointment.eligibility[
+        `${facilityId}_${typeOfCareId}`
+      ];
+      if (shouldFetchEligibility && !hasExistingEligibility) {
         eligibilityData = await getEligibilityData(
           facilityId,
           typeOfCareId,
