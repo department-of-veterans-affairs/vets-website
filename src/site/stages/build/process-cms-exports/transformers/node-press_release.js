@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const {
   createMetaTagArray,
   getDrupalValue,
@@ -41,7 +43,9 @@ const transform = entity => ({
   },
   fieldReleaseDate: {
     value: getDrupalValue(entity.fieldReleaseDate),
-    date: getDrupalValue(entity.fieldReleaseDate),
+    date: moment
+      .utc(getDrupalValue(entity.fieldReleaseDate))
+      .format('YYYY-MM-DD HH:mm:ss z'),
   },
   entityPublished: isPublished(getDrupalValue(entity.moderationState)),
 });
