@@ -230,11 +230,14 @@ export function openFacilityPage(page, uiSchema, schema) {
         const userSystemIds = await getSystemIdentifiers();
         systems = await getSystemDetails(userSystemIds);
       }
-      const canShowFacilities =
-        newAppointment.data.vaSystem || systems?.length === 1;
+      const canShowFacilities = !!systemId || systems?.length === 1;
+
+      if (canShowFacilities && !systemId) {
+        systemId = systems[0].institutionCode;
+      }
+
       const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
-      systemId = systemId || systems?.[0]?.institutionCode;
       const hasExistingFacilities = !!newAppointment.facilities[
         `${typeOfCareId}_${systemId}`
       ];
@@ -246,12 +249,16 @@ export function openFacilityPage(page, uiSchema, schema) {
         );
       }
 
-      const shouldFetchEligibility = !!facilityId || facilities?.length === 1;
-      facilityId = facilityId || facilities?.[0]?.institutionCode;
+      const eligibilityDataNeeded = !!facilityId || facilities?.length === 1;
+
+      if (eligibilityDataNeeded && !facilityId) {
+        facilityId = facilities[0].institutionCode;
+      }
+
       const hasExistingEligibility = !!newAppointment.eligibility[
         `${facilityId}_${typeOfCareId}`
       ];
-      if (shouldFetchEligibility && !hasExistingEligibility) {
+      if (eligibilityDataNeeded && !hasExistingEligibility) {
         eligibilityData = await getEligibilityData(
           facilityId,
           typeOfCareId,
