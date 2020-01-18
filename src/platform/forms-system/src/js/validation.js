@@ -267,7 +267,13 @@ export function isValidForm(form, pageList) {
         }
       }
 
+      console.log(schema);
+      console.log(formData);
+
       const result = v.validate(formData, schema);
+
+      console.log(result);
+      console.log();
 
       if (result.valid) {
         const customErrors = {};
