@@ -4,7 +4,7 @@
 
 - Update `IntroductionPage.jsx`
   - [x] Replace placeholder `isInLegacySystem` with value from API
-  - [ ] Add code to update `isInLegacySystem` (or whatever it's named).
+  - [x] Add code to update `isInLegacySystem` (or whatever it's named).
 -  Update `OptOutFromLegacySystem.jsx`
   - [x] Consider converting the `OptOutFromLegacySystem` component into a
         standalone form with it's own form schema - suggested by Erik Hansen.
@@ -70,19 +70,19 @@
 ### Confirmation page
 
 - [x] Update pre-built page from design
-- [ ] Update link "after you apply" when available
+- [x] Update link "after you apply" when available
 - [x] Add unit tests
 - [ ] Add e2e tests
 
 ### Move opt out page
 
-- [ ] Opt out page should only be visible if user has a legacy appeal
-- [ ] Consider updating JSON form schema library to accept an option to add an
+- [x] ~Opt out page should only be visible if user has a legacy appeal~ - N/A, always visible now
+- [x] Consider updating JSON form schema library to accept an option to add an
       opt out/in page after the introduction page
 
 ### Before Production
 - [ ] Check for, and remove, all console logs.
-- [ ] Move `20-0996-schema.json` to `vets-json-schema` repo.
+- [x] Move `20-0996-schema.json` to `vets-json-schema` repo.
 - [ ] Ensure matching tracking prefixes (if changed)
   - `src/applications/disability-benefits/996/config/form.js` in `formConfig.trackingPrefix`.
   - `src/applications/personalization/dashboard/helpers.jsx` ~line 146
