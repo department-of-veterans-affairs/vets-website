@@ -1,5 +1,6 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 
 const submitFormFor = eventName =>
   function submitForm(form, formConfig) {
@@ -72,12 +73,20 @@ const submitFormFor = eventName =>
       // Throw an error after 30 seconds
       timer = setTimeout(() => {
         const error = new Error('client_error: Request taking too long');
+        recordEvent({ event: `${eventName}--submission-taking-too-long` });
+        Sentry.withScope(scope => {
+          scope.setExtra('XMLHttpRequest', req);
+          // Too much PII for sentry?
+          // scope.setExtra('form data', form);
+          // scope.setExtra('request body', body);
+          Sentry.captureMessage('Form 526: submission request taking too long');
+        });
         // eslint-disable-next-line no-console
         console.log(req, form, JSON.parse(body));
         reject(error);
       }, 3e4);
 
-      req.send(body);
+      // req.send(body);
     });
   };
 
