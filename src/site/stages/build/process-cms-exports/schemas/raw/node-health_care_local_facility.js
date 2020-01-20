@@ -47,7 +47,14 @@ module.exports = {
     },
     field_facility_locator_api_id: { $ref: 'GenericNestedString' },
     field_intro_text: { $ref: 'GenericNestedString' },
-    field_local_health_care_service_: { $ref: 'EntityReferenceArray' },
+    field_local_health_care_service_: {
+      // Can't be $ref: 'EntityReferenceArray' because evidently sometimes the
+      // items in this array are empty arrays.
+      type: 'array',
+      items: {
+        oneOf: [{ $ref: 'EntityReference' }, { type: 'array', maxItems: 0 }],
+      },
+    },
     field_location_services: { $ref: 'EntityReferenceArray' },
     field_main_location: { $ref: 'GenericNestedBoolean' },
     field_media: {
