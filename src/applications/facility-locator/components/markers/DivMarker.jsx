@@ -12,11 +12,7 @@ export default class DivMarker extends Component {
       html: renderToStaticMarkup(children),
     });
 
-    return (
-      <Marker icon={icon} position={position} onClick={onClick}>
-        <Popup>{popupContent}</Popup>
-      </Marker>
-    );
+    return <Marker icon={icon} position={position} onClick={onClick} />;
   }
 }
 

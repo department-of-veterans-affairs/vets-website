@@ -1,0 +1,32 @@
+diff --git a/src/applications/facility-locator/containers/VAMap.jsx b/src/applications/facility-locator/containers/VAMap.jsx
+index e290b7fcf..827d46a6f 100644
+--- a/src/applications/facility-locator/containers/VAMap.jsx
++++ b/src/applications/facility-locator/containers/VAMap.jsx
+@@ -302,8 +302,8 @@ class VAMap extends Component {
+        * New SDk uses forwardGeocode fn to make the API call(promise)
+        */
+       mbxClient
+-        .forwardGeocode({
+-          position,
++        .reverseGeocode({
++          query: [position.longitude, position.latitude],
+           types: ['address'],
+         })
+         .send()
+diff --git a/src/applications/facility-locator/utils/mapHelpers.js b/src/applications/facility-locator/utils/mapHelpers.js
+index 4f7a18fe0..49222140a 100644
+--- a/src/applications/facility-locator/utils/mapHelpers.js
++++ b/src/applications/facility-locator/utils/mapHelpers.js
+@@ -78,10 +78,8 @@ export const reverseGeocode = async (lon, lat) => {
+       .send()
+       .catch();
+     const {
+-      entity: {
+-        features: {
+-          0: { place_name: placeName },
+-        },
++      features: {
++        0: { place_name: placeName },
+       },
+     } = response.body;
+ 

@@ -87,6 +87,7 @@ $color-info-bubble-text: #818a8d;
 
   .facility-result {
     padding: 1em;
+    background: $color-gray-light-alt;
     border-bottom: none;
 
     &.active {
@@ -122,7 +123,7 @@ $color-info-bubble-text: #818a8d;
   }
 
   .facility-result+.facility-result {
-    border-top: solid 3px $color-gray-lightest;
+    border-top: solid 12px $color-white;
   }
 
   .leaflet-popup-content {

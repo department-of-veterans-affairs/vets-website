@@ -26,7 +26,7 @@ import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
-import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
+import {areGeocodeEqual, setFocus /* areBoundsEqual */} from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
@@ -64,7 +64,6 @@ const urgentCareLink = (
 class VAMap extends Component {
   constructor(props) {
     super(props);
-
     this.zoomOut = debounce(
       () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
@@ -74,6 +73,7 @@ class VAMap extends Component {
     this.listener = browserHistory.listen(location => {
       this.syncStateWithLocation(location);
     });
+    this.searchResultTitle = React.createRef();
   }
 
   componentDidMount() {
@@ -416,6 +416,7 @@ class VAMap extends Component {
       serviceType: currentQuery.serviceType,
       page,
     });
+    setFocus(this.searchResultTitle.current);
   };
 
   centerMap = () => {
@@ -600,7 +601,8 @@ class VAMap extends Component {
     const {
       currentQuery,
       showCommunityCares,
-      pagination: { currentPage, totalPages },
+      results,
+      pagination: { currentPage, totalPages, totalEntries },
     } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
@@ -619,6 +621,21 @@ class VAMap extends Component {
             onSubmit={this.handleSearch}
             showCommunityCares={showCommunityCares}
           />
+        </div>
+        <div ref={this.searchResultTitle}>
+          {results.length > 0 ? (
+            <p className="search-result-title">
+              <strong>{totalEntries} results</strong>
+              {` for `}
+              <strong>
+                {facilityTypes[this.props.currentQuery.facilityType]}
+              </strong>
+              {` near `}
+              <strong>“{this.props.currentQuery.context}”</strong>
+            </p>
+          ) : (
+            <br />
+          )}
         </div>
         <div className="row">
           <div
@@ -665,11 +682,14 @@ class VAMap extends Component {
             </Map>
           </div>
         </div>
-        <Pagination
-          onPageSelect={this.handlePageSelect}
-          page={currentPage}
-          pages={totalPages}
-        />
+        {currentPage &&
+          results.length > 0 && (
+            <Pagination
+              onPageSelect={this.handlePageSelect}
+              page={currentPage}
+              pages={totalPages}
+            />
+          )}
       </div>
     );
   };
