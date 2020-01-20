@@ -35,21 +35,19 @@ module.exports = {
     fieldInstagram: { type: ['string', 'null'] },
     fieldIntroText: { type: ['string', 'null'] },
     fieldLocalHealthCareService: {
-      type: 'array',
+      type: ['array', 'null'],
       // Alternatively, we can pull out only the bits of this schema that we'll use,
       // but for now, that' just more work.
       items: { $ref: 'transformed/node-health_care_local_health_service' },
     },
     fieldLocationServices: {
-      type: 'array',
+      type: ['array', 'null'],
       items: {
         $ref: 'transformed/paragraph-health_care_local_facility_servi',
       },
     },
     fieldMainLocation: { type: 'boolean' },
-    fieldMedia: {
-      oneOf: [{ $ref: 'Media' }, { type: 'null' }],
-    },
+    fieldMedia: { $ref: 'Media' },
     fieldMentalHealthPhone: { type: ['string', 'null'] },
     fieldNicknameForThisFacility: { type: ['string', 'null'] },
     // Could probably be an enum, but it's not clear what all the possible values are
