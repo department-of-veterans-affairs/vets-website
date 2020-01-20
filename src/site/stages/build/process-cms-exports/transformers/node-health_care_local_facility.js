@@ -13,7 +13,7 @@ const transform = entity => ({
     title: getDrupalValue(entity.title),
     changed: getDrupalValue(entity.changed),
     entityPublished: isPublished(getDrupalValue(entity.moderationState)),
-    metatag: createMetaTagArray(getDrupalValue(entity.metatag)),
+    entityMetatags: createMetaTagArray(entity.metatag.value),
     entityUrl: {
       // TODO: Get the breadcrumb from the CMS export when it's available
       breadcrumb: [],
@@ -50,6 +50,7 @@ const transform = entity => ({
     fieldTwitter: getDrupalValue(entity.fieldTwitter),
   },
 });
+
 module.exports = {
   filter: [
     'title',
