@@ -357,10 +357,10 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock1 = (
     <>
-      <h4>
+      <h3 className="vads-u-font-size--h4">
         How can I change my address, income, or other information in my VA
         health care records?
-      </h4>
+      </h3>
       <p>
         To update your information, please submit a Health Benefits Update Form
         (VA Form 10-10EZR).
@@ -384,10 +384,10 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock2 = (
     <>
-      <h4>
+      <h3 className="vads-u-font-size--h4">
         What should I do if I think this information is incorrect, or if I have
         questions about my eligibility?
-      </h4>
+      </h3>
       <p>
         Please {callOurTeam}. {ourHours}.
       </p>
@@ -396,10 +396,10 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock3 = (
     <>
-      <h4>
+      <h3 className="vads-u-font-size--h4">
         What should I do if I want to submit proof of my military service, or if
         I have questions about my eligibility?
-      </h4>
+      </h3>
       <p>
         Please {callOurTeam}. {ourHours}.
       </p>
@@ -408,7 +408,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock4 = (
     <>
-      <h4>Do any VA medical centers treat CHAMPVA recipients?</h4>
+      <h3 className="vads-u-font-size--h4">
+        Do any VA medical centers treat CHAMPVA recipients?
+      </h3>
       <p>
         Yes. To learn more about VA medical centers that offer services to
         CHAMPVA recipients, or if you have any other questions, please{' '}
@@ -419,7 +421,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock5 = (
     <>
-      <h4>What should I do if I have questions about my eligibility?</h4>
+      <h3 className="vads-u-font-size--h4">
+        What should I do if I have questions about my eligibility?
+      </h3>
       <p>
         Please {callOurTeam}. {ourHours}.
       </p>
@@ -428,7 +432,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock6 = (
     <>
-      <h4>How do I submit this information to VA?</h4>
+      <h3 className="vads-u-font-size--h4">
+        How do I submit this information to VA?
+      </h3>
       <p>
         Please {callOurTeam} for directions on how to submit your information.{' '}
         {ourHours}.
@@ -438,10 +444,10 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock7 = (
     <>
-      <h4>
+      <h3 className="vads-u-font-size--h4">
         How will I know if VA needs more information from me to verify my
         military service?
-      </h4>
+      </h3>
       <p>
         If we need more information, we’ll send you a letter in the mail. If you
         have any questions, please {callOurTeam}. {ourHours}.
@@ -451,7 +457,7 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock8 = (
     <>
-      <h4>Can I apply for VA health care?</h4>
+      <h3 className="vads-u-font-size--h4">Can I apply for VA health care?</h3>
       <p>
         As an active-duty service member, you can apply for VA health care if
         both of the below descriptions are true for you.
@@ -484,10 +490,10 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock9 = (
     <>
-      <h4>
+      <h3 className="vads-u-font-size--h4">
         What if I want to review my discharge status, or think I may qualify for
         an upgrade?
-      </h4>
+      </h3>
       <p>You can get more information on our website:</p>
       <p>
         <a href="https://www.va.gov/discharge-upgrade-instructions/">
@@ -504,7 +510,7 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlock10 = (
     <>
-      <h4>Can I apply for VA health care?</h4>
+      <h3 className="vads-u-font-size--h4">Can I apply for VA health care?</h3>
       <p>
         The health care application on this page is only for Veterans or service
         members who have received their separation orders and are within one
@@ -532,7 +538,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockMentalHealthCare = (
     <>
-      <h4>Can I still get mental health care?</h4>
+      <h3 className="vads-u-font-size--h4">
+        Can I still get mental health care?
+      </h3>
       <p>
         You may still be able to access certain mental health care services even
         if you’re not enrolled in VA health care.
@@ -547,7 +555,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockReapply1 = (
     <>
-      <h4>Will applying again update my information?</h4>
+      <h3 className="vads-u-font-size--h4">
+        Will applying again update my information?
+      </h3>
       <p>
         <strong>No. A new application won’t update your information.</strong> If
         you have questions about the information we have on record for you,
@@ -563,7 +573,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockReapply2 = (
     <>
-      <h4>Could applying again change VA’s decision?</h4>
+      <h3 className="vads-u-font-size--h4">
+        Could applying again change VA’s decision?
+      </h3>
       <p>
         <strong>
           A new application most likely won’t change our decision on your
@@ -580,7 +592,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockReapply3 = (
     <>
-      <h4>Could applying again change VA’s decision?</h4>
+      <h3 className="vads-u-font-size--h4">
+        Could applying again change VA’s decision?
+      </h3>
       <p>
         <strong>
           Only if you’ve had a change in your life since you last applied that
@@ -599,7 +613,7 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockReapply4 = (
     <>
-      <h4>Can I apply again?</h4>
+      <h3 className="vads-u-font-size--h4">Can I apply again?</h3>
       <p>
         Yes. If you have questions about how to complete your application,
         please {callOurTeam}.
@@ -609,7 +623,9 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockReapply5 = (
     <>
-      <h4>Should I just submit a new application with all my information?</h4>
+      <h3 className="vads-u-font-size--h4">
+        Should I just submit a new application with all my information?
+      </h3>
       <p>
         <strong>
           No. We’re in the process of reviewing your current application, and
@@ -627,7 +643,7 @@ export function getFAQContent(enrollmentStatus) {
 
   const faqBlockReapply6 = (
     <>
-      <h4>Should I apply again?</h4>
+      <h3 className="vads-u-font-size--h4">Should I apply again?</h3>
       <p>
         <strong>
           No. We’re in the process of reviewing your current application, and
