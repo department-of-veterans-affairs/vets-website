@@ -86,7 +86,7 @@ const submitFormFor = eventName =>
         reject(error);
       }, 3e4);
 
-      // req.send(body);
+      req.send(body);
     });
   };
 
