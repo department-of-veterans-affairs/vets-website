@@ -19,8 +19,8 @@
  */
 exports.assertion = function isAllyDeepEquals(selector, balanceBool) {
   this.message = balanceBool
-    ? `${selector} returned equal arrays of tabbable and focusable elements`
-    : `${selector} returned unequal arrays of tabbable and focusable elements`;
+    ? `${selector} returned expected number of tabbable and focusable elements`
+    : `${selector} returned unexpected number of tabbable and focusable elements`;
 
   this.expected = balanceBool;
   this.pass = value => value === this.expected;

@@ -1,6 +1,7 @@
 /* eslint-disable func-names, prefer-arrow-callback */
 
-const ally = require('ally.js');
+const focusable = import('ally.js/query/focusable');
+const tabbable = import('ally.js/query/tabbable');
 
 /**
  * Checks if the objects of focusable and tabbable elements are equal.
@@ -22,19 +23,19 @@ const ally = require('ally.js');
 exports.command = function allyDeepEquals(selector, callback) {
   return this.execute(
     function(sel) {
-      const focusableItems = ally.query.focusable({
+      focusable({
         context: sel,
         includeContext: true,
         strategy: 'strict',
       });
 
-      const tabbableItems = ally.query.tabbable({
+      tabbable({
         context: sel,
         includeContext: true,
         strategy: 'strict',
       });
 
-      const comparator = [focusableItems.length, tabbableItems.length];
+      const comparator = [focusable.length, tabbable.length];
 
       return comparator;
     },

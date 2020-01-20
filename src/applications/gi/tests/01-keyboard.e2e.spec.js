@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.gi-app', Timeouts.verySlow)
-    .assert.isAllyDeepEquals('body', true);
+    .assert.isAllyDeepEquals('.gi-app', true);
 
   // Assert skip navigation link works correctly
   client.waitForElementVisible('#content', Timeouts.normal);
@@ -126,7 +126,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
         'input#radio-buttons-4-1',
         'input#radio-buttons-4-2',
       ],
-      ARROW_DOWN,
+      ARROW_RIGHT,
     );
 
   // Evaluate the type of class radio group with ARROW_UP and ARROW_LEFT in reverse order
@@ -158,4 +158,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // An error should appear on the enter a city, school or name typeahead label
   client.assert.elementPresent('#search-error-message');
+
+  client.end();
 });
