@@ -10,6 +10,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import FormFooter from 'platform/forms/components/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullNameUI from 'platform/forms/definitions/fullName';
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import dataUtils from 'platform/utilities/data/index';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -1074,6 +1075,58 @@ const formConfig = {
                     },
                   },
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+    reportDependentDeaths: {
+      title: 'Report The Death Of A Dependent',
+      pages: {
+        deaths: {
+          path: 'report-death-of-dependent',
+          title: 'Dependent Information',
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    deceasedFullName: fullName,
+                    deceasedDateOfDeath: date,
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            dependents: {
+              'ui:options': {
+                itemName: 'Dependent',
+                viewField: FullNameField,
+              },
+              items: {
+                deceasedFullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Dependent’s first name',
+                  },
+                  middle: {
+                    'ui:title': 'Dependent’s middle name',
+                  },
+                  last: {
+                    'ui:title': 'Dependent’s last name',
+                  },
+                  suffix: {
+                    'ui:title': 'Dependent’s suffix',
+                  },
+                }),
+                deceasedDateOfDeath: currentOrPastDateUI(
+                  'Dependent’s date of death',
+                ),
               },
             },
           },
