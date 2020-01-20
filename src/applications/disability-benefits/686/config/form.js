@@ -1090,9 +1090,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              dependents: {
+              deaths: {
                 type: 'array',
-                minItems: 1,
                 items: {
                   type: 'object',
                   properties: {
@@ -1104,9 +1103,8 @@ const formConfig = {
             },
           },
           uiSchema: {
-            dependents: {
+            deaths: {
               'ui:options': {
-                itemName: 'Dependent',
                 viewField: FullNameField,
               },
               items: {
@@ -1119,9 +1117,6 @@ const formConfig = {
                   },
                   last: {
                     'ui:title': 'Dependent’s last name',
-                  },
-                  suffix: {
-                    'ui:title': 'Dependent’s suffix',
                   },
                 }),
                 deceasedDateOfDeath: currentOrPastDateUI(
