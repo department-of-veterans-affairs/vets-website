@@ -265,10 +265,10 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilityId = facilities[0].institutionCode;
       }
 
-      eligibilityData =
+      const eligibilityChecks =
         newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
 
-      if (eligibilityDataNeeded && !eligibilityData) {
+      if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
           facilities.find(facility => facility.institutionCode === facilityId),
           typeOfCareId,
