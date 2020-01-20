@@ -42,13 +42,13 @@ describe('VAOS <CalendarCell>', () => {
   it('should update height after resize', done => {
     const tree = mount(
       <CalendarCell
-        currentlySelectedDate="2019-10-21"
+        currentlySelectedDate="2019-10-22"
         date="2019-10-21"
         inSelectedArray
       />,
     );
     // This is like doing .update(), but works with useEffect
-    tree.setProps();
+    tree.setProps({ currentlySelectedDate: '2019-10-21' });
 
     window.dispatchEvent(new Event('resize'));
 

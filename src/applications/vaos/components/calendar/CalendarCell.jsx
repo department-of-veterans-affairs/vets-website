@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import debounce from 'platform/utilities/data/debounce';
@@ -19,50 +19,45 @@ const CalendarCell = ({
   selectedIndicatorType,
 }) => {
   const [optionsHeight, setOptionsHeight] = useState(0);
-  const [optionsNode, setOptionsNode] = useState(null);
-  const buttonRef = useRef();
+  const buttonRef = useRef(null);
+  const optionsHeightRef = useRef(null);
 
-  const optionsHeightRef = useCallback(
-    node => {
-      if (
-        buttonRef !== null &&
-        node !== null &&
-        date !== null &&
-        currentlySelectedDate === date
-      ) {
-        setOptionsHeight(
-          node.getBoundingClientRect().height +
-            buttonRef.current.getBoundingClientRect().height,
-        );
-        setOptionsNode(node);
-      }
-    },
-    [currentlySelectedDate, date],
-  );
+  useEffect(
+    () => {
+      if (date !== null && currentlySelectedDate === date) {
+        const onResize = debounce(50, () => {
+          if (optionsHeightRef?.current && buttonRef?.current) {
+            const newHeight =
+              optionsHeightRef.current.getBoundingClientRect().height +
+              buttonRef.current.getBoundingClientRect().height;
 
-  useEffect(() => {
-    if (date !== null && currentlySelectedDate === date) {
-      const onResize = debounce(50, () => {
-        if (optionsNode && buttonRef.current) {
+            if (newHeight !== optionsHeight) {
+              setOptionsHeight(newHeight);
+            }
+          }
+        });
+
+        if (optionsHeightRef?.current && buttonRef?.current) {
           const newHeight =
-            optionsNode.getBoundingClientRect().height +
+            optionsHeightRef.current.getBoundingClientRect().height +
             buttonRef.current.getBoundingClientRect().height;
 
           if (newHeight !== optionsHeight) {
             setOptionsHeight(newHeight);
           }
         }
-      });
 
-      window.addEventListener('resize', onResize);
+        window.addEventListener('resize', onResize);
 
-      return () => {
-        window.removeEventListener('resize', onResize);
-      };
-    }
+        return () => {
+          window.removeEventListener('resize', onResize);
+        };
+      }
 
-    return undefined;
-  });
+      return undefined;
+    },
+    [date, currentlySelectedDate, optionsHeight],
+  );
 
   if (date === null) {
     return (
