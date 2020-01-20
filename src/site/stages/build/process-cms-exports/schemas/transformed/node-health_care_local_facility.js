@@ -13,31 +13,25 @@ module.exports = {
         entityMetatags: { $ref: 'MetaTags' },
         entityUrl: { $ref: 'EntityUrl' },
         fieldAddress: { $ref: 'Address' },
-        fieldEmailSubscription: { type: 'string' },
-        fieldFacebook: { type: 'string' },
+        fieldEmailSubscription: { type: ['string', 'null'] },
+        fieldFacebook: { type: ['string', 'null'] },
         fieldFacilityHours: {
-          type: 'object',
-          properties: {
-            value: {
-              type: 'array',
-              items: {
-                type: 'array',
-                items: { type: 'string' },
-                // Expect [0] to be the day name and [1] to be the hours
-                minItems: 2,
-                maxItems: 2,
-              },
-              // Expect all the days of the week
-              minItems: 7,
-              maxItems: 7,
-            },
+          type: 'array',
+          items: {
+            type: 'array',
+            items: { type: 'string' },
+            // Expect [0] to be the day name and [1] to be the hours
+            minItems: 2,
+            maxItems: 2,
           },
-          required: ['value'],
+          // Expect all the days of the week
+          minItems: 7,
+          maxItems: 7,
         },
-        fieldFacilityLocatorApiId: { type: 'string' },
-        fieldFlickr: { type: 'string' },
-        fieldInstagram: { type: 'string' },
-        fieldIntroText: { type: 'string' },
+        fieldFacilityLocatorApiId: { type: ['string', 'null'] },
+        fieldFlickr: { type: ['string', 'null'] },
+        fieldInstagram: { type: ['string', 'null'] },
+        fieldIntroText: { type: ['string', 'null'] },
         fieldLocalHealthCareService: {
           type: 'array',
           // Alternatively, we can pull out only the bits of this schema that we'll use,
@@ -54,18 +48,18 @@ module.exports = {
         fieldMedia: {
           oneOf: [{ $ref: 'Media' }, { type: 'null' }],
         },
-        fieldMentalHealthPhone: { type: 'string' },
-        fieldNicknameForThisFacility: { type: 'string' },
+        fieldMentalHealthPhone: { type: ['string', 'null'] },
+        fieldNicknameForThisFacility: { type: ['string', 'null'] },
         // Could probably be an enum, but it's not clear what all the possible values are
         fieldOperatingStatusFacility: { type: 'string' },
-        fieldPhoneNumber: { type: 'string' },
+        fieldPhoneNumber: { type: ['string', 'null'] },
         fieldRegionPage: {
           oneOf: [
             { $ref: 'transformed/node-health_care_region_page' },
             { type: 'null' },
           ],
         },
-        fieldTwitter: { type: 'string' },
+        fieldTwitter: { type: ['string', 'null'] },
       },
       required: [
         'title',
