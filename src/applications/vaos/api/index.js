@@ -463,7 +463,7 @@ export function submitRequest(type, request) {
 
 export function submitAppointment(appointment) {
   let promise;
-  if (USE_MOCK_DATA || true) {
+  if (USE_MOCK_DATA) {
     promise = Promise.resolve({
       data: {
         attributes: {},
