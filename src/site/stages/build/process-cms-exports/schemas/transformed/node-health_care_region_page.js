@@ -17,19 +17,10 @@ module.exports = {
           required: ['path'],
         },
         fieldNicknameForThisFacility: { type: 'string' },
-        // TODO: Figure out the type vs. __typename stuff
-        entityMetaTags: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              __typename: { type: 'string' },
-              key: { type: 'string' },
-              value: { type: 'string' },
-            },
-          },
+        fieldRelatedLinks: {
+          $ref: 'transformed/paragraph-list_of_link_teasers',
         },
+        entityMetaTags: { $ref: 'MetaTags' },
       },
       required: ['title', 'fieldNicknameForThisFacility'],
     },

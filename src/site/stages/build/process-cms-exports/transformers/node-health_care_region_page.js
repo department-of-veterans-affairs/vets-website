@@ -14,6 +14,7 @@ const transform = ({
   moderationState,
   metatag: { value: metaTags },
   fieldNicknameForThisFacility,
+  fieldRelatedLinks,
 }) => ({
   entity: {
     entityType: 'node',
@@ -25,6 +26,7 @@ const transform = ({
       path: path[0].alias,
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
+    fieldRelatedLinks: fieldRelatedLinks[0],
     entityMetatags: [
       createMetaTag('MetaValue', 'title', metaTags.title),
       createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
@@ -53,6 +55,7 @@ module.exports = {
     'moderation_state',
     'path',
     'field_nickname_for_this_facility',
+    'field_related_links',
     'metatag',
   ],
   transform,
