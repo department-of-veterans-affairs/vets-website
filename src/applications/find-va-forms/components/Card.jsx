@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames';
-import recordEvent from 'platform/monitoring/record-event';
 
 export default function Card({ heading, href, rel, target, description }) {
   const containerClassName = classnames(
@@ -15,12 +14,6 @@ export default function Card({ heading, href, rel, target, description }) {
     <a
       href={href}
       target={target}
-      onClick={() =>
-        recordEvent({
-          event: 'nav-featured-content-link-click',
-          'featured-content-header': heading,
-        })
-      }
       rel={rel}
       className={containerClassName}
       aria-label={heading}
