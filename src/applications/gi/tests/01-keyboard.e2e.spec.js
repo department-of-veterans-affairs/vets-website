@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.isActiveElement('#militaryStatus');
 
   // Evaluate the military status select menu
-  client.evaluateSelectMenu('#militaryStatus', 'Active Duty', 'active duty');
+  client.evaluateSelectMenu('#militaryStatus', 'child', 'child');
 
   // Open the GI Bill Benefit modal
   client

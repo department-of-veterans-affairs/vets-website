@@ -26,13 +26,11 @@ module.exports.command = function evaluateSelectMenu(
   optionText,
   selectedOption,
 ) {
-  const { SPACE } = this.Keys;
   const client = this;
 
   return client.waitForElementVisible(selectMenu, 1000, () => {
     this.assert
       .isActiveElement(selectMenu)
-      .keys(SPACE)
       .sendKeys(selectMenu, optionText)
       .assert.value(selectMenu, selectedOption);
   });
