@@ -12,7 +12,7 @@ module.exports = {
         entityPublished: { type: 'boolean' },
         entityMetatags: { $ref: 'MetaTags' },
         entityUrl: { $ref: 'EntityUrl' },
-        fieldAddress: { type: 'RawAddress' },
+        fieldAddress: { $ref: 'RawAddress' },
         fieldEmailSubscription: { type: 'string' },
         fieldFacebook: { type: 'string' },
         fieldFacilityHours: {
@@ -27,10 +27,10 @@ module.exports = {
                 minItems: 2,
                 maxItems: 2,
               },
+              // Expect all the days of the week
+              minItems: 7,
+              maxItems: 7,
             },
-            // Expect all the days of the week
-            minItems: 7,
-            maxItems: 7,
           },
           required: ['value'],
         },
