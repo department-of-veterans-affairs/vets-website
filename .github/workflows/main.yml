@@ -13,5 +13,6 @@ jobs:
         with:
           styles: |
             https://github.com/errata-ai/write-good/releases/latest/download/write-good.zip
+            https://github.com/billfienberg/vale-config/releases/latest/download/VA.zip
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
