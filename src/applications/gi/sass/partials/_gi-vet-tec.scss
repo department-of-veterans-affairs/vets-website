@@ -22,6 +22,12 @@
 
   $single-column-width: 641px;
 
+  @media only screen and (max-width: 767px) {
+    #vettecLogoDesktop {
+      display: none;
+    }
+  }
+
   @media (min-width: $single-column-width) {
     .single-column-display-block {
       display: block !important;
@@ -34,5 +40,4 @@
   .vettec-sco-list {
     list-style: none;
   }
-
 }
