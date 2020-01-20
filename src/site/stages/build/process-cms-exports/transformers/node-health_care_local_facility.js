@@ -1,4 +1,10 @@
-const { getDrupalValue } = require('./helpers');
+const {
+  getDrupalValue,
+  isPublished,
+  createMetaTagArray,
+  combineItemsInIndexedObject,
+} = require('./helpers');
+const { mapKeys, camelCase } = require('lodash');
 
 const transform = entity => ({
   entity: {
@@ -6,23 +12,32 @@ const transform = entity => ({
     entityBundle: 'health_care_local_facility',
     title: getDrupalValue(entity.title),
     changed: getDrupalValue(entity.changed),
-    moderationState: getDrupalValue(entity.moderationState),
-    metatag: getDrupalValue(entity.metatag),
-    path: getDrupalValue(entity.path),
-    fieldAddress: getDrupalValue(entity.fieldAddress),
+    entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+    metatag: createMetaTagArray(getDrupalValue(entity.metatag)),
+    entityUrl: {
+      // TODO: Get the breadcrumb from the CMS export when it's available
+      breadcrumb: [],
+      path: entity.path[0].alias,
+    },
+    // The keys of fieldAddress[0] are snake_case, but we want camelCase
+    fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
     fieldEmailSubscription: getDrupalValue(entity.fieldEmailSubscription),
     fieldFacebook: getDrupalValue(entity.fieldFacebook),
-    fieldFacilityHours: getDrupalValue(entity.fieldFacilityHours),
+    fieldFacilityHours: combineItemsInIndexedObject(
+      getDrupalValue(entity.fieldFacilityHours),
+    ),
     fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
     fieldFlickr: getDrupalValue(entity.fieldFlickr),
     fieldInstagram: getDrupalValue(entity.fieldInstagram),
     fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldLocalHealthCareService: getDrupalValue(
-      entity.fieldLocalHealthCareService,
-    ),
-    fieldLocationServices: getDrupalValue(entity.fieldLocationServices),
+    fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
+      ? entity.fieldLocalHealthCareService
+      : null,
+    fieldLocationServices: entity.fieldLocationServices.length
+      ? entity.fieldLocationServices
+      : null,
     fieldMainLocation: getDrupalValue(entity.fieldMainLocation),
-    fieldMedia: getDrupalValue(entity.fieldMedia),
+    fieldMedia: entity.fieldMedia[0] || null,
     fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
     fieldNicknameForThisFacility: getDrupalValue(
       entity.fieldNicknameForThisFacility,
@@ -31,7 +46,7 @@ const transform = entity => ({
       entity.fieldOperatingStatusFacility,
     ),
     fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-    fieldRegionPage: getDrupalValue(entity.fieldRegionPage),
+    fieldRegionPage: entity.fieldRegionPage[0] || null,
     fieldTwitter: getDrupalValue(entity.fieldTwitter),
   },
 });
