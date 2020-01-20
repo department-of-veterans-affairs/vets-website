@@ -62,7 +62,7 @@ export const disabilitiesExplanation = (
         The decision might be for another benefit type, like health care,
         insurance, or education. Decisions for these benefit types won’t appear
         on this list. If you want to request Higher-Level Review for benefit
-        types other than compensation or pension, you’ll need to fill out a{' '}
+        types other than compensation, you’ll need to fill out a{' '}
         <a href={FORM_URL}>
           Decision Review Request: Higher-Level Review (VA Form 20-0996)
         </a>

@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from './moment-tz';
+import * as ICS from 'ics-js';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
@@ -378,9 +379,9 @@ export function getAppointmentInstructions(appt) {
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes;
 
-      const instructions = bookingNotes.split(': ', 2);
+      const instructions = bookingNotes?.split(': ', 2);
 
-      if (instructions.length > 1) {
+      if (instructions && instructions.length > 1) {
         return instructions[1];
       }
 
@@ -402,9 +403,9 @@ export function getAppointmentInstructionsHeader(appt) {
         appt.vdsAppointments?.[0]?.bookingNote ||
         appt.vvsAppointments?.[0]?.bookingNotes;
 
-      const instructions = bookingNotes.split(': ', 2);
+      const instructions = bookingNotes?.split(': ', 2);
 
-      return instructions[0];
+      return instructions ? instructions[0] : '';
     }
     default:
       return '';
@@ -466,4 +467,94 @@ export function getAppointmentTypeHeader(appt) {
     default:
       return appt.purposeOfVisit;
   }
+}
+
+/**
+ * Function to get the appointment duration in minutes. The default is 60 minutes.
+ *
+ * @param {*} appt
+ * @returns
+ */
+export function getAppointmentDuration(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const appointmentLength = parseInt(
+        appt.vdsAppointments[0]?.appointmentLength,
+        10,
+      );
+      return isNaN(appointmentLength) ? 60 : appointmentLength;
+    }
+    default:
+      return 60;
+  }
+}
+
+/**
+ * Function to get the appointment address.
+ *
+ * @param {*} appt
+ * @param {*} facility
+ * @returns 'undefined' if there is no address
+ */
+export function getAppointmentAddress(appt, facility) {
+  if (isVideoVisit(appt)) {
+    return 'Video conference';
+  }
+
+  const type = getAppointmentType(appt);
+
+  if (type === APPOINTMENT_TYPES.ccAppointment) {
+    return `${appt.address.street} ${appt.address.city}, ${
+      appt.address.state
+    } ${appt.address.zipCode}`;
+  }
+
+  if (facility) {
+    return `${facility.address.physical.address1} ${
+      facility.address.physical.city
+    }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
+  }
+
+  return undefined;
+}
+
+/**
+ * Function to generate ICS commands for an appointment.
+ *
+ * @export
+ * @param {*} appt
+ * @param {*} facility
+ */
+export function generateICS(appt, facility) {
+  const cal = new ICS.VCALENDAR();
+  const event = new ICS.VEVENT();
+
+  const subject = getAppointmentTypeHeader(appt);
+  const description = `${getAppointmentInstructionsHeader(
+    appt,
+  )}. ${getAppointmentInstructions(appt)}`;
+  const location = getAppointmentAddress(appt, facility);
+
+  const duration = getAppointmentDuration(appt);
+  const startDateObj = getMomentConfirmedDate(appt).toDate();
+  const endDateObj = getMomentConfirmedDate(appt)
+    .add(duration, 'minutes')
+    .toDate();
+
+  cal.addProp('VERSION', 2);
+  cal.addProp('PRODID', 'VA');
+
+  event.addProp('UID');
+  event.addProp('SUMMARY', [subject]);
+  event.addProp('DESCRIPTION', [description]);
+  event.addProp('LOCATION', [location]);
+  event.addProp('DTSTAMP', startDateObj);
+  event.addProp('DTSTART', startDateObj);
+  event.addProp('DTEND', endDateObj);
+
+  cal.addComponent(event);
+
+  return cal.toString();
 }

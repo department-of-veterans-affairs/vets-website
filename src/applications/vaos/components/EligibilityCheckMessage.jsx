@@ -2,6 +2,20 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function EligibilityCheckMessage({ eligibility }) {
+  if (!eligibility.requestSupported) {
+    return (
+      <div aria-atomic="true" aria-live="assertive">
+        <AlertBox
+          status="warning"
+          headline="This facility does not allow online requests for this type of care"
+        >
+          This facility does not allow scheduling requests for this type of care
+          to be made online. Not all facilities support online scheduling for
+          all types of care.
+        </AlertBox>
+      </div>
+    );
+  }
   if (!eligibility.requestPastVisit) {
     return (
       <div aria-atomic="true" aria-live="assertive">
