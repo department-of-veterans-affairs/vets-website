@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {
-  PROMO_BANNER_TYPES,
-} from '@department-of-veterans-affairs/formation-react/PromoBanner';
+import { PROMO_BANNER_TYPES } from '@department-of-veterans-affairs/formation-react/PromoBanner';
 
 import PromoBanner from './PromoBanner';
 

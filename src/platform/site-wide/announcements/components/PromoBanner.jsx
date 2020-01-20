@@ -7,12 +7,12 @@ export default function PromoBannerWithAnalytics({ onClose, ...props }) {
   return (
     <PromoBanner
       {...props}
-      onClose={event => {
+      onClose={() => {
         recordEvent({
-          'event': 'nav-promo-banner-link'
+          event: 'nav-promo-banner-link',
         });
         onClose();
       }}
     />
-  )
+  );
 }
