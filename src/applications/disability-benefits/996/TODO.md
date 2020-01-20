@@ -49,13 +49,13 @@
 - [x] Add unit tests
 - [ ] Add e2e tests
 
-### Office of review
+### Office of review (Step 3)
 
 - [x] Choose same regional office yes/no
 - [x] Add unit tests
 - [ ] Add e2e tests
 
-### Request an informal conference (Step 3)
+### Request an informal conference (Step 4)
 
 - [x] Build form `requestAnInformalConference` in `config/form.js`
 - [x] Awaiting design on "Weekday" dropdown content - remove
@@ -63,7 +63,7 @@
 - [x] Add unit tests
 - [ ] Add e2e tests
 
-### Submit your application (Step 4)
+### Submit your application (Step 5)
 
 - [x] Is there a design? This page was automaticaly added by the form builder.
 - [x] Change wording to be "Review and submit your
