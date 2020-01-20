@@ -65,15 +65,7 @@ module.exports = {
         processed: { type: 'string' },
       },
     },
-    fieldAddress: {
-      type: ['object', 'null'],
-      properties: {
-        addressLine1: { type: 'string' },
-        addressLine2: { type: 'string' },
-        locality: { type: 'string' },
-        administrativeArea: { type: 'string' },
-      },
-    },
+    fieldAddress: { $ref: 'Address' },
     fieldBody: {
       type: 'object',
       properties: {

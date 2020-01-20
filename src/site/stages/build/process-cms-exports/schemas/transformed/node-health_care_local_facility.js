@@ -12,7 +12,7 @@ module.exports = {
         entityPublished: { type: 'boolean' },
         entityMetatags: { $ref: 'MetaTags' },
         entityUrl: { $ref: 'EntityUrl' },
-        fieldAddress: { $ref: 'RawAddress' },
+        fieldAddress: { $ref: 'Address' },
         fieldEmailSubscription: { type: 'string' },
         fieldFacebook: { type: 'string' },
         fieldFacilityHours: {
