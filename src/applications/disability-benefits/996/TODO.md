@@ -45,8 +45,13 @@
 ### Same jurisdiction & add notes (Step 2c)
 
 - [x] Build form `addNotes` in `config/form.js`
-- [x] Choose same regional office yes/no
 - [x] Add note for relevant evidence
+- [x] Add unit tests
+- [ ] Add e2e tests
+
+### Office of review
+
+- [x] Choose same regional office yes/no
 - [x] Add unit tests
 - [ ] Add e2e tests
 
