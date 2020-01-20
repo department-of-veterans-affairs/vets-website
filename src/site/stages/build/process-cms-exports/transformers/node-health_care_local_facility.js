@@ -3,52 +3,53 @@ const {
   isPublished,
   createMetaTagArray,
   combineItemsInIndexedObject,
+  utcToEpochTime,
 } = require('./helpers');
 const { mapKeys, camelCase } = require('lodash');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'node',
-    entityBundle: 'health_care_local_facility',
-    title: getDrupalValue(entity.title),
-    changed: getDrupalValue(entity.changed),
-    entityPublished: isPublished(getDrupalValue(entity.moderationState)),
-    entityMetatags: createMetaTagArray(entity.metatag.value),
-    entityUrl: {
-      // TODO: Get the breadcrumb from the CMS export when it's available
-      breadcrumb: [],
-      path: entity.path[0].alias,
-    },
-    // The keys of fieldAddress[0] are snake_case, but we want camelCase
-    fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
-    fieldEmailSubscription: getDrupalValue(entity.fieldEmailSubscription),
-    fieldFacebook: getDrupalValue(entity.fieldFacebook),
-    fieldFacilityHours: combineItemsInIndexedObject(
+  entityType: 'node',
+  entityBundle: 'health_care_local_facility',
+  title: getDrupalValue(entity.title),
+  changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityMetatags: createMetaTagArray(entity.metatag.value),
+  entityUrl: {
+    // TODO: Get the breadcrumb from the CMS export when it's available
+    breadcrumb: [],
+    path: entity.path[0].alias,
+  },
+  // The keys of fieldAddress[0] are snake_case, but we want camelCase
+  fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
+  fieldEmailSubscription: getDrupalValue(entity.fieldEmailSubscription),
+  fieldFacebook: getDrupalValue(entity.fieldFacebook),
+  fieldFacilityHours: {
+    value: combineItemsInIndexedObject(
       getDrupalValue(entity.fieldFacilityHours),
     ),
-    fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
-    fieldFlickr: getDrupalValue(entity.fieldFlickr),
-    fieldInstagram: getDrupalValue(entity.fieldInstagram),
-    fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-      ? entity.fieldLocalHealthCareService
-      : null,
-    fieldLocationServices: entity.fieldLocationServices.length
-      ? entity.fieldLocationServices
-      : null,
-    fieldMainLocation: getDrupalValue(entity.fieldMainLocation),
-    fieldMedia: entity.fieldMedia[0] || null,
-    fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
-    fieldNicknameForThisFacility: getDrupalValue(
-      entity.fieldNicknameForThisFacility,
-    ),
-    fieldOperatingStatusFacility: getDrupalValue(
-      entity.fieldOperatingStatusFacility,
-    ),
-    fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
-    fieldRegionPage: entity.fieldRegionPage[0] || null,
-    fieldTwitter: getDrupalValue(entity.fieldTwitter),
   },
+  fieldFacilityLocatorApiId: getDrupalValue(entity.fieldFacilityLocatorApiId),
+  fieldFlickr: getDrupalValue(entity.fieldFlickr),
+  fieldInstagram: getDrupalValue(entity.fieldInstagram),
+  fieldIntroText: getDrupalValue(entity.fieldIntroText),
+  fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
+    ? entity.fieldLocalHealthCareService
+    : null,
+  fieldLocationServices: entity.fieldLocationServices.length
+    ? entity.fieldLocationServices
+    : null,
+  fieldMainLocation: getDrupalValue(entity.fieldMainLocation),
+  fieldMedia: entity.fieldMedia[0] || null,
+  fieldMentalHealthPhone: getDrupalValue(entity.fieldMentalHealthPhone),
+  fieldNicknameForThisFacility: getDrupalValue(
+    entity.fieldNicknameForThisFacility,
+  ),
+  fieldOperatingStatusFacility: getDrupalValue(
+    entity.fieldOperatingStatusFacility,
+  ),
+  fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
+  fieldRegionPage: entity.fieldRegionPage[0] || null,
+  fieldTwitter: getDrupalValue(entity.fieldTwitter),
 });
 
 module.exports = {
