@@ -8,7 +8,7 @@ describe('VAOS <CalendarRadioOption>', () => {
   it('should render a radio button with proper label and values', () => {
     const tree = shallow(
       <CalendarRadioOption
-        index={0}
+        id="0"
         fieldName="test"
         value="2019-10-24T10:00:00-07:00"
         checked
