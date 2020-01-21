@@ -2,7 +2,7 @@
   {
     "domain": "www.cem.va.gov",
     "src": "/cem/burial_benefits/eligible.asp",
-    "dest": "www.va.gov/burials-memorials/eligibility/"
+    "dest": "/burials-memorials/eligibility/"
   },
   {
     "domain": "www.cem.va.gov",
