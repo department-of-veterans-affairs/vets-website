@@ -33,7 +33,7 @@ const transform = entity => ({
   fieldInstagram: getDrupalValue(entity.fieldInstagram),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLocalHealthCareService: entity.fieldLocalHealthCareService.length
-    ? entity.fieldLocalHealthCareService.filter(n => n.length)
+    ? entity.fieldLocalHealthCareService.filter(n => Object.keys(n).length)
     : null,
   fieldLocationServices: entity.fieldLocationServices.length
     ? entity.fieldLocationServices
