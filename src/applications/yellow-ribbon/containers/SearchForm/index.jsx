@@ -17,40 +17,43 @@ export class SearchForm extends Component {
   constructor(props) {
     super(props);
 
-    // Derive the current query params.
+    // Derive the current name params.
     const queryParams = new URLSearchParams(window.location.search);
 
-    // Derive the query.
-    const query = queryParams.get('q') || '';
+    // Derive the state values from our query params.
+    const city = queryParams.get('city') || '';
+    const name = queryParams.get('name') || '';
+    const state = queryParams.get('state') || '';
 
     this.state = {
-      query,
+      city,
+      name,
+      state,
     };
   }
 
   componentDidMount() {
-    // Fetch the results with their query if it's on the URL.
-    if (this.state.query) {
-      this.props.fetchResultsThunk(this.state.query);
+    const { city, name, state } = this.state;
+
+    // Fetch the results with their name if it's on the URL.
+    if (city || name || state) {
+      this.props.fetchResultsThunk({ city, name, state });
     }
   }
 
-  onQueryChange = event => {
-    // Derive the new query value.
-    const query = event.target.value;
-
-    // Update our query in state.
-    this.setState({ query });
+  onStateChange = key => event => {
+    this.setState({ [key]: event.target.value });
   };
 
   onSubmitHandler = event => {
+    const { city, name, state } = this.state;
     event.preventDefault();
-    this.props.fetchResultsThunk(this.state.query);
+    this.props.fetchResultsThunk({ city, name, state });
   };
 
   render() {
-    const { onSubmitHandler, onQueryChange } = this;
-    const { query } = this.state;
+    const { onStateChange, onSubmitHandler } = this;
+    const { city, name, state } = this.state;
 
     return (
       <form
@@ -58,29 +61,45 @@ export class SearchForm extends Component {
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
-        {/* Query Field */}
-        <label htmlFor="yr-search-query" className="vads-u-margin--0">
-          Enter a school name, city, or state (required)
+        {/* Name Field */}
+        <label htmlFor="yr-search-name" className="vads-u-margin--0">
+          School name
         </label>
         <div className="vads-u-margin-right--2 vads-u-flex--1">
           <input
             className="usa-input vads-u-max-width--100 vads-u-width--full"
-            name="yr-search-query"
-            onChange={onQueryChange}
+            name="yr-search-name"
+            onChange={onStateChange('name')}
             type="text"
-            value={query}
+            value={name}
           />
         </div>
 
-        {/* Query Field */}
-        <label htmlFor="yr-search-degree" className="vads-u-margin--0">
-          Select a degree level (required)
+        {/* City Field */}
+        <label htmlFor="yr-search-name" className="vads-u-margin--0">
+          City
         </label>
         <div className="vads-u-margin-right--2 vads-u-flex--1">
           <input
             className="usa-input vads-u-max-width--100 vads-u-width--full"
-            name="yr-search-degree"
+            name="yr-search-name"
+            onChange={onStateChange('city')}
             type="text"
+            value={city}
+          />
+        </div>
+
+        {/* State Field */}
+        <label htmlFor="yr-search-name" className="vads-u-margin--0">
+          State
+        </label>
+        <div className="vads-u-margin-right--2 vads-u-flex--1">
+          <input
+            className="usa-input vads-u-max-width--100 vads-u-width--full"
+            name="yr-search-name"
+            onChange={onStateChange('state')}
+            type="text"
+            value={state}
           />
         </div>
 

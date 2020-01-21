@@ -3,30 +3,33 @@ import appendQuery from 'append-query';
 // Relative imports.
 import STUBBED_RESPONSE from '../api/STUBBED_RESPONSE';
 import { apiRequest } from '../../../platform/utilities/api';
-import { normalizeResults } from '../helpers';
+import { normalizeResponse } from '../helpers';
 
-export const fetchResultsApi = async (query, options = {}) => {
+export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
   const mockRequest = options?.mockRequest || false;
+  const name = options?.name;
+  const city = options?.city;
+  const state = options?.state;
 
-  let RESULTS_URL = '/gi/institutions/search';
+  // Construct the URL and stub the response.
+  const RESULTS_URL = appendQuery('/gi/institutions/search', {
+    category: 'school',
+    name,
+    city,
+    state,
+    // eslint-disable-next-line
+    yellow_ribbon_scholarship: true,
+  });
   let response = STUBBED_RESPONSE;
 
-  // Add the `query` query param if provided.
-  if (query) {
-    RESULTS_URL = appendQuery(RESULTS_URL, { term: query });
-  }
-
-  // Make the request for the results.
+  // Make the request for the results and update `response` with its repsonse.
   if (!mockRequest) {
     response = await apiRequest(RESULTS_URL);
   }
 
-  // Derive the results.
-  const results = response?.data;
+  // Normalize the response from the API.
+  const normalizedResponse = normalizeResponse(response);
 
-  // Normalize the data from the API.
-  const normalizedResults = normalizeResults(results);
-
-  return normalizedResults;
+  return normalizedResponse;
 };

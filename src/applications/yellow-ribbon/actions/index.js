@@ -6,15 +6,13 @@ import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
-  UPDATE_PAGINATION,
-  UPDATE_RESULTS,
 } from '../constants';
 
 // ============
 // Fetch Results (via API)
 // ============
-export const fetchResultsAction = query => ({
-  query,
+export const fetchResultsAction = (options = {}) => ({
+  options,
   type: FETCH_RESULTS,
 });
 
@@ -23,59 +21,45 @@ export const fetchResultsFailure = error => ({
   type: FETCH_RESULTS_FAILURE,
 });
 
-export const fetchResultsSuccess = results => ({
-  results,
+export const fetchResultsSuccess = response => ({
+  response,
   type: FETCH_RESULTS_SUCCESS,
-});
-
-// ============
-// Pagination Actions
-// ============
-export const updatePaginationAction = (page = 1, startIndex = 0) => ({
-  page,
-  startIndex,
-  type: UPDATE_PAGINATION,
-});
-
-// ============
-// Update Results (no API)
-// ============
-export const updateResultsAction = results => ({
-  results,
-  type: UPDATE_RESULTS,
 });
 
 // ============
 // Redux Thunks
 // ============
-export const fetchResultsThunk = (query, options = {}) => async dispatch => {
+export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
-  const location = options?.location || window.location;
   const history = options?.history || window.history;
+  const location = options?.location || window.location;
   const mockRequest = options?.mockRequest || false;
+  const name = options?.name || '';
+  const city = options?.city || '';
+  const state = options?.state || '';
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction(query));
-
-  // Reset the pagination.
-  dispatch(updatePaginationAction());
+  dispatch(fetchResultsAction({ city, name, state }));
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);
 
-  // Update the query params with the new `query`.
-  queryParams.set('q', query);
+  // Update the query params in our URL.
+  queryParams.set('city', city);
+  queryParams.set('name', name);
+  queryParams.set('state', state);
 
-  // Update the URL with the new query param.
+  // Update the URL with the new query params.
   history.replaceState({}, '', `${location.pathname}?${queryParams}`);
 
   try {
     // Attempt to make the API request to retreive results.
-    const results = await fetchResultsApi(query, { mockRequest });
+    const response = await fetchResultsApi({ mockRequest, city, name, state });
 
     // If we are here, the API request succeeded.
-    dispatch(fetchResultsSuccess(results));
+    dispatch(fetchResultsSuccess(response));
   } catch (error) {
+    console.log('error', error);
     // If we are here, the API request failed.
     dispatch(
       fetchResultsFailure(

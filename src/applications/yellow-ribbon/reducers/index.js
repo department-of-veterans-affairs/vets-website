@@ -3,35 +3,42 @@ import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
-  UPDATE_PAGINATION,
-  UPDATE_RESULTS,
 } from '../constants';
 
 const initialState = {
+  city: '',
   error: '',
   fetching: false,
+  name: '',
   page: 1,
-  query: '',
-  results: null,
-  startIndex: 0,
+  perPage: 10,
+  results: undefined,
+  state: '',
+  totalResults: undefined,
 };
 
 const yellowRibbonReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_RESULTS: {
-      return { ...state, error: '', fetching: true, query: action.query };
+      return {
+        ...state,
+        city: action?.options?.city || '',
+        error: '',
+        fetching: true,
+        name: action?.options?.name || '',
+        state: action?.options?.state || '',
+      };
     }
     case FETCH_RESULTS_FAILURE: {
       return { ...state, error: action.error, fetching: false };
     }
     case FETCH_RESULTS_SUCCESS: {
-      return { ...state, fetching: false, results: action.results };
-    }
-    case UPDATE_PAGINATION: {
-      return { ...state, page: action.page, startIndex: action.startIndex };
-    }
-    case UPDATE_RESULTS: {
-      return { ...state, results: action.results };
+      return {
+        ...state,
+        fetching: false,
+        results: action?.response?.results,
+        totalResults: action?.response?.totalResults,
+      };
     }
     default: {
       return { ...state };
