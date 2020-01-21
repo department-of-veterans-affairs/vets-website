@@ -125,7 +125,7 @@ export class EligibilityForm extends React.Component {
               onClick={() =>
                 this.props.isLoggedIn &&
                 recordEvent({
-                  event: 'ebenefits-navigation',
+                  event: 'nav-ebenefits-click',
                 })
               }
             >

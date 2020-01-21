@@ -62,7 +62,7 @@ class StatusPage extends React.Component {
             href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=payment-history"
             onClick={() =>
               recordEvent({
-                event: 'ebenefits-navigation',
+                event: 'nav-ebenefits-click',
               })
             }
           >
