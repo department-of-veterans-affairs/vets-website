@@ -8,7 +8,6 @@ TEST_ENTITIES_PATH="$(dirname "$0")"/../src/site/stages/build/process-cms-export
 ls $TEST_ENTITIES_PATH | sort | uniq > "$ALL_FILES"
 
 # Build a list of all the files that are _read_ (yarn test:unit ~/adhoc/vets-website/src/site/stages/build/process-cms-exports/tests/assemble-entity-tree.unit.spec.js | sed -nE 's/^[. ]*([a-z_]+\..+\.json)$/\1/p')
-# TODO: Make readEntity only output the file names if a certain environment variable is set
 LOG_USED_ENTITIES=true yarn test:unit "$(dirname "$0")"/../src/site/stages/build/process-cms-exports/tests/assemble-entity-tree.unit.spec.js | sed -nE 's/^[․ ]*([a-z_]+\..+\.json)$/\1/p' | sort | uniq > "$READ_FILES"
 
 # comm the files to get the list of files that are only in ALL_FILES (so they exist, but aren't read)
