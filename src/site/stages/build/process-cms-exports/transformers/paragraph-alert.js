@@ -23,5 +23,11 @@ const transform = entity => {
 };
 
 module.exports = {
+  filter: [
+    'field_alert_type',
+    'field_alert_heading',
+    'field_va_paragraphs',
+    'field_alert_block_reference',
+  ],
   transform,
 };

@@ -10,6 +10,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     appointmentType: 'Testing',
     startDate: '2019-12-11T16:00:00Z',
     facilityId: '983',
+    clinicId: '123',
     vvsAppointments: [],
     vdsAppointments: [
       {
@@ -23,7 +24,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
         patientId: '7216691',
         type: 'REGULAR',
         currentStatus: 'NO ACTION TAKEN/TODAY',
-        bookingNote: 'Test',
+        bookingNote: 'Booking note',
       },
     ],
   };
@@ -62,8 +63,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   it('should have a status of "confirmed"', () => {
     expect(
       tree
-        .find('.vaos-appts__status span')
-        .at(0)
+        .find('span')
+        .at(2)
         .text(),
     ).to.contain('Confirmed');
   });
@@ -78,13 +79,20 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
   });
 
   it('should display clinic name', () => {
-    expect(tree.find('.vaos-appts__split-section dt').text()).to.contain(
-      'C&P BEV AUDIO FTC1',
-    );
+    expect(
+      tree
+        .find('dt')
+        .first()
+        .text(),
+    ).to.contain('C&P BEV AUDIO FTC1');
   });
 
   it('should not show facility address', () => {
     expect(tree.find('FacilityAddress').exists()).to.be.false;
+  });
+
+  it('should not show booking note', () => {
+    expect(tree.text()).not.to.contain('Booking note');
   });
 });
 
@@ -108,8 +116,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   it('should have a status of "confirmed"', () => {
     expect(
       tree
-        .find('.vaos-appts__status span')
-        .at(0)
+        .find('span')
+        .at(2)
         .text(),
     ).to.contain('Confirmed');
   });
@@ -124,13 +132,11 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
   });
 
   it('should display clinic name', () => {
-    expect(tree.find('.vaos-appts__split-section dt').text()).to.contain(
-      'My Clinic',
-    );
+    expect(tree.find('dt').text()).to.contain('My Clinic');
   });
 
   it('should display clinic address', () => {
-    expect(tree.find('.vaos-appts__split-section dd').text()).to.contain(
+    expect(tree.find('dd').text()).to.contain(
       '123 second stNorthampton, MA 22222',
     );
   });
@@ -149,6 +155,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
     clinicId: '456',
     vvsAppointments: [
       {
+        bookingNotes: 'My reason isn’t listed: Booking note',
         patients: {
           patient: [
             {
@@ -168,6 +175,11 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
   );
 
   it('should contain link to video conference', () => {
-    expect(tree.find('VideoVisitLink').length).to.equal(1);
+    expect(tree.find('VideoVisitSection').length).to.equal(1);
+  });
+
+  it('should show booking note', () => {
+    expect(tree.text()).to.contain('Booking note');
+    expect(tree.text()).to.contain('My reason isn’t listed');
   });
 });

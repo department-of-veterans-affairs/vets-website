@@ -1,8 +1,4 @@
-import {
-  PRIMARY_CARE,
-  DISABLED_LIMIT_VALUE,
-  CANCELLED_APPOINTMENT_SET,
-} from '../utils/constants';
+import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
 
 import {
   checkPastVisits,
@@ -11,16 +7,27 @@ import {
   getClinics,
 } from '../api';
 
-export async function getEligibilityData(facilityId, typeOfCareId, systemId) {
+export async function getEligibilityData(
+  facility,
+  typeOfCareId,
+  systemId,
+  isDirectScheduleEnabled,
+) {
+  const facilityId = facility.institutionCode;
   const eligibilityChecks = [
-    checkPastVisits(facilityId, typeOfCareId, 'request'),
+    checkPastVisits(systemId, facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
-    checkPastVisits(facilityId, typeOfCareId, 'direct'),
-    getClinics(facilityId, typeOfCareId, systemId),
   ];
 
-  if (typeOfCareId === PRIMARY_CARE) {
-    eligibilityChecks.push(getPacTeam(facilityId));
+  if (facility.directSchedulingSupported && isDirectScheduleEnabled) {
+    eligibilityChecks.push(
+      checkPastVisits(systemId, facilityId, typeOfCareId, 'direct'),
+    );
+    eligibilityChecks.push(getClinics(facilityId, typeOfCareId, systemId));
+
+    if (typeOfCareId === PRIMARY_CARE) {
+      eligibilityChecks.push(getPacTeam(facilityId));
+    }
   }
 
   const [requestPastVisit, requestLimits, ...directData] = await Promise.all(
@@ -29,6 +36,8 @@ export async function getEligibilityData(facilityId, typeOfCareId, systemId) {
   let eligibility = {
     requestPastVisit,
     requestLimits,
+    directSupported: facility.directSchedulingSupported,
+    requestSupported: facility.requestSupported,
   };
 
   if (directData?.length) {
@@ -65,12 +74,10 @@ function hasVisitedInPastMonthsRequest(eligibilityData) {
   );
 }
 
-function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaFacility) {
+function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem) {
   return (
     typeOfCareId !== PRIMARY_CARE ||
-    eligibilityData.pacTeam.some(
-      provider => provider.facilityId === vaFacility.substring(0, 3),
-    )
+    eligibilityData.pacTeam.some(provider => provider.facilityId === vaSystem)
   );
 }
 
@@ -82,20 +89,24 @@ function isUnderRequestLimit(eligibilityData) {
   );
 }
 
-export function getEligibilityChecks(
-  vaFacility,
-  typeOfCareId,
-  eligibilityData,
-) {
+export function getEligibilityChecks(vaSystem, typeOfCareId, eligibilityData) {
+  // If we're missing this property, it means no DS checks were made
+  // because it's disabled
+  const directSchedulingEnabled =
+    typeof eligibilityData.directPastVisit !== 'undefined';
+
   return {
-    directPastVisit: hasVisitedInPastMonthsDirect(eligibilityData),
-    directPastVisitValue: eligibilityData.directPastVisit.durationInMonths,
-    directPACT: hasPACTeamIfPrimaryCare(
-      eligibilityData,
-      typeOfCareId,
-      vaFacility,
-    ),
-    directClinics: !!eligibilityData.clinics.length,
+    directSupported: eligibilityData.directSupported,
+    directPastVisit:
+      directSchedulingEnabled && hasVisitedInPastMonthsDirect(eligibilityData),
+    directPastVisitValue:
+      directSchedulingEnabled &&
+      eligibilityData.directPastVisit.durationInMonths,
+    directPACT:
+      directSchedulingEnabled &&
+      hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem),
+    directClinics: directSchedulingEnabled && !!eligibilityData.clinics.length,
+    requestSupported: eligibilityData.requestSupported,
     requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
     requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
     requestLimit: isUnderRequestLimit(eligibilityData),
@@ -112,16 +123,18 @@ export function isEligible(eligibilityChecks) {
   }
 
   const {
+    directSupported,
     directPastVisit,
     directClinics,
     directPACT,
+    requestSupported,
     requestLimit,
     requestPastVisit,
   } = eligibilityChecks;
 
   return {
-    direct: directPastVisit && directPACT && directClinics,
-    request: requestLimit && requestPastVisit,
+    direct: directSupported && directPastVisit && directPACT && directClinics,
+    request: requestSupported && requestLimit && requestPastVisit,
   };
 }
 
@@ -129,22 +142,4 @@ export function getEligibleFacilities(facilities) {
   return facilities.filter(
     facility => facility.requestSupported || facility.directSchedulingSupported,
   );
-}
-
-export function hasEligibleClinics(facilityId, pastAppointments, clinics) {
-  const pastClinicIds = new Set(
-    pastAppointments
-      .filter(
-        appt =>
-          appt.facilityId === facilityId &&
-          appt.clinicId &&
-          !CANCELLED_APPOINTMENT_SET.has(
-            appt.vdsAppointments?.[0]?.currentStatus || 'FUTURE',
-          ),
-      )
-      .map(appt => appt.clinicId),
-  );
-
-  // TODO: Reproduce scenario when clinics is null
-  return clinics?.some(clinic => pastClinicIds.has(clinic.clinicId));
 }

@@ -1,95 +1,82 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import PercentageCalloutBox from '../components/PercentageCalloutBox';
 
 export const errorMessage = () => {
   const message = (
     <>
+      <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+        We’re sorry. Something went wrong on our end
+      </h2>
       <p>
         Please refresh this page or check back later. You can also sign out of
         VA.gov and try signing back into this page.
       </p>
       <p>
-        If you get this error again, please call VA.gov help desk at{' '}
+        If you get this error again, please call the VA.gov help desk at{' '}
         <a
-          href="tel:1-855-574-7286"
-          aria-label="Dial the telephone number 1-855-574-7286"
-          title="Dial the telephone number 1-855-574-7286"
+          href="tel:8446982311"
+          aria-label="8 4 4. 6 9 8. 2 3 1 1."
+          title="Dial the telephone number 844-698-2311"
         >
-          1-855-574-7286
+          844-698-2311
         </a>{' '}
         (TTY:711). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
       </p>
     </>
   );
-  return (
-    <AlertBox
-      headline="We’re sorry. Something went wrong on our end"
-      content={message}
-      status="error"
-      isVisible
-    />
-  );
+  return <AlertBox content={message} status="error" isVisible />;
 };
 
 export const missingTotalMessage = () => {
   const message = (
     <>
+      <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+        We don’t have a combined disability rating on file for you
+      </h2>
       <p>
-        We’re sorry. We can’t find a disability rating for you. If you have a
+        We can’t find a combined disability rating for you. If you have a
         disability that was caused by or got worse because of your service, you
         can file a claim for disability benefits.
       </p>
       <a
         href="/disability/how-to-file-claim/"
         className="usa-link"
-        aria-label="go to the how-to-file-claim page"
+        aria-label="Learn how to file a claim for disability compensation"
       >
         Learn how to file a claim for disability compensation
       </a>
     </>
   );
-  return (
-    <AlertBox
-      headline="We don’t have a disability rating on file for you"
-      content={message}
-      status="info"
-      isVisible
-    />
-  );
+  return <AlertBox content={message} status="info" isVisible />;
 };
 
 export const totalRatingMessage = totalDisabilityRating => (
-  <div className="total-rated-disabilities">
-    <div className="vads-l-row medium-screen:vads-u-padding-bottom--2p5">
-      <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--9 vads-u-padding-right--1p5">
-        <p>
-          <strong>
-            Your combined disability rating is {totalDisabilityRating}%
-          </strong>
-          . This rating doesn’t include disabilities for your claims that are
-          still pending. You can check the status of your disability claims or
-          appeals with the Claim Status tool.
-        </p>
-        <a
-          href="/claim-or-appeal-status/"
-          arial-label="check your claims or appeals status"
-          title="check your claims or appeals status"
-          onClick={() => {
-            recordEvent({ event: 'disability-navigation-check-claims' });
-          }}
-        >
-          Check your claims or appeals
-        </a>
-      </div>
-      <div className="vads-u-margin-top--2p5 medium-screen:vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--3 medium-screen:vads-u-padding-top--2p5">
-        <PercentageCalloutBox
-          value={totalDisabilityRating}
-          isPercentage
-          label="Your combined VA disability rating"
-        />
-      </div>
+  <>
+    <h2 className="vads-u-margin-top--0">Your combined disability rating</h2>
+    <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
+      <dl className="vads-u-display--block vads-u-margin--0">
+        <dt className="vads-u-display--inline-block vads-u-font-size--h2 vads-u-font-weight--bold vads-u-margin--0 vads-u-border-color--gray-light vads-u-border-bottom--1px">
+          {totalDisabilityRating}%
+        </dt>
+        <dd className="vads-u-display--inline-block vads-u-margin-y--1">
+          This rating doesn’t include any disabilities for your claims that are
+          still in process. You can check the status of your disability claims
+          or appeals with the Claim Status tool.
+        </dd>
+      </dl>
+      <a
+        href="/claim-or-appeal-status/"
+        arial-label="check your claims or appeals status"
+        title="check your claims or appeals status"
+        onClick={() => {
+          recordEvent({
+            event: 'disability-navigation-check-claims',
+          });
+        }}
+      >
+        Check your claims or appeals
+      </a>
     </div>
-  </div>
+  </>
 );

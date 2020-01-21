@@ -198,91 +198,318 @@ export default {
       },
     };
   },
+  addressValidationSuccessSingleConfirmedSuggestion() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '400 N 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98103',
+              zipCodeSuffix: '5252',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+            },
+          },
+        ],
+        validationKey: -245128725,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessTwoConfirmedSuggestions() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '575 20th St',
+              addressType: 'DOMESTIC',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '06075',
+              countyName: 'San Francisco',
+              stateCode: 'CA',
+              zipCode: '94107',
+              zipCodeSuffix: '4345',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'BUSINESS',
+            },
+          },
+          {
+            address: {
+              addressLine1: '575 20th Ave',
+              addressType: 'DOMESTIC',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '06075',
+              countyName: 'San Francisco',
+              stateCode: 'CA',
+              zipCode: '94121',
+              zipCodeSuffix: '3122',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
+          },
+        ],
+        validationKey: -773295895,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessSingleLowConfidenceSuggestion() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '400 N 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98103',
+              zipCodeSuffix: '5252',
+            },
+            addressMetaData: {
+              confidenceScore: 87.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+            },
+          },
+        ],
+        validationKey: -245128725,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessSingleMissingUnitNumber() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '400 N 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98103',
+              zipCodeSuffix: '5252',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation:
+                'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+            },
+          },
+        ],
+        validationKey: -245128725,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessSingleBadUnitNumber() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '400 N 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98103',
+              zipCodeSuffix: '5252',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation:
+                'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
+            },
+          },
+        ],
+        validationKey: -245128725,
+      },
+      1000,
+    );
+  },
+  // This is the response we are now getting when we enter total garbage data and the address can't be found. It seems to replace the ADDRVAL112 error response that we used to get for "bad" addresses
+  addressValidationSuccessSingleBadAddress() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 McGee',
+              addressType: 'UNKNOWN',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              stateCode: 'CA',
+              zipCode: '94122',
+            },
+            addressMetaData: {
+              confidenceScore: 0.0,
+              addressType: 'Unknown',
+              deliveryPointValidation: 'MISSING_ZIP',
+            },
+          },
+        ],
+        validationKey: -245128725,
+      },
+      1000,
+    );
+  },
+  addressValidationSuccessSingleBadAddressNoValidationKey() {
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '123 McGee',
+              addressType: 'UNKNOWN',
+              city: 'San Francisco',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              stateCode: 'CA',
+              zipCode: '94122',
+            },
+            addressMetaData: {
+              confidenceScore: 0.0,
+              addressType: 'Unknown',
+              deliveryPointValidation: 'MISSING_ZIP',
+            },
+          },
+        ],
+      },
+      1000,
+    );
+  },
+  addressValidationError() {
+    return asyncReturn(
+      {
+        errors: [
+          {
+            title: 'Address Validation Error',
+            detail: {
+              messages: [
+                {
+                  code: 'ADDRVAL108',
+                  key: 'CandidateAddressNotFound',
+                  severity: 'INFO',
+                  text: 'No Candidate Address Found',
+                },
+              ],
+            },
+            code: 'VET360_AV_ERROR',
+            status: '400',
+          },
+        ],
+      },
+      1000,
+    );
+  },
   addressValidationSuccess() {
-    return {
-      addresses: [
-        {
-          address: {
-            addressLine1: '400 N 65th St',
-            addressType: 'DOMESTIC',
-            city: 'Seattle',
-            countryName: 'USA',
-            countryCodeIso3: 'USA',
-            countyCode: '53033',
-            countyName: 'King',
-            stateCode: 'WA',
-            zipCode: '98103',
-            zipCodeSuffix: '5252',
+    return asyncReturn(
+      {
+        addresses: [
+          {
+            address: {
+              addressLine1: '400 N 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98103',
+              zipCodeSuffix: '5252',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'UNDELIVERABLE',
+            },
           },
-          addressMetaData: {
-            confidenceScore: 100.0,
-            addressType: 'Domestic',
-            deliveryPointValidation: 'UNDELIVERABLE',
+          {
+            address: {
+              addressLine1: '400 NW 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98117',
+              zipCodeSuffix: '5026',
+            },
+            addressMetaData: {
+              confidenceScore: 100.0,
+              addressType: 'Domestic',
+              deliveryPointValidation: 'CONFIRMED',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
           },
-        },
-        {
-          address: {
-            addressLine1: '400 NW 65th St',
-            addressType: 'DOMESTIC',
-            city: 'Seattle',
-            countryName: 'USA',
-            countryCodeIso3: 'USA',
-            countyCode: '53033',
-            countyName: 'King',
-            stateCode: 'WA',
-            zipCode: '98117',
-            zipCodeSuffix: '5026',
+          {
+            address: {
+              addressLine1: '400 NE 65th St',
+              addressType: 'DOMESTIC',
+              city: 'Seattle',
+              countryName: 'United States',
+              countryCodeIso3: 'USA',
+              countyCode: '53033',
+              countyName: 'King',
+              stateCode: 'WA',
+              zipCode: '98115',
+              zipCodeSuffix: '6463',
+            },
+            addressMetaData: {
+              confidenceScore: 98.0,
+              addressType: 'Domestic',
+              deliveryPointValidation:
+                'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+              residentialDeliveryIndicator: 'RESIDENTIAL',
+            },
           },
-          addressMetaData: {
-            confidenceScore: 100.0,
-            addressType: 'Domestic',
-            deliveryPointValidation: 'CONFIRMED',
-            residentialDeliveryIndicator: 'RESIDENTIAL',
-          },
-        },
-        {
-          address: {
-            addressLine1: '400 NW 65th Street',
-            addressType: 'DOMESTIC',
-            city: 'Seattle',
-            countryName: 'USA',
-            countryCodeIso3: 'USA',
-            countyCode: '53033',
-            countyName: 'King',
-            stateCode: 'WA',
-            zipCode: '98117',
-            zipCodeSuffix: '5026',
-          },
-          addressMetaData: {
-            confidenceScore: 100.0,
-            addressType: 'Domestic',
-            deliveryPointValidation: 'CONFIRMED',
-            residentialDeliveryIndicator: 'RESIDENTIAL',
-          },
-        },
-        {
-          address: {
-            addressLine1: '400 NE 65th St',
-            addressType: 'DOMESTIC',
-            city: 'Seattle',
-            countryName: 'USA',
-            countryCodeIso3: 'USA',
-            countyCode: '53033',
-            countyName: 'King',
-            stateCode: 'WA',
-            zipCode: '98115',
-            zipCodeSuffix: '6463',
-          },
-          addressMetaData: {
-            confidenceScore: 98.0,
-            addressType: 'Domestic',
-            deliveryPointValidation:
-              'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
-            residentialDeliveryIndicator: 'RESIDENTIAL',
-          },
-        },
-      ],
-      validationKey: 12345,
-    };
+        ],
+        validationKey: -2009470897,
+      },
+      1000,
+    );
   },
 };

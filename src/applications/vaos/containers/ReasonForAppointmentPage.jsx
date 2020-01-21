@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  openFormPage,
+  openReasonForAppointment,
   updateReasonForAppointmentData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -9,8 +9,9 @@ import {
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
-import { getReasonForAppointment } from '../utils/selectors';
+import { getFormPageInfo } from '../utils/selectors';
 import { PURPOSE_TEXT } from '../utils/constants';
+import TextareaWidget from '../components/TextareaWidget';
 
 const initialSchema = {
   type: 'object',
@@ -30,10 +31,10 @@ const initialSchema = {
 const uiSchema = {
   reasonForAppointment: {
     'ui:widget': 'radio',
-    'ui:title': 'Why are you making this appointment?',
+    'ui:title': 'Please let us know why you’re making this appointment.',
   },
   reasonAdditionalInfo: {
-    'ui:widget': 'textarea',
+    'ui:widget': TextareaWidget,
     'ui:options': {
       rows: 5,
       expandUnder: 'reasonForAppointment',
@@ -43,10 +44,12 @@ const uiSchema = {
 };
 
 const pageKey = 'reasonForAppointment';
+const pageTitle = 'Choose a reason for your appointment';
 
 export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
+    this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
   }
 
   goBack = () => {
@@ -58,16 +61,11 @@ export class ReasonForAppointmentPage extends React.Component {
   };
 
   render() {
-    const {
-      schema,
-      data,
-      pageChangeInProgress,
-      reasonRemainingChar,
-    } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">Reason for appointment</h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <SchemaForm
           name="Reason for appointment"
           title="Reason for appointment"
@@ -83,39 +81,40 @@ export class ReasonForAppointmentPage extends React.Component {
           }
           data={data}
         >
-          {data.reasonForAppointment && (
-            <div className="vads-u-font-style--italic vads-u-margin-top--neg3 vads-u-margin-bottom--2p5">
-              {reasonRemainingChar} characters remaining
-            </div>
-          )}
           <FormButtons
             onBack={this.goBack}
             pageChangeInProgress={pageChangeInProgress}
           />
-          <AlertBox
-            headline="If you are experiencing a medical emergency:"
-            className="vads-u-margin-y--3"
-            content={
-              <ul>
-                <li>
-                  Call <a href="tel:911">911</a>,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Call the Veterans Crisis hotline at{' '}
-                  <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <a href="/find-locations">
-                    Find your nearest VA medical center
-                  </a>
-                </li>
-              </ul>
-            }
-            status="warning"
-          />
+          <div aria-atomic="true" aria-live="assertive">
+            <AlertBox
+              status="warning"
+              headline="If you have an urgent medical need, please:"
+              className="vads-u-margin-y--3"
+              content={
+                <ul>
+                  <li>
+                    Call <a href="tel:911">911</a>,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    Call the Veterans Crisis hotline at{' '}
+                    <a href="tel:8002738255">800-273-8255</a> and press 1,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    Go to your nearest emergency room or VA medical center.{' '}
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="/find-locations"
+                    >
+                      Find your nearest VA medical center
+                    </a>
+                  </li>
+                </ul>
+              }
+            />
+          </div>
         </SchemaForm>
       </div>
     );
@@ -123,11 +122,11 @@ export class ReasonForAppointmentPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return getReasonForAppointment(state, pageKey);
+  return getFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
-  openFormPage,
+  openReasonForAppointment,
   updateReasonForAppointmentData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,

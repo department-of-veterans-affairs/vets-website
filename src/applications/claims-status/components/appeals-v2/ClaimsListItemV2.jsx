@@ -62,11 +62,11 @@ export default function ClaimsListItem({ claim }) {
         </p>
       </div>
       <Link
-        aria-label={`View status of claim received ${formattedReceiptDate}`}
+        aria-label={`View details of claim received ${formattedReceiptDate}`}
         className="usa-button usa-button-primary"
         to={`your-claims/${claim.id}/status`}
       >
-        View status
+        View details
         <i className="fa fa-chevron-right" />
       </Link>
     </div>

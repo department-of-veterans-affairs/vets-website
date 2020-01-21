@@ -29,6 +29,10 @@ class DateTimeSelectField extends Component {
     const { formContext, formData } = this.props;
     const { currentlySelectedDate, selectedDates } = formData;
 
+    const startMonth = formContext?.preferredDate
+      ? moment(formContext.preferredDate).format('YYYY-MM')
+      : null;
+
     return (
       <CalendarWidget
         monthsToShowAtOnce={2}
@@ -42,14 +46,17 @@ class DateTimeSelectField extends Component {
           maxSelections: 1,
           getOptionsByDate: this.getOptionsByDate,
         }}
+        loadingStatus={formContext?.loadingStatus}
         onChange={this.props.onChange}
+        onClickNext={formContext?.getAppointmentSlots}
+        onClickPrev={formContext?.getAppointmentSlots}
         minDate={moment()
           .add(1, 'days')
           .format('YYYY-MM-DD')}
         maxDate={moment()
           .add(395, 'days')
           .format('YYYY-MM-DD')}
-        startMonth={formContext?.preferredDate}
+        startMonth={startMonth}
       />
     );
   }

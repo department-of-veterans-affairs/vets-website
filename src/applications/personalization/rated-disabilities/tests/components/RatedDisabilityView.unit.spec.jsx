@@ -33,4 +33,24 @@ describe('<RatedDisabilityView/>', () => {
     ).to.be.true;
     wrapper.unmount();
   });
+
+  it('should render a MVI warning if profile status is not OK', () => {
+    const userError = {
+      profile: {
+        verified: true,
+        status: 'NOT_FOUND',
+      },
+    };
+    const wrapper = shallow(
+      <RatedDisabilityView
+        user={userError}
+        fetchRatedDisabilities={fetchRatedDisabilities}
+        fetchTotalDisabilityRating={fetchTotalDisabilityRating}
+        ratedDisabilities={ratedDisabilities}
+      />,
+    );
+
+    expect(wrapper.find('.usa-alert-warning')).to.exist;
+    wrapper.unmount();
+  });
 });

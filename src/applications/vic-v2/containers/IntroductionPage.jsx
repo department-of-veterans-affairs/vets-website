@@ -78,6 +78,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for a Veteran ID Card" />
         <SaveInProgressIntro
+          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the VIC Application"
@@ -308,6 +309,7 @@ class IntroductionPage extends React.Component {
           )}
         <SaveInProgressIntro
           buttonOnly
+          downtime={this.props.route.formConfig.downtime}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           pageList={this.props.route.pageList}
           startText="Start the Veteran ID Card Application"

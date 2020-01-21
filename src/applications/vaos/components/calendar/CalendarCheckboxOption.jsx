@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CalendarCheckboxOption = ({
-  index,
+  id,
   fieldName,
   value,
   checked,
@@ -10,7 +10,7 @@ const CalendarCheckboxOption = ({
 }) => (
   <div className="vaos-calendar__option">
     <input
-      id={`checkbox-${index}`}
+      id={`checkbox-${id}`}
       type="checkbox"
       name={fieldName}
       value={value}
@@ -19,7 +19,7 @@ const CalendarCheckboxOption = ({
     />
     <label
       className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-      htmlFor={`checkbox-${index}`}
+      htmlFor={`checkbox-${id}`}
     >
       {label}
     </label>

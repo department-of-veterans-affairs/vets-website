@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import moment from 'moment';
 
 import {
-  openSelectAppointmentPage,
+  openFormPage,
+  getAppointmentSlots,
   updateFormData,
   routeToNextAppointmentPage,
   startRequestAppointmentFlow,
@@ -15,8 +16,10 @@ import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
 import DateTimeSelectField from '../components/DateTimeSelectField';
 import WaitTimeAlert from '../components/WaitTimeAlert';
+import { FETCH_STATUS } from '../utils/constants';
 
 const pageKey = 'selectDateTime';
+const pageTitle = 'Tell us the date and time you’d like your appointment';
 
 const initialSchema = {
   type: 'object',
@@ -63,7 +66,18 @@ const uiSchema = {
 export class DateTimeSelectPage extends React.Component {
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
-    this.props.openSelectAppointmentPage(pageKey, uiSchema, initialSchema);
+    const { preferredDate } = this.props;
+    this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    this.props.getAppointmentSlots(
+      moment(preferredDate)
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      moment(preferredDate)
+        .add(1, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+    );
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -78,47 +92,39 @@ export class DateTimeSelectPage extends React.Component {
 
   render() {
     const {
-      schema,
-      data,
-      pageChangeInProgress,
-      availableSlots,
+      appointmentSlotsStatus,
       availableDates,
-      loadingAppointmentSlots,
+      availableSlots,
+      data,
+      eligibleForRequests,
+      facilityId,
+      pageChangeInProgress,
+      preferredDate,
+      schema,
       timezone,
       typeOfCareId,
-      preferredDate,
-      eligibleForRequests,
     } = this.props;
-
-    const title = (
-      <h1 className="vads-u-font-size--h2">
-        What date and time would you like to make an appointment?
-      </h1>
-    );
-
-    if (loadingAppointmentSlots) {
-      return (
-        <div>
-          {title}
-          <LoadingIndicator message="Finding appointment availability..." />
-        </div>
-      );
-    }
 
     return (
       <div>
-        {title}
-        <WaitTimeAlert
-          preferredDate={preferredDate}
-          nextAvailableApptDate={availableDates?.[0]}
-          typeOfCareId={typeOfCareId}
-          eligibleForRequests={eligibleForRequests}
-          onClickRequest={this.props.startRequestAppointmentFlow}
-        />
-        <p>
-          Please select a desired date and time for your appointment.
-          {timezone && ` Appointment times are displayed in ${timezone}.`}
-        </p>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+        {appointmentSlotsStatus !== FETCH_STATUS.loading && (
+          <WaitTimeAlert
+            eligibleForRequests={eligibleForRequests}
+            facilityId={facilityId}
+            nextAvailableApptDate={availableSlots?.[0]?.datetime}
+            onClickRequest={this.props.startRequestAppointmentFlow}
+            preferredDate={preferredDate}
+            timezone={timezone}
+            typeOfCareId={typeOfCareId}
+          />
+        )}
+        {appointmentSlotsStatus !== FETCH_STATUS.failed && (
+          <p>
+            Please select a desired date and time for your appointment.
+            {timezone && ` Appointment times are displayed in ${timezone}.`}
+          </p>
+        )}
         <SchemaForm
           name="Schedule appointment"
           title="Schedule appointment"
@@ -128,7 +134,13 @@ export class DateTimeSelectPage extends React.Component {
           onChange={newData => {
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
-          formContext={{ availableSlots, availableDates, preferredDate }}
+          formContext={{
+            availableSlots,
+            availableDates,
+            preferredDate,
+            getAppointmentSlots: this.props.getAppointmentSlots,
+            loadingStatus: appointmentSlotsStatus,
+          }}
           data={data}
         >
           <FormButtons
@@ -146,7 +158,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  openSelectAppointmentPage,
+  getAppointmentSlots,
+  openFormPage,
   updateFormData,
   startRequestAppointmentFlow,
   routeToNextAppointmentPage,

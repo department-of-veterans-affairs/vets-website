@@ -27,7 +27,7 @@ class LocationMap extends Component {
 
     return (
       <div className="mb2">
-        <h4 className="highlight">View on Map</h4>
+        <h3 className="highlight">View on Map</h3>
         <img src={mapUrl} alt="Static map" />
       </div>
     );

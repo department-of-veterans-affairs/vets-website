@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import { merge } from 'lodash/fp';
+import moment from 'moment';
 
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
@@ -156,7 +157,9 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should submit a new ITF if the current ITF is expired', () => {
-    const expirationDate = '2015-08-28T19:47:52.786+00:00';
+    const expirationDate = moment()
+      .subtract(1, 'd')
+      .format();
     const tree = shallow(
       <ITFWrapper {...defaultProps}>
         <p>Shouldn't see me yet...</p>
@@ -199,7 +202,9 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should render a success message for fetched ITF', () => {
-    const expirationDate = '2015-08-28T19:47:52.786+00:00';
+    const expirationDate = moment()
+      .add(1, 'd')
+      .format();
     const props = merge(defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,
@@ -223,8 +228,12 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should render a success message for newly created ITF', () => {
-    const expirationDate = '2015-08-28T19:47:52.786+00:00';
-    const previousExpirationDate = '2014-08-28T19:47:52.786+00:00';
+    const expirationDate = moment()
+      .add(1, 'd')
+      .format();
+    const previousExpirationDate = moment()
+      .subtract(1, 'd')
+      .format();
     const props = merge(defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,

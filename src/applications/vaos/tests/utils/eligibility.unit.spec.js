@@ -24,22 +24,44 @@ describe('VAOS scheduling eligibility logic', () => {
       resetFetch();
     });
     it('should fetch all data', async () => {
-      const eligibilityData = await getEligibilityData('983', '323', '983');
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
 
       expect(Object.keys(eligibilityData)).to.deep.equal([
         'requestPastVisit',
         'requestLimits',
+        'directSupported',
+        'requestSupported',
         'directPastVisit',
         'clinics',
         'pacTeam',
       ]);
     });
     it('should skip pact if not primary care', async () => {
-      const eligibilityData = await getEligibilityData('983', '502', '983');
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '502',
+        '983',
+        true,
+      );
 
       expect(Object.keys(eligibilityData)).to.deep.equal([
         'requestPastVisit',
         'requestLimits',
+        'directSupported',
+        'requestSupported',
         'directPastVisit',
         'clinics',
       ]);
@@ -50,6 +72,8 @@ describe('VAOS scheduling eligibility logic', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
         pacTeam: [],
         clinics: [],
+        directSupported: true,
+        requestSupported: true,
         directPastVisit: {
           durationInMonths: 12,
           hasVisitedInPastMonths: false,
@@ -73,6 +97,8 @@ describe('VAOS scheduling eligibility logic', () => {
         requestPastVisitValue: 24,
         requestLimit: false,
         requestLimitValue: 1,
+        directSupported: true,
+        requestSupported: true,
       });
     });
 
@@ -80,6 +106,8 @@ describe('VAOS scheduling eligibility logic', () => {
       const eligibilityChecks = getEligibilityChecks('983', '323', {
         pacTeam: [{ facilityId: '983' }],
         clinics: [{}],
+        directSupported: true,
+        requestSupported: true,
         directPastVisit: {
           durationInMonths: 12,
           hasVisitedInPastMonths: true,
@@ -99,6 +127,8 @@ describe('VAOS scheduling eligibility logic', () => {
         directPastVisitValue: 12,
         directPACT: true,
         directClinics: true,
+        directSupported: true,
+        requestSupported: true,
         requestPastVisit: true,
         requestPastVisitValue: 24,
         requestLimit: true,
@@ -112,6 +142,8 @@ describe('VAOS scheduling eligibility logic', () => {
         directPastVisit: false,
         directClinics: true,
         directPACT: true,
+        directSupported: true,
+        requestSupported: true,
         requestPastVisit: true,
         requestLimit: true,
       });

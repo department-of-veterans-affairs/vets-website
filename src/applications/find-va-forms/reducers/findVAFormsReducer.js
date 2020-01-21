@@ -3,28 +3,35 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../constants';
 
-import { normalizeFormsForTable } from '../helpers';
-
 const initialState = {
+  error: '',
   fetching: false,
+  page: 1,
   query: '',
   results: null,
+  startIndex: 0,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORMS: {
-      return { ...state, fetching: true, query: action.query };
+      return { ...state, error: '', fetching: true, query: action.query };
     }
     case FETCH_FORMS_FAILURE: {
-      return { ...state, fetching: false };
+      return { ...state, error: action.error, fetching: false };
     }
     case FETCH_FORMS_SUCCESS: {
-      // Normalize the forms data we get back from the API resopnse.
-      const results = normalizeFormsForTable(action.response);
-      return { ...state, fetching: false, results };
+      return { ...state, fetching: false, results: action.results };
+    }
+    case UPDATE_PAGINATION: {
+      return { ...state, page: action.page, startIndex: action.startIndex };
+    }
+    case UPDATE_RESULTS: {
+      return { ...state, results: action.results };
     }
     default: {
       return { ...state };

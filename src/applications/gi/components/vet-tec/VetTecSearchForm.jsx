@@ -2,7 +2,7 @@ import React from 'react';
 
 import KeywordSearch from '../search/KeywordSearch';
 import CheckboxGroup from '../CheckboxGroup';
-import { addAllOption } from '../../utils/helpers';
+import { addAllOption, getStateNameForCode } from '../../utils/helpers';
 import PropTypes from 'prop-types';
 import Dropdown from '../Dropdown';
 import VetTecFilterBy from './VetTecFilterBy';
@@ -19,6 +19,7 @@ class VetTecSearchForm extends React.Component {
     clearAutocompleteSuggestions: PropTypes.func.isRequired,
     fetchAutocompleteSuggestions: PropTypes.func.isRequired,
     handleFilterChange: PropTypes.func.isRequired,
+    handleProviderFilterChange: PropTypes.func.isRequired,
     updateAutocompleteSearchTerm: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
     searchResults: PropTypes.object.isRequired,
@@ -98,7 +99,7 @@ class VetTecSearchForm extends React.Component {
       .sort()
       .map(state => ({
         value: state,
-        label: state,
+        label: getStateNameForCode(state),
       }));
 
     return (
@@ -120,6 +121,7 @@ class VetTecSearchForm extends React.Component {
       filters={this.props.filters}
       providers={this.props.search.facets.provider}
       handleFilterChange={this.props.handleFilterChange}
+      handleProviderFilterChange={this.props.handleProviderFilterChange}
     />
   );
 

@@ -13,9 +13,11 @@ import {
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
 } from '../actions/appointments';
 
+import { FORM_CLOSED_CONFIRMATION_PAGE } from '../actions/newAppointment';
+
 import {
   filterFutureConfirmedAppointments,
-  filterFutureRequests,
+  filterRequests,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   sortMessages,
@@ -49,7 +51,7 @@ export default function appointmentsReducer(state = initialState, action) {
         .sort(sortFutureConfirmedAppointments);
 
       const requestsFilteredAndSorted = [
-        ...requests.filter(req => filterFutureRequests(req, action.today)),
+        ...requests.filter(req => filterRequests(req, action.today)),
       ].sort(sortFutureRequests);
 
       return {
@@ -138,6 +140,12 @@ export default function appointmentsReducer(state = initialState, action) {
         showCancelModal: false,
         appointmentToCancel: null,
         cancelAppointmentStatus: FETCH_STATUS.notStarted,
+      };
+    case FORM_CLOSED_CONFIRMATION_PAGE:
+      return {
+        ...state,
+        future: null,
+        futureStatus: FETCH_STATUS.notStarted,
       };
     default:
       return state;
