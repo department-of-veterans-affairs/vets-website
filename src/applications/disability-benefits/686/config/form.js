@@ -123,6 +123,86 @@ const addressSchema = {
   },
 };
 
+const dependentTypeSchema = {
+  type: 'object',
+  properties: {
+    spouse: {
+      type: 'boolean',
+    },
+    childUnder18: {
+      type: 'boolean',
+    },
+    stepChild: {
+      type: 'boolean',
+    },
+    adopted: {
+      type: 'boolean',
+    },
+    disabled: {
+      type: 'boolean',
+    },
+    childOver18InSchool: {
+      type: 'boolean',
+    },
+    dependentParent: {
+      type: 'boolean',
+    },
+  },
+};
+
+const dependentTypeSchemaUI = {
+  'ui:title': "What was your dependent's status? (Check all that apply)",
+  'ui:options': {
+    showFieldLabel: true,
+  },
+  spouse: {
+    'ui:title': 'Spouse',
+  },
+  childUnder18: {
+    'ui:title': 'Child under 18',
+  },
+  stepChild: {
+    'ui:title': 'Stepchild',
+  },
+  adopted: {
+    'ui:title': 'Adopted child',
+  },
+  disabled: {
+    'ui:title': 'Child incapable of self-support',
+  },
+  childOver18InSchool: {
+    'ui:title': 'Child 18-23 and in school',
+  },
+  dependentParent: {
+    'ui:title': 'Dependent parent',
+  },
+};
+
+const deathLocationSchema = {
+  type: 'object',
+  properties: {
+    city: {
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    },
+    state: {
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    },
+  },
+};
+
+const deathLocationUiSchema = {
+  'ui:title': 'Place of death',
+  city: {
+    'ui:title': 'City (or APO/FPO/DPO)',
+  },
+  state: {
+    'ui:title': 'State (or Country if outside the USA)',
+  },
+};
 // NOTE: Required fields will be conditionally set via the ui:Schema
 // We cannot set required fields directly on the schema because some location
 // fields will be hidden and thus break the form silently
@@ -1095,8 +1175,10 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
+                    dependentType: dependentTypeSchema,
                     deceasedFullName: fullName,
                     deceasedDateOfDeath: date,
+                    deceasedLocationOfDeath: deathLocationSchema,
                   },
                 },
               },
@@ -1108,6 +1190,7 @@ const formConfig = {
                 viewField: FullNameField,
               },
               items: {
+                dependentType: dependentTypeSchemaUI,
                 deceasedFullName: _.merge(fullNameUI, {
                   first: {
                     'ui:title': 'Dependent’s first name',
@@ -1122,6 +1205,7 @@ const formConfig = {
                 deceasedDateOfDeath: currentOrPastDateUI(
                   'Dependent’s date of death',
                 ),
+                deceasedLocationOfDeath: deathLocationUiSchema,
               },
             },
           },
