@@ -1,23 +1,35 @@
 import React from 'react';
-import { getTypeOfCare } from '../../utils/selectors';
-import { FACILITY_TYPES } from '../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import TypeOfAppointmentSection from './TypeOfAppointmentSection';
 import VAAppointmentSection from './VAAppointmentSection';
 import CommunityCareSection from './CommunityCareSection';
+import Description from './Description';
 
-export default function ReviewRequestInfo({ data }) {
+export default function ReviewRequestInfo({
+  data,
+  facility,
+  vaCityState,
+  pageTitle,
+}) {
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const isVAAppointment = data.facilityType === FACILITY_TYPES.VAMC;
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">Review your appointment details</h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <Description data={data} flowType={FLOW_TYPES.REQUEST} />
       <TypeOfAppointmentSection data={data} />
-      <hr />
-      <h3 className="vaos-appts__block-label">{getTypeOfCare(data)?.name}</h3>
-      <hr />
-      {isCommunityCare && <CommunityCareSection data={data} />}
-      {isVAAppointment && <VAAppointmentSection data={data} />}
+      <hr className="vads-u-margin-y--2" />
+      {isCommunityCare && (
+        <CommunityCareSection
+          data={data}
+          facility={facility}
+          vaCityState={vaCityState}
+        />
+      )}
+      {isVAAppointment && (
+        <VAAppointmentSection facility={facility} data={data} />
+      )}
     </div>
   );
 }

@@ -9,39 +9,49 @@ import { ConfirmationPage } from '../../containers/ConfirmationPage';
 describe('VAOS <ConfirmationPage>', () => {
   it('should render direct schedule view', () => {
     const flowType = FLOW_TYPES.DIRECT;
-    const resetForm = sinon.spy();
+    const closeConfirmationPage = sinon.spy();
     const data = {};
+    const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
       <ConfirmationPage
-        resetForm={resetForm}
+        fetchFacilityDetails={fetchFacilityDetails}
+        closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
       />,
     );
 
     expect(tree.find('ConfirmationDirectScheduleInfo').exists()).to.be.true;
+    expect(document.title).contain('Your appointment has been scheduled');
+    expect(fetchFacilityDetails.called).to.be.true;
 
     tree.unmount();
-    expect(resetForm.called).to.be.true;
+    expect(closeConfirmationPage.called).to.be.true;
   });
 
   it('should render request view', () => {
     const flowType = FLOW_TYPES.REQUEST;
-    const resetForm = sinon.spy();
+    const closeConfirmationPage = sinon.spy();
     const data = {};
+    const fetchFacilityDetails = sinon.spy();
 
     const tree = shallow(
       <ConfirmationPage
-        resetForm={resetForm}
+        fetchFacilityDetails={fetchFacilityDetails}
+        closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
       />,
     );
 
     expect(tree.find('ConfirmationRequestInfo').exists()).to.be.true;
+    expect(fetchFacilityDetails.called).to.be.true;
+    expect(document.title).contain(
+      'Your appointment request has been submitted',
+    );
 
     tree.unmount();
-    expect(resetForm.called).to.be.true;
+    expect(closeConfirmationPage.called).to.be.true;
   });
 });

@@ -1,8 +1,14 @@
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';
-export const UPDATE_ADDRESS = 'UPDATE_ADDRESS';
+export const UPDATE_SELECTED_ADDRESS = 'UPDATE_SELECTED_ADDRESS';
 
-export const openModal = modal => ({ type: OPEN_MODAL, modal });
+export const openModal = (modal, modalData = null) => ({
+  type: OPEN_MODAL,
+  modal,
+  modalData,
+});
+
+export const closeModal = () => ({ type: OPEN_MODAL });
 
 export const updateFormField = (
   fieldName,
@@ -26,8 +32,8 @@ export const updateFormField = (
   };
 };
 
-export const updateSelectedAddress = (address, selectedId) => ({
-  type: UPDATE_ADDRESS,
+export const updateSelectedAddress = (address, selectedAddressId) => ({
+  type: UPDATE_SELECTED_ADDRESS,
   selectedAddress: address,
-  selectedId,
+  selectedAddressId,
 });

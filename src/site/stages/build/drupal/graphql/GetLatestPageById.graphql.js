@@ -13,6 +13,7 @@ const facilitySidebarQuery = require('./navigation-fragments/facilitySidebar.nav
 const bioPage = require('./bioPage.graphql');
 const eventPage = require('./eventPage.graphql');
 const alertsQuery = require('./alerts.graphql');
+const bannerAlertsQuery = require('./bannerAlerts.graphql');
 const icsFileQuery = require('./file-fragments/ics.file.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
 const menuLinksQuery = require('./navigation-fragments/menuLinks.nav.graphql');
@@ -67,6 +68,7 @@ module.exports = `
     ${sidebarQuery}
     ${facilitySidebarQuery}
     ${alertsQuery}
+    ${bannerAlertsQuery}
     ${
       cmsFeatureFlags.FEATURE_ALL_HUB_SIDE_NAVS
         ? `${allSideNavMachineNamesQuery}`

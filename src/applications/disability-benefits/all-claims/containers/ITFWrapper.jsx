@@ -6,7 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 
 import ITFBanner from '../components/ITFBanner';
 import { isActiveITF } from '../utils';
-import { requestStates } from '../../../../platform/utilities/constants';
+import { requestStates } from 'platform/utilities/constants';
 import { itfStatuses } from '../constants';
 import {
   createITF as createITFAction,
@@ -44,7 +44,8 @@ export class ITFWrapper extends React.Component {
       nextProps.fetchITF();
     }
 
-    // If we've already fetched the ITFs, have none active, and haven't already called createITF, submit a new ITF
+    // If we've already fetched the ITFs, have none active, and haven't already
+    // called createITF, submit a new ITF
     const hasActiveITF = isActiveITF(itf.currentITF);
 
     const createITFCalled = itf.creationCallState !== requestStates.notCalled;
@@ -59,7 +60,8 @@ export class ITFWrapper extends React.Component {
   }
 
   /**
-   * Checks to see if the given pathname should be blocked from making any ITF calls.
+   * Checks to see if the given pathname should be blocked from making any ITF
+   * calls.
    */
   shouldBlockITF(pathname) {
     return this.props.noITFPages.some(
@@ -74,8 +76,8 @@ export class ITFWrapper extends React.Component {
     if (this.shouldBlockITF(this.props.location.pathname)) {
       return this.props.children;
     } else if (fetchWaitingStates.includes(itf.fetchCallState)) {
-      // If we get here, componentDidMount or componentWillRecieveProps called fetchITF
-      // While we're waiting, show the loading indicator...
+      // If we get here, componentDidMount or componentWillRecieveProps called
+      // fetchITF; While we're waiting, show the loading indicator...
       return (
         <div className="vads-u-margin-bottom--4">
           <LoadingIndicator message="Please wait while we check to see if you have an existing Intent to File." />
@@ -84,14 +86,18 @@ export class ITFWrapper extends React.Component {
     } else if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
       return <ITFBanner status="error" />;
-    } else if (itf.currentITF && itf.currentITF.status === itfStatuses.active) {
+    } else if (itf?.currentITF?.status === itfStatuses.active) {
+      const status =
+        itf.creationCallState === 'succeeded' ? 'itf-created' : 'itf-found';
       const { expirationDate: currentExpDate } = itf.currentITF;
+
       if (itf.previousITF) {
         const { expirationDate: prevExpDate } = itf.previousITF;
-        // If there was a previous ITF, we created one; show the creation success message
+        // If there was a previous ITF, we created one; show the creation
+        // success message
         return (
           <ITFBanner
-            status="itf-created"
+            status={status}
             previousITF={itf.previousITF}
             currentExpDate={currentExpDate}
             previousExpDate={prevExpDate}
@@ -103,13 +109,13 @@ export class ITFWrapper extends React.Component {
 
       // Else we fetched an active ITF
       return (
-        <ITFBanner status="itf-found" currentExpDate={currentExpDate}>
+        <ITFBanner status={status} currentExpDate={currentExpDate}>
           {this.props.children}
         </ITFBanner>
       );
     } else if (fetchWaitingStates.includes(itf.creationCallState)) {
-      // componentWillRecieveProps called createITF if there was no active ITF found
-      // While we're waiting (again), show the loading indicator...again
+      // componentWillRecieveProps called createITF if there was no active ITF
+      // found; While we're waiting (again), show the loading indicator...again
       return (
         <div className="vads-u-margin-bottom--4">
           <LoadingIndicator message="Submitting a new Intent to File..." />
@@ -117,8 +123,8 @@ export class ITFWrapper extends React.Component {
       );
     }
 
-    // We'll get here after the createITF promise is fulfilled and we have no active ITF
-    //  because of a failed creation call
+    // We'll get here after the createITF promise is fulfilled and we have no
+    // active ITF because of a failed creation call
     return <ITFBanner status="error" />;
   }
 }

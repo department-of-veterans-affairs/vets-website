@@ -36,11 +36,11 @@ class MilitaryInformationContent extends React.Component {
                   We’re sorry. We can’t find your Department of Defense (DoD)
                   ID. We need this to access your military service records.
                   Please call us at 800-827-1000, or visit your nearest VA
-                  regional benefit office and request to be added to the Defense
+                  regional office and request to be added to the Defense
                   Enrollment Eligibility Reporting System (DEERS).
                 </p>
                 <a href={facilityLocator.rootUrl}>
-                  Find your nearest VA regional benefit office
+                  Find your nearest VA regional office
                 </a>
                 .
                 <p>

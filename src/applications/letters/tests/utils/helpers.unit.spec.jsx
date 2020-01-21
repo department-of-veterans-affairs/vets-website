@@ -171,6 +171,13 @@ describe('Letters helpers: ', () => {
       });
     });
 
+    it('should set the type to domestic if the countryName is "United States"', () => {
+      const newAddress = { ...address, countryName: 'United States' };
+      expect(inferAddressType(newAddress).type).to.equal(
+        ADDRESS_TYPES.domestic,
+      );
+    });
+
     it('should set the type to domestic if none of the above are true', () => {
       expect(inferAddressType(address).type).to.equal(ADDRESS_TYPES.domestic);
     });

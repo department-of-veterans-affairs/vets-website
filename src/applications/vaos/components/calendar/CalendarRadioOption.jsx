@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CalendarRadioOption = ({
-  index,
+  id,
   fieldName,
   value,
   checked,
@@ -10,7 +10,7 @@ const CalendarRadioOption = ({
 }) => (
   <div className="vaos-calendar__option">
     <input
-      id={`radio-${index}`}
+      id={`radio-${id}`}
       type="radio"
       name={fieldName}
       value={value}
@@ -19,7 +19,7 @@ const CalendarRadioOption = ({
     />
     <label
       className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
-      htmlFor={`radio-${index}`}
+      htmlFor={`radio-${id}`}
     >
       {label}
     </label>

@@ -57,18 +57,6 @@ export class Programs extends React.Component {
         text: 'Priority Enrollment',
         link: false,
       },
-
-      onlineOnly: {
-        modal: 'onlineOnlyDistanceLearning',
-        text: 'Online Only',
-        link: false,
-      },
-
-      distanceLearning: {
-        modal: 'onlineOnlyDistanceLearning',
-        text: 'Distance Learning',
-        link: false,
-      },
     };
   }
 
@@ -117,25 +105,21 @@ export class Programs extends React.Component {
     const it = this.props.institution;
     const programs = Object.keys(this.programs);
     const available = programs.filter(key => !!it[key] === true);
-    const notAvailable = programs.filter(key => !!it[key] === false);
+
     return (
       <div className="programs row">
-        {available.length > 0 && (
+        {available.length > 0 ? (
           <div className="usa-width-one-half medium-6 large-6 column">
-            <h3>Available at this campus</h3>
             {available.map(program =>
               this.renderProgramLabel.bind(this, program, true)(),
             )}
             <br />
           </div>
-        )}
-        {notAvailable.length > 0 && (
-          <div className="usa-width-one-half medium-6 large-6 column">
-            <h3>Not available at this campus</h3>
-            {notAvailable.map(program =>
-              this.renderProgramLabel.bind(this, program, false)(),
-            )}
-          </div>
+        ) : (
+          <p>
+            Please contact the school or their military office directly for
+            information on the Veteran programs they offer.
+          </p>
         )}
       </div>
     );

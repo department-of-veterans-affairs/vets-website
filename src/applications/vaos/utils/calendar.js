@@ -1,7 +1,38 @@
+import moment from 'moment';
+
+const DEFAULT_MAX_DAYS_AHEAD = 90;
+
 function pad(num, size) {
   let s = num.toString();
   while (s.length < size) s = `0${s}`;
   return s;
+}
+
+export function getMaxMonth(maxDate, startMonth) {
+  const defaultMaxMonth = moment()
+    .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
+    .format('YYYY-MM');
+
+  // If provided start month is beyond our default, set that month as max month
+  // This is needed in the case of direct schedule if the user selects a date
+  // beyond the max date
+  if (startMonth && startMonth > defaultMaxMonth) {
+    return startMonth;
+  }
+
+  if (
+    maxDate &&
+    moment(maxDate)
+      .startOf('month')
+      .isAfter(defaultMaxMonth)
+  ) {
+    return moment(maxDate)
+      .startOf('month')
+      .format('YYYY-MM');
+  }
+
+  // If no available dates array provided, set max to default from now
+  return defaultMaxMonth;
 }
 
 function getWeekdayOfFirstOfMonth(momentDate) {

@@ -1,10 +1,14 @@
+import environment from 'platform/utilities/environment';
+
+// Relative imports.
+import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
-import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
+import Profile360Intro from '../components/Profile360Intro';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import VeteransDayProclamation from '../components/VeteransDayProclamation';
-import ExploreVAModal from '../components/ExploreVAModal';
+
+import TestPromoBanner from '../components/TestPromoBanner';
 
 const config = {
   announcements: [
@@ -29,10 +33,10 @@ const config = {
       component: WelcomeToNewVAModal,
     },
     {
-      name: 'veterans-day-proclamation-edited',
+      name: 'test-promo-banner',
       paths: /^\/$/,
-      component: VeteransDayProclamation,
-      expiresAt: '2019-11-12',
+      component: TestPromoBanner,
+      disabled: environment.isProduction(),
     },
     {
       name: 'find-benefits-intro',

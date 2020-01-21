@@ -5,6 +5,7 @@ import {
   transformFormToVARequest,
   transformFormToAppointment,
 } from '../../utils/data';
+import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
@@ -68,6 +69,7 @@ describe('VAOS data transformation', () => {
         parentSiteCode: '983',
       },
       purposeOfVisit: 'Routine Follow-up',
+      otherPurposeOfVisit: null,
       visitType: 'Office Visit',
       phoneNumber: '5035551234',
       verifyPhoneNumber: '5035551234',
@@ -116,7 +118,7 @@ describe('VAOS data transformation', () => {
             lastName: 'asdf',
             practiceName: 'Practice',
             address: {
-              street: '399 elm st',
+              street: '456 elm st',
               street2: 'sfasdf',
               state: 'MA',
               city: 'northampton',
@@ -163,12 +165,11 @@ describe('VAOS data transformation', () => {
         ],
         ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
-        loadingSystems: false,
-        loadingEligibility: false,
-        loadingFacilityDetails: false,
+        systemsStatus: FETCH_STATUS.succeeded,
+        eligibilityStatus: FETCH_STATUS.succeeded,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
         pastAppointments: null,
         submitStatus: 'succeeded',
-        reasonRemainingChar: 78,
       },
     };
     const data = transformFormToCCRequest(state);
@@ -193,11 +194,16 @@ describe('VAOS data transformation', () => {
       bestTimetoCall: ['Afternoon'],
       preferredProviders: [
         {
-          address: { city: '', state: '', street: '', zipCode: '01050' },
+          address: {
+            street: '456 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
           practiceName: 'Practice',
           firstName: 'asdf',
           lastName: 'asdf',
-          providerStreet: '399 elm st, sfasdf',
+          providerStreet: '456 elm st, sfasdf',
           providerCity: 'northampton',
           providerState: 'MA',
           providerZipCode1: '01050',
@@ -217,6 +223,7 @@ describe('VAOS data transformation', () => {
       email: 'test@va.gov',
       officeHours: [],
       reasonForVisit: '',
+      visitType: 'Office Visit',
       distanceWillingToTravel: 40,
       secondRequest: false,
       secondRequestSubmitted: false,
@@ -299,35 +306,12 @@ describe('VAOS data transformation', () => {
         institutionName: 'CHYSHR-Cheyenne VA Medical Center',
         institutionCode: '983',
       },
-      direct: {
-        purpose: 'Follow-up/Routine: asdfasdf',
-        desiredDate: '11/22/2019 00:00:00',
-        dateTime: '11/22/2019 09:30:00',
-        apptLength: 30,
-      },
       desiredDate: '2019-11-22T00:00:00+00:00',
       dateTime: '2019-11-22T09:30:00+00:00',
       duration: 30,
       bookingNotes: 'Follow-up/Routine: asdfasdf',
-      patients: {
-        patient: [
-          {
-            contactInformation: {
-              preferredEmail: 'test@va.gov',
-              timeZone: 'America/Denver',
-            },
-            location: {
-              type: 'VA',
-              facility: {
-                name: 'CHYSHR-Cheyenne VA Medical Center',
-                siteCode: '983',
-                timeZone: 'America/Denver',
-              },
-              clinic: { ien: '308', name: 'CHY PC KILPATRICK' },
-            },
-          },
-        ],
-      },
+      preferredEmail: 'test@va.gov',
+      timeZone: 'America/Denver',
       apptType: 'P',
       purpose: '9',
       lvl: '1',
@@ -338,7 +322,6 @@ describe('VAOS data transformation', () => {
       type: 'REGULAR',
       appointmentKind: 'TRADITIONAL',
       schedulingMethod: 'direct',
-      providers: { provider: [{ location: { type: 'VA' } }] },
     });
   });
 });

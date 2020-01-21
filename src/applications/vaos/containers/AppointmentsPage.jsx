@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -15,15 +16,24 @@ import {
   fetchRequestMessages,
 } from '../actions/appointments';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+
+const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
     scrollAndFocus();
     this.props.fetchFutureAppointments();
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }
+
+  recordStartEvent() {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-new-appointment-started`,
+    });
   }
 
   render() {
@@ -161,7 +171,7 @@ export class AppointmentsPage extends Component {
         <Breadcrumbs />
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--2">
-            <h1 className="vads-u-flex--1">VA appointments</h1>
+            <h1 className="vads-u-flex--1">{pageTitle}</h1>
             {showScheduleButton && (
               <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
                 <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
@@ -171,8 +181,11 @@ export class AppointmentsPage extends Component {
                   Schedule an appointment at a VA medical center, clinic, or
                   Community Care facility.
                 </p>
-                <Link to="/new-appointment">
-                  <button className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md">
+                <Link to="/new-appointment" onClick={this.recordStartEvent}>
+                  <button
+                    id="new-appointment"
+                    className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md"
+                  >
                     Schedule an appointment
                   </button>
                 </Link>

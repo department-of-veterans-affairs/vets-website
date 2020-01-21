@@ -47,15 +47,29 @@ const facility = {
   institutionTimezone: 'America/Denver',
 };
 
+const pageTitle = 'Review your appointment details';
+
 describe('VAOS <ReviewRequestInfo>', () => {
   describe('VA Request', () => {
     const data = { ...defaultData };
-    const tree = mount(<ReviewRequestInfo data={data} facility={facility} />);
+    const tree = mount(
+      <ReviewRequestInfo
+        data={data}
+        facility={facility}
+        pageTitle={pageTitle}
+      />,
+    );
     const text = tree.text();
+    const heading = tree.find('h1');
 
     // console.log(tree.debug());
+    it('should render page heading', () => {
+      expect(heading.exists()).to.be.true;
+      expect(heading.text()).to.equal(pageTitle);
+    });
+
     it('should render VA request section', () => {
-      expect(text).to.contain('VA appointment');
+      expect(text).to.contain('VA Appointment');
     });
 
     it('should render type of care section', () => {
@@ -100,18 +114,31 @@ describe('VAOS <ReviewRequestInfo>', () => {
     };
     let tree;
     let text;
+    let heading;
 
     beforeEach(() => {
-      tree = mount(<ReviewRequestInfo data={data} facility={facility} />);
+      tree = mount(
+        <ReviewRequestInfo
+          data={data}
+          facility={facility}
+          pageTitle={pageTitle}
+        />,
+      );
       text = tree.text();
+      heading = tree.find('h1');
     });
 
     afterEach(() => {
       tree.unmount();
     });
 
+    it('should render page heading', () => {
+      expect(heading.exists()).to.be.true;
+      expect(heading.text()).to.equal(pageTitle);
+    });
+
     it('should render CC request section', () => {
-      expect(text).to.contain('Community care appointment');
+      expect(text).to.contain('Community Care');
     });
 
     it('should render type of care section', () => {
@@ -140,6 +167,43 @@ describe('VAOS <ReviewRequestInfo>', () => {
       expect(text).to.contain(
         'joeblow@gmail.com5035551234Call morning or afternoon',
       );
+    });
+  });
+
+  describe('CC Request with no provider preferrence', () => {
+    const data = {
+      ...defaultData,
+      facilityType: 'communityCare',
+      hasCommunityCareProvider: false,
+      preferredLanguage: 'english',
+    };
+    const vaCityState = 'Cheyenne, WY';
+
+    let tree;
+    let text;
+
+    beforeEach(() => {
+      tree = mount(<ReviewRequestInfo data={data} vaCityState={vaCityState} />);
+      text = tree.text();
+    });
+
+    afterEach(() => {
+      tree.unmount();
+    });
+
+    it('should render CC request section', () => {
+      expect(text).to.contain('Community Care');
+    });
+
+    it('should render type of care section', () => {
+      expect(text).to.contain('Primary care');
+    });
+
+    it('should render preferred language', () => {
+      expect(text).to.contain('English');
+    });
+    it('should render preferred city and state', () => {
+      expect(text).to.contain('Cheyenne, WY');
     });
   });
 });

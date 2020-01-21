@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import {
   clearAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
@@ -68,11 +67,24 @@ export class VetTecSearchPage extends React.Component {
 
     const stringSearchParams = ['page', 'name'];
 
-    const query = _.pick(this.props.location.query, [
+    let providerQueryVal = this.props.location.query.provider
+      ? this.props.location.query.provider
+      : [];
+
+    if (typeof providerQueryVal === 'string') {
+      providerQueryVal = [providerQueryVal];
+    }
+
+    const queryParams = _.pick(this.props.location.query, [
       ...stringSearchParams,
       ...stringFilterParams,
       ...booleanFilterParams,
     ]);
+
+    const query = {
+      ...queryParams,
+      provider: providerQueryVal || [],
+    };
 
     // Update form selections based on query.
     const institutionFilter = _.omit(query, stringSearchParams);
@@ -91,8 +103,10 @@ export class VetTecSearchPage extends React.Component {
 
   updateSearchResults = () => {
     const queryFilterFields = this.getQueryFilterFields();
-    this.props.institutionFilterChange(queryFilterFields.institutionFilter);
-    this.props.fetchProgramSearchResults(queryFilterFields.query);
+    if (!_.isEqual(this.props.search.query, queryFilterFields.query)) {
+      this.props.institutionFilterChange(queryFilterFields.institutionFilter);
+      this.props.fetchProgramSearchResults(queryFilterFields.query);
+    }
   };
 
   handlePageSelect = page => {
@@ -102,12 +116,16 @@ export class VetTecSearchPage extends React.Component {
     });
   };
 
+  handleProviderFilterChange = provider => {
+    this.handleFilterChange('provider', provider.provider);
+  };
+
   handleFilterChange = (field, value) => {
     // Translate form selections to query params.
     const query = {
       ...this.props.location.query,
       [field]: value,
-      name: this.props.autocomplete.searchTerm,
+      name: value === undefined ? field : this.props.autocomplete.searchTerm,
     };
 
     // Don’t update the route if the query hasn’t changed.
@@ -275,7 +293,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   clearAutocompleteSuggestions,
   fetchProgramAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
   fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,

@@ -31,6 +31,8 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'asset-source', type: String, defaultValue: assetSources.LOCAL },
   { name: 'content-directory', type: String, defaultValue: defaultContentDir },
   { name: 'pull-drupal', type: Boolean, defaultValue: false },
+  { name: 'use-cms-export', type: Boolean, defaultValue: false },
+  { name: 'cms-export-dir', type: String, defaultValue: false },
   { name: 'drupal-fail-fast', type: Boolean, defaultValue: false },
   {
     name: 'drupal-address',
@@ -51,6 +53,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'local-proxy-rewrite', type: Boolean, defaultValue: false },
   { name: 'local-css-sourcemaps', type: Boolean, defaultValue: false },
   { name: 'accessibility', type: Boolean, defaultValue: false },
+  { name: 'lint-plain-language', type: Boolean, defaultValue: false },
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 

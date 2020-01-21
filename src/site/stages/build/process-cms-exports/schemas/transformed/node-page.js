@@ -34,10 +34,7 @@ module.exports = {
       },
     },
     fieldAdministration: {
-      type: 'array',
-      items: {
-        $ref: 'transformed/taxonomy_term-administration',
-      },
+      $ref: 'transformed/taxonomy_term-administration',
     },
     fieldPageLastBuilt: {
       type: 'object',

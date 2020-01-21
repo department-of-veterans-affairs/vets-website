@@ -2,7 +2,8 @@ import { expect } from 'chai';
 
 import {
   createDirectDepositAnalyticsDataObject,
-  hasFlaggedForFraudError,
+  hasAccountFlaggedError,
+  hasRoutingNumberFlaggedError,
   hasInvalidHomePhoneNumberError,
 } from '../../util';
 
@@ -26,8 +27,11 @@ describe('profile utils', () => {
     const badWorkPhoneDataObject = createEventDataObjectWithError(
       'work-phone-error-update',
     );
-    const flaggedForFraudDataObject = createEventDataObjectWithError(
-      'flagged-for-fraud-error-update',
+    const accountFlaggedForFraudDataObject = createEventDataObjectWithError(
+      'account-flagged-for-fraud-error-update',
+    );
+    const routingNumberFlaggedForFraudDataObject = createEventDataObjectWithError(
+      'routing-number-flagged-for-fraud-error-update',
     );
     const invalidRoutingNumberDataObject = createEventDataObjectWithError(
       'invalid-routing-number-error-update',
@@ -109,47 +113,49 @@ describe('profile utils', () => {
       ]);
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
     });
-    it('returns the correct data when a flagged for fraud error is passed', () => {
+    it('returns the correct data when a routing number flagged for fraud error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
         {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
-          source: 'EVSS::PPIU::Service',
-          status: '422',
+          code: '135',
+          detail: 'Routing number related to potential fraud',
           meta: {
             messages: [
               {
                 key: 'cnp.payment.routing.number.fraud.message',
                 severity: 'ERROR',
-                text: '',
+                text: 'Routing number related to potential fraud',
               },
             ],
           },
-        },
-      ]);
-      expect(eventDataObject).to.deep.equal(flaggedForFraudDataObject);
-    });
-    it('returns the correct data when a flagged for fraud error is passed', () => {
-      const eventDataObject = createDirectDepositAnalyticsDataObject([
-        {
-          title: 'Unprocessable Entity',
-          detail: 'One or more unprocessable user payment properties',
-          code: '126',
           source: 'EVSS::PPIU::Service',
           status: '422',
+          title: 'Potential Fraud',
+        },
+      ]);
+      expect(eventDataObject).to.deep.equal(
+        routingNumberFlaggedForFraudDataObject,
+      );
+    });
+    it('returns the correct data when an account flagged for fraud error is passed', () => {
+      const eventDataObject = createDirectDepositAnalyticsDataObject([
+        {
+          code: '136',
+          detail: 'The account has been flagged',
           meta: {
             messages: [
               {
                 key: 'cnp.payment.flashes.on.record.message',
                 severity: 'ERROR',
-                text: '',
+                text: 'Flashes on record',
               },
             ],
           },
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          title: 'Account Flagged',
         },
       ]);
-      expect(eventDataObject).to.deep.equal(flaggedForFraudDataObject);
+      expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject([
@@ -219,7 +225,29 @@ describe('profile utils', () => {
   });
 
   describe('PaymentInformation error parsing methods', () => {
-    it('hasFlaggedForFraudError returns true on error', () => {
+    it('hasRoutingNumberFlaggedError returns true on error', () => {
+      const errors = [
+        {
+          code: '135',
+          detail: 'Routing number related to potential fraud',
+          meta: {
+            messages: [
+              {
+                key: 'cnp.payment.routing.number.fraud.message',
+                severity: 'ERROR',
+                text: 'Routing number related to potential fraud',
+              },
+            ],
+          },
+          source: 'EVSS::PPIU::Service',
+          status: '422',
+          title: 'Potential Fraud',
+        },
+      ];
+      expect(hasRoutingNumberFlaggedError(errors)).to.equal(true);
+    });
+
+    it('hasAccountFlaggedError returns true on error', () => {
       const errors = [
         {
           title: 'Account Flagged',
@@ -238,7 +266,7 @@ describe('profile utils', () => {
           },
         },
       ];
-      expect(hasFlaggedForFraudError(errors)).to.equal(true);
+      expect(hasAccountFlaggedError(errors)).to.equal(true);
     });
 
     it('hasInvalidHomePhoneNumberError returns false if text does not contain night phone', () => {

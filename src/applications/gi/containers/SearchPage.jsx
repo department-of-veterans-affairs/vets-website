@@ -126,9 +126,8 @@ export class SearchPage extends React.Component {
     const query = {
       ...this.props.location.query,
       [field]: value,
-      name: this.props.autocomplete.searchTerm,
+      name: value === undefined ? field : this.props.autocomplete.searchTerm,
     };
-
     // Don’t update the route if the query hasn’t changed.
     if (
       _.isEqual(query, this.props.location.query) ||

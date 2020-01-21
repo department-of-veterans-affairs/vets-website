@@ -3,18 +3,17 @@ import { expect } from 'chai';
 import {
   getChosenClinicInfo,
   getChosenFacilityInfo,
+  getChosenFacilityDetails,
   getClinicPageInfo,
   getClinicsForChosenFacility,
   getDateTimeSelect,
+  getFacilityPageInfo,
   getFlowType,
   getFormData,
   getFormPageInfo,
   getNewAppointment,
   getPreferredDate,
-  getReasonForAppointment,
   getTypeOfCare,
-  selectConfirmedAppointment,
-  selectPendingAppointment,
   getCancelInfo,
 } from '../../utils/selectors';
 
@@ -58,55 +57,6 @@ describe('VAOS selectors', () => {
     });
   });
 
-  describe('selectPendingAppointment', () => {
-    it('should return appt matching id', () => {
-      const state = {
-        appointments: {
-          pending: [
-            {
-              uniqueId: 'testing',
-            },
-          ],
-        },
-      };
-      const appt = selectPendingAppointment(state, 'testing');
-      expect(appt).to.equal(state.appointments.pending[0]);
-    });
-    it('should return null if no matching id', () => {
-      const state = {
-        appointments: {
-          pending: null,
-        },
-      };
-      const appt = selectPendingAppointment(state, 'testing');
-      expect(appt).to.be.null;
-    });
-  });
-  describe('selectConfirmedAppointment', () => {
-    it('should return appt matching id', () => {
-      const state = {
-        appointments: {
-          confirmed: [
-            {
-              appointmentRequestId: 'testing',
-            },
-          ],
-        },
-      };
-      const appt = selectConfirmedAppointment(state, 'testing');
-      expect(appt).to.equal(state.appointments.confirmed[0]);
-    });
-    it('should return null if no matching id', () => {
-      const state = {
-        appointments: {
-          confirmed: null,
-        },
-      };
-      const appt = selectConfirmedAppointment(state, 'testing');
-      expect(appt).to.be.null;
-    });
-  });
-
   describe('getFormPageInfo', () => {
     it('should return info needed for form pages', () => {
       const state = {
@@ -125,6 +75,29 @@ describe('VAOS selectors', () => {
       );
       expect(pageInfo.data).to.equal(state.newAppointment.data);
       expect(pageInfo.schema).to.equal(state.newAppointment.pages.testPage);
+    });
+  });
+
+  describe('getFacilityPageInfo', () => {
+    it('should return typeOfCare string and begin loading systems', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaSystem: '983',
+          },
+          facilities: {},
+          eligibility: {},
+          systems: [{}],
+          facilityDetails: {},
+        },
+      };
+
+      const newState = getFacilityPageInfo(state);
+      expect(newState.typeOfCare).to.equal('Pharmacy');
+      expect(newState.loadingSystems).to.be.true;
     });
   });
 
@@ -150,6 +123,27 @@ describe('VAOS selectors', () => {
 
       expect(getChosenFacilityInfo(state)).to.equal(
         state.newAppointment.facilities['323_123'][0],
+      );
+    });
+  });
+
+  describe('getChosenFacilityDetails', () => {
+    it('should return a stored facility details object', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            vaFacility: '983',
+          },
+          facilityDetails: {
+            983: {
+              institutionCode: '983',
+            },
+          },
+        },
+      };
+
+      expect(getChosenFacilityDetails(state)).to.equal(
+        state.newAppointment.facilityDetails['983'],
       );
     });
   });
@@ -292,45 +286,26 @@ describe('VAOS selectors', () => {
       };
 
       const data = getDateTimeSelect(state, 'selectDateTime');
-      expect(data.timezone).to.equal('MT');
+      expect(data.timezone).to.equal('Mountain time (MT)');
       expect(data.availableDates).to.eql(['2019-10-24']);
       expect(data.availableSlots).to.eql(availableSlots);
     });
   });
 
-  describe('getReasonForAppointment', () => {
-    it('should return reason data and remaining characters for textarea', () => {
-      const data = {
-        reasonForAppointment: 'new-issue',
-        reasonAdditionalInfo: 'test',
-      };
-
-      const state = {
-        newAppointment: {
-          pages: {
-            reasonForAppointment: {},
-          },
-          data,
-          reasonRemainingChar: 130,
-        },
-      };
-
-      const pageInfo = getReasonForAppointment(state, 'reasonForAppointment');
-      expect(pageInfo.data).to.eql(data);
-      expect(pageInfo.reasonRemainingChar).to.equal(130);
-    });
-  });
-
   describe('getClinicPageInfo', () => {
-    it('should return info needed for then clinic page', () => {
+    it('should return info needed for the clinic page', () => {
       const state = {
         newAppointment: {
           pages: {},
           data: {
             typeOfCareId: '323',
+            vaFacility: '983',
           },
           pageChangeInProgress: false,
           clinics: {},
+          eligibility: {
+            '983_323': {},
+          },
         },
       };
       const pageInfo = getClinicPageInfo(state, 'clinicChoice');
@@ -345,6 +320,7 @@ describe('VAOS selectors', () => {
         ccId: 'CCPRMYRTNE',
         group: 'primary',
         name: 'Primary care',
+        cceType: 'PrimaryCare',
       });
     });
   });

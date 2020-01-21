@@ -21,6 +21,31 @@ const templatesPath = path.join(
   'generator-cms-content-model/templates/',
 );
 
+/**
+ * Takes an object and returns all the property names of itself and
+ * its nested objects recursively.
+ *
+ * @param {Object} obj - The object to get the property names from
+ * @return {Set<string>} - All the unique property names in snake_case
+ */
+const allSnakeCasedPropertyNames = obj =>
+  new Set(
+    _.flatten(
+      Object.keys(obj).map(key => {
+        if (
+          obj[key] &&
+          typeof obj[key] === 'object' &&
+          !Array.isArray(obj[key])
+        )
+          return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([
+            _.snakeCase(key),
+          ]);
+
+        return _.snakeCase(key);
+      }),
+    ),
+  );
+
 module.exports = class extends Generator {
   async getContentModelType() {
     this.contentModelType = (await this.prompt([
@@ -100,64 +125,9 @@ module.exports = class extends Generator {
     }
   }
 
-  async getFilters() {
+  async getTransformedTestData() {
     this.log(JSON.stringify(this.exampleEntity, null, 2));
 
-    this.rawPropertyNames = (await this.prompt([
-      {
-        type: 'checkbox',
-        name: 'names',
-        message: 'Which keys do you want to keep?',
-        choices: Object.keys(this.exampleEntity),
-      },
-    ])).names;
-  }
-
-  /**
-   * Copies the example entity's children.
-   * Note: This doesn't copy grandchildren or deeper.
-   */
-  copyExampleChildren() {
-    // Iterate through the example file's kept properties
-    Object.keys(this.exampleEntity)
-      .filter(propName => this.rawPropertyNames.includes(propName))
-      .forEach(propName => {
-        const prop = this.exampleEntity[propName];
-        if (Array.isArray(prop)) {
-          prop.forEach(p => {
-            if (p.target_uuid && p.target_type) {
-              // We have an entity reference!
-              const childFileName = `${p.target_type}.${p.target_uuid}.json`;
-              const testChildPath = path.join(
-                processEntitiesRoot,
-                'tests/entities/',
-                childFileName,
-              );
-
-              // Copy the child
-              if (!fs.existsSync(testChildPath)) {
-                fs.copyFileSync(
-                  path.join(tomeSyncContent, childFileName),
-                  testChildPath,
-                );
-                this.log(
-                  chalk.green(
-                    `Added required child (${propName}): ${childFileName}`,
-                  ),
-                );
-              } else
-                this.log(
-                  chalk.green(
-                    `Found required child (${propName}): ${childFileName}`,
-                  ),
-                );
-            }
-          });
-        } else this.log(`${propName} is not an array. That's unexpected.`);
-      });
-  }
-
-  async getTransformedTestData() {
     const transformedEntityTestFile = path.join(
       processEntitiesRoot,
       'tests/transformed-entities',
@@ -167,6 +137,9 @@ module.exports = class extends Generator {
       this.log(
         chalk.green(`Found transformed entity test file:`),
         transformedEntityTestFile,
+      );
+      this.transformedTestData = JSON.parse(
+        fs.readFileSync(transformedEntityTestFile),
       );
       return;
     }
@@ -203,6 +176,113 @@ module.exports = class extends Generator {
       chalk.green(`Wrote transformed entity test file:`),
       transformedEntityTestFile,
     );
+  }
+
+  async getFilters() {
+    const guesses = allSnakeCasedPropertyNames(this.transformedTestData);
+    this.rawPropertyNames = (await this.prompt([
+      {
+        type: 'checkbox',
+        name: 'names',
+        message: 'Which keys do you want to keep?',
+        choices: Object.keys(this.exampleEntity).map(key => ({
+          value: key,
+          checked: guesses.has(key),
+        })),
+      },
+    ])).names;
+  }
+
+  // Largely copied from scripts/copy-entities.js
+  copyDescendants() {
+    const propBlacklist = [
+      'type',
+      'bundle',
+      'vid',
+      'uid',
+      'revision_uid',
+      'roles',
+    ];
+    const copiedUuids = new Set();
+
+    const copyChildren = entity => {
+      const uuid = entity.uuid[0].value;
+      // Avoid infinite loops
+      if (copiedUuids.has(uuid)) return;
+      copiedUuids.add(uuid);
+
+      // Iterate through the non-blacklisted properties
+      // When an entity reference is found, copy it over and recurse on it
+      Object.keys(entity)
+        .filter(k => !propBlacklist.includes(k))
+        .forEach(propName => {
+          // Properties should always be arrays, but just in case, check
+          if (Array.isArray(entity[propName])) {
+            entity[propName].forEach((p, index) => {
+              if (p.target_type && p.target_uuid) {
+                // Found an entity reference!
+                const fileName = `${p.target_type}.${p.target_uuid}.json`;
+                const sourceFile = path.join(tomeSyncContent, fileName);
+                const destFile = path.join(
+                  processEntitiesRoot,
+                  'tests/entities/',
+                  fileName,
+                );
+                if (!fs.existsSync(destFile)) {
+                  try {
+                    fs.copyFileSync(sourceFile, destFile);
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.green(
+                        `Added child entity (${propName}[${index}]): ${fileName}`,
+                      ),
+                    );
+                  } catch (e) {
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.red(`Error copying ${fileName}.`),
+                    );
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.yellow('  This UUID: '),
+                      entity.uuid[0].value,
+                    );
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.yellow('  Child found at: '),
+                      `${propName}[${index}]`,
+                    );
+                    this.log(chalk.yellow('  Child: '), p);
+                    throw e;
+                  }
+                } else
+                  this.log(
+                    chalk.grey(`${uuid}: `),
+                    chalk.blue(
+                      `Found child entity (${propName}[${index}]): ${fileName}`,
+                    ),
+                  );
+
+                // Recurse!
+                copyChildren(
+                  JSON.parse(
+                    fs
+                      .readFileSync(
+                        path.join(
+                          tomeSyncContent,
+                          `${p.target_type}.${p.target_uuid}.json`,
+                        ),
+                      )
+                      .toString('utf8'),
+                  ),
+                );
+              }
+            });
+          }
+        });
+    };
+    // Start copying!
+    copyChildren(this.exampleEntity);
   }
 
   writeSchemas() {

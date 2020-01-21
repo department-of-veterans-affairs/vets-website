@@ -33,7 +33,7 @@ export default class CancelAppointmentModal extends React.Component {
           onClose={onClose}
           title="Do you want to cancel your appointment?"
         >
-          If you want to reschedule this appointment, you'll need to first
+          If you want to reschedule this appointment, you’ll need to first
           cancel this one and then create a new appointment.
           <p className="vads-u-margin-top--2">
             <LoadingButton
@@ -63,7 +63,7 @@ export default class CancelAppointmentModal extends React.Component {
           onClose={onClose}
           title="Your appointment has been canceled"
         >
-          We've let your provider know you canceled this appointment.
+          We’ve let your provider know you canceled this appointment.
           <p className="vads-u-margin-top--2">
             <button onClick={this.props.onClose}>Continue</button>
           </p>

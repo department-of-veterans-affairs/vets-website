@@ -58,6 +58,8 @@ export function transformFormToVARequest(state) {
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
+    otherPurposeOfVisit:
+      data.reasonForAppointment === 'other' ? 'See message' : null,
     visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
       ?.serviceName,
     phoneNumber: data.phoneNumber,
@@ -88,27 +90,31 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
-  const preferredProviders = data.hasCommunityCareProvider
-    ? [
-        {
-          address: {
-            city: '',
-            state: '',
-            street: '',
-            zipCode: data.communityCareProvider.address.postalCode,
-          },
-          firstName: data.communityCareProvider.firstName,
-          lastName: data.communityCareProvider.lastName,
-          practiceName: data.communityCareProvider.practiceName,
-          providerStreet: `${data.communityCareProvider.address.street}, ${
-            data.communityCareProvider.address.street2
-          }`,
-          providerCity: data.communityCareProvider.address.city,
-          providerState: data.communityCareProvider.address.state,
-          providerZipCode1: data.communityCareProvider.address.postalCode,
+  let preferredProviders = [];
+
+  if (data.hasCommunityCareProvider) {
+    const street = `${data.communityCareProvider.address.street}, ${
+      data.communityCareProvider.address.street2
+    }`;
+    preferredProviders = [
+      {
+        address: {
+          street,
+          city: data.communityCareProvider.address.city,
+          state: data.communityCareProvider.address.state,
+          zipCode: data.communityCareProvider.address.postalCode,
         },
-      ]
-    : [];
+        firstName: data.communityCareProvider.firstName,
+        lastName: data.communityCareProvider.lastName,
+        practiceName: data.communityCareProvider.practiceName,
+        providerStreet: street,
+        providerCity: data.communityCareProvider.address.city,
+        providerState: data.communityCareProvider.address.state,
+        providerZipCode1: data.communityCareProvider.address.postalCode,
+      },
+    ];
+  }
+
   const residentialAddress = selectVet360ResidentialAddress(state);
   const system = getSystems(state).find(
     sys => sys.institutionCode === data.communityCareSystemId,
@@ -163,6 +169,7 @@ export function transformFormToCCRequest(state) {
     ...getRequestedDates(data),
     ...cityState,
     // defaulted values
+    visitType: 'Office Visit',
     requestedPhoneCall: false,
     email: data.email,
     officeHours: [],
@@ -190,42 +197,14 @@ export function transformFormToAppointment(state) {
 
   return {
     clinic,
-    direct: {
-      purpose,
-      desiredDate: moment(slot.date, 'YYYY-MM-DD').format(
-        'MM/DD/YYYY [00:00:00]',
-      ),
-      dateTime: moment(slot.datetime).format('MM/DD/YYYY HH:mm:ss'),
-      apptLength: appointmentLength,
-    },
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
     desiredDate: `${slot.date}T00:00:00+00:00`,
     dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
     duration: appointmentLength,
     bookingNotes: purpose,
-    patients: {
-      patient: [
-        {
-          contactInformation: {
-            preferredEmail: data.email,
-            timeZone: facility.institutionTimezone,
-          },
-          location: {
-            type: 'VA',
-            facility: {
-              name: facility.name,
-              siteCode: facility.rootStationCode,
-              timeZone: facility.institutionTimezone,
-            },
-            clinic: {
-              ien: clinic.clinicId,
-              name: clinic.clinicName,
-            },
-          },
-        },
-      ],
-    },
+    preferredEmail: data.email,
+    timeZone: facility.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',
@@ -237,15 +216,6 @@ export function transformFormToAppointment(state) {
     type: 'REGULAR',
     appointmentKind: 'TRADITIONAL',
     schedulingMethod: 'direct',
-    providers: {
-      provider: [
-        {
-          location: {
-            type: 'VA',
-          },
-        },
-      ],
-    },
   };
 }
 
@@ -255,15 +225,5 @@ export function createPreferenceBody(preferences, data) {
     emailAddress: data.email,
     notificationFrequency: 'Each new message',
     emailAllowed: true,
-  };
-}
-
-export function createMessageBody(id, { data }) {
-  return {
-    AppointmentRequestId: id,
-    messageText: getUserMessage(data),
-    isLastMessage: true,
-    messageDateTime: '',
-    messageSent: true,
   };
 }

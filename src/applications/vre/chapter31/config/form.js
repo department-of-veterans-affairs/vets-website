@@ -14,6 +14,7 @@ import ServicePeriodView from '../../../../platform/forms/components/ServicePeri
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import FormFooter from '../../../../platform/forms/components/FormFooter';
 import environment from '../../../../platform/utilities/environment';
@@ -94,6 +95,9 @@ const formConfig = {
     ssn,
     vaFileNumber,
     year,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   chapters: {
     veteranInformation: {

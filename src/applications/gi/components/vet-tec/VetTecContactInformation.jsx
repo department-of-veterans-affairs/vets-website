@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 
 import { VetTecScoContact } from './VetTecScoContact';
 import { phoneInfo } from '../../utils/helpers';
@@ -16,11 +15,11 @@ export const VetTecContactInformation = ({ institution }) => {
   );
 
   const primarySCOs = versionedSchoolCertifyingOfficials.filter(
-    SCO => SCO.priority === 'PRIMARY',
+    SCO => SCO.priority.toUpperCase() === 'PRIMARY',
   );
 
   const secondarySCOs = versionedSchoolCertifyingOfficials.filter(
-    SCO => SCO.priority === 'SECONDARY',
+    SCO => SCO.priority.toUpperCase() === 'SECONDARY',
   );
 
   const renderPhysicalAddress = () =>
@@ -137,10 +136,10 @@ export const VetTecContactInformation = ({ institution }) => {
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
             <ul
-              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              className="vads-l-row vettec-sco-list vads-u-margin--0 primary-sco-list"
               aria-labelledby="primary-contact-header"
             >
-              {primarySCOs.map(sco => VetTecScoContact(sco))}
+              {primarySCOs.map((sco, index) => VetTecScoContact(sco, index))}
             </ul>
           </div>
         </div>
@@ -161,10 +160,10 @@ export const VetTecContactInformation = ({ institution }) => {
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
             <ul
-              className="vads-l-row vettec-sco-list vads-u-margin--0"
+              className="vads-l-row vettec-sco-list vads-u-margin--0 secondary-sco-list"
               aria-labelledby="secondary-contact-header"
             >
-              {secondarySCOs.map(sco => VetTecScoContact(sco))}
+              {secondarySCOs.map((sco, index) => VetTecScoContact(sco, index))}
             </ul>
           </div>
         </div>
@@ -176,12 +175,12 @@ export const VetTecContactInformation = ({ institution }) => {
       <div>
         {renderSCOHeader()}
         {renderPrimarySCOs()}
-        <hr />
+        {primarySCOs.length > 0 && secondarySCOs.length > 0 && <hr />}
         {renderSecondarySCOs()}
       </div>
     );
 
-  const renderContactDetails = () => (
+  return (
     <div>
       {renderPhysicalAddress()}
       {renderMailingAddress()}
@@ -190,47 +189,6 @@ export const VetTecContactInformation = ({ institution }) => {
       {renderSCOContactInfoSection()}
     </div>
   );
-
-  /* Production flag for 19871 */
-  if (environment.isProduction()) {
-    return (
-      <div className="additional-information vads-l-grid-container--full">
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-            <h3>Physical address</h3>
-            <div>
-              {institution.physicalAddress1 && (
-                <div>{institution.physicalAddress1}</div>
-              )}
-              {institution.physicalAddress2 && (
-                <div>{institution.physicalAddress2}</div>
-              )}
-              {institution.physicalAddress3 && (
-                <div>{institution.physicalAddress3}</div>
-              )}
-              <div>
-                {institution.physicalCity}, {institution.physicalState}{' '}
-                {institution.physicalZip}
-              </div>
-            </div>
-          </div>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-            <h3>Mailing address</h3>
-            <div>
-              {institution.address1 && <div>{institution.address1}</div>}
-              {institution.address2 && <div>{institution.address2}</div>}
-              {institution.address3 && <div>{institution.address3}</div>}
-              <div>
-                {institution.city}, {institution.state} {institution.zip}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return renderContactDetails();
 };
 
 VetTecContactInformation.propTypes = {

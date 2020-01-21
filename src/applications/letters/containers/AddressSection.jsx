@@ -6,6 +6,10 @@ import { focusElement } from '../../../platform/utilities/ui';
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
 
+import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
+
+import Vet360InitializeID from 'vet360/containers/InitializeVet360ID';
+import Vet360PendingTransactionCategory from 'vet360/containers/Vet360PendingTransactionCategory';
 import MailingAddress from 'vet360/components/MailingAddress';
 
 export class AddressSection extends React.Component {
@@ -25,7 +29,15 @@ export class AddressSection extends React.Component {
     const addressContent = (
       <div className="step-content">
         <p>Downloaded documents will list your address as:</p>
-        <MailingAddress />
+        <div className="va-profile-wrapper">
+          <Vet360InitializeID>
+            <Vet360PendingTransactionCategory
+              categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
+            >
+              <MailingAddress />
+            </Vet360PendingTransactionCategory>
+          </Vet360InitializeID>
+        </div>
         <p>
           When you download a letter, it will show this address. If this address
           is incorrect you may want to update it, but your letter will still be
