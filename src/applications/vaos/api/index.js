@@ -382,9 +382,13 @@ export function getAvailableSlots(
   let promise;
 
   if (USE_MOCK_DATA) {
-    promise = import('./slots.json').then(
-      module => (module.default ? module.default : module),
-    );
+    promise = new Promise(resolve => {
+      setTimeout(() => {
+        import('./slots.json').then(module =>
+          resolve(module.default ? module.default : module),
+        );
+      }, 500);
+    });
   } else {
     promise = apiRequest(
       `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
