@@ -2,7 +2,7 @@
   {
     "domain": "www.cem.va.gov",
     "src": "/cem/burial_benefits/eligible.asp",
-    "dest": "www.va.gov/burials-memorials/eligibility/"
+    "dest": "/burials-memorials/eligibility/"
   },
   {
     "domain": "www.cem.va.gov",
@@ -73,6 +73,11 @@
     "domain": "www.cem.va.gov",
     "src": "/cem/hmm/replacements.asp",
     "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/need.asp",
+    "dest": "/burials-memorials/schedule-a-burial/"
   },
   {
     "domain": "www.benefits.va.gov",

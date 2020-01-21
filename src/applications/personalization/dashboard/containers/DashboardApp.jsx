@@ -51,7 +51,7 @@ const EmptyStateLinks = () => (
         >
           <h4 className="va-nav-linkslist-title">Disability benefits</h4>
           <p className="va-nav-linkslist-description">
-            Apply for disability compensation and other benefits for conditions
+            File for disability compensation and other benefits for conditions
             related to your military service.
           </p>
         </a>

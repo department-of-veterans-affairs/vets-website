@@ -44,8 +44,6 @@ import {
   fileHelp,
   financialDisclosureText,
   incomeDescription,
-  isAfterCentralTimeDate,
-  isBeforeCentralTimeDate,
   isEssentialAcaCoverageDescription,
   lastServiceBranchLabels,
   medicaidDescription,
@@ -54,7 +52,6 @@ import {
   medicarePartADescription,
   prefillTransformer,
   transform,
-  validateDate,
 } from '../helpers';
 
 import migrations from './migrations';
@@ -481,12 +478,8 @@ const formConfig = {
             lastDischargeDate: dateUI('Service end date'),
             dischargeType: {
               'ui:title': 'Character of service',
-              'ui:required': ({ lastDischargeDate: LDD }) =>
-                validateDate(LDD) && isBeforeCentralTimeDate(LDD),
               'ui:options': {
                 labels: dischargeTypeLabels,
-                hideIf: ({ lastDischargeDate: LDD }) =>
-                  !validateDate(LDD) || isAfterCentralTimeDate(LDD),
               },
             },
             'ui:validations': [validateServiceDates],
@@ -503,6 +496,7 @@ const formConfig = {
               'lastServiceBranch',
               'lastEntryDate',
               'lastDischargeDate',
+              'dischargeType',
             ],
           },
         },
