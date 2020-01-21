@@ -1,9 +1,13 @@
 import React from 'react';
 
 import PromoBanner from '@department-of-veterans-affairs/formation-react/PromoBanner';
-import recordEvent from 'platform/monitoring/record-event';
+import _recordEvent from 'platform/monitoring/record-event';
 
-export default function PromoBannerWithAnalytics({ onClose, ...props }) {
+export default function PromoBannerWithAnalytics({
+  recordEvent = _recordEvent,
+  onClose,
+  ...props
+}) {
   return (
     <PromoBanner
       {...props}
