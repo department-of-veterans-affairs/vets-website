@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 
-import { checkDateRange, checkConferenceTimes } from '../../validations';
-import { addXMonths } from '../../helpers';
+import { /* checkDateRange, */ checkConferenceTimes } from '../../validations';
+// import { addXMonths } from '../../helpers';
 import { errorMessages } from '../../constants';
 
 const mockFormData = { informalConferenceChoice: 'me' };
 
+/*
 describe('From Date validations', () => {
   it('should allow start dates after today', () => {
     let errorMessage = '';
@@ -89,6 +90,7 @@ describe('From Date validations', () => {
     expect(errorMessage).to.equal(errorMessages.endDateBeforeStart);
   });
 });
+*/
 
 describe('Informal conference time validation', () => {
   it('should show an error if no times are selected', () => {

@@ -15,7 +15,13 @@ import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../actions/newAppointment';
 
+const pageTitle = 'Review your appointment details';
+
 export class ReviewPage extends React.Component {
+  componentDidMount() {
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }
+
   render() {
     const {
       data,
@@ -35,6 +41,7 @@ export class ReviewPage extends React.Component {
             data={data}
             facility={facility}
             clinic={clinic}
+            pageTitle={pageTitle}
           />
         )}
         {!isDirectSchedule && (
@@ -42,6 +49,7 @@ export class ReviewPage extends React.Component {
             data={data}
             facility={facility}
             vaCityState={vaCityState}
+            pageTitle={pageTitle}
           />
         )}
         <div className="vads-u-margin-y--2">

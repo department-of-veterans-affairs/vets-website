@@ -6,6 +6,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import * as address from '../definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -82,6 +83,9 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
+  downtime: {
+    dependencies: [externalServices.global],
+  },
   formId: VA_FORM_IDS.FORM_40_10007,
   prefillEnabled: true,
   verifyRequiredPrefill: false,

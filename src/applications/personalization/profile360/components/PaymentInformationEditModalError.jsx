@@ -2,7 +2,8 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import {
-  hasFlaggedForFraudError,
+  hasAccountFlaggedError,
+  hasRoutingNumberFlaggedError,
   hasInvalidAddressError,
   hasInvalidHomePhoneNumberError,
   hasInvalidRoutingNumberError,
@@ -26,6 +27,31 @@ function FlaggedAccount() {
         </span>{' '}
         (TTY: <span className="no-wrap">800-829-4833</span>
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+    </>
+  );
+}
+
+function FlaggedRoutingNumber() {
+  return (
+    <>
+      <p>
+        We’re sorry. The bank routing number you entered requires additional
+        verification before we can save your information. To use this bank
+        routing number, you’ll need to call us at{' '}
+        <span className="no-wrap">
+          <a href="tel:1-800-827-1000">800-827-1000</a>
+        </span>{' '}
+        (TTY: <span className="no-wrap">800-829-4833</span>
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+      <p>
+        You can also update this information by mail or in person at a VA
+        regional office.{' '}
+        <a href="/change-direct-deposit">
+          Learn how to update your direct deposit bank information
+        </a>
+        .
       </p>
     </>
   );
@@ -94,15 +120,19 @@ export default function PaymentInformationEditModalError({
   closeModal,
 }) {
   let content = <GenericError />;
+  let headline = 'We couldn’t update your bank information';
 
   if (responseError.error) {
     const { errors = [] } = responseError.error;
 
     if (
-      hasFlaggedForFraudError(errors) ||
+      hasAccountFlaggedError(errors) ||
       hasPaymentRestrictionIndicatorsError(errors)
     ) {
       content = <FlaggedAccount />;
+    } else if (hasRoutingNumberFlaggedError(errors)) {
+      content = <FlaggedRoutingNumber />;
+      headline = 'We can’t save your bank routing number';
     } else if (hasInvalidRoutingNumberError(errors)) {
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(errors)) {
@@ -125,11 +155,7 @@ export default function PaymentInformationEditModalError({
   }
 
   return (
-    <AlertBox
-      status="error"
-      headline="We couldn’t update your bank information"
-      isVisible
-    >
+    <AlertBox status="error" headline={headline} isVisible>
       {content}
     </AlertBox>
   );

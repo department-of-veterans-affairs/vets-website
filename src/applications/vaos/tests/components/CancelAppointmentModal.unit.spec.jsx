@@ -88,6 +88,7 @@ describe('VAOS <CancelAppointmentModal>', () => {
         showCancelModal
         cancelAppointmentStatus={FETCH_STATUS.failed}
         appointmentToCancel={{
+          clinicId: '123',
           startDate: '11/20/2018',
           clinicFriendlyName: 'Testing',
           facilityId: '983',

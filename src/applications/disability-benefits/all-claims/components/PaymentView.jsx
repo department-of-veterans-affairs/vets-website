@@ -38,13 +38,15 @@ const accountsDifferContent = (
 );
 
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
-  const bankAccountType =
-    formData.bankAccountType || originalData['view:bankAccountType'];
-  const bankAccountNumber =
-    formData.bankAccountNumber || originalData['view:bankAccountNumber'];
-  const bankRoutingNumber =
-    formData.bankRoutingNumber || originalData['view:bankRoutingNumber'];
-  const bankName = formData.bankName || originalData['view:bankName'];
+  const getBankData = name =>
+    formData[name] ||
+    formData['view:originalBankAccount']?.[`view:${name}`] ||
+    originalData[`view:${name}`];
+
+  const bankAccountType = getBankData('bankAccountType');
+  const bankAccountNumber = getBankData('bankAccountNumber');
+  const bankRoutingNumber = getBankData('bankRoutingNumber');
+  const bankName = getBankData('bankName');
 
   const dataChanged = !isEqual(
     viewifyFields({

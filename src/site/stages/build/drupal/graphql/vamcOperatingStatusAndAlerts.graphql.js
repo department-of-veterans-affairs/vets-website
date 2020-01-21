@@ -9,12 +9,6 @@ module.exports = `
       entity {
         ... on NodeHealthCareRegionPage {
           entityLabel
-          fieldLinkFacilityEmergList {
-            url {
-              path
-              routed
-            }
-          }
         }
       }
     }
@@ -41,6 +35,7 @@ module.exports = `
     fieldBannerAlert {
       entity {
         ... on NodeFullWidthBannerAlert {
+          status
           title
           fieldBannerAlertSituationinfo {
             processed

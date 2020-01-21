@@ -1,4 +1,5 @@
 import { snakeCase } from 'lodash';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const formatNumber = value => {
   const str = (+value).toString();
@@ -46,13 +47,38 @@ export const phoneInfo = (areaCode, phoneNumber) => {
   return providerPhone;
 };
 
-export const snakeCaseKeys = query =>
-  Object.keys(query).reduce(
-    (queryParams, key) => ({
+/**
+ * Snake-cases field names and appends names of array fields with '[]'
+ * so that the GIDS rails controller will collect as array
+ * @param query {Object} an object containing query fields
+ * @returns {Object} query object with updated field names
+ */
+export const rubyifyKeys = query =>
+  Object.keys(query).reduce((queryParams, key) => {
+    const keyName = Array.isArray(query[key])
+      ? `${snakeCase(key)}[]`
+      : snakeCase(key);
+    return {
       ...queryParams,
-      [snakeCase(key)]: query[key],
-    }),
-    {},
-  );
+      [keyName]: query[key],
+    };
+  }, {});
 
 export const isPresent = value => value && value !== '';
+
+export const getStateNameForCode = stateCode => {
+  const stateLabel = constants.states.USA.find(
+    state => state.value.toUpperCase() === stateCode.toUpperCase(),
+  );
+  return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
+};
+
+export const sortOptionsByStateName = (stateA, stateB) => {
+  if (stateA.label < stateB.label) {
+    return -1;
+  }
+  if (stateA.label > stateB.label) {
+    return 1;
+  }
+  return 0;
+};

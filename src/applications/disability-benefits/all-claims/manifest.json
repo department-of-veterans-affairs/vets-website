@@ -4,7 +4,7 @@
   "entryName": "526EZ-all-claims",
   "rootUrl": "/disability/file-disability-claim-form-21-526ez",
   "template": {
-    "title": "Apply for disability benefits",
+    "title": "File for disability benefits",
     "layout": "page-react.html",
     "description": "Learn how to apply online for disability compensation.",
     "hideFromSidebar": true,

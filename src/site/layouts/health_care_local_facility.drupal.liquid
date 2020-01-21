@@ -244,8 +244,7 @@ more.\r\n",
           </div>
 
           <section id="table-of-contents" class="vads-u-margin-bottom--5">
-            <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this
-              page</h2>
+            <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
             <ul class="usa-unstyled-list"></ul>
           </section>
 
@@ -409,9 +408,16 @@ more.\r\n",
 
 
           <!-- Social Links -->
-          {% if fieldFacebook != empty || fieldFlickr != empty || fieldInstagram != empty || fieldTwitter != empty || fieldEmailSubscription != empty || (fieldLinks != empty and fieldLinks.length)%}
-          {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = fieldRegionPage.entity.fieldNicknameForThisFacility %}
-          {% endif %}
+          {% include "src/site/facilities/facility_social_links.drupal.liquid"
+          with regionNickname = fieldRegionPage.entity.fieldNicknameForThisFacility
+          fieldGovdeliveryIdEmerg = fieldRegionPage.entity.fieldGovdeliveryIdEmerg
+          fieldGovdeliveryIdNews = fieldRegionPage.entity.fieldGovdeliveryIdNews
+          fieldOperatingStatus = fieldRegionPage.entity.fieldOperatingStatus
+          fieldFacebook = fieldRegionPage.entity.fieldFacebook
+          fieldTwitter = fieldRegionPage.entity.fieldTwitter
+          fieldFlickr = fieldRegionPage.entity.fieldFlickr
+          fieldInstagram = fieldRegionPage.entity.fieldInstagram
+          %}
 
         </article>
         <div class="last-updated usa-content">

@@ -1,5 +1,14 @@
 import timezones from './timezones.json';
 
+const TIMEZONE_LABELS = {
+  PHT: 'Philippine time',
+  ET: 'Eastern time',
+  CT: 'Central time',
+  MT: 'Mountain time',
+  PT: 'Pacific time',
+  AKT: 'Alaska time',
+};
+
 export function stripDST(abbr) {
   return abbr?.replace('ST', 'T').replace('DT', 'T');
 }
@@ -20,6 +29,17 @@ export function getTimezoneAbbrBySystemId(id) {
   // Strip out middle char in abbreviation so we can ignore DST
   if (matchingZone.timezone.includes('America')) {
     abbreviation = stripDST(abbreviation);
+  }
+
+  return abbreviation;
+}
+
+export function getTimezoneDescBySystemId(id) {
+  const abbreviation = getTimezoneAbbrBySystemId(id);
+  const label = TIMEZONE_LABELS[abbreviation];
+
+  if (label) {
+    return `${label} (${abbreviation})`;
   }
 
   return abbreviation;

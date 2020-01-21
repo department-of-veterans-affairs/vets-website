@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
+import EligibilityCheckMessage from '../components/EligibilityCheckMessage';
 import FacilityAddress from '../components/FacilityAddress';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import { FETCH_STATUS } from '../utils/constants';
 
 import {
   openClinicPage,
@@ -14,6 +16,17 @@ import {
 } from '../actions/newAppointment.js';
 import { getClinicPageInfo } from '../utils/selectors';
 import { formatTypeOfCare } from '../utils/formatters';
+
+function getPageTitle(schema, typeOfCare) {
+  const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+  let pageTitle = 'Clinic choice';
+  if (schema?.properties.clinicId.enum.length === 2) {
+    pageTitle = `Make a ${typeOfCareLabel} appointment at your last clinic`;
+  } else if (schema?.properties.clinicId.enum.length > 2) {
+    pageTitle = `Choose your VA clinic for your ${typeOfCareLabel} appointment`;
+  }
+  return pageTitle;
+}
 
 const initialSchema = {
   type: 'object',
@@ -41,12 +54,18 @@ export class ClinicChoicePage extends React.Component {
 
   componentDidUpdate(oldProps) {
     const previouslyLoading =
-      !oldProps.schema || oldProps.loadingFacilityDetails;
+      !oldProps.schema ||
+      oldProps.facilityDetailsStatus === FETCH_STATUS.loading;
     const currentlyLoading =
-      !this.props.schema || this.props.loadingFacilityDetails;
+      !this.props.schema ||
+      this.props.facilityDetailsStatus === FETCH_STATUS.loading;
 
     if (previouslyLoading && !currentlyLoading) {
       scrollAndFocus();
+      document.title = `${getPageTitle(
+        this.props.schema,
+        this.props.typeOfCare,
+      )} | Veterans Affairs`;
     }
   }
 
@@ -66,31 +85,35 @@ export class ClinicChoicePage extends React.Component {
       facilityDetails,
       typeOfCare,
       clinics,
-      loadingFacilityDetails,
+      facilityDetailsStatus,
+      eligibility,
+      canMakeRequests,
     } = this.props;
 
-    if (!schema || loadingFacilityDetails) {
+    if (!schema || facilityDetailsStatus === FETCH_STATUS.loading) {
       return (
         <LoadingIndicator message="Loading your facility and clinic info" />
       );
     }
 
     const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
+    const usingUnsupportedRequestFlow =
+      data.clinicId === 'NONE' && !canMakeRequests;
 
     return (
       <div>
         {schema.properties.clinicId.enum.length === 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Make a {typeOfCareLabel} appointment at your last clinic
+              {getPageTitle(schema, typeOfCare)}
             </h1>
             Your last {typeOfCareLabel} appointment was at{' '}
             {clinics[0].clinicFriendlyLocationName || clinics[0].clinicName}:
             {facilityDetails && (
               <p>
                 <FacilityAddress
-                  name={facilityDetails.attributes.name}
-                  address={facilityDetails.attributes.address.physical}
+                  name={facilityDetails.name}
+                  facility={facilityDetails}
                 />
               </p>
             )}
@@ -99,17 +122,17 @@ export class ClinicChoicePage extends React.Component {
         {schema.properties.clinicId.enum.length > 2 && (
           <>
             <h1 className="vads-u-font-size--h2">
-              Select your VA clinic for your {typeOfCareLabel} appointment
+              {getPageTitle(schema, typeOfCare)}
             </h1>
-            In the last 24 months you have had {typeOfCareLabel} appointments in
-            the following clinics, located at:
+            In the last 24 months you have had a {typeOfCareLabel} appointment
+            in the following clinics, located at:
             {facilityDetails && (
-              <p>
+              <div className="vads-u-margin-y--2p5">
                 <FacilityAddress
-                  name={facilityDetails.attributes.name}
-                  address={facilityDetails.attributes.address.physical}
+                  name={facilityDetails.name}
+                  facility={facilityDetails}
                 />
-              </p>
+              </div>
             )}
           </>
         )}
@@ -124,8 +147,14 @@ export class ClinicChoicePage extends React.Component {
           }
           data={data}
         >
+          {usingUnsupportedRequestFlow && (
+            <div className="vads-u-margin-top--2">
+              <EligibilityCheckMessage eligibility={eligibility} />
+            </div>
+          )}
           <FormButtons
             onBack={this.goBack}
+            disabled={usingUnsupportedRequestFlow}
             pageChangeInProgress={pageChangeInProgress}
           />
         </SchemaForm>

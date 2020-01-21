@@ -15,6 +15,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import { prefillTransformer, tabIndexedTitle, transform } from '../helpers';
 
@@ -49,6 +50,9 @@ const formConfig = {
   footerContent: FormFooter,
   defaultDefinitions: {
     ...fullSchema0993.definitions,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   chapters: {
     claimantInformation: {

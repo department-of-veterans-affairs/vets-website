@@ -71,7 +71,6 @@ class Vet360ProfileField extends React.Component {
         this.props.fieldName,
       );
     }
-
     this.props.createTransaction(
       this.props.apiRoute,
       'DELETE',

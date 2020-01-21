@@ -39,17 +39,17 @@ export const PURPOSE_TEXT = [
   },
   {
     id: 'other',
-    short: 'My reason is not listed here',
-    label: 'My reason is not listed here',
+    short: 'My reason isn’t listed',
+    label: 'My reason isn’t listed here',
     serviceName: 'Other',
   },
 ];
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  default:
-    "Please give us additional details about your appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
-  other:
-    "Please give us additional details about what type of appointment you’re looking for. This will help us find you the right provider or facility for your appointment. Please also let us know if you have any scheduling issues, like you can't have an appointment on a certain day.",
+  request:
+    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
+  direct:
+    'Please provide any additional details you’d like to share with your provider about this appointment.',
 };
 
 export const TYPES_OF_CARE = [
@@ -58,6 +58,7 @@ export const TYPES_OF_CARE = [
     name: 'Primary care',
     group: 'primary',
     ccId: 'CCPRMYRTNE',
+    cceType: 'PrimaryCare',
   },
   {
     id: '160',
@@ -81,9 +82,11 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '203',
-    name: 'Audiology and speech (including hearing aid support)',
+    name: 'Audiology and speech',
+    label: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
     ccId: ['CCAUDHEAR', 'CCAUDRTNE'],
+    cceType: 'Audiology',
   },
   {
     id: '372',
@@ -95,6 +98,7 @@ export const TYPES_OF_CARE = [
     name: 'Nutrition and food',
     group: 'specialty',
     ccId: 'CCNUTRN',
+    cceType: 'Nutrition',
   },
   {
     id: '407',
@@ -106,12 +110,15 @@ export const TYPES_OF_CARE = [
     name: 'Optometry',
     group: 'specialty',
     ccId: 'CCOPT',
+    cceType: 'Optometry',
   },
   {
     id: 'tbd-podiatry',
     name: 'Podiatry',
+    label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
     group: 'specialty',
+    cceType: 'Podiatry',
   },
   {
     id: 'SLEEP',
@@ -239,7 +246,7 @@ export const TYPE_OF_VISIT = [
   },
   {
     id: 'telehealth',
-    name: 'VA Video Connect',
+    name: 'Telehealth (through VA Video Connect)',
     serviceName: 'Video Conference',
   },
 ];
@@ -264,6 +271,12 @@ export const REASON_MAX_CHARS = {
   direct: 150,
 };
 
+export const CALENDAR_INDICATOR_TYPES = {
+  CHECK: 'check',
+  BUBBLES: 'bubbles',
+};
+
 export const DISABLED_LIMIT_VALUE = 0;
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
+export const GA_PREFIX = 'vaos';

@@ -1,28 +1,15 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import { getAppointmentId, getRealFacilityId } from './appointment';
+import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneAbbrBySystemId } from './timezone';
+import { getTimezoneDescBySystemId } from './timezone';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
+  FETCH_STATUS,
 } from './constants';
-
-export function selectConfirmedAppointment(state, id) {
-  return (
-    state.appointments?.confirmed?.find?.(
-      appt => getAppointmentId(appt) === id,
-    ) || null
-  );
-}
-
-export function selectPendingAppointment(state, id) {
-  return (
-    state.appointments?.pending?.find?.(appt => appt.uniqueId === id) || null
-  );
-}
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -41,7 +28,6 @@ export function getFormPageInfo(state, pageKey) {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
-    hasDataFetchingError: getNewAppointment(state).hasDataFetchingError,
   };
 }
 
@@ -77,6 +63,12 @@ export function getChosenFacilityInfo(state) {
   );
 }
 
+export function getChosenFacilityDetails(state) {
+  const data = getFormData(state);
+  const facilityDetails = getNewAppointment(state).facilityDetails;
+  return facilityDetails[data.vaFacility] || null;
+}
+
 export function getEligibilityChecks(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
@@ -99,7 +91,7 @@ export function getPreferredDate(state, pageKey) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
-  const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
+  const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
@@ -113,19 +105,20 @@ export function getDateTimeSelect(state, pageKey) {
   }, []);
 
   const timezone = data.vaSystem
-    ? getTimezoneAbbrBySystemId(data.vaSystem)
+    ? getTimezoneDescBySystemId(data.vaSystem)
     : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return {
     ...formInfo,
-    timezone,
-    availableSlots,
     availableDates,
-    loadingAppointmentSlots,
-    typeOfCareId,
+    availableSlots,
     eligibleForRequests: eligibilityStatus.request,
+    facilityId: data.vaFacility,
+    appointmentSlotsStatus,
     preferredDate: data.preferredDate,
+    timezone,
+    typeOfCareId,
   };
 }
 
@@ -140,27 +133,35 @@ export function hasSingleValidVALocation(state) {
   );
 }
 
-export function getFacilityPageInfo(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
+export function getFacilityPageInfo(state) {
+  const formInfo = getFormPageInfo(state, 'vaFacility');
+  const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const eligibilityStatus = getEligibilityStatus(state);
 
   return {
     ...formInfo,
     facility: getChosenFacilityInfo(state),
-    loadingSystems: newAppointment.loadingSystems || !formInfo.schema,
+    loadingSystems:
+      newAppointment.systemsStatus === FETCH_STATUS.loading || !formInfo.schema,
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
-    loadingEligibility: newAppointment.loadingEligibility,
+    loadingEligibility:
+      newAppointment.eligibilityStatus === FETCH_STATUS.loading,
     eligibility: getEligibilityChecks(state),
     canScheduleAtChosenFacility:
       eligibilityStatus.direct || eligibilityStatus.request,
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVASystems:
-      !formInfo.data.vaSystem &&
-      formInfo.schema &&
-      !formInfo.schema.properties.vaSystem,
+      !data.vaSystem && formInfo.schema && !formInfo.schema.properties.vaSystem,
     noValidVAFacilities:
       !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
+    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
+    hasDataFetchingError:
+      newAppointment.systemsStatus === FETCH_STATUS.failed ||
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
+      newAppointment.elibilityStatus === FETCH_STATUS.failed,
+    typeOfCare: getTypeOfCare(data)?.name,
+    systemDetails: newAppointment?.facilityDetails[data.vaSystem],
   };
 }
 
@@ -175,15 +176,6 @@ export function getChosenClinicInfo(state) {
   );
 }
 
-export function getReasonForAppointment(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
-  const reasonRemainingChar = getNewAppointment(state).reasonRemainingChar;
-  return {
-    ...formInfo,
-    reasonRemainingChar,
-  };
-}
-
 export function getClinicsForChosenFacility(state) {
   const data = getFormData(state);
   const clinics = getNewAppointment(state).clinics;
@@ -196,13 +188,16 @@ export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const facilityDetails = newAppointment.facilityDetails;
+  const eligibility = getEligibilityChecks(state);
 
   return {
     ...formPageInfo,
     facilityDetails: facilityDetails?.[formPageInfo.data.vaFacility],
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
-    loadingFacilityDetails: newAppointment.loadingFacilityDetails,
+    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
+    eligibility,
+    canMakeRequests: isEligible(eligibility).request,
   };
 }
 
@@ -253,3 +248,4 @@ export const vaosCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
+export const selectFeatureToggleLoading = state => toggleValues(state).loading;

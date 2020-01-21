@@ -1,36 +1,8 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 class VetTecApplicationProcess extends React.Component {
   providersWebsiteLink = () => {
     const programs = this.props.institution.programs;
-    // prod flag for bah-20014.
-    if (environment.isProduction()) {
-      if (
-        programs[0].providerWebsite === null ||
-        programs[0].providerWebsite === ''
-      ) {
-        return (
-          <p>
-            To learn more about available programs, visit the training
-            provider's website.
-          </p>
-        );
-      }
-      return (
-        <p>
-          To learn more about available programs,{' '}
-          <a
-            href={programs[0].providerWebsite}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            visit the training provider's website
-          </a>
-          .
-        </p>
-      );
-    }
 
     if (
       programs[0].providerWebsite === null ||

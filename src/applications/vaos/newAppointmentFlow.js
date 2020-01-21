@@ -3,9 +3,9 @@ import {
   getFormData,
   getNewAppointment,
   getEligibilityStatus,
-  getClinicsForChosenFacility,
   vaosCommunityCare,
-  vaosDirectScheduling,
+  getTypeOfCare,
+  getClinicsForChosenFacility,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -22,7 +22,6 @@ import {
   updateCCEnabledSystems,
   updateCCEligibility,
 } from './actions/newAppointment';
-import { hasEligibleClinics } from './utils/eligibility';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -82,21 +81,21 @@ export default {
           if (communityCareEnabled) {
             // Check if user registered systems support community care...
             const userSystemIds = await getSystemIdentifiers();
-            const ccSites = await getSitesSupportingVAR();
+            const ccSites = await getSitesSupportingVAR(userSystemIds);
             const ccEnabledSystems = userSystemIds.filter(id =>
-              ccSites.some(site => site._id === id),
+              ccSites.some(site => site.id === id),
             );
             dispatch(updateCCEnabledSystems(ccEnabledSystems));
 
             // Reroute to VA facility page if none of the user's registered systems support community care.
             if (ccEnabledSystems.length) {
-              const data = await getCommunityCare(
-                '/vaos/community-care/eligibility',
+              const response = await getCommunityCare(
+                getTypeOfCare(getNewAppointment(state).data).cceType,
               );
 
-              dispatch(updateCCEligibility(data.isEligible));
+              dispatch(updateCCEligibility(response.eligible));
 
-              if (data.isEligible) {
+              if (response.eligible) {
                 // If CC enabled systems and toc is podiatry, skip typeOfFacility
                 if (isPodiatry(state)) {
                   dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
@@ -170,20 +169,36 @@ export default {
     url: '/new-appointment/va-facility',
     async next(state, dispatch) {
       const eligibilityStatus = getEligibilityStatus(state);
-      const clinics = getClinicsForChosenFacility(state);
-      const facilityId = getFormData(state).vaFacility;
-      const directSchedulingEnabled = vaosDirectScheduling(state);
 
-      if (directSchedulingEnabled && eligibilityStatus.direct) {
+      if (eligibilityStatus.direct) {
+        let appointments = null;
+
+        // If we can't get the history, then continue anyway
+        // and we'll show the full clinic list
         try {
-          const appointments = await getLongTermAppointmentHistory();
+          appointments = await getLongTermAppointmentHistory();
+        } catch (error) {
+          Sentry.captureException(error);
+        }
 
-          if (hasEligibleClinics(facilityId, appointments, clinics)) {
+        if (appointments) {
+          const clinics = getClinicsForChosenFacility(state);
+          const hasMatchingClinics = clinics.some(
+            clinic =>
+              !!appointments.find(
+                appt =>
+                  clinic.siteCode === appt.facilityId &&
+                  clinic.clinicId === appt.clinicId,
+              ),
+          );
+
+          if (hasMatchingClinics) {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
-        } catch (error) {
-          Sentry.captureException(error);
+        } else {
+          dispatch(startDirectScheduleFlow(appointments));
+          return 'clinicChoice';
         }
       }
 
@@ -198,7 +213,11 @@ export default {
       let nextState = 'typeOfCare';
       const communityCareEnabled = vaosCommunityCare(state);
 
-      if (communityCareEnabled && isCCEligible(state)) {
+      if (
+        communityCareEnabled &&
+        isCCEligible(state) &&
+        isCommunityCare(state)
+      ) {
         nextState = 'typeOfFacility';
       }
 
@@ -243,6 +262,9 @@ export default {
       }
 
       if (isCCFacility(state)) {
+        if (isCCAudiology(state)) {
+          return 'audiologyCareType';
+        }
         return 'typeOfFacility';
       }
 

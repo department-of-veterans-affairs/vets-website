@@ -118,6 +118,7 @@ function cleanUp() {
   return mock([]).then(() => mock([], null));
 }
 
+// eslint-disable-next-line no-unused-vars
 function begin(browser) {
   browser.openUrl(`${E2eHelpers.baseUrl}/find-locations/`);
   E2eHelpers.overrideSmoothScrolling(browser);
@@ -134,4 +135,5 @@ function begin(browser) {
   });
 }
 
-module.exports = E2eHelpers.createE2eTest(begin);
+// TODO: reenable
+// module.exports = E2eHelpers.createE2eTest(begin);

@@ -1,9 +1,13 @@
 import React from 'react';
 
-export const VetTecScoContact = sco => {
+export const VetTecScoContact = (sco, index) => {
   if (sco) {
+    const key = `${sco.firstName}.${sco.lastName}.${index}`;
     return (
-      <li className="vads-l-col--12 medium-screen:vads-l-col--6 large-screen:vads-l-col--4 vads-u-margin-bottom--2 sco-contact-info">
+      <li
+        key={key}
+        className="vads-l-col--12 medium-screen:vads-l-col--6 large-screen:vads-l-col--4 vads-u-margin-bottom--2 sco-contact-info"
+      >
         <div>
           {sco.firstName} {sco.lastName}
         </div>

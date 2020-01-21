@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 
@@ -102,7 +105,13 @@ export class GiBillApp extends React.Component {
               facilityCode={facilityCode}
               location={this.props.location}
             />
-            {content}
+            <DowntimeNotification
+              appTitle={'GI Bill Comparison Tool'}
+              render={this.renderDowntime}
+              dependencies={[externalServices.global]}
+            >
+              {content}
+            </DowntimeNotification>
             <AboutThisTool />
             <Disclaimer />
             <Modals />

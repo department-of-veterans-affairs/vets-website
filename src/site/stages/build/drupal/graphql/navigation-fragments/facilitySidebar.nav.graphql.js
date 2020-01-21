@@ -9,6 +9,13 @@ const { camelize } = require('./../../../../../utilities/stringHelpers');
 const FACILITY_MENU_NAMES = [
   'pittsburgh-health-care',
   'va-altoona-health-care',
+  'va-butler-health-care',
+  'va-coatesville-health-care',
+  'va-erie-health-care',
+  'va-lebanon',
+  'va-philadelphia-health-care',
+  'va-wilkes-barre-health-care',
+  'va-wilmington-health-care',
 ];
 
 const FACILITY_SIDEBAR_QUERY = `
