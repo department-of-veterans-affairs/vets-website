@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 // Relative imports.
-import { SearchForm } from '../../containers/SearchForm';
+import { SearchForm } from './index';
 
 describe('Find VA Results <SearchForm>', () => {
   it('should render', () => {

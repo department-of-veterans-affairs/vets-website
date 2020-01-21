@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import { fetchResultsThunk } from '../actions';
+import { fetchResultsThunk } from '../../actions';
 
 export class SearchForm extends Component {
   static propTypes = {

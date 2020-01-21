@@ -1,8 +1,8 @@
 // Node modules.
 import React, { Component } from 'react';
 // Relative imports.
-import SearchForm from './SearchForm';
-import SearchResults from './SearchResults';
+import SearchForm from '../SearchForm';
+import SearchResults from '../SearchResults';
 
 class YellowRibbonApp extends Component {
   render() {

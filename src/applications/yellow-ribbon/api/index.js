@@ -3,6 +3,7 @@ import appendQuery from 'append-query';
 // Relative imports.
 import STUBBED_RESPONSE from '../api/STUBBED_RESPONSE';
 import { apiRequest } from '../../../platform/utilities/api';
+import { normalizeResults } from '../helpers';
 
 export const fetchResultsApi = async (query, options = {}) => {
   // Derive options properties.
@@ -24,5 +25,8 @@ export const fetchResultsApi = async (query, options = {}) => {
   // Derive the results.
   const results = response?.data;
 
-  return results;
+  // Normalize the data from the API.
+  const normalizedResults = normalizeResults(results);
+
+  return normalizedResults;
 };

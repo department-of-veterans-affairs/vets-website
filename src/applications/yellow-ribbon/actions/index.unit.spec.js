@@ -9,14 +9,14 @@ import {
   fetchResultsThunk,
   updatePaginationAction,
   updateResultsAction,
-} from '../../actions';
+} from './index';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
-} from '../../constants';
+} from '../constants';
 
 describe('Find VA Results actions', () => {
   describe('fetchResultsAction', () => {

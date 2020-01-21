@@ -1,8 +1,8 @@
 // Dependencies.
 import { expect } from 'chai';
 // Relative imports.
-import { FETCH_RESULTS, FETCH_RESULTS_SUCCESS } from '../../constants';
-import yellowRibbonReducer from '../../reducers/yellowRibbonReducer';
+import { FETCH_RESULTS, FETCH_RESULTS_SUCCESS } from '../constants';
+import yellowRibbonReducer from './index';
 
 describe('Yellow Ribbon reducer: yellowRibbonReducer', () => {
   it('returns the default state', () => {

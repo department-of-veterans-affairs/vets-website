@@ -4,10 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { times } from 'lodash';
 // Relative imports.
-import {
-  SearchResults,
-  MAX_PAGE_LIST_LENGTH,
-} from '../../containers/SearchResults';
+import { SearchResults, MAX_PAGE_LIST_LENGTH } from './index';
 
 describe('Find VA Results <SearchResults>', () => {
   it('renders a loading indicator', () => {

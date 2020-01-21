@@ -8,7 +8,7 @@ import SortableTable from '@department-of-veterans-affairs/formation-react/Sorta
 import { connect } from 'react-redux';
 import { orderBy, slice } from 'lodash';
 // Relative imports.
-import { updatePaginationAction, updateResultsAction } from '../actions';
+import { updatePaginationAction, updateResultsAction } from '../../actions';
 
 const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
