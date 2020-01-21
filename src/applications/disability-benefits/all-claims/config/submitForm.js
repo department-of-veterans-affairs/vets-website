@@ -3,12 +3,14 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
 
 const submitFormFor = eventName =>
-  function submitForm(form, formConfig) {
+  function submitForm(form, formConfig, { mode } = {}) {
     const body = formConfig.transformForSubmit
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
 
     let timer;
+    // Reject promise timer set to 30 seconds; except while testing
+    const rejectTime = mode === 'testing' ? 1 : 3e4;
 
     // Copied and pasted from USFS with a couple changes:
     // 1. Sets `withCredentials` to true
@@ -70,21 +72,20 @@ const submitFormFor = eventName =>
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.setRequestHeader('Content-Type', 'application/json');
 
-      // Throw an error after 30 seconds
+      // Log an error after the timeout fires
       timer = setTimeout(() => {
         const error = new Error('client_error: Request taking too long');
         recordEvent({ event: `${eventName}--submission-taking-too-long` });
         Sentry.withScope(scope => {
           scope.setExtra('XMLHttpRequest', req);
-          // Too much PII for sentry?
-          // scope.setExtra('form data', form);
-          // scope.setExtra('request body', body);
           Sentry.captureMessage('Form 526: submission request taking too long');
         });
-        // eslint-disable-next-line no-console
-        console.log(req, form, JSON.parse(body));
+        if (mode !== 'testing') {
+          // eslint-disable-next-line no-console
+          console.log(req, form, JSON.parse(body));
+        }
         reject(error);
-      }, 3e4);
+      }, rejectTime);
 
       req.send(body);
     });
