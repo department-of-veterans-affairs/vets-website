@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
-import environment from 'platform/utilities/environment';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -1035,8 +1034,7 @@ export class Modals extends React.Component {
               <h3>VET TEC</h3>
             </strong>
           </div>
-          {// prod flag for 20014
-          !environment.isProduction() ? (
+          {
             <p>
               Veteran Employment Through Technology Education Courses (VET TEC)
               is a 5-year pilot program that matches Veterans with high-tech
@@ -1045,15 +1043,7 @@ export class Modals extends React.Component {
               months—or just weeks—to complete. The pilot program started in
               2019 and runs through March 31, 2024.
             </p>
-          ) : (
-            <p>
-              Veteran Employment Through Technology Education Courses (VET TEC)
-              is a 5-year pilot program that matches Veterans with high-tech
-              training providers. Veterans can start or advance their career in
-              the high-tech industry with a training program that’ll take
-              months—or just weeks—to complete.
-            </p>
-          )}
+          }
           <p>
             <a
               href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"

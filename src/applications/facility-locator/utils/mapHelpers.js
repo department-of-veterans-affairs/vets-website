@@ -78,10 +78,8 @@ export const reverseGeocode = async (lon, lat) => {
       .send()
       .catch();
     const {
-      entity: {
-        features: {
-          0: { place_name: placeName },
-        },
+      features: {
+        0: { place_name: placeName },
       },
     } = response.body;
 
