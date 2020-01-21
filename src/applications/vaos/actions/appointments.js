@@ -88,9 +88,11 @@ async function getClinicDataBySystem(facilityClinicListMap) {
   const facilityEntries = Array.from(facilityClinicListMap.entries());
 
   const clinicData = await Promise.all(
-    facilityEntries.map(([facilityId, clinicSet]) =>
-      getClinicInstitutions(facilityId, Array.from(clinicSet)),
-    ),
+    facilityEntries
+      .filter(entry => entry[1]?.size > 0)
+      .map(([facilityId, clinicSet]) =>
+        getClinicInstitutions(facilityId, Array.from(clinicSet)),
+      ),
   );
 
   // We get an array of arrays of clinic data, which we can flatten
@@ -194,7 +196,7 @@ export function fetchFutureAppointments() {
           today: moment(),
         });
 
-        getAdditionalFacilityInfo(dispatch, getState);
+        await getAdditionalFacilityInfo(dispatch, getState);
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
