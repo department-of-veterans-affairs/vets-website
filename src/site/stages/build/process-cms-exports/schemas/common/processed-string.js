@@ -4,6 +4,5 @@ module.exports = {
   properties: {
     processed: { type: 'string' },
   },
-  // breadcrumbs are left out for now until we get them from the CMS
   required: ['processed'],
 };
