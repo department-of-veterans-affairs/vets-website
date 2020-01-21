@@ -156,14 +156,6 @@ export function getAppointmentLocation(appt, facility) {
     );
   }
 
-  if (type === APPOINTMENT_TYPES.vaAppointment) {
-    return (
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
-        Find facility information
-      </a>
-    );
-  }
-
   if (facility) {
     return (
       <FacilityAddress
@@ -171,6 +163,14 @@ export function getAppointmentLocation(appt, facility) {
         facility={facility}
         showDirectionsLink
       />
+    );
+  }
+
+  if (type === APPOINTMENT_TYPES.vaAppointment) {
+    return (
+      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+        Find facility information
+      </a>
     );
   }
 

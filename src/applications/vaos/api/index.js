@@ -275,7 +275,25 @@ export function getRequestLimits(facilityId, typeOfCareId) {
   return promise.then(resp => resp.data.attributes);
 }
 
-export function getClinics(facilityId, typeOfCareId, systemId) {
+export function getClinicInstitutions(systemId, clinicIds) {
+  let promise;
+  if (USE_MOCK_DATA) {
+    promise = import('./clinics.json').then(
+      module => (module.default ? module.default : module),
+    );
+  } else {
+    const clinicIdParams = clinicIds.map(id => `clinic_ids[]=${id}`).join('&');
+    promise = apiRequest(
+      `/vaos/systems/${systemId}/clinic_institutions?${clinicIdParams}`,
+    );
+  }
+
+  return promise.then(resp =>
+    resp.data.map(item => ({ ...item.attributes, id: item.id, systemId })),
+  );
+}
+
+export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
     if (facilityId === '983') {
