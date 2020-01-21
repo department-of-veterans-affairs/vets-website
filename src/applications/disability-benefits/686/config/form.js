@@ -116,7 +116,7 @@ const addressSchema = {
     state: domesticAddress.properties.state,
     postOffice: militaryAddress.properties.postOffice,
     postalType: militaryAddress.properties.postalType,
-    postalCode : militaryAddress.properties.postalCode,
+    postalCode: militaryAddress.properties.postalCode,
   },
 };
 
@@ -268,13 +268,12 @@ function createLocationUISchemaForKey(
     'ui:title': title,
     state: {
       'ui:title': 'State (or country if outside the USA',
-      'ui:required': isRequiredCallback, 
-    },
-    city: {
-      'ui:title': 'City or county', 
       'ui:required': isRequiredCallback,
     },
-    
+    city: {
+      'ui:title': 'City or county',
+      'ui:required': isRequiredCallback,
+    },
   };
 }
 
@@ -417,12 +416,12 @@ const formConfig = {
             required: ['maritalStatus'],
             properties: {
               maritalStatus,
-              marriages : {
+              marriages: {
                 type: 'array',
                 items: {
                   type: 'object',
                   properties: {},
-                }
+                },
               },
             },
           },
@@ -668,7 +667,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {},
-                }
+                },
               },
             },
           },
