@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { kebabCase } from 'lodash/fp';
-import classNames from 'classnames';
+// import { kebabCase } from 'lodash/fp';
+// import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
 import { LOCATION_OPTIONS, LocationType } from '../constants';
 
+/*
 const facilityOptionClasses = (item, selected) =>
   classNames(
     'dropdown-option',
@@ -13,6 +14,8 @@ const facilityOptionClasses = (item, selected) =>
     { 'icon-option': item && item !== 'all' },
     { [`${kebabCase(item)}-icon`]: item && item !== 'all' },
   );
+
+ */
 
 const itemToString = item => facilityTypes[item] || 'All Facilities';
 

@@ -38,7 +38,6 @@ class ResultsList extends Component {
 
   render() {
     const {
-      context,
       facilityTypeName,
       inProgress,
       position,
@@ -46,7 +45,6 @@ class ResultsList extends Component {
       results,
       error,
       isMobile,
-      pagination: { totalEntries },
     } = this.props;
 
     if (inProgress) {
