@@ -60,10 +60,7 @@ module.exports = {
       },
     },
     fieldAdditionalInformationAbo: {
-      type: ['object', 'null'],
-      properties: {
-        processed: { type: 'string' },
-      },
+      oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
     fieldAddress: {
       type: ['object', 'null'],
@@ -74,12 +71,7 @@ module.exports = {
         administrativeArea: { type: 'string' },
       },
     },
-    fieldBody: {
-      type: 'object',
-      properties: {
-        processed: { type: 'string' },
-      },
-    },
+    fieldBody: { $ref: 'ProcessedString' },
     fieldDate: {
       type: 'object',
       properties: {
