@@ -26,7 +26,10 @@ import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
-import {areGeocodeEqual, setFocus /* areBoundsEqual */} from '../utils/helpers';
+import {
+  areGeocodeEqual,
+  setFocus /* areBoundsEqual */,
+} from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
