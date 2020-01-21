@@ -85,6 +85,11 @@ module.exports = {
    * @return {Object} - The contents of the file.
    */
   readEntity(dir, baseType, uuid) {
+    if (process.env.LOG_USED_ENTITIES) {
+      // eslint-disable-next-line no-console
+      console.log(`${baseType}.${uuid}.json`);
+    }
+
     const entity = JSON.parse(
       fs
         .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))
