@@ -58,8 +58,6 @@ const {
   currentMarriage,
   dependents,
   maritalStatus,
-  marriages,
-  spouseMarriages,
   veteranFullName,
   veteranSocialSecurityNumber,
 } = fullSchema686.properties;
@@ -69,7 +67,6 @@ const {
   domesticAddress,
   fullName,
   internationalAddressText,
-  genericLocation,
   location,
   militaryAddress,
   postalCode,
@@ -119,7 +116,7 @@ const addressSchema = {
     state: domesticAddress.properties.state,
     postOffice: militaryAddress.properties.postOffice,
     postalType: militaryAddress.properties.postalType,
-    postalCode,
+    postalCode : militaryAddress.properties.postalCode,
   },
 };
 
@@ -130,16 +127,8 @@ const locationSchema = {
   type: 'object',
   required: ['city', 'state'],
   properties: {
-    state: {
-      "type": "string",
-      "maxLength": 30,
-      "pattern": "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
-    },
-    city: {
-      "type": "string",
-      "maxLength": 30,
-      "pattern": "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
-    },
+    state: location.oneOf[0].properties.state,
+    city: location.oneOf[0].properties.city,
   },
 };
 
@@ -279,8 +268,7 @@ function createLocationUISchemaForKey(
     'ui:title': title,
     state: {
       'ui:title': 'State (or country if outside the USA',
-      'ui:required': isRequiredCallback,
-      
+      'ui:required': isRequiredCallback, 
     },
     city: {
       'ui:title': 'City or county', 
@@ -429,7 +417,13 @@ const formConfig = {
             required: ['maritalStatus'],
             properties: {
               maritalStatus,
-              marriages,
+              marriages : {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
+                }
+              },
             },
           },
         },
@@ -669,7 +663,13 @@ const formConfig = {
                   spouseAddress: addressSchema,
                 },
               },
-              spouseMarriages,
+              spouseMarriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
+                }
+              },
             },
           },
         },
@@ -884,8 +884,13 @@ const formConfig = {
                     childSocialSecurityNumber:
                       dependents.items.properties.childSocialSecurityNumber,
                     'view:noSSN': { type: 'boolean' },
-                    childRelationship:
-                      dependents.items.properties.childRelationship,
+                    childRelationship: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {},
+                        },
+                      },
                     inSchool: dependents.items.properties.attendingCollege,
                     'view:schoolWarning': {
                       type: 'object',
