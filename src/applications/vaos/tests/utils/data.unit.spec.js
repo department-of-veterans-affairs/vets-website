@@ -306,35 +306,12 @@ describe('VAOS data transformation', () => {
         institutionName: 'CHYSHR-Cheyenne VA Medical Center',
         institutionCode: '983',
       },
-      direct: {
-        purpose: 'Follow-up/Routine: asdfasdf',
-        desiredDate: '11/22/2019 00:00:00',
-        dateTime: '11/22/2019 09:30:00',
-        apptLength: 30,
-      },
       desiredDate: '2019-11-22T00:00:00+00:00',
       dateTime: '2019-11-22T09:30:00+00:00',
       duration: 30,
       bookingNotes: 'Follow-up/Routine: asdfasdf',
-      patients: {
-        patient: [
-          {
-            contactInformation: {
-              preferredEmail: 'test@va.gov',
-              timeZone: 'America/Denver',
-            },
-            location: {
-              type: 'VA',
-              facility: {
-                name: 'CHYSHR-Cheyenne VA Medical Center',
-                siteCode: '983',
-                timeZone: 'America/Denver',
-              },
-              clinic: { ien: '308', name: 'CHY PC KILPATRICK' },
-            },
-          },
-        ],
-      },
+      preferredEmail: 'test@va.gov',
+      timeZone: 'America/Denver',
       apptType: 'P',
       purpose: '9',
       lvl: '1',
@@ -345,7 +322,6 @@ describe('VAOS data transformation', () => {
       type: 'REGULAR',
       appointmentKind: 'TRADITIONAL',
       schedulingMethod: 'direct',
-      providers: { provider: [{ location: { type: 'VA' } }] },
     });
   });
 });

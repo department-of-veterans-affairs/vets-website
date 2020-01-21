@@ -29,6 +29,8 @@ export default class CalendarWidget extends Component {
     monthsToShowAtOnce: PropTypes.number,
     startMonth: PropTypes.string, // YYYY-MM
     onChange: PropTypes.func,
+    onClickNext: PropTypes.func,
+    onClickPrev: PropTypes.func,
   };
 
   static defaultProps = {
@@ -76,7 +78,12 @@ export default class CalendarWidget extends Component {
     );
 
     if (onClickPrev) {
-      onClickPrev(updatedMonths);
+      onClickPrev(
+        updatedMonths[0].format('YYYY-MM-DD'),
+        updatedMonths[updatedMonths.length - 1]
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+      );
     }
     this.setState({ months: updatedMonths });
   };
@@ -88,7 +95,12 @@ export default class CalendarWidget extends Component {
     );
 
     if (onClickNext) {
-      onClickNext(updatedMonths);
+      onClickNext(
+        updatedMonths[0].format('YYYY-MM-DD'),
+        updatedMonths[updatedMonths.length - 1]
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+      );
     }
     this.setState({ months: updatedMonths });
   };

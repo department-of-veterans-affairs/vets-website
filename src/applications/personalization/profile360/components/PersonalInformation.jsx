@@ -76,11 +76,11 @@ class PersonalInformationContent extends React.Component {
               If you receive VA benefits, but aren't enrolled in VA health care
             </strong>
             <br />
-            Please contact your nearest VA regional benefit office to update
-            your personal information.
+            Please contact your nearest VA regional office to update your
+            personal information.
             <br />
             <a href={`${facilityLocator.rootUrl}/?facilityType=benefits`}>
-              Find your nearest VA regional benefit office
+              Find your nearest VA regional office
             </a>
           </p>
         </AdditionalInfo>

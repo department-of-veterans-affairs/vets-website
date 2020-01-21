@@ -2,15 +2,32 @@ import { expect } from 'chai';
 
 import {
   getAppointmentTitle,
-  filterFutureRequests,
+  filterRequests,
   filterFutureConfirmedAppointments,
   sentenceCase,
   sortFutureRequests,
   sortFutureConfirmedAppointments,
+  getAppointmentDuration,
+  getAppointmentAddress,
+  generateICS,
 } from '../../utils/appointment';
 import moment from 'moment';
 
 describe('VAOS appointment helpers', () => {
+  // const communityCareAppointmentRequest = {
+  //   typeOfCareId: 'CC',
+  // };
+  const vaAppointmentRequest = {
+    optionDate1: ' ',
+  };
+  const vaAppointment = {
+    clinicId: ' ',
+    vvsAppointments: ' ',
+  };
+  const communityCareAppointment = {
+    appointmentTime: ' ',
+  };
+
   describe('sentenceCase', () => {
     it('should return a string in sentence case', () => {
       expect(sentenceCase('Apples and Oranges')).to.equal('Apples and oranges');
@@ -130,10 +147,10 @@ describe('VAOS appointment helpers', () => {
     expect(sorted[0].startDate).to.equal('2099-04-27T05:35:00');
   });
 
-  it('should filter future requests', () => {
+  it('should filter requests', () => {
     const requests = [
       {
-        status: 'Booked',
+        status: 'Booked', // booked - should not show
         appointmentType: 'Primary Care',
         optionDate1: now
           .clone()
@@ -141,17 +158,15 @@ describe('VAOS appointment helpers', () => {
           .format('MM/DD/YYYY'),
       },
       {
-        attributes: {
-          status: 'Submitted',
-          appointmentType: 'Primary Care',
-          optionDate1: now
-            .clone()
-            .add(-2, 'days')
-            .format('MM/DD/YYYY'),
-        },
+        status: 'Submitted', // open past date - should show
+        appointmentType: 'Primary Care',
+        optionDate1: now
+          .clone()
+          .subtract(2, 'days')
+          .format('MM/DD/YYYY'),
       },
       {
-        status: 'Submitted',
+        status: 'Submitted', // future date - should show
         appointmentType: 'Primary Care',
         optionDate1: now
           .clone()
@@ -159,17 +174,25 @@ describe('VAOS appointment helpers', () => {
           .format('MM/DD/YYYY'),
       },
       {
-        status: 'Cancelled',
+        status: 'Cancelled', // cancelled future date - should show
         appointmentType: 'Primary Care',
         optionDate1: now
           .clone()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
       },
+      {
+        status: 'Cancelled', // cancelled past date - should not show
+        appointmentType: 'Primary Care',
+        optionDate1: now
+          .clone()
+          .add(-3, 'days')
+          .format('MM/DD/YYYY'),
+      },
     ];
 
-    const filteredRequests = requests.filter(r => filterFutureRequests(r, now));
-    expect(filteredRequests.length).to.equal(2);
+    const filteredRequests = requests.filter(r => filterRequests(r, now));
+    expect(filteredRequests.length).to.equal(3);
   });
 
   it('should sort future requests', () => {
@@ -196,5 +219,110 @@ describe('VAOS appointment helpers', () => {
     expect(sortedRequests[1].optionDate1).to.equal('12/12/2019');
     expect(sortedRequests[2].appointmentType).to.equal('Primary Care');
     expect(sortedRequests[2].optionDate1).to.equal('12/13/2019');
+  });
+
+  describe('getAppointmentDuration', () => {
+    it('should return the default appointment duration', () => {
+      expect(getAppointmentDuration({})).to.equal(60);
+    });
+    it('should return the appointment duration for VA appointment', () => {
+      expect(
+        getAppointmentDuration({
+          ...vaAppointment,
+          vdsAppointments: [{ appointmentLength: 30 }],
+        }),
+      ).to.equal(30);
+    });
+  });
+
+  describe('getAppointmentAddress', () => {
+    it('should return address for video appointment', () => {
+      const appt = {
+        vvsAppointments: [
+          {
+            dateTime: now,
+            appointmentKind: 'MOBILE_GFE',
+          },
+        ],
+      };
+      expect(getAppointmentAddress(appt)).to.equal('Video conference');
+    });
+
+    it('should return address for community care appointment', () => {
+      const appt = {
+        ...communityCareAppointment,
+        address: {
+          street: 'Street',
+          city: 'City',
+          state: 'State',
+          zipCode: 'Zipcode',
+        },
+      };
+      expect(getAppointmentAddress(appt)).to.equal(
+        'Street City, State Zipcode',
+      );
+    });
+
+    it('should return address for facility if defined', () => {
+      const facility = {
+        address: {
+          physical: {
+            address1: 'Address 1',
+            city: 'City',
+            state: 'State',
+            zip: 'Zip',
+          },
+        },
+      };
+      expect(getAppointmentAddress(vaAppointmentRequest, facility)).to.equal(
+        'Address 1 City, State Zip',
+      );
+    });
+
+    it('should return undefined for everything else', () => {
+      expect(getAppointmentAddress(vaAppointmentRequest, null)).to.be.undefined;
+    });
+  });
+
+  describe('generateICS', () => {
+    it('should generate valid ICS calendar commands', () => {
+      const appt = {
+        typeOfCareId: 'CC',
+        appointmentTime: now,
+      };
+
+      const facility = {
+        address: {
+          physical: {
+            address1: 'Address 1',
+            city: 'City',
+            state: 'State',
+            zip: 'Zip',
+          },
+        },
+      };
+
+      const momentDate = moment(now);
+      const dtStamp = momentDate.format('YYYYMMDDTHHmmss');
+      const dtStart = momentDate.format('YYYYMMDDTHHmmss');
+      const dtEnd = momentDate
+        .clone()
+        .add(60, 'minutes')
+        .format('YYYYMMDDTHHmmss');
+      const ics = generateICS(appt, facility);
+      expect(ics).to.contain('BEGIN:VCALENDAR');
+      expect(ics).to.contain('VERSION:2.0');
+      expect(ics).to.contain('PRODID:VA');
+      expect(ics).to.contain('BEGIN:VEVENT');
+      expect(ics).to.contain('UID:');
+      expect(ics).to.contain('SUMMARY:Community Care');
+      expect(ics).to.contain('DESCRIPTION:. ');
+      expect(ics).to.contain('LOCATION:Address 1 City, State Zip');
+      expect(ics).to.contain(`DTSTAMP:${dtStamp}`);
+      expect(ics).to.contain(`DTSTART:${dtStart}`);
+      expect(ics).to.contain(`DTEND:${dtEnd}`);
+      expect(ics).to.contain('END:VEVENT');
+      expect(ics).to.contain('END:VCALENDAR');
+    });
   });
 });

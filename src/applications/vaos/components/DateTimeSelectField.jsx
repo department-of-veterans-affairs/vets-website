@@ -47,6 +47,8 @@ class DateTimeSelectField extends Component {
           getOptionsByDate: this.getOptionsByDate,
         }}
         onChange={this.props.onChange}
+        onClickNext={formContext?.getAppointmentSlots}
+        onClickPrev={formContext?.getAppointmentSlots}
         minDate={moment()
           .add(1, 'days')
           .format('YYYY-MM-DD')}

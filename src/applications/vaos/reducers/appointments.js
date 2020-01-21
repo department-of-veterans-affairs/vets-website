@@ -17,7 +17,7 @@ import { FORM_CLOSED_CONFIRMATION_PAGE } from '../actions/newAppointment';
 
 import {
   filterFutureConfirmedAppointments,
-  filterFutureRequests,
+  filterRequests,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   sortMessages,
@@ -51,7 +51,7 @@ export default function appointmentsReducer(state = initialState, action) {
         .sort(sortFutureConfirmedAppointments);
 
       const requestsFilteredAndSorted = [
-        ...requests.filter(req => filterFutureRequests(req, action.today)),
+        ...requests.filter(req => filterRequests(req, action.today)),
       ].sort(sortFutureRequests);
 
       return {
