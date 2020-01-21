@@ -27,3 +27,14 @@ buildtype
 onclick
 nonced
 Camelcase
+uris
+attrs
+unicode
+urls
+url
+uri
+uris
+srcset
+stdout
+metalsmith
+const
