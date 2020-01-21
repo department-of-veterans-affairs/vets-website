@@ -22,12 +22,6 @@
 
   $single-column-width: 641px;
 
-  @media only screen and (max-width: 767px) {
-    .vettec-logo-desktop {
-      display: none;
-    }
-  }
-
   @media (min-width: $single-column-width) {
     .single-column-display-block {
       display: block !important;
