@@ -19,3 +19,11 @@ npm
 sourcemaps
 css
 github
+js
+eslint
+dev
+webpack
+buildtype
+onclick
+nonced
+Camelcase
