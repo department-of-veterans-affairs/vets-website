@@ -58,28 +58,39 @@ export class SearchForm extends Component {
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
-        <label htmlFor="va-form-query" className="vads-u-margin--0">
-          Keyword, form name, or number
+        {/* Query Field */}
+        <label htmlFor="yr-search-query" className="vads-u-margin--0">
+          Enter a school name, city, or state (required)
         </label>
-        <div className="vads-l-row">
-          <div className="vads-u-margin-right--2 vads-u-flex--1">
-            <input
-              className="usa-input vads-u-max-width--100 vads-u-width--full"
-              name="va-form-query"
-              onChange={onQueryChange}
-              type="text"
-              value={query}
-            />
-          </div>
-          <div>
-            <button
-              className="usa-button vads-u-margin--0 vads-u-margin-y--1"
-              type="submit"
-            >
-              Search
-            </button>
-          </div>
+        <div className="vads-u-margin-right--2 vads-u-flex--1">
+          <input
+            className="usa-input vads-u-max-width--100 vads-u-width--full"
+            name="yr-search-query"
+            onChange={onQueryChange}
+            type="text"
+            value={query}
+          />
         </div>
+
+        {/* Query Field */}
+        <label htmlFor="yr-search-degree" className="vads-u-margin--0">
+          Select a degree level (required)
+        </label>
+        <div className="vads-u-margin-right--2 vads-u-flex--1">
+          <input
+            className="usa-input vads-u-max-width--100 vads-u-width--full"
+            name="yr-search-degree"
+            type="text"
+          />
+        </div>
+
+        {/* Submit Button */}
+        <button
+          className="usa-button vads-u-margin--0 vads-u-margin-y--1"
+          type="submit"
+        >
+          Search
+        </button>
       </form>
     );
   }
