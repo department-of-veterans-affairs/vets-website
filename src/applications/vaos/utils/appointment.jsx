@@ -158,11 +158,15 @@ export function getAppointmentLocation(appt, facility) {
 
   if (facility) {
     return (
-      <FacilityAddress
-        name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-        facility={facility}
-        showDirectionsLink
-      />
+      <>
+        {type !== APPOINTMENT_TYPES.request && (
+          <>
+            {facility.name}
+            <br />
+          </>
+        )}
+        <FacilityAddress facility={facility} showDirectionsLink />
+      </>
     );
   }
 
