@@ -166,6 +166,7 @@ export class VAFacilityPage extends React.Component {
           <div className="vads-u-margin-top--2">
             <FormButtons
               onBack={this.goBack}
+              onSubmit={this.goForward}
               pageChangeInProgress={pageChangeInProgress}
             />
           </div>

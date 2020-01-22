@@ -12,10 +12,7 @@ module.exports = {
           type: 'array',
           items: { $ref: 'Paragraph' },
         },
-        fieldWysiwyg: {
-          type: 'object',
-          properties: { processed: { type: 'string' } },
-        },
+        fieldWysiwyg: { $ref: 'ProcessedString' },
       },
       required: ['fieldTitle', 'fieldVaParagraphs', 'fieldWysiwyg'],
     },

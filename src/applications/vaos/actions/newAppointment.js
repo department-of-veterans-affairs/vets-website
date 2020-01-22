@@ -213,17 +213,27 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
+/*
+ * The facility page can be opened with data in a variety of states and conditions.
+ * We always need the list of systems (VAMCs) they can access. After that:
+ *
+ * 1. A user has multiple systems to choose from, so we just need to display them
+ * 2. A user has only one system, so we also need to fetch facilities
+ * 3. A user might only have one system and facility available, so we need to also
+ *    do eligibility checks
+ * 4. A user might already have been on this page, in which case we may have some 
+ *    of the above data already and don't want to make another api call
+*/
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     let systems = newAppointment.systems;
-    let facilities =
-      newAppointment.facilities[
-        `${typeOfCareId}_${newAppointment.data.vaSystem}`
-      ] || null;
+    let facilities = null;
     let eligibilityData = null;
+    let systemId = newAppointment.data.vaSystem;
+    let facilityId = newAppointment.data.vaFacility;
 
     try {
       // If we have the VA systems in our state, we don't need to
@@ -232,26 +242,33 @@ export function openFacilityPage(page, uiSchema, schema) {
         const userSystemIds = await getSystemIdentifiers();
         systems = await getSystemDetails(userSystemIds);
       }
-      const canShowFacilities =
-        newAppointment.data.vaSystem || systems?.length === 1;
+
+      const canShowFacilities = !!systemId || systems?.length === 1;
+
+      if (canShowFacilities && !systemId) {
+        systemId = systems[0].institutionCode;
+      }
+
+      facilities =
+        newAppointment.facilities[`${typeOfCareId}_${systemId}`] || null;
 
       if (canShowFacilities && !facilities) {
-        const systemId =
-          newAppointment.data.vaSystem || systems[0].institutionCode;
         facilities = await getFacilitiesBySystemAndTypeOfCare(
           systemId,
           typeOfCareId,
         );
       }
 
-      const facilityId =
-        newAppointment.data.vaFacility || facilities?.[0]?.facilityId;
-      if (
-        facilityId &&
-        !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
-      ) {
-        const systemId =
-          newAppointment.data.vaSystem || systems[0].institutionCode;
+      const eligibilityDataNeeded = !!facilityId || facilities?.length === 1;
+
+      if (eligibilityDataNeeded && !facilityId) {
+        facilityId = facilities[0].institutionCode;
+      }
+
+      const eligibilityChecks =
+        newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+
+      if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
           facilities.find(facility => facility.institutionCode === facilityId),
           typeOfCareId,

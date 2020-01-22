@@ -6,14 +6,7 @@ module.exports = {
     entityBundle: { enum: ['health_care_region_detail_page'] },
     title: { type: 'string' },
     changed: { type: 'number' },
-    entityUrl: {
-      type: 'object',
-      // TODO: Add breadcrumb here
-      properties: {
-        path: { type: 'string' },
-      },
-      required: ['path'],
-    },
+    entityUrl: { $ref: 'EntityUrl' },
     fieldAlert: { type: ['string', 'null'] },
     fieldContentBlock: {
       type: 'array',
