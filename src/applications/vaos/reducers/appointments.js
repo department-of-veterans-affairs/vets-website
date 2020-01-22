@@ -76,15 +76,16 @@ export default function appointmentsReducer(state = initialState, action) {
         }),
         {},
       );
-      const systemClinicToFacilityMap = action.clinicInstitutionList.reduce(
-        (acc, clinic) => ({
-          ...acc,
-          [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
-            getRealFacilityId(clinic.institutionCode)
-          ],
-        }),
-        {},
-      );
+      const systemClinicToFacilityMap =
+        action.clinicInstitutionList?.reduce(
+          (acc, clinic) => ({
+            ...acc,
+            [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
+              getRealFacilityId(clinic.institutionCode)
+            ],
+          }),
+          {},
+        ) || state.systemClinicToFacilityMap;
       return {
         ...state,
         facilityData,

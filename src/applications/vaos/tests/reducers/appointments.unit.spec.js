@@ -128,6 +128,7 @@ describe('VAOS reducer: appointments', () => {
           uniqueId: '442',
         },
       ],
+      clinicInstitutionList: null,
     };
 
     const newState = appointmentsReducer(initialState, action);
