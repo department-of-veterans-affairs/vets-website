@@ -4,7 +4,7 @@ import React from 'react';
 // import ReactDOMServer from 'react-dom/server';
 import {
   filterFutureConfirmedAppointments,
-  filterFutureRequests,
+  filterRequests,
   generateICS,
   getAppointmentAddress,
   getAppointmentDate,
@@ -637,7 +637,7 @@ describe('VAOS appointment helpers', () => {
     });
   });
 
-  describe('filterFutureRequests', () => {
+  describe('filterRequests', () => {
     it('should filter future requests', () => {
       const requests = [
         {
@@ -676,9 +676,7 @@ describe('VAOS appointment helpers', () => {
         },
       ];
 
-      const filteredRequests = requests.filter(r =>
-        filterFutureRequests(r, now),
-      );
+      const filteredRequests = requests.filter(r => filterRequests(r, now));
       expect(filteredRequests.length).to.equal(2);
     });
   });
