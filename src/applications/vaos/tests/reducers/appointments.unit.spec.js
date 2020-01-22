@@ -135,6 +135,29 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.facilityData['442']).to.equal(action.facilityData[0]);
   });
 
+  it('should set clinic mapping data when fetch succeeds', () => {
+    const action = {
+      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+      facilityData: [
+        {
+          uniqueId: '442GA',
+        },
+      ],
+      clinicInstitutionList: [
+        {
+          locationIen: '455',
+          institutionCode: '442GA',
+          systemId: '442',
+        },
+      ],
+    };
+
+    const newState = appointmentsReducer(initialState, action);
+    expect(newState.systemClinicToFacilityMap['442_455']).to.equal(
+      action.facilityData[0],
+    );
+  });
+
   describe('cancel appointment', () => {
     it('should display modal', () => {
       const action = {
