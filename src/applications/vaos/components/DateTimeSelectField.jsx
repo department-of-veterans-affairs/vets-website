@@ -16,7 +16,6 @@ class DateTimeSelectField extends Component {
       if (slot.date === selectedDate) {
         acc.push({
           value: slot.datetime,
-          label: moment(slot.datetime).format('h:mm A'),
         });
       }
       return acc;

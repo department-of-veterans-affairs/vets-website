@@ -91,7 +91,6 @@ export default function CalendarOptions({
                       value={o.value}
                       checked={checked}
                       onChange={() => handleSelectOption(dateObj)}
-                      label={o.label}
                     />
                   )}
                 </div>
