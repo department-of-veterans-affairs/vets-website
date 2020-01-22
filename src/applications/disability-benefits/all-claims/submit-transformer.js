@@ -232,7 +232,7 @@ export function transform(formConfig, form) {
         getClaimedConditionNames(formData),
       ).map(name => name.toLowerCase());
       clonedData.newDisabilities = clonedData.newDisabilities.map(d => {
-        if (powDisabilities.includes(d.condition.toLowerCase())) {
+        if (powDisabilities.includes(d.condition?.toLowerCase())) {
           const newSpecialIssues = (d.specialIssues || []).slice();
           newSpecialIssues.push(specialIssueTypes.POW);
           return _.set('specialIssues', newSpecialIssues, d);
@@ -251,7 +251,7 @@ export function transform(formConfig, form) {
           'newDisabilities',
           formData.newDisabilities.map(
             disability =>
-              disability.condition.toLowerCase().includes('ptsd')
+              disability.condition?.toLowerCase().includes('ptsd')
                 ? _.set('cause', causeTypes.NEW, disability)
                 : disability,
           ),
@@ -269,7 +269,7 @@ export function transform(formConfig, form) {
 
     const flippedDisabilityLabels = {};
     Object.entries(disabilityLabels).forEach(([code, description]) => {
-      flippedDisabilityLabels[description.toLowerCase()] = code;
+      flippedDisabilityLabels[description?.toLowerCase()] = code;
     });
 
     const newDisabilitiesWithClassificationCodes = newDisabilities.map(
@@ -278,7 +278,7 @@ export function transform(formConfig, form) {
         if (!condition) {
           return disability;
         }
-        const loweredDisabilityName = condition.toLowerCase();
+        const loweredDisabilityName = condition?.toLowerCase();
         return flippedDisabilityLabels[loweredDisabilityName]
           ? _.set(
               'classificationCode',
