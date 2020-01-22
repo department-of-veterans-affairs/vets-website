@@ -101,7 +101,7 @@ async function getClinicDataBySystem(facilityClinicListMap) {
 
 /*
  * The facility data we get back from the various endpoints for
- * requests and appointments does have basics like address or phone.
+ * requests and appointments does not have basics like address or phone.
  * Additionally, for VA appointments, the facilityId returned is not
  * the real facility id, it's the system id.
  *
