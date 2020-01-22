@@ -2,20 +2,58 @@ module.exports = {
   type: 'object',
   properties: {
     contentModelType: { enum: ['node-event_listing'] },
-    entity: {
+    entityBundle: { enum: ['event_listing'] },
+    entityType: { enum: ['node'] },
+    entityUrl: {
+      // Probably should pull this out into a common schema
       type: 'object',
       properties: {
-        entityType: { enum: ['node'] },
-        entityBundle: { enum: ['event_listing'] },
-        title: { type: 'string' },
-        changed: { type: 'string' },
-        metatag: { type: 'string' },
+        breadcrumb: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              url: {
+                type: 'object',
+                properties: {
+                  path: { type: 'string' },
+                  routed: { type: 'boolean' },
+                },
+                required: ['path', 'routed'],
+              },
+              text: { type: 'string' },
+            },
+            required: ['url', 'text'],
+          },
+        },
         path: { type: 'string' },
-        fieldIntroText: { type: 'string' },
-        fieldOffice: { type: 'string' },
       },
-      required: ['title', 'changed', 'metatag', 'path', 'fieldIntroText', 'fieldOffice'],
+      required: ['breadcrumb', 'path'],
+    },
+    title: { type: 'string' },
+    changed: { type: 'number' },
+    entityMetatags: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          __typename: { type: 'string' },
+          key: { type: 'string' },
+          value: { type: 'string' },
+        },
+      },
+    },
+    fieldIntroText: { type: 'string' },
+    fieldOffice: {
+      $ref: 'transformed/node-office',
     },
   },
-  required: ['entity'],
+  required: [
+    'title',
+    'changed',
+    'entityMetatags',
+    'entityUrl',
+    'fieldIntroText',
+    'fieldOffice',
+  ],
 };

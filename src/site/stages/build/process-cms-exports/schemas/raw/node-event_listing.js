@@ -49,7 +49,14 @@ module.exports = {
       maxItems: 1,
     },
     field_intro_text: { $ref: 'GenericNestedString' },
-    field_office: { $ref: 'GenericNestedString' },
+    field_office: { $ref: 'EntityReferenceArray' },
   },
-  required: ['title', 'changed', 'metatag', 'path', 'field_intro_text', 'field_office'],
+  required: [
+    'title',
+    'changed',
+    'metatag',
+    'path',
+    'field_intro_text',
+    'field_office',
+  ],
 };
