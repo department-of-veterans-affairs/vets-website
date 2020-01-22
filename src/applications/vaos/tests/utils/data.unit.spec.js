@@ -321,6 +321,7 @@ describe('VAOS data transformation', () => {
       schedulingRequestType: 'NEXT_AVAILABLE_APPT',
       type: 'REGULAR',
       appointmentKind: 'TRADITIONAL',
+      appointmentType: 'Primary care',
       schedulingMethod: 'direct',
     });
   });
