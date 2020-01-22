@@ -37,7 +37,7 @@ describe('686 spouse marriage history', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(6);
     expect(form.find('#root_dateOfMarriage-label').text()).to.contain(
       'Jane Doe',
@@ -58,7 +58,7 @@ describe('686 spouse marriage history', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(7);
+    expect(form.find('.usa-input-error').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

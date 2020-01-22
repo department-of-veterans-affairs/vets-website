@@ -30,7 +30,7 @@ describe('686 marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(14);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
   });
 
   describe('hideIf current marriage', () => {
@@ -100,7 +100,7 @@ describe('686 marriage history', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
   });
 
