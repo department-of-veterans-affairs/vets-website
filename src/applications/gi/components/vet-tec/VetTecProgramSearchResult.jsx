@@ -45,7 +45,16 @@ class VetTecProgramSearchResult extends React.Component {
             <div className="row vads-u-padding-top--1p5">
               <div className="small-12 medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{description}</Link>
+                  <a
+                    href={linkTo}
+                    aria-label={`${description} ${locationInfo(
+                      city,
+                      state,
+                      country,
+                    )}`}
+                  >
+                    {description}
+                  </a>{' '}
                 </h2>
               </div>
               <div className="small-12 medium-3 columns">

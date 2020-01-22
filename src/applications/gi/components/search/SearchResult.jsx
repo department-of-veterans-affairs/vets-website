@@ -111,7 +111,16 @@ export class SearchResult extends React.Component {
               <div className="row">
                 <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                   <h2>
-                    <Link to={linkTo}>{name}</Link>
+                    <a
+                      href={linkTo.pathname}
+                      aria-label={`${name} ${locationInfo(
+                        city,
+                        state,
+                        country,
+                      )}`}
+                    >
+                      {name}
+                    </a>
                   </h2>
                 </div>
               </div>
@@ -126,7 +135,7 @@ export class SearchResult extends React.Component {
               <div className="row">
                 <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                   <div style={{ position: 'relative', bottom: 0 }}>
-                    <p className="locality">
+                    <p className="locality" id={`location-${facilityCode}`}>
                       {locationInfo(city, state, country)}
                     </p>
                     <p className="count">
