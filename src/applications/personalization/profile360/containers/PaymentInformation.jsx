@@ -256,7 +256,7 @@ class PaymentInformation extends React.Component {
 
     return (
       <>
-        <h2 className="va-profile-heading">
+        <h2 className="va-profile-heading" tabIndex="-1">
           Direct deposit information for disability compensation and pension
           benefits
         </h2>
