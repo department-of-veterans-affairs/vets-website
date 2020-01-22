@@ -1,6 +1,11 @@
 const moment = require('moment-timezone');
 const { flatten, isEmpty } = require('lodash');
-const { getDrupalValue, createMetaTagArray } = require('./helpers');
+
+const {
+  getDrupalValue,
+  utcToEpochTime,
+  createMetaTagArray,
+} = require('./helpers');
 
 function pageTransform(entity) {
   const {
@@ -18,13 +23,13 @@ function pageTransform(entity) {
     title: getDrupalValue(title),
     entityBundle: 'page',
     entityUrl: {
-      path: entity.path[0].alias.replace(/\\/g, ''),
+      path: entity.path[0].alias,
     },
     fieldAdministration: entity.fieldAdministration[0],
 
     fieldIntroText: getDrupalValue(fieldIntroText),
     fieldDescription: getDrupalValue(fieldDescription),
-    changed: new Date(getDrupalValue(changed)).getTime() / 1000,
+    changed: utcToEpochTime(getDrupalValue(changed)),
     fieldPageLastBuilt: {
       // Assume the raw data is in UTC
       date: moment

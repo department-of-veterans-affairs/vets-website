@@ -7,14 +7,7 @@ module.exports = {
       properties: {
         fieldSteps: {
           type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              processed: {
-                type: 'string',
-              },
-            },
-          },
+          items: { $ref: 'ProcessedString' },
         },
       },
     },

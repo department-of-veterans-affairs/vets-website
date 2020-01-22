@@ -47,7 +47,7 @@ export function getVideoVisitLink(appt) {
 }
 
 export function getStagingId(facilityId) {
-  if (!environment.isProduction() && facilityId.startsWith('983')) {
+  if (!environment.isProduction() && facilityId?.startsWith('983')) {
     return facilityId.replace('983', '442');
   }
 
@@ -327,18 +327,19 @@ export function sortFutureConfirmedAppointments(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
-export function filterFutureRequests(request, today) {
+export function filterRequests(request, today) {
+  const status = request?.status;
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
   const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
 
-  const VALID_STATUSES = ['Submitted', 'Cancelled'];
+  const hasValidDateAfterToday =
+    (optionDate1.isValid() && optionDate1.isAfter(today)) ||
+    (optionDate2.isValid() && optionDate2.isAfter(today)) ||
+    (optionDate3.isValid() && optionDate3.isAfter(today));
 
   return (
-    VALID_STATUSES.includes(request.status) &&
-    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
-      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-      (optionDate3.isValid() && optionDate3.isAfter(today)))
+    status === 'Submitted' || (status === 'Cancelled' && hasValidDateAfterToday)
   );
 }
 

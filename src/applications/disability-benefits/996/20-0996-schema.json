@@ -445,14 +445,14 @@
           "diagnosticCode": {
             "type": "number"
           },
-          "useSameOffice": {
-            "type": "boolean"
-          },
           "additionalNote": {
             "type": "string"
           }
         }
       }
+    },
+    "sameOffice": {
+      "type": "boolean"
     },
     "informalConferenceChoice": {
       "type": "string",
@@ -880,6 +880,9 @@
     },
     "contestedIssues": {
       "$ref": "#/definitions/contestedIssues"
+    },
+    "sameOffice": {
+      "$ref": "#/definitions/sameOffice"
     },
     "informalConferenceChoice": {
       "$ref": "#/defintions/informalConferenceChoice"
