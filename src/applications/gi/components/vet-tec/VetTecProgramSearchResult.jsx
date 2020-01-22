@@ -46,7 +46,7 @@ class VetTecProgramSearchResult extends React.Component {
               <div className="small-12 medium-7 columns">
                 <h2>
                   <a
-                    href={linkTo}
+                    href={linkTo.pathname}
                     aria-label={`${description} ${locationInfo(
                       city,
                       state,
