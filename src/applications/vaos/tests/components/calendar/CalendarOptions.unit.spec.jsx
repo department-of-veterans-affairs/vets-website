@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import CalendarOptions from '../../../components/calendar/CalendarOptions';
 
@@ -24,7 +24,7 @@ describe('VAOS <CalendarOptions>', () => {
   ];
 
   it('should render radio buttons when maxSelections === 1', () => {
-    const tree = shallow(
+    const tree = mount(
       <CalendarOptions
         currentlySelectedDate="2019-10-21"
         selectedDates={selectedDates}
@@ -38,7 +38,7 @@ describe('VAOS <CalendarOptions>', () => {
   });
 
   it('should render checkboxes when maxSelections > 1', () => {
-    const tree = shallow(
+    const tree = mount(
       <CalendarOptions
         currentlySelectedDate="2019-10-21"
         selectedDates={selectedDates}

@@ -11,6 +11,7 @@ export default function CalendarOptions({
   optionsError,
   selectedDates,
   selectedCellIndex,
+  optionsHeightRef,
 }) {
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
     currentlySelectedDate,
@@ -24,7 +25,7 @@ export default function CalendarOptions({
     const beginningCellIndex = [0, 1];
     const endCellIndexes = [3, 4];
 
-    // If list of items is won't fill row, align items closer to selected cell
+    // If list of items won't fill row, align items closer to selected cell
     const cssClasses = classNames(
       'vaos-calendar__options',
       selectedDateOptions.length < maxCellsPerRow
@@ -43,7 +44,7 @@ export default function CalendarOptions({
     );
 
     return (
-      <div role="cell" className="vads-u-order--last vads-u-width--full">
+      <div className="vaos-calendar__options-container" ref={optionsHeightRef}>
         <fieldset>
           <legend className="vads-u-visibility--screen-reader">
             {additionalOptions.legend ||
@@ -76,7 +77,7 @@ export default function CalendarOptions({
                 >
                   {additionalOptions?.maxSelections > 1 ? (
                     <CalendarCheckboxOption
-                      index={index}
+                      id={`${currentlySelectedDate}_${index}`}
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}
@@ -85,7 +86,7 @@ export default function CalendarOptions({
                     />
                   ) : (
                     <CalendarRadioOption
-                      index={index}
+                      id={`${currentlySelectedDate}_${index}`}
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}

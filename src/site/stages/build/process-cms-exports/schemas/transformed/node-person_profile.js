@@ -4,14 +4,7 @@ module.exports = {
     contentModelType: { enum: ['node-person_profile'] },
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['person_profile'] },
-    entityUrl: {
-      // This one doesn't have a breadcrumb, interestingly enough
-      type: 'object',
-      properties: {
-        path: { type: ['string', 'null'] },
-      },
-      required: ['path'],
-    },
+    entityUrl: { $ref: 'EntityUrl' },
     fieldBody: { type: ['string', 'null'] },
     fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },

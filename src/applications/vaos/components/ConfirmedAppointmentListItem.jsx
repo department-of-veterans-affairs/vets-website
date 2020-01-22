@@ -16,6 +16,7 @@ import {
   APPOINTMENT_TYPES,
 } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
+import AddToCalendar from './AddToCalendar';
 
 export default function ConfirmedAppointmentListItem({
   appointment,
@@ -95,8 +96,16 @@ export default function ConfirmedAppointmentListItem({
         )}
       </div>
 
+      {!allowCancel &&
+        !canceled && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendar appointment={appointment} facility={facility} />
+          </div>
+        )}
+
       {allowCancel && (
         <div className="vads-u-margin-top--2">
+          <AddToCalendar appointment={appointment} facility={facility} />
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"
