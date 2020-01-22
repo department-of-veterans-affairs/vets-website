@@ -23,6 +23,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.isActiveElement('#service-type-dropdown');
 
   // Enter and navigate custom select via keyboard input
+  /*
   client
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .assert.visible('ul[class="dropdown"]');
@@ -61,7 +62,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .useCss()
     .sendKeys('#facility-dropdown-toggle', client.Keys.ENTER)
     .assert.isActiveElement('#facility-dropdown-toggle');
-
+ */
   client.waitForElementNotPresent('ul[class="dropdown"]', Timeouts.normal);
 
   client.end();
