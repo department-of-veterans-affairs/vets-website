@@ -54,7 +54,7 @@ class VetTecProgramSearchResult extends React.Component {
                     )}`}
                   >
                     {description}
-                  </a>{' '}
+                  </a>
                 </h2>
               </div>
               <div className="small-12 medium-3 columns">
