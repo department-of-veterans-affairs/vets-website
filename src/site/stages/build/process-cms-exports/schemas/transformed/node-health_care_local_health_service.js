@@ -7,12 +7,7 @@ module.exports = {
       properties: {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['health_care_local_health_service'] },
-        fieldBody: {
-          type: 'object',
-          properties: {
-            processed: { type: 'string' },
-          },
-        },
+        fieldBody: { $ref: 'ProcessedString' },
         fieldRegionalHealthService: {
           $ref: 'transformed/node-regional_health_care_service_des',
         },
