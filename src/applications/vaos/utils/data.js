@@ -200,7 +200,7 @@ export function transformFormToAppointment(state) {
     clinic,
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
-    desiredDate: `${slot.date}T00:00:00+00:00`,
+    desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
     duration: appointmentLength,
     bookingNotes: purpose,
