@@ -5,7 +5,7 @@ READ_FILES=$(mktemp)
 TEST_ENTITIES_PATH="$(dirname "$0")"/../src/site/stages/build/process-cms-exports/tests/entities
 
 # Build a list of all the files
-ls $TEST_ENTITIES_PATH | sort | uniq > "$ALL_FILES"
+ls $TEST_ENTITIES_PATH | sort > "$ALL_FILES"
 
 # Build a list of all the files that are _read_
 LOG_USED_ENTITIES=true yarn test:unit "$(dirname "$0")"/../src/site/stages/build/process-cms-exports/tests/assemble-entity-tree.unit.spec.js | sed -nE 's/^[․ ]*([a-z_]+\..+\.json)$/\1/p' | sort | uniq > "$READ_FILES"
