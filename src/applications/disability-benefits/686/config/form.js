@@ -127,8 +127,16 @@ const locationSchema = {
   type: 'object',
   required: ['city', 'state'],
   properties: {
-    state: location.oneOf[0].properties.state,
-    city: location.oneOf[0].properties.city,
+    state: {
+      "type": "string",
+      "maxLength": 30,
+      "pattern": "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
+    },
+    city: {
+      "type": "string",
+      "maxLength": 30,
+      "pattern": "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
+    },
   },
 };
 
