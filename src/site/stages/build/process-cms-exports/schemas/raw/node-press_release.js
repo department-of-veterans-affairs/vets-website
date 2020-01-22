@@ -44,7 +44,7 @@ module.exports = {
       maxItems: 1,
       items: { $ref: 'EntityReference' },
     },
-    field_press_release_downloads: { $ref: 'GenericNestedString' },
+    field_press_release_downloads: { $ref: 'EntityReferenceArray' },
     field_press_release_fulltext: { $ref: 'GenericNestedString' },
     field_release_date: { $ref: 'GenericNestedString' },
   },
