@@ -117,42 +117,36 @@ async function getClinicDataBySystem(facilityClinicListMap) {
  * 6. Fetch the full facility data for all the facility ids we've collected
  */
 async function getAdditionalFacilityInfo(dispatch, getState) {
-  try {
-    const appts = getState().appointments.future;
+  const appts = getState().appointments.future;
 
-    // Get facility ids from non-VA appts or requests
-    const requestsOrNonVAFacilityAppointments = appts.filter(
-      appt => !appt.clinicId,
-    );
-    let facilityIds = requestsOrNonVAFacilityAppointments
-      .map(appt => appt.facilityId || appt.facility?.facilityCode)
-      .filter(id => !!id);
+  // Get facility ids from non-VA appts or requests
+  const requestsOrNonVAFacilityAppointments = appts.filter(
+    appt => !appt.clinicId,
+  );
+  let facilityIds = requestsOrNonVAFacilityAppointments
+    .map(appt => appt.facilityId || appt.facility?.facilityCode)
+    .filter(id => !!id);
 
-    // Get facility ids from VA appointments
-    const vaFacilityAppointments = appts.filter(appt => appt.clinicId);
-    let clinicInstitutionList = null;
-    const facilityClinicListMap = aggregateClinicsBySystem(
-      vaFacilityAppointments,
-    );
+  // Get facility ids from VA appointments
+  const vaFacilityAppointments = appts.filter(appt => appt.clinicId);
+  let clinicInstitutionList = null;
+  const facilityClinicListMap = aggregateClinicsBySystem(
+    vaFacilityAppointments,
+  );
 
-    clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
-    facilityIds = facilityIds.concat(
-      clinicInstitutionList.map(clinic => clinic.institutionCode),
-    );
+  clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
+  facilityIds = facilityIds.concat(
+    clinicInstitutionList.map(clinic => clinic.institutionCode),
+  );
 
-    const uniqueFacilityIds = new Set(facilityIds);
-    if (uniqueFacilityIds.size > 0) {
-      const facilityData = await getFacilitiesInfo(
-        Array.from(uniqueFacilityIds),
-      );
-      dispatch({
-        type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-        clinicInstitutionList,
-        facilityData,
-      });
-    }
-  } catch (error) {
-    Sentry.captureException(error);
+  const uniqueFacilityIds = new Set(facilityIds);
+  if (uniqueFacilityIds.size > 0) {
+    const facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
+    dispatch({
+      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+      clinicInstitutionList,
+      facilityData,
+    });
   }
 }
 
@@ -196,7 +190,11 @@ export function fetchFutureAppointments() {
           today: moment(),
         });
 
-        await getAdditionalFacilityInfo(dispatch, getState);
+        try {
+          await getAdditionalFacilityInfo(dispatch, getState);
+        } catch (error) {
+          Sentry.captureException(error);
+        }
       } catch (error) {
         Sentry.captureException(error);
         dispatch({
