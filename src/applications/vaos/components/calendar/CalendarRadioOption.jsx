@@ -3,8 +3,8 @@ import moment from 'moment';
 
 const CalendarRadioOption = ({ id, fieldName, value, checked, onChange }) => {
   const time = moment(value);
-  const meridian = time.format('A');
-  const screenReaderMeridian = meridian.replace(/\./g, '').toUpperCase();
+  const meridiem = time.format('A');
+  const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
 
   return (
     <div className="vaos-calendar__option">
@@ -20,8 +20,8 @@ const CalendarRadioOption = ({ id, fieldName, value, checked, onChange }) => {
         className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary"
         htmlFor={`radio-${id}`}
       >
-        {time.format('h:mm')} <span aria-hidden="true">{meridian}</span>{' '}
-        <span className="sr-only">{screenReaderMeridian}</span>
+        {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
+        <span className="sr-only">{screenReaderMeridiem}</span>
       </label>
     </div>
   );
