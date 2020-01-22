@@ -723,7 +723,7 @@ describe('VAOS newAppointment actions', () => {
     expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
   });
 
-  it('should fetch appointment slots', async () => {
+  it('should fetch appointment slots and not adjust time', async () => {
     mockFetch();
     const tomorrowString = moment()
       .add(1, 'days')
