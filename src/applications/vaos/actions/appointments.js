@@ -117,11 +117,9 @@ async function getClinicDataBySystem(facilityClinicListMap) {
  * 6. De-dupe the facility ids for both non-VA and VA appointments
  * 7. Fetch the full facility data for all the unique facility ids we've collected
  */
-async function getAdditionalFacilityInfo(dispatch, getState) {
-  const appts = getState().appointments.future;
-
+async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
-  const requestsOrNonVAFacilityAppointments = appts.filter(
+  const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
     appt => !appt.clinicId,
   );
   let facilityIds = requestsOrNonVAFacilityAppointments
@@ -129,7 +127,9 @@ async function getAdditionalFacilityInfo(dispatch, getState) {
     .filter(id => !!id);
 
   // Get facility ids from VA appointments
-  const vaFacilityAppointments = appts.filter(appt => appt.clinicId);
+  const vaFacilityAppointments = futureAppointments.filter(
+    appt => appt.clinicId,
+  );
   let clinicInstitutionList = null;
   const facilityClinicListMap = aggregateClinicsBySystem(
     vaFacilityAppointments,
@@ -141,14 +141,15 @@ async function getAdditionalFacilityInfo(dispatch, getState) {
   );
 
   const uniqueFacilityIds = new Set(facilityIds);
+  let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
-    const facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
-    dispatch({
-      type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-      clinicInstitutionList,
-      facilityData,
-    });
+    facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
   }
+
+  return {
+    facilityData,
+    clinicInstitutionList,
+  };
 }
 
 export function fetchFutureAppointments() {
@@ -192,7 +193,18 @@ export function fetchFutureAppointments() {
         });
 
         try {
-          await getAdditionalFacilityInfo(dispatch, getState);
+          const {
+            clinicInstitutionList,
+            facilityData,
+          } = await getAdditionalFacilityInfo(getState().appointments.future);
+
+          if (facilityData) {
+            dispatch({
+              type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+              clinicInstitutionList,
+              facilityData,
+            });
+          }
         } catch (error) {
           Sentry.captureException(error);
         }
