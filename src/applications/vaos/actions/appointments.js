@@ -105,16 +105,17 @@ async function getClinicDataBySystem(facilityClinicListMap) {
  * Additionally, for VA appointments, the facilityId returned is not
  * the real facility id, it's the system id.
  *
- * We want to show those on the list page, so this goes and fetches
+ * We want to show that basic info on the list page, so this goes and fetches
  * it separately, but doesn't block the list page from displaying
  *
  * 1. Break the appt list into VA appts and everything else
- * 2. For everything but VA appts, collect and de-depue the facility ids
+ * 2. For everything but VA appts, collect the facility ids
  * 3. For VA appts, collect the facility (i.e. system) ids and the clinic ids
  *    associated with each appt
  * 4. Fetch the full clinic data for each system and specified clinics
- * 5. Collect and de-depupe the real facility ids from the clinic data
- * 6. Fetch the full facility data for all the facility ids we've collected
+ * 5. Collect the real facility ids from the clinic data
+ * 6. De-dupe the facility ids for both non-VA and VA appointments
+ * 7. Fetch the full facility data for all the unique facility ids we've collected
  */
 async function getAdditionalFacilityInfo(dispatch, getState) {
   const appts = getState().appointments.future;
