@@ -6,10 +6,7 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  selectRadio,
   submitForm,
-  fillData,
-  fillDate,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -134,5 +131,4 @@ describe('686 marriage history', () => {
     ).to.be.true;
     form.unmount();
   });
-
 });

@@ -128,14 +128,14 @@ const locationSchema = {
   required: ['city', 'state'],
   properties: {
     state: {
-      "type": "string",
-      "maxLength": 30,
-      "pattern": "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
     },
     city: {
-      "type": "string",
-      "maxLength": 30,
-      "pattern": "^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$"
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
     },
   },
 };
@@ -891,13 +891,8 @@ const formConfig = {
                     childSocialSecurityNumber:
                       dependents.items.properties.childSocialSecurityNumber,
                     'view:noSSN': { type: 'boolean' },
-                    childRelationship: {
-                        type: 'array',
-                        items: {
-                          type: 'object',
-                          properties: {},
-                        },
-                      },
+                    childRelationship:
+                      dependents.items.properties.childRelationship,
                     inSchool: dependents.items.properties.attendingCollege,
                     'view:schoolWarning': {
                       type: 'object',
