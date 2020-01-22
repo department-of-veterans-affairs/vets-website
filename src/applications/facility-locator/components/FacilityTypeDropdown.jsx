@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-// import { kebabCase } from 'lodash/fp';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
 import { LOCATION_OPTIONS, LocationType } from '../constants';
 
-/*
 const facilityOptionClasses = (item, selected) =>
-  classNames(
-    'dropdown-option',
-    { selected },
-    { 'icon-option': item && item !== 'all' },
-    { [`${kebabCase(item)}-icon`]: item && item !== 'all' },
-  );
-
- */
+  classNames('dropdown-option', { selected });
 
 const itemToString = item => facilityTypes[item] || 'All Facilities';
 
@@ -112,7 +103,11 @@ class FacilityTypeDropdown extends Component {
               key={item}
               {...getItemProps({
                 item,
-                className: 'dropdown-option',
+                className: facilityOptionClasses(
+                  item,
+                  index === highlightedIndex,
+                ),
+                option: itemToString(item),
                 role: 'option',
                 'aria-selected': index === highlightedIndex,
               })}
@@ -137,7 +132,7 @@ class FacilityTypeDropdown extends Component {
                 <button
                   {...getButtonProps({
                     id: 'facility-dropdown-toggle',
-                    className: 'dropdown-option',
+                    className: facilityOptionClasses(selectedItem),
                     onKeyDown: handleKeyDown,
                     tabIndex: 0,
                     type: 'button',
