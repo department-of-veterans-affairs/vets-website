@@ -1,4 +1,5 @@
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export const renderSchoolClosingFlag = result => {
   const { schoolClosing } = result;
@@ -22,6 +23,31 @@ export const renderCautionFlag = result => {
   );
 };
 
+export const renderSchoolClosingAlert = result => {
+  const { schoolClosing } = result;
+  if (!schoolClosing) return null;
+  return (
+    <AlertBox
+      content={<p>Upcoming campus closure</p>}
+      headline="School closure"
+      isVisible={!!schoolClosing}
+      status="warning"
+    />
+  );
+};
+
+export const renderCautionAlert = result => {
+  const { cautionFlag } = result;
+  if (!cautionFlag) return null;
+  return (
+    <AlertBox
+      content={<p>This school has cautionary warnings</p>}
+      headline="Caution"
+      isVisible={!!cautionFlag}
+      status="warning"
+    />
+  );
+};
 export const renderPreferredProviderFlag = result => {
   const { preferredProvider } = result;
   if (!preferredProvider) return <br />;
