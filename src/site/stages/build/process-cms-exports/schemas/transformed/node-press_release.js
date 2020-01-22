@@ -17,13 +17,7 @@ module.exports = {
         required: ['__typename', 'key', 'value'],
       },
     },
-    entityUrl: {
-      type: 'object',
-      properties: {
-        path: { type: 'string' },
-      },
-      required: ['path'],
-    },
+    entityUrl: { $ref: 'EntityUrl' },
     fieldAddress: {
       type: 'object',
       properties: {
@@ -61,15 +55,7 @@ module.exports = {
       },
     },
     fieldPressReleaseDownloads: { type: 'array' },
-    fieldPressReleaseFulltext: {
-      type: 'object',
-      properties: {
-        processed: {
-          type: 'string',
-        },
-      },
-      required: ['processed'],
-    },
+    fieldPressReleaseFulltext: { $ref: 'ProcessedString' },
     fieldReleaseDate: {
       type: 'object',
       // These properties are strings resembling dates
