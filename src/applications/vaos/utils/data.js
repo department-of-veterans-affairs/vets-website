@@ -196,6 +196,7 @@ export function transformFormToAppointment(state) {
   );
 
   return {
+    appointmentType: getTypeOfCare(data).name,
     clinic,
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.

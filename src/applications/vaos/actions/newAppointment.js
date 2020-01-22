@@ -451,7 +451,7 @@ export function getAppointmentSlots(startDate, endDate) {
         const now = moment();
 
         mappedSlots = fetchedSlots.reduce((acc, slot) => {
-          const dateObj = moment(slot.startDateTime);
+          const dateObj = moment(slot.startDateTime.split('+')[0]);
           if (dateObj.isAfter(now)) {
             acc.push({
               date: dateObj.format('YYYY-MM-DD'),
