@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
+import { map } from 'lodash';
 // Relative imports.
+import STATES from '../../constants/STATES.json';
 import { fetchResultsThunk } from '../../actions';
 
 export class SearchForm extends Component {
@@ -94,13 +96,18 @@ export class SearchForm extends Component {
           State
         </label>
         <div className="vads-u-margin-right--2 vads-u-flex--1">
-          <input
-            className="usa-input vads-u-max-width--100 vads-u-width--full"
+          <select
             name="yr-search-name"
             onChange={onStateChange('state')}
-            type="text"
             value={state}
-          />
+          >
+            <option value="" />
+            {map(STATES, provincialState => (
+              <option key={provincialState?.code} value={provincialState?.code}>
+                {provincialState?.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Submit Button */}
