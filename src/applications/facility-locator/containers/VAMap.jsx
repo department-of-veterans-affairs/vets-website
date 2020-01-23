@@ -705,8 +705,10 @@ class VAMap extends Component {
         </div>
 
         <div className="facility-introtext">
-          <p>Find one of VA's more than 2,000 health care, counseling, benefits, and cemeteries facilities, plus VA's nationwide
-            network of community health care providers.
+          <p>
+            Find one of VA's more than 2,000 health care, counseling, benefits,
+            and cemeteries facilities, plus VA's nationwide network of community
+            health care providers.
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}
