@@ -124,11 +124,18 @@ const addressSchema = {
 };
 
 const dependentTypeSchema = {
+  type: 'string',
+  enum: ['Spouse', 'Dependent Parent', 'Child'],
+};
+
+const dependentTypeSchemaUI = {
+  'ui:title': "What was your dependent's status?",
+  'ui:widget': 'radio',
+};
+
+const childStatusSchema = {
   type: 'object',
   properties: {
-    spouse: {
-      type: 'boolean',
-    },
     childUnder18: {
       type: 'boolean',
     },
@@ -144,19 +151,20 @@ const dependentTypeSchema = {
     childOver18InSchool: {
       type: 'boolean',
     },
-    dependentParent: {
-      type: 'boolean',
-    },
   },
 };
 
-const dependentTypeSchemaUI = {
-  'ui:title': "What was your dependent's status? (Check all that apply)",
+const childStatusUiSchema = {
+  'ui:title': "Child's status (Check all that apply)",
+  'ui:required': (formData, index) =>
+    formData.deaths[`${index}`].dependentType === 'Child',
   'ui:options': {
+    expandUnder: 'dependentType',
+    expandUnderCondition: formData => formData && formData === 'Child',
     showFieldLabel: true,
-  },
-  spouse: {
-    'ui:title': 'Spouse',
+    // hideIf: (formData, index) =>
+    //   formData.deaths[`${index}`].dependentType !== 'Child' || !formData.deaths,
+    keepInPageOnReview: true,
   },
   childUnder18: {
     'ui:title': 'Child under 18',
@@ -172,9 +180,6 @@ const dependentTypeSchemaUI = {
   },
   childOver18InSchool: {
     'ui:title': 'Child 18-23 and in school',
-  },
-  dependentParent: {
-    'ui:title': 'Dependent parent',
   },
 };
 
@@ -1176,6 +1181,7 @@ const formConfig = {
                   type: 'object',
                   properties: {
                     dependentType: dependentTypeSchema,
+                    childStatus: childStatusSchema,
                     deceasedFullName: fullName,
                     deceasedDateOfDeath: date,
                     deceasedLocationOfDeath: deathLocationSchema,
@@ -1191,6 +1197,7 @@ const formConfig = {
               },
               items: {
                 dependentType: dependentTypeSchemaUI,
+                childStatus: childStatusUiSchema,
                 deceasedFullName: _.merge(fullNameUI, {
                   first: {
                     'ui:title': 'Dependent’s first name',
