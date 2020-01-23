@@ -473,15 +473,14 @@ export function submitAppointment(appointment) {
         attributes: {},
       },
     });
-  } else {
-    promise = apiRequest('/vaos/appointments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(appointment),
-    });
+    return promise.then(resp => resp.data.attributes);
   }
 
-  return promise.then(resp => resp.data.attributes);
+  return apiRequest('/vaos/appointments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appointment),
+  });
 }
 
 export function sendRequestMessage(id, messageText) {
