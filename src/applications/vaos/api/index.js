@@ -466,14 +466,8 @@ export function submitRequest(type, request) {
 }
 
 export function submitAppointment(appointment) {
-  let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
-      data: {
-        attributes: {},
-      },
-    });
-    return promise.then(resp => resp.data.attributes);
+    return Promise.resolve();
   }
 
   return apiRequest('/vaos/appointments', {
