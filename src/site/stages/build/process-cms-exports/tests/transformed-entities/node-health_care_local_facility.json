@@ -778,6 +778,9 @@
         "path": "/pittsburgh-health-care"
       },
       "fieldNicknameForThisFacility": "VA Pittsburgh",
+      "fieldPressReleaseBlurb": {
+        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
+      },
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",
         "entity": {
