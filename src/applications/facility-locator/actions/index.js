@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import { mapboxClient } from '../components/MapboxClient';
 import { reverseGeocodeBox } from '../utils/mapHelpers';
 import {
