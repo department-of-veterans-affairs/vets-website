@@ -1,25 +1,11 @@
 {
+  "contentModelType": "node-landing_page",
   "entityBundle": "landing_page",
-  "entityId": "71",
+  "entityType": "node",
   "entityPublished": true,
   "title": "VA education and training benefits",
   "entityUrl": {
-    "breadcrumb": [
-      {
-        "url": {
-          "path": "/",
-          "routed": true
-        },
-        "text": "Home"
-      },
-      {
-        "url": {
-          "path": "",
-          "routed": true
-        },
-        "text": "Education and training"
-      }
-    ],
+    "breadcrumb": [],
     "path": "/education"
   },
   "entityMetatags": [
@@ -671,9 +657,9 @@
   ],
   "fieldPlainlanguageDate": null,
   "fieldPageLastBuilt": {
-    "date": "2020-01-09 13:57:02 UTC"
+    "date": "2019-11-12 21:18:56 UTC"
   },
-  "changed": 1574809160,
+  "changed": 1569365961,
   "fieldAdministration": {
     "contentModelType": "taxonomy_term-administration",
     "entity": {

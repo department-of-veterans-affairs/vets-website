@@ -5,8 +5,9 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['landing_page'] },
     entityMetatags: { $ref: 'MetaTags' },
+    entityPublished: { type: 'boolean' },
     title: { type: 'string' },
-    changed: { type: 'string' },
+    changed: { type: 'number' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldAdministration: {
       $ref: 'transformed/taxonomy_term-administration',
@@ -14,7 +15,6 @@ module.exports = {
     fieldAlert: {
       oneOf: [{ $ref: 'transformed/block_content-alert' }, { type: 'null' }],
     },
-    fieldDescription: { type: 'string' },
     fieldIntroText: { type: 'string' },
     fieldLinks: {
       type: 'array',
@@ -33,7 +33,13 @@ module.exports = {
         required: ['title', 'url'],
       },
     },
-    fieldPageLastBuilt: { type: 'string' },
+    fieldPageLastBuilt: {
+      type: 'object',
+      properties: {
+        date: { type: 'string' },
+      },
+      required: ['date'],
+    },
     fieldPlainlanguageDate: { type: ['string', 'null'] },
     fieldPromo: { $ref: 'transformed/block_content-promo' },
     fieldRelatedLinks: {
@@ -61,9 +67,9 @@ module.exports = {
     'entityMetatags',
     'changed',
     'entityUrl',
+    'entityPublished',
     'fieldAdministration',
     'fieldAlert',
-    'fieldDescription',
     'fieldIntroText',
     'fieldLinks',
     'fieldPageLastBuilt',
