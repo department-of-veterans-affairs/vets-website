@@ -466,22 +466,15 @@ export function submitRequest(type, request) {
 }
 
 export function submitAppointment(appointment) {
-  let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
-      data: {
-        attributes: {},
-      },
-    });
-  } else {
-    promise = apiRequest('/vaos/appointments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(appointment),
-    });
+    return Promise.resolve();
   }
 
-  return promise.then(resp => resp.data.attributes);
+  return apiRequest('/vaos/appointments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appointment),
+  });
 }
 
 export function sendRequestMessage(id, messageText) {
