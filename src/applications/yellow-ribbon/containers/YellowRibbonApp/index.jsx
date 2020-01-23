@@ -9,14 +9,10 @@ class YellowRibbonApp extends Component {
     return (
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-top--2p5 vads-u-padding-bottom--2p5">
         <div className="vads-l-col">
-          <h1>Yellow Ribbon School Finder</h1>
+          <h1>Search Yellow Ribbon Schools</h1>
           <p>
-            Yellow Ribbon funding is an additional benefit you can receive if
-            you qualify for the Post-9/11 GI Bill Education funding benefit.
-          </p>
-          <p>
-            Participation varies by school, degree, and the program or division
-            you apply to. Start your search here.
+            The Yellow Ribbon benefit varies by school, the degree you&apos;re
+            working toward, and the program or division you&apos;re studying in.
           </p>
         </div>
 
@@ -33,8 +29,7 @@ class YellowRibbonApp extends Component {
         </div>
 
         <div className="vads-l-col">
-          <h2>Learn More about the YR Program</h2>
-          <p>Links back to YR content page.</p>
+          <a href="">Learn more about the Yellow Ribbon Program.</a>
         </div>
       </div>
     );
