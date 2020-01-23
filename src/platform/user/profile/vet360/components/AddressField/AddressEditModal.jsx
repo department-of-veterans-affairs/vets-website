@@ -7,6 +7,11 @@ import Vet360EditModal from '../base/Vet360EditModal';
 
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
 import AddressForm from './AddressForm';
+import AddressFormV2 from './AddressFormV2';
+
+import environment from 'platform/utilities/environment';
+
+const useNewAddressForm = environment.isLocalhost();
 
 class AddressEditModal extends React.Component {
   onBlur = field => {
@@ -33,7 +38,7 @@ class AddressEditModal extends React.Component {
     this.props.onChange(newAddressValue, null, true);
   };
 
-  renderForm = () => (
+  renderForm = (formButtons, onSubmit) => (
     <div>
       {this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
         <CopyMailingAddress
@@ -41,15 +46,28 @@ class AddressEditModal extends React.Component {
           copyMailingAddress={this.copyMailingAddress}
         />
       )}
-      <AddressForm
-        isMailingAddress={this.getIsMailingAddress()}
-        address={this.props.field.value}
-        onInput={this.onInput}
-        onBlur={this.onBlur}
-        errorMessages={this.props.field.validations}
-        states={ADDRESS_FORM_VALUES.STATES}
-        countries={ADDRESS_FORM_VALUES.COUNTRIES}
-      />
+      {useNewAddressForm && (
+        <AddressFormV2
+          address={this.props.field.value}
+          formSchema={this.props.field.formSchema}
+          uiSchema={this.props.field.uiSchema}
+          onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+          onSubmit={onSubmit}
+        >
+          {formButtons}
+        </AddressFormV2>
+      )}
+      {!useNewAddressForm && (
+        <AddressForm
+          isMailingAddress={this.getIsMailingAddress()}
+          address={this.props.field.value}
+          onInput={this.onInput}
+          onBlur={this.onBlur}
+          errorMessages={this.props.field.validations}
+          states={ADDRESS_FORM_VALUES.STATES}
+          countries={ADDRESS_FORM_VALUES.COUNTRIES}
+        />
+      )}
     </div>
   );
 
@@ -57,9 +75,9 @@ class AddressEditModal extends React.Component {
     return (
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
-        onBlur={this.onBlur}
-        onSubmit={this.onSubmit}
+        onBlur={useNewAddressForm ? null : this.onBlur}
         render={this.renderForm}
+        useNewAddressForm={useNewAddressForm}
         {...this.props}
       />
     );
