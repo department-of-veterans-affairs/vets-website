@@ -125,7 +125,8 @@ const addressSchema = {
 
 const dependentTypeSchema = {
   type: 'string',
-  enum: ['Spouse', 'Dependent Parent', 'Child'],
+  enum: ['SPOUSE', 'DEPENDENT_PARENT', 'CHILD'],
+  enumNames: ['Spouse', 'Dependent Parent', 'Child'],
 };
 
 const dependentTypeSchemaUI = {
@@ -160,7 +161,7 @@ const childStatusUiSchema = {
     formData.deaths[`${index}`].dependentType === 'Child',
   'ui:options': {
     expandUnder: 'dependentType',
-    expandUnderCondition: formData => formData && formData === 'Child',
+    expandUnderCondition: 'CHILD',
     showFieldLabel: true,
     // hideIf: (formData, index) =>
     //   formData.deaths[`${index}`].dependentType !== 'Child' || !formData.deaths,
