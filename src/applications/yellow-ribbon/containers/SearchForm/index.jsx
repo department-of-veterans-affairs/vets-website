@@ -70,7 +70,7 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            className="usa-input vads-u-max-width--100 vads-u-width--full"
+            className="usa-input"
             name="yr-search-name"
             onChange={onStateChange('name')}
             type="text"

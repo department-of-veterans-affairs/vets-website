@@ -2,6 +2,7 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import SearchForm from '../SearchForm';
@@ -41,7 +42,12 @@ const YellowRibbonApp = ({ results }) => (
 
       <div className="vads-l-row">
         {/* Search Form */}
-        <div className="vads-l-col--4">
+        <div
+          className={classnames({
+            'vads-l-col--3': !!results,
+            'vads-l-col--4': !results,
+          })}
+        >
           {!results && (
             <>
               <p>
@@ -64,7 +70,6 @@ const YellowRibbonApp = ({ results }) => (
           <SearchForm />
           {!results && (
             <a
-              className="vads-u-padding-y--3"
               href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
               rel="noopener noreferrer"
             >
@@ -74,7 +79,13 @@ const YellowRibbonApp = ({ results }) => (
         </div>
 
         {/* Search Results */}
-        <div className="vads-l-col--8 vads-u-padding-left--2p5">
+        <div
+          className={classnames({
+            'vads-l-col--9': !!results,
+            'vads-l-col--8': !results,
+            'vads-u-padding-left--4': true,
+          })}
+        >
           <SearchResults />
         </div>
       </div>

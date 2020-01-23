@@ -75,12 +75,12 @@ export class SearchResults extends Component {
     return (
       <>
         <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Displaying {resultsStartNumber} - {resultsEndNumber} out of{' '}
-          {totalResults} results.
+          Displaying {resultsStartNumber}-{resultsEndNumber} out of{' '}
+          {totalResults} results
         </h2>
 
         {/* Table of Results */}
-        <div>
+        <div className="vads-u-margin-top--2">
           {map(results, school => (
             <SearchResult key={school?.id} school={school} />
           ))}
