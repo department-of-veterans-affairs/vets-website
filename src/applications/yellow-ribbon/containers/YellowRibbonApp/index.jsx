@@ -19,7 +19,7 @@ class YellowRibbonApp extends Component {
         <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-top--2p5 vads-u-padding-bottom--2p5">
           {/* Title */}
           <div className="vads-l-col">
-            <h1>Search Yellow Ribbon Schools</h1>
+            <h1>Yellow Ribbon School Finder</h1>
           </div>
 
           <div className="vads-l-row">
@@ -35,7 +35,7 @@ class YellowRibbonApp extends Component {
             </div>
 
             {/* Search Results */}
-            <div className="vads-l-col--8">
+            <div className="vads-l-col--8 vads-u-padding-left--2p5">
               <SearchResults />
             </div>
           </div>

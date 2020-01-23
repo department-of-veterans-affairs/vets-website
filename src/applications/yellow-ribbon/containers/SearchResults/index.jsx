@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { invoke, map } from 'lodash';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -88,14 +88,39 @@ export class SearchResults extends Component {
                 'vads-u-background-color--gray-light-alt',
                 'vads-u-margin-bottom--1',
                 'vads-u-margin-right--1',
-                'vads-u-padding--0p5',
+                'vads-u-padding--1',
               )}
               key={school?.id}
             >
-              <h3>{school?.name}</h3>
-              <p>
+              {/* School Name */}
+              <h3 className={classnames('vads-u-margin--0')}>{school?.name}</h3>
+
+              {/* School Location */}
+              <p
+                className={classnames(
+                  'vads-u-margin-bottom--1',
+                  'vads-u-margin-top--0',
+                )}
+              >
                 {school?.city}, {school?.state}
               </p>
+
+              {/* Max Benefit Amount */}
+              <h3 className={classnames('vads-u-margin--0')}>
+                {invoke(school?.tuitionOutOfState, 'toLocaleString', 'en-US', {
+                  currency: 'USD',
+                  style: 'currency',
+                })}
+              </h3>
+              <p className={classnames('vads-u-margin--0')}>
+                Maximum Benefit Amount
+              </p>
+
+              {/* Add to Compare */}
+              <button className="usa-button-secondary" onClick={() => {}}>
+                <i className="fas fa-plus vads-u-padding-right--1" />
+                Add to Compare
+              </button>
             </div>
           ))}
         </div>
