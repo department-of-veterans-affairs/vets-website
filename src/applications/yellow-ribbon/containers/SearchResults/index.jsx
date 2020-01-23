@@ -1,8 +1,9 @@
 // Dependencies.
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
 
@@ -65,19 +66,32 @@ export class SearchResults extends Component {
       );
     }
 
-    console.log('results', results);
+    // Derive values for "Displayed x-x out of x results."
+    const resultsStartNumber = page * perPage - (perPage - 1);
+    const resultsEndNumber =
+      page * perPage > totalResults ? totalResults : page * perPage;
 
     return (
       <>
         <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
-          Displaying {page * perPage - (perPage - 1)} - {page * perPage} out of{' '}
+          Displaying {resultsStartNumber} - {resultsEndNumber} out of{' '}
           {totalResults} results.
         </h2>
 
         {/* Table of Results */}
         <div>
           {map(results, school => (
-            <div key={school?.id}>
+            <div
+              className={classnames(
+                'medium-screen:vads-l-col',
+                'vads-l-col--12',
+                'vads-u-background-color--gray-light-alt',
+                'vads-u-margin-bottom--1',
+                'vads-u-margin-right--1',
+                'vads-u-padding--0p5',
+              )}
+              key={school?.id}
+            >
               <h3>{school?.name}</h3>
               <p>
                 {school?.city}, {school?.state}
