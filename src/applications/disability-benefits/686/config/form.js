@@ -158,13 +158,11 @@ const childStatusSchema = {
 const childStatusUiSchema = {
   'ui:title': "Child's status (Check all that apply)",
   'ui:required': (formData, index) =>
-    formData.deaths[`${index}`].dependentType === 'Child',
+    formData.deaths[`${index}`].dependentType === 'CHILD',
   'ui:options': {
     expandUnder: 'dependentType',
     expandUnderCondition: 'CHILD',
     showFieldLabel: true,
-    // hideIf: (formData, index) =>
-    //   formData.deaths[`${index}`].dependentType !== 'Child' || !formData.deaths,
     keepInPageOnReview: true,
   },
   childUnder18: {
@@ -1178,6 +1176,7 @@ const formConfig = {
             properties: {
               deaths: {
                 type: 'array',
+                minItems: 1,
                 items: {
                   type: 'object',
                   properties: {
