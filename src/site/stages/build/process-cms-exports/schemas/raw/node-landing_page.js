@@ -4,19 +4,55 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    changed: { $ref: 'GenericNestedString' },
-    path: { $ref: 'GenericNestedString' },
-    field_administration: { $ref: 'GenericNestedString' },
-    field_alert: { $ref: 'GenericNestedString' },
+    changed: {
+      type: 'array',
+      maxItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          value: { type: 'string' },
+          format: { type: 'string' },
+        },
+        required: ['value', 'format'],
+      },
+    },
+    path: { $ref: 'RawPath' },
+    field_administration: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
+    field_alert: { type: 'array' },
     field_description: { $ref: 'GenericNestedString' },
     field_intro_text: { $ref: 'GenericNestedString' },
-    field_links: { $ref: 'GenericNestedString' },
+    // This is essentially a list of paragraph-link_teaser,
+    // but only containing the data in field_link
+    field_links: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          uri: { type: 'string' },
+          title: { type: 'string' },
+          options: { type: 'array' },
+        },
+        required: ['uri', 'title', 'options'],
+      },
+    },
     field_page_last_built: { $ref: 'GenericNestedString' },
-    field_plainlanguage_date: { $ref: 'GenericNestedString' },
-    field_promo: { $ref: 'GenericNestedString' },
-    field_related_links: { $ref: 'GenericNestedString' },
-    field_spokes: { $ref: 'GenericNestedString' },
-    field_support_services: { $ref: 'GenericNestedString' },
+    field_plainlanguage_date: { type: 'array' },
+    field_promo: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
+    field_related_links: {
+      type: 'array',
+      maxItems: 1,
+      items: { $ref: 'EntityReference' },
+    },
+    field_spokes: { $ref: 'EntityReferenceArray' },
+    field_support_services: { $ref: 'EntityReferenceArray' },
     field_title_icon: { $ref: 'GenericNestedString' },
   },
   required: [
