@@ -578,7 +578,7 @@ export function isAddressEmpty(address = {}) {
   );
 }
 
-export function formatStreetAddress(address) {
+export function formatStreetAddress(address = {}) {
   let formattedAddress = '';
 
   if (address.addressOne) {
@@ -593,7 +593,7 @@ export function formatStreetAddress(address) {
   return formattedAddress;
 }
 
-export function formatCityStatePostal(address) {
+export function formatCityStatePostal(address = {}) {
   // Formats to "city, state, postal code" for the second line of an address
   let cityStatePostal = '';
 
