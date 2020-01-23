@@ -4,6 +4,7 @@ module.exports = {
     contentModelType: { enum: ['node-landing_page'] },
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['landing_page'] },
+    entityMetatags: { $ref: 'MetaTags' },
     title: { type: 'string' },
     changed: { type: 'string' },
     entityUrl: { $ref: 'EntityUrl' },
@@ -57,6 +58,7 @@ module.exports = {
   },
   required: [
     'title',
+    'entityMetatags',
     'changed',
     'entityUrl',
     'fieldAdministration',

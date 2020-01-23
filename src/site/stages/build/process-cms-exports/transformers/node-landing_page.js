@@ -1,10 +1,11 @@
-const { getDrupalValue } = require('./helpers');
+const { createMetaTagArray, getDrupalValue } = require('./helpers');
 
 const transform = entity => ({
   entityType: 'node',
   entityBundle: 'landing_page',
   title: getDrupalValue(entity.title),
   changed: getDrupalValue(entity.changed),
+  entityMetatags: createMetaTagArray(entity.metatag.value),
   entityUrl: {
     path: entity.path[0].alias,
   },
@@ -41,6 +42,7 @@ module.exports = {
     'field_spokes',
     'field_support_services',
     'field_title_icon',
+    'metatag',
   ],
   transform,
 };

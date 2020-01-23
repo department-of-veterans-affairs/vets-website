@@ -54,6 +54,7 @@ module.exports = {
     field_spokes: { $ref: 'EntityReferenceArray' },
     field_support_services: { $ref: 'EntityReferenceArray' },
     field_title_icon: { $ref: 'GenericNestedString' },
+    metatag: { $ref: 'RawMetaTags' },
   },
   required: [
     'title',
@@ -71,5 +72,6 @@ module.exports = {
     'field_spokes',
     'field_support_services',
     'field_title_icon',
+    'metatag',
   ],
 };
