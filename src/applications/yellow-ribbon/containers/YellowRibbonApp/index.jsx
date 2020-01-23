@@ -33,7 +33,7 @@ const YellowRibbonApp = ({ results }) => (
       )}
     </Breadcrumbs>
 
-    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--4">
       {/* Title */}
       <div className="vads-l-col">
         <h1 className="vads-u-font-size--h2">Yellow Ribbon school finder</h1>
@@ -64,6 +64,7 @@ const YellowRibbonApp = ({ results }) => (
           <SearchForm />
           {!results && (
             <a
+              className="vads-u-padding-y--3"
               href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
               rel="noopener noreferrer"
             >

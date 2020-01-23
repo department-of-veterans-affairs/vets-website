@@ -57,7 +57,7 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0 vads-u-margin-bottom--9"
+        className="vads-l-grid-container vads-u-padding--0 vads-u-margin-bottom--3"
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >

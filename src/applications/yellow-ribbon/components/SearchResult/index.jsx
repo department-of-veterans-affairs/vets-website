@@ -40,7 +40,7 @@ const SearchResult = ({ school }) => (
           style: 'currency',
         })}
       </h3>
-      <p className={classnames('vads-u-margin--0')}>Maximum Benefit Amount</p>
+      <p className={classnames('vads-u-margin--0')}>Maximum benefit amount</p>
 
       {/* Add to Compare */}
       <button className="usa-button-secondary" onClick={() => {}}>
@@ -51,17 +51,17 @@ const SearchResult = ({ school }) => (
 
     <div className={classnames('vads-l-col--4')}>
       {/* Benefit available for x students */}
-      <h4 className={classnames('vads-u-margin--0')}>Benefit Available For</h4>
+      <h4 className={classnames('vads-u-margin--0')}>Benefit available for</h4>
       <p className={classnames('vads-u-margin--0')}>
         {school?.studentCount} students
       </p>
 
       {/* Degree Level */}
-      <h4 className={classnames('vads-u-margin--0')}>Degree Level</h4>
+      <h4 className={classnames('vads-u-margin--0')}>Degree level</h4>
       <p className={classnames('vads-u-margin--0')}>{school?.highestDegree}</p>
 
       {/* School or Division */}
-      <h4 className={classnames('vads-u-margin--0')}>School or Division</h4>
+      <h4 className={classnames('vads-u-margin--0')}>School or division</h4>
       <p className={classnames('vads-u-margin--0')}>All</p>
     </div>
   </div>
