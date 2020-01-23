@@ -10,6 +10,7 @@ import {
   resetDisallowedAddressFields,
   stripEmpties,
   toGenericAddress,
+  isAddressEmpty,
 } from '../../utils/helpers';
 
 const address = {
@@ -289,5 +290,12 @@ describe('Letters helpers: ', () => {
       expect(militaryTest).to.not.equal(militaryAddress);
       expect(nonMilitaryTest).to.not.equal(domesticAddress);
     });
+  });
+  describe('isAddressEmpty', () => {
+    expect(isAddressEmpty()).to.be.true;
+    expect(isAddressEmpty({})).to.be.true;
+    // type & countryName are ignored
+    expect(isAddressEmpty({ type: 'foo', countryName: 'bar' })).to.be.true;
+    expect(isAddressEmpty({ foo: 'bar' })).to.be.false;
   });
 });

@@ -566,7 +566,7 @@ export const getStatus = response =>
     : 'unknown';
 
 // NOTE: It "shouldn't" ever happen...but it did. In production.
-export function isAddressEmpty(address) {
+export function isAddressEmpty(address = {}) {
   // An address will always have:
   //  type because it errors out on the api if it doesn't exist (pretty sure)
   //  countryName because of toGenericAddress() adds it
