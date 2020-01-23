@@ -30,7 +30,6 @@ const transform = entity => ({
       .tz(getDrupalValue(entity.fieldPageLastBuilt), 'UTC')
       .format('YYYY-MM-DD HH:mm:ss UTC'),
   },
-
   fieldPlainlanguageDate: getDrupalValue(entity.fieldPlainlanguageDate),
   fieldPromo: entity.fieldPromo[0],
   fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
@@ -38,6 +37,7 @@ const transform = entity => ({
   fieldSupportServices: entity.fieldSupportServices,
   fieldTitleIcon: getDrupalValue(entity.fieldTitleIcon),
 });
+
 module.exports = {
   filter: [
     'title',

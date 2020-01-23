@@ -18,6 +18,7 @@ module.exports = {
     fieldIntroText: { type: 'string' },
     fieldLinks: {
       type: 'array',
+      maxItems: 1,
       items: {
         type: 'object',
         properties: {
