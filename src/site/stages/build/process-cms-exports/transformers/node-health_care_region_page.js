@@ -1,4 +1,4 @@
-const { getDrupalValue } = require('./helpers');
+const { getDrupalValue, getWysiwygString } = require('./helpers');
 
 function createMetaTag(type, key, value) {
   return {
@@ -14,6 +14,7 @@ const transform = ({
   moderationState,
   metatag: { value: metaTags },
   fieldNicknameForThisFacility,
+  fieldPressReleaseBlurb,
 }) => ({
   entity: {
     entityType: 'node',
@@ -25,6 +26,9 @@ const transform = ({
       path: path[0].alias,
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
+    fieldPressReleaseBlurb: {
+      processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
+    },
     entityMetatags: [
       createMetaTag('MetaValue', 'title', metaTags.title),
       createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
@@ -53,6 +57,7 @@ module.exports = {
     'moderation_state',
     'path',
     'field_nickname_for_this_facility',
+    'field_press_release_blurb',
     'metatag',
   ],
   transform,
