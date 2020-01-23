@@ -72,24 +72,104 @@
   ],
   "fieldIntroText": "VA education benefits help Veterans, service members, and their qualified family members with needs like paying college tuition, finding the right school or training program, and getting career counseling. Learn how to apply for and manage the education and training benefits you've earned.",
   "fieldPromo": {
+    "contentModelType": "block_content-promo",
     "entity": {
+      "entityType": "block_content",
+      "entityBundle": "promo",
       "fieldImage": {
-        "entity": {
-          "image": {
-            "url": "https://dev.cms.va.gov/sites/default/files/hub_promos/education.png",
-            "alt": null,
-            "title": null,
-            "width": 456,
-            "height": 304,
+        "contentModelType": "media-image",
+        "baseType": "media",
+        "uuid": "55b5a5da-cdf2-41d8-9f1d-13c6a9c25839",
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+
+        "revisionCreated": [
+          {
+            "value": "2019-01-28T20:46:38+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+          }
+        ],
+        "revisionLogMessage": [],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "name": [
+          {
+            "value": "education.png"
+          }
+        ],
+        "thumbnail": [
+          {
+            "contentModelType": "file",
             "derivative": {
-              "url": "https://dev.cms.va.gov/sites/default/files/styles/3_2_medium_thumbnail/public/hub_promos/education.png",
-              "width": 480,
-              "height": 320
+              "url": "public://hub_promos/education.png"
             }
           }
-        }
+        ],
+        "created": [
+          {
+            "value": "2019-01-28T20:46:38+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+          }
+        ],
+        "changed": [
+          {
+            "value": "2019-09-04T13:30:23+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+          }
+        ],
+        "defaultLangcode": [
+          {
+            "value": true
+          }
+        ],
+        "revisionTranslationAffected": [
+          {
+            "value": true
+          }
+        ],
+        "moderationState": [],
+        "metatag": {
+          "value": {
+            "title": "| Veterans Affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "| Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "| Veterans Affairs"
+          }
+        },
+        "path": [
+          {
+            "alias": "/media/image/3",
+            "langcode": "en",
+            "pathauto": 1
+          }
+        ],
+        "fieldMediaInLibrary": [
+          {
+            "value": true
+          }
+        ],
+        "fieldMediaSubmissionGuideline": [],
+        "fieldOwner": [],
+        "image": [
+          {
+            "contentModelType": "file",
+            "derivative": {
+              "url": "public://hub_promos/education.png"
+            }
+          }
+        ]
       },
+
       "fieldPromoLink": {
+        "contentModelType": "paragraph-link_teaser",
         "entity": {
           "fieldLink": {
             "url": {
