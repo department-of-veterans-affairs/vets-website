@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 // Relative imports.
 import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
@@ -5,6 +7,8 @@ import PersonalizationBanner from '../components/PersonalizationBanner';
 import Profile360Intro from '../components/Profile360Intro';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+
+import TestPromoBanner from '../components/TestPromoBanner';
 
 const config = {
   announcements: [
@@ -27,6 +31,12 @@ const config = {
       name: 'welcome-to-new-va',
       paths: /^\/$/,
       component: WelcomeToNewVAModal,
+    },
+    {
+      name: 'test-promo-banner',
+      paths: /^\/$/,
+      component: TestPromoBanner,
+      disabled: environment.isProduction(),
     },
     {
       name: 'find-benefits-intro',

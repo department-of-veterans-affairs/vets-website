@@ -8,21 +8,19 @@ module.exports = {
         entityType: { enum: ['node'] },
         entityBundle: { enum: ['health_care_region_page'] },
         title: { type: 'string' },
-        entityUrl: {
-          type: 'object',
-          properties: {
-            // TODO: add breadcrumb
-            path: { type: 'string' },
-          },
-          required: ['path'],
-        },
+        entityUrl: { $ref: 'EntityUrl' },
         fieldNicknameForThisFacility: { type: 'string' },
         fieldRelatedLinks: {
           $ref: 'transformed/paragraph-list_of_link_teasers',
         },
+        fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
         entityMetaTags: { $ref: 'MetaTags' },
       },
-      required: ['title', 'fieldNicknameForThisFacility'],
+      required: [
+        'title',
+        'fieldNicknameForThisFacility',
+        'fieldPressReleaseBlurb',
+      ],
     },
   },
   required: ['entity'],

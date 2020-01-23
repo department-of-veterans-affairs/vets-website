@@ -56,7 +56,6 @@ export default {
       ratingDecisionId: '63655',
       diagnosticCode: 5238,
       ratingPercentage: 10,
-      useSameOffice: true,
       additionalNote: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam finibus pulvinar erat, ac luctus felis porttitor eget. Aenean luctus urna libero, tincidunt mollis ante cursus sed. Fusce a vehicula est, eget dignissim purus. Vestibulum quis placerat sapien. Vestibulum gravida libero quis lectus auctor, ut vehicula turpis maximus. Donec ultrices eu orci tincidunt elementum. Phasellus eros eros ornare.`,
       'view:selected': false,
     },
@@ -71,6 +70,7 @@ export default {
     },
   ],
 
+  sameOffice: true,
   informalConferenceChoice: null,
   contactRepresentativeChoice: null,
   representative: {
