@@ -675,9 +675,10 @@
   },
   "changed": 1574809160,
   "fieldAdministration": {
+    "contentModelType": "taxonomy_term-administration",
     "entity": {
       "name": "Veterans Benefits Administration",
-      "entityId": "1",
+      "entityType": "taxonomy_term",
       "entityBundle": "administration",
       "fieldIntroText": null,
       "fieldDescription": null,
@@ -690,7 +691,7 @@
       "fieldEmailUpdatesUrl": "https://public.govdelivery.com/accounts/USVAVBA/subscriber/new",
       "fieldEmailUpdatesLinkText": "Veterans benefits email updates",
       "fieldSocialMediaLinks": {
-        "platformValues": "{\"facebook\":{\"value\":\"VeteransBenefits\"},\"instagram\":{\"value\":\"vabenefits\\/\"},\"linkedin\":{\"value\":\"company\\/department-of-veterans-affairs\\/\"},\"twitter\":{\"value\":\"VAVetBenefits\"},\"youtube\":{\"value\":\"vavetbenefits\"},\"youtube_channel\":{\"value\":\"\"}}",
+        "platformValues": "{\"facebook\":{\"value\":\"VeteransBenefits\"},\"instagram\":{\"value\":\"vabenefits/\"},\"linkedin\":{\"value\":\"company/department-of-veterans-affairs/\"},\"twitter\":{\"value\":\"VAVetBenefits\"},\"youtube\":{\"value\":\"vavetbenefits\"},\"youtube_channel\":{\"value\":\"\"}}",
         "value": null,
         "platform": null
       }
