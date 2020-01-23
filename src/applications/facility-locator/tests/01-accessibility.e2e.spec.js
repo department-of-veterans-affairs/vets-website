@@ -51,17 +51,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .useCss()
-    .sendKeys('#facility-dropdown-toggle', client.Keys.UP_ARROW)
-    .sendKeys('#facility-dropdown-toggle', client.Keys.UP_ARROW)
-    .useXpath()
-    .assert.attributeContains(
-      '//li[@option="VA health"]',
-      'aria-selected',
-      true,
-    );
-
-  client
-    .useCss()
     .sendKeys('#facility-dropdown-toggle', client.Keys.ENTER)
     .assert.isActiveElement('#facility-dropdown-toggle');
 
