@@ -10,7 +10,9 @@ module.exports = {
     fieldAdministration: {
       $ref: 'transformed/taxonomy_term-administration',
     },
-    fieldAlert: { type: ['string', 'null'] },
+    fieldAlert: {
+      oneOf: [{ $ref: 'transformed/block_content-alert' }, { type: 'null' }],
+    },
     fieldDescription: { type: 'string' },
     fieldIntroText: { type: 'string' },
     fieldLinks: {
@@ -34,7 +36,12 @@ module.exports = {
     fieldPlainlanguageDate: { type: ['string', 'null'] },
     fieldPromo: { $ref: 'transformed/block_content-promo' },
     fieldRelatedLinks: {
-      $ref: 'transformed/paragraph-list_of_link_teasers',
+      oneOf: [
+        {
+          $ref: 'transformed/paragraph-list_of_link_teasers',
+        },
+        { type: 'null' },
+      ],
     },
     fieldSpokes: {
       type: 'array',

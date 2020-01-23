@@ -9,7 +9,7 @@ const transform = entity => ({
     path: entity.path[0].alias,
   },
   fieldAdministration: entity.fieldAdministration[0],
-  fieldAlert: getDrupalValue(entity.fieldAlert),
+  fieldAlert: entity.fieldAlert[0] || null,
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldLinks: entity.fieldLinks.map(({ title, uri }) => ({
@@ -19,7 +19,7 @@ const transform = entity => ({
   fieldPageLastBuilt: getDrupalValue(entity.fieldPageLastBuilt),
   fieldPlainlanguageDate: getDrupalValue(entity.fieldPlainlanguageDate),
   fieldPromo: entity.fieldPromo[0],
-  fieldRelatedLinks: entity.fieldRelatedLinks[0],
+  fieldRelatedLinks: entity.fieldRelatedLinks[0] || null,
   fieldSpokes: entity.fieldSpokes,
   fieldSupportServices: entity.fieldSupportServices,
   fieldTitleIcon: getDrupalValue(entity.fieldTitleIcon),
