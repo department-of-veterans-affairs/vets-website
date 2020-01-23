@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import debounce from 'platform/utilities/data/debounce';
+import React from 'react';
 
 const days = [
   {
@@ -24,27 +23,7 @@ const days = [
   },
 ];
 
-const mediaQuery = window.matchMedia('(min-width: 481px)');
-
 export default function CalendarWeekdayHeader() {
-  const [isSmallScreenOrLarger, setIsSmallScreenOrLarger] = useState(
-    mediaQuery.matches,
-  );
-
-  useEffect(() => {
-    const onResize = debounce(50, () => {
-      if (mediaQuery.matches !== isSmallScreenOrLarger) {
-        setIsSmallScreenOrLarger(mediaQuery.matches);
-      }
-    });
-
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      window.removeEventListener('resize', onResize);
-    };
-  });
-
   return (
     <div role="rowgroup">
       <div
@@ -57,13 +36,13 @@ export default function CalendarWeekdayHeader() {
             role="columnheader"
             className="vaos-calendar__weekday vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0p5"
           >
-            {isSmallScreenOrLarger && day.name}
-            {!isSmallScreenOrLarger && (
-              <>
-                <span aria-hidden="true">{day.abbr}</span>
-                <span className="sr-only">{day.name}</span>
-              </>
-            )}
+            <span className="vads-u-display--none small-screen:vads-u-display--inline">
+              {day.name}
+            </span>
+            <span className="small-screen:vads-u-display--none">
+              <span aria-hidden="true">{day.abbr}</span>
+              <span className="sr-only">{day.name}</span>
+            </span>
           </div>
         ))}
       </div>
