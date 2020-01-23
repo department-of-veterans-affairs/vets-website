@@ -189,11 +189,15 @@
   "fieldTitleIcon": "education",
   "fieldSpokes": [
     {
+      "contentModelType": "paragraph-list_of_link_teasers",
       "entity": {
+        "entityBundle": "list_of_link_teasers",
+        "entityType": "paragraph",
         "parentFieldName": "field_spokes",
         "fieldTitle": "Get GI Bill® and other education benefits",
         "fieldVaParagraphs": [
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -206,6 +210,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -218,6 +223,8 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -230,6 +237,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -242,6 +250,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -254,6 +263,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -266,6 +276,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -278,6 +289,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -293,11 +305,15 @@
       }
     },
     {
+      "contentModelType": "paragraph-list_of_link_teasers",
       "entity": {
+        "entityBundle": "list_of_link_teasers",
+        "entityType": "paragraph",
         "parentFieldName": "field_spokes",
         "fieldTitle": "Manage your Veterans education benefits",
         "fieldVaParagraphs": [
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -310,6 +326,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -322,6 +339,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -334,6 +352,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -346,6 +365,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -358,6 +378,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -370,6 +391,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -382,6 +404,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -397,11 +420,15 @@
       }
     },
     {
+      "contentModelType": "paragraph-list_of_link_teasers",
       "entity": {
         "parentFieldName": "field_spokes",
+        "entityBundle": "list_of_link_teasers",
+        "entityType": "paragraph",
         "fieldTitle": "More information and resources",
         "fieldVaParagraphs": [
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -414,6 +441,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -426,6 +454,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -438,6 +467,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -450,6 +480,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -462,6 +493,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -474,6 +506,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -486,6 +519,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -498,6 +532,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
@@ -510,6 +545,7 @@
             }
           },
           {
+            "contentModelType": "paragraph-link_teaser",
             "entity": {
               "fieldLink": {
                 "url": {
