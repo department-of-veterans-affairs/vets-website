@@ -101,7 +101,7 @@
         "entity": {
           "fieldLink": {
             "url": {
-              "path": "internal:/records/download-va-letters/"
+              "path": "/records/download-va-letters/"
             },
             "title": "Confirm your VA benefit status",
             "options": []

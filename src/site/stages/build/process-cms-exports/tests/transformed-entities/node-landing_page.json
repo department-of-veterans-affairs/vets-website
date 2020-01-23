@@ -129,7 +129,7 @@
           "entity": {
             "fieldLink": {
               "url": {
-                "path": "/careers-employment/vocational-rehabilitation"
+                "path": "/careers-employment/vocational-rehabilitation/"
               },
               "title": "Vocational Rehabilitation and Employment",
               "options": []
@@ -142,7 +142,7 @@
           "entity": {
             "fieldLink": {
               "url": {
-                "path": "/housing-assistance/home-loans"
+                "path": "/housing-assistance/home-loans/"
               },
               "title": "Home loan benefits",
               "options": []
@@ -155,7 +155,7 @@
           "entity": {
             "fieldLink": {
               "url": {
-                "path": "/careers-employment/veteran-owned-business-support"
+                "path": "/careers-employment/veteran-owned-business-support/"
               },
               "title": "Veteran-owned small business support",
               "options": []
@@ -311,7 +311,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/va-payment-history"
+                  "path": "/va-payment-history/"
                 },
                 "title": "View your VA payment history",
                 "options": []
@@ -337,7 +337,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/transfer-post-9-11-gi-bill-benefits"
+                  "path": "/education/transfer-post-9-11-gi-bill-benefits/"
                 },
                 "title": "Transfer Post-9/11 GI Bill benefits",
                 "options": []
@@ -350,7 +350,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/change-gi-bill-benefits"
+                  "path": "/education/change-gi-bill-benefits/"
                 },
                 "title": "Change your GI Bill school or program",
                 "options": []
@@ -363,7 +363,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/change-direct-deposit"
+                  "path": "/change-direct-deposit/"
                 },
                 "title": "Change your VA direct deposit information",
                 "options": []
@@ -376,7 +376,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/claim-or-appeal-status"
+                  "path": "/claim-or-appeal-status/"
                 },
                 "title": "Check your VA appeal status",
                 "options": []
@@ -439,7 +439,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/benefit-rates"
+                  "path": "/education/benefit-rates/"
                 },
                 "title": "Post-9/11 GI Bill and other VA education benefits rates",
                 "options": []
@@ -452,7 +452,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/choosing-a-school"
+                  "path": "/education/choosing-a-school/"
                 },
                 "title": "How to choose GI Bill approved schools",
                 "options": []
@@ -465,7 +465,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/careers-employment/careerscope-skills-assessment"
+                  "path": "/careers-employment/careerscope-skills-assessment/"
                 },
                 "title": "CareerScope assessment",
                 "options": []
