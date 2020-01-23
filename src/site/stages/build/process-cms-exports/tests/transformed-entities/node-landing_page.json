@@ -535,9 +535,10 @@
   ],
   "fieldSupportServices": [
     {
+      "contentModelType": "node-support_service",
       "entity": {
-        "entityId": "69",
         "entityBundle": "support_service",
+        "entityType": "node",
         "title": "GI Bill Hotline:",
         "fieldLink": {
           "url": {
@@ -550,9 +551,10 @@
       }
     },
     {
+      "contentModelType": "node-support_service",
       "entity": {
-        "entityId": "70",
         "entityBundle": "support_service",
+        "entityType": "node",
         "title": "Students Outside the U.S.:",
         "fieldLink": {
           "url": {
@@ -565,9 +567,10 @@
       }
     },
     {
+      "contentModelType": "node-support_service",
       "entity": {
-        "entityId": "59",
         "entityBundle": "support_service",
+        "entityType": "node",
         "title": "VA benefits hotline:",
         "fieldLink": {
           "url": {
@@ -580,9 +583,10 @@
       }
     },
     {
+      "contentModelType": "node-support_service",
       "entity": {
-        "entityId": "60",
         "entityBundle": "support_service",
+        "entityType": "node",
         "title": "eBenefits technical support:",
         "fieldLink": {
           "url": {
@@ -595,9 +599,10 @@
       }
     },
     {
+      "contentModelType": "node-support_service",
       "entity": {
-        "entityId": "61",
         "entityBundle": "support_service",
+        "entityType": "node",
         "title": "Call MyVA311 for help:",
         "fieldLink": {
           "url": {
@@ -610,9 +615,10 @@
       }
     },
     {
+      "contentModelType": "node-support_service",
       "entity": {
-        "entityId": "62",
         "entityBundle": "support_service",
+        "entityType": "node",
         "title": "If you have hearing loss, call TTY: 711.",
         "fieldLink": null,
         "fieldPhoneNumber": null
