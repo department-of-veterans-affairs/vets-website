@@ -10,7 +10,6 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import FormFooter from 'platform/forms/components/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import dataUtils from 'platform/utilities/data/index';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -1182,7 +1181,7 @@ const formConfig = {
                   properties: {
                     dependentType: dependentTypeSchema,
                     childStatus: childStatusSchema,
-                    deceasedFullName: fullName,
+                    fullName,
                     deceasedDateOfDeath: date,
                     deceasedLocationOfDeath: deathLocationSchema,
                   },
@@ -1193,12 +1192,12 @@ const formConfig = {
           uiSchema: {
             deaths: {
               'ui:options': {
-                viewField: FullNameField,
+                viewField: DependentField,
               },
               items: {
                 dependentType: dependentTypeSchemaUI,
                 childStatus: childStatusUiSchema,
-                deceasedFullName: _.merge(fullNameUI, {
+                fullName: _.merge(fullNameUI, {
                   first: {
                     'ui:title': 'Dependent’s first name',
                   },
