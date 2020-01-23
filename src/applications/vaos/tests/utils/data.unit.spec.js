@@ -306,7 +306,7 @@ describe('VAOS data transformation', () => {
         institutionName: 'CHYSHR-Cheyenne VA Medical Center',
         institutionCode: '983',
       },
-      desiredDate: '2019-11-22T00:00:00+00:00',
+      desiredDate: '2019-12-02T00:00:00+00:00',
       dateTime: '2019-11-22T09:30:00+00:00',
       duration: 30,
       bookingNotes: 'Follow-up/Routine: asdfasdf',
@@ -321,6 +321,7 @@ describe('VAOS data transformation', () => {
       schedulingRequestType: 'NEXT_AVAILABLE_APPT',
       type: 'REGULAR',
       appointmentKind: 'TRADITIONAL',
+      appointmentType: 'Primary care',
       schedulingMethod: 'direct',
     });
   });
