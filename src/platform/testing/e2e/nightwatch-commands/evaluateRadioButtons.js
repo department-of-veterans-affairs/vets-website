@@ -18,8 +18,8 @@
  * ```
  *
  * @method evaluateRadioButtons
- * @param {string} [selectorArray] The array of radio buttons to be evaluated
- * @param {object} [arrowPressed] Nightwatch Keys object. Expects ARROW_DOWN || ARROW_RIGHT.
+ * @param {string} selectorArray The array of radio buttons to be evaluated
+ * @param {object} arrowPressed Nightwatch Keys object. Expects ARROW_DOWN || ARROW_RIGHT.
  * @api commands
  */
 exports.command = function evaluateRadioButtons(selectorArray, arrowPressed) {

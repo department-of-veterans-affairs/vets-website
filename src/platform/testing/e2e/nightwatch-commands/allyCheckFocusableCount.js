@@ -20,7 +20,7 @@ const ally = require('ally.js');
  */
 exports.command = function allyCheckFocusableCount(selector, callback) {
   return this.execute(
-    function(sel) {
+    sel => {
       const focusableItems = ally.query.focusable({
         context: sel,
         includeContext: true,

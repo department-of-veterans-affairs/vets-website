@@ -22,7 +22,7 @@ const tabbable = import('ally.js/query/tabbable');
  */
 exports.command = function allyDeepEquals(selector, callback) {
   return this.execute(
-    function(sel) {
+    sel => {
       focusable({
         context: sel,
         includeContext: true,

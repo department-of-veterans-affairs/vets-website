@@ -38,28 +38,20 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Evaluate the military status select menu
   client.evaluateSelectMenu('#militaryStatus', 'child', 'child');
 
-  // Open the GI Bill Benefit modal
+  // Open and close the GI Bill Benefit modal
   client
     .keys(TAB)
-    .assert.isActiveElement(
+    .evaluateModalWindow(
       'button[aria-label="Learn more about VA education and training programs"]',
-    )
-    .keys(ENTER)
-    .waitForElementVisible('div[role="alertdialog"]', Timeouts.normal)
-    .assert.isActiveElement('button[aria-label="Close this modal"]');
-
-  // Close the GI Bill Benefit modal
-  client
-    .keys(ENTER)
-    .assert.isActiveElement(
-      'button[aria-label="Learn more about VA education and training programs"]',
+      'div[role="alertdialog"]',
+      'button[aria-label="Close this modal"]',
     );
 
   // Evaluate the GI Bill Benefit select
   client
     .keys(TAB)
     .assert.isActiveElement('#giBillChapter')
-    .evaluateSelectMenu('#giBillChapter', 'Montgomery GI Bill (Ch 30)', '30');
+    .evaluateSelectMenu('#giBillChapter', 'montgomery', '30');
 
   // Open the enlistment modal
   client
@@ -82,7 +74,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .assert.isActiveElement('#enlistmentService')
-    .evaluateSelectMenu('#enlistmentService', '2 or more years', '2');
+    .evaluateSelectMenu('#enlistmentService', '2', '2');
 
   // Evaluate the type of institution radio group with ARROW_DOWN and ARROW_RIGHT
   client
@@ -144,7 +136,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       ARROW_LEFT,
     );
 
-  // Let's try to submit an incomplete form
+  // Let's try to submit an incomplete form by skipping over the city typeahead
   client
     .keys(TAB)
     .keys(TAB)
