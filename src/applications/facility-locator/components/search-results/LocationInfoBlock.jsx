@@ -25,7 +25,7 @@ const LocationInfoBlock = ({ location, from }) => {
       {isProvider ? (
         <span>
           <ProviderServiceDescription provider={location} />
-          <h2 className="vads-u-font-size--h5">
+          <h2 className="vads-u-font-size--h5 no-marg-top">
             <Link to={`provider/${location.id}`}>{name}</Link>
           </h2>
           {location.attributes.orgName && (
@@ -37,10 +37,10 @@ const LocationInfoBlock = ({ location, from }) => {
           <FacilityTypeDescription location={location} from={from} />
           {isVADomain(website) && environments.isStaging() ? (
             <a href={website}>
-              <h2 className="vads-u-font-size--h5">{name}</h2>
+              <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
             </a>
           ) : (
-            <h2 className="vads-u-font-size--h5">
+            <h2 className="vads-u-font-size--h5 no-marg-top">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h2>
           )}
