@@ -5,13 +5,25 @@ module.exports = {
   properties: {
     title: { $ref: 'GenericNestedString' },
     moderation_state: { $ref: 'GenericNestedString' },
-    metatag: { $ref: 'GenericNestedString' },
-    path: { $ref: 'GenericNestedString' },
-    field_banner_alert: { $ref: 'GenericNestedString' },
-    field_facility_operating_status: { $ref: 'GenericNestedString' },
-    field_links: { $ref: 'GenericNestedString' },
-    field_office: { $ref: 'GenericNestedString' },
-    field_operating_status_emerg_inf: { $ref: 'GenericNestedString' },
+    metatag: { $ref: 'RawMetaTags' },
+    path: { $ref: 'RawPath' },
+    field_banner_alert: {
+      type: 'array',
+      items: { $ref: 'EntityReference' },
+      maxItems: 1,
+    },
+    field_facility_operating_status: { $ref: 'EntityReferenceArray' },
+    field_links: { $ref: 'EntityReferenceArray' },
+    field_office: {
+      type: 'array',
+      items: { $ref: 'EntityReference' },
+      maxItems: 1,
+    },
+    field_operating_status_emerg_inf: {
+      type: 'array',
+      items: { $ref: 'EntityReference' },
+      maxItems: 1,
+    },
   },
   required: [
     'title',
