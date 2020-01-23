@@ -9,6 +9,7 @@ export const widgetTypes = {
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
   DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_BENEFITS: 'disability-benefits',
+  DISABILITY_RATINGS: 'disability-ratings',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HEALTH_RECORDS: 'health-records',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
@@ -166,6 +167,12 @@ export const toolUrl = appId => {
         redirect: false,
       };
 
+    case widgetTypes.DISABILITY_RATINGS:
+      return {
+        url: '/disability/view-disability-rating/rating',
+        redirect: false,
+      };
+
     default:
       return {};
   }
@@ -235,13 +242,13 @@ export const serviceDescription = appId => {
       return 'check your GI Bill Benefits';
 
     case widgetTypes.DISABILITY_BENEFITS:
-      return 'apply for disability benefits';
+      return 'file for disability benefits';
 
     case widgetTypes.CLAIMS_AND_APPEALS:
       return 'see your claim or appeal status';
 
     case widgetTypes.LETTERS:
-      return 'get your VA Benefit Letters';
+      return 'get your VA benefit letters';
 
     case widgetTypes.VETERAN_ID_CARD:
       return 'apply for a Veteran ID Card';
@@ -251,6 +258,9 @@ export const serviceDescription = appId => {
 
     case widgetTypes.DIRECT_DEPOSIT:
       return 'change your direct deposit information online';
+
+    case widgetTypes.DISABILITY_RATINGS:
+      return 'view your VA disability rating';
 
     default:
       return 'use this service';

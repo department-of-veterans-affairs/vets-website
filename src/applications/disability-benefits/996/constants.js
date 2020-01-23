@@ -9,6 +9,9 @@ export const selectors = {
 };
 
 export const errorMessages = {
+  savedFormNotFound: 'Please start over to request a Higher-Level Review',
+  savedFormNoAuth:
+    'Please sign in again to continue your request for Higher-Level Review',
   optOutCheckbox:
     'You need to opt out of the old appeals process to continue with your request',
   phone: 'Please enter a phone number',

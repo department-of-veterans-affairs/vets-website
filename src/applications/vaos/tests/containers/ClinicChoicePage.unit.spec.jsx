@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { ClinicChoicePage } from '../../containers/ClinicChoicePage';
+import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS <ClinicChoicePage>', () => {
   const defaultProps = {
@@ -36,7 +37,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       <ClinicChoicePage
         openClinicPage={openClinicPage}
         updateFormData={updateFormData}
-        loadingFacilityDetails
+        facilityDetailsStatus={FETCH_STATUS.loading}
         data={{}}
       />,
     );
@@ -58,12 +59,31 @@ describe('VAOS <ClinicChoicePage>', () => {
     );
 
     expect(form.find('input').length).to.equal(2);
-    expect(form.find('h1').text()).to.equal(
-      'Make a primary care appointment at your last clinic',
-    );
     expect(form.text()).to.contain(
       'Your last primary care appointment was at Friendly name',
     );
+
+    form.unmount();
+  });
+
+  it('document title to match h1 text in single clinic', () => {
+    const openClinicPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const pageTitle = 'Make a primary care appointment at your last clinic';
+
+    const form = mount(
+      <ClinicChoicePage
+        openClinicPage={openClinicPage}
+        updateFormData={updateFormData}
+        facilityDetailsStatus={FETCH_STATUS.loading}
+        {...defaultProps}
+      />,
+    );
+
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
     form.unmount();
   });
 
@@ -90,12 +110,43 @@ describe('VAOS <ClinicChoicePage>', () => {
     );
 
     expect(form.find('input').length).to.equal(3);
-    expect(form.find('h1').text()).to.equal(
-      'Select your VA clinic for your primary care appointment',
-    );
     expect(form.text()).to.contain(
-      'In the last 24 months you have had primary care appointments in the following clinics, located at',
+      'In the last 24 months you have had a primary care appointment in the following clinics, located at',
     );
+
+    form.unmount();
+  });
+
+  it('document title should match h1 text in multi clinic choice', () => {
+    const openClinicPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const pageTitle = 'Choose your VA clinic for your primary care appointment';
+
+    const form = mount(
+      <ClinicChoicePage
+        openClinicPage={openClinicPage}
+        updateFormData={updateFormData}
+        facilityDetailsStatus={FETCH_STATUS.loading}
+        {...defaultProps}
+        schema={{
+          type: 'object',
+          properties: {
+            clinicId: {
+              type: 'string',
+              enum: ['455', '456', 'NONE'],
+              enumNames: ['Testing', 'Testing2', 'No'],
+            },
+          },
+        }}
+      />,
+    );
+
+    form.setProps({ facilityDetailsStatus: FETCH_STATUS.successful });
+
+    expect(form.find('input').length).to.equal(3);
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
+
     form.unmount();
   });
 

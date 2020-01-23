@@ -5,7 +5,7 @@
       class="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
       <a href="{{entity.entityUrl.path}}">{{entity.title}}</a> </h3>
     {% if entity.fieldOperatingStatusFacility and entity.fieldOperatingStatusFacility != 'normal' %}
-    <div class="vads-u-display--inline-block vads-u-margin-bottom--2p5">
+    <div class="vads-u-display--inline-block vads-u-margin-bottom--1">
       {% include "src/site/includes/operatingStatusFlags.drupal.liquid" with entity %}
     </div>
     {% endif %}

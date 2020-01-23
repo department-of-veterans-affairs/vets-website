@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import useFormPageTester from '../useFormPageTester';
+import { FETCH_STATUS } from '../../utils/constants';
 
 import { CommunityCarePreferencesPage } from '../../containers/CommunityCarePreferencesPage';
 
@@ -13,7 +14,13 @@ function CommunityCarePreferencesPageTester(props) {
     props.data,
     'openCommunityCarePreferencesPage',
   );
-  return <CommunityCarePreferencesPage {...props} {...formProps} />;
+  return (
+    <CommunityCarePreferencesPage
+      {...props}
+      {...formProps}
+      systemsStatus={FETCH_STATUS.succeeded}
+    />
+  );
 }
 
 describe('VAOS <CommunityCarePreferencesPage>', () => {
@@ -21,7 +28,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPage
         openCommunityCarePreferencesPage={f => f}
-        loading
+        systemsStatus={FETCH_STATUS.loading}
       />,
     );
 
@@ -40,6 +47,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPageTester
         data={{ hasCommunityCareProvider: true }}
+        systemsStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -53,6 +61,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     const form = mount(
       <CommunityCarePreferencesPageTester
         routeToNextAppointmentPage={routeToNextAppointmentPage}
+        systemsStatus={FETCH_STATUS.succeeded}
       />,
     );
 
@@ -87,6 +96,16 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
 
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
+  it('document title should match h1 text', () => {
+    const form = mount(<CommunityCarePreferencesPageTester />);
+    const pageTitle = 'Tell us your Community Care preferences';
+
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
+
     form.unmount();
   });
 });

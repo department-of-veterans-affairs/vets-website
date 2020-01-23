@@ -15,6 +15,7 @@ import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositPage from '../../pages/directDeposit';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 
@@ -47,6 +48,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
+  },
+  downtime: {
+    dependencies: [externalServices.global],
   },
   title:
     'Apply for education benefits under the National Call to Service program',

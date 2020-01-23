@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import VetTecContactInformation from './VetTecContactInformation';
 import { calculatorInputChange } from '../../actions';
 import { formatCurrency, isPresent } from '../../utils/helpers';
@@ -30,6 +31,11 @@ class VetTecApprovedPrograms extends React.Component {
   };
 
   handleInputChange = (event, index, vetTecProgramName) => {
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'Program Name Radio Button',
+      'gibct-form-value': vetTecProgramName,
+    });
     this.setState({ selectedProgram: vetTecProgramName });
     this.setProgramFields(vetTecProgramName);
   };
@@ -38,9 +44,10 @@ class VetTecApprovedPrograms extends React.Component {
     const programs = this.props.institution.programs;
     if (programs && programs.length) {
       const programRows = programs.map((program, index) => {
-        const programLength = isPresent(program.lengthInHours)
-          ? `${program.lengthInHours} hours`
-          : 'TBD';
+        const programLength =
+          isPresent(program.lengthInHours) && program.lengthInHours !== '0'
+            ? `${program.lengthInHours} hours`
+            : 'TBD';
         const tuition = isPresent(program.tuitionAmount)
           ? formatCurrency(program.tuitionAmount)
           : 'TBD';
@@ -68,7 +75,9 @@ class VetTecApprovedPrograms extends React.Component {
                 </label>
               </div>
             </td>
-            <td className="vads-u-padding-y--0">{programLength}</td>
+            <td className="vads-u-padding-y--0 program-length">
+              {programLength}
+            </td>
             <td className="vads-u-padding-y--0">{tuition}</td>
           </tr>
         );

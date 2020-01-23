@@ -3,9 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 
-import { VetTecScoContact } from '../../components/vet-tec/VetTecScoContact';
-import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
-import VetTecApprovedPrograms from '../../components/vet-tec/VetTecApprovedPrograms';
 import VetTecHeadingSummary from '../../components/vet-tec/VetTecHeadingSummary';
 import VetTecVeteranPrograms from '../../components/vet-tec/VetTecVeteranPrograms';
 import VetTecApplicationProcess from '../../components/vet-tec/VetTecApplicationProcess';
@@ -36,84 +33,13 @@ const institution = {
       phoneNumber: '333-3333',
     },
   ],
-  versionedSchoolCertifyingOfficials: [
-    {
-      priority: 'PRIMARY',
-      firstName: 'ADM',
-      lastName: '1N',
-      title: 'ROBOTIC ADMISSIONS OFFICAL',
-      phoneAreaCode: '555',
-      phoneNumber: '123-9874',
-      phoneExtension: '222',
-      email: 'A1N@GALVALNIZE.COM',
-    },
-    {
-      facilityCode: '2V000203',
-      institutionName: 'GALVANIZE INC',
-      priority: 'PRIMARY',
-      firstName: 'MARTIN',
-      lastName: 'INDIATSI',
-      title: 'SCHOOL CERTIFYING OFFICIAL',
-      phoneAreaCode: '303',
-      phoneNumber: '749-0110',
-      phoneExtension: null,
-      email: 'VABENEFITS@GALVANIZE.COM',
-    },
-  ],
 };
-
-describe('<VetTecScoContact>', () => {
-  it('should render', () => {
-    const wrapper = shallow(<VetTecScoContact />);
-    const vdom = wrapper.html();
-    expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-
-  it('return null when no sco is supplied', () => {
-    expect(VetTecScoContact()).to.be.null;
-  });
-
-  it('return the contact information for an SCO', () => {
-    const wrapper = shallow(
-      VetTecScoContact(institution.versionedSchoolCertifyingOfficials[1]),
-    );
-
-    expect(wrapper.text().includes('MARTIN INDIATSI')).to.be.true;
-    expect(wrapper.text().includes('SCHOOL CERTIFYING OFFICIAL')).to.be.true;
-    wrapper.unmount();
-  });
-});
-
-describe('<VetTecContactInformation>', () => {
-  it('should render', () => {
-    const wrapper = shallow(
-      <VetTecContactInformation institution={institution} />,
-    );
-    const vdom = wrapper.html();
-    expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-});
 
 describe('<VetTecApplicationProcess>', () => {
   it('should render', () => {
     const wrapper = shallow(
       <VetTecApplicationProcess institution={institution} />,
     );
-    const vdom = wrapper.html();
-    expect(vdom).to.not.be.undefined;
-    wrapper.unmount();
-  });
-});
-
-describe('<VetTecApprovedProgram>', () => {
-  it('should render', () => {
-    const defaultProps = {
-      store: createCommonStore(),
-      institution,
-    };
-    const wrapper = shallow(<VetTecApprovedPrograms {...defaultProps} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
     wrapper.unmount();

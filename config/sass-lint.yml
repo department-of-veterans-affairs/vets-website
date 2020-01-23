@@ -13,8 +13,9 @@
 # Linter SpaceBeforeBrace, option "allow_single_line_padding"
 # Linter VendorPrefix, option "identifier_list"
 
-files: 
+files:
   include: 'src/**/*.scss'
+  ignore: 'src/applications/proxy-rewrite/sass/style-consolidated.scss'
 options:
   formatter: stylish
   merge-default-rules: false

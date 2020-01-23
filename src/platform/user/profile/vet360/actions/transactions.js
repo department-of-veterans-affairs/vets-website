@@ -1,9 +1,13 @@
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { inferAddressType } from 'applications/letters/utils/helpers';
+import { showAddressValidationModal } from '../../utilities';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
+import { CONFIRMED } from '../../constants/addressValidationMessages';
 import {
+  addCountryCodeIso3ToAddress,
   isSuccessfulTransaction,
   isFailedTransaction,
 } from '../util/transactions';
@@ -28,6 +32,8 @@ export const VET360_CLEAR_TRANSACTION_STATUS =
   'VET360_CLEAR_TRANSACTION_STATUS';
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
+export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
+export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
 
 export function clearTransactionStatus() {
   return {
@@ -184,47 +190,78 @@ export const validateAddress = (
   payload,
   analyticsSectionName,
 ) => async dispatch => {
-  const addressPayload = { address: { ...payload } };
+  const userEnteredAddress = { address: addCountryCodeIso3ToAddress(payload) };
+  dispatch({
+    type: ADDRESS_VALIDATION_INITIALIZE,
+    fieldName,
+  });
   const options = {
-    body: JSON.stringify(addressPayload),
+    body: JSON.stringify(userEnteredAddress),
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
   };
+
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVet360.addressValidationSuccess();
-    const { addresses } = response;
+    const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
       .sort(
         (firstAddress, secondAddress) =>
-          secondAddress?.addressMetaData?.confidenceScore -
-          firstAddress?.addressMetaData?.confidenceScore,
+          secondAddress.addressMetaData?.confidenceScore -
+          firstAddress.addressMetaData?.confidenceScore,
       )
-      .map(address => address.address);
+      // add the address type, POU, and original id to each suggestion
+      .map(address => ({
+        addressMetaData: { ...address.addressMetaData },
+        ...inferAddressType(address.address),
+        addressPou:
+          fieldName === FIELD_NAMES.MAILING_ADDRESS
+            ? ADDRESS_POU.CORRESPONDENCE
+            : ADDRESS_POU.RESIDENCE,
+        id: payload.id || null,
+      }));
+    const confirmedSuggestions = suggestedAddresses.filter(
+      suggestion =>
+        suggestion.addressMetaData?.deliveryPointValidation === CONFIRMED,
+    );
     const payloadWithSuggestedAddress = {
-      ...suggestedAddresses[0],
-      id: payload?.id,
-      addressPou:
-        fieldName === FIELD_NAMES.MAILING_ADDRESS
-          ? ADDRESS_POU.CORRESPONDENCE
-          : ADDRESS_POU.RESIDENCE,
+      ...confirmedSuggestions[0],
     };
 
-    // If multiple suggestions, present them to the modal
-    if (suggestedAddresses.length > 1) {
+    const selectedAddressId = confirmedSuggestions.length > 0 ? '0' : null;
+
+    // always select first address as default if there are any
+    let selectedAddress = confirmedSuggestions[0];
+
+    if (!confirmedSuggestions.length && validationKey) {
+      // if there are no confirmed suggestions and user can override, fall back to submitted address
+      selectedAddress = payload;
+    }
+
+    // we use the unfiltered list of suggested addresses to determine if we need
+    // to show the modal because the only time we will skip the modal is if one
+    // and only one confirmed address came back from the API
+    const showModal = showAddressValidationModal(suggestedAddresses);
+
+    // show the modal if the API doesn't find a single solid match for the address
+    if (showModal) {
       return dispatch({
         type: ADDRESS_VALIDATION_CONFIRM,
-        addressFromUser: payload,
+        addressFromUser: userEnteredAddress.address, // need to use the address with iso3 code added to it
         addressValidationType: fieldName,
-        selectedAddress: suggestedAddresses[0], // always select the first address as the default
+        selectedAddress,
         suggestedAddresses,
-        validationKey: response.validationKey,
+        selectedAddressId,
+        validationKey,
+        confirmedSuggestions,
       });
     }
+    // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(
         route,
@@ -240,7 +277,52 @@ export const validateAddress = (
       addressValidationType: fieldName,
       addressValidationError: true,
       addressFromUser: { ...payload },
+    });
+  }
+};
+
+export const updateValidationKeyAndSave = (
+  route,
+  method,
+  fieldName,
+  payload,
+  analyticsSectionName,
+) => async dispatch => {
+  try {
+    const addressPayload = { address: { ...payload } };
+
+    const options = {
+      body: JSON.stringify(addressPayload),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = isVet360Configured()
+      ? await apiRequest('/profile/address_validation', options)
+      : await localVet360.addressValidationSuccess();
+    const { validationKey } = response;
+
+    return dispatch(
+      createTransaction(
+        route,
+        method,
+        fieldName,
+        { ...payload, validationKey },
+        analyticsSectionName,
+      ),
+    );
+  } catch (error) {
+    return dispatch({
+      type: ADDRESS_VALIDATION_ERROR,
+      addressValidationType: fieldName,
+      addressValidationError: true,
+      addressFromUser: { ...payload },
       validationKey: null, // add this in when changes are made to API / override logic
     });
   }
 };
+
+export const resetAddressValidation = () => ({
+  type: ADDRESS_VALIDATION_RESET,
+});

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import externalServiceStatus from '../config/externalServiceStatus';
+import defaultExternalServices from '../config/externalServices';
 
 /**
  * Derives downtime status based on a time range
@@ -24,6 +25,29 @@ export function getStatusForTimeframe(startTime, endTime) {
   if (startsWithinHour) return externalServiceStatus.downtimeApproaching;
 
   return externalServiceStatus.ok;
+}
+
+export function createGlobalMaintenanceWindow({
+  startTime,
+  endTime,
+  externalServices = defaultExternalServices,
+}) {
+  return [
+    {
+      attributes: {
+        externalService: 'global',
+        startTime,
+        endTime,
+      },
+    },
+    ...Object.keys(externalServices).map(externalService => ({
+      attributes: {
+        externalService,
+        startTime,
+        endTime,
+      },
+    })),
+  ];
 }
 
 /**

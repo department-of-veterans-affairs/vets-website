@@ -29,7 +29,20 @@ import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
 import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
+import environments from '../../../platform/utilities/environment';
+/**
+ New: mbxClient is the new instance for the API calls and
+ The new SDK requires to pass the mapbox client to geocode services
+ otherwise use the client as it is
+ */
+let mbxClient;
 
+if (environments.isStaging()) {
+  const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+  mbxClient = mbxGeo(mapboxClient);
+} else {
+  mbxClient = mapboxClient;
+}
 const otherToolsLink = (
   <p>
     Can’t find what you’re looking for?
@@ -284,29 +297,69 @@ class VAMap extends Component {
    *  @param position Has shape: `{latitude: x, longitude: y}`
    */
   genBBoxFromCoords = position => {
-    mapboxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
-      const coordinates = res.features[0].center;
-      const placeName = res.features[0].place_name;
-      const zipCode =
-        res.features[0].context.find(v => v.id.includes('postcode')).text || '';
+    if (environments.isStaging()) {
+      /**
+       * New SDk uses reverseGeocode fn to make the API call (promise)
+       */
+      mbxClient
+        .reverseGeocode({
+          query: [position.longitude, position.latitude],
+          types: ['address'],
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          const coordinates = features[0].center;
+          const placeName = features[0].place_name;
+          const zipCode =
+            features[0].context.find(v => v.id.includes('postcode')).text || '';
 
-      this.props.updateSearchQuery({
-        bounds: res.features[0].bbox || [
-          coordinates[0] - BOUNDING_RADIUS,
-          coordinates[1] - BOUNDING_RADIUS,
-          coordinates[0] + BOUNDING_RADIUS,
-          coordinates[1] + BOUNDING_RADIUS,
-        ],
-        searchString: placeName,
-        context: zipCode,
-        position,
-      });
+          this.props.updateSearchQuery({
+            bounds: features[0].bbox || [
+              coordinates[0] - BOUNDING_RADIUS,
+              coordinates[1] - BOUNDING_RADIUS,
+              coordinates[0] + BOUNDING_RADIUS,
+              coordinates[1] + BOUNDING_RADIUS,
+            ],
+            searchString: placeName,
+            context: zipCode,
+            position,
+          });
 
-      this.updateUrlParams({
-        address: placeName,
-        context: zipCode,
+          this.updateUrlParams({
+            address: placeName,
+            context: zipCode,
+          });
+        })
+        .catch();
+    } else {
+      /**
+       * Current SDk uses geocodeReverse fn to make the API call (callback)
+       */
+      mbxClient.geocodeReverse(position, { types: 'address' }, (err, res) => {
+        const coordinates = res.features[0].center;
+        const placeName = res.features[0].place_name;
+        const zipCode =
+          res.features[0].context.find(v => v.id.includes('postcode')).text ||
+          '';
+
+        this.props.updateSearchQuery({
+          bounds: res.features[0].bbox || [
+            coordinates[0] - BOUNDING_RADIUS,
+            coordinates[1] - BOUNDING_RADIUS,
+            coordinates[0] + BOUNDING_RADIUS,
+            coordinates[1] + BOUNDING_RADIUS,
+          ],
+          searchString: placeName,
+          context: zipCode,
+          position,
+        });
+
+        this.updateUrlParams({
+          address: placeName,
+          context: zipCode,
+        });
       });
-    });
+    }
   };
 
   handleSearch = () => {
@@ -611,7 +664,7 @@ class VAMap extends Component {
           <p>
             Find VA locations near you with our facility locator tool. You can
             search for your nearest VA medical center as well as other health
-            facilities, benefit offices, cemeteries, community care providers
+            facilities, regional offices, cemeteries, community care providers
             and Vet Centers. You can also filter your results by service type to
             find locations that offer the specific service you’re looking for.
           </p>

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import moment from 'moment';
 import externalServiceStatus from '../config/externalServiceStatus';
+import defaultExternalServices from '../config/externalServices';
 import * as downtimeHelpers from '../util/helpers';
 
 const pastDowntime = {
@@ -103,6 +104,48 @@ describe('getStatusForTimeframe', () => {
         distantFutureDowntime.attributes.endTime,
       ),
     ).to.equal(externalServiceStatus.ok);
+  });
+});
+
+describe('createGlobalMaintenanceWindow', () => {
+  const startTime = '2020-01-15 12:01';
+  const endTime = '2020-01-16 12:01';
+  const globalWindow = {
+    attributes: {
+      externalService: 'global',
+      startTime,
+      endTime,
+    },
+  };
+
+  it('generates a "/maintenance_windows" response for each downed service', () => {
+    const globalMaintWindow = downtimeHelpers.createGlobalMaintenanceWindow({
+      startTime,
+      endTime,
+      externalServices: { mvi: 'mvi' },
+    });
+
+    expect(globalMaintWindow.length).to.eql(2);
+    expect(globalMaintWindow[0]).to.eql(globalWindow);
+    expect(globalMaintWindow[1]).to.eql({
+      attributes: {
+        externalService: 'mvi',
+        startTime,
+        endTime,
+      },
+    });
+  });
+
+  it('uses the default external services when none are provided', () => {
+    const globalMaintWindow = downtimeHelpers.createGlobalMaintenanceWindow({
+      startTime,
+      endTime,
+    });
+
+    // The +1 is to account for the global service
+    expect(globalMaintWindow.length).to.eql(
+      Object.keys(defaultExternalServices).length + 1,
+    );
   });
 });
 
