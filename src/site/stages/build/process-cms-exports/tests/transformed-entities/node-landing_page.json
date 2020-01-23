@@ -47,7 +47,7 @@
     {
       "__typename": "MetaLink",
       "key": "image_src",
-      "value": "https://dev.cms.va.gov/sites/default/files/hub_promos/education.png"
+      "value": "http://default/sites/default/files/hub_promos/education.png"
     },
     {
       "__typename": "MetaProperty",
@@ -62,12 +62,12 @@
     {
       "__typename": "MetaValue",
       "key": "twitter:image",
-      "value": "https://dev.cms.va.gov/sites/default/files/hub_promos/education.png"
+      "value": "http://default/sites/default/files/hub_promos/education.png"
     },
     {
       "__typename": "MetaProperty",
       "key": "og:image",
-      "value": "https://dev.cms.va.gov/sites/default/files/hub_promos/education.png"
+      "value": "http://default/sites/default/files/hub_promos/education.png"
     }
   ],
   "fieldIntroText": "VA education benefits help Veterans, service members, and their qualified family members with needs like paying college tuition, finding the right school or training program, and getting career counseling. Learn how to apply for and manage the education and training benefits you've earned.",
@@ -275,7 +275,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/about-gi-bill-benefits"
+                  "path": "entity:node/915"
                 },
                 "title": "About GI Bill benefits",
                 "options": []
@@ -288,7 +288,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/eligibility"
+                  "path": "entity:node/942"
                 },
                 "title": "Eligibility",
                 "options": []
@@ -302,7 +302,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/how-to-apply"
+                  "path": "entity:node/943"
                 },
                 "title": "How to apply",
                 "options": []
@@ -315,7 +315,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/after-you-apply"
+                  "path": "entity:node/937"
                 },
                 "title": "After you apply",
                 "options": []
@@ -328,7 +328,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/careers-employment/vocational-rehabilitation"
+                  "path": "entity:node/725"
                 },
                 "title": "Vocational Rehabilitation and Employment",
                 "options": []
@@ -341,7 +341,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/careers-employment/education-and-career-counseling"
+                  "path": "entity:node/720"
                 },
                 "title": "Educational and Career Counseling (Chapter 36)",
                 "options": []
@@ -354,7 +354,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/survivor-dependent-benefits"
+                  "path": "entity:node/984"
                 },
                 "title": "VA education benefits for dependents and survivors",
                 "options": []
@@ -367,7 +367,7 @@
             "entity": {
               "fieldLink": {
                 "url": {
-                  "path": "/education/other-va-education-benefits"
+                  "path": "entity:node/945"
                 },
                 "title": "Other educational assistance programs",
                 "options": []
@@ -639,7 +639,7 @@
     {
       "title": "School administrators",
       "url": {
-        "path": "https://www.va.gov/school-administrators/"
+        "path": "https://www.benefits.va.gov/gibill/school_resources.asp"
       }
     }
   ],
