@@ -4,7 +4,7 @@ module.exports = {
   // None of these are required
   properties: {
     countryCode: { type: ['string', 'null'] },
-    addressLine1: { type: 'string' },
+    addressLine1: { type: ['string', 'null'] },
     addressLine2: { type: ['string', 'null'] },
     administrativeArea: { type: ['string', 'null'] }, // Also known as state
     locality: { type: ['string', 'null'] }, // Also known as city

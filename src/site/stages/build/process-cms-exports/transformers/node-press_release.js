@@ -1,4 +1,5 @@
 const moment = require('moment');
+const { mapKeys, camelCase } = require('lodash');
 
 const {
   createMetaTagArray,
@@ -15,11 +16,7 @@ const transform = entity => ({
   entityUrl: {
     path: entity.path[0].alias,
   },
-  fieldAddress: {
-    locality: entity.fieldAddress[0].locality,
-    // The things in fieldAddress don't get camelCased
-    administrativeArea: entity.fieldAddress[0].administrative_area,
-  },
+  fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
 
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],

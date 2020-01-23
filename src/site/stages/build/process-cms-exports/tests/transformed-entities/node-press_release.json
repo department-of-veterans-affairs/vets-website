@@ -60,6 +60,17 @@
   },
   "fieldPdfVersion": null,
   "fieldAddress": {
+    "additionalName": null,
+    "addressLine1": null,
+    "addressLine2": null,
+    "countryCode": "US",
+    "dependentLocality": null,
+    "familyName": null,
+    "givenName": null,
+    "organization": null,
+    "postalCode": null,
+    "sortingCode": null,
+    "langcode": "",
     "locality": "Pittsburgh",
     "administrativeArea": "PA"
   },

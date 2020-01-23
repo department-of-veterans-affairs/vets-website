@@ -18,14 +18,7 @@ module.exports = {
       },
     },
     entityUrl: { $ref: 'EntityUrl' },
-    fieldAddress: {
-      type: 'object',
-      properties: {
-        locality: { type: 'string' },
-        administrativeArea: { type: 'string' },
-      },
-      required: ['locality', 'administrativeArea'],
-    },
+    fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
     fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
     fieldPdfVersion: { $ref: 'Media' },
