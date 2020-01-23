@@ -1,14 +1,9 @@
-import {
-  FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAILURE,
-  UPDATE_DATA_FAILURE,
-  UPDATE_DATA_SUCCESS,
-} from '../constants';
 import { getDLCDataApi, updateDLCDataApi } from '../api';
+import { FETCH_DATA_FAILURE, FETCH_DATA_SUCCESS, UPDATE_DATA_FAILURE, UPDATE_DATA_SUCCESS } from '../constants';
 
 export const fetchDataSuccess = data => ({
   type: FETCH_DATA_SUCCESS,
-  payload: data,
+  data,
 });
 
 export const fetchDataFailure = () => ({

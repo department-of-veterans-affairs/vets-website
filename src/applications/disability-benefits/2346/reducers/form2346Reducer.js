@@ -1,12 +1,7 @@
-import {
-  FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAILURE,
-  UPDATE_DATA_FAILURE,
-  UPDATE_DATA_SUCCESS,
-} from '../constants';
+import { FETCH_DATA_FAILURE, FETCH_DATA_SUCCESS, UPDATE_DATA_FAILURE, UPDATE_DATA_SUCCESS } from '../constants';
 
 const initialState = {
-  data: [],
+  dlcData: [],
 };
 
 export default (state = initialState, action) => {
@@ -14,25 +9,25 @@ export default (state = initialState, action) => {
     case FETCH_DATA_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        dlcData: action.data,
       };
 
     case FETCH_DATA_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        error: action.error,
       };
 
     case UPDATE_DATA_SUCCESS:
       return {
         ...state,
-        data: state.data.concat(action.payload),
+        dlcData: state.data.concat(action.data),
       };
 
     case UPDATE_DATA_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        error: action.error,
       };
 
     default:
