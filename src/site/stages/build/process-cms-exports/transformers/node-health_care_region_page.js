@@ -14,6 +14,7 @@ const transform = ({
   moderationState,
   metatag: { value: metaTags },
   fieldNicknameForThisFacility,
+  fieldRelatedLinks,
   fieldPressReleaseBlurb,
 }) => ({
   entity: {
@@ -26,6 +27,7 @@ const transform = ({
       path: path[0].alias,
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
+    fieldRelatedLinks: fieldRelatedLinks[0],
     fieldPressReleaseBlurb: {
       processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
     },
@@ -57,6 +59,7 @@ module.exports = {
     'moderation_state',
     'path',
     'field_nickname_for_this_facility',
+    'field_related_links',
     'field_press_release_blurb',
     'metatag',
   ],
