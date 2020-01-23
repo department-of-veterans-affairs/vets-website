@@ -13,17 +13,24 @@ module.exports = {
       maxItems: 1,
     },
     field_facility_operating_status: { $ref: 'EntityReferenceArray' },
-    field_links: { $ref: 'EntityReferenceArray' },
+    field_links: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          uri: { type: 'string' },
+          title: { type: 'string' },
+          // When we actually get an item, add the schema to this and remove the maxItems: 0
+          options: { type: 'array', maxItems: 0 },
+        },
+      },
+    },
     field_office: {
       type: 'array',
       items: { $ref: 'EntityReference' },
       maxItems: 1,
     },
-    field_operating_status_emerg_inf: {
-      type: 'array',
-      items: { $ref: 'EntityReference' },
-      maxItems: 1,
-    },
+    field_operating_status_emerg_inf: { $ref: 'GenericNestedString' },
   },
   required: [
     'title',
