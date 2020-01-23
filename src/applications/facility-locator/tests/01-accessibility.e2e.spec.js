@@ -28,14 +28,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .assert.visible('ul[class="dropdown"]');
 
-  client
-    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-    .useXpath()
-    .assert.attributeContains(
-      '//li[@option="VA Community Care (In network)"]',
-      'aria-selected',
-      true,
-    );
+  if (FacilityHelpers.ccLocatorEnabled()) {
+    client
+      .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
+      .useXpath()
+      .assert.attributeContains(
+        '//li[@option="VA Community Care (In network)"]',
+        'aria-selected',
+        true,
+      );
+  }
 
   client
     .useCss()
