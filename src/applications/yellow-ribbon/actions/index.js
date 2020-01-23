@@ -35,17 +35,15 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
   const location = options?.location || window.location;
   const mockRequest = options?.mockRequest || false;
   const name = options?.name || '';
-  const city = options?.city || '';
   const state = options?.state || '';
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction({ city, name, state }));
+  dispatch(fetchResultsAction({ name, state }));
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);
 
   // Update the query params in our URL.
-  queryParams.set('city', city);
   queryParams.set('name', name);
   queryParams.set('state', state);
 
@@ -54,7 +52,7 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive results.
-    const response = await fetchResultsApi({ mockRequest, city, name, state });
+    const response = await fetchResultsApi({ mockRequest, name, state });
 
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));

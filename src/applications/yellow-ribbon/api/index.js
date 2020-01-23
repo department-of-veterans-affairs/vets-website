@@ -9,14 +9,12 @@ export const fetchResultsApi = async (options = {}) => {
   // Derive options properties.
   const mockRequest = options?.mockRequest || false;
   const name = options?.name;
-  const city = options?.city;
   const state = options?.state;
 
   // Construct the URL and stub the response.
   const RESULTS_URL = appendQuery('/gi/institutions/search', {
     category: 'school',
     name,
-    city,
     state,
     // eslint-disable-next-line
     yellow_ribbon_scholarship: true,
