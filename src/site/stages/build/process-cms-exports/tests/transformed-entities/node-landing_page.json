@@ -118,11 +118,15 @@
     }
   },
   "fieldRelatedLinks": {
+    "contentModelType": "paragraph-list_of_link_teasers",
     "entity": {
+      "entityBundle": "list_of_link_teasers",
+      "entityType": "paragraph",
       "parentFieldName": "field_related_links",
       "fieldTitle": "Other VA benefits and services",
       "fieldVaParagraphs": [
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -135,6 +139,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -147,6 +152,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -159,6 +165,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
@@ -171,6 +178,7 @@
           }
         },
         {
+          "contentModelType": "paragraph-link_teaser",
           "entity": {
             "fieldLink": {
               "url": {
