@@ -57,15 +57,18 @@ export class SearchForm extends Component {
 
     return (
       <form
-        className="vads-l-grid-container vads-u-padding--0"
+        className="vads-l-grid-container vads-u-padding--0 vads-u-margin-bottom--9"
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
         {/* Name Field */}
-        <label htmlFor="yr-search-name" className="vads-u-margin--0">
+        <label
+          htmlFor="yr-search-name"
+          className="vads-u-margin-top--1 vads-u-margin--0"
+        >
           School name
         </label>
-        <div className="vads-u-margin-right--2 vads-u-flex--1">
+        <div className="vads-u-flex--1">
           <input
             className="usa-input vads-u-max-width--100 vads-u-width--full"
             name="yr-search-name"
@@ -76,10 +79,10 @@ export class SearchForm extends Component {
         </div>
 
         {/* State Field */}
-        <label htmlFor="yr-search-name" className="vads-u-margin--0">
-          State
+        <label htmlFor="yr-search-name" className="vads-u-margin-top--3">
+          State, territory, or overseas campus
         </label>
-        <div className="vads-u-margin-right--2 vads-u-flex--1">
+        <div className="vads-u-flex--1">
           <select
             name="yr-search-name"
             onChange={onStateChange('state')}
@@ -96,7 +99,7 @@ export class SearchForm extends Component {
 
         {/* Submit Button */}
         <button
-          className="usa-button vads-u-margin--0 vads-u-margin-y--1"
+          className="usa-button-primary va-button-primary vads-u-width--auto"
           type="submit"
         >
           Search

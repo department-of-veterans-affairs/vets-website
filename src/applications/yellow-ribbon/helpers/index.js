@@ -1,5 +1,7 @@
 // Node modules.
-import { map } from 'lodash';
+import { map, startCase, toLower } from 'lodash';
+
+export const capitalize = str => startCase(toLower(str));
 
 export const normalizeResponse = response => ({
   results: map(response?.data, school => ({
