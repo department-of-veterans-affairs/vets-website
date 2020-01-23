@@ -342,6 +342,8 @@ module.exports = class extends Generator {
     this.log('- [ ] Clean up the raw schema');
     this.log('- [ ] Clean up the transformed schema');
     this.log('- [ ] Finish the transformer');
+    this.log('- [ ] Ensure any unused test data is deleted by running:');
+    this.log('      script/remove-unnecessary-raw-entity-files.sh');
     this.log('- [ ] Ensure it all works by running:');
     this.log(
       '      yarn test:unit src/site/stages/build/process-cms-exports/tests/assemble-entity-tree.unit.spec.js',
