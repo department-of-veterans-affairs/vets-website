@@ -212,6 +212,7 @@ function defaultBuild(BUILD_OPTIONS) {
     if (BUILD_OPTIONS.watch) {
       console.log('Metalsmith build finished!  Starting webpack-dev-server...');
     } else {
+      smith.printSummary();
       console.log('Build finished!');
     }
   });

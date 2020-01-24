@@ -2,6 +2,7 @@
 
 const Metalsmith = require('metalsmith');
 const chalk = require('chalk');
+const AsciiTable = require('ascii-table');
 
 const formatMemory = m => Math.round((m / 1024 / 1024) * 100) / 100;
 
@@ -46,7 +47,7 @@ module.exports = () => {
   let stepCount = 0;
   smith.use = function use(plugin, description) {
     const step = stepCount++;
-    smith.stepStats[step] = {};
+    smith.stepStats[step] = { description };
     if (!description) {
       smith.stepStats[step].untracked = true;
       return smith._use(plugin);
@@ -73,6 +74,29 @@ module.exports = () => {
         logStepEnd(step, description, timeElapsed);
         logMemoryUsage(heapUsedStart, heapUsedEnd);
       });
+  };
+
+  smith.printSummary = function printSummary() {
+    const table = new AsciiTable('Step summary');
+    table.setHeading(
+      'Step',
+      'Description',
+      'Time Elapsed',
+      'Memory Used This Step',
+      'Total Memory Used After Step',
+    );
+    smith.stepStats.forEach((stats, index) =>
+      table.addRow(
+        index,
+        stats.description,
+        `${stats.timeElapsed}ms`,
+        `${formatMemory(stats.memoryEnd - stats.memoryStart)}mB`,
+        `${formatMemory(stats.memoryEnd)}mB`,
+      ),
+    );
+
+    table.removeBorder();
+    console.log(table.toString());
   };
 
   return smith;

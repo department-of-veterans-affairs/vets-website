@@ -112,6 +112,7 @@
     "@sentry/browser": "^5.4.0",
     "ajv": "^6.10.2",
     "append-query": "2.0.1",
+    "ascii-table": "^0.0.9",
     "autoprefixer": "^9.5.1",
     "axe-core": "^2.6.0",
     "babel-core": "^7.0.0-bridge.0",
