@@ -11,6 +11,9 @@ const systems = require('../../api/systems.json');
 const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
+const clinicList983 = require('../../api/clinicList983.json');
+const slots = require('../../api/slots.json');
+const pact = require('../../api/pact.json');
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -66,7 +69,7 @@ function appointmentDateTimeTest(client, nextElement) {
     )
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .waitForElementPresent(nextElement, Timeouts.normal);
+    .waitForElementPresent(nextElement, Timeouts.slow);
 
   return client;
 }
@@ -147,6 +150,10 @@ function initAppointmentListMock(token) {
             name: 'vaOnlineSchedulingCommunityCare',
             value: true,
           },
+          {
+            name: 'vaOnlineSchedulingDirect',
+            value: true,
+          },
         ],
       },
     },
@@ -204,6 +211,28 @@ function initAppointmentListMock(token) {
     value: facilities983,
   });
   mock(token, {
+    path: '/v0/vaos/facilities/983/clinics',
+    verb: 'get',
+    value: clinicList983,
+  });
+  mock(token, {
+    path: '/v0/vaos/systems/983/pact',
+    verb: 'get',
+    value: pact,
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983GB/clinics',
+    verb: 'get',
+    value: {
+      data: [],
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983/available_appointments',
+    verb: 'get',
+    value: slots,
+  });
+  mock(token, {
     path: '/v0/vaos/facilities/983/limits',
     verb: 'get',
     value: {
@@ -255,6 +284,13 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
+    path: '/v0/vaos/appointments',
+    verb: 'post',
+    value: {
+      data: {},
+    },
+  });
+  mock(token, {
     path: '/v0/vaos/facilities/983GB/visits/request',
     verb: 'get',
     value: {
@@ -278,6 +314,34 @@ function initAppointmentListMock(token) {
         attributes: {
           durationInMonths: 24,
           hasVisitedInPastMonths: true,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983/visits/direct',
+    verb: 'get',
+    value: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: true,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983GB/visits/direct',
+    verb: 'get',
+    value: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: false,
         },
       },
     },
