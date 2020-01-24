@@ -8,23 +8,20 @@ const formatMemory = m => Math.round((m / 1024 / 1024) * 100) / 100;
 const logStepStart = (step, description) =>
   console.log(chalk.cyan(`\nStep ${step + 1} start: ${description}`));
 
-const logStepEnd = (step, description, timerStart) => {
-  const time = (process.hrtime.bigint() - timerStart) / 1000000n;
-
+const logStepEnd = (step, description, timeElapsed) => {
   // Color the time
   let color;
-  if (time < 1000) color = chalk.green;
-  else if (time < 10000) color = chalk.yellow;
+  if (timeElapsed < 1000) color = chalk.green;
+  else if (timeElapsed < 10000) color = chalk.yellow;
   else color = chalk.red;
-  const coloredTime = color(`[${time}ms]`);
+  const coloredTime = color(`[${timeElapsed}ms]`);
 
   console.log(
     chalk.cyan(`Step ${step + 1} end ${coloredTime}: ${description}`),
   );
 };
 
-const logMemoryUsage = heapUsedStart => {
-  const heapUsedEnd = process.memoryUsage().heapUsed;
+const logMemoryUsage = (heapUsedStart, heapUsedEnd) => {
   console.log(
     chalk.bold('Starting memory:'),
     `${formatMemory(heapUsedStart)}mB`,
@@ -42,12 +39,18 @@ const logMemoryUsage = heapUsedStart => {
 module.exports = () => {
   const smith = Metalsmith(__dirname);
 
+  smith.stepStats = [];
+
   // Override the normal use function to log additional information
   smith._use = smith.use;
   let stepCount = 0;
   smith.use = function use(plugin, description) {
     const step = stepCount++;
-    if (!description) return smith._use(plugin);
+    smith.stepStats[step] = {};
+    if (!description) {
+      smith.stepStats[step].untracked = true;
+      return smith._use(plugin);
+    }
 
     let timerStart;
     let heapUsedStart;
@@ -55,13 +58,20 @@ module.exports = () => {
     return smith
       ._use(() => {
         heapUsedStart = process.memoryUsage().heapUsed;
+        smith.stepStats[step].memoryStart = heapUsedStart;
         logStepStart(step, description);
         timerStart = process.hrtime.bigint();
       })
       ._use(plugin)
       ._use(() => {
-        logStepEnd(step, description, timerStart);
-        logMemoryUsage(heapUsedStart);
+        const heapUsedEnd = process.memoryUsage().heapUsed;
+        smith.stepStats[step].memoryEnd = heapUsedEnd;
+
+        const timeElapsed = (process.hrtime.bigint() - timerStart) / 1000000n;
+        smith.stepStats[step].timeElapsed = timeElapsed;
+
+        logStepEnd(step, description, timeElapsed);
+        logMemoryUsage(heapUsedStart, heapUsedEnd);
       });
   };
 
