@@ -57,12 +57,23 @@ describe('Schemaform review: <SubmitButtons>', () => {
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
     expect(tree.everySubTree('a').length).to.equal(2);
   });
-  it('should render validation error', () => {
+  it('should render validation error with a list of errors', () => {
     const submission = {
       status: 'validationError',
     };
+    const errors = [
+      {
+        name: 'test',
+        message: 'We’re missing test',
+        chapter: 'Test',
+        index: 0,
+      },
+      { name: 'zip', message: 'We’re missing zip', chapter: 'Zip', index: 1 },
+      // No chapter -> no link to open accordion
+      { name: 'empty', message: 'Property not found', chapter: '', index: -1 },
+    ];
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} />,
+      <SubmitButtons submission={submission} errors={errors} />,
     );
 
     // Make sure it displays an error--and the right one
@@ -70,6 +81,8 @@ describe('Schemaform review: <SubmitButtons>', () => {
       'Some information in your application is missing or not valid',
     );
     expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.everySubTree('.error-message-list-item').length).to.equal(3);
+    expect(tree.everySubTree('.error-message-list-link').length).to.equal(2);
   });
   it('should render error in prod mode', () => {
     const submission = {
