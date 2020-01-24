@@ -101,6 +101,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
     appointmentRequestId: 'guid',
     appointmentTime: '05/22/2019 10:00:00',
     providerPractice: 'My Clinic',
+    timeZone: 'UTC',
     address: {
       street: '123 second st',
       city: 'Northampton',
