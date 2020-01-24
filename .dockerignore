@@ -1,3 +1,5 @@
+.babelcache
+.git
 build
 node_modules
 logs
