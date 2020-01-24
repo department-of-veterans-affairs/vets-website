@@ -45,13 +45,9 @@ module.exports = () => {
   // Override the normal use function to log additional information
   smith._use = smith.use;
   let stepCount = 0;
-  smith.use = function use(plugin, description) {
+  smith.use = function use(plugin, description = 'Unknown Plugin') {
     const step = stepCount++;
     smith.stepStats[step] = { description };
-    if (!description) {
-      smith.stepStats[step].untracked = true;
-      return smith._use(plugin);
-    }
 
     let timerStart;
     let heapUsedStart;
