@@ -281,9 +281,6 @@ export default class CalendarWidget extends Component {
         selectedDates={selectedDates || []}
         selectedIndicatorType={selectedIndicatorType}
         currentlySelectedDate={currentlySelectedDate}
-        optionsError={
-          this.state.currentRowIndex === index ? this.state.optionsError : null
-        }
       />
     ));
   };
