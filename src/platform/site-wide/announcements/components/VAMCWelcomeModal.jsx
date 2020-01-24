@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
-export default class WelcomeToNewVAModal extends React.Component {
+export default class VAMCWelcomeModal extends React.Component {
   static propTypes = {
     announcement: PropTypes.shape({
       region: PropTypes.string.isRequired,
