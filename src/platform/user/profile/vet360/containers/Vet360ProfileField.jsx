@@ -189,7 +189,7 @@ class Vet360ProfileField extends React.Component {
         data-field-name={fieldName}
       >
         <Vet360ProfileFieldHeading
-          onEditClick={this.isEditLinkVisible() && this.onEdit}
+          onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
         >
           {title}
         </Vet360ProfileFieldHeading>
