@@ -6,7 +6,7 @@ const chalk = require('chalk');
 const formatMemory = m => Math.round((m / 1024 / 1024) * 100) / 100;
 
 const logStepStart = (step, description) =>
-  console.log(chalk.cyan(`\nStep ${step} start: ${description}`));
+  console.log(chalk.cyan(`\nStep ${step + 1} start: ${description}`));
 
 const logStepEnd = (step, description, timerStart) => {
   const time = (process.hrtime.bigint() - timerStart) / 1000000n;
@@ -18,7 +18,9 @@ const logStepEnd = (step, description, timerStart) => {
   else color = chalk.red;
   const coloredTime = color(`[${time}ms]`);
 
-  console.log(chalk.cyan(`Step ${step} end ${coloredTime}: ${description}`));
+  console.log(
+    chalk.cyan(`Step ${step + 1} end ${coloredTime}: ${description}`),
+  );
 };
 
 const logMemoryUsage = heapUsedStart => {
@@ -44,7 +46,7 @@ module.exports = () => {
   smith._use = smith.use;
   let stepCount = 0;
   smith.use = function use(plugin, description) {
-    const step = ++stepCount;
+    const step = stepCount++;
     if (!description) return smith._use(plugin);
 
     let timerStart;
