@@ -28,8 +28,7 @@ module.exports = {
       .click('[value="211"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText('h1', 'Choose a VA location for your appointment');
+      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client

@@ -50,15 +50,15 @@ function updateRequestDates(data) {
   return data;
 }
 
-function newAppointmentTest(client) {
+function newAppointmentTest(client, nextElement = '.rjsf [type="submit"]') {
   client
     .click('#new-appointment')
-    .waitForElementVisible('.rjsf [type="submit"]', Timeouts.normal)
-    .axeCheck('.main');
+    .waitForElementVisible(nextElement, Timeouts.normal);
+
   return client;
 }
 
-function appointmentDateTimeTest(client, assertText) {
+function appointmentDateTimeTest(client, nextElement) {
   client
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
     .click(
@@ -66,12 +66,12 @@ function appointmentDateTimeTest(client, assertText) {
     )
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', assertText);
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
-function appointmentReasonTest(client, nextPageHeader) {
+function appointmentReasonTest(client, nextElement) {
   client
     .selectRadio('root_reasonForAppointment', 'other')
     .waitForElementPresent(
@@ -81,43 +81,41 @@ function appointmentReasonTest(client, nextPageHeader) {
     .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', nextPageHeader);
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
-function howToBeSeenTest(client) {
+function howToBeSeenTest(client, nextElement) {
   client
     .click('input#root_visitType_0')
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .waitForElementVisible('h1', Timeouts.slow)
-    .assert.containsText('h1', 'Your contact information');
+    .waitForElementPresent(nextElement, Timeouts.normal);
 }
 
-function contactInformationTest(client) {
+function contactInformationTest(client, nextElement) {
   client
     .fill('input#root_phoneNumber', '5035551234')
     .click('input#root_bestTimeToCall_morning')
     .fill('input#root_email', 'mail@gmail.com')
     .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', 'Review your appointment');
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
-function reviewAppointmentTest(client) {
+function reviewAppointmentTest(client, nextElement = '.usa-alert-success') {
   client
     .axeCheck('.main')
     .click('button.usa-button.usa-button-primary')
-    .waitForElementPresent('.usa-alert-success', Timeouts.normal);
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
 function appointmentSubmittedTest(client) {
-  // client.click('.usa-button[href$="new-appointment/"]')
   client
     .axeCheck('.main')
     .click('.usa-button[href$="appointments/"]')
