@@ -400,9 +400,13 @@ export function getAvailableSlots(
   let promise;
 
   if (USE_MOCK_DATA) {
-    promise = import('./slots.json').then(
-      module => (module.default ? module.default : module),
-    );
+    promise = new Promise(resolve => {
+      setTimeout(() => {
+        import('./slots.json').then(module =>
+          resolve(module.default ? module.default : module),
+        );
+      }, 500);
+    });
   } else {
     promise = apiRequest(
       `/vaos/facilities/${facilityId}/available_appointments?type_of_care_id=${typeOfCareId}&clinic_ids[]=${clinicId}&start_date=${startDate}&end_date=${endDate}`,
@@ -480,22 +484,15 @@ export function submitRequest(type, request) {
 }
 
 export function submitAppointment(appointment) {
-  let promise;
-  if (USE_MOCK_DATA || true) {
-    promise = Promise.resolve({
-      data: {
-        attributes: {},
-      },
-    });
-  } else {
-    promise = apiRequest('/vaos/appointments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(appointment),
-    });
+  if (USE_MOCK_DATA) {
+    return Promise.resolve();
   }
 
-  return promise.then(resp => resp.data.attributes);
+  return apiRequest('/vaos/appointments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appointment),
+  });
 }
 
 export function sendRequestMessage(id, messageText) {

@@ -241,6 +241,20 @@ module.exports = function registerFilters() {
     return sorted;
   };
 
+  liquid.filters.eventSorter = item => {
+    const sorted = item.sort((a, b) => {
+      const aTime = Math.floor(
+        new Date(a.fieldDate.startDate).getTime() / 1000,
+      );
+      const bTime = Math.floor(
+        new Date(b.fieldDate.startDate).getTime() / 1000,
+      );
+      const sorter = bTime - aTime;
+      return sorter;
+    });
+    return sorted;
+  };
+
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
   liquid.filters.findCurrentPathDepth = (linksArray, currentPath) => {
     const getDeepLinks = (path, linkArr) => {
