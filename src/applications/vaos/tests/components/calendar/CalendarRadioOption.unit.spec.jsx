@@ -11,6 +11,7 @@ describe('VAOS <CalendarRadioOption>', () => {
         id="0"
         fieldName="test"
         value="2019-10-24T10:00:00"
+        label="10:00 a.m. AM"
         checked
       />,
     );

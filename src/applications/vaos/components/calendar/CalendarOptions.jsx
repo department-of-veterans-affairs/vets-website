@@ -90,6 +90,7 @@ export default function CalendarOptions({
                       fieldName={fieldName}
                       value={o.value}
                       checked={checked}
+                      label={o.label}
                       onChange={() => handleSelectOption(dateObj)}
                     />
                   )}
