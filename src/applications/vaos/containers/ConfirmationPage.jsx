@@ -33,7 +33,7 @@ export class ConfirmationPage extends React.Component {
     document.title = `${this.pageTitle} | Veterans Affairs`;
     if (
       !this.props.facilityDetails &&
-      !this.props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
+      this.props.data.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
       this.props.fetchFacilityDetails(this.props.data.vaFacility);
     }
