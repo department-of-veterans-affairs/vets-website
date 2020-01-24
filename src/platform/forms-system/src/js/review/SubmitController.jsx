@@ -9,13 +9,15 @@ import { PreSubmitSection } from '../components/PreSubmitSection';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
+
 import {
   setPreSubmit,
   setSubmission,
   submitForm,
   setFormErrors,
+  openReviewChapter,
 } from '../actions';
-import { formatErrors } from '../utilities/data/formatErrors';
+import { reduceErrors } from '../utilities/data/formatErrors';
 
 class SubmitController extends React.Component {
   // eslint-disable-next-line
@@ -63,7 +65,7 @@ class SubmitController extends React.Component {
 
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
-    const { isValid, errors /* , uiSchema */ } = isValidForm(form, pageList);
+    const { isValid, errors } = isValidForm(form, pageList);
     if (!isValid) {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
@@ -75,22 +77,7 @@ class SubmitController extends React.Component {
       });
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
-      this.props.setFormErrors(
-        errors.reduce((acc, err) => {
-          if (err.message) {
-            acc.push(formatErrors(err.message));
-          } else if (Object.keys(err).length) {
-            // Only diving in one layer deep here... there might be some deeper
-            // errors?
-            Object.keys(err).forEach(step => {
-              if (err[step]?.__errors.length) {
-                acc.push(...err[step].__errors);
-              }
-            });
-          }
-          return acc;
-        }, []),
-      );
+      this.props.setFormErrors(reduceErrors(errors, formConfig));
       return;
     }
 
@@ -109,7 +96,7 @@ class SubmitController extends React.Component {
     const preSubmit = this.getPreSubmit(formConfig);
 
     return (
-      <div key={errors.length}>
+      <div key={errors.map(err => err.name).join(',')}>
         <PreSubmitSection
           preSubmitInfo={preSubmit}
           onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
@@ -122,6 +109,7 @@ class SubmitController extends React.Component {
           submission={form.submission}
           renderErrorMessage={renderErrorMessage}
           errors={errors}
+          openReviewChapter={openReviewChapter}
         />
       </div>
     );
@@ -138,6 +126,7 @@ function mapStateToProps(state, ownProps) {
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
   const errors = form.errors;
+
   return {
     form,
     formConfig,
@@ -157,6 +146,7 @@ const mapDispatchToProps = {
   setSubmission,
   submitForm,
   setFormErrors,
+  openReviewChapter,
 };
 
 SubmitController.propTypes = {
@@ -172,6 +162,7 @@ SubmitController.propTypes = {
   submission: PropTypes.object.isRequired,
   trackingPrefix: PropTypes.string.isRequired,
   setFormErrors: PropTypes.func,
+  openReviewChapter: PropTypes.func,
 };
 
 export default withRouter(
