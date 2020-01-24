@@ -81,10 +81,27 @@
   "fieldPressReleaseContact": [
     {
       "entity": {
+        "contentModelType": "node-person_profile",
+        "entityBundle": "person_profile",
+        "entityType": "node",
+        "entityUrl": {
+          "path": "/pittsburgh-health-care/staff-profiles/sheila-tunney"
+        },
         "title": "Sheila Tunney",
         "fieldDescription": "Public Affairs Specialist",
+        "fieldLastName": "Tunney",
+        "fieldNameFirst": "Sheila",
         "fieldPhoneNumber": "412-360-1479",
-        "fieldEmailAddress": "sheila.tunney@va.gov"
+        "fieldEmailAddress": "sheila.tunney@va.gov",
+        "fieldMedia": null,
+        "fieldBody": null,
+        "fieldOffice": {
+          "entity": {
+            "entityLabel": "VA Pittsburgh health care",
+            "entityType": "node"
+          }
+        },
+        "fieldSuffix": null
       }
     }
   ],

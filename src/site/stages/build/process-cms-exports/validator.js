@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Ajv = require('ajv');
 
-const ajv = new Ajv();
+const ajv = new Ajv({ $data: true });
 
 // Custom formats
 ajv.addFormat('custom-date-time', /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);

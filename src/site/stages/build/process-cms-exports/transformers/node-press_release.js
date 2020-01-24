@@ -22,21 +22,7 @@ const transform = entity => ({
   fieldOffice: entity.fieldOffice[0],
   fieldPdfVersion: entity.fieldPdfVersion[0] || null,
   fieldPressReleaseContact: entity.fieldPressReleaseContact[0]
-    ? [
-        {
-          entity: {
-            title: `${entity.fieldPressReleaseContact[0].fieldNameFirst} ${
-              entity.fieldPressReleaseContact[0].fieldLastName
-            }`,
-            fieldDescription:
-              entity.fieldPressReleaseContact[0].fieldDescription,
-            fieldPhoneNumber:
-              entity.fieldPressReleaseContact[0].fieldPhoneNumber,
-            fieldEmailAddress:
-              entity.fieldPressReleaseContact[0].fieldEmailAddress,
-          },
-        },
-      ]
+    ? [{ entity: entity.fieldPressReleaseContact[0] }]
     : [],
   fieldPressReleaseDownloads: entity.fieldPressReleaseDownloads,
   fieldPressReleaseFulltext: {

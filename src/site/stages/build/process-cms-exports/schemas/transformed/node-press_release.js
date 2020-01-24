@@ -28,21 +28,7 @@ module.exports = {
       items: {
         type: 'object',
         properties: {
-          entity: {
-            type: 'object',
-            properties: {
-              title: { type: 'string' },
-              fieldDescription: { type: ['string', 'null'] },
-              fieldPhoneNumber: { type: 'string' },
-              fieldEmailAddress: { type: ['string', 'null'] },
-            },
-            required: [
-              'title',
-              'fieldDescription',
-              'fieldPhoneNumber',
-              'fieldEmailAddress',
-            ],
-          },
+          entity: { $ref: 'transformed/node-person_profile' },
         },
         required: ['entity'],
       },
