@@ -16,7 +16,9 @@ const transform = entity => ({
   entityUrl: {
     path: entity.path[0].alias,
   },
-  fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
+  fieldAddress: entity.fieldAddress[0]
+    ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
+    : null,
 
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],

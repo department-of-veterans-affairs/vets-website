@@ -1,7 +1,6 @@
 module.exports = {
   $id: 'Address',
   type: ['object', 'null'],
-  // None of these are required
   properties: {
     countryCode: { type: ['string', 'null'] },
     addressLine1: { type: ['string', 'null'] },
@@ -18,4 +17,5 @@ module.exports = {
     givenName: { type: ['string', 'null'] },
     familyName: { type: ['string', 'null'] },
   },
+  required: ['addressLine1', 'administrativeArea', 'locality', 'postalCode'],
 };
