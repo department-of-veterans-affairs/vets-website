@@ -8,10 +8,7 @@ module.exports = {
       type: 'object',
       required: ['fieldWysiwyg', 'fieldTextExpander'],
       properties: {
-        fieldWysiwyg: {
-          type: 'object',
-          properties: { processed: { type: 'string' } },
-        },
+        fieldWysiwyg: { $ref: 'ProcessedString' },
         fieldTextExpander: { type: 'string' },
       },
     },

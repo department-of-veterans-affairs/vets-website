@@ -4,7 +4,7 @@ import {
   checkPastVisits,
   getRequestLimits,
   getPacTeam,
-  getClinics,
+  getAvailableClinics,
 } from '../api';
 
 export async function getEligibilityData(
@@ -23,7 +23,9 @@ export async function getEligibilityData(
     eligibilityChecks.push(
       checkPastVisits(systemId, facilityId, typeOfCareId, 'direct'),
     );
-    eligibilityChecks.push(getClinics(facilityId, typeOfCareId, systemId));
+    eligibilityChecks.push(
+      getAvailableClinics(facilityId, typeOfCareId, systemId),
+    );
 
     if (typeOfCareId === PRIMARY_CARE) {
       eligibilityChecks.push(getPacTeam(facilityId));

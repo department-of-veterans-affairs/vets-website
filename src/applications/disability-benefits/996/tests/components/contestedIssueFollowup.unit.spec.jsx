@@ -35,7 +35,6 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
       />,
     );
     const formDOM = getFormDOM(form);
-    expect($$('input[type="radio"]', formDOM).length).to.equal(2);
     expect($$('textarea', formDOM).length).to.equal(1);
     // No info alert
     expect($$('.usa-alert-info', formDOM).length).to.equal(0);
@@ -65,33 +64,6 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should render the info alert only when "No" is selected for same office', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        schema={schema}
-        data={{
-          contestedIssues: [
-            {
-              name: 'test',
-              'view:selected': true,
-              useSameOffice: false,
-            },
-          ],
-        }}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    expect($$('.usa-alert-info', formDOM).length).to.equal(1);
-    formDOM.setYesNo('#root_contestedIssues_0_useSameOfficeYes', 'Y');
-    submitForm(form);
-    expect($$('.usa-alert-info', formDOM).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
-
   it('should allow submit the textarea content with no error', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -104,7 +76,6 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
             {
               name: 'test',
               'view:selected': true,
-              useSameOffice: true,
               additionalNote: 'Lorem ipsum dolor sit amet.',
             },
           ],

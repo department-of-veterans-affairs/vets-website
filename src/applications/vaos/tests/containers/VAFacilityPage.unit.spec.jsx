@@ -67,6 +67,27 @@ describe('VAOS <VAFacilityPage>', () => {
     form.unmount();
   });
 
+  it('should go forward from single facility view', () => {
+    const openFormPage = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        singleValidVALocation
+        data={{}}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('VAFacilityInfoMessage').exists()).to.be.true;
+    form
+      .find('FormButtons')
+      .props()
+      .onSubmit();
+    expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
   it('should render form with facility loading message', () => {
     const openFormPage = sinon.spy();
     const schema = {

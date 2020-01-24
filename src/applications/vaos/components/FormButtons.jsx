@@ -5,6 +5,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export default function FormButtons({
   onBack,
+  onSubmit,
   pageChangeInProgress,
   disabled,
 }) {
@@ -22,6 +23,7 @@ export default function FormButtons({
         <LoadingButton
           isLoading={pageChangeInProgress}
           type="submit"
+          onClick={onSubmit}
           disabled={disabled}
           className="usa-button usa-button-primary vads-u-width--full"
         >

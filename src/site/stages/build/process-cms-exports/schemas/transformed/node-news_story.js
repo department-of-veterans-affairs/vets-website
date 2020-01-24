@@ -13,12 +13,7 @@ module.exports = {
     fieldAuthor: {
       oneOf: [{ $ref: 'transformed/node-person_profile' }, { type: 'null' }],
     },
-    fieldFullStory: {
-      type: 'object',
-      properties: {
-        processed: { type: 'string' },
-      },
-    },
+    fieldFullStory: { $ref: 'ProcessedString' },
     fieldImageCaption: { type: ['string', 'null'] },
     fieldIntroText: { type: 'string' },
     fieldMedia: { oneOf: [{ $ref: 'Media' }, { type: 'null' }] },

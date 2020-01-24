@@ -1,9 +1,27 @@
 import React from 'react';
-import isMobile from 'ismobilejs';
 
-const days = isMobile.phone
-  ? ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-  : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const days = [
+  {
+    name: 'Monday',
+    abbr: 'Mon',
+  },
+  {
+    name: 'Tuesday',
+    abbr: 'Tue',
+  },
+  {
+    name: 'Wednesday',
+    abbr: 'Wed',
+  },
+  {
+    name: 'Thursday',
+    abbr: 'Thu',
+  },
+  {
+    name: 'Friday',
+    abbr: 'Fri',
+  },
+];
 
 const CalendarWeekdayHeader = () => (
   <div role="rowgroup">
@@ -17,7 +35,13 @@ const CalendarWeekdayHeader = () => (
           role="columnheader"
           className="vaos-calendar__weekday vads-u-font-weight--bold vads-u-text-align--center vads-u-margin-bottom--0p5"
         >
-          {day}
+          <span className="vads-u-display--none small-screen:vads-u-display--inline">
+            {day.name}
+          </span>
+          <span className="small-screen:vads-u-display--none">
+            <span aria-hidden="true">{day.abbr}</span>
+            <span className="sr-only">{day.name}</span>
+          </span>
         </div>
       ))}
     </div>

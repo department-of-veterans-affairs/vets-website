@@ -34,7 +34,7 @@ class CopyMailingAddress extends React.Component {
     if (this.props.hasEmptyMailingAddress) return <div />;
     return (
       <div className="copy-mailing-address-to-residential-address">
-        <div className="form-checkbox-buttons">
+        <div className="form-checkbox-buttons form-checkbox">
           <input
             type="checkbox"
             name="copy-mailing-address-to-residential-address"

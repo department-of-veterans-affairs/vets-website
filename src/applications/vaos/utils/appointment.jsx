@@ -156,21 +156,25 @@ export function getAppointmentLocation(appt, facility) {
     );
   }
 
+  if (facility) {
+    return (
+      <>
+        {type !== APPOINTMENT_TYPES.request && (
+          <>
+            {facility.name}
+            <br />
+          </>
+        )}
+        <FacilityAddress facility={facility} showDirectionsLink />
+      </>
+    );
+  }
+
   if (type === APPOINTMENT_TYPES.vaAppointment) {
     return (
       <a href="/find-locations" rel="noopener noreferrer" target="_blank">
         Find facility information
       </a>
-    );
-  }
-
-  if (facility) {
-    return (
-      <FacilityAddress
-        name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-        facility={facility}
-        showDirectionsLink
-      />
     );
   }
 
