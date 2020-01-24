@@ -8,7 +8,7 @@ module.exports = {
     title: {
       type: 'string',
       // This doesn't quite work how I want it to yet
-      pattern: { $data: '0/fieldNameFirst 0/fieldLastName' },
+      const: { $data: '1/fieldNameFirst' },
     },
     fieldBody: { type: ['string', 'null'] },
     fieldDescription: { type: ['string', 'null'] },
