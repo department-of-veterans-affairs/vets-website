@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
-import { mapboxClient } from '../components/MapboxClient';
+import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
 import { isEmpty, debounce } from 'lodash';
@@ -30,7 +30,7 @@ import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 
-const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -317,7 +317,7 @@ class VAMap extends Component {
           context: zipCode,
         });
       })
-      .catch();
+      .catch(error => error);
   };
 
   handleSearch = () => {

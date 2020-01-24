@@ -1,6 +1,6 @@
-import { mapboxClient } from '../components/MapboxClient';
+import mapboxClient from '../components/MapboxClient';
 
-const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxClient = mbxGeo(mapboxClient);
 
