@@ -530,7 +530,13 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, selectedResult, showCommunityCares } = this.props;
+    const {
+      currentQuery,
+      selectedResult,
+      showCommunityCares,
+      results,
+      pagination: { currentPage, totalPages, totalEntries },
+    } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const externalLink =
       currentQuery.facilityType === LocationType.CC_PROVIDER
@@ -546,6 +552,21 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
             isMobile
           />
+          <div ref={this.searchResultTitle}>
+            {results.length > 0 ? (
+              <p className="search-result-title">
+                <strong>{totalEntries} results</strong>
+                {` for `}
+                <strong>
+                  {facilityTypes[this.props.currentQuery.facilityType]}
+                </strong>
+                {` near `}
+                <strong>“{this.props.currentQuery.context}”</strong>
+              </p>
+            ) : (
+              <br />
+            )}
+          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -560,6 +581,13 @@ class VAMap extends Component {
                 <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
                 {externalLink}
               </div>
+              {results.length > 0 && (
+                <Pagination
+                  onPageSelect={this.handlePageSelect}
+                  page={currentPage}
+                  pages={totalPages}
+                />
+              )}
             </TabPanel>
             <TabPanel>
               {externalLink}
@@ -643,7 +671,7 @@ class VAMap extends Component {
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"
-            style={{ maxHeight: '75vh', overflowY: 'auto' }}
+            style={{ maxHeight: '79vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
             <div
