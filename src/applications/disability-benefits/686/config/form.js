@@ -275,7 +275,7 @@ function createLocationUISchemaForKey(
   return {
     'ui:title': title,
     state: {
-      'ui:title': 'State (or country if outside the USA',
+      'ui:title': 'State (or country if outside the USA)',
       'ui:required': isRequiredCallback,
     },
     city: {
