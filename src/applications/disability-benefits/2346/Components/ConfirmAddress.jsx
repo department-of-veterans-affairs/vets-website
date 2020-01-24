@@ -3,21 +3,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router';
 
 export const ConfirmAddress = () => {
-  const [checked, setChecked] = useState({ isChecked: '', formData: '' });
+  const [confirmAddressCheck, setConfirmAddressCheck] = useState(false);
+  const [diffAddressCheck, setDiffAddressCheck] = useState(false);
 
-  const { formData, isChecked } = checked;
-
-  const handleConfirmChange = name => e => {
-    const value = name === e.target.checked;
-    formData.set(name, value);
-    setChecked({ ...checked, [name]: value, formData, isChecked: false });
-  };
-
-  const handleDifferentChange = name => e => {
-    const value = name === e.target.checked;
-    formData.set(name, value);
-    setChecked({ ...checked, [name]: value, formData, isChecked: true });
-  };
   return (
     <div>
       <h1>Confirm your shipping address</h1>
@@ -27,10 +15,9 @@ export const ConfirmAddress = () => {
           name="confirmAddress"
           id="confirmAddress"
           type="checkbox"
-          onChange={handleConfirmChange}
+          onClick={() => setConfirmAddressCheck(!confirmAddressCheck)}
         />
-        <label htmlFor="confirmAddress">Confirm Address</label>
-        <p>Regina Philange</p>
+        <label htmlFor="confirmAddress">Regina Philange</label>
         <p>
           1234 Fake St.
           <br /> Tampa, FL 12345
@@ -41,12 +28,11 @@ export const ConfirmAddress = () => {
           name="differentAddress"
           id="differentAddress"
           type="checkbox"
-          onChange={handleDifferentChange}
+          onClick={() => setDiffAddressCheck(!diffAddressCheck)}
         />
         <label htmlFor="differentAddress">Different Address</label>
-        {isChecked && (
+        {diffAddressCheck && (
           <div>
-            <p>Different Address</p>
             <ErrorableTextInput
               disabled={false}
               label="Address Line 1"
