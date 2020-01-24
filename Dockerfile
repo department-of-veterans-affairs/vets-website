@@ -2,8 +2,10 @@
 
 FROM node:10
 
-RUN groupadd vets-website \
-  && useradd -g vets-website --shell /bin/bash --create-home vets-website
+# default case is Jenkins, but we want to be able to overwrite this
+ARG userid=504
+RUN groupadd -g $userid vets-website \
+  && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
 ENV YARN_VERSION 1.21.1
 ENV NODE_ENV production
