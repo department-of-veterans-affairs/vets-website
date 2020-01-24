@@ -183,6 +183,7 @@ const childStatusUiSchema = {
 
 const deathLocationSchema = {
   type: 'object',
+  required: ['city', 'state'],
   properties: {
     city: {
       type: 'string',
@@ -1178,6 +1179,12 @@ const formConfig = {
                 minItems: 1,
                 items: {
                   type: 'object',
+                  required: [
+                    'dependentType',
+                    'fullName',
+                    'deceasedDateOfDeath',
+                    'deceasedLocationOfDeath',
+                  ],
                   properties: {
                     dependentType: dependentTypeSchema,
                     childStatus: childStatusSchema,
