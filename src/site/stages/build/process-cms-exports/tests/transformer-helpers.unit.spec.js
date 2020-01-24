@@ -32,6 +32,12 @@ describe('CMS export transformer helpers', () => {
 
       expect(combineItemsInIndexedObject(obj)).to.deep.equal(arr);
     });
+
+    it('keeps an array as an array', () => {
+      expect(combineItemsInIndexedObject([['hello'], ['world']])).to.deep.equal(
+        [['hello'], ['world']],
+      );
+    });
   });
 
   describe('unescapeUnicode', () => {

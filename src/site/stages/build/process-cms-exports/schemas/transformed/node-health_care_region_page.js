@@ -10,20 +10,11 @@ module.exports = {
         title: { type: 'string' },
         entityUrl: { $ref: 'EntityUrl' },
         fieldNicknameForThisFacility: { type: 'string' },
-        fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
-        // TODO: Figure out the type vs. __typename stuff
-        entityMetaTags: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              __typename: { type: 'string' },
-              key: { type: 'string' },
-              value: { type: 'string' },
-            },
-          },
+        fieldRelatedLinks: {
+          $ref: 'transformed/paragraph-list_of_link_teasers',
         },
+        fieldPressReleaseBlurb: { $ref: 'ProcessedString' },
+        entityMetaTags: { $ref: 'MetaTags' },
       },
       required: [
         'title',

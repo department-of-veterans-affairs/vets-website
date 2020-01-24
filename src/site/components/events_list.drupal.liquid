@@ -4,7 +4,8 @@
   {% if outreachSidebar.name == 'Outreach and events' %}
     {% assign eventsArray = reverseFieldOfficeNode.entities %}
   {% endif %}
-  {% for event in eventsArray %}
+  {% assign sortedEventsArray = eventsArray | eventSorter %}
+  {% for event in sortedEventsArray %}
   {% if event.title.length %}
   {% assign count = count | plus:1 %}
   <div class="vads-u-margin-bottom--2">
