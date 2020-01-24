@@ -5,11 +5,7 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['person_profile'] },
     entityUrl: { $ref: 'EntityUrl' },
-    title: {
-      type: 'string',
-      // This doesn't quite work how I want it to yet
-      const: { $data: '1/fieldNameFirst' },
-    },
+    title: { type: 'string' },
     fieldBody: { type: ['string', 'null'] },
     fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },
