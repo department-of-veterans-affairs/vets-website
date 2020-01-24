@@ -1070,6 +1070,41 @@ const formConfig = {
         },
       },
     },
+    reportMarriageOfChild: {
+      title: 'Report the marriage of a child',
+      pages: {
+        reportChildMarriedInformation: {
+          title: 'Information of child that has been married',
+          path: 'report-marriage-of-child',
+          uiSchema: {
+            marriedChildName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Child’s first name',
+              },
+              middle: {
+                'ui:title': 'Child’s middle name',
+              },
+              last: {
+                'ui:title': 'Child’s last name',
+              },
+            }),
+            dateChildMarried: currentOrPastDateUI(
+              'When did this child get married?',
+            ),
+          },
+          // 4908 NOTE: These properties will need to be udpated once the schema file for the 686
+          // has been given corresponding properties for this chapter. For now they reference definitions.
+          // they will map to reportMarriageOfChild.properties.<key-name>
+          schema: {
+            type: 'object',
+            properties: {
+              marriedChildName: fullName,
+              dateChildMarried: date,
+            },
+          },
+        },
+      },
+    },
   },
 };
 

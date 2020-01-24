@@ -2,7 +2,7 @@
   {
     "domain": "www.cem.va.gov",
     "src": "/cem/burial_benefits/eligible.asp",
-    "dest": "www.va.gov/burials-memorials/eligibility/"
+    "dest": "/burials-memorials/eligibility/"
   },
   {
     "domain": "www.cem.va.gov",
@@ -73,6 +73,11 @@
     "domain": "www.cem.va.gov",
     "src": "/cem/hmm/replacements.asp",
     "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/need.asp",
+    "dest": "/burials-memorials/schedule-a-burial/"
   },
   {
     "domain": "www.benefits.va.gov",
@@ -358,5 +363,55 @@
     "domain": "www.benefits.va.gov",
     "src": "/insurance/abo.asp",
     "dest": "/life-insurance/totally-disabled-or-terminally-ill/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/vetpen.asp",
+    "dest": "/pension/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/wartimeperiod.asp",
+    "dest": "/pension/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/aid_attendance_housebound.asp",
+    "dest": "/pension/aid-attendance-housebound/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/spousepen.asp",
+    "dest": "/pension/survivors-pension/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/pencalc.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/rates.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/spousepencalc.asp",
+    "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/resources-contact.asp",
+    "dest": "/pension/pension-management-centers/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_veteran_pen.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_survivor_pen.asp",
+    "dest": "/pension/survivors-pension-rates/"
   }
 ]

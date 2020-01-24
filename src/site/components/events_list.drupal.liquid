@@ -1,6 +1,11 @@
 <div class="events-listing events-show">
   {% assign count = 0 %}
-  {% for event in fieldOffice.entity.reverseFieldOfficeNode.entities %}
+  {% assign eventsArray = fieldOffice.entity.reverseFieldOfficeNode.entities %}
+  {% if outreachSidebar.name == 'Outreach and events' %}
+    {% assign eventsArray = reverseFieldOfficeNode.entities %}
+  {% endif %}
+  {% assign sortedEventsArray = eventsArray | eventSorter %}
+  {% for event in sortedEventsArray %}
   {% if event.title.length %}
   {% assign count = count | plus:1 %}
   <div class="vads-u-margin-bottom--2">

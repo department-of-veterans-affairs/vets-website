@@ -1,11 +1,16 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 
 const submitFormFor = eventName =>
-  function submitForm(form, formConfig) {
+  function submitForm(form, formConfig, { mode } = {}) {
     const body = formConfig.transformForSubmit
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
+
+    let timer;
+    // Reject promise timer set to 30 seconds; except while testing
+    const rejectTime = mode === 'testing' ? 1 : 3e4;
 
     // Copied and pasted from USFS with a couple changes:
     // 1. Sets `withCredentials` to true
@@ -24,6 +29,7 @@ const submitFormFor = eventName =>
           const responseBody =
             'response' in req ? req.response : req.responseText;
           const results = JSON.parse(responseBody);
+          clearTimeout(timer);
           resolve(results);
         } else {
           let error;
@@ -37,6 +43,7 @@ const submitFormFor = eventName =>
             error = new Error(`vets_server_error: ${req.statusText}`);
           }
           error.statusText = req.statusText;
+          clearTimeout(timer);
           reject(error);
         }
       });
@@ -44,23 +51,41 @@ const submitFormFor = eventName =>
       req.addEventListener('error', () => {
         const error = new Error('client_error: Network request failed');
         error.statusText = req.statusText;
+        clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('abort', () => {
         const error = new Error('client_error: Request aborted');
         error.statusText = req.statusText;
+        clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('timeout', () => {
         const error = new Error('client_error: Request timed out');
         error.statusText = req.statusText;
+        clearTimeout(timer);
         reject(error);
       });
 
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.setRequestHeader('Content-Type', 'application/json');
+
+      // Log an error after the timeout fires
+      timer = setTimeout(() => {
+        const error = new Error('client_error: Request taking too long');
+        recordEvent({ event: `${eventName}--submission-taking-too-long` });
+        Sentry.withScope(scope => {
+          scope.setExtra('XMLHttpRequest', req);
+          Sentry.captureMessage('Form 526: submission request taking too long');
+        });
+        if (mode !== 'testing') {
+          // eslint-disable-next-line no-console
+          console.log(req, form, JSON.parse(body));
+        }
+        reject(error);
+      }, rejectTime);
 
       req.send(body);
     });

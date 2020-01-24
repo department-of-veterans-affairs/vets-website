@@ -2,7 +2,7 @@ module.exports = {
   $id: 'EntityUrl',
   type: 'object',
   properties: {
-    path: { type: 'string' },
+    path: { type: ['string', 'null'] },
     breadcrumb: {
       type: 'array',
       items: {
