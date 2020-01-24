@@ -1,6 +1,8 @@
 const Metalsmith = require('metalsmith');
 const chalk = require('chalk');
 
+const formatMemory = m => Math.round((m / 1024 / 1024) * 100) / 100;
+
 /**
  * It's Metalsmith with some added shine.
  */
@@ -15,10 +17,12 @@ module.exports = () => {
     if (!description) return smith._use(plugin);
 
     let timerStart;
+    let heapUsedStart;
 
     /* eslint-disable no-console */
     return smith
       ._use(() => {
+        heapUsedStart = process.memoryUsage().heapUsed;
         console.log(chalk.cyan(`\nStep ${step} start: ${description}`));
         timerStart = process.hrtime.bigint();
       })
@@ -36,7 +40,23 @@ module.exports = () => {
         console.log(
           chalk.cyan(`Step ${step} end ${coloredTime}: ${description}`),
         );
+
+        const heapUsedEnd = process.memoryUsage().heapUsed;
+        console.log(
+          chalk.bold('Starting memory:'),
+          `${formatMemory(heapUsedStart)}mB`,
+        );
+        console.log(
+          chalk.bold('Ending memory:'),
+          `${formatMemory(heapUsedEnd)}mB`,
+        );
+        console.log(
+          chalk.bold('Delta:'),
+          `${formatMemory(heapUsedEnd - heapUsedStart)}mB`,
+        );
       });
     /* eslint-enable no-console */
   };
+
+  return smith;
 };
