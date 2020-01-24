@@ -1,7 +1,7 @@
 // import fullSchema from 'vets-json-schema/dist/2346-schema.json';
 
-import ConfirmAddress from '../Components/ConfirmAddress';
-import ConfirmationPage from '../containers/ConfirmationPage';
+// import ConfirmAddress from '../Components/ConfirmAddress';
+// import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.properties;
 
@@ -11,8 +11,6 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: '2346-',
-  introduction: ConfirmAddress,
-  confirmation: ConfirmationPage,
   formId: '2346',
   version: 0,
   prefillEnabled: true,
