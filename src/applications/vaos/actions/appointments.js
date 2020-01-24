@@ -11,6 +11,7 @@ import {
   updateAppointment,
   updateRequest,
   getFacilitiesInfo,
+  getClinicInstitutions,
 } from '../api';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
@@ -57,6 +58,99 @@ export function fetchRequestMessages(requestId) {
   };
 }
 
+function aggregateClinicsBySystem(appointments) {
+  const facilityClinicListMap = new Map();
+
+  appointments.forEach(appt => {
+    const facility = facilityClinicListMap.get(appt.facilityId);
+    if (facility) {
+      facility.add(appt.clinicId);
+    } else {
+      facilityClinicListMap.set(appt.facilityId, new Set([appt.clinicId]));
+    }
+  });
+
+  return facilityClinicListMap;
+}
+
+async function getClinicDataBySystem(facilityClinicListMap) {
+  // Don't overload the backend with requests until we better understand
+  // the impact
+  if (facilityClinicListMap.size > 3) {
+    Sentry.withScope(scope => {
+      scope.setExtra('size', facilityClinicListMap.size);
+      Sentry.captureMessage('Too many clinic requests required');
+    });
+    return [];
+  }
+
+  const facilityEntries = Array.from(facilityClinicListMap.entries());
+
+  const clinicData = await Promise.all(
+    facilityEntries
+      .filter(entry => entry[1]?.size > 0)
+      .map(([facilityId, clinicSet]) =>
+        getClinicInstitutions(facilityId, Array.from(clinicSet)),
+      ),
+  );
+
+  // We get an array of arrays of clinic data, which we can flatten
+  return [].concat(...clinicData);
+}
+
+/*
+ * The facility data we get back from the various endpoints for
+ * requests and appointments does not have basics like address or phone.
+ * Additionally, for VA appointments, the facilityId returned is not
+ * the real facility id, it's the system id.
+ *
+ * We want to show that basic info on the list page, so this goes and fetches
+ * it separately, but doesn't block the list page from displaying
+ *
+ * 1. Break the appt list into VA appts and everything else
+ * 2. For everything but VA appts, collect the facility ids
+ * 3. For VA appts, collect the facility (i.e. system) ids and the clinic ids
+ *    associated with each appt
+ * 4. Fetch the full clinic data for each system and specified clinics
+ * 5. Collect the real facility ids from the clinic data
+ * 6. De-dupe the facility ids for both non-VA and VA appointments
+ * 7. Fetch the full facility data for all the unique facility ids we've collected
+ */
+async function getAdditionalFacilityInfo(futureAppointments) {
+  // Get facility ids from non-VA appts or requests
+  const requestsOrNonVAFacilityAppointments = futureAppointments.filter(
+    appt => !appt.clinicId,
+  );
+  let facilityIds = requestsOrNonVAFacilityAppointments
+    .map(appt => appt.facilityId || appt.facility?.facilityCode)
+    .filter(id => !!id);
+
+  // Get facility ids from VA appointments
+  const vaFacilityAppointments = futureAppointments.filter(
+    appt => appt.clinicId,
+  );
+  let clinicInstitutionList = null;
+  const facilityClinicListMap = aggregateClinicsBySystem(
+    vaFacilityAppointments,
+  );
+
+  clinicInstitutionList = await getClinicDataBySystem(facilityClinicListMap);
+  facilityIds = facilityIds.concat(
+    clinicInstitutionList.map(clinic => clinic.institutionCode),
+  );
+
+  const uniqueFacilityIds = new Set(facilityIds);
+  let facilityData = null;
+  if (uniqueFacilityIds.size > 0) {
+    facilityData = await getFacilitiesInfo(Array.from(uniqueFacilityIds));
+  }
+
+  return {
+    facilityData,
+    clinicInstitutionList,
+  };
+}
+
 export function fetchFutureAppointments() {
   return async (dispatch, getState) => {
     if (getState().appointments.futureStatus === FETCH_STATUS.notStarted) {
@@ -90,26 +184,23 @@ export function fetchFutureAppointments() {
             moment().format('YYYY-MM-DD'),
           ),
         ]);
+
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
           data,
           today: moment(),
         });
 
-        const appts = getState().appointments.future;
-        const facilityIds = new Set(
-          appts
-            .map(appt => appt.facilityId || appt.facility?.facilityCode)
-            .filter(id => !!id),
-        );
-
         try {
-          if (facilityIds.size > 0) {
-            const facilityData = await getFacilitiesInfo(
-              Array.from(facilityIds),
-            );
+          const {
+            clinicInstitutionList,
+            facilityData,
+          } = await getAdditionalFacilityInfo(getState().appointments.future);
+
+          if (facilityData) {
             dispatch({
               type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+              clinicInstitutionList,
               facilityData,
             });
           }
