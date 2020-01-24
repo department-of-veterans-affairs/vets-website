@@ -40,7 +40,7 @@ const logMemoryUsage = heapUsedStart => {
 module.exports = () => {
   const smith = Metalsmith(__dirname);
 
-  // Override the normal use function to provide timing and logging information
+  // Override the normal use function to log additional information
   smith._use = smith.use;
   let stepCount = 0;
   smith.use = function use(plugin, description) {
