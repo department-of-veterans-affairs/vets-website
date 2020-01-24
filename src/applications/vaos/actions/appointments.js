@@ -77,10 +77,9 @@ async function getClinicDataBySystem(facilityClinicListMap) {
   // Don't overload the backend with requests until we better understand
   // the impact
   if (facilityClinicListMap.size > 3) {
-    Sentry.captureMessage('Too many clinic requests required', {
-      extra: {
-        size: facilityClinicListMap.size,
-      },
+    Sentry.withScope(scope => {
+      scope.setExtra('size', facilityClinicListMap.size);
+      Sentry.captureMessage('Too many clinic requests required');
     });
     return [];
   }
