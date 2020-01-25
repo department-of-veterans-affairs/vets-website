@@ -8,25 +8,29 @@ import {
   fetchResultsSuccess,
   fetchResultsThunk,
   updatePaginationAction,
-  updateResultsAction,
+  updatePageAction,
 } from './index';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   UPDATE_PAGINATION,
-  UPDATE_RESULTS,
+  UPDATE_PAGE,
 } from '../constants';
 
 describe('Find VA Results actions', () => {
   describe('fetchResultsAction', () => {
     it('should return an action in the shape we expect', () => {
-      const query = 'some text';
-      const action = fetchResultsAction(query);
+      const options = {
+        hideFetchingState: true,
+        name: 'boulder',
+        state: 'CO',
+      };
+      const action = fetchResultsAction(options);
 
       expect(action).to.be.deep.equal({
+        options,
         type: FETCH_RESULTS,
-        query,
       });
     });
   });
@@ -44,36 +48,27 @@ describe('Find VA Results actions', () => {
 
   describe('fetchResultsSuccess', () => {
     it('should return an action in the shape we expect', () => {
-      const results = [];
-      const action = fetchResultsSuccess(results);
+      const response = {
+        results: [],
+        totalResults: 0,
+      };
+      const action = fetchResultsSuccess(response);
 
       expect(action).to.be.deep.equal({
-        results,
+        response,
         type: FETCH_RESULTS_SUCCESS,
       });
     });
   });
 
-  describe('updateResultsAction', () => {
+  describe('updatePageAction', () => {
     it('should return an action in the shape we expect', () => {
-      const results = [];
-      const action = updateResultsAction(results);
+      const page = 1;
+      const action = updatePageAction(page);
 
       expect(action).to.be.deep.equal({
-        results,
-        type: UPDATE_RESULTS,
-      });
-    });
-  });
-
-  describe('updatePaginationAction', () => {
-    it('should return an action in the shape we expect', () => {
-      const action = updatePaginationAction();
-
-      expect(action).to.be.deep.equal({
-        page: 1,
-        startIndex: 0,
-        type: UPDATE_PAGINATION,
+        page,
+        type: UPDATE_PAGE,
       });
     });
   });
