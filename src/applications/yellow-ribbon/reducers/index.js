@@ -3,6 +3,7 @@ import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
+  UPDATE_PAGE,
 } from '../constants';
 
 const initialState = {
@@ -24,7 +25,7 @@ const yellowRibbonReducer = (state = initialState, action) => {
         ...state,
         city: action?.options?.city || '',
         error: '',
-        fetching: true,
+        fetching: !action?.options?.hideFetchingState,
         name: action?.options?.name || '',
         state: action?.options?.state || '',
       };
@@ -39,6 +40,9 @@ const yellowRibbonReducer = (state = initialState, action) => {
         results: action?.response?.results,
         totalResults: action?.response?.totalResults,
       };
+    }
+    case UPDATE_PAGE: {
+      return { ...state, page: action.page };
     }
     default: {
       return { ...state };

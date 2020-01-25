@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
+import { fetchResultsThunk, updatePageAction } from '../../actions';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -28,7 +29,28 @@ export class SearchResults extends Component {
     totalResults: PropTypes.number,
   };
 
+  onPageSelect = page => {
+    const { fetchResults, perPage, updatePage } = this.props;
+
+    // Derive the current name params.
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Derive the state values from our query params.
+    const name = queryParams.get('name') || '';
+    const state = queryParams.get('state') || '';
+
+    // Update the page.
+    updatePage(page);
+
+    // Refetch results.
+    fetchResults({ page, perPage, name, hideFetchingState: true, state });
+
+    // Scroll to top.
+    window.scrollTo({ behavior: 'smooth', top: 0 });
+  };
+
   render() {
+    const { onPageSelect } = this;
     const {
       error,
       fetching,
@@ -90,7 +112,7 @@ export class SearchResults extends Component {
         {/* Pagination */}
         <Pagination
           className="vads-u-border-top--0"
-          onPageSelect={() => {}}
+          onPageSelect={onPageSelect}
           page={page}
           pages={Math.ceil(totalResults / perPage)}
           maxPageListLength={perPage}
@@ -110,7 +132,12 @@ const mapStateToProps = state => ({
   totalResults: state.yellowRibbonReducer.totalResults,
 });
 
+const mapDispatchToProps = dispatch => ({
+  fetchResults: options => fetchResultsThunk(options)(dispatch),
+  updatePage: page => dispatch(updatePageAction(page)),
+});
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(SearchResults);

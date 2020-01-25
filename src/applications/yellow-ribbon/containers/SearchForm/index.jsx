@@ -35,6 +35,9 @@ export class SearchForm extends Component {
   componentDidMount() {
     const { name, state } = this.state;
 
+    // Derive the current name params.
+    const queryParams = new URLSearchParams(window.location.search);
+
     // Fetch the results with their name if it's on the URL.
     if (name || state) {
       this.props.fetchResultsThunk({ name, state });

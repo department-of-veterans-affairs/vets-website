@@ -6,6 +6,7 @@ import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
+  UPDATE_PAGE,
 } from '../constants';
 
 // ============
@@ -27,18 +28,28 @@ export const fetchResultsSuccess = response => ({
 });
 
 // ============
+// Update page
+// ============
+export const updatePageAction = page => ({
+  page,
+  type: UPDATE_PAGE,
+});
+
+// ============
 // Redux Thunks
 // ============
 export const fetchResultsThunk = (options = {}) => async dispatch => {
   // Derive options properties.
   const history = options?.history || window.history;
   const location = options?.location || window.location;
-  const mockRequest = options?.mockRequest || false;
   const name = options?.name || '';
+  const page = options?.page || 1;
+  const perPage = options?.perPage || 10;
+  const hideFetchingState = options?.hideFetchingState;
   const state = options?.state || '';
 
   // Change the `fetching` state in our store.
-  dispatch(fetchResultsAction({ name, state }));
+  dispatch(fetchResultsAction({ name, hideFetchingState, state }));
 
   // Derive the current query params.
   const queryParams = new URLSearchParams(location.search);
@@ -52,7 +63,7 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive results.
-    const response = await fetchResultsApi({ mockRequest, name, state });
+    const response = await fetchResultsApi({ name, state, page, perPage });
 
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));
