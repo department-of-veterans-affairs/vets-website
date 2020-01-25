@@ -706,10 +706,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@department-of-veterans-affairs/formation-react@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.1.0.tgz#e3b533f45108621db794e5fa10093447983c4eb0"
-  integrity sha512-EABr7nJkfgzVi7vBdmsVJcXvdxZNhH4IfWMWTtJ1EEFAwQgPKaZ5TDShMnWIWzkn4uoFfO4iV2clSYHJAgvbaQ==
+"@department-of-veterans-affairs/formation-react@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.2.0.tgz#96015a2074b5243453d286c0bbfc46a61743c6e0"
+  integrity sha512-8Xnntu9ugPZwEJ2afkC/g7RaaN3De2Mn37e5+wDT0ywvxPdtst7gxLLAvlBpSfYonG67zfFlhbIOnd4FrdtlTQ==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
