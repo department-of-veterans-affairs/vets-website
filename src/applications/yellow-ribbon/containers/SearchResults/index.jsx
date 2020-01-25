@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
@@ -85,6 +86,16 @@ export class SearchResults extends Component {
             <SearchResult key={school?.id} school={school} />
           ))}
         </div>
+
+        {/* Pagination */}
+        <Pagination
+          className="vads-u-border-top--0"
+          onPageSelect={() => {}}
+          page={page}
+          pages={Math.ceil(totalResults / perPage)}
+          maxPageListLength={perPage}
+          showLastPage
+        />
       </>
     );
   }
