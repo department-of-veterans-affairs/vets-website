@@ -18,6 +18,8 @@ const defaultProps = {
     programType: 'NCD',
     state: 'IL',
     tuitionAmount: 10000,
+    schoolClosing: false,
+    cautionFlag: false,
   },
   constants: {
     AVGDODBAH: 1000,
@@ -80,4 +82,18 @@ describe('<VetTecProgramSearchResult>', () => {
     expect(wrapper.find('.info-flag').text()).to.eq('TBD');
     wrapper.unmount();
   });
+});
+
+it('should display school closing and caution alerts', () => {
+  const props = {
+    ...defaultProps,
+    result: {
+      ...defaultProps.result,
+      schoolClosing: true,
+      cautionFlag: true,
+    },
+  };
+  const wrapper = mount(<VetTecProgramSearchResult {...props} />);
+  expect(wrapper.find('.usa-alert')).to.have.lengthOf(2);
+  wrapper.unmount();
 });

@@ -10,7 +10,11 @@ const TIMEZONE_LABELS = {
 };
 
 export function stripDST(abbr) {
-  return abbr?.replace('ST', 'T').replace('DT', 'T');
+  if (/^[PMCE][DS]T$/.test(abbr)) {
+    return abbr?.replace('ST', 'T').replace('DT', 'T');
+  }
+
+  return abbr;
 }
 
 export function getTimezoneBySystemId(id) {
