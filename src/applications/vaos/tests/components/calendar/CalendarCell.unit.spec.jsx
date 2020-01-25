@@ -5,6 +5,44 @@ import { mount } from 'enzyme';
 import CalendarCell from '../../../components/calendar/CalendarCell';
 
 describe('VAOS <CalendarCell>', () => {
+  const selectedDates = [
+    {
+      date: '2018-10-03',
+      optionTime: 'PM',
+    },
+    {
+      date: '2018-10-04',
+      optionTime: 'AM',
+    },
+  ];
+
+  it('test calendar CSS class', () => {
+    const tree = mount(
+      <CalendarCell
+        date="2018-10-04"
+        currentlySelectedDate="2018-10-04"
+        selectedDates={selectedDates}
+        inSelectedArray
+        disabled={false}
+      />,
+    );
+    const currentCell = tree.find(
+      'div.vaos-calendar__calendar-day.vaos-calendar__cell-current.vaos-calendar__cell-selected',
+    );
+    const selectedCell = tree.find(
+      'div.vaos-calendar__calendar-day.vaos-calendar__cell-selected',
+    );
+    expect(selectedCell.exists()).to.be.true;
+    expect(currentCell.exists()).to.be.true;
+    expect(tree.find('.vaos-calendar__cell-selected-triangle').length).to.equal(
+      1,
+    );
+    expect(tree.find('button.vaos-calendar__calendar-day-button').exists()).to
+      .be.true;
+
+    tree.unmount();
+  });
+
   it('should render a calendar cell button with proper label and values', () => {
     const tree = mount(
       <CalendarCell

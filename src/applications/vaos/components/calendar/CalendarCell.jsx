@@ -84,6 +84,7 @@ const CalendarCell = ({
       style={{ height: isCurrentlySelected ? optionsHeight : 'auto' }}
     >
       <button
+        className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
         disabled={disabled}
