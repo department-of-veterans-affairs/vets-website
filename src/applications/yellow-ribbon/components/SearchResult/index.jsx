@@ -47,7 +47,7 @@ const SearchResult = ({ school }) => (
             {invoke(school?.tuitionOutOfState, 'toLocaleString', 'en-US', {
               currency: 'USD',
               style: 'currency',
-            })}
+            }) || 'Unknown'}
           </p>
         </div>
 
@@ -67,7 +67,9 @@ const SearchResult = ({ school }) => (
           Benefit available for
         </h4>
         <p className={classnames('vads-u-margin--0')}>
-          {school?.studentCount} students
+          {school?.studentCount
+            ? `${school?.studentCount} students`
+            : 'Unknown'}
         </p>
 
         {/* Degree Level */}
@@ -79,7 +81,7 @@ const SearchResult = ({ school }) => (
           Degree level
         </h4>
         <p className={classnames('vads-u-margin--0')}>
-          {school?.highestDegree}
+          {school?.highestDegree || 'Unknown'}
         </p>
 
         {/* School or Division */}
@@ -90,7 +92,7 @@ const SearchResult = ({ school }) => (
         >
           School or division
         </h4>
-        <p className={classnames('vads-u-margin--0')}>All</p>
+        <p className={classnames('vads-u-margin--0')}>Unknown</p>
       </div>
     </div>
   </div>
