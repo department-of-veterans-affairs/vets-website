@@ -653,7 +653,10 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
           />
         </div>
-        <div ref={this.searchResultTitle}>
+        <div
+          ref={this.searchResultTitle}
+          style={{ paddingLeft: '15px'}}
+        >
           {results.length > 0 ? (
             <p className="search-result-title">
               <strong>{totalEntries} results</strong>
@@ -671,7 +674,7 @@ class VAMap extends Component {
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"
-            style={{ maxHeight: '79vh', overflowY: 'auto' }}
+            style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
             <div
@@ -686,7 +689,7 @@ class VAMap extends Component {
           </div>
           <div
             className="columns usa-width-two-thirds medium-8 small-12"
-            style={{ minHeight: '75vh' }}
+            style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
             {externalLink}
             <Map

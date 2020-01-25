@@ -155,7 +155,7 @@ class ServiceTypeAhead extends Component {
                             fontWeight: 'normal',
                           }}
                         >
-                          Not Found
+                          Service type not found
                         </div>
                       );
                     }
