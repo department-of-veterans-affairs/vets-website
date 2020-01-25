@@ -1,4 +1,5 @@
 .babelcache
+.cache
 .git
 build
 node_modules

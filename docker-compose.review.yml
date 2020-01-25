@@ -1,0 +1,20 @@
+version: '3'
+services:
+  vets-website:
+    image: vets-website:${IMAGE_TAG:-latest}
+    build:
+      context: .
+    volumes:
+      - .:/application
+      - ../vagov-content:/vagov-content
+    environment:
+      WEB_HOST: 'localhost'
+      WEB_PORT: 3001
+      API_HOST: 'foo-api.review.vetsgov-internal'
+    expose:
+      - 3001
+    ports:
+      - 3001:3001
+    command: >
+      bash -c "npm run build -- --buildtype localhost
+      && npm run http-server -- build/localhost -p $WEB_PORT"
