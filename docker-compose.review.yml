@@ -4,6 +4,8 @@ services:
     image: vets-website:${IMAGE_TAG:-latest}
     build:
       context: .
+      args:
+        userid: ${UID}
     volumes:
       - .:/application
       - ../vagov-content:/vagov-content
