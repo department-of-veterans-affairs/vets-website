@@ -40,16 +40,26 @@ const SearchResult = ({ school }) => (
       >
         {/* Max Benefit Amount */}
         <div className="vads-u-col">
-          <h4 className={classnames('vads-u-font-size--h5 vads-u-margin--0')}>
+          <h4 className="vads-u-font-size--h5 vads-u-margin--0">
             Maximum Yellow Ribbon benefit amount
           </h4>
-          <p className={classnames('vads-u-margin--0')}>
+          <p className="vads-u-margin--0">
             {invoke(school?.tuitionOutOfState, 'toLocaleString', 'en-US', {
               currency: 'USD',
               style: 'currency',
             }) || 'Unknown'}
           </p>
         </div>
+
+        {/* Benefit available for x students */}
+        <h4 className="vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
+          Benefit available for
+        </h4>
+        <p className=" vads-u-margin-top--0 vads-u-margin-bottom--2">
+          {school?.studentCount
+            ? `${school?.studentCount} students`
+            : 'Unknown'}
+        </p>
 
         {/* Add to Compare */}
         <button
@@ -61,38 +71,22 @@ const SearchResult = ({ school }) => (
         </button>
       </div>
 
-      <div className={classnames('vads-l-col--6 vads-u-padding-left--2')}>
-        {/* Benefit available for x students */}
-        <h4 className={classnames('vads-u-font-size--h5 vads-u-margin--0')}>
-          Benefit available for
-        </h4>
-        <p className={classnames('vads-u-margin--0')}>
-          {school?.studentCount
-            ? `${school?.studentCount} students`
-            : 'Unknown'}
-        </p>
-
+      <div className="vads-l-col--6 vads-u-padding-left--2">
         {/* Degree Level */}
-        <h4
-          className={classnames(
-            'vads-u-font-size--h5 vads-u-margin--0 vads-u-margin-top--1',
-          )}
-        >
+        <h4 className={classnames('vads-u-font-size--h5 vads-u-margin--0')}>
           Degree level
         </h4>
-        <p className={classnames('vads-u-margin--0')}>
-          {school?.highestDegree || 'Unknown'}
-        </p>
+        <p className="vads-u-margin--0">{school?.highestDegree || 'Unknown'}</p>
 
         {/* School or Division */}
         <h4
           className={classnames(
-            'vads-u-font-size--h5 vads-u-margin--0 vads-u-margin-top--1',
+            'vads-u-font-size--h5 vads-u-margin--0 vads-u-margin-top--2',
           )}
         >
           School or division
         </h4>
-        <p className={classnames('vads-u-margin--0')}>Unknown</p>
+        <p className="vads-u-margin--0">Unknown</p>
       </div>
     </div>
   </div>
