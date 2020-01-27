@@ -24,8 +24,13 @@ module.exports = {
         required: ['title', 'uri'],
       },
     },
-    fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
-    fieldOperatingStatusEmergInf: { $ref: 'GenericNestedString' },
+    fieldOffice: {
+      oneOf: [
+        { $ref: 'transformed/node-health_care_region_page' },
+        { type: 'null' },
+      ],
+    },
+    fieldOperatingStatusEmergInf: { type: ['string', 'null'] },
   },
   required: [
     'title',
