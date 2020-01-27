@@ -16,7 +16,7 @@ import {
   UPDATE_PAGE,
 } from '../constants';
 
-describe('Find VA Results actions', () => {
+describe('Yellow Ribbon actions', () => {
   describe('fetchResultsAction', () => {
     it('should return an action in the shape we expect', () => {
       const options = {
