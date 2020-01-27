@@ -23,6 +23,7 @@ module.exports = {
           // When we actually get an item, add the schema to this and remove the maxItems: 0
           options: { type: 'array', maxItems: 0 },
         },
+        required: ['uri', 'title'],
       },
     },
     field_office: {
