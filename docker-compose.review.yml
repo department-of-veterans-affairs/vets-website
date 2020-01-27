@@ -7,7 +7,7 @@ services:
         userid: ${UID}
     command: script/review-entrypoint.sh
     environment:
-      API_URL: 'foo-api.review.vetsgov-internal'
+      API_URL: ${API_URL:-http://localhost:3000}
     expose:
       - 3001
     image: vets-website:${IMAGE_TAG:-latest}
