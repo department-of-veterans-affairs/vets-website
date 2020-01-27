@@ -1,5 +1,6 @@
 {
   // Javascript settings.
+  // test comment
   "presets": [
     ["@babel/env", {
       "forceAllTransforms": true,
