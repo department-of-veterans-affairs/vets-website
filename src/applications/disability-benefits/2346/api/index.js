@@ -1,6 +1,9 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 
-export const getDLCDataApi = () => apiRequest('/dlc/orderstatus/1014/1');
+export const getDLCBatteryDataApi = () => apiRequest('/dlc/orderstatus/1014/1');
+export const getDLCSocksDataApi = () => apiRequest('/dlc/orderstatus/1014/2');
+export const getDLCAccessoriesDataApi = () =>
+  apiRequest('/dlc/orderstatus/1014/3');
 export const updateDLCDataApi = data =>
   apiRequest('/dlc/orderstatus/1014/1', {
     method: 'PUT', // *GET, POST, PUT, DELETE, etc.

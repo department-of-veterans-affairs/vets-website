@@ -1,18 +1,45 @@
-import { getDLCDataApi, updateDLCDataApi } from '../api';
 import {
-  FETCH_DATA_FAILURE,
-  FETCH_DATA_SUCCESS,
+  getDLCAccessoriesDataApi,
+  getDLCBatteryDataApi,
+  getDLCSocksDataApi,
+  updateDLCDataApi,
+} from '../api';
+import {
+  FETCH_ACCESSORIES_DATA_FAILURE,
+  FETCH_ACCESSORIES_DATA_SUCCESS,
+  FETCH_BATTERY_DATA_FAILURE,
+  FETCH_BATTERY_DATA_SUCCESS,
+  FETCH_SOCKS_DATA_FAILURE,
+  FETCH_SOCKS_DATA_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
 } from '../constants';
 
-export const fetchDataSuccess = data => ({
-  type: FETCH_DATA_SUCCESS,
+export const fetchBatteryDataSuccess = data => ({
+  type: FETCH_BATTERY_DATA_SUCCESS,
   data,
 });
 
-export const fetchDataFailure = () => ({
-  type: FETCH_DATA_FAILURE,
+export const fetchBatteryDataFailure = () => ({
+  type: FETCH_BATTERY_DATA_FAILURE,
+});
+
+export const fetchSocksDataSuccess = data => ({
+  type: FETCH_SOCKS_DATA_SUCCESS,
+  data,
+});
+
+export const fetchSocksDataFailure = () => ({
+  type: FETCH_SOCKS_DATA_FAILURE,
+});
+
+export const fetchAccessoriesDataSuccess = data => ({
+  type: FETCH_ACCESSORIES_DATA_SUCCESS,
+  data,
+});
+
+export const fetchAccessoriesDataFailure = () => ({
+  type: FETCH_ACCESSORIES_DATA_FAILURE,
 });
 
 export const updateDataSuccess = () => ({
@@ -23,12 +50,34 @@ export const updateDataFailure = () => ({
   type: UPDATE_DATA_FAILURE,
 });
 
-export const getDLCData = () => async dispatch => {
+export const getDLCBatteryData = () => async dispatch => {
   try {
-    const data = await getDLCDataApi();
-    dispatch(fetchDataSuccess(data));
+    const batteryData = await getDLCBatteryDataApi();
+    dispatch(fetchBatteryDataSuccess(batteryData));
   } catch (error) {
-    dispatch(fetchDataFailure(error, 'failed to retrieve data from api'));
+    dispatch(
+      fetchBatteryDataFailure(error, 'failed to retrieve data from api'),
+    );
+  }
+};
+
+export const getDLCSocksData = () => async dispatch => {
+  try {
+    const socksData = await getDLCSocksDataApi();
+    dispatch(fetchSocksDataSuccess(socksData));
+  } catch (error) {
+    dispatch(fetchSocksDataFailure(error, 'failed to retrieve data from api'));
+  }
+};
+
+export const getDLCAccessoriesData = () => async dispatch => {
+  try {
+    const accessoriesData = await getDLCAccessoriesDataApi();
+    dispatch(fetchAccessoriesDataSuccess(accessoriesData));
+  } catch (error) {
+    dispatch(
+      fetchAccessoriesDataFailure(error, 'failed to retrieve data from api'),
+    );
   }
 };
 
