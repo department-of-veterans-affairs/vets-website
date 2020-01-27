@@ -27,7 +27,7 @@ class AccordionItem extends React.Component {
     const expanded = this.state.expanded;
     return (
       <li>
-        <h2 className="accordion-button-wrapper">
+        <h2 aria-live="off" className="accordion-button-wrapper">
           <button
             onClick={this.toggle}
             className="usa-accordion-button"
