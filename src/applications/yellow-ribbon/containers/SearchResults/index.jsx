@@ -103,7 +103,7 @@ export class SearchResults extends Component {
         </h2>
 
         {/* Table of Results */}
-        <div className="vads-u-margin-top--2">
+        <div className="search-results vads-u-margin-top--2">
           {map(results, school => (
             <SearchResult key={school?.id} school={school} />
           ))}

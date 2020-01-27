@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { times } from 'lodash';
 // Relative imports.
-import { SearchResults, MAX_PAGE_LIST_LENGTH } from './index';
+import { SearchResults } from './index';
 
-describe('Find VA Results <SearchResults>', () => {
+describe('Yellow Ribbon container <SearchResults>', () => {
   it('renders a loading indicator', () => {
     const tree = shallow(<SearchResults fetching />);
 
@@ -42,25 +42,55 @@ describe('Find VA Results <SearchResults>', () => {
   });
 
   it('renders a table and pagination', () => {
-    const results = times(MAX_PAGE_LIST_LENGTH + 1, () => ({
-      firstIssuedOn: '2020-12-22',
-      formName: 'VA10192',
-      id: 'VA10192',
-      lastRevisionOn: '2020-12-22',
-      pages: 3,
-      sha256: '5fe171299ece147e8b456961a38e17f1391026f26e9e170229317bc95d9827b',
-      title: 'Information for Pre-Complaint Processing',
-      type: 'va_form',
-      url: 'https://www.va.gov/varesults/va/pdf/VA10192.pdf',
-      idLabel: <span>VA10192</span>,
-      titleLabel: <span>Information for Pre-Complaint Processing</span>,
-      descriptionLabel: <span>Description</span>,
-      availableOnlineLabel: <span>N/A</span>,
+    const results = times(10, index => ({
+      address1: '309 HARDIN ADMINISTRATION BLDG',
+      address2: 'ACU BOX 29141',
+      address3: null,
+      bah: 1151,
+      books: 1250,
+      campusType: 'Y',
+      cautionFlag: true,
+      cautionFlagReason:
+        'Warning or Equivalent-Factors Affecting Academic Quality (Concerns about issues affecting academic quality)',
+      city: 'ABILENE',
+      closure109: null,
+      country: 'USA',
+      createdAt: '2019-12-11T17:31:21.000Z',
+      distanceLearning: true,
+      dodBah: 1062,
+      eightKeys: null,
+      facilityCode: '31000143',
+      highestDegree: 4,
+      id: `${index}-3333112`,
+      independentStudy: true,
+      localeType: 'city',
+      name: 'ABILENE CHRISTIAN UNIVERSITY',
+      onlineOnly: false,
+      parentFacilityCodeId: null,
+      physicalCity: 'ABILENE',
+      physicalCountry: 'USA',
+      physicalState: 'TX',
+      physicalZip: '79699',
+      poe: false,
+      preferredProvider: false,
+      priorityEnrollment: false,
+      schoolClosing: false,
+      state: 'TX',
+      stemOffered: false,
+      studentCount: 257,
+      studentVeteran: null,
+      tuitionInState: 29450,
+      tuitionOutOfState: 29450,
+      type: 'institutions',
+      updatedAt: '2019-12-11T17:31:21.000Z',
+      vetTecProvider: false,
+      yr: true,
+      zip: '79699',
     }));
 
     const tree = shallow(<SearchResults results={results} />);
 
-    expect(tree.find('SortableTable')).to.have.lengthOf(1);
+    expect(tree.find('SearchResult')).to.have.lengthOf(10);
     expect(tree.find('Pagination')).to.have.lengthOf(1);
 
     tree.unmount();

@@ -1,13 +1,12 @@
 // Dependencies.
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
-
 // Relative imports.
 import { SearchForm } from './index';
 
-describe('Find VA Results <SearchForm>', () => {
+describe('Yellow Ribbon container <SearchForm>', () => {
   it('should render', () => {
     const tree = shallow(<SearchForm />);
     const input = tree.find('input');
@@ -21,7 +20,7 @@ describe('Find VA Results <SearchForm>', () => {
 
     global.window = {
       location: {
-        search: '?q=testing',
+        search: '?name=boulder',
       },
     };
 
@@ -29,21 +28,22 @@ describe('Find VA Results <SearchForm>', () => {
     const tree = shallow(<SearchForm fetchResultsThunk={fetchResultsThunk} />);
 
     expect(fetchResultsThunk.calledOnce).to.be.true;
-    expect(fetchResultsThunk.calledWith('testing')).to.be.true;
-    expect(tree.state().query).to.be.equal('testing');
+    expect(fetchResultsThunk.calledWith({ name: 'boulder', state: '' })).to.be
+      .true;
+    expect(tree.state().name).to.be.equal('boulder');
 
     tree.unmount();
 
     global.window = oldWindow;
   });
 
-  it('updates the query in state', () => {
+  it('updates the name in state', () => {
     const tree = shallow(<SearchForm />);
     const input = tree.find('input');
 
     input.simulate('change', { target: { value: 'new value' } });
 
-    expect(tree.state().query).to.be.equal('new value');
+    expect(tree.state().name).to.be.equal('new value');
 
     tree.unmount();
   });
@@ -52,7 +52,7 @@ describe('Find VA Results <SearchForm>', () => {
     const fetchResultsThunk = sinon.stub();
     const tree = shallow(<SearchForm fetchResultsThunk={fetchResultsThunk} />);
 
-    tree.setState({ query: 'testing' });
+    tree.setState({ name: 'testing' });
 
     const form = tree.find('form');
     const preventDefault = sinon.stub();
