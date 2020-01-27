@@ -413,5 +413,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/pension/current_rates_survivor_pen.asp",
     "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_survivor_pen.asp",
+    "dest": "/pension/survivors-pension-rates/"
   }
 ]
