@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SearchForm from '../SearchForm';
 import SearchResults from '../SearchResults';
 
-const YellowRibbonApp = ({ results }) => (
+export const YellowRibbonApp = ({ results }) => (
   <>
     {/* Breadcrumbs */}
     <Breadcrumbs customClasses="vads-u-padding--0">
