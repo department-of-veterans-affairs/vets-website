@@ -1,18 +1,19 @@
 version: '3'
 services:
   vets-website:
-    image: vets-website:${IMAGE_TAG:-latest}
     build:
       context: .
       args:
         userid: ${UID}
-    volumes:
-      - .:/application
-      - ../vagov-content:/vagov-content
+    command: script/review-entrypoint.sh
     environment:
       API_URL: 'foo-api.review.vetsgov-internal'
     expose:
       - 3001
+    image: vets-website:${IMAGE_TAG:-latest}
     ports:
       - 3001:3001
-    command: script/review-entrypoint.sh
+    restart: unless-stopped
+    volumes:
+      - .:/application
+      - ../vagov-content:/vagov-content
