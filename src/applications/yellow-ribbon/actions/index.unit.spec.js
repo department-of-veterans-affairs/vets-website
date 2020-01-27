@@ -7,14 +7,12 @@ import {
   fetchResultsFailure,
   fetchResultsSuccess,
   fetchResultsThunk,
-  updatePaginationAction,
   updatePageAction,
 } from './index';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
-  UPDATE_PAGINATION,
   UPDATE_PAGE,
 } from '../constants';
 
@@ -90,11 +88,15 @@ describe('Find VA Results actions', () => {
 
     it('updates search params', async () => {
       const dispatch = () => {};
-      const query = 'health';
-      const thunk = fetchResultsThunk(query, {
-        location: mockedLocation,
+      const thunk = fetchResultsThunk({
+        hideFetchingState: false,
         history: mockedHistory,
+        location: mockedLocation,
         mockRequest: true,
+        name: 'boulder',
+        page: 1,
+        perPage: 10,
+        state: 'CO',
       });
 
       await thunk(dispatch);
@@ -102,38 +104,42 @@ describe('Find VA Results actions', () => {
       const replaceStateStub = mockedHistory.replaceState;
 
       expect(replaceStateStub.calledOnce).to.be.true;
-      expect(replaceStateStub.firstCall.args[2]).to.be.equal('?q=health');
+      expect(replaceStateStub.firstCall.args[2]).to.be.equal(
+        '?name=boulder&state=CO',
+      );
     });
 
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
-      const query = 'health';
-      const thunk = fetchResultsThunk(query, {
-        location: mockedLocation,
+      const thunk = fetchResultsThunk({
         history: mockedHistory,
+        location: mockedLocation,
         mockRequest: true,
+        hideFetchingState: false,
+        name: 'boulder',
+        state: 'CO',
+        page: 1,
+        perPage: 10,
       });
 
       await thunk(dispatch);
 
       expect(
         dispatch.firstCall.calledWith({
+          options: {
+            hideFetchingState: false,
+            name: 'boulder',
+            state: 'CO',
+          },
           type: FETCH_RESULTS,
-          query,
         }),
       ).to.be.true;
 
-      expect(
-        dispatch.secondCall.calledWith({
-          page: 1,
-          startIndex: 0,
-          type: UPDATE_PAGINATION,
-        }),
-      ).to.be.true;
-
-      const thirdCallAction = dispatch.thirdCall.args[0];
-      expect(thirdCallAction.type).to.be.equal(FETCH_RESULTS_SUCCESS);
-      expect(thirdCallAction.results).to.be.an('array');
+      const secondCallAction = dispatch.secondCall.args[0];
+      expect(secondCallAction.type).to.be.oneOf([
+        FETCH_RESULTS_SUCCESS,
+        FETCH_RESULTS_FAILURE,
+      ]);
     });
   });
 });

@@ -68,7 +68,6 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
     // If we are here, the API request succeeded.
     dispatch(fetchResultsSuccess(response));
   } catch (error) {
-    console.log('error', error);
     // If we are here, the API request failed.
     dispatch(
       fetchResultsFailure(
