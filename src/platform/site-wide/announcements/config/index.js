@@ -5,6 +5,7 @@ import PersonalizationBanner from '../components/PersonalizationBanner';
 import Profile360Intro from '../components/Profile360Intro';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 
 const config = {
   announcements: [
@@ -27,6 +28,12 @@ const config = {
       name: 'welcome-to-new-va',
       paths: /^\/$/,
       component: WelcomeToNewVAModal,
+    },
+    {
+      name: 'pittsburgh-vamc',
+      paths: VAMC_PATHS.PITTSBURGH,
+      component: VAMCWelcomeModal,
+      region: 'Pittsburgh',
     },
     {
       name: 'find-benefits-intro',
