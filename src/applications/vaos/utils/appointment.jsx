@@ -156,21 +156,25 @@ export function getAppointmentLocation(appt, facility) {
     );
   }
 
+  if (facility) {
+    return (
+      <>
+        {type !== APPOINTMENT_TYPES.request && (
+          <>
+            {facility.name}
+            <br />
+          </>
+        )}
+        <FacilityAddress facility={facility} showDirectionsLink />
+      </>
+    );
+  }
+
   if (type === APPOINTMENT_TYPES.vaAppointment) {
     return (
       <a href="/find-locations" rel="noopener noreferrer" target="_blank">
         Find facility information
       </a>
-    );
-  }
-
-  if (facility) {
-    return (
-      <FacilityAddress
-        name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-        facility={facility}
-        showDirectionsLink
-      />
     );
   }
 
@@ -196,7 +200,11 @@ export function getAppointmentLocation(appt, facility) {
 
 export function getMomentConfirmedDate(appt) {
   if (isCommunityCare(appt)) {
-    return moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
+    const zoneSplit = appt.timeZone.split(' ');
+    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
+    return moment
+      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
+      .utcOffset(offset);
   }
 
   const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
@@ -219,8 +227,10 @@ export function getAppointmentTimezoneAbbreviation(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return stripDST(appt?.timeZone?.split(' ')?.[1]);
+    case APPOINTMENT_TYPES.ccAppointment: {
+      const tzAbbr = appt?.timeZone?.split(' ')?.[1] || appt?.timeZone;
+      return stripDST(tzAbbr);
+    }
     case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request:
       return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);

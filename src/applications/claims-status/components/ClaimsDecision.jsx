@@ -28,7 +28,7 @@ class ClaimsDecision extends React.Component {
             onClick={() =>
               isLoggedIn &&
               recordEvent({
-                event: 'ebenefits-navigation',
+                event: 'nav-ebenefits-click',
               })
             }
           >

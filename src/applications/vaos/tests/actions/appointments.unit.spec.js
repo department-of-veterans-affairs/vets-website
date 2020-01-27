@@ -26,6 +26,7 @@ import {
 } from './../../actions/appointments';
 
 import facilityData from '../../api/facility_data.json';
+import clinicData from '../../api/clinics.json';
 import cancelReasons from '../../api/cancel_reasons.json';
 
 describe('VAOS actions: appointments', () => {
@@ -62,6 +63,43 @@ describe('VAOS actions: appointments', () => {
       FETCH_FACILITY_LIST_DATA_SUCCEEDED,
     );
     expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
+  });
+
+  it('should fetch clinic institution mapping', async () => {
+    const data = {
+      data: [],
+    };
+    setFetchJSONResponse(global.fetch, data);
+    setFetchJSONResponse(global.fetch.onCall(3), clinicData);
+    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
+    const thunk = fetchFutureAppointments();
+    const dispatchSpy = sinon.spy();
+    const getState = () => ({
+      appointments: {
+        futureStatus: 'notStarted',
+        future: [{ facilityId: '983', clinicId: '455' }],
+      },
+    });
+    await thunk(dispatchSpy, getState);
+    expect(dispatchSpy.firstCall.args[0].type).to.eql(
+      FETCH_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatchSpy.secondCall.args[0].type).to.eql(
+      FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
+    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
+    );
+    expect(
+      dispatchSpy.thirdCall.args[0].clinicInstitutionList.some(
+        clinic => clinic.locationIen === '455',
+      ),
+    ).to.be.true;
+
+    expect(global.fetch.getCall(3).args[0]).to.contain(
+      'systems/983/clinic_institutions?clinic_ids[]=455',
+    );
+    expect(global.fetch.getCall(4).args[0]).to.contain('ids=vha_442');
   });
 
   it('should fetch request messages', async () => {

@@ -289,6 +289,7 @@ describe('VAOS appointment helpers', () => {
       const appt = {
         typeOfCareId: 'CC',
         appointmentTime: now,
+        timeZone: 'UTC',
       };
 
       const facility = {
