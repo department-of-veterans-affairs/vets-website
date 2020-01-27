@@ -434,6 +434,23 @@ describe('Schemaform formState:', () => {
       expect(newSchema).to.eql({ type: 'number' });
       expect(newSchema).not.to.equal(schema);
     });
+    it('should completely replace schema', () => {
+      const schema = {
+        type: 'string',
+        enum: ['a', 'b'],
+      };
+      const uiSchema = {
+        'ui:options': {
+          replaceSchema: () => ({ type: 'string' }),
+        },
+      };
+
+      const newSchema = updateSchemaFromUiSchema(schema, uiSchema);
+
+      expect(newSchema).to.eql({ type: 'string' });
+      expect(Object.keys(newSchema)).to.eql(['type']);
+      expect(newSchema).not.to.equal(schema);
+    });
     it('should update schema in object', () => {
       const schema = {
         type: 'object',
