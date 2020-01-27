@@ -1,24 +1,28 @@
-const { getDrupalValue } = require('./helpers');
+const {
+  getDrupalValue,
+  isPublished,
+  createMetaTagArray,
+} = require('./helpers');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'node',
-    entityBundle: 'vamc_operating_status_and_alerts',
-    title: getDrupalValue(entity.title),
-    moderationState: getDrupalValue(entity.moderationState),
-    metatag: getDrupalValue(entity.metatag),
-    path: getDrupalValue(entity.path),
-    fieldBannerAlert: getDrupalValue(entity.fieldBannerAlert),
-    fieldFacilityOperatingStatus: getDrupalValue(
-      entity.fieldFacilityOperatingStatus,
-    ),
-    fieldLinks: getDrupalValue(entity.fieldLinks),
-    fieldOffice: getDrupalValue(entity.fieldOffice),
-    fieldOperatingStatusEmergInf: getDrupalValue(
-      entity.fieldOperatingStatusEmergInf,
-    ),
+  entityType: 'node',
+  entityBundle: 'vamc_operating_status_and_alerts',
+  title: getDrupalValue(entity.title),
+  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
+  entityMetatags: createMetaTagArray(entity.metatag.value),
+  entityUrl: {
+    breadcrumbs: [],
+    path: entity.path[0].alias,
   },
+  fieldBannerAlert: entity.fieldBannerAlert[0] || null,
+  fieldFacilityOperatingStatus: entity.fieldFacilityOperatingStatus,
+  fieldLinks: entity.fieldLinks,
+  fieldOffice: entity.fieldOffice[0] || null,
+  fieldOperatingStatusEmergInf: getDrupalValue(
+    entity.fieldOperatingStatusEmergInf,
+  ),
 });
+
 module.exports = {
   filter: [
     'title',
