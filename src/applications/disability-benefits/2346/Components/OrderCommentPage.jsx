@@ -66,8 +66,8 @@ const OrderCommentPage = () => {
       <Link to="/orderpage">
         <button>Back</button>
       </Link>
-      <Link to="/comments">
-        <button>Comments</button>
+      <Link to="/orderTables">
+        <button>Order History</button>
       </Link>
     </div>
   );
