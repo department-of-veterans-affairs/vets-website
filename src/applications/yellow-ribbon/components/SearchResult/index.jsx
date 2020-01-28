@@ -41,13 +41,15 @@ const SearchResult = ({ school }) => (
         </p>
 
         {/* Add to Compare */}
-        <button
-          className="usa-button-secondary vads-u-background-color--white vads-u-margin--0"
-          onClick={() => {}}
-        >
-          <i className="fas fa-plus vads-u-padding-right--1" />
-          Add to Compare
-        </button>
+        <div>
+          <button
+            className="usa-button-secondary vads-u-background-color--white vads-u-margin--0 vads-u-font-size--md"
+            onClick={() => {}}
+          >
+            <i className="fas fa-plus vads-u-padding-right--1" />
+            Add to compare
+          </button>
+        </div>
       </div>
 
       <div className="vads-l-col--6 vads-u-padding-left--2">
