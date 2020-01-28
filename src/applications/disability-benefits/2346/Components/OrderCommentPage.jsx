@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router';
 
-const OrderPage = () => {
+const OrderCommentPage = () => {
   const [checked, setChecked] = useState(false);
   const handleClicked = e => {
     const value = e.target.checked;
@@ -50,7 +50,20 @@ const OrderPage = () => {
         />
         <p>Do you have any additional requests for this order?</p>
       </div>
-      <Link to="/confirmaddress">
+      <hr />
+      <div>
+        <input
+          name="additional-comments"
+          id="additional-comments"
+          type="checkbox"
+          onClick={handleClicked}
+        />
+        <p>
+          Provide changes to your selected items or request other items below.
+        </p>
+        <textarea rows="3" placeholder="Additional comments" />
+      </div>
+      <Link to="/orderpage">
         <button>Back</button>
       </Link>
       <Link to="/comments">
@@ -60,4 +73,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default OrderCommentPage;
