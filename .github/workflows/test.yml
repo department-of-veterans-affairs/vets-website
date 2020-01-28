@@ -1,0 +1,24 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Cache dependencies
+      uses: actions/cache@v1.1.0
+      with:
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+        path: node_modules
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+    - name: Install Yarn
+      run: npm install -g yarn
+    - name: Install dependencies
+      run: yarn install
+    - name: Run tests
+      run: yarn test
