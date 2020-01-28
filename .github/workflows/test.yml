@@ -21,8 +21,8 @@ jobs:
       id: cache-dependenciese
       uses: actions/cache@v1.1.0
       with:
-        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('vets-website/yarn.lock') }}
+        path: vets-website/node_modules
     - name: Setup Node.js for use with actions
       uses: actions/setup-node@v1.1.0
     - name: Install Yarn
@@ -30,7 +30,9 @@ jobs:
     - name: Install dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: yarn install
+      working-directory: vets-website
     - name: Build and test
       run: |
         yarn build --buildtype=vagovdev
         yarn test
+      working-directory: vets-website
