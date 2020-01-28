@@ -42,6 +42,7 @@ describe('VAOS appointment helpers', () => {
   const now = moment();
   const communityCareAppointmentRequest = {
     typeOfCareId: 'CC',
+    timeZone: '-06:00 MDT',
   };
   const vaAppointmentRequest = {
     optionDate1: ' ',
@@ -52,6 +53,7 @@ describe('VAOS appointment helpers', () => {
   };
   const communityCareAppointment = {
     appointmentTime: ' ',
+    timeZone: '-04:00 EDT',
   };
 
   describe('getAppointmentType', () => {
@@ -388,9 +390,11 @@ describe('VAOS appointment helpers', () => {
     it('should return appointment date object for CC appointment', () => {
       const appt = {
         ...communityCareAppointmentRequest,
-        appointmentTime: now,
+        appointmentTime: '12/13/2019 17:11:00',
       };
-      expect(getMomentConfirmedDate(appt)).to.deep.equal(now);
+      expect(getMomentConfirmedDate(appt).format()).to.equal(
+        '2019-12-13T11:11:00-06:00',
+      );
     });
 
     describe('should return a "moment.js" date object for video visit appointment (timezone)', () => {
@@ -983,6 +987,7 @@ describe('VAOS appointment helpers', () => {
       const appt = {
         typeOfCareId: 'CC',
         appointmentTime: now,
+        timeZone: '-04:00 EDT',
       };
 
       const facility = {
@@ -1088,7 +1093,7 @@ describe('VAOS appointment helpers', () => {
       const appt = {
         typeOfCareId: 'CC',
         appointmentTime: now,
-        timeZone: 'UTC',
+        timeZone: '-04:00 EDT',
       };
 
       const facility = {

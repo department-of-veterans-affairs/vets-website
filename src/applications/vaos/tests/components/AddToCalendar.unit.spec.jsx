@@ -21,6 +21,7 @@ describe('VAOS <AddToCalendar>', () => {
 
   const communityCareAppointment = {
     appointmentTime: now,
+    timeZone: '-04:00 EDT',
     address: {
       street: '',
       city: '',
@@ -32,6 +33,7 @@ describe('VAOS <AddToCalendar>', () => {
   const communityCareAppointmentRequest = {
     appointmentTime: now,
     typeOfCareId: 'CC',
+    timeZone: '-04:00 EDT',
   };
 
   const vaAppointmentRequest = {
