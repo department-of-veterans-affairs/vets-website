@@ -10,6 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Cache dependencies
+      id: cache-dependenciese
       uses: actions/cache@v1.1.0
       with:
         key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
@@ -19,6 +20,9 @@ jobs:
     - name: Install Yarn
       run: npm install -g yarn
     - name: Install dependencies
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: yarn install
-    - name: Run tests
-      run: yarn test
+    - name: Build and test
+      run: |
+        yarn build
+        yarn test
