@@ -58,8 +58,6 @@ const {
   currentMarriage,
   dependents,
   maritalStatus,
-  marriages,
-  spouseMarriages,
   veteranFullName,
   veteranSocialSecurityNumber,
 } = fullSchema686.properties;
@@ -118,7 +116,7 @@ const addressSchema = {
     state: domesticAddress.properties.state,
     postOffice: militaryAddress.properties.postOffice,
     postalType: militaryAddress.properties.postalType,
-    postalCode,
+    postalCode: militaryAddress.properties.postalCode,
   },
 };
 
@@ -181,23 +179,6 @@ const childStatusUiSchema = {
   },
 };
 
-const deathLocationSchema = {
-  type: 'object',
-  required: ['city', 'state'],
-  properties: {
-    city: {
-      type: 'string',
-      maxLength: 30,
-      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
-    },
-    state: {
-      type: 'string',
-      maxLength: 30,
-      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
-    },
-  },
-};
-
 const deathLocationUiSchema = {
   'ui:title': 'Place of death',
   city: {
@@ -212,11 +193,18 @@ const deathLocationUiSchema = {
 // fields will be hidden and thus break the form silently
 const locationSchema = {
   type: 'object',
+  required: ['city', 'state'],
   properties: {
-    countryDropdown: militaryAddress.properties.countryDropdown,
-    countryText: internationalAddressText.properties.countryText,
-    city: domesticAddress.properties.city,
-    state: location.oneOf[0].properties.state,
+    state: {
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    },
+    city: {
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    },
   },
 };
 
@@ -354,40 +342,13 @@ function createLocationUISchemaForKey(
 ) {
   return {
     'ui:title': title,
-    countryDropdown: {
-      'ui:title': 'Country',
+    state: {
+      'ui:title': 'State (or country if outside the USA)',
       'ui:required': isRequiredCallback,
     },
-    countryText: {
-      'ui:title': 'Enter Country',
-      'ui:required': (formData, index) =>
-        isInternationalAddressText(
-          get(`${insertRealIndexInKey(key, index)}`, formData),
-        ),
-      'ui:options': {
-        hideIf: (formData, index) =>
-          isNotInternationalAddressText(
-            get(`${insertRealIndexInKey(key, index)}`, formData),
-          ),
-      },
-    },
     city: {
-      'ui:title': 'City',
-      'ui:required': (formData, index) =>
-        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      },
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:required': (formData, index) =>
-        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      },
+      'ui:title': 'City or county',
+      'ui:required': isRequiredCallback,
     },
   };
 }
@@ -531,7 +492,13 @@ const formConfig = {
             required: ['maritalStatus'],
             properties: {
               maritalStatus,
-              marriages,
+              marriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
+                },
+              },
             },
           },
         },
@@ -771,7 +738,13 @@ const formConfig = {
                   spouseAddress: addressSchema,
                 },
               },
-              spouseMarriages,
+              spouseMarriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
+                },
+              },
             },
           },
         },
@@ -1190,7 +1163,7 @@ const formConfig = {
                     childStatus: childStatusSchema,
                     fullName,
                     deceasedDateOfDeath: date,
-                    deceasedLocationOfDeath: deathLocationSchema,
+                    deceasedLocationOfDeath: locationSchema,
                   },
                 },
               },

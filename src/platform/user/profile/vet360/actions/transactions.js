@@ -289,8 +289,7 @@ export const updateValidationKeyAndSave = (
   analyticsSectionName,
 ) => async dispatch => {
   try {
-    const addressPayload = { address: { ...payload } };
-
+    const addressPayload = { address: addCountryCodeIso3ToAddress(payload) };
     const options = {
       body: JSON.stringify(addressPayload),
       method: 'POST',
