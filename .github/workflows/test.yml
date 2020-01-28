@@ -24,5 +24,5 @@ jobs:
       run: yarn install
     - name: Build and test
       run: |
-        yarn build
+        yarn build-webpack
         yarn test
