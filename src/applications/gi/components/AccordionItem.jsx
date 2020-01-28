@@ -26,27 +26,29 @@ class AccordionItem extends React.Component {
   render() {
     const expanded = this.state.expanded;
     return (
-      <li>
-        <h2 className="accordion-button-wrapper">
-          <button
-            onClick={this.toggle}
-            className="usa-accordion-button"
-            aria-expanded={expanded}
-            aria-controls={this.id}
+      <div>
+        <li>
+          <h2 aria-live="off" className="accordion-button-wrapper">
+            <button
+              onClick={this.toggle}
+              className="usa-accordion-button"
+              aria-expanded={expanded}
+              aria-controls={this.id}
+            >
+              <span className="vads-u-font-family--serif accordion-button-text">
+                {this.props.button}
+              </span>
+            </button>
+          </h2>
+          <div
+            id={this.id}
+            className="usa-accordion-content"
+            aria-hidden={!expanded}
           >
-            <span className="vads-u-font-family--serif accordion-button-text">
-              {this.props.button}
-            </span>
-          </button>
-        </h2>
-        <div
-          id={this.id}
-          className="usa-accordion-content"
-          aria-hidden={!expanded}
-        >
-          {this.props.children}
-        </div>
-      </li>
+            {this.props.children}
+          </div>
+        </li>
+      </div>
     );
   }
 }

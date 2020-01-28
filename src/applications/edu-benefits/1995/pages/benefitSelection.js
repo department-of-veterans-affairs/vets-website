@@ -2,6 +2,8 @@ import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 
 import { benefitsLabels } from '../../utils/labels';
 
+import environment from 'platform/utilities/environment';
+
 const { benefit } = fullSchema.properties;
 
 // 1995-STEM related
@@ -10,6 +12,8 @@ const displayBenefit = {
   enum: [...benefit.enum],
 };
 displayBenefit.enum.splice(1, 0, 'fryScholarship');
+// PROD FLAG FOR 4765
+if (!environment.isProduction()) displayBenefit.enum.splice(6, 1);
 
 export const uiSchema = {
   benefit: {

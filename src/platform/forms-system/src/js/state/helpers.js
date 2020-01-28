@@ -241,10 +241,10 @@ export function removeHiddenData(schema, data) {
 }
 
 /*
- * This is similar to the hidden fields schema function above, except more general.
- * It will step through a schema and replace parts of it based on an updateSchema
- * function in uiSchema. This means the schema can be re-calculated based on data
- * a user has entered.
+ * This is similar to the hidden fields schema function above, except more
+ * general. It will step through a schema and replace parts of it based on an
+ * updateSchema or replaceSchema function in uiSchema. This means the schema can
+ * be re-calculated based on data a user has entered.
  */
 export function updateSchemaFromUiSchema(
   schema,
@@ -324,6 +324,22 @@ export function updateSchemaFromUiSchema(
 
       return current;
     }, currentSchema);
+
+    if (newSchema !== currentSchema) {
+      return newSchema;
+    }
+  }
+
+  const replaceSchema = get(['ui:options', 'replaceSchema'], uiSchema);
+
+  if (replaceSchema) {
+    const newSchema = replaceSchema(
+      formData,
+      currentSchema,
+      uiSchema,
+      index,
+      path,
+    );
 
     if (newSchema !== currentSchema) {
       return newSchema;
