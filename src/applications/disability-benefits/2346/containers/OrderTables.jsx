@@ -1,11 +1,13 @@
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { focusElement } from '../../../../platform/utilities/ui';
 import {
   getDLCAccessoriesData,
   getDLCBatteryData,
-  getDLCSocksData,
+  // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+  // getDLCSocksData,
   updateDLCData,
 } from '../actions';
 
@@ -18,7 +20,8 @@ class OrderHistory extends Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
     this.props.getDLCBatteryData();
-    this.props.getDLCSocksData();
+    // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+    // this.props.getDLCSocksData();
     this.props.getDLCAccessoriesData();
   }
 
@@ -55,7 +58,8 @@ class OrderHistory extends Component {
       firstName,
       lastName,
       dlcBatteryData,
-      dlcSocksData,
+      // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+      // dlcSocksData,
       dlcAccessoriesData,
       address,
       city,
@@ -70,11 +74,12 @@ class OrderHistory extends Component {
       const returnedData = this.createDLCUIData(dlcBatteryData);
       dlcUIBatteryData = returnedData;
     }
-    let dlcUISocksData = [];
-    if (dlcSocksData.length > 0) {
-      const returnedData = this.createDLCUIData(dlcSocksData);
-      dlcUISocksData = returnedData;
-    }
+    // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+    // let dlcUISocksData = [];
+    // if (dlcSocksData.length > 0) {
+    //   const returnedData = this.createDLCUIData(dlcSocksData);
+    //   dlcUISocksData = returnedData;
+    // }
 
     let dlcUIAccessoriesData = [];
     if (dlcAccessoriesData.length > 0) {
@@ -85,7 +90,9 @@ class OrderHistory extends Component {
     return (
       <div className="form2346">
         {dlcUIBatteryData.length > 0 &&
-          dlcUISocksData.length > 0 &&
+          // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+          // dlcUISocksData.length > 0 &&
+
           dlcUIAccessoriesData.length > 0 && (
             <>
               <h2>
@@ -120,7 +127,10 @@ class OrderHistory extends Component {
                   ))}
                 </tbody>
               </table>
-              <table id="socksTable" className="form2346 vads-c-table">
+
+              {
+                // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+                /* <table id="socksTable" className="form2346 vads-c-table">
                 <tbody>
                   <tr>
                     <th className="form2346 vads-c-table__th">
@@ -145,7 +155,8 @@ class OrderHistory extends Component {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table> */
+              }
               <table id="accessoriesTable" className="form2346 vads-c-table">
                 <tbody>
                   <tr>
@@ -172,12 +183,14 @@ class OrderHistory extends Component {
                   ))}
                 </tbody>
               </table>
-              <button
-                type="button"
-                className="usa-button-primary va-button-primary"
-              >
-                Submit Your Order
-              </button>
+              <Link to="/home">
+                <button
+                  type="button"
+                  className="usa-button-primary va-button-primary"
+                >
+                  Back
+                </button>
+              </Link>
             </>
           )}
       </div>
@@ -187,7 +200,8 @@ class OrderHistory extends Component {
 
 const mapStateToProps = state => ({
   dlcBatteryData: state?.form2346Reducer?.dlcBatteryData || '',
-  dlcSocksData: state?.form2346Reducer?.dlcSocksData || '',
+  // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+  // dlcSocksData: state?.form2346Reducer?.dlcSocksData || '',
   dlcAccessoriesData: state?.form2346Reducer?.dlcAccessoriesData || '',
   firstName: state?.user?.profile?.userFullName?.first || '',
   lastName: state?.user?.profile?.userFullName?.last || '',
@@ -199,7 +213,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getDLCBatteryData,
-  getDLCSocksData,
+  // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+  // getDLCSocksData,
   getDLCAccessoriesData,
   updateDLCData,
 };

@@ -1,7 +1,8 @@
 import {
   getDLCAccessoriesDataApi,
   getDLCBatteryDataApi,
-  getDLCSocksDataApi,
+  // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+  // getDLCSocksDataApi,
   updateDLCDataApi,
 } from '../api';
 import {
@@ -9,8 +10,6 @@ import {
   FETCH_ACCESSORIES_DATA_SUCCESS,
   FETCH_BATTERY_DATA_FAILURE,
   FETCH_BATTERY_DATA_SUCCESS,
-  FETCH_SOCKS_DATA_FAILURE,
-  FETCH_SOCKS_DATA_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
 } from '../constants';
@@ -24,14 +23,16 @@ export const fetchBatteryDataFailure = () => ({
   type: FETCH_BATTERY_DATA_FAILURE,
 });
 
-export const fetchSocksDataSuccess = data => ({
-  type: FETCH_SOCKS_DATA_SUCCESS,
-  data,
-});
+// NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+//
+// export const fetchSocksDataSuccess = data => ({
+//   type: FETCH_SOCKS_DATA_SUCCESS,
+//   data,
+// });
 
-export const fetchSocksDataFailure = () => ({
-  type: FETCH_SOCKS_DATA_FAILURE,
-});
+// export const fetchSocksDataFailure = () => ({
+//   type: FETCH_SOCKS_DATA_FAILURE,
+// });
 
 export const fetchAccessoriesDataSuccess = data => ({
   type: FETCH_ACCESSORIES_DATA_SUCCESS,
@@ -61,14 +62,15 @@ export const getDLCBatteryData = () => async dispatch => {
   }
 };
 
-export const getDLCSocksData = () => async dispatch => {
-  try {
-    const socksData = await getDLCSocksDataApi();
-    dispatch(fetchSocksDataSuccess(socksData));
-  } catch (error) {
-    dispatch(fetchSocksDataFailure(error, 'failed to retrieve data from api'));
-  }
-};
+// NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+// export const getDLCSocksData = () => async dispatch => {
+//   try {
+//     const socksData = await getDLCSocksDataApi();
+//     dispatch(fetchSocksDataSuccess(socksData));
+//   } catch (error) {
+//     dispatch(fetchSocksDataFailure(error, 'failed to retrieve data from api'));
+//   }
+// };
 
 export const getDLCAccessoriesData = () => async dispatch => {
   try {

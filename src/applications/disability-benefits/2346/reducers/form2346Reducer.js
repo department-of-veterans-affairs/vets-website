@@ -3,15 +3,17 @@ import {
   FETCH_ACCESSORIES_DATA_SUCCESS,
   FETCH_BATTERY_DATA_FAILURE,
   FETCH_BATTERY_DATA_SUCCESS,
-  FETCH_SOCKS_DATA_FAILURE,
-  FETCH_SOCKS_DATA_SUCCESS,
+  // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+  // FETCH_SOCKS_DATA_FAILURE,
+  // FETCH_SOCKS_DATA_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
 } from '../constants';
 
 const initialState = {
   dlcBatteryData: [],
-  dlcSocksData: [],
+  // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+  // dlcSocksData: [],
   dlcAccessoriesData: [],
 };
 
@@ -28,18 +30,18 @@ export default (state = initialState, action) => {
         ...state,
         error: action.error,
       };
+    // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+    // case FETCH_SOCKS_DATA_SUCCESS:
+    //   return {
+    //     ...state,
+    //     dlcSocksData: action.data,
+    //   };
 
-    case FETCH_SOCKS_DATA_SUCCESS:
-      return {
-        ...state,
-        dlcSocksData: action.data,
-      };
-
-    case FETCH_SOCKS_DATA_FAILURE:
-      return {
-        ...state,
-        error: action.error,
-      };
+    // case FETCH_SOCKS_DATA_FAILURE:
+    //   return {
+    //     ...state,
+    //     error: action.error,
+    //   };
 
     case FETCH_ACCESSORIES_DATA_SUCCESS:
       return {

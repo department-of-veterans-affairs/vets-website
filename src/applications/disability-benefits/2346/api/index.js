@@ -1,7 +1,8 @@
 import { apiRequest } from '../../../../platform/utilities/api';
 
 export const getDLCBatteryDataApi = () => apiRequest('/dlc/orderstatus/1014/1');
-export const getDLCSocksDataApi = () => apiRequest('/dlc/orderstatus/1014/2');
+// NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
+// export const getDLCSocksDataApi = () => apiRequest('/dlc/orderstatus/1014/2');
 export const getDLCAccessoriesDataApi = () =>
   apiRequest('/dlc/orderstatus/1014/3');
 export const updateDLCDataApi = data =>
