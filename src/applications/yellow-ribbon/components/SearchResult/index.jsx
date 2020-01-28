@@ -19,7 +19,7 @@ const SearchResult = ({ school }) => (
       <div className="vads-l-col--6 vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between">
         {/* Max Benefit Amount */}
         <div className="vads-u-col">
-          <h4 className="vads-u-font-size--h5 vads-u-margin--0">
+          <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
             Maximum Yellow Ribbon benefit amount
           </h4>
           <p className="vads-u-margin--0">
@@ -31,7 +31,7 @@ const SearchResult = ({ school }) => (
         </div>
 
         {/* Benefit available for x students */}
-        <h4 className="vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
           Benefit available for
         </h4>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -54,11 +54,13 @@ const SearchResult = ({ school }) => (
 
       <div className="vads-l-col--6 vads-u-padding-left--2">
         {/* Degree Level */}
-        <h4 className="vads-u-font-size--h5 vads-u-margin--0">Degree level</h4>
+        <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
+          Degree level
+        </h4>
         <p className="vads-u-margin--0">{school?.highestDegree || 'Unknown'}</p>
 
         {/* School or Division */}
-        <h4 className="vads-u-font-size--h5 vads-u-margin--0 vads-u-margin-top--2">
+        <h4 className="vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0 vads-u-margin-top--2">
           School or division
         </h4>
         <p className="vads-u-margin--0">Unknown</p>
