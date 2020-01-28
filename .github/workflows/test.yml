@@ -8,7 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Checkout VA.gov content
+      uses: actions/checkout@v2
+      with:
+        repository: department-of-veterans-affairs/vagov-content
+        path: vagov-content
     - name: Cache dependencies
       id: cache-dependenciese
       uses: actions/cache@v1.1.0
