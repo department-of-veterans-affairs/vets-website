@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { WAIT_INTERVAL } from '../../constants';
+import { WAIT_INTERVAL, SMALL_SCREEN_WIDTH, KEY_CODES } from '../../constants';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export class KeywordSearch extends React.Component {
 
   handleKeyUp = e => {
     const { onFilterChange, autocomplete } = this.props;
-    if ((e.which || e.keyCode) === 13) {
+    if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
       onFilterChange(autocomplete.searchTerm);
     }
@@ -56,8 +56,7 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFocus = () => {
-    const smallScreenWidth = 481;
-    if (window.innerWidth <= smallScreenWidth) {
+    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
       document.getElementsByClassName('keyword-search')[0].scrollIntoView();
     }
   };
