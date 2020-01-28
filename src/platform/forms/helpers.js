@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import matches from 'lodash/matches';
+import groupBy from 'lodash/groupBy';
 
 export function getPageList(routes, prefix = '') {
   return routes
@@ -30,7 +31,7 @@ export function groupPagesIntoChapters(routes, prefix = '') {
     return obj;
   });
 
-  const pageGroups = _.groupBy(pageList, page => page.chapter);
+  const pageGroups = groupBy(pageList, page => page.chapter);
 
   return Object.keys(pageGroups).map(chapter => ({
     name: chapter,
@@ -66,10 +67,10 @@ export function isActivePage(page, data) {
   }
 
   if (Array.isArray(page.depends)) {
-    return page.depends.some(condition => _.matches(condition)(data));
+    return page.depends.some(condition => matches(condition)(data));
   }
 
-  return page.depends === undefined || _.matches(page.depends)(data);
+  return page.depends === undefined || matches(page.depends)(data);
 }
 
 export function getActivePages(pages, data) {

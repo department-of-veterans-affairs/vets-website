@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import classNames from 'classnames';
 
 import {
@@ -43,7 +45,7 @@ export class SearchPage extends React.Component {
 
     const shouldUpdateSearchResults =
       !currentlyInProgress &&
-      !_.isEqual(this.props.location.query, prevProps.location.query);
+      !isEqual(this.props.location.query, prevProps.location.query);
 
     if (shouldUpdateSearchResults) {
       this.updateSearchResults();
@@ -55,7 +57,7 @@ export class SearchPage extends React.Component {
 
     if (
       !currentlyInProgress &&
-      !_.isEqual(this.props.search.results, prevProps.search.results)
+      !isEqual(this.props.search.results, prevProps.search.results)
     ) {
       focusElement('.search-results-count > h1');
     }
@@ -85,14 +87,14 @@ export class SearchPage extends React.Component {
 
     const stringSearchParams = ['page', 'name'];
 
-    const query = _.pick(this.props.location.query, [
+    const query = pick(this.props.location.query, [
       ...stringSearchParams,
       ...stringFilterParams,
       ...booleanFilterParams,
     ]);
 
     // Update form selections based on query.
-    const institutionFilter = _.omit(query, stringSearchParams);
+    const institutionFilter = omit(query, stringSearchParams);
 
     // Convert string to bool for params associated with checkboxes.
     booleanFilterParams.forEach(filterKey => {
@@ -130,7 +132,7 @@ export class SearchPage extends React.Component {
     };
     // Don’t update the route if the query hasn’t changed.
     if (
-      _.isEqual(query, this.props.location.query) ||
+      isEqual(query, this.props.location.query) ||
       this.props.search.inProgress
     ) {
       return;

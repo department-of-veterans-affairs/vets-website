@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 import UserInfoSection from '../../components/UserInfoSection';
 
@@ -45,7 +45,7 @@ describe('<UserInfoSection>', () => {
 
   describe('showCurrentAsOfAlert is falsey', () => {
     it('should omit the "current as of" date', () => {
-      const currentAsOfProps = _.merge({}, props, {
+      const currentAsOfProps = merge({}, props, {
         showCurrentAsOfAlert: false,
       });
       const tree = SkinDeep.shallowRender(
@@ -62,7 +62,7 @@ describe('<UserInfoSection>', () => {
 
   describe('showCurrentAsOfAlert is truthy', () => {
     it('should display the "current as of" date', () => {
-      const currentAsOfProps = _.merge({}, props, {
+      const currentAsOfProps = merge({}, props, {
         showCurrentAsOfAlert: true,
       });
       const tree = SkinDeep.shallowRender(

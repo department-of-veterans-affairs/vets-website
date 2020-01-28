@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import recordEvent from 'platform/monitoring/record-event';
 
 class AccordionItem extends React.Component {
@@ -10,7 +10,7 @@ class AccordionItem extends React.Component {
     this.state = {
       expanded: props.expanded,
     };
-    this.id = _.uniqueId('accordion-item-');
+    this.id = uniqueId('accordion-item-');
   }
 
   toggle() {

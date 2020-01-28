@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import omit from 'lodash/omit';
 import { hasPrefillBankInformation } from './utils';
 
 export function prefillTransformer(pages, formData, metadata) {
@@ -15,7 +15,7 @@ export function prefillTransformer(pages, formData, metadata) {
     emailAddress: formData.emailAddress,
   };
 
-  const newData = _.omit(formData, ['bankAccount']);
+  const newData = omit(formData, ['bankAccount']);
 
   const hasBankInformation = hasPrefillBankInformation(formData.bankAccount);
 

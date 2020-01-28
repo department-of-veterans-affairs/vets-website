@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema0993 from 'vets-json-schema/dist/22-0993-schema.json';
 import fullNameUI from 'platform/forms/definitions/fullName';
@@ -70,21 +70,24 @@ const formConfig = {
           },
           uiSchema: {
             'ui:description': PrefillMessage,
-            claimantFullName: _.merge(fullNameUI, {
-              first: {
-                'ui:title': 'Your first name',
+            claimantFullName: merge(
+              {
+                first: {
+                  'ui:title': 'Your first name',
+                },
+                last: {
+                  'ui:title': 'Your last name',
+                },
+                middle: {
+                  'ui:title': 'Your middle name',
+                },
+                suffix: {
+                  'ui:title': 'Your suffix',
+                },
               },
-              last: {
-                'ui:title': 'Your last name',
-              },
-              middle: {
-                'ui:title': 'Your middle name',
-              },
-              suffix: {
-                'ui:title': 'Your suffix',
-              },
-            }),
-            claimantSocialSecurityNumber: _.assign(ssnUI, {
+              fullNameUI,
+            ),
+            claimantSocialSecurityNumber: Object.assign({}, ssnUI, {
               'ui:required': formData => !formData['view:noSSN'],
               'ui:title': 'Your Social Security number',
             }),

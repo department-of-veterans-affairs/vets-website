@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import set from 'lodash/fp/set'; // eslint-disable-line no-restricted-imports
+import get from 'platform/utilities/data/get';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -17,7 +18,7 @@ class BasicArrayField extends React.Component {
     !deepEquals(this.props, nextProps) || nextState !== this.state;
 
   onItemChange = (indexToChange, value) => {
-    const newItems = _.set(indexToChange, value, this.props.formData || []);
+    const newItems = set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   };
 
@@ -40,7 +41,7 @@ class BasicArrayField extends React.Component {
     const { TitleField, SchemaField } = registry.fields;
 
     const title = uiSchema['ui:title'] || schema.title;
-    const hideTitle = !!_.get(['ui:options', 'hideTitle'], uiSchema);
+    const hideTitle = !!get(['ui:options', 'hideTitle'], uiSchema);
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;

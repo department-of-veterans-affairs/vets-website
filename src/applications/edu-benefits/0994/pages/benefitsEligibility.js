@@ -2,7 +2,7 @@ import {
   eligibilityDescription,
   eligibilityInstructions,
 } from '../content/benefitsEligibility';
-import _ from 'lodash';
+import get from 'lodash/get';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 
 const { appliedForVaEducationBenefits } = fullSchema.properties;
@@ -15,7 +15,7 @@ export const uiSchema = {
     'ui:title': '',
     'ui:description': eligibilityInstructions,
     'ui:options': {
-      hideIf: data => _.get(data, 'appliedForVaEducationBenefits', true),
+      hideIf: data => get(data, 'appliedForVaEducationBenefits', true),
     },
   },
 };

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -45,7 +45,7 @@ class ConfirmationPage extends React.Component {
       ? this.props.form.submission.response.attributes
       : {};
     const name = form.data.applicantFullName;
-    const appliedForVaEducationBenefits = _.get(
+    const appliedForVaEducationBenefits = get(
       form.data,
       'appliedForVaEducationBenefits',
       true,

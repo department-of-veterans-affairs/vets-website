@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
-
+import capitalize from 'lodash/capitalize';
+import isFinite from 'lodash/isFinite';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber, locationInfo } from '../../utils/helpers';
@@ -97,7 +97,7 @@ class HeadingSummary extends React.Component {
                 icon="calendar-o"
                 present={it.type !== 'ojt' && it.highestDegree}
               >
-                {_.isFinite(it.highestDegree)
+                {isFinite(it.highestDegree)
                   ? `${it.highestDegree} year`
                   : it.highestDegree}{' '}
                 program
@@ -112,13 +112,13 @@ class HeadingSummary extends React.Component {
                 icon="institution"
                 present={it.type && it.type !== 'ojt'}
               >
-                {_.capitalize(it.type)} school
+                {capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo
                 icon="map"
                 present={it.localeType && it.type && it.type !== 'ojt'}
               >
-                {_.capitalize(it.localeType)} locale
+                {capitalize(it.localeType)} locale
               </IconWithInfo>
               <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
                 {schoolSize(it.undergradEnrollment)} size

@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 import EnrollmentPeriod from '../../components/EnrollmentPeriod';
 
@@ -57,19 +57,19 @@ describe('<EnrollmentPeriod>', () => {
   });
 
   it('should show change history if there are amendments', () => {
-    const props = _.merge({}, defaultProps, { enrollment: { amendments } });
+    const props = merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props} />);
     expect(tree.subTree('.usa-accordion')).not.to.be.false;
   });
 
   it('should not show change history contents when panel is collapsed', () => {
-    const props = _.merge({}, defaultProps, { enrollment: { amendments } });
+    const props = merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props} />);
     expect(tree.subTree('.usa-accordion-content')).to.be.false;
   });
 
   it('should show or hide change history contents when panel is expanded or collapsed', () => {
-    const props = _.merge({}, defaultProps, { enrollment: { amendments } });
+    const props = merge({}, defaultProps, { enrollment: { amendments } });
     const tree = SkinDeep.shallowRender(<EnrollmentPeriod {...props} />);
 
     // Expand

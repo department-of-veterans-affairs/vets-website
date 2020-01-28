@@ -1,5 +1,8 @@
-import _ from 'lodash';
-
+import keys from 'lodash/keys';
+import has from 'lodash/has';
+import isPlainObject from 'lodash/isPlainObject';
+import mapValues from 'lodash/mapValues';
+import isArray from 'lodash/isArray';
 /**
  * Represents an input field value.
  *
@@ -16,15 +19,11 @@ export function makeField(value, optionalDirty) {
  * Walks through an object hierarchy of fields and marks everything dirty.
  */
 export function dirtyAllFields(field) {
-  if (
-    _.keys(field).length === 2 &&
-    _.has(field, 'value') &&
-    _.has(field, 'dirty')
-  ) {
+  if (keys(field).length === 2 && has(field, 'value') && has(field, 'dirty')) {
     return makeField(field.value, true);
-  } else if (_.isPlainObject(field)) {
-    return _.mapValues(field, (value, _k) => dirtyAllFields(value));
-  } else if (_.isArray(field)) {
+  } else if (isPlainObject(field)) {
+    return mapValues(field, (value, _k) => dirtyAllFields(value));
+  } else if (isArray(field)) {
     return field.map(dirtyAllFields);
   }
 

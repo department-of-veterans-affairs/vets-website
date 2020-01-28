@@ -1,5 +1,3 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
-
 import FileField from '../fields/FileField';
 import { validateFileField } from '../validation';
 
@@ -7,7 +5,8 @@ export default function fileUiSchema(label, userOptions = {}) {
   return {
     'ui:title': label,
     'ui:field': FileField,
-    'ui:options': _.assign(
+    'ui:options': Object.assign(
+      {},
       {
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         maxSize: 20971520,

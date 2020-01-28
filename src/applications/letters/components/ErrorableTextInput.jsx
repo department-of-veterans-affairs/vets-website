@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 
 /**
  * A form input with a label that can display error messages.
@@ -22,7 +22,7 @@ import _ from 'lodash';
 class ErrorableTextInput extends React.Component {
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
-    this.inputId = _.uniqueId('errorable-text-input-');
+    this.inputId = uniqueId('errorable-text-input-');
   }
 
   handleChange = domEvent => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
+import mapKeys from 'lodash/mapKeys';
 import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -31,7 +32,7 @@ class AddressForm extends React.Component {
 
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
-    this.id = _.uniqueId('address-input-');
+    this.id = uniqueId('address-input-');
   }
 
   componentDidMount() {
@@ -69,7 +70,7 @@ class AddressForm extends React.Component {
     // to this: `{ value: 'Illinois', label: 'IL' }`
     const statesList = [];
 
-    _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
+    mapKeys(STATE_CODE_TO_NAME, (value, key) => {
       statesList.push({ label: value, value: key });
     });
     if (this.state.isMilitaryAddress) {

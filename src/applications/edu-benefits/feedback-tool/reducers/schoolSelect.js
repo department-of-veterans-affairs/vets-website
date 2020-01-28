@@ -9,7 +9,7 @@ import {
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED,
 } from '../actions/schoolSearch';
-import _ from 'lodash';
+import reduce from 'lodash/reduce';
 
 const initialState = {
   currentPageNumber: 1,
@@ -185,7 +185,7 @@ export default function schoolSearch(state = initialState, action) {
           };
         })
         .map(institution =>
-          _.reduce(
+          reduce(
             institution,
             (result, value, key) => {
               // transform null to empty string

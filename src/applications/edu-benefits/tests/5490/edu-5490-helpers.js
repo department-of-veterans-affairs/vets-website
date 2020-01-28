@@ -1,4 +1,6 @@
-import _ from 'lodash/fp';
+import isEmpty from 'lodash/isEmpty';
+import forEach from 'lodash/forEach';
+import get from 'lodash/get';
 
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 
@@ -112,10 +114,7 @@ function completeSecondaryContact(client, data) {
 }
 
 function completeEducationHistory(client, data) {
-  const completionDate = _.get(
-    'highSchool.highSchoolOrGedCompletionDate',
-    data,
-  );
+  const completionDate = get(data, 'highSchool.highSchoolOrGedCompletionDate');
 
   client.selectDropdown('root_highSchool_status', data.highSchool.status);
   if (completionDate) {
@@ -125,7 +124,7 @@ function completeEducationHistory(client, data) {
     );
   }
 
-  if (!_.isEmpty(data.postHighSchoolTrainings)) {
+  if (!isEmpty(data.postHighSchoolTrainings)) {
     // Open up the trainings section if there are trainings in the data
     client
       .click('input#root_view\\:hasTrainingsYes')
@@ -135,10 +134,10 @@ function completeEducationHistory(client, data) {
       );
 
     // Fill out the information for each training
-    _.forEach(data.postHighSchoolTrainings, (training, index, allTrainings) => {
+    forEach(data.postHighSchoolTrainings, (training, index, allTrainings) => {
       // I'm not convinced this is running.
-      const dateFrom = _.get('dateRange.from', training);
-      const dateTo = _.get('dateRange.to', training);
+      const dateFrom = get(training, 'dateRange.from');
+      const dateTo = get(training, 'dateRange.to');
 
       client
         .fill(

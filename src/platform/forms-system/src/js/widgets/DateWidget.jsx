@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
-
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import { months, days } from '../utilities/date';
 import { formatISOPartialDate, parseISODate } from '../helpers';
 
@@ -34,7 +34,7 @@ export default class DateWidget extends React.Component {
   }
 
   isTouched = ({ year, month, day }) => {
-    if (_.get('options.monthYear', this.props)) {
+    if (get('options.monthYear', this.props)) {
       return year && month;
     }
 
@@ -42,7 +42,7 @@ export default class DateWidget extends React.Component {
   };
 
   isIncomplete = ({ month, year, day }) => {
-    if (_.get('options.monthYear', this.props)) {
+    if (get('options.monthYear', this.props)) {
       return !year || !month;
     }
 
@@ -50,7 +50,7 @@ export default class DateWidget extends React.Component {
   };
 
   handleBlur(field) {
-    const newState = _.set(['touched', field], true, this.state);
+    const newState = set(['touched', field], true, this.state);
     this.setState(newState, () => {
       if (this.isTouched(newState.touched)) {
         this.props.onBlur(this.props.id);
@@ -59,8 +59,8 @@ export default class DateWidget extends React.Component {
   }
 
   handleChange(field, value) {
-    let newState = _.set(['value', field], value, this.state);
-    newState = _.set(['touched', field], true, newState);
+    let newState = set(['value', field], value, this.state);
+    newState = set(['touched', field], true, newState);
 
     this.setState(newState, () => {
       if (this.props.required && this.isIncomplete(newState.value)) {

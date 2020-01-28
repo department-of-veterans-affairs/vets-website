@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import uniqueId from 'lodash/uniqueId';
+import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
@@ -23,13 +25,13 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
-    this.id = _.uniqueId();
+    this.id = uniqueId();
   }
 
   onChange(formData, path = null, index = null) {
     let newData = formData;
     if (path) {
-      newData = _.set([path, index], formData, this.props.form.data);
+      newData = set([path, index], formData, this.props.form.data);
     }
     this.props.setData(newData);
   }
@@ -49,7 +51,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (path) {
-      const newData = _.set([path, index], formData, this.props.form.data);
+      const newData = set([path, index], formData, this.props.form.data);
       this.props.setData(newData);
     }
 
@@ -122,7 +124,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
               pageSchema =
                 pageState.schema.properties[page.arrayPath].items[page.index];
               pageUiSchema = pageState.uiSchema[page.arrayPath].items;
-              pageData = _.get([page.arrayPath, page.index], form.data);
+              pageData = get([page.arrayPath, page.index], form.data);
               arrayFields = [];
               fullPageKey = `${page.pageKey}${page.index}`;
             } else {
@@ -212,7 +214,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     <ArrayField
                       pageKey={page.pageKey}
                       pageTitle={page.title}
-                      arrayData={_.get(arrayField.path, form.data)}
+                      arrayData={get(arrayField.path, form.data)}
                       formData={form.data}
                       appStateData={page.appStateData}
                       formContext={formContext}

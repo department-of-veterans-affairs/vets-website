@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import get from 'lodash/get';
 
 export default function createDisclosureTitle(path, title) {
   return function DisclosureTitle({ id, formData }) {
@@ -9,12 +9,10 @@ export default function createDisclosureTitle(path, title) {
     if (path === 'spouse') {
       const marriages = formData.marriages || [];
       fullName =
-        _.get(
-          ['marriages', marriages.length - 1, 'spouseFullName'],
-          formData,
-        ) || {};
+        get(formData, ['marriages', marriages.length - 1, 'spouseFullName']) ||
+        {};
     } else {
-      fullName = _.get(path, formData) || {};
+      fullName = get(formData, path) || {};
     }
 
     return (

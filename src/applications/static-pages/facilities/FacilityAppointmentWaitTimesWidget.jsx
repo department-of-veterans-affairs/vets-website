@@ -3,7 +3,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/formation-react/Lo
 import { formatDateLong } from '../../../platform/utilities/date';
 import FacilityApiAlert from './FacilityApiAlert';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import camelCase from 'lodash/camelCase';
 
 export class FacilityAppointmentWaitTimesWidget extends React.Component {
   /* @param waitTimes (object) - an object with a list of keys of facility services names in camelCase as keys with a value of an object
@@ -13,7 +13,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
   */
   appointmentWaitTime(waitTimes, service, established = false) {
     // convert service to camel case
-    const serviceKey = _.camelCase(service);
+    const serviceKey = camelCase(service);
     // find service in waitTimes object as a key
     const time = waitTimes[serviceKey];
     // return waitTimes for service
@@ -38,7 +38,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
 
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0];
-    const serviceExists = facility.access.health[_.camelCase(service)];
+    const serviceExists = facility.access.health[camelCase(service)];
     // check if this health service has a wait time associated with it
     if (serviceExists && (serviceExists.new || serviceExists.established)) {
       return (
@@ -58,7 +58,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                 <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
                   <p className="vads-u-margin--0">New patient</p>
                   <p
-                    id={`facility-${_.camelCase(
+                    id={`facility-${camelCase(
                       service,
                     )}-new-patient-wait-time`}
                     className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
@@ -71,7 +71,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                 <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5">
                   <p className="vads-u-margin--0">Existing patient</p>
                   <p
-                    id={`facility-${_.camelCase(
+                    id={`facility-${camelCase(
                       service,
                     )}-existing-patient-wait-time`}
                     className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
@@ -87,7 +87,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
             </div>
             <div className="vads-l-row">
               <p
-                id={`facility-${_.camelCase(
+                id={`facility-${camelCase(
                   service,
                 )}-appointment-wait-times-effective-date`}
               >

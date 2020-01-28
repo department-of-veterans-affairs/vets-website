@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 import { Main } from '../../containers/Main';
 
@@ -19,7 +19,7 @@ describe('Main', () => {
 
   it('should show data when service is available', () => {
     /*
-    const props = _.merge({}, defaultProps,
+    const props = merge({}, defaultProps,
                           { enrollmentData: { firstName: 'Joe' } });
     const tree = SkinDeep.shallowRender(<Main {...props}/>);
     // TODO: why is StatusPage not found
@@ -28,7 +28,7 @@ describe('Main', () => {
   });
 
   it('should show loading spinner when waiting for response', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = merge({}, defaultProps, {
       availability: 'awaitingResponse',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
@@ -36,7 +36,7 @@ describe('Main', () => {
   });
 
   it('should show system down message for backend service error', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = merge({}, defaultProps, {
       availability: 'backendServiceError',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
@@ -44,7 +44,7 @@ describe('Main', () => {
   });
 
   it('should show backend authentication error', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = merge({}, defaultProps, {
       availability: 'backendAuthenticationError',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
@@ -56,13 +56,13 @@ describe('Main', () => {
     See: https://github.com/department-of-veterans-affairs/vets.gov-team/issues/7677
   */
   // it('should show record not found warning', () => {
-  //   const props = _.merge({}, defaultProps, { availability: 'noChapter33Record' });
+  //   const props = merge({}, defaultProps, { availability: 'noChapter33Record' });
   //   const tree = SkinDeep.shallowRender(<Main {...props}/>);
   //   expect(tree.subTree('#noChapter33Benefits')).to.be.ok;
   // });
 
   it('should show the authentication warning when record not found', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = merge({}, defaultProps, {
       availability: 'noChapter33Record',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
@@ -70,7 +70,7 @@ describe('Main', () => {
   });
 
   it('should show system down message when fetching enrollment data fails', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = merge({}, defaultProps, {
       availability: 'getEnrollmentDataFailure',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);

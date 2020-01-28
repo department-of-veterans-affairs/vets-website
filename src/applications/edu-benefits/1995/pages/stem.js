@@ -3,7 +3,7 @@ import {
   rogersStemScholarshipInfo,
   prodRogersStemScholarshipInfo,
 } from '../content/stem';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 const {
   isEdithNourseRogersScholarship,
@@ -109,7 +109,7 @@ export const prodUiSchema = {
       form.isEdithNourseRogersScholarship && !form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
-      hideIf: formData => _.get(formData, 'isEnrolledStem', true),
+      hideIf: formData => get(formData, 'isEnrolledStem', true),
     },
   },
   'view:rogersStemScholarshipInfo': {

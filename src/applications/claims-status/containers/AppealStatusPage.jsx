@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import moment from 'moment';
-import _ from 'lodash';
+import filter from 'lodash/filter';
+import orderBy from 'lodash/orderBy';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getAppeals } from '../actions/index.jsx';
@@ -50,11 +51,11 @@ class AppealStatusPage extends React.Component {
   renderHearingInfo() {
     const { appeal } = this.props;
 
-    const activeHearings = _.filter(appeal.attributes.hearings, h =>
+    const activeHearings = filter(appeal.attributes.hearings, h =>
       moment().isBefore(h.date),
     );
 
-    const upcomingHearing = _.orderBy(
+    const upcomingHearing = orderBy(
       activeHearings,
       [e => moment(e.date).unix()],
       ['asc'],
@@ -111,7 +112,7 @@ class AppealStatusPage extends React.Component {
     }
 
     // always show merged event on top
-    const events = _.orderBy(
+    const events = orderBy(
       appeal.attributes.events,
       [e => e.type === 'merged', e => moment(e.date).unix()],
       ['desc', 'desc'],

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Cropper from 'react-cropper';
@@ -179,7 +179,7 @@ export default class CropperControls extends React.Component {
   componentDidMount() {
     // updating the width state triggers Cropper remount- debounce event to reduce jank during active resize
     this.debouncedDetectWidth =
-      this.debouncedDetectWidth || _.debounce(this.detectWidth, 250);
+      this.debouncedDetectWidth || debounce(this.detectWidth, 250);
     window.addEventListener('resize', this.debouncedDetectWidth);
   }
 

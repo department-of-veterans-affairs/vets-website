@@ -1,37 +1,36 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 
 export const selectCurrentPageNumber = state =>
-  _.get(state, 'schoolSelect.currentPageNumber');
+  get(state, 'schoolSelect.currentPageNumber');
 export const selectFacilityCodeErrorMessages = ownProps =>
-  _.get(ownProps, 'errorSchema.facilityCode.__errors');
+  get(ownProps, 'errorSchema.facilityCode.__errors');
 export const selectFormSubmitted = ownProps =>
-  _.get(ownProps, 'formContext.submitted');
+  get(ownProps, 'formContext.submitted');
 export const selectInstitutionQuery = state =>
-  _.get(state, 'schoolSelect.institutionQuery');
+  get(state, 'schoolSelect.institutionQuery');
 export const selectInstitutions = state =>
-  _.get(state, 'schoolSelect.institutions');
+  get(state, 'schoolSelect.institutions');
 export const selectInstitutionSelected = state =>
-  _.get(state, 'schoolSelect.institutionSelected');
+  get(state, 'schoolSelect.institutionSelected');
 export const selectManualSchoolEntryChecked = state =>
-  _.get(
+  get(
     state,
     'form.data.educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked',
   );
-export const selectPagesCount = state =>
-  _.get(state, 'schoolSelect.pagesCount');
+export const selectPagesCount = state => get(state, 'schoolSelect.pagesCount');
 export const selectSearchInputValue = state =>
-  _.get(state, 'schoolSelect.searchInputValue');
+  get(state, 'schoolSelect.searchInputValue');
 export const selectSearchResultsCount = state =>
-  _.get(state, 'schoolSelect.searchResultsCount');
+  get(state, 'schoolSelect.searchResultsCount');
 export const selectShowInstitutions = state =>
-  _.get(state, 'schoolSelect.showInstitutions');
+  get(state, 'schoolSelect.showInstitutions');
 export const selectShowInstitutionsLoading = state =>
-  _.get(state, 'schoolSelect.showInstitutionsLoading');
+  get(state, 'schoolSelect.showInstitutionsLoading');
 export const selectShowNoResultsFound = state =>
-  _.get(state, 'schoolSelect.showNoResultsFound');
+  get(state, 'schoolSelect.showNoResultsFound');
 export const selectShowPagination = state =>
-  _.get(state, 'schoolSelect.showPagination');
+  get(state, 'schoolSelect.showPagination');
 export const selectShowPaginationLoading = state =>
-  _.get(state, 'schoolSelect.showPaginationLoading');
+  get(state, 'schoolSelect.showPaginationLoading');
 export const selectShowSearchResults = state =>
   !selectManualSchoolEntryChecked(state);

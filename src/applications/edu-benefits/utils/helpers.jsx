@@ -1,10 +1,10 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 import moment from 'moment';
 
 import { dateToMoment } from '../../../platform/utilities/date';
 
 export function getLabel(options, value) {
-  const matched = _.find(options, option => option.value === value);
+  const matched = find(options, option => option.value === value);
 
   return matched ? matched.label : null;
 }

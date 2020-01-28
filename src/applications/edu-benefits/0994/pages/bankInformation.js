@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import bankAccountUI from '../../../../platform/forms/definitions/bankAccount';
 import ReviewCardField from '../../components/ReviewCardField';
@@ -16,17 +16,17 @@ import {
 const { bankAccount } = fullSchema.properties;
 
 const hasNewBankInfo = formData => {
-  const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
+  const bankAccountObj = get(formData['view:bankAccount'], 'bankAccount', {});
   return hasNewBankInformation(bankAccountObj);
 };
 
 const hasPrefillBankInfo = formData => {
-  const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
+  const bankAccountObj = get(formData, 'prefillBankAccount', {});
   return hasPrefillBankInformation(bankAccountObj);
 };
 
 const startInEdit = data =>
-  !_.get(data, 'view:hasBankInformation', false) &&
+  !get(data, 'view:hasBankInformation', false) &&
   !hasNewBankInformation(data.bankAccount);
 
 export const uiSchema = {

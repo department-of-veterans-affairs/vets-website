@@ -1,4 +1,3 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -355,7 +354,7 @@ describe('Schemaform review <ArrayField>', () => {
 
     const instance = tree.getMountedInstance();
 
-    const newProps = _.assign(instance.props, {
+    const newProps = Object.assign({}, instance.props, {
       arrayData: [],
     });
 

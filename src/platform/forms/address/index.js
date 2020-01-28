@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import hasIn from 'lodash/hasIn';
 
 import { isNotBlank, isBlank, isValidRequiredField } from '../validations';
 
@@ -383,7 +383,7 @@ export function isValidAddressField(field) {
 
   // if we have a defined list of values, they will
   // be set as the state and zipcode keys
-  if (_.hasIn(states, field.country.value)) {
+  if (hasIn(states, field.country.value)) {
     return initialOk && isNotBlank(field.state.value) && isValidPostalCode;
   }
   // if the entry was non-USA/CAN/MEX, only postal is

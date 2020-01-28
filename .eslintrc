@@ -10,8 +10,8 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs"],
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "lodash", "sonarjs"],
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:lodash/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,

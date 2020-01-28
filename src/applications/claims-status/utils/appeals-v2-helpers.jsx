@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import _ from 'lodash';
+import get from 'lodash/get';
+import find from 'lodash/find';
+import startCase from 'lodash/startCase';
+import toLower from 'lodash/toLower';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import Decision from '../components/appeals-v2/Decision';
@@ -244,9 +247,9 @@ export function addStatusToIssues(issues) {
  * @returns {object} One appeal object or undefined if not found in the array
  */
 export function isolateAppeal(state, id) {
-  return _.find(
+  return find(
     state.disability.status.claimsV2.appeals,
-    a => a.id === id || (_.get(a, 'attributes.appealIds') || []).includes(id),
+    a => a.id === id || (get(a, 'attributes.appealIds') || []).includes(id),
   );
 }
 
@@ -283,7 +286,7 @@ export function getStatusContents(appeal, name = {}) {
   const appealType = appeal.type;
   const statusType = status.type || status;
   const details = status.details || {};
-  const amaDocket = _.get(appeal, 'attributes.docket.type');
+  const amaDocket = get(appeal, 'attributes.docket.type');
   const aojDescription = getAojDescription(aoj);
 
   const contents = {};
@@ -556,10 +559,10 @@ export function getStatusContents(appeal, name = {}) {
       contents.title = 'The appeal was closed';
       contents.description = (
         <p>
-          VA records indicate that {_.startCase(_.toLower(nameString))} is
-          deceased, so this appeal has been closed. If this information is
-          incorrect, please contact your Veterans Service Organization or
-          representative as soon as possible.
+          VA records indicate that {startCase(toLower(nameString))} is deceased,
+          so this appeal has been closed. If this information is incorrect,
+          please contact your Veterans Service Organization or representative as
+          soon as possible.
         </p>
       );
       break;
@@ -1396,7 +1399,7 @@ export function getNextEvents(appeal) {
       };
     }
     case STATUS_TYPES.pendingHearingScheduling: {
-      const eligibleToSwitch = _.get(
+      const eligibleToSwitch = get(
         appeal,
         'attributes.docket.eligibleToSwitch',
       );

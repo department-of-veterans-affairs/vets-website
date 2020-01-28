@@ -1,6 +1,6 @@
 import _ from '../../../../platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import merge from 'lodash/fp/merge';
+import merge from 'lodash/merge';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 const {
@@ -118,9 +118,12 @@ export const uiSchema = {
       'ui:title': 'Name',
       'ui:required': getHomelessOrAtRisk,
     },
-    phoneNumber: merge(phoneUI('Phone number'), {
-      'ui:required': getHomelessOrAtRisk,
-    }),
+    phoneNumber: merge(
+      {
+        'ui:required': getHomelessOrAtRisk,
+      },
+      phoneUI('Phone number'),
+    ),
   },
 };
 

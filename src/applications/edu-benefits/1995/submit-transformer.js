@@ -1,9 +1,10 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
-    let clonedData = _.cloneDeep(formData);
+    let clonedData = cloneDeep(formData);
 
     delete clonedData.newSchoolName;
     delete clonedData.newSchoolAddress;
@@ -21,7 +22,7 @@ export function transform(formConfig, form) {
 
   const fryScholarshipTransform = formData => {
     // 1995-STEM related
-    const clonedData = _.cloneDeep(formData);
+    const clonedData = cloneDeep(formData);
     if (clonedData.benefit === 'fryScholarship') {
       clonedData.benefit = 'chapter33';
     }
@@ -34,8 +35,8 @@ export function transform(formConfig, form) {
 
   const contactInfoTransform = formData => ({
     ...formData,
-    email: _.get(formData, 'view:otherContactInfo.email', undefined),
-    homePhone: _.get(formData, 'view:otherContactInfo.homePhone', undefined),
+    email: get(formData, 'view:otherContactInfo.email', undefined),
+    homePhone: get(formData, 'view:otherContactInfo.homePhone', undefined),
   });
 
   const transformedData = [

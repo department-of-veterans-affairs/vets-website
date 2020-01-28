@@ -1,6 +1,6 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import { housingPaymentInfo } from '../content/activeDuty';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 const { isActiveDuty } = fullSchema1995.properties;
 
@@ -13,7 +13,7 @@ export const uiSchema = {
   'view:housingPaymentInfo': {
     'ui:description': housingPaymentInfo,
     'ui:options': {
-      hideIf: data => !_.get(data, 'isActiveDuty', false),
+      hideIf: data => !get(data, 'isActiveDuty', false),
     },
   },
 };

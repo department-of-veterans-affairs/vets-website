@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,9 +6,9 @@ import { ScoContact } from './ScoContact';
 import { phoneInfo } from '../../utils/helpers';
 
 export const ContactInformation = ({ institution }) => {
-  const firstProgram = _.get(institution, 'programs[0]', {});
+  const firstProgram = get(institution, 'programs[0]', {});
 
-  const versionedSchoolCertifyingOfficials = _.get(
+  const versionedSchoolCertifyingOfficials = get(
     institution,
     'versionedSchoolCertifyingOfficials',
     [],

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import environment from '../../../../../platform/utilities/environment';
 
 import {
@@ -15,17 +15,17 @@ import captureEvents from '../../analytics-functions';
 import { needsToEnterUnemployability } from '../../utils';
 
 const showFormTutorial = formData =>
-  _.get(formData, 'view:upload4192Choice.view:4192Info', false);
+  get(formData, 'view:upload4192Choice.view:4192Info', false);
 
 const isDownloading = formData =>
-  _.get(formData, 'view:upload4192Choice.view:download4192', false) &&
+  get(formData, 'view:upload4192Choice.view:download4192', false) &&
   needsToEnterUnemployability(formData);
 
 const isUploading = formData =>
-  _.get(formData, 'view:upload4192Choice.view:upload4192', false) &&
+  get(formData, 'view:upload4192Choice.view:upload4192', false) &&
   needsToEnterUnemployability(formData);
 
-// const isExiting = formData => _.get(formData, 'view:upload4192Choice.view:sendRequests', false);
+// const isExiting = formData => get(formData, 'view:upload4192Choice.view:sendRequests', false);
 
 export default function() {
   let configObj = {};

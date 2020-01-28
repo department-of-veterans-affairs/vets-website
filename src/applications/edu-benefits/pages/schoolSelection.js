@@ -1,5 +1,5 @@
-import _ from 'lodash/fp';
-
+import get from 'platform/utilities/data/get';
+import pick from 'lodash/pick';
 import * as educationProgram from '../definitions/educationProgram';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { civilianBenefitsLabel } from '../utils/labels';
@@ -72,15 +72,13 @@ export default function createSchoolSelectionPage(schema, options) {
           'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
         'ui:widget': 'yesNo',
         'ui:options': {
-          hideIf: formData =>
-            _.get('currentlyActiveDuty.yes', formData) === true,
+          hideIf: formData => get('currentlyActiveDuty.yes', formData) === true,
         },
       },
     },
   };
-  const pickFields = _.pick(fields);
 
-  const schemaProperties = pickFields(schema.properties);
+  const schemaProperties = pick(schema.properties, fields);
 
   if (schemaProperties.currentlyActiveDuty) {
     schemaProperties.currentlyActiveDuty = {
@@ -100,7 +98,7 @@ export default function createSchoolSelectionPage(schema, options) {
     );
   }
 
-  const uiSchema = pickFields(possibleUISchemaFields);
+  const uiSchema = pick(possibleUISchemaFields, fields);
   uiSchema['ui:order'] = fields;
   if (title) {
     uiSchema['ui:title'] = title;

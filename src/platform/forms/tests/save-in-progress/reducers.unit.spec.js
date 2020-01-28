@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import { expect } from 'chai';
 
 import {
@@ -197,7 +197,7 @@ describe('schemaform createSaveInProgressInitialState', () => {
         },
         {
           type: SET_IN_PROGRESS_FORM,
-          data: _.set('formData', {}, data),
+          data: set('formData', {}, data),
           pages: {},
         },
       );

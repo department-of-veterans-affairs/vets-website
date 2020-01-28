@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 import sinon from 'sinon';
 import RequiredLoginView from '../../../authorization/components/RequiredLoginView.jsx';
 import backendServices from '../../../profile/constants/backendServices';
@@ -112,7 +112,7 @@ describe('<RequiredLoginView>', () => {
   }
 
   function setup(props = {}) {
-    const mergedProps = _.merge({}, defaultProps, props);
+    const mergedProps = merge({}, defaultProps, props);
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...mergedProps}>
         <div>Test Child</div>
@@ -140,7 +140,7 @@ describe('<RequiredLoginView>', () => {
   });
 
   it('should display children when service is available', () => {
-    const loa3Props = _.merge({}, defaultProps, { user: loa3User });
+    const loa3Props = merge({}, defaultProps, { user: loa3User });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...loa3Props}>
         <TestChildComponent name="one" />
@@ -156,7 +156,7 @@ describe('<RequiredLoginView>', () => {
   });
 
   it('should display children and pass prop when service is not available', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = merge({}, defaultProps, {
       user: loa3User,
       serviceRequired: backendServices.MESSAGING,
     });
@@ -212,7 +212,7 @@ describe('<RequiredLoginView>', () => {
 
     describe('user profile with SERVER_ERROR', () => {
       it('should display server error message', () => {
-        const serverErrorProfile = _.merge({}, loa3User, {
+        const serverErrorProfile = merge({}, loa3User, {
           profile: { status: 'SERVER_ERROR' },
         });
         const { tree } = setup({ user: serverErrorProfile });
@@ -224,7 +224,7 @@ describe('<RequiredLoginView>', () => {
 
     describe('user profile NOT_FOUND', () => {
       it('should display not found message', () => {
-        const notFoundProfile = _.merge({}, loa3User, {
+        const notFoundProfile = merge({}, loa3User, {
           profile: { status: 'NOT_FOUND' },
         });
         const { tree } = setup({ user: notFoundProfile });

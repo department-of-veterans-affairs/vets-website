@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import React from 'react';
 import { connect } from 'react-redux';
 import { maskBankInformation, hasNewBankInformation } from '../utils';
@@ -20,7 +20,7 @@ const directDepositAlert = (
 );
 
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
-  const bankAccount = _.get(formData, 'bankAccount', {});
+  const bankAccount = get(formData, 'bankAccount', {});
   const {
     accountType: newAccountType,
     accountNumber: newAccountNumber,
