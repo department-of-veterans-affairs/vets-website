@@ -48,6 +48,7 @@ import UpgradeFailed from './components/messages/UpgradeFailed';
 import NeedsVAPatient from './components/messages/NeedsVAPatient';
 import NoMHVAccount from './components/messages/NoMHVAccount';
 import UpgradeAccount from './components/messages/UpgradeAccount';
+import VAOSCTAContent from './components/messages/VAOS';
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
@@ -125,9 +126,25 @@ export class CallToActionWidget extends React.Component {
   };
 
   getHealthToolContent = () => {
+    const {
+      appId,
+      featureToggles,
+      mhvAccount,
+      mviStatus,
+      profile,
+    } = this.props;
+
+    if (
+      featureToggles.vaOnlineScheduling &&
+      (appId === widgetTypes.SCHEDULE_APPOINTMENTS ||
+        appId === widgetTypes.VIEW_APPOINTMENTS)
+    ) {
+      return this.getVAOSContent();
+    }
+
     const MviErrorStatuses = ['SERVER_ERROR', 'NOT_FOUND', 'NOT_AUTHORIZED'];
 
-    if (MviErrorStatuses.includes(this.props.mviStatus)) {
+    if (MviErrorStatuses.includes(mviStatus)) {
       return this.getMviErrorContent();
     }
 
@@ -141,16 +158,13 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    if (this.props.mhvAccount.errors) {
+    if (mhvAccount.errors) {
       recordEvent({ event: `${this._gaPrefix}-error-mhv-down` });
       return <HealthToolsDown />;
     }
 
-    if (
-      this.props.profile.verified &&
-      this.props.appId === widgetTypes.DIRECT_DEPOSIT
-    ) {
-      if (!this.props.profile.multifactor) {
+    if (profile.verified && appId === widgetTypes.DIRECT_DEPOSIT) {
+      if (!profile.multifactor) {
         return (
           <MFA
             serviceDescription={this._serviceDescription}
@@ -173,6 +187,10 @@ export class CallToActionWidget extends React.Component {
 
     return this.getInaccessibleHealthToolContent();
   };
+
+  getVAOSContent = () => (
+    <VAOSCTAContent serviceDescription={this._serviceDescription} />
+  );
 
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
@@ -393,6 +411,7 @@ const mapStateToProps = state => {
     profile: { loading, verified, multifactor },
     mhvAccount,
     mviStatus: status,
+    featureToggles: state.featureToggles,
   };
 };
 
