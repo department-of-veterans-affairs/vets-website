@@ -56,8 +56,9 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFocus = () => {
-    if (window.innerWidth <= SMALL_SCREEN_WIDTH) {
-      document.getElementsByClassName('keyword-search')[0].scrollIntoView();
+    const field = document.getElementsByClassName('keyword-search')[0];
+    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      field.scrollIntoView();
     }
   };
 
