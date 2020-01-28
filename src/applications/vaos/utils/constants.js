@@ -138,17 +138,6 @@ export const TYPES_OF_SLEEP_CARE = [
   },
 ];
 
-export const AUDIOLOGY_TYPES_OF_CARE = [
-  {
-    ccId: 'CCAUDRTNE',
-    name: 'Routine hearing exam',
-  },
-  {
-    ccId: 'CCAUDHEAR',
-    name: 'Hearing aid support',
-  },
-];
-
 export const FACILITY_TYPES = {
   VAMC: 'vamc',
   COMMUNITY_CARE: 'communityCare',
@@ -214,6 +203,17 @@ export const LANGUAGES = [
     id: 'other',
     text: 'Other',
     value: 'Other',
+  },
+];
+
+export const AUDIOLOGY_TYPES_OF_CARE = [
+  {
+    ccId: 'CCAUDRTNE',
+    name: 'Routine hearing exam',
+  },
+  {
+    ccId: 'CCAUDHEAR',
+    name: 'Hearing aid support',
   },
 ];
 
