@@ -64,6 +64,13 @@ const uiSchema = {
 };
 
 export class DateTimeSelectPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      validationError: null,
+    };
+  }
+
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     const { preferredDate } = this.props;
@@ -86,7 +93,15 @@ export class DateTimeSelectPage extends React.Component {
 
   goForward = () => {
     if (this.props.data.calendarData?.selectedDates?.length) {
+      this.setState({
+        validationError: null,
+      });
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    } else {
+      this.setState({
+        validationError:
+          'Please select at least once preferred date for your appointment. You can select up to three dates.',
+      });
     }
   };
 
@@ -137,9 +152,10 @@ export class DateTimeSelectPage extends React.Component {
           formContext={{
             availableSlots,
             availableDates,
-            preferredDate,
             getAppointmentSlots: this.props.getAppointmentSlots,
             loadingStatus: appointmentSlotsStatus,
+            preferredDate,
+            validationError: this.state.validationError,
           }}
           data={data}
         >

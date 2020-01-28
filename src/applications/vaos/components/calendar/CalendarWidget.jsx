@@ -31,6 +31,7 @@ export default class CalendarWidget extends Component {
     onChange: PropTypes.func,
     onClickNext: PropTypes.func,
     onClickPrev: PropTypes.func,
+    validationError: PropTypes.string,
   };
 
   static defaultProps = {
@@ -321,10 +322,13 @@ export default class CalendarWidget extends Component {
   };
 
   render() {
-    const { loadingStatus } = this.props;
+    const { loadingStatus, validationError } = this.props;
     const { maxMonth, months } = this.state;
+    const showError = validationError?.length > 0;
+
     const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
       'vaos-calendar__loading': loadingStatus === FETCH_STATUS.loading,
+      'usa-input-error': showError,
     });
 
     if (loadingStatus === FETCH_STATUS.failed) {
@@ -344,6 +348,7 @@ export default class CalendarWidget extends Component {
           </div>
         )}
         <div className={calendarCss}>
+          {showError && <span>{validationError}</span>}
           {months.map(
             (month, index) =>
               month.format('YYYY-MM') <= maxMonth ? (
