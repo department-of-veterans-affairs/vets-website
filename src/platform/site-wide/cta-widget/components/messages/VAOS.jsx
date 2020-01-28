@@ -1,7 +1,7 @@
 import React from 'react';
 import CallToActionAlert from './../CallToActionAlert';
 
-const VAOSCTAContent = ({ serviceDescription }) => {
+const VAOSCTAContent = ({ serviceDescription, secondaryButtonHandler }) => {
   const content = {
     heading: `Check out the new Veteran Online Appointment Scheduling Tool (VAOS)`,
     alertText: (
@@ -16,10 +16,7 @@ const VAOSCTAContent = ({ serviceDescription }) => {
         '/health-care/schedule-view-va-appointments/appointments/';
     },
     secondaryButtonText: 'Take me to the old tool',
-    secondaryButtonHandler: () => {
-      // not sure yet how to do this, as we would have to refresh the cta widget
-      // and force the mhv/mvi checks
-    },
+    secondaryButtonHandler,
     status: 'info',
   };
 

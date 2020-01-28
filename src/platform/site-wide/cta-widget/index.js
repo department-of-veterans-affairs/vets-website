@@ -64,6 +64,10 @@ export class CallToActionWidget extends React.Component {
     this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
     this._gaPrefix = 'register-mhv';
+
+    this.state = {
+      forceLegacyHealthTools: false,
+    };
   }
 
   componentDidMount() {
@@ -135,11 +139,19 @@ export class CallToActionWidget extends React.Component {
     } = this.props;
 
     if (
+      !this.state.forceLegacyHealthTools &&
       featureToggles.vaOnlineScheduling &&
       (appId === widgetTypes.SCHEDULE_APPOINTMENTS ||
         appId === widgetTypes.VIEW_APPOINTMENTS)
     ) {
-      return this.getVAOSContent();
+      return (
+        <VAOSCTAContent
+          serviceDescription={this._serviceDescription}
+          secondaryButtonHandler={() =>
+            this.setState({ forceLegacyHealthTools: true })
+          }
+        />
+      );
     }
 
     const MviErrorStatuses = ['SERVER_ERROR', 'NOT_FOUND', 'NOT_AUTHORIZED'];
@@ -187,11 +199,6 @@ export class CallToActionWidget extends React.Component {
 
     return this.getInaccessibleHealthToolContent();
   };
-
-  getVAOSContent = () => (
-    <VAOSCTAContent serviceDescription={this._serviceDescription} />
-  );
-
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
