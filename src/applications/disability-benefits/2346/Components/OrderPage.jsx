@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 const OrderPage = () => {
   const [checked, setChecked] = useState(false);
-  const handleChange = e => {
+  const handleClicked = e => {
     const value = e.target.checked;
     const name = e.target.name;
 
@@ -22,8 +22,7 @@ const OrderPage = () => {
           name="2352battery"
           id="2352battery"
           type="checkbox"
-          checked={checked}
-          onChange={handleChange}
+          onClick={handleClicked}
         />
         <label htmlFor="2352battery">2352 Battery</label>
         <p>Last Ordered: 10/10/19</p>
@@ -35,8 +34,7 @@ const OrderPage = () => {
           name="oticonmediumdomes"
           id="oticonmediumdomes"
           type="checkbox"
-          checked={checked}
-          onChange={handleChange}
+          onClick={handleClicked}
         />
         <label htmlFor="oticonmediumdomes">Oticon Medium Domes</label>
         <p>Last Ordered: 10/10/19</p>
@@ -48,8 +46,7 @@ const OrderPage = () => {
           name="additional-requests-1"
           id="additional-requests-1"
           type="checkbox"
-          checked={checked}
-          onChange={handleChange}
+          onClick={handleClicked}
         />
         <p>Do you have any additional requests for this order?</p>
       </div>
