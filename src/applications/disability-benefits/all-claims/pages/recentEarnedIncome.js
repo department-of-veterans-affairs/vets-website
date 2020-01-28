@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import { grossIncomeAdditionalInfo } from '../content/recentEarnedIncome';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
@@ -57,12 +57,12 @@ export const uiSchema = {
         rows: 5,
         maxLength: 32000,
         hideIf: formData => {
-          const isEmployed = _.get(
+          const isEmployed = get(
             formData,
             'unemployability.view:isEmployed',
             true,
           );
-          const leftLastJob = _.get(
+          const leftLastJob = get(
             formData,
             'unemployability.leftLastJobDueToDisability',
             false,

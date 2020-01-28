@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import { get, isEqual, isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
@@ -28,8 +28,8 @@ export class ProfilePage extends React.Component {
       profile,
     } = this.props;
 
-    const institutionName = _.get(profile, 'attributes.name');
-    const shouldUpdateTitle = !_.isEqual(
+    const institutionName = get(profile, 'attributes.name');
+    const shouldUpdateTitle = !isEqual(
       institutionName,
       prevProps?.profile?.attributes?.name,
     );
@@ -57,7 +57,7 @@ export class ProfilePage extends React.Component {
 
     let content;
 
-    if (profile.inProgress || _.isEmpty(profile.attributes)) {
+    if (profile.inProgress || isEmpty(profile.attributes)) {
       content = <LoadingIndicator message="Loading your profile..." />;
     } else {
       const isOJT = profile.attributes.type.toLowerCase() === 'ojt';

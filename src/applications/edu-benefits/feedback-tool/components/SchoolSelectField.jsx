@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import classNames from 'classnames';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -40,7 +40,7 @@ const scroller = Scroll.scroller;
 export class SchoolSelectField extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedSearchInstitutions = _.debounce(
+    this.debouncedSearchInstitutions = debounce(
       value => this.props.searchSchools(value),
       150,
     );

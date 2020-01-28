@@ -5,7 +5,7 @@ import VetTecAdditionalResources from './VetTecAdditionalResources';
 
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
-import _ from 'lodash';
+import get from 'lodash/get';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
@@ -32,7 +32,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     institution.country,
   );
 
-  const firstProgram = _.get(institution, 'programs[0]', {
+  const firstProgram = get(institution, 'programs[0]', {
     providerWebsite: '',
     phoneAreaCode: '',
     phoneNumber: '',

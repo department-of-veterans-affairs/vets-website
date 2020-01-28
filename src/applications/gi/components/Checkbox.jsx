@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
+import isUndefined from 'lodash/isUndefined';
 import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
@@ -24,7 +25,7 @@ class Checkbox extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
-    this.inputId = _.uniqueId('errorable-checkbox-');
+    this.inputId = uniqueId('errorable-checkbox-');
   }
 
   handleChange(domEvent) {
@@ -70,7 +71,7 @@ class Checkbox extends React.Component {
     }
 
     let className = `form-checkbox${hasErrors ? ' usa-input-error' : ''}`;
-    if (!_.isUndefined(this.props.className)) {
+    if (!isUndefined(this.props.className)) {
       className = `${className} ${this.props.className}`;
     }
     return (

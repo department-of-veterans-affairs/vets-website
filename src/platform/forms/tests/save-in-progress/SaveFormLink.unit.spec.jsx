@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash/fp';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -67,7 +66,7 @@ describe('Schemaform <SaveFormLink>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={loggedInUser}
-        form={_.assign(form, { savedStatus: SAVE_STATUSES.failure })}
+        form={Object.assign({}, form, { savedStatus: SAVE_STATUSES.failure })}
         toggleLoginModal={toggleLoginModalSpy}
       />,
     );
@@ -81,7 +80,9 @@ describe('Schemaform <SaveFormLink>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={loggedInUser}
-        form={_.assign(form, { savedStatus: SAVE_STATUSES.clientFailure })}
+        form={Object.assign({}, form, {
+          savedStatus: SAVE_STATUSES.clientFailure,
+        })}
         toggleLoginModal={toggleLoginModalSpy}
       />,
     );
@@ -95,7 +96,7 @@ describe('Schemaform <SaveFormLink>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveFormLink
         user={loggedInUser}
-        form={_.assign(form, { savedStatus: SAVE_STATUSES.noAuth })}
+        form={Object.assign({}, form, { savedStatus: SAVE_STATUSES.noAuth })}
         toggleLoginModal={toggleLoginModalSpy}
       />,
     );

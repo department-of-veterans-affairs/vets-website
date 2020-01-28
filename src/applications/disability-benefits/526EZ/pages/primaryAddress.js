@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import merge from 'lodash/merge';
 
 import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
@@ -19,9 +20,9 @@ import { USA } from '../../all-claims/constants';
 import { addressUISchema } from '../../all-claims/utils';
 
 const hasForwardingAddress = formData =>
-  _.get(formData, 'veteran[view:hasForwardingAddress]', false);
+  get(formData, 'veteran[view:hasForwardingAddress]', false);
 const forwardingCountryIsUSA = formData =>
-  _.get(formData, 'veteran.forwardingAddress.country', '') === USA;
+  get(formData, 'veteran.forwardingAddress.country', '') === USA;
 
 const {
   mailingAddress,
@@ -51,7 +52,7 @@ export const uiSchema = {
       'ui:title':
         'I want to provide a forwarding address since my address will be changing soon.',
     },
-    forwardingAddress: _.merge(
+    forwardingAddress: merge(
       addressUISchema('veteran.forwardingAddress', 'Forwarding address'),
       {
         'ui:order': [
@@ -68,7 +69,7 @@ export const uiSchema = {
           viewComponent: ForwardingAddressViewField,
           expandUnder: 'view:hasForwardingAddress',
         },
-        effectiveDate: _.merge({}, dateUI('Effective date'), {
+        effectiveDate: merge({}, dateUI('Effective date'), {
           'ui:required': hasForwardingAddress,
           'ui:errorMessages': {
             required: 'Please enter an effective date',

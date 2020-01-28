@@ -1,13 +1,13 @@
 import { SET_SUBMISSION } from '../../../platform/forms-system/src/js/actions';
 import recordEvent from '../../../platform/monitoring/record-event';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 const analyticsEvents = [
   {
     action: SET_SUBMISSION,
     event: store => {
       const state = store.getState();
-      if (!_.get(state, 'form.data.privacyAgreementAccepted', false)) {
+      if (!get(state, 'form.data.privacyAgreementAccepted', false)) {
         recordEvent({
           event: 'edu-0994--response-missing',
           'missing-field-question':

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import orderBy from 'lodash/orderBy';
 import { Link } from 'react-router';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -17,7 +17,7 @@ const renderNextAction = (lastEvent, previousHistory) => {
 
 export default function AppealListItem({ appeal }) {
   // always show merged event on top
-  const events = _.orderBy(
+  const events = orderBy(
     appeal.attributes.events,
     [e => e.type === 'merged', e => moment(e.date).unix()],
     ['desc', 'desc'],

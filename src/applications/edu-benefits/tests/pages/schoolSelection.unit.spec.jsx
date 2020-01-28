@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import isEmpty from 'lodash/isEmpty';
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -54,7 +54,7 @@ Object.keys(optionsFor).forEach(formName => {
     });
 
     // Either test for required inputs or not, depending on the required option
-    const requiredInputs = !_.isEmpty(optionsFor[formName].required);
+    const requiredInputs = !isEmpty(optionsFor[formName].required);
 
     it(`should have${requiredInputs ? '' : ' no'} required inputs`, () => {
       const onSubmit = sinon.spy();

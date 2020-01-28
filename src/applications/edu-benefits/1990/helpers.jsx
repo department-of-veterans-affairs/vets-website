@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
@@ -21,7 +21,7 @@ export function prefillTransformer(pages, formData, metadata) {
       ...(mobilePhone && { mobilePhone }),
     };
 
-    if (!_.isEmpty(newContactInfo)) {
+    if (!isEmpty(newContactInfo)) {
       newFormData['view:otherContactInfo'] = newContactInfo;
     }
   }

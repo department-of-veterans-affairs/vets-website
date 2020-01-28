@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import { VeteranBenefitSummaryLetter } from '../../containers/VeteranBenefitSummaryLetter';
 
@@ -60,7 +60,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
   });
 
   it('renders error and hides benefit table if options not available', () => {
-    const props = _.set('optionsAvailable', false, defaultProps);
+    const props = set('optionsAvailable', false, defaultProps);
     const tree = SkinDeep.shallowRender(
       <VeteranBenefitSummaryLetter {...props} />,
     );
@@ -84,7 +84,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     const doubleService = defaultProps.benefitSummaryOptions.serviceInfo.concat(
       navyService,
     );
-    const props = _.set(
+    const props = set(
       'benefitSummaryOptions.serviceInfo',
       doubleService,
       defaultProps,
@@ -107,7 +107,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     });
 
     const updateOptionSpy = sinon.spy();
-    const props = _.set(
+    const props = set(
       'updateBenefitSummaryRequestOption',
       updateOptionSpy,
       defaultProps,
@@ -167,7 +167,7 @@ describe('<VeteranBenefitSummaryLetter>', () => {
 
   // All users considered veterans for now - please see vets.gov-team issue #6250
   // it('Does not render veteran options for dependents', () => {
-  //   const props = _.set('isVeteran', false, defaultProps);
+  //   const props = set('isVeteran', false, defaultProps);
   //   const tree = SkinDeep.shallowRender(<VeteranBenefitSummaryLetter {...props}/>);
   //   const benefitInfoRows = tree.dive(['div', '#benefitInfoTable', 'tbody']).everySubTree('tr');
   //   benefitInfoRows.forEach((row) => {

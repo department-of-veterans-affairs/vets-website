@@ -1,10 +1,10 @@
-import _ from 'lodash';
+import omit from 'lodash/omit';
 
 export function prefillTransformer(pages, formData, metadata) {
   const { homePhone, email } = formData;
 
   const newFormData = {
-    ..._.omit(formData, ['homePhone', 'email']),
+    ...omit(formData, ['homePhone', 'email']),
     'view:otherContactInfo': {
       homePhone,
       email,

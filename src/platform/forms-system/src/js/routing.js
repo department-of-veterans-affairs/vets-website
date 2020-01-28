@@ -1,4 +1,4 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import findIndex from 'lodash/findIndex'; // eslint-disable-line no-restricted-imports
 import { getActiveExpandedPages } from './helpers';
 
 /*
@@ -7,10 +7,7 @@ import { getActiveExpandedPages } from './helpers';
  */
 function getEligiblePages(pageList, data, pathname) {
   const eligiblePageList = getActiveExpandedPages(pageList, data);
-  const pageIndex = _.findIndex(
-    item => item.path === pathname,
-    eligiblePageList,
-  );
+  const pageIndex = findIndex(eligiblePageList, item => item.path === pathname);
   return { pages: eligiblePageList, pageIndex };
 }
 

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { set } from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import localStorage from '../../../utilities/storage/localStorage';
 import { selectUserGreeting } from '../selectors';

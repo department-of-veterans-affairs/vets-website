@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import findIndex from 'lodash/fp/findIndex';
+import findIndex from 'lodash/findIndex';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SegmentedProgressBar from '@department-of-veterans-affairs/formation-react/SegmentedProgressBar';
@@ -11,7 +11,7 @@ import { chapters } from '../routes';
 export class DownloadLetters extends React.Component {
   render() {
     const { children, location } = this.props;
-    const currentPageIndex = findIndex(['path', location.pathname], chapters);
+    const currentPageIndex = findIndex(chapters, ['path', location.pathname]);
     const currentStep = currentPageIndex + 1;
 
     return (

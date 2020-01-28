@@ -1,6 +1,6 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import { rogersStemScholarshipInfo } from '../content/stem';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 const {
   isEdithNourseRogersScholarship,
@@ -30,7 +30,7 @@ export const uiSchema = {
       form.isEdithNourseRogersScholarship && !form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
-      hideIf: formData => _.get(formData, 'isEnrolledStem', true),
+      hideIf: formData => get(formData, 'isEnrolledStem', true),
     },
   },
   'view:rogersStemScholarshipInfo': {

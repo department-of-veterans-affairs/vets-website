@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import _ from 'lodash';
+import get from 'lodash/get';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { trainingDescription } from '../content/trainingProgramsInformation';
 import VetTecProgramView from '../components/VetTecProgramView';
@@ -13,12 +13,12 @@ const {
 } = fullSchema.properties.vetTecPrograms.items.properties;
 
 const getCourseType = (formData, index) =>
-  _.get(formData, `vetTecPrograms[${index}].courseType`, '');
+  get(formData, `vetTecPrograms[${index}].courseType`, '');
 
 const checkLocation = field => field === 'inPerson' || field === 'both';
 
 const programNameEntered = (formData, index) =>
-  _.get(formData, `vetTecPrograms[${index}].programName`, '').trim() !== '';
+  get(formData, `vetTecPrograms[${index}].programName`, '').trim() !== '';
 
 const locationRequired = (formData, index) =>
   programNameEntered(formData, index) &&

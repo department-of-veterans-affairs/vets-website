@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 
 const E2eHelpers = require('../../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../../platform/testing/e2e/timeouts');
@@ -38,7 +38,7 @@ export const completeAlreadySubmitted = (client, data) => {
   client.pause(1000);
   client.selectRadio(
     `root_appliedForVaEducationBenefits`,
-    _.get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
+    get(data, 'appliedForVaEducationBenefits', false) ? 'Y' : 'N',
   );
   client.pause(1000);
 };
@@ -48,7 +48,7 @@ export const completeMilitaryService = (client, data) => {
     .selectRadio(`root_activeDuty`, data.activeDuty ? 'Y' : 'N')
     .selectRadio(
       `root_activeDutyDuringVetTec`,
-      _.get(data, 'activeDutyDuringVetTec', false) ? 'Y' : 'N',
+      get(data, 'activeDutyDuringVetTec', false) ? 'Y' : 'N',
     );
 };
 
@@ -65,12 +65,12 @@ export const completeEducationHistory = (client, data) => {
 };
 
 export const completeHighTechWorkExp = (client, data) => {
-  const currentHighTechnologyEmployment = _.get(
+  const currentHighTechnologyEmployment = get(
     data,
     'currentHighTechnologyEmployment',
     false,
   );
-  const pastHighTechnologyEmployment = _.get(
+  const pastHighTechnologyEmployment = get(
     data,
     'pastHighTechnologyEmployment',
     false,
@@ -88,7 +88,7 @@ export const completeHighTechWorkExp = (client, data) => {
     );
   }
 
-  const salaryEmploymentTypes = _.get(
+  const salaryEmploymentTypes = get(
     data,
     'view:salaryEmploymentTypes',
     undefined,
@@ -121,7 +121,7 @@ export const completeHighTechWorkExp = (client, data) => {
 };
 
 export const getHasSelectedPrograms = data =>
-  _.get(data, 'hasSelectedPrograms', false);
+  get(data, 'hasSelectedPrograms', false);
 
 export const completeHasSelectedPrograms = (client, data) => {
   client.selectRadio(
@@ -161,7 +161,7 @@ export const completeTrainingProgramsInformation = (client, data) => {
 };
 
 export const completeContactInformation = (client, data) => {
-  const { dayTimePhone, nightTimePhone, emailAddress } = _.get(
+  const { dayTimePhone, nightTimePhone, emailAddress } = get(
     data,
     'view:phoneAndEmail',
     {},
@@ -176,15 +176,15 @@ export const completeContactInformation = (client, data) => {
     .fill('input[name="root_view:phoneAndEmail_emailAddress"]', emailAddress)
     .click('body')
     .click('.usa-button-primary.update-button') // click Done for edit box for above fields
-    .fillAddress('root_mailingAddress', _.get(data, 'mailingAddress', {}))
+    .fillAddress('root_mailingAddress', get(data, 'mailingAddress', {}))
     .click('body')
     .click('.usa-button-primary.update-button'); // click Done for edit box for above fields
 };
 
 export const completeBankInformation = (client, data) => {
-  const viewBankAccount = _.get(data, 'view:bankAccount', undefined);
+  const viewBankAccount = get(data, 'view:bankAccount', undefined);
   if (viewBankAccount) {
-    const bankAccount = _.get(viewBankAccount, 'bankAccount', undefined);
+    const bankAccount = get(viewBankAccount, 'bankAccount', undefined);
 
     if (bankAccount) {
       const { accountType, routingNumber, accountNumber } = bankAccount;
@@ -214,7 +214,7 @@ export const completeReviewAndSubmit = (client, data) => {
     .axeCheck('.main')
     .fillCheckbox(
       'input[name="privacyAgreementAccepted"]',
-      _.get(data, 'privacyAgreementAccepted', false),
+      get(data, 'privacyAgreementAccepted', false),
     )
     .click('body')
     .click('.form-progress-buttons .usa-button-primary');

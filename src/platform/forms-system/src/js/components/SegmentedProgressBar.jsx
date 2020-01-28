@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-
+import range from 'lodash/range';
 /**
  * Create a segmented progress bar for multi-page forms.
  *
@@ -18,7 +17,7 @@ export default function SegmentedProgressBar({ current, total }) {
       aria-valuemax={total}
       tabIndex="0"
     >
-      {_.range(total).map(step => (
+      {range(total).map(step => (
         <div
           key={step}
           className={`progress-segment ${

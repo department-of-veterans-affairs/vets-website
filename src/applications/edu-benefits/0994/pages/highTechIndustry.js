@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import _ from 'lodash';
+import get from 'lodash/get';
 import {
   highTechIndustryDescription,
   highTechnologyEmploymentTypeDescription,
@@ -27,7 +27,7 @@ export const uiSchema = {
       expandUnderCondition: false,
     },
     'ui:required': formData =>
-      !_.get(formData, 'currentHighTechnologyEmployment', false),
+      !get(formData, 'currentHighTechnologyEmployment', false),
   },
   'view:salaryEmploymentTypes': {
     'ui:options': {
@@ -35,9 +35,9 @@ export const uiSchema = {
       expandUnderCondition: () => true,
       hideIf: formData =>
         !(
-          _.get(formData, 'currentHighTechnologyEmployment', false) ||
-          (!_.get(formData, 'currentHighTechnologyEmployment', false) &&
-            _.get(formData, 'pastHighTechnologyEmployment', false))
+          get(formData, 'currentHighTechnologyEmployment', false) ||
+          (!get(formData, 'currentHighTechnologyEmployment', false) &&
+            get(formData, 'pastHighTechnologyEmployment', false))
         ),
     },
     currentSalary: {

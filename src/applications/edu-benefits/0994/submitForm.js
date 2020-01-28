@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
@@ -9,22 +9,22 @@ const submitForm = (form, formConfig) => {
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
   recordEvent({
-    'edu-0994-appliedPastBenefits': _.get(
+    'edu-0994-appliedPastBenefits': get(
       form,
       'data.appliedForVaEducationBenefits',
       '',
     ),
-    activeDuty: _.get(form, 'data.activeDuty', ''),
-    calledActiveDuty: _.get(form, 'data.activeDutyDuringVetTec', ''),
-    educationCompleted: _.get(form, 'data.highestLevelofEducation', ''),
-    'edu-0994-currentlyWorkingIndustry': _.get(
+    activeDuty: get(form, 'data.activeDuty', ''),
+    calledActiveDuty: get(form, 'data.activeDutyDuringVetTec', ''),
+    educationCompleted: get(form, 'data.highestLevelofEducation', ''),
+    'edu-0994-currentlyWorkingIndustry': get(
       form,
       'data.currentHighTechnologyEmployment',
       '',
     ),
-    salary: _.get(form, 'data.view:salaryEmploymentTypes.currentSalary', ''),
-    'edu-0994-programSelection': _.get(form, 'data.hasSelectedPrograms', ''),
-    'edu-0994-programs-saved': _.get(form, 'data.vetTecPrograms.length', 0),
+    salary: get(form, 'data.view:salaryEmploymentTypes.currentSalary', ''),
+    'edu-0994-programSelection': get(form, 'data.hasSelectedPrograms', ''),
+    'edu-0994-programs-saved': get(form, 'data.vetTecPrograms.length', 0),
   });
 
   return submitToUrl(body, formConfig.submitUrl, formConfig.trackingPrefix);

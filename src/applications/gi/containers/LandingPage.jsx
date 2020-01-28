@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -60,7 +60,7 @@ export class LandingPage extends React.Component {
       category,
     };
 
-    _.forEach(query, (val, key) => {
+    forEach(query, (val, key) => {
       if (typeof val !== 'boolean' && (!val || val === 'ALL')) {
         delete query[key];
       }

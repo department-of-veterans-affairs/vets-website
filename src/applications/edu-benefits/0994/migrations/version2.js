@@ -1,11 +1,11 @@
-import _ from 'lodash';
+import set from 'platform/utilities/data/set';
 
 export default function version2(savedData) {
   const trainingProgramsChoice =
     savedData.formData['view:trainingProgramsChoice'];
 
   if (typeof trainingProgramsChoice !== 'undefined') {
-    const newData = _.set(
+    const newData = set(
       savedData.formData,
       'hasSelectedPrograms',
       trainingProgramsChoice,

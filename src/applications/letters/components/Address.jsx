@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
+import mapKeys from 'lodash/mapKeys';
 
 import { focusElement } from '../../../platform/utilities/ui';
 
@@ -17,7 +18,7 @@ import { militaryStateNames } from '../utils/helpers';
 class Address extends React.Component {
   // eslint-disable-next-line
   UNSAFE_componentWillMount() {
-    this.id = _.uniqueId('address-input-');
+    this.id = uniqueId('address-input-');
   }
 
   componentDidMount() {
@@ -39,7 +40,7 @@ class Address extends React.Component {
       statesList = militaryStateNames;
     } else {
       // Add statesList to list in the correct format
-      _.mapKeys(STATE_CODE_TO_NAME, (value, key) => {
+      mapKeys(STATE_CODE_TO_NAME, (value, key) => {
         statesList.push({ label: value, value: key });
       });
       // Add military statesList to full state list

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { set } from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import reducer from '../../reducers';
 import { calculatorConstants } from '../gibct-helpers';

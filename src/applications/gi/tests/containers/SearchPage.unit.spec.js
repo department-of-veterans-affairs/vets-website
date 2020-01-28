@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import pick from 'lodash/pick';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -140,7 +140,7 @@ describe('<SearchPage> functions', () => {
       .join('&')}`;
 
     const fetchInstitutionSearchResults = queryStore => {
-      const queryCheck = _.pick(query, [
+      const queryCheck = pick(query, [
         ...stringSearchParams,
         ...stringFilterParams,
         ...booleanFilterParams,

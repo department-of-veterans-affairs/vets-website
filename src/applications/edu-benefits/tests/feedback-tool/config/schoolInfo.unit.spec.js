@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import _ from 'lodash';
+import unset from 'lodash/unset';
 import {
   DefinitionTester,
   fillData,
@@ -14,7 +14,7 @@ describe('feedback tool school info', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.schoolInformation.pages.schoolInformation;
-  _.unset(uiSchema, 'educationDetails.school.view:searchSchoolSelect');
+  unset(uiSchema, 'educationDetails.school.view:searchSchoolSelect');
 
   it('should render', () => {
     const form = mount(

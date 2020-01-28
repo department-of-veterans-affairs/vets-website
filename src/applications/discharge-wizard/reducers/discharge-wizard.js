@@ -1,5 +1,5 @@
 import { DW_UPDATE_FIELD } from '../actions';
-import _ from 'lodash';
+import set from 'lodash/set';
 import moment from 'moment';
 
 const initialState = {
@@ -150,7 +150,7 @@ function form(state = initialState, action) {
           const num = k.split('_')[0];
           const nextNum = action.key.split('_')[0];
           if (parseInt(num, 10) > parseInt(nextNum, 10)) {
-            return _.set(a, k, initialState[k]);
+            return set(a, k, initialState[k]);
           }
           return a;
         }, {}),
