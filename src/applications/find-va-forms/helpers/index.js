@@ -16,7 +16,7 @@ export const normalizeFormsForTable = forms =>
     // Derive the ID field.
     const idLabel = (
       <a href={downloadURL} rel="noopener noreferrer" target="_blank">
-        {id}
+        {id} {downloadURL.toLowerCase().includes('.pdf') && '(PDF)'}
       </a>
     );
 

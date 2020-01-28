@@ -84,7 +84,7 @@ export const recordsNotFound = (
             href="https://www.ebenefits.va.gov/ebenefits/download-letters"
             onClick={() =>
               recordEvent({
-                event: 'ebenefits-navigation',
+                event: 'nav-ebenefits-click',
               })
             }
           >
