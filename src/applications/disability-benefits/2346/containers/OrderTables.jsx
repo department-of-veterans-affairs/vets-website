@@ -183,12 +183,20 @@ class OrderHistory extends Component {
                   ))}
                 </tbody>
               </table>
-              <Link to="/home">
+              <Link to="/comments">
                 <button
                   type="button"
                   className="usa-button-primary va-button-primary"
                 >
                   Back
+                </button>
+              </Link>
+              <Link to="/home">
+                <button
+                  type="button"
+                  className="usa-button-primary va-button-primary"
+                >
+                  Submit
                 </button>
               </Link>
             </>
