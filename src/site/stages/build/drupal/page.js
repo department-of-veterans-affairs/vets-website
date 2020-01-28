@@ -213,11 +213,12 @@ function getFacilitySidebar(page, contentData) {
       : pageTitle;
 
     // choose the correct menu name to retrieve the object from contentData
-    const facilitySidebarNavName = Object.keys(contentData.data).find(
-      attribute =>
-        contentData.data[attribute]
-          ? contentData.data[attribute].name === facilityNavName
-          : false,
+    const facilitySidebarNavName = Object.keys(
+      contentData.data,
+    ).find(attribute =>
+      contentData.data[attribute]
+        ? contentData.data[attribute].name === facilityNavName
+        : false,
     );
 
     if (facilitySidebarNavName) {
@@ -290,6 +291,7 @@ function compilePage(page, contentData) {
     case 'office':
     case 'publication_listing':
     case 'event_listing':
+    case 'locations_listing':
       pageCompiled = Object.assign(
         {},
         page,

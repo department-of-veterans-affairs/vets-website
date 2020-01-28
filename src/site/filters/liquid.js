@@ -234,10 +234,13 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.sortMainFacility = item => {
-    const sorted = item.sort((a, b) => {
-      const sorter = a.entityId - b.entityId;
-      return sorter;
-    });
+    let sorted;
+    if (item) {
+      sorted = item.sort((a, b) => {
+        const sorter = a.entityId - b.entityId;
+        return sorter;
+      });
+    }
     return sorted;
   };
 

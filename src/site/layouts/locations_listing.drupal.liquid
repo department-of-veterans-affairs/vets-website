@@ -12,7 +12,7 @@
                 <article class="usa-content">
                     <h1 class="vads-u-margin-bottom--2">Locations</h1>
                     <div class="va-introtext vads-u-margin-bottom--0">
-                        {{ fieldLocationsIntroBlurb.processed }}
+                        {{ fieldLocationsIntroText }}
                     </div>
                     <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
                         {% assign basePath = entityUrl.path | regionBasePath %}
@@ -22,7 +22,7 @@
                         <h2 id="main-locations"
                             class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--3">
                             Main locations</h2>
-                        {% assign mainFacility = mainFacilities.entities | sortMainFacility %}
+                        {% assign mainFacility = fieldOffice.entity.mainFacilities.entities | sortMainFacility %}
 
                         {% for main in mainFacility %}
                         {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = main %}
@@ -30,15 +30,15 @@
                         <h2 id="community-clinic-locations"
                             class="medium-screen:vads-u-margin-bottom--4">Health
                             clinic locations</h2>
-                        {% for other in otherFacilities.entities %}
+                        {% for other in fieldOffice.entity.otherFacilities.entities %}
                         {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = other %}
                         {% endfor %}
-                        {% if fieldOtherVaLocations != empty and fieldOtherVaLocations.length %}
+                        {% if fieldOffice.entity.fieldOtherVaLocations != empty and fieldOffice.entity.fieldOtherVaLocations.length %}
                         <h2 id="other-nearby-va-locations"
                             class="medium-screen:vads-u-margin-bottom--4">Other
                             nearby VA locations</h2>
                         <div data-widget-type="other-facility-locations-list"
-                            data-facilities="{{ fieldOtherVaLocations }}"></div>
+                            data-facilities="{{ fieldOffice.entity.fieldOtherVaLocations }}"></div>
                         {% endif %}
                     </section>
                 </article>
