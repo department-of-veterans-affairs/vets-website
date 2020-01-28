@@ -14,7 +14,7 @@ const transform = entity => ({
     breadcrumbs: [],
     path: entity.path[0].alias,
   },
-  fieldBannerAlert: entity.fieldBannerAlert[0] || null,
+  fieldBannerAlert: entity.fieldBannerAlert,
   fieldFacilityOperatingStatus: entity.fieldFacilityOperatingStatus,
   fieldLinks: entity.fieldLinks,
   fieldOffice: entity.fieldOffice[0] || null,

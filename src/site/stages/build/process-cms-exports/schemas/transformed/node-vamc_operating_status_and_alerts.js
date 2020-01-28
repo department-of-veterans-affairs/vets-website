@@ -8,7 +8,11 @@ module.exports = {
     entityPublished: { type: 'boolean' },
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
-    fieldBannerAlert: { $ref: 'transformed/node-full_width_banner_alert' },
+    fieldBannerAlert: {
+      type: 'array',
+      items: { $ref: 'transformed/node-full_width_banner_alert' },
+      // maxItems: 1 // Presumably? The template expects an array, though...
+    },
     fieldFacilityOperatingStatus: {
       type: 'array',
       items: { $ref: 'transformed/node-health_care_local_facility' },
