@@ -42,7 +42,7 @@ export function transformFormToVARequest(state) {
   const typeOfCare = getTypeOfCare(data);
 
   return {
-    typeOfCare: data.typeOfCareId,
+    typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
     appointmentType: getTypeOfCare(data).name,
     cityState: {

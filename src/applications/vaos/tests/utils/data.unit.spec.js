@@ -140,7 +140,7 @@ describe('VAOS data transformation', () => {
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
-      typeOfCare: 'SLEEP',
+      typeOfCare: '349',
       typeOfCareId: '349',
       appointmentType: 'Continuous Positive Airway Pressure (CPAP)',
       cityState: {
