@@ -49,7 +49,17 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     ariaLabel = ` of ${ariaLabel}`;
   }
 
-  const pagedEntities = _.chunk(page[field].entities, perPage);
+  let chunker;
+  switch (page.entityBundle) {
+    case 'event_listing':
+      chunker = page.allEventTeasers.entities;
+      break;
+
+    default:
+      chunker = page[field].entities;
+  }
+  const pagedEntities = _.chunk(chunker, perPage);
+  const pageReturn = [];
   for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
     let pagedPage = Object.assign({}, page);
 
@@ -104,12 +114,14 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
             ? `${page.entityUrl.path}${paginationPath(pageNum + 1)}`
             : null,
       };
+      pageReturn.push(pagedPage);
     }
 
     const fileName = path.join('.', pagedPage.entityUrl.path, 'index.html');
 
     files[fileName] = createFileObj(pagedPage, layout);
   }
+  return pageReturn;
 }
 
 // Return page object with path, breadcrumb and title set.
@@ -288,9 +300,20 @@ function compilePage(page, contentData) {
   let pageCompiled;
 
   switch (entityBundle) {
+    case 'event_listing':
+      pageCompiled = Object.assign(
+        {},
+        page,
+        facilitySidebarNavItems,
+        outreachSidebarNavItems,
+        alertItems,
+        bannerAlertsItems,
+        pageId,
+      );
+      break;
+
     case 'office':
     case 'publication_listing':
-    case 'event_listing':
     case 'locations_listing':
       pageCompiled = Object.assign(
         {},

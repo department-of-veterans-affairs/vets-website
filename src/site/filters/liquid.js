@@ -398,6 +398,8 @@ module.exports = function registerFilters() {
       : null;
   };
 
+  liquid.filters.getPagerPage = page => parseInt(page.split('page-')[1], 10);
+
   liquid.filters.featureSingleValueFieldLink = fieldLink => {
     if (fieldLink && cmsFeatureFlags.FEATURE_SINGLE_VALUE_FIELD_LINK) {
       return fieldLink[0];

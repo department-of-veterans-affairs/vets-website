@@ -172,14 +172,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   eventPage.regionOrOffice = page.title;
   eventPage.entityUrl = generateBreadCrumbs(eventPagePath);
 
-  paginatePages(
-    eventPage,
-    files,
-    'allEventTeasers',
-    'events_page.drupal.liquid',
-    'events',
-  );
-
   // Past Events listing page
   const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}/events`);
 
@@ -237,6 +229,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'bios_page.drupal.liquid',
     'bio',
   );
+  return eventObj;
 }
 
 /**
@@ -262,4 +255,29 @@ function addGetUpdatesFields(page, pages) {
   }
 }
 
-module.exports = { createHealthCareRegionListPages, addGetUpdatesFields };
+/**
+ * Modify the list pages.
+ *
+ * @param {page} page The page object.
+ * @param {pages} pages an array of page of objects containing a page
+ * @return nothing
+ */
+function modListPages(page, pages, files, field, template, aria) {
+  switch (page.entityBundle) {
+    case 'event_listing':
+      page.allEventTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
+      break;
+    default:
+  }
+  const pagingObject = paginatePages(page, files, field, template, aria);
+  if (pagingObject[0]) {
+    page.pagedItems = pagingObject[0].pagedItems;
+    page.paginator = pagingObject[0].paginator;
+  }
+}
+
+module.exports = {
+  createHealthCareRegionListPages,
+  addGetUpdatesFields,
+  modListPages,
+};
