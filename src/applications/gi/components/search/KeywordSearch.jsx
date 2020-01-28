@@ -55,6 +55,13 @@ export class KeywordSearch extends React.Component {
     this.props.onFilterChange(searchQuery);
   };
 
+  handleFocus = () => {
+    const smallScreenWidth = 481;
+    if (window.innerWidth <= smallScreenWidth) {
+      document.getElementsByClassName('keyword-search')[0].scrollIntoView();
+    }
+  };
+
   render() {
     const { suggestions, searchTerm } = this.props.autocomplete;
     let errorSpan = '';
@@ -105,6 +112,7 @@ export class KeywordSearch extends React.Component {
                   type: 'text',
                   onChange: this.handleChange,
                   onKeyUp: this.handleKeyUp,
+                  onFocus: this.handleFocus,
                   'aria-labelledby': 'institution-search-label',
                 })}
               />
