@@ -48,7 +48,7 @@ Example data:
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
-<div id="content" class="interior">
+<div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
@@ -64,30 +64,31 @@ Example data:
 
           {% assign featuredUrl = null %}
           {% if paginator.prev == null %}
-          {% for featuredEvent in eventTeasers.entities %}
-          {% if forloop.first == true %}
-          {% unless entityUrl.path contains 'past-events' %}
-          {% assign featuredUrl = featuredEvent.entityUrl.path %}
-            <div class="usa-width-two-thirds">
-              <div id="featured-content" class="usa-grid usa-grid-full
-                vads-u-margin-bottom--3
-                medium-screen:vads-u-margin-bottom--4
-                vads-u-display--flex
-                vads-u-flex-direction--column
-                medium-screen:vads-u-flex-direction--row
-                vads-u-border-left--7px
-                vads-u-border-color--primary-alt-lightest">
-                <div class="usa-width-full vads-u-padding-left--2">
-                  <div class="vads-u-margin-bottom--2">
-                    <strong>In the spotlight at {{ regionOrOffice }}</strong>
+            {% for featuredEvent in eventTeasers.entities %}
+              {% if forloop.first == true %}
+                {% unless entityUrl.path contains 'past-events' %}
+                  {% assign featuredUrl = featuredEvent.entityUrl.path %}
+                  <div class="usa-width-two-thirds">
+                    <div class="usa-grid usa-grid-full
+                                      vads-u-margin-bottom--3
+                                      medium-screen:vads-u-margin-bottom--4
+                                      vads-u-display--flex
+                                      vads-u-flex-direction--column
+                                      medium-screen:vads-u-flex-direction--row
+                                      vads-u-border-left--7px
+                                      vads-u-border-color--primary-alt-lightest" id="featured-content">
+                      <div class="usa-width-full vads-u-padding-left--2">
+                        <div class="vads-u-margin-bottom--2">
+                          <strong>In the spotlight at
+                            {{ regionOrOffice }}</strong>
+                        </div>
+                        {% include "src/site/teasers/event_featured.drupal.liquid" with node = featuredEvent %}
+                      </div>
+                    </div>
                   </div>
-                    {% include "src/site/teasers/event_featured.drupal.liquid" with node = featuredEvent %}
-                </div>
-              </div>
-            </div>
-          {% endunless %}
-          {% endif %}
-          {% endfor %}
+                {% endunless %}
+              {% endif %}
+            {% endfor %}
           {% endif %}
           {% for event in pagedItems %}
             {% if featuredUrl != event.entityUrl.path %}

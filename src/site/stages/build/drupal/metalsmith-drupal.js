@@ -13,6 +13,7 @@ const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
   addGetUpdatesFields,
+  modListPages,
 } = require('./health-care-region');
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
@@ -84,6 +85,16 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         break;
       case 'health_care_region_detail_page':
         addGetUpdatesFields(pageCompiled, pages);
+        break;
+      case 'event_listing':
+        modListPages(
+          pageCompiled,
+          pages,
+          files,
+          page.allEventTeasers,
+          'event_listing.drupal.liquid',
+          'event',
+        );
         break;
       case 'page':
         addHubIconField(pageCompiled, pages);
