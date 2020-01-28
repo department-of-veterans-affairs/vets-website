@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
+    - name: Checkout vets-website
       uses: actions/checkout@v2
-    - name: Checkout VA.gov content
+      with:
+        path: vets-website
+    - name: Checkout vagov-content
       uses: actions/checkout@v2
       with:
         repository: department-of-veterans-affairs/vagov-content
@@ -30,5 +32,5 @@ jobs:
       run: yarn install
     - name: Build and test
       run: |
-        yarn build-webpack --env.buildtype=vagovdev
+        yarn build --buildtype=vagovdev
         yarn test
