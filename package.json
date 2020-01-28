@@ -166,6 +166,7 @@
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
     "http-server": "^0.9.0",
+    "husky": ">=4",
     "imports-loader": "^0.6.5",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
@@ -174,6 +175,7 @@
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
     "libxmljs": "^0.19.5",
+    "lint-staged": ">=10",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "metalsmith-watch": "^1.0.3",
@@ -291,5 +293,13 @@
     "vanilla-lazyload": "^8.17.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#baa5f1ea73c9183398eedbe40b40c5695dbce77c",
     "whatwg-fetch": "^2.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --quiet"
   }
 }
