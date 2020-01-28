@@ -39,10 +39,11 @@ function getUserMessage(data) {
 export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
+  const typeOfCare = getTypeOfCare(data);
 
   return {
     typeOfCare: data.typeOfCareId,
-    typeOfCareId: data.typeOfCareId,
+    typeOfCareId: typeOfCare.id,
     appointmentType: getTypeOfCare(data).name,
     cityState: {
       institutionCode: data.vaSystem,
@@ -136,10 +137,12 @@ export function transformFormToCCRequest(state) {
     };
   }
 
+  const typeOfCare = getTypeOfCare(data);
+
   return {
-    typeOfCare: getTypeOfCare(data).ccId,
-    typeOfCareId: getTypeOfCare(data).ccId,
-    appointmentType: getTypeOfCare(data).name,
+    typeOfCare: typeOfCare.ccId,
+    typeOfCareId: typeOfCare.ccId,
+    appointmentType: typeOfCare.name,
     cityState: {
       institutionCode: data.communityCareSystemId,
       rootStationCode: data.communityCareSystemId,
