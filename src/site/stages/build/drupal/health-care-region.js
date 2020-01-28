@@ -38,28 +38,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_facility_status.drupal.liquid',
   );
 
-  // Create the top-level locations page for Health Care Regions
-  const locEntityUrl = createEntityUrlObj(drupalPagePath);
-  const locObj = {
-    mainFacilities: page.mainFacilities,
-    otherFacilities: page.otherFacilities,
-    fieldOtherVaLocations: page.fieldOtherVaLocations,
-    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
-    facilitySidebar: sidebar,
-    entityUrl: locEntityUrl,
-    alert: page.alert,
-    title: page.title,
-  };
-  const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
-  const locPath = locPage.entityUrl.path;
-  locPage.regionOrOffice = page.title;
-  locPage.entityUrl = generateBreadCrumbs(locPath);
-
-  files[`${drupalPagePath}/locations/index.html`] = createFileObj(
-    locPage,
-    'health_care_region_locations_page.drupal.liquid',
-  );
-
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
   if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
@@ -269,11 +247,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
-  const regionPage = pages.find(
-    p =>
-      p.entityUrl
-        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
-        : false,
+  const regionPage = pages.find(p =>
+    p.entityUrl
+      ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+      : false,
   );
 
   if (regionPage) {
