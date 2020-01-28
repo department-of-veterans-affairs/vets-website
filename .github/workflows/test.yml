@@ -8,31 +8,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout vets-website
+
+    - name: Checkout
       uses: actions/checkout@v2
-      with:
-        path: vets-website
-    - name: Checkout vagov-content
-      uses: actions/checkout@v2
-      with:
-        repository: department-of-veterans-affairs/vagov-content
-        path: vagov-content
+    # - name: Checkout vagov-content
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: department-of-veterans-affairs/vagov-content
+    #     path: vagov-content
+
     - name: Cache dependencies
       id: cache-dependenciese
       uses: actions/cache@v1.1.0
       with:
-        key: ${{ runner.os }}-${{ hashFiles('vets-website/yarn.lock') }}
-        path: vets-website/node_modules
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+        path: node_modules
+
     - name: Setup Node.js for use with actions
       uses: actions/setup-node@v1.1.0
+
     - name: Install Yarn
       run: npm install -g yarn
+
     - name: Install dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: yarn install
-      working-directory: vets-website
+      # working-directory: vets-website
+
     - name: Build and test
       run: |
-        yarn build --buildtype=vagovdev
-        yarn test
-      working-directory: vets-website
+        yarn build-webpack
+        yarn test:unit
+      # working-directory: vets-website
