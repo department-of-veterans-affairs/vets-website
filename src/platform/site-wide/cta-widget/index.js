@@ -66,7 +66,7 @@ export class CallToActionWidget extends React.Component {
     this._gaPrefix = 'register-mhv';
 
     this.state = {
-      forceLegacyHealthTools: false,
+      forceLegacyAppointments: false,
     };
   }
 
@@ -139,7 +139,7 @@ export class CallToActionWidget extends React.Component {
     } = this.props;
 
     if (
-      !this.state.forceLegacyHealthTools &&
+      !this.state.forceLegacyAppointments &&
       featureToggles.vaOnlineScheduling &&
       (appId === widgetTypes.SCHEDULE_APPOINTMENTS ||
         appId === widgetTypes.VIEW_APPOINTMENTS)
@@ -148,7 +148,7 @@ export class CallToActionWidget extends React.Component {
         <VAOSCTAContent
           serviceDescription={this._serviceDescription}
           secondaryButtonHandler={() =>
-            this.setState({ forceLegacyHealthTools: true })
+            this.setState({ forceLegacyAppointments: true })
           }
         />
       );
