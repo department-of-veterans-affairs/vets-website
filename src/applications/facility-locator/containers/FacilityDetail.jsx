@@ -53,7 +53,7 @@ class FacilityDetail extends Component {
           <LocationAddress location={facility} />
         </div>
         <div>
-          <LocationPhoneLink location={facility} />
+          <LocationPhoneLink location={facility} from={'FacilityDetail'} />
         </div>
         {website &&
           website !== 'NULL' && (
@@ -65,7 +65,7 @@ class FacilityDetail extends Component {
             </span>
           )}
         <div>
-          <LocationDirectionsLink location={facility} />
+          <LocationDirectionsLink location={facility} from={'FacilityDetail'} />
         </div>
         {phone &&
           phone.main && (

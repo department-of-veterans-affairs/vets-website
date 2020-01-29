@@ -20,36 +20,41 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
-    .assert.isActiveElement('input[type="submit"]');
+    .assert.isActiveElement('#service-type-dropdown');
 
   // Enter and navigate custom select via keyboard input
+
   client
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .assert.visible('ul[class="dropdown"]');
 
-  client
-    .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-    .assert.attributeContains('.health-icon', 'aria-selected', true);
-
   if (FacilityHelpers.ccLocatorEnabled()) {
     client
       .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-      .assert.attributeContains('.cc-provider-icon', 'aria-selected', true);
+      .useXpath()
+      .assert.attributeContains(
+        '//li[@option="VA Community Care (In network)"]',
+        'aria-selected',
+        true,
+      );
   }
 
   client
+    .useCss()
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
-    .assert.attributeContains('.benefits-icon', 'aria-selected', true);
+    .useXpath()
+    .assert.attributeContains(
+      '//li[@option="VA benefits"]',
+      'aria-selected',
+      true,
+    );
 
   client
+    .useCss()
     .sendKeys('#facility-dropdown-toggle', client.Keys.ENTER)
     .assert.isActiveElement('#facility-dropdown-toggle');
 
   client.waitForElementNotPresent('ul[class="dropdown"]', Timeouts.normal);
-
-  client
-    .sendKeys('#facility-dropdown-toggle', client.Keys.TAB)
-    .assert.isActiveElement('#service-type-dropdown');
 
   client.end();
 });
