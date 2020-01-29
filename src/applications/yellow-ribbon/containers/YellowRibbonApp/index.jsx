@@ -11,27 +11,15 @@ import SearchResults from '../SearchResults';
 export const YellowRibbonApp = ({ results }) => (
   <>
     {/* Breadcrumbs */}
-    <Breadcrumbs customClasses="vads-u-padding--0">
-      <a href={`${window.location.origin}`} rel="noopener noreferrer">
-        Home
-      </a>
-      <a
-        href={`${window.location.origin}/education/`}
-        rel="noopener noreferrer"
-      >
+    <Breadcrumbs className="vads-u-padding--0">
+      <a href="/">Home</a>
+      <a href={`${window.location.origin}/education/`}>
         Education and training
       </a>
-      <a
-        href={`${window.location.origin}/yellow-ribbon/schools/`}
-        rel="noopener noreferrer"
-      >
+      <a href={`${window.location.origin}/yellow-ribbon/schools/`}>
         Yellow Ribbon school finder
       </a>
-      {results && (
-        <a href={window.location.href} rel="noopener noreferrer">
-          Search results
-        </a>
-      )}
+      {results && <a href={window.location.href}>Search results</a>}
     </Breadcrumbs>
 
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--4">
