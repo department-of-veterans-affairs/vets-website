@@ -6,6 +6,7 @@ export const api = {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
     },
   },
 };
