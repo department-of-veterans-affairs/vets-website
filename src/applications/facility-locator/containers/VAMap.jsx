@@ -32,7 +32,7 @@ import {
 } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
-
+import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxClient = mbxGeo(mapboxClient);
