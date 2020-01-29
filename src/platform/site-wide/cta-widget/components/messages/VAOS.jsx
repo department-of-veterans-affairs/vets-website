@@ -3,7 +3,7 @@ import CallToActionAlert from './../CallToActionAlert';
 
 const VAOSCTAContent = ({ serviceDescription, secondaryButtonHandler }) => {
   const content = {
-    heading: `Check out the new Veteran Online Appointment Scheduling Tool (VAOS)`,
+    heading: `Check out the new Veteran Appointment Online Scheduling Tool (VAOS)`,
     alertText: (
       <p>
         We’re working on a new tool to improve your appointment scheduling
