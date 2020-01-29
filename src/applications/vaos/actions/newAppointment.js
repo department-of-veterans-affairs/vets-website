@@ -468,8 +468,14 @@ export function getAppointmentSlots(startDate, endDate) {
         const now = moment();
 
         mappedSlots = fetchedSlots.reduce((acc, slot) => {
-          const dateObj = moment(slot.startDateTime);
-          if (dateObj.isAfter(now)) {
+          /**
+           * The datetime we get back for startDateTime and endDateTime includes
+           * an offset of +00:00 that isn't actually accurate. The times returned are
+           * already in the time zone of the facility. In order to prevent
+           * moment from using this offset, we'll remove it in the next line
+           */
+          const dateObj = moment(slot.startDateTime?.split('+')?.[0]);
+          if (dateObj.isValid() && dateObj.isAfter(now)) {
             acc.push({
               date: dateObj.format('YYYY-MM-DD'),
               datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),

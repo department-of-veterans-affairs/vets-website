@@ -1,0 +1,19 @@
+version: '3'
+services:
+  vets-website:
+    build:
+      context: .
+      args:
+        userid: ${UID}
+    command: script/review-entrypoint.sh
+    environment:
+      API_URL: ${API_URL:-http://localhost:3000}
+    expose:
+      - 3001
+    image: vets-website:${IMAGE_TAG:-latest}
+    ports:
+      - 3001:3001
+    restart: unless-stopped
+    volumes:
+      - .:/application
+      - ../vagov-content:/vagov-content

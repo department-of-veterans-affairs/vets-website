@@ -6,7 +6,9 @@ logs/
 # Files to ignore
 ._*
 .cache
+.config
 .DS_Store
+.env
 npm-debug.log
 *.log
 

@@ -63,7 +63,7 @@ const AdditionalInfos = props => (
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
           onClick={() =>
             recordEvent({
-              event: 'ebenefits-navigation',
+              event: 'nav-ebenefits-click',
             })
           }
         >
@@ -256,7 +256,7 @@ class PaymentInformation extends React.Component {
 
     return (
       <>
-        <h2 className="va-profile-heading">
+        <h2 className="va-profile-heading" tabIndex="-1">
           Direct deposit information for disability compensation and pension
           benefits
         </h2>

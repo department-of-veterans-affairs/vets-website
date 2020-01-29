@@ -37,15 +37,7 @@ module.exports = {
     fieldAdditionalInformationAbo: {
       oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
-    fieldAddress: {
-      type: ['object', 'null'],
-      properties: {
-        addressLine1: { type: 'string' },
-        addressLine2: { type: 'string' },
-        locality: { type: 'string' },
-        administrativeArea: { type: 'string' },
-      },
-    },
+    fieldAddress: { $ref: 'Address' },
     fieldBody: { $ref: 'ProcessedString' },
     fieldDate: {
       type: 'object',

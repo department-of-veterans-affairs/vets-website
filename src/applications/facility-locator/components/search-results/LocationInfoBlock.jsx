@@ -6,7 +6,6 @@ import LocationAddress from './LocationAddress';
 import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import { isVADomain } from '../../utils/helpers';
-import environments from '../../../../platform/utilities/environment';
 
 const LocationInfoBlock = ({ location, from }) => {
   const { name, website } = location.attributes;
@@ -35,7 +34,7 @@ const LocationInfoBlock = ({ location, from }) => {
       ) : (
         <span>
           <FacilityTypeDescription location={location} from={from} />
-          {isVADomain(website) && environments.isStaging() ? (
+          {isVADomain(website) ? (
             <a href={website}>
               <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
             </a>
