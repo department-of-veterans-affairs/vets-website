@@ -1,5 +1,6 @@
 import environment from '../../platform/utilities/environment';
 import { LocationType, FacilityType } from './constants';
+import manifest from './manifest.json';
 
 // TODO: Remove me when done bug fixing
 // const environment = {
@@ -14,7 +15,7 @@ export const api = {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
+      'Source-App-Name': manifest.entryName,
     },
   },
 };

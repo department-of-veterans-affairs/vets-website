@@ -1,4 +1,5 @@
 import environment from '../../platform/utilities/environment';
+import manifest from './manifest.json';
 
 export const api = {
   url: `${environment.API_URL}/v0/gi`,
@@ -6,7 +7,7 @@ export const api = {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
+      'Source-App-Name': manifest.entryName,
     },
   },
 };
