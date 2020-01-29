@@ -93,9 +93,9 @@ describe('form:', () => {
       mappedIdsSet.size,
       'a schema may have been added to vets-json-schema/dist/schemas',
     );
-    expect(includedSchemaIds).to.deep.equal(
+    expect(includedSchemaIds).to.have.same.members(
       includedFormIds,
-      'possible missing formId property in a formConfig or out of order',
+      'possible missing formId property in a formConfig',
     );
   });
 
