@@ -75,7 +75,7 @@ class AddressValidationModal extends React.Component {
       buttonText = 'Use this address';
     }
 
-    if (confirmedSuggestions.length === 1) {
+    if (confirmedSuggestions.length === 1 && !validationKey) {
       buttonText = 'Use suggested address';
     }
 
@@ -121,24 +121,24 @@ class AddressValidationModal extends React.Component {
     } = address;
 
     const isAddressFromUser = id === 'userEntered';
-    const greaterThanOneSuggestion = confirmedSuggestions.length > 1;
+    const hasConfirmedSuggestions =
+      (confirmedSuggestions.length > 0 && validationKey) ||
+      confirmedSuggestions.length > 1;
     const showEditLinkErrorState = addressValidationError && validationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
     const isFirstOptionOrEnabled =
       (isAddressFromUser && validationKey) || !isAddressFromUser;
-
     return (
       <div
         key={id}
         className="vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-bottom--1p5"
       >
         {isFirstOptionOrEnabled &&
-          greaterThanOneSuggestion && (
+          hasConfirmedSuggestions && (
             <input
               type="radio"
               name={id}
-              disabled={isAddressFromUser && !validationKey}
               onChange={
                 isFirstOptionOrEnabled && this.onChangeHandler(address, id)
               }

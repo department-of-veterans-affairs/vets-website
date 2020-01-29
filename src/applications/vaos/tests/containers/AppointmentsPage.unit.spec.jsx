@@ -161,46 +161,12 @@ describe('VAOS <AppointmentsPage>', () => {
           uniqueId: '8a48912a6c2409b9016c9a9afff101ee',
           systemId: 'var',
           objectType: 'VARAppointmentRequest',
-          selfUri:
-            '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c9a9afff101ee',
-          selfLink: {
-            rel: 'self',
-            href:
-              '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c9a9afff101ee',
-            objectType: 'AtomLink',
-          },
-          link: [
-            {
-              rel: 'self',
-              href:
-                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointments/system/var/id/8a48912a6c2409b9016c9a9afff101ee',
-              objectType: 'AtomLink',
-            },
-            {
-              rel: 'related',
-              title: 'appointment-request-messages',
-              href:
-                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c9a9afff101ee/messages',
-              objectType: 'AtomLink',
-            },
-            {
-              rel: 'related',
-              title: 'appointment-request-new-message-flag',
-              href:
-                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c9a9afff101ee/messages/read',
-              objectType: 'AtomLink',
-            },
-            {
-              rel: 'related',
-              title: 'appointment-request-provider-seen-flag',
-              href:
-                '/var/VeteranAppointmentRequestService/v4/rest/appointment-service/patient/ICN/1012845331V153043/appointment-requests/system/var/id/8a48912a6c2409b9016c9a9afff101ee/appointment/provider-read',
-              objectType: 'AtomLink',
-            },
-          ],
           createdDate: '12/16/2019 07:25:44',
         },
       ],
+      systemClinicToFacilityMap: {
+        '983_455': {},
+      },
     };
 
     const fetchFutureAppointments = sinon.spy();
@@ -214,6 +180,12 @@ describe('VAOS <AppointmentsPage>', () => {
     );
 
     expect(tree.find('ConfirmedAppointmentListItem').length).to.equal(2);
+    expect(
+      tree
+        .find('ConfirmedAppointmentListItem')
+        .first()
+        .props().facility,
+    ).to.equal(appointments.systemClinicToFacilityMap['983_455']);
     expect(tree.find('AppointmentRequestListItem').length).to.equal(1);
     expect(tree.find('.usa-button').length).to.equal(1);
 

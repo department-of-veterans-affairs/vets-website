@@ -126,6 +126,7 @@ function pollStatus(guid, onDone, onError) {
 export function fetchPreview(id) {
   const headers = {
     'X-Key-Inflection': 'camel',
+    'Source-App-Name': window.appName,
   };
 
   return fetch(

@@ -8,6 +8,7 @@ const renderPhoneNumber = (
   phone,
   icon = 'fw',
   altPhone,
+  from,
 ) => {
   if (!phone) {
     return null;
@@ -17,22 +18,26 @@ const renderPhoneNumber = (
 
   return (
     <div>
-      <i className={`fa fa-${icon}`} />
-      <strong>{title}:</strong>
+      {from === 'FacilityDetail' && <i className={`fa fa-${icon}`} />}
+      <strong>{title}: </strong>
+      {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
       <br />
-      <i className="fa fa-fw" />
+      {from === 'FacilityDetail' && <i className="fa fa-fw" />}
       {subTitle}
-      <a
-        href={`tel:${phone.replace(/[ ]?x/, '')}`}
-        className={altPhone && 'facility-phone-alt'}
-      >
-        {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
-      </a>
+
+      {from === 'FacilityDetail' ? (
+        <a
+          href={`tel:${phone.replace(/[ ]?x/, '')}`}
+          className={altPhone && 'facility-phone-alt'}
+        >
+          {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
+        </a>
+      ) : null}
     </div>
   );
 };
 
-const LocationPhoneLink = ({ location }) => {
+const LocationPhoneLink = ({ location, from }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
 
   if (isProvider) {
@@ -58,8 +63,14 @@ const LocationPhoneLink = ({ location }) => {
   } = location;
   return (
     <div>
-      {renderPhoneNumber('Main Number', null, phone.main, 'phone')}
-      {renderPhoneNumber('Mental Health', null, phone.mentalHealthClinic)}
+      {renderPhoneNumber('Main Number', null, phone.main, 'phone', null, from)}
+      {renderPhoneNumber(
+        'Mental Health',
+        null,
+        phone.mentalHealthClinic,
+        null,
+        from,
+      )}
     </div>
   );
 };

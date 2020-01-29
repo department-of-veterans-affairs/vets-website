@@ -1,6 +1,13 @@
 // WAIT_INTERVAL is in milliseconds.
 export const WAIT_INTERVAL = 333;
 
+// SMALL_SCREEN_WIDTH is in pixels
+export const SMALL_SCREEN_WIDTH = 481;
+
+export const KEY_CODES = Object.freeze({
+  enterKey: 13,
+});
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

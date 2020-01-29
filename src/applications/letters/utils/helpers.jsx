@@ -84,7 +84,7 @@ export const recordsNotFound = (
             href="https://www.ebenefits.va.gov/ebenefits/download-letters"
             onClick={() =>
               recordEvent({
-                event: 'ebenefits-navigation',
+                event: 'nav-ebenefits-click',
               })
             }
           >
@@ -566,7 +566,7 @@ export const getStatus = response =>
     : 'unknown';
 
 // NOTE: It "shouldn't" ever happen...but it did. In production.
-export function isAddressEmpty(address) {
+export function isAddressEmpty(address = {}) {
   // An address will always have:
   //  type because it errors out on the api if it doesn't exist (pretty sure)
   //  countryName because of toGenericAddress() adds it
@@ -578,7 +578,7 @@ export function isAddressEmpty(address) {
   );
 }
 
-export function formatStreetAddress(address) {
+export function formatStreetAddress(address = {}) {
   let formattedAddress = '';
 
   if (address.addressOne) {
@@ -593,7 +593,7 @@ export function formatStreetAddress(address) {
   return formattedAddress;
 }
 
-export function formatCityStatePostal(address) {
+export function formatCityStatePostal(address = {}) {
   // Formats to "city, state, postal code" for the second line of an address
   let cityStatePostal = '';
 

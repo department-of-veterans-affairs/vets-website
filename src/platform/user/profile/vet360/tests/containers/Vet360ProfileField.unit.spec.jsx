@@ -113,8 +113,8 @@ describe('<Vet360ProfileField/>', () => {
       .onEditClick;
     expect(
       onEditClick,
-      'No onEditClick prop should be passed if there is a transaction processing',
-    ).to.be.false;
+      'Should pass a null onEditClick prop if there is a transaction processing',
+    ).to.be.null;
     component.unmount();
   });
 });

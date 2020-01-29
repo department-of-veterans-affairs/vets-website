@@ -4,7 +4,7 @@ import { buildAddressArray } from '../../utils/facilityAddress';
 
 class LocationDirectionsLink extends Component {
   render() {
-    const { location } = this.props;
+    const { location, from } = this.props;
     let address = buildAddressArray(location);
 
     if (address.length !== 0) {
@@ -21,8 +21,9 @@ class LocationDirectionsLink extends Component {
           href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
           rel="noopener noreferrer"
           target="_blank"
+          style={{ textDecoration: 'underline' }}
         >
-          <i className="fa fa-road" />
+          {from === 'FacilityDetail' && <i className="fa fa-road" />}
           Directions
         </a>
       </span>

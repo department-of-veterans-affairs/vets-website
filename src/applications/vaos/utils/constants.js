@@ -208,11 +208,11 @@ export const LANGUAGES = [
 
 export const AUDIOLOGY_TYPES_OF_CARE = [
   {
-    id: 'CCAUDRTNE',
+    ccId: 'CCAUDRTNE',
     name: 'Routine hearing exam',
   },
   {
-    id: 'CCAUDHEAR',
+    ccId: 'CCAUDHEAR',
     name: 'Hearing aid support',
   },
 ];

@@ -26,7 +26,10 @@ import VetCenterMarker from '../components/markers/VetCenterMarker';
 import ProviderMarker from '../components/markers/ProviderMarker';
 import { facilityTypes } from '../config';
 import { LocationType, FacilityType, BOUNDING_RADIUS } from '../constants';
-import { areGeocodeEqual /* areBoundsEqual */ } from '../utils/helpers';
+import {
+  areGeocodeEqual,
+  setFocus /* areBoundsEqual */,
+} from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 
@@ -54,7 +57,6 @@ const urgentCareLink = (
 class VAMap extends Component {
   constructor(props) {
     super(props);
-
     this.zoomOut = debounce(
       () => this.refs.map.leafletElement.zoomOut(BOUNDING_RADIUS),
       2500,
@@ -64,6 +66,7 @@ class VAMap extends Component {
     this.listener = browserHistory.listen(location => {
       this.syncStateWithLocation(location);
     });
+    this.searchResultTitle = React.createRef();
   }
 
   componentDidMount() {
@@ -364,6 +367,18 @@ class VAMap extends Component {
     });
   };
 
+  handlePageSelect = page => {
+    const { currentQuery } = this.props;
+
+    this.props.searchWithBounds({
+      bounds: currentQuery.bounds,
+      facilityType: currentQuery.facilityType,
+      serviceType: currentQuery.serviceType,
+      page,
+    });
+    setFocus(this.searchResultTitle.current);
+  };
+
   centerMap = () => {
     setTimeout(() => {
       if (this.refs.map && this.refs.facilityMarkers) {
@@ -472,7 +487,13 @@ class VAMap extends Component {
   renderMobileView = () => {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, selectedResult, showCommunityCares } = this.props;
+    const {
+      currentQuery,
+      selectedResult,
+      showCommunityCares,
+      results,
+      pagination: { currentPage, totalPages, totalEntries },
+    } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
     const externalLink =
       currentQuery.facilityType === LocationType.CC_PROVIDER
@@ -488,6 +509,21 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
             isMobile
           />
+          <div ref={this.searchResultTitle}>
+            {results.length > 0 ? (
+              <p className="search-result-title">
+                <strong>{totalEntries} results</strong>
+                {` for `}
+                <strong>
+                  {facilityTypes[this.props.currentQuery.facilityType]}
+                </strong>
+                {` near `}
+                <strong>“{this.props.currentQuery.context}”</strong>
+              </p>
+            ) : (
+              <br />
+            )}
+          </div>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
@@ -502,6 +538,13 @@ class VAMap extends Component {
                 <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
                 {externalLink}
               </div>
+              {results.length > 0 && (
+                <Pagination
+                  onPageSelect={this.handlePageSelect}
+                  page={currentPage}
+                  pages={totalPages}
+                />
+              )}
             </TabPanel>
             <TabPanel>
               {externalLink}
@@ -543,7 +586,12 @@ class VAMap extends Component {
 
   renderDesktopView = () => {
     // defaults to White House coordinates initially
-    const { currentQuery, showCommunityCares } = this.props;
+    const {
+      currentQuery,
+      showCommunityCares,
+      results,
+      pagination: { currentPage, totalPages, totalEntries },
+    } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
@@ -562,10 +610,25 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
           />
         </div>
+        <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
+          {results.length > 0 ? (
+            <p className="search-result-title">
+              <strong>{totalEntries} results</strong>
+              {` for `}
+              <strong>
+                {facilityTypes[this.props.currentQuery.facilityType]}
+              </strong>
+              {` near `}
+              <strong>“{this.props.currentQuery.context}”</strong>
+            </p>
+          ) : (
+            <br />
+          )}
+        </div>
         <div className="row">
           <div
             className="columns usa-width-one-third medium-4 small-12"
-            style={{ maxHeight: '75vh', overflowY: 'auto' }}
+            style={{ maxHeight: '78vh', overflowY: 'auto' }}
             id="searchResultsContainer"
           >
             <div
@@ -580,7 +643,7 @@ class VAMap extends Component {
           </div>
           <div
             className="columns usa-width-two-thirds medium-8 small-12"
-            style={{ minHeight: '75vh' }}
+            style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
             {externalLink}
             <Map
@@ -607,6 +670,16 @@ class VAMap extends Component {
             </Map>
           </div>
         </div>
+        {currentPage &&
+          results.length > 0 && (
+            <div className="width-35">
+              <Pagination
+                onPageSelect={this.handlePageSelect}
+                page={currentPage}
+                pages={totalPages}
+              />
+            </div>
+          )}
       </div>
     );
   };
@@ -620,11 +693,9 @@ class VAMap extends Component {
 
         <div className="facility-introtext">
           <p>
-            Find VA locations near you with our facility locator tool. You can
-            search for your nearest VA medical center as well as other health
-            facilities, regional offices, cemeteries, community care providers
-            and Vet Centers. You can also filter your results by service type to
-            find locations that offer the specific service you’re looking for.
+            Find one of VA's more than 2,000 health care, counseling, benefits,
+            and cemeteries facilities, plus VA's nationwide network of community
+            health care providers.
           </p>
           <p>
             <strong>Need same-day care for a minor illness or injury?</strong>{' '}

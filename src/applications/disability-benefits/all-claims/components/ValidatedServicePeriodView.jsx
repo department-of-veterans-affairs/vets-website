@@ -31,7 +31,7 @@ export default function ValidatedServicePeriodView({ formData, onEdit }) {
           className="usa-button-primary va-button-primary"
           onClick={() =>
             recordEvent({
-              event: 'ebenefits-navigation',
+              event: 'nav-ebenefits-click',
             })
           }
         >

@@ -13,6 +13,7 @@ class ServiceTypeAhead extends Component {
     super(props);
     this.state = {
       services: [],
+      pressedEnter: false,
     };
   }
 
@@ -84,35 +85,84 @@ class ServiceTypeAhead extends Component {
             <span id="service-typeahead">
               <input
                 {...getInputProps({
+                  onKeyDown: event => {
+                    if (event.key === 'Enter') {
+                      this.setState({
+                        pressedEnter: true,
+                      });
+                    }
+                    if (event.key === 'Backspace' || event.key === 'Delete') {
+                      this.setState({
+                        pressedEnter: false,
+                      });
+                    }
+                  },
                   placeholder: 'Like primary care, cardiology',
                 })}
                 id="service-type-ahead-input"
                 required
               />
-              {isOpen && inputValue.length >= 2 ? (
-                <div className="dropdown" role="listbox">
-                  {services
-                    .filter(svc => this.shouldShow(inputValue, svc))
-                    .map((svc, index) => (
-                      <div
-                        key={svc.name}
-                        {...getItemProps({
-                          item: svc,
-                          className: this.optionClasses(
-                            index === highlightedIndex,
-                          ),
-                          role: 'option',
-                          'aria-selected': index === highlightedIndex,
-                        })}
-                        style={{
-                          fontWeight: selectedItem === svc ? 'bold' : 'normal',
-                        }}
-                      >
-                        {renderService(svc)}
-                      </div>
-                    ))}
-                </div>
-              ) : null}
+              <div
+                className={(() => {
+                  if (isOpen && inputValue.length >= 2) {
+                    return 'dropdown';
+                  }
+                  if (inputValue.length === 0) {
+                    return 'dropdown bor-none';
+                  }
+                  return 'dropdown bor-none';
+                })()}
+                role="listbox"
+              >
+                {(() => {
+                  const servicesFound = services.filter(svc =>
+                    this.shouldShow(inputValue, svc),
+                  );
+                  if (servicesFound.length > 0) {
+                    return services
+                      .filter(svc => this.shouldShow(inputValue, svc))
+                      .map((svc, index) => (
+                        <div
+                          key={svc.name}
+                          {...getItemProps({
+                            item: svc,
+                            className: this.optionClasses(
+                              index === highlightedIndex,
+                            ),
+                            role: 'option',
+                            'aria-selected': index === highlightedIndex,
+                          })}
+                          style={{
+                            fontWeight:
+                              selectedItem === svc ? 'bold' : 'normal',
+                          }}
+                        >
+                          {renderService(svc)}
+                        </div>
+                      ));
+                  }
+                  if (isOpen && inputValue.length >= 2) {
+                    if (this.state.pressedEnter && inputValue.length >= 3) {
+                      return (
+                        <div
+                          key={'not-found'}
+                          {...getItemProps({
+                            item: 'Not-Found',
+                            className: 'dropdown-option',
+                            role: 'option',
+                          })}
+                          style={{
+                            fontWeight: 'normal',
+                          }}
+                        >
+                          Service type not found
+                        </div>
+                      );
+                    }
+                  }
+                  return null;
+                })()}
+              </div>
             </span>
           </div>
         )}

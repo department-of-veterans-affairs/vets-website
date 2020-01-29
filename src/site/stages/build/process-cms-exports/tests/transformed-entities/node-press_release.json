@@ -86,6 +86,95 @@
       "entityLabel": "VA Pittsburgh health care",
       "title": "VA Pittsburgh health care",
       "fieldNicknameForThisFacility": "VA Pittsburgh",
+      "fieldRelatedLinks": {
+        "contentModelType": "paragraph-list_of_link_teasers",
+        "entity": {
+          "entityType": "paragraph",
+          "entityBundle": "list_of_link_teasers",
+          "fieldTitle": "In the spotlight at VA Pittsburgh",
+          "fieldVaParagraphs": [
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "entity:node/198"
+                  },
+                  "title": "Get help from a patient advocate",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "entity:node/221"
+                  },
+                  "title": "Medical records office",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "entity:node/255"
+                  },
+                  "title": "Phone directory",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "entity:node/197"
+                  },
+                  "title": "Billing and insurance",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "entity:node/281"
+                  },
+                  "title": "Become a volunteer",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "entity:node/775#annual-reports-and-newsletters"
+                  },
+                  "title": "Annual reports and newsletters",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            }
+          ],
+          "parentFieldName": "field_related_links"
+        }
+      },
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },

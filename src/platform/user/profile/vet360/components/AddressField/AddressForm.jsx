@@ -116,7 +116,7 @@ class AddressForm extends React.Component {
     return (
       <div>
         {isMailingAddress && (
-          <div>
+          <div className="form-checkbox">
             <input
               type="checkbox"
               name="is-military-base-mailing-address"

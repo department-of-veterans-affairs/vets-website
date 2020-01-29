@@ -38,7 +38,6 @@ export const PinNames = {
  * Defines the options available for the Location Type Dropdown
  */
 export const LOCATION_OPTIONS = [
-  LocationType.ALL,
   LocationType.HEALTH,
   LocationType.CC_PROVIDER,
   LocationType.BENEFITS,
