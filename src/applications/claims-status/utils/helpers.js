@@ -260,6 +260,7 @@ export function makeAuthRequest(
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
       },
       responseType: 'json',
     },

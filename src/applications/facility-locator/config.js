@@ -1,5 +1,6 @@
 import environment from '../../platform/utilities/environment';
 import { LocationType, FacilityType } from './constants';
+import manifest from './manifest.json';
 
 // TODO: Remove me when done bug fixing
 // const environment = {
@@ -14,6 +15,11 @@ export const api = {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
+
+      // Pull app name directly from manifest since this config is defined
+      // before startApp, and using window.appName here would result in
+      // undefined for all requests that use this config.
+      'Source-App-Name': manifest.entryName,
     },
   },
 };
