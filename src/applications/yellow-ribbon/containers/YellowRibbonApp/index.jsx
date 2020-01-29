@@ -13,12 +13,8 @@ export const YellowRibbonApp = ({ results }) => (
     {/* Breadcrumbs */}
     <Breadcrumbs className="vads-u-padding--0">
       <a href="/">Home</a>
-      <a href={`${window.location.origin}/education/`}>
-        Education and training
-      </a>
-      <a href={`${window.location.origin}/yellow-ribbon/schools/`}>
-        Yellow Ribbon school finder
-      </a>
+      <a href="/education/">Education and training</a>
+      <a href="/yellow-ribbon/schools/">Yellow Ribbon school finder</a>
       {results && <a href={window.location.href}>Search results</a>}
     </Breadcrumbs>
 
@@ -57,10 +53,7 @@ export const YellowRibbonApp = ({ results }) => (
           )}
           <SearchForm />
           {!results && (
-            <a
-              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
-              rel="noopener noreferrer"
-            >
+            <a href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/">
               Learn more about the Yellow Ribbon Program.
             </a>
           )}

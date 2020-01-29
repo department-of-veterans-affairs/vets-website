@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 // Relative imports.
 import SearchResult from '../../components/SearchResult';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { fetchResultsThunk, updatePageAction } from '../../actions';
 
 export class SearchResults extends Component {
@@ -46,11 +47,43 @@ export class SearchResults extends Component {
     fetchResults({ page, perPage, name, hideFetchingState: true, state });
 
     // Scroll to top.
-    window.scrollTo({ behavior: 'smooth', top: 0 });
+    scrollToTop();
+  };
+
+  deriveResultsEndNumber = () => {
+    const { page, perPage, totalResults } = this.props;
+
+    // Derive the end number.
+    const endNumber = page * perPage;
+
+    // If the end number is more than the total results, just show the total results.
+    if (endNumber > totalResults) {
+      return totalResults;
+    }
+
+    // Show the end number.
+    return endNumber;
+  };
+
+  deriveResultsStartNumber = () => {
+    const { page, perPage } = this.props;
+
+    // Derive the end number.
+    const endNumber = page * perPage;
+
+    // Derive the start number.
+    const startNumber = endNumber - (perPage - 1);
+
+    // Show the start number.
+    return startNumber;
   };
 
   render() {
-    const { onPageSelect } = this;
+    const {
+      deriveResultsEndNumber,
+      deriveResultsStartNumber,
+      onPageSelect,
+    } = this;
     const {
       error,
       fetching,
@@ -91,9 +124,8 @@ export class SearchResults extends Component {
     }
 
     // Derive values for "Displayed x-x out of x results."
-    const resultsStartNumber = page * perPage - (perPage - 1);
-    const resultsEndNumber =
-      page * perPage > totalResults ? totalResults : page * perPage;
+    const resultsStartNumber = deriveResultsStartNumber();
+    const resultsEndNumber = deriveResultsEndNumber();
 
     return (
       <>
