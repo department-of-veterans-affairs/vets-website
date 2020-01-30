@@ -270,6 +270,10 @@ function modListPages(page, pages, files, field, template, aria) {
     case 'story_listing':
       page.allNewsStoryTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
       break;
+    case 'press_releases_listing':
+      page.allPressReleaseTeasers =
+        page.fieldOffice.entity.reverseFieldOfficeNode;
+      break;
     default:
   }
   // Add our pager to the Drupal page.
