@@ -478,14 +478,21 @@ export function updateItemsSchema(schema, fieldData = null) {
 
 /**
  * This is the main sequence of updates that happens when data is changed
- * on a form. Most updates are applied to the schema, except that the data
- * is updated to remove newly hidden data
+ * on a form. Most updates are applied to the schema. And by default the data
+ * is updated to remove newly hidden data.
  *
  * @param {Object} schema The current JSON Schema
  * @param {Object} uiSchema The current UI Schema (does not change)
  * @param {Object} formData Flattened data for the entire form
+ * @param {boolean} [preserveHiddenData=false] Do not remove hidden data if
+ * this is set to `true`
  */
-export function updateSchemaAndData(schema, uiSchema, formData) {
+export function updateSchemaAndData(
+  schema,
+  uiSchema,
+  formData,
+  preserveHiddenData = false,
+) {
   let newSchema = updateItemsSchema(schema, formData);
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
 
@@ -495,16 +502,25 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
   // Update the schema with any general updates based on the new data
   newSchema = updateSchemaFromUiSchema(newSchema, uiSchema, formData);
 
-  // Remove any data that’s now hidden in the schema
-  const newData = removeHiddenData(newSchema, formData);
+  if (!preserveHiddenData) {
+    // Remove any data that’s now hidden in the schema
+    const newData = removeHiddenData(newSchema, formData);
 
-  // We need to do this again because array data might have been removed
-  newSchema = updateItemsSchema(newSchema, newData);
+    // We need to do this again because array data might have been removed
+    newSchema = updateItemsSchema(newSchema, newData);
+
+    checkValidSchema(newSchema);
+
+    return {
+      data: newData,
+      schema: newSchema,
+    };
+  }
 
   checkValidSchema(newSchema);
 
   return {
-    data: newData,
+    data: formData,
     schema: newSchema,
   };
 }
