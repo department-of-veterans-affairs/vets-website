@@ -18,6 +18,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -57,6 +60,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -78,6 +84,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -98,6 +107,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -126,6 +138,9 @@ describe('<CallToActionWidget>', () => {
             loading: false,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -148,6 +163,9 @@ describe('<CallToActionWidget>', () => {
             loading: false,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
       expect(fetchMHVAccount.called).to.be.false;
@@ -173,6 +191,9 @@ describe('<CallToActionWidget>', () => {
             loading: true,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
       expect(createAndUpgradeMHVAccount.called).to.be.false;
@@ -206,6 +227,9 @@ describe('<CallToActionWidget>', () => {
             loading: true,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
       expect(upgradeMHVAccount.called).to.be.false;
@@ -242,6 +266,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -271,6 +298,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="SERVER_ERROR"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -295,6 +325,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="NOT_AUTHORIZED"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -319,6 +352,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="NOT_FOUND"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -344,6 +380,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Basic',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -368,6 +407,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -392,6 +434,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -409,6 +454,7 @@ describe('<CallToActionWidget>', () => {
           multifactor: true,
         },
         mviStatus: 'GOOD',
+        featureToggles: { loading: false },
       };
 
       it('should show verify message', () => {
@@ -540,6 +586,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -566,6 +615,9 @@ describe('<CallToActionWidget>', () => {
             accountState: 'needs_terms_acceptance',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
