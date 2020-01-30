@@ -4,7 +4,7 @@ import {
   getNewAppointment,
   getEligibilityStatus,
   vaosCommunityCare,
-  getTypeOfCare,
+  getCCEType,
   getClinicsForChosenFacility,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
@@ -89,9 +89,7 @@ export default {
 
             // Reroute to VA facility page if none of the user's registered systems support community care.
             if (ccEnabledSystems.length) {
-              const response = await getCommunityCare(
-                getTypeOfCare(getNewAppointment(state).data).cceType,
-              );
+              const response = await getCommunityCare(getCCEType(state));
 
               dispatch(updateCCEligibility(response.eligible));
 
@@ -157,13 +155,7 @@ export default {
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next: 'reasonForAppointment',
-    previous(state) {
-      if (isCCAudiology(state)) {
-        return 'audiologyCareType';
-      }
-
-      return 'typeOfFacility';
-    },
+    previous: 'requestDateTime',
   },
   vaFacility: {
     url: '/new-appointment/va-facility',
