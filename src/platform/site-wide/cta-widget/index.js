@@ -144,6 +144,10 @@ export class CallToActionWidget extends React.Component {
   getHealthToolContent = () => {
     const { appId, mhvAccount, profile } = this.props;
 
+    if (this.hasMVIError()) {
+      return this.getMviErrorContent();
+    }
+
     if (this.isAccessible()) {
       return (
         <OpenMyHealtheVet

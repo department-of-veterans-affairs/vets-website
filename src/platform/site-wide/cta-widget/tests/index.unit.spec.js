@@ -632,4 +632,106 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
   });
+  describe('online scheduling', () => {
+    it('should show mvi error', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="SERVER_ERROR"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      tree.unmount();
+    });
+    it('should show online scheduling message', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.false;
+      expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
+      tree.unmount();
+    });
+    it('should not fetch mhv account for new tool', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.false;
+      tree.setProps({});
+      expect(fetchMHVAccount.called).to.be.false;
+      tree.unmount();
+    });
+    it('should show mhv message if flag is off', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.true;
+      expect(tree.find('NoMHVAccount').exists()).to.be.true;
+      tree.unmount();
+    });
+  });
 });
