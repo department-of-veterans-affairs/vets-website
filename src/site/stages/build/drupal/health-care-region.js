@@ -267,8 +267,12 @@ function modListPages(page, pages, files, field, template, aria) {
     case 'event_listing':
       page.allEventTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
       break;
+    case 'story_listing':
+      page.allNewsStoryTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
+      break;
     default:
   }
+  // Add our pager to the Drupal page.
   const pagingObject = paginatePages(page, files, field, template, aria);
   if (pagingObject[0]) {
     page.pagedItems = pagingObject[0].pagedItems;

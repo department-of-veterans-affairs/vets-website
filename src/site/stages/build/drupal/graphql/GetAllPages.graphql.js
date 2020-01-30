@@ -19,6 +19,7 @@ const outreachAssetsQuery = require('./file-fragments/outreachAssets.graphql');
 const bioPage = require('./bioPage.graphql');
 const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
+const storyListingPage = require('./storyListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
@@ -60,6 +61,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${bioPage}
   ${benefitListingPage}
   ${eventListingPage}
+  ${storyListingPage}
   ${locationListingPage}
 `;
 
@@ -87,6 +89,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... bioPage
         ... benefitListingPage
         ... eventListingPage
+        ... storyListingPage
         ... locationListingPage
       }
     }`;

@@ -96,6 +96,16 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           'event',
         );
         break;
+      case 'story_listing':
+        modListPages(
+          pageCompiled,
+          pages,
+          files,
+          page.allNewsStoryTeasers,
+          'story_listing.drupal.liquid',
+          'story',
+        );
+        break;
       case 'page':
         addHubIconField(pageCompiled, pages);
         break;

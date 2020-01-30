@@ -54,6 +54,9 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     case 'event_listing':
       chunker = page.allEventTeasers.entities;
       break;
+    case 'story_listing':
+      chunker = page.allNewsStoryTeasers.entities;
+      break;
 
     default:
       chunker = page[field].entities;
@@ -301,6 +304,7 @@ function compilePage(page, contentData) {
 
   switch (entityBundle) {
     case 'event_listing':
+    case 'story_listing':
       pageCompiled = Object.assign(
         {},
         page,
