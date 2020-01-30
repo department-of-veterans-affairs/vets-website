@@ -95,7 +95,6 @@ Disallow: /analytics-opt-out.html
 Disallow: /cgi-bin/
 Disallow: /scorecard
 Disallow: /drupal
-Disallow: /pittsburgh-health-care
 
 # sitemap index
 Sitemap: https://www.va.gov/sitemap.xml

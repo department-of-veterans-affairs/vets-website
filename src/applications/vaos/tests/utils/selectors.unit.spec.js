@@ -175,6 +175,19 @@ describe('VAOS selectors', () => {
   });
 
   describe('getTypeOfCare', () => {
+    it('get sleep type of care', () => {
+      const data = {
+        typeOfCareId: 'SLEEP',
+        typeOfSleepCareId: '349',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('349');
+      expect(typeOfCare.name).to.equal(
+        'Continuous Positive Airway Pressure (CPAP)',
+      );
+    });
+
     it('get audiology type of care', () => {
       const data = {
         typeOfCareId: '203',
@@ -183,7 +196,7 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.id).to.equal('CCAUDHEAR');
+      expect(typeOfCare.ccId).to.equal('CCAUDHEAR');
     });
 
     it('get podiatry type of care', () => {

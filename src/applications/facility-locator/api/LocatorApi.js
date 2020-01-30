@@ -32,6 +32,7 @@ class LocatorApi {
         ? `services[]=${serviceType}`
         : null,
       `page=${page}`,
+      `per_page=20`,
     ]).join('&');
 
     const url = `${api.url}?${params}`;
