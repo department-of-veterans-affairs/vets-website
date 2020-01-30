@@ -57,6 +57,9 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     case 'story_listing':
       chunker = page.allNewsStoryTeasers.entities;
       break;
+    case 'press_releases_listing':
+      chunker = page.allPressReleaseTeasers.entities;
+      break;
 
     default:
       chunker = page[field].entities;
@@ -303,22 +306,12 @@ function compilePage(page, contentData) {
   let pageCompiled;
 
   switch (entityBundle) {
-    case 'event_listing':
-    case 'story_listing':
-      pageCompiled = Object.assign(
-        {},
-        page,
-        facilitySidebarNavItems,
-        outreachSidebarNavItems,
-        alertItems,
-        bannerAlertsItems,
-        pageId,
-      );
-      break;
-
     case 'office':
     case 'publication_listing':
     case 'locations_listing':
+    case 'event_listing':
+    case 'story_listing':
+    case 'press_releases_listing':
       pageCompiled = Object.assign(
         {},
         page,

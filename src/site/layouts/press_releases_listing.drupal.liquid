@@ -1,0 +1,88 @@
+{% comment %}
+Example data:
+"entityUrl": {
+"breadcrumb": [
+{
+"url": {
+"path": "/",
+"routed": true
+},
+"text": "Home"
+}
+],
+"path": "/pittsburgh-health-care"
+},
+"entityId": "83",
+"entityBundle": "health_care_region_page",
+"entityPublished": true,
+"title": "Pittsburgh Health Care System",
+"allPressReleaseTeasers": {
+"entities": [
+{
+"title": "Fayette County Veterans getting larger, more modern VA outpatient
+clinic",
+"entityUrl": {
+"path":
+"/pittsburgh-health-care/press-releases/fayette-county-veterans-getting-larger-more-modern-va-outpatient-clinic"
+}
+"fieldReleaseDate": {
+"value": "2018-11-26T05:43:34"
+},
+"fieldIntroText": "The Fayette County VA Outpatient Clinic will move to its new,
+larger space in the Fayette Plaza at 627 Pittsburgh Road, Suite 2, Uniontown,
+PA, on Dec. 3."
+},
+{
+"title": "Cogo Duis Magna",
+"entityUrl": {
+"path": "/pittsburgh-health-care/press-releases/cogo-duis-magna"
+}
+"fieldReleaseDate": {
+"value": "2018-11-19T03:20:44"
+},
+"fieldIntroText": "Eligo iustum mauris nimis ratis roto tego velit. Abluo
+consectetuer duis. Camur decet exerci pala paulatim vicis volutpat..."
+},
+}
+{% endcomment %}
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+
+<div id="content" class="interior">
+  <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+
+      <div class="usa-width-three-fourths">
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+        <article class="usa-content">
+          <h1 id="article-heading">{{ title }}</h1>
+          <div class="vads-l-grid-container--full">
+            <div class="va-introtext">
+              {% if fieldIntroText %}
+              <p class="events-show" id="office-events-description">
+                {{ fieldIntroText }}
+              </p>
+              {% endif %}
+            </div>
+            {% for pr in pagedItems %}
+            <section class="vads-u-margin-bottom--4">
+              <h3
+                class="vads-u-margin-bottom--1p5 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
+                <a href="{{ pr.entityUrl.path }}">{{ pr.title }}</a></h3>
+              <strong>{{ pr.fieldReleaseDate.value | formatDate: "MMMM DD, YYYY" }}</strong>
+              <p class="vads-u-margin-top--0">
+                {{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
+            </section>
+            {% endfor %}
+            {% include "src/site/includes/pagination.drupal.liquid" %}
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}
