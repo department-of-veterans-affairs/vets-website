@@ -99,16 +99,6 @@ function initApplicationMock(token) {
     verb: 'get',
     value: backendStatus,
   });
-
-  mock(token, {
-    path: '/v0/feature_toggles',
-    verb: 'get',
-    value: {
-      data: {
-        features: [],
-      },
-    },
-  });
 }
 
 module.exports = {
