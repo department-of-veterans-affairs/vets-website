@@ -51,7 +51,7 @@ export function getTypeOfCare(data) {
 }
 
 export function getCCEType(state) {
-  const data = getNewAppointment(state).data;
+  const data = getFormData(state);
 
   const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
 
