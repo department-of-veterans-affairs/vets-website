@@ -47,6 +47,9 @@ const transform = entity => ({
   fieldOperatingStatusFacility: getDrupalValue(
     entity.fieldOperatingStatusFacility,
   ),
+  fieldOperatingStatusMoreInfo: getDrupalValue(
+    entity.fieldOperatingStatusMoreInfo,
+  ),
   fieldPhoneNumber: getDrupalValue(entity.fieldPhoneNumber),
   fieldRegionPage: entity.fieldRegionPage[0] || null,
   fieldTwitter: getDrupalValue(entity.fieldTwitter),
@@ -74,6 +77,7 @@ module.exports = {
     'field_mental_health_phone',
     'field_nickname_for_this_facility',
     'field_operating_status_facility',
+    'field_operating_status_more_info',
     'field_phone_number',
     'field_region_page',
     'field_twitter',
