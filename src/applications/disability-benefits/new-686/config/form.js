@@ -1,5 +1,4 @@
 // import fullSchema from 'vets-json-schema/dist/21-686-schema.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -7,9 +6,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-
 const formFields = {
-  firstName: 'firstName'
+  firstName: 'firstName',
 };
 
 const formConfig = {
@@ -23,11 +21,11 @@ const formConfig = {
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
-    noAuth: 'Please sign in again to continue your application for declare or remove a dependent.'
+    noAuth:
+      'Please sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'New 686',
-  defaultDefinitions: {
-  },
+  defaultDefinitions: {},
   chapters: {
     chapter1: {
       title: 'Personal Information',
@@ -37,22 +35,22 @@ const formConfig = {
           title: 'Personal Information - Page 1',
           uiSchema: {
             [formFields.firstName]: {
-              'ui:title': 'First Name'
-            }
+              'ui:title': 'First Name',
+            },
           },
           schema: {
             required: [formFields.firstName],
             type: 'object',
             properties: {
               [formFields.firstName]: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default formConfig;
