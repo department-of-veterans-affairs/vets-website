@@ -25,9 +25,9 @@ const transform = entity => ({
   })),
   fieldLinks: entity.fieldLinks,
   fieldOffice: entity.fieldOffice[0] || null,
-  fieldOperatingStatusEmergInf: getDrupalValue(
-    entity.fieldOperatingStatusEmergInf,
-  ),
+  fieldOperatingStatusEmergInf: {
+    value: getDrupalValue(entity.fieldOperatingStatusEmergInf),
+  },
 });
 
 module.exports = {

@@ -45,7 +45,13 @@ module.exports = {
         { type: 'null' },
       ],
     },
-    fieldOperatingStatusEmergInf: { type: ['string', 'null'] },
+    fieldOperatingStatusEmergInf: {
+      // Literally everywhere else, this would be a straight-up string
+      type: 'object',
+      properties: {
+        value: { type: 'string' },
+      },
+    },
   },
   required: [
     'title',
