@@ -1,3 +1,6 @@
+const { usePartialSchema } = require('../../transformers/helpers');
+const localFacilitySchema = require('./node-health_care_local_facility');
+
 module.exports = {
   type: 'object',
   properties: {
@@ -15,7 +18,15 @@ module.exports = {
     },
     fieldFacilityOperatingStatus: {
       type: 'array',
-      items: { $ref: 'transformed/node-health_care_local_facility' },
+      items: {
+        // Yes, it's wrapped in entity here, but not in the originating schema
+        entity: usePartialSchema(localFacilitySchema, [
+          'title',
+          'entityUrl',
+          'fieldOperatingStatusFacility',
+          'fieldOperatingStatusMoreInfo',
+        ]),
+      },
     },
     fieldLinks: {
       type: 'array',

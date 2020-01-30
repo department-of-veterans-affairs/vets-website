@@ -15,7 +15,14 @@ const transform = entity => ({
     path: entity.path[0].alias,
   },
   fieldBannerAlert: entity.fieldBannerAlert,
-  fieldFacilityOperatingStatus: entity.fieldFacilityOperatingStatus,
+  fieldFacilityOperatingStatus: entity.fieldFacilityOperatingStatus.map(n => ({
+    entity: {
+      title: n.title,
+      entityUrl: n.entityUrl,
+      fieldOperatingStatusFacility: n.fieldOperatingStatusFacility,
+      fieldOperatingStatusMoreInfo: n.fieldOperatingStatusMoreInfo,
+    },
+  })),
   fieldLinks: entity.fieldLinks,
   fieldOffice: entity.fieldOffice[0] || null,
   fieldOperatingStatusEmergInf: getDrupalValue(
