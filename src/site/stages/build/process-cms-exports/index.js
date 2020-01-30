@@ -38,12 +38,16 @@ const entityAssemblerFactory = contentDir => {
       console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
       /* eslint-enable no-console */
 
-      // NOTE: If we find a circular references, it needs to be addressed in the
-      // transformer and accounted for in the transformed schema. If it isn't
-      // handled in the transformer, AJV will fail because of a circular
-      // reference. If the modified child isn't accounted for in the transformed
-      // schema, it won't be valid (assuming we've omited a normally-required
-      // property to avoid the circular reference).
+      // NOTE: If we find a circular reference, it needs to be addressed in the
+      // transformer and accounted for in the transformed schema.
+      //
+      // If it isn't handled in the transformer, the post-transformation
+      // validation will fail because of a circular reference (AJV will throw
+      // up).
+      //
+      // If the modified child isn't accounted for in the transformed schema, it
+      // won't be valid (assuming we've omited a normally-required property to
+      // avoid the circular reference).
       return a;
     }
 
