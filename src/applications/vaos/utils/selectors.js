@@ -42,7 +42,9 @@ export function getTypeOfCare(data) {
     data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
-    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+    return AUDIOLOGY_TYPES_OF_CARE.find(
+      care => care.ccId === data.audiologyType,
+    );
   }
 
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
