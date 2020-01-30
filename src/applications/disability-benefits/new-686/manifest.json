@@ -3,5 +3,8 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "new-686",
   "rootUrl": "/disability-benefits/new-686",
-  "production": false
+  "template": {
+    "layout": "page-react.html",
+    "vagovprod": false
+  }
 }
