@@ -28,7 +28,7 @@ export async function getEligibilityData(
     );
 
     if (typeOfCareId === PRIMARY_CARE) {
-      eligibilityChecks.push(getPacTeam(facilityId));
+      eligibilityChecks.push(getPacTeam(systemId));
     }
   }
 
