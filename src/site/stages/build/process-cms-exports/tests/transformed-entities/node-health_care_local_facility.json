@@ -765,6 +765,7 @@
   "fieldMentalHealthPhone": "412-360-6600",
   "fieldNicknameForThisFacility": "Westmoreland County clinic",
   "fieldOperatingStatusFacility": "normal",
+  "fieldOperatingStatusMoreInfo": null,
   "fieldPhoneNumber": "724-216-0317",
   "fieldRegionPage": {
     "contentModelType": "node-health_care_region_page",
