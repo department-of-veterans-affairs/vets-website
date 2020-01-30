@@ -35,7 +35,15 @@ class AddressEditModal extends React.Component {
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
-    this.props.onChange(newAddressValue, null, true);
+    if (useNewAddressForm) {
+      this.props.onChangeFormDataAndSchemas(
+        newAddressValue,
+        this.props.field.formSchema,
+        this.props.field.uiSchema,
+      );
+    } else {
+      this.props.onChange(newAddressValue, null, true);
+    }
   };
 
   renderForm = (formButtons, onSubmit) => (
@@ -44,6 +52,7 @@ class AddressEditModal extends React.Component {
         <CopyMailingAddress
           convertNextValueToCleanData={this.props.convertNextValueToCleanData}
           copyMailingAddress={this.copyMailingAddress}
+          useNewAddressForm={useNewAddressForm}
         />
       )}
       {useNewAddressForm && (
