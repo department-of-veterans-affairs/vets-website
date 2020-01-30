@@ -1,32 +1,11 @@
 {
+  "contentModelType": "node-vamc_operating_status_and_alerts",
   "entityBundle": "vamc_operating_status_and_alerts",
-  "entityId": "1010",
+  "entityType": "node",
   "entityPublished": true,
   "title": "Operating status - VA Pittsburgh health care",
   "entityUrl": {
-    "breadcrumb": [
-      {
-        "url": {
-          "path": "/",
-          "routed": true
-        },
-        "text": "Home"
-      },
-      {
-        "url": {
-          "path": "/pittsburgh-health-care",
-          "routed": true
-        },
-        "text": "VA Pittsburgh health care"
-      },
-      {
-        "url": {
-          "path": "",
-          "routed": true
-        },
-        "text": "Operating status"
-      }
-    ],
+    "breadcrumb": [],
     "path": "/pittsburgh-health-care/operating-status"
   },
   "entityMetatags": [
@@ -66,7 +45,6 @@
       "value": "Operating status - VA Pittsburgh health care | Veterans Affairs"
     }
   ],
-  "nid": 1010,
   "fieldOffice": {
     "entity": {
       "fieldLinkFacilityEmergList": {
@@ -80,43 +58,53 @@
   "fieldLinks": [
     {
       "uri": "https://www.pema.pa.gov/Pages/Default.aspx",
-      "title": "Pennsylvania Emergency Management Agency"
+      "title": "Pennsylvania Emergency Management Agency",
+      "options": []
     },
     {
       "uri": "https://www.psp.pa.gov/Pages/default.aspx",
-      "title": "Pennsylvania State Police"
+      "title": "Pennsylvania State Police",
+      "options": []
     },
     {
       "uri": "https://pittsburghpa.gov/publicsafety/ema-about",
-      "title": "Pittsburgh Emergency Management"
+      "title": "Pittsburgh Emergency Management",
+      "options": []
     },
     {
       "uri": "https://www.penndot.gov/Pages/default.aspx",
-      "title": "Pennsylvania Department of Transportation (DOT)"
+      "title": "Pennsylvania Department of Transportation (DOT)",
+      "options": []
     },
     {
       "uri": "https://pittsburghpa.gov/ems/",
-      "title": "Pittsburgh Emergency Medical Services"
+      "title": "Pittsburgh Emergency Medical Services",
+      "options": []
     },
     {
       "uri": "https://pittsburghpa.gov/fire/",
-      "title": "Pittsburgh Bureau of Fire"
+      "title": "Pittsburgh Bureau of Fire",
+      "options": []
     },
     {
       "uri": "https://www.alleghenycounty.us/emergency-services/index.aspx",
-      "title": "Allegheny County Emergency Services"
+      "title": "Allegheny County Emergency Services",
+      "options": []
     },
     {
       "uri": "https://www.ema.ohio.gov",
-      "title": "Ohio Emergency Management Agency: ODPS"
+      "title": "Ohio Emergency Management Agency: ODPS",
+      "options": []
     },
     {
       "uri": "https://www.statepatrol.ohio.gov/",
-      "title": "Ohio State Highway Patrol"
+      "title": "Ohio State Highway Patrol",
+      "options": []
     },
     {
       "uri": "http://www.dot.state.oh.us/pages/home.aspx",
-      "title": "Ohio Department of Transportation"
+      "title": "Ohio Department of Transportation",
+      "options": []
     }
   ],
   "fieldOperatingStatusEmergInf": {
@@ -127,8 +115,8 @@
       "entity": {
         "title": "Pittsburgh VA Medical Center-University Drive",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/pittsburgh-va-medical-center-university-drive",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/pittsburgh-va-medical-center-university-drive"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
@@ -138,8 +126,8 @@
       "entity": {
         "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
@@ -149,8 +137,8 @@
       "entity": {
         "title": "Beaver County VA Clinic",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/beaver-county-va-clinic",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/beaver-county-va-clinic"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
@@ -160,8 +148,8 @@
       "entity": {
         "title": "Belmont County VA Clinic",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/belmont-county-va-clinic",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/belmont-county-va-clinic"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
@@ -171,8 +159,8 @@
       "entity": {
         "title": "Fayette County VA Clinic",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/fayette-county-va-clinic",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/fayette-county-va-clinic"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
@@ -182,8 +170,8 @@
       "entity": {
         "title": "Washington County VA Clinic",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/washington-county-va-clinic",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/washington-county-va-clinic"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
@@ -193,8 +181,8 @@
       "entity": {
         "title": "Westmoreland County VA Clinic",
         "entityUrl": {
-          "path": "/pittsburgh-health-care/locations/westmoreland-county-va-clinic",
-          "routed": true
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/westmoreland-county-va-clinic"
         },
         "fieldOperatingStatusFacility": "normal",
         "fieldOperatingStatusMoreInfo": null
