@@ -48,7 +48,7 @@ import UpgradeFailed from './components/messages/UpgradeFailed';
 import NeedsVAPatient from './components/messages/NeedsVAPatient';
 import NoMHVAccount from './components/messages/NoMHVAccount';
 import UpgradeAccount from './components/messages/UpgradeAccount';
-import VAOSCTAContent from './components/messages/VAOS';
+import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 
 export class CallToActionWidget extends React.Component {
   constructor(props) {
@@ -57,31 +57,32 @@ export class CallToActionWidget extends React.Component {
     const { url, redirect } = toolUrl(appId);
 
     this._hasRedirect = redirect;
-    this._isHealthTool = isHealthTool(appId);
     this._popup = null;
     this._requiredServices = requiredServices(appId);
     this._serviceDescription = serviceDescription(appId);
     this._mhvToolName = mhvToolName(appId);
     this._toolUrl = url;
     this._gaPrefix = 'register-mhv';
-
-    this.state = {
-      forceLegacyAppointments: false,
-    };
   }
 
   componentDidMount() {
-    if (this._isHealthTool && this.props.isLoggedIn) {
+    if (
+      !this.props.featureToggles.loading &&
+      this.props.isLoggedIn &&
+      this.isHealthTool()
+    ) {
       this.props.fetchMHVAccount();
     }
   }
 
   componentDidUpdate() {
-    if (!this.props.isLoggedIn) return;
+    if (!this.props.isLoggedIn || this.props.featureToggles.loading) {
+      return;
+    }
 
     if (this.isAccessible()) {
       if (this._hasRedirect && !this._popup) this.goToTool();
-    } else if (this._isHealthTool) {
+    } else if (this.isHealthTool()) {
       const { accountLevel, accountState, loading } = this.props.mhvAccount;
 
       if (loading) return;
@@ -113,7 +114,7 @@ export class CallToActionWidget extends React.Component {
       );
     }
 
-    if (this._isHealthTool) return this.getHealthToolContent();
+    if (this.isHealthTool()) return this.getHealthToolContent();
 
     if (!this.props.profile.verified) {
       recordEvent({
@@ -126,39 +127,22 @@ export class CallToActionWidget extends React.Component {
         />
       );
     }
+
+    if (this.isNonMHVSchedulingTool()) {
+      if (this.hasMVIError()) {
+        return this.getMviErrorContent();
+      }
+
+      return (
+        <VAOnlineScheduling serviceDescription={this._serviceDescription} />
+      );
+    }
+
     return null;
   };
 
   getHealthToolContent = () => {
-    const {
-      appId,
-      featureToggles,
-      mhvAccount,
-      mviStatus,
-      profile,
-    } = this.props;
-
-    if (
-      !this.state.forceLegacyAppointments &&
-      featureToggles.vaOnlineScheduling &&
-      (appId === widgetTypes.SCHEDULE_APPOINTMENTS ||
-        appId === widgetTypes.VIEW_APPOINTMENTS)
-    ) {
-      return (
-        <VAOSCTAContent
-          serviceDescription={this._serviceDescription}
-          secondaryButtonHandler={() =>
-            this.setState({ forceLegacyAppointments: true })
-          }
-        />
-      );
-    }
-
-    const MviErrorStatuses = ['SERVER_ERROR', 'NOT_FOUND', 'NOT_AUTHORIZED'];
-
-    if (MviErrorStatuses.includes(mviStatus)) {
-      return this.getMviErrorContent();
-    }
+    const { appId, mhvAccount, profile } = this.props;
 
     if (this.isAccessible()) {
       return (
@@ -199,6 +183,7 @@ export class CallToActionWidget extends React.Component {
 
     return this.getInaccessibleHealthToolContent();
   };
+
   getMviErrorContent = () => {
     switch (this.props.mviStatus) {
       case 'NOT_AUTHORIZED':
@@ -323,8 +308,19 @@ export class CallToActionWidget extends React.Component {
     );
   };
 
+  hasMVIError = () => {
+    const MviErrorStatuses = ['SERVER_ERROR', 'NOT_FOUND', 'NOT_AUTHORIZED'];
+
+    return MviErrorStatuses.includes(this.props.mviStatus);
+  };
+
+  isNonMHVSchedulingTool = () =>
+    this.props.featureToggles.vaOnlineScheduling &&
+    (this.props.appId === widgetTypes.SCHEDULE_APPOINTMENTS ||
+      this.props.appId === widgetTypes.VIEW_APPOINTMENTS);
+
   isAccessible = () => {
-    if (this._isHealthTool) {
+    if (this.isHealthTool()) {
       // Until MHV account eligibility rules no longer have to accommodate the
       // pre-brand consolidation flow, the frontend will gate access using the MHV
       // account level instead of the available services list from the backend,
@@ -338,6 +334,9 @@ export class CallToActionWidget extends React.Component {
     // of gated access for other reasons to the apps after redirect.
     return this.props.profile.verified;
   };
+
+  isHealthTool = () =>
+    !this.isNonMHVSchedulingTool() && isHealthTool(this.props.appId);
 
   openLoginModal = () => this.props.toggleLoginModal(true);
 
@@ -370,7 +369,11 @@ export class CallToActionWidget extends React.Component {
 
   render() {
     const { setFocus } = this.props;
-    if (this.props.profile.loading || this.props.mhvAccount.loading) {
+    if (
+      this.props.profile.loading ||
+      this.props.mhvAccount.loading ||
+      this.props.featureToggles.loading
+    ) {
       return (
         <LoadingIndicator
           setFocus={setFocus}

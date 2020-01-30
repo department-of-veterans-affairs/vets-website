@@ -1,7 +1,7 @@
 import React from 'react';
 import CallToActionAlert from './../CallToActionAlert';
 
-const VAOSCTAContent = ({ serviceDescription, secondaryButtonHandler }) => {
+const VAOnlineScheduling = ({ serviceDescription }) => {
   const content = {
     heading: `Check out the new Veteran Appointment Online Scheduling Tool (VAOS)`,
     alertText: (
@@ -15,12 +15,10 @@ const VAOSCTAContent = ({ serviceDescription, secondaryButtonHandler }) => {
       window.location =
         '/health-care/schedule-view-va-appointments/appointments/';
     },
-    secondaryButtonText: 'Take me to the old tool',
-    secondaryButtonHandler,
     status: 'info',
   };
 
   return <CallToActionAlert {...content} />;
 };
 
-export default VAOSCTAContent;
+export default VAOnlineScheduling;

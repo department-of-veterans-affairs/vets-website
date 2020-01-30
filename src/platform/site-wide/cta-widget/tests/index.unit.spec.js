@@ -24,6 +24,27 @@ describe('<CallToActionWidget>', () => {
     expect(tree.find('LoadingIndicator').exists()).to.be.true;
     tree.unmount();
   });
+  it('should show loading state when loading feature toggles', () => {
+    const tree = mount(
+      <CallToActionWidget
+        profile={{
+          loading: false,
+          verified: false,
+          multifactor: false,
+        }}
+        mhvAccount={{
+          loading: false,
+        }}
+        mviStatus={{}}
+        featureToggles={{
+          loading: true,
+        }}
+      />,
+    );
+
+    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    tree.unmount();
+  });
   it('should show sign in state', () => {
     const tree = mount(
       <CallToActionWidget
