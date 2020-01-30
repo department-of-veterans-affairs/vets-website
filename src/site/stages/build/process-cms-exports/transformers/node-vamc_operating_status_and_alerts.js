@@ -11,7 +11,7 @@ const transform = entity => ({
   entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityUrl: {
-    breadcrumbs: [],
+    breadcrumb: [],
     path: entity.path[0].alias,
   },
   fieldBannerAlert: entity.fieldBannerAlert,
