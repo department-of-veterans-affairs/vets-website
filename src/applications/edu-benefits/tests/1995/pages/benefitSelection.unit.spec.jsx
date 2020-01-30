@@ -24,7 +24,7 @@ describe('Edu 1995 benefitSelection', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 

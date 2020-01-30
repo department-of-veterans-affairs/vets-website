@@ -69,18 +69,20 @@ describe('VAOS reducer: appointments', () => {
               },
             ],
           },
-        ],
-        [
-          { appointmentTime: '05/29/2099 05:30:00', appointmentRequestId: '1' },
           // Cancelled should not show
           {
-            appointmentTime: '05/29/2099 05:32:00',
-            appointmentRequestId: '2',
             vdsAppointments: [
               {
                 currentStatus: 'CANCELLED BY CLINIC',
               },
             ],
+          },
+        ],
+        [
+          {
+            appointmentTime: '05/29/2099 05:30:00',
+            timeZone: 'UTC',
+            appointmentRequestId: '1',
           },
         ],
         [{ optionDate1: '05/29/2099' }],
