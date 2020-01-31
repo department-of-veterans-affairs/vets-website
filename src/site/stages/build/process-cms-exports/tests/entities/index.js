@@ -27,7 +27,7 @@ module.exports = {
     'node.0b0e1af6-6ec0-4073-94b1-a99e0383f5c8.json',
   'node-news_story': 'node.0b130154-df25-4284-a561-f5370d589ffd.json',
   'node-health_care_local_facility':
-    'node.0b968788-cfb0-41aa-8206-2577105072fa.json',
+    'node.f875b03e-7ebc-46d9-9320-d412981cd677.json',
   'node-full_width_banner_alert':
     'node.0f3b9c81-762c-4b8a-95e3-dab08a0b9441.json',
   'node-press_release': 'node.2662d0b1-9ee5-45cc-a29f-5192681499ff.json',

@@ -87,8 +87,8 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
     ).to.contain('C&P BEV AUDIO FTC1');
   });
 
-  it('should not show facility address', () => {
-    expect(tree.find('FacilityAddress').exists()).to.be.false;
+  it('should show facility address', () => {
+    expect(tree.find('FacilityAddress').exists()).to.be.true;
   });
 
   it('should not show booking note', () => {
@@ -101,6 +101,7 @@ describe('VAOS <ConfirmedAppointmentListItem> Community Care Appointment', () =>
     appointmentRequestId: 'guid',
     appointmentTime: '05/22/2019 10:00:00',
     providerPractice: 'My Clinic',
+    timeZone: 'UTC',
     address: {
       street: '123 second st',
       city: 'Northampton',

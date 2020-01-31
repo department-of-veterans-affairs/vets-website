@@ -29,7 +29,6 @@ export default function FacilityAddress({
         <>
           <FacilityDirectionsLink location={facility} />
           <br />
-          <br />
         </>
       )}
       {!!phone && (

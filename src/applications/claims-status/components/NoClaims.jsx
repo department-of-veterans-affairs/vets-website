@@ -16,7 +16,7 @@ export default function NoClaims() {
           rel="noopener noreferrer"
           onClick={() =>
             recordEvent({
-              event: 'ebenefits-navigation',
+              event: 'nav-ebenefits-click',
             })
           }
         >

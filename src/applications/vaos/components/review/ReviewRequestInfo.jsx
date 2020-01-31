@@ -16,7 +16,7 @@ export default function ReviewRequestInfo({
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos-review__header vads-u-font-size--h2">{pageTitle}</h1>
       <Description data={data} flowType={FLOW_TYPES.REQUEST} />
       <TypeOfAppointmentSection data={data} />
       <hr className="vads-u-margin-y--2" />

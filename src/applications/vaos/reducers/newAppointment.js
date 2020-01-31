@@ -289,6 +289,7 @@ export default function formReducer(state = initialState, action) {
       );
 
       let eligibility = state.eligibility;
+      let clinics = state.clinics;
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
           newData.vaSystem,
@@ -298,7 +299,12 @@ export default function formReducer(state = initialState, action) {
 
         eligibility = {
           ...state.eligibility,
-          [`${newData.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+          [`${data.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+        };
+        clinics = {
+          ...state.clinics,
+          [`${data.vaFacility}_${action.typeOfCareId}`]: action.eligibilityData
+            .clinics,
         };
       }
 
@@ -316,6 +322,7 @@ export default function formReducer(state = initialState, action) {
           [action.page]: schema,
         },
         eligibility,
+        clinics,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_FAILED: {

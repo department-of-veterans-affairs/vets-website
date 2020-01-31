@@ -71,6 +71,98 @@
         "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
       }
     ],
-    "fieldNicknameForThisFacility": "VA Pittsburgh"
+    "fieldNicknameForThisFacility": "VA Pittsburgh",
+    "fieldRelatedLinks": {
+      "contentModelType": "paragraph-list_of_link_teasers",
+      "entity": {
+        "entityBundle": "list_of_link_teasers",
+        "entityType": "paragraph",
+        "fieldTitle": "In the spotlight at VA Pittsburgh",
+        "fieldVaParagraphs": [
+          {
+            "contentModelType": "paragraph-link_teaser",
+            "entity": {
+              "fieldLink": {
+                "options": [],
+                "title": "Get help from a patient advocate",
+                "url": {
+                  "path": "entity:node/198"
+                }
+              },
+              "fieldLinkSummary": null
+            }
+          },
+          {
+            "contentModelType": "paragraph-link_teaser",
+            "entity": {
+              "fieldLink": {
+                "options": [],
+                "title": "Medical records office",
+                "url": {
+                  "path": "entity:node/221"
+                }
+              },
+              "fieldLinkSummary": null
+            }
+          },
+          {
+            "contentModelType": "paragraph-link_teaser",
+            "entity": {
+              "fieldLink": {
+                "options": [],
+                "title": "Phone directory",
+                "url": {
+                  "path": "entity:node/255"
+                }
+              },
+              "fieldLinkSummary": null
+            }
+          },
+          {
+            "contentModelType": "paragraph-link_teaser",
+            "entity": {
+              "fieldLink": {
+                "options": [],
+                "title": "Billing and insurance",
+                "url": {
+                  "path": "entity:node/197"
+                }
+              },
+              "fieldLinkSummary": null
+            }
+          },
+          {
+            "contentModelType": "paragraph-link_teaser",
+            "entity": {
+              "fieldLink": {
+                "options": [],
+                "title": "Become a volunteer",
+                "url": {
+                  "path": "entity:node/281"
+                }
+              },
+              "fieldLinkSummary": null
+            }
+          },
+          {
+            "contentModelType": "paragraph-link_teaser",
+            "entity": {
+              "fieldLink": {
+                "options": [],
+                "title": "Annual reports and newsletters",
+                "url": {
+                  "path": "entity:node/775#annual-reports-and-newsletters"
+                }
+              },
+              "fieldLinkSummary": null
+            }
+          }
+        ],
+        "parentFieldName": "field_related_links"
+      }
+    },
+    "fieldPressReleaseBlurb": {
+      "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
+    }
   }
 }

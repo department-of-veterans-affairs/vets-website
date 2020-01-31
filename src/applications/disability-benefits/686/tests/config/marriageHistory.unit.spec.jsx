@@ -6,10 +6,7 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  selectRadio,
   submitForm,
-  fillData,
-  fillDate,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -30,7 +27,7 @@ describe('686 marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(14);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
   });
 
   describe('hideIf current marriage', () => {
@@ -100,7 +97,7 @@ describe('686 marriage history', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -132,46 +129,6 @@ describe('686 marriage history', () => {
         .text()
         .includes('Former spouse'),
     ).to.be.true;
-    form.unmount();
-  });
-
-  it('should submit with valid data', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    fillData(form, 'input#root_spouseFullName_first', 'test');
-    fillData(form, 'input#root_spouseFullName_last', 'test');
-    fillDate(form, 'root_dateOfMarriage', '2001-03-03');
-    const countryOfMarriage = form.find(
-      'select#root_locationOfMarriage_countryDropdown',
-    );
-    countryOfMarriage.simulate('change', {
-      target: { value: 'Canada' },
-    });
-    fillDate(form, 'root_view:pastMarriage_dateOfSeparation', '2002-03-03');
-    // I cannot for the life of me figure out why this selector fails to grab
-    // the element.
-    // const countryOfSeparation = form.find(
-    //   'select#root_view:pastMarriage_locationOfSeparation_countryDropdown',
-    // );
-    // Grabbing the country drop down selector this way because using the actual
-    // element ID isn't working
-    const countryOfSeparation = form.find('select').last();
-    countryOfSeparation.simulate('change', {
-      target: { value: 'Canada' },
-    });
-    selectRadio(form, 'root_view:pastMarriage_reasonForSeparation', 'Divorce');
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });
