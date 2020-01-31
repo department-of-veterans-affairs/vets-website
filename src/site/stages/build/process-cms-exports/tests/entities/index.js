@@ -31,6 +31,7 @@ module.exports = {
   'node-full_width_banner_alert':
     'node.0f3b9c81-762c-4b8a-95e3-dab08a0b9441.json',
   'node-press_release': 'node.2662d0b1-9ee5-45cc-a29f-5192681499ff.json',
+  'node-publication_listing': 'node.931072aa-94ed-4072-b3d4-d8735052a073.json',
   'node-health_care_region_page':
     'node.2bddb1a7-6fb1-4503-838d-9c2fcb51c46a.json',
   'node-event_listing': 'node.30295cab-89be-4173-a33c-8c0ca0a85d07.json',
