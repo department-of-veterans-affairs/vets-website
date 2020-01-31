@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
+import ComparisonBanner from '../../components/ComparisonBanner';
 import SearchForm from '../SearchForm';
 import SearchResults from '../SearchResults';
 
@@ -17,6 +18,9 @@ export const YellowRibbonApp = ({ results }) => (
       <a href="/yellow-ribbon/schools/">Find a Yellow Ribbon school</a>
       {results && <a href={window.location.href}>Search results</a>}
     </Breadcrumbs>
+
+    {/* Comparison Banner */}
+    <ComparisonBanner />
 
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--4">
       {/* Title */}

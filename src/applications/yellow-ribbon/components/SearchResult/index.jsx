@@ -89,7 +89,7 @@ const SearchResult = ({
       'vads-u-background-color--gray-light-alt': true,
       'vads-u-border--3px': true,
       'vads-u-border-color--primary': includes(schoolIDs, school?.id),
-      'vads-u-border-color--white': !includes(schoolIDs, school?.id),
+      'vads-u-border-color--transparent': !includes(schoolIDs, school?.id),
       'vads-u-margin-bottom--1': true,
       'vads-u-padding-x--3': true,
       'vads-u-padding-y--2': true,
