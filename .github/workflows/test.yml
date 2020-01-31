@@ -19,7 +19,7 @@ jobs:
 #         path: vagov-content
 
     - name: Cache dependencies
-      id: cache-dependenciese
+      id: cache-dependencies
       uses: actions/cache@v1.1.0
       with:
         key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
@@ -57,7 +57,7 @@ jobs:
       uses: actions/setup-node@v1.1.0
 
     - name: Cache dependencies
-      id: cache-dependenciese
+      id: cache-dependencies
       uses: actions/cache@v1.1.0
       with:
         key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
@@ -89,7 +89,7 @@ jobs:
 
 
     - name: Cache dependencies
-      id: cache-dependenciese
+      id: cache-dependencies
       uses: actions/cache@v1.1.0
       with:
         key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
