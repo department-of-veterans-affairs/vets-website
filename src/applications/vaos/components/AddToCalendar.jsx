@@ -6,21 +6,15 @@ import {
   generateICS,
 } from '../utils/appointment';
 
-function generateCalendarEntry(appointment, facility) {
+export default function AddToCalendar({ appointment, facility }) {
   const title = getAppointmentTypeHeader(appointment);
   const filename = `${title.replace(/\s/g, '_')}.ics`;
-
   const text = generateICS(appointment, facility);
 
-  return { text, filename };
-}
-
-export default function AddToCalendar({ appointment, facility }) {
   // IE11 doesn't support the download attribute, so this creates a button
   // and uses an ms blob save api
   if (window.navigator.msSaveOrOpenBlob) {
     const onClick = () => {
-      const { text, filename } = generateCalendarEntry(appointment, facility);
       const blob = new Blob([text], { type: 'text/calendar;charset=utf-8;' });
       window.navigator.msSaveOrOpenBlob(blob, filename);
     };
@@ -36,11 +30,9 @@ export default function AddToCalendar({ appointment, facility }) {
     );
   }
 
-  const { text, filename } = generateCalendarEntry(appointment, facility);
-
   return (
     <a
-      href={`data:text/calendar;charset=utf8,${encodeURIComponent(text)}`}
+      href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
       download={filename}
       aria-label={`Add to calendar on ${getAppointmentDate(appointment)}`}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
