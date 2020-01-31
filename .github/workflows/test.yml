@@ -71,7 +71,7 @@ jobs:
       run: yarn install
 
     - name: Run unit tests
-      run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/**/test/**/*.unit.spec.js?(x)'
+      run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js --recursive 'src/platform/**/test/**/*.unit.spec.js?(x)'
 
   test-apps:
 
@@ -103,4 +103,4 @@ jobs:
       run: yarn install
 
     - name: Run unit tests
-      run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/**/*.unit.spec.js?(x)'
+      run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js --recursive 'src/applications/**/*.unit.spec.js?(x)'
