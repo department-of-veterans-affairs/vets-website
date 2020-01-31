@@ -5,19 +5,17 @@ const {
 } = require('./helpers');
 
 const transform = entity => ({
-  entity: {
-    entityType: 'node',
-    entityBundle: 'publication_listing',
-    title: getDrupalValue(entity.title),
-    changed: utcToEpochTime(getDrupalValue(entity.changed)),
-    entityMetatags: createMetaTagArray(entity.metatag.value),
-    entityUrl: {
-      breadcrumb: [],
-      path: entity.path[0].alias,
-    },
-    fieldIntroText: getDrupalValue(entity.fieldIntroText),
-    fieldOffice: entity.fieldOffice[0],
+  entityType: 'node',
+  entityBundle: 'publication_listing',
+  title: getDrupalValue(entity.title),
+  changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  entityMetatags: createMetaTagArray(entity.metatag.value),
+  entityUrl: {
+    breadcrumb: [],
+    path: entity.path[0].alias,
   },
+  fieldIntroText: getDrupalValue(entity.fieldIntroText),
+  fieldOffice: entity.fieldOffice[0],
 });
 module.exports = {
   filter: [
