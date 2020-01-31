@@ -18,9 +18,9 @@ const scrollToChapter = chapterKey => {
   );
 };
 
-const focusOnAccordion = index => {
+const focusOnAccordion = chapterIndex => {
   // accordion uses a 1-based index
-  const selector = `button[aria-controls="collapsible-${index + 1}"]`;
+  const selector = `button[aria-controls="collapsible-${chapterIndex + 1}"]`;
   const el = document.querySelector(selector);
   if (el) {
     el.focus();
@@ -119,11 +119,14 @@ export default function SubmitButtons(props) {
             </strong>
           </p>
           {errors.length > 0 && (
-            <>
-              <p>
+            <fieldset>
+              <legend
+                className="error-message-focus vads-u-font-size--base"
+                tabIndex={-1}
+              >
                 {errors.length === 1 ? 'This error is ' : 'These errors are '}
                 preventing submission:
-              </p>
+              </legend>
               <ul className="vads-u-margin-left--3">
                 {errors.map(err => (
                   <li key={err.name} className="error-message-list-item">
@@ -147,7 +150,7 @@ export default function SubmitButtons(props) {
                   </li>
                 ))}
               </ul>
-            </>
+            </fieldset>
           )}
           <p>
             Please check each section of your application to make sure you’ve

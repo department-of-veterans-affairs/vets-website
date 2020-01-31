@@ -33,6 +33,14 @@ class SubmitController extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const errorFocus = document.querySelector('.error-message-focus');
+    if (errorFocus) {
+      // focus on legend immediately above error links
+      errorFocus.focus();
+    }
+  }
+
   getPreSubmit = formConfig => ({
     required: false,
     field: 'AGREED',
