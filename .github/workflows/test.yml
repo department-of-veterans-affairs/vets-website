@@ -41,3 +41,21 @@ jobs:
         yarn build-webpack
         yarn test:unit
       # working-directory: vets-website
+
+  test-platform:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Run unit tests
+      run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/**/test/**/*.unit.spec.js?(x)'
+
+  test-apps:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Run unit tests
+      run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/**/*.unit.spec.js?(x)'
