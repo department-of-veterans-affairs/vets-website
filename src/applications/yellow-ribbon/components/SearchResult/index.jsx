@@ -76,7 +76,7 @@ const deriveDegreeLevelLabel = (school = {}) => {
 
 const deriveProgramLabel = () => 'Unknown';
 
-const SearchResult = ({
+export const SearchResult = ({
   addSchoolToCompare,
   removeSchoolFromCompare,
   school,

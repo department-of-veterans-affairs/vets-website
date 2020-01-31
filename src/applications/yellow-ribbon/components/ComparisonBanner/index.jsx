@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-const ComparisonBanner = ({ schoolIDs }) => {
+export const ComparisonBanner = ({ schoolIDs }) => {
   // Do not render if there are no selected schoolIDs.
   if (isEmpty(schoolIDs)) {
     return null;
