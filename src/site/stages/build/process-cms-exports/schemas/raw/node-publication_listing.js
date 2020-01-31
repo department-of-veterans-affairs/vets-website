@@ -4,7 +4,7 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
-    changed: { $ref: 'GenericNestedNumber' },
+    changed: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_intro_text: { $ref: 'GenericNestedString' },

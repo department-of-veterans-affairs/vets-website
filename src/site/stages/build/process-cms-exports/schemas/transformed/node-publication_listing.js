@@ -17,8 +17,8 @@ module.exports = {
       required: [
         'title',
         'changed',
-        'metatag',
-        'path',
+        'entityMetatags',
+        'entityUrl',
         'fieldIntroText',
         'fieldOffice',
       ],
