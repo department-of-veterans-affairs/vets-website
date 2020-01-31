@@ -2,6 +2,8 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// Chapter imports
+import { wizard } from './chapters';
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -27,6 +29,17 @@ const formConfig = {
   title: 'New 686',
   defaultDefinitions: {},
   chapters: {
+    optionSelection: {
+      title: '686c Options',
+      pages: {
+        wizard: {
+          title: '686c Options',
+          path: '686-options-selection',
+          uiSchema: wizard.uiSchema,
+          schema: wizard.schema,
+        },
+      },
+    },
     chapter1: {
       title: 'Personal Information',
       pages: {
