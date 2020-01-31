@@ -1,41 +1,10 @@
 {
+  "contentModelType": "node-publication_listing",
+  "entityType": "node",
   "entityBundle": "publication_listing",
-  "entityId": "737",
-  "entityPublished": true,
   "title": "Outreach materials",
-  "entityUrl": {
-    "breadcrumb": [
-      {
-        "url": {
-          "path": "/",
-          "routed": true
-        },
-        "text": "Home"
-      },
-      {
-        "url": {
-          "path": "",
-          "routed": true
-        },
-        "text": "Outreach and events"
-      },
-      {
-        "url": {
-          "path": "/outreach-and-events",
-          "routed": true
-        },
-        "text": "Outreach and events"
-      },
-      {
-        "url": {
-          "path": "",
-          "routed": true
-        },
-        "text": "Outreach materials"
-      }
-    ],
-    "path": "/outreach-and-events/outreach-materials"
-  },
+  "changed": 1565895203,
+  "entityPublished": true,
   "entityMetatags": [
     {
       "__typename": "MetaValue",
@@ -83,9 +52,17 @@
       "value": "Outreach materials"
     }
   ],
-  "changed": 1565895203,
+  "entityUrl": {
+    "breadcrumb": [],
+    "path": "/outreach-and-events/outreach-materials"
+  },
   "fieldIntroText": "Use our outreach materials to help Veterans manage their journey with VA and learn about their benefits.",
   "fieldOffice": {
-    "targetId": 735
+    "contentModelType": "node-office",
+    "entity": {
+      "entityType": "node",
+      "entityBundle": "office",
+      "entityLabel": "Outreach and events"
+    }
   }
 }
