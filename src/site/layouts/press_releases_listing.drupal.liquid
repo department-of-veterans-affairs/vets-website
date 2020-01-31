@@ -78,6 +78,11 @@ consectetuer duis. Camur decet exerci pala paulatim vicis volutpat..."
                 {{ pr.fieldIntroText | truncatewords: 60, "..." }}</p>
             </section>
             {% endfor %}
+
+            {% if pagedItems == false %}
+            <div>No news releases at this time.</div>
+            {% endif %}
+
             {% include "src/site/includes/pagination.drupal.liquid" %}
         </article>
       </div>

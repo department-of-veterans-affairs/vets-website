@@ -1,0 +1,50 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+<div id="content" class="interior">
+  <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      <div class="usa-width-three-fourths">
+        {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
+
+        <article class="usa-content">
+          <h1 class="vads-u-margin-bottom--2">Locations</h1>
+          <div class="va-introtext vads-u-margin-bottom--0">
+            {{ fieldLocationsIntroBlurb.processed }}
+          </div>
+          <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
+            {% assign basePath = entityUrl.path | regionBasePath %}
+            {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}
+          </div>
+          <section class="locations clearfix">
+            <h2 id="main-locations"
+              class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--3">
+              Main locations</h2>
+            {% assign mainFacility = mainFacilities.entities | sortMainFacility %}
+
+            {% for main in mainFacility %}
+            {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = main %}
+            {% endfor %}
+            <h2 id="community-clinic-locations"
+              class="medium-screen:vads-u-margin-bottom--4">Health
+              clinic locations</h2>
+            {% for other in otherFacilities.entities %}
+            {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = other %}
+            {% endfor %}
+            {% if fieldOtherVaLocations != empty and fieldOtherVaLocations.length %}
+            <h2 id="other-nearby-va-locations"
+              class="medium-screen:vads-u-margin-bottom--4">Other
+              nearby VA locations</h2>
+            <div data-widget-type="other-facility-locations-list"
+              data-facilities="{{ fieldOtherVaLocations }}"></div>
+            {% endif %}
+          </section>
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

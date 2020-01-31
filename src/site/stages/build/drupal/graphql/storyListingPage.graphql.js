@@ -7,6 +7,7 @@ const entityElementsFromPages = require('./entityElementsForPages.graphql');
 module.exports = `
  fragment storyListingPage on NodeStoryListing {
     ${entityElementsFromPages}
+    fieldIntroText
     fieldOffice {
       entity {
         title

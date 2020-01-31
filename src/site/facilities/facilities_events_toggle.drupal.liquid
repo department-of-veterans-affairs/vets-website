@@ -36,7 +36,7 @@
                         no-left-button-right-radius-treatment
                         vads-u-padding--1p5"
                         >Upcoming events</a>
-                        <a role="button" href="{{ url }}/past-events" class="
+                        <a role="button" href="{{ url | regionBasePath | append: '/events/past-events' | prepend: '/' }}" class="
                         vads-u-margin-top--0
                         half-em-bottom-margin
                         vads-u-flex--1

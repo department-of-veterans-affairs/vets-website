@@ -60,7 +60,6 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     case 'press_releases_listing':
       chunker = page.allPressReleaseTeasers.entities;
       break;
-
     default:
       chunker = page[field].entities;
   }
@@ -231,12 +230,11 @@ function getFacilitySidebar(page, contentData) {
       : pageTitle;
 
     // choose the correct menu name to retrieve the object from contentData
-    const facilitySidebarNavName = Object.keys(
-      contentData.data,
-    ).find(attribute =>
-      contentData.data[attribute]
-        ? contentData.data[attribute].name === facilityNavName
-        : false,
+    const facilitySidebarNavName = Object.keys(contentData.data).find(
+      attribute =>
+        contentData.data[attribute]
+          ? contentData.data[attribute].name === facilityNavName
+          : false,
     );
 
     if (facilitySidebarNavName) {
@@ -312,6 +310,7 @@ function compilePage(page, contentData) {
     case 'event_listing':
     case 'story_listing':
     case 'press_releases_listing':
+    case 'health_services_listing':
       pageCompiled = Object.assign(
         {},
         page,

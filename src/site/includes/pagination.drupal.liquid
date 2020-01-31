@@ -1,42 +1,55 @@
 {% comment %}
-  paginator {
-    prev: url or null
-    page {
-      href: url or null
-      class:
-      href:
-      label
-    }
-    prev: url or null
-  }
+paginator {
+prev: url or null
+page {
+href: url or null
+class:
+href:
+label
+}
+prev: url or null
+}
 {% endcomment %}
 
-{% if paginator != empty %}
-  <div class="va-pagination">
-    {% if paginator.prev != empty %}
-      <span class="va-pagination-prev">
-      <a href="{{ paginator.prev }}" aria-label="Load previous page{{ paginator.ariaLabel }}">
-        <abbr title="Previous">Prev</abbr>
-      </a>
-    </span>
+
+{% assign paginatorCount = paginator.inner | size %}
+{% assign totalItems = paginatorCount %}
+
+{% if numItems %}
+{% assign totalItems = numItems | times: .1 %}
+{% endif%}
+
+{% if paginator != empty and totalItems <= paginatorCount %}
+
+<div class="va-pagination">
+  {% if paginator.prev != empty %}
+  <span class="va-pagination-prev">
+    <a href="{{ paginator.prev }}"
+      aria-label="Load previous page{{ paginator.ariaLabel }}">
+      <abbr title="Previous">Prev</abbr>
+    </a>
+  </span>
+  {% endif %}
+  <div class="va-pagination-inner">
+    {% for page in paginator.inner %}
+    {% if page.class != "va-pagination-active" and totalItems <= paginatorCount %}
+    <a href="{{ page.href }}" class="{{ page.class }}"
+      aria-label="Load page {{ page.label }}{{ paginator.ariaLabel }}">
+      {{ page.label }}
+    </a>
+    {% else %}
+    {{ page.label }}
     {% endif %}
-    <div class="va-pagination-inner">
-      {% for page in paginator.inner %}
-      {% if page.class != "va-pagination-active" %}
-        <a href="{{ page.href }}" class="{{ page.class }}" aria-label="Load page {{ page.label }}{{ paginator.ariaLabel }}">
-          {{ page.label }}
-        </a>
-        {% else %}
-        {{ page.label }}
-        {% endif %}
-      {% endfor %}
-    </div>
-    {% if paginator.next != empty %}
-      <span class="va-pagination-next">
-        <a href="{{ paginator.next }}" aria-label="Load next page{{ paginator.ariaLabel }}">
-          Next
-        </a>
-      </span>
-    {% endif %}
+    {% assign totalItems = totalItems | minus: 1 %}
+    {% endfor %}
   </div>
+  {% if paginator.next != empty %}
+  <span class="va-pagination-next">
+    <a href="{{ paginator.next }}"
+      aria-label="Load next page{{ paginator.ariaLabel }}">
+      Next
+    </a>
+  </span>
+  {% endif %}
+</div>
 {% endif %}

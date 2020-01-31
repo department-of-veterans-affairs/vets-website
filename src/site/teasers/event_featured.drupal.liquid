@@ -36,74 +36,74 @@ views",
   {% endif %}
   {% endcomment %}
 
-{% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
-{% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D" %}
+  {% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY" %}
+  {% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D YYYY" %}
 
-{% assign start_time = node.fieldDate.startDate | timeZone: timezone, "h:mm A" %}
-{% assign end_time = node.fieldDate.endDate | timeZone: timezone, "h:mm A" %}
+  {% assign start_time = node.fieldDate.startDate | timeZone: timezone, "h:mm A" %}
+  {% assign end_time = node.fieldDate.endDate | timeZone: timezone, "h:mm A" %}
 
-{% assign start_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
-{% assign end_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D, h:mm A" %}
+  {% assign start_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY, h:mm A" %}
+  {% assign end_date_full = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D YYYY, h:mm A" %}
 
-{% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
-{% assign date_type = "start_date_only" %}
-{% else %}
-{% if start_date_no_time == end_date_no_time %}
-{% assign date_type = "same_day" %}
-{% else %}
-{% assign date_type = "all_dates" %}
-{% endif %}
-{% endif %}
-
-{% if header == empty %}
-{% assign header = "h4" %}
-{% endif %}
-{% assign isEventsPage = entityUrl.path | isPage: "events" %}
-
-<{{ header }}
-  class="vads-u-margin-top--0 vad-u-margin-bottom-1 {% if isEventsPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %}">
-  <a href="{{ node.entityUrl.path }}">{{ node.title }}</a></{{ header }}>
-<p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">
-  {{ node.fieldDescription | truncatewords: 60, "..." }}</p>
-<div
-  class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
-  <div class="vads-u-margin-right--2 when-where-width">
-    <strong>When</strong>
-  </div>
-  <div class="usa-width-five-sixths">
-    {% if date_type == "start_date_only" %}
-    <span>{{ start_date_no_time }}</span><br>
-    <span>{{ start_time }}</span>
+  {% if node.fieldDate.value != empty and node.fieldDate.endValue == empty %}
+    {% assign date_type = "start_date_only" %}
+  {% else %}
+    {% if start_date_no_time == end_date_no_time %}
+      {% assign date_type = "same_day" %}
     {% else %}
-    {% if date_type == "same_day" %}
-    <span>{{ start_date_no_time }}</span><br>
-    <span>{{ start_time }} – {{ end_time }}</span>
-    {% else %}
-    <span>{{ start_date_full }} –</span><br>
-    <span>{{ end_date_full }}</span>
+      {% assign date_type = "all_dates" %}
     {% endif %}
-    {% endif %}
-    <span> ET</span>
+  {% endif %}
+
+  {% if header == empty %}
+    {% assign header = "h4" %}
+  {% endif %}
+  {% assign isEventsPage = entityUrl.path | isPage: "events" %}
+
+  <{{header}} class="vads-u-margin-top--0 vad-u-margin-bottom-1 {% if isEventsPage %}vads-u-font-size--md medium-screen:vads-u-font-size--lg{% endif %}">
+    <a href="{{ node.entityUrl.path }}">{{ node.title }}</a>
+  </{{header}}>
+  <p class="vads-u-margin-bottom--1p5 vads-u-margin-top--0">
+    {{ node.fieldDescription | truncatewords: 60, "..." }}</p>
+  <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
+    <div class="vads-u-margin-right--2 when-where-width">
+      <strong>When</strong>
+    </div>
+    <div class="usa-width-five-sixths">
+      {% if date_type == "start_date_only" %}
+        <span>{{ start_date_no_time }}</span><br>
+        <span>{{ start_time }}</span>
+      {% else %}
+        {% if date_type == "same_day" %}
+          <span>{{ start_date_no_time }}</span><br>
+          <span>{{ start_time }}
+            –
+            {{ end_time }}</span>
+        {% else %}
+          <span>{{ start_date_full }}
+            –</span><br>
+          <span>{{ end_date_full }}</span>
+        {% endif %}
+      {% endif %}
+      <span>
+        ET</span>
+    </div>
   </div>
-</div>
-{% if node.fieldFacilityLocation != empty %}
-<div
-  class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
-  <div class="vads-u-margin-right--2 when-where-width">
-    <strong>Where</strong>
-  </div>
-  <div class="usa-width-five-sixths">
-    <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
-      <a
-        onClick="recordEvent({ event: 'nav-featured-content-link-click' });"
-        href="{{ node.fieldFacilityLocation.entity.entityUrl.path }}">{{ node.fieldFacilityLocation.entity.title }}</a>
-    </p>
-    {% if node.fieldLocationHumanreadable != empty %}
-    <span>{{ node.fieldLocationHumanreadable }}</span>
-    {% endif %}
-  </div>
-</div>
-{% endif %}
+  {% if node.fieldFacilityLocation != empty %}
+    <div class="usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--row">
+      <div class="vads-u-margin-right--2 when-where-width">
+        <strong>Where</strong>
+      </div>
+      <div class="usa-width-five-sixths">
+        <p class="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          <a onclick="recordEvent({ event: 'nav-featured-content-link-click' });" href="{{ node.fieldFacilityLocation.entity.entityUrl.path }}">{{ node.fieldFacilityLocation.entity.title }}</a>
+        </p>
+        {% if node.fieldLocationHumanreadable != empty %}
+          <span>{{ node.fieldLocationHumanreadable }}</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
 
 
 {% endif %}
