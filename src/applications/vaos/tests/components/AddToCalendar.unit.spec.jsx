@@ -172,6 +172,7 @@ describe('VAOS <AddToCalendar>', () => {
   });
 
   describe('Add appointment request to calendar in IE', () => {
+    const oldValue = window.navigator.msSaveOrOpenBlob;
     Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
       value: sinon.spy(),
     });
@@ -202,5 +203,8 @@ describe('VAOS <AddToCalendar>', () => {
     });
 
     tree.unmount();
+    Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
+      value: oldValue,
+    });
   });
 });
