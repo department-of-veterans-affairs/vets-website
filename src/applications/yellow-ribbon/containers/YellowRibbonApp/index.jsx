@@ -14,14 +14,14 @@ export const YellowRibbonApp = ({ results }) => (
     <Breadcrumbs className="vads-u-padding--0">
       <a href="/">Home</a>
       <a href="/education/">Education and training</a>
-      <a href="/yellow-ribbon/schools/">Yellow Ribbon school finder</a>
+      <a href="/yellow-ribbon/schools/">Find a Yellow Ribbon school</a>
       {results && <a href={window.location.href}>Search results</a>}
     </Breadcrumbs>
 
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--4">
       {/* Title */}
       <div className="vads-l-col">
-        <h1 className="vads-u-font-size--h2">Yellow Ribbon school finder</h1>
+        <h1 className="vads-u-font-size--h2">Find a Yellow Ribbon school</h1>
       </div>
 
       <div className="vads-l-row">

@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 import { includes } from 'lodash';
 // Relative imports.
 import { capitalize } from '../../helpers';
-import { addSchoolToCompareAction } from '../../actions';
+import {
+  addSchoolToCompareAction,
+  removeSchoolFromCompareAction,
+} from '../../actions';
 
 const deriveNameLabel = school => {
   // Show unknown if there's no name.
@@ -73,15 +76,21 @@ const deriveDegreeLevelLabel = (school = {}) => {
 
 const deriveProgramLabel = () => 'Unknown';
 
-const SearchResult = ({ addSchoolToCompare, school, schoolIDs }) => (
+const SearchResult = ({
+  addSchoolToCompare,
+  removeSchoolFromCompare,
+  school,
+  schoolIDs,
+}) => (
   <div
     className={classNames({
       'medium-screen:vads-l-col': true,
       'vads-l-col': true,
       'vads-u-background-color--gray-light-alt': true,
-      'vads-u-border--3px': includes(schoolIDs, school?.id),
+      'vads-u-border--3px': true,
       'vads-u-border-color--primary': includes(schoolIDs, school?.id),
-      'vads-u-margin-bottom--2': true,
+      'vads-u-border-color--white': !includes(schoolIDs, school?.id),
+      'vads-u-margin-bottom--1': true,
       'vads-u-padding-x--3': true,
       'vads-u-padding-y--2': true,
     })}
@@ -117,7 +126,7 @@ const SearchResult = ({ addSchoolToCompare, school, schoolIDs }) => (
           {includes(schoolIDs, school?.id) ? (
             <button
               className="usa-button-secondary vads-u-background-color--primary vads-u-color--white vads-u-margin--0 vads-u-font-size--md"
-              onClick={() => addSchoolToCompare(school)}
+              onClick={() => removeSchoolFromCompare(school)}
             >
               <i className="fas fa-check vads-u-padding-right--1" />
               Added
@@ -174,6 +183,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addSchoolToCompare: school => dispatch(addSchoolToCompareAction(school)),
+  removeSchoolFromCompare: school =>
+    dispatch(removeSchoolFromCompareAction(school)),
 });
 
 export default connect(

@@ -1,11 +1,12 @@
 // Dependencies
-import { concat } from 'lodash';
+import { concat, filter, pick } from 'lodash';
 // Relative imports.
 import {
   ADD_SCHOOL_TO_COMPARE,
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
+  REMOVE_SCHOOL_FROM_COMPARE,
   UPDATE_PAGE,
 } from '../constants';
 
@@ -55,6 +56,19 @@ export const yellowRibbonReducer = (state = initialState, action) => {
         fetching: false,
         results: action?.response?.results,
         totalResults: action?.response?.totalResults,
+      };
+    }
+    case REMOVE_SCHOOL_FROM_COMPARE: {
+      // Derive the updated list of school IDs.
+      const schoolIDs = filter(
+        state.schoolIDs,
+        id => id !== action?.school?.id,
+      );
+
+      return {
+        ...state,
+        schoolIDs,
+        schoolsLookup: pick(state.schoolsLookup, schoolIDs),
       };
     }
     case UPDATE_PAGE: {

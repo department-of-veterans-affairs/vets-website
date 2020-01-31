@@ -7,6 +7,7 @@ import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
+  REMOVE_SCHOOL_FROM_COMPARE,
   UPDATE_PAGE,
 } from '../constants';
 
@@ -16,6 +17,11 @@ import {
 export const addSchoolToCompareAction = school => ({
   school,
   type: ADD_SCHOOL_TO_COMPARE,
+});
+
+export const removeSchoolFromCompareAction = school => ({
+  school,
+  type: REMOVE_SCHOOL_FROM_COMPARE,
 });
 
 // ============
