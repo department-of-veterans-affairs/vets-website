@@ -50,6 +50,19 @@ jobs:
 
     steps:
 
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+
+    - name: Install Yarn
+      run: npm install -g yarn
+
+    - name: Install dependencies
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      run: yarn install
+
     - name: Run unit tests
       run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/**/test/**/*.unit.spec.js?(x)'
 
@@ -60,6 +73,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+
+    - name: Install Yarn
+      run: npm install -g yarn
+
+    - name: Install dependencies
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      run: yarn install
 
     - name: Run unit tests
       run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/applications/**/*.unit.spec.js?(x)'
