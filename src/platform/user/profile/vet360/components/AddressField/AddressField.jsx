@@ -21,13 +21,13 @@ import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 import AddressEditModal from './AddressEditModal';
 import AddressView from './AddressView';
 
-// make an object of just the military state IDs and names
-const MILITARY_STATES = Object.keys(ADDRESS_DATA.states).reduce(
-  (militaryStates, currentState) => {
-    if (ADDRESS_DATA.militaryStates.includes(currentState)) {
+// make an object of just the military state codes and names
+const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
+  (militaryStates, [stateCode, stateName]) => {
+    if (ADDRESS_DATA.militaryStates.includes(stateCode)) {
       return {
         ...militaryStates,
-        [currentState]: ADDRESS_DATA.states[currentState],
+        [stateCode]: stateName,
       };
     }
     return militaryStates;
