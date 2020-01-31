@@ -9,7 +9,12 @@
     "entityUrl": {
       "path": "/pittsburgh-health-care"
     },
-    "fieldLinkFacilityEmergList": null,
+    "fieldLinkFacilityEmergList": {
+      "url": {
+        "path": "https://public.govdelivery.com/accounts/USVHA/subscriber/new?topic_id=USVHA_396",
+        "routed": false
+      }
+    },
     "entityMetatags": [
       {
         "__typename": "MetaValue",
