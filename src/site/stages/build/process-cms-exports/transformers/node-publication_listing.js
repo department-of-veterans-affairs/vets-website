@@ -2,6 +2,7 @@ const {
   getDrupalValue,
   createMetaTagArray,
   utcToEpochTime,
+  isPublished,
 } = require('./helpers');
 
 const transform = entity => ({
@@ -9,6 +10,7 @@ const transform = entity => ({
   entityBundle: 'publication_listing',
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
+  entityPublished: isPublished(getDrupalValue(entity.moderationState)),
   entityMetatags: createMetaTagArray(entity.metatag.value),
   entityUrl: {
     breadcrumb: [],
@@ -21,6 +23,7 @@ module.exports = {
   filter: [
     'title',
     'changed',
+    'moderation_state',
     'metatag',
     'path',
     'field_intro_text',

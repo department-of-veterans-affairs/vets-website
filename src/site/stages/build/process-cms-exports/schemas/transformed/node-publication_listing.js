@@ -6,6 +6,7 @@ module.exports = {
     entityBundle: { enum: ['publication_listing'] },
     title: { type: 'string' },
     changed: { type: 'number' },
+    entityPublished: { type: 'boolean' },
     entityMetatags: { $ref: 'MetaTags' },
     entityUrl: { $ref: 'EntityUrl' },
     fieldIntroText: { type: 'string' },
@@ -14,6 +15,7 @@ module.exports = {
   required: [
     'title',
     'changed',
+    'entityPublished',
     'entityMetatags',
     'entityUrl',
     'fieldIntroText',

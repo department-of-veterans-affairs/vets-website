@@ -5,6 +5,7 @@ module.exports = {
   properties: {
     title: { $ref: 'GenericNestedString' },
     changed: { $ref: 'GenericNestedString' },
+    moderation_state: { $ref: 'GenericNestedString' },
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_intro_text: { $ref: 'GenericNestedString' },
@@ -17,6 +18,7 @@ module.exports = {
   required: [
     'title',
     'changed',
+    'moderation_state',
     'metatag',
     'path',
     'field_intro_text',
