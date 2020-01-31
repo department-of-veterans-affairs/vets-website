@@ -11,7 +11,7 @@ import React from 'react';
  *      PPMS provided description of each specialty/service is included
  *      on the details output.
  */
-const ProviderServiceDescription = ({ provider, details = false }) => {
+const ProviderServiceDescription = ({ provider, details = false, query }) => {
   if (details) {
     const { specialty } = provider.attributes;
     if (specialty && specialty.length < 1) return null;
@@ -31,11 +31,19 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
   if (services.length < 1) return null;
 
   return (
-    <p>
-      <span>
-        <strong>Services:</strong> {services.join(', ')}
-      </span>
-    </p>
+    <div>
+      <p>
+        NON-VA{' '}
+        {query.facilityType === 'cc_pharmacy'
+          ? 'URGENT CARE PHARMACY'
+          : 'HEATH'}
+      </p>
+      <p>
+        <span>
+          <strong>Services:</strong> {services.join(', ')}
+        </span>
+      </p>
+    </div>
   );
 };
 
