@@ -178,6 +178,7 @@
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },
+      "fieldLinkFacilityEmergList": null,
       "entityMetatags": [
         {
           "__typename": "MetaValue",

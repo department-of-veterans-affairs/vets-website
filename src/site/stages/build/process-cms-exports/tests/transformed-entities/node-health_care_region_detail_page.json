@@ -315,6 +315,7 @@
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },
+      "fieldLinkFacilityEmergList": null,
       "fieldNicknameForThisFacility": "VA Pittsburgh",
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",
