@@ -50,6 +50,14 @@ export function getTypeOfCare(data) {
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
 }
 
+export function getCCEType(state) {
+  const data = getFormData(state);
+
+  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+
+  return typeOfCare?.cceType;
+}
+
 export function getSystems(state) {
   return getNewAppointment(state).systems;
 }
