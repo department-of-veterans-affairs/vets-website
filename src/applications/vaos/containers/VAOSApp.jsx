@@ -55,7 +55,14 @@ export class VAOSApp extends React.Component {
     }
 
     return (
-      <>
+      <RequiredLoginView
+        authRequired={1}
+        serviceRequired={[
+          backendServices.USER_PROFILE,
+          backendServices.FACILITIES,
+        ]}
+        user={user}
+      >
         {loadingFeatureToggles && (
           <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
             <div className="vads-l-row">
@@ -75,7 +82,7 @@ export class VAOSApp extends React.Component {
             </DowntimeNotification>
           )}
         {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
-      </>
+      </RequiredLoginView>
     );
   }
 }
