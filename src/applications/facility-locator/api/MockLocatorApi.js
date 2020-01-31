@@ -3,7 +3,7 @@
 // All calls return promises.
 import compact from 'lodash/compact';
 import { LocationType } from '../constants';
-import facilityData from '../constants/mock-facility-data.json';
+import { facilityData } from '../constants/mock-facilities-data';
 import providerServices from '../constants/mock-provider-services.json';
 import { ccLocatorEnabled } from '../config';
 
@@ -31,6 +31,7 @@ class MockLocatorApi {
     serviceType,
     page,
   ) {
+    const data = facilityData(locationType, serviceType);
     const filterableLocations = ['health', 'benefits', 'cc_provider'];
     const params = compact([
       address ? `address=${address}` : null,
@@ -52,12 +53,12 @@ class MockLocatorApi {
           let locations = {};
           // Feature Flag
           if (ccLocatorEnabled()) {
-            locations = { ...facilityData };
+            locations = { ...data };
           } else {
-            const nonProviders = facilityData.data.filter(
+            const nonProviders = data.filter(
               loc => loc.type !== LocationType.CC_PROVIDER,
             );
-            locations = { ...facilityData, data: nonProviders };
+            locations = { ...data, data: nonProviders };
           }
           resolve(locations);
         } else {
@@ -68,10 +69,11 @@ class MockLocatorApi {
   }
 
   static fetchVAFacility(id) {
+    const dataFacility = facilityData();
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (id && (typeof id === 'number' || typeof id === 'string')) {
-          const location = facilityData.data.filter(data => data.id === id);
+          const location = dataFacility.data.filter(data => data.id === id);
           if (location && location.length > 0) {
             resolve({ data: location[0] });
           } else {
@@ -85,10 +87,11 @@ class MockLocatorApi {
   }
 
   static fetchProviderDetail(id) {
+    const dataFacility = facilityData();
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (id && typeof id === 'string') {
-          const location = facilityData.data.filter(data => data.id === id);
+          const location = dataFacility.data.filter(data => data.id === id);
           if (location && location.length > 0) {
             resolve({ data: location[0] });
           } else {
