@@ -1,4 +1,5 @@
 import environment from '../../platform/utilities/environment';
+import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
 
@@ -11,6 +12,7 @@ import manifest from './manifest.json';
 export const api = {
   baseUrl: `${environment.API_URL}/v0/facilities`,
   url: `${environment.API_URL}/v0/facilities/va`,
+  ccUrl: `${environment.API_URL}/v0/facilities/cpp`,
   settings: {
     credentials: 'include',
     headers: {
@@ -33,9 +35,61 @@ export const api = {
  */
 export const ccLocatorEnabled = () => true;
 
+/**
+ * Build parameters and URL for facilities API calls
+ */
+export const resolveParamsWithUrl = (
+  address,
+  locationType,
+  serviceType,
+  page,
+  bounds,
+) => {
+  const filterableLocations = ['health', 'benefits', 'cc_provider'];
+  let facility;
+  let service;
+  let url;
+  switch (locationType) {
+    case 'urgent_care':
+      if (!serviceType || serviceType === 'UrgentCare') {
+        facility = 'health';
+        service = serviceType;
+        url = api.url;
+      }
+      if (serviceType === 'NonVAUrgentCare') {
+        facility = 'cc_urgent_care';
+        url = api.ccUrl;
+      }
+      break;
+    case 'cc_pharmacy':
+      facility = locationType;
+      service = serviceType;
+      url = api.ccUrl;
+      break;
+    default:
+      facility = locationType;
+      service = serviceType;
+  }
+
+  return {
+    url,
+    params: compact([
+      address ? `address=${address}` : null,
+      ...bounds.map(c => `bbox[]=${c}`),
+      facility ? `type=${facility}` : null,
+      filterableLocations.includes(facility) && service
+        ? `services[]=${service}`
+        : null,
+      `page=${page}`,
+      `per_page=20`,
+    ]).join('&'),
+  };
+};
+
 export const facilityTypes = {
-  // [LocationType.ALL]: 'All Facilities',
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
+  [FacilityType.URGENT_CARE]: 'Urgent care',
+  [FacilityType.URGENT_CARE_FARMACIES]: 'Non-VA urgent care pharmacies',
   [FacilityType.VA_CEMETARY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
   [FacilityType.VET_CENTER]: 'Vet Centers',
@@ -62,6 +116,11 @@ export const healthServices = {
   Orthopedics: 'Orthopedics',
   Urology: 'Urology',
   WomensHealth: "Women's Health",
+};
+
+export const urgentCareServices = {
+  UrgentCare: 'VA urgent care',
+  NonVAUrgentCare: 'Non-VA urgent care',
 };
 
 export const benefitsServices = {

@@ -1011,7 +1011,61 @@
         "lat": 38.9857684400001,
         "long": -76.95675965
       }
+    },
+    {
+      "id": "ccp_1013055938",
+      "type": "cc_provider",
+      "attributes": {
+        "unique_id": "1013055938",
+        "name": "WALGREENS",
+        "address": {
+          "street": "400 E FM 2410 RD",
+          "city": "HARKER HEIGHTS",
+          "state": "TX",
+          "zip": "76548"
+        },
+        "email": "THRIDPARTYOPS@WALGREENS.COM",
+        "phone": null,
+        "fax": null,
+        "lat": 31.067725,
+        "long": -97.668028,
+        "pref_contact": null,
+        "acc_new_patients": "false",
+        "gender": "NotSpecified",
+        "specialty": [
+          {
+            "name": "Pharmacy - Community/Retail Pharmacy",
+            "desc": "A pharmacy where pharmacists store, prepare, and dispense medicinal preparations and/or prescriptions for a local patient population in accordance with federal and state law; counsel patients and caregivers (sometimes independent of the dispensing process); administer vaccinations; and provide other professional services associated with pharmaceutical care such as health screenings, consultative services with other health care providers, collaborative practice, disease state management, and education classes."
+          }
+        ],
+        "caresite_phone": "2546803499"
+      }
+    },
+    {
+      "id": "ccp_1790275410",
+      "type": "cc_provider",
+      "attributes": {
+        "unique_id": "1790275410",
+        "name": "American Current Care of Arizona PA",
+        "address": {
+          "street": "2000 W Anderson Ln",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78757"
+        },
+        "email": null,
+        "phone": null,
+        "fax": null,
+        "lat": 30.354658,
+        "long": -97.726606,
+        "pref_contact": null,
+        "acc_new_patients": "false",
+        "gender": "NotSpecified",
+        "specialty": [],
+        "caresite_phone": "8669446046"
+      }
     }
+
   ],
   "links": {
     "self": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1",
