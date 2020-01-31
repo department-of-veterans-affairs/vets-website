@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router';
 
 const OrderCommentPage = () => {
   const [checked, setChecked] = useState(false);
@@ -63,12 +62,8 @@ const OrderCommentPage = () => {
         </p>
         <textarea rows="3" placeholder="Additional comments" />
       </div>
-      <Link to="/orderpage">
-        <button>Back</button>
-      </Link>
-      <Link to="/orderTables">
-        <button>Order History</button>
-      </Link>
+      {/* <button>Back</button>
+      <button>Order History</button> */}
     </div>
   );
 };

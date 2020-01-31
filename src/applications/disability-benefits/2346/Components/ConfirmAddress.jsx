@@ -1,8 +1,7 @@
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import React, { useState } from 'react';
-import { Link } from 'react-router';
 
-export const ConfirmAddress = () => {
+const ConfirmAddress = () => {
   const [confirmAddressCheck, setConfirmAddressCheck] = useState(false);
   const [diffAddressCheck, setDiffAddressCheck] = useState(false);
 
@@ -81,12 +80,10 @@ export const ConfirmAddress = () => {
           </div>
         )}
       </div>
-      <Link to="/home">
-        <button>Back</button>
-      </Link>
-      <Link to="/orderpage">
-        <button>Confirm Address</button>
-      </Link>
+      {/* <button>Back</button>
+      <button>Confirm Address</button> */}
     </div>
   );
 };
+
+export default ConfirmAddress;

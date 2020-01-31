@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router';
 
 const OrderPage = () => {
   const [checked, setChecked] = useState(false);
@@ -50,12 +49,8 @@ const OrderPage = () => {
         />
         <p>Do you have any additional requests for this order?</p>
       </div>
-      <Link to="/confirmaddress">
-        <button>Back</button>
-      </Link>
-      <Link to="/comments">
-        <button>Comments</button>
-      </Link>
+      <button>Back</button>
+      <button>Comments</button>
     </div>
   );
 };

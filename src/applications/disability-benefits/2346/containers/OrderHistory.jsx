@@ -1,7 +1,6 @@
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { focusElement } from '../../../../platform/utilities/ui';
 import {
   getDLCAccessoriesData,
@@ -127,7 +126,6 @@ class OrderHistory extends Component {
                   ))}
                 </tbody>
               </table>
-
               {
                 // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
                 /* <table id="socksTable" className="form2346 vads-c-table">
@@ -183,22 +181,19 @@ class OrderHistory extends Component {
                   ))}
                 </tbody>
               </table>
-              <Link to="/comments">
-                <button
-                  type="button"
-                  className="usa-button-primary va-button-primary"
-                >
-                  Back
-                </button>
-              </Link>
-              <Link to="/home">
-                <button
-                  type="button"
-                  className="usa-button-primary va-button-primary"
-                >
-                  Submit
-                </button>
-              </Link>
+              ={' '}
+              {/* <button
+                type="button"
+                className="usa-button-primary va-button-primary"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                className="usa-button-primary va-button-primary"
+              >
+                Submit
+              </button> */}
             </>
           )}
       </div>
