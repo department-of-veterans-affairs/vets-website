@@ -222,7 +222,6 @@ const uiSchema = {
     'ui:description': () => (
       <div className="vads-u-padding-x--2p5">
         <AdditionalInfo
-          lassName="vads-u-margin-left--0"
           status="info"
           triggerText="Learn more about military base addresses"
         >
