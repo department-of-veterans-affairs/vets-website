@@ -83,17 +83,19 @@ export const SearchResult = ({
   schoolIDs,
 }) => (
   <div
-    className={classNames({
-      'medium-screen:vads-l-col': true,
-      'vads-l-col': true,
-      'vads-u-background-color--gray-light-alt': true,
-      'vads-u-border--3px': true,
-      'vads-u-border-color--primary': includes(schoolIDs, school?.id),
-      'vads-u-border-color--transparent': !includes(schoolIDs, school?.id),
-      'vads-u-margin-bottom--1': true,
-      'vads-u-padding-x--3': true,
-      'vads-u-padding-y--2': true,
-    })}
+    className={classNames(
+      'medium-screen:vads-l-col',
+      'vads-l-col',
+      'vads-u-margin-bottom--1',
+      'vads-u-padding-x--3',
+      'vads-u-padding-y--2',
+      'vads-u-background-color--gray-light-alt',
+      'vads-u-border--3px',
+      {
+        'vads-u-border-color--primary': includes(schoolIDs, school?.id),
+        'vads-u-border-color--transparent': !includes(schoolIDs, school?.id),
+      },
+    )}
   >
     {/* School Name */}
     <h3 className="vads-u-margin--0">{deriveNameLabel(school)}</h3>
