@@ -82,6 +82,7 @@ export const resolveParamsWithUrl = (
         : null,
       `page=${page}`,
       `per_page=20`,
+      `trim=true`,
     ]).join('&'),
   };
 };

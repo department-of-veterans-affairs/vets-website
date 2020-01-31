@@ -15,7 +15,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .clearValue('input[name="street-city-state-zip"]')
-    .setValue('input[name="street-city-state-zip"]', 'Seattle, WA');
+    .setValue('input[name="street-city-state-zip"]', 'Dallas, TX');
 
   client
     .click('input[type="submit"]')
