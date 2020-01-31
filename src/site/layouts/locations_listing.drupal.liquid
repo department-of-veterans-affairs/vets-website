@@ -10,9 +10,9 @@
                 {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
 
                 <article class="usa-content">
-                    <h1 class="vads-u-margin-bottom--2">Locations</h1>
+                    <h1 class="vads-u-margin-bottom--2">{{title}}</h1>
                     <div class="va-introtext vads-u-margin-bottom--0">
-                        {{ fieldLocationsIntroText }}
+                        {{ fieldIntroText }}
                     </div>
                     <div class="usa-grid usa-grid-full vads-u-margin-y--1p5">
                         {% assign basePath = entityUrl.path | regionBasePath %}
@@ -33,6 +33,11 @@
                         {% for other in fieldOffice.entity.otherFacilities.entities %}
                         {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = other %}
                         {% endfor %}
+
+                        {% if mainFacility == false and fieldOffice.entity.otherFacilities.entities == false %}
+                        <div>No locations at this time.</div>
+                        {% endif %}
+
                         {% if fieldOffice.entity.fieldOtherVaLocations != empty and fieldOffice.entity.fieldOtherVaLocations.length %}
                         <h2 id="other-nearby-va-locations"
                             class="medium-screen:vads-u-margin-bottom--4">Other

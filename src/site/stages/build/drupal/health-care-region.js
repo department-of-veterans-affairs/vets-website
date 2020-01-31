@@ -10,6 +10,20 @@ const {
 const _ = require('lodash');
 const moment = require('moment');
 
+/**
+ * Sort services.
+ *
+ * @param sortItem The services array.
+ * @return []
+ */
+function sortServices(sortItem) {
+  return _(sortItem)
+    .sortBy('fieldServiceNameAndDescripti.entity.weight')
+    .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
+    .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
+    .value();
+}
+
 // Creates the facility pages
 function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const sidebar = page.facilitySidebar;
@@ -38,14 +52,34 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'health_care_facility_status.drupal.liquid',
   );
 
+  // Create the top-level locations page for Health Care Regions
+  const locEntityUrl = createEntityUrlObj(drupalPagePath);
+  const locObj = {
+    mainFacilities: page.mainFacilities,
+    otherFacilities: page.otherFacilities,
+    fieldOtherVaLocations: page.fieldOtherVaLocations,
+    fieldLocationsIntroBlurb: page.fieldLocationsIntroBlurb,
+    facilitySidebar: sidebar,
+    entityUrl: locEntityUrl,
+    alert: page.alert,
+    title: page.title,
+  };
+  const locPage = updateEntityUrlObj(locObj, drupalPagePath, 'Locations');
+  const locPath = locPage.entityUrl.path;
+  locPage.regionOrOffice = page.title;
+  locPage.entityUrl = generateBreadCrumbs(locPath);
+
+  files[`${drupalPagePath}/locations/index.html`] = createFileObj(
+    locPage,
+    'health_care_region_locations_page.drupal.liquid',
+  );
+
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
   if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
-      .sortBy('fieldServiceNameAndDescripti.entity.weight')
-      .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
-      .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
-      .value();
+    const clinicalHealthServices = sortServices(
+      page.fieldClinicalHealthServices.entities,
+    );
 
     const hsEntityUrl = createEntityUrlObj(drupalPagePath);
     const hsObj = {
@@ -154,7 +188,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   pastEventTeasers.entities = _.orderBy(
     pastEventTeasers.entities,
     ['fieldDate.startDate'],
-    ['desc'],
+    ['asc'],
   );
 
   const eventEntityUrl = createEntityUrlObj(drupalPagePath);
@@ -171,6 +205,14 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   const eventPagePath = eventPage.entityUrl.path;
   eventPage.regionOrOffice = page.title;
   eventPage.entityUrl = generateBreadCrumbs(eventPagePath);
+
+  paginatePages(
+    eventPage,
+    files,
+    'allEventTeasers',
+    'event_listing.drupal.liquid',
+    'events',
+  );
 
   // Past Events listing page
   const pastEventsEntityUrl = createEntityUrlObj(`${drupalPagePath}/events`);
@@ -197,7 +239,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     pastEventsPage,
     files,
     'allEventTeasers',
-    'events_page.drupal.liquid',
+    'event_listing.drupal.liquid',
     'past-events',
   );
 
@@ -229,7 +271,6 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     'bios_page.drupal.liquid',
     'bio',
   );
-  return eventObj;
 }
 
 /**
@@ -240,10 +281,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
-  const regionPage = pages.find(p =>
-    p.entityUrl
-      ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
-      : false,
+  const regionPage = pages.find(
+    p =>
+      p.entityUrl
+        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+        : false,
   );
 
   if (regionPage) {
@@ -265,7 +307,10 @@ function addGetUpdatesFields(page, pages) {
 function modListPages(page, pages, files, field, template, aria) {
   switch (page.entityBundle) {
     case 'event_listing':
-      page.allEventTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
+      page.allEventTeasers = page.fieldOffice.entity.reverseFieldOfficeNode
+        .entities.length
+        ? page.fieldOffice.entity.reverseFieldOfficeNode
+        : page.reverseFieldOfficeNode;
       break;
     case 'story_listing':
       page.allNewsStoryTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
@@ -274,13 +319,20 @@ function modListPages(page, pages, files, field, template, aria) {
       page.allPressReleaseTeasers =
         page.fieldOffice.entity.reverseFieldOfficeNode;
       break;
+    case 'health_services_listing':
+      page.clinicalHealthServices = sortServices(
+        page.fieldOffice.entity.reverseFieldRegionPageNode.entities,
+      );
+      break;
     default:
   }
   // Add our pager to the Drupal page.
-  const pagingObject = paginatePages(page, files, field, template, aria);
-  if (pagingObject[0]) {
-    page.pagedItems = pagingObject[0].pagedItems;
-    page.paginator = pagingObject[0].paginator;
+  if (page.entityBundle !== 'health_services_listing') {
+    const pagingObject = paginatePages(page, files, field, template, aria);
+    if (pagingObject[0]) {
+      page.pagedItems = pagingObject[0].pagedItems;
+      page.paginator = pagingObject[0].paginator;
+    }
   }
 }
 

@@ -13,13 +13,6 @@
       {% endif %}
       <div class="usa-width-three-fourths">
         {% include "src/site/components/navigation-sidebar-trigger.html" with menuId = "va-detailpage-sidebar" %}
-        {% if !entityPublished %}
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">You are viewing a draft.</p>
-            </div>
-          </div>
-        {% endif %}
 
         <article aria-labelledby="article-heading" class="vads-l-grid-container--full" role="region">
           <div class="vads-l-grid-container--full">
@@ -34,40 +27,46 @@
               </div>
               {% if entityUrl.breadcrumb.1.text != "Outreach and events" %}
                 {% include "src/site/facilities/facilities_events_toggle.drupal.liquid" with url = entityUrl.path %}
-                {% assign featuredUrl = null %}
-                {% assign featuredItemSet = false %}
-                {% for featuredEvent in allEventTeasers.entities %}
-                  {% if featuredEvent.fieldFeatured == true %}
-                    {% unless entityUrl.path contains 'past-events' %}
-                      {% if featuredItemSet == false %}
-                        {% assign featuredUrl = featuredEvent.entityUrl.path %}
-                        <div class="usa-width-two-thirds">
-                          <div class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-border-left--7px vads-u-border-color--primary-alt-lightest" id="featured-content">
-                            <div class="usa-width-full vads-u-padding-left--2">
-                              <div class="vads-u-margin-bottom--2">
-                                <strong>In the spotlight at
-                                  {{ fieldOffice.entity.title }}</strong>
-                              </div>
-                              {% include "src/site/teasers/event_featured.drupal.liquid" with node = featuredEvent %}
+              {% endif %}
+              {% assign featuredUrl = null %}
+              {% assign featuredItemSet = false %}
+
+              {% for featuredEvent in allEventTeasers.entities %}
+                {% if featuredEvent.fieldFeatured == true %}
+                  {% unless entityUrl.path contains 'past-events' %}
+                    {% if featuredItemSet == false %}
+                      {% assign featuredUrl = featuredEvent.entityUrl.path %}
+                      <div class="usa-width-two-thirds">
+                        <div class="usa-grid usa-grid-full vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vads-u-border-left--7px vads-u-border-color--primary-alt-lightest" id="featured-content">
+                          <div class="usa-width-full vads-u-padding-left--2">
+                            <div class="vads-u-margin-bottom--2">
+                              <strong>In the spotlight at
+                                {{ fieldOffice.entity.title }}</strong>
                             </div>
+                            {% include "src/site/teasers/event_featured.drupal.liquid" with node = featuredEvent %}
                           </div>
                         </div>
-                      {% endif %}
-                    {% endunless %}
-                    {% assign featuredItemSet = true %}
-                  {% endif %}
-                {% endfor %}
-                {% for event in pagedItems %}
-                  {% if featuredUrl != event.entityUrl.path %}
-                    <div class="usa-width-two-thirds">
-                      {% include "src/site/teasers/event.drupal.liquid" with node = event %}
-                    </div>
-                  {% endif %}
-                {% endfor %}
-                {% include "src/site/includes/pagination.drupal.liquid" %}
-              {% else %}
-                {% include 'src/site/components/events_list.drupal.liquid' %}
+                      </div>
+                    {% endif %}
+                  {% endunless %}
+                  {% assign featuredItemSet = true %}
+                {% endif %}
+              {% endfor %}
+
+              {% assign sortedEventsArray = pagedItems | eventSorter | pastPresent: path %}
+              {% assign numItems = sortedEventsArray | size %}
+              {% if numItems < 1 %}
+                <div>No events at this time.</div>
               {% endif %}
+              {% for event in sortedEventsArray %}
+                {% if featuredUrl != event.entityUrl.path %}
+                  <div class="usa-width-two-thirds">
+                    {% include "src/site/teasers/event.drupal.liquid" with node = event %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+              {% include "src/site/includes/pagination.drupal.liquid" with numItems %}
+
             </div>
           </div>
         </article>

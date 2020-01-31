@@ -21,6 +21,7 @@ const benefitListingPage = require('./benefitListingPage.graphql');
 const eventListingPage = require('./eventListingPage.graphql');
 const storyListingPage = require('./storyListingPage.graphql');
 const pressReleasesListingPage = require('./pressReleasesListingPage.graphql');
+const healthServicesListingPage = require('./healthServicesListingPage.graphql');
 const locationListingPage = require('./locationsListingPage.graphql');
 const homePageQuery = require('./homePage.graphql');
 const allSideNavMachineNamesQuery = require('./navigation-fragments/allSideNavMachineNames.nav.graphql');
@@ -63,6 +64,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${benefitListingPage}
   ${eventListingPage}
   ${storyListingPage}
+  ${healthServicesListingPage}
   ${pressReleasesListingPage}
   ${locationListingPage}
 `;
@@ -93,6 +95,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... eventListingPage
         ... storyListingPage
         ... pressReleasesListingPage
+        ... healthServicesListingPage
         ... locationListingPage
       }
     }`;
