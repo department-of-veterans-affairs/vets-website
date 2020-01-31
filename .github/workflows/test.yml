@@ -60,7 +60,7 @@ jobs:
       run: npm install -g yarn
 
     - name: Install dependencies
-      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      if: jobs.build.steps.cache-dependencies.outputs.cache-hit != 'true'
       run: yarn install
 
     - name: Run unit tests
@@ -84,7 +84,7 @@ jobs:
       run: npm install -g yarn
 
     - name: Install dependencies
-      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      if: jobs.build.steps.cache-dependencies.outputs.cache-hit != 'true'
       run: yarn install
 
     - name: Run unit tests
