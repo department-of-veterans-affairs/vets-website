@@ -9,10 +9,8 @@ const ViewDependentsHeader = () => (
         claim for more disability compensation whenever you add a dependent. If
         something changes with a dependent's status, you should notify VA.
       </p>
-      <a>
-        <button type="button" className="usa-button-primary va-button-primary">
-          Go to eBenefits to add a dependent or change a dependent's status
-        </button>
+      <a type="button" className="usa-button-primary va-button-primary">
+        Go to eBenefits to add a dependent or change a dependent's status
       </a>
     </div>
   </div>
