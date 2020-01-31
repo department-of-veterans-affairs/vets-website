@@ -183,9 +183,7 @@
 
   .usa-alert {
     background-color: white;
-    padding-top: .5em;
-    padding-bottom: .5em;
-    margin-top: .5em;
+    padding: .5em 1em;
   }
 
   .usa-alert-text {
@@ -196,5 +194,12 @@
     margin-bottom: 1em;
   }
 
+  .usa-alert-warning:before {
+    font-size: 1em;
+  }
+
+  .usa-alert-heading {
+    font-size: 1em;
+  }
 
 }

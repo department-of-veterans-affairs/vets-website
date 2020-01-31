@@ -1024,7 +1024,7 @@
     "pagination": {
       "currentPage": 1,
       "perPage": 20,
-      "totalPages": 1,
+      "totalPages": 5,
       "totalEntries": 16
     }
   }

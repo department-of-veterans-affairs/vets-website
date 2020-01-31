@@ -63,7 +63,7 @@ const AdditionalInfos = props => (
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=direct-deposit-and-contact-information"
           onClick={() =>
             recordEvent({
-              event: 'ebenefits-navigation',
+              event: 'nav-ebenefits-click',
             })
           }
         >

@@ -27,21 +27,28 @@ const entityAssemblerFactory = contentDir => {
    *                    with the body of the referenced entities.
    */
   const assembleEntityTree = (entity, ancestors = [], parentFieldName = '') => {
-    // Avoid circular references
+    // Handle circular references
     const ancestorIds = ancestors.map(a => a.id);
-    if (ancestorIds.includes(toId(entity))) {
+    const a = ancestors.find(r => r.id === toId(entity));
+    if (a) {
       /* eslint-disable no-console */
+      // This logging is to help debug if AJV fails on an unexpected circular
+      // reference
       console.log(`I'm my own grandpa! (${toId(entity)})`);
       console.log(`  Parents:\n    ${ancestorIds.join('\n    ')}`);
       /* eslint-enable no-console */
 
-      // If we find a circular references, it needs to be addressed.
-      // For now, just quit.
-      throw new Error(
-        `Circular reference found. ${
-          ancestorIds[ancestors.length - 1]
-        } has a reference to an ancestor: ${toId(entity)}`,
-      );
+      // NOTE: If we find a circular reference, it needs to be addressed in the
+      // transformer and accounted for in the transformed schema.
+      //
+      // If it isn't handled in the transformer, the post-transformation
+      // validation will fail because of a circular reference (AJV will throw
+      // up).
+      //
+      // If the modified child isn't accounted for in the transformed schema, it
+      // won't be valid (assuming we've omited a normally-required property to
+      // avoid the circular reference).
+      return a;
     }
 
     // Pre-transformation JSON schema validation

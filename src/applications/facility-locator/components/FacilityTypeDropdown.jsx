@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { kebabCase } from 'lodash/fp';
 import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
@@ -7,12 +6,7 @@ import { keyMap } from '../utils/helpers';
 import { LOCATION_OPTIONS, LocationType } from '../constants';
 
 const facilityOptionClasses = (item, selected) =>
-  classNames(
-    'dropdown-option',
-    { selected },
-    { 'icon-option': item && item !== 'all' },
-    { [`${kebabCase(item)}-icon`]: item && item !== 'all' },
-  );
+  classNames('dropdown-option', { selected });
 
 const itemToString = item => facilityTypes[item] || 'All Facilities';
 
@@ -78,12 +72,12 @@ class FacilityTypeDropdown extends Component {
       : this.props.locationOptions.filter(
           item => item !== LocationType.CC_PROVIDER,
         );
-    const facilityType = this.props.facilityType || 'all';
+    const facilityType = this.props.facilityType || 'health';
     const highlightIndex = locationOptions.indexOf(facilityType);
 
     return (
       <Downshift
-        defaultSelectedItem="all"
+        defaultSelectedItem="health"
         defaultHighlightedIndex={highlightIndex}
         itemToString={itemToString}
         onChange={this.props.onChange}
@@ -113,6 +107,7 @@ class FacilityTypeDropdown extends Component {
                   item,
                   index === highlightedIndex,
                 ),
+                option: itemToString(item),
                 role: 'option',
                 'aria-selected': index === highlightedIndex,
               })}
@@ -124,12 +119,12 @@ class FacilityTypeDropdown extends Component {
           return (
             <div>
               <div className="row">
-                <div className="columns medium-4">
+                <div className="columns medium-6">
                   <label
                     htmlFor="facility-dropdown-toggle"
                     id="facility-dropdown-label"
                   >
-                    Search for
+                    Choose a VA facility type
                   </label>
                 </div>
               </div>

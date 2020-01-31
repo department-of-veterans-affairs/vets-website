@@ -23,7 +23,7 @@ export default ({ formData }) => {
         href={EBEN_526_URL}
         onClick={() =>
           recordEvent({
-            event: 'ebenefits-navigation',
+            event: 'nav-ebenefits-click',
           })
         }
       >
