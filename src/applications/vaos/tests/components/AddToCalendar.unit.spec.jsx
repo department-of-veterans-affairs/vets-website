@@ -175,6 +175,7 @@ describe('VAOS <AddToCalendar>', () => {
     const oldValue = window.navigator.msSaveOrOpenBlob;
     Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
       value: sinon.spy(),
+      writable: true,
     });
     const tree = shallow(
       <AddToCalendar appointment={vaAppointmentRequest} facility={facility} />,
@@ -205,6 +206,7 @@ describe('VAOS <AddToCalendar>', () => {
     tree.unmount();
     Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
       value: oldValue,
+      writable: true,
     });
   });
 });
