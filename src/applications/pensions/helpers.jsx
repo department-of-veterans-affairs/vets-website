@@ -35,6 +35,7 @@ function checkStatus(guid) {
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
+    'Source-App-Name': window.appName,
   };
 
   return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
@@ -112,6 +113,7 @@ export function submit(form, formConfig) {
   const headers = {
     'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
+    'Source-App-Name': window.appName,
   };
 
   const body = transform(formConfig, form);

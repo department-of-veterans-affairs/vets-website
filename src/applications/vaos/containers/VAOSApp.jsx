@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import { selectUser } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -9,7 +10,10 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import { vaosApplication } from '../utils/selectors';
+import {
+  vaosApplication,
+  selectFeatureToggleLoading,
+} from '../utils/selectors';
 import RegistrationCheck from './RegistrationCheck';
 import AppUnavailable from '../components/AppUnavailable';
 import ErrorMessage from '../components/ErrorMessage';
@@ -31,12 +35,21 @@ export class VAOSApp extends React.Component {
   }
 
   render() {
-    const { user, children, showApplication } = this.props;
+    const {
+      user,
+      children,
+      showApplication,
+      loadingFeatureToggles,
+    } = this.props;
 
     if (this.state.hasError) {
       return (
-        <div className="vads-u-margin-y--2">
-          <ErrorMessage />
+        <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
+              <ErrorMessage />
+            </div>
+          </div>
         </div>
       );
     }
@@ -50,15 +63,25 @@ export class VAOSApp extends React.Component {
         ]}
         user={user}
       >
-        {showApplication && (
-          <DowntimeNotification
-            appTitle="VA online scheduling"
-            dependencies={[externalServices.mvi, externalServices.vaos]}
-          >
-            <RegistrationCheck>{children}</RegistrationCheck>
-          </DowntimeNotification>
+        {loadingFeatureToggles && (
+          <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+            <div className="vads-l-row">
+              <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--4">
+                <LoadingIndicator />
+              </div>
+            </div>
+          </div>
         )}
-        {!showApplication && <AppUnavailable />}
+        {!loadingFeatureToggles &&
+          showApplication && (
+            <DowntimeNotification
+              appTitle="VA online scheduling"
+              dependencies={[externalServices.mvi, externalServices.vaos]}
+            >
+              <RegistrationCheck>{children}</RegistrationCheck>
+            </DowntimeNotification>
+          )}
+        {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
       </RequiredLoginView>
     );
   }
@@ -68,6 +91,7 @@ function mapStateToProps(state) {
   return {
     user: selectUser(state),
     showApplication: vaosApplication(state),
+    loadingFeatureToggles: selectFeatureToggleLoading(state),
   };
 }
 

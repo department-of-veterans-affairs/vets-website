@@ -8,7 +8,7 @@ describe('VAOS <CalendarCheckboxOption>', () => {
   it('should render a checkbox with proper label and values', () => {
     const tree = shallow(
       <CalendarCheckboxOption
-        index={0}
+        id="0"
         fieldName="test"
         value="AM"
         checked

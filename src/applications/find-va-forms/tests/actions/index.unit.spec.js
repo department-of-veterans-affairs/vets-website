@@ -33,9 +33,10 @@ describe('Find VA Forms actions', () => {
 
   describe('fetchFormsFailure', () => {
     it('should return an action in the shape we expect', () => {
-      const action = fetchFormsFailure();
+      const action = fetchFormsFailure('test');
 
       expect(action).to.be.deep.equal({
+        error: 'test',
         type: FETCH_FORMS_FAILURE,
       });
     });

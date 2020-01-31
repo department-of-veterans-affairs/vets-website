@@ -9,7 +9,6 @@ import Dropdown from '../Dropdown';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { isLoggedIn } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
 
 export class EligibilityForm extends React.Component {
   cumulativeServiceOptions = () => [
@@ -79,37 +78,19 @@ export class EligibilityForm extends React.Component {
             ariaLabel: ariaLabels.learnMore.giBillBenefits,
           })}
           name="giBillChapter"
-          options={
-            // prod flag for bah 20014
-            !environment.isProduction()
-              ? [
-                  { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
-                  { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
-                  { value: '1606', label: 'Select Reserve GI Bill (Ch 1606)' },
-                  {
-                    value: '31',
-                    label: 'Vocational Rehabilitation & Employment (VR & E)',
-                  },
-                  {
-                    value: '35',
-                    label: 'Dependents Educational Assistance (DEA)',
-                  },
-                ]
-              : [
-                  { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
-                  { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
-                  { value: '1606', label: 'Select Reserve GI Bill (Ch 1606)' },
-                  { value: '1607', label: 'REAP GI Bill (Ch 1607)' },
-                  {
-                    value: '31',
-                    label: 'Vocational Rehabilitation & Employment (VR & E)',
-                  },
-                  {
-                    value: '35',
-                    label: 'Dependents Educational Assistance (DEA)',
-                  },
-                ]
-          }
+          options={[
+            { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
+            { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
+            { value: '1606', label: 'Select Reserve GI Bill (Ch 1606)' },
+            {
+              value: '31',
+              label: 'Vocational Rehabilitation & Employment (VR & E)',
+            },
+            {
+              value: '35',
+              label: 'Dependents Educational Assistance (DEA)',
+            },
+          ]}
           value={this.props.giBillChapter}
           alt="Which GI Bill benefit do you want to use?"
           visible
@@ -144,7 +125,7 @@ export class EligibilityForm extends React.Component {
               onClick={() =>
                 this.props.isLoggedIn &&
                 recordEvent({
-                  event: 'ebenefits-navigation',
+                  event: 'nav-ebenefits-click',
                 })
               }
             >

@@ -18,7 +18,7 @@ import {
   openClinicPage,
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
-  openSelectAppointmentPage,
+  getAppointmentSlots,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -38,8 +38,8 @@ import {
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
-  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
 } from '../../actions/newAppointment';
 import systems from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
@@ -50,7 +50,6 @@ import {
   FACILITY_TYPES,
   FETCH_STATUS,
   FLOW_TYPES,
-  REASON_MAX_CHARS,
 } from '../../utils/constants';
 
 const testFlow = {
@@ -481,19 +480,12 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  describe('reasonForAppointment', () => {
+  describe('updateReasonForAppointmentData', () => {
     const reasonForAppointment = 'new-issue';
     const reasonAdditionalInfo = 'test';
 
-    it('update values and calculates remaining characters for direct schedule reason', async () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.DIRECT,
-        },
-      };
-
-      const dispatch = sinon.spy();
-      const thunk = updateReasonForAppointmentData(
+    it('sends reason for appointment changed action', () => {
+      const action = updateReasonForAppointmentData(
         'reasonForAppointment',
         {},
         {
@@ -502,45 +494,10 @@ describe('VAOS newAppointment actions', () => {
         },
       );
 
-      await thunk(dispatch, () => state);
-
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FORM_REASON_FOR_APPOINTMENT_CHANGED,
-      );
-      expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
-        REASON_MAX_CHARS.direct -
-          reasonForAppointment.length -
-          1 -
-          reasonAdditionalInfo.length,
-      );
-    });
-
-    it('update values and calculates remaining characters for request message', async () => {
-      const state = {
-        newAppointment: {
-          flowType: FLOW_TYPES.REQUEST,
-        },
-      };
-
-      const dispatch = sinon.spy();
-      const thunk = updateReasonForAppointmentData(
-        'reasonForAppointment',
-        {},
-        {
-          reasonForAppointment,
-          reasonAdditionalInfo,
-        },
-      );
-
-      await thunk(dispatch, () => state);
-      expect(dispatch.firstCall.args[0].remainingCharacters).to.equal(
-        REASON_MAX_CHARS.request -
-          reasonForAppointment.length -
-          1 -
-          reasonAdditionalInfo.length,
-      );
+      expect(action.type).to.equal(FORM_REASON_FOR_APPOINTMENT_CHANGED);
     });
   });
+
   describe('openCommunityCarePreferencesPage', () => {
     const defaultSchema = {
       type: 'object',
@@ -766,21 +723,20 @@ describe('VAOS newAppointment actions', () => {
     expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
   });
 
-  it('should open select appointment page and fetch appointment slots', async () => {
+  it('should fetch appointment slots and not adjust time', async () => {
     mockFetch();
+    const tomorrowString = moment()
+      .add(1, 'days')
+      .format('YYYY-MM-DD');
     setFetchJSONResponse(global.fetch, {
       data: [
         {
           attributes: {
-            appointmentLength: 30,
+            appointmentLength: 20,
             appointmentTimeSlot: [
               {
-                startDateTime: moment()
-                  .add(30, 'minutes')
-                  .toISOString(),
-                endDateTime: moment()
-                  .add(60, 'minutes')
-                  .toISOString(),
+                startDateTime: `${tomorrowString}T14:20:00.000+00:00`,
+                endDateTime: `${tomorrowString}T14:40:00.000+00:00`,
               },
             ],
           },
@@ -793,24 +749,37 @@ describe('VAOS newAppointment actions', () => {
         data: {
           preferredDate: '2019-01-01',
         },
+        fetchedAppointmentSlotMonths: [],
       },
     };
     const getState = () => state;
     const dispatch = sinon.spy();
 
-    const thunk = openSelectAppointmentPage('selectDateTime', {}, {});
+    const thunk = getAppointmentSlots(
+      moment()
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      moment()
+        .add(1, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+    );
     await thunk(dispatch, getState);
 
     expect(dispatch.firstCall.args[0].type).to.equal(
-      FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
+      FORM_FETCH_AVAILABLE_APPOINTMENTS,
     );
 
     expect(dispatch.secondCall.args[0].type).to.equal(
-      FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
+      FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
     );
 
     expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
-    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(30);
+    expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
+      date: tomorrowString,
+      datetime: `${tomorrowString}T14:20:00`,
+    });
+    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
 
     resetFetch();
   });

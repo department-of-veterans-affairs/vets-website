@@ -11,6 +11,7 @@ export default class NewAppointmentLayout extends React.Component {
     }
 
     scrollAndFocus();
+    window.addEventListener('beforeunload', this.onBeforeUnload);
 
     // We don't want people to start in the middle of the form, so redirect them when they jump
     // in the middle
@@ -20,8 +21,26 @@ export default class NewAppointmentLayout extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.location.pathname.endsWith('confirmation')) {
+      this.removeBeforeUnloadHook();
+    }
+
     scrollAndFocus();
   }
+
+  componentWillUnmount() {
+    this.removeBeforeUnloadHook();
+  }
+
+  onBeforeUnload = e => {
+    e.preventDefault();
+    e.returnValue =
+      'Are you sure you wish to leave this application? All progress will be lost.';
+  };
+
+  removeBeforeUnloadHook = () => {
+    window.removeEventListener('beforeunload', this.onBeforeUnload);
+  };
 
   render() {
     const { children } = this.props;

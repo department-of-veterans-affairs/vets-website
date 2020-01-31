@@ -67,7 +67,7 @@ const PaymentView = response => {
               rel="noopener noreferrer"
               onClick={() =>
                 recordEvent({
-                  event: 'ebenefits-navigation',
+                  event: 'nav-ebenefits-click',
                 })
               }
             >

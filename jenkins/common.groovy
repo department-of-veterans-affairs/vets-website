@@ -95,7 +95,7 @@ def puppeteerNotification() {
 }
 
 def slackIntegrationNotify() {
-  message = "(Testing) @jbalboni: integration tests failed. |${env.RUN_DISPLAY_URL}".stripMargin()
+  message = "(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}".stripMargin()
   slackSend message: message,
     color: 'danger',
     failOnError: true
@@ -146,7 +146,7 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
     slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
       color: 'warning',
       failOnError: true,
-      channel: 'cms-engineering'
+      channel: 'cms-team'
   }
 }
 
@@ -172,7 +172,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     slackSend message: "${linkCount} broken links found in the ${envName} build on `${env.BRANCH_NAME}`\n${env.RUN_DISPLAY_URL}".stripMargin(),
       color: 'danger',
       failOnError: true,
-      channel: 'cms-engineering'
+      channel: 'cms-team'
 
     // Only break the build if broken links are found in master
     if (IS_PROD_BRANCH || contentOnlyBuild) {

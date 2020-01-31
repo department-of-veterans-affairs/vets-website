@@ -405,6 +405,7 @@ export function getCemeteries() {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
     },
   })
     .then(res => {

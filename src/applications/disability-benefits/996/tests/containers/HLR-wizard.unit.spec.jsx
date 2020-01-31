@@ -30,13 +30,13 @@ describe('<HLRWizard>', () => {
   });
 
   // 2 choices
-  it('should show link when "disability or pension" is chosen', () => {
+  it('should show link when "compensation" is chosen', () => {
     const tree = SkinDeep.shallowRender(
-      <HLRWizard initExpanded initChoice={'disabilityOrPension'} />,
+      <HLRWizard initExpanded initChoice={'compensation'} />,
     );
     expect(tree.subTree('button')).not.to.be.false;
     expect(tree.subTree('#wizardOptions')).not.to.be.false;
-    expect(getSelected(tree)).to.equal('disabilityOrPension');
+    expect(getSelected(tree)).to.equal('compensation');
     expect(tree.subTree('.usa-button').props.href).to.equal(BASE_URL);
     expect(tree.subTree('AlertBox')).to.be.false;
   });

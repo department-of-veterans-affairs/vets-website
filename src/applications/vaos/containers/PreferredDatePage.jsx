@@ -25,20 +25,19 @@ const initialSchema = {
 
 const uiSchema = {
   preferredDate: {
-    'ui:title': "What is the earliest date you'd like to be seen?",
+    'ui:title': 'What is the earliest date you’d like to be seen?',
     'ui:widget': 'date',
-    'ui:options': {
-      hideLabelText: true,
-    },
     'ui:validations': [validateCurrentOrFutureDate],
   },
 };
 
 const pageKey = 'preferredDate';
+const pageTitle = 'Tell us when you want to schedule your appointment';
 
 export class PreferredDatePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle}  | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -50,16 +49,13 @@ export class PreferredDatePage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress, typeOfCare } = this.props;
+    const { schema, data, pageChangeInProgress } = this.props;
 
     return (
       <div>
-        <h1 className="vads-u-font-size--h2">
-          What is the earliest date you would like to be seen?
-        </h1>
+        <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
         <legend className="schemaform-label vads-u-max-width--none vads-u-margin-bottom--1p5">
-          What is the earliest date you'd like to be seen
-          {typeOfCare && ` for ${typeOfCare}`}?
+          When is the earliest you want to be seen?
           <span className="schemaform-required-span">(*Required)</span>
         </legend>
         <SchemaForm
@@ -74,16 +70,11 @@ export class PreferredDatePage extends React.Component {
           data={data}
         >
           <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--neg2">
-            <AdditionalInfo triggerText="Why does this matter?">
-              <ol>
-                <li>
-                  We can use it to present you something that looks like what
-                  you want
-                </li>
-                <li>
-                  It helps us understand how the system is working for Veterans
-                </li>
-              </ol>
+            <AdditionalInfo triggerText="Why are you asking me this?">
+              If you tell us the earliest date you’re available for your
+              appointment, we’ll try to find the closest date to your request.
+              Note we might not be able to find the appointment for that
+              particular day.
             </AdditionalInfo>
           </div>
           <FormButtons

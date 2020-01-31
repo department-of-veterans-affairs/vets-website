@@ -11,6 +11,7 @@ export function removeFormApi(formId) {
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
     },
   })
     .then(res => {
@@ -56,6 +57,7 @@ export function saveFormApi(
     headers: {
       'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
     },
     body,
   })

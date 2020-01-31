@@ -19,7 +19,6 @@ module.exports = {
       '/health-care/schedule-view-va-appointments/appointments/',
       3,
     ).waitForElementVisible('#appointments-list', Timeouts.slow);
-    // .axeCheck('.main');
   },
   'Select new appointment': client => {
     VAOSHelpers.newAppointmentTest(client);
@@ -27,15 +26,16 @@ module.exports = {
   'Choose the type of care you need': client => {
     client
       .click('[value="SLEEP"]')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.slow)
-      .assert.containsText('h1', 'Choose the type of sleep care you need');
+      .waitForElementPresent('#root_typeOfSleepCareId_0', Timeouts.normal);
   },
   'Choose the type of sleep care you need': client => {
     client
       .click('[value="349"]')
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .assert.containsText('h1', 'Choose a VA location for your appointment');
+      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client
@@ -46,24 +46,21 @@ module.exports = {
       )
       .click('[name = "root_vaFacility"][value = "983GB"]')
       .pause(Timeouts.normal)
+      .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText(
-        'h1',
-        'What date and time would you like to make an appointment?',
-      );
+      .waitForElementPresent('.vaos-calendar__calendars', Timeouts.normal);
   },
   'What date and time would you like to make an appointment?': client => {
-    VAOSHelpers.appointmentDateTimeTest(client, 'Reason for appointment');
+    VAOSHelpers.appointmentDateTimeTest(client, '#root_reasonForAppointment_0');
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'How would you like to be seen?');
+    VAOSHelpers.appointmentReasonTest(client, '#root_visitType_0');
   },
   'How would you like to be seen?': client => {
-    VAOSHelpers.howToBeSeenTest(client);
+    VAOSHelpers.howToBeSeenTest(client, '#root_phoneNumber');
   },
   'Contact information': client => {
-    VAOSHelpers.contactInformationTest(client);
+    VAOSHelpers.contactInformationTest(client, '.vaos-review__header');
   },
   'Review your appointment details': client => {
     VAOSHelpers.reviewAppointmentTest(client);

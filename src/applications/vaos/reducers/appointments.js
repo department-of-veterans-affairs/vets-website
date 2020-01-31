@@ -17,10 +17,11 @@ import { FORM_CLOSED_CONFIRMATION_PAGE } from '../actions/newAppointment';
 
 import {
   filterFutureConfirmedAppointments,
-  filterFutureRequests,
+  filterRequests,
   sortFutureConfirmedAppointments,
   sortFutureRequests,
   sortMessages,
+  getRealFacilityId,
 } from '../utils/appointment';
 import { FETCH_STATUS } from '../utils/constants';
 
@@ -34,6 +35,7 @@ const initialState = {
   appointmentToCancel: null,
   facilityData: {},
   requestMessages: {},
+  systemClinicToFacilityMap: {},
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -51,7 +53,7 @@ export default function appointmentsReducer(state = initialState, action) {
         .sort(sortFutureConfirmedAppointments);
 
       const requestsFilteredAndSorted = [
-        ...requests.filter(req => filterFutureRequests(req, action.today)),
+        ...requests.filter(req => filterRequests(req, action.today)),
       ].sort(sortFutureRequests);
 
       return {
@@ -67,15 +69,27 @@ export default function appointmentsReducer(state = initialState, action) {
         future: null,
       };
     case FETCH_FACILITY_LIST_DATA_SUCCEEDED: {
-      return {
-        ...state,
-        facilityData: action.facilityData.reduce(
-          (acc, facility) => ({
+      const facilityData = action.facilityData.reduce(
+        (acc, facility) => ({
+          ...acc,
+          [facility.uniqueId]: facility,
+        }),
+        {},
+      );
+      const systemClinicToFacilityMap =
+        action.clinicInstitutionList?.reduce(
+          (acc, clinic) => ({
             ...acc,
-            [facility.uniqueId]: facility,
+            [`${clinic.systemId}_${clinic.locationIen}`]: facilityData[
+              getRealFacilityId(clinic.institutionCode)
+            ],
           }),
           {},
-        ),
+        ) || state.systemClinicToFacilityMap;
+      return {
+        ...state,
+        facilityData,
+        systemClinicToFacilityMap,
       };
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {

@@ -26,8 +26,6 @@ describe('Find VA Forms helpers', () => {
         'applyOnlineURL',
         'availableOnline',
         'description',
-        'firstIssuedOn',
-        'firstIssuedOnLabel',
         'id',
         'idLabel',
         'lastRevisionOn',

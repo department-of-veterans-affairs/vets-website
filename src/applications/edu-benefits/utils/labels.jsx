@@ -83,19 +83,6 @@ export const benefitsLabels = {
       </a>
     </p>
   ),
-  chapter1607: (
-    <p>
-      Reserve Educational Assistance Program (REAP, Chapter 1607)
-      <br />
-      <a
-        aria-label="Learn more about Reserve Educational Assistance Program benefits"
-        href="/education/other-va-education-benefits/reap/"
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </p>
-  ),
   transferOfEntitlement: (
     <p>
       Transfer of Entitlement Program (TOE)

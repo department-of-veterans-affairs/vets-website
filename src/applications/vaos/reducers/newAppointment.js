@@ -21,6 +21,9 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+  FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -34,8 +37,6 @@ import {
   START_DIRECT_SCHEDULE_FLOW,
   START_REQUEST_APPOINTMENT_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
-  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED,
-  FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -56,6 +57,7 @@ import {
   REASON_ADDITIONAL_INFO_TITLES,
   REASON_MAX_CHARS,
   FETCH_STATUS,
+  PURPOSE_TEXT,
 } from '../utils/constants';
 
 import { getTypeOfCare } from '../utils/selectors';
@@ -75,7 +77,9 @@ const initialState = {
   eligibilityStatus: FETCH_STATUS.notStarted,
   facilityDetailsStatus: FETCH_STATUS.notStarted,
   pastAppointments: null,
+  appointmentSlotsStatus: FETCH_STATUS.notStarted,
   availableSlots: null,
+  fetchedAppointmentSlotMonths: [],
   submitStatus: FETCH_STATUS.notStarted,
   isCCEligible: false,
 };
@@ -130,12 +134,6 @@ function updateFacilitiesSchemaAndData(systems, facilities, schema, data) {
   }
 
   return { schema: newSchema, data: newData };
-}
-
-function getReasonAdditionalInfoTitle(reason) {
-  return reason === 'other'
-    ? REASON_ADDITIONAL_INFO_TITLES.other
-    : REASON_ADDITIONAL_INFO_TITLES.default;
 }
 
 export default function formReducer(state = initialState, action) {
@@ -291,6 +289,7 @@ export default function formReducer(state = initialState, action) {
       );
 
       let eligibility = state.eligibility;
+      let clinics = state.clinics;
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
           newData.vaSystem,
@@ -300,7 +299,12 @@ export default function formReducer(state = initialState, action) {
 
         eligibility = {
           ...state.eligibility,
-          [`${newData.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+          [`${data.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+        };
+        clinics = {
+          ...state.clinics,
+          [`${data.vaFacility}_${action.typeOfCareId}`]: action.eligibilityData
+            .clinics,
         };
       }
 
@@ -318,6 +322,7 @@ export default function formReducer(state = initialState, action) {
           [action.page]: schema,
         },
         eligibility,
+        clinics,
       };
     }
     case FORM_PAGE_FACILITY_OPEN_FAILED: {
@@ -453,13 +458,11 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pastAppointments: action.appointments,
         flowType: FLOW_TYPES.DIRECT,
-        reasonRemainingChar: REASON_MAX_CHARS.direct,
       };
     case START_REQUEST_APPOINTMENT_FLOW:
       return {
         ...state,
         flowType: FLOW_TYPES.REQUEST,
-        reasonRemainingChar: REASON_MAX_CHARS.request,
       };
     case FORM_FETCH_FACILITY_DETAILS:
       return {
@@ -475,26 +478,60 @@ export default function formReducer(state = initialState, action) {
           [action.facilityId]: action.facilityDetails,
         },
       };
-    case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED: {
+    case FORM_FETCH_AVAILABLE_APPOINTMENTS: {
       return {
         ...state,
-        loadingAppointmentSlots: true,
-        availableSlots: [],
-        appointmentLength: null,
+        appointmentSlotsStatus: FETCH_STATUS.loading,
       };
     }
-    case FORM_SCHEDULE_APPOINTMENT_PAGE_OPENED_SUCCEEDED: {
+    case FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED: {
+      return {
+        ...state,
+        appointmentSlotsStatus: FETCH_STATUS.succeeded,
+        availableSlots: action.availableSlots,
+        fetchedAppointmentSlotMonths: action.fetchedAppointmentSlotMonths,
+        appointmentLength: action.appointmentLength,
+      };
+    }
+    case FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED: {
+      return {
+        ...state,
+        appointmentSlotsStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
+      let reasonMaxChars = REASON_MAX_CHARS.request;
+
+      if (state.flowType === FLOW_TYPES.DIRECT) {
+        const prependText = PURPOSE_TEXT.find(
+          purpose => purpose.id === state.data.reasonForAppointment,
+        )?.short;
+        reasonMaxChars =
+          REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2;
+      }
+
+      let reasonSchema = set(
+        'properties.reasonAdditionalInfo.maxLength',
+        reasonMaxChars,
+        action.schema,
+      );
+
+      reasonSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        state.flowType === FLOW_TYPES.DIRECT
+          ? REASON_ADDITIONAL_INFO_TITLES.direct
+          : REASON_ADDITIONAL_INFO_TITLES.request,
+        reasonSchema,
+      );
+
       const { data, schema } = setupFormData(
         state.data,
-        action.schema,
+        reasonSchema,
         action.uiSchema,
       );
 
       return {
         ...state,
-        loadingAppointmentSlots: false,
-        availableSlots: action.availableSlots,
-        appointmentLength: action.appointmentLength,
         data,
         pages: {
           ...state.pages,
@@ -502,41 +539,19 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
-      const { data, schema } = setupFormData(
-        state.data,
-        action.schema,
-        action.uiSchema,
-      );
-
-      let reasonSchema = { ...schema };
-
-      if (state.data?.reasonForAppointment) {
-        reasonSchema = set(
-          'properties.reasonAdditionalInfo.title',
-          getReasonAdditionalInfoTitle(state.data.reasonForAppointment),
-          reasonSchema,
-        );
-      }
-
-      return {
-        ...state,
-        data,
-        pages: {
-          ...state.pages,
-          [action.page]: reasonSchema,
-        },
-      };
-    }
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       let newSchema = state.pages.reasonForAppointment;
 
-      // Update additional info title based on radio selection
-      newSchema = set(
-        'properties.reasonAdditionalInfo.title',
-        getReasonAdditionalInfoTitle(action.data.reasonForAppointment),
-        newSchema,
-      );
+      if (state.flowType === FLOW_TYPES.DIRECT) {
+        const prependText = PURPOSE_TEXT.find(
+          purpose => purpose.id === action.data.reasonForAppointment,
+        )?.short;
+        newSchema = set(
+          'properties.reasonAdditionalInfo.maxLength',
+          REASON_MAX_CHARS.direct - (prependText?.length || 0) - 2,
+          newSchema,
+        );
+      }
 
       const { data, schema } = updateSchemaAndData(
         newSchema,
@@ -551,7 +566,6 @@ export default function formReducer(state = initialState, action) {
           ...state.pages,
           reasonForAppointment: schema,
         },
-        reasonRemainingChar: action.remainingCharacters,
       };
     }
     case FORM_CLINIC_PAGE_OPENED_SUCCEEDED: {
@@ -565,10 +579,10 @@ export default function formReducer(state = initialState, action) {
         const pastAppointmentDateMap = new Map();
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
-          const facilityId = state.data.vaFacility;
+          const systemId = state.data.vaSystem;
           const latestApptTime = pastAppointmentDateMap.get(appt.clinicId);
           if (
-            appt.facilityId === facilityId &&
+            appt.facilityId === systemId &&
             (!latestApptTime || latestApptTime > apptTime)
           ) {
             pastAppointmentDateMap.set(appt.clinicId, apptTime);
@@ -604,7 +618,7 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'Select a clinic where you have been seen before, or request an appointment in a different clinic.',
+                'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
               enum: clinics.map(clinic => clinic.clinicId).concat('NONE'),
               enumNames: clinics
                 .map(

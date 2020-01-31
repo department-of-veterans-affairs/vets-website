@@ -1,4 +1,4 @@
-const { getDrupalValue, uriToUrl } = require('./helpers');
+const { getDrupalValue, createLink } = require('./helpers');
 
 const transform = entity => {
   const fsml = entity.fieldSocialMediaLinks[0];
@@ -15,13 +15,7 @@ const transform = entity => {
       ),
       fieldEmailUpdatesUrl: getDrupalValue(entity.fieldEmailUpdatesUrl),
       fieldIntroText: getDrupalValue(entity.fieldIntroText),
-      fieldLink: entity.fieldLink.length
-        ? {
-            url: {
-              path: uriToUrl(entity.fieldLink[0].uri),
-            },
-          }
-        : null,
+      fieldLink: createLink(entity.fieldLink, ['url']),
       fieldSocialMediaLinks: {
         platform: fsml.platform,
         value: fsml.value,

@@ -8,19 +8,27 @@ import { formatOperatingHours } from '../utils/formatters';
  */
 const FacilityHours = ({ location }) => {
   // Derive the formatted hours info.
-  const hoursInfo = location?.attributes?.hours;
+  const hoursInfo = location?.hours;
 
-  // Derive the time ranges for each day.
-  const sunday = formatOperatingHours(hoursInfo?.sunday);
-  const monday = formatOperatingHours(hoursInfo?.monday);
-  const tuesday = formatOperatingHours(hoursInfo?.tuesday);
-  const wednesday = formatOperatingHours(hoursInfo?.wednesday);
-  const thursday = formatOperatingHours(hoursInfo?.thursday);
-  const friday = formatOperatingHours(hoursInfo?.friday);
-  const saturday = formatOperatingHours(hoursInfo?.saturday);
+  const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+
+  const dayHours = days
+    .map(day => ({
+      day,
+      hours: formatOperatingHours(hoursInfo?.[day.toLowerCase()]),
+    }))
+    .filter(day => !!day.hours);
 
   // Derive if the facility is a vet center.
-  const facilityType = location?.attributes?.facilityType;
+  const facilityType = location?.facilityType;
   const isVetCenter = facilityType === 'vet_center';
 
   return (
@@ -28,94 +36,26 @@ const FacilityHours = ({ location }) => {
       <div className="vads-l-row">
         <div className="vads-l-col--8 xsmall-screen:vads-l-col--12">
           <div className="vads-l-row">
-            <div className="vads-l-col--3 xsmall-screen:vads-l-col--4 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-font-weight--bold">
+            <div className="vads-l-col--3 xsmall-screen:vads-l-col--4 small-screen:vads-l-col--3 medium-screen:vads-l-col--3 vads-u-font-weight--bold">
               Hours:
             </div>
-            <div className="vads-l-col--9 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--6">
+            <div className="vads-l-col--9 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--9">
               <div className="vads-l-row">
-                {/* Sunday */}
-                {sunday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Sunday
+                {dayHours.map((d, index) => (
+                  <React.Fragment key={`hours-${index}`}>
+                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--5 medium-screen:small-screen:vads-l-col--3">
+                      <span className="vads-u-display--none small-screen:vads-u-display--inline">
+                        {d.day}
+                      </span>
+                      <span className="small-screen:vads-u-display--none">
+                        {d.day.slice(0, 3)}
+                      </span>
                     </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {sunday}
+                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--7 medium-screen:small-screen:vads-l-col--9">
+                      {d.hours}
                     </div>
-                  </>
-                )}
-
-                {/* Monday */}
-                {monday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Monday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {monday}
-                    </div>
-                  </>
-                )}
-
-                {/* Tuesday */}
-                {tuesday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Tuesday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {tuesday}
-                    </div>
-                  </>
-                )}
-
-                {/* Wednesday */}
-                {wednesday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Wednesday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {wednesday}
-                    </div>
-                  </>
-                )}
-
-                {/* Thursday */}
-                {thursday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Thursday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {thursday}
-                    </div>
-                  </>
-                )}
-
-                {/* Friday */}
-                {friday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Friday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {friday}
-                    </div>
-                  </>
-                )}
-
-                {/* Saturday */}
-                {saturday && (
-                  <>
-                    <div className="vaos-facility-details__day vads-l-col--6 xsmall-screen:vads-l-col--7">
-                      Saturday
-                    </div>
-                    <div className="vaos-facility-details__hours vads-l-col--6 xsmall-screen:vads-l-col--5">
-                      {saturday}
-                    </div>
-                  </>
-                )}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           </div>

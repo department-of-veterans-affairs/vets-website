@@ -8,8 +8,12 @@ const confirmedCC = require('../../api/confirmed_cc.json');
 const requests = require('../../api/requests.json');
 const cancelReasons = require('../../api/cancel_reasons.json');
 const systems = require('../../api/systems.json');
+const supportedSites = require('../../api/sites-supporting-var.json');
 const facilities = require('../../api/facilities.json');
 const facilities983 = require('../../api/facilities_983.json');
+const clinicList983 = require('../../api/clinicList983.json');
+const slots = require('../../api/slots.json');
+const pact = require('../../api/pact.json');
 
 function updateConfirmedVADates(data) {
   data.data.forEach(item => {
@@ -49,64 +53,74 @@ function updateRequestDates(data) {
   return data;
 }
 
-function newAppointmentTest(client) {
+function newAppointmentTest(client, nextElement = '.rjsf [type="submit"]') {
   client
     .click('#new-appointment')
-    .waitForElementVisible('.rjsf [type="submit"]', Timeouts.normal)
-    .axeCheck('.main');
+    .waitForElementVisible(nextElement, Timeouts.normal);
+
   return client;
 }
 
-function appointmentDateTimeTest(client, assertText) {
+function appointmentDateTimeTest(client, nextElement) {
   client
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
-    .click('.vaos-calendar__options input[id^="checkbox-0"]')
+    .click(
+      '.vaos-calendar__cell-current .vaos-calendar__options input[id$="_0"]',
+    )
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', assertText);
+    .waitForElementPresent(nextElement, Timeouts.slow);
 
   return client;
 }
 
-function appointmentReasonTest(client, nextPageHeader) {
+function appointmentReasonTest(client, nextElement) {
   client
-    .click('#root_reasonForAppointment_0')
+    .selectRadio('root_reasonForAppointment', 'other')
+    .waitForElementPresent(
+      'textarea#root_reasonAdditionalInfo',
+      Timeouts.normal,
+    )
     .setValue('textarea#root_reasonAdditionalInfo', 'Additonal information')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', nextPageHeader);
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
-function howToBeSeenTest(client) {
+function howToBeSeenTest(client, nextElement) {
   client
     .click('input#root_visitType_0')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .waitForElementVisible('h1', Timeouts.slow)
-    .assert.containsText('h1', 'Contact information');
+    .waitForElementPresent(nextElement, Timeouts.normal);
 }
 
-function contactInformationTest(client) {
+function contactInformationTest(client, nextElement) {
   client
     .fill('input#root_phoneNumber', '5035551234')
     .click('input#root_bestTimeToCall_morning')
     .fill('input#root_email', 'mail@gmail.com')
+    .axeCheck('.main')
     .click('.rjsf [type="submit"]')
-    .assert.containsText('h1', 'Review your appointment');
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
-function reviewAppointmentTest(client) {
+function reviewAppointmentTest(client, nextElement = '.usa-alert-success') {
   client
+    .axeCheck('.main')
     .click('button.usa-button.usa-button-primary')
-    .waitForElementPresent('.usa-alert-success', Timeouts.normal);
+    .waitForElementPresent(nextElement, Timeouts.normal);
 
   return client;
 }
 
 function appointmentSubmittedTest(client) {
-  // client.click('.usa-button[href$="new-appointment/"]')
   client
+    .axeCheck('.main')
     .click('.usa-button[href$="appointments/"]')
     .assert.containsText('h1', 'VA appointments');
 
@@ -136,6 +150,10 @@ function initAppointmentListMock(token) {
             name: 'vaOnlineSchedulingCommunityCare',
             value: true,
           },
+          {
+            name: 'vaOnlineSchedulingDirect',
+            value: true,
+          },
         ],
       },
     },
@@ -144,6 +162,11 @@ function initAppointmentListMock(token) {
     path: '/v0/vaos/systems',
     verb: 'get',
     value: systems,
+  });
+  mock(token, {
+    path: '/v0/vaos/community_care/supported_sites',
+    verb: 'get',
+    value: supportedSites,
   });
   mock(token, {
     path: '/v0/vaos/appointments',
@@ -186,6 +209,28 @@ function initAppointmentListMock(token) {
     path: '/v0/vaos/systems/983/direct_scheduling_facilities',
     verb: 'get',
     value: facilities983,
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983/clinics',
+    verb: 'get',
+    value: clinicList983,
+  });
+  mock(token, {
+    path: '/v0/vaos/systems/983/pact',
+    verb: 'get',
+    value: pact,
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983GB/clinics',
+    verb: 'get',
+    value: {
+      data: [],
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983/available_appointments',
+    verb: 'get',
+    value: slots,
   });
   mock(token, {
     path: '/v0/vaos/facilities/983/limits',
@@ -239,9 +284,15 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
+    path: '/v0/vaos/appointments',
+    verb: 'post',
+    value: {
+      data: {},
+    },
+  });
+  mock(token, {
     path: '/v0/vaos/facilities/983GB/visits/request',
     verb: 'get',
-    // query: 'type=cc',
     value: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -256,7 +307,6 @@ function initAppointmentListMock(token) {
   mock(token, {
     path: '/v0/vaos/facilities/983/visits/request',
     verb: 'get',
-    // query: 'type=cc',
     value: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -269,9 +319,36 @@ function initAppointmentListMock(token) {
     },
   });
   mock(token, {
+    path: '/v0/vaos/facilities/983/visits/direct',
+    verb: 'get',
+    value: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: true,
+        },
+      },
+    },
+  });
+  mock(token, {
+    path: '/v0/vaos/facilities/983GB/visits/direct',
+    verb: 'get',
+    value: {
+      data: {
+        id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+        type: 'facility_visit',
+        attributes: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: false,
+        },
+      },
+    },
+  });
+  mock(token, {
     path: '/v0/vaos/community_care/eligibility/PrimaryCare',
     verb: 'get',
-    // query: 'type=cc',
     value: {
       data: {
         id: 'PrimaryCare',

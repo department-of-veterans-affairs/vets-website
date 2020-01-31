@@ -1,6 +1,14 @@
 import React from 'react';
+import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 
-export default function FacilityAddress({ name, address, phone }) {
+export default function FacilityAddress({
+  name,
+  facility,
+  showDirectionsLink,
+}) {
+  const address = facility?.address?.physical;
+  const phone = facility?.phone?.main;
+
   return (
     <>
       {!!name && (
@@ -17,6 +25,12 @@ export default function FacilityAddress({ name, address, phone }) {
       {!!address.address3 && <br />}
       {address.city}, {address.state} {address.zip}
       <br />
+      {showDirectionsLink && (
+        <>
+          <FacilityDirectionsLink location={facility} />
+          <br />
+        </>
+      )}
       {!!phone && (
         <dl className="vads-u-margin-y--0">
           <dt className="vads-u-display--inline">

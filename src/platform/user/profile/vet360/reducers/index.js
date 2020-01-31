@@ -15,6 +15,7 @@ import {
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
+  ADDRESS_VALIDATION_INITIALIZE,
 } from '../actions';
 
 import { isFailedTransaction } from '../util/transactions';
@@ -22,6 +23,7 @@ import { isFailedTransaction } from '../util/transactions';
 const initialAddressValidationState = {
   addressValidationType: '',
   suggestedAddresses: [],
+  confirmedSuggestions: [],
   addressFromUser: {
     addressLine1: '',
     addressLine2: '',
@@ -33,7 +35,7 @@ const initialAddressValidationState = {
   addressValidationError: false,
   validationKey: null,
   selectedAddress: {},
-  selectedAddressId: '0',
+  selectedAddressId: null,
 };
 
 const initialState = {
@@ -209,9 +211,25 @@ export default function vet360(state = initialState, action) {
     case OPEN_MODAL:
       return { ...state, modal: action.modal, modalData: action.modalData };
 
+    case ADDRESS_VALIDATION_INITIALIZE:
+      return {
+        ...state,
+        addressValidation: {
+          ...initialAddressValidationState,
+        },
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: { isPending: true },
+        },
+      };
+
     case ADDRESS_VALIDATION_CONFIRM:
       return {
         ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.addressValidationType]: { isPending: false },
+        },
         addressValidation: {
           ...state.addressValidation,
           addressFromUser: action.addressFromUser,
@@ -219,7 +237,9 @@ export default function vet360(state = initialState, action) {
           suggestedAddresses: action.suggestedAddresses,
           validationKey: action.validationKey,
           selectedAddress: action.selectedAddress,
-          selectedAddressId: '0',
+          selectedAddressId: action.selectedAddressId,
+          confirmedSuggestions: action.confirmedSuggestions,
+          addressValidationError: false,
         },
         modal: 'addressValidation',
       };
@@ -227,11 +247,15 @@ export default function vet360(state = initialState, action) {
     case ADDRESS_VALIDATION_ERROR:
       return {
         ...state,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.addressValidationType]: { isPending: false },
+        },
         addressValidation: {
-          ...state.addressValidation,
+          ...initialAddressValidationState,
           addressValidationError: action.addressValidationError,
           addressValidationType: action.addressValidationType,
-          validationKey: action.validationKey,
+          validationKey: action.validationKey || null,
           addressFromUser: action.addressFromUser,
         },
         modal: 'addressValidation',

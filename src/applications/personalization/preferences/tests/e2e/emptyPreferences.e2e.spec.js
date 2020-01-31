@@ -58,10 +58,7 @@ function emptyPreferences(browser, token) {
 
   // init announcements
   browser.execute(() => {
-    window.localStorage.setItem(
-      'DISMISSED_ANNOUNCEMENTS',
-      '["welcome-to-new-va","find-benefits-intro","personalization"]',
-    );
+    window.localStorage.setItem('DISMISSED_ANNOUNCEMENTS', '*');
   });
 
   // ensure that modal does not appear if it has been dismissed

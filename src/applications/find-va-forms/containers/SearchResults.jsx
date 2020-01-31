@@ -1,6 +1,7 @@
 // Dependencies.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import SortableTable from '@department-of-veterans-affairs/formation-react/SortableTable';
@@ -13,7 +14,7 @@ const ASCENDING = 'ASC';
 const DESCENDING = 'DESC';
 const FIELD_LABELS = [
   {
-    label: 'VA form number',
+    label: 'Form number',
     value: 'idLabel',
   },
   {
@@ -21,11 +22,7 @@ const FIELD_LABELS = [
     value: 'titleLabel',
   },
   {
-    label: 'Issue Date',
-    value: 'firstIssuedOnLabel',
-  },
-  {
-    label: 'Revision Date',
+    label: 'Revision date',
     value: 'lastRevisionOnLabel',
   },
 ];
@@ -34,10 +31,13 @@ export const MAX_PAGE_LIST_LENGTH = 10;
 export class SearchResults extends Component {
   static propTypes = {
     // From mapStateToProps.
+    error: PropTypes.string.isRequired,
+    fetching: PropTypes.bool.isRequired,
+    page: PropTypes.number.isRequired,
+    query: PropTypes.string.isRequired,
     results: PropTypes.arrayOf(
       PropTypes.shape({
         // Original form data key-value pairs.
-        firstIssuedOn: PropTypes.number.isRequired,
         formName: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         lastRevisionOn: PropTypes.number.isRequired,
@@ -49,13 +49,9 @@ export class SearchResults extends Component {
         // Table field labels that can be JSX.
         idLabel: PropTypes.node.isRequired,
         titleLabel: PropTypes.node.isRequired,
-        firstIssuedOnLabel: PropTypes.node.isRequired,
         lastRevisionOnLabel: PropTypes.node.isRequired,
       }).isRequired,
     ),
-    fetching: PropTypes.bool.isRequired,
-    query: PropTypes.string.isRequired,
-    page: PropTypes.number.isRequired,
     startIndex: PropTypes.number.isRequired,
     // From mapDispatchToProps.
     updatePagination: PropTypes.func.isRequired,
@@ -127,12 +123,23 @@ export class SearchResults extends Component {
 
   render() {
     const { onHeaderClick, onPageSelect } = this;
-    const { fetching, page, query, results, startIndex } = this.props;
+    const { error, fetching, page, query, results, startIndex } = this.props;
     const { selectedFieldLabel, selectedFieldOrder } = this.state;
 
     // Show loading indicator if we are fetching.
     if (fetching) {
       return <LoadingIndicator message="Loading search results..." />;
+    }
+
+    // Show the error alert box if there was an error.
+    if (error) {
+      return (
+        <AlertBox
+          headline="Something went wrong"
+          content={error}
+          status="error"
+        />
+      );
     }
 
     // Do not render if we have not fetched, yet.
@@ -169,7 +176,7 @@ export class SearchResults extends Component {
 
         {/* Table of Forms */}
         <SortableTable
-          className="vads-u-margin--0"
+          className="find-va-forms-table vads-u-margin--0"
           currentSort={{ order: selectedFieldOrder, value: selectedFieldLabel }}
           data={slice(results, startIndex, lastIndex)}
           fields={FIELD_LABELS}
@@ -192,6 +199,7 @@ export class SearchResults extends Component {
 }
 
 const mapStateToProps = state => ({
+  error: state.findVAFormsReducer.error,
   fetching: state.findVAFormsReducer.fetching,
   page: state.findVAFormsReducer.page,
   query: state.findVAFormsReducer.query,

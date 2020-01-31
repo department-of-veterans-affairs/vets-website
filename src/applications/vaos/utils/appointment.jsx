@@ -1,8 +1,10 @@
 import React from 'react';
 import moment from './moment-tz';
+import * as ICS from 'ics-js';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
+import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 
 import {
   getTimezoneBySystemId,
@@ -45,7 +47,7 @@ export function getVideoVisitLink(appt) {
 }
 
 export function getStagingId(facilityId) {
-  if (!environment.isProduction() && facilityId.startsWith('983')) {
+  if (!environment.isProduction() && facilityId?.startsWith('983')) {
     return facilityId.replace('983', '442');
   }
 
@@ -79,7 +81,7 @@ export function sentenceCase(str) {
     .join(' ');
 }
 
-export function lowerCase(str) {
+export function lowerCase(str = '') {
   return str
     .split(' ')
     .map(word => {
@@ -130,6 +132,8 @@ export function getAppointmentLocation(appt, facility) {
         {appt.address.street}
         <br />
         {appt.address.city}, {appt.address.state} {appt.address.zipCode}
+        <br />
+        <FacilityDirectionsLink location={appt} />
       </>
     );
   }
@@ -152,21 +156,25 @@ export function getAppointmentLocation(appt, facility) {
     );
   }
 
+  if (facility) {
+    return (
+      <>
+        {type !== APPOINTMENT_TYPES.request && (
+          <>
+            {facility.name}
+            <br />
+          </>
+        )}
+        <FacilityAddress facility={facility} showDirectionsLink />
+      </>
+    );
+  }
+
   if (type === APPOINTMENT_TYPES.vaAppointment) {
     return (
       <a href="/find-locations" rel="noopener noreferrer" target="_blank">
         Find facility information
       </a>
-    );
-  }
-
-  if (facility) {
-    return (
-      <FacilityAddress
-        name={type === APPOINTMENT_TYPES.request ? '' : facility.name}
-        address={facility.address.physical}
-        phone={facility.phone?.main}
-      />
     );
   }
 
@@ -192,7 +200,11 @@ export function getAppointmentLocation(appt, facility) {
 
 export function getMomentConfirmedDate(appt) {
   if (isCommunityCare(appt)) {
-    return moment(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss');
+    const zoneSplit = appt.timeZone.split(' ');
+    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
+    return moment
+      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
+      .utcOffset(offset);
   }
 
   const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
@@ -215,8 +227,10 @@ export function getAppointmentTimezoneAbbreviation(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
-    case APPOINTMENT_TYPES.ccAppointment:
-      return stripDST(appt?.timeZone?.split(' ')?.[1]);
+    case APPOINTMENT_TYPES.ccAppointment: {
+      const tzAbbr = appt?.timeZone?.split(' ')?.[1] || appt?.timeZone;
+      return stripDST(tzAbbr);
+    }
     case APPOINTMENT_TYPES.ccRequest:
     case APPOINTMENT_TYPES.request:
       return getTimezoneAbbrBySystemId(appt?.facility?.facilityCode);
@@ -323,18 +337,19 @@ export function sortFutureConfirmedAppointments(a, b) {
   return getMomentConfirmedDate(a).isBefore(getMomentConfirmedDate(b)) ? -1 : 1;
 }
 
-export function filterFutureRequests(request, today) {
+export function filterRequests(request, today) {
+  const status = request?.status;
   const optionDate1 = moment(request.optionDate1, 'MM/DD/YYYY');
   const optionDate2 = moment(request.optionDate2, 'MM/DD/YYYY');
   const optionDate3 = moment(request.optionDate3, 'MM/DD/YYYY');
 
-  const VALID_STATUSES = ['Submitted', 'Cancelled'];
+  const hasValidDateAfterToday =
+    (optionDate1.isValid() && optionDate1.isAfter(today)) ||
+    (optionDate2.isValid() && optionDate2.isAfter(today)) ||
+    (optionDate3.isValid() && optionDate3.isAfter(today));
 
   return (
-    VALID_STATUSES.includes(request.status) &&
-    ((optionDate1.isValid() && optionDate1.isAfter(today)) ||
-      (optionDate2.isValid() && optionDate2.isAfter(today)) ||
-      (optionDate3.isValid() && optionDate3.isAfter(today)))
+    status === 'Submitted' || (status === 'Cancelled' && hasValidDateAfterToday)
   );
 }
 
@@ -369,11 +384,19 @@ export function getAppointmentInstructions(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return appt.instructionsToVeteran;
-    case APPOINTMENT_TYPES.vaAppointment:
-      return (
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const bookingNotes =
         appt.vdsAppointments?.[0]?.bookingNote ||
-        appt.vvsAppointments?.[0]?.bookingNotes
-      );
+        appt.vvsAppointments?.[0]?.bookingNotes;
+
+      const instructions = bookingNotes?.split(': ', 2);
+
+      if (instructions && instructions.length > 1) {
+        return instructions[1];
+      }
+
+      return '';
+    }
     default:
       return '';
   }
@@ -385,18 +408,32 @@ export function getAppointmentInstructionsHeader(appt) {
   switch (type) {
     case APPOINTMENT_TYPES.ccAppointment:
       return 'Special instructions';
-    case APPOINTMENT_TYPES.vaAppointment:
-      return 'Additional information';
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const bookingNotes =
+        appt.vdsAppointments?.[0]?.bookingNote ||
+        appt.vvsAppointments?.[0]?.bookingNotes;
+
+      const instructions = bookingNotes?.split(': ', 2);
+
+      return instructions ? instructions[0] : '';
+    }
     default:
       return '';
   }
 }
 
 export function hasInstructions(appt) {
+  if (appt.instructionsToVeteran) {
+    return true;
+  }
+
+  const bookingNotes =
+    appt.vdsAppointments?.[0]?.bookingNote ||
+    appt.vvsAppointments?.[0]?.bookingNotes;
+
   return (
-    !!appt.instructionsToVeteran ||
-    !!appt.vdsAppointments?.[0]?.bookingNote ||
-    !!appt.vvsAppointments?.[0]?.bookingNotes
+    !!bookingNotes &&
+    PURPOSE_TEXT.some(purpose => bookingNotes.startsWith(purpose.short))
   );
 }
 
@@ -440,4 +477,94 @@ export function getAppointmentTypeHeader(appt) {
     default:
       return appt.purposeOfVisit;
   }
+}
+
+/**
+ * Function to get the appointment duration in minutes. The default is 60 minutes.
+ *
+ * @param {*} appt
+ * @returns
+ */
+export function getAppointmentDuration(appt) {
+  const type = getAppointmentType(appt);
+
+  switch (type) {
+    case APPOINTMENT_TYPES.vaAppointment: {
+      const appointmentLength = parseInt(
+        appt.vdsAppointments[0]?.appointmentLength,
+        10,
+      );
+      return isNaN(appointmentLength) ? 60 : appointmentLength;
+    }
+    default:
+      return 60;
+  }
+}
+
+/**
+ * Function to get the appointment address.
+ *
+ * @param {*} appt
+ * @param {*} facility
+ * @returns 'undefined' if there is no address
+ */
+export function getAppointmentAddress(appt, facility) {
+  if (isVideoVisit(appt)) {
+    return 'Video conference';
+  }
+
+  const type = getAppointmentType(appt);
+
+  if (type === APPOINTMENT_TYPES.ccAppointment) {
+    return `${appt.address.street} ${appt.address.city}, ${
+      appt.address.state
+    } ${appt.address.zipCode}`;
+  }
+
+  if (facility) {
+    return `${facility.address.physical.address1} ${
+      facility.address.physical.city
+    }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
+  }
+
+  return undefined;
+}
+
+/**
+ * Function to generate ICS commands for an appointment.
+ *
+ * @export
+ * @param {*} appt
+ * @param {*} facility
+ */
+export function generateICS(appt, facility) {
+  const cal = new ICS.VCALENDAR();
+  const event = new ICS.VEVENT();
+
+  const subject = getAppointmentTypeHeader(appt);
+  const description = `${getAppointmentInstructionsHeader(
+    appt,
+  )}. ${getAppointmentInstructions(appt)}`;
+  const location = getAppointmentAddress(appt, facility);
+
+  const duration = getAppointmentDuration(appt);
+  const startDateObj = getMomentConfirmedDate(appt).toDate();
+  const endDateObj = getMomentConfirmedDate(appt)
+    .add(duration, 'minutes')
+    .toDate();
+
+  cal.addProp('VERSION', 2);
+  cal.addProp('PRODID', 'VA');
+
+  event.addProp('UID');
+  event.addProp('SUMMARY', [subject]);
+  event.addProp('DESCRIPTION', [description]);
+  event.addProp('LOCATION', [location]);
+  event.addProp('DTSTAMP', startDateObj);
+  event.addProp('DTSTART', startDateObj);
+  event.addProp('DTEND', endDateObj);
+
+  cal.addComponent(event);
+
+  return cal.toString();
 }

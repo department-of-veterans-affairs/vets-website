@@ -1,4 +1,8 @@
-import { mapboxClient } from '../components/MapboxClient';
+import mapboxClient from '../components/MapboxClient';
+
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxClient = mbxGeo(mapboxClient);
 
 /** ****************************************************
  * Helper functions specifically requiring the
@@ -40,23 +44,23 @@ export const getBoxCenter = bounds => {
  *
  * @param {Number} lon Longitude coordinate
  * @param {Number} lat Latitude coordinate
- * @param {String} types A valid type-of-address string as defined by the Mapbox API:
  *   https://www.mapbox.com/api-documentation/?language=JavaScript#retrieve-places-near-a-location
  *   default => `'address,postcode'`
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocode = async (lon, lat, types = 'address,postcode') => {
+export const reverseGeocode = async (lon, lat) => {
+  const types = ['address', 'postcode'];
+
+  const response = await mbxClient
+    .reverseGeocode({ query: [lon, lat], types })
+    .send()
+    .catch();
   const {
-    entity: {
-      features: {
-        0: { place_name: placeName },
-      },
+    features: {
+      0: { place_name: placeName },
     },
-  } = await mapboxClient.geocodeReverse(
-    { longitude: lon, latitude: lat },
-    { types },
-  );
+  } = response.body;
 
   return placeName;
 };

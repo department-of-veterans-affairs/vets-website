@@ -2,7 +2,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { getRealFacilityId } from './appointment';
 import { isEligible } from './eligibility';
-import { getTimezoneAbbrBySystemId } from './timezone';
+import { getTimezoneDescBySystemId } from './timezone';
 import {
   FACILITY_TYPES,
   TYPES_OF_CARE,
@@ -42,10 +42,20 @@ export function getTypeOfCare(data) {
     data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
-    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+    return AUDIOLOGY_TYPES_OF_CARE.find(
+      care => care.ccId === data.audiologyType,
+    );
   }
 
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+}
+
+export function getCCEType(state) {
+  const data = getFormData(state);
+
+  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+
+  return typeOfCare?.cceType;
 }
 
 export function getSystems(state) {
@@ -61,6 +71,12 @@ export function getChosenFacilityInfo(state) {
       facility => facility.institutionCode === data.vaFacility,
     ) || null
   );
+}
+
+export function getChosenFacilityDetails(state) {
+  const data = getFormData(state);
+  const facilityDetails = getNewAppointment(state).facilityDetails;
+  return facilityDetails[data.vaFacility] || null;
 }
 
 export function getEligibilityChecks(state) {
@@ -85,7 +101,7 @@ export function getPreferredDate(state, pageKey) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
-  const loadingAppointmentSlots = newAppointment.loadingAppointmentSlots;
+  const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
@@ -99,7 +115,7 @@ export function getDateTimeSelect(state, pageKey) {
   }, []);
 
   const timezone = data.vaSystem
-    ? getTimezoneAbbrBySystemId(data.vaSystem)
+    ? getTimezoneDescBySystemId(data.vaSystem)
     : null;
   const typeOfCareId = getTypeOfCare(data)?.id;
 
@@ -109,7 +125,7 @@ export function getDateTimeSelect(state, pageKey) {
     availableSlots,
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
-    loadingAppointmentSlots,
+    appointmentSlotsStatus,
     preferredDate: data.preferredDate,
     timezone,
     typeOfCareId,
@@ -170,15 +186,6 @@ export function getChosenClinicInfo(state) {
   );
 }
 
-export function getReasonForAppointment(state, pageKey) {
-  const formInfo = getFormPageInfo(state, pageKey);
-  const reasonRemainingChar = getNewAppointment(state).reasonRemainingChar;
-  return {
-    ...formInfo,
-    reasonRemainingChar,
-  };
-}
-
 export function getClinicsForChosenFacility(state) {
   const data = getFormData(state);
   const clinics = getNewAppointment(state).clinics;
@@ -191,6 +198,7 @@ export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const facilityDetails = newAppointment.facilityDetails;
+  const eligibility = getEligibilityChecks(state);
 
   return {
     ...formPageInfo,
@@ -198,6 +206,8 @@ export function getClinicPageInfo(state, pageKey) {
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
+    eligibility,
+    canMakeRequests: isEligible(eligibility).request,
   };
 }
 
@@ -248,3 +258,4 @@ export const vaosCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
+export const selectFeatureToggleLoading = state => toggleValues(state).loading;
