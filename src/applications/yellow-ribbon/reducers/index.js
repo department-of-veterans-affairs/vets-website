@@ -1,5 +1,8 @@
+// Dependencies
+import { concat } from 'lodash';
 // Relative imports.
 import {
+  ADD_SCHOOL_TO_COMPARE,
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
@@ -16,10 +19,23 @@ const initialState = {
   results: undefined,
   state: '',
   totalResults: undefined,
+  // For comparing:
+  schoolIDs: [],
+  schoolsLookup: {},
 };
 
 export const yellowRibbonReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_SCHOOL_TO_COMPARE: {
+      return {
+        ...state,
+        schoolIDs: concat(state.schoolIDs, action?.school?.id),
+        schoolsLookup: {
+          ...state.schoolsLookup,
+          [action?.school?.id]: action?.school,
+        },
+      };
+    }
     case FETCH_RESULTS: {
       return {
         ...state,
