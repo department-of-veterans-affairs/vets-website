@@ -20,6 +20,7 @@ module.exports = {
               },
             },
           },
+          required: ['url'],
         },
         fieldRelatedLinks: {
           $ref: 'transformed/paragraph-list_of_link_teasers',

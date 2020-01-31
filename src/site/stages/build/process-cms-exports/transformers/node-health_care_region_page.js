@@ -2,6 +2,7 @@ const {
   getDrupalValue,
   getWysiwygString,
   createMetaTagArray,
+  uriToUrl,
 } = require('./helpers');
 
 const transform = ({
@@ -24,7 +25,14 @@ const transform = ({
       path: path[0].alias,
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
-    fieldLinkFacilityEmergList: fieldLinkFacilityEmergList[0] || null,
+    fieldLinkFacilityEmergList: fieldLinkFacilityEmergList[0]
+      ? {
+          url: {
+            path: uriToUrl(fieldLinkFacilityEmergList[0].uri),
+            routed: false, // Until we have an indication of where this comes from
+          },
+        }
+      : null,
     fieldRelatedLinks: fieldRelatedLinks[0],
     fieldPressReleaseBlurb: {
       processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
