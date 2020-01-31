@@ -3,5 +3,8 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "mdt-introduction",
   "rootUrl": "/mdt/2346",
-  "production": false
+  "production": false,
+  "template": {
+    "vagovprod": false
+  }
 }
