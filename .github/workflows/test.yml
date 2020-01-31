@@ -12,11 +12,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # - name: Checkout vagov-content
-    #   uses: actions/checkout@v2
-    #   with:
-    #     repository: department-of-veterans-affairs/vagov-content
-    #     path: vagov-content
+#     - name: Checkout vagov-content
+#       uses: actions/checkout@v2
+#       with:
+#         repository: department-of-veterans-affairs/vagov-content
+#         path: vagov-content
 
     - name: Cache dependencies
       id: cache-dependenciese
@@ -39,10 +39,12 @@ jobs:
     - name: Build and test
       run: |
         yarn build-webpack
-        yarn test:unit
-      # working-directory: vets-website
+#       yarn test:unit
+#       working-directory: vets-website
 
   test-platform:
+
+    needs: build
 
     runs-on: ubuntu-latest
 
@@ -52,6 +54,8 @@ jobs:
       run: BABEL_ENV=test npx mocha --opts src/platform/testing/unit/mocha.opts --recursive 'src/platform/**/test/**/*.unit.spec.js?(x)'
 
   test-apps:
+
+    needs: build
 
     runs-on: ubuntu-latest
 
