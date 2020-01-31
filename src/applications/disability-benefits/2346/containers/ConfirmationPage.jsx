@@ -38,7 +38,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <div className="inset">
           <h4>
-            Form-2346 Claim <span className="additional">(Form 2346)</span>
+            Form 2346 Claim <span className="additional">(Form 2346)</span>
           </h4>
           <span>
             for {name.first} {name.middle} {name.last} {name.suffix}

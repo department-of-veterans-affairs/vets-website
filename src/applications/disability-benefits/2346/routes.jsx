@@ -1,21 +1,13 @@
-import { ConfirmAddress } from './Components/ConfirmAddress.jsx';
-import { MDTHomePage } from './Components/MDTHomepage.jsx';
-import OrderPage from './Components/OrderPage.jsx';
-import OrderCommentPage from './Components/OrderCommentPage.jsx';
+import { createRoutesWithSaveInProgress } from '../../../platform/forms/save-in-progress/helpers';
+import formConfig from './config/form';
 import App from './containers/App.jsx';
-import OrderTables from './containers/OrderTables';
 
 const route = {
   path: '/',
   component: App,
-  indexRoute: { component: MDTHomePage },
-  childRoutes: [
-    { path: '/confirmaddress', component: ConfirmAddress },
-    { path: '/orderpage', component: OrderPage },
-    { path: '/comments', component: OrderCommentPage },
-    { path: '/home', component: MDTHomePage },
-    { path: '/orderTables', component: OrderTables },
-  ],
+  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
 export default route;
