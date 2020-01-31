@@ -15,6 +15,7 @@ import {
   getPreferredDate,
   getTypeOfCare,
   getCancelInfo,
+  getCCEType,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -357,6 +358,20 @@ describe('VAOS selectors', () => {
       expect(cancelInfo.facility).to.equal(
         state.appointments.facilityData['123'],
       );
+    });
+  });
+  describe('getCCEType', () => {
+    it('should return cce type', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: {
+            typeOfCareId: '203',
+          },
+        },
+      };
+      const cceType = getCCEType(state);
+      expect(cceType).to.equal('Audiology');
     });
   });
 });
