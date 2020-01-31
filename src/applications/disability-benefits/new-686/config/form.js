@@ -3,7 +3,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
-import { wizard } from './chapters';
+import { wizard } from './chapters/taskWizard';
+import { deceasedDependentInformation } from './chapters/report-dependent-death';
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
@@ -60,6 +61,17 @@ const formConfig = {
               },
             },
           },
+        },
+      },
+    },
+    deceasedDependents: {
+      title: 'Report the death of a dependent',
+      pages: {
+        dependentInformation: {
+          title: 'Report the death of a dependent',
+          path: '686-report-dependent-death',
+          uiSchema: deceasedDependentInformation.uiSchema,
+          schema: deceasedDependentInformation.schema,
         },
       },
     },
