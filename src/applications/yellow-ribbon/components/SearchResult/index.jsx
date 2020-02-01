@@ -1,8 +1,15 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { includes } from 'lodash';
 // Relative imports.
 import { capitalize } from '../../helpers';
+import {
+  addSchoolToCompareAction,
+  removeSchoolFromCompareAction,
+} from '../../actions';
 
 const deriveNameLabel = school => {
   // Show unknown if there's no name.
@@ -69,8 +76,27 @@ const deriveDegreeLevelLabel = (school = {}) => {
 
 const deriveProgramLabel = () => 'Unknown';
 
-const SearchResult = ({ school }) => (
-  <div className="medium-screen:vads-l-col vads-l-col vads-u-background-color--gray-light-alt vads-u-margin-bottom--2 vads-u-padding-x--3 vads-u-padding-y--2">
+export const SearchResult = ({
+  addSchoolToCompare,
+  removeSchoolFromCompare,
+  school,
+  schoolIDs,
+}) => (
+  <div
+    className={classNames(
+      'medium-screen:vads-l-col',
+      'vads-l-col',
+      'vads-u-margin-bottom--1',
+      'vads-u-padding-x--3',
+      'vads-u-padding-y--2',
+      'vads-u-background-color--gray-light-alt',
+      'vads-u-border--3px',
+      {
+        'vads-u-border-color--primary': includes(schoolIDs, school?.id),
+        'vads-u-border-color--transparent': !includes(schoolIDs, school?.id),
+      },
+    )}
+  >
     {/* School Name */}
     <h3 className="vads-u-margin--0">{deriveNameLabel(school)}</h3>
 
@@ -97,15 +123,26 @@ const SearchResult = ({ school }) => (
           {deriveEligibleStudentsLabel(school)}
         </p>
 
-        {/* Add to Compare */}
         <div>
-          <button
-            className="usa-button-secondary vads-u-background-color--white vads-u-margin--0 vads-u-font-size--md"
-            onClick={() => {}}
-          >
-            <i className="fas fa-plus vads-u-padding-right--1" />
-            Add to compare
-          </button>
+          {/* Remove from Comparison. */}
+          {includes(schoolIDs, school?.id) ? (
+            <button
+              className="usa-button-secondary vads-u-background-color--primary vads-u-color--white vads-u-margin--0 vads-u-font-size--md"
+              onClick={() => removeSchoolFromCompare(school)}
+            >
+              <i className="fas fa-check vads-u-padding-right--1" />
+              Added
+            </button>
+          ) : (
+            // Add to Comparison.
+            <button
+              className="usa-button-secondary vads-u-background-color--white vads-u-margin--0 vads-u-font-size--md"
+              onClick={() => addSchoolToCompare(school)}
+            >
+              <i className="fas fa-plus vads-u-padding-right--1" />
+              Add to compare
+            </button>
+          )}
         </div>
       </div>
 
@@ -136,6 +173,23 @@ SearchResult.propTypes = {
     studentCount: PropTypes.number.isRequired,
     tuitionOutOfState: PropTypes.number.isRequired,
   }).isRequired,
+  // From mapStateToProps.
+  schoolIDs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  // From mapDispatchToProps.
+  addSchoolToCompare: PropTypes.func.isRequired,
 };
 
-export default SearchResult;
+const mapStateToProps = state => ({
+  schoolIDs: state.yellowRibbonReducer.schoolIDs,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addSchoolToCompare: school => dispatch(addSchoolToCompareAction(school)),
+  removeSchoolFromCompare: school =>
+    dispatch(removeSchoolFromCompareAction(school)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchResult);
