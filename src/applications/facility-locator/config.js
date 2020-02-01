@@ -12,7 +12,7 @@ import manifest from './manifest.json';
 export const api = {
   baseUrl: `${environment.API_URL}/v0/facilities`,
   url: `${environment.API_URL}/v0/facilities/va`,
-  ccUrl: `${environment.API_URL}/v0/facilities/cpp`,
+  ccUrl: `${environment.API_URL}/v0/facilities/ccp`,
   settings: {
     credentials: 'include',
     headers: {
@@ -37,6 +37,15 @@ export const ccLocatorEnabled = () => true;
 
 /**
  * Build parameters and URL for facilities API calls
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 export const resolveParamsWithUrl = (
   address,
@@ -53,7 +62,7 @@ export const resolveParamsWithUrl = (
     case 'urgent_care':
       if (!serviceType || serviceType === 'UrgentCare') {
         facility = 'health';
-        service = serviceType;
+        service = 'UrgentCare';
         url = api.url;
       }
       if (serviceType === 'NonVAUrgentCare') {
@@ -83,7 +92,7 @@ export const resolveParamsWithUrl = (
         : null,
       `page=${page}`,
       `per_page=20`,
-      `trim=true`,
+      url === api.ccUrl ? `trim=true` : null,
     ]).join('&'),
   };
 };
