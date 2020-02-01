@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { FIELD_NAMES, ADDRESS_FORM_VALUES, USA } from 'vet360/constants';
+import {
+  ADDRESS_FORM_VALUES,
+  ADDRESS_POU,
+  ADDRESS_TYPES,
+  FIELD_NAMES,
+  USA,
+} from 'vet360/constants';
 
 import Vet360EditModal from '../base/Vet360EditModal';
 
@@ -38,10 +44,26 @@ class AddressEditModal extends React.Component {
 
   getInitialFormValues = () =>
     this.props.modalData ||
-    this.props.data || { countryName: USA.COUNTRY_NAME };
+    this.transformInitialFormValues(this.props.data) || {
+      countryName: USA.COUNTRY_NAME,
+    };
 
   getIsMailingAddress = () =>
     this.props.fieldName === FIELD_NAMES.MAILING_ADDRESS;
+
+  /**
+   * Helper function that sets the form data's `view:livesOnMilitaryBase` prop
+   * to `true` if this is an overseas military mailing address
+   */
+  transformInitialFormValues = data => {
+    if (
+      data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
+      data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY
+    ) {
+      return { ...data, 'view:livesOnMilitaryBase': true };
+    }
+    return data;
+  };
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
