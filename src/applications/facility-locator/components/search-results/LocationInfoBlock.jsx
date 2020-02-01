@@ -7,7 +7,7 @@ import FacilityTypeDescription from '../FacilityTypeDescription';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import { isVADomain } from '../../utils/helpers';
 
-const LocationInfoBlock = ({ location, from, query }) => {
+const LocationInfoBlock = ({ location, from }) => {
   const { name, website } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const distance = location.distance;
@@ -23,30 +23,17 @@ const LocationInfoBlock = ({ location, from, query }) => {
         )}
       {isProvider ? (
         <span>
-          <ProviderServiceDescription provider={location} query={query} />
-          {query.facilityType === 'cc_pharmacy' ||
-          query.serviceType === 'NonVAUrgentCare' ? (
-            <p>
-              <span>
-                <strong>{name}</strong>
-              </span>
-            </p>
-          ) : (
-            <h2 className="vads-u-font-size--h5 no-marg-top">
-              <Link to={`provider/${location.id}`}>{name}</Link>
-            </h2>
-          )}
+          <ProviderServiceDescription provider={location} />
+          <h2 className="vads-u-font-size--h5 no-marg-top">
+            <Link to={`provider/${location.id}`}>{name}</Link>
+          </h2>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
           )}
         </span>
       ) : (
         <span>
-          <FacilityTypeDescription
-            location={location}
-            from={from}
-            query={query}
-          />
+          <FacilityTypeDescription location={location} from={from} />
           {isVADomain(website) ? (
             <a href={website}>
               <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>

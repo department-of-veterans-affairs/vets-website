@@ -68,7 +68,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client.expect
     .element('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
-    .to.have.css('display');
+    .to.have.css('display')
+    .which.equal('none');
 
   client.expect
     .element('.va-nav-breadcrumbs-list li:nth-last-child(2)')
