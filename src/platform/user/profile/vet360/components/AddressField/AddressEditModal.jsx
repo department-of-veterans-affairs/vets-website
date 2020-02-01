@@ -26,12 +26,22 @@ class AddressEditModal extends React.Component {
     this.props.onChange(newFieldValue, field, true);
   };
 
+  onInputV2 = (value, schema, uiSchema) => {
+    const newFieldValue = {
+      ...value,
+    };
+    if (newFieldValue['view:livesOnMilitaryBase']) {
+      newFieldValue.countryName = USA.COUNTRY_NAME;
+    }
+    this.props.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
+  };
+
   getInitialFormValues = () =>
     this.props.modalData ||
     this.props.data || { countryName: USA.COUNTRY_NAME };
 
   getIsMailingAddress = () =>
-    this.props.title.toLowerCase().includes('mailing');
+    this.props.fieldName === FIELD_NAMES.MAILING_ADDRESS;
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
@@ -60,7 +70,7 @@ class AddressEditModal extends React.Component {
           address={this.props.field.value}
           formSchema={this.props.field.formSchema}
           uiSchema={this.props.field.uiSchema}
-          onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+          onUpdateFormData={this.onInputV2}
           onSubmit={onSubmit}
         >
           {formButtons}
