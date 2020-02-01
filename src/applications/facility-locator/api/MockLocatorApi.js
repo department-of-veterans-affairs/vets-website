@@ -6,6 +6,7 @@ import { LocationType } from '../constants';
 import { facilityData } from '../constants/mock-facilities-data';
 import providerServices from '../constants/mock-provider-services.json';
 import { ccLocatorEnabled } from '../config';
+import facilityDataJson from '../constants/mock-facility-data.json';
 
 // Immitate network delay
 const delay = 0;
@@ -69,7 +70,7 @@ class MockLocatorApi {
   }
 
   static fetchVAFacility(id) {
-    const dataFacility = facilityData();
+    const dataFacility = facilityDataJson;
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (id && (typeof id === 'number' || typeof id === 'string')) {
@@ -87,7 +88,7 @@ class MockLocatorApi {
   }
 
   static fetchProviderDetail(id) {
-    const dataFacility = facilityData();
+    const dataFacility = facilityDataJson;
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (id && typeof id === 'string') {

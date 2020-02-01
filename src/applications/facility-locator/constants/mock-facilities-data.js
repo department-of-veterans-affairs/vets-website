@@ -60,7 +60,7 @@ export const facilityData = (facility, service) => {
     };
   }
   if (facility === 'urgent_care') {
-    if (service === 'UrgentCare') {
+    if (!service || service === 'UrgentCare') {
       return {
         data: [
           {
@@ -262,7 +262,7 @@ export const facilityData = (facility, service) => {
         },
       };
     }
-    if (!service || service === 'NonVAUrgentCare') {
+    if (service === 'NonVAUrgentCare') {
       return {
         data: [
           {
