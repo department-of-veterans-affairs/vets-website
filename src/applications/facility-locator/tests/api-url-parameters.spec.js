@@ -6,7 +6,7 @@ describe('Locator url and parameters builder', () => {
   const page = 1;
 
   /**
-   * The first 3 test cases represent the main changes
+   * The first 3 test cases represent the main changes *************************************
    */
   it('With facilityType urgent_care and service type UrgentCare/undefined Should build a va request', () => {
     const bounds = [-118.9939, 33.3044, -117.4939, 34.8044];
@@ -62,6 +62,10 @@ describe('Locator url and parameters builder', () => {
   });
 
   /**
+   * *************************************************************************************************************************************
+   */
+
+  /**
    * Requests that have not changed
    */
 
@@ -71,7 +75,7 @@ describe('Locator url and parameters builder', () => {
       'urgent_care',
       'UrgentCare',
       page,
-      bounds,
+      [],
     );
     let test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -82,7 +86,7 @@ describe('Locator url and parameters builder', () => {
       'urgent_care',
       undefined,
       page,
-      bounds,
+      [],
     );
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
