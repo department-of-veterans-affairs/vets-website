@@ -69,6 +69,7 @@ export const resolveParamsWithUrl = (
     default:
       facility = locationType;
       service = serviceType;
+      url = api.url;
   }
 
   return {
