@@ -1,15 +1,17 @@
 import React from 'react';
 
 const ViewDependentsHeader = () => (
-  <div className="vads-l-row vads-u-padding-bottom--3">
+  <div className="vads-l-row">
     <div className="vads-l-col--12">
       <h1>Your Dependents</h1>
-      <p>
-        If you're getting disability compensation and have a 30% or higher
-        disability rating, you can add a dependent to your disability claim.
-        Adding a dependent to your claim could make you eligible for a higher
-        disability payment.
+      <p className="vads-u-font-size--md vads-u-font-family--serif">
+        Below is the information we have for your dependents. You can file a
+        claim for more disability compensation whenever you add a dependent. If
+        something changes with a dependent's status, you should notify VA.
       </p>
+      <a href="#" className="usa-button-primary va-button-primary">
+        Go to eBenefits to add a dependent or change a dependent's status
+      </a>
     </div>
   </div>
 );

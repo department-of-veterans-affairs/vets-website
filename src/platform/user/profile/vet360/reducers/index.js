@@ -31,6 +31,7 @@ const initialAddressValidationState = {
     city: '',
     stateCode: '',
     zipCode: '',
+    countryCodeIso3: '',
   },
   addressValidationError: false,
   validationKey: null,

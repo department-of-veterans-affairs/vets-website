@@ -240,7 +240,7 @@ export const validateAddress = (
 
     if (!confirmedSuggestions.length && validationKey) {
       // if there are no confirmed suggestions and user can override, fall back to submitted address
-      selectedAddress = payload;
+      selectedAddress = userEnteredAddress.address;
     }
 
     // we use the unfiltered list of suggested addresses to determine if we need

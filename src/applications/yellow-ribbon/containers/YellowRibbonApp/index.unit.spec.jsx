@@ -13,7 +13,7 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
 
     // Expect there to be:
     expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
-    expect(text).to.include('Yellow Ribbon school finder');
+    expect(text).to.include('Find a Yellow Ribbon school');
     expect(text).to.include('Learn more about the Yellow Ribbon Program.');
     expect(text).to.include(
       'You may be eligible for Yellow Ribbon program funding if you:',
@@ -74,7 +74,7 @@ describe('Yellow Ribbon container <YellowRibbonApp>', () => {
 
     // Expect there to be:
     expect(tree.find('Breadcrumbs')).to.have.lengthOf(1);
-    expect(text).to.include('Yellow Ribbon school finder');
+    expect(text).to.include('Find a Yellow Ribbon school');
 
     // Expect there NOT to be:
     expect(text).to.not.include('Learn more about the Yellow Ribbon Program.');

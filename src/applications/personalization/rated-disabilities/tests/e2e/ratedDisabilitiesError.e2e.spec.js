@@ -19,7 +19,9 @@ function runRatedDisabilitiesTest(browser) {
       browser.elementIdText(totalRatingErrorHeader.ELEMENT, el => {
         browser
           .expect(el.value)
-          .to.equal('We don’t have a disability rating on file for you');
+          .to.equal(
+            'We don’t have a combined disability rating on file for you',
+          );
       });
       browser.elementIdText(listErrorHeader.ELEMENT, el => {
         browser
@@ -36,7 +38,7 @@ function runRatedDisabilitiesTest(browser) {
     browser.elementIdText(totalRatingErrorMessage.ELEMENT, el => {
       browser
         .expect(el.value)
-        .to.contain('We can’t find a disability rating for you.');
+        .to.contain('We can’t find a combined disability rating for you.');
     });
     browser.elementIdText(listErrorMessage.ELEMENT, el => {
       browser
