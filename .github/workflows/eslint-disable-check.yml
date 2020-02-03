@@ -18,3 +18,9 @@ jobs:
         else
           echo "Sentry change not found" >&2
         fi
+    - name: Get commit
+      run: |
+        URI=https://api.github.com
+        API_VERSION=v3
+        AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
+        curl -H "${AUTH_HEADER}" "${URI}/repos/${GITHUB_REPOSITORY}/git/commits/${GITHUB_SHA}"
