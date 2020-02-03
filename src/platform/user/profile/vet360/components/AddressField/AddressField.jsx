@@ -246,6 +246,16 @@ const uiSchema = {
           enum: ADDRESS_FORM_VALUES.COUNTRIES,
         };
       },
+      updateUiSchema: formData => {
+        if (formData['view:livesOnMilitaryBase']) {
+          return {
+            'ui:disabled': true,
+          };
+        }
+        return {
+          'ui:disabled': false,
+        };
+      },
     },
   },
   addressLine1: {

@@ -1,4 +1,7 @@
-import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
+import {
+  updateSchemaAndData,
+  updateUiSchema,
+} from 'platform/forms-system/src/js/state/helpers';
 
 export const UPDATE_PROFILE_FORM_FIELD = 'UPDATE_PROFILE_FORM_FIELD';
 export const OPEN_MODAL = 'OPEN_MODAL';
@@ -40,6 +43,7 @@ export const updateFormFieldWithSchema = (
   schema = null,
   uiSchema = null,
 ) => {
+  const newUiSchema = updateUiSchema(uiSchema, value);
   const { data, schema: newSchema } = updateSchemaAndData(
     schema,
     uiSchema,
@@ -52,7 +56,7 @@ export const updateFormFieldWithSchema = (
     newState: {
       value: data,
       formSchema: newSchema,
-      uiSchema,
+      uiSchema: newUiSchema,
     },
   };
 };
