@@ -21,7 +21,7 @@ class ViewDependentsList extends Component {
 
     return (
       <>
-        <h3>{this.props.header}</h3>
+        <h2>{this.props.header}</h2>
         <p className="vads-u-padding-bottom--2">{this.props.subHeader}</p>
         {mainContent}
       </>

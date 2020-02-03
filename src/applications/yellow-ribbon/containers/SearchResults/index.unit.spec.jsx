@@ -90,7 +90,7 @@ describe('Yellow Ribbon container <SearchResults>', () => {
 
     const tree = shallow(<SearchResults results={results} />);
 
-    expect(tree.find('SearchResult')).to.have.lengthOf(10);
+    expect(tree.find('.search-results')).to.have.lengthOf(1);
     expect(tree.find('Pagination')).to.have.lengthOf(1);
 
     tree.unmount();
