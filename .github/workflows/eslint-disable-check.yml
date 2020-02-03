@@ -8,10 +8,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      run: git fetch master
 
     - name: Check for Sentry
       run: |
+        git fetch master
         git diff master -G"Sentry\." --quiet
         if [ $? -eq 1 ]
         then
