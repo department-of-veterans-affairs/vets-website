@@ -19,7 +19,13 @@ module.exports = {
     metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_intro_text: { $ref: 'GenericNestedString' },
-    field_office: { $ref: 'EntityReferenceArray' },
+    field_office: {
+      type: 'array',
+      items: {
+        $ref: 'EntityReference',
+      },
+      maxItems: 1,
+    },
   },
   required: [
     'title',
