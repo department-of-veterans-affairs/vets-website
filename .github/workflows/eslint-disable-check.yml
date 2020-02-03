@@ -11,8 +11,8 @@ jobs:
 
     - name: Check for Sentry
       run: |
-        git diff master -S "Sentry" --quiet
-        if [ $? -eq 0 ]
+        git diff -S "Sentry" --quiet
+        if [ $? -eq 1 ]
         then
           echo "Sentry change found"
         else
