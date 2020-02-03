@@ -1,4 +1,4 @@
-import { states50AndDC } from 'constants';
+import { states50AndDC } from './constants';
 
 export const genericSchemas = {
   genericLocation: {
@@ -17,14 +17,21 @@ export const genericSchemas = {
       },
     },
   },
-  genericTextinput: {
-    type: 'string',
-    maxLength: 50,
-    pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
-  },
   genericUSACountryDropdown: {
     type: 'string',
     enum: states50AndDC.map(state => state.value),
     default: states50AndDC.map(state => state.label),
   },
+};
+
+export const genericTextinput = {
+  type: 'string',
+  maxLength: 50,
+  pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+};
+
+export const genericNumberInput = {
+  type: 'string',
+  maxLength: 50,
+  pattern: '^[0-9]{9}$',
 };

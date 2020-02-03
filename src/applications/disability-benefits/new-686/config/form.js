@@ -2,13 +2,14 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+import {
+  schema,
+  uiSchema,
+} from './chapters/chapter-2/1-veteran-formation/veteran-information';
+
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
 
 const formConfig = {
   urlPrefix: '/',
@@ -28,25 +29,13 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Personal Information',
+      title: "Veteran's Information",
       pages: {
         page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
-          uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
+          path: 'veteran-information',
+          title: 'Veteran Information - Page 1',
+          uiSchema,
+          schema,
         },
       },
     },

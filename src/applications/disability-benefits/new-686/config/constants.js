@@ -231,7 +231,7 @@ export const countries = [
   { value: 'ZWE', label: 'Zimbabwe' },
 ];
 
-const salesforceCountries = [
+export const salesforceCountries = [
   {
     label: 'Afghanistan',
     value: 'AFG',
@@ -1190,7 +1190,7 @@ const salesforceCountries = [
   },
 ];
 
-const maritalStatuses = [
+export const maritalStatuses = [
   'Married',
   'Never Married',
   'Separated',
@@ -1198,7 +1198,7 @@ const maritalStatuses = [
   'Divorced',
 ];
 
-const branchesServed = [
+export const branchesServed = [
   { value: 'air force', label: 'Air Force' },
   { value: 'army', label: 'Army' },
   { value: 'coast guard', label: 'Coast Guard' },
@@ -1214,7 +1214,7 @@ const branchesServed = [
   { value: 'other', label: 'Other' },
 ];
 
-const dischargeTypes = [
+export const dischargeTypes = [
   { value: 'honorable', label: 'Honorable' },
   { value: 'general', label: 'General' },
   { value: 'other', label: 'Other Than Honorable' },
@@ -1223,7 +1223,7 @@ const dischargeTypes = [
   { value: 'undesirable', label: 'Undesirable' },
 ];
 
-const salesforceStates = {
+export const salesforceStates = {
   BRA: [
     {
       label: 'Acre',
@@ -2636,7 +2636,7 @@ const salesforceStates = {
   ],
 };
 
-const states50AndDC = [
+export const states50AndDC = [
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
   { label: 'Arizona', value: 'AZ' },
@@ -2690,7 +2690,7 @@ const states50AndDC = [
   { label: 'Wyoming', value: 'WY' },
 ];
 
-const states = {
+export const states = {
   CAN: [
     { label: 'Alberta', value: 'AB' },
     { label: 'British Columbia', value: 'BC' },
@@ -2757,14 +2757,14 @@ const states = {
     .sort((stateA, stateB) => stateA.label.localeCompare(stateB.label)),
 };
 
-const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
+export const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
 
-const genders = [
+export const genders = [
   { label: 'Female', value: 'F' },
   { label: 'Male', value: 'M' },
 ];
 
-const months = [
+export const months = [
   { label: 'Jan', value: 1 },
   { label: 'Feb', value: 2 },
   { label: 'Mar', value: 3 },
@@ -2779,119 +2779,7 @@ const months = [
   { label: 'Dec', value: 12 },
 ];
 
-const twentyNineDays = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '21',
-  '22',
-  '23',
-  '24',
-  '25',
-  '26',
-  '27',
-  '28',
-  '29',
-];
-const thirtyDays = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '21',
-  '22',
-  '23',
-  '24',
-  '25',
-  '26',
-  '27',
-  '28',
-  '29',
-  '30',
-];
-const thirtyOneDays = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '21',
-  '22',
-  '23',
-  '24',
-  '25',
-  '26',
-  '27',
-  '28',
-  '29',
-  '30',
-  '31',
-];
-
-const days = {
-  1: thirtyOneDays,
-  2: twentyNineDays,
-  3: thirtyOneDays,
-  4: thirtyDays,
-  5: thirtyOneDays,
-  6: thirtyDays,
-  7: thirtyOneDays,
-  8: thirtyOneDays,
-  9: thirtyDays,
-  10: thirtyOneDays,
-  11: thirtyDays,
-  12: thirtyOneDays,
-};
-
-const dependentRelationships = [
+export const dependentRelationships = [
   'Daughter',
   'Son',
   'Stepson',
@@ -2902,11 +2790,14 @@ const dependentRelationships = [
   'Other',
 ];
 
-const yesNo = [{ label: 'Yes', value: 'Y' }, { label: 'No', value: 'N' }];
+export const yesNo = [
+  { label: 'Yes', value: 'Y' },
+  { label: 'No', value: 'N' },
+];
 
-const usaStates = _.map(states.USA, stateData => stateData.value);
+export const usaStates = _.map(states.USA, stateData => stateData.value);
 
-const pciuCountries = [
+export const pciuCountries = [
   'Afghanistan',
   'Albania',
   'Algeria',
@@ -3123,16 +3014,16 @@ const pciuCountries = [
 
 // This list represents the states currently available in the `states` PCIU
 // endpoint and not available in the current `states` constant.
-const statesOnlyInPCIU = [
+export const statesOnlyInPCIU = [
   { label: 'Philippine Islands', value: 'PI' },
   { label: 'U.S. Minor Outlying Islands', value: 'UM' },
 ];
 
-const pciuStates = states.USA.concat(statesOnlyInPCIU).sort(
+export const pciuStates = states.USA.concat(statesOnlyInPCIU).sort(
   (stateA, stateB) => stateA.label - stateB.label,
 );
 
-const documentTypes526 = [
+export const documentTypes526 = [
   { value: 'L015', label: 'Buddy/Lay Statement' },
   { value: 'L018', label: 'Civilian Police Reports' },
   { value: 'L029', label: 'Copy of a DD214' },
@@ -3206,24 +3097,3 @@ const documentTypes526 = [
       'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
   },
 ];
-
-module.exports = {
-  countries,
-  pciuCountries,
-  maritalStatuses,
-  branchesServed,
-  dischargeTypes,
-  states,
-  pciuStates,
-  salesforceStates,
-  salesforceCountries,
-  suffixes,
-  genders,
-  months,
-  days,
-  dependentRelationships,
-  yesNo,
-  usaStates,
-  documentTypes526,
-  states50AndDC,
-};
