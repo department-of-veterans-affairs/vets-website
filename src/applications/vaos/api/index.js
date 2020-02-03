@@ -317,14 +317,13 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
 export function getPacTeam(systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.reject();
-    // if (systemId.includes('983')) {
-    //   promise = import('./pact.json').then(
-    //     module => (module.default ? module.default : module),
-    //   );
-    // } else {
-    //   promise = Promise.resolve({ data: [] });
-    // }
+    if (systemId.includes('983')) {
+      promise = import('./pact.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else {
+      promise = Promise.resolve({ data: [] });
+    }
   } else {
     promise = apiRequest(`/vaos/systems/${systemId}/pact`);
   }

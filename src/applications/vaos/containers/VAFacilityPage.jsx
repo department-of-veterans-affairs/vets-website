@@ -222,13 +222,13 @@ export class VAFacilityPage extends React.Component {
               <EligibilityCheckMessage eligibility={eligibility} />
             </div>
           )}
+          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             disabled={disableSubmitButton}
             pageChangeInProgress={loadingEligibility || pageChangeInProgress}
           />
         </SchemaForm>
-        {hasEligibilityError && <ErrorMessage />}
       </div>
     );
   }
