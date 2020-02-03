@@ -1,0 +1,20 @@
+name: Testing Sentry check
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Check for Sentry
+      run: |
+        git diff -S "Sentry" --quiet
+        if [ $? -eq 0 ]
+        then
+          echo "Sentry change found"
+        else
+          echo "Sentry change not found" >&2
+        fi
