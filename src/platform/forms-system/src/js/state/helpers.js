@@ -349,6 +349,53 @@ export function updateSchemaFromUiSchema(
   return currentSchema;
 }
 
+/**
+ * A helper that returns a new uiSchema based on the input uiSchema and formData
+ * @param {Object} uiSchema - The uiSchema to update
+ * @param {Object} formData - The form data to based uiSchema updates on
+ * @returns {Object} The new uiSchema object
+ */
+export function updateUiSchema(uiSchema, formData) {
+  let currentUiSchema = uiSchema;
+
+  if (typeof currentUiSchema === 'object') {
+    const newUiSchema = Object.keys(currentUiSchema).reduce((current, next) => {
+      const nextProp = updateUiSchema(current[next], formData);
+
+      if (current[next] !== nextProp) {
+        return { ...current, [next]: nextProp };
+      }
+
+      return current;
+    }, currentUiSchema);
+
+    if (newUiSchema !== uiSchema) {
+      currentUiSchema = newUiSchema;
+    }
+  }
+
+  const uiSchemaUpdater = uiSchema['ui:options']?.updateUiSchema;
+
+  if (!uiSchemaUpdater) {
+    return currentUiSchema;
+  }
+
+  const newUiSchemaProps = uiSchemaUpdater(formData);
+
+  const updatedUiSchema = Object.keys(newUiSchemaProps).reduce(
+    (current, next) => {
+      if (newUiSchemaProps[next] !== uiSchema[next]) {
+        return { ...current, [next]: newUiSchemaProps[next] };
+      }
+
+      return current;
+    },
+    uiSchema,
+  );
+
+  return updatedUiSchema;
+}
+
 export function replaceRefSchemas(schema, definitions, path = '') {
   // this can happen if you import a field that doesn’t exist from a schema
   if (!schema) {
