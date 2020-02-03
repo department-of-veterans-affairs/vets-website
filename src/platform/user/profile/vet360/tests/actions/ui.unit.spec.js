@@ -4,21 +4,17 @@ import { expect } from 'chai';
 
 describe('updateFormField', () => {
   it('calls the passed-in helpers and creates the correct action', () => {
-    const spies = {
-      convertNextValueSpy: val => val,
-      validateCleanDataSpy: () => ({}),
-    };
-    sinon.spy(spies, 'convertNextValueSpy');
-    sinon.spy(spies, 'validateCleanDataSpy');
+    const convertNextValueStub = sinon.stub().callsFake(val => val);
+    const validateCleanDataStub = sinon.stub().callsFake(() => ({}));
     const action = actions.updateFormField(
       'address',
-      spies.convertNextValueSpy,
-      spies.validateCleanDataSpy,
+      convertNextValueStub,
+      validateCleanDataStub,
       { city: 'sf', state: 'ca' },
       'city',
     );
-    expect(spies.convertNextValueSpy.callCount).to.eql(1);
-    expect(spies.validateCleanDataSpy.callCount).to.eql(1);
+    expect(convertNextValueStub.callCount).to.eql(1);
+    expect(validateCleanDataStub.callCount).to.eql(1);
     expect(action).to.deep.equal({
       type: actions.UPDATE_PROFILE_FORM_FIELD,
       field: 'address',
