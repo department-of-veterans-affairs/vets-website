@@ -49,7 +49,7 @@ const formPages = {
 
 const formConfig = {
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: 'http://localhost:3004/posts',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'complex-form-',
