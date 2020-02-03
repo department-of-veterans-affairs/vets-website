@@ -7,6 +7,7 @@ import EligibilityCheckMessage from '../../components/EligibilityCheckMessage';
 describe('VAOS <EligibilityCheckMessage>', () => {
   it('should render past visit message', () => {
     const eligibility = {
+      requestSupported: true,
       requestPastVisit: false,
       requestPastVisitValue: 24,
     };
@@ -20,6 +21,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
 
   it('should render limit message', () => {
     const eligibility = {
+      requestSupported: true,
       requestPastVisit: true,
       requestLimit: false,
     };
@@ -33,6 +35,7 @@ describe('VAOS <EligibilityCheckMessage>', () => {
 
   it('should render generic message', () => {
     const eligibility = {
+      requestSupported: true,
       requestPastVisit: true,
       requestLimit: true,
     };
@@ -40,6 +43,20 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     const tree = mount(<EligibilityCheckMessage eligibility={eligibility} />);
 
     expect(tree.text()).to.contain('trouble verifying');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should render not supported message', () => {
+    const eligibility = {
+      requestSupported: false,
+      requestPastVisit: true,
+      requestLimit: true,
+    };
+
+    const tree = mount(<EligibilityCheckMessage eligibility={eligibility} />);
+
+    expect(tree.text()).to.contain('does not allow online');
     expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });

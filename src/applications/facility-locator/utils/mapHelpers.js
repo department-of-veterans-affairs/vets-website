@@ -1,18 +1,8 @@
-import { mapboxClient } from '../components/MapboxClient';
-import environments from '../../../platform/utilities/environment';
-/**
- New: mbxClient is the new instance for the API calls and
- The new SDK requires to pass the mapbox client to geocode services
- otherwise use the client as it is
- */
-let mbxClient;
+import mapboxClient from '../components/MapboxClient';
 
-if (environments.isStaging()) {
-  const mbxGeo = require('@mapbox/mapbox-sdk/services/geocoding');
-  mbxClient = mbxGeo(mapboxClient);
-} else {
-  mbxClient = mapboxClient;
-}
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+
+const mbxClient = mbxGeo(mapboxClient);
 
 /** ****************************************************
  * Helper functions specifically requiring the
@@ -60,43 +50,17 @@ export const getBoxCenter = bounds => {
  * @returns {String} The best approximation of the address for the coordinates
  */
 export const reverseGeocode = async (lon, lat) => {
-  /**
-   * New sdk requires types to be an array otherwise string
-   */
-  const types = environments.isStaging()
-    ? ['address', 'postcode']
-    : 'address,postcode';
+  const types = ['address', 'postcode'];
 
-  /**
-   * New SDk uses reverseGeocode fn
-   * //https://github.com/mapbox/mapbox-sdk-js/blob/master/docs/services.md#reversegeocode
-   * current SDK geocodeReverse fn
-   */
-  if (environments.isStaging()) {
-    const response = await mbxClient
-      .reverseGeocode({ query: [lon, lat], types })
-      .send()
-      .catch();
-    const {
-      entity: {
-        features: {
-          0: { place_name: placeName },
-        },
-      },
-    } = response.body;
-
-    return placeName;
-  }
+  const response = await mbxClient
+    .reverseGeocode({ query: [lon, lat], types })
+    .send()
+    .catch();
   const {
-    entity: {
-      features: {
-        0: { place_name: placeName },
-      },
+    features: {
+      0: { place_name: placeName },
     },
-  } = await mbxClient.geocodeReverse(
-    { longitude: lon, latitude: lat },
-    { types },
-  );
+  } = response.body;
 
   return placeName;
 };

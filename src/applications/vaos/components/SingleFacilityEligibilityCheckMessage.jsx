@@ -12,6 +12,13 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
         {eligibility.requestPastVisitValue} months.
       </>
     );
+  } else if (!eligibility.requestSupported) {
+    message = (
+      <>
+        However, this facility does not allow online requests for this type of
+        care.
+      </>
+    );
   } else if (!eligibility.requestLimit) {
     message = (
       <>

@@ -387,6 +387,7 @@ describe('vet360 reducer', () => {
             city: '',
             stateCode: '',
             zipCode: '',
+            countryCodeIso3: '',
           },
           addressValidationError: false,
           validationKey: null,
@@ -438,6 +439,24 @@ describe('vet360 reducer', () => {
         fieldName: 'mailingAddress',
       };
       const expectedState = {
+        addressValidation: {
+          addressFromUser: {
+            addressLine1: '',
+            addressLine2: '',
+            addressLine3: '',
+            city: '',
+            stateCode: '',
+            zipCode: '',
+            countryCodeIso3: '',
+          },
+          addressValidationError: false,
+          addressValidationType: '',
+          confirmedSuggestions: [],
+          selectedAddress: {},
+          selectedAddressId: null,
+          suggestedAddresses: [],
+          validationKey: null,
+        },
         fieldTransactionMap: {
           mailingAddress: { isPending: true },
         },

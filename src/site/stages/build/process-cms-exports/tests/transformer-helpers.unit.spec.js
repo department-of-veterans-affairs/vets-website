@@ -4,6 +4,8 @@ const {
   createLink,
   getWysiwygString,
   unescapeUnicode,
+  createMetaTagArray,
+  usePartialSchema,
 } = require('../transformers/helpers');
 
 describe('CMS export transformer helpers', () => {
@@ -30,6 +32,12 @@ describe('CMS export transformer helpers', () => {
       const arr = [['hello'], ['world']];
 
       expect(combineItemsInIndexedObject(obj)).to.deep.equal(arr);
+    });
+
+    it('keeps an array as an array', () => {
+      expect(combineItemsInIndexedObject([['hello'], ['world']])).to.deep.equal(
+        [['hello'], ['world']],
+      );
     });
   });
 
@@ -108,6 +116,194 @@ describe('CMS export transformer helpers', () => {
           path: 'foo',
         },
         title: 'Hello, World!',
+      });
+    });
+  });
+
+  describe('createMetaTagArray', () => {
+    it('should create all the tags', () => {
+      /* eslint-disable camelcase */
+      const raw = {
+        title:
+          'VA Pittsburgh health care | Veterans Town Hall on the Move | Veterans Affairs',
+        twitter_cards_type: 'summary_large_image',
+        og_site_name: 'Veterans Affairs',
+        twitter_cards_description:
+          'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        description:
+          'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        twitter_cards_title:
+          'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        twitter_cards_site: '@DeptVetAffairs',
+        og_title:
+          'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        og_description:
+          'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        og_image_height: '314',
+      };
+      /* eslint-enable camelcase */
+
+      const transformed = [
+        {
+          __typename: 'MetaValue',
+          key: 'title',
+          value:
+            'VA Pittsburgh health care | Veterans Town Hall on the Move | Veterans Affairs',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:card',
+          value: 'summary_large_image',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:site_name',
+          value: 'Veterans Affairs',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:description',
+          value:
+            'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'description',
+          value:
+            'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:title',
+          value:
+            'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        },
+        {
+          __typename: 'MetaValue',
+          key: 'twitter:site',
+          value: '@DeptVetAffairs',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:title',
+          value:
+            'Veterans Town Hall on the Move | VA Pittsburgh health care | Veterans Affairs',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:description',
+          value:
+            'VA Pittsburgh Healthcare System Interim Director Barbara Forsha invites you to attend the Town Hall event. Veterans, their families and the public are welcome to attend.',
+        },
+        {
+          __typename: 'MetaProperty',
+          key: 'og:image:height',
+          value: '314',
+        },
+      ];
+
+      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+    });
+
+    it('should omit tags with no value', () => {
+      const raw = {
+        title: 'foo',
+      };
+
+      const transformed = [
+        {
+          __typename: 'MetaValue',
+          key: 'title',
+          value: 'foo',
+        },
+      ];
+
+      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+    });
+
+    it('should ignore unrecognized tags', () => {
+      const raw = { unknown: 'Dunno' };
+      const transformed = [];
+      expect(createMetaTagArray(raw)).to.deep.equal(transformed);
+    });
+  });
+
+  describe('usePartialSchema', () => {
+    it('Should throw an error when a non-object schema is passed', () => {
+      expect(() => usePartialSchema({ type: 'array' })).to.throw();
+      expect(() => usePartialSchema(['invalid schema'])).to.throw();
+    });
+
+    it('Should throw an error when properties is not an array', () => {
+      expect(() =>
+        usePartialSchema({ type: 'object' }, { foo: 'invalid properties' }),
+      ).to.throw();
+    });
+
+    it('Should throw an error when properties contains non-strings', () => {
+      expect(() =>
+        usePartialSchema({ type: 'object' }, [{ invalid: 'prop name' }]),
+      ).to.throw();
+    });
+
+    it('Should throw an error when a property specified is missing from the schema', () => {
+      expect(() =>
+        usePartialSchema(
+          { type: 'object', properties: { stuff: { type: 'string' } } },
+          ['thingy'],
+        ),
+      ).to.throw();
+    });
+
+    it('should omit $id', () => {
+      const schema = {
+        $id: 'foo',
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+        },
+      };
+      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+        },
+      });
+    });
+
+    it('should keep only the properties listed', () => {
+      const schema = {
+        $id: 'foo',
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+          var: { type: 'string' },
+        },
+      };
+      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+        },
+      });
+    });
+
+    it('should remove unused properties from the required array', () => {
+      const schema = {
+        $id: 'foo',
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+          var: { type: 'string' },
+        },
+        required: ['foo', 'bar'],
+      };
+      expect(usePartialSchema(schema, ['foo'])).to.deep.equal({
+        type: 'object',
+        properties: {
+          foo: { type: 'string' },
+        },
+        required: ['foo'],
       });
     });
   });

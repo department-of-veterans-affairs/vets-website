@@ -42,10 +42,20 @@ export function getTypeOfCare(data) {
     data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
-    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+    return AUDIOLOGY_TYPES_OF_CARE.find(
+      care => care.ccId === data.audiologyType,
+    );
   }
 
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+}
+
+export function getCCEType(state) {
+  const data = getFormData(state);
+
+  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+
+  return typeOfCare?.cceType;
 }
 
 export function getSystems(state) {
@@ -188,6 +198,7 @@ export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const facilityDetails = newAppointment.facilityDetails;
+  const eligibility = getEligibilityChecks(state);
 
   return {
     ...formPageInfo,
@@ -195,6 +206,8 @@ export function getClinicPageInfo(state, pageKey) {
     typeOfCare: getTypeOfCare(formPageInfo.data),
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
+    eligibility,
+    canMakeRequests: isEligible(eligibility).request,
   };
 }
 
@@ -245,3 +258,4 @@ export const vaosCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
+export const selectFeatureToggleLoading = state => toggleValues(state).loading;

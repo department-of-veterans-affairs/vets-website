@@ -79,10 +79,7 @@
   {% include "src/site/includes/top-nav.html" %}
   {% endif %}
 
-  {% if buildtype == 'vagovprod' %}
-  {% include "src/site/blocks/pittsburgh-beta-banner.liquid" %}
-  {% endif %}
-  {% include "src/site/components/banner_alerts.drupal.liquid" %}
+  {% include "src/site/components/fullwidth_banner_alerts.drupal.liquid" %}
 
   {% if path == '' or path == '/' %}
   <div id="homepage-banner">

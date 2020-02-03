@@ -140,7 +140,7 @@ const formConfig = {
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for disability claims increase.',
+    notFound: 'Please start over to file for disability claims increase.',
     noAuth:
       'Please sign in again to resume your application for disability claims increase.',
   },

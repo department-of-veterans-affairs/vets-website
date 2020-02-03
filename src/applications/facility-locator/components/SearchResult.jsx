@@ -7,9 +7,9 @@ import LocationDirectionsLink from './search-results/LocationDirectionsLink';
 // revert to stateless component given: 19fd5178f
 const SearchResult = ({ result }) => (
   <div className="facility-result" id={result.id}>
-    <LocationInfoBlock location={result} />
-    <LocationPhoneLink location={result} />
-    <LocationDirectionsLink location={result} />
+    <LocationInfoBlock location={result} from={SearchResult.name} />
+    <LocationDirectionsLink location={result} from={SearchResult.name} />
+    <LocationPhoneLink location={result} from={SearchResult.name} />
   </div>
 );
 

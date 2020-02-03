@@ -213,13 +213,27 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
+/*
+ * The facility page can be opened with data in a variety of states and conditions.
+ * We always need the list of systems (VAMCs) they can access. After that:
+ *
+ * 1. A user has multiple systems to choose from, so we just need to display them
+ * 2. A user has only one system, so we also need to fetch facilities
+ * 3. A user might only have one system and facility available, so we need to also
+ *    do eligibility checks
+ * 4. A user might already have been on this page, in which case we may have some 
+ *    of the above data already and don't want to make another api call
+*/
 export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
+    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     let systems = newAppointment.systems;
     let facilities = null;
     let eligibilityData = null;
+    let systemId = newAppointment.data.vaSystem;
+    let facilityId = newAppointment.data.vaFacility;
 
     try {
       // If we have the VA systems in our state, we don't need to
@@ -228,33 +242,35 @@ export function openFacilityPage(page, uiSchema, schema) {
         const userSystemIds = await getSystemIdentifiers();
         systems = await getSystemDetails(userSystemIds);
       }
-      const canShowFacilities =
-        newAppointment.data.vaSystem || systems?.length === 1;
-      const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
 
-      const hasExistingFacilities = !!newAppointment.facilities[
-        `${typeOfCareId}_${newAppointment.data.vaSystem}`
-      ];
+      const canShowFacilities = !!systemId || systems?.length === 1;
 
-      if (canShowFacilities && !hasExistingFacilities) {
-        const systemId =
-          newAppointment.data.vaSystem || systems[0].institutionCode;
+      if (canShowFacilities && !systemId) {
+        systemId = systems[0].institutionCode;
+      }
+
+      facilities =
+        newAppointment.facilities[`${typeOfCareId}_${systemId}`] || null;
+
+      if (canShowFacilities && !facilities) {
         facilities = await getFacilitiesBySystemAndTypeOfCare(
           systemId,
           typeOfCareId,
         );
       }
 
-      const facilityId =
-        newAppointment.data.vaFacility || facilities?.[0]?.facilityId;
-      if (
-        facilityId &&
-        !newAppointment.eligibility[`${facilityId}_${typeOfCareId}`]
-      ) {
-        const systemId =
-          newAppointment.data.vaSystem || systems[0].institutionCode;
+      const eligibilityDataNeeded = !!facilityId || facilities?.length === 1;
+
+      if (eligibilityDataNeeded && !facilityId) {
+        facilityId = facilities[0].institutionCode;
+      }
+
+      const eligibilityChecks =
+        newAppointment.eligibility[`${facilityId}_${typeOfCareId}`] || null;
+
+      if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
-          facilityId,
+          facilities.find(facility => facility.institutionCode === facilityId),
           typeOfCareId,
           systemId,
           directSchedulingEnabled,
@@ -343,7 +359,9 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
       try {
         const eligibilityData = await getEligibilityData(
-          data.vaFacility,
+          facilities.find(
+            facility => facility.institutionCode === data.vaFacility,
+          ),
           typeOfCareId,
           data.vaSystem,
           directSchedulingEnabled,
@@ -450,8 +468,14 @@ export function getAppointmentSlots(startDate, endDate) {
         const now = moment();
 
         mappedSlots = fetchedSlots.reduce((acc, slot) => {
-          const dateObj = moment(slot.startDateTime);
-          if (dateObj.isAfter(now)) {
+          /**
+           * The datetime we get back for startDateTime and endDateTime includes
+           * an offset of +00:00 that isn't actually accurate. The times returned are
+           * already in the time zone of the facility. In order to prevent
+           * moment from using this offset, we'll remove it in the next line
+           */
+          const dateObj = moment(slot.startDateTime?.split('+')?.[0]);
+          if (dateObj.isValid() && dateObj.isAfter(now)) {
             acc.push({
               date: dateObj.format('YYYY-MM-DD'),
               datetime: dateObj.format('YYYY-MM-DD[T]HH:mm:ss'),

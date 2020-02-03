@@ -243,6 +243,7 @@ function compilePage(page, contentData) {
       pensionBenefitsHubQuery: pensionHubSidebarNav = {},
       recordsBenefitsHubQuery: recordsHubSidebarNav = {},
       alerts: alertsItem = {},
+      bannerAlerts: bannerAlertsItem = {},
       outreachSidebarQuery: outreachSidebarNav = {},
     },
   } = contentData;
@@ -272,6 +273,7 @@ function compilePage(page, contentData) {
   };
   const outreachSidebarNavItems = { outreachSidebar: outreachSidebarNav };
   const alertItems = { alert: alertsItem };
+  const bannerAlertsItems = { bannerAlert: bannerAlertsItem };
 
   const { entityUrl, entityBundle } = page;
 
@@ -294,6 +296,7 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -305,6 +308,7 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -315,6 +319,7 @@ function compilePage(page, contentData) {
         page,
         facilitySidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -324,6 +329,7 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -342,6 +348,7 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -353,6 +360,7 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -363,6 +371,7 @@ function compilePage(page, contentData) {
         facilitySidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;
@@ -377,6 +386,7 @@ function compilePage(page, contentData) {
         sidebarNavItems,
         outreachSidebarNavItems,
         alertItems,
+        bannerAlertsItems,
         pageId,
       );
       break;

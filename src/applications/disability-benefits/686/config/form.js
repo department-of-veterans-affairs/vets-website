@@ -58,8 +58,6 @@ const {
   currentMarriage,
   dependents,
   maritalStatus,
-  marriages,
-  spouseMarriages,
   veteranFullName,
   veteranSocialSecurityNumber,
 } = fullSchema686.properties;
@@ -118,20 +116,95 @@ const addressSchema = {
     state: domesticAddress.properties.state,
     postOffice: militaryAddress.properties.postOffice,
     postalType: militaryAddress.properties.postalType,
-    postalCode,
+    postalCode: militaryAddress.properties.postalCode,
   },
 };
 
+const dependentTypeSchema = {
+  type: 'string',
+  enum: ['SPOUSE', 'DEPENDENT_PARENT', 'CHILD'],
+  enumNames: ['Spouse', 'Dependent Parent', 'Child'],
+};
+
+const dependentTypeSchemaUI = {
+  'ui:title': "What was your dependent's status?",
+  'ui:widget': 'radio',
+};
+
+const childStatusSchema = {
+  type: 'object',
+  properties: {
+    childUnder18: {
+      type: 'boolean',
+    },
+    stepChild: {
+      type: 'boolean',
+    },
+    adopted: {
+      type: 'boolean',
+    },
+    disabled: {
+      type: 'boolean',
+    },
+    childOver18InSchool: {
+      type: 'boolean',
+    },
+  },
+};
+
+const childStatusUiSchema = {
+  'ui:title': "Child's status (Check all that apply)",
+  'ui:required': (formData, index) =>
+    formData.deaths[`${index}`].dependentType === 'CHILD',
+  'ui:options': {
+    expandUnder: 'dependentType',
+    expandUnderCondition: 'CHILD',
+    showFieldLabel: true,
+    keepInPageOnReview: true,
+  },
+  childUnder18: {
+    'ui:title': 'Child under 18',
+  },
+  stepChild: {
+    'ui:title': 'Stepchild',
+  },
+  adopted: {
+    'ui:title': 'Adopted child',
+  },
+  disabled: {
+    'ui:title': 'Child incapable of self-support',
+  },
+  childOver18InSchool: {
+    'ui:title': 'Child 18-23 and in school',
+  },
+};
+
+const deathLocationUiSchema = {
+  'ui:title': 'Place of death',
+  city: {
+    'ui:title': 'City (or APO/FPO/DPO)',
+  },
+  state: {
+    'ui:title': 'State (or Country if outside the USA)',
+  },
+};
 // NOTE: Required fields will be conditionally set via the ui:Schema
 // We cannot set required fields directly on the schema because some location
 // fields will be hidden and thus break the form silently
 const locationSchema = {
   type: 'object',
+  required: ['city', 'state'],
   properties: {
-    countryDropdown: militaryAddress.properties.countryDropdown,
-    countryText: internationalAddressText.properties.countryText,
-    city: domesticAddress.properties.city,
-    state: location.oneOf[0].properties.state,
+    state: {
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    },
+    city: {
+      type: 'string',
+      maxLength: 30,
+      pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    },
   },
 };
 
@@ -269,40 +342,13 @@ function createLocationUISchemaForKey(
 ) {
   return {
     'ui:title': title,
-    countryDropdown: {
-      'ui:title': 'Country',
+    state: {
+      'ui:title': 'State (or country if outside the USA)',
       'ui:required': isRequiredCallback,
     },
-    countryText: {
-      'ui:title': 'Enter Country',
-      'ui:required': (formData, index) =>
-        isInternationalAddressText(
-          get(`${insertRealIndexInKey(key, index)}`, formData),
-        ),
-      'ui:options': {
-        hideIf: (formData, index) =>
-          isNotInternationalAddressText(
-            get(`${insertRealIndexInKey(key, index)}`, formData),
-          ),
-      },
-    },
     city: {
-      'ui:title': 'City',
-      'ui:required': (formData, index) =>
-        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      },
-    },
-    state: {
-      'ui:title': 'State',
-      'ui:required': (formData, index) =>
-        isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !isUSAAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
-      },
+      'ui:title': 'City or county',
+      'ui:required': isRequiredCallback,
     },
   };
 }
@@ -446,7 +492,13 @@ const formConfig = {
             required: ['maritalStatus'],
             properties: {
               maritalStatus,
-              marriages,
+              marriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
+                },
+              },
             },
           },
         },
@@ -686,7 +738,13 @@ const formConfig = {
                   spouseAddress: addressSchema,
                 },
               },
-              spouseMarriages,
+              spouseMarriages: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {},
+                },
+              },
             },
           },
         },
@@ -1075,6 +1133,101 @@ const formConfig = {
                   },
                 },
               },
+            },
+          },
+        },
+      },
+    },
+    reportDependentDeaths: {
+      title: 'Report The Death Of A Dependent',
+      pages: {
+        deaths: {
+          path: 'report-death-of-dependent',
+          title: 'Dependent Information',
+          schema: {
+            type: 'object',
+            properties: {
+              deaths: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: [
+                    'dependentType',
+                    'fullName',
+                    'deceasedDateOfDeath',
+                    'deceasedLocationOfDeath',
+                  ],
+                  properties: {
+                    dependentType: dependentTypeSchema,
+                    childStatus: childStatusSchema,
+                    fullName,
+                    deceasedDateOfDeath: date,
+                    deceasedLocationOfDeath: locationSchema,
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            deaths: {
+              'ui:options': {
+                viewField: DependentField,
+              },
+              items: {
+                dependentType: dependentTypeSchemaUI,
+                childStatus: childStatusUiSchema,
+                fullName: _.merge(fullNameUI, {
+                  first: {
+                    'ui:title': 'Dependent’s first name',
+                  },
+                  middle: {
+                    'ui:title': 'Dependent’s middle name',
+                  },
+                  last: {
+                    'ui:title': 'Dependent’s last name',
+                  },
+                }),
+                deceasedDateOfDeath: currentOrPastDateUI(
+                  'Dependent’s date of death',
+                ),
+                deceasedLocationOfDeath: deathLocationUiSchema,
+              },
+            },
+          },
+        },
+      },
+    },
+    reportMarriageOfChild: {
+      title: 'Report the marriage of a child',
+      pages: {
+        reportChildMarriedInformation: {
+          title: 'Information of child that has been married',
+          path: 'report-marriage-of-child',
+          uiSchema: {
+            marriedChildName: _.merge(fullNameUI, {
+              first: {
+                'ui:title': 'Child’s first name',
+              },
+              middle: {
+                'ui:title': 'Child’s middle name',
+              },
+              last: {
+                'ui:title': 'Child’s last name',
+              },
+            }),
+            dateChildMarried: currentOrPastDateUI(
+              'When did this child get married?',
+            ),
+          },
+          // 4908 NOTE: These properties will need to be udpated once the schema file for the 686
+          // has been given corresponding properties for this chapter. For now they reference definitions.
+          // they will map to reportMarriageOfChild.properties.<key-name>
+          schema: {
+            type: 'object',
+            properties: {
+              marriedChildName: fullName,
+              dateChildMarried: date,
             },
           },
         },

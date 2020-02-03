@@ -14,7 +14,7 @@ export default function FeaturesWarning() {
           href="https://www.ebenefits.va.gov/ebenefits-portal/ebenefits.portal"
           onClick={() =>
             recordEvent({
-              event: 'ebenefits-navigation',
+              event: 'nav-ebenefits-click',
             })
           }
         >

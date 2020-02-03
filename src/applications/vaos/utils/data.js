@@ -39,10 +39,11 @@ function getUserMessage(data) {
 export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
+  const typeOfCare = getTypeOfCare(data);
 
   return {
-    typeOfCare: data.typeOfCareId,
-    typeOfCareId: data.typeOfCareId,
+    typeOfCare: typeOfCare.id,
+    typeOfCareId: typeOfCare.id,
     appointmentType: getTypeOfCare(data).name,
     cityState: {
       institutionCode: data.vaSystem,
@@ -136,10 +137,12 @@ export function transformFormToCCRequest(state) {
     };
   }
 
+  const typeOfCare = getTypeOfCare(data);
+
   return {
-    typeOfCare: getTypeOfCare(data).ccId,
-    typeOfCareId: getTypeOfCare(data).ccId,
-    appointmentType: getTypeOfCare(data).name,
+    typeOfCare: typeOfCare.ccId,
+    typeOfCareId: typeOfCare.ccId,
+    appointmentType: typeOfCare.name,
     cityState: {
       institutionCode: data.communityCareSystemId,
       rootStationCode: data.communityCareSystemId,
@@ -196,43 +199,16 @@ export function transformFormToAppointment(state) {
   );
 
   return {
+    appointmentType: getTypeOfCare(data).name,
     clinic,
-    direct: {
-      purpose,
-      desiredDate: moment(slot.date, 'YYYY-MM-DD').format(
-        'MM/DD/YYYY [00:00:00]',
-      ),
-      dateTime: moment(slot.datetime).format('MM/DD/YYYY HH:mm:ss'),
-      apptLength: appointmentLength,
-    },
     // These times are a lie, they're actually in local time, but the upstream
     // service expects the 0 offset.
-    desiredDate: `${slot.date}T00:00:00+00:00`,
+    desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     dateTime: moment(slot.datetime).format('YYYY-MM-DD[T]HH:mm:ss[+00:00]'),
     duration: appointmentLength,
     bookingNotes: purpose,
-    patients: {
-      patient: [
-        {
-          contactInformation: {
-            preferredEmail: data.email,
-            timeZone: facility.institutionTimezone,
-          },
-          location: {
-            type: 'VA',
-            facility: {
-              name: facility.name,
-              siteCode: facility.rootStationCode,
-              timeZone: facility.institutionTimezone,
-            },
-            clinic: {
-              ien: clinic.clinicId,
-              name: clinic.clinicName,
-            },
-          },
-        },
-      ],
-    },
+    preferredEmail: data.email,
+    timeZone: facility.institutionTimezone,
     // defaulted values
     apptType: 'P',
     purpose: '9',
@@ -244,15 +220,6 @@ export function transformFormToAppointment(state) {
     type: 'REGULAR',
     appointmentKind: 'TRADITIONAL',
     schedulingMethod: 'direct',
-    providers: {
-      provider: [
-        {
-          location: {
-            type: 'VA',
-          },
-        },
-      ],
-    },
   };
 }
 

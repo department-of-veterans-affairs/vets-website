@@ -24,6 +24,7 @@ import veteranDetailsDescription from '../pages/confirmVeteranDetails';
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
 import contestedIssueFollowup from '../pages/contestedIssueFollowup';
+import officeForReview from '../pages/officeForReview';
 import { contestedIssuesNotesStart } from '../content/contestedIssues';
 import informalConference from '../pages/informalConference';
 import optOutOfOldAppeals from '../pages/optOutOfOldAppeals';
@@ -160,6 +161,17 @@ const formConfig = {
           uiSchema: contestedIssueFollowup.uiSchema,
           schema: contestedIssueFollowup.schema,
           initialData,
+        },
+      },
+    },
+    officeForReview: {
+      title: 'Office for review',
+      pages: {
+        sameOffice: {
+          title: ' ',
+          path: 'office-for-review',
+          uiSchema: officeForReview.uiSchema,
+          schema: officeForReview.schema,
         },
       },
     },

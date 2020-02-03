@@ -193,48 +193,96 @@ module.exports = class extends Generator {
     ])).names;
   }
 
-  /**
-   * Copies the example entity's children.
-   * Note: This doesn't copy grandchildren or deeper.
-   */
-  copyExampleChildren() {
-    // Iterate through the example file's kept properties
-    Object.keys(this.exampleEntity)
-      .filter(propName => this.rawPropertyNames.includes(propName))
-      .forEach(propName => {
-        const prop = this.exampleEntity[propName];
-        if (Array.isArray(prop)) {
-          prop.forEach(p => {
-            if (p.target_uuid && p.target_type) {
-              // We have an entity reference!
-              const childFileName = `${p.target_type}.${p.target_uuid}.json`;
-              const testChildPath = path.join(
-                processEntitiesRoot,
-                'tests/entities/',
-                childFileName,
-              );
+  // Largely copied from scripts/copy-entities.js
+  copyDescendants() {
+    const propBlacklist = [
+      'type',
+      'bundle',
+      'vid',
+      'uid',
+      'revision_uid',
+      'roles',
+    ];
+    const copiedUuids = new Set();
 
-              // Copy the child
-              if (!fs.existsSync(testChildPath)) {
-                fs.copyFileSync(
-                  path.join(tomeSyncContent, childFileName),
-                  testChildPath,
+    const copyChildren = entity => {
+      const uuid = entity.uuid[0].value;
+      // Avoid infinite loops
+      if (copiedUuids.has(uuid)) return;
+      copiedUuids.add(uuid);
+
+      // Iterate through the non-blacklisted properties
+      // When an entity reference is found, copy it over and recurse on it
+      Object.keys(entity)
+        .filter(k => !propBlacklist.includes(k))
+        .forEach(propName => {
+          // Properties should always be arrays, but just in case, check
+          if (Array.isArray(entity[propName])) {
+            entity[propName].forEach((p, index) => {
+              if (p.target_type && p.target_uuid) {
+                // Found an entity reference!
+                const fileName = `${p.target_type}.${p.target_uuid}.json`;
+                const sourceFile = path.join(tomeSyncContent, fileName);
+                const destFile = path.join(
+                  processEntitiesRoot,
+                  'tests/entities/',
+                  fileName,
                 );
-                this.log(
-                  chalk.green(
-                    `Added required child (${propName}): ${childFileName}`,
+                if (!fs.existsSync(destFile)) {
+                  try {
+                    fs.copyFileSync(sourceFile, destFile);
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.green(
+                        `Added child entity (${propName}[${index}]): ${fileName}`,
+                      ),
+                    );
+                  } catch (e) {
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.red(`Error copying ${fileName}.`),
+                    );
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.yellow('  This UUID: '),
+                      entity.uuid[0].value,
+                    );
+                    this.log(
+                      chalk.grey(`${uuid}: `),
+                      chalk.yellow('  Child found at: '),
+                      `${propName}[${index}]`,
+                    );
+                    this.log(chalk.yellow('  Child: '), p);
+                    throw e;
+                  }
+                } else
+                  this.log(
+                    chalk.grey(`${uuid}: `),
+                    chalk.blue(
+                      `Found child entity (${propName}[${index}]): ${fileName}`,
+                    ),
+                  );
+
+                // Recurse!
+                copyChildren(
+                  JSON.parse(
+                    fs
+                      .readFileSync(
+                        path.join(
+                          tomeSyncContent,
+                          `${p.target_type}.${p.target_uuid}.json`,
+                        ),
+                      )
+                      .toString('utf8'),
                   ),
                 );
-              } else
-                this.log(
-                  chalk.green(
-                    `Found required child (${propName}): ${childFileName}`,
-                  ),
-                );
-            }
-          });
-        } else this.log(`${propName} is not an array. That's unexpected.`);
-      });
+              }
+            });
+          }
+        });
+    };
+    // Start copying!
+    copyChildren(this.exampleEntity);
   }
 
   writeSchemas() {
@@ -294,6 +342,8 @@ module.exports = class extends Generator {
     this.log('- [ ] Clean up the raw schema');
     this.log('- [ ] Clean up the transformed schema');
     this.log('- [ ] Finish the transformer');
+    this.log('- [ ] Ensure any unused test data is deleted by running:');
+    this.log('      script/remove-unnecessary-raw-entity-files.sh');
     this.log('- [ ] Ensure it all works by running:');
     this.log(
       '      yarn test:unit src/site/stages/build/process-cms-exports/tests/assemble-entity-tree.unit.spec.js',
