@@ -11,7 +11,7 @@ jobs:
 
     - name: Check for Sentry
       run: |
-        git diff -S "Sentry" --quiet
+        git diff ${{GITHUB_SHA}} -S "Sentry"
         if [ $? -eq 1 ]
         then
           echo "Sentry change found"
