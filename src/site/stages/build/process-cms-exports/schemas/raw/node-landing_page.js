@@ -44,7 +44,11 @@ module.exports = {
       },
     },
     field_page_last_built: { $ref: 'GenericNestedString' },
-    field_plainlanguage_date: { type: 'array' },
+    field_plainlanguage_date: {
+      type: 'array',
+      // maxItems: 0 until we know what the items look like
+      maxItems: 0,
+    },
     field_promo: {
       type: 'array',
       maxItems: 1,
