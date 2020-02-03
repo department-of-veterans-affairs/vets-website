@@ -98,7 +98,7 @@ class OrderHistory extends Component {
                 <strong>Name:</strong> {firstName} {lastName}
               </h2>
               <h2>
-                <strong>Address:</strong> {address} <br /> {city} {state} {zip}{' '}
+                <strong>Address:</strong> {address} {city} {state} {zip}{' '}
               </h2>
               <table id="batteriesTable" className="form2346 vads-c-table">
                 <tbody>

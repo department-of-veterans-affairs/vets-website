@@ -46,7 +46,6 @@ const ConfirmAddress = () => {
               label="Address Line 2"
               placeholder="Address Line 2"
               name="addressLine2"
-              required
               field=""
               onValueChange={() => {}}
             />
