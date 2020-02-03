@@ -7,6 +7,7 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 
 import submitFormFor from '../../all-claims/config/submitForm';
 
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
@@ -87,8 +88,6 @@ import { requireOneSelected, isInPast } from '../validations';
 import { hasMonthYear } from '../../all-claims/validations';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 
 const {
   treatments,
@@ -263,21 +262,11 @@ const formConfig = {
                       _.get('veteran.homelessness.isHomeless', formData, '') ===
                       true,
                   },
-                  primaryPhone: {
-                    'ui:title': 'Phone number',
-                    'ui:widget': PhoneNumberWidget,
-                    'ui:reviewWidget': PhoneNumberReviewWidget,
-                    'ui:options': {
-                      widgetClassNames: 'va-input-medium-large',
-                    },
-                    'ui:errorMessages': {
-                      pattern:
-                        'Phone numbers must be 10 digits (dashes allowed)',
-                    },
+                  primaryPhone: merge(phoneUI('Phone number'), {
                     'ui:required': formData =>
                       _.get('veteran.homelessness.isHomeless', formData, '') ===
                       true,
-                  },
+                  }),
                 },
               },
             },
