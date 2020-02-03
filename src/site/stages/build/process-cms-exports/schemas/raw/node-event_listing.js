@@ -35,19 +35,7 @@ module.exports = {
         },
       },
     },
-    path: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          alias: { type: 'string' },
-          langcode: { type: 'string' },
-          pathauto: { type: 'number' },
-        },
-        required: ['alias', 'langcode', 'pathauto'],
-      },
-      maxItems: 1,
-    },
+    path: { $ref: 'RawPath' },
     field_intro_text: { $ref: 'GenericNestedString' },
     field_office: { $ref: 'EntityReferenceArray' },
   },
