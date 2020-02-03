@@ -22,5 +22,5 @@ jobs:
       run: |
         URI=https://api.github.com
         API_VERSION=v3
-        AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
+        AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
         curl -H "${AUTH_HEADER}" "${URI}/repos/${GITHUB_REPOSITORY}/git/commits/${GITHUB_SHA}"
