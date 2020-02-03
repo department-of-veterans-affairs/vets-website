@@ -16,25 +16,7 @@ module.exports = {
       },
       maxItems: 1,
     },
-    metatag: {
-      type: 'object',
-      properties: {
-        value: {
-          type: 'object',
-          properties: {
-            title: { type: 'string' },
-            twitter_cards_type: { type: 'string' },
-            og_site_name: { type: 'string' },
-            twitter_cards_description: { type: 'string' },
-            description: { type: 'string' },
-            twitter_cards_title: { type: 'string' },
-            twitter_cards_site: { type: 'string' },
-            og_title: { type: 'string' },
-            og_description: { type: 'string' },
-          },
-        },
-      },
-    },
+    metatag: { $ref: 'RawMetaTags' },
     path: { $ref: 'RawPath' },
     field_intro_text: { $ref: 'GenericNestedString' },
     field_office: { $ref: 'EntityReferenceArray' },
