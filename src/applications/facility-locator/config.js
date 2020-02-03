@@ -38,14 +38,6 @@ export const ccLocatorEnabled = () => true;
 /**
  * Build parameters and URL for facilities API calls
  *
- *
- *
- *
- *
- *
- *
- *
- *
  */
 export const resolveParamsWithUrl = (
   address,
