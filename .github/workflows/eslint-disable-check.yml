@@ -11,7 +11,7 @@ jobs:
 
     - name: Check for Sentry
       run: |
-        git fetch master
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
         git diff master -G"Sentry\." --quiet
         if [ $? -eq 1 ]
         then
