@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import _ from 'lodash/fp';
 import {
@@ -7,6 +8,7 @@ import {
 import { isValidDateRange } from '../../platform/forms/validations';
 
 function calculateEndDate() {
+  Sentry.captureMessage('SOMETHING');
   const endDateLimit = 1;
   const description = '1 year';
 
