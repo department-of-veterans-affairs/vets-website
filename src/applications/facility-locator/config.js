@@ -91,12 +91,13 @@ export const resolveParamsWithUrl = (
 export const facilityTypes = {
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
   [FacilityType.URGENT_CARE]: 'Urgent care',
-  [FacilityType.URGENT_CARE_FARMACIES]: 'Non-VA urgent care pharmacies',
+  [FacilityType.URGENT_CARE_FARMACIES]:
+    'Community pharmacies (in VA’s network)',
   [FacilityType.VA_CEMETARY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
   [FacilityType.VET_CENTER]: 'Vet Centers',
   [LocationType.HEALTH]: 'VA health',
-  [LocationType.CC_PROVIDER]: 'VA Community Care (In network)',
+  [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.BENEFITS]: 'VA benefits',
 };
@@ -121,8 +122,8 @@ export const healthServices = {
 };
 
 export const urgentCareServices = {
-  UrgentCare: 'VA urgent care',
-  NonVAUrgentCare: 'Non-VA urgent care',
+  UrgentCare: 'Urgent care',
+  NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };
 
 export const benefitsServices = {
