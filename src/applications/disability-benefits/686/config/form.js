@@ -313,7 +313,7 @@ function createAddressUISchemaForKey(key, isRequiredCallback = () => true) {
         isMilitaryAddress(get(`${insertRealIndexInKey(key, index)}`, formData)),
       'ui:errorMessages': {
         pattern: 'Please enter a valid post office',
-        required: 'Please enter a post officeAs ',
+        required: 'Please enter a post office ',
       },
       'ui:options': {
         hideIf: (formData, index) =>
