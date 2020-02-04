@@ -22,7 +22,6 @@ describe('<ProfilePage>', () => {
       profile: {
         ...defaultProps.profile,
         attributes: {
-          vetTecProvider: true,
           type: 'FOR PROFIT',
         },
       },
