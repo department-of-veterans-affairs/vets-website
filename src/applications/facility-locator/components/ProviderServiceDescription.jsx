@@ -4,13 +4,13 @@ const providerName = query => {
   let name;
   switch (query.facilityType) {
     case 'cc_pharmacy':
-      name = ' NON-VA URGENT CARE PHARMACY';
+      name = 'NON-VA URGENT CARE PHARMACY';
       break;
     case 'urgent_care':
       name = 'URGENT CARE';
       break;
     default:
-      name = ' NON-VA HEALTH';
+      name = 'NON-VA HEALTH';
   }
   return name;
 };

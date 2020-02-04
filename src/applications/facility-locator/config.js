@@ -52,12 +52,11 @@ export const resolveParamsWithUrl = (
   let url;
   switch (locationType) {
     case 'urgent_care':
-      if (!serviceType || serviceType === 'UrgentCare') {
+      if (serviceType === 'NonVAUrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
         url = api.url;
-      }
-      if (serviceType === 'NonVAUrgentCare') {
+      } else {
         facility = 'cc_urgent_care';
         url = api.ccUrl;
       }
