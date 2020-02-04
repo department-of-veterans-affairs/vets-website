@@ -28,3 +28,23 @@ export const genericSchemas = {
     default: states50AndDC.map(state => state.label),
   },
 };
+<<<<<<< Updated upstream
+=======
+
+export const genericTextinput = {
+  type: 'string',
+  maxLength: 50,
+  pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+};
+
+export const genericNumberInput = {
+  type: 'string',
+  maxLength: 50,
+  pattern: '^[0-9]{9}$',
+};
+
+export const genericDateInput = {
+  pattern: "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+  type: "string"
+}
+>>>>>>> Stashed changes
