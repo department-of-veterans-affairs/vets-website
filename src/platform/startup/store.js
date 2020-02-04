@@ -54,11 +54,20 @@ export default function createCommonStore(
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
-  return createStore(
+  const store = createStore(
     combineReducers(reducer),
     compose(
       applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );
+
+  store.reducers = reducer;
+
+  store.injectReducer = (key, newReducer) => {
+    store.reducers[key] = newReducer;
+    store.replaceReducer(combineReducers(store.reducers));
+  };
+
+  return store;
 }
