@@ -13792,9 +13792,17 @@ try {
   // console.log(`The event payload: ${payload}`);
 
   exec
-    .exec('git', ['diff', 'origin/master...', /-G"Sentry\."/, '--exit-code'])
+    .exec('git', [
+      'diff',
+      'origin/master...',
+      '-G"eslint-disable"',
+      '--exit-code',
+    ])
     .then(exitCode => {
       console.log(`The git diff exit code: ${exitCode}`);
+    })
+    .catch(err => {
+      console.log(`The error: ${err}`);
     });
 } catch (error) {
   core.setFailed(error.message);
