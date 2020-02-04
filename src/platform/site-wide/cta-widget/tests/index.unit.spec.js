@@ -681,7 +681,9 @@ describe('<CallToActionWidget>', () => {
 
       expect(fetchMHVAccount.called).to.be.false;
       expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
-      expect(tree.text()).contains('Schedule or cancel');
+      expect(tree.text()).contains(
+        'schedule or cancel your appointments online',
+      );
       tree.unmount();
     });
 
@@ -708,7 +710,7 @@ describe('<CallToActionWidget>', () => {
 
       expect(fetchMHVAccount.called).to.be.false;
       expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
-      expect(tree.text()).contains('View your VA');
+      expect(tree.text()).contains('view your appointments online');
       tree.unmount();
     });
 
