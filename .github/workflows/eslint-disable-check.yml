@@ -23,8 +23,8 @@ jobs:
         echo $PR_NUMBER
         echo $GITHUB_REF
         git fetch origin master
-        result=$(git diff origin/master... -G"Sentry\." --exit-code)
-        if [ $? -eq 1 ]
+        # git diff origin/master... -G"Sentry\." --quiet
+        if git diff origin/master... -G"Sentry\." --quiet
         then
           echo "Sentry change found"
           URI=https://api.github.com
