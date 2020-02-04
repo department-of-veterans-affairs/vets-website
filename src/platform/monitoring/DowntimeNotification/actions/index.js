@@ -1,8 +1,4 @@
-import moment from 'moment';
 import { apiRequest } from '../../../utilities/api';
-import environment from 'platform/utilities/environment';
-import { createGlobalMaintenanceWindow } from '../util/helpers';
-import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
 
 export const ERROR_SCHEDULE_DOWNTIME = 'ERROR_SCHEDULE_DOWNTIME';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
@@ -54,24 +50,9 @@ export function dismissDowntimeWarning(appTitle) {
   };
 }
 
-export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
+export function getScheduledDowntime() {
   return async dispatch => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
-
-    // create global downtime data if feature toggle is enabled and if
-    // current time is in downtime window
-    // default to empty array
-    const { downtimeStart, downtimeEnd } = downtimeWindow;
-
-    const globalDowntimeData =
-      (!environment.isLocalhost() &&
-        moment().isAfter(downtimeStart) &&
-        moment().isBefore(downtimeEnd) &&
-        createGlobalMaintenanceWindow({
-          startTime: downtimeStart,
-          endTime: downtimeEnd,
-        })) ||
-      [];
 
     try {
       await apiRequest('/maintenance_windows/')
@@ -87,13 +68,11 @@ export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
         .catch(() =>
           dispatch({
             type: ERROR_SCHEDULE_DOWNTIME,
-            data: globalDowntimeData,
           }),
         );
     } catch (err) {
       dispatch({
         type: ERROR_SCHEDULE_DOWNTIME,
-        data: globalDowntimeData,
       });
     }
   };
