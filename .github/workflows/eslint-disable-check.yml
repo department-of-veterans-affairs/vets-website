@@ -13,6 +13,8 @@ jobs:
       id: findPr
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Hello world action step
+      uses: ./.github/actions/hello-world-action
     - name: Check for Sentry
       env:
         # GITHUB_CONTEXT: ${{ toJson(github) }}
