@@ -13780,6 +13780,7 @@ module.exports = require("fs");
 const core = __webpack_require__(910);
 const github = __webpack_require__(289);
 const exec = __webpack_require__(189);
+const fetch = __webpack_require__(527);
 
 try {
   // `who-to-greet` input defined in action metadata file
@@ -13805,6 +13806,16 @@ try {
     })
     .catch(err => {
       console.log(`The error: ${err}`);
+      const { GITHUB_TOKEN, GITHUB_REPOSITORY, PR } = process.env;
+      const url = `https://api.github.com/${GITHUB_REPOSITORY}/issues/${PR}/comments`;
+
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          body: 'ESLint disabled - Manual VSP review required',
+        }),
+        headers: { Authorization: `token ${GITHUB_TOKEN}` },
+      });
     });
 } catch (error) {
   core.setFailed(error.message);
