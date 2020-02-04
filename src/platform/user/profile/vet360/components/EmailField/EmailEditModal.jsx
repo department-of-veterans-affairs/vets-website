@@ -3,7 +3,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 
 import Vet360EditModal from '../base/Vet360EditModal';
 
-import AddressFormV2 from '../AddressField/AddressFormV2';
+import ContactInfoForm from '../ContactInfoForm';
 
 import environment from 'platform/utilities/environment';
 
@@ -31,15 +31,15 @@ export default class EmailEditModal extends React.Component {
   renderForm = (formButtons, onSubmit) => (
     <>
       {useNewForm && (
-        <AddressFormV2
-          address={this.props.field.value}
+        <ContactInfoForm
+          formData={this.props.field.value}
           formSchema={this.props.field.formSchema}
           uiSchema={this.props.field.uiSchema}
           onUpdateFormData={this.props.onChangeFormDataAndSchemas}
           onSubmit={onSubmit}
         >
           {formButtons}
-        </AddressFormV2>
+        </ContactInfoForm>
       )}
       {!useNewForm && (
         <ErrorableTextInput
@@ -61,7 +61,7 @@ export default class EmailEditModal extends React.Component {
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
         onBlur={useNewForm ? null : this.onBlur}
-        useNewAddressForm={useNewForm}
+        useSchemaForm={useNewForm}
         {...this.props}
       />
     );
