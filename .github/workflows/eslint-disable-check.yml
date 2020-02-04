@@ -9,11 +9,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - uses: jwalton/gh-find-current-pr@v1
+      id: findPr
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Check for Sentry
       env:
         # GITHUB_CONTEXT: ${{ toJson(github) }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
+        echo $PR
         echo $PR_NUMBER
         echo $GITHUB_REF
         git fetch origin master
