@@ -13815,6 +13815,8 @@ try {
           body: 'ESLint disabled - Manual VSP review required',
         }),
         headers: { Authorization: `token ${GITHUB_TOKEN}` },
+      }).catch(res => {
+        console.log(`Error response: ${res}`);
       });
     });
 } catch (error) {
