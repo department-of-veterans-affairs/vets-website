@@ -23,7 +23,7 @@ jobs:
         echo $PR_NUMBER
         echo $GITHUB_REF
         git fetch origin master
-        git diff origin/master... -G"Sentry\." --exit-code
+        result=$(git diff origin/master... -G"Sentry\." --exit-code)
         if [ $? -eq 1 ]
         then
           echo "Sentry change found"
