@@ -18,7 +18,7 @@ try {
       'origin/master...',
       '-G"eslint-disable"',
       '--exit-code',
-      // '--name-only',
+      '--name-only',
       'src',
     ])
     .then(exitCode => {
