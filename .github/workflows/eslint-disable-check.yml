@@ -12,7 +12,7 @@ jobs:
     - name: Check for Sentry
       run: |
         git fetch origin master
-        git diff master... -G"Sentry\." --quiet
+        git diff origin/master... -G"Sentry\." --quiet
         if [ $? -eq 1 ]
         then
           echo "Sentry change found"
