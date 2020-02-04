@@ -31,7 +31,7 @@ jobs:
           URI=https://api.github.com
           API_VERSION=v3
           AUTH_HEADER="Authorization: token ${{ secrets.GITHUB_TOKEN }}"
-          curl -H "${AUTH_HEADER}" -X POST --data '{"body": "Sentry log found - requires manual VSP review"}' "${URI}/repos/${GITHUB_REPOSITORY}/issues/${PR}/comments"
+          # curl -H "${AUTH_HEADER}" -X POST --data '{"body": "Sentry log found - requires manual VSP review"}' "${URI}/repos/${GITHUB_REPOSITORY}/issues/${PR}/comments"
         else
           echo "Sentry change not found" >&2
         fi
