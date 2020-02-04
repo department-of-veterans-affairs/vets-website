@@ -41,7 +41,7 @@ describe('<ViewDependentsList />', () => {
       />,
     );
 
-    expect(wrapper.contains(<h3>Dependents on award</h3>)).to.equal(true);
+    expect(wrapper.contains(<h2>Dependents on award</h2>)).to.equal(true);
     wrapper.unmount();
   });
 

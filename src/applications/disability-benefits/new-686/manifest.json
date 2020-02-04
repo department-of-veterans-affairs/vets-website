@@ -1,0 +1,10 @@
+{
+  "appName": "New 686",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "new-686",
+  "rootUrl": "/disability-benefits/new-686",
+  "template": {
+    "layout": "page-react.html",
+    "vagovprod": false
+  }
+}

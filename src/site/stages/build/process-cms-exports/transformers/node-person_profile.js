@@ -6,6 +6,9 @@ const transform = entity => ({
   entityUrl: {
     path: entity.path[0].alias,
   },
+  title: `${getDrupalValue(entity.fieldNameFirst)} ${getDrupalValue(
+    entity.fieldLastName,
+  )}`,
   fieldBody: getDrupalValue(entity.fieldBody),
   fieldDescription: getDrupalValue(entity.fieldDescription),
   fieldEmailAddress: getDrupalValue(entity.fieldEmailAddress),
