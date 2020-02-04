@@ -15,6 +15,7 @@ jobs:
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
         echo $PR_NUMBER
+        echo $GITHUB_REF
         git fetch origin master
         git diff origin/master... -G"Sentry\." --exit-code
         if [ $? -eq 1 ]
