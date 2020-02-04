@@ -19,10 +19,6 @@ class ViewDependentsApp extends Component {
   }
 
   async fetchAllDependents() {
-    /*
-    const response = await getData(
-      '/dependents_applications/show',
-    );*/
 
     const response = await apiRequest('/dependents_applications/show');
 
