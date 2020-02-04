@@ -5,6 +5,8 @@ FROM alpine:3.10
 COPY index.js /index.js
 COPY package.json /package.json
 
+# Install dependencies
+RUN apk add --update nodejs npm
 RUN npm install
 
 # Code file to execute when the docker container starts up (`index.js`)
