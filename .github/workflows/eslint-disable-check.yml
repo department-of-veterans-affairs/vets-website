@@ -11,9 +11,9 @@ jobs:
 
     - name: Check for Sentry
       env:
-        SOMETHING: ${{ github }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
-        echo $SOMETHING
+        echo $GITHUB_CONTEXT
         git fetch origin master
         git diff origin/master... -G"Sentry\." --exit-code
         if [ $? -eq 1 ]
