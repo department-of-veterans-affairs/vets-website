@@ -20,7 +20,7 @@ try {
       '-G"eslint-disable"',
       '--exit-code',
       '--name-only',
-      'src',
+      // 'src',
     ])
     .then(exitCode => {
       console.log(`The git diff exit code: ${exitCode}`);
