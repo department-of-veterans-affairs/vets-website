@@ -59,19 +59,12 @@ class ViewDependentsListItem extends Component {
                   Date of birth: <strong>{this.props.dateOfBirth}</strong>
                 </p>
               : null}
-
-            {this.props.age
-              ? <p className="vads-u-margin-left--2 vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  Age: <strong>{this.props.age}</strong>
-                </p>
-              : null}
           </div>
         </div>
       </div>
     );
   }
-}
->>>>>>> Stashed changes
+};
 
 ViewDependentsListItem.propTypes = {
   first_name: PropTypes.string,

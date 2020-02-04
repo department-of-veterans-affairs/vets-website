@@ -28,8 +28,6 @@ export const genericSchemas = {
     default: states50AndDC.map(state => state.label),
   },
 };
-<<<<<<< Updated upstream
-=======
 
 export const genericTextinput = {
   type: 'string',
@@ -47,4 +45,3 @@ export const genericDateInput = {
   pattern: "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
   type: "string"
 }
->>>>>>> Stashed changes
