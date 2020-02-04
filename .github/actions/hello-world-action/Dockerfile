@@ -10,4 +10,4 @@ RUN apk add --update nodejs npm
 RUN npm install
 
 # Code file to execute when the docker container starts up (`index.js`)
-ENTRYPOINT ["node /index.js"]
+ENTRYPOINT ["node", "/index.js"]
