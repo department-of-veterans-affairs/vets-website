@@ -133,9 +133,7 @@ export class CallToActionWidget extends React.Component {
         return this.getMviErrorContent();
       }
 
-      return (
-        <VAOnlineScheduling serviceDescription={this._serviceDescription} />
-      );
+      return <VAOnlineScheduling appId={this.props.appId} />;
     }
 
     return null;
