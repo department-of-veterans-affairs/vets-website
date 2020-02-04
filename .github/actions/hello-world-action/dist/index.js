@@ -13797,6 +13797,8 @@ try {
       'origin/master...',
       '-G"eslint-disable"',
       '--exit-code',
+      '--name-only',
+      'src',
     ])
     .then(exitCode => {
       console.log(`The git diff exit code: ${exitCode}`);
