@@ -657,7 +657,8 @@ describe('<CallToActionWidget>', () => {
       expect(tree.find('HealthToolsDown').exists()).to.be.true;
       tree.unmount();
     });
-    it('should show online scheduling message', () => {
+
+    it('should shown schedule appts message', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
         <CallToActionWidget
@@ -680,8 +681,37 @@ describe('<CallToActionWidget>', () => {
 
       expect(fetchMHVAccount.called).to.be.false;
       expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
+      expect(tree.text()).contains('Schedule or cancel');
       tree.unmount();
     });
+
+    it('should show view appointments message', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="view-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.false;
+      expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
+      expect(tree.text()).contains('View your VA');
+      tree.unmount();
+    });
+
     it('should not fetch mhv account for new tool', () => {
       const fetchMHVAccount = sinon.spy();
       const tree = mount(
