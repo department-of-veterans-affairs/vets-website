@@ -6,8 +6,6 @@
   "production": false,
   "template": {
     "vagovprod": false,
-    "vagovstaging": true,
-    "vagovdev": true,
     "layout": "page-react.html"
   }
 }
