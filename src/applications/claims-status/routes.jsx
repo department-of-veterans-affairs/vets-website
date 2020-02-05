@@ -9,7 +9,6 @@ import FilesPage from './containers/FilesPage';
 import DetailsPage from './containers/DetailsPage';
 import AskVAPage from './containers/AskVAPage';
 import DocumentRequestPage from './containers/DocumentRequestPage';
-import AdditionalEvidencePage from './containers/AdditionalEvidencePage';
 import ClaimEstimationPage from './containers/ClaimEstimationPage';
 // import AppealLayout from './components/AppealLayout';
 import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
@@ -44,13 +43,7 @@ const routes = [
     <Route component={ClaimStatusPage} path="status" />,
     <Route component={FilesPage} path="files" />,
     <Route component={DetailsPage} path="details" />,
-    <Route component={AskVAPage} path="ask-va-to-decide" />
-    <Route
-      component={AdditionalEvidencePage}
-      key="additional-evidence"
-      path="additional-evidence"
-    />
-    ,
+    <Route component={AskVAPage} path="ask-va-to-decide" />,
     <Route
       component={DocumentRequestPage}
       path="document-request/:trackedItemId"
