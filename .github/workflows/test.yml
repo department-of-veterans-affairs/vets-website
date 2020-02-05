@@ -39,7 +39,6 @@ jobs:
     - name: Build and test
       run: |
         yarn build-webpack
-#       yarn test:unit
 #       working-directory: vets-website
 
   test-platform:
