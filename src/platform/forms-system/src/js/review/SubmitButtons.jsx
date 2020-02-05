@@ -6,7 +6,14 @@ import { timeFromNow } from '../utilities/date';
 import { focusAndScrollToReviewElement } from '../utilities/ui';
 
 export default function SubmitButtons(props) {
-  const { onBack, onSubmit, submission, renderErrorMessage, errors } = props;
+  const {
+    preSubmitBlock,
+    onBack,
+    onSubmit,
+    submission,
+    renderErrorMessage,
+    errors,
+  } = props;
   let submitButton;
   let submitMessage;
   if (submission.status === false) {
@@ -165,10 +172,11 @@ export default function SubmitButtons(props) {
     }
 
     return (
-      <div>
+      <>
         <div className="row">
           <div className="small-12 medium-12 columns">{submitMessage}</div>
         </div>
+        {preSubmitBlock}
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
@@ -177,11 +185,15 @@ export default function SubmitButtons(props) {
           </div>
           {submitButton}
         </div>
-      </div>
+      </>
     );
   }
   return (
-    <div>
+    <>
+      <div className="row">
+        <div className="columns">{submitMessage}</div>
+      </div>
+      {preSubmitBlock}
       <div className="row form-progress-buttons">
         <div className="small-6 medium-5 columns">
           <ProgressButton
@@ -196,9 +208,6 @@ export default function SubmitButtons(props) {
           <div className="hidden">&nbsp;</div>
         </div>
       </div>
-      <div className="row">
-        <div className="columns">{submitMessage}</div>
-      </div>
-    </div>
+    </>
   );
 }

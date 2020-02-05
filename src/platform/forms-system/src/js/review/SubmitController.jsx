@@ -104,25 +104,26 @@ class SubmitController extends React.Component {
       errors = [],
     } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
+    const PreSubmitBlock = (
+      <PreSubmitSection
+        preSubmitInfo={preSubmit}
+        onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
+        checked={form.data[preSubmit.field] || false}
+        showError={showPreSubmitError}
+      />
+    );
 
     return (
-      <div key={errors.map(err => err.name).join(',')}>
-        <PreSubmitSection
-          preSubmitInfo={preSubmit}
-          onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
-          checked={form.data[preSubmit.field] || false}
-          showError={showPreSubmitError}
-        />
-        <SubmitButtons
-          onBack={this.goBack}
-          onSubmit={this.handleSubmit}
-          submission={form.submission}
-          renderErrorMessage={renderErrorMessage}
-          errors={errors}
-          openReviewChapter={this.props.openReviewChapter}
-          setEditMode={this.props.setEditMode}
-        />
-      </div>
+      <SubmitButtons
+        onBack={this.goBack}
+        onSubmit={this.handleSubmit}
+        submission={form.submission}
+        renderErrorMessage={renderErrorMessage}
+        errors={errors}
+        openReviewChapter={this.props.openReviewChapter}
+        setEditMode={this.props.setEditMode}
+        preSubmitBlock={PreSubmitBlock}
+      />
     );
   }
 }
