@@ -65,8 +65,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .keys(TAB)
     .evaluateSelectMenu('#root_serviceAffiliation', 'veteran', 'Veteran');
 
-  // Let's continue to the next screen by keyboard submitting the form
-  client.keys(ENTER);
+  // Let's continue to the next screen by tabbing and pressing enter
+  client.repeatKeypress(TAB, 2).keys(ENTER);
 
   // Service information. Select a branch of service.
   client
@@ -93,7 +93,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .evaluateInput('#root_serviceDateRange_toYear', '2010');
 
   // Let's continue to the next screen by keyboard submitting the form
-  client.keys(ENTER);
+  client.repeatKeypress(TAB, 2).keys(ENTER);
 
   // Contact information. Skip the country select, enter a street address.
   client
@@ -121,7 +121,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .evaluateInput('[name*="applicantEmailConfirmation"]', 'test@test.com');
 
   // Let's continue to the next screen by keyboard submitting the form
-  client.keys(ENTER);
+  client.repeatKeypress(TAB, 3).keys(ENTER);
 
   // Benefit information and select benefits from checkbox group
   client
@@ -136,7 +136,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     ]);
 
   // Let's continue to the next screen by keyboard submitting the form
-  client.keys(ENTER);
+  client.repeatKeypress(TAB, 2).keys(ENTER);
 
   // School information. Skip to manual school entry.
   client
