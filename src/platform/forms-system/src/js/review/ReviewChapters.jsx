@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
@@ -20,8 +19,8 @@ import {
   setViewedPages,
   uploadFile,
 } from '../actions';
+import { scrollToScrollElement } from '../utilities/ui';
 
-const scroller = Scroll.scroller;
 class ReviewChapters extends React.Component {
   componentDidMount() {
     const { formData, pageList } = this.props;
@@ -34,20 +33,9 @@ class ReviewChapters extends React.Component {
       this.props.closeReviewChapter(name, pageKeys);
     } else {
       this.props.openReviewChapter(name);
-      this.scrollToChapter(name);
+      scrollToScrollElement(`chapter${name}`);
     }
   }
-
-  scrollToChapter = chapterKey => {
-    scroller.scrollTo(
-      `chapter${chapterKey}ScrollElement`,
-      window.Forms.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
-    );
-  };
 
   handleEdit = (pageKey, editing, index = null) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;

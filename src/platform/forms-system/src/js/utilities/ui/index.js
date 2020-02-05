@@ -18,6 +18,42 @@ export function focusElement(selectorOrElement, options) {
   }
 }
 
+export function focusOnFirstElement(
+  block,
+  { focusOptions = {}, filterCallback },
+) {
+  if (block) {
+    // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
+    const focusableElements = [
+      '[href]',
+      'button',
+      'details',
+      'input:not([type="hidden"])',
+      // 'label[for]', some form labels
+      'select',
+      'textarea',
+      '[tabindex]:not([tabindex="-1"])', // focusable, but not tabbable
+      // focusable elements not used in our form system
+      // 'audio[controls]',
+      // 'embed',
+      // 'iframe',
+      // 'img[usemap]',
+      // 'object[usemap]',
+      // 'video[controls]',
+    ];
+    let els = [...block?.querySelectorAll(focusableElements.join(','))].filter(
+      // Ignore disabled & hidden elements
+      // This does not check the elements visibility or opacity
+      el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
+    );
+    if (typeof filterCallback === 'function') {
+      els = els.filter(filterCallback);
+    }
+    // eslint-disable-next-line no-unused-expressions
+    els[0]?.focus(focusOptions);
+  }
+}
+
 export function setGlobalScroll() {
   window.Forms = window.Forms || {
     scroll: {
@@ -58,3 +94,43 @@ export function scrollToFirstError() {
     focusElement(errorEl);
   }
 }
+
+export const scrollToScrollElement = key => {
+  if (key) {
+    const selector = `${key}ScrollElement`;
+    Scroll.scroller.scrollTo(
+      selector,
+      window.Forms.scroll || {
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      },
+    );
+  }
+};
+
+// error object created by ../utilities/data/formatErrors.js
+export const focusAndScrollToReviewElement = (error = {}) => {
+  if (error.name) {
+    // Ensure DOM updates
+    setTimeout(() => {
+      // accordion uses a 1-based index
+      const selector = `[name="${error.page}ScrollElement"]`;
+      const el = document.querySelector(selector);
+      if (el) {
+        if (error.page === error.chapter) {
+          // Focus on accordion header
+          el.focus();
+          scrollToScrollElement(`chapter${error.chapter}`);
+        } else {
+          // Focus on form element
+          focusOnFirstElement(
+            el.closest('.form-review-panel-page')?.querySelector('form'),
+            { filterCallback: elm => elm.id.includes(`_${error.name}`) },
+          );
+          scrollToScrollElement(error.page);
+        }
+      }
+    });
+  }
+};

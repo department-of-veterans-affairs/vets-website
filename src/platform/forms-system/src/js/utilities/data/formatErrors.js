@@ -8,39 +8,65 @@ const formatErrors = message =>
   message
     .replace(/instance(\.\w+|\s)?/, '')
     .replace(/(view:|ui:|")/g, '')
-    .replace('requires property ', 'We’re missing ')
-    .replace(/[A-Z]/g, str => ` ${str.toLowerCase()}`)
+    .replace('requires property ', 'Missing ')
+    // Include numbers (e.g. "addressLine1" -> "address line 1")
+    .replace(/[A-Z\d]/g, str => ` ${str.toLowerCase()}`)
+    // "zip" code replaced with "postal" code in content, but not property names
+    .replace(/zip\s(code)?/i, 'postal code')
+    .replace(' va ', ' VA ')
     .trim()
     .replace(/^./, str => str.toUpperCase());
 
 // min/max length or item errors may show up as duplicates
 const errorExists = (acc, name) => acc.find(obj => obj.name === name);
 
-// Find the chapter name that contains the property (name) which is used to
-// build a link that will expand the associated accordion when clicked
-const getChapterNameIndex = (chapters = {}, name, instance = '') => {
-  const find = (obj, insideInstance = false) => {
+// Find the chapter and page name that contains the property (name) which is
+// used to build a link that will expand the associated accordion when clicked
+const getPropertyInfo = (chapters = {}, name, instance = '') => {
+  let page;
+  const find = (obj, insideInstance = false, pageName) => {
     if (obj && typeof obj === 'object') {
-      return Object.keys(obj).find(key => {
-        // these keys may contain all properties, or are react components
-        if (
-          key === 'schema' ||
-          key === 'initialData' ||
-          key.startsWith('ui:')
-        ) {
-          return false;
-        }
-        if (obj[name]) {
-          return !instance || insideInstance;
-        }
-        return find(obj[key], insideInstance || key === instance);
-      });
+      return Object.keys(obj).reduce(
+        (acc, key) => {
+          // these keys may contain all properties, or are react components
+          if (
+            acc.found ||
+            key === 'schema' ||
+            key === 'initialData' ||
+            key.startsWith('ui:')
+          ) {
+            return acc;
+          }
+          if (name === key && obj[name]) {
+            if (!acc.pageName) {
+              const pName = pageName || key;
+              acc.pageName = pName === 'uiSchema' ? '' : pName;
+              acc.found = !instance || insideInstance;
+            }
+            return acc;
+          }
+          return find(
+            obj[key],
+            insideInstance || key === instance,
+            pageName || key, // Keep a reference to the page name
+          );
+        },
+        { found: false },
+      );
     }
-    return false;
+    return {};
   };
-  return Object.keys(chapters).findIndex(chapter =>
-    find(chapters[chapter].pages),
-  );
+  const index = Object.keys(chapters).findIndex(chapter => {
+    const { pageName = '', found = false } = find(
+      chapters[chapter].pages,
+      false,
+    );
+    if (found && !page) {
+      page = pageName;
+    }
+    return found;
+  });
+  return { index, page };
 };
 
 /* There are three types of Validation error messages:
@@ -79,7 +105,7 @@ export const reduceErrors = (errors, { chapters }) =>
            * anyone and show both
           */
           if (!errorExists(acc, name)) {
-            const index = getChapterNameIndex(
+            const { page = '', index } = getPropertyInfo(
               chapters,
               err.argument,
               err.property.startsWith('instance.') ? instance : '',
@@ -88,17 +114,19 @@ export const reduceErrors = (errors, { chapters }) =>
               name,
               message: formatErrors(err.stack),
               chapter: Object.keys(chapters)[index] || '',
+              page,
               index,
             });
           }
           return null;
         }
         if (err.__errors && err.__errors.length && !errorExists(acc, key)) {
-          const index = getChapterNameIndex(chapters, key);
+          const { page = '', index } = getPropertyInfo(chapters, key);
           acc.push({
             name: key,
             message: err.__errors.map(e => formatErrors(e)).join('. '),
             chapter: Object.keys(chapters)[index] || '',
+            page,
             index,
           });
         }

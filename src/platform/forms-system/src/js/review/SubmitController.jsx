@@ -16,6 +16,7 @@ import {
   submitForm,
   setFormErrors,
   openReviewChapter,
+  setEditMode,
 } from '../actions';
 import { reduceErrors } from '../utilities/data/formatErrors';
 
@@ -35,9 +36,10 @@ class SubmitController extends React.Component {
 
   componentDidUpdate() {
     const errorFocus = document.querySelector('.error-message-focus');
-    if (errorFocus) {
+    if (errorFocus && !errorFocus.classList.contains('has-focused')) {
       // focus on legend immediately above error links
       errorFocus.focus();
+      errorFocus.classList.add('has-focused');
     }
   }
 
@@ -117,7 +119,8 @@ class SubmitController extends React.Component {
           submission={form.submission}
           renderErrorMessage={renderErrorMessage}
           errors={errors}
-          openReviewChapter={openReviewChapter}
+          openReviewChapter={this.props.openReviewChapter}
+          setEditMode={this.props.setEditMode}
         />
       </div>
     );
@@ -155,6 +158,7 @@ const mapDispatchToProps = {
   submitForm,
   setFormErrors,
   openReviewChapter,
+  setEditMode,
 };
 
 SubmitController.propTypes = {
@@ -171,6 +175,7 @@ SubmitController.propTypes = {
   trackingPrefix: PropTypes.string.isRequired,
   setFormErrors: PropTypes.func,
   openReviewChapter: PropTypes.func,
+  setEditMode: PropTypes.func,
 };
 
 export default withRouter(

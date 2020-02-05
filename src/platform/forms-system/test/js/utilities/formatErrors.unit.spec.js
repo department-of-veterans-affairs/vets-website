@@ -16,29 +16,42 @@ const chapters = {
   },
   level1b: {
     pages: {
-      uiSchema: {
-        error2: {},
-        cardWrapper: {
-          error3: {},
-          empty: {
-            // errorFive: 'undefined'
+      page1: {
+        uiSchema: {
+          error2: {},
+          cardWrapper: {
+            error3: {},
+            empty: {
+              // errorFive: 'undefined'
+            },
+          },
+          anotherCard: {
+            'view:errorNumberFour': {},
           },
         },
-        anotherCard: {
-          'view:errorNumberFour': {},
-        },
       },
-      initialData: {
-        // properties in initialData should be ignored
-        errorFive: {},
+      page2: {
+        uiSchema: {
+          initialData: {
+            // properties in initialData should be ignored
+            errorFive: {},
+          },
+        },
       },
     },
   },
   level1c: {
     pages: {
-      uiSchema: {
-        wrap: {
-          errorSix: {},
+      wrap1: {
+        uiSchema: {
+          wrap2: {
+            errorSix: {},
+          },
+        },
+      },
+      wrap2: {
+        uiSchema: {
+          errorSeven: {},
         },
       },
     },
@@ -109,25 +122,37 @@ const errors = [
       __errors: ['ErrorSix message'],
     },
   },
+  {
+    property: 'instance.wrap2',
+    message: 'requires property "errorSeven"',
+    schema: {},
+    name: 'required',
+    argument: 'errorSeven',
+    stack: 'instance.wrap2 requires property "errorSeven"',
+  },
 ];
 
 const result = [
   {
     name: 'view:error1',
-    message: 'We’re missing error1',
+    message: 'Missing error 1',
     chapter: 'level1a',
+    // No page value, the uiSchema is directly under page; is this possible?
+    page: '',
     index: 0,
   },
   {
     name: 'error2',
-    message: 'We’re missing error2',
+    message: 'Missing error 2',
     chapter: 'level1b',
+    page: 'page1',
     index: 1,
   },
   {
     name: 'error3',
     message: 'Please select at least one type of item',
     chapter: 'level1b',
+    page: 'page1',
     index: 1,
   },
   {
@@ -135,18 +160,28 @@ const result = [
     message:
       'Error number four placeholder. Error number four does not match pattern',
     chapter: 'level1b',
+    page: 'page1',
     index: 1,
   },
   {
     name: 'errorFive',
-    message: 'We’re missing error five',
+    message: 'Missing error five',
     chapter: '',
+    page: '',
     index: -1,
   },
   {
     name: 'errorSix',
     message: 'Error six message',
     chapter: 'level1c',
+    page: 'wrap1',
+    index: 2,
+  },
+  {
+    name: 'errorSeven',
+    message: 'Missing error seven',
+    chapter: 'level1c',
+    page: 'wrap2',
     index: 2,
   },
 ];

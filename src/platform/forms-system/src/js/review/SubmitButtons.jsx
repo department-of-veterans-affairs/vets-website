@@ -1,31 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import Scroll from 'react-scroll';
 
 import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
-
-// Modified from platform/forms-system/src/js/review/ReviewChapters
-const scrollToChapter = chapterKey => {
-  const selector = `chapter${chapterKey}ScrollElement`;
-  Scroll.scroller.scrollTo(
-    selector,
-    window.Forms.scroll || {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    },
-  );
-};
-
-const focusOnAccordion = chapterIndex => {
-  // accordion uses a 1-based index
-  const selector = `button[aria-controls="collapsible-${chapterIndex + 1}"]`;
-  const el = document.querySelector(selector);
-  if (el) {
-    el.focus();
-  }
-};
+import { focusAndScrollToReviewElement } from '../utilities/ui';
 
 export default function SubmitButtons(props) {
   const { onBack, onSubmit, submission, renderErrorMessage, errors } = props;
@@ -128,23 +106,23 @@ export default function SubmitButtons(props) {
                 preventing submission:
               </legend>
               <ul className="vads-u-margin-left--3">
-                {errors.map(err => (
-                  <li key={err.name} className="error-message-list-item">
-                    {err.chapter ? (
+                {errors.map(error => (
+                  <li key={error.name} className="error-message-list-item">
+                    {error.chapter ? (
                       <a
                         href="#"
                         className="error-message-list-link"
                         onClick={event => {
                           event.preventDefault();
-                          props.openReviewChapter(err.chapter);
-                          scrollToChapter(err.chapter);
-                          focusOnAccordion(err.index);
+                          props.openReviewChapter(error.chapter);
+                          props.setEditMode(error.page, true);
+                          focusAndScrollToReviewElement(error);
                         }}
                       >
-                        {err.message}
+                        {error.message}
                       </a>
                     ) : (
-                      err.message
+                      error.message
                     )}
                     .
                   </li>
