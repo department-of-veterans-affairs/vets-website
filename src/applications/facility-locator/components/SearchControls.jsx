@@ -128,7 +128,7 @@ class SearchControls extends Component {
                     htmlFor="street-city-state-zip"
                     id="street-city-state-zip-label"
                   >
-                    Search by city, state or ZIP Code
+                    Search by city, state or postal Code
                   </label>
                   <input
                     id="street-city-state-zip"
@@ -137,7 +137,7 @@ class SearchControls extends Component {
                     type="text"
                     onChange={this.handleQueryChange}
                     value={currentQuery.searchString}
-                    title="Your location: Street, City, State or Zip"
+                    title="Your location: Street, City, State or Postal code"
                     required
                   />
                 </div>
