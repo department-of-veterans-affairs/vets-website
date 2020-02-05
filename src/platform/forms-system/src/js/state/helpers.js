@@ -350,7 +350,16 @@ export function updateSchemaFromUiSchema(
 }
 
 /**
- * A helper that returns a new uiSchema based on the input uiSchema and formData
+ * A helper that returns a new uiSchema based on the input uiSchema and
+ * formData. Only updates and returns a uiSchema object for the field that has
+ * an `updateUiSchema` callback defined in its `ui:options`.
+ *
+ * Note that this helper is _not_ called as part of the normal data-update flow
+ * in a standard form config-powered benefit application. Perhaps it could be
+ * called as part of updateSchemaAndData() (also in this file) but we'd have to
+ * investigate any possible side effects of updating that function to add a
+ * uiSchema prop in the object it returns.
+ *
  * @param {Object} uiSchema - The uiSchema to update
  * @param {Object} formData - The form data to based uiSchema updates on
  * @returns {Object} The new uiSchema object
@@ -359,15 +368,18 @@ export function updateUiSchema(uiSchema, formData) {
   let currentUiSchema = uiSchema;
 
   if (typeof currentUiSchema === 'object') {
-    const newUiSchema = Object.keys(currentUiSchema).reduce((current, next) => {
-      const nextProp = updateUiSchema(current[next], formData);
+    const newUiSchema = Object.keys(currentUiSchema).reduce(
+      (modifiedUiSchema, key) => {
+        const nextProp = updateUiSchema(modifiedUiSchema[key], formData);
 
-      if (current[next] !== nextProp) {
-        return { ...current, [next]: nextProp };
-      }
+        if (modifiedUiSchema[key] !== nextProp) {
+          return { ...modifiedUiSchema, [key]: nextProp };
+        }
 
-      return current;
-    }, currentUiSchema);
+        return modifiedUiSchema;
+      },
+      currentUiSchema,
+    );
 
     if (newUiSchema !== uiSchema) {
       currentUiSchema = newUiSchema;
@@ -382,13 +394,13 @@ export function updateUiSchema(uiSchema, formData) {
 
   const newUiSchemaProps = uiSchemaUpdater(formData);
 
-  const updatedUiSchema = Object.keys(newUiSchemaProps).reduce(
-    (current, next) => {
-      if (newUiSchemaProps[next] !== uiSchema[next]) {
-        return { ...current, [next]: newUiSchemaProps[next] };
+  const updatedUiSchema = Object.entries(newUiSchemaProps).reduce(
+    (modifiedUiSchema, [key, value]) => {
+      if (value !== uiSchema[key]) {
+        return { ...modifiedUiSchema, [key]: value };
       }
 
-      return current;
+      return modifiedUiSchema;
     },
     uiSchema,
   );
