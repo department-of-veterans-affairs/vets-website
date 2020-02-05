@@ -13819,6 +13819,9 @@ try {
         path: 'src/site/stages/build/process-cms-exports/schema-validation.js',
         line: 13,
         side: 'RIGHT',
+        mediaType: {
+          previews: ['comfort-fade'],
+        },
       });
     });
 } catch (error) {
