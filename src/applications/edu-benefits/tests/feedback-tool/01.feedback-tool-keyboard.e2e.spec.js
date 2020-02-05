@@ -1,8 +1,6 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./feedback-tool-helpers');
-// const testData = require('./schema/maximal-test.json');
-// const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const manifest = require('../../feedback-tool/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
@@ -12,7 +10,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .openUrl(`${E2eHelpers.baseUrl}${manifest.rootUrl}`)
-    .waitForElementVisible('body', Timeouts.normal)
+    .waitForElementVisible('body', Timeouts.slow)
     .waitForElementVisible('.schemaform-title', Timeouts.slow)
     .click('.schemaform-start-button');
 
@@ -47,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Applicant information. Set a prefix.
   client
-    .waitForElementVisible('input[name="root_fullName_first"]', Timeouts.normal)
+    .waitForElementVisible('input[name="root_fullName_first"]', Timeouts.slow)
     .keys(TAB)
     .evaluateSelectMenu('#root_fullName_prefix', 'dr', 'Dr.');
 
@@ -72,7 +70,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Service information. Select a branch of service.
   client
-    .waitForElementVisible('select[name="root_serviceBranch"]', Timeouts.normal)
+    .waitForElementVisible('select[name="root_serviceBranch"]', Timeouts.slow)
     .keys(TAB)
     .evaluateSelectMenu('#root_serviceBranch', 'army', 'Army');
 
@@ -99,10 +97,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Contact information. Skip the country select, enter a street address.
   client
-    .waitForElementVisible(
-      'select[name="root_address_country"]',
-      Timeouts.normal,
-    )
+    .waitForElementVisible('select[name="root_address_country"]', Timeouts.slow)
     .repeatKeypress(TAB, 2)
     .evaluateInput('#root_address_street', '11233 Nowhere St');
 
@@ -132,7 +127,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementPresent(
       'input[name="root_educationDetails_programs_chapter33"]',
-      Timeouts.normal,
+      Timeouts.slow,
     )
     .keys(TAB)
     .evaluateCheckboxes([
@@ -145,7 +140,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // School information. Skip to manual school entry.
   client
-    .waitForElementPresent('input[type="checkbox"]', Timeouts.normal)
+    .waitForElementPresent('input[type="checkbox"]', Timeouts.slow)
     .repeatKeypress(TAB, 4)
     .evaluateCheckboxes(['input[type="checkbox"]']);
 
@@ -187,7 +182,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Issue information and check the first box. Then tab a bunch of times.
   client
-    .waitForElementPresent('legend#root_issue-label', Timeouts.normal)
+    .waitForElementPresent('legend#root_issue-label', Timeouts.slow)
     .keys(TAB)
     .evaluateCheckboxes(['#root_issue_recruiting'])
     .repeatKeypress(TAB, 11);
@@ -207,7 +202,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Confirmation page. Skip to the checkbox and check it.
   client
-    .waitForElementPresent('input[type="checkbox"]', Timeouts.normal)
+    .waitForElementPresent('input[type="checkbox"]', Timeouts.slow)
     .repeatKeypress(TAB, 5)
     .evaluateCheckboxes(['input[type="checkbox"]']);
 
