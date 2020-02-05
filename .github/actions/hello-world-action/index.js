@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const exec = require('@actions/exec');
+const { spawnSync } = require('child_process');
 
 try {
   // Get the JSON webhook payload for the event that triggered the workflow
@@ -15,6 +16,18 @@ try {
       myOutput += data.toString();
     },
   };
+
+  const diffOut = spawnSync('git', ['diff', 'origin/master...']);
+  const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
+    input: diffOut.stdout,
+  });
+  const grepOut = spawnSync(
+    'grep',
+    ['-P', `(/* eslint-disable)|(// eslint-disable)`],
+    { input: addLinesOut.stdout },
+  );
+
+  console.log(grepOut.stdout.toString());
 
   exec
     .exec(
