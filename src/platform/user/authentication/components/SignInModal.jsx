@@ -95,9 +95,21 @@ class SignInModal extends React.Component {
           'You may have trouble signing in with DS Logon',
           'warning',
           <>
-            <p>We’re sorry. We’re working to fix some problems with our DS Logon sign in process. You can sign in to VA.gov with an existing ID.me account or you can create an account and verify your identity through ID.me.</p>
-            <p><a href="/sign-in-faq">Learn how to create an account through ID.me.</a></p>
-            <p>If you continue to have trouble, please call the DS Logon help desk at <a href="tel:+18005389552">(800) 538-9552</a> .</p>
+            <p>
+              We’re sorry. We’re working to fix some problems with our DS Logon
+              sign in process. You can sign in to VA.gov with an existing ID.me
+              account or you can create an account and verify your identity
+              through ID.me.
+            </p>
+            <p>
+              <a href="/sign-in-faq">
+                Learn how to create an account through ID.me.
+              </a>
+            </p>
+            <p>
+              If you continue to have trouble, please call the DS Logon help
+              desk at <a href="tel:+18005389552">(800) 538-9552</a> .
+            </p>
           </>,
         )}
         {this.downtimeBanner(
