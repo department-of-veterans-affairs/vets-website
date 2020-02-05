@@ -13806,7 +13806,7 @@ try {
     { input: addLinesOut.stdout },
   );
 
-  console.log(grepOut.stdout.toString());
+  console.log('spawnSync out: ', grepOut.stdout.toString());
 
   exec
     .exec(
