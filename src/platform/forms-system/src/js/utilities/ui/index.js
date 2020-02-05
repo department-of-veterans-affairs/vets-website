@@ -95,11 +95,10 @@ export function scrollToFirstError() {
   }
 }
 
-export const scrollToScrollElement = key => {
-  if (key) {
-    const selector = `${key}ScrollElement`;
+export const scrollToElement = name => {
+  if (name) {
     Scroll.scroller.scrollTo(
-      selector,
+      name,
       window.Forms.scroll || {
         duration: 500,
         delay: 2,
@@ -107,6 +106,10 @@ export const scrollToScrollElement = key => {
       },
     );
   }
+};
+
+export const scrollToScrollElement = key => {
+  scrollToElement(`${key}ScrollElement`);
 };
 
 // error object created by ../utilities/data/formatErrors.js
@@ -128,7 +131,7 @@ export const focusAndScrollToReviewElement = (error = {}) => {
             el.closest('.form-review-panel-page')?.querySelector('form'),
             { filterCallback: elm => elm.id.includes(`_${error.name}`) },
           );
-          scrollToScrollElement(error.page);
+          scrollToElement(el.id);
         }
       }
     });
