@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: yarn install
-      # working-directory: vets-website
+#       working-directory: vets-website
 
     - name: Build and test
       run: |
