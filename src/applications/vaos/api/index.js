@@ -14,8 +14,7 @@ function getStagingId(facilityId) {
   return facilityId;
 }
 
-// const USE_MOCK_DATA = environment.isLocalhost();
-const USE_MOCK_DATA = false;
+const USE_MOCK_DATA = environment.isLocalhost();
 
 export function getConfirmedAppointments(type, startDate, endDate) {
   let promise;
