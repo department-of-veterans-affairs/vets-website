@@ -7,20 +7,38 @@ try {
   // const payload = JSON.stringify(github.context.payload, undefined, 2);
   // console.log(`The event payload: ${payload}`);
 
+  let myOutput = '';
+
+  const options = {};
+  options.listeners = {
+    stdout: data => {
+      myOutput += data.toString();
+    },
+  };
+
   exec
-    .exec('git', [
-      'diff',
-      'origin/master...',
-      '-G"eslint-disable"',
-      '--exit-code',
-      '--name-only',
-      // 'src',
-    ])
+    .exec(
+      'git',
+      [
+        'diff',
+        'origin/master...',
+        '--exit-code',
+        '| bash add_lines.sh',
+        `| grep -P "(\/\* eslint-disable)|(\/\/ eslint-disable)"`,
+        // '--name-only',
+        // 'src',
+      ],
+      options,
+    )
     .then(exitCode => {
       console.log(`The git diff exit code: ${exitCode}`);
+
+      console.log(myOutput);
     })
     .catch(err => {
       console.log(`The error: ${err}`);
+
+      console.log(myOutput);
       const { GITHUB_SHA, GITHUB_REPOSITORY, PR } = process.env;
       const url = `https://api.github.com/${GITHUB_REPOSITORY}/issues/${PR}/comments`;
 
