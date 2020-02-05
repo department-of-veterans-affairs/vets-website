@@ -36,7 +36,7 @@ try {
         repo: 'vets-website',
         pull_number: PR,
         body: 'Do something on this line',
-        commit_id: 'f7030d77618452b5a8857b8e5752524f303649b1',
+        commit_id: GITHUB_SHA,
         path: 'src/site/stages/build/process-cms-exports/schema-validation.js',
         line: 13,
         side: 'RIGHT',
