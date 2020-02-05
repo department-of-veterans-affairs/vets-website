@@ -30,6 +30,15 @@ try {
       const { GITHUB_TOKEN, GITHUB_REPOSITORY, PR } = process.env;
       const url = `https://api.github.com/${GITHUB_REPOSITORY}/issues/${PR}/comments`;
 
+      const token = core.getInput('token');
+      const octokit = new github.GitHub(token);
+      octokit.issues.createComment({
+        owner: 'department-of-veterans-affairs',
+        repo: 'vets-website',
+        issue_number: PR,
+        body: 'Testing',
+      });
+
       fetch(url, {
         method: 'POST',
         body: JSON.stringify({

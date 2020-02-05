@@ -16,8 +16,9 @@ jobs:
     - name: Get master branch
       run: git fetch origin master
     - name: Hello world action step
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR: ${{ steps.findPr.outputs.pr }}
       uses: ./.github/actions/hello-world-action
     - name: Check for Sentry
