@@ -13780,6 +13780,7 @@ module.exports = require("fs");
 const core = __webpack_require__(910);
 const github = __webpack_require__(289);
 const exec = __webpack_require__(189);
+const { spawnSync } = __webpack_require__(129);
 
 try {
   // Get the JSON webhook payload for the event that triggered the workflow
@@ -13794,6 +13795,18 @@ try {
       myOutput += data.toString();
     },
   };
+
+  const diffOut = spawnSync('git', ['diff', 'origin/master...']);
+  const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
+    input: diffOut.stdout,
+  });
+  const grepOut = spawnSync(
+    'grep',
+    ['-P', `(/* eslint-disable)|(// eslint-disable)`],
+    { input: addLinesOut.stdout },
+  );
+
+  console.log(grepOut.stdout.toString());
 
   exec
     .exec(
