@@ -53,21 +53,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.isActiveElement('#giBillChapter')
     .evaluateSelectMenu('#giBillChapter', 'montgomery', '30');
 
-  // Open the enlistment modal
+  // Open and close the enlistment modal
   client
     .keys(TAB)
-    .assert.isActiveElement(
+    .evaluateModalWindow(
       'button[aria-label="Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits"]',
-    )
-    .keys(ENTER)
-    .waitForElementVisible('div[role="alertdialog"]', Timeouts.normal)
-    .assert.isActiveElement('button[aria-label="Close this modal"]');
-
-  // Close the enlistment modal
-  client
-    .keys(ENTER)
-    .assert.isActiveElement(
-      'button[aria-label="Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits"]',
+      'div[role="alertdialog"]',
+      'button[aria-label="Close this modal"]',
     );
 
   // Evaluate the enlistment select
@@ -80,22 +72,22 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .evaluateRadioButtons(
-      ['input#radio-buttons-3-0', 'input#radio-buttons-3-1'],
+      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_DOWN,
     )
     .evaluateRadioButtons(
-      ['input#radio-buttons-3-0', 'input#radio-buttons-3-1'],
+      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_RIGHT,
     );
 
   // Evaluate the type of institution radio group with ARROW_UP and ARROW_LEFT in reverse order
   client
     .evaluateRadioButtonsReverse(
-      ['input#radio-buttons-3-0', 'input#radio-buttons-3-1'],
+      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_UP,
     )
     .evaluateRadioButtonsReverse(
-      ['input#radio-buttons-3-0', 'input#radio-buttons-3-1'],
+      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_LEFT,
     );
 
@@ -105,14 +97,14 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .keys(TAB)
     .keys(TAB)
     .evaluateRadioButtons(
-      ['input#radio-buttons-4-1', 'input#radio-buttons-4-2'],
+      ['input#radio-buttons-2-1', 'input#radio-buttons-2-2'],
       ARROW_DOWN,
     )
     .evaluateRadioButtons(
       [
-        'input#radio-buttons-4-0',
-        'input#radio-buttons-4-1',
-        'input#radio-buttons-4-2',
+        'input#radio-buttons-2-0',
+        'input#radio-buttons-2-1',
+        'input#radio-buttons-2-2',
       ],
       ARROW_RIGHT,
     );
@@ -121,17 +113,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .evaluateRadioButtonsReverse(
       [
-        'input#radio-buttons-4-0',
-        'input#radio-buttons-4-1',
-        'input#radio-buttons-4-2',
+        'input#radio-buttons-2-0',
+        'input#radio-buttons-2-1',
+        'input#radio-buttons-2-2',
       ],
       ARROW_UP,
     )
     .evaluateRadioButtonsReverse(
       [
-        'input#radio-buttons-4-0',
-        'input#radio-buttons-4-1',
-        'input#radio-buttons-4-2',
+        'input#radio-buttons-2-0',
+        'input#radio-buttons-2-1',
+        'input#radio-buttons-2-2',
       ],
       ARROW_LEFT,
     );
