@@ -10,7 +10,7 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
 
-    getUserInformation(`test`).then(data => {
+    getUserInformation().then(data => {
       if (data.error) {
         // eslint-disable-next-line no-console
         console.log(data.error);

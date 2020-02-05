@@ -5,8 +5,8 @@ export const getDLCBatteryDataApi = () => apiRequest('/dlc/orderstatus/1014/1');
 // export const getDLCSocksDataApi = () => apiRequest('/dlc/orderstatus/1014/2');
 export const getDLCAccessoriesDataApi = () =>
   apiRequest('/dlc/orderstatus/1014/3');
-export const getUserInformation = formData =>
-  apiRequest(`v0/in_progress_forms/MDOT`, {
+export const getUserInformation = () =>
+  apiRequest(`/in_progress_forms/MDOT`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -17,7 +17,6 @@ export const getUserInformation = formData =>
     },
     redirect: 'follow', // manual, *follow, error
     referrer: 'no-referrer', // no-referrer, *client
-    body: JSON.stringify(formData),
   });
 export const updateDLCDataApi = data =>
   apiRequest('/dlc/orderstatus/1014/1', {
