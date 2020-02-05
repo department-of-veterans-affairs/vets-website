@@ -1,7 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const exec = require('@actions/exec');
-const fetch = require('node-fetch');
 
 try {
   // `who-to-greet` input defined in action metadata file
@@ -37,16 +36,6 @@ try {
         repo: 'vets-website',
         issue_number: PR,
         body: 'Testing',
-      });
-
-      fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({
-          body: 'ESLint disabled - Manual VSP review required',
-        }),
-        headers: { Authorization: `token ${GITHUB_TOKEN}` },
-      }).catch(res => {
-        console.log(`Error response: ${res}`);
       });
     });
 } catch (error) {
