@@ -13780,7 +13780,6 @@ module.exports = require("fs");
 const core = __webpack_require__(910);
 const github = __webpack_require__(289);
 const exec = __webpack_require__(189);
-const fetch = __webpack_require__(527);
 
 try {
   // `who-to-greet` input defined in action metadata file
@@ -13806,26 +13805,20 @@ try {
     })
     .catch(err => {
       console.log(`The error: ${err}`);
-      const { GITHUB_TOKEN, GITHUB_REPOSITORY, PR } = process.env;
+      const { GITHUB_SHA, GITHUB_REPOSITORY, PR } = process.env;
       const url = `https://api.github.com/${GITHUB_REPOSITORY}/issues/${PR}/comments`;
 
       const token = core.getInput('token');
       const octokit = new github.GitHub(token);
-      octokit.issues.createComment({
+      octokit.pulls.createComment({
         owner: 'department-of-veterans-affairs',
         repo: 'vets-website',
-        issue_number: PR,
-        body: 'Testing',
-      });
-
-      fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({
-          body: 'ESLint disabled - Manual VSP review required',
-        }),
-        headers: { Authorization: `token ${GITHUB_TOKEN}` },
-      }).catch(res => {
-        console.log(`Error response: ${res}`);
+        pull_number: PR,
+        body: 'Do something on this line',
+        commit_id: GITHUB_SHA,
+        path: 'src/site/stages/build/process-cms-exports/schema-validation.js',
+        line: 13,
+        side: 'RIGHT',
       });
     });
 } catch (error) {

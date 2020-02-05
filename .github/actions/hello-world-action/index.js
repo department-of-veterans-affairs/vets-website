@@ -35,10 +35,11 @@ try {
         owner: 'department-of-veterans-affairs',
         repo: 'vets-website',
         pull_number: PR,
-        body: 'Testing',
+        body: 'Do something on this line',
         commit_id: GITHUB_SHA,
         path: 'src/site/stages/build/process-cms-exports/schema-validation.js',
         line: 13,
+        side: 'RIGHT',
       });
     });
 } catch (error) {
