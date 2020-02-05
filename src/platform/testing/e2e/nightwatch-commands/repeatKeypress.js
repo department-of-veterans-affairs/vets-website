@@ -1,18 +1,18 @@
 /* eslint-disable func-names, prefer-arrow-callback */
 
 /**
- * Evaluate inputs and textareas for basic keyboard functionality:
- *
- * We will ensure the input or textarea has focus, can take key entry,
- * and returns the value we expect.
+ * Allow test writers to build a shorthand for multiple keypresses.
+ * This is a common part of keyboard navigation, especially when
+ * users have to press TAB several times to move through a group
+ * of checkboxes or form elements.
  *
  * ```javascript
  *  this.demoTest = function (client) {
- *    client.evaluateInput('selector', 'input text');
+ *    client.repeatKeypress(client.Keys.TAB, 3);
  *  };
  * ```
  *
- * @method evaluateSelectMenu
+ * @method repeatKeypress
  * @param {object} key The Selenium key to press. Formatted Client.Keys.KEY.
  * @param {number} pressCount Number of times to press the key.
  * @api commands
