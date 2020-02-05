@@ -180,7 +180,6 @@
     "mini-css-extract-plugin": "^0.7.0",
     "mocha": "^3.5.0",
     "mocha-junit-reporter": "^1.17.0",
-    "moment-timezone": "^0.5.27",
     "morgan": "^1.9.1",
     "nightwatch": "^0.9.16",
     "node-fetch": "^2.1.1",
@@ -255,7 +254,6 @@
     "leaflet-control-geocoder": "^1.5.1",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.15",
-    "mapbox": "1.0.0-beta7",
     "metalsmith": "^2.1.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-filenames": "^1.0.0",
@@ -266,6 +264,7 @@
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-sitemap": "^1.0.0",
     "moment": "^2.15.1",
+    "moment-timezone": "^0.5.27",
     "number-to-words": "^1.2.4",
     "prop-types": "^15.6.1",
     "raven": "^2.6.4",
@@ -289,7 +288,7 @@
     "url-search-params": "^0.10.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^8.17.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#baa5f1ea73c9183398eedbe40b40c5695dbce77c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#03de05bdbb02d335c5dab1a63567033755cf7806",
     "whatwg-fetch": "^2.0.3"
   }
 }

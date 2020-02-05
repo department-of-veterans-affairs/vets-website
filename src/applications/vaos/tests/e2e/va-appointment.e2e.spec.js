@@ -28,16 +28,14 @@ module.exports = {
       .click('[value="323"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_facilityType_0', Timeouts.slow)
-      .assert.containsText('h1', 'Choose where you want to receive your care');
+      .waitForElementPresent('#root_facilityType_0', Timeouts.slow);
   },
   'Choose where you want to receive your care': client => {
     client
       .click('[value="vamc"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .assert.containsText('h1', 'Choose a VA location for your appointment')
-      .pause(Timeouts.slow);
+      .waitForElementPresent('#root_vaSystem_0', Timeouts.slow);
   },
   'Choose a VA location for your appointment': client => {
     client
@@ -50,23 +48,19 @@ module.exports = {
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText('h1', 'Choose a day and time for your appointment');
+      .waitForElementPresent('.vaos-calendar__calendars', Timeouts.slow);
   },
   'What date and time would you like to make an appointment?': client => {
-    VAOSHelpers.appointmentDateTimeTest(
-      client,
-      'Choose a reason for your appointment',
-    );
+    VAOSHelpers.appointmentDateTimeTest(client, '#root_reasonForAppointment_0');
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'Choose a type of appointment');
+    VAOSHelpers.appointmentReasonTest(client, '#root_visitType_0');
   },
   'How would you like to be seen?': client => {
-    VAOSHelpers.howToBeSeenTest(client);
+    VAOSHelpers.howToBeSeenTest(client, '#root_phoneNumber');
   },
   'Contact information': client => {
-    VAOSHelpers.contactInformationTest(client);
+    VAOSHelpers.contactInformationTest(client, '.vaos-review__header');
   },
   'Review your appointment details': client => {
     VAOSHelpers.reviewAppointmentTest(client);

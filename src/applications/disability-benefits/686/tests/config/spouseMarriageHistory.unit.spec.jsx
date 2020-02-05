@@ -3,12 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  DefinitionTester,
-  fillData,
-  fillDate,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('686 spouse marriage history', () => {
@@ -37,8 +32,8 @@ describe('686 spouse marriage history', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(8);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).to.equal(12);
+    expect(form.find('select').length).to.equal(4);
     expect(form.find('#root_dateOfMarriage-label').text()).to.contain(
       'Jane Doe',
     );
@@ -58,44 +53,8 @@ describe('686 spouse marriage history', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(7);
+    expect(form.find('.usa-input-error').length).to.equal(9);
     expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit with valid data and add another', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    fillData(form, 'input#root_spouseFullName_first', 'test');
-    fillData(form, 'input#root_spouseFullName_last', 'test');
-    fillDate(form, 'root_dateOfMarriage', '2001-10-21');
-    const countryOfMarriage = form.find(
-      'select#root_locationOfMarriage_countryDropdown',
-    );
-    countryOfMarriage.simulate('change', {
-      target: { value: 'Canada' },
-    });
-    const countryOfSeparation = form.find(
-      'select#root_locationOfSeparation_countryDropdown',
-    );
-    countryOfSeparation.simulate('change', {
-      target: { value: 'Canada' },
-    });
-    fillDate(form, 'root_dateOfSeparation', '2002-11-21');
-    selectRadio(form, 'root_reasonForSeparation', 'Death');
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 

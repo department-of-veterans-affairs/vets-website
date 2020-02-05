@@ -2,9 +2,10 @@
 
 FROM node:10
 
-# Match the jenkins uid/gid on the host (504)
-RUN groupadd --gid 504 jenkins \
-  && useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
+# default case is Jenkins, but we want to be able to overwrite this
+ARG userid=504
+RUN groupadd -g $userid vets-website \
+  && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
 ENV YARN_VERSION 1.21.1
 ENV NODE_ENV production
@@ -38,4 +39,4 @@ RUN mkdir -p /application
 
 WORKDIR /application
 
-USER jenkins
+USER vets-website
