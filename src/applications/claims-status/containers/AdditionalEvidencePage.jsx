@@ -65,7 +65,7 @@ class AdditionalEvidencePage extends React.Component {
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
-    if (this.props.pending) {
+    if (this.props.loading) {
       content = (
         <LoadingIndicator
           setFocus
