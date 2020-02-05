@@ -8,13 +8,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - uses: jwalton/gh-find-current-pr@v1
+    - name: Get master branch
+      run: git fetch origin master
+    - name: Get current PR number
+      uses: jwalton/gh-find-current-pr@v1
       id: findPr
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Get master branch
-      run: git fetch origin master
     - name: Hello world action step
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
