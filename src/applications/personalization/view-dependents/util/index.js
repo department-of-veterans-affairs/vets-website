@@ -8,3 +8,21 @@ export async function getData(apiRoute, options) {
     return error;
   }
 }
+
+export function splitPersons(persons) {
+  const onAwardPeeps = [];
+  const notOnAwardPeeps = [];
+  const allPersons = {};
+
+  persons.map(person => {
+    if (person.awardIndicator === 'N') {
+      notOnAwardPeeps.push(person);
+    } else {
+      onAwardPeeps.push(person);
+    }
+    return true;
+  });
+  allPersons.onAward = onAwardPeeps;
+  allPersons.notOnAward = notOnAwardPeeps;
+  return allPersons;
+}

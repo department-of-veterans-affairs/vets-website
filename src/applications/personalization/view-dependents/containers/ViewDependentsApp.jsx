@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
+import { splitPersons } from '../util/index';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
@@ -18,28 +19,18 @@ class ViewDependentsApp extends Component {
   }
 
   async fetchAllDependents() {
-    const response = await apiRequest('/dependents_applications/show');
-    const persons = response.persons;
-    const onAwardDeps = [];
-    const notOnAwardDeps = [];
-    if (!response.errors) {
+    let allDependents;
+    apiRequest('/dependents_applications/show').then(res => {
       // Split out the people coming back from the API call into those on award and those not on award
-      persons.map(person => {
-        if (person.awardIndicator === 'N') {
-          notOnAwardDeps.push(person);
-        } else {
-          onAwardDeps.push(person);
-        }
-        return true;
-      });
+      allDependents = splitPersons(res.persons);
 
       // this will be changed to pass the error to the state and thus the child components when a mockup is provided for error states
       this.setState({
         loading: false,
-        onAwardDependents: onAwardDeps,
-        notOnAwardDependents: notOnAwardDeps,
+        onAwardDependents: allDependents.onAward,
+        notOnAwardDependents: allDependents.notOnAward,
       });
-    }
+    });
   }
 
   render() {
