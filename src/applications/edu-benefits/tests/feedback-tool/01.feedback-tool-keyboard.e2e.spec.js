@@ -70,7 +70,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Service information. Select a branch of service.
   client
-    .waitForElementVisible('select[name="root_serviceBranch"]', Timeouts.slow)
+    .waitForElementVisible('#root_serviceBranch', Timeouts.slow)
     .keys(TAB)
     .evaluateSelectMenu('#root_serviceBranch', 'army', 'Army');
 
