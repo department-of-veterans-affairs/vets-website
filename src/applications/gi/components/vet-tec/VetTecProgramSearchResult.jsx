@@ -7,7 +7,6 @@ import {
   renderCautionAlert,
   renderSchoolClosingAlert,
 } from '../../utils/render';
-import environment from 'platform/utilities/environment';
 
 class VetTecProgramSearchResult extends React.Component {
   render() {
@@ -61,15 +60,14 @@ class VetTecProgramSearchResult extends React.Component {
                 {renderPreferredProviderFlag(this.props.result)}
               </div>
             </div>
-            {!environment.isProduction() &&
-              (schoolClosing || cautionFlag) && (
-                <div className="row alert-row">
-                  <div className="small-12 columns">
-                    {renderSchoolClosingAlert({ schoolClosing })}
-                    {renderCautionAlert({ cautionFlag })}
-                  </div>
+            {(schoolClosing || cautionFlag) && (
+              <div className="row alert-row">
+                <div className="small-12 columns">
+                  {renderSchoolClosingAlert({ schoolClosing })}
+                  {renderCautionAlert({ cautionFlag })}
                 </div>
-              )}
+              </div>
+            )}
             <div className="row vads-u-padding-top--1p5">
               <div className="small-12 medium-7 columns">
                 <div style={{ position: 'relative', bottom: 0 }}>

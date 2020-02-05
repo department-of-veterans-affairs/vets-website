@@ -11,8 +11,6 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
 import environment from 'platform/utilities/environment';
 
-import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
-
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
   login(loginType);
@@ -109,15 +107,6 @@ class SignInModal extends React.Component {
           'You may have trouble signing in or using some tools or services',
           'warning',
           'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
-        )}
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.global],
-          'You may have trouble signing in or using some tools or services',
-          'warning',
-          `We’re doing some work on VA.gov right now. We hope to finish our work by ${
-            scheduledDowntimeWindow.downtimeEnd
-          }. If you have trouble signing in or using any tools or services, please check back after then.`,
-          this.setGlobalDowntimeState,
         )}
 
         <div>
