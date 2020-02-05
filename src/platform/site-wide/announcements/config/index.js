@@ -1,10 +1,11 @@
+// Relative imports.
+import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
-import Profile360Intro from '../components/Profile360Intro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
+import Profile360Intro from '../components/Profile360Intro';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import VeteransDayProclamation from '../components/VeteransDayProclamation';
-import ExploreVAModal from '../components/ExploreVAModal';
+import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 
 const config = {
   announcements: [
@@ -29,10 +30,10 @@ const config = {
       component: WelcomeToNewVAModal,
     },
     {
-      name: 'veterans-day-proclamation-edited',
-      paths: /^\/$/,
-      component: VeteransDayProclamation,
-      expiresAt: '2019-11-12',
+      name: 'pittsburgh-vamc',
+      paths: VAMC_PATHS.PITTSBURGH,
+      component: VAMCWelcomeModal,
+      region: 'Pittsburgh',
     },
     {
       name: 'find-benefits-intro',

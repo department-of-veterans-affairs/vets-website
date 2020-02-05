@@ -23,6 +23,7 @@ import { isFailedTransaction } from '../util/transactions';
 const initialAddressValidationState = {
   addressValidationType: '',
   suggestedAddresses: [],
+  confirmedSuggestions: [],
   addressFromUser: {
     addressLine1: '',
     addressLine2: '',
@@ -30,6 +31,7 @@ const initialAddressValidationState = {
     city: '',
     stateCode: '',
     zipCode: '',
+    countryCodeIso3: '',
   },
   addressValidationError: false,
   validationKey: null,
@@ -213,6 +215,9 @@ export default function vet360(state = initialState, action) {
     case ADDRESS_VALIDATION_INITIALIZE:
       return {
         ...state,
+        addressValidation: {
+          ...initialAddressValidationState,
+        },
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
           [action.fieldName]: { isPending: true },
@@ -234,6 +239,8 @@ export default function vet360(state = initialState, action) {
           validationKey: action.validationKey,
           selectedAddress: action.selectedAddress,
           selectedAddressId: action.selectedAddressId,
+          confirmedSuggestions: action.confirmedSuggestions,
+          addressValidationError: false,
         },
         modal: 'addressValidation',
       };

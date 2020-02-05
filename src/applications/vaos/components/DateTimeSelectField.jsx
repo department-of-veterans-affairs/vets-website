@@ -14,9 +14,17 @@ class DateTimeSelectField extends Component {
     const availableSlots = this.props.formContext.availableSlots || [];
     const options = availableSlots.reduce((acc, slot) => {
       if (slot.date === selectedDate) {
+        const time = moment(slot.datetime);
+        const meridiem = time.format('A');
+        const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
         acc.push({
           value: slot.datetime,
-          label: moment(slot.datetime).format('h:mm A'),
+          label: (
+            <>
+              {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
+              <span className="sr-only">{screenReaderMeridiem}</span>
+            </>
+          ),
         });
       }
       return acc;
@@ -46,7 +54,10 @@ class DateTimeSelectField extends Component {
           maxSelections: 1,
           getOptionsByDate: this.getOptionsByDate,
         }}
+        loadingStatus={formContext?.loadingStatus}
         onChange={this.props.onChange}
+        onClickNext={formContext?.getAppointmentSlots}
+        onClickPrev={formContext?.getAppointmentSlots}
         minDate={moment()
           .add(1, 'days')
           .format('YYYY-MM-DD')}

@@ -1,5 +1,6 @@
 import { apiRequest } from '../../../utilities/api';
 
+export const ERROR_SCHEDULE_DOWNTIME = 'ERROR_SCHEDULE_DOWNTIME';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
 
@@ -52,16 +53,26 @@ export function dismissDowntimeWarning(appTitle) {
 export function getScheduledDowntime() {
   return async dispatch => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
-    let data;
+
     try {
-      const response = await apiRequest('/maintenance_windows/');
-      data = response.data;
+      await apiRequest('/maintenance_windows/')
+        .then(({ data }) => {
+          if (data.errors?.[0].status === '500') {
+            Promise.reject();
+          }
+          dispatch({
+            type: RECEIVE_SCHEDULED_DOWNTIME,
+            data,
+          });
+        })
+        .catch(() =>
+          dispatch({
+            type: ERROR_SCHEDULE_DOWNTIME,
+          }),
+        );
     } catch (err) {
-      // Probably in a test environment and the route isn't mocked.
-    } finally {
       dispatch({
-        type: RECEIVE_SCHEDULED_DOWNTIME,
-        data,
+        type: ERROR_SCHEDULE_DOWNTIME,
       });
     }
   };

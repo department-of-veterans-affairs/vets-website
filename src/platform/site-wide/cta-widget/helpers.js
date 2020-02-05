@@ -242,13 +242,13 @@ export const serviceDescription = appId => {
       return 'check your GI Bill Benefits';
 
     case widgetTypes.DISABILITY_BENEFITS:
-      return 'apply for disability benefits';
+      return 'file for disability benefits';
 
     case widgetTypes.CLAIMS_AND_APPEALS:
       return 'see your claim or appeal status';
 
     case widgetTypes.LETTERS:
-      return 'get your VA Benefit Letters';
+      return 'get your VA benefit letters';
 
     case widgetTypes.VETERAN_ID_CARD:
       return 'apply for a Veteran ID Card';

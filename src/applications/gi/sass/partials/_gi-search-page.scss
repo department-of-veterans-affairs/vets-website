@@ -180,4 +180,27 @@
   .gi-checkbox-label:before {
     box-shadow: 0 0 0 2px white, 0 0 0 3px $color-gray-medium;
   }
+
+  .usa-alert {
+    background-color: white;
+    padding: .5em 1em;
+    margin-top: 1em;
+  }
+
+  .usa-alert-text {
+    margin-top: .25em;
+  }
+
+  .alert-row {
+    margin-bottom: 1em;
+  }
+
+  .usa-alert-warning:before {
+    font-size: 1em;
+  }
+
+  .usa-alert-heading {
+    font-size: 1em;
+  }
+
 }

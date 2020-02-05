@@ -85,6 +85,13 @@ module.exports = {
    * @return {Object} - The contents of the file.
    */
   readEntity(dir, baseType, uuid) {
+    // Used only in script/remove-unnecessary-raw-entity-files.sh to get the
+    // list of all entities the assemble-entity-tree.unit.spec.js tests access.
+    if (process.env.LOG_USED_ENTITIES) {
+      // eslint-disable-next-line no-console
+      console.log(`${baseType}.${uuid}.json`);
+    }
+
     const entity = JSON.parse(
       fs
         .readFileSync(path.join(dir, `${baseType}.${uuid}.json`))

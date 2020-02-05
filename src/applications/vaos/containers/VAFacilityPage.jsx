@@ -40,17 +40,17 @@ const uiSchema = {
   vaSystem: {
     'ui:widget': 'radio',
     'ui:title':
-      'You are registered at the following VA health systems. Select where you would like to have your appointment',
+      'You’re registered at the following VA medical centers. Please let us know where you would like to have your appointment.',
   },
   vaFacility: {
     'ui:title':
-      'Appointments are available at the following locations. Some types of care are only available at one location. Select your preferred location',
+      'Appointments are available at the following locations. Some types of care are only available at certain locations. Please choose your preferred location.',
     'ui:widget': 'radio',
     'ui:validations': [
       (errors, vaFacility, data) => {
         if (vaFacility && !vaFacility.startsWith(data.vaSystem)) {
           errors.addError(
-            'Please choose a facility that is in the selected VA health systems',
+            'Please choose a facility that is in the selected VA health system',
           );
         }
       },
@@ -76,17 +76,14 @@ const uiSchema = {
 };
 
 const pageKey = 'vaFacility';
-
-const title = (
-  <h1 className="vads-u-font-size--h2">
-    Choose a VA location for your appointment
-  </h1>
-);
+const pageTitle = 'Choose a VA location for your appointment';
+const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
     scrollAndFocus();
     this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
+    document.title = `${pageTitle} | Veterans Affairs`;
   }
 
   goBack = () => {
@@ -115,6 +112,7 @@ export class VAFacilityPage extends React.Component {
       facilityDetailsStatus,
       systemDetails,
       hasDataFetchingError,
+      hasEligibilityError,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -169,6 +167,7 @@ export class VAFacilityPage extends React.Component {
           <div className="vads-u-margin-top--2">
             <FormButtons
               onBack={this.goBack}
+              onSubmit={this.goForward}
               pageChangeInProgress={pageChangeInProgress}
             />
           </div>
@@ -193,7 +192,10 @@ export class VAFacilityPage extends React.Component {
     }
 
     const disableSubmitButton =
-      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
+      loadingFacilities ||
+      noValidVAFacilities ||
+      notEligibleAtChosenFacility ||
+      hasEligibilityError;
 
     return (
       <div>
@@ -220,6 +222,7 @@ export class VAFacilityPage extends React.Component {
               <EligibilityCheckMessage eligibility={eligibility} />
             </div>
           )}
+          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             disabled={disableSubmitButton}

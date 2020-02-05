@@ -1,5 +1,6 @@
 const assert = require('assert');
-const { sortBy, unescape, pick } = require('lodash');
+const { sortBy, unescape, pick, omit } = require('lodash');
+const moment = require('moment-timezone');
 
 /**
  * Takes a string with escaped unicode code points and replaces them
@@ -34,28 +35,26 @@ function getDrupalValue(arr) {
   return null;
 }
 
-function createMetaTag(type, key, value) {
-  return {
-    type,
-    key,
-    value,
-  };
-}
-
 /**
  * This is currently a dummy function, but we may
  * need it in the future to convert weird uris like
  * `entity:node/27` to something resembling a
  * relative url
+ *
+ * If the uri begins with "internal:" it will be stripped out.
  */
 function uriToUrl(uri) {
+  const internal = 'internal:';
+  if (uri.startsWith(internal)) {
+    return uri.substring(internal.length);
+  }
   return uri;
 }
 
 module.exports = {
   getDrupalValue,
-  createMetaTag,
   unescapeUnicode,
+  uriToUrl,
 
   /**
    * This function takes an object where the keys are integers
@@ -111,5 +110,113 @@ module.exports = {
           attrs,
         )
       : null;
+  },
+
+  /**
+   * Takes a timestamp like 2019-09-10T13:43:47+00:00
+   * and returns the epoch time.
+   */
+  utcToEpochTime(timeString) {
+    return moment.tz(timeString, 'UTC').unix();
+  },
+
+  createMetaTagArray(metaTags, typeName = '__typename') {
+    function createMetaTag(type, key, value) {
+      return {
+        [typeName]: type,
+        key,
+        value,
+      };
+    }
+
+    return [
+      createMetaTag('MetaValue', 'title', metaTags.title),
+      createMetaTag('MetaValue', 'twitter:card', metaTags.twitter_cards_type),
+      createMetaTag('MetaProperty', 'og:site_name', metaTags.og_site_name),
+      createMetaTag(
+        'MetaValue',
+        'twitter:description',
+        metaTags.twitter_cards_description,
+      ),
+      createMetaTag('MetaValue', 'description', metaTags.description),
+      createMetaTag('MetaValue', 'twitter:title', metaTags.twitter_cards_title),
+      createMetaTag('MetaValue', 'twitter:site', metaTags.twitter_cards_site),
+      createMetaTag('MetaLink', 'image_src', metaTags.image_src),
+      createMetaTag('MetaProperty', 'og:title', metaTags.og_title),
+      createMetaTag('MetaProperty', 'og:description', metaTags.og_description),
+      createMetaTag(
+        'MetaProperty',
+        'og:image:height',
+        metaTags.og_image_height,
+      ),
+      createMetaTag('MetaValue', 'twitter:image', metaTags.twitter_cards_image),
+      createMetaTag('MetaProperty', 'og:image', metaTags.og_image_0),
+    ].filter(t => t.value);
+  },
+
+  isPublished(moderationState) {
+    return moderationState === 'published';
+  },
+
+  /**
+   * Takes an object schema and array of properties and returns a new schema
+   * with only the properties we specify. If any of the `properties` are
+   * required in the original `schema`, it'll remove them from the array. This
+   * also removes the $id to avoid schema naming collisions in AJV.
+   *
+   * Additionally, it does some error checking to ensure that all the
+   * `properties` exist in the schema. This ensures that if the upstream
+   * `schema` is updated to remove a property that we specify in `properties`,
+   * it'll throw an error so an engineer will be forced to update the schema
+   * that uses this function. This will hopefully keep the schemas from getting
+   * out-of-sync.
+   *
+   * @param {Object} schema - A schema of type 'object'
+   * @param {Array<String>} properties - A list of properties found in `schema`
+   *                                     that we want to use
+   * @return {Object} The new schema
+   */
+  usePartialSchema(schema, properties) {
+    // Some sanity checking before we start
+    assert(
+      schema.type === 'object',
+      `Expected object schema. Found ${schema.type}`,
+    );
+    assert(
+      Array.isArray(properties),
+      `Expected properties to be an array; typeof properties: ${typeof properties}`,
+    );
+    assert(
+      properties.every(
+        p => typeof p === 'string',
+        `Expected all items in properties array to be strings. properties: ${properties.join(
+          ', ',
+        )}`,
+      ),
+    );
+
+    // Check that all the properties are in the properties object
+    // Checking for truthiness because all properties should be an object
+    const missingProps = properties.filter(p => !schema.properties[p]);
+    assert(
+      !missingProps.length,
+      `Cannot use properties that aren't in the schema: ${missingProps.join(
+        ', ',
+      )}`,
+    );
+
+    // Remove $id to avoid schema naming collisions in AJV
+    const newSchema = omit(schema, '$id');
+    newSchema.properties = pick(newSchema.properties, properties);
+
+    // Remove them from the required array if it exists
+    if (newSchema.required) {
+      newSchema.required = newSchema.required.filter(p =>
+        properties.includes(p),
+      );
+    }
+
+    // Return the new schema
+    return newSchema;
   },
 };

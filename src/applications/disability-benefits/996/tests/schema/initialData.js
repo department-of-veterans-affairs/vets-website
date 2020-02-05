@@ -1,20 +1,9 @@
 // Test data for HLR
 import { addXMonths } from '../../helpers';
-import { selectors } from '../../constants';
-
-// FLAG for testing
-const legacyOptInApproved = false;
-const optOutStepVisible = !legacyOptInApproved;
 
 export default {
-  // Show opt out step if true; set to false if legacyOptInApproved is
-  // already true
-  [selectors.optOutStepVisible]: optOutStepVisible,
-  // `legacyOptInApproved` is set to true:
-  // - if the veteran does not have any appeals in the legacy system
-  // - if the veteran does have a legacy appeal, but only set _after_ the
-  //  veteran submits the new form
-  legacyOptInApproved,
+  // Opt out of old appeals checkbox
+  legacyOptInApproved: false,
 
   fullName: { first: 'MIKE', last: 'WAZOWSKI' },
   // full SSN isn't necessary
@@ -67,7 +56,6 @@ export default {
       ratingDecisionId: '63655',
       diagnosticCode: 5238,
       ratingPercentage: 10,
-      useSameOffice: true,
       additionalNote: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam finibus pulvinar erat, ac luctus felis porttitor eget. Aenean luctus urna libero, tincidunt mollis ante cursus sed. Fusce a vehicula est, eget dignissim purus. Vestibulum quis placerat sapien. Vestibulum gravida libero quis lectus auctor, ut vehicula turpis maximus. Donec ultrices eu orci tincidunt elementum. Phasellus eros eros ornare.`,
       'view:selected': false,
     },
@@ -82,6 +70,7 @@ export default {
     },
   ],
 
+  sameOffice: true,
   informalConferenceChoice: null,
   contactRepresentativeChoice: null,
   representative: {

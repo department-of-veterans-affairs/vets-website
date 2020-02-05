@@ -15,6 +15,24 @@ class Vet360EditModalActionButtons extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // Once the AlertBox is mounted, we want to set the focus to the heading
+    // for screen reader use
+    if (this.state.deleteInitiated && !prevState.deleteInitiated) {
+      const heading = document.getElementById('deleteConfirmationHeading');
+      if (heading) {
+        heading.focus();
+      }
+    }
+    // If delete is cancelled, put focus back on modal close button
+    if (!this.state.deleteInitiated && prevState.deleteInitiated) {
+      const closeButton = document.getElementsByClassName('va-modal-close')[0];
+      if (closeButton) {
+        closeButton.focus();
+      }
+    }
+  }
+
   cancelDeleteAction = () => {
     this.setState({ deleteInitiated: false });
     recordEvent({
@@ -63,7 +81,9 @@ class Vet360EditModalActionButtons extends React.Component {
   render() {
     const alertContent = (
       <div>
-        <h3>Are you sure?</h3>
+        <h3 tabIndex="-1" id="deleteConfirmationHeading">
+          Are you sure?
+        </h3>
         <p>
           This will delete your {toLower(this.props.title)} across many VA
           records. You can always come back to your profile later if you'd like

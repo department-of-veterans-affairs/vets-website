@@ -1,0 +1,417 @@
+[
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/eligible.asp",
+    "dest": "/burials-memorials/eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/Women_and_Minority_Veterans.asp",
+    "dest": "/burials-memorials/eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_at_sea.asp",
+    "dest": "/burials-memorials/eligibility/burial-at-sea/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/private_cemetery.asp",
+    "dest": "/burials-memorials/eligibility/burial-in-private-cemetery/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_flags.asp",
+    "dest": "/burials-memorials/memorial-items/burial-flags/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/index.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/eligibility.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/order_instructions.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/apply_by_fax.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/order_by_mail.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/pmc.asp",
+    "dest": "/burials-memorials/memorial-items/presidential-memorial-certificates/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/pre-need/index.asp",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/CEM/pre-need/FAQ/",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/committal_service.asp",
+    "dest": "/burials-memorials/what-to-expect-at-military-funeral/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/replacements.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/need.asp",
+    "dest": "/burials-memorials/schedule-a-burial/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-disability.asp",
+    "dest": "/disability/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity_parents.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-index.asp",
+    "dest": "/disability/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-index.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-environmental_hazards.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-agent_orange.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-asbestos.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/asbestos/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-mustard.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-camp-lejeune-water.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-ionizing_radiation.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-radiogenic_diseases.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-project_112_shad.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/project-112-shad/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-gulfwar.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-one_year.asp",
+    "dest": "/disability/eligibility/illnesses-within-one-year-of-discharge/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-index.asp",
+    "dest": "/disability/eligibility/special-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-auto-allowance.asp",
+    "dest": "/disability/eligibility/special-claims/automobile-allowance-adaptive-equipment/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-birth_defects.asp",
+    "dest": "/disability/eligibility/special-claims/birth-defects/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-clothing_allowance.asp",
+    "dest": "/disability/eligibility/special-claims/clothing-allowance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-dental.asp",
+    "dest": "/disability/eligibility/special-claims/dental-care/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-convalescence.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-hospital_treatment.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-increase-for-time-in-hospital/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-prestabilization.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-rating-prestabilization/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-1151.asp",
+    "dest": "/disability/eligibility/special-claims/1151-claims-title-38/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-individual_unemployability.asp",
+    "dest": "/disability/eligibility/special-claims/unemployability/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/apply.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/process.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-claims.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/index.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/claims-pre-discharge-benefits-delivery-at-discharge.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/claims-pre-discharge-overseas-intake-sites.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/evidence.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/drc.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fdc/index.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fdc/",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/effective_dates.asp",
+    "dest": "/disability/about-disability-ratings/effective-date/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claimexam.asp",
+    "dest": "/disability/va-claim-exam/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/NPRC1973Fire.asp",
+    "dest": "/records/get-military-service-records/reconstruct-records/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/school_certifying_officials/sco_info.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_resources.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_training_resources.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/#does-my-school-participate-in-"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/disabledvet.asp",
+    "dest": "/life-insurance/options-eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/sgli.asp",
+    "dest": "/life-insurance/options-eligibility/sgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/sglidisabled.asp",
+    "dest": "/life-insurance/options-eligibility/sgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/fsgli.asp",
+    "dest": "/life-insurance/options-eligibility/fsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/tsgli.asp",
+    "dest": "/life-insurance/options-eligibility/tsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/apply-for-VGLI.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vgli.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vgli_rates_new.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/getvgli.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/s-dvi.asp",
+    "dest": "/life-insurance/options-eligibility/s-dvi/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vmli.asp",
+    "dest": "/life-insurance/options-eligibility/vmli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/abo.asp",
+    "dest": "/life-insurance/totally-disabled-or-terminally-ill/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/vetpen.asp",
+    "dest": "/pension/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/wartimeperiod.asp",
+    "dest": "/pension/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/aid_attendance_housebound.asp",
+    "dest": "/pension/aid-attendance-housebound/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/spousepen.asp",
+    "dest": "/pension/survivors-pension/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/pencalc.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/rates.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/spousepencalc.asp",
+    "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/resources-contact.asp",
+    "dest": "/pension/pension-management-centers/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_veteran_pen.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_survivor_pen.asp",
+    "dest": "/pension/survivors-pension-rates/"
+  }
+]

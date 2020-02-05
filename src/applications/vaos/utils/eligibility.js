@@ -4,28 +4,31 @@ import {
   checkPastVisits,
   getRequestLimits,
   getPacTeam,
-  getClinics,
+  getAvailableClinics,
 } from '../api';
 
 export async function getEligibilityData(
-  facilityId,
+  facility,
   typeOfCareId,
   systemId,
   isDirectScheduleEnabled,
 ) {
+  const facilityId = facility.institutionCode;
   const eligibilityChecks = [
     checkPastVisits(systemId, facilityId, typeOfCareId, 'request'),
     getRequestLimits(facilityId, typeOfCareId),
   ];
 
-  if (isDirectScheduleEnabled) {
+  if (facility.directSchedulingSupported && isDirectScheduleEnabled) {
     eligibilityChecks.push(
       checkPastVisits(systemId, facilityId, typeOfCareId, 'direct'),
     );
-    eligibilityChecks.push(getClinics(facilityId, typeOfCareId, systemId));
+    eligibilityChecks.push(
+      getAvailableClinics(facilityId, typeOfCareId, systemId),
+    );
 
     if (typeOfCareId === PRIMARY_CARE) {
-      eligibilityChecks.push(getPacTeam(facilityId));
+      eligibilityChecks.push(getPacTeam(systemId));
     }
   }
 
@@ -35,6 +38,8 @@ export async function getEligibilityData(
   let eligibility = {
     requestPastVisit,
     requestLimits,
+    directSupported: facility.directSchedulingSupported,
+    requestSupported: facility.requestSupported,
   };
 
   if (directData?.length) {
@@ -93,6 +98,7 @@ export function getEligibilityChecks(vaSystem, typeOfCareId, eligibilityData) {
     typeof eligibilityData.directPastVisit !== 'undefined';
 
   return {
+    directSupported: eligibilityData.directSupported,
     directPastVisit:
       directSchedulingEnabled && hasVisitedInPastMonthsDirect(eligibilityData),
     directPastVisitValue:
@@ -102,6 +108,7 @@ export function getEligibilityChecks(vaSystem, typeOfCareId, eligibilityData) {
       directSchedulingEnabled &&
       hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem),
     directClinics: directSchedulingEnabled && !!eligibilityData.clinics.length,
+    requestSupported: eligibilityData.requestSupported,
     requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
     requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
     requestLimit: isUnderRequestLimit(eligibilityData),
@@ -118,16 +125,18 @@ export function isEligible(eligibilityChecks) {
   }
 
   const {
+    directSupported,
     directPastVisit,
     directClinics,
     directPACT,
+    requestSupported,
     requestLimit,
     requestPastVisit,
   } = eligibilityChecks;
 
   return {
-    direct: directPastVisit && directPACT && directClinics,
-    request: requestLimit && requestPastVisit,
+    direct: directSupported && directPastVisit && directPACT && directClinics,
+    request: requestSupported && requestLimit && requestPastVisit,
   };
 }
 

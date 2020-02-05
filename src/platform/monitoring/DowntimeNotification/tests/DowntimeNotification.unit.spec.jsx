@@ -148,7 +148,7 @@ describe('<DowntimeNotification/>', () => {
   });
 
   describe('In downtime', () => {
-    it('should not render the children when we are in downtime and instead show an AlertBox', () => {
+    xit('should not render the children when we are in downtime and instead show an AlertBox', () => {
       const wrapper = getComponent([externalServices.mhv]);
       wrapper.setProps({ isReady: true, status: externalServiceStatus.down });
 

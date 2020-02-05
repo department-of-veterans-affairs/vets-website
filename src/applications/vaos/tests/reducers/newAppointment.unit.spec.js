@@ -219,6 +219,13 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultOpenPageAction,
         systems: systemsParsed.slice(0, 1),
         facilities: facilities983Parsed.slice(0, 1),
+        eligibilityData: {
+          clinics: [],
+          requestPastVisit: {},
+          directPastVisit: {},
+          requestLimits: {},
+          pacTeam: [],
+        },
       };
 
       const newState = newAppointmentReducer(defaultState, action);
@@ -233,6 +240,9 @@ describe('VAOS reducer: newAppointment', () => {
         type: 'object',
         properties: {},
       });
+      expect(newState.clinics['983_323']).to.equal(
+        action.eligibilityData.clinics,
+      );
     });
 
     it('should set error when failed', () => {
@@ -639,7 +649,7 @@ describe('VAOS reducer: newAppointment', () => {
   });
 
   describe('Reason for appointment page', () => {
-    it('should set additional info title if reason for appointment is already in data', () => {
+    it('should set additional info title when page opened', () => {
       const state = {
         ...defaultState,
         data: { ...defaultState.data, reasonForAppointment: 'other' },
@@ -659,40 +669,12 @@ describe('VAOS reducer: newAppointment', () => {
         uiSchema: {},
       };
 
-      let newState = newAppointmentReducer(state, action);
+      const newState = newAppointmentReducer(state, action);
+
       expect(
         newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
           .title,
-      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.other);
-
-      state.data.reasonForAppointment = 'follow-up';
-      newState = newAppointmentReducer(state, action);
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .title,
-      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.default);
-    });
-
-    it('should not set additional info title if reason for appointment is unset', () => {
-      const action = {
-        type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-        page: 'reasonForAppointment',
-        schema: {
-          type: 'object',
-          properties: {
-            reasonAdditionalInfo: {
-              type: 'string',
-            },
-          },
-        },
-        uiSchema: {},
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-      expect(
-        newState.pages.reasonForAppointment.properties.reasonAdditionalInfo
-          .title,
-      ).to.equal(undefined);
+      ).to.equal(REASON_ADDITIONAL_INFO_TITLES.request);
     });
 
     it('page open should set max characters', async () => {

@@ -76,11 +76,11 @@ class PersonalInformationContent extends React.Component {
               If you receive VA benefits, but aren't enrolled in VA health care
             </strong>
             <br />
-            Please contact your nearest VA regional benefit office to update
-            your personal information.
+            Please contact your nearest VA regional office to update your
+            personal information.
             <br />
             <a href={`${facilityLocator.rootUrl}/?facilityType=benefits`}>
-              Find your nearest VA regional benefit office
+              Find your nearest VA regional office
             </a>
           </p>
         </AdditionalInfo>
@@ -97,7 +97,9 @@ class PersonalInformationContent extends React.Component {
 export default function PersonalInformation(props) {
   return (
     <div>
-      <h2 className="va-profile-heading">Personal information</h2>
+      <h2 className="va-profile-heading" tabIndex="-1">
+        Personal information
+      </h2>
       <DowntimeNotification
         render={handleDowntimeForSection('personal')}
         dependencies={[externalServices.mvi]}

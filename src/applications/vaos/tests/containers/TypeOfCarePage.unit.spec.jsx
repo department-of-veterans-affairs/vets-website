@@ -3,11 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  resetFetch,
-  mockFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { selectRadio } from 'platform/testing/unit/schemaform-utils.jsx';
 import { TypeOfCarePage } from '../../containers/TypeOfCarePage';
@@ -73,7 +69,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(updateFormData.firstCall.args[2].typeOfCareId).to.equal('323');
     form.unmount();
-    resetFetch();
+    global.fetch.resetHistory();
   });
 
   it('should submit with valid data', () => {
@@ -113,6 +109,23 @@ describe('VAOS <TypeOfCarePage>', () => {
         .at(0)
         .text(),
     ).to.contain('Amputation care');
+    form.unmount();
+  });
+
+  it('document title should match h1 text', () => {
+    const openTypeOfCarePage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const pageTitle = 'Choose the type of care you need';
+
+    const form = mount(
+      <TypeOfCarePage
+        openTypeOfCarePage={openTypeOfCarePage}
+        updateFormData={updateFormData}
+        data={{}}
+      />,
+    );
+    expect(form.find('h1').text()).to.equal(pageTitle);
+    expect(document.title).contain(pageTitle);
     form.unmount();
   });
 });

@@ -15,6 +15,11 @@ function getMiddleware(
   applyIgnoredRoutes = _applyIgnoredRoutes,
   getErrorOutput = _getErrorOutput,
 ) {
+  if (buildOptions.watch) {
+    const noop = () => {};
+    return noop;
+  }
+
   return (files, metalsmith, done) => {
     // 1. Loop through all of the HTML files in the Metalsmith pipeline
     // 2. Extract all of the broken HREF/SRC values using the helper getBrokenLinks

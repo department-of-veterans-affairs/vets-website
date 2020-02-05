@@ -99,8 +99,8 @@ export default class AppointmentRequestListItem extends React.Component {
             </div>
           </span>
         </div>
-        <div className="vaos-appts__split-section vads-u-margin-top--2">
-          <div className="vads-u-flex--1 vads-u-margin-right--1">
+        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+          <div className="vads-u-flex--1 vads-u-margin-right--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {getLocationHeader(appointment)}
@@ -108,7 +108,7 @@ export default class AppointmentRequestListItem extends React.Component {
               <dd>{getAppointmentLocation(appointment, facility)}</dd>
             </dl>
           </div>
-          <div className="vads-u-flex--1 vaos-appts__preferred-dates">
+          <div className="vads-u-flex--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 Preferred date and time
@@ -126,7 +126,7 @@ export default class AppointmentRequestListItem extends React.Component {
             triggerText={showMore ? 'Show less' : 'Show more'}
             onClick={this.toggleShowMore}
           >
-            <div className="vaos-appts__split-section">
+            <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
               <div className="vaos_appts__message vads-u-flex--1">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold">
@@ -135,7 +135,7 @@ export default class AppointmentRequestListItem extends React.Component {
                   <dd>{firstMessage}</dd>
                 </dl>
               </div>
-              <div className="vads-u-flex--1">
+              <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
                 <dl className="vads-u-margin--0">
                   <dt className="vads-u-font-weight--bold vads-u-display--block">
                     Your contact details

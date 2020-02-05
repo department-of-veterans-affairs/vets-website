@@ -1,20 +1,23 @@
-import _config from './config';
+// Node modules.
 import moment from 'moment';
+// Relative imports.
+import _config from './config';
 
-function isExpiredAnnouncement(announcement) {
+// Checks if the announcement has expired.
+const isExpiredAnnouncement = announcement => {
   if (!announcement.expiresAt) return true;
 
-  const expirationDate = moment(announcement.expiresAt);
-  const isExpired = moment().isSameOrAfter(expirationDate);
+  const expiresAtDate = moment(announcement.expiresAt);
+  const hasExpired = moment().isSameOrAfter(expiresAtDate);
 
-  return !isExpired;
-}
+  return !hasExpired;
+};
 
-export function selectAnnouncement(
+export const selectAnnouncement = (
   state,
   config = _config,
   path = document.location.pathname,
-) {
+) => {
   const announcements = state.announcements;
   let announcement;
 
@@ -27,4 +30,4 @@ export function selectAnnouncement(
   }
 
   return announcement;
-}
+};

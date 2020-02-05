@@ -7,14 +7,8 @@ module.exports = {
       properties: {
         entityType: { enum: ['block_content'] },
         entityBundle: { enum: ['promo'] },
-        fieldImage: {
-          type: 'array',
-          items: { $ref: 'Media' },
-        },
-        fieldPromoLink: {
-          type: 'array',
-          items: { $ref: 'Paragraph' },
-        },
+        fieldImage: { $ref: 'Media' },
+        fieldPromoLink: { $ref: 'Paragraph' },
       },
       required: ['fieldImage', 'fieldPromoLink'],
     },

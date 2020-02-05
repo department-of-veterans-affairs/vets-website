@@ -33,11 +33,11 @@ const clinic = {
   clinicFriendlyLocationName: '',
 };
 
+const pageTitle = 'Review your appointment details';
+
 describe('VAOS <ReviewDirectScheduleInfo>', () => {
   describe('Direct Schedule', () => {
-    const data = {
-      ...defaultData,
-    };
+    const data = { ...defaultData };
     let tree;
 
     beforeEach(() => {
@@ -46,6 +46,7 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
           data={data}
           facility={facility}
           clinic={clinic}
+          pageTitle={pageTitle}
         />,
       );
     });
@@ -87,6 +88,10 @@ describe('VAOS <ReviewDirectScheduleInfo>', () => {
 
     it('should render contact details section', () => {
       expect(tree.find(ContactDetailSection)).to.have.lengthOf(1);
+    });
+
+    it('should render page heading', () => {
+      expect(tree.find('h1').text()).to.equal(pageTitle);
     });
   });
 

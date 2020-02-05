@@ -16,6 +16,7 @@ import {
   APPOINTMENT_TYPES,
 } from '../utils/constants';
 import VideoVisitSection from './VideoVisitSection';
+import AddToCalendar from './AddToCalendar';
 
 export default function ConfirmedAppointmentListItem({
   appointment,
@@ -55,25 +56,23 @@ export default function ConfirmedAppointmentListItem({
       <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
         {getAppointmentDateTime(appointment)}
       </h2>
-      <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-top--2">
-        <div className="vaos-appts__status vads-u-flex--1">
-          {canceled ? (
-            <i className="fas fa-exclamation-circle" />
-          ) : (
-            <i className="fas fa-check-circle" />
-          )}
-          <span
-            id={`card-${index}`}
-            className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block"
-          >
-            {canceled ? 'Canceled' : 'Confirmed'}
-            <span className="sr-only"> appointment</span>
-          </span>
-        </div>
+      <div className="vads-u-margin-top--2">
+        {canceled ? (
+          <i className="fas fa-exclamation-circle" />
+        ) : (
+          <i className="fas fa-check-circle" />
+        )}
+        <span
+          id={`card-${index}`}
+          className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block"
+        >
+          {canceled ? 'Canceled' : 'Confirmed'}
+          <span className="sr-only"> appointment</span>
+        </span>
       </div>
 
-      <div className="vaos-appts__split-section vads-u-margin-top--2">
-        <div className="vads-u-flex--1">
+      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-flex--1 vads-u-margin-top--2">
           {isVideoVisit(appointment) ? (
             <VideoVisitSection appointment={appointment} />
           ) : (
@@ -86,7 +85,7 @@ export default function ConfirmedAppointmentListItem({
           )}
         </div>
         {hasInstructions(appointment) && (
-          <div className="vads-u-flex--1">
+          <div className="vads-u-flex--1 vads-u-margin-top--2">
             <dl className="vads-u-margin--0">
               <dt className="vads-u-font-weight--bold">
                 {getAppointmentInstructionsHeader(appointment)}
@@ -97,8 +96,16 @@ export default function ConfirmedAppointmentListItem({
         )}
       </div>
 
+      {!allowCancel &&
+        !canceled && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendar appointment={appointment} facility={facility} />
+          </div>
+        )}
+
       {allowCancel && (
         <div className="vads-u-margin-top--2">
+          <AddToCalendar appointment={appointment} facility={facility} />
           <button
             onClick={() => cancelAppointment(appointment)}
             aria-label="Cancel appointment"

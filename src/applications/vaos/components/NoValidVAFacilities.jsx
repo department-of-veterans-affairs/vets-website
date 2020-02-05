@@ -4,6 +4,7 @@ import FacilityDirectionsLink from './FacilityDirectionsLink';
 import FacilityHours from './FacilityHours';
 import { FETCH_STATUS } from '../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { lowerCase } from '../utils/appointment';
 
 export default function NoValidVAFacilities({ formContext }) {
   const {
@@ -19,17 +20,18 @@ export default function NoValidVAFacilities({ formContext }) {
 
   const address = systemDetails?.address?.physical;
   const phone = systemDetails?.phone;
+  const typeOfCareText = typeOfCare ? lowerCase(typeOfCare) : '';
 
   return (
     <div aria-atomic="true" aria-live="assertive">
       <AlertBox
         status="warning"
-        headline={`We’re sorry. None of the facilities in this health system allow online scheduling for ${typeOfCare} appointments`}
+        headline={`There are no ${typeOfCareText} appointments at this location`}
         content={
           <>
             <p>
-              You can’t schedule this type of appointment online. Please call
-              the medical center for more information.
+              We’re sorry. This facility doesn’t accept appointments for this
+              type of care. Please call the medical center for more information.
             </p>
             {systemDetails ? (
               <div className="vads-u-padding-left--2 vads-u-border-left--4px vads-u-border-color--primary">
