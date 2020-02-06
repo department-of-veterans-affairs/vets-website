@@ -45,3 +45,12 @@ jobs:
           command: |
             echo "Your PR Number is: ${CIRCLE_PR_NUMBER}"
             echo "Your PR link is: ${CIRCLE_PULL_REQUEST}"
+
+workflows:
+  version: 2
+  blah:
+    jobs:
+      - pr-check
+        filters:
+          branches:
+            ignore: master
