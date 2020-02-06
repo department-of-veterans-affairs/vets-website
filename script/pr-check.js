@@ -1,26 +1,27 @@
 /* eslint-disable camelcase */
+/* eslint-disable no-console */
 const { spawnSync } = require('child_process');
 const { Octokit } = require('@octokit/rest');
 
-const diffOut = spawnSync('git', ['diff', 'origin/master...']);
-const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
-  input: diffOut.stdout,
-});
-const grepOut = spawnSync(
-  'grep',
-  ['-P', `(/* eslint-disable)|(// eslint-disable)`],
-  { input: addLinesOut.stdout },
-);
+function getAdditions(pattern) {
+  const diffOut = spawnSync('git', ['diff', 'origin/master...']);
+  const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
+    input: diffOut.stdout,
+  });
+  const grepOut = spawnSync('grep', ['-P', pattern], {
+    input: addLinesOut.stdout,
+  });
 
-/* eslint-disable no-console */
-console.log('spawnSync out: ', grepOut.stdout.toString());
-const additions = grepOut.stdout.toString().split('\n');
+  const additions = grepOut.stdout.toString().split('\n');
 
-// Remove the last item that is just an empty string
-additions.pop();
+  // Remove the last item that is just an empty string
+  additions.pop();
+  return additions;
+}
+
+const additions = getAdditions(`(/* eslint-disable)|(// eslint-disable)`);
 
 console.log(additions);
-
 const { GITHUB_TOKEN, CIRCLE_PULL_REQUEST } = process.env;
 const PR = CIRCLE_PULL_REQUEST.split('/').pop();
 
