@@ -236,7 +236,7 @@ class AddressForm extends React.Component {
           <ErrorableTextInput
             errorMessage={errorMessages.zipCode}
             additionalClass="usa-input-medium"
-            label={'Zip code'}
+            label={'Postal code'}
             name="postalCode"
             charMax={5}
             autocomplete="postal-code"

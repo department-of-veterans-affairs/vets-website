@@ -30,13 +30,11 @@ class ViewDependentsApp extends Component {
           {
             name: 'Billy Blank',
             social: '312-243-5634',
-            onAward: true,
             birthdate: '05-05-1983',
           },
           {
             name: 'Cindy See',
             social: '312-243-5634',
-            onAward: true,
             birthdate: '05-05-1953',
             spouse: true,
           },

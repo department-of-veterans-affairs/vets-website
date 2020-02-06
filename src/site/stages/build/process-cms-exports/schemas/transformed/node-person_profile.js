@@ -5,6 +5,7 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['person_profile'] },
     entityUrl: { $ref: 'EntityUrl' },
+    title: { type: 'string' },
     fieldBody: { type: ['string', 'null'] },
     fieldDescription: { type: ['string', 'null'] },
     fieldEmailAddress: { type: ['string', 'null'] },
@@ -31,6 +32,7 @@ module.exports = {
     fieldSuffix: { type: ['string', 'null'] },
   },
   required: [
+    'title',
     'fieldBody',
     'fieldDescription',
     'fieldEmailAddress',

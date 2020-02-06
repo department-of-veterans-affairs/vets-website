@@ -27,9 +27,9 @@ describe('<ViewDependentsListItem />', () => {
     );
     expect(
       wrapper.contains(
-        <p className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-text-align--right vads-u-margin--0">
-          Spouse
-        </p>,
+        <dfn className="vads-u-margin--0">
+          <strong>Relationship:</strong> Spouse
+        </dfn>,
       ),
     ).to.equal(true);
     wrapper.unmount();
