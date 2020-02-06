@@ -32,7 +32,7 @@ export function isValidZIP(value) {
 export function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
     errors.addError(
-      'Please enter a valid 5 or 9 digit Postal code (dashes allowed)',
+      'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
     );
   }
 }
