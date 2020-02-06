@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import set from 'platform/utilities/data/set';
-import get from 'platform/utilities/data/get';
+import get from 'lodash/get';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -41,7 +41,7 @@ class BasicArrayField extends React.Component {
     const { TitleField, SchemaField } = registry.fields;
 
     const title = uiSchema['ui:title'] || schema.title;
-    const hideTitle = !!get(['ui:options', 'hideTitle'], uiSchema);
+    const hideTitle = !!get(uiSchema, ['ui:options', 'hideTitle']);
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
