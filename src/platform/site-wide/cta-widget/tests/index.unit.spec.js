@@ -18,6 +18,30 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
+      />,
+    );
+
+    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    tree.unmount();
+  });
+  it('should show loading state when loading feature toggles', () => {
+    const tree = mount(
+      <CallToActionWidget
+        profile={{
+          loading: false,
+          verified: false,
+          multifactor: false,
+        }}
+        mhvAccount={{
+          loading: false,
+        }}
+        mviStatus={{}}
+        featureToggles={{
+          loading: true,
+        }}
       />,
     );
 
@@ -36,6 +60,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -57,6 +84,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -77,6 +107,9 @@ describe('<CallToActionWidget>', () => {
           loading: false,
         }}
         mviStatus={{}}
+        featureToggles={{
+          loading: false,
+        }}
       />,
     );
 
@@ -105,6 +138,9 @@ describe('<CallToActionWidget>', () => {
             loading: false,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -127,6 +163,9 @@ describe('<CallToActionWidget>', () => {
             loading: false,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
       expect(fetchMHVAccount.called).to.be.false;
@@ -152,6 +191,9 @@ describe('<CallToActionWidget>', () => {
             loading: true,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
       expect(createAndUpgradeMHVAccount.called).to.be.false;
@@ -185,6 +227,9 @@ describe('<CallToActionWidget>', () => {
             loading: true,
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
       expect(upgradeMHVAccount.called).to.be.false;
@@ -221,6 +266,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus={{}}
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -250,6 +298,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="SERVER_ERROR"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -274,6 +325,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="NOT_AUTHORIZED"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -298,6 +352,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="NOT_FOUND"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -323,6 +380,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Basic',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -347,6 +407,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -371,6 +434,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -388,6 +454,7 @@ describe('<CallToActionWidget>', () => {
           multifactor: true,
         },
         mviStatus: 'GOOD',
+        featureToggles: { loading: false },
       };
 
       it('should show verify message', () => {
@@ -519,6 +586,9 @@ describe('<CallToActionWidget>', () => {
             accountLevel: 'Premium',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -545,6 +615,9 @@ describe('<CallToActionWidget>', () => {
             accountState: 'needs_terms_acceptance',
           }}
           mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+          }}
         />,
       );
 
@@ -556,6 +629,140 @@ describe('<CallToActionWidget>', () => {
       expect(window.location).to.contain(
         'medical-information-terms-conditions',
       );
+      tree.unmount();
+    });
+  });
+  describe('online scheduling', () => {
+    it('should show mvi error', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="SERVER_ERROR"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(tree.find('HealthToolsDown').exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should shown schedule appts message', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.false;
+      expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
+      expect(tree.text()).contains(
+        'schedule or cancel your appointments online',
+      );
+      tree.unmount();
+    });
+
+    it('should show view appointments message', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="view-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.false;
+      expect(tree.find('VAOnlineScheduling').exists()).to.be.true;
+      expect(tree.text()).contains('view your appointments online');
+      tree.unmount();
+    });
+
+    it('should not fetch mhv account for new tool', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: true,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.false;
+      tree.setProps({});
+      expect(fetchMHVAccount.called).to.be.false;
+      tree.unmount();
+    });
+    it('should show mhv message if flag is off', () => {
+      const fetchMHVAccount = sinon.spy();
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={fetchMHVAccount}
+          isLoggedIn
+          appId="schedule-appointments"
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: true,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            vaOnlineScheduling: false,
+          }}
+        />,
+      );
+
+      expect(fetchMHVAccount.called).to.be.true;
+      expect(tree.find('NoMHVAccount').exists()).to.be.true;
       tree.unmount();
     });
   });

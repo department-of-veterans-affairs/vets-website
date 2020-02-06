@@ -25,11 +25,20 @@ export default class Vet360EditModal extends React.Component {
     render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     transactionRequest: PropTypes.object,
+    useNewAddressForm: PropTypes.bool,
   };
 
   componentDidMount() {
-    // initialize form with no fieldName and skip validation
-    this.props.onChange(this.props.getInitialFormValues(), null, true);
+    if (this.props.useNewAddressForm) {
+      this.props.onChangeFormDataAndSchemas(
+        this.props.getInitialFormValues(),
+        this.props.formSchema,
+        this.props.uiSchema,
+      );
+    } else {
+      // initialize form with no fieldName and skip validation
+      this.props.onChange(this.props.getInitialFormValues(), null, true);
+    }
   }
 
   componentWillUnmount() {
@@ -53,10 +62,14 @@ export default class Vet360EditModal extends React.Component {
     }, 10);
   };
 
+  onSubmitSchemaForm = () => {
+    this.props.onSubmit(this.props.field.value);
+  };
+
   hasValidationError() {
     if (this.props.hasValidationError) return this.props.hasValidationError();
 
-    const validations = this.props.field.validations;
+    const validations = this.props.field.validations || {};
     return Object.values(validations).some(e => !!e);
   }
 
@@ -77,12 +90,51 @@ export default class Vet360EditModal extends React.Component {
         transactionRequest,
         analyticsSectionName,
         deleteDisabled,
+        useNewAddressForm,
       },
     } = this;
 
     const isFormReady = isInitialized();
     const isLoading = transactionRequest && transactionRequest.isPending;
     const error = transactionRequest && transactionRequest.error;
+
+    const actionButtons = (
+      <Vet360EditModalActionButtons
+        onCancel={onCancel}
+        onDelete={onDelete}
+        title={title}
+        analyticsSectionName={analyticsSectionName}
+        transactionRequest={transactionRequest}
+        deleteEnabled={!isEmpty && !deleteDisabled}
+      >
+        <LoadingButton data-action="save-edit" isLoading={isLoading}>
+          Update
+        </LoadingButton>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
+      </Vet360EditModalActionButtons>
+    );
+
+    if (useNewAddressForm) {
+      return (
+        <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
+          <h3>Edit {title.toLowerCase()}</h3>
+          {error && (
+            <Vet360EditModalErrorMessage
+              title={title}
+              error={error}
+              clearErrors={clearErrors}
+            />
+          )}
+          {isFormReady && render(actionButtons, this.onSubmitSchemaForm)}
+        </Modal>
+      );
+    }
 
     return (
       <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
@@ -97,25 +149,7 @@ export default class Vet360EditModal extends React.Component {
           )}
           {isFormReady && render()}
           <br />
-          <Vet360EditModalActionButtons
-            onCancel={onCancel}
-            onDelete={onDelete}
-            title={title}
-            analyticsSectionName={analyticsSectionName}
-            transactionRequest={transactionRequest}
-            deleteEnabled={!isEmpty && !deleteDisabled}
-          >
-            <LoadingButton data-action="save-edit" isLoading={isLoading}>
-              Update
-            </LoadingButton>
-            <button
-              type="button"
-              className="usa-button-secondary"
-              onClick={onCancel}
-            >
-              Cancel
-            </button>
-          </Vet360EditModalActionButtons>
+          {actionButtons}
         </form>
       </Modal>
     );

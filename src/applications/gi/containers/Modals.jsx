@@ -169,8 +169,8 @@ export class Modals extends React.Component {
         <p>
           If you attend your training program in person, your housing stipend
           will be equal to the monthly military Basic Allowance for Housing
-          (BAH) for an E-5 with dependents. This is based on the zip code where
-          you attend your training.
+          (BAH) for an E-5 with dependents. This is based on the postal code
+          where you attend your training.
         </p>
         <p>
           If you participate in an online program, your stipend will be half of
