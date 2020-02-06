@@ -107,7 +107,7 @@ describe('VAOS <AddToCalendar>', () => {
       writable: true,
     });
     const tree = shallow(
-      <AddToCalendar appointment={vaAppointmentRequest} facility={facility} />,
+      <AddToCalendar appointment={vaAppointment} facility={facility} />,
     );
 
     const button = tree.find('button');
@@ -128,7 +128,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     it('should have an aria label', () => {
       expect(button.props()['aria-label']).to.equal(
-        `Add to calendar on ${moment(now).format('MMMM D, YYYY')}`,
+        `Add to calendar on January 2, 2020`,
       );
     });
 
