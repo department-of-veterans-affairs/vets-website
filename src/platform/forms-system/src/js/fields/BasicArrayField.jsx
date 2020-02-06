@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -18,7 +18,7 @@ class BasicArrayField extends React.Component {
     !deepEquals(this.props, nextProps) || nextState !== this.state;
 
   onItemChange = (indexToChange, value) => {
-    const newItems = _.set(indexToChange, value, this.props.formData || []);
+    const newItems = set(indexToChange, value, get('formData', this.props, []));
     this.props.onChange(newItems);
   };
 
