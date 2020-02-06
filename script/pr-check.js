@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { spawnSync } = require('child_process');
 const { Octokit } = require('@octokit/rest');
 
@@ -20,33 +21,90 @@ additions.pop();
 
 console.log(additions);
 
-const { GITHUB_TOKEN, CIRCLE_SHA1, CIRCLE_PULL_REQUEST } = process.env;
+const { GITHUB_TOKEN, CIRCLE_PULL_REQUEST } = process.env;
 const PR = CIRCLE_PULL_REQUEST.split('/').pop();
 
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,
 });
 
-additions.forEach(line => {
-  const [filename, lineNumber] = line.split(':');
-  console.log(filename, lineNumber);
+console.log(PR);
 
-  /* eslint-disable camelcase */
-  octokit.pulls.createComment({
-    owner: 'department-of-veterans-affairs',
-    repo: 'vets-website',
-    pull_number: PR,
-    body: 'Flagging for manual review',
-    commit_id: CIRCLE_SHA1,
-    path: filename,
-    line: parseInt(lineNumber, 10),
-    side: 'RIGHT',
-    mediaType: {
-      previews: ['comfort-fade'],
-    },
+function reviewComments() {
+  const comments = [];
+  additions.forEach(line => {
+    const [filename, offset] = line.split(':');
+    comments.push({ path: filename, position: offset, body: 'Testing' });
   });
-  /* eslint-enable camelcase */
+  return comments;
+}
+
+// First, create a PR review to apply comments to
+// let reviewId = null;
+octokit.pulls.createReview({
+  owner: 'department-of-veterans-affairs',
+  repo: 'vets-website',
+  body: 'Some issues found',
+  event: 'COMMENT',
+  pull_number: PR,
+  comments: reviewComments(),
 });
+// .then(response => {
+//   reviewId = response.id;
+// });
+
+// function createReviewComments() {
+//   // const comments = [];
+//   additions.forEach(async line => {
+//     const [filename, lineNumber] = line.split(':');
+//     console.log(filename, lineNumber);
+
+//     try {
+//       await octokit.pulls.createComment({
+//         owner: 'department-of-veterans-affairs',
+//         repo: 'vets-website',
+//         pull_number: PR,
+//         body: 'Flagging for manual review',
+//         commit_id: CIRCLE_SHA1,
+//         path: filename,
+//         line: parseInt(lineNumber, 10),
+//         side: 'RIGHT',
+//         mediaType: {
+//           previews: ['comfort-fade'],
+//         },
+//       });
+//     } catch (error) {
+//       console.log(`The error is ${error}`);
+//     }
+//     console.log('NEXT COMMENT');
+//     // .then(response => {
+//     //   console.log('YAAAY! Success!!');
+//     //   // console.log(response);
+//     // })
+//     // .catch(error => {
+//     //   console.log(`The error is ${error}`);
+//     // });
+
+//     // comments.push(promise);
+//   });
+
+//   // return comments;
+// }
+
+// console.log('BEGINNING');
+// createReviewComments();
+
+// console.log('ALL DONE');
+
+// Promise.all(createReviewComments()).then(() => {
+//   octokit.pulls.submitReview({
+//     owner: 'department-of-veterans-affairs',
+//     repo: 'vets-website',
+//     pull_number: PR,
+//     review_id: reviewId,
+//     event: 'COMMENT',
+//   });
+// });
 
 /*
 exec

@@ -12,7 +12,7 @@ diff-lines() {
 	  elif [[ $REPLY =~ \+\+\+\ (b/)?([^[:blank:]$esc]+).* ]]; then
 		  path=${BASH_REMATCH[2]}
 	  elif [[ $REPLY =~ @@\ -[0-9]+(,[0-9]+)?\ \+([0-9]+)(,[0-9]+)?\ @@.* ]]; then
-		  line=${BASH_REMATCH[2]}
+		  line=0
 	  elif [[ $REPLY =~ ^($esc\[[0-9;]+m)*([\ +-]) ]]; then
 		  echo "$path:$line:$REPLY"
 		  if [[ ${BASH_REMATCH[2]} != - ]]; then
