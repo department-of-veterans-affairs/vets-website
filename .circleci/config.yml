@@ -34,7 +34,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test:unit
+      # - run: yarn test:unit
 
   pr-check:
     docker:
@@ -51,7 +51,10 @@ workflows:
   version: 2
   blah:
     jobs:
+      - build
       - pr-check
+          requires:
+            build
           # filters:
           #   branches:
           #     ignore: master
