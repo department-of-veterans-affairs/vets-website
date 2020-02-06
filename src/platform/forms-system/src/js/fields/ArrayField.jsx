@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import set from 'platform/utilities/data/set';
 
 import {
   toIdSchema,
@@ -77,7 +77,7 @@ export default class ArrayField extends React.Component {
   }
 
   onItemChange(indexToChange, value) {
-    const newItems = set(indexToChange, value, this.props.formData || []);
+    const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   }
 
@@ -122,7 +122,7 @@ export default class ArrayField extends React.Component {
    * Clicking edit on an item that’s not last and so is in view mode
    */
   handleEdit(index, status = true) {
-    this.setState(set(['editing', index], status, this.state), () => {
+    this.setState(_.set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     });
   }
@@ -132,7 +132,7 @@ export default class ArrayField extends React.Component {
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(set(['editing', index], false, this.state), () => {
+      this.setState(_.set(['editing', index], false, this.state), () => {
         this.scrollToTop();
       });
     } else {
@@ -156,7 +156,7 @@ export default class ArrayField extends React.Component {
         (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
-      const newState = Object.assign({}, this.state, {
+      const newState = _.assign(this.state, {
         editing: newEditing.concat(!!editingState),
       });
       this.setState(newState, () => {
@@ -185,7 +185,7 @@ export default class ArrayField extends React.Component {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    const newState = Object.assign({}, this.state, {
+    const newState = _.assign(this.state, {
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
