@@ -46,7 +46,7 @@
 }
 
 .vaos-form__detailed-radio {
-  input[type='radio'] + label::before {
+  input[type="radio"] + label::before {
     margin-top: 0.6em;
   }
 
@@ -85,34 +85,34 @@
   @include media($small-screen) {
     margin: 8px;
   }
+}
 
-  &.vaos-calendar__cell-current {
-    margin-bottom: 12px;
-    @include media($small-screen) {
-      margin-bottom: 8px;
-    }
-  }
-
-  &.vaos-calendar__cell-current > button,
-  &.vaos-calendar__cell-selected > button {
-    position: relative;
-    background-color: $color-primary;
-    border-color: $color-primary;
-    color: $color-white;
-
-    &:hover {
-      border-bottom: 1px solid $color-primary;
-    }
+.vaos-calendar__day--current {
+  margin-bottom: 12px;
+  @include media($small-screen) {
+    margin-bottom: 8px;
   }
 }
 
-.fa-check {
+.vaos-calendar__day--current > button,
+.vaos-calendar__day--selected > button {
+  position: relative;
+  background-color: $color-primary;
+  border-color: $color-primary;
+  color: $color-white;
+
+  &:hover {
+    border-bottom: 1px solid $color-primary;
+  }
+}
+
+.vaos-calendar__fa-check-position {
   position: absolute;
   left: 4px;
   top: 4px;
   font-size: 10px;
 }
-.vaos-calendar__cell-selected-triangle {
+.vaos-calendar__day--selected-triangle {
   display: block;
   height: 20px;
   width: 20px;
@@ -212,17 +212,17 @@
   border-radius: 5px;
   padding: 8px 4px;
 
-  input[type='radio'],
-  input[type='checkbox'] {
+  input[type="radio"],
+  input[type="checkbox"] {
     width: auto;
   }
 
-  input[type='radio'] + label::before {
+  input[type="radio"] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
   }
 
-  input[type='checkbox'] + label::before {
+  input[type="checkbox"] + label::before {
     margin-top: 0;
     box-shadow: 0 0 0 1px $color-primary;
   }
