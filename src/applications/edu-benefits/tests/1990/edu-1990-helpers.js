@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 
 function completeBenefitRelinquishment(client, data) {
   client
@@ -147,8 +147,8 @@ function completeEducationHistory(client, data) {
   );
 
   const training = data.postHighSchoolTrainings[0];
-  const dateFrom = _.get('dateRange.from', training);
-  const dateTo = _.get('dateRange.to', training);
+  const dateFrom = get('dateRange.from', training);
+  const dateTo = get('dateRange.to', training);
 
   client
     .fill('input[name="root_postHighSchoolTrainings_0_name"]', training.name)
