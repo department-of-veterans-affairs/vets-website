@@ -5,79 +5,49 @@ import AppointmentsPage from './containers/AppointmentsPage';
 import VAOSApp from './containers/VAOSApp';
 
 const ReasonForAppointmentPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/ReasonForAppointmentPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/ReasonForAppointmentPage'),
 );
 const TypeOfCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfCarePage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfCarePage'),
 );
 const CommunityCarePreferencesPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/CommunityCarePreferencesPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/CommunityCarePreferencesPage'),
 );
 const TypeOfAudiologyCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfAudiologyCarePage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfAudiologyCarePage'),
 );
 const TypeOfFacilityPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfFacilityPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfFacilityPage'),
 );
 const ContactInfoPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/ContactInfoPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/ContactInfoPage'),
 );
 const VAFacilityPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/VAFacilityPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/VAFacilityPage'),
 );
 const TypeOfVisitPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfVisitPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfVisitPage'),
 );
 const ReviewPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/ReviewPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/ReviewPage'),
 );
 const ClinicChoicePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/ClinicChoicePage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/ClinicChoicePage'),
 );
 const TypeOfSleepCarePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfSleepCarePage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/TypeOfSleepCarePage'),
 );
 const PreferredDatePage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/PreferredDatePage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/PreferredDatePage'),
 );
 const DateTimeRequestPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/DateTimeRequestPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/DateTimeRequestPage'),
 );
 const DateTimeSelectPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/DateTimeSelectPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/DateTimeSelectPage'),
 );
 const ConfirmationPage = asyncLoader(() =>
-  import(/* webpackChunkName: "vaos-form" */ './containers/ConfirmationPage').then(
-    m => m.default,
-  ),
+  import(/* webpackChunkName: "vaos-form" */ './containers/ConfirmationPage'),
 );
 
 export default function createRoutesWithStore(store) {
@@ -92,7 +62,7 @@ export default function createRoutesWithStore(store) {
             import(/* webpackChunkName: "vaos-form" */ './reducers/newAppointment'),
           ]).then(([component, reducer]) => {
             store.injectReducer('newAppointment', reducer.default);
-            return component.default;
+            return component;
           }),
         )}
       >
