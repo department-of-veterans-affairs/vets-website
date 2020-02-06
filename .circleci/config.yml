@@ -54,10 +54,7 @@ workflows:
   version: 2
   blah:
     jobs:
-      - build
       - pr-check:
-          requires:
-            - build
           # filters:
           #   branches:
           #     ignore: master
