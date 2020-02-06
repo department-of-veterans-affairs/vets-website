@@ -29,6 +29,7 @@
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
     "install-repos": "./script/install-repos.sh",
     "postinstall": "npm rebuild node-sass",
+    "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
     "test": "npm run test:unit && npm run test:e2e",
