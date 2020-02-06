@@ -53,7 +53,7 @@ export const LOCATION_OPTIONS = [
 
 /**
  * Defines the options available for the Location Type Dropdown
- * //TODO remove after testing on staging
+ * ///TODO remove after testing on staging
  */
 export const LOCATION_OPTIONS_STAGING = [
   LocationType.HEALTH,
