@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import pickBy from 'lodash/pickBy';
 
 import {
   ADDRESS_FORM_VALUES,
@@ -17,7 +18,7 @@ import AddressFormV2 from './AddressFormV2';
 
 import environment from 'platform/utilities/environment';
 
-const useNewAddressForm = environment.isLocalhost();
+const useNewAddressForm = !environment.isProduction();
 
 class AddressEditModal extends React.Component {
   onBlur = field => {
@@ -52,10 +53,35 @@ class AddressEditModal extends React.Component {
     this.props.fieldName === FIELD_NAMES.MAILING_ADDRESS;
 
   /**
-   * Helper function that sets the form data's `view:livesOnMilitaryBase` prop
-   * to `true` if this is an overseas military mailing address
+   * Returns a copy of the input object with keys removed for values that are
+   * falsy
+   *
    */
-  transformInitialFormValues = data => {
+  removeEmptyKeys = data =>
+    pickBy(
+      {
+        id: data.id,
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        addressLine3: data.addressLine3,
+        addressType: data.addressType,
+        city: data.city,
+        countryName: data.countryName,
+        stateCode: data.stateCode,
+        internationalPostalCode: data.internationalPostalCode,
+        zipCode: data.zipCode,
+        province: data.province,
+        addressPou: data.Pou,
+      },
+      e => !!e,
+    );
+
+  /**
+   * Returns a copy of the input object with an added `view:livesOnMilitaryBase`
+   * value if the address is a overseas military mailing address
+   *
+   */
+  selectLivesOnMilitaryBaseCheckbox = data => {
     if (
       data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
       data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY
@@ -63,6 +89,18 @@ class AddressEditModal extends React.Component {
       return { ...data, 'view:livesOnMilitaryBase': true };
     }
     return data;
+  };
+
+  /**
+   * Helper function that:
+   * - totally removes data fields that are not set
+   * - sets the form data's `view:livesOnMilitaryBase` prop to `true` if this is
+   *   an overseas military mailing address
+   */
+  transformInitialFormValues = initialFormValues => {
+    let transformedData = this.removeEmptyKeys(initialFormValues);
+    transformedData = this.selectLivesOnMilitaryBaseCheckbox(transformedData);
+    return transformedData;
   };
 
   copyMailingAddress = mailingAddress => {

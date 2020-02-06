@@ -76,8 +76,8 @@ export const mockContactInformation = {
   },
   mailingAddress: {
     addressLine1: '1493 Martin Luther King Rd',
-    addressLine2: 'string',
-    addressLine3: 'string',
+    addressLine2: 'Apt 1',
+    addressLine3: null,
     addressPou: 'CORRESPONDENCE',
     addressType: 'DOMESTIC',
     city: 'Fulton',
@@ -99,8 +99,8 @@ export const mockContactInformation = {
   },
   residentialAddress: {
     addressLine1: 'PSC 808 Box 37',
-    addressLine2: '',
-    addressLine3: '',
+    addressLine2: null,
+    addressLine3: null,
     addressPou: 'RESIDENCE/CHOICE',
     addressType: 'OVERSEAS MILITARY',
     city: 'FPO',
