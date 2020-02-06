@@ -18,7 +18,7 @@ export function focusElement(selectorOrElement, options) {
   }
 }
 
-export function focusOnFirstElement(
+export function focusOnFirstElementLabel(
   block,
   { focusOptions = {}, filterCallback },
 ) {
@@ -50,7 +50,10 @@ export function focusOnFirstElement(
       els = els.filter(filterCallback);
     }
     // eslint-disable-next-line no-unused-expressions
-    els[0]?.focus(focusOptions);
+    els[0]
+      ?.closest('.schemaform-field-template')
+      ?.querySelector('legend, label')
+      ?.focus(focusOptions);
   }
 }
 
@@ -127,7 +130,7 @@ export const focusAndScrollToReviewElement = (error = {}) => {
           scrollToScrollElement(`chapter${error.chapter}`);
         } else {
           // Focus on form element
-          focusOnFirstElement(
+          focusOnFirstElementLabel(
             el.closest('.form-review-panel-page')?.querySelector('form'),
             { filterCallback: elm => elm.id.includes(`_${error.name}`) },
           );
