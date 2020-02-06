@@ -1,6 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

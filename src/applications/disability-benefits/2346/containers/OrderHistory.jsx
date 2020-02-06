@@ -1,7 +1,7 @@
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { focusElement } from '../../../../platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 import {
   getDLCAccessoriesData,
   getDLCBatteryData,
