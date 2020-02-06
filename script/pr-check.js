@@ -3,6 +3,9 @@
 const { spawnSync } = require('child_process');
 const { Octokit } = require('@octokit/rest');
 
+const { CODE_PATTERN, GITHUB_TOKEN, CIRCLE_PULL_REQUEST } = process.env;
+const PR = CIRCLE_PULL_REQUEST.split('/').pop();
+
 function getAdditions(pattern) {
   const diffOut = spawnSync('git', ['diff', 'origin/master...']);
   const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
@@ -19,11 +22,9 @@ function getAdditions(pattern) {
   return additions;
 }
 
-const additions = getAdditions(`(/* eslint-disable)|(// eslint-disable)`);
+const additions = getAdditions(CODE_PATTERN);
 
 console.log(additions);
-const { GITHUB_TOKEN, CIRCLE_PULL_REQUEST } = process.env;
-const PR = CIRCLE_PULL_REQUEST.split('/').pop();
 
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,

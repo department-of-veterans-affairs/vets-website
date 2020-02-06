@@ -36,9 +36,11 @@ jobs:
       # run tests!
       # - run: yarn test:unit
 
-  pr-check:
+  eslint-check:
     docker:
       - image: circleci/node:10.18
+    environment:
+      CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
     steps:
       - checkout
       - run:
@@ -57,7 +59,7 @@ workflows:
   version: 2
   blah:
     jobs:
-      - pr-check
+      - eslint-check
           # filters:
           #   branches:
           #     ignore: master
