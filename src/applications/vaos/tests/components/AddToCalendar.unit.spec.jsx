@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import moment from '../../utils/moment-tz';
 
@@ -168,5 +169,44 @@ describe('VAOS <AddToCalendar>', () => {
     });
 
     tree.unmount();
+  });
+
+  describe('Add appointment request to calendar in IE', () => {
+    const oldValue = window.navigator.msSaveOrOpenBlob;
+    Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
+      value: sinon.spy(),
+      writable: true,
+    });
+    const tree = shallow(
+      <AddToCalendar appointment={vaAppointmentRequest} facility={facility} />,
+    );
+
+    const button = tree.find('button');
+
+    it('should render', () => {
+      expect(button.exists()).to.be.true;
+    });
+
+    it('should download ICS file on click', async () => {
+      Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
+        value: sinon.spy(),
+      });
+      button.props().onClick();
+      const filename = window.navigator.msSaveOrOpenBlob.firstCall.args[1];
+      expect(window.navigator.msSaveOrOpenBlob.called).to.be.true;
+      expect(filename).to.equal('VA_Appointment.ics');
+    });
+
+    it('should have an aria label', () => {
+      expect(button.props()['aria-label']).to.equal(
+        `Add to calendar on ${moment(now).format('MMMM D, YYYY')}`,
+      );
+    });
+
+    tree.unmount();
+    Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
+      value: oldValue,
+      writable: true,
+    });
   });
 });
