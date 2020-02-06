@@ -3,20 +3,25 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusElement } from '../utilities/ui';
+import { focusElement, scrollToScrollElement } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
 
+import { isValidForm } from '../validation';
+import { setFormErrors } from '../actions';
+import { reduceErrors } from '../utilities/data/formatErrors';
+
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 /*
  * Displays all the pages in a chapter on the review page
  */
-export default class ReviewCollapsibleChapter extends React.Component {
+class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
@@ -41,7 +46,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
-    this.scrollToPage(`${key}${index === null ? '' : index}`);
+    scrollToScrollElement(`${key}${index === null ? '' : index}`);
     this.focusOnPage(`${key}${index === null ? '' : index}`);
   }
 
@@ -56,20 +61,20 @@ export default class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit(key, false, index);
   };
 
-  scrollToPage(key) {
-    scroller.scrollTo(
-      `${key}ScrollElement`,
-      window.Forms.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
-    );
-  }
-
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
+
+  // Update errors after user uses "update page"
+  checkValidation = () => {
+    const { form, formConfig, pageList } = this.props;
+    const { isValid, errors } = isValidForm(form, pageList);
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: reduceErrors(errors, formConfig),
+    });
+    return { isValid, errors };
+  };
 
   render() {
     let pageContent = null;
@@ -201,6 +206,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                     ) : (
                       <ProgressButton
                         submitButton
+                        onButtonClick={() => this.checkValidation()}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
                       />
@@ -269,9 +275,24 @@ export default class ReviewCollapsibleChapter extends React.Component {
   }
 }
 
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = {
+  setFormErrors,
+};
+
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
 };
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ReviewCollapsibleChapter),
+);
+
+export { ReviewCollapsibleChapter };

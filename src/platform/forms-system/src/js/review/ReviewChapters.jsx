@@ -53,7 +53,15 @@ class ReviewChapters extends React.Component {
   };
 
   render() {
-    const { chapters, form, formContext, setValid, viewedPages } = this.props;
+    const {
+      chapters,
+      form,
+      formContext,
+      formConfig,
+      setValid,
+      viewedPages,
+      pageList,
+    } = this.props;
 
     return (
       <div className="input-section">
@@ -65,6 +73,8 @@ class ReviewChapters extends React.Component {
               chapterKey={chapter.name}
               form={form}
               formContext={formContext}
+              formConfig={formConfig}
+              pageList={pageList}
               key={chapter.name}
               onEdit={this.handleEdit}
               open={chapter.open}

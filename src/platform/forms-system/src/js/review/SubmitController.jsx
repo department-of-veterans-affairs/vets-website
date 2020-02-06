@@ -41,6 +41,12 @@ class SubmitController extends React.Component {
       errorFocus.focus();
       errorFocus.classList.add('has-focused');
     }
+    // if (
+    //   this.form?.submission?.status === 'validationError' &&
+    //   this.form?.formErrors?.errors?.length
+    // ) {
+    //   this.checkValidation();
+    // }
   }
 
   getPreSubmit = formConfig => ({
@@ -62,8 +68,20 @@ class SubmitController extends React.Component {
     router.push(expandedPageList[expandedPageList.length - 2].path);
   };
 
+  checkValidation = () => {
+    const { form, formConfig, pageList } = this.props;
+    // Validation errors in this situation are not visible, so we’d
+    // like to know if they’re common
+    const { isValid, errors } = isValidForm(form, pageList);
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: reduceErrors(errors, formConfig),
+    });
+    return { isValid, errors };
+  };
+
   handleSubmit = () => {
-    const { form, formConfig, pageList, trackingPrefix } = this.props;
+    const { form, formConfig, trackingPrefix } = this.props;
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
@@ -75,7 +93,7 @@ class SubmitController extends React.Component {
 
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
-    const { isValid, errors } = isValidForm(form, pageList);
+    const { isValid, errors } = this.checkValidation();
     if (!isValid) {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
@@ -87,7 +105,6 @@ class SubmitController extends React.Component {
       });
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
-      this.props.setFormErrors(reduceErrors(errors, formConfig));
       return;
     }
 
@@ -101,7 +118,7 @@ class SubmitController extends React.Component {
       formConfig,
       showPreSubmitError,
       renderErrorMessage,
-      errors = [],
+      formErrors = [],
     } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
     const PreSubmitBlock = (
@@ -119,7 +136,7 @@ class SubmitController extends React.Component {
         onSubmit={this.handleSubmit}
         submission={form.submission}
         renderErrorMessage={renderErrorMessage}
-        errors={errors}
+        formErrors={formErrors}
         openReviewChapter={this.props.openReviewChapter}
         setEditMode={this.props.setEditMode}
         preSubmitBlock={PreSubmitBlock}
@@ -137,7 +154,7 @@ function mapStateToProps(state, ownProps) {
   const trackingPrefix = formConfig.trackingPrefix;
   const submission = form.submission;
   const showPreSubmitError = submission.hasAttemptedSubmit;
-  const errors = form.errors;
+  const formErrors = form.formErrors;
 
   return {
     form,
@@ -149,7 +166,7 @@ function mapStateToProps(state, ownProps) {
     submission,
     showPreSubmitError,
     trackingPrefix,
-    errors,
+    formErrors,
   };
 }
 

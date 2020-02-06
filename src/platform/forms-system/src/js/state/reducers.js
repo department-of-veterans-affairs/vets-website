@@ -77,8 +77,11 @@ export default {
 
     return _.set('reviewPageView.viewedPages', viewedPages, state);
   },
-  [SET_FORM_ERRORS]: (state, action) => ({
+  [SET_FORM_ERRORS]: (state, { data = {} }) => ({
     ...state,
-    errors: action.data,
+    formErrors: {
+      errors: data.errors,
+      rawErrors: data.rawErrors,
+    },
   }),
 };

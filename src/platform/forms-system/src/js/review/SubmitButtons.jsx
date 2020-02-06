@@ -12,7 +12,7 @@ export default function SubmitButtons(props) {
     onSubmit,
     submission,
     renderErrorMessage,
-    errors,
+    formErrors,
   } = props;
   let submitButton;
   let submitMessage;
@@ -87,6 +87,7 @@ export default function SubmitButtons(props) {
       </div>
     );
   } else if (submission.status === 'validationError') {
+    const errors = formErrors?.errors || [];
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
@@ -146,7 +147,7 @@ export default function SubmitButtons(props) {
     );
   } else {
     if (renderErrorMessage) {
-      submitMessage = renderErrorMessage(errors);
+      submitMessage = renderErrorMessage(formErrors?.errors);
     } else {
       submitMessage = (
         <div className="usa-alert usa-alert-error schemaform-failure-alert">
