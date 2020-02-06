@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
+
 import {
   RESET_UPLOADS,
   ADD_FILE,
@@ -38,17 +39,17 @@ export default function claimDetailReducer(state = initialState, action) {
         docType: makeField(''),
       }));
 
-      return _.set('files', state.files.concat(files), state);
+      return set('files', state.files.concat(files), state);
     }
     case REMOVE_FILE: {
-      return _.set(
+      return set(
         'files',
         state.files.filter((file, index) => index !== action.index),
         state,
       );
     }
     case SET_UPLOADING: {
-      return _.assign(state, {
+      return Object.assign({}, state, {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
@@ -56,15 +57,15 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case SET_UPLOADER: {
-      return _.assign(state, {
+      return Object.assign({}, state, {
         uploader: action.uploader,
       });
     }
     case SET_PROGRESS: {
-      return _.set('progress', action.progress, state);
+      return set('progress', action.progress, state);
     }
     case DONE_UPLOADING: {
-      return _.assign(state, {
+      return Object.assign({}, state, {
         uploading: false,
         uploadComplete: true,
         uploader: null,
@@ -72,20 +73,20 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case SET_UPLOAD_ERROR: {
-      return _.assign(state, {
+      return Object.assign({}, state, {
         uploading: false,
         uploadError: true,
         uploader: null,
       });
     }
     case UPDATE_FIELD: {
-      return _.set(action.path, action.field, state);
+      return set(action.path, action.field, state);
     }
     case SHOW_MAIL_OR_FAX: {
-      return _.set('showMailOrFax', action.visible, state);
+      return set('showMailOrFax', action.visible, state);
     }
     case CANCEL_UPLOAD: {
-      return _.assign(state, {
+      return Object.assign({}, state, {
         uploading: false,
         uploader: null,
       });

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import set from 'platform/utilities/data/set';
 
 import {
   CLOSE_REVIEW_CHAPTER,
@@ -20,41 +20,41 @@ export default {
       action.openedChapter,
     ];
 
-    return _.set('reviewPageView.openChapters', openChapters, state);
+    return set('reviewPageView.openChapters', openChapters, state);
   },
   [CLOSE_REVIEW_CHAPTER]: (state, action) => {
     const openChapters = state.reviewPageView.openChapters.filter(
       value => value !== action.closedChapter,
     );
 
-    const newState = _.set('reviewPageView.openChapters', openChapters, state);
+    const newState = set('reviewPageView.openChapters', openChapters, state);
 
     const viewedPages = new Set(state.reviewPageView.viewedPages);
 
     action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
 
-    return _.set('reviewPageView.viewedPages', viewedPages, newState);
+    return set('reviewPageView.viewedPages', viewedPages, newState);
   },
   [SET_DATA]: (state, action) => {
-    const newState = _.set('data', action.data, state);
+    const newState = set('data', action.data, state);
     return recalculateSchemaAndData(newState);
   },
   [SET_EDIT_MODE]: (state, action) => {
     if (state.pages[action.page].showPagePerItem) {
-      return _.set(
+      return set(
         ['pages', action.page, 'editMode', action.index],
         action.edit,
         state,
       );
     }
-    return _.set(['pages', action.page, 'editMode'], action.edit, state);
+    return set(['pages', action.page, 'editMode'], action.edit, state);
   },
   [SET_PRE_SUBMIT]: (state, action) => ({
     ...state,
     data: { ...state.data, [action.preSubmitField]: action.preSubmitAccepted },
   }),
   [SET_SUBMISSION]: (state, action) => {
-    const newState = _.set(['submission', action.field], action.value, state);
+    const newState = set(['submission', action.field], action.value, state);
     if (action.extra) {
       newState.submission.extra = action.extra;
     }
@@ -62,18 +62,18 @@ export default {
     return newState;
   },
   [SET_SUBMITTED]: (state, action) => {
-    const submission = _.assign(state.submission, {
+    const submission = Object.assign({}, state.submission, {
       response: action.response,
       status: 'applicationSubmitted',
     });
 
-    return _.set('submission', submission, state);
+    return set('submission', submission, state);
   },
   [SET_VIEWED_PAGES]: (state, action) => {
     const viewedPages = new Set(state.reviewPageView.viewedPages);
 
     action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
 
-    return _.set('reviewPageView.viewedPages', viewedPages, state);
+    return set('reviewPageView.viewedPages', viewedPages, state);
   },
 };
