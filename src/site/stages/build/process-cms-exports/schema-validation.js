@@ -10,6 +10,9 @@ const { getContentModelType } = require('./helpers');
 const rawSchemasDir = path.join(__dirname, 'schemas', 'raw');
 const transformedSchemasDir = path.join(__dirname, 'schemas', 'transformed');
 
+// eslint-disable-next-line no-console
+console.log('Hello there');
+
 const validateEntityFactory = schemasDir => {
   /**
    * { page: { <schema> }, ... }
