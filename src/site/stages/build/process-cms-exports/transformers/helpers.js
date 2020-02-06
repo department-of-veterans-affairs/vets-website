@@ -40,8 +40,14 @@ function getDrupalValue(arr) {
  * need it in the future to convert weird uris like
  * `entity:node/27` to something resembling a
  * relative url
+ *
+ * If the uri begins with "internal:" it will be stripped out.
  */
 function uriToUrl(uri) {
+  const internal = 'internal:';
+  if (uri.startsWith(internal)) {
+    return uri.substring(internal.length);
+  }
   return uri;
 }
 

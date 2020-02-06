@@ -5,6 +5,6 @@
   "rootUrl": "/disability/view-disability-rating/rating",
   "template": {
     "layout": "page-react.html",
-    "vagovprod": false
+    "vagovprod": true
   }
 }

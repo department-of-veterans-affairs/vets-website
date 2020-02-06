@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export default async function createCallToActionWidget(store, widgetType) {
   const widgets = Array.from(
@@ -11,6 +12,8 @@ export default async function createCallToActionWidget(store, widgetType) {
     const {
       default: CallToActionWidget,
     } = await import(/* webpackChunkName: "cta-widget" */ '../../platform/site-wide/cta-widget');
+
+    connectFeatureToggle(store.dispatch);
 
     // since these widgets are on content pages, we don't want to focus on them
     widgets.forEach(el => {

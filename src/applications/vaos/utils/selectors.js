@@ -50,6 +50,14 @@ export function getTypeOfCare(data) {
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
 }
 
+export function getCCEType(state) {
+  const data = getFormData(state);
+
+  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+
+  return typeOfCare?.cceType;
+}
+
 export function getSystems(state) {
   return getNewAppointment(state).systems;
 }
@@ -160,8 +168,9 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.systemsStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.elibilityStatus === FETCH_STATUS.failed,
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
+    hasEligibilityError:
+      newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     systemDetails: newAppointment?.facilityDetails[data.vaSystem],
   };

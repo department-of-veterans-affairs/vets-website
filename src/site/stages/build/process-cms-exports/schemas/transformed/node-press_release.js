@@ -18,14 +18,7 @@ module.exports = {
       },
     },
     entityUrl: { $ref: 'EntityUrl' },
-    fieldAddress: {
-      type: 'object',
-      properties: {
-        locality: { type: 'string' },
-        administrativeArea: { type: 'string' },
-      },
-      required: ['locality', 'administrativeArea'],
-    },
+    fieldAddress: { $ref: 'Address' },
     fieldIntroText: { type: 'string' },
     fieldOffice: { $ref: 'transformed/node-health_care_region_page' },
     fieldPdfVersion: { $ref: 'Media' },
@@ -35,26 +28,12 @@ module.exports = {
       items: {
         type: 'object',
         properties: {
-          entity: {
-            type: 'object',
-            properties: {
-              title: { type: 'string' },
-              fieldDescription: { type: ['string', 'null'] },
-              fieldPhoneNumber: { type: 'string' },
-              fieldEmailAddress: { type: ['string', 'null'] },
-            },
-            required: [
-              'title',
-              'fieldDescription',
-              'fieldPhoneNumber',
-              'fieldEmailAddress',
-            ],
-          },
+          entity: { $ref: 'transformed/node-person_profile' },
         },
         required: ['entity'],
       },
     },
-    fieldPressReleaseDownloads: { type: 'array' },
+    fieldPressReleaseDownloads: { type: 'array', maxItems: 0 },
     fieldPressReleaseFulltext: { $ref: 'ProcessedString' },
     fieldReleaseDate: {
       type: 'object',

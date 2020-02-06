@@ -158,7 +158,8 @@ class ResultsList extends Component {
           ref={this.searchResultTitle}
         >
           No facilities found. Please try entering a different search term
-          (Street, City, State or Zip) and click search to find facilities.
+          (Street, City, State or Postal code) and click search to find
+          facilities.
         </div>
       );
     }

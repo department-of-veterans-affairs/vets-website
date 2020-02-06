@@ -565,31 +565,6 @@ describe('VAOS newAppointmentFlow', () => {
       resetFetch();
     });
   });
-  describe('ccPreferences page', () => {
-    it('should return to type of facility page', () => {
-      const state = {
-        newAppointment: {
-          data: {},
-        },
-      };
-      expect(newAppointmentFlow.ccPreferences.previous(state)).to.equal(
-        'typeOfFacility',
-      );
-    });
-    it('should return to choose audiology care type page', () => {
-      const state = {
-        newAppointment: {
-          data: {
-            facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-            typeOfCareId: '203',
-          },
-        },
-      };
-      expect(newAppointmentFlow.ccPreferences.previous(state)).to.equal(
-        'audiologyCareType',
-      );
-    });
-  });
   describe('contact info page', () => {
     it('should return to choose visit type page', () => {
       const state = {
