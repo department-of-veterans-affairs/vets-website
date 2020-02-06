@@ -50,7 +50,10 @@ export default function createCommonStore(
   appReducer = {},
   analyticsEvents = [],
 ) {
-  const reducer = Object.assign({}, appReducer, commonReducer);
+  const reducer = {
+    ...appReducer,
+    ...commonReducer,
+  };
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
@@ -62,11 +65,11 @@ export default function createCommonStore(
     ),
   );
 
-  store.reducers = reducer;
+  store.reducerMap = reducer;
 
   store.injectReducer = (key, newReducer) => {
-    store.reducers[key] = newReducer;
-    store.replaceReducer(combineReducers(store.reducers));
+    store.reducerMap[key] = newReducer;
+    store.replaceReducer(combineReducers(store.reducerMap));
   };
 
   return store;
