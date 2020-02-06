@@ -35,3 +35,12 @@ jobs:
 
       # run tests!
       - run: yarn test:unit
+  pr-check:
+    docker:
+      - image: circleci/node:10.18
+    steps:
+      - checkout
+      - show-pr-number:
+        run: |
+        echo "Your PR Number is: ${CIRCLE_PR_NUMBER}"
+        echo "Your PR link is: ${CIRCLE_PULL_REQUEST}"
