@@ -109,7 +109,8 @@ export default function SubmitButtons(props) {
                 className="error-message-focus vads-u-font-size--base"
                 tabIndex={-1}
               >
-                {errors.length === 1 ? 'This error is ' : 'These errors are '}
+                The following required
+                {errors.length === 1 ? ' item is ' : ' items are '}
                 preventing submission:
               </legend>
               <ul className="vads-u-margin-left--3">
@@ -131,7 +132,6 @@ export default function SubmitButtons(props) {
                     ) : (
                       error.message
                     )}
-                    .
                   </li>
                 ))}
               </ul>

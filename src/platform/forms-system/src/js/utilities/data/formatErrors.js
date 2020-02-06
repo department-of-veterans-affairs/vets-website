@@ -6,14 +6,15 @@
 // description
 const formatErrors = message =>
   message
-    .replace(/instance(\.\w+|\s)?/, '')
+    .replace(/(requires property|instance)(\.\w+|\s)?/g, '')
     .replace(/(view:|ui:|")/g, '')
-    .replace('requires property ', 'Missing ')
+    // Change camel case variable names into something readable.
     // Include numbers (e.g. "addressLine1" -> "address line 1")
     .replace(/[A-Z\d]/g, str => ` ${str.toLowerCase()}`)
     // "zip" code replaced with "postal" code in content, but not property names
     .replace(/zip\s(code)?/i, 'postal code')
-    .replace(' va ', ' VA ')
+    // Make abbreviations upper case
+    .replace(/\b(va|pow)\b/g, str => ` ${str.toUpperCase()} `)
     .trim()
     .replace(/^./, str => str.toUpperCase());
 
