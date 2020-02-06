@@ -1,6 +1,6 @@
 import _ from '../../../platform/utilities/data';
 import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
-// import { viewifyFields } from './utils';
+import { viewifyFields } from './utils';
 
 export const filterServiceConnected = (disabilities = []) =>
   disabilities.filter(
