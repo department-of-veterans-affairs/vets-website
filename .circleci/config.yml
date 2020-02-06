@@ -52,7 +52,7 @@ workflows:
   blah:
     jobs:
       - build
-      - pr-check
+      - pr-check:
           requires:
             - build
           # filters:
