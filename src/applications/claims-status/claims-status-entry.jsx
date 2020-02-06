@@ -18,6 +18,8 @@ import manifest from './manifest.json';
 
 import { setLastPage } from './actions/index.jsx';
 
+window.appName = manifest.entryName;
+
 const store = createCommonStore(reducer);
 
 const history = useRouterHistory(createHistory)({

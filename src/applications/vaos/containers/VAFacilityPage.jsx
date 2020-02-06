@@ -112,6 +112,7 @@ export class VAFacilityPage extends React.Component {
       facilityDetailsStatus,
       systemDetails,
       hasDataFetchingError,
+      hasEligibilityError,
     } = this.props;
 
     const notEligibleAtChosenFacility =
@@ -166,6 +167,7 @@ export class VAFacilityPage extends React.Component {
           <div className="vads-u-margin-top--2">
             <FormButtons
               onBack={this.goBack}
+              onSubmit={this.goForward}
               pageChangeInProgress={pageChangeInProgress}
             />
           </div>
@@ -190,7 +192,10 @@ export class VAFacilityPage extends React.Component {
     }
 
     const disableSubmitButton =
-      loadingFacilities || noValidVAFacilities || notEligibleAtChosenFacility;
+      loadingFacilities ||
+      noValidVAFacilities ||
+      notEligibleAtChosenFacility ||
+      hasEligibilityError;
 
     return (
       <div>
@@ -217,6 +222,7 @@ export class VAFacilityPage extends React.Component {
               <EligibilityCheckMessage eligibility={eligibility} />
             </div>
           )}
+          {hasEligibilityError && <ErrorMessage />}
           <FormButtons
             onBack={this.goBack}
             disabled={disableSubmitButton}

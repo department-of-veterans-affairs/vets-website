@@ -9,6 +9,7 @@ const displayBenefit = {
   ...benefit,
   enum: [...benefit.enum],
 };
+
 displayBenefit.enum.splice(1, 0, 'fryScholarship');
 
 export const uiSchema = {

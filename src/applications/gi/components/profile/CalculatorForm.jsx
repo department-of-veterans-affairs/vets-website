@@ -13,7 +13,7 @@ import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import recordEvent from 'platform/monitoring/record-event';
-import { ariaLabels } from '../../constants';
+import { ariaLabels, SMALL_SCREEN_WIDTH } from '../../constants';
 
 class CalculatorForm extends React.Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class CalculatorForm extends React.Component {
       this.isFullZipcode(event.value);
       this.setState({ invalidZip: '' });
     } else if (event.dirty && this.props.inputs.beneficiaryZIP.length < 5) {
-      this.setState({ invalidZip: 'Zip code must be a 5-digit number' });
+      this.setState({ invalidZip: 'Postal code must be a 5-digit number' });
     }
   };
 
@@ -138,6 +138,13 @@ class CalculatorForm extends React.Component {
         'gibct-form-field': 'gibctOtherCampusLocation ',
         'gibct-form-value': 'other location',
       });
+    }
+  };
+
+  handleInputFocus = fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      field.scrollIntoView();
     }
   };
 
@@ -208,8 +215,9 @@ class CalculatorForm extends React.Component {
     if (!this.props.displayedInputs.tuition) return null;
 
     const inStateTuitionFeesId = 'inStateTuitionFees';
+    const inStateFieldId = `${inStateTuitionFeesId}-fields`;
     const inStateTuitionInput = this.props.inputs.inState === 'no' && (
-      <div>
+      <div id={inStateFieldId}>
         <label htmlFor={inStateTuitionFeesId}>
           {this.renderLearnMoreLabel({
             text: 'In-state tuition and fees per year',
@@ -223,13 +231,15 @@ class CalculatorForm extends React.Component {
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
           onChange={this.handleInputChange}
+          onFocus={this.handleInputFocus.bind(this, inStateFieldId)}
         />
       </div>
     );
 
     const tuitionFeesId = 'tuitionFees';
+    const tuitionFeesFieldId = `${tuitionFeesId}-field`;
     return (
-      <div>
+      <div id={tuitionFeesFieldId}>
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
         </label>
@@ -247,6 +257,7 @@ class CalculatorForm extends React.Component {
           id={tuitionFeesId}
           value={formatCurrency(this.props.inputs.tuitionFees)}
           onChange={this.handleInputChange}
+          onFocus={this.handleInputFocus.bind(this, tuitionFeesFieldId)}
         />
         {inStateTuitionInput}
       </div>
@@ -256,8 +267,9 @@ class CalculatorForm extends React.Component {
   renderBooks = () => {
     if (!this.props.displayedInputs.books) return null;
     const booksId = 'books';
+    const booksFieldId = 'books-field';
     return (
-      <div>
+      <div id={booksFieldId}>
         <label htmlFor={booksId}>Books and supplies per year</label>
         <input
           type="text"
@@ -265,6 +277,7 @@ class CalculatorForm extends React.Component {
           id={booksId}
           value={formatCurrency(this.props.inputs.books)}
           onChange={this.handleInputChange}
+          onFocus={this.handleInputFocus.bind(this, booksFieldId)}
         />
       </div>
     );
@@ -291,7 +304,7 @@ class CalculatorForm extends React.Component {
     }));
     const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
     const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
-
+    const yellowRibbonFieldId = 'yellowRibbonField';
     return (
       <div>
         <RadioButtons
@@ -330,7 +343,7 @@ class CalculatorForm extends React.Component {
               value={this.props.inputs.yellowRibbonDivision}
               onChange={this.handleInputChange}
             />
-            <div>
+            <div id={yellowRibbonFieldId}>
               <label htmlFor="yellowRibbonContributionAmount">
                 Yellow Ribbon amount from school per year
               </label>
@@ -340,6 +353,7 @@ class CalculatorForm extends React.Component {
                 name="yellowRibbonAmount"
                 value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
                 onChange={this.handleInputChange}
+                onFocus={this.handleInputFocus.bind(this, yellowRibbonFieldId)}
               />
             </div>
             <AlertBox
@@ -369,8 +383,9 @@ class CalculatorForm extends React.Component {
   renderScholarships = () => {
     if (!this.props.displayedInputs.scholarships) return null;
     const scholarshipsId = 'scholarships';
+    const scholarshipsFieldId = `${scholarshipsId}-field`;
     return (
-      <div>
+      <div id={scholarshipsFieldId}>
         <label htmlFor={scholarshipsId}>
           {this.renderLearnMoreLabel({
             text: 'Scholarships (excluding Pell)',
@@ -384,6 +399,7 @@ class CalculatorForm extends React.Component {
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
           onChange={this.handleInputChange}
+          onFocus={this.handleInputFocus.bind(this, scholarshipsFieldId)}
         />
       </div>
     );
@@ -392,8 +408,9 @@ class CalculatorForm extends React.Component {
   renderTuitionAssist = () => {
     if (!this.props.displayedInputs.tuitionAssist) return null;
     const tuitionAssistId = 'tuitionAssist';
+    const tuitionAssistFieldId = `${tuitionAssistId}-field`;
     return (
-      <div>
+      <div id={tuitionAssistFieldId}>
         <label htmlFor={tuitionAssistId}>
           {this.renderLearnMoreLabel({
             text: 'How much are you receiving in military tuition assistance',
@@ -406,6 +423,7 @@ class CalculatorForm extends React.Component {
           id={tuitionAssistId}
           value={formatCurrency(this.props.inputs.tuitionAssist)}
           onChange={this.handleInputChange}
+          onFocus={this.handleInputFocus.bind(this, tuitionAssistFieldId)}
         />
       </div>
     );
@@ -544,8 +562,9 @@ class CalculatorForm extends React.Component {
 
     if (this.props.inputs.kickerEligible === 'yes') {
       const kickerAmountId = 'kickerAmount';
+      const kickerFieldId = `${kickerAmountId}-field`;
       amountInput = (
-        <div>
+        <div id={kickerFieldId}>
           <label htmlFor={kickerAmountId}>How much is your kicker?</label>
           <input
             type="text"
@@ -553,6 +572,7 @@ class CalculatorForm extends React.Component {
             id={kickerAmountId}
             value={formatCurrency(this.props.inputs.kickerAmount)}
             onChange={this.handleInputChange}
+            onFocus={this.handleInputFocus.bind(this, kickerFieldId)}
           />
         </div>
       );
@@ -641,8 +661,8 @@ class CalculatorForm extends React.Component {
 
       if (!inputs.classesOutsideUS) {
         const label = this.isCountryInternational()
-          ? "If you're taking classes in the U.S., enter the location's zip code"
-          : "Please enter the zip code where you'll take your classes";
+          ? "If you're taking classes in the U.S., enter the location's postal code"
+          : "Please enter the postal code where you'll take your classes";
 
         amountInput = (
           <div>
@@ -659,7 +679,7 @@ class CalculatorForm extends React.Component {
 
         zipcodeLocation = (
           <p aria-live="polite" aria-atomic="true">
-            <span className="sr-only">Your zip code is located in</span>
+            <span className="sr-only">Your postal code is located in</span>
             <strong>{inputs.housingAllowanceCity}</strong>
           </p>
         );
@@ -726,8 +746,9 @@ class CalculatorForm extends React.Component {
 
     if (this.props.inputs.buyUp === 'yes') {
       const buyUpAmountId = 'buyUpAmount';
+      const buyUpFieldId = `${buyUpAmountId}-field`;
       amountInput = (
-        <div>
+        <div id={buyUpFieldId}>
           <label htmlFor={buyUpAmountId}>
             How much did you pay toward buy-up (up to $600)?
           </label>
@@ -738,6 +759,7 @@ class CalculatorForm extends React.Component {
             value={formatCurrency(this.props.inputs.buyUpAmount)}
             onChange={this.handleInputChange}
             onBlur={this.resetBuyUp}
+            onFocus={this.handleInputFocus.bind(this, buyUpFieldId)}
           />
         </div>
       );

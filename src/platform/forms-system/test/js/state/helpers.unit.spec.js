@@ -1,10 +1,12 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   updateRequiredFields,
   setHiddenFields,
   removeHiddenData,
   updateSchemaFromUiSchema,
+  updateUiSchema,
   updateItemsSchema,
   replaceRefSchemas,
 } from '../../../src/js/state/helpers';
@@ -411,6 +413,52 @@ describe('Schemaform formState:', () => {
       expect(newData[0]).to.eql({ field: 'test' });
     });
   });
+  describe('updateUiSchema', () => {
+    describe('if no updateUiSchema are set', () => {
+      it('should return the input uiSchema', () => {
+        const data = {
+          first: 'Pat',
+        };
+        const uiSchema = {
+          first: {
+            'ui:title': 'First Name',
+          },
+        };
+        const newUiSchema = updateUiSchema(uiSchema, data);
+        expect(newUiSchema).to.deep.equal(uiSchema);
+      });
+    });
+    describe('if a ui:options.updateUiSchema is set', () => {
+      const updateUiSchemaStub = sinon
+        .stub()
+        .callsFake(() => ({ 'ui:title': 'FIRST NAME' }));
+      const data = {
+        first: 'Pat',
+      };
+      const uiSchema = {
+        first: {
+          'ui:title': 'First Name',
+          'ui:options': {
+            updateUiSchema: updateUiSchemaStub,
+          },
+        },
+      };
+      let newUiSchema;
+      beforeEach(() => {
+        newUiSchema = updateUiSchema(uiSchema, data);
+      });
+      it('should call the updateUiSchema function', () => {
+        expect(updateUiSchemaStub.called).to.be.true;
+      });
+      it('should return the updated uiSchema', () => {
+        expect(newUiSchema.first['ui:title']).to.equal('FIRST NAME');
+        expect(newUiSchema.first['ui:options']).to.deep.equal({
+          updateUiSchema: updateUiSchemaStub,
+        });
+      });
+    });
+  });
+
   describe('updateSchemaFromUiSchema', () => {
     it('should update schema', () => {
       const schema = {
@@ -432,6 +480,23 @@ describe('Schemaform formState:', () => {
       );
 
       expect(newSchema).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should completely replace schema', () => {
+      const schema = {
+        type: 'string',
+        enum: ['a', 'b'],
+      };
+      const uiSchema = {
+        'ui:options': {
+          replaceSchema: () => ({ type: 'string' }),
+        },
+      };
+
+      const newSchema = updateSchemaFromUiSchema(schema, uiSchema);
+
+      expect(newSchema).to.eql({ type: 'string' });
+      expect(Object.keys(newSchema)).to.eql(['type']);
       expect(newSchema).not.to.equal(schema);
     });
     it('should update schema in object', () => {

@@ -48,6 +48,7 @@ export class AppointmentsPage extends Component {
       futureStatus,
       facilityData,
       requestMessages,
+      systemClinicToFacilityMap,
     } = appointments;
 
     let content;
@@ -96,7 +97,11 @@ export class AppointmentsPage extends Component {
                     index={index}
                     appointment={appt}
                     type={type}
-                    facility={facilityData[getRealFacilityId(appt.facilityId)]}
+                    facility={
+                      systemClinicToFacilityMap[
+                        `${appt.facilityId}_${appt.clinicId}`
+                      ]
+                    }
                     showCancelButton={showCancelButton}
                     cancelAppointment={this.props.cancelAppointment}
                   />

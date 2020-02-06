@@ -67,6 +67,27 @@ describe('VAOS <VAFacilityPage>', () => {
     form.unmount();
   });
 
+  it('should go forward from single facility view', () => {
+    const openFormPage = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        singleValidVALocation
+        data={{}}
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('VAFacilityInfoMessage').exists()).to.be.true;
+    form
+      .find('FormButtons')
+      .props()
+      .onSubmit();
+    expect(routeToNextAppointmentPage.called).to.be.true;
+    form.unmount();
+  });
+
   it('should render form with facility loading message', () => {
     const openFormPage = sinon.spy();
     const schema = {
@@ -234,6 +255,39 @@ describe('VAOS <VAFacilityPage>', () => {
 
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
+    form.unmount();
+  });
+
+  it('should render data fetching error', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        data={defaultData}
+        hasDataFetchingError
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    expect(form.find('ErrorMessage').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render eligibility error', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        data={defaultData}
+        schema={defaultSchema}
+        hasEligibilityError
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('SchemaForm').exists()).to.be.true;
+    expect(form.find('ErrorMessage').exists()).to.be.true;
     form.unmount();
   });
 });

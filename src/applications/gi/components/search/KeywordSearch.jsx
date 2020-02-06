@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { WAIT_INTERVAL } from '../../constants';
+import { WAIT_INTERVAL, SMALL_SCREEN_WIDTH, KEY_CODES } from '../../constants';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export class KeywordSearch extends React.Component {
 
   handleKeyUp = e => {
     const { onFilterChange, autocomplete } = this.props;
-    if ((e.which || e.keyCode) === 13) {
+    if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
       onFilterChange(autocomplete.searchTerm);
     }
@@ -53,6 +53,13 @@ export class KeywordSearch extends React.Component {
       'gibct-autosuggest-value': searchQuery,
     });
     this.props.onFilterChange(searchQuery);
+  };
+
+  handleFocus = () => {
+    const field = document.getElementsByClassName('keyword-search')[0];
+    if (field && window.innerWidth <= SMALL_SCREEN_WIDTH) {
+      field.scrollIntoView();
+    }
   };
 
   render() {
@@ -105,6 +112,7 @@ export class KeywordSearch extends React.Component {
                   type: 'text',
                   onChange: this.handleChange,
                   onKeyUp: this.handleKeyUp,
+                  onFocus: this.handleFocus,
                   'aria-labelledby': 'institution-search-label',
                 })}
               />

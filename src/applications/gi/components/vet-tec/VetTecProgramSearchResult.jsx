@@ -2,7 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import { formatCurrency, isPresent, locationInfo } from '../../utils/helpers';
-import { renderPreferredProviderFlag } from '../../utils/render';
+import {
+  renderPreferredProviderFlag,
+  renderCautionAlert,
+  renderSchoolClosingAlert,
+} from '../../utils/render';
 
 class VetTecProgramSearchResult extends React.Component {
   render() {
@@ -17,7 +21,10 @@ class VetTecProgramSearchResult extends React.Component {
       tuitionAmount,
       lengthInHours,
       dodBah,
+      schoolClosing,
+      cautionFlag,
     } = result;
+
     const tuition = isPresent(tuitionAmount)
       ? formatCurrency(tuitionAmount)
       : 'TBD';
@@ -37,13 +44,30 @@ class VetTecProgramSearchResult extends React.Component {
             <div className="row vads-u-padding-top--1p5">
               <div className="small-12 medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{description}</Link>
+                  <a
+                    href={linkTo.pathname}
+                    aria-label={`${description} ${locationInfo(
+                      city,
+                      state,
+                      country,
+                    )}`}
+                  >
+                    {description}
+                  </a>
                 </h2>
               </div>
               <div className="small-12 medium-3 columns">
                 {renderPreferredProviderFlag(this.props.result)}
               </div>
             </div>
+            {(schoolClosing || cautionFlag) && (
+              <div className="row alert-row">
+                <div className="small-12 columns">
+                  {renderSchoolClosingAlert({ schoolClosing })}
+                  {renderCautionAlert({ cautionFlag })}
+                </div>
+              </div>
+            )}
             <div className="row vads-u-padding-top--1p5">
               <div className="small-12 medium-7 columns">
                 <div style={{ position: 'relative', bottom: 0 }}>

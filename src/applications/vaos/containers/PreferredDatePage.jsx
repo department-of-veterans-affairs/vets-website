@@ -25,11 +25,8 @@ const initialSchema = {
 
 const uiSchema = {
   preferredDate: {
-    'ui:title': "What is the earliest date you'd like to be seen?",
+    'ui:title': 'What is the earliest date you’d like to be seen?',
     'ui:widget': 'date',
-    'ui:options': {
-      hideLabelText: true,
-    },
     'ui:validations': [validateCurrentOrFutureDate],
   },
 };

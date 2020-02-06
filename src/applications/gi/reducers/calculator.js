@@ -169,7 +169,7 @@ export default function(state = INITIAL_STATE, action) {
       // institution and zipcode_rates endpoints both return this generic error
       const errorMessage =
         error.message === 'Record not found'
-          ? 'No rates for this zip code found. Try another zip code'
+          ? 'No rates for this postal code found. Try another postal code'
           : 'Something went wrong. Try again';
 
       // response mismatch - do nothing
@@ -244,7 +244,7 @@ export default function(state = INITIAL_STATE, action) {
         beneficiaryZIP !== '' &&
         !beneficiaryZIPRegExTester.exec(beneficiaryZIP)
       ) {
-        beneficiaryZIPError = 'Zip code must be a 5-digit number';
+        beneficiaryZIPError = 'Postal code must be a 5-digit number';
       } else {
         beneficiaryZIPError = '';
       }

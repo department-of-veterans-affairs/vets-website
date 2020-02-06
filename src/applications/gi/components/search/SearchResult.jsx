@@ -4,7 +4,10 @@ import { Link } from 'react-router';
 
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, locationInfo } from '../../utils/helpers';
-import { renderCautionFlag, renderSchoolClosingFlag } from '../../utils/render';
+import {
+  renderCautionAlert,
+  renderSchoolClosingAlert,
+} from '../../utils/render';
 
 export class SearchResult extends React.Component {
   estimate = ({ qualifier, value }) => {
@@ -42,16 +45,31 @@ export class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="outer">
-          {renderSchoolClosingFlag({ schoolClosing })}
-          {renderCautionFlag({ cautionFlag })}
           <div className="inner">
             <div className="row">
               <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <h2>
-                  <Link to={linkTo}>{name}</Link>
+                  <a
+                    href={linkTo.pathname}
+                    aria-label={`${name} ${locationInfo(city, state, country)}`}
+                  >
+                    {name}
+                  </a>
                 </h2>
+              </div>
+            </div>
+            {(schoolClosing || cautionFlag) && (
+              <div className="row alert-row">
+                <div className="small-12 columns">
+                  {renderSchoolClosingAlert({ schoolClosing })}
+                  {renderCautionAlert({ cautionFlag })}
+                </div>
+              </div>
+            )}
+            <div className="row">
+              <div className="small-12 usa-width-seven-twelfths medium-7 columns">
                 <div style={{ position: 'relative', bottom: 0 }}>
-                  <p className="locality">
+                  <p className="locality" id={`location-${facilityCode}`}>
                     {locationInfo(city, state, country)}
                   </p>
                   <p className="count">

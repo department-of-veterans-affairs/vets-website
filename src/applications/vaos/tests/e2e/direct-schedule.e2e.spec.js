@@ -1,8 +1,10 @@
+const moment = require('moment');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
 const VAOSHelpers = require('./vaos-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = {
+  '@disabled': true,
   after: (client, done) => {
     client.deleteCookies();
     client.end();
@@ -28,8 +30,7 @@ module.exports = {
       .click('[value="211"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText('h1', 'Choose a VA location for your appointment');
+      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client
@@ -42,23 +43,35 @@ module.exports = {
       .pause(Timeouts.normal)
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('h1', Timeouts.normal)
-      .assert.containsText('h1', 'Choose a day and time for your appointment');
+      .waitForElementPresent('#root_clinicId_0', Timeouts.normal);
+  },
+  'What is your preferred clinic?': client => {
+    client
+      .selectRadio('root_clinicId', '308')
+      .axeCheck('.main')
+      .click('.rjsf [type="submit"]')
+      .waitForElementPresent('#root_preferredDateMonth', Timeouts.normal);
+  },
+  'What is your preferred date?': client => {
+    client
+      .fillDate(
+        'root_preferredDate',
+        moment()
+          .add(1, 'days')
+          .format('YYYY-MM-DD'),
+      )
+      .axeCheck('.main')
+      .click('.rjsf [type="submit"]')
+      .waitForElementPresent('.vaos-calendar__calendars', Timeouts.normal);
   },
   'What date and time would you like to make an appointment?': client => {
-    VAOSHelpers.appointmentDateTimeTest(
-      client,
-      'Choose a reason for your appointment',
-    );
+    VAOSHelpers.appointmentDateTimeTest(client, '#root_reasonForAppointment_0');
   },
   'Reason for appointment': client => {
-    VAOSHelpers.appointmentReasonTest(client, 'Choose a type of appointment');
-  },
-  'How would you like to be seen?': client => {
-    VAOSHelpers.howToBeSeenTest(client);
+    VAOSHelpers.appointmentReasonTest(client, '#root_phoneNumber');
   },
   'Contact information': client => {
-    VAOSHelpers.contactInformationTest(client);
+    VAOSHelpers.contactInformationTest(client, '.vaos-review__header');
   },
   'Review your appointment details': client => {
     VAOSHelpers.reviewAppointmentTest(client);

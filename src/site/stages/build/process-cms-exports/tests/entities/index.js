@@ -27,16 +27,18 @@ module.exports = {
     'node.0b0e1af6-6ec0-4073-94b1-a99e0383f5c8.json',
   'node-news_story': 'node.0b130154-df25-4284-a561-f5370d589ffd.json',
   'node-health_care_local_facility':
-    'node.0b968788-cfb0-41aa-8206-2577105072fa.json',
+    'node.f875b03e-7ebc-46d9-9320-d412981cd677.json',
   'node-full_width_banner_alert':
     'node.0f3b9c81-762c-4b8a-95e3-dab08a0b9441.json',
   'node-press_release': 'node.2662d0b1-9ee5-45cc-a29f-5192681499ff.json',
+  'node-publication_listing': 'node.931072aa-94ed-4072-b3d4-d8735052a073.json',
   'node-health_care_region_page':
     'node.2bddb1a7-6fb1-4503-838d-9c2fcb51c46a.json',
   'node-event_listing': 'node.30295cab-89be-4173-a33c-8c0ca0a85d07.json',
   'node-vamc_operating_status_and_alerts':
     'node.8822bbdd-f5f8-4700-8abb-5566431bd705.json',
   'node-office': 'node.c715d441-b6cb-4067-92eb-0650e97b7d62.json',
+  'node-landing_page': 'node.18ca8756-9f78-43ef-95ea-04bd106063c5.json',
   'paragraph-link_teaser':
     'paragraph.c5fec275-9ce2-480c-af68-a6ad65e9ff65.json',
   'paragraph-q_a': 'paragraph.000f52e7-99da-44a1-8b95-2dfe2c2b2682.json',

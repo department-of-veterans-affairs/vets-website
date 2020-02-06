@@ -16,8 +16,8 @@
           "zipCode": "32826"
         },
         "instructionsToVeteran": "Please arrive 15 minutes ahead of appointment.",
-        "appointmentTime": "01/25/2020 13:30:00",
-        "timeZone": "-04:00 EDT"
+        "appointmentTime": "02/25/2020 03:45:00",
+        "timeZone": "+08:00 WITA"
       }
     },
     {
@@ -36,8 +36,8 @@
           "zipCode": "20151"
         },
         "instructionsToVeteran": "Bring your glasses",
-        "appointmentTime": "12/20/2019 14:15:00",
-        "timeZone": "-04:00 EDT"
+        "appointmentTime": "02/20/2020 14:15:00",
+        "timeZone": "UTC"
       }
     },
     {
@@ -56,8 +56,8 @@
           "zipCode": "45405"
         },
         "instructionsToVeteran": "Please arrive 20 minutes before the start of your appointment",
-        "appointmentTime": "12/22/2019 18:20:00",
-        "timeZone": "-04:00 EDT"
+        "appointmentTime": "02/05/2020 19:30:00",
+        "timeZone": "-09:00 AKST"
       }
     },
     {

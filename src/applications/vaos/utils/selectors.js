@@ -42,10 +42,20 @@ export function getTypeOfCare(data) {
     data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
-    return AUDIOLOGY_TYPES_OF_CARE.find(care => care.id === data.audiologyType);
+    return AUDIOLOGY_TYPES_OF_CARE.find(
+      care => care.ccId === data.audiologyType,
+    );
   }
 
   return TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+}
+
+export function getCCEType(state) {
+  const data = getFormData(state);
+
+  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+
+  return typeOfCare?.cceType;
 }
 
 export function getSystems(state) {
@@ -158,8 +168,9 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.systemsStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.elibilityStatus === FETCH_STATUS.failed,
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
+    hasEligibilityError:
+      newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     systemDetails: newAppointment?.facilityDetails[data.vaSystem],
   };

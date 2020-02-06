@@ -116,7 +116,7 @@ class AddressForm extends React.Component {
     return (
       <div>
         {isMailingAddress && (
-          <div>
+          <div className="form-checkbox">
             <input
               type="checkbox"
               name="is-military-base-mailing-address"
@@ -236,7 +236,7 @@ class AddressForm extends React.Component {
           <ErrorableTextInput
             errorMessage={errorMessages.zipCode}
             additionalClass="usa-input-medium"
-            label={'Zip code'}
+            label={'Postal code'}
             name="postalCode"
             charMax={5}
             autocomplete="postal-code"

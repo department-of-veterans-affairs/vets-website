@@ -53,7 +53,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-22T20:36:35+00:00",
+            "value": "2019-11-05T12:52:48+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -137,41 +137,45 @@
     ],
     "field_email_subscription": [],
     "field_facebook": [],
+    "field_facility_classification": [
+        {
+            "value": "1"
+        }
+    ],
     "field_facility_hours": [
         {
-            "value": {
-                "0": [
+            "value": [
+                [
                     "Mon",
                     "24\/7"
                 ],
-                "1": [
+                [
                     "Tue",
                     "24\/7"
                 ],
-                "2": [
+                [
                     "Wed",
                     "24\/7"
                 ],
-                "3": [
+                [
                     "Thu",
                     "24\/7"
                 ],
-                "4": [
+                [
                     "Fri",
                     "24\/7"
                 ],
-                "5": [
+                [
                     "Sat",
                     "24\/7"
                 ],
-                "6": [
+                [
                     "Sun",
                     "24\/7"
-                ],
-                "caption": "n\/a"
-            },
+                ]
+            ],
             "format": null,
-            "caption": "n\/a"
+            "caption": null
         }
     ],
     "field_facility_locator_api_id": [
@@ -331,9 +335,30 @@
             "target_type": "node",
             "target_uuid": "0b0e1af6-6ec0-4073-94b1-a99e0383f5c8"
         },
+        [],
         {
             "target_type": "node",
-            "target_uuid": "a5a6a401-8c9e-4aba-846f-590d408510ac"
+            "target_uuid": "f33134e5-6ced-4e92-8a77-ec6a67913264"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "15c1bcda-9fa7-4b0f-b238-b0c1d162db0c"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "0699952f-9e65-4654-a90a-8501fe076ae2"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "4dfc146c-7010-4e16-8782-e747a504eeb5"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "61516de8-202a-4ee5-859b-8dd5f7ee92ea"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "644d5e70-1538-4979-8449-f52b4c2a5ca5"
         }
     ],
     "field_location_services": [

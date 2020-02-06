@@ -5,32 +5,7 @@ module.exports = {
     entityType: { enum: ['node'] },
     entityBundle: { enum: ['event'] },
     title: { type: 'string' },
-    entityUrl: {
-      // Probably should pull this out into a common schema
-      type: 'object',
-      properties: {
-        breadcrumb: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              url: {
-                type: 'object',
-                properties: {
-                  path: { type: 'string' },
-                  routed: { type: 'boolean' },
-                },
-                required: ['path', 'routed'],
-              },
-              text: { type: 'string' },
-            },
-            required: ['url', 'text'],
-          },
-        },
-        path: { type: 'string' },
-      },
-      required: ['breadcrumb', 'path'],
-    },
+    entityUrl: { $ref: 'EntityUrl' },
     entityMetaTags: {
       // Probably should be a common schema...except it's got
       // __typename instead of type, so it's different.
@@ -60,26 +35,10 @@ module.exports = {
       },
     },
     fieldAdditionalInformationAbo: {
-      type: ['object', 'null'],
-      properties: {
-        processed: { type: 'string' },
-      },
+      oneOf: [{ $ref: 'ProcessedString' }, { type: 'null' }],
     },
-    fieldAddress: {
-      type: ['object', 'null'],
-      properties: {
-        addressLine1: { type: 'string' },
-        addressLine2: { type: 'string' },
-        locality: { type: 'string' },
-        administrativeArea: { type: 'string' },
-      },
-    },
-    fieldBody: {
-      type: 'object',
-      properties: {
-        processed: { type: 'string' },
-      },
-    },
+    fieldAddress: { $ref: 'Address' },
+    fieldBody: { $ref: 'ProcessedString' },
     fieldDate: {
       type: 'object',
       properties: {

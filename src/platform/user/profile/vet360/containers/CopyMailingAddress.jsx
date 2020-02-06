@@ -34,7 +34,7 @@ class CopyMailingAddress extends React.Component {
     if (this.props.hasEmptyMailingAddress) return <div />;
     return (
       <div className="copy-mailing-address-to-residential-address">
-        <div className="form-checkbox-buttons">
+        <div className="form-checkbox-buttons form-checkbox">
           <input
             type="checkbox"
             name="copy-mailing-address-to-residential-address"
@@ -53,7 +53,7 @@ class CopyMailingAddress extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const { convertNextValueToCleanData } = ownProps;
+  const { convertNextValueToCleanData, useNewAddressForm } = ownProps;
   const mailingAddress = selectVet360Field(state, FIELD_NAMES.MAILING_ADDRESS);
   const hasEmptyMailingAddress = isEmptyAddress(mailingAddress);
 
@@ -62,17 +62,26 @@ export function mapStateToProps(state, ownProps) {
     FIELD_NAMES.RESIDENTIAL_ADDRESS,
   ).value;
 
-  const checked =
-    !hasEmptyMailingAddress &&
-    isEqual(
+  const isChecked = () => {
+    if (hasEmptyMailingAddress) {
+      return false;
+    }
+    if (useNewAddressForm) {
+      return isEqual(
+        pick(mailingAddress, ADDRESS_PROPS),
+        pick(residentialAddress, ADDRESS_PROPS),
+      );
+    }
+    return isEqual(
       pick(convertNextValueToCleanData(mailingAddress), ADDRESS_PROPS),
       pick(residentialAddress, ADDRESS_PROPS),
     );
+  };
 
   return {
     mailingAddress,
     hasEmptyMailingAddress,
-    checked,
+    checked: isChecked(),
   };
 }
 

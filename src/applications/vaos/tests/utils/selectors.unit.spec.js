@@ -15,6 +15,7 @@ import {
   getPreferredDate,
   getTypeOfCare,
   getCancelInfo,
+  getCCEType,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -99,6 +100,26 @@ describe('VAOS selectors', () => {
       expect(newState.typeOfCare).to.equal('Pharmacy');
       expect(newState.loadingSystems).to.be.true;
     });
+    it('should return eligibility error flag', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaSystem: '983',
+          },
+          facilities: {},
+          eligibility: {},
+          systems: [{}],
+          facilityDetails: {},
+          eligibilityStatus: 'failed',
+        },
+      };
+
+      const newState = getFacilityPageInfo(state);
+      expect(newState.hasEligibilityError).to.be.true;
+    });
   });
 
   describe('getChosenFacilityInfo', () => {
@@ -175,6 +196,19 @@ describe('VAOS selectors', () => {
   });
 
   describe('getTypeOfCare', () => {
+    it('get sleep type of care', () => {
+      const data = {
+        typeOfCareId: 'SLEEP',
+        typeOfSleepCareId: '349',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('349');
+      expect(typeOfCare.name).to.equal(
+        'Continuous Positive Airway Pressure (CPAP)',
+      );
+    });
+
     it('get audiology type of care', () => {
       const data = {
         typeOfCareId: '203',
@@ -183,7 +217,7 @@ describe('VAOS selectors', () => {
       };
 
       const typeOfCare = getTypeOfCare(data);
-      expect(typeOfCare.id).to.equal('CCAUDHEAR');
+      expect(typeOfCare.ccId).to.equal('CCAUDHEAR');
     });
 
     it('get podiatry type of care', () => {
@@ -344,6 +378,20 @@ describe('VAOS selectors', () => {
       expect(cancelInfo.facility).to.equal(
         state.appointments.facilityData['123'],
       );
+    });
+  });
+  describe('getCCEType', () => {
+    it('should return cce type', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: {
+            typeOfCareId: '203',
+          },
+        },
+      };
+      const cceType = getCCEType(state);
+      expect(cceType).to.equal('Audiology');
     });
   });
 });

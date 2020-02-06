@@ -66,7 +66,7 @@ export default function ButtonContainer(props) {
           onClick={() =>
             isLoggedIn &&
             recordEvent({
-              event: 'ebenefits-navigation',
+              event: 'nav-ebenefits-click',
             })
           }
         >

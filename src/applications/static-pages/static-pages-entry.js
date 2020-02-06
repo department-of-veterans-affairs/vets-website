@@ -43,6 +43,9 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 
+// Set the app name header when using the apiRequest helper
+window.appName = 'static-pages';
+
 // Set further errors to have the appropriate source tag
 Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 
