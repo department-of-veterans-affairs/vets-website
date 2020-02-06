@@ -51,6 +51,6 @@ workflows:
   blah:
     jobs:
       - pr-check
-        filters:
-          branches:
-            ignore: master
+          filters:
+            branches:
+              ignore: master
