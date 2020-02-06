@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import { validateMatch } from 'platform/forms-system/src/js/validation';
@@ -42,8 +40,8 @@ export default function createContactInformationPage(
           'ui:options': {
             hideOnReview: true,
           },
-        }),
-        homePhone: _.assign(phoneUI('Primary telephone number'), {
+        },
+        homePhone: Object.assign({}, phoneUI('Primary telephone number'), {
           'ui:required': form => form.preferredContactMethod === 'phone',
         }),
         mobilePhone: phoneUI('Secondary telephone number'),
