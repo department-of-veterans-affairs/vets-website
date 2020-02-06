@@ -35,6 +35,7 @@ jobs:
 
       # run tests!
       - run: yarn test:unit
+
   pr-check:
     docker:
       - image: circleci/node:10.18
@@ -51,6 +52,6 @@ workflows:
   blah:
     jobs:
       - pr-check
-          filters:
-            branches:
-              ignore: master
+          # filters:
+          #   branches:
+          #     ignore: master
