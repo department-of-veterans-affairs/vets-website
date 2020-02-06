@@ -5,12 +5,15 @@ import { pageNames } from './pageList';
 const alertContent = (
   <>
     <p>
-      If you disagree with a VA decision on your claim, you can appeal all or
-      some of the decision. To appeal, you can file a Supplemental Claim or a
-      Notice of Disagreement.
+      If you disagree with a VA decision on your claim, you can file a
+      Supplemental Claim for all or some of the decisions. This is the only
+      decision review option available, as other options needed to be filed
+      within a year of the date of the decision letter.
     </p>
     <p>
-      <a href="/disability/file-an-appeal">Find out how to file an appeal</a>
+      <a href="/decision-reviews/supplemental-claim/">
+        Find out how to file a Supplemental Claim
+      </a>
     </p>
   </>
 );
@@ -18,7 +21,7 @@ const alertContent = (
 const FileAppealPage = () => (
   <AlertBox
     status="warning"
-    headline="You’ll need to file an appeal"
+    headline="You’ll need to file a Supplemental Claim"
     content={alertContent}
   />
 );

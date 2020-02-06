@@ -5,9 +5,14 @@ import { pageNames } from './pageList';
 const alertContent = (
   <>
     <p>
-      If you disagree with a VA decision on your claim, you can request a
-      decision review on all or some of the decision. You have 1 year from the
-      date on your decision to request a review.
+      In most situations, you have one year from the date on your decision
+      letter to request a decision review. The deadline to file may be different
+      if you have a fiduciary claim, a{' '}
+      <a href="/decision-reviews/multiple-party-claims/">
+        claim contested by multiple parties
+      </a>
+      , or if you’re filing a{' '}
+      <a href="/decision-reviews/#supplemental-claim">Supplemental Claim</a>.
     </p>
     <p>
       <a href="/decision-reviews">Find out how to request a decision review</a>
