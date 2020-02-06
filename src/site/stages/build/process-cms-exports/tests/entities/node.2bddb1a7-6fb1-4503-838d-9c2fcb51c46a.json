@@ -18,19 +18,19 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-30T22:10:19+00:00",
+            "value": "2019-11-13T16:14:22+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "767b1642-e148-4552-bfac-03cc93126cfa"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [
         {
-            "value": "Updated medical records link text"
+            "value": "Updating email list links."
         }
     ],
     "status": [
@@ -57,7 +57,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-30T22:10:19+00:00",
+            "value": "2019-11-13T16:14:22+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -318,10 +318,6 @@
         },
         {
             "target_type": "node",
-            "target_uuid": "03e3ee49-1e35-4aff-bf0d-e4040f1be50a"
-        },
-        {
-            "target_type": "node",
             "target_uuid": "fa8d2d15-0e41-4ef0-a606-c0da352fe76d"
         },
         {
@@ -375,7 +371,7 @@
     "field_instagram": [],
     "field_intro_text": [
         {
-            "value": "At VA Pittsburgh Healthcare System, our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers. Find a health facility near you, and manage your health online. Sign up for community events and updates. "
+            "value": "VA Pittsburgh Healthcare System proudly serves Veterans, their families and caregivers. Your needs guide our experienced health care providers. We make it easy for you to manage your health care online, find a VA health care facility near you, and sign up for community events and updates."
         }
     ],
     "field_intro_text_events_page": [
@@ -426,8 +422,20 @@
             "target_uuid": "5e241e3f-4e29-468f-97ab-3bf2593a2b70"
         }
     ],
-    "field_link_facility_emerg_list": [],
-    "field_link_facility_news_list": [],
+    "field_link_facility_emerg_list": [
+        {
+            "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_396",
+            "title": "",
+            "options": []
+        }
+    ],
+    "field_link_facility_news_list": [
+        {
+            "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_94",
+            "title": "",
+            "options": []
+        }
+    ],
     "field_links": [
         {
             "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_94",
