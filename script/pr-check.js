@@ -30,15 +30,6 @@ const octokit = new Octokit({
 
 console.log(PR);
 
-function reviewComments() {
-  const comments = [];
-  additions.forEach(line => {
-    const [filename, offset] = line.split(':');
-    comments.push({ path: filename, position: offset, body: 'Testing' });
-  });
-  return comments;
-}
-
 // First, create a PR review to apply comments to
 // let reviewId = null;
 octokit.pulls.createReview({
@@ -47,7 +38,10 @@ octokit.pulls.createReview({
   body: 'Some issues found',
   event: 'COMMENT',
   pull_number: PR,
-  comments: reviewComments(),
+  comments: additions.map(line => {
+    const [filename, offset] = line.split(':');
+    return { path: filename, position: offset, body: 'Testing' };
+  }),
 });
 // .then(response => {
 //   reviewId = response.id;
