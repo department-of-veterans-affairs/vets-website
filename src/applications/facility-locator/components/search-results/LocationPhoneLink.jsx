@@ -37,9 +37,9 @@ const renderPhoneNumber = (
   );
 };
 
-const LocationPhoneLink = ({ location, from }) => {
+const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
-
+  const isCCProvider = query && query.facilityType === LocationType.CC_PROVIDER;
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
@@ -51,9 +51,11 @@ const LocationPhoneLink = ({ location, from }) => {
           'phone',
           true,
         )}
-        <p>
-          If you don’t have a referral, contact your local VA medical center.
-        </p>
+        {isCCProvider && (
+          <p>
+            If you don’t have a referral, contact your local VA medical center.
+          </p>
+        )}
       </div>
     );
   }
