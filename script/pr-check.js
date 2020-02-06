@@ -1,4 +1,5 @@
 const { spawnSync } = require('child_process');
+const { Octokit } = require('@octokit/rest');
 
 const diffOut = spawnSync('git', ['diff', 'origin/master...']);
 const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
@@ -12,6 +13,40 @@ const grepOut = spawnSync(
 
 /* eslint-disable no-console */
 console.log('spawnSync out: ', grepOut.stdout.toString());
+const additions = grepOut.stdout.toString().split('\n');
+
+// Remove the last item that is just an empty string
+additions.pop();
+
+console.log(additions);
+
+const { GITHUB_TOKEN, CIRCLE_SHA1, CIRCLE_PULL_REQUEST } = process.env;
+const PR = CIRCLE_PULL_REQUEST.split('/').pop();
+
+const octokit = new Octokit({
+  auth: GITHUB_TOKEN,
+});
+
+additions.forEach(line => {
+  const [filename, lineNumber] = line.split(':');
+  console.log(filename, lineNumber);
+
+  /* eslint-disable camelcase */
+  octokit.pulls.createComment({
+    owner: 'department-of-veterans-affairs',
+    repo: 'vets-website',
+    pull_number: PR,
+    body: 'Flagging for manual review',
+    commit_id: CIRCLE_SHA1,
+    path: filename,
+    line: parseInt(lineNumber, 10),
+    side: 'RIGHT',
+    mediaType: {
+      previews: ['comfort-fade'],
+    },
+  });
+  /* eslint-enable camelcase */
+});
 
 /*
 exec
