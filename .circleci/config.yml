@@ -54,7 +54,7 @@ workflows:
       - build
       - pr-check
           requires:
-            build
+            - build
           # filters:
           #   branches:
           #     ignore: master
