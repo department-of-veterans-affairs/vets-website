@@ -41,6 +41,8 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
+      OVERALL_REVIEW_COMMENT: ESLint is disabled - manual review required.
+      LINE_COMMENT: here
     steps:
       - checkout
       - run:

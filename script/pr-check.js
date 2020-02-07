@@ -3,7 +3,13 @@
 const { spawnSync } = require('child_process');
 const { Octokit } = require('@octokit/rest');
 
-const { CODE_PATTERN, GITHUB_TOKEN, CIRCLE_PULL_REQUEST } = process.env;
+const {
+  CODE_PATTERN,
+  GITHUB_TOKEN,
+  CIRCLE_PULL_REQUEST,
+  OVERALL_REVIEW_COMMENT,
+  LINE_COMMENT,
+} = process.env;
 const PR = CIRCLE_PULL_REQUEST.split('/').pop();
 
 function getAdditions(pattern) {
@@ -37,11 +43,11 @@ console.log(PR);
 octokit.pulls.createReview({
   owner: 'department-of-veterans-affairs',
   repo: 'vets-website',
-  body: 'Some issues found',
+  body: OVERALL_REVIEW_COMMENT,
   event: 'COMMENT',
   pull_number: PR,
   comments: additions.map(line => {
     const [filename, offset] = line.split(':');
-    return { path: filename, position: offset, body: 'Testing' };
+    return { path: filename, position: offset, body: LINE_COMMENT };
   }),
 });
