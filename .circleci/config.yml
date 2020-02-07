@@ -79,11 +79,11 @@ workflows:
   version: 2
   blah:
     jobs:
-      - pr-check
+      - pr-check:
           code_pattern: (/* eslint-disable)|(// eslint-disable)
           overall_review_comment: ESLint is disabled - manual review required.
           line_comment: here
-      - pr-check
+      - pr-check:
           code_pattern: Sentry\.
           overall_review_comment: Data logged to Sentry - check for PII
           line_comment: here
