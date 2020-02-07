@@ -108,7 +108,7 @@ class SignInModal extends React.Component {
             </p>
             <p>
               If you continue to have trouble, please call the DS Logon help
-              desk at <a href="tel:+18005389552">(800) 538-9552</a> .
+              desk at <a href="tel:+18005389552">(800) 538-9552</a>.
             </p>
           </>,
         )}
