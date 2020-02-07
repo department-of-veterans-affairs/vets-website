@@ -67,7 +67,7 @@ workflows:
       - lint
       - unit-test
       - security-audit
-      - build
+      - build:
           requires:
             - lint
             - unit-test
