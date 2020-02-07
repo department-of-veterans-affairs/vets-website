@@ -26,6 +26,7 @@ function addFileAndOffset(diffOutput) {
   const lines = diffOutput.split('\n');
   let path = null;
   let position = null;
+  let previous = null;
   const output = [];
 
   lines.forEach(line => {
@@ -36,7 +37,7 @@ function addFileAndOffset(diffOutput) {
 
     if (match) {
       path = match[2];
-    } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@$/.test(line)) {
+    } else if (/\+\+\+ b.*/.test(previous) && /@@ .* @@.*/.test(line)) {
       position = 1;
     } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@.*/.test(line)) {
       position++;
@@ -44,6 +45,7 @@ function addFileAndOffset(diffOutput) {
       output.push(`${path}:${position}:${line}`);
       position++;
     }
+    previous = line;
   });
   return output;
 }
