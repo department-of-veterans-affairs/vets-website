@@ -12,7 +12,6 @@ import OrderHistory from '../containers/OrderHistory';
 import VeteranInformationPage from '../components/VeteranInformationPage';
 import prefillTransformer from '../prefill-transformer';
 
-
 const {
   fullName,
   ssn,
