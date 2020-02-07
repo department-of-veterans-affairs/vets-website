@@ -62,6 +62,10 @@ jobs:
       OVERALL_REVIEW_COMMENT: ESLint is disabled - manual review required.
       LINE_COMMENT: here
     steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn install
       - run:
           name: Show PR number
           command: |
@@ -75,10 +79,7 @@ workflows:
   version: 2
   blah:
     jobs:
-      - install-dependencies
-      - eslint-check:
-          requires:
-            - install-dependencies
+      - eslint-check
           # filters:
           #   branches:
           #     ignore: master
