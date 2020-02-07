@@ -93,7 +93,6 @@ function checkStatus(guid) {
   return apiRequest(`/gi_bill_feedbacks/${guid}`, { headers }).catch(res => {
     if (res instanceof Error) {
       Sentry.captureException(res);
-      Sentry.captureMessage('vets_gi_bill_feedbacks_poll_client_error');
       recordEvent({ event: `${trackingPrefix}submission-failed` });
 
       // keep polling because we know they submitted earlier
