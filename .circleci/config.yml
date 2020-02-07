@@ -36,7 +36,6 @@ jobs:
     docker:
       - image: circleci/node:10.15.3
     environment:
-      MOCHA_FILE: ~/test-results/mocha/test-results.xml
     steps:
       - checkout
       - restore_cache:
@@ -48,12 +47,15 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run: mkdir -p ./test-results/mocha
       - run:
           command: yarn test:coverage
+          environment:
+            MOCHA_FILE: ./test-results/mocha/test-results.xml
       - store_test_results:
-          path: ~/test-results
+          path: ./test-results
       - store_artifacts:
-          path: $MOCHA_FILE
+          path: ./test-results/mocha/test-results.xml
 
   security-audit:
     docker:
@@ -76,7 +78,7 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: yarn build
+      - run: yarn build-webpack
 
 workflows:
   version: 2
