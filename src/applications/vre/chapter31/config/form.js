@@ -5,6 +5,7 @@ import fullSchema31 from 'vets-json-schema/dist/28-1900-schema.json';
 import * as address from '../../../../platform/forms/definitions/address';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import DD214Description from '../components/DD214Description';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -391,15 +392,12 @@ const formConfig = {
           uiSchema: {
             daytimePhone: phoneUI('Daytime phone number'),
             eveningPhone: phoneUI('Evening phone number'),
-            email: {
-              'ui:title': 'Email address',
-            },
-            'view:confirmEmail': {
-              'ui:title': 'Re-enter email address',
+            email: emailUI(),
+            'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
               'ui:options': {
                 hideOnReview: true,
               },
-            },
+            }),
             'ui:validations': [validateMatch('email', 'view:confirmEmail')],
           },
           schema: {
