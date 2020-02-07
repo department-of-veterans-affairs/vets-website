@@ -43,15 +43,19 @@ function labelAdditions(diffOutput) {
       return;
     }
     const match = line.match(/\+\+\+ (b\/)?(.*$)/);
-
     if (match) {
       path = match[2];
     } else if (/\+\+\+ b.*/.test(previous) && /@@ .* @@.*/.test(line)) {
+      // Only reset the position if our current line is the beginning of a diff chunk
+      // AND if the previous line marked the beginning of a new file
       position = 1;
     } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@.*/.test(line)) {
+      // Increment the position when we reach the beginning of a new diff chunk
       position++;
     } else if (/^([ +-]).*/.test(line)) {
+      // Only add to the output if this line of content is an addition (begins with a "+")
       if (/^[+].*/.test(line)) output.push(`${path}:${position}:${line}`);
+      // Increment position for each line of actual content in the diff
       position++;
     }
     previous = line;
