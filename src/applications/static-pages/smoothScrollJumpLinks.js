@@ -41,7 +41,7 @@ export default () => {
     }
 
     // Update the URL hash to equal the href since we did `event.preventDefault()` above.
-    // WARNING: Do not update window.location.hash, otherwise it will autoscroll without 'smooth' behavior.
+    // WARNING: Do not update window.location.hash directly, otherwise it will autoscroll without 'smooth' behavior.
     history.pushState({}, '', href);
   });
 };
