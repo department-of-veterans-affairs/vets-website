@@ -169,11 +169,7 @@ export function uiSchema(
             stateList,
             schemaUpdate.properties,
           );
-          schemaUpdate.properties = set(
-            'state.enumNames',
-            labelList,
-            withEnum,
-          );
+          schemaUpdate.properties = set('state.enumNames', labelList, withEnum);
 
           // all the countries with state lists require the state field, so add that if necessary
           if (

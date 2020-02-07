@@ -269,10 +269,7 @@ class ObjectField extends React.Component {
 
           // if fields have expandUnder, but are the only item, that means the
           // field they’re expanding under is hidden, and they should be hidden, too
-          return !get(
-            [objectFields[0], 'ui:options', 'expandUnder'],
-            uiSchema,
-          )
+          return !get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
             ? renderProp(objectFields[0], index)
             : undefined;
         })}
