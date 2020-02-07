@@ -1,4 +1,4 @@
-const camelCase = require('lodash/fp/camelCase');
+const camelCase = require('lodash/camelCase');
 // Query strings to search for
 const queryParamToBeChanged = [
   'CROP_FREEFORM',
