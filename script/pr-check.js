@@ -21,6 +21,33 @@ const octokitDefaults = {
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,
 });
+// Modelled after a bash function from this SO answer:
+//   .circleci/config.yml:
+function addFileAndOffset(diffOutput) {
+  const lines = diffOutput.split('\n');
+  let path = null;
+  let position = null;
+  const output = [];
+
+  lines.forEach(line => {
+    if (/--- (a\/)?.*/.test(line)) {
+      return;
+    }
+    const match = line.match(/\+\+\+ (b\/)?(.*$)/);
+
+    if (match) {
+      path = match[2];
+    } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@$/.test(line)) {
+      position = 1;
+    } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@.*/.test(line)) {
+      position++;
+    } else if (/^([ +-]).*/.test(line)) {
+      output.push(`${path}:${position}:${line}`);
+      position++;
+    }
+  });
+  return output.join('\n');
+}
 
 async function getAdditions(pattern) {
   const { data } = await octokit.pulls.get({
@@ -29,15 +56,12 @@ async function getAdditions(pattern) {
       format: 'diff',
     },
   });
-  const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
-    input: data,
+
+  const grep = spawnSync('grep', ['-P', pattern], {
+    input: addFileAndOffset(data),
   });
 
-  const grepOut = spawnSync('grep', ['-P', pattern], {
-    input: addLinesOut.stdout,
-  });
-
-  const additions = grepOut.stdout.toString().split('\n');
+  const additions = grep.stdout.toString().split('\n');
 
   // Remove the last item that is just an empty string
   additions.pop();
