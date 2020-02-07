@@ -5,7 +5,7 @@ import moment from 'moment';
 import CalendarWidget from './calendar/CalendarWidget';
 import { CALENDAR_INDICATOR_TYPES } from '../utils/constants';
 
-const DateTimeRequestField = ({ onChange, formData }) => (
+const DateTimeRequestField = ({ onChange, formData, formContext }) => (
   <CalendarWidget
     monthsToShowAtOnce={2}
     multiSelect
@@ -37,6 +37,7 @@ const DateTimeRequestField = ({ onChange, formData }) => (
         },
       ],
     }}
+    validationError={formContext?.validationError}
   />
 );
 

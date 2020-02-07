@@ -12,6 +12,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
 import DateTimeSelectField from '../components/DateTimeSelectField';
@@ -98,10 +99,13 @@ export class DateTimeSelectPage extends React.Component {
       });
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
     } else {
-      this.setState({
-        validationError:
-          'Please select at least once preferred date for your appointment. You can select up to three dates.',
-      });
+      this.setState(
+        {
+          validationError:
+            'Please select a preferred date for your appointment',
+        },
+        () => scrollAndFocus('#vaos-calendar__validation-msg'),
+      );
     }
   };
 

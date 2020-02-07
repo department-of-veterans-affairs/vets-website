@@ -8,6 +8,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
 import DateTimeRequestField from '../components/DateTimeRequestField';
@@ -59,6 +60,11 @@ const uiSchema = {
 };
 
 export class DateTimeRequestPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { validationError: null };
+  }
+
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
@@ -71,7 +77,16 @@ export class DateTimeRequestPage extends React.Component {
 
   goForward = () => {
     if (this.props.data.calendarData?.selectedDates?.length) {
+      this.setState({ validationError: null });
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    } else {
+      this.setState(
+        {
+          validationError:
+            'Please select at least once preferred date for your appointment. You can select up to three dates.',
+        },
+        () => scrollAndFocus('#vaos-calendar__validation-msg'),
+      );
     }
   };
 
@@ -94,6 +109,7 @@ export class DateTimeRequestPage extends React.Component {
           onChange={newData => {
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
+          formContext={{ validationError: this.state.validationError }}
           data={data}
         >
           <FormButtons

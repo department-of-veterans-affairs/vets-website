@@ -348,7 +348,9 @@ export default class CalendarWidget extends Component {
           </div>
         )}
         <div className={calendarCss}>
-          {showError && <span>{validationError}</span>}
+          {showError && (
+            <span id="vaos-calendar__validation-msg">{validationError}</span>
+          )}
           {months.map(
             (month, index) =>
               month.format('YYYY-MM') <= maxMonth ? (

@@ -96,7 +96,7 @@
     margin: 0;
 
     &:hover {
-      border-color: $color-primary-darker;
+      border: 1px solid $color-primary-darker;
     }
   }
 
@@ -191,6 +191,10 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+}
+
+.usa-input-error .vaos-calendar__options {
+  padding-left: 1.5rem;
 }
 
 .vaos-calendar__option-cell {
