@@ -4,6 +4,7 @@ import {
   // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
   // getDLCSocksDataApi,
   updateDLCDataApi,
+  getVeteranInformation,
 } from '../api';
 import {
   FETCH_ACCESSORIES_DATA_FAILURE,
@@ -12,6 +13,8 @@ import {
   FETCH_BATTERY_DATA_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
+  FETCH_VETERAN_INFORMATION,
+  FETCH_VETERAN_INFORMATION_FAILURE,
 } from '../constants';
 
 export const fetchBatteryDataSuccess = data => ({
@@ -51,13 +54,22 @@ export const updateDataFailure = () => ({
   type: UPDATE_DATA_FAILURE,
 });
 
+export const fetchVeteranInformation = data => ({
+  type: FETCH_VETERAN_INFORMATION,
+  data,
+});
+
+export const fetchVeteranInformationFailure = () => ({
+  type: FETCH_VETERAN_INFORMATION_FAILURE,
+});
+
 export const getDLCBatteryData = () => async dispatch => {
   try {
     const batteryData = await getDLCBatteryDataApi();
     dispatch(fetchBatteryDataSuccess(batteryData));
   } catch (error) {
     dispatch(
-      fetchBatteryDataFailure(error, 'failed to retrieve data from api'),
+      fetchBatteryDataFailure(error, 'failed to retrieve data from the api'),
     );
   }
 };
@@ -78,7 +90,24 @@ export const getDLCAccessoriesData = () => async dispatch => {
     dispatch(fetchAccessoriesDataSuccess(accessoriesData));
   } catch (error) {
     dispatch(
-      fetchAccessoriesDataFailure(error, 'failed to retrieve data from api'),
+      fetchAccessoriesDataFailure(
+        error,
+        'failed to retrieve data from the api',
+      ),
+    );
+  }
+};
+
+export const getVeteranInformationData = () => async dispatch => {
+  try {
+    const veteranData = await getVeteranInformation();
+    dispatch(fetchVeteranInformation(veteranData));
+  } catch (error) {
+    dispatch(
+      fetchVeteranInformationFailure(
+        error,
+        'failed to retrieve data from the api',
+      ),
     );
   }
 };

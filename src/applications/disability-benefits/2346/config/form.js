@@ -3,11 +3,15 @@
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import ConfirmAddressPage from '../components/ConfirmAddress';
 import OrderCommentPage from '../components/OrderCommentPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import OrderHistory from '../containers/OrderHistory';
+import VeteranInformationPage from '../components/VeteranInformationPage';
+import prefillTransformer from '../prefill-transformer';
+
 
 const {
   fullName,
@@ -42,6 +46,7 @@ const {
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
+  VeteranInformationPage: 'Veteran Information',
   confirmAddressPage: 'Confirm Address Page',
   orderHistoryPage: 'Order History Page',
   orderCommentsPage: 'Order Comments Page',
@@ -55,8 +60,9 @@ const formConfig = {
   trackingPrefix: 'complex-form-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '2346',
+  formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
@@ -71,6 +77,28 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
+    VeteranInformationChapter: {
+      title: formPages.VeteranInformationPage,
+      pages: {
+        [formPages.VeteranInformationPage]: {
+          path: 'veteran-information',
+          title: formPages.VeteranInformationPage,
+          uiSchema: {
+            // [formFields.fullName]: fullNameUI,
+            // [formFields.ssn]: ssnUI,
+            'ui:description': VeteranInformationPage,
+          },
+          schema: {
+            type: 'object',
+            // required: [formFields.fullName],
+            properties: {
+              // [formFields.fullName]: fullName,
+              // [formFields.ssn]: ssn,
+            },
+          },
+        },
+      },
+    },
     ConfirmAddressChapter: {
       title: formPages.confirmAddressPage,
       pages: {

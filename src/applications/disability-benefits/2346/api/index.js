@@ -5,7 +5,7 @@ export const getDLCBatteryDataApi = () => apiRequest('/dlc/orderstatus/1014/1');
 // export const getDLCSocksDataApi = () => apiRequest('/dlc/orderstatus/1014/2');
 export const getDLCAccessoriesDataApi = () =>
   apiRequest('/dlc/orderstatus/1014/3');
-export const getUserInformation = () =>
+export const getVeteranInformation = () =>
   apiRequest(`/in_progress_forms/MDOT`, {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
