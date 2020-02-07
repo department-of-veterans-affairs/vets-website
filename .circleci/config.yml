@@ -75,6 +75,7 @@ workflows:
   version: 2
   blah:
     jobs:
+      - install-dependencies
       - eslint-check:
           requires:
             - install-dependencies
