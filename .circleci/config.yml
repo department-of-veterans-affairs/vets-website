@@ -95,7 +95,7 @@ workflows:
   version: 2
   blah:
     jobs:
-      - eslint-check
+      # - eslint-check
       - sentry-check
           # filters:
           #   branches:
