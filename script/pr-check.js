@@ -50,26 +50,24 @@ function addFileAndOffset(diffOutput) {
   return output;
 }
 
-async function getAdditions(pattern) {
-  const { data } = await octokit.pulls.get({
-    ...octokitDefaults,
-    mediaType: {
-      format: 'diff',
-    },
-  });
-
-  const additions = addFileAndOffset(data).filter(line =>
-    new RegExp(pattern).test(line),
-  );
-
-  return additions;
+function getPRdiff() {
+  return octokit.pulls
+    .get({
+      ...octokitDefaults,
+      mediaType: {
+        format: 'diff',
+      },
+    })
+    .then(({ data }) => data);
 }
 
-getAdditions(CODE_PATTERN).then(additions => {
+const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
+
+// First, create a PR review to apply comments to
+function createReview(additions) {
   console.log(additions);
 
-  // First, create a PR review to apply comments to
-  octokit.pulls.createReview({
+  return octokit.pulls.createReview({
     ...octokitDefaults,
     body: OVERALL_REVIEW_COMMENT,
     event: 'COMMENT',
@@ -78,4 +76,9 @@ getAdditions(CODE_PATTERN).then(additions => {
       return { path: filename, position: offset, body: LINE_COMMENT };
     }),
   });
-});
+}
+
+getPRdiff()
+  .then(addFileAndOffset)
+  .then(findPattern)
+  .then(createReview);
