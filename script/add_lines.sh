@@ -4,7 +4,7 @@
 #   https://stackoverflow.com/a/12179492
 diff-lines() {
   local path=
-  local line=
+  local position=
   while read; do
 	  esc=$'\033'
 	  if [[ $REPLY =~ ---\ (a/)?.* ]]; then
@@ -12,12 +12,12 @@ diff-lines() {
 	  elif [[ $REPLY =~ \+\+\+\ (b/)?([^[:blank:]$esc]+).* ]]; then
 		  path=${BASH_REMATCH[2]}
 	  elif [[ $REPLY =~ @@\ -[0-9]+(,[0-9]+)?\ \+([0-9]+)(,[0-9]+)?\ @@.* ]]; then
-		  line=1
+		  position=1
 	  elif [[ $REPLY =~ ^($esc\[[0-9;]+m)*([\ +-]) ]]; then
-		  echo "$path:$line:$REPLY"
-		  if [[ ${BASH_REMATCH[2]} != - ]]; then
-			 ((line++))
-		  fi
+		  echo "$path:$position:$REPLY"
+		  # if [[ ${BASH_REMATCH[2]} != - ]]; then
+			 ((position++))
+		  # fi
 	  fi
   done
 }
