@@ -20,9 +20,18 @@ const octokitDefaults = {
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,
 });
-// Modelled after a bash function from this SO answer:
-//   .circleci/config.yml:
-function addFileAndOffset(diffOutput) {
+
+/**
+ * Add a label to the beginning of added lines in the diff
+ * where the label consists of:
+ *   - filename
+ *   - offset from the top of the diff chunk
+ * And both of the label pieces are separated by a colon
+ *
+ * Modelled after a bash function from this SO answer:
+ * https://stackoverflow.com/a/12179492
+ */
+function labelAdditions(diffOutput) {
   const lines = diffOutput.split('\n');
   let path = null;
   let position = null;
@@ -42,7 +51,7 @@ function addFileAndOffset(diffOutput) {
     } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@.*/.test(line)) {
       position++;
     } else if (/^([ +-]).*/.test(line)) {
-      output.push(`${path}:${position}:${line}`);
+      if (/^[+].*/.test(line)) output.push(`${path}:${position}:${line}`);
       position++;
     }
     previous = line;
@@ -65,6 +74,10 @@ const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
 
 // First, create a PR review to apply comments to
 function createReview(additions) {
+  if (additions.length === 0) {
+    console.log(`No additions matching the pattern: "${CODE_PATTERN}"`);
+    return null;
+  }
   console.log(additions);
 
   return octokit.pulls.createReview({
@@ -79,6 +92,6 @@ function createReview(additions) {
 }
 
 getPRdiff()
-  .then(addFileAndOffset)
+  .then(labelAdditions)
   .then(findPattern)
   .then(createReview);
