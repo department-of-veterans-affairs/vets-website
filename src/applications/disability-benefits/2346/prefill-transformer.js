@@ -62,6 +62,27 @@ export default function prefillTransformer(pages, formData, metadata) {
     return newData;
   };
 
+  const prefillPersonalInformation = data => {
+    const newData = _.omit(['veteran'], data);
+    const { veteran } = data;
+
+    if (veteran) {
+      const { emailAddress, primaryPhone, mailingAddress } = veteran;
+      newData.phoneAndEmail = {};
+      if (emailAddress) {
+        newData.phoneAndEmail.emailAddress = emailAddress;
+      }
+      if (primaryPhone) {
+        newData.phoneAndEmail.primaryPhone = primaryPhone;
+      }
+      if (mailingAddress) {
+        newData.mailingAddress = mailingAddress;
+      }
+    }
+
+    return newData;
+  };
+
   const prefillServiceInformation = data => {
     const newData = _.omit(
       ['servicePeriods', 'reservesNationalGuardService'],
@@ -114,6 +135,7 @@ export default function prefillTransformer(pages, formData, metadata) {
     prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
+    prefillPersonalInformation,
   ];
 
   const applyTransformations = (data = {}, transformer) => transformer(data);
