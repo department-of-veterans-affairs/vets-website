@@ -54,13 +54,13 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
 
-  pr-check:
+  eslint-check:
     docker:
       - image: circleci/node:10.18
     environment:
-      CODE_PATTERN: << parameters.code_pattern >>
-      OVERALL_REVIEW_COMMENT: << parameters.overall_review_comment >>
-      LINE_COMMENT: << parameters.line_comment >>
+      CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
+      OVERALL_REVIEW_COMMENT: ESLint is disabled - manual review required.
+      LINE_COMMENT: here
     steps:
       - checkout
       - run:
@@ -79,14 +79,8 @@ workflows:
   version: 2
   blah:
     jobs:
-      - pr-check:
+      - eslint-check
           code_pattern: (/* eslint-disable)|(// eslint-disable)
-          overall_review_comment: ESLint is disabled - manual review required.
-          line_comment: here
-      - pr-check:
-          code_pattern: Sentry\.
-          overall_review_comment: Data logged to Sentry - check for PII
-          line_comment: here
           # filters:
           #   branches:
           #     ignore: master
