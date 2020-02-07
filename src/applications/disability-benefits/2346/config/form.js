@@ -1,13 +1,12 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-sequences */
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/2346-schema.json';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import ConfirmAddressPage from '../components/ConfirmAddress';
-import OrderCommentPage from '../components/OrderCommentPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import OrderHistory from '../containers/OrderHistory';
 
 const {
   fullName,
@@ -70,22 +69,46 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  prefillerTransformer: (pages, formData, metadata) => {
+    pages, formData, metadata;
+  },
   chapters: {
-    ConfirmAddressChapter: {
+    firstChapter: {
       title: formPages.confirmAddressPage,
       pages: {
-        [formPages.confirmAddressPage]: {
-          path: 'confirm-address',
+        'page-1': {
+          path: 'page-1',
           title: formPages.confirmAddressPage,
           uiSchema: {
-            // [formFields.fullName]: fullNameUI,
-            // [formFields.ssn]: ssnUI,
-            'ui:description': ConfirmAddressPage,
+            firstName: {
+              'ui:title': 'First Name',
+            },
+            middleName: {
+              'ui:title': 'Middle Name',
+            },
+            lasttName: {
+              'ui:title': 'Last Name',
+            },
+            dateOfBirth: {
+              'ui:title': 'Date of Birth',
+            },
           },
           schema: {
             type: 'object',
             // required: [formFields.fullName],
             properties: {
+              firstName: {
+                type: 'string',
+              },
+              middleName: {
+                type: 'string',
+              },
+              lastName: {
+                type: 'string',
+              },
+              dateOfBirth: {
+                type: 'string',
+              },
               // [formFields.fullName]: fullName,
               // [formFields.ssn]: ssn,
             },
@@ -93,108 +116,144 @@ const formConfig = {
         },
       },
     },
-    orderCommentsChapter: {
-      title: formPages.orderCommentsPage,
+    ConfirmAddressChapter: {
+      title: 'Confirm Address Page',
       pages: {
-        [formPages.orderCommentsPage]: {
-          path: 'order-comments-page',
-          title: formPages.orderCommentsPage,
+        'Confirm Address Page': {
+          path: 'confirm-address',
+          title: 'Confirm Address Page',
           uiSchema: {
-            // [formFields.toursOfDuty]: toursOfDutyUI,
-            'ui:description': OrderCommentPage,
+            address1: {
+              'ui:title': 'Address 1',
+            },
+            address2: {
+              'ui:title': 'Address 2',
+            },
+            city: {
+              'ui:title': 'City',
+            },
+            state: {
+              'ui:title': 'State',
+            },
+            zip: {
+              'ui:title': 'Zip',
+            },
+            emailAddress: {
+              'ui:title': 'Email Address',
+            },
           },
           schema: {
             type: 'object',
+            // required: [formFields.fullName],
             properties: {
-              // [formFields.toursOfDuty]: toursOfDuty,
+              // [formFields.fullName]: fullName,
+              // [formFields.ssn]: ssn,
+              address1: {
+                type: 'string',
+              },
+              address2: {
+                type: 'string',
+              },
+              city: {
+                type: 'string',
+              },
+              state: {
+                type: 'string',
+              },
+              zip: {
+                type: 'string',
+              },
+              emailAddress: {
+                type: 'string',
+              },
             },
           },
         },
       },
     },
-    orderHistoryChapter: {
-      title: formPages.orderHistoryPage,
-      pages: {
-        [formPages.orderHistoryPage]: {
-          path: 'order-history-page',
-          title: formPages.orderHistoryPage,
-          uiSchema: {
-            // [formFields.address]: address.uiSchema('Mailing address'),
-            // [formFields.email]: {
-            //   'ui:title': 'Primary email',
-            // },
-            // [formFields.altEmail]: {
-            //   'ui:title': 'Secondary email',
-            // },
-            // [formFields.phoneNumber]: phoneUI('Daytime phone'),
-            'ui:description': OrderHistory,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              // [formFields.address]: address.schema(fullSchema, true),
-              // [formFields.email]: {
-              //   type: 'string',
-              //   format: 'email',
-              // },
-              // [formFields.altEmail]: {
-              //   type: 'string',
-              //   format: 'email',
-              // },
-              // [formFields.phoneNumber]: usaPhone,
-            },
-          },
-        },
-        // [formPages.directDeposit]: {
-        //   path: 'direct-deposit',
-        //   title: 'Direct Deposit',
-        //   uiSchema: {
-        //     'ui:title': 'Direct deposit',
-        //     [formFields.viewNoDirectDeposit]: {
-        //       'ui:title': 'I don’t want to use direct deposit',
-        //     },
-        //     [formFields.bankAccount]: _.merge(bankAccountUI, {
-        //       'ui:order': [
-        //         formFields.accountType,
-        //         formFields.accountNumber,
-        //         formFields.routingNumber,
-        //       ],
-        //       'ui:options': {
-        //         hideIf: formData => !hasDirectDeposit(formData),
-        //       },
-        //       [formFields.accountType]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.accountNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //       [formFields.routingNumber]: {
-        //         'ui:required': hasDirectDeposit,
-        //       },
-        //     }),
-        //     [formFields.viewStopWarning]: {
-        //       'ui:description': directDepositWarning,
-        //       'ui:options': {
-        //         hideIf: hasDirectDeposit,
-        //       },
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       [formFields.viewNoDirectDeposit]: {
-        //         type: 'boolean',
-        //       },
-        //       [formFields.bankAccount]: bankAccount,
-        //       [formFields.viewStopWarning]: {
-        //         type: 'object',
-        //         properties: {},
-        //       },
-        //     },
-        //   },
-        // },
-      },
-    },
+    // orderHistoryChapter: {
+    //   title: formPages.orderHistoryPage,
+    //   pages: {
+    //     [formPages.orderHistoryPage]: {
+    //       path: 'order-history-page',
+    //       title: formPages.orderHistoryPage,
+    //       uiSchema: {
+    //         // [formFields.address]: address.uiSchema('Mailing address'),
+    //         // [formFields.email]: {
+    //         //   'ui:title': 'Primary email',
+    //         // },
+    //         // [formFields.altEmail]: {
+    //         //   'ui:title': 'Secondary email',
+    //         // },
+    //         // [formFields.phoneNumber]: phoneUI('Daytime phone'),
+    //         // 'ui:description': OrderHistory,
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           // [formFields.address]: address.schema(fullSchema, true),
+    //           // [formFields.email]: {
+    //           //   type: 'string',
+    //           //   format: 'email',
+    //           // },
+    //           // [formFields.altEmail]: {
+    //           //   type: 'string',
+    //           //   format: 'email',
+    //           // },
+    //           // [formFields.phoneNumber]: usaPhone,
+    //         },
+    //       },
+    //     },
+    // [formPages.directDeposit]: {
+    //   path: 'direct-deposit',
+    //   title: 'Direct Deposit',
+    //   uiSchema: {
+    //     'ui:title': 'Direct deposit',
+    //     [formFields.viewNoDirectDeposit]: {
+    //       'ui:title': 'I don’t want to use direct deposit',
+    //     },
+    //     [formFields.bankAccount]: _.merge(bankAccountUI, {
+    //       'ui:order': [
+    //         formFields.accountType,
+    //         formFields.accountNumber,
+    //         formFields.routingNumber,
+    //       ],
+    //       'ui:options': {
+    //         hideIf: formData => !hasDirectDeposit(formData),
+    //       },
+    //       [formFields.accountType]: {
+    //         'ui:required': hasDirectDeposit,
+    //       },
+    //       [formFields.accountNumber]: {
+    //         'ui:required': hasDirectDeposit,
+    //       },
+    //       [formFields.routingNumber]: {
+    //         'ui:required': hasDirectDeposit,
+    //       },
+    //     }),
+    //     [formFields.viewStopWarning]: {
+    //       'ui:description': directDepositWarning,
+    //       'ui:options': {
+    //         hideIf: hasDirectDeposit,
+    //       },
+    //     },
+    //   },
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       [formFields.viewNoDirectDeposit]: {
+    //         type: 'boolean',
+    //       },
+    //       [formFields.bankAccount]: bankAccount,
+    //       [formFields.viewStopWarning]: {
+    //         type: 'object',
+    //         properties: {},
+    //       },
+    //     },
+    //   },
+    // },
+    // },
+    // },
   },
 };
 
