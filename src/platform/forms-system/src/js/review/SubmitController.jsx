@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 
 import SubmitButtons from './SubmitButtons';
 import { PreSubmitSection } from '../components/PreSubmitSection';
-import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -18,7 +17,7 @@ import {
   openReviewChapter,
   setEditMode,
 } from '../actions';
-import { reduceErrors } from '../utilities/data/formatErrors';
+import { checkValidation } from '../utilities/data/checkValidation';
 
 class SubmitController extends React.Component {
   // eslint-disable-next-line
@@ -41,12 +40,6 @@ class SubmitController extends React.Component {
       errorFocus.focus();
       errorFocus.classList.add('has-focused');
     }
-    // if (
-    //   this.form?.submission?.status === 'validationError' &&
-    //   this.form?.formErrors?.errors?.length
-    // ) {
-    //   this.checkValidation();
-    // }
   }
 
   getPreSubmit = formConfig => ({
@@ -68,18 +61,6 @@ class SubmitController extends React.Component {
     router.push(expandedPageList[expandedPageList.length - 2].path);
   };
 
-  checkValidation = () => {
-    const { form, formConfig, pageList } = this.props;
-    // Validation errors in this situation are not visible, so we’d
-    // like to know if they’re common
-    const { isValid, errors } = isValidForm(form, pageList);
-    this.props.setFormErrors({
-      rawErrors: errors,
-      errors: reduceErrors(errors, formConfig),
-    });
-    return { isValid, errors };
-  };
-
   handleSubmit = () => {
     const { form, formConfig, trackingPrefix } = this.props;
 
@@ -93,7 +74,7 @@ class SubmitController extends React.Component {
 
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
-    const { isValid, errors } = this.checkValidation();
+    const { isValid, errors } = checkValidation(this.props);
     if (!isValid) {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,

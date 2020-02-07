@@ -12,9 +12,8 @@ import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
 
-import { isValidForm } from '../validation';
 import { setFormErrors } from '../actions';
-import { reduceErrors } from '../utilities/data/formatErrors';
+import { checkValidation } from '../utilities/data/checkValidation';
 
 const Element = Scroll.Element;
 
@@ -64,17 +63,6 @@ class ReviewCollapsibleChapter extends React.Component {
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
-
-  // Update errors after user uses "update page"
-  checkValidation = () => {
-    const { form, formConfig, pageList } = this.props;
-    const { isValid, errors } = isValidForm(form, pageList);
-    this.props.setFormErrors({
-      rawErrors: errors,
-      errors: reduceErrors(errors, formConfig),
-    });
-    return { isValid, errors };
-  };
 
   render() {
     let pageContent = null;
@@ -206,7 +194,7 @@ class ReviewCollapsibleChapter extends React.Component {
                     ) : (
                       <ProgressButton
                         submitButton
-                        onButtonClick={() => this.checkValidation()}
+                        onButtonClick={() => checkValidation(this.props)}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
                       />
