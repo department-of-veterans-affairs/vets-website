@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { merge } from 'lodash/fp';
+import merge from 'lodash/merge';
 import set from '../../utilities/data/set';
 
 import {
