@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { title10DatesRequired, isInFuture } from '../utils';
@@ -21,13 +21,19 @@ export const uiSchema = {
         'ui:options': {
           expandUnder: 'view:isTitle10Activated',
         },
-        title10ActivationDate: _.merge(dateUI('Activation date'), {
-          'ui:required': title10DatesRequired,
-        }),
-        anticipatedSeparationDate: _.merge(dateUI('Expected separation date'), {
-          'ui:validations': [isInFuture],
-          'ui:required': title10DatesRequired,
-        }),
+        title10ActivationDate: merge(
+          {
+            'ui:required': title10DatesRequired,
+          },
+          dateUI('Activation date'),
+        ),
+        anticipatedSeparationDate: merge(
+          {
+            'ui:validations': [isInFuture],
+            'ui:required': title10DatesRequired,
+          },
+          dateUI('Expected separation date'),
+        ),
       },
     },
   },
