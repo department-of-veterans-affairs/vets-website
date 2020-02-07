@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
@@ -10,6 +11,7 @@ const levels = [
   ['nationalCallToService', 'sponsorDeceasedDisabledMIA'],
   ['vetTecBenefit'],
   ['sponsorTransferredBenefits'],
+  ['applyForScholarship'],
 ];
 
 export default class EducationWizard extends React.Component {
@@ -72,6 +74,7 @@ export default class EducationWizard extends React.Component {
       sponsorDeceasedDisabledMIA,
       sponsorTransferredBenefits,
       vetTecBenefit,
+      applyForScholarship,
     } = this.state;
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -84,6 +87,32 @@ export default class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
+    // Prod flag for 5134
+    const newBenefitOptions = environment.isProduction()
+      ? [
+          { label: 'Applying for a new benefit', value: 'yes' },
+          {
+            label: 'Updating my current education benefits',
+            value: 'no',
+          },
+          {
+            label:
+              'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
+            value: 'extend',
+          },
+        ]
+      : [
+          { label: 'Applying for a new benefit', value: 'yes' },
+          {
+            label: 'Updating my program of study or place of training',
+            value: 'no',
+          },
+          {
+            label:
+              'Applying to extend my Post-9/11 or Fry Scholarship benefits using the Edith Nourse Rogers STEM Scholarship',
+            value: 'extend',
+          },
+        ];
 
     return (
       <div className="wizard-container">
@@ -101,18 +130,7 @@ export default class EducationWizard extends React.Component {
               additionalFieldsetClass="wizard-fieldset"
               name="newBenefit"
               id="newBenefit"
-              options={[
-                { label: 'Applying for a new benefit', value: 'yes' },
-                {
-                  label: 'Updating my current education benefits',
-                  value: 'no',
-                },
-                {
-                  label:
-                    'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
-                  value: 'extend',
-                },
-              ]}
+              options={newBenefitOptions}
               onValueChange={({ value }) =>
                 this.answerQuestion('newBenefit', value)
               }
@@ -180,28 +198,27 @@ export default class EducationWizard extends React.Component {
                 }
               />
             )}
-            {serviceBenefitBasedOn === 'own' &&
-              nationalCallToService === 'no' && (
-                <ErrorableRadioButtons
-                  additionalFieldsetClass="wizard-fieldset"
-                  name="vetTecBenefit"
-                  id="vetTecBenefit"
-                  options={[
-                    { label: 'Yes', value: 'yes' },
-                    { label: 'No', value: 'no' },
-                  ]}
-                  onValueChange={({ value }) =>
-                    this.answerQuestion('vetTecBenefit', value)
-                  }
-                  value={{ value: vetTecBenefit }}
-                  label={
-                    <span>
-                      Are you applying for Veteran Employment Through Technology
-                      Education Courses (VET TEC)?
-                    </span>
-                  }
-                />
-              )}
+            {serviceBenefitBasedOn === 'own' && nationalCallToService === 'no' && (
+              <ErrorableRadioButtons
+                additionalFieldsetClass="wizard-fieldset"
+                name="vetTecBenefit"
+                id="vetTecBenefit"
+                options={[
+                  { label: 'Yes', value: 'yes' },
+                  { label: 'No', value: 'no' },
+                ]}
+                onValueChange={({ value }) =>
+                  this.answerQuestion('vetTecBenefit', value)
+                }
+                value={{ value: vetTecBenefit }}
+                label={
+                  <span>
+                    Are you applying for Veteran Employment Through Technology
+                    Education Courses (VET TEC)?
+                  </span>
+                }
+              />
+            )}
             {serviceBenefitBasedOn === 'other' && (
               <ErrorableRadioButtons
                 additionalFieldsetClass="wizard-fieldset"
@@ -254,33 +271,95 @@ export default class EducationWizard extends React.Component {
                   </div>
                 </div>
               )}
-            {newBenefit === 'yes' &&
-              nationalCallToService === 'yes' && (
-                <div>
-                  <div className="usa-alert usa-alert-warning">
-                    <div className="usa-alert-body">
-                      <h4 className="usa-alert-heading wizard-alert-heading">
-                        Are you sure?
-                      </h4>
-                      <p>
-                        Are all of the following things true of your service?
-                      </p>
-                      <ul>
-                        <li>
-                          Enlisted under the National Call to Service program,{' '}
-                          <strong>and</strong>
-                        </li>
-                        <li>
-                          Entered service between 10/01/03 and 12/31/07,{' '}
-                          <strong>and</strong>
-                        </li>
-                        <li>Chose education benefits</li>
-                      </ul>
-                    </div>
+            {newBenefit === 'yes' && nationalCallToService === 'yes' && (
+              <div>
+                <div className="usa-alert usa-alert-warning">
+                  <div className="usa-alert-body">
+                    <h4 className="usa-alert-heading wizard-alert-heading">
+                      Are you sure?
+                    </h4>
+                    <p>Are all of the following things true of your service?</p>
+                    <ul>
+                      <li>
+                        Enlisted under the National Call to Service program,{' '}
+                        <strong>and</strong>
+                      </li>
+                      <li>
+                        Entered service between 10/01/03 and 12/31/07,{' '}
+                        <strong>and</strong>
+                      </li>
+                      <li>Chose education benefits</li>
+                    </ul>
                   </div>
-                  {this.getButton('1990N')}
                 </div>
-              )}
+                {this.getButton('1990N')}
+              </div>
+            )}
+            {newBenefit === 'extend' &&
+            // Prod flag for 5134
+            !environment.isProduction() ? (
+              <div className="vads-u-margin-right--8">
+                <br />
+                <strong>
+                  To be eligible for the Edith Nourse Rogers STEM Scholarship,
+                  you must meet all the requirements below. You:
+                </strong>
+                <ul className="vads-u-margin-right--8">
+                  <li>
+                    Are receiving Post-9/11 GI Bill or Fry Scholarship benefits
+                  </li>
+                  <li>
+                    Have used up all your education benefits or are within 6
+                    months of using all your benefits.{' '}
+                    <a href="../gi-bill/post-9-11/ch-33-benefit/">
+                      Check remaining benefits
+                    </a>
+                  </li>
+                  <li>
+                    Are enrolled in an undergraduate program for science,
+                    technology, engineering or math (STEM), or have already
+                    earned a STEM degree and are pursuing a teaching
+                    certification.{' '}
+                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
+                      See approved STEM programs
+                    </a>
+                  </li>
+                </ul>
+                <p className="vads-u-margin-right--8">
+                  To learn more about the scholarship,{' '}
+                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    visit the VBA STEM page.
+                  </a>
+                </p>
+
+                <ErrorableRadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="applyForScholarship"
+                  id="applyForScholarship"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('applyForScholarship', value)
+                  }
+                  value={{ value: applyForScholarship }}
+                  label="Based on the eligibility requirements above, do you want to apply for this scholarship?"
+                />
+                <div className="vads-u-padding-top--2">
+                  {(applyForScholarship === 'yes' && this.getButton('1995')) ||
+                    (applyForScholarship === 'no' && (
+                      <p>
+                        Learn what other education benefits you may be eligible
+                        for on the{' '}
+                        <a href="../eligibility/">GI Bill eligibility page.</a>
+                      </p>
+                    ))}
+                </div>
+              </div>
+            ) : (
+              newBenefit === 'extend' && this.getButton('1995')
+            )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
@@ -289,7 +368,6 @@ export default class EducationWizard extends React.Component {
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {newBenefit === 'extend' && this.getButton('1995')}
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
