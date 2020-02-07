@@ -3,51 +3,61 @@ jobs:
   lint:
     docker:
       - image: circleci/node:10.15.3
-
     steps:
       - checkout
-
       - restore_cache:
-          name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-
       - run: yarn lint
+
+# unit-test:
+#   docker:
+#     - image: circleci/node:10.15.3
+#   steps:
+#     - checkout
+#     - restore_cache:
+#         keys:
+#           - yarn-packages-{{ checksum "yarn.lock" }}
+#     - run:
+#         command: yarn install --frozen-lockfile
+#     - save_cache:
+#         key: yarn-packages-{{ checksum "yarn.lock" }}
+#         paths:
+#           - ~/.cache/yarn
+#     - run: yarn test:unit
 
   unit-test:
     docker:
       - image: circleci/node:10.15.3
-
+    environment:
+      MOCHA_FILE: ~/test-results/mocha/test-results.xml
     steps:
       - checkout
-
       - restore_cache:
-          name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-
-      - run: yarn test:unit
+      - run:
+          command: yarn test:coverage
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: $MOCHA_FILE
 
   security-audit:
     docker:
       - image: circleci/node:10.15.3
-
     steps:
       - checkout
       - run: yarn security-check
@@ -55,24 +65,18 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.15.3
-
     steps:
       - checkout
-
       - restore_cache:
-          name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
-          name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-
-      - run: yarn build-webpack
+      - run: yarn build
 
 workflows:
   version: 2
@@ -85,6 +89,7 @@ workflows:
           requires:
             - lint
             - unit-test
+            - coverage
             - security-audit
 #     - deploy
 #         requires:
