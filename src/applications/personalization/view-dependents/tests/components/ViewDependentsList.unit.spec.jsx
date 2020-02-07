@@ -15,21 +15,20 @@ describe('<ViewDependentsList />', () => {
 
   const onAwardDependents = [
     {
-      name: 'Billy Blank',
-      social: '312-243-5634',
-      onAward: true,
-      birthdate: '05-05-1983',
+      firstName: 'Cindy',
+      lastName: 'See',
+      ssn: '312-243-5634',
+      dateOfBirth: '05-05-1953',
+      relationship: 'Child',
     },
     {
-      name: 'Cindy See',
-      social: '312-243-5634',
-      onAward: true,
-      birthdate: '05-05-1953',
-      spouse: true,
+      firstName: 'Billy',
+      lastName: 'Blank',
+      ssn: '123-45-6789',
+      dateOfBirth: '05-05-1953',
+      relationship: 'Child',
     },
   ];
-
-  const emptyDependents = [];
 
   it('Should Render', () => {
     const wrapper = shallow(
@@ -56,20 +55,6 @@ describe('<ViewDependentsList />', () => {
     );
 
     expect(wrapper.find('.loading-indicator-container')).to.exist;
-    wrapper.unmount();
-  });
-
-  it('Should show a message that the list is empty when no dependents are passed in', () => {
-    const wrapper = shallow(
-      <ViewDependentsList
-        loading={false}
-        header="Dependents on award"
-        subHeader={onAwardSubhead}
-        dependents={emptyDependents}
-      />,
-    );
-
-    expect(wrapper.contains(<p>No dependents in this list.</p>)).to.equal(true);
     wrapper.unmount();
   });
 });

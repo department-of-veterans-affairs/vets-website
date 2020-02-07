@@ -27,7 +27,6 @@
   },
   "rules": {
     // Override airbnb style.
-    "camelcase": [2, { "properties": "always" }],
     "va-enzyme/unmount": 2,
     "fp/no-proxy": 2, // IE 11 has not polyfill for Proxy 
     "func-names": 2,
