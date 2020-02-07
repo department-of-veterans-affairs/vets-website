@@ -72,7 +72,7 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run: yarn webpack-build
+      - run: yarn build-webpack
 
 workflows:
   version: 2
