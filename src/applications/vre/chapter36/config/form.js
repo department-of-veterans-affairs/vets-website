@@ -16,6 +16,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from '../../../../platform/forms/definitions/fullName';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -466,15 +467,12 @@ const formConfig = {
               'Primary phone number where a message can be left',
             ),
             applicantOtherPhone: phoneUI('Other phone number'),
-            applicantEmail: {
-              'ui:title': 'Email address',
-            },
-            'view:confirmEmail': {
-              'ui:title': 'Re-enter email address',
+            applicantEmail: emailUI(),
+            'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
               'ui:options': {
                 hideOnReview: true,
               },
-            },
+            }),
             'ui:validations': [
               validateMatch('applicantEmail', 'view:confirmEmail'),
             ],

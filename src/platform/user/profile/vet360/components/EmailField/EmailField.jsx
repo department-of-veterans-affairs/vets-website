@@ -30,7 +30,7 @@ export default class EmailField extends React.Component {
       emailAddress:
         email && isValidEmail(email)
           ? ''
-          : 'Please enter your email address again, following a standard format like name@domain.com.',
+          : 'Please enter the email address again, using this format: X@X.com',
     };
   }
 

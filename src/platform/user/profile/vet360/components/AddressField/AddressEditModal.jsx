@@ -98,6 +98,9 @@ class AddressEditModal extends React.Component {
    *   an overseas military mailing address
    */
   transformInitialFormValues = initialFormValues => {
+    if (!initialFormValues) {
+      return initialFormValues;
+    }
     let transformedData = this.removeEmptyKeys(initialFormValues);
     transformedData = this.selectLivesOnMilitaryBaseCheckbox(transformedData);
     return transformedData;

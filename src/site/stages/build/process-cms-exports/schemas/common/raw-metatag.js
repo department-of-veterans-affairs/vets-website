@@ -14,12 +14,15 @@ module.exports = {
         description: { type: 'string' },
         twitter_cards_title: { type: 'string' },
         twitter_cards_site: { type: 'string' },
+        image_src: { type: 'string' },
         og_title: { type: 'string' },
         og_description: { type: 'string' },
         og_image_height: {
           type: 'string',
           pattern: '^\\d*$', // It's a string that acts like a number
         },
+        twitter_cards_image: { type: 'string' },
+        og_image_0: { type: 'string' },
       },
       // No properties are required intentionally
     },

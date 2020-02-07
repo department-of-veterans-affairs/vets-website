@@ -1,11 +1,9 @@
-import merge from 'lodash/merge';
-
 // import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import fullSchema from '../20-0996-schema.json';
 
 // import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import { addressUISchema } from '../../all-claims/utils';
@@ -15,9 +13,9 @@ import {
   phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
 
-import { errorMessages, patternMessages } from '../constants';
-
 /*
+import { errorMessages } from '../constants';
+
 import { hasForwardingAddress, forwardingCountryIsUSA } from '../helpers';
 import {
   ForwardingAddressViewField,
@@ -49,59 +47,10 @@ const contactInfo = {
       'ui:options': {
         viewComponent: phoneEmailViewField,
       },
-      phone: {
-        'ui:title': 'Phone number',
-        'ui:widget': PhoneNumberWidget,
-        'ui:reviewWidget': PhoneNumberReviewWidget,
-        'ui:errorMessages': {
-          pattern: patternMessages.phone,
-          required: errorMessages.phone,
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large',
-          inputType: 'tel',
-        },
-      },
-      emailAddress: {
-        'ui:title': 'Email address',
-        'ui:errorMessages': {
-          pattern: patternMessages.email,
-          required: errorMessages.email,
-        },
-        'ui:options': {
-          inputType: 'email',
-        },
-      },
+      phone: phoneUI('Phone number'),
+      emailAddress: emailUI(),
     },
-    mailingAddress: merge(
-      addressUISchema('mailingAddress', 'Mailing address', true),
-      {
-        addressLine1: {
-          'ui:errorMessages': {
-            pattern: errorMessages.address1,
-            required: errorMessages.address1,
-          },
-        },
-        city: {
-          'ui:errorMessages': {
-            pattern: errorMessages.city,
-            required: errorMessages.city,
-          },
-        },
-        state: {
-          'ui:errorMessages': {
-            pattern: errorMessages.state,
-            required: errorMessages.state,
-          },
-        },
-        zipCode: {
-          'ui:errorMessages': {
-            pattern: errorMessages.zipCode,
-            required: errorMessages.zipCode,
-          },
-        },
-      },
-    ),
+    mailingAddress: addressUISchema('mailingAddress', 'Mailing address', true),
     /*
     'view:hasForwardingAddress': {
       'ui:title': forwardingAddressCheckboxLabel,
@@ -121,7 +70,6 @@ const contactInfo = {
           'country',
           'addressLine1',
           'addressLine2',
-          'addressLine3',
           'city',
           'state',
           'zipCode',
@@ -153,33 +101,17 @@ const contactInfo = {
         },
         addressLine1: {
           'ui:required': hasForwardingAddress,
-          'ui:errorMessages': {
-            pattern: errorMessages.address1,
-            required: errorMessages.address1,
-          },
         },
         city: {
           'ui:required': hasForwardingAddress,
-          'ui:errorMessages': {
-            pattern: errorMessages.city,
-            required: errorMessages.city,
-          },
         },
         state: {
           'ui:required': formData =>
             hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
-          'ui:errorMessages': {
-            pattern: errorMessages.state,
-            required: errorMessages.state,
-          },
         },
         zipCode: {
           'ui:required': formData =>
             hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
-          'ui:errorMessages': {
-            pattern: errorMessages.zipCode,
-            required: errorMessages.zipCode,
-          },
         },
       },
     ),

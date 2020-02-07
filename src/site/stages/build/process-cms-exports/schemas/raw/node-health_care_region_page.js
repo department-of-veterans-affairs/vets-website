@@ -4,31 +4,23 @@ module.exports = {
   type: 'object',
   properties: {
     title: { $ref: 'GenericNestedString' },
+    moderation_state: { $ref: 'GenericNestedString' },
     path: { $ref: 'RawPath' },
-    metatag: {
-      // Probably should be a common schema
-      type: 'object',
-      properties: {
-        value: {
-          type: 'object',
-          properties: {
-            title: { type: 'string' },
-            twitter_cards_type: { type: 'string' },
-            og_site_name: { type: 'string' },
-            twitter_cards_description: { type: 'string' },
-            description: { type: 'string' },
-            twitter_cards_title: { type: 'string' },
-            twitter_cards_site: { type: 'string' },
-            image_src: { type: 'string' },
-            og_title: { type: 'string' },
-            og_description: { type: 'string' },
-            twitter_cards_image: { type: 'string' },
-            og_image_0: { type: 'string' },
-          },
+    metatag: { $ref: 'RawMetaTags' },
+    field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
+    field_link_facility_emerg_list: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          uri: { type: 'string' },
+          title: { type: 'string' },
+          // maxItems: 0 until we have an example of what they look like
+          options: { type: 'array', maxItems: 0 },
         },
+        required: ['uri', 'title', 'options'],
       },
     },
-    field_nickname_for_this_facility: { $ref: 'GenericNestedString' },
   },
   required: [
     'title',
