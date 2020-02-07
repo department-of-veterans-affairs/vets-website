@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
-const { spawnSync } = require('child_process');
 const { Octokit } = require('@octokit/rest');
 
 const {
@@ -46,7 +45,7 @@ function addFileAndOffset(diffOutput) {
       position++;
     }
   });
-  return output.join('\n');
+  return output;
 }
 
 async function getAdditions(pattern) {
@@ -57,14 +56,10 @@ async function getAdditions(pattern) {
     },
   });
 
-  const grep = spawnSync('grep', ['-P', pattern], {
-    input: addFileAndOffset(data),
-  });
+  const additions = addFileAndOffset(data).filter(line =>
+    new RegExp(pattern).test(line),
+  );
 
-  const additions = grep.stdout.toString().split('\n');
-
-  // Remove the last item that is just an empty string
-  additions.pop();
   return additions;
 }
 
