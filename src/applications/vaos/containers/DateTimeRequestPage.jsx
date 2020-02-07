@@ -76,9 +76,13 @@ export class DateTimeRequestPage extends React.Component {
   };
 
   goForward = () => {
+    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+  };
+
+  validate = () => {
     if (this.props.data.calendarData?.selectedDates?.length) {
       this.setState({ validationError: null });
-      this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+      this.goForward();
     } else {
       this.setState(
         {
@@ -105,7 +109,7 @@ export class DateTimeRequestPage extends React.Component {
           title="Request appointment"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
-          onSubmit={this.goForward}
+          onSubmit={this.validate}
           onChange={newData => {
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
