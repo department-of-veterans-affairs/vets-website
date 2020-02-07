@@ -388,19 +388,20 @@ export const addressUISchema = (
     addressLine1: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
+        pattern: 'Please enter a valid street address',
+        required: 'Please enter a street address',
       },
     },
     addressLine2: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
+        pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
       'ui:title': 'Street address',
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid address',
+        pattern: 'Please enter a valid street address',
       },
     },
     city: {
@@ -413,7 +414,8 @@ export const addressUISchema = (
         },
       ],
       'ui:errorMessages': {
-        pattern: 'Please fill in a valid city',
+        pattern: 'Please enter a valid city',
+        required: 'Please enter a city',
       },
     },
     state: {
@@ -438,6 +440,10 @@ export const addressUISchema = (
           validator: validateMilitaryState,
         },
       ],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid state',
+        required: 'Please enter a state',
+      },
     },
     zipCode: {
       'ui:title': 'Postal code',
@@ -447,7 +453,9 @@ export const addressUISchema = (
         _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
           USA,
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 5- or 9-digit ZIP code (dashes allowed)',
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',

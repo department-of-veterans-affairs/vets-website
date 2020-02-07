@@ -1,15 +1,14 @@
 {
-  "contentModelType": "node-news_story",
+  "contentModelType": "node-vamc_operating_status_and_alerts",
   "entityType": "node",
-  "entityBundle": "news_story",
-  "title": "Loss is common human experience",
-  "created": 1557855529,
-  "promote": false,
+  "entityBundle": "vamc_operating_status_and_alerts",
+  "title": "Operating status - VA Pittsburgh health care",
+  "entityPublished": true,
   "entityMetatags": [
     {
       "__typename": "MetaValue",
       "key": "title",
-      "value": "VA Pittsburgh health care | Loss is common human experience | Veterans Affairs"
+      "value": "VA Pittsburgh health care | Operating Status"
     },
     {
       "__typename": "MetaValue",
@@ -23,18 +22,13 @@
     },
     {
       "__typename": "MetaValue",
-      "key": "twitter:description",
-      "value": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb"
-    },
-    {
-      "__typename": "MetaValue",
       "key": "description",
-      "value": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb"
+      "value": "VA Pittsburgh health care facility operating statuses and emergency information."
     },
     {
       "__typename": "MetaValue",
       "key": "twitter:title",
-      "value": "Loss is common human experience | VA Pittsburgh health care | Veterans Affairs"
+      "value": "Operating status - VA Pittsburgh health care | Veterans Affairs"
     },
     {
       "__typename": "MetaValue",
@@ -42,132 +36,147 @@
       "value": "@DeptVetAffairs"
     },
     {
-      "__typename": "MetaLink",
-      "key": "image_src",
-      "value": "http://default/sites/default/files/2019-05/Loss.jpg"
-    },
-    {
       "__typename": "MetaProperty",
       "key": "og:title",
-      "value": "Loss is common human experience | VA Pittsburgh health care | Veterans Affairs"
-    },
-    {
-      "__typename": "MetaProperty",
-      "key": "og:description",
-      "value": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb"
-    },
-    {
-      "__typename": "MetaValue",
-      "key": "twitter:image",
-      "value": "http://default/sites/default/files/2019-05/Loss.jpg"
-    },
-    {
-      "__typename": "MetaProperty",
-      "key": "og:image",
-      "value": "http://default/sites/default/files/2019-05/Loss.jpg"
+      "value": "Operating status - VA Pittsburgh health care | Veterans Affairs"
     }
   ],
-  "entityPublished": true,
   "entityUrl": {
     "breadcrumb": [],
-    "path": "/pittsburgh-health-care/stories/loss-is-common-human-experience"
+    "path": "/pittsburgh-health-care/operating-status"
   },
-  "fieldAuthor": null,
-  "fieldFullStory": {
-    "processed": "<p>\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp; -- Old Chinese Proverb</p>\r\n\r\n<p>Loss is common human experience. Sometimes we anticipate losses and other times they are unexpected. Loss can lead to feeling overwhelmed, depressed, anxious, lonely, fearful, guilty and angry. Whatever your experience, your grief is real and your loss is important. It can be difficult to process without help.</p>\r\n\r\n<p>Grief is a process. Anniversaries, birthdays or holidays can remind us of losses, sparking powerful emotional memories and feelings. Learning how to process these feelings and respond to anniversaries in a healthy manner can make quite a difference in our recovery. Coping strategies include attending support groups, processing the loss with a therapist, practicing one's spirituality, and engaging with supportive communities.</p>\r\n\r\n<p>Talking to someone about your pain is the first step in caring for and grieving losses in life. Talking is the healthiest way of beginning to deal with grief, especially when the pain seems too much to bear. Skilled VA Pittsburgh professionals such as psychotherapists and chaplains can help you process your grief.</p>\r\n\r\n<p>Grief impacts your mind, emotions, body and spirit. It has been said \"grief is about a broken heart, not a broken brain.\" We all grieve differently. Grief is a high stressor that may return on holidays, anniversaries and other special events.&nbsp;</p>\r\n\r\n<p>The reality of life is that sometimes the path is difficult, and we experience pain and disappointment. But you do not have to travel that path alone. If you would like help on your journey of grief, please contact a VA Pittsburgh chaplain at 412- 360-1826.</p>\r\n"
-  },
-  "fieldImageCaption": "Photo of a white heart and a placeholder in the sand in the shape of a heart.",
-  "fieldIntroText": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb",
-  "fieldMedia": {
-    "uuid": "c9106a99-b16b-47f0-aa64-75935c9a0b46",
-    "langcode": [
-      {
-        "value": "en"
-      }
-    ],
-    "revisionCreated": [
-      {
-        "value": "2019-05-14T17:43:29+00:00",
-        "format": "Y-m-d\\TH:i:sP"
-      }
-    ],
-    "revisionLogMessage": [],
-    "status": [
-      {
-        "value": true
-      }
-    ],
-    "name": [
-      {
-        "value": "Loss.jpg"
-      }
-    ],
-    "thumbnail": [
-      {
-        "contentModelType": "file",
-        "derivative": {
-          "url": "public://2019-05/Loss.jpg"
-        }
-      }
-    ],
-    "created": [
-      {
-        "value": "2019-05-14T17:42:37+00:00",
-        "format": "Y-m-d\\TH:i:sP"
-      }
-    ],
-    "changed": [
-      {
-        "value": "2019-05-14T17:42:37+00:00",
-        "format": "Y-m-d\\TH:i:sP"
-      }
-    ],
-    "defaultLangcode": [
-      {
-        "value": true
-      }
-    ],
-    "revisionTranslationAffected": [
-      {
-        "value": true
-      }
-    ],
-    "moderationState": [],
-    "metatag": {
-      "value": {
-        "title": "| Veterans Affairs",
-        "twitter_cards_type": "summary_large_image",
-        "og_site_name": "Veterans Affairs",
-        "twitter_cards_title": "| Veterans Affairs",
-        "twitter_cards_site": "@DeptVetAffairs",
-        "og_title": "| Veterans Affairs"
+  "fieldBannerAlert": [],
+  "fieldFacilityOperatingStatus": [
+    {
+      "entity": {
+        "title": "Pittsburgh VA Medical Center-University Drive",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/pittsburgh-va-medical-center-university-drive"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
       }
     },
-    "path": [
-      {
-        "alias": "/media/image/69",
-        "langcode": "en",
-        "pathauto": 1
+    {
+      "entity": {
+        "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/h-john-heinz-iii-department-of-veterans-affairs-medical-center"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
       }
-    ],
-    "fieldMediaInLibrary": [
-      {
-        "value": true
+    },
+    {
+      "entity": {
+        "title": "Beaver County VA Clinic",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/beaver-county-va-clinic"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
       }
-    ],
-    "fieldMediaSubmissionGuideline": [],
-    "fieldOwner": [],
-    "image": [
-      {
-        "contentModelType": "file",
-        "derivative": {
-          "url": "public://2019-05/Loss.jpg"
-        }
+    },
+    {
+      "entity": {
+        "title": "Belmont County VA Clinic",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/belmont-county-va-clinic"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
       }
-    ],
-    "baseType": "media",
-    "contentModelType": "media-image"
-  },
+    },
+    {
+      "entity": {
+        "title": "Fayette County VA Clinic",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/fayette-county-va-clinic"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
+      }
+    },
+    {
+      "entity": {
+        "title": "Washington County VA Clinic",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/washington-county-va-clinic"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
+      }
+    },
+    {
+      "entity": {
+        "title": "Westmoreland County VA Clinic",
+        "entityUrl": {
+          "breadcrumb": [],
+          "path": "/pittsburgh-health-care/locations/westmoreland-county-va-clinic"
+        },
+        "fieldOperatingStatusFacility": "normal",
+        "fieldOperatingStatusMoreInfo": null
+      }
+    }
+  ],
+  "fieldLinks": [
+    {
+      "uri": "https://www.pema.pa.gov/Pages/Default.aspx",
+      "title": "Pennsylvania Emergency Management Agency",
+      "options": []
+    },
+    {
+      "uri": "https://www.psp.pa.gov/Pages/default.aspx",
+      "title": "Pennsylvania State Police",
+      "options": []
+    },
+    {
+      "uri": "https://pittsburghpa.gov/publicsafety/ema-about",
+      "title": "Pittsburgh Emergency Management",
+      "options": []
+    },
+    {
+      "uri": "https://www.penndot.gov/Pages/default.aspx",
+      "title": "Pennsylvania Department of Transportation (DOT)",
+      "options": []
+    },
+    {
+      "uri": "https://pittsburghpa.gov/ems/",
+      "title": "Pittsburgh Emergency Medical Services",
+      "options": []
+    },
+    {
+      "uri": "https://pittsburghpa.gov/fire/",
+      "title": "Pittsburgh Bureau of Fire",
+      "options": []
+    },
+    {
+      "uri": "https://www.alleghenycounty.us/emergency-services/index.aspx",
+      "title": "Allegheny County Emergency Services",
+      "options": []
+    },
+    {
+      "uri": "https://www.ema.ohio.gov",
+      "title": "Ohio Emergency Management Agency: ODPS",
+      "options": []
+    },
+    {
+      "uri": "https://www.statepatrol.ohio.gov/",
+      "title": "Ohio State Highway Patrol",
+      "options": []
+    },
+    {
+      "uri": "http://www.dot.state.oh.us/pages/home.aspx",
+      "title": "Ohio Department of Transportation",
+      "options": []
+    }
+  ],
   "fieldOffice": {
     "contentModelType": "node-health_care_region_page",
     "entity": {
@@ -179,13 +188,13 @@
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },
+      "fieldNicknameForThisFacility": "VA Pittsburgh",
       "fieldLinkFacilityEmergList": {
         "url": {
           "path": "https://public.govdelivery.com/accounts/USVHA/subscriber/new?topic_id=USVHA_396",
           "routed": false
         }
       },
-      "fieldNicknameForThisFacility": "VA Pittsburgh",
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",
         "entity": {
@@ -341,5 +350,8 @@
         }
       ]
     }
+  },
+  "fieldOperatingStatusEmergInf": {
+    "value": "<h3>Patient resources</h3>\r\n\r\n<p><strong>Emergency:</strong> <a href=\"tel:911\">911</a></p>\r\n\r\n<p><strong>Veterans Crisis Line: </strong><a href=\"tel:+1800-507-4571\">800-273-8255</a> (Press 1)</p>\r\n\r\n<p><strong>24 hour Nurse:</strong> <a href=\"tel:+18009358387\">800-935-8387</a></p>\r\n\r\n<p><strong>Change Your Appointment:</strong> <a href=\"tel:+18009358387\">800-935-8387</a></p>\r\n\r\n<p><strong>National Veterans Helpline: </strong><a href=\"tel:+1800-507-4571\">800-507-4571</a></p>\r\n\r\n<p><strong>Patient Locator: </strong><a href=\"tel:+18009358387\">800-935-8387</a></p>\r\n\r\n<p><strong>Pharmacy Refill:</strong> <a href=\"tel:+18009358387\">800-935-8387</a></p>\r\n\r\n<p><strong>Staff Locator:</strong> <a href=\"tel:+18009358387\">800-935-8387</a></p>\r\n\r\n<p><strong>Telephone Care: </strong><a href=\"tel:+18009358387\">800-935-8387</a></p>\r\n"
   }
 }
