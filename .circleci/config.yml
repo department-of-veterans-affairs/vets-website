@@ -1,7 +1,3 @@
-# JavaScript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
   lint:
@@ -66,7 +62,7 @@ jobs:
 
 workflows:
   version: 2
-  test_build_deploy
+  test_and_build:
     jobs:
       - lint
       - unit-test
