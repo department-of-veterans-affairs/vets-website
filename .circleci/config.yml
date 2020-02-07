@@ -75,12 +75,28 @@ jobs:
           name: Try Diff
           command: npm run pr-check
 
+  sentry-check:
+    docker:
+      - image: circleci/node:10.18
+    environment:
+      CODE_PATTERN: Sentry\.
+      OVERALL_REVIEW_COMMENT: Sentry call found - Check for potential PII exposure
+      LINE_COMMENT: here
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - run:
+          name: Check PR for Sentry calls
+          command: npm run pr-check
+
 workflows:
   version: 2
   blah:
     jobs:
       - eslint-check
-          code_pattern: (/* eslint-disable)|(// eslint-disable)
+      - sentry-check
           # filters:
           #   branches:
           #     ignore: master
