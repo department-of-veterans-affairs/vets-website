@@ -12,11 +12,27 @@ const {
 } = process.env;
 const PR = CIRCLE_PULL_REQUEST.split('/').pop();
 
-function getAdditions(pattern) {
-  const diffOut = spawnSync('git', ['diff', 'origin/master...']);
-  const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
-    input: diffOut.stdout,
+const octokitDefaults = {
+  owner: 'department-of-veterans-affairs',
+  repo: 'vets-website',
+  pull_number: PR,
+};
+
+const octokit = new Octokit({
+  auth: GITHUB_TOKEN,
+});
+
+async function getAdditions(pattern) {
+  const { data } = await octokit.pulls.get({
+    ...octokitDefaults,
+    mediaType: {
+      format: 'diff',
+    },
   });
+  const addLinesOut = spawnSync('bash', [`${__dirname}/add_lines.sh`], {
+    input: data,
+  });
+
   const grepOut = spawnSync('grep', ['-P', pattern], {
     input: addLinesOut.stdout,
   });
@@ -28,26 +44,17 @@ function getAdditions(pattern) {
   return additions;
 }
 
-const additions = getAdditions(CODE_PATTERN);
+getAdditions(CODE_PATTERN).then(additions => {
+  console.log(additions);
 
-console.log(additions);
-
-const octokit = new Octokit({
-  auth: GITHUB_TOKEN,
-});
-
-console.log(PR);
-
-// First, create a PR review to apply comments to
-// let reviewId = null;
-octokit.pulls.createReview({
-  owner: 'department-of-veterans-affairs',
-  repo: 'vets-website',
-  body: OVERALL_REVIEW_COMMENT,
-  event: 'COMMENT',
-  pull_number: PR,
-  comments: additions.map(line => {
-    const [filename, offset] = line.split(':');
-    return { path: filename, position: offset, body: LINE_COMMENT };
-  }),
+  // First, create a PR review to apply comments to
+  octokit.pulls.createReview({
+    ...octokitDefaults,
+    body: OVERALL_REVIEW_COMMENT,
+    event: 'COMMENT',
+    comments: additions.map(line => {
+      const [filename, offset] = line.split(':');
+      return { path: filename, position: offset, body: LINE_COMMENT };
+    }),
+  });
 });
