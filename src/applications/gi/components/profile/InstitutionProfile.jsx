@@ -11,6 +11,7 @@ import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import environment from 'platform/utilities/environment';
 import SchoolLocationsOld from './SchoolLocationsOld';
+import ContactInformation from './ContactInformation';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -84,6 +85,11 @@ export class InstitutionProfile extends React.Component {
                 onShowModal={showModal}
               />
             </AccordionItem>
+            {!environment.isProduction() && (
+              <AccordionItem button="Contact details">
+                <ContactInformation institution={profile.attributes} />
+              </AccordionItem>
+            )}
             <AccordionItem button="Additional information">
               <AdditionalInformation
                 institution={profile.attributes}

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import VetTecContactInformation from '../../components/vet-tec/VetTecContactInformation';
+import ContactInformation from '../../components/profile/ContactInformation';
 
 const institution = {
   versionedSchoolCertifyingOfficials: [
@@ -53,28 +53,22 @@ const institution = {
   ],
 };
 
-describe('<VetTecContactInformation>', () => {
+describe('<ContactInformation>', () => {
   it('should render', () => {
-    const wrapper = shallow(
-      <VetTecContactInformation institution={institution} />,
-    );
+    const wrapper = shallow(<ContactInformation institution={institution} />);
     const vdom = wrapper.html();
     expect(vdom).to.not.be.undefined;
     wrapper.unmount();
   });
 
   it('should display primary SCOs', () => {
-    const wrapper = shallow(
-      <VetTecContactInformation institution={institution} />,
-    );
+    const wrapper = shallow(<ContactInformation institution={institution} />);
     expect(wrapper.find('.primary-sco-list li').length).to.eq(2);
     wrapper.unmount();
   });
 
   it('should display secondary SCOs', () => {
-    const wrapper = shallow(
-      <VetTecContactInformation institution={institution} />,
-    );
+    const wrapper = shallow(<ContactInformation institution={institution} />);
     expect(wrapper.find('.secondary-sco-list li').length).to.eq(2);
     wrapper.unmount();
   });

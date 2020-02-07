@@ -2,10 +2,10 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { VetTecScoContact } from './VetTecScoContact';
+import { ScoContact } from './ScoContact';
 import { phoneInfo } from '../../utils/helpers';
 
-export const VetTecContactInformation = ({ institution }) => {
+export const ContactInformation = ({ institution }) => {
   const firstProgram = _.get(institution, 'programs[0]', {});
 
   const versionedSchoolCertifyingOfficials = _.get(
@@ -136,10 +136,10 @@ export const VetTecContactInformation = ({ institution }) => {
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
             <ul
-              className="vads-l-row vettec-sco-list vads-u-margin--0 primary-sco-list"
+              className="vads-l-row sco-list vads-u-margin--0 primary-sco-list"
               aria-labelledby="primary-contact-header"
             >
-              {primarySCOs.map((sco, index) => VetTecScoContact(sco, index))}
+              {primarySCOs.map((sco, index) => ScoContact(sco, index))}
             </ul>
           </div>
         </div>
@@ -160,10 +160,10 @@ export const VetTecContactInformation = ({ institution }) => {
         <div className="vads-l-col--9">
           <div className="vads-l-grid-container--full">
             <ul
-              className="vads-l-row vettec-sco-list vads-u-margin--0 secondary-sco-list"
+              className="vads-l-row sco-list vads-u-margin--0 secondary-sco-list"
               aria-labelledby="secondary-contact-header"
             >
-              {secondarySCOs.map((sco, index) => VetTecScoContact(sco, index))}
+              {secondarySCOs.map((sco, index) => ScoContact(sco, index))}
             </ul>
           </div>
         </div>
@@ -191,8 +191,8 @@ export const VetTecContactInformation = ({ institution }) => {
   );
 };
 
-VetTecContactInformation.propTypes = {
+ContactInformation.propTypes = {
   institution: PropTypes.object,
 };
 
-export default VetTecContactInformation;
+export default ContactInformation;
