@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-23T02:48:29+00:00",
+            "value": "2019-11-13T15:28:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -28,10 +28,14 @@
             "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
-    "revision_log": [],
+    "revision_log": [
+        {
+            "value": "Bulk operation publish revision"
+        }
+    ],
     "status": [
         {
-            "value": false
+            "value": true
         }
     ],
     "title": [
@@ -53,7 +57,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-23T02:48:29+00:00",
+            "value": "2019-11-13T15:28:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -79,7 +83,7 @@
     ],
     "moderation_state": [
         {
-            "value": "archived"
+            "value": "published"
         }
     ],
     "metatag": {
@@ -140,7 +144,7 @@
     "field_banner_alert_vamcs": [
         {
             "target_type": "node",
-            "target_uuid": "8822bbdd-f5f8-4700-8abb-5566431bd705"
+            "target_uuid": "580be667-c875-4580-a4b1-39338eb0b22d"
         }
     ],
     "field_body": [

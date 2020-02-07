@@ -532,7 +532,11 @@ class VAMap extends Component {
                 aria-relevant="additions text"
                 className="facility-search-results"
               >
-                <ResultsList isMobile updateUrlParams={this.updateUrlParams} />
+                <ResultsList
+                  isMobile
+                  updateUrlParams={this.updateUrlParams}
+                  query={this.props.currentQuery}
+                />
                 {externalLink}
               </div>
               {results.length > 0 && (
@@ -571,7 +575,10 @@ class VAMap extends Component {
               </Map>
               {selectedResult && (
                 <div className="mobile-search-result">
-                  <SearchResult result={selectedResult} />
+                  <SearchResult
+                    result={selectedResult}
+                    query={this.props.currentQuery}
+                  />
                 </div>
               )}
             </TabPanel>
@@ -634,7 +641,10 @@ class VAMap extends Component {
               className="facility-search-results"
             >
               <div>
-                <ResultsList updateUrlParams={this.updateUrlParams} />
+                <ResultsList
+                  updateUrlParams={this.updateUrlParams}
+                  query={this.props.currentQuery}
+                />
               </div>
             </div>
           </div>

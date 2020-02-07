@@ -9,6 +9,7 @@ import { preferredContactMethodLabels } from '../utils/labels';
 const { preferredContactMethod } = schemaDefinitions;
 
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import * as address from '../../../platform/forms/definitions/address';
 
 export default function createContactInformationPage(
@@ -36,15 +37,12 @@ export default function createContactInformationPage(
         'ui:description':
           'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
         'ui:validations': [validateMatch('email', 'view:confirmEmail')],
-        email: {
-          'ui:title': 'Email address',
-        },
-        'view:confirmEmail': {
-          'ui:title': 'Re-enter email address',
+        email: emailUI(),
+        'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
           'ui:options': {
             hideOnReview: true,
           },
-        },
+        }),
         homePhone: _.assign(phoneUI('Primary telephone number'), {
           'ui:required': form => form.preferredContactMethod === 'phone',
         }),

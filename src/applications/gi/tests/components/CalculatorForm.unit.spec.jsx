@@ -59,7 +59,7 @@ describe('<CalculatorForm>', () => {
       .text();
     tree.unmount();
 
-    expect(errorMessage).to.equal('Error Zip code must be a 5-digit number');
+    expect(errorMessage).to.equal('Error Postal code must be a 5-digit number');
   });
 });
 

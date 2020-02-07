@@ -765,6 +765,7 @@
   "fieldMentalHealthPhone": "412-360-6600",
   "fieldNicknameForThisFacility": "Westmoreland County clinic",
   "fieldOperatingStatusFacility": "normal",
+  "fieldOperatingStatusMoreInfo": null,
   "fieldPhoneNumber": "724-216-0317",
   "fieldRegionPage": {
     "contentModelType": "node-health_care_region_page",
@@ -776,6 +777,12 @@
       "title": "VA Pittsburgh health care",
       "entityUrl": {
         "path": "/pittsburgh-health-care"
+      },
+      "fieldLinkFacilityEmergList": {
+        "url": {
+          "path": "https://public.govdelivery.com/accounts/USVHA/subscriber/new?topic_id=USVHA_396",
+          "routed": false
+        }
       },
       "fieldNicknameForThisFacility": "VA Pittsburgh",
       "fieldPressReleaseBlurb": {
