@@ -13,6 +13,8 @@ diff-lines() {
 		  path=${BASH_REMATCH[2]}
 	  elif [[ $REPLY =~ @@\ -[0-9]+(,[0-9]+)?\ \+([0-9]+)(,[0-9]+)?\ @@$ ]]; then
 		  position=1
+	  elif [[ $REPLY =~ @@\ -[0-9]+(,[0-9]+)?\ \+([0-9]+)(,[0-9]+)?\ @@.* ]]; then
+		  ((position++))
 	  elif [[ $REPLY =~ ^($esc\[[0-9;]+m)*([\ +-]) ]]; then
 		  echo "$path:$position:$REPLY"
 		  # if [[ ${BASH_REMATCH[2]} != - ]]; then
