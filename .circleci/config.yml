@@ -36,6 +36,24 @@ jobs:
       # run tests!
       # - run: yarn test:unit
 
+  install-dependencies:
+    docker:
+      - image: circleci/node:10.18
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+
   eslint-check:
     docker:
       - image: circleci/node:10.18
@@ -44,10 +62,6 @@ jobs:
       OVERALL_REVIEW_COMMENT: ESLint is disabled - manual review required.
       LINE_COMMENT: here
     steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: yarn install
       - run:
           name: Show PR number
           command: |
@@ -61,7 +75,9 @@ workflows:
   version: 2
   blah:
     jobs:
-      - eslint-check
+      - eslint-check:
+          requires:
+            - install-dependencies
           # filters:
           #   branches:
           #     ignore: master
