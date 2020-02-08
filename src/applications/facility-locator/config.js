@@ -3,7 +3,7 @@ import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
 
-// TODO: Remove me when done bug fixing
+// TODO: Remove me when done bug fixing...
 const environment = {
   API_URL: 'http://staging-api.va.gov',
 };
