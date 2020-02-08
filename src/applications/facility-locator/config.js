@@ -5,7 +5,7 @@ import manifest from './manifest.json';
 
 // TODO: Remove me when done bug fixing...
 const environment = {
-  API_URL: 'http://staging-api.va.gov',
+  API_URL: 'https://staging-api.va.gov',
 };
 
 // Base URL to be used in API requests.
