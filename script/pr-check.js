@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
 const { Octokit } = require('@octokit/rest');
+const { sortBy, uniqBy } = require('lodash');
 
 const {
+  BOT_NAME,
   CODE_PATTERN,
   GITHUB_TOKEN,
   CIRCLE_PULL_REQUEST,
@@ -79,7 +81,7 @@ const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
 // First, create a PR review to apply comments to
 function createReview(additions) {
   if (additions.length === 0) {
-    console.log(`No additions matching the pattern: "${CODE_PATTERN}"`);
+    console.log('No new comments to make');
     return null;
   }
   console.log(additions);
@@ -95,7 +97,51 @@ function createReview(additions) {
   });
 }
 
+function filterAgainstPreviousComments(additions) {
+  if (additions.length === 0) {
+    console.log(`No additions matching the pattern: "${CODE_PATTERN}"`);
+    return [];
+  }
+  console.log(additions);
+
+  const { owner, repo, pull_number } = octokitDefaults;
+  const ignoreOutdatedBotComments = arr =>
+    arr.filter(
+      comment => comment.position !== null && comment.user.login === BOT_NAME,
+    );
+
+  return octokit
+    .paginate(
+      `GET /repos/:owner/:repo/pulls/:pull_number/comments`,
+      { owner, repo, pull_number },
+      response =>
+        ignoreOutdatedBotComments(response.data).map(
+          ({ path, body, position }) => ({ path, position, body }),
+        ),
+    )
+    .then(comments => {
+      // Removing the duplicates shouldn't be necessary once everything is working properly
+      // because there shouldn't be any duplicates
+      const noDupes = uniqBy(comments, JSON.stringify);
+      const sortedUnique = sortBy(noDupes, JSON.stringify);
+
+      // console.log(sortedUnique);
+      const sortedUniqueFlat = sortedUnique.map(JSON.stringify);
+
+      const newAdditions = additions.filter(addition => {
+        const [path, position] = addition.split(':');
+        const body = addition.slice(addition.indexOf('+') + 1);
+        return sortedUniqueFlat.includes(
+          JSON.stringify({ path, position, body }),
+        );
+      });
+
+      return newAdditions;
+    });
+}
+
 getPRdiff()
   .then(labelAdditions)
   .then(findPattern)
+  .then(filterAgainstPreviousComments)
   .then(createReview);
