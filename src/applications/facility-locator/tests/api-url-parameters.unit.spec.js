@@ -2,13 +2,13 @@ import { expect } from 'chai';
 
 import { resolveParamsWithUrl } from '../config';
 
-describe('Locator url and parameters builder', () => {
+describe.skip('Locator url and parameters builder', () => {
   const page = 1;
 
   /**
    * Urgent care - Non-VA urgent care
    */
-  it('With facilityType urgent_care and serviceType NonVAUrgentCare Should build a ccp request', () => {
+  it.skip('With facilityType urgent_care and serviceType NonVAUrgentCare Should build a ccp request', () => {
     const result = resolveParamsWithUrl(
       encodeURI('14713 Calaveras Drive, Austin, Texas 78717, United States'),
       'urgent_care',
@@ -25,7 +25,7 @@ describe('Locator url and parameters builder', () => {
   /**
    * Non-VA urgent care pharmacies
    */
-  it('With facilityType cc_pharmacy Should build a va ccp request ', () => {
+  it.skip('With facilityType cc_pharmacy Should build a va ccp request ', () => {
     const result = resolveParamsWithUrl(
       encodeURI('I 35 Frontage Road, Austin, Texas 78753, United States'),
       'cc_pharmacy',
