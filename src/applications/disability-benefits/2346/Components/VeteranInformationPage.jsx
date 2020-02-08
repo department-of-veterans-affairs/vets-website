@@ -1,21 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getVeteranInformation } from '../api';
 import { getVeteranInformationData } from '../actions';
 
 class VeteranInformationPage extends React.Component {
   componentDidMount() {
-    getVeteranInformation().then(data => {
-      if (data.error) {
-        // eslint-disable-next-line no-console
-        console.log(data.error);
-      } else {
-        // eslint-disable-next-line no-console
-        // console.log(data);
-        // eslint-disable-next-line no-console
-        // console.log(data.formData.veteranFullName);
-      }
-    });
     this.props.getVeteranInformationData();
   }
   render() {
