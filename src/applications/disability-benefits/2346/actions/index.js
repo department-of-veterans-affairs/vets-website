@@ -100,8 +100,13 @@ export const getDLCAccessoriesData = () => async dispatch => {
 
 export const getVeteranInformationData = () => async dispatch => {
   try {
-    const veteranData = await getVeteranInformation();
-    dispatch(fetchVeteranInformation(veteranData));
+    const data = await getVeteranInformation();
+    const veteranInformation = {
+      veteranFullName: data.formData.veteranFullName,
+      gender: data.formData.gender,
+      dateOfBirth: data.formData.dateOfBirth,
+    };
+    dispatch(fetchVeteranInformation(veteranInformation));
   } catch (error) {
     dispatch(
       fetchVeteranInformationFailure(

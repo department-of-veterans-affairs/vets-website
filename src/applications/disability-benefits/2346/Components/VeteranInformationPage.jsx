@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getVeteranInformation } from '../api';
+import { getVeteranInformationData } from '../actions';
 
 class VeteranInformationPage extends React.Component {
   componentDidMount() {
@@ -10,25 +11,24 @@ class VeteranInformationPage extends React.Component {
         console.log(data.error);
       } else {
         // eslint-disable-next-line no-console
-        console.log(data);
+        // console.log(data);
         // eslint-disable-next-line no-console
-        console.log(data.formData.veteranFullName);
+        // console.log(data.formData.veteranFullName);
       }
     });
-    // eslint-disable-next-line no-console
-    console.log(this.props);
+    this.props.getVeteranInformationData();
   }
   render() {
-    const { formData } = this.props;
+    const { first, last, gender, dateOfBirth } = this.props;
     return (
       <div>
         <p>This is the personal information we have for you.</p>
         <div>
           <div className="usa-alert schemaform-sip-alert">
             <div className="usa-alert-body">
-              You can save this form in progress, and come back later to finish
-              filling it out.
-              {formData}
+              {first} {last} <br />
+              Date of Birth: {dateOfBirth} <br />
+              Gender: {gender}
             </div>
           </div>
           <br />
@@ -37,10 +37,17 @@ class VeteranInformationPage extends React.Component {
     );
   }
 }
-const mapStateToProps = store => ({
-  formData: store.formData,
+const mapStateToProps = state => ({
+  first: state.form2346Reducer?.formData?.veteranFullName?.first || '',
+  last: state.form2346Reducer?.formData?.veteranFullName?.last || '',
+  gender: state.form2346Reducer?.formData?.gender || '',
+  dateOfBirth: state.form2346Reducer?.formData?.dateOfBirth || '',
 });
+const mapDispatchToProps = {
+  getVeteranInformationData,
+};
 
-// export default VeteranInformationPage;
-
-export default connect(mapStateToProps)(VeteranInformationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VeteranInformationPage);
