@@ -130,9 +130,8 @@ function filterAgainstPreviousComments(additions) {
 
       const newAdditions = additions.filter(addition => {
         const [path, position] = addition.split(':');
-        const body = addition.slice(addition.indexOf('+') + 1);
         return sortedUniqueFlat.includes(
-          JSON.stringify({ path, position, body }),
+          JSON.stringify({ path, position, body: LINE_COMMENT }),
         );
       });
 
