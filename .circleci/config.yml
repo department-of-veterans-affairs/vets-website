@@ -49,11 +49,6 @@ jobs:
           name: Install dependencies
           command: yarn install
       - run:
-          name: Show PR number
-          command: |
-            echo "Your PR Number is: ${CIRCLE_PR_NUMBER}"
-            echo "Your PR link is: ${CIRCLE_PULL_REQUEST}"
-      - run:
           name: Try Diff
           command: npm run pr-check
 
