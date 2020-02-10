@@ -67,9 +67,7 @@ const uiSchema = {
 export class DateTimeSelectPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      validationError: null,
-    };
+    this.state = { validationError: null };
   }
 
   componentDidMount() {
@@ -88,28 +86,44 @@ export class DateTimeSelectPage extends React.Component {
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.validationError && this.state.validationError?.length > 0) {
+      scrollAndFocus('.usa-input-error-message');
+    }
+
+    if (
+      prevProps.data.calendarData?.selectedDates?.length !==
+      this.props.data.calendarData?.selectedDates?.length
+    ) {
+      this.validate();
+    }
+  }
+
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    this.validate();
+    if (this.userSelectedSlot()) {
+      this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    } else {
+      scrollAndFocus('.usa-input-error-message');
+    }
   };
 
   validate = () => {
-    if (this.props.data.calendarData?.selectedDates?.length) {
+    if (this.userSelectedSlot()) {
       this.setState({ validationError: null });
-      this.goForward();
     } else {
-      this.setState(
-        {
-          validationError:
-            'Please select a preferred date for your appointment',
-        },
-        () => scrollAndFocus('#vaos-calendar__validation-msg'),
-      );
+      this.setState({
+        validationError: 'Please select a preferred date for your appointment',
+      });
     }
   };
+
+  userSelectedSlot = () =>
+    this.props.data.calendarData?.selectedDates?.length > 0;
 
   render() {
     const {
@@ -151,8 +165,9 @@ export class DateTimeSelectPage extends React.Component {
           title="Schedule appointment"
           schema={schema || initialSchema}
           uiSchema={uiSchema}
-          onSubmit={this.validate}
+          onSubmit={this.goForward}
           onChange={newData => {
+            this.validate();
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
           formContext={{

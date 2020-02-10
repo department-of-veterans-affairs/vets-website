@@ -37,7 +37,7 @@ describe('VAOS <CalendarWidget>', () => {
       />,
     );
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(tree.find('#vaos-calendar__validation-msg').exists()).to.be.false;
+    expect(tree.find('.usa-input-error-message').exists()).to.be.false;
     expect(tree.find('.usa-input-error').exists()).to.be.false;
     tree.unmount();
   });
@@ -118,7 +118,7 @@ describe('VAOS <CalendarWidget>', () => {
         validationError="Error message"
       />,
     );
-    expect(tree.find('#vaos-calendar__validation-msg').exists()).to.be.true;
+    expect(tree.find('.usa-input-error-message').exists()).to.be.true;
     expect(tree.find('.usa-input-error').exists()).to.be.true;
     tree.unmount();
   });

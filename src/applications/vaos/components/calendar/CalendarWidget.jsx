@@ -349,7 +349,7 @@ export default class CalendarWidget extends Component {
         )}
         <div className={calendarCss}>
           {showError && (
-            <span id="vaos-calendar__validation-msg">{validationError}</span>
+            <span className="usa-input-error-message">{validationError}</span>
           )}
           {months.map(
             (month, index) =>
