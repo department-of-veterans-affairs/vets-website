@@ -24,14 +24,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('.va-tabs li:nth-child(2) > a')
     .waitForElementVisible('.file-request-list-item', Timeouts.normal);
 
-  // go to additional evidence page
-  client
-    .click('.additional-evidence-alert .usa-button')
-    .waitForElementVisible('.file-requirements', Timeouts.normal)
-    .axeCheck('.main');
-
-  client.assert.urlContains('additional-evidence');
-
   client.expect
     .element('button.usa-button')
     .text.to.equal('Submit Files for Review');

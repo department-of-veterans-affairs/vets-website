@@ -1,4 +1,20 @@
 import React from 'react';
+import { facilityTypes } from '../config';
+
+const providerName = query => {
+  let name;
+  switch (query.facilityType) {
+    case 'cc_pharmacy':
+      name = facilityTypes.cc_pharmacy.toUpperCase();
+      break;
+    case 'urgent_care':
+      name = facilityTypes.urgent_care.toUpperCase();
+      break;
+    default:
+      name = facilityTypes.cc_provider.toUpperCase();
+  }
+  return name;
+};
 
 /**
  * Description block for a CC Provider
@@ -11,7 +27,7 @@ import React from 'react';
  *      PPMS provided description of each specialty/service is included
  *      on the details output.
  */
-const ProviderServiceDescription = ({ provider, details = false }) => {
+const ProviderServiceDescription = ({ provider, query, details = false }) => {
   if (details) {
     const { specialty } = provider.attributes;
     if (specialty && specialty.length < 1) return null;
@@ -28,14 +44,18 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
   }
 
   const services = provider.attributes.specialty.map(s => s.name.trim());
-  if (services.length < 1) return null;
 
   return (
-    <p>
-      <span>
-        <strong>Services:</strong> {services.join(', ')}
-      </span>
-    </p>
+    <div>
+      <p>{providerName(query)}</p>
+      {services.length >= 1 && (
+        <p>
+          <span>
+            <strong>Services:</strong> {services.join(', ')}
+          </span>
+        </p>
+      )}
+    </div>
   );
 };
 
