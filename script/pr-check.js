@@ -84,10 +84,10 @@ const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
 
 // First, create a PR review to apply comments to
 function createReview(additions) {
-  if (additions.length === 0) {
-    console.log('No new comments to make');
-    return null;
-  }
+  // if (additions.length === 0) {
+  //   console.log('No new comments to make');
+  //   return null;
+  // }
   console.log(additions);
 
   return octokit.pulls.createReview({
