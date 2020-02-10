@@ -22,6 +22,11 @@ const pull_number = CIRCLE_PULL_REQUEST.split('/').pop();
 const octokitDefaults = { owner, repo, pull_number };
 const octokit = new Octokit({ auth });
 
+/**
+ * Do a diff on the current PR against master
+ *
+ * @returns {array} An array where each item is a line from the diff
+ */
 function getPRdiff() {
   return octokit.pulls
     .get({
@@ -31,6 +36,28 @@ function getPRdiff() {
       },
     })
     .then(({ data }) => data.split('\n'));
+}
+
+/**
+ * A comment is considered outdated if it doesn't have a current `position`.
+ * We also want to ignore comments which weren't made by a user with a matching
+ * login
+ *
+ * @returns {array} An array of objects where each object has the comment `body` along with
+ * the `path` for the file it was left on and the `position` in the file diff
+ */
+function getPRbotComments() {
+  return octokit.paginate(
+    `GET /repos/:owner/:repo/pulls/:pull_number/comments`,
+    octokitDefaults,
+    ({ data }) =>
+      data
+        .filter(
+          comment =>
+            comment.position !== null && comment.user.login === BOT_NAME,
+        )
+        .map(({ path, body, position }) => ({ path, position, body })),
+  );
 }
 
 /**
@@ -95,6 +122,10 @@ function createReview(additions) {
   });
 }
 
+/**
+ * Receives a list of additions and returns a list containing those additions which (if any)
+ * area considered "new" in this run.
+ */
 function filterAgainstPreviousComments(additions) {
   if (additions.length === 0) {
     console.log(`No additions matching the pattern: "${CODE_PATTERN}"`);
@@ -102,21 +133,9 @@ function filterAgainstPreviousComments(additions) {
   }
   console.log(additions);
 
-  const ignoreOutdatedBotComments = arr =>
-    arr.filter(
-      comment => comment.position !== null && comment.user.login === BOT_NAME,
-    );
-
-  return octokit
-    .paginate(
-      `GET /repos/:owner/:repo/pulls/:pull_number/comments`,
-      octokitDefaults,
-      response =>
-        ignoreOutdatedBotComments(response.data).map(
-          ({ path, body, position }) => ({ path, position, body }),
-        ),
-    )
-    .then(comments => {
+  return getPRbotComments()
+    .then(comments =>
+      // Create sorted list of unique stringified objects for easy comparison
       // Removing the duplicates shouldn't be necessary once everything is working properly
       // because there shouldn't be any duplicates
       const noDupes = uniqBy(comments, JSON.stringify);
