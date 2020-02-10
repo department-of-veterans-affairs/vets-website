@@ -123,7 +123,7 @@ export const healthServices = {
 };
 
 export const urgentCareServices = {
-  UrgentCare: 'Urgent care',
+  UrgentCare: 'VA urgent care',
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };
 
