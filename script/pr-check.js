@@ -84,10 +84,10 @@ const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
 
 // First, create a PR review to apply comments to
 function createReview(additions) {
-  // if (additions.length === 0) {
-  //   console.log('No new comments to make');
-  //   return null;
-  // }
+  if (additions.length === 0) {
+    console.log('No new comments to make');
+    return null;
+  }
   console.log(additions);
 
   return octokit.pulls.createReview({
@@ -95,8 +95,8 @@ function createReview(additions) {
     body: OVERALL_REVIEW_COMMENT,
     event: 'COMMENT',
     comments: additions.map(line => {
-      const [filename, offset] = line.split(':');
-      return { path: filename, position: offset, body: LINE_COMMENT };
+      const [path, position] = line.split(':');
+      return { path, position, body: LINE_COMMENT };
     }),
   });
 }
