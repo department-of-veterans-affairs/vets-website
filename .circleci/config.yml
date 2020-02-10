@@ -70,10 +70,13 @@ jobs:
 
 workflows:
   version: 2
-  blah:
+  flag-for-manual-review:
     jobs:
-      - eslint-check
-      - sentry-check
-          # filters:
-          #   branches:
-          #     ignore: master
+      - eslint-check:
+          filters:
+            branches:
+              ignore: master
+      - sentry-check:
+          filters:
+            branches:
+              ignore: master
