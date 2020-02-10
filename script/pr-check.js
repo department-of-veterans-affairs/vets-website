@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
 const { Octokit } = require('@octokit/rest');
-const { sortBy, uniqBy } = require('lodash');
+const { isEmpty, sortBy, uniqBy } = require('lodash');
 
 const {
   BOT_NAME,
@@ -60,6 +60,27 @@ function getPRbotComments() {
   );
 }
 
+// First, create a PR review to apply comments to
+function createReview(additions) {
+  return octokit.pulls.createReview({
+    ...octokitDefaults,
+    body: OVERALL_REVIEW_COMMENT,
+    event: 'COMMENT',
+    comments: additions.map(({ path, position }) => ({
+      path,
+      position,
+      body: LINE_COMMENT,
+    })),
+  });
+}
+
+/**
+ * Throws a promise rejection where the error contains a message and data
+ */
+function finish(message, data) {
+  Promise.reject(new Error({ message, data }));
+}
+
 /**
  * Add a label to the beginning of added lines in the diff
  * where the label consists of:
@@ -101,26 +122,22 @@ function labelAdditions(diffLines) {
   return output;
 }
 
-const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
-
-// First, create a PR review to apply comments to
-function createReview(additions) {
-  if (additions.length === 0) {
-    console.log('No new comments to make');
-    return null;
-  }
-  console.log(additions);
-
-  return octokit.pulls.createReview({
-    ...octokitDefaults,
-    body: OVERALL_REVIEW_COMMENT,
-    event: 'COMMENT',
-    comments: additions.map(({ path, position }) => ({
-      path,
-      position,
-      body: LINE_COMMENT,
-    })),
-  });
+/**
+ * Tries to filter the array down to items which contain the CODE_PATTERN
+ * Throws a Promise rejection if the filtered list is empty
+ */
+function findPattern(arr) {
+  return Promise.resolve(
+    arr.filter(({ line }) => new RegExp(CODE_PATTERN).test(line)),
+  ).then(
+    patternList =>
+      isEmpty(patternList)
+        ? finish(
+            `No additions found matching the pattern: "${CODE_PATTERN}"`,
+            patternList,
+          )
+        : patternList,
+  );
 }
 
 /**
@@ -128,12 +145,6 @@ function createReview(additions) {
  * area considered "new" in this run.
  */
 function filterAgainstPreviousComments(additions) {
-  if (additions.length === 0) {
-    console.log(`No additions matching the pattern: "${CODE_PATTERN}"`);
-    return [];
-  }
-  console.log(additions);
-
   return getPRbotComments()
     .then(comments =>
       // Create sorted list of unique stringified objects for easy comparison
@@ -151,6 +162,12 @@ function filterAgainstPreviousComments(additions) {
             JSON.stringify({ path, position, body: LINE_COMMENT }),
           ),
       ),
+    )
+    .then(
+      newAdditions =>
+        isEmpty(newAdditions)
+          ? finish('No new comments to make')
+          : newAdditions,
     );
 }
 
@@ -158,4 +175,7 @@ getPRdiff()
   .then(labelAdditions)
   .then(findPattern)
   .then(filterAgainstPreviousComments)
-  .then(createReview);
+  .then(createReview)
+  .catch(error => {
+    console.log(error);
+  });
