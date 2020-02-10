@@ -29,13 +29,11 @@ class SignInModal extends React.Component {
     this.state = {
       globalDowntime: false,
     };
-
-    this.setGlobalDowntimeState = this.setGlobalDowntimeState.bind(this);
   }
 
-  setGlobalDowntimeState() {
+  setGlobalDowntimeState = () => {
     this.setState({ globalDowntime: true });
-  }
+  };
 
   downtimeBanner = (
     { dependencies, headline, status, message, globalDowntime },
