@@ -4,14 +4,14 @@ const { Octokit } = require('@octokit/rest');
 const { isEmpty, sortBy, uniqBy } = require('lodash');
 
 const {
-  BOT_NAME,
+  BOT_NAME, // Name of the bot for the auth token we are using
   CIRCLE_PROJECT_REPONAME: repo,
   CIRCLE_PROJECT_USERNAME: owner,
-  CIRCLE_PULL_REQUEST,
-  CODE_PATTERN,
-  GITHUB_TOKEN: auth,
-  LINE_COMMENT,
-  OVERALL_REVIEW_COMMENT,
+  CIRCLE_PULL_REQUEST, // Link to the PR (used to get PR number)
+  CODE_PATTERN, // Regex pattern which will trigger a review comment if found
+  GITHUB_TOKEN: auth, // Auth token used for the Github API
+  LINE_COMMENT, // Review comment for an individual line comment
+  OVERALL_REVIEW_COMMENT, // Review comment for the whole review
 } = process.env;
 
 if (CIRCLE_PULL_REQUEST == null) {
@@ -60,7 +60,9 @@ function getPRbotComments() {
   );
 }
 
-// First, create a PR review to apply comments to
+/**
+ * Create a Github review on the PR, leaving comments if there are any additions made
+ */
 function createReview(additions) {
   return octokit.pulls.createReview({
     ...octokitDefaults,
