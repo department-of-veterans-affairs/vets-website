@@ -1,46 +1,40 @@
 import React from 'react';
+import moment from 'moment';
 
-import {
-  getAppointmentTypeHeader,
-  getAppointmentDate,
-  generateICS,
-  generateICSFromAppointment,
-} from '../utils/appointment';
+import { generateICS } from '../utils/appointment';
 
 export default function AddToCalendar({
-  appointment,
-  facility,
-  subject,
+  summary,
   description,
   location,
-  momentStartDate,
-  momentEndDate,
+  startDateTime,
+  endDateTime,
 }) {
-  const title = getAppointmentTypeHeader(appointment);
+  const title = summary;
   const filename = `${title.replace(/\s/g, '_')}.ics`;
-  const text =
-    appointment && facility
-      ? generateICSFromAppointment(appointment, facility)
-      : generateICS({
-          subject,
-          description,
-          location,
-          momentStartDate,
-          momentEndDate,
-        });
+  const text = generateICS(
+    summary,
+    description,
+    location,
+    startDateTime,
+    endDateTime,
+  );
+  const formattedDate = moment(startDateTime).format('MMMM D, YYYY');
 
   // IE11 doesn't support the download attribute, so this creates a button
   // and uses an ms blob save api
   if (window.navigator.msSaveOrOpenBlob) {
     const onClick = () => {
-      const blob = new Blob([text], { type: 'text/calendar;charset=utf-8;' });
+      const blob = new Blob([text], {
+        type: 'text/calendar;charset=utf-8;',
+      });
       window.navigator.msSaveOrOpenBlob(blob, filename);
     };
 
     return (
       <button
         onClick={onClick}
-        aria-label={`Add to calendar on ${getAppointmentDate(appointment)}`}
+        aria-label={`Add to calendar on ${formattedDate}`}
         className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
       >
         Add to calendar
@@ -52,7 +46,7 @@ export default function AddToCalendar({
     <a
       href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
       download={filename}
-      aria-label={`Add to calendar on ${getAppointmentDate(appointment)}`}
+      aria-label={`Add to calendar on ${formattedDate}`}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
     >
       Add to calendar

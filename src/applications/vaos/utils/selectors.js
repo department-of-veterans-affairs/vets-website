@@ -23,6 +23,10 @@ export function getFlowType(state) {
   return getNewAppointment(state).flowType;
 }
 
+export function getAppointmentLength(state) {
+  return getNewAppointment(state).appointmentLength;
+}
+
 export function getFormPageInfo(state, pageKey) {
   return {
     schema: getNewAppointment(state).pages[pageKey],
