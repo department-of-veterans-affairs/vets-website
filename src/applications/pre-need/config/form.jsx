@@ -1,4 +1,6 @@
-import { pick, omit, merge } from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 

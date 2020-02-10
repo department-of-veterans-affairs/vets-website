@@ -1,6 +1,7 @@
 const path = require('path');
 
-const { mapKeys, camelCase } = require('lodash');
+const mapKeys = require('lodash/mapKeys');
+const camelCase = require('lodash/camelCase');
 const { getContentModelType, getAllImportsFrom } = require('./helpers');
 
 // Dynamically read in all the transformers

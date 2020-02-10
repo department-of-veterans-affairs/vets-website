@@ -16,7 +16,7 @@ import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from '../../../platform/utilities/data/cloneDeep';
 import set from '../../../platform/utilities/data/set';
 import get from '../../../platform/utilities/data/get';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 import { genderLabels } from '../../../platform/static-data/labels';
 
 import { DateWidget } from 'platform/forms-system/src/js/review/widgets';

@@ -4,7 +4,7 @@ import moment from 'moment';
 import { dateToMoment } from '../../../platform/utilities/date';
 
 export function getLabel(options, value) {
-  const matched = find(options, option => option.value === value);
+  const matched = find(options, value);
 
   return matched ? matched.label : null;
 }

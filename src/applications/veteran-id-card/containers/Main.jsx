@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { has, head } from 'lodash';
+import head from 'lodash/head';
+import has from 'lodash/has';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';

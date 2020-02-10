@@ -3,6 +3,7 @@ import set from './set';
 
 function isEmpty(value) {
   return (
+    // eslint-disable-next-line lodash/prefer-is-nil
     value === null ||
     value === undefined ||
     (typeof value === 'object' && !Object.keys(value).length)

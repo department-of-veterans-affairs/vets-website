@@ -31,7 +31,7 @@ export function groupPagesIntoChapters(routes, prefix = '') {
     return obj;
   });
 
-  const pageGroups = groupBy(pageList, page => page.chapter);
+  const pageGroups = groupBy(pageList, 'chapter');
 
   return Object.keys(pageGroups).map(chapter => ({
     name: chapter,

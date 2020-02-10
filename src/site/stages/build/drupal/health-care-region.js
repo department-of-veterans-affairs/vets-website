@@ -7,7 +7,8 @@ const {
   generateBreadCrumbs,
 } = require('./page');
 
-const _ = require('lodash');
+const forEach = require('lodash/forEach');
+const orderBy = require('lodash/orderBy');
 const moment = require('moment');
 
 // Creates the facility pages
@@ -63,7 +64,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
   if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
+    const clinicalHealthServices = page.fieldClinicalHealthServices.entities
       .sortBy('fieldServiceNameAndDescripti.entity.weight')
       .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
       .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
@@ -161,7 +162,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   };
 
   // separate current events from past events;
-  _.forEach(allEvents.entities, value => {
+  forEach(allEvents.entities, value => {
     const eventTeaser = value;
     const startDate = eventTeaser.fieldDate.startDate;
     const isPast = moment().diff(startDate, 'days');
@@ -173,7 +174,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   });
 
   // sort past events into reverse chronological order by start date
-  pastEventTeasers.entities = _.orderBy(
+  pastEventTeasers.entities = orderBy(
     pastEventTeasers.entities,
     ['fieldDate.startDate'],
     ['desc'],

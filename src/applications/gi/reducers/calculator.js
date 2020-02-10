@@ -1,4 +1,4 @@
-import { isFinite } from 'lodash';
+import isFinite from 'lodash/isFinite';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import React from 'react';
 
 class Graph extends React.Component {
@@ -9,7 +10,7 @@ class Graph extends React.Component {
 
   format(d) {
     let val = d.value;
-    if (val === null || val === undefined) {
+    if (isNil(val) || val === undefined) {
       return 'No Data';
     }
     val = val.toFixed(this.props.decimals);

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
-import { isFinite, pick } from 'lodash';
+import isFinite from 'lodash/isFinite';
+import pick from 'lodash/pick';
 
 const getConstants = state => state.constants.constants;
 

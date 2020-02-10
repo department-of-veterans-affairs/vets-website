@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const Generator = require('yeoman-generator');
-const _ = require('lodash');
+const flatten = require('lodash/flatten');
+const camelCase = require('lodash/camelCase');
+const snakeCase = require('lodash/snakeCase');
 const chalk = require('chalk');
 
 const rawExamplesIndex = require('../../../tests/entities');
@@ -30,7 +32,7 @@ const templatesPath = path.join(
  */
 const allSnakeCasedPropertyNames = obj =>
   new Set(
-    _.flatten(
+    flatten(
       Object.keys(obj).map(key => {
         if (
           obj[key] &&
@@ -38,10 +40,10 @@ const allSnakeCasedPropertyNames = obj =>
           !Array.isArray(obj[key])
         )
           return Array.from(allSnakeCasedPropertyNames(obj[key])).concat([
-            _.snakeCase(key),
+            snakeCase(key),
           ]);
 
-        return _.snakeCase(key);
+        return snakeCase(key);
       }),
     ),
   );
@@ -296,7 +298,7 @@ module.exports = class extends Generator {
     );
 
     this.transformedPropertyNames = this.rawPropertyNames.map(n =>
-      _.camelCase(n),
+      camelCase(n),
     );
 
     this.fs.copyTpl(path.join(templatesPath, 'raw-schema'), rawSchemaPath, {

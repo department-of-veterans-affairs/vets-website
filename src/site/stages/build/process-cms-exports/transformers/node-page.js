@@ -1,5 +1,6 @@
 const moment = require('moment-timezone');
-const { flatten, isEmpty } = require('lodash');
+const flatten = require('lodash/flatten');
+const isEmpty = require('lodash/isEmpty');
 
 const {
   getDrupalValue,

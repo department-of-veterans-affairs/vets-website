@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import snakeCase from 'lodash/snakeCase';
 import constants from 'vets-json-schema/dist/constants.json';
 
 export const formatNumber = value => {

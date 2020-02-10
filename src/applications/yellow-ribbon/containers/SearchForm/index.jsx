@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
-import { map } from 'lodash';
+import map from 'lodash/map';
 // Relative imports.
 import STATES from '../../constants/STATES.json';
 import { fetchResultsThunk } from '../../actions';

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { isEmpty, compact } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import compact from 'lodash/compact';
 import moment from 'moment';
 
 import StatsBar from './StatsBar';

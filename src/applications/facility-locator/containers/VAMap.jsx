@@ -7,7 +7,8 @@ import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import mapboxClient from '../components/MapboxClient';
 import { mapboxToken } from '../utils/mapboxToken';
 import isMobile from 'ismobilejs';
-import { isEmpty, debounce } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import debounce from 'lodash/debounce';
 import appendQuery from 'append-query';
 import {
   updateSearchQuery,

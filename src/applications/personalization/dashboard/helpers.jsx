@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as Sentry from '@sentry/browser';
-import { isPlainObject } from 'lodash';
+import isPlainObject from 'lodash/isPlainObject';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 

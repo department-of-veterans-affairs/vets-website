@@ -1,7 +1,10 @@
 const moment = require('moment');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
-const _ = require('lodash');
+const get = require('lodash/get');
+const indexOf = require('lodash/indexOf');
+const flatMap = require('lodash/flatMap');
+const sortBy = require('lodash/sortBy');
 
 function getPath(obj) {
   return obj.path;
@@ -421,8 +424,8 @@ module.exports = function registerFilters() {
     if (outreachPattern.test(path)) {
       return false;
     }
-    const paths = _.flatMap(menuArray, getPath);
-    const inMenu = _.indexOf(paths, path);
+    const paths = flatMap(menuArray, getPath);
+    const inMenu = indexOf(paths, path);
     return inMenu !== -1;
   };
 
@@ -435,14 +438,14 @@ module.exports = function registerFilters() {
   };
 
   // sort a list of objects by a certain property in the object
-  liquid.filters.sortObjectsBy = (entities, path) => _.sortBy(entities, path);
+  liquid.filters.sortObjectsBy = (entities, path) => sortBy(entities, path);
 
   // get a value from a path of an object
-  liquid.filters.getValueFromObjPath = (obj, path) => _.get(obj, path);
+  liquid.filters.getValueFromObjPath = (obj, path) => get(obj, path);
 
   // get a value from a path of an object in an array
   liquid.filters.getValueFromArrayObjPath = (entities, index, path) =>
-    _.get(entities[index], path);
+    get(entities[index], path);
 
   // needed until all environments have the "Health Service API ID" feature flag
   // when this is no longer needed, simply use

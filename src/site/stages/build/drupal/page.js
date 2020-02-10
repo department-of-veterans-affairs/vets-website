@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign, no-continue */
 const path = require('path');
-const _ = require('lodash');
+const chunk = require('lodash/chunk');
+const trim = require('lodash/trim');
+const toLower = require('lodash/toLower');
 const set = require('lodash/fp/set');
 
 // Creates the file object to add to the file list using the page and layout
@@ -49,7 +51,7 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     ariaLabel = ` of ${ariaLabel}`;
   }
 
-  const pagedEntities = _.chunk(page[field].entities, perPage);
+  const pagedEntities = chunk(page[field].entities, perPage);
   for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
     let pagedPage = Object.assign({}, page);
 
@@ -148,7 +150,7 @@ function generateBreadCrumbs(pathString) {
   let trimmedValue;
 
   for (const value of pathArray) {
-    trimmedValue = _.trim(value, '/');
+    trimmedValue = trim(value, '/');
     if (value) {
       const dehandlized =
         value === 'pittsburgh-health-care'
@@ -171,7 +173,7 @@ function getHubSidebar(navsArray, owner) {
   // Get the right benefits hub sidebar
   for (const nav of navsArray) {
     if (nav !== null && nav.links) {
-      const navName = _.toLower(nav.name.replace(/&/g, 'and'));
+      const navName = toLower(nav.name.replace(/&/g, 'and'));
       if (owner !== null && owner === navName) {
         return { sidebar: nav };
       }
@@ -251,7 +253,7 @@ function compilePage(page, contentData) {
   // Get page owner
   let owner;
   if (page.fieldAdministration) {
-    owner = _.toLower(page.fieldAdministration.entity.name);
+    owner = toLower(page.fieldAdministration.entity.name);
   }
   // Benefits hub side navs in an array to loop through later
   const sideNavs = [

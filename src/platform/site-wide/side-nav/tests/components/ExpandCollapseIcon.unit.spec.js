@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 // Relative
 import ExpandCollapseIcon from '../../components/ExpandCollapseIcon';
 

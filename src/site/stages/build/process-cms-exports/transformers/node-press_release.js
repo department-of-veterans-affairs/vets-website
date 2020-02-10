@@ -1,5 +1,6 @@
 const moment = require('moment');
-const { mapKeys, camelCase } = require('lodash');
+const mapKeys = require('lodash/mapKeys');
+const camelCase = require('lodash/camelCase');
 
 const {
   createMetaTagArray,

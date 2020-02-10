@@ -156,7 +156,7 @@ export const oneDisabilityRequired = disabilityList => (
 
   const hasNewDisabilitiesSelected = some(
     [...newDisabilities, ...ratedDisabilities],
-    disability => disability.unemployabilityDisability,
+    'unemployabilityDisability',
   );
 
   if (!hasNewDisabilitiesSelected) {

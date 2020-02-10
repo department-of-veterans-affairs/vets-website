@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { startCase } from 'lodash';
+import startCase from 'lodash/startCase';
 
 import { fetchAppointments } from '../../appointments/actions';
 

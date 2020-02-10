@@ -5,7 +5,8 @@ const {
   createLink,
   createMetaTagArray,
 } = require('./helpers');
-const { mapKeys, camelCase } = require('lodash');
+const mapKeys = require('lodash/mapKeys');
+const camelCase = require('lodash/camelCase');
 const assert = require('assert');
 
 function fakeUtc(timeString) {

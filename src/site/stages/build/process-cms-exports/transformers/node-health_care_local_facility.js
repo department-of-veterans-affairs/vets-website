@@ -5,7 +5,8 @@ const {
   combineItemsInIndexedObject,
   utcToEpochTime,
 } = require('./helpers');
-const { mapKeys, camelCase } = require('lodash');
+const mapKeys = require('lodash/mapKeys');
+const camelCase = require('lodash/camelCase');
 
 const transform = entity => ({
   entityType: 'node',

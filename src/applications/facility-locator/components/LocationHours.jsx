@@ -1,6 +1,6 @@
 // Dependencies
 import React from 'react';
-import { get } from 'lodash';
+import get from 'lodash/get';
 // Relative
 import { LocationType } from '../constants';
 import { formatOperatingHours } from '../utils/helpers';

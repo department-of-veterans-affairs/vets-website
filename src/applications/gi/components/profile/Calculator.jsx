@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import recordEvent from '../../../platform/monitoring/record-event';
 import { APPEAL_TYPES } from '../utils/appeals-v2-helpers';
 

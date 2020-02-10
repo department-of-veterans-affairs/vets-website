@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import deduplicate from 'platform/utilities/data/deduplicate';
 import localStorage from 'platform/utilities/storage/localStorage';

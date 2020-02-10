@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import moment from 'moment';
 import filter from 'lodash/filter';
+import sortBy from 'lodash/sortBy';
 import orderBy from 'lodash/orderBy';
 
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
@@ -55,11 +56,9 @@ class AppealStatusPage extends React.Component {
       moment().isBefore(h.date),
     );
 
-    const upcomingHearing = orderBy(
-      activeHearings,
-      [e => moment(e.date).unix()],
-      ['asc'],
-    )[0];
+    const upcomingHearing = sortBy(activeHearings, [
+      e => moment(e.date).unix(),
+    ])[0];
 
     if (upcomingHearing) {
       const hearingContent = hearingDescriptions[upcomingHearing.type];

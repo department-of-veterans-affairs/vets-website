@@ -1,4 +1,4 @@
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import * as VET360_CONSTANTS from '../constants';
 
 export function isVet360Configured() {

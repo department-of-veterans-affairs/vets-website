@@ -1,5 +1,8 @@
 const assert = require('assert');
-const { sortBy, unescape, pick, omit } = require('lodash');
+const sortBy = require('lodash/sortBy');
+const unescape = require('lodash/unescape');
+const pick = require('lodash/pick');
+const omit = require('lodash/omit');
 const moment = require('moment-timezone');
 
 /**

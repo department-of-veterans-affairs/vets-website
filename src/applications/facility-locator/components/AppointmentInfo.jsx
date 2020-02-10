@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { get, some, pull, startCase } from 'lodash';
+import get from 'lodash/get';
+import some from 'lodash/some';
+import pull from 'lodash/pull';
+import startCase from 'lodash/startCase';
 import classNames from 'classnames';
 import moment from 'moment';
 import recordEvent from '../../../platform/monitoring/record-event';
@@ -27,7 +30,7 @@ export default class AppointmentInfo extends Component {
   }
 
   hasPrimaryCare(accessAttrs, category) {
-    const value = get(accessAttrs, ['primaryCare', category]);
+    const value = get(accessAttrs, `primaryCare.${category}`);
     return value || value === 0;
   }
 

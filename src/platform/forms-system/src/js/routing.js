@@ -7,7 +7,7 @@ import { getActiveExpandedPages } from './helpers';
  */
 function getEligiblePages(pageList, data, pathname) {
   const eligiblePageList = getActiveExpandedPages(pageList, data);
-  const pageIndex = findIndex(eligiblePageList, item => item.path === pathname);
+  const pageIndex = findIndex(eligiblePageList, ['path', pathname]);
   return { pages: eligiblePageList, pageIndex };
 }
 

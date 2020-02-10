@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { toLower } from 'lodash';
+import toLower from 'lodash/toLower';
 
 import recordEvent from 'platform/monitoring/record-event';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';

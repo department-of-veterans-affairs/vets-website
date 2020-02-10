@@ -1,5 +1,5 @@
 import React from 'react';
-import { range } from 'lodash';
+import range from 'lodash/range';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';

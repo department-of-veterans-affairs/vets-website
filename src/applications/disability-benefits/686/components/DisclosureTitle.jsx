@@ -9,8 +9,7 @@ export default function createDisclosureTitle(path, title) {
     if (path === 'spouse') {
       const marriages = formData.marriages || [];
       fullName =
-        get(formData, ['marriages', marriages.length - 1, 'spouseFullName']) ||
-        {};
+        get(formData, `marriages.${marriages.length - 1}.spouseFullName`) || {};
     } else {
       fullName = get(formData, path) || {};
     }

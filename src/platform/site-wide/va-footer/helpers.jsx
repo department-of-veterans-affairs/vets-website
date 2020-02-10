@@ -1,5 +1,6 @@
 import React from 'react';
 import orderBy from 'lodash/orderBy';
+import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import { replaceDomainsInData } from '../../utilities/environment/stagingDomains';
 
@@ -57,7 +58,7 @@ function generateSuperLinks(groupedList) {
 
   return (
     <ul>
-      {orderBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
+      {sortBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
         <li key={`${link.order}`}>
           <a href={link.href} onClick={captureEvent} target={link.target}>
             {link.title}

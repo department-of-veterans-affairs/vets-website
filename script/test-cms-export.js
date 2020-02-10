@@ -1,7 +1,7 @@
 // Dependencies
 const assert = require('assert');
 const commandLineArgs = require('command-line-args');
-const { map } = require('lodash');
+const map = require('lodash/map');
 // Relative
 const {
   contentDir,

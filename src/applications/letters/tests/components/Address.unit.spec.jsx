@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { getFormDOM } from '../../../../platform/testing/unit/schemaform-utils';
 import Address from '../../components/Address.jsx';

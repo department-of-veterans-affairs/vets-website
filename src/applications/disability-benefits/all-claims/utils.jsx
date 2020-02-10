@@ -3,7 +3,7 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import { createSelector } from 'reselect';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from '../../../platform/utilities/api';
