@@ -1,5 +1,7 @@
 import { states50AndDC } from './constants';
 
+const fullNamePattern = '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$';
+
 export const genericSchemas = {
   genericLocation: {
     type: 'object',
@@ -34,18 +36,18 @@ export const genericSchemas = {
         type: 'string',
         minLength: 1,
         maxLength: 30,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: fullNamePattern,
       },
       middle: {
         type: 'string',
         maxLength: 20,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: fullNamePattern,
       },
       last: {
         type: 'string',
         minLength: 1,
         maxLength: 30,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: fullNamePattern,
       },
     },
     required: ['first', 'last'],
