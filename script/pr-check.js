@@ -64,6 +64,8 @@ function getPRbotComments() {
  * Create a Github review on the PR, leaving comments if there are any additions made
  */
 function createReview(additions) {
+  console.log(additions);
+
   return octokit.pulls.createReview({
     ...octokitDefaults,
     body: OVERALL_REVIEW_COMMENT,
@@ -77,10 +79,12 @@ function createReview(additions) {
 }
 
 /**
- * Throws a promise rejection where the error contains a message and data
+ * Log the message & data, then exit
  */
 function finish(message, data) {
-  Promise.reject(new Error({ message, data }));
+  console.log(message);
+  console.log(data);
+  process.exit();
 }
 
 /**
@@ -168,7 +172,7 @@ function filterAgainstPreviousComments(additions) {
     .then(
       newAdditions =>
         isEmpty(newAdditions)
-          ? finish('No new comments to make')
+          ? finish('No new comments to make', additions)
           : newAdditions,
     );
 }
@@ -178,6 +182,4 @@ getPRdiff()
   .then(findPattern)
   .then(filterAgainstPreviousComments)
   .then(createReview)
-  .catch(error => {
-    console.log(error);
-  });
+  .finally(() => console.log('Exiting'));
