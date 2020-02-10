@@ -257,4 +257,37 @@ describe('VAOS <VAFacilityPage>', () => {
     expect(document.title).contain(pageTitle);
     form.unmount();
   });
+
+  it('should render data fetching error', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        data={defaultData}
+        hasDataFetchingError
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('SchemaForm').exists()).to.be.false;
+    expect(form.find('ErrorMessage').exists()).to.be.true;
+    form.unmount();
+  });
+
+  it('should render eligibility error', () => {
+    const openFormPage = sinon.spy();
+    const form = shallow(
+      <VAFacilityPage
+        data={defaultData}
+        schema={defaultSchema}
+        hasEligibilityError
+        openFacilityPage={openFormPage}
+      />,
+    );
+
+    expect(form.find('LoadingIndicator').exists()).to.be.false;
+    expect(form.find('SchemaForm').exists()).to.be.true;
+    expect(form.find('ErrorMessage').exists()).to.be.true;
+    form.unmount();
+  });
 });

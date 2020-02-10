@@ -10,6 +10,7 @@ export default function uiSchema(
     'ui:validations': [validateDateRange],
     'ui:errorMessages': {
       pattern: rangeError,
+      required: 'Please enter a date',
     },
     from: monthYearUI(from),
     to: monthYearUI(to),

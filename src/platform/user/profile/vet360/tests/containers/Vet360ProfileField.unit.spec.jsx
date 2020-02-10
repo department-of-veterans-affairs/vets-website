@@ -33,6 +33,7 @@ describe('<Vet360ProfileField/>', () => {
       onEdit() {},
       onCancel() {},
       onChange() {},
+      onChangeFormDataAndSchemas() {},
       onDelete() {},
       onSubmit() {},
       openModal: sinon.spy(),

@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import DueDate from '../components/DueDate';
 import { truncateDescription, stripHtml } from '../utils/helpers';
 
+import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
+
 export default class RequestedFilesInfo extends React.Component {
   render() {
     const { id, filesNeeded, optionalFiles } = this.props;
@@ -81,24 +83,7 @@ export default class RequestedFilesInfo extends React.Component {
         <div className="submit-file-container">
           <div className="submit-additional-evidence">
             <h2 className="claim-file-border">Additional evidence</h2>
-            <div className="usa-alert additional-evidence-alert alert-with-details">
-              <div className="item-container">
-                <p className="additional-evidence-desc">
-                  Do you have more evidence to submit that supports your claim?
-                  Upload it here now.
-                </p>
-              </div>
-              <div className="button-container">
-                <Link
-                  aria-label="View details for additional evidence"
-                  title="View details for additional evidence"
-                  className="usa-button usa-button-secondary view-details-button"
-                  to={`your-claims/${id}/additional-evidence`}
-                >
-                  View Details
-                </Link>
-              </div>
-            </div>
+            <AdditionalEvidencePage />
           </div>
         </div>
       </div>
