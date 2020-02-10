@@ -1,15 +1,16 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-sequences */
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/2346-schema.json';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import ConfirmAddressPage from '../components/ConfirmAddress';
 import OrderCommentPage from '../components/OrderCommentPage';
+import VeteranInformationPage from '../components/VeteranInformationPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import OrderHistory from '../containers/OrderHistory';
-import VeteranInformationPage from '../components/VeteranInformationPage';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -64,9 +65,9 @@ const formConfig = {
     ConfirmAddressChapter: {
       title: formPages.confirmAddressPage,
       pages: {
-        [formPages.confirmAddressPage]: {
-          path: 'confirm-address',
-          title: formPages.confirmAddressPage,
+        'Personal Details': {
+          path: 'personal-details',
+          title: "Veteran's Info",
           uiSchema: {
             'ui:description': ConfirmAddressPage,
           },
@@ -91,16 +92,11 @@ const formConfig = {
             properties: {},
           },
         },
-      },
-    },
-    orderHistoryChapter: {
-      title: formPages.orderHistoryPage,
-      pages: {
-        [formPages.orderHistoryPage]: {
-          path: 'order-history-page',
-          title: formPages.orderHistoryPage,
+        'Confirm Address': {
+          path: 'confirm-address',
+          title: "Veteran's Info",
           uiSchema: {
-            'ui:description': OrderHistory,
+            'ui:description': ConfirmAddressPage,
           },
           schema: {
             type: 'object',

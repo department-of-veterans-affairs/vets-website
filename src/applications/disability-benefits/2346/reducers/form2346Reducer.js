@@ -3,13 +3,13 @@ import {
   FETCH_ACCESSORIES_DATA_SUCCESS,
   FETCH_BATTERY_DATA_FAILURE,
   FETCH_BATTERY_DATA_SUCCESS,
+  FETCH_VETERAN_ADDRESS_FAILURE,
+  FETCH_VETERAN_ADDRESS_SUCCESS,
   // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
   // FETCH_SOCKS_DATA_FAILURE,
   // FETCH_SOCKS_DATA_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
-  FETCH_VETERAN_INFORMATION,
-  FETCH_VETERAN_INFORMATION_FAILURE,
 } from '../constants';
 
 const initialState = {
@@ -70,13 +70,13 @@ export default (state = initialState, action) => {
         error: action.error,
       };
 
-    case FETCH_VETERAN_INFORMATION:
+    case FETCH_VETERAN_ADDRESS_SUCCESS:
       return {
         ...state,
         formData: action.data,
       };
 
-    case FETCH_VETERAN_INFORMATION_FAILURE:
+    case FETCH_VETERAN_ADDRESS_FAILURE:
       return {
         ...state,
         error: action.error,
