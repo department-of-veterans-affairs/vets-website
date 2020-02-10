@@ -92,7 +92,7 @@ function labelAdditions(diffLines) {
       position++;
     } else if (/^([ +-]).*/.test(line)) {
       // Only add to the output if this line of content is an addition (begins with a "+")
-      if (/^[+].*/.test(line)) output.push(`${path}:${position}:${line}`);
+      if (/^[+].*/.test(line)) output.push({ path, position, line });
       // Increment position for each line of actual content in the diff
       position++;
     }
@@ -115,10 +115,11 @@ function createReview(additions) {
     ...octokitDefaults,
     body: OVERALL_REVIEW_COMMENT,
     event: 'COMMENT',
-    comments: additions.map(line => {
-      const [path, position] = line.split(':');
-      return { path, position, body: LINE_COMMENT };
-    }),
+    comments: additions.map(({ path, position }) => ({
+      path,
+      position,
+      body: LINE_COMMENT,
+    })),
   });
 }
 
@@ -138,22 +139,19 @@ function filterAgainstPreviousComments(additions) {
       // Create sorted list of unique stringified objects for easy comparison
       // Removing the duplicates shouldn't be necessary once everything is working properly
       // because there shouldn't be any duplicates
-      const noDupes = uniqBy(comments, JSON.stringify);
-      const sortedUnique = sortBy(noDupes, JSON.stringify);
-
-      // console.log(sortedUnique);
-      const sortedUniqueFlat = sortedUnique.map(JSON.stringify);
-
-      const newAdditions = additions.filter(addition => {
-        const [path, strPosition] = addition.split(':');
-        const position = parseInt(strPosition, 10);
-        return !sortedUniqueFlat.includes(
-          JSON.stringify({ path, position, body: LINE_COMMENT }),
-        );
-      });
-
-      return newAdditions;
-    });
+      sortBy(uniqBy(comments, JSON.stringify), JSON.stringify).map(
+        JSON.stringify,
+      ),
+    )
+    .then(sortedUniqueFlat =>
+      // Get all the items that aren't in the list of flattened objects
+      additions.filter(
+        ({ path, position }) =>
+          !sortedUniqueFlat.includes(
+            JSON.stringify({ path, position, body: LINE_COMMENT }),
+          ),
+      ),
+    );
 }
 
 getPRdiff()
