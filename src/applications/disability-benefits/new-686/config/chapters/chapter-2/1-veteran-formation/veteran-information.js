@@ -61,20 +61,3 @@ export const uiSchema = {
   },
   birthDate: currentOrPastDateUI('Your date of birth'),
 };
-
-/*
-uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
-*/
