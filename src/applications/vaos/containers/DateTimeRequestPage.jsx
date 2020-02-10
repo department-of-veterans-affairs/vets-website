@@ -76,10 +76,12 @@ export class DateTimeRequestPage extends React.Component {
       scrollAndFocus('.usa-input-error-message');
     }
 
-    if (
-      prevProps.data.calendarData?.selectedDates?.length !==
-      this.props.data.calendarData?.selectedDates?.length
-    ) {
+    const prevSelectedSlotsCount =
+      prevProps.data.calendarData?.selectedDates?.length || 0;
+    const newSelectedSlotsCount =
+      this.props.data.calendarData?.selectedDates?.length || 0;
+
+    if (prevSelectedSlotsCount !== newSelectedSlotsCount) {
       this.validate();
     }
   }
@@ -130,7 +132,6 @@ export class DateTimeRequestPage extends React.Component {
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={newData => {
-            this.validate();
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
           formContext={{ validationError: this.state.validationError }}
