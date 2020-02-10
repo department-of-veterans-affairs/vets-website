@@ -251,6 +251,7 @@ export function confirmCancelAppointment() {
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,
+          facilityId: appointment.facilityId,
           remarks: '',
           clinicName: appointment.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
