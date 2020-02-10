@@ -11,6 +11,11 @@ const {
   OVERALL_REVIEW_COMMENT,
   LINE_COMMENT,
 } = process.env;
+
+if (CIRCLE_PULL_REQUEST == null) {
+  console.log('Not a PR');
+  process.exit();
+}
 const PR = CIRCLE_PULL_REQUEST.split('/').pop();
 
 const octokitDefaults = {
