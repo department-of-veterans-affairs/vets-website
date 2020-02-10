@@ -109,7 +109,6 @@ function filterAgainstPreviousComments(additions) {
   }
   console.log(additions);
 
-  const { owner, repo, pull_number } = octokitDefaults;
   const ignoreOutdatedBotComments = arr =>
     arr.filter(
       comment => comment.position !== null && comment.user.login === BOT_NAME,
@@ -118,7 +117,7 @@ function filterAgainstPreviousComments(additions) {
   return octokit
     .paginate(
       `GET /repos/:owner/:repo/pulls/:pull_number/comments`,
-      { owner, repo, pull_number },
+      octokitDefaults,
       response =>
         ignoreOutdatedBotComments(response.data).map(
           ({ path, body, position }) => ({ path, position, body }),
