@@ -5,28 +5,22 @@ const { sortBy, uniqBy } = require('lodash');
 
 const {
   BOT_NAME,
-  CODE_PATTERN,
-  GITHUB_TOKEN,
+  CIRCLE_PROJECT_REPONAME: repo,
+  CIRCLE_PROJECT_USERNAME: owner,
   CIRCLE_PULL_REQUEST,
-  OVERALL_REVIEW_COMMENT,
+  CODE_PATTERN,
+  GITHUB_TOKEN: auth,
   LINE_COMMENT,
+  OVERALL_REVIEW_COMMENT,
 } = process.env;
 
 if (CIRCLE_PULL_REQUEST == null) {
   console.log('Not a PR');
   process.exit();
 }
-const PR = CIRCLE_PULL_REQUEST.split('/').pop();
-
-const octokitDefaults = {
-  owner: 'department-of-veterans-affairs',
-  repo: 'vets-website',
-  pull_number: PR,
-};
-
-const octokit = new Octokit({
-  auth: GITHUB_TOKEN,
-});
+const pull_number = CIRCLE_PULL_REQUEST.split('/').pop();
+const octokitDefaults = { owner, repo, pull_number };
+const octokit = new Octokit({ auth });
 
 function getPRdiff() {
   return octokit.pulls
