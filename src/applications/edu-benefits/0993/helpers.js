@@ -1,4 +1,3 @@
-// import _ from 'lodash/fp';
 import React from 'react';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 

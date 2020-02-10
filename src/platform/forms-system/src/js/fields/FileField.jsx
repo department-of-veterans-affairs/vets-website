@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
+import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
 
 import ProgressBar from '../components/ProgressBar';
@@ -43,7 +41,7 @@ export default class FileField extends React.Component {
         this.props.uiSchema['ui:options'],
         this.updateProgress,
         file => {
-          this.props.onChange(set(idx, file, this.props.formData || []));
+          this.props.onChange(_.set(idx, file, this.props.formData || []));
           this.uploadRequest = null;
         },
         () => {
@@ -56,19 +54,21 @@ export default class FileField extends React.Component {
 
   onAttachmentIdChange = (index, value) => {
     if (!value) {
-      this.props.onChange(unset([index, 'attachmentId'], this.props.formData));
+      this.props.onChange(
+        _.unset([index, 'attachmentId'], this.props.formData),
+      );
     } else {
       this.props.onChange(
-        set([index, 'attachmentId'], value, this.props.formData),
+        _.set([index, 'attachmentId'], value, this.props.formData),
       );
     }
   };
 
   onAttachmentNameChange = (index, value) => {
     if (!value) {
-      this.props.onChange(unset([index, 'name'], this.props.formData));
+      this.props.onChange(_.unset([index, 'name'], this.props.formData));
     } else {
-      this.props.onChange(set([index, 'name'], value, this.props.formData));
+      this.props.onChange(_.set([index, 'name'], value, this.props.formData));
     }
   };
 
@@ -126,7 +126,7 @@ export default class FileField extends React.Component {
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
-              const errors = get([index, '__errors'], errorSchema) || [];
+              const errors = _.get([index, '__errors'], errorSchema) || [];
               const hasErrors = errors.length > 0;
               const itemClasses = classNames('va-growable-background', {
                 'schemaform-file-error usa-input-error':
@@ -139,11 +139,11 @@ export default class FileField extends React.Component {
               const attachmentNameSchema = {
                 $id: `${idSchema.$id}_${index}_attachmentName`,
               };
-              const attachmentIdErrors = get(
+              const attachmentIdErrors = _.get(
                 [index, 'attachmentId'],
                 errorSchema,
               );
-              const attachmentNameErrors = get([index, 'name'], errorSchema);
+              const attachmentNameErrors = _.get([index, 'name'], errorSchema);
 
               return (
                 <li
@@ -175,7 +175,7 @@ export default class FileField extends React.Component {
                     </span>
                   )}
                   {!hasErrors &&
-                    get('properties.attachmentId', itemSchema) && (
+                    _.get('properties.attachmentId', itemSchema) && (
                       <div className="schemaform-file-attachment">
                         <SchemaField
                           name="attachmentId"
