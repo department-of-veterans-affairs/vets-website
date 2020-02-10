@@ -131,7 +131,7 @@ function filterAgainstPreviousComments(additions) {
       const newAdditions = additions.filter(addition => {
         const [path, strPosition] = addition.split(':');
         const position = parseInt(strPosition, 10);
-        return sortedUniqueFlat.includes(
+        return !sortedUniqueFlat.includes(
           JSON.stringify({ path, position, body: LINE_COMMENT }),
         );
       });
