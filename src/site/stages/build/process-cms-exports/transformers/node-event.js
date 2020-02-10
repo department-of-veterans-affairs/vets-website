@@ -40,7 +40,9 @@ const transform = entity => ({
       }
     : null,
   // The keys of fieldAddress[0] are snake_case, but we want camelCase
-  fieldAddress: mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k)),
+  fieldAddress: entity.fieldAddress[0]
+    ? mapKeys(entity.fieldAddress[0], (v, k) => camelCase(k))
+    : null,
   fieldBody: {
     processed: getWysiwygString(getDrupalValue(entity.fieldBody)),
   },

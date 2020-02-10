@@ -37,7 +37,7 @@ class ViewDependentsLayout extends Component {
     ];
 
     const mainContent = (
-      <div className="vads-l-grid-container">
+      <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             <ViewDependentsHeader />

@@ -3,11 +3,26 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import { fetchResultsApi } from '../api';
 import {
+  ADD_SCHOOL_TO_COMPARE,
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
+  REMOVE_SCHOOL_FROM_COMPARE,
   UPDATE_PAGE,
 } from '../constants';
+
+// ============
+// Add/Remove School from comparison
+// ============
+export const addSchoolToCompareAction = school => ({
+  school,
+  type: ADD_SCHOOL_TO_COMPARE,
+});
+
+export const removeSchoolFromCompareAction = school => ({
+  school,
+  type: REMOVE_SCHOOL_FROM_COMPARE,
+});
 
 // ============
 // Fetch Results (via API)

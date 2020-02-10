@@ -29,10 +29,10 @@ function replacePathInData(data, replacer) {
   return current;
 }
 
-function convertAssetPath(drupalInstance, url) {
+function convertAssetPath(url) {
   // After this path are other folders in the image paths,
   // but it's hard to tell if we can strip them, so I'm leaving them alone
-  const withoutHost = url.replace(`${drupalInstance}/sites/default/files/`, '');
+  const withoutHost = url.replace(/^.*\/sites\/.*\/files\//, '');
   const path = withoutHost.split('?', 2)[0];
 
   // This is sort of naive, but we'd like to have images in the img folder
@@ -47,6 +47,7 @@ function convertAssetPath(drupalInstance, url) {
   return `/files/${path}`;
 }
 
+// @todo Explain _why_ this function is needed.
 function updateAttr(attr, doc, client) {
   const assetsToDownload = [];
   const usingAWS = !!PUBLIC_URLS[client.getSiteUri()];
@@ -56,16 +57,17 @@ function updateAttr(attr, doc, client) {
     const srcAttr = item.attr(attr);
 
     const siteURI = srcAttr.match(
-      /http[s]{0,1}:\/\/[^.]*[.]{0,1}cms\.va\.gov/,
+      /https?:\/\/([a-zA-Z0-9]+[.])*cms[.]va[.]gov/,
     )[0];
-    const awsURI = Object.entries(PUBLIC_URLS).find(
-      entry => entry[1] === siteURI,
-    )[0];
+    // *.ci.cms.va.gov ENVs don't have AWS URLs.
+    const newAssetPath = convertAssetPath(srcAttr);
+    const awsURI = usingAWS
+      ? Object.entries(PUBLIC_URLS).find(entry => entry[1] === siteURI)[0]
+      : null;
 
-    const newAssetPath = convertAssetPath(siteURI, srcAttr);
     assetsToDownload.push({
-      // urls in WYSIWYG content won't be the aws urls, they'll be cms urls
-      // this means we need to replace them with the aws urls if we're on jenkins
+      // URLs in WYSIWYG content won't be the AWS URLs, they'll be CMS URLs.
+      // This means we need to replace them with the AWS URLs if we're on Jenkins.
       src: usingAWS ? srcAttr.replace(siteURI, awsURI) : srcAttr,
       dest: newAssetPath,
     });
@@ -80,8 +82,8 @@ function convertDrupalFilesToLocal(drupalData, files, options) {
   const client = getDrupalClient(options);
 
   return replacePathInData(drupalData, (data, key) => {
-    if (data.startsWith(`${client.getSiteUri()}/sites/default/files`)) {
-      const newPath = convertAssetPath(client.getSiteUri(), data);
+    if (data.match(/^.*\/sites\/.*\/files\//)) {
+      const newPath = convertAssetPath(data);
       const decodedFileName = decodeURIComponent(newPath).substring(1);
       // eslint-disable-next-line no-param-reassign
       files[decodedFileName] = {
