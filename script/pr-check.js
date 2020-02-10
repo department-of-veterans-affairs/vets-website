@@ -36,7 +36,7 @@ function getPRdiff() {
         format: 'diff',
       },
     })
-    .then(({ data }) => data);
+    .then(({ data }) => data.split('\n'));
 }
 
 /**
@@ -49,14 +49,13 @@ function getPRdiff() {
  * Modelled after a bash function from this SO answer:
  * https://stackoverflow.com/a/12179492
  */
-function labelAdditions(diffOutput) {
-  const lines = diffOutput.split('\n');
+function labelAdditions(diffLines) {
   let path = null;
   let position = null;
   let previous = null;
   const output = [];
 
-  lines.forEach(line => {
+  diffLines.forEach(line => {
     if (/--- (a\/)?.*/.test(line)) {
       return;
     }
