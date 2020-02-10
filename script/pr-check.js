@@ -23,6 +23,17 @@ const octokit = new Octokit({
   auth: GITHUB_TOKEN,
 });
 
+function getPRdiff() {
+  return octokit.pulls
+    .get({
+      ...octokitDefaults,
+      mediaType: {
+        format: 'diff',
+      },
+    })
+    .then(({ data }) => data);
+}
+
 /**
  * Add a label to the beginning of added lines in the diff
  * where the label consists of:
@@ -63,17 +74,6 @@ function labelAdditions(diffOutput) {
     previous = line;
   });
   return output;
-}
-
-function getPRdiff() {
-  return octokit.pulls
-    .get({
-      ...octokitDefaults,
-      mediaType: {
-        format: 'diff',
-      },
-    })
-    .then(({ data }) => data);
 }
 
 const findPattern = arr => arr.filter(ln => new RegExp(CODE_PATTERN).test(ln));
