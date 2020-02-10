@@ -1,5 +1,5 @@
-import _ from 'lodash/fp';
-// import moment from 'moment';
+import set from 'platform/utilities/data/set';
+import merge from 'lodash/merge';
 
 import {
   SET_APPEALS,
@@ -59,18 +59,21 @@ export default function appealsReducer(state = initialState, action) {
       //
       // appeals are added to Redux store via FETCH_APPEALS_SUCCESS
       // reducer in claims-list.js
-      return _.merge(state, {
-        appealsLoading: false,
-        available: true,
-        v1ToV2IdMap: action.v1ToV2IdMap,
-        // v2Availability: AVAILABLE // New and improved! More bits of info!
-      });
+      return merge(
+        {
+          appealsLoading: false,
+          available: true,
+          v1ToV2IdMap: action.v1ToV2IdMap,
+          // v2Availability: AVAILABLE // New and improved! More bits of info!
+        },
+        state,
+      );
     }
     // TODO: Verify that this isn't actually needed and then remove it
     case SET_APPEALS: // Appeals v1
-      return _.set('available', true, state);
+      return set('available', true, state);
     case SET_APPEALS_UNAVAILABLE: // Appeals v1
-      return _.set('available', false, state);
+      return set('available', false, state);
     // Following are reducers for Appeals v2 error states
     // case USER_FORBIDDEN_ERROR:
     //   return _.merge(state, {
