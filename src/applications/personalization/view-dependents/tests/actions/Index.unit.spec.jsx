@@ -30,15 +30,17 @@ describe('View Disabilities actions: fetchAllDependents', () => {
         then: fn => fn({ ok: true, json: () => Promise.resolve(dependents) }),
       }),
     });
-    const thunk = fetchAllDependents();
+    const makeTheFetch = fetchAllDependents();
+
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
       dispatchSpy(action);
       expect(dispatchSpy.firstCall.args[0].type).to.equal(
         FETCH_ALL_DEPENDENTS_SUCCESS,
       );
+      expect(dispatchSpy.firstCall.args[1].errors).to.equal(undefined);
     };
-    thunk(dispatch);
+    makeTheFetch(dispatch);
   });
 
   it('should handle an error returned', () => {
