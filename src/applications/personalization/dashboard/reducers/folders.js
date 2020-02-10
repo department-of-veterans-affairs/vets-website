@@ -1,5 +1,5 @@
 import kebabCase from 'lodash/kebabCase';
-import set from 'lodash/fp/set';
+import set from 'platform/utilities/data/set';
 
 import { FETCH_FOLDER_SUCCESS, LOADING_FOLDER } from '../utils/constants';
 
