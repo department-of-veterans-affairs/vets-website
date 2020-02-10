@@ -6,6 +6,7 @@ import {
 import { suffixes } from '../../../constants';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import _ from 'lodash/fp';
 
 export const schema = {
   type: 'object',
@@ -40,7 +41,9 @@ export const uiSchema = {
       widgetClassNames: 'usa-input-medium',
     },
   },
-  ssn: ssnUI,
+  ssn: _.merge(_.unset('ui:title', ssnUI), {
+    'ui:title': 'Your Social Security number',
+  }),
   vaFileNumber: {
     'ui:title': 'Your VA file number',
     'ui:errorMessages': {
