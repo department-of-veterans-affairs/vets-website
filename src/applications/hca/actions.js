@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
@@ -7,8 +6,6 @@ import {
   dismissedHCANotificationDate,
   isEnrollmentStatusLoading,
 } from './selectors';
-
-Sentry.captureMessage('Something');
 
 // flip the `false` to `true` to fake the endpoint when testing locally
 const simulateServerLocally = environment.isLocalhost() && false;
