@@ -80,7 +80,7 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: yarn build-webpack
+      - run: yarn build
 
 workflows:
   version: 2
