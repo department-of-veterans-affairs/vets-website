@@ -1,24 +1,22 @@
-import React from 'react';
-
-import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { getUserInformation } from '../api';
+import { focusElement } from 'platform/utilities/ui';
+import React from 'react';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
 
-    getUserInformation().then(data => {
-      if (data.error) {
-        // eslint-disable-next-line no-console
-        console.log(data.error);
-      } else {
-        // eslint-disable-next-line no-console
-        console.log(data);
-      }
-    });
+    // getUserInformation().then(data => {
+    //   if (data.error) {
+    //     // eslint-disable-next-line no-console
+    //     console.log(data.error);
+    //   } else {
+    //     // eslint-disable-next-line no-console
+    //     console.log(data);
+    //   }
+    // });
   }
 
   render() {

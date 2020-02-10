@@ -1,6 +1,5 @@
 import _ from '../../../platform/utilities/data';
 import { disabilityActionTypes, SERVICE_CONNECTION_TYPES } from './constants';
-import { viewifyFields } from './utils';
 
 export const filterServiceConnected = (disabilities = []) =>
   disabilities.filter(
@@ -22,105 +21,11 @@ export const setClaimTypeNewOnly = formData =>
     formData,
   );
 
-export default function prefillTransformer(pages, formData, metadata) {
-  const prefillRatedDisabilities = data => {
-    const { disabilities } = data;
-
-    if (!disabilities) {
-      return setClaimTypeNewOnly(data);
-    }
-
-    const transformedDisabilities = addNoneDisabilityActionType(
-      filterServiceConnected(disabilities),
-    );
-
-    const newData = _.omit(['disabilities'], data);
-
-    return transformedDisabilities.length
-      ? _.set('ratedDisabilities', transformedDisabilities, newData)
-      : setClaimTypeNewOnly(newData);
-  };
-
-  const prefillContactInformation = data => {
-    const newData = _.omit(['veteran'], data);
-    const { veteran } = data;
-
-    if (veteran) {
-      const { emailAddress, primaryPhone, mailingAddress } = veteran;
-      newData.phoneAndEmail = {};
-      if (emailAddress) {
-        newData.phoneAndEmail.emailAddress = emailAddress;
-      }
-      if (primaryPhone) {
-        newData.phoneAndEmail.primaryPhone = primaryPhone;
-      }
-      if (mailingAddress) {
-        newData.mailingAddress = mailingAddress;
-      }
-    }
-
-    return newData;
-  };
-
-  const prefillServiceInformation = data => {
-    const newData = _.omit(
-      ['servicePeriods', 'reservesNationalGuardService'],
-      data,
-    );
-    const { servicePeriods, reservesNationalGuardService } = data;
-    if (servicePeriods || reservesNationalGuardService) {
-      newData.serviceInformation = {};
-      if (servicePeriods) {
-        newData.serviceInformation.servicePeriods = servicePeriods;
-      }
-      if (reservesNationalGuardService) {
-        newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
-      }
-    }
-
-    return newData;
-  };
-
-  const prefillBankInformation = data => {
-    const newData = _.omit(
-      ['bankAccountType', 'bankAccountNumber', 'bankRoutingNumber', 'bankName'],
-      data,
-    );
-
-    const {
-      bankAccountType,
-      bankAccountNumber,
-      bankRoutingNumber,
-      bankName,
-    } = data;
-
-    if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
-      newData['view:originalBankAccount'] = viewifyFields({
-        bankAccountType,
-        bankAccountNumber,
-        bankRoutingNumber,
-        bankName,
-      });
-
-      // start the bank widget in 'review' mode
-      newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
-    }
-
-    return newData;
-  };
-
-  const transformations = [
-    prefillRatedDisabilities,
-    prefillContactInformation,
-    prefillServiceInformation,
-    prefillBankInformation,
-  ];
-
-  const applyTransformations = (data = {}, transformer) => transformer(data);
-
+export function prefillTransformer(pages, formData, metadata) {
+  const newData = formData;
   return {
     metadata,
-    formData: transformations.reduce(applyTransformations, formData),
+    formData: newData,
     pages,
   };
 }

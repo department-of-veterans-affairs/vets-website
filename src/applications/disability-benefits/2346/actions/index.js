@@ -1,6 +1,7 @@
 import {
   getDLCAccessoriesDataApi,
   getDLCBatteryDataApi,
+  getVeteranInformation,
   // NOTE: Decision was to take socks out of MVP -@maharielrosario at 1/28/2020, 9:49:20 AM
   // getDLCSocksDataApi,
   updateDLCDataApi,
@@ -10,9 +11,20 @@ import {
   FETCH_ACCESSORIES_DATA_SUCCESS,
   FETCH_BATTERY_DATA_FAILURE,
   FETCH_BATTERY_DATA_SUCCESS,
+  FETCH_VETERAN_ADDRESS_FAILURE,
+  FETCH_VETERAN_ADDRESS_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
 } from '../constants';
+
+export const fetchVeteranAddressSuccess = data => ({
+  type: FETCH_VETERAN_ADDRESS_SUCCESS,
+  data,
+});
+
+export const fetchVeteranAddressFailure = () => ({
+  type: FETCH_VETERAN_ADDRESS_FAILURE,
+});
 
 export const fetchBatteryDataSuccess = data => ({
   type: FETCH_BATTERY_DATA_SUCCESS,
@@ -89,5 +101,20 @@ export const updateDLCData = id => async dispatch => {
     dispatch({ type: UPDATE_DATA_SUCCESS, id, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_DATA_FAILURE, payload: error });
+  }
+};
+
+export const getVeteranAddressInfo = () => async dispatch => {
+  try {
+    const data = await getVeteranInformation();
+    const veteranAddresses = {
+      veteranAddress: data.formData.veteranAddress,
+      email: data.formData.email,
+    };
+    dispatch(fetchVeteranAddressSuccess(veteranAddresses));
+  } catch (error) {
+    dispatch(
+      fetchVeteranAddressFailure(error, 'failed to retrieve data from api'),
+    );
   }
 };

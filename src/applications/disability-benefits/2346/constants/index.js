@@ -15,3 +15,7 @@ export const UPDATE_DATA_SUCCESS =
   'disability-benefits/2346/UPDATE_DATA_SUCCESS';
 export const UPDATE_DATA_FAILURE =
   'disability-benefits/2346/UPDATE_DATA_FAILURE';
+export const FETCH_VETERAN_ADDRESS_SUCCESS =
+  'disability-benefits/2346/FETCH_VETERAN_ADDRESS_SUCCESS';
+export const FETCH_VETERAN_ADDRESS_FAILURE =
+  'disability-benefits/2346/FETCH_VETERAN_ADDRESS_FAILURE';
