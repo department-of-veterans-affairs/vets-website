@@ -55,7 +55,7 @@ jobs:
       - store_test_results:
           path: ./test-results
       - store_artifacts:
-          path: ./test-results/mocha/test-results.xml
+          path: ./test-results
 #     - store_artifacts:
 #         path: ./coverage
 
