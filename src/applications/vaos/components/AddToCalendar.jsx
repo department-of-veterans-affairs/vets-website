@@ -4,12 +4,30 @@ import {
   getAppointmentTypeHeader,
   getAppointmentDate,
   generateICS,
+  generateICSFromAppointment,
 } from '../utils/appointment';
 
-export default function AddToCalendar({ appointment, facility }) {
+export default function AddToCalendar({
+  appointment,
+  facility,
+  subject,
+  description,
+  location,
+  momentStartDate,
+  momentEndDate,
+}) {
   const title = getAppointmentTypeHeader(appointment);
   const filename = `${title.replace(/\s/g, '_')}.ics`;
-  const text = generateICS(appointment, facility);
+  const text =
+    appointment && facility
+      ? generateICSFromAppointment(appointment, facility)
+      : generateICS({
+          subject,
+          description,
+          location,
+          momentStartDate,
+          momentEndDate,
+        });
 
   // IE11 doesn't support the download attribute, so this creates a button
   // and uses an ms blob save api

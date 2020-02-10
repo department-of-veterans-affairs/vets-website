@@ -530,6 +530,32 @@ export function getAppointmentAddress(appt, facility) {
   return undefined;
 }
 
+export function generateICS({
+  subject,
+  description,
+  location,
+  momentStartDate,
+  momentEndDate,
+}) {
+  const cal = new ICS.VCALENDAR();
+  const event = new ICS.VEVENT();
+
+  cal.addProp('VERSION', 2);
+  cal.addProp('PRODID', 'VA');
+
+  event.addProp('UID');
+  event.addProp('SUMMARY', [subject]);
+  event.addProp('DESCRIPTION', [description]);
+  event.addProp('LOCATION', [location]);
+  event.addProp('DTSTAMP', momentStartDate);
+  event.addProp('DTSTART', momentStartDate);
+  event.addProp('DTEND', momentEndDate);
+
+  cal.addComponent(event);
+
+  return cal.toString();
+}
+
 /**
  * Function to generate ICS commands for an appointment.
  *
@@ -537,10 +563,7 @@ export function getAppointmentAddress(appt, facility) {
  * @param {*} appt
  * @param {*} facility
  */
-export function generateICS(appt, facility) {
-  const cal = new ICS.VCALENDAR();
-  const event = new ICS.VEVENT();
-
+export function generateICSFromAppointment(appt, facility) {
   const subject = getAppointmentTypeHeader(appt);
   const description = `${getAppointmentInstructionsHeader(
     appt,
@@ -553,18 +576,11 @@ export function generateICS(appt, facility) {
     .add(duration, 'minutes')
     .toDate();
 
-  cal.addProp('VERSION', 2);
-  cal.addProp('PRODID', 'VA');
-
-  event.addProp('UID');
-  event.addProp('SUMMARY', [subject]);
-  event.addProp('DESCRIPTION', [description]);
-  event.addProp('LOCATION', [location]);
-  event.addProp('DTSTAMP', startDateObj);
-  event.addProp('DTSTART', startDateObj);
-  event.addProp('DTEND', endDateObj);
-
-  cal.addComponent(event);
-
-  return cal.toString();
+  return generateICS({
+    subject,
+    description,
+    location,
+    startDateObj,
+    endDateObj,
+  });
 }

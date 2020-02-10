@@ -39,6 +39,8 @@ export default function ConfirmedAppointmentListItem({
     type !== APPOINTMENT_TYPES.ccAppointment &&
     !isVideoVisit(appointment);
 
+  const showAddToCal = allowCancel || (!allowCancel && !canceled);
+
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
     {
@@ -96,29 +98,27 @@ export default function ConfirmedAppointmentListItem({
         )}
       </div>
 
-      {!allowCancel &&
-        !canceled && (
+      {showAddToCal ||
+        (allowCancel && (
           <div className="vads-u-margin-top--2">
-            <AddToCalendar appointment={appointment} facility={facility} />
+            {showAddToCal && (
+              <AddToCalendar appointment={appointment} facility={facility} />
+            )}
+            {allowCancel && (
+              <button
+                onClick={() => cancelAppointment(appointment)}
+                aria-label="Cancel appointment"
+                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+              >
+                Cancel appointment
+                <span className="sr-only">
+                  {' '}
+                  on {getAppointmentDate(appointment)}
+                </span>
+              </button>
+            )}
           </div>
-        )}
-
-      {allowCancel && (
-        <div className="vads-u-margin-top--2">
-          <AddToCalendar appointment={appointment} facility={facility} />
-          <button
-            onClick={() => cancelAppointment(appointment)}
-            aria-label="Cancel appointment"
-            className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-          >
-            Cancel appointment
-            <span className="sr-only">
-              {' '}
-              on {getAppointmentDate(appointment)}
-            </span>
-          </button>
-        </div>
-      )}
+        ))}
     </li>
   );
 }
