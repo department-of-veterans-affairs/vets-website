@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
-
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import ProgressButton from '../components/ProgressButton';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
@@ -40,7 +40,7 @@ class FormPage extends React.Component {
     if (
       prevProps.route.pageConfig.pageKey !==
         this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)
+      get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       scrollToTop();
       focusForm();
@@ -53,7 +53,7 @@ class FormPage extends React.Component {
     if (pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = _.set(
+      newData = set(
         [this.props.route.pageConfig.arrayPath, this.props.params.index],
         formData,
         this.props.form.data,
@@ -71,7 +71,7 @@ class FormPage extends React.Component {
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (route.pageConfig.showPagePerItem) {
-      const newData = _.set(
+      const newData = set(
         [route.pageConfig.arrayPath, params.index],
         formData,
         form.data,
@@ -87,7 +87,7 @@ class FormPage extends React.Component {
   formData = () => {
     const { pageConfig } = this.props.route;
     return this.props.route.pageConfig.showPagePerItem
-      ? _.get(
+      ? get(
           [pageConfig.arrayPath, this.props.params.index],
           this.props.form.data,
         )
