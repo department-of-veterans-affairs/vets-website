@@ -52,6 +52,20 @@ export const LOCATION_OPTIONS = [
 ];
 
 /**
+ * Defines the options available for the Location Type Dropdown
+ * ///TODO remove after testing on staging
+ */
+export const LOCATION_OPTIONS_STAGING = [
+  LocationType.HEALTH,
+  LocationType.URGENT_CARE,
+  LocationType.URGENT_CARE_FARMACIES,
+  LocationType.CC_PROVIDER,
+  LocationType.BENEFITS,
+  LocationType.CEMETARY,
+  LocationType.VET_CENTER,
+];
+
+/**
  * Defines the ± change in bounding box size for the map when changing zoom
  */
 export const BOUNDING_RADIUS = 0.75;

@@ -137,7 +137,12 @@ export const searchWithBounds = ({
   serviceType,
   page = 1,
 }) => {
-  const needsAddress = [LocationType.CC_PROVIDER, LocationType.ALL];
+  const needsAddress = [
+    LocationType.CC_PROVIDER,
+    LocationType.ALL,
+    LocationType.URGENT_CARE_FARMACIES,
+    LocationType.URGENT_CARE,
+  ];
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
