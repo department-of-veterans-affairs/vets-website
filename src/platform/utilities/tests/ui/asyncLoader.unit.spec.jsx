@@ -27,4 +27,19 @@ describe('asyncLoader', () => {
       done();
     });
   });
+
+  it('should unwrap default import if it exists', done => {
+    const promise = Promise.resolve({
+      default: () => <div>Test component</div>,
+    });
+    const Component = asyncLoader(() => promise, 'Test loading');
+
+    const page = ReactTestUtils.renderIntoDocument(<Component />);
+    // this allows setState to be called first
+    setTimeout(() => {
+      const pageDOM = findDOMNode(page);
+      expect(pageDOM.textContent).to.contain('Test component');
+      done();
+    });
+  });
 });
