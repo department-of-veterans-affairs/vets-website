@@ -29,7 +29,8 @@ export const uiSchema = {
     'ui:title':
       'Have you used all of your Post-9/11 GI Bill or Fry Scholarship benefits or do you have less than 6 months of benefits left?',
     'ui:widget': 'yesNo',
-    'ui:required': form => form.isEdithNourseRogersScholarship,
+    'ui:required': form =>
+      form.isEdithNourseRogersScholarship && form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
       hideIf: formData => !_.get(formData, 'isEnrolledStem', false),
@@ -46,11 +47,12 @@ export const uiSchema = {
       hideIf: formData => _.get(formData, 'isEnrolledStem', true),
     },
   },
-  'view:exhaustionOfBenefitsWhilePursuingTeachingCert': {
+  'view:exhaustionOfBenefitsAfterPursuingTeachingCert': {
     'ui:title':
       'Have you used all of your Post-9/11 GI Bill or Fry Scholarship benefits or do you have less than 6 months of benefits left?',
     'ui:widget': 'yesNo',
-    'ui:required': form => form.isEdithNourseRogersScholarship,
+    'ui:required': form =>
+      form.isEdithNourseRogersScholarship && !form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
       hideIf: formData =>
@@ -75,7 +77,7 @@ export const schema = {
       type: 'boolean',
     },
     isPursuingTeachingCert,
-    'view:exhaustionOfBenefitsWhilePursuingTeachingCert': {
+    'view:exhaustionOfBenefitsAfterPursuingTeachingCert': {
       type: 'boolean',
     },
   },
