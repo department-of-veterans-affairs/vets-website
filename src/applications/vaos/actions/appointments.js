@@ -251,27 +251,26 @@ export function confirmCancelAppointment() {
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,
+          facilityId: appointment.facilityId,
           remarks: '',
           clinicName: appointment.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        const cancelReasons = await getCancelReasons(
-          appointment.facilityId.substr(0, 3),
-        );
+        const cancelReasons = await getCancelReasons(appointment.facilityId);
 
         if (
-          cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)
+          cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
         ) {
           await updateAppointment({
             ...cancelData,
             cancelReason: UNABLE_TO_KEEP_APPT,
           });
         } else if (
-          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))
+          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
         ) {
           const cancelReason = cancelReasons.find(reason =>
-            VALID_CANCEL_CODES.has(reason),
+            VALID_CANCEL_CODES.has(reason.number),
           );
           await updateAppointment({
             ...cancelData,

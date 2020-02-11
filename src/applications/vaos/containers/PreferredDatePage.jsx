@@ -54,10 +54,6 @@ export class PreferredDatePage extends React.Component {
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        <legend className="schemaform-label vads-u-max-width--none vads-u-margin-bottom--1p5">
-          When is the earliest you want to be seen?
-          <span className="schemaform-required-span">(*Required)</span>
-        </legend>
         <SchemaForm
           name="Type of appointment"
           title="Type of appointment"
