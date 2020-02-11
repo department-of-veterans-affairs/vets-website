@@ -7,6 +7,9 @@ const {
   generateBreadCrumbs,
 } = require('./page');
 
+// eslint-disable-next-line lodash/import-scope
+import _ from 'lodash';
+
 const forEach = require('lodash/forEach');
 const orderBy = require('lodash/orderBy');
 const moment = require('moment');
@@ -64,7 +67,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
   // Create "A-Z Services" || "Our health services" Page
   // sort and group health services by their weight in drupal
   if (page.fieldClinicalHealthServices && page.fieldClinicalHealthServices) {
-    const clinicalHealthServices = page.fieldClinicalHealthServices.entities
+    const clinicalHealthServices = _(page.fieldClinicalHealthServices.entities)
       .sortBy('fieldServiceNameAndDescripti.entity.weight')
       .sortBy('fieldServiceNameAndDescripti.entity.parent[0].entity.weight')
       .groupBy('fieldServiceNameAndDescripti.entity.parent[0].entity.name')
