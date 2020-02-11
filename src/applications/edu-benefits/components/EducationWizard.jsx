@@ -305,8 +305,12 @@ export default class EducationWizard extends React.Component {
               <div className="vads-u-margin-right--8">
                 <br />
                 <strong>
-                  To be eligible for the Edith Nourse Rogers STEM Scholarship,
-                  you must meet all the requirements below. You:
+                  To be eligible for the{' '}
+                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    Edith Nourse Rogers STEM Scholarship
+                  </a>
+                  
+                  , you must meet all the requirements below. You:
                 </strong>
                 <ul className="vads-u-margin-right--8">
                   <li>
