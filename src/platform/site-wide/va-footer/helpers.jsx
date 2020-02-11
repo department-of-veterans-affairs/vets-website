@@ -58,7 +58,7 @@ function generateSuperLinks(groupedList) {
 
   return (
     <ul>
-      {sortBy(groupedList.bottom_rail, 'order', 'asc').map(link => (
+      {sortBy(groupedList.bottom_rail, 'order').map(link => (
         <li key={`${link.order}`}>
           <a href={link.href} onClick={captureEvent} target={link.target}>
             {link.title}

@@ -54,10 +54,14 @@ class SideNav extends Component {
     const { navItemsLookup } = this.state;
 
     // Derive the items to render.
-    const filteredNavItems = filter(navItemsLookup, ['parentID', parentID]);
+    const filteredNavItems = filter(
+      navItemsLookup,
+      // eslint-disable-next-line lodash/matches-prop-shorthand,lodash/matches-shorthand
+      item => item.parentID === parentID,
+    );
 
     // Sort the items by `order`.
-    const sortedNavItems = sortBy(filteredNavItems, 'order', 'asc');
+    const sortedNavItems = sortBy(filteredNavItems, 'order');
 
     return map(sortedNavItems, (item, index) => (
       <NavItem

@@ -4,7 +4,8 @@ import moment from 'moment';
 import { dateToMoment } from '../../../platform/utilities/date';
 
 export function getLabel(options, value) {
-  const matched = find(options, value);
+  // eslint-disable-next-line lodash/matches-shorthand,lodash/matches-prop-shorthand
+  const matched = find(options, option => option.value === value);
 
   return matched ? matched.label : null;
 }

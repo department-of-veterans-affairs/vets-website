@@ -30,7 +30,8 @@ export default class AppointmentInfo extends Component {
   }
 
   hasPrimaryCare(accessAttrs, category) {
-    const value = get(accessAttrs, `primaryCare.${category}`);
+    // eslint-disable-next-line lodash/path-style
+    const value = get(accessAttrs, ['primaryCare', category]);
     return value || value === 0;
   }
 

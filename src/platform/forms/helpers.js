@@ -31,7 +31,8 @@ export function groupPagesIntoChapters(routes, prefix = '') {
     return obj;
   });
 
-  const pageGroups = groupBy(pageList, 'chapter');
+  // eslint-disable-next-line lodash/prop-shorthand
+  const pageGroups = groupBy(pageList, page => page.chapter);
 
   return Object.keys(pageGroups).map(chapter => ({
     name: chapter,
