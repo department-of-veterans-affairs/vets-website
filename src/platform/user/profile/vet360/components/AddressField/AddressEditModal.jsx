@@ -71,7 +71,7 @@ class AddressEditModal extends React.Component {
         internationalPostalCode: data.internationalPostalCode,
         zipCode: data.zipCode,
         province: data.province,
-        addressPou: data.Pou,
+        addressPou: data.addressPou,
       },
       e => !!e,
     );
@@ -92,13 +92,16 @@ class AddressEditModal extends React.Component {
   };
 
   /**
-   * Helper function that:
-   * - totally removes data fields that are not set
-   * - sets the form data's `view:livesOnMilitaryBase` prop to `true` if this is
+   * Helper function that calls other helpers to:
+   * - totally remove data fields that are not set
+   * - set the form data's `view:livesOnMilitaryBase` prop to `true` if this is
    *   an overseas military mailing address
+   *
+   * If the argument is not an object this function will simply return whatever
+   * was passed to it.
    */
   transformInitialFormValues = initialFormValues => {
-    if (!initialFormValues) {
+    if (!(initialFormValues instanceof Object)) {
       return initialFormValues;
     }
     let transformedData = this.removeEmptyKeys(initialFormValues);

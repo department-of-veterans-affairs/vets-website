@@ -1,0 +1,15 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+$teamsite-dark-blue: #112e51;
+
+.login-header {
+  background: $teamsite-dark-blue;
+  padding: 1em;
+}
+
+.header-wrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}

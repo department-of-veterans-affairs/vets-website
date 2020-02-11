@@ -1,7 +1,7 @@
-import '../../../platform/polyfills';
-import './sass/new-686.scss';
+import '../../platform/polyfills';
+import './sass/login-page.scss';
 
-import startApp from '../../../platform/startup';
+import startApp from '../../platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
@@ -11,5 +11,4 @@ startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
-  entryName: manifest.entryName,
 });

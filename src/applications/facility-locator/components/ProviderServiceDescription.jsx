@@ -1,16 +1,17 @@
 import React from 'react';
+import { facilityTypes } from '../config';
 
 const providerName = query => {
   let name;
   switch (query.facilityType) {
     case 'cc_pharmacy':
-      name = 'NON-VA URGENT CARE PHARMACY';
+      name = facilityTypes.cc_pharmacy.toUpperCase();
       break;
     case 'urgent_care':
-      name = 'URGENT CARE';
+      name = facilityTypes.urgent_care.toUpperCase();
       break;
     default:
-      name = 'NON-VA HEALTH';
+      name = facilityTypes.cc_provider.toUpperCase();
   }
   return name;
 };
