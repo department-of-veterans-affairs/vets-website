@@ -23,13 +23,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Order hearing aid batteries and prosthetic socks from VA" />
-        <div className="va-introtext">
-          <p>
-            Find out if you may be eligible to order free hearing aid batteries
-            or prosthetic socks, and how to order this medical equipment online
-            or by mail or phone.
-          </p>
-        </div>
+        <p>Equal to VA Form 2346 (Request for Batteries and Accessories).</p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -39,200 +33,61 @@ class IntroductionPage extends React.Component {
           Please complete the 2346 form to apply for ordering hearing aid
           batteries and accessories.
         </SaveInProgressIntro>
-        <div itemScope="" itemType="http://schema.org/Question">
-          <h2 itemProp="name" id="am-i-eligible-to-order-hearing">
-            Am I eligible to order hearing aid batteries online from VA?
-          </h2>
-          <div
-            itemProp="acceptedAnswer"
-            itemScope=""
-            itemType="http://schema.org/Answer"
-          >
-            <div itemProp="text">
-              <div className="processed-content">
-                <p>
-                  You can order hearing aid batteries from us if you meet all of
-                  the requirements listed below.
-                </p>
-
-                <p>
-                  <strong>All of these must be true:</strong>
-                </p>
-
-                <ul>
-                  <li>
-                    You’re enrolled in VA health care, <strong>and</strong>
-                  </li>
-                  <li>
-                    You’re registered as a patient at a VA medical center,
-                    <strong>and</strong>
-                  </li>
-                  <li>
-                    Your VA audiologist has recommended hearing aids or other
-                    hearing assisted devices
-                  </li>
-                </ul>
-                <p>
-                  <a href="/health-care/apply/application/">
-                    Find out how to apply for VA health care
-                  </a>
-                </p>
-
-                <p>
-                  <strong>
-                    And you’ll need to have a Premium <strong>DS Logon</strong>
-                    account
-                  </strong>{' '}
-                  (used for eBenefits and milConnect).
-                </p>
-                <p>
-                  If you don’t have a Premium DS Logon account, find out how to
-                  create or upgrade an account on eBenefits.
-                  <br />
-                  <a
-                    href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks"
-                    // eslint-disable-next-line react/jsx-no-target-blank
-                    target="_blank"
-                    rel="noopener "
-                  >
-                    Go to eBenefits
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div itemScope="" itemType="http://schema.org/Question">
-          <h2 itemProp="name" id="am-i-eligible-to-order-prosthe">
-            Am I eligible to order prosthetic socks online from VA?
-          </h2>
-          <div
-            itemProp="acceptedAnswer"
-            itemScope=""
-            itemType="http://schema.org/Answer"
-          >
-            <div itemProp="text">
-              <div className="processed-content">
-                <p>
-                  You can order prosthetic socks from us online if you meet all
-                  of the requirements listed below.
-                </p>
-
-                <p>
-                  <strong>All of these must be true:</strong>
-                </p>
-
-                <ul>
-                  <li>
-                    You’re enrolled in VA health care, <strong>and</strong>
-                  </li>
-                  <li>
-                    You’re registered as a patient at a VA medical center,
-                    <strong>and</strong>
-                  </li>
-                  <li>
-                    Your VA health care provider has authorized you to receive
-                    prosthetic socks
-                  </li>
-                </ul>
-                <p>
-                  <a href="/health-care/apply/application/">
-                    Find out how to apply for VA health care
-                  </a>
-                </p>
-
-                <p>
-                  <strong>
-                    And you’ll need to have a Premium DS Logon account
-                  </strong>{' '}
-                  (used for eBenefits and milConnect).
-                </p>
-                <p>
-                  If you don’t have a Premium <strong>DS Logon</strong> account,
-                  find out how to create or upgrade an account on eBenefits.
-                  <br />
-                  <a
-                    href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks"
-                    // eslint-disable-next-line react/jsx-no-target-blank
-                    target="_blank"
-                    rel="noopener "
-                  >
-                    Go to eBenefits
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div itemScope="" itemType="http://schema.org/Question">
-          <h2 itemProp="name" id="are-my-hearing-aid-batteries-o">
-            Are my hearing aid batteries or prosthetic socks free of charge?
-          </h2>
-          <div
-            itemProp="acceptedAnswer"
-            itemScope=""
-            itemType="http://schema.org/Answer"
-          >
-            <div itemProp="text">
-              <div className="processed-content">
-                <p>
-                  <strong>
-                    You can get these items free of charge as long as:
-                  </strong>
-                </p>
-
-                <ul>
-                  <li>
-                    Your VA health care provider has recommended them for you,{' '}
-                    <strong>and</strong>
-                  </li>
-                  <li>
-                    You remain eligible for and enrolled in VA health care
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h2>Once I’m signed in to eBenefits, how do I place my order?</h2>
+        <h2 itemProp="name" id="am-i-eligible-to-order-prosthe">
+          Follow the steps below to order hearing aid batteries aid accessories.
+        </h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
+              <h3>Prepare</h3>
+              <p>To place an order, you'll need your:</p>
+              <ul>
+                <li>Shipping address</li>
+                <li>Email address</li>
+                <li>Hearing aid information</li>
+              </ul>
+              <h4>What if I need help with my order?</h4>
               <p>
-                Click on the eBenefits logo in the upper left corner of the page
-                to go to the site’s homepage.
+                If you need help ordering hearing aid and betteries and
+                accessories, you cna contact the Devner Logistics Center (DLC)
+                at 303-273-6200
               </p>
             </li>
             <li className="process-step list-two">
+              <h3>Place your order</h3>
               <p>
-                Look for the “Manage Health” category, and click on the link
-                “Hearing Aid Batteries and Prosthetic Socks.” You’ll go to a new
-                page.
-              </p>{' '}
-            </li>
-            <li className="process-step list-three">
+                Complete this hearing aid batteries and accessories order form.
+              </p>
+              <p>These are the steps you can expect when placing an oder:</p>
+              <ul>
+                <li>Confirm your personal information</li>
+                <li>Confirm or edit your shipping address and email address</li>
+                <li>Select any hearing aids that need batteries</li>
+                <li>Select any hearing aid accessories you need</li>
+                <li>Review and submit order</li>
+              </ul>
               <p>
-                Look for the section titled “Select What You Would Like to
-                Order,” and click on the item you want. You’ll go to a new page.
-              </p>{' '}
-            </li>
-            <li className="process-step list-four">
-              <p>
-                Fill out the form with the required information (last name, last
-                4 digits of your Social Security number, date of birth). You can
-                also provide your email if you'd like. Then you’ll be taken to a
-                page where you can order the product you need.
+                After submitting the order, you'll get a confirmation message.
+                You can print this for your records.
               </p>
             </li>
-            <li className="process-step list-five">
-              <p>Select the product you need, and submit your order.</p>
-            </li>
-            <li className="process-step list-six">
+            <li className="process-step list-three">
+              <h3>Track your order</h3>
               <p>
-                eBenefits will send a confirmation email to the address we have
-                on file once your order is processed. If there are any issues
-                with your order, you’ll receive an error message with
-                instructions for how to get help.
+                You will recieve an email with an order tracking number 1-2 days
+                after your order is submitted.
+              </p>
+            </li>
+            <li className="process-step list-four">
+              <h3>Review your order</h3>
+              <p>
+                You should recieve your order withing the timeframe indicated by
+                the order tracking number.
+              </p>
+              <h4>What if I have questions about my order?</h4>
+              <p>
+                If you have questions about your order, you can contact the
+                Denver Logistics Center (DLC) at 303-273-6200.{' '}
               </p>
             </li>
           </ol>
