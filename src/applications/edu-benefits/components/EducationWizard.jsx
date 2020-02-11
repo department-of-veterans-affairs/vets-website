@@ -309,7 +309,6 @@ export default class EducationWizard extends React.Component {
                   <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
                     Edith Nourse Rogers STEM Scholarship
                   </a>
-                  
                   , you must meet all the requirements below. You:
                 </strong>
                 <ul className="vads-u-margin-right--8">
