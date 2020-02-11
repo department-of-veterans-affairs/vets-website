@@ -176,7 +176,7 @@ class ResultsList extends Component {
               result.attributes.long,
             )
           : null;
-        return { ...result, distance };
+        return { ...result, distance, resultItem: true };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
