@@ -10,6 +10,8 @@ import {
   // FETCH_SOCKS_DATA_SUCCESS,
   UPDATE_DATA_FAILURE,
   UPDATE_DATA_SUCCESS,
+  FETCH_VETERAN_INFORMATION,
+  FETCH_VETERAN_INFORMATION_FAILURE,
 } from '../constants';
 
 const initialState = {
@@ -77,6 +79,18 @@ export default (state = initialState, action) => {
       };
 
     case FETCH_VETERAN_ADDRESS_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+      };
+
+    case FETCH_VETERAN_INFORMATION:
+      return {
+        ...state,
+        formData: action.data,
+      };
+
+    case FETCH_VETERAN_INFORMATION_FAILURE:
       return {
         ...state,
         error: action.error,
