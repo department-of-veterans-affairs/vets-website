@@ -8,7 +8,7 @@ const {
 } = require('./page');
 
 // eslint-disable-next-line lodash/import-scope
-import _ from 'lodash';
+const _ = require('lodash');
 
 const forEach = require('lodash/forEach');
 const orderBy = require('lodash/orderBy');

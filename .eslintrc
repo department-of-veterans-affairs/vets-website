@@ -27,6 +27,17 @@
   },
   "rules": {
     /* || Eslint main rules || */
+    "lodash/prefer-lodash-method": 1,
+    "lodash/prefer-noop": 1,
+    "lodash/prefer-lodash-typecheck": 1,
+    "lodash/prefer-constant": 1,
+    "lodash/prefer-startswith": 1,
+    "lodash/prefer-includes": 1,
+    "lodash/prefer-get": 1,
+    "lodash/prefer-immutable-method": 1,
+    "lodash/chaining": 1,
+    "lodash/prefer-matches": 1,
+    "import-scope": "method-package",
     "camelcase": [2, { "properties": "always" }], // Override airbnb style.
     "func-names": 2,
     "no-console": 2,
