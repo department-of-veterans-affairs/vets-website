@@ -14,7 +14,14 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: yarn lint
+      - run: mkdir -p ./test-results
+#     - run: yarn lint
+      - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
+      - run: yarn lint:sass
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
 
 # unit-test:
 #   docker:
@@ -47,11 +54,11 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: mkdir -p ./test-results/mocha
+      - run: mkdir -p ./test-results
       - run:
           command: yarn test:coverage
           environment:
-            MOCHA_FILE: ./test-results/mocha/test-results.xml
+            MOCHA_FILE: ./test-results/test-results.xml
       - store_test_results:
           path: ./test-results
       - store_artifacts:
