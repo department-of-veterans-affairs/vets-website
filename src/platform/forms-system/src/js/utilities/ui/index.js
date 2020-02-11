@@ -115,7 +115,7 @@ export const scrollToScrollElement = key => {
   scrollToElement(`${key}ScrollElement`);
 };
 
-// error object created by ../utilities/data/formatErrors.js
+// error object created by ../utilities/data/reduceErrors.js
 export const focusAndScrollToReviewElement = (error = {}) => {
   if (error.name) {
     // Ensure DOM updates

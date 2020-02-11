@@ -1,4 +1,4 @@
-import { reduceErrors } from './formatErrors';
+import { reduceErrors } from './reduceErrors';
 import { isValidForm } from '../../validation';
 
 /* Check/recheck form validation for error message updating */
@@ -8,8 +8,6 @@ export const checkValidation = ({
   pageList,
   setFormErrors,
 }) => {
-  // Validation errors in this situation are not visible, so we’d
-  // like to know if they’re common
   const { isValid, errors } = isValidForm(form, pageList);
   setFormErrors({
     rawErrors: errors,

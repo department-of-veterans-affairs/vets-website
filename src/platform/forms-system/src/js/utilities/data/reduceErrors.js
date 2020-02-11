@@ -1,16 +1,25 @@
+import numberToWords from './numberToWords';
 // Process JSON-schema error messages for viewing
 
-// Change error message from `requires property "someCamelCasedProperty"` to
-// `We’re missing some camel cased property`. It's using the schema property
-// name, which isn't ideal, because the uiSchema may have an empty title and/or
+// Change error message from `requires property "someCamelCasedProperty1"` to
+// `Some camel cased property 1`. Array type properties get special treatment,
+// `"instance.newDisabilities[0] requires property "cause"" is modified into
+// `First new disabilities cause`. Both methods use the schema property name,
+// which isn't ideal, because the uiSchema may have an empty title and/or
 // description
 const formatErrors = message =>
   message
-    .replace(/(requires property|instance)(\.\w+|\s)?/g, '')
+    .replace(/(requires property|instance\.?)\s*/g, '')
     .replace(/(view:|ui:|")/g, '')
+    // convert array numbering `test[1]` to a numbered word `first test`
+    .replace(
+      /(\w+)(\[\d+\])/,
+      (_, word, number) => `${numberToWords(number, +1)} ${word}`,
+    )
     // Change camel case variable names into something readable.
-    // Include numbers (e.g. "addressLine1" -> "address line 1")
-    .replace(/[A-Z\d]/g, str => ` ${str.toLowerCase()}`)
+    .replace(/[A-Z]/g, str => ` ${str.toLowerCase()}`)
+    // Separate numbers (e.g. "address1" -> "address 1")
+    .replace(/([a-z])(\d)/g, '$1 $2')
     // "zip" code replaced with "postal" code in content, but not property names
     .replace(/zip\s(code)?/i, 'postal code')
     // Make abbreviations upper case
@@ -70,7 +79,7 @@ const getPropertyInfo = (chapters = {}, name, instance = '') => {
   return { index, page };
 };
 
-/* There are three types of Validation error messages:
+/* There are four types of Validation error messages:
  * min/max: {
     property: 'instance.someProperty',
     message: 'does not meet minimum length of 1',
@@ -87,6 +96,14 @@ const getPropertyInfo = (chapters = {}, name, instance = '') => {
     schema: {...},
     stack: 'instance requires property "someProperty"'
   }
+  * array: {
+    property: 'instance.newDisabilities[0]',
+    message: 'requires property "cause"',
+    name: 'required',
+    argument: 'cause',
+    schema: {...},
+    stack: 'instance.newDisabilities[0] requires property "cause"'
+  }
   * non-empty "__errors" array: {
     __errors: ['error message']
   }
@@ -96,7 +113,9 @@ export const reduceErrors = (errors, { chapters }) =>
     const findErrors = (key, err) => {
       if (typeof err === 'object') {
         if (err.message) {
-          const instance = err.property.replace('instance.', '');
+          const instance = err.property
+            .replace('instance.', '')
+            .replace(/(\[\d+\])/, '');
           const name = err.name === 'required' ? err.argument : instance;
           /*
            * There may be multiple errors for the same property, e.g.

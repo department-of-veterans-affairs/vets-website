@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { reduceErrors } from '../../../src/js/utilities/data/formatErrors';
+import { reduceErrors } from '../../../src/js/utilities/data/reduceErrors';
 
 const chapters = {
   level1a: {
@@ -135,7 +135,7 @@ const errors = [
 const result = [
   {
     name: 'view:error1',
-    message: 'Missing error 1',
+    message: 'Error 1',
     chapter: 'level1a',
     // No page value, the uiSchema is directly under page; is this possible?
     page: '',
@@ -143,7 +143,7 @@ const result = [
   },
   {
     name: 'error2',
-    message: 'Missing error 2',
+    message: 'Error 2',
     chapter: 'level1b',
     page: 'page1',
     index: 1,
@@ -165,7 +165,7 @@ const result = [
   },
   {
     name: 'errorFive',
-    message: 'Missing error five',
+    message: 'Card 1 error five',
     chapter: '',
     page: '',
     index: -1,
@@ -179,7 +179,7 @@ const result = [
   },
   {
     name: 'errorSeven',
-    message: 'Missing error seven',
+    message: 'Wrap 2 error seven',
     chapter: 'level1c',
     page: 'wrap2',
     index: 2,
