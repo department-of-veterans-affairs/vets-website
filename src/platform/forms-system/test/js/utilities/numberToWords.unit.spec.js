@@ -1,0 +1,53 @@
+import { expect } from 'chai';
+
+import numberToWords from '../../../src/js/utilities/data/numberToWords';
+
+describe('Convert numbers to words', () => {
+  it('should convert numbers less than 20', () => {
+    expect(numberToWords(1)).to.eql('first');
+    expect(numberToWords(2)).to.eql('second');
+    expect(numberToWords(3)).to.eql('third');
+    expect(numberToWords(4)).to.eql('fourth');
+    expect(numberToWords(5)).to.eql('fifth');
+    expect(numberToWords(6)).to.eql('sixth');
+    expect(numberToWords(7)).to.eql('seventh');
+    expect(numberToWords(8)).to.eql('eighth');
+    expect(numberToWords(9)).to.eql('ninth');
+    expect(numberToWords(10)).to.eql('tenth');
+    expect(numberToWords(11)).to.eql('eleven');
+    expect(numberToWords(12)).to.eql('twelveth');
+    expect(numberToWords(13)).to.eql('thirteenth');
+    expect(numberToWords(14)).to.eql('fourteenth');
+    expect(numberToWords(15)).to.eql('fifteenth');
+    expect(numberToWords(16)).to.eql('sixteenth');
+    expect(numberToWords(17)).to.eql('seventeenth');
+    expect(numberToWords(18)).to.eql('eighteenth');
+    expect(numberToWords(19)).to.eql('nineteenth');
+    expect(numberToWords(20)).to.eql('twentieth');
+    expect(numberToWords(21)).to.eql('twenty-first');
+    expect(numberToWords(22)).to.eql('twenty-second');
+    expect(numberToWords(23)).to.eql('twenty-third');
+    expect(numberToWords(24)).to.eql('twenty-fourth');
+    expect(numberToWords(25)).to.eql('twenty-fifth');
+    expect(numberToWords(26)).to.eql('twenty-sixth');
+    expect(numberToWords(27)).to.eql('twenty-seventh');
+    expect(numberToWords(28)).to.eql('twenty-eighth');
+    expect(numberToWords(29)).to.eql('twenty-ninth');
+    expect(numberToWords(30)).to.eql('thirtieth');
+    expect(numberToWords(31)).to.eql('thirty-first');
+    expect(numberToWords(32)).to.eql('thirty-second');
+    expect(numberToWords(33)).to.eql('thirty-third');
+    expect(numberToWords(34)).to.eql('thirty-fourth');
+    expect(numberToWords(35)).to.eql('thirty-fifth');
+    expect(numberToWords(36)).to.eql('thirty-sixth');
+    expect(numberToWords(37)).to.eql('thirty-seventh');
+    expect(numberToWords(38)).to.eql('thirty-eighth');
+    expect(numberToWords(39)).to.eql('thirty-ninth');
+    expect(numberToWords(40)).to.eql('40th');
+    expect(numberToWords(41)).to.eql('41st');
+    expect(numberToWords(42)).to.eql('42nd');
+    expect(numberToWords(43)).to.eql('43rd');
+    expect(numberToWords(44)).to.eql('44th');
+    expect(numberToWords(99)).to.eql('99th');
+  });
+});
