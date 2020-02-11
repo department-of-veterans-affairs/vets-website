@@ -54,7 +54,7 @@ export const chapters = {
       },
       // related to 1995-STEM
       stem: {
-        title: 'The Rogers STEM Scholarship',
+        title: 'Rogers STEM Scholarship',
         path: 'benefits/stem',
         uiSchema: stem.uiSchema,
         schema: stem.schema,
