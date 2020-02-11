@@ -6,9 +6,9 @@
 // imported above would import and use these common definitions:
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import ConfirmAddressPage from '../components/ConfirmAddress';
-import OrderCommentPage from '../components/OrderCommentPage';
-import VeteranInformationPage from '../components/VeteranInformationPage';
+import ConfirmAddressPage from '../Components/ConfirmAddress';
+import OrderCommentPage from '../Components/OrderCommentPage';
+import VeteranInformationPage from '../Components/VeteranInformationPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
@@ -86,17 +86,6 @@ const formConfig = {
           title: formPages.orderCommentsPage,
           uiSchema: {
             'ui:description': OrderCommentPage,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
-        'Confirm Address': {
-          path: 'confirm-address',
-          title: "Veteran's Info",
-          uiSchema: {
-            'ui:description': ConfirmAddressPage,
           },
           schema: {
             type: 'object',
