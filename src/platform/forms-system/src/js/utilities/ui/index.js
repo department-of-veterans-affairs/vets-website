@@ -1,6 +1,23 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
+export const scrollToElement = name => {
+  if (name) {
+    Scroll.scroller.scrollTo(
+      name,
+      window.Forms.scroll || {
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      },
+    );
+  }
+};
+
+export const scrollToScrollElement = key => {
+  scrollToElement(`${key}ScrollElement`);
+};
+
 export function focusElement(selectorOrElement, options) {
   const el =
     typeof selectorOrElement === 'string'
@@ -22,6 +39,7 @@ export function focusOnFirstElementLabel(
   block,
   { focusOptions = {}, filterCallback },
 ) {
+  let target;
   if (block) {
     // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
     const focusableElements = [
@@ -49,12 +67,13 @@ export function focusOnFirstElementLabel(
     if (typeof filterCallback === 'function') {
       els = els.filter(filterCallback);
     }
-    // eslint-disable-next-line no-unused-expressions
-    els[0]
+    target = els[0]
       ?.closest('.schemaform-field-template')
-      ?.querySelector('legend, label')
-      ?.focus(focusOptions);
+      ?.querySelector('legend, label');
+    // eslint-disable-next-line no-unused-expressions
+    target?.focus(focusOptions);
   }
+  return target;
 }
 
 export function setGlobalScroll() {
@@ -98,23 +117,6 @@ export function scrollToFirstError() {
   }
 }
 
-export const scrollToElement = name => {
-  if (name) {
-    Scroll.scroller.scrollTo(
-      name,
-      window.Forms.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
-    );
-  }
-};
-
-export const scrollToScrollElement = key => {
-  scrollToElement(`${key}ScrollElement`);
-};
-
 // error object created by ../utilities/data/reduceErrors.js
 export const focusAndScrollToReviewElement = (error = {}) => {
   if (error.name) {
@@ -130,11 +132,11 @@ export const focusAndScrollToReviewElement = (error = {}) => {
           scrollToScrollElement(`chapter${error.chapter}`);
         } else {
           // Focus on form element
-          focusOnFirstElementLabel(
+          const target = focusOnFirstElementLabel(
             el.closest('.form-review-panel-page')?.querySelector('form'),
             { filterCallback: elm => elm.id.includes(`_${error.name}`) },
           );
-          scrollToElement(el.id);
+          scrollToElement(target?.id);
         }
       }
     });
