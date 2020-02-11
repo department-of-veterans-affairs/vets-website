@@ -35,11 +35,8 @@ const initialSchema = {
 
 const uiSchema = {
   typeOfCareId: {
-    'ui:title': 'What type of care do you need?',
+    'ui:title': 'Please choose a type of care',
     'ui:widget': 'radio',
-    'ui:options': {
-      hideLabelText: true,
-    },
   },
 };
 
