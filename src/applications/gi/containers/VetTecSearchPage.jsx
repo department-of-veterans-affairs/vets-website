@@ -150,6 +150,14 @@ export class VetTecSearchPage extends React.Component {
     this.props.router.push({ ...this.props.location, query });
   };
 
+  autocomplete = (value, version) => {
+    this.props.fetchProgramAutocompleteSuggestions(
+      value,
+      _.omit(this.props.search.query, 'name'),
+      version,
+    );
+  };
+
   filterResultsByProvider = result =>
     this.props.filters.provider.length === 0 ||
     this.props.filters.provider.includes(result.institutionName);
@@ -259,9 +267,7 @@ export class VetTecSearchPage extends React.Component {
             clearAutocompleteSuggestions={
               this.props.clearAutocompleteSuggestions
             }
-            fetchAutocompleteSuggestions={
-              this.props.fetchProgramAutocompleteSuggestions
-            }
+            fetchAutocompleteSuggestions={this.autocomplete}
             handleFilterChange={this.handleFilterChange}
             handleProviderFilterChange={this.handleProviderFilterChange}
             updateAutocompleteSearchTerm={

@@ -116,9 +116,14 @@ export function updateAutocompleteSearchTerm(searchTerm) {
   };
 }
 
-export function fetchInstitutionAutocompleteSuggestions(term, version) {
+export function fetchInstitutionAutocompleteSuggestions(
+  term,
+  filterFields,
+  version,
+) {
   const url = appendQuery(`${api.url}/institutions/autocomplete`, {
     term,
+    ...rubyifyKeys(filterFields),
     version,
   });
   return dispatch =>
@@ -130,9 +135,14 @@ export function fetchInstitutionAutocompleteSuggestions(term, version) {
       );
 }
 
-export function fetchProgramAutocompleteSuggestions(term, version) {
+export function fetchProgramAutocompleteSuggestions(
+  term,
+  filterFields,
+  version,
+) {
   const url = appendQuery(`${api.url}/institution_programs/autocomplete`, {
     term,
+    ...rubyifyKeys(filterFields),
     version,
   });
   return dispatch =>

@@ -107,6 +107,16 @@ export class LandingPage extends React.Component {
     this.props.eligibilityChange(e);
   };
 
+  autocomplete = (value, version) => {
+    this.props.fetchInstitutionAutocompleteSuggestions(
+      value,
+      {
+        category: this.props.filters.category,
+      },
+      version,
+    );
+  };
+
   validateSearchQuery = searchQuery => {
     this.setState({
       searchError: searchQuery === '',
@@ -148,9 +158,7 @@ export class LandingPage extends React.Component {
                   onClearAutocompleteSuggestions={
                     this.props.clearAutocompleteSuggestions
                   }
-                  onFetchAutocompleteSuggestions={
-                    this.props.fetchInstitutionAutocompleteSuggestions
-                  }
+                  onFetchAutocompleteSuggestions={this.autocomplete}
                   onFilterChange={this.handleFilterChange}
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm

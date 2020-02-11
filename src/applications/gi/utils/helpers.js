@@ -47,21 +47,18 @@ export const phoneInfo = (areaCode, phoneNumber) => {
 };
 
 /**
- * Snake-cases field names and appends names of array fields with '[]'
- * so that the GIDS rails controller will collect as array
+ * Snake-cases field names
  * @param query {Object} an object containing query fields
  * @returns {Object} query object with updated field names
  */
 export const rubyifyKeys = query =>
-  Object.keys(query).reduce((queryParams, key) => {
-    const keyName = Array.isArray(query[key])
-      ? `${snakeCase(key)}[]`
-      : snakeCase(key);
-    return {
+  Object.keys(query).reduce(
+    (queryParams, key) => ({
       ...queryParams,
-      [keyName]: query[key],
-    };
-  }, {});
+      [snakeCase(key)]: query[key],
+    }),
+    {},
+  );
 
 export const isPresent = value => value && value !== '';
 
