@@ -105,7 +105,7 @@ function finish(message, data) {
 function labelAdditions(diffLines) {
   let path = null;
   let position = null;
-  let previous = null;
+  let inNewFile = false;
   const output = [];
 
   diffLines.forEach(line => {
@@ -115,7 +115,7 @@ function labelAdditions(diffLines) {
     const match = line.match(/\+\+\+ (b\/)?(.*$)/);
     if (match) {
       path = match[2];
-    } else if (/\+\+\+ b.*/.test(previous) && /@@ .* @@.*/.test(line)) {
+    } else if (inNewFile && /@@ .* @@.*/.test(line)) {
       // Only reset the position if our current line is the beginning of a diff chunk
       // AND if the previous line marked the beginning of a new file
       position = 1;
@@ -128,7 +128,7 @@ function labelAdditions(diffLines) {
       // Increment position for each line of actual content in the diff
       position++;
     }
-    previous = line;
+    inNewFile = !!match;
   });
   return output;
 }
