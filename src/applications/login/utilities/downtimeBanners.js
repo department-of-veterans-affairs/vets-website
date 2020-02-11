@@ -1,5 +1,4 @@
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
-import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
 
 const downtimeBanners = [
   {
@@ -29,15 +28,6 @@ const downtimeBanners = [
     status: 'warning',
     message:
       'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
-  },
-  {
-    dependencies: [EXTERNAL_SERVICES.global],
-    headline: 'You may have trouble signing in or using some tools or services',
-    status: 'warning',
-    message: `We’re doing some work on VA.gov right now. We hope to finish our work by ${
-      scheduledDowntimeWindow.downtimeEnd
-    }. If you have trouble signing in or using any tools or services, please check back after then.`,
-    globalDowntime: true,
   },
 ];
 
