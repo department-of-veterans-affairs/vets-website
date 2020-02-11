@@ -78,16 +78,19 @@ export default function ConfirmationDirectScheduleInfo({
             </dl>
           </div>
         </div>
-
-        <div className="vads-u-margin-top--2">
-          <AddToCalendar
-            summary="VA Appointment"
-            description=""
-            location={getFacilityAddress(facilityDetails)}
-            startDateTime={momentDate.toDate()}
-            endDateTime={momentDate.add(appointmentLength, 'minutes').toDate()}
-          />
-        </div>
+        {facilityDetails && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendar
+              summary="VA Appointment"
+              description=""
+              location={getFacilityAddress(facilityDetails)}
+              startDateTime={momentDate.toDate()}
+              endDateTime={momentDate
+                .add(appointmentLength, 'minutes')
+                .toDate()}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
