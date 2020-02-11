@@ -572,32 +572,3 @@ export function generateICS(
 
   return cal.toString();
 }
-
-/**
- * Function to generate ICS commands for an appointment.
- *
- * @export
- * @param {*} appt
- * @param {*} facility
- */
-export function generateICSFromAppointment(appt, facility) {
-  const subject = getAppointmentTypeHeader(appt);
-  const description = `${getAppointmentInstructionsHeader(
-    appt,
-  )}. ${getAppointmentInstructions(appt)}`;
-  const location = getAppointmentAddress(appt, facility);
-
-  const duration = getAppointmentDuration(appt);
-  const startDateObj = getMomentConfirmedDate(appt).toDate();
-  const endDateObj = getMomentConfirmedDate(appt)
-    .add(duration, 'minutes')
-    .toDate();
-
-  return generateICS({
-    subject,
-    description,
-    location,
-    startDateObj,
-    endDateObj,
-  });
-}
