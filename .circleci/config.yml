@@ -15,29 +15,12 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
-#     - run: yarn lint
       - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
       - run: yarn lint:sass
       - store_test_results:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
-
-# unit-test:
-#   docker:
-#     - image: circleci/node:10.15.3
-#   steps:
-#     - checkout
-#     - restore_cache:
-#         keys:
-#           - yarn-packages-{{ checksum "yarn.lock" }}
-#     - run:
-#         command: yarn install --frozen-lockfile
-#     - save_cache:
-#         key: yarn-packages-{{ checksum "yarn.lock" }}
-#         paths:
-#           - ~/.cache/yarn
-#     - run: yarn test:unit
 
   unit-test:
     docker:
@@ -63,8 +46,6 @@ jobs:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
-#     - store_artifacts:
-#         path: ./coverage
 
   security-audit:
     docker:
@@ -101,6 +82,3 @@ workflows:
             - lint
             - unit-test
             - security-audit
-#     - deploy
-#         requires:
-#           - build
