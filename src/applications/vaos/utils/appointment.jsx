@@ -565,7 +565,7 @@ export function generateICS(
   event.addProp('DESCRIPTION', [description]);
   event.addProp('LOCATION', [location]);
   event.addProp('DTSTAMP', startDateTime);
-  event.addProp('DTSTART', endDateTime);
+  event.addProp('DTSTART', startDateTime);
   event.addProp('DTEND', endDateTime);
 
   cal.addComponent(event);
