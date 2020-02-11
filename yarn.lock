@@ -4900,13 +4900,6 @@ eslint-plugin-jsx-a11y@5.1:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
 
-eslint-plugin-lodash@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-lodash/-/eslint-plugin-lodash-6.0.0.tgz#70fa487ab632e62627ecf01ad3e85c228e3ab9d3"
-  integrity sha512-iuxToisjIYAJdxWtW8OamFyc3yAsGCjU5WokvuBfTc/k5XdWOp9fAmzw+aFjj520/QXspCc8//xJpqkhYUj4qw==
-  dependencies:
-    lodash "^4.17.15"
-
 eslint-plugin-mocha@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-5.2.0.tgz#d8786d9fff8cb8b5f6e4b61e40395d6568a5c4e2"
