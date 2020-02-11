@@ -57,7 +57,7 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: Sentry\.
-      OVERALL_REVIEW_COMMENT: Sentry call found - Check for potential PII exposure
+      OVERALL_REVIEW_COMMENT: Sentry call found - @frontend-review-group check for potential PII exposure
       LINE_COMMENT: Sentry found
     steps:
       - checkout

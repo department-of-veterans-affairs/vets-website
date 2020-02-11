@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
@@ -30,6 +31,7 @@ export const SET_DISMISSED_HCA_NOTIFICATION = 'SET_DISMISSED_HCA_NOTIFICATION';
 export const SHOW_HCA_REAPPLY_CONTENT = 'SHOW_HCA_REAPPLY_CONTENT';
 
 export function showReapplyContent() {
+  Sentry.captureMessage('Something');
   return { type: SHOW_HCA_REAPPLY_CONTENT };
 }
 
