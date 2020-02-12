@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getVeteranAddressInfo } from '../actions';
+import { getVeteranInformationData } from '../actions';
 
 class ConfirmAddress extends Component {
   static propTypes = {
@@ -12,7 +12,7 @@ class ConfirmAddress extends Component {
     country: PropTypes.string.isRequired,
     zip: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    getVeteranAddressInfo: PropTypes.func.isRequired,
+    getVeteranInformationData: PropTypes.func.isRequired,
   };
   static defaultProps = {
     addressLine1: '',
@@ -22,10 +22,10 @@ class ConfirmAddress extends Component {
     country: '',
     zip: '',
     email: '',
-    getVeteranAddressInfo: () => {},
+    getVeteranInformationData: () => {},
   };
   componentDidMount() {
-    this.props.getVeteranAddressInfo();
+    this.props.getVeteranInformationData();
   }
 
   render() {
@@ -64,7 +64,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getVeteranAddressInfo,
+  getVeteranInformationData,
 };
 
 export default connect(
