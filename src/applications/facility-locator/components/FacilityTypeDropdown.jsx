@@ -3,12 +3,7 @@ import classNames from 'classnames';
 import Downshift from 'downshift';
 import { facilityTypes } from '../config';
 import { keyMap } from '../utils/helpers';
-import {
-  LOCATION_OPTIONS,
-  LOCATION_OPTIONS_STAGING,
-  LocationType,
-} from '../constants';
-import environments from './../../../platform/utilities/environment';
+import { LOCATION_OPTIONS, LocationType } from '../constants';
 
 const facilityOptionClasses = (item, selected) =>
   classNames('dropdown-option', { selected });
@@ -209,9 +204,7 @@ class FacilityTypeDropdown extends Component {
 }
 
 FacilityTypeDropdown.defaultProps = {
-  locationOptions: environments.isStaging()
-    ? LOCATION_OPTIONS_STAGING
-    : LOCATION_OPTIONS,
+  locationOptions: LOCATION_OPTIONS,
 };
 
 export default FacilityTypeDropdown;
