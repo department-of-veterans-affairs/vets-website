@@ -1,5 +1,5 @@
-import { genericSchemas } from '../../generic-schema';
-import { suffixes } from '../../constants';
+import { genericSchemas } from '../../../generic-schema';
+import { suffixes } from '../../../constants';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import _ from 'lodash/fp';
