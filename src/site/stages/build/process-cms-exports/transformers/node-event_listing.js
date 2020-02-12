@@ -15,7 +15,6 @@ const transform = entity => ({
   entityMetatags: createMetaTagArray(entity.metatag.value),
   title: getDrupalValue(entity.title),
   changed: utcToEpochTime(getDrupalValue(entity.changed)),
-  metatag: getDrupalValue(entity.metatag),
   fieldIntroText: getDrupalValue(entity.fieldIntroText),
   fieldOffice: entity.fieldOffice[0],
 });
