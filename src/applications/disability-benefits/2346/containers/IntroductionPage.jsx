@@ -15,6 +15,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Order hearing aid batteries and prosthetic socks from VA" />
         <p>Equal to VA Form 2346 (Request for Batteries and Accessories).</p>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
@@ -84,6 +85,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          hideUnauthedStartLink
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
