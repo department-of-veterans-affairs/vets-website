@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { genderLabels } from 'platform/static-data/labels';
 import { getVeteranInformationData } from '../actions';
 
 class VeteranInformationPage extends React.Component {
@@ -22,7 +23,9 @@ class VeteranInformationPage extends React.Component {
               <p className="vads-u-margin--1px">
                 Date of Birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
               </p>
-              <p className="vads-u-margin--1px"> Gender: {gender}</p>
+              <p className="vads-u-margin--1px">
+                Gender: {gender ? genderLabels[gender] : ''}
+              </p>
             </div>
           </div>
           <br />
