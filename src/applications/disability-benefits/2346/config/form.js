@@ -62,9 +62,9 @@ const formConfig = {
     ConfirmAddressChapter: {
       title: formPages.confirmAddressPage,
       pages: {
-        'Personal Details': {
-          path: 'personal-details',
-          title: "Veteran's Info",
+        'Confirm Address': {
+          path: 'confirm-address',
+          title: "Veteran's Address Info",
           uiSchema: {
             'ui:description': ConfirmAddressPage,
           },
