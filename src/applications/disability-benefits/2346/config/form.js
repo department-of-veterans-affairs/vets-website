@@ -34,7 +34,7 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'Form 2346',
+  title: 'Request for hearing aid batteries and accessories',
   defaultDefinitions: {
     fullName,
     ssn,
