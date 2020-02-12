@@ -44,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .sendKeys('#facility-dropdown-toggle', client.Keys.DOWN_ARROW)
     .useXpath()
     .assert.attributeContains(
-      '//li[@option="VA benefits"]',
+      '//li[@option="Urgent care"]',
       'aria-selected',
       true,
     );
