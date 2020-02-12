@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 import { getVeteranInformation } from '../api';
 import {
   FETCH_VETERAN_ADDRESS_FAILURE,
@@ -35,9 +37,10 @@ export const getVeteranInformationData = () => async dispatch => {
     dispatch(fetchVeteranInformation(veteranInformation));
   } catch (error) {
     dispatch(
+      { FETCH_VETERAN_INFORMATION_FAILURE },
       fetchVeteranInformationFailure(
         error,
-        'failed to retrieve data from the api',
+        Sentry.captureMessage('failed to retrieve data from the api'),
       ),
     );
   }
@@ -53,7 +56,11 @@ export const getVeteranAddressInfo = () => async dispatch => {
     dispatch(fetchVeteranAddressSuccess(veteranAddresses));
   } catch (error) {
     dispatch(
-      fetchVeteranAddressFailure(error, 'failed to retrieve data from api'),
+      { FETCH_VETERAN_ADDRESS_FAILURE },
+      fetchVeteranAddressFailure(
+        error,
+        Sentry.captureMessage('failed to retrieve data from api'),
+      ),
     );
   }
 };
