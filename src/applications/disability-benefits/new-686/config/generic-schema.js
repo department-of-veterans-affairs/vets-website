@@ -34,8 +34,8 @@ export const genericSchemas = {
   },
   genericUSACountryDropdown: {
     type: 'string',
-    enum: states50AndDC.map (state => state.value),
-    default: states50AndDC.map (state => state.label),
+    enum: states50AndDC.map(state => state.value),
+    default: states50AndDC.map(state => state.label),
   },
   fullName: {
     type: 'object',

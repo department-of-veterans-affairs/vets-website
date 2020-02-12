@@ -2,7 +2,8 @@ import _ from 'lodash';
 
 export const textOnlyPattern = '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$';
 export const numberOnlyPattern = '^[0-9]*$';
-export const datePattern = '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$';
+export const datePattern =
+  '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$';
 
 export const countries = [
   { value: 'USA', label: 'United States' },
