@@ -46,7 +46,7 @@ class ConfirmAddress extends Component {
           <label htmlFor="zip">Postal Code</label>
           <input type="text" id="zip" defaultValue={zip} />
           <p className="vads-u-margin-top--4">Confirm your email address</p>
-          <input type="text" defaultValue={email} />
+          <input type="email" defaultValue={email} />
         </div>
       </div>
     );
