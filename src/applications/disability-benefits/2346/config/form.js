@@ -7,7 +7,6 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import ConfirmAddressPage from '../Components/ConfirmAddress';
-import OrderCommentPage from '../Components/OrderCommentPage';
 import VeteranInformationPage from '../Components/VeteranInformationPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -18,8 +17,6 @@ const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 const formPages = {
   VeteranInformationPage: 'Veteran Information',
   confirmAddressPage: 'Confirm Address Page',
-  orderHistoryPage: 'Order History Page',
-  orderCommentsPage: 'Order Comments Page',
 };
 
 const formConfig = {
@@ -70,22 +67,6 @@ const formConfig = {
           title: "Veteran's Info",
           uiSchema: {
             'ui:description': ConfirmAddressPage,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-    },
-    orderCommentsChapter: {
-      title: formPages.orderCommentsPage,
-      pages: {
-        [formPages.orderCommentsPage]: {
-          path: 'order-comments-page',
-          title: formPages.orderCommentsPage,
-          uiSchema: {
-            'ui:description': OrderCommentPage,
           },
           schema: {
             type: 'object',
