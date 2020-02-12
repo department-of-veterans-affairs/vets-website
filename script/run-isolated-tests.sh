@@ -14,12 +14,13 @@ NUM_APPS_CHANGED=$(echo "$APP_SUBPATHS_CHANGED" | wc -l)
 # Handle when no app has been modified.
 if [ -z "${APP_SUBPATHS_CHANGED// }" ]; then
   echo "No changes detected in apps."
+  yarn test:coverage "src/platform/**/*.unit.spec.js?(x)"
   exit 0
 fi
 
 # Handle when only one app has been modified.
 if [ $NUM_APPS_CHANGED -eq 1 ]; then
-  yarn test:coverage "$APP_SUBPATHS_CHANGED/**/*.unit.spec.js?(x)"
+  yarn test:coverage "{src/platform,$APP_SUBPATHS_CHANGED}/**/*.unit.spec.js?(x)"
   exit $?
 fi
 
