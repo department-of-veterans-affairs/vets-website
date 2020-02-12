@@ -15,7 +15,7 @@ describe('686 report dependent death', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.reportDependentDeaths.pages.deaths;
+  } = formConfig.chapters.deceasedDependents.pages.dependentInformation;
 
   it('should render', () => {
     const form = mount(
