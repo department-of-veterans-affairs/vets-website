@@ -43,7 +43,7 @@ class ConfirmAddress extends Component {
           <input type="text" id="city" defaultValue={city} />
           <label htmlFor="state">State</label>
           <input type="text" id="state" defaultValue={state} />
-          <label htmlFor="zip">Zip</label>
+          <label htmlFor="zip">Postal Code</label>
           <input type="text" id="zip" defaultValue={zip} />
           <p className="vads-u-margin-top--4">Confirm your email address</p>
           <input type="text" defaultValue={email} />
