@@ -1,8 +1,8 @@
 {
   "appName": "Request for hearing aid batteries and accessories",
   "entryFile": "./app-entry.jsx",
-  "entryName": "mdt-2346",
-  "rootUrl": "/mdt/2346",
+  "entryName": "hearing-aid-batteries-and-accessories",
+  "rootUrl": "/hearing-aid-batteries-and-accessories",
   "production": false,
   "template": {
     "vagovprod": false
