@@ -5,7 +5,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   schema,
   uiSchema,
-} from './chapters/chapter-2/1-veteran-formation/veteran-information';
+} from './chapters/veteran-information/veteran-information';
 
 // const { } = fullSchema.properties;
 

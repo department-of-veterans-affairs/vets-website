@@ -1,9 +1,5 @@
-import {
-  genericTextinput,
-  genericNumberInput,
-  genericDateInput,
-} from '../../../generic-schema';
-import { suffixes } from '../../../constants';
+import { genericSchemas } from '../../generic-schema';
+import { suffixes } from '../../constants';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import _ from 'lodash/fp';
@@ -12,17 +8,17 @@ export const schema = {
   type: 'object',
   required: ['first', 'last', 'ssn', 'birthDate'],
   properties: {
-    first: genericTextinput,
-    middle: genericTextinput,
-    last: genericTextinput,
+    first: genericSchemas.genericTextinput,
+    middle: genericSchemas.genericTextinput,
+    last: genericSchemas.genericTextinput,
     suffix: {
       type: 'string',
       enum: suffixes,
     },
-    ssn: genericNumberInput,
-    vaFileNumber: genericNumberInput,
-    serviceNumber: genericNumberInput,
-    birthDate: genericDateInput,
+    ssn: genericSchemas.genericNumberInput,
+    vaFileNumber: genericSchemas.genericNumberInput,
+    serviceNumber: genericSchemas.genericNumberInput,
+    birthDate: genericSchemas.date,
   },
 };
 
@@ -64,20 +60,3 @@ export const uiSchema = {
   },
   birthDate: currentOrPastDateUI('Your date of birth'),
 };
-
-/*
-uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
-*/
