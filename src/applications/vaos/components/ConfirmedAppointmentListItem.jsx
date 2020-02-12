@@ -112,9 +112,7 @@ export default function ConfirmedAppointmentListItem({
               location={getAppointmentAddress(appointment, facility)}
               duration={getAppointmentDuration(appointment)}
               startDateTime={getMomentConfirmedDate(appointment).toDate()}
-              endDateTime={getMomentConfirmedDate(appointment)
-                .add(getAppointmentDuration(appointment), 'minutes')
-                .toDate()}
+              endDateTime={getMomentConfirmedDate(appointment)}
             />
           )}
           {allowCancel && (

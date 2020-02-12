@@ -85,9 +85,7 @@ export default function ConfirmationDirectScheduleInfo({
               description=""
               location={getFacilityAddress(facilityDetails)}
               startDateTime={momentDate.toDate()}
-              endDateTime={momentDate
-                .add(appointmentLength, 'minutes')
-                .toDate()}
+              duation={appointmentLength}
             />
           </div>
         )}

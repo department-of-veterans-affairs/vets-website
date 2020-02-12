@@ -61,9 +61,6 @@ describe('VAOS <AddToCalendar>', () => {
         startDateTime={getMomentConfirmedDate(
           communityCareAppointment,
         ).toDate()}
-        endDateTime={getMomentConfirmedDate(communityCareAppointment)
-          .add(getAppointmentDuration(communityCareAppointment), 'minutes')
-          .toDate()}
       />,
     );
 
@@ -106,9 +103,6 @@ describe('VAOS <AddToCalendar>', () => {
         location={getAppointmentAddress(vaAppointment, facility)}
         duration={getAppointmentDuration(vaAppointment)}
         startDateTime={getMomentConfirmedDate(vaAppointment).toDate()}
-        endDateTime={getMomentConfirmedDate(vaAppointment)
-          .add(getAppointmentDuration(vaAppointment), 'minutes')
-          .toDate()}
       />,
     );
 
@@ -176,7 +170,7 @@ describe('VAOS <AddToCalendar>', () => {
         description=""
         location={getFacilityAddress(props.facilityDetails)}
         startDateTime={momentDate.toDate()}
-        endDateTime={momentDate.add(props.ppointmentLength, 'minutes').toDate()}
+        duration={props.appointmentLength}
       />,
     );
 
@@ -216,9 +210,6 @@ describe('VAOS <AddToCalendar>', () => {
         location={getAppointmentAddress(vaAppointment, facility)}
         duration={getAppointmentDuration(vaAppointment)}
         startDateTime={getMomentConfirmedDate(vaAppointment).toDate()}
-        endDateTime={getMomentConfirmedDate(vaAppointment)
-          .add(getAppointmentDuration(vaAppointment), 'minutes')
-          .toDate()}
       />,
     );
 

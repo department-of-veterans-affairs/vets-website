@@ -8,16 +8,17 @@ export default function AddToCalendar({
   description,
   location,
   startDateTime,
-  endDateTime,
+  duration,
 }) {
-  const title = summary;
-  const filename = `${title.replace(/\s/g, '_')}.ics`;
+  const filename = `${summary.replace(/\s/g, '_')}.ics`;
   const text = generateICS(
     summary,
     description,
     location,
     startDateTime,
-    endDateTime,
+    moment(startDateTime)
+      .add(duration, 'minutes')
+      .toDate(),
   );
   const formattedDate = moment(startDateTime).format('MMMM D, YYYY');
 
