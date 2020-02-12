@@ -156,7 +156,6 @@ export function getSystemIdentifiers() {
 }
 
 export function getParentFacilities(systemIds) {
-  console.log(`systemIds: ${systemIds}`);
   let promise;
 
   if (USE_MOCK_DATA) {
@@ -179,7 +178,6 @@ export function getFacilitiesBySystemAndTypeOfCare(
   parentId,
   typeOfCareId,
 ) {
-  console.log(`systemId: ${systemId}, parentId: ${parentId}`);
   let promise;
   if (USE_MOCK_DATA) {
     if (parentId === '984') {
@@ -231,7 +229,6 @@ export function checkPastVisits(
   typeOfCareId,
   directOrRequest,
 ) {
-  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     let attributes;
@@ -284,7 +281,6 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 }
 
 export function getClinicInstitutions(systemId, clinicIds) {
-  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     promise = import('./clinics.json').then(
@@ -303,10 +299,9 @@ export function getClinicInstitutions(systemId, clinicIds) {
 }
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
-  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId === '983') {
+    if (facilityId === '983A6') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
@@ -325,7 +320,6 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
 }
 
 export function getPacTeam(systemId) {
-  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     if (systemId.includes('983')) {
@@ -383,7 +377,6 @@ export function getFacilitiesInfo(facilityIds) {
 }
 
 export function getSitesSupportingVAR(systemIds) {
-  console.log(`systemIds: ${systemIds}`);
   let promise;
   if (USE_MOCK_DATA) {
     promise = import('./sites-supporting-var.json').then(
@@ -433,7 +426,6 @@ export function getAvailableSlots(
 }
 
 export function getCancelReasons(systemId) {
-  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     promise = import('./cancel_reasons.json').then(

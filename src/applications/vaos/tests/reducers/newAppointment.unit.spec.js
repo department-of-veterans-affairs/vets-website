@@ -416,7 +416,10 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        facilities: facilities983Parsed,
+        facilities: {
+          '323_983': facilities983Parsed,
+        },
+        parentFacilities: systemsParsed,
         data: {
           ...defaultState.data,
           vaFacility: '983',
@@ -558,7 +561,7 @@ describe('VAOS reducer: newAppointment', () => {
             },
           ],
         },
-        facilities: facilities983Parsed,
+        parentFacilities: systemsParsed,
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
@@ -617,7 +620,7 @@ describe('VAOS reducer: newAppointment', () => {
             },
           ],
         },
-        facilities: facilities983Parsed,
+        parentFacilities: systemsParsed,
         data: {
           ...defaultState.data,
           typeOfCareId: '323',

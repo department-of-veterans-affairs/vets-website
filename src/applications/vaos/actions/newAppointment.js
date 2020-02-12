@@ -13,6 +13,7 @@ import {
   getTypeOfCare,
   vaosDirectScheduling,
   getNewAppointment,
+  getFormData,
   getSystemFromParent,
 } from '../utils/selectors';
 import {
@@ -291,7 +292,6 @@ export function openFacilityPage(page, uiSchema, schema) {
         eligibilityData,
       });
     } catch (e) {
-      console.log(e);
       Sentry.captureException(e);
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
@@ -411,9 +411,8 @@ export function openClinicPage(page, uiSchema, schema) {
       type: FORM_CLINIC_PAGE_OPENED,
     });
 
-    await dispatch(
-      fetchFacilityDetails(getState().newAppointment.data.vaFacility),
-    );
+    const formData = getFormData(getState());
+    await dispatch(fetchFacilityDetails(formData.vaFacility));
 
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,

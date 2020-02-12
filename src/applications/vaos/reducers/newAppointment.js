@@ -437,7 +437,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const eligibility = getEligibilityChecks(
-        getSystemFromFacility(state.facilities, state.data.vaFacility),
+        getSystemFromFacility(state.parentFacilities, state.data.vaParent),
         action.typeOfCareId,
         action.eligibilityData,
       );
@@ -587,8 +587,8 @@ export default function formReducer(state = initialState, action) {
       if (state.pastAppointments) {
         const pastAppointmentDateMap = new Map();
         const systemId = getSystemFromFacility(
-          state.facilities,
-          state.data.vaFacility,
+          state.parentFacilities,
+          state.data.vaParent,
         );
         state.pastAppointments.forEach(appt => {
           const apptTime = appt.startDate;
