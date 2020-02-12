@@ -37,6 +37,13 @@ VeteranInformationPage.propTypes = {
   getVeteranInformationData: PropTypes.func.isRequired,
 };
 
+VeteranInformationPage.defaultProps = {
+  first: '',
+  last: '',
+  gender: '',
+  dateOfBirth: '',
+};
+
 const mapStateToProps = state => ({
   first: state.form2346Reducer?.formData?.veteranFullName?.first,
   last: state.form2346Reducer?.formData?.veteranFullName?.last,
