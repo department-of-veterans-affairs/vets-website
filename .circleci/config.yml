@@ -39,7 +39,7 @@ jobs:
             - ~/.cache/yarn
       - run: mkdir -p ./test-results
       - run:
-          command: ./scripts/run-isolated-tests.sh
+          command: ./script/run-isolated-tests.sh
           environment:
             MOCHA_FILE: ./test-results/test-results.xml
       - store_test_results:
