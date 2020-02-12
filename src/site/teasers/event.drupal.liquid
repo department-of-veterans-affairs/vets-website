@@ -28,9 +28,12 @@ Example data:
 {% if node != empty %}
 
     {% assign timezone = "America/New_York" %}
-    {% if node.uid.entity.timezone != empty %}
-        {% assign timezone = uid.entity.timezone %}
+    {% comment %}
+    Ultimately, we will allow check to use user timezone.
+    {% if uid.entity.timezone != empty %}
+    {% assign timezone = uid.entity.timezone %}
     {% endif %}
+    {% endcomment %}
 
     {% assign start_date_no_time = node.fieldDate.startDate | timeZone: timezone, "dddd, MMM D" %}
     {% assign end_date_no_time = node.fieldDate.endDate | timeZone: timezone , "dddd, MMM D" %}
