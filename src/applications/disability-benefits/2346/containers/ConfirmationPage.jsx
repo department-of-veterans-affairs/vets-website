@@ -19,7 +19,7 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         <h2>
           Your order is confirmed
           <i className="form2346 fas fa-check-circle fa-4x" />
@@ -42,7 +42,7 @@ export class ConfirmationPage extends React.Component {
             rerum sequi dignissimos. Iste.
           </p>
         </section>
-      </div>
+      </>
     );
   }
 }
