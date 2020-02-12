@@ -8,12 +8,16 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import Vet360EditModal from '../base/Vet360EditModal';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from 'applications/hca/actions';
-import { isEnrolledInVAHealthCare } from 'applications/hca/selectors';
+import { isEnrolledInVAHealthCare as isEnrolledInVAHealthCareSelector } from 'applications/hca/selectors';
 
 import { FIELD_NAMES } from 'vet360/constants';
 
 import { profileShowReceiveTextNotifications } from 'applications/personalization/profile360/selectors';
+
+import ContactInfoForm from '../ContactInfoForm';
+import environment from 'platform/utilities/environment';
+
+const useNewForm = !environment.isProduction();
 
 class PhoneTextInput extends ErrorableTextInput {
   // componentDidMount() {
@@ -72,6 +76,7 @@ class PhoneEditModal extends React.Component {
         inputPhoneNumber:
           this.props.data &&
           [this.props.data.areaCode, this.props.data.phoneNumber].join(''),
+        'view:showSMSCheckbox': this.props.showSMSCheckbox,
       });
     } else {
       defaultFieldValue = {
@@ -86,7 +91,7 @@ class PhoneEditModal extends React.Component {
     return defaultFieldValue;
   };
 
-  renderForm = () => (
+  renderOldForm = () => (
     <div>
       <AlertBox isVisible status="info">
         <p>
@@ -128,12 +133,30 @@ class PhoneEditModal extends React.Component {
     </div>
   );
 
+  renderForm = (formButtons, onSubmit) => {
+    if (!useNewForm) {
+      return this.renderOldForm();
+    }
+    return (
+      <ContactInfoForm
+        formData={this.props.field.value}
+        formSchema={this.props.field.formSchema}
+        uiSchema={this.props.field.uiSchema}
+        onUpdateFormData={this.props.onChangeFormDataAndSchemas}
+        onSubmit={onSubmit}
+      >
+        {formButtons}
+      </ContactInfoForm>
+    );
+  };
+
   render() {
     return (
       <Vet360EditModal
         getInitialFormValues={this.getInitialFormValues}
         render={this.renderForm}
-        onBlur={this.onBlur}
+        onBlur={useNewForm ? null : this.onBlur}
+        useSchemaForm={useNewForm}
         {...this.props}
       />
     );
@@ -141,21 +164,21 @@ class PhoneEditModal extends React.Component {
 }
 
 export function mapStateToProps(state, ownProps) {
-  const { fieldName } = ownProps;
+  const showReceiveTextNotifications = profileShowReceiveTextNotifications(
+    state,
+  );
+  const isEnrolledInVAHealthCare = isEnrolledInVAHealthCareSelector(state);
+  const showSMSCheckbox =
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
+    showReceiveTextNotifications &&
+    isEnrolledInVAHealthCare;
   return {
-    fieldName,
-    showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
-    isEnrolledInVAHealthCare: isEnrolledInVAHealthCare(state),
+    showReceiveTextNotifications,
+    isEnrolledInVAHealthCare,
+    showSMSCheckbox,
   };
 }
 
-const mapDispatchToProps = {
-  getEnrollmentStatus: getEnrollmentStatusAction,
-};
-
-const PhoneEditModalContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PhoneEditModal);
+const PhoneEditModalContainer = connect(mapStateToProps)(PhoneEditModal);
 
 export default PhoneEditModalContainer;
