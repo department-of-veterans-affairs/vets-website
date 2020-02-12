@@ -281,7 +281,7 @@ function getHearingType(type) {
 export function getStatusContents(appeal, name = {}) {
   const { status, aoj, programArea } = appeal.attributes;
   const appealType = appeal.type;
-  const statusType = status.type;
+  const statusType = status.type || status;
   const details = status.details || {};
   const amaDocket = _.get(appeal, 'attributes.docket.type');
   const aojDescription = getAojDescription(aoj);

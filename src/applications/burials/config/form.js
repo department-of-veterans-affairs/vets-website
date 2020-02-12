@@ -37,6 +37,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import * as address from 'platform/forms/definitions/address';
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import toursOfDutyUI from '../definitions/toursOfDuty';
@@ -566,9 +567,7 @@ const formConfig = {
               validateCentralMailPostalCode,
               address.uiSchema('Address'),
             ),
-            claimantEmail: {
-              'ui:title': 'Email address',
-            },
+            claimantEmail: emailUI(),
             claimantPhone: phoneUI('Phone number'),
           },
           schema: {

@@ -40,8 +40,14 @@ function getDrupalValue(arr) {
  * need it in the future to convert weird uris like
  * `entity:node/27` to something resembling a
  * relative url
+ *
+ * If the uri begins with "internal:" it will be stripped out.
  */
 function uriToUrl(uri) {
+  const internal = 'internal:';
+  if (uri.startsWith(internal)) {
+    return uri.substring(internal.length);
+  }
   return uri;
 }
 
@@ -164,6 +170,8 @@ module.exports = {
    * it'll throw an error so an engineer will be forced to update the schema
    * that uses this function. This will hopefully keep the schemas from getting
    * out-of-sync.
+   *
+   * NOTE: This should probably be in a schema helpers file.
    *
    * @param {Object} schema - A schema of type 'object'
    * @param {Array<String>} properties - A list of properties found in `schema`

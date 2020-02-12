@@ -276,6 +276,9 @@ export function uiSchema(
     },
     street: {
       'ui:title': 'Street',
+      'ui:errorMessages': {
+        required: 'Please enter a street address',
+      },
     },
     street2: {
       'ui:title': 'Line 2',
@@ -285,12 +288,24 @@ export function uiSchema(
     },
     city: {
       'ui:title': 'City',
+      'ui:errorMessages': {
+        required: 'Please enter a city',
+      },
     },
-    state: {},
+    state: {
+      'ui:errorMessages': {
+        required: 'Please enter a state',
+      },
+    },
     postalCode: {
       'ui:title': 'Postal code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
+      },
+      'ui:errorMessages': {
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
     },
   };

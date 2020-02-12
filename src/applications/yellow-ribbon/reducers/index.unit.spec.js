@@ -17,6 +17,8 @@ describe('Yellow Ribbon reducer', () => {
       page: 1,
       perPage: 10,
       results: undefined,
+      schoolIDs: [],
+      schoolsLookup: {},
       state: '',
       totalResults: undefined,
     });
@@ -42,6 +44,8 @@ describe('Yellow Ribbon reducer', () => {
       page: 1,
       perPage: 10,
       results: undefined,
+      schoolIDs: [],
+      schoolsLookup: {},
       state: 'CO',
       totalResults: undefined,
     });

@@ -2,6 +2,9 @@
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// Chapter imports
+import { wizard } from './chapters/taskWizard';
+import { deceasedDependentInformation } from './chapters/report-dependent-death';
 import {
   schema,
   uiSchema,
@@ -10,6 +13,10 @@ import {
 // const { } = fullSchema.properties;
 
 // const { } = fullSchema.definitions;
+
+const formFields = {
+  firstName: 'firstName',
+};
 
 const formConfig = {
   urlPrefix: '/',
@@ -36,6 +43,48 @@ const formConfig = {
           title: 'Veteran Information - Page 1',
           uiSchema,
           schema,
+    optionSelection: {
+      title: '686c Options',
+      pages: {
+        wizard: {
+          title: '686c Options',
+          path: '686-options-selection',
+          uiSchema: wizard.uiSchema,
+          schema: wizard.schema,
+        },
+      },
+    },
+    chapter1: {
+      title: 'Personal Information',
+      pages: {
+        page1: {
+          path: 'first-name',
+          title: 'Personal Information - Page 1',
+          uiSchema: {
+            [formFields.firstName]: {
+              'ui:title': 'First Name',
+            },
+          },
+          schema: {
+            required: [formFields.firstName],
+            type: 'object',
+            properties: {
+              [formFields.firstName]: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
+    deceasedDependents: {
+      title: 'Report the death of a dependent',
+      pages: {
+        dependentInformation: {
+          title: 'Report the death of a dependent',
+          path: '686-report-dependent-death',
+          uiSchema: deceasedDependentInformation.uiSchema,
+          schema: deceasedDependentInformation.schema,
         },
       },
     },

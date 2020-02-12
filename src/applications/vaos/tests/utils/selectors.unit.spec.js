@@ -100,6 +100,26 @@ describe('VAOS selectors', () => {
       expect(newState.typeOfCare).to.equal('Pharmacy');
       expect(newState.loadingSystems).to.be.true;
     });
+    it('should return eligibility error flag', () => {
+      const state = {
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '160',
+            facilityType: 'vamc',
+            vaSystem: '983',
+          },
+          facilities: {},
+          eligibility: {},
+          systems: [{}],
+          facilityDetails: {},
+          eligibilityStatus: 'failed',
+        },
+      };
+
+      const newState = getFacilityPageInfo(state);
+      expect(newState.hasEligibilityError).to.be.true;
+    });
   });
 
   describe('getChosenFacilityInfo', () => {

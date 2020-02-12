@@ -11,7 +11,6 @@ const INITIAL_STATE = Object.freeze({
   eightKeysToVeteranSuccess: false,
   stemIndicator: false,
   typeName: 'ALL',
-  vetTecProvider: false,
   preferredProvider: false,
   provider: [],
 });

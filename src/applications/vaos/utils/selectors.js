@@ -168,8 +168,9 @@ export function getFacilityPageInfo(state) {
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     hasDataFetchingError:
       newAppointment.systemsStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.elibilityStatus === FETCH_STATUS.failed,
+      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed,
+    hasEligibilityError:
+      newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     typeOfCare: getTypeOfCare(data)?.name,
     systemDetails: newAppointment?.facilityDetails[data.vaSystem],
   };
