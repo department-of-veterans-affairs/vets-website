@@ -6,7 +6,6 @@ import { getVeteranInformationData } from '../actions';
 class ConfirmAddress extends Component {
   static propTypes = {
     addressLine1: PropTypes.string.isRequired,
-    addressLine2: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
     country: PropTypes.string.isRequired,
@@ -16,7 +15,6 @@ class ConfirmAddress extends Component {
   };
   static defaultProps = {
     addressLine1: '',
-    addressLine2: '',
     city: '',
     state: '',
     country: '',
@@ -29,7 +27,7 @@ class ConfirmAddress extends Component {
   }
 
   render() {
-    const { addressLine1, addressLine2, city, state, zip, email } = this.props;
+    const { addressLine1, city, state, zip, email } = this.props;
 
     return (
       <div>
@@ -37,8 +35,6 @@ class ConfirmAddress extends Component {
         <div>
           <label htmlFor="address1">Address Line 1</label>
           <input id="address1" type="text" defaultValue={addressLine1} />
-          <label htmlFor="address2">Address Line 2</label>
-          <input type="text" defaultValue={addressLine2} />
           <label htmlFor="city">City</label>
           <input type="text" id="city" defaultValue={city} />
           <label htmlFor="state">State</label>
@@ -55,7 +51,6 @@ class ConfirmAddress extends Component {
 
 const mapStateToProps = state => ({
   addressLine1: state.form2346Reducer?.formData?.veteranAddress?.street,
-  addressLine2: state.form2346Reducer?.formData?.veteranAddress?.street,
   city: state.form2346Reducer?.formData?.veteranAddress?.city,
   state: state.form2346Reducer?.formData?.veteranAddress?.state,
   country: state.form2346Reducer?.formData?.veteranAddress?.country,
