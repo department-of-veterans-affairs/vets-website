@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getVeteranInformationData } from '../actions';
 
 class VeteranInformationPage extends React.Component {
@@ -14,9 +15,11 @@ class VeteranInformationPage extends React.Component {
         <div>
           <div className="usa-alert schemaform-sip-alert">
             <div className="usa-alert-body">
-              {first} {last} <br />
-              Date of Birth: {dateOfBirth} <br />
-              Gender: {gender}
+              <p className="vads-u-margin--1px">
+                {first} {last}
+              </p>
+              <p className="vads-u-margin--1px">Date of Birth: {dateOfBirth}</p>
+              <p className="vads-u-margin--1px"> Gender: {gender}</p>
             </div>
           </div>
           <br />
@@ -25,11 +28,20 @@ class VeteranInformationPage extends React.Component {
     );
   }
 }
+
+VeteranInformationPage.propTypes = {
+  first: PropTypes.string.isRequired,
+  last: PropTypes.string.isRequired,
+  gender: PropTypes.string.isRequired,
+  dateOfBirth: PropTypes.string.isRequired,
+  getVeteranInformationData: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
-  first: state.form2346Reducer?.formData?.veteranFullName?.first || '',
-  last: state.form2346Reducer?.formData?.veteranFullName?.last || '',
-  gender: state.form2346Reducer?.formData?.gender || '',
-  dateOfBirth: state.form2346Reducer?.formData?.dateOfBirth || '',
+  first: state.form2346Reducer?.formData?.veteranFullName?.first,
+  last: state.form2346Reducer?.formData?.veteranFullName?.last,
+  gender: state.form2346Reducer?.formData?.gender,
+  dateOfBirth: state.form2346Reducer?.formData?.dateOfBirth,
 });
 const mapDispatchToProps = {
   getVeteranInformationData,

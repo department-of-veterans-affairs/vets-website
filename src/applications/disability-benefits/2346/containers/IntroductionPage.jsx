@@ -7,16 +7,6 @@ import React from 'react';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
-
-    // getVeteranInformation().then(data => {
-    //   if (data.error) {
-    //     // eslint-disable-next-line no-console
-    //     console.log(data.error);
-    //   } else {
-    //     // eslint-disable-next-line no-console
-    //     console.log(data);
-    //   }
-    // });
   }
 
   render() {

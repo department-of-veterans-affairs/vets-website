@@ -76,11 +76,4 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
-// function mapStateToProps(state) {
-//   return {
-//     form: state.form,
-//   };
-// }
-
-// export default connect(mapStateToProps)(ConfirmationPage);
 export default ConfirmationPage;
