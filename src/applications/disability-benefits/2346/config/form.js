@@ -65,6 +65,7 @@ const formConfig = {
         'Confirm Address': {
           path: 'confirm-address',
           title: "Veteran's Address Info",
+          required: ['addressLine1', 'city', 'state', 'zip', 'email'],
           uiSchema: {
             'ui:description': ConfirmAddressPage,
           },
