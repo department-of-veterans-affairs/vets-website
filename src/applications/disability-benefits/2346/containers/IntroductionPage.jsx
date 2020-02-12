@@ -12,7 +12,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Order hearing aid batteries and prosthetic socks from VA" />
+        <FormTitle title="VA Form 2346" />
         <p>Equal to VA Form 2346 (Request for Batteries and Accessories).</p>
         <SaveInProgressIntro
           hideUnauthedStartLink
