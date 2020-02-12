@@ -41,7 +41,7 @@ class IntroductionPage extends React.Component {
               <p>
                 If you need help ordering hearing aid and betteries and
                 accessories, you cna contact the Devner Logistics Center (DLC)
-                at <a href="303-273-6200">303-273-6200</a>
+                at <a href="tel:303-273-6200">303-273-6200</a>
               </p>
             </li>
             <li className="process-step list-two">
@@ -79,7 +79,7 @@ class IntroductionPage extends React.Component {
               <p>
                 If you have questions about your order, you can contact the
                 Denver Logistics Center (DLC) at{' '}
-                <a href="303-273-6200">303-273-6200</a>.{' '}
+                <a href="tel:303-273-6200">303-273-6200</a>.{' '}
               </p>
             </li>
           </ol>
