@@ -31,7 +31,7 @@ class ConfirmAddress extends Component {
 
     return (
       <div>
-        <h1>Confirm your address</h1>
+        <h2>Confirm your address</h2>
         <div>
           <label htmlFor="address1">Address Line 1</label>
           <input id="address1" type="text" defaultValue={addressLine1} />
