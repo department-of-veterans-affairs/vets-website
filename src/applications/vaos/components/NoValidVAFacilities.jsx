@@ -8,18 +8,18 @@ import { lowerCase } from '../utils/appointment';
 
 export default function NoValidVAFacilities({ formContext }) {
   const {
-    systemId,
+    parentId,
     typeOfCare,
     facilityDetailsStatus,
-    systemDetails,
+    parentDetails,
   } = formContext;
 
   if (facilityDetailsStatus === FETCH_STATUS.loading) {
     return <LoadingIndicator message="Finding locations" />;
   }
 
-  const address = systemDetails?.address?.physical;
-  const phone = systemDetails?.phone;
+  const address = parentDetails?.address?.physical;
+  const phone = parentDetails?.phone;
   const typeOfCareText = typeOfCare ? lowerCase(typeOfCare) : '';
 
   return (
@@ -33,10 +33,10 @@ export default function NoValidVAFacilities({ formContext }) {
               We’re sorry. This facility doesn’t accept appointments for this
               type of care. Please call the medical center for more information.
             </p>
-            {systemDetails ? (
+            {parentDetails ? (
               <div className="vads-u-padding-left--2 vads-u-border-left--4px vads-u-border-color--primary">
                 <span className="vads-u-font-weight--bold">
-                  {systemDetails?.name}
+                  {parentDetails?.name}
                 </span>
                 <br />
                 <span>{address?.address1}</span>
@@ -51,9 +51,9 @@ export default function NoValidVAFacilities({ formContext }) {
                   {address?.city}, {address?.state} {address?.zip}
                 </span>
                 <br />
-                <FacilityDirectionsLink location={systemDetails} />
+                <FacilityDirectionsLink location={parentDetails} />
                 <div className="vads-u-display--flex vads-u-margin-top--2">
-                  <FacilityHours location={systemDetails} />
+                  <FacilityHours location={parentDetails} />
                 </div>
                 <p>
                   <span className="vads-u-font-weight--bold">Main phone: </span>
@@ -78,7 +78,7 @@ export default function NoValidVAFacilities({ formContext }) {
               <p>
                 You can find contact information for this medical center at{' '}
                 <a
-                  href={`/find-locations/facility/vha_${systemId}`}
+                  href={`/find-locations/facility/vha_${parentId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

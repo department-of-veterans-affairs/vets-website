@@ -155,7 +155,8 @@ export function getSystemIdentifiers() {
   );
 }
 
-export function getSystemDetails(systemIds) {
+export function getParentFacilities(systemIds) {
+  console.log(`systemIds: ${systemIds}`);
   let promise;
 
   if (USE_MOCK_DATA) {
@@ -169,19 +170,24 @@ export function getSystemDetails(systemIds) {
   }
 
   return promise.then(resp =>
-    resp.data
-      .map(item => ({ ...item.attributes, id: item.id }))
-      // Sometimes facilities that aren't in our codes list come back, because they're
-      // marked as parents. We don't want this, so we're filtering them out
-      .filter(item => item.rootStationCode === item.institutionCode),
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
 
-export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
+export function getFacilitiesBySystemAndTypeOfCare(
+  systemId,
+  parentId,
+  typeOfCareId,
+) {
+  console.log(`systemId: ${systemId}, parentId: ${parentId}`);
   let promise;
   if (USE_MOCK_DATA) {
-    if (systemId === '984') {
+    if (parentId === '984') {
       promise = import('./facilities_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else if (parentId === '983A6') {
+      promise = import('./facilities_983A6.json').then(
         module => (module.default ? module.default : module),
       );
     } else {
@@ -225,6 +231,7 @@ export function checkPastVisits(
   typeOfCareId,
   directOrRequest,
 ) {
+  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     let attributes;
@@ -277,6 +284,7 @@ export function getRequestLimits(facilityId, typeOfCareId) {
 }
 
 export function getClinicInstitutions(systemId, clinicIds) {
+  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     promise = import('./clinics.json').then(
@@ -295,6 +303,7 @@ export function getClinicInstitutions(systemId, clinicIds) {
 }
 
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
+  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     if (facilityId === '983') {
@@ -316,6 +325,7 @@ export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
 }
 
 export function getPacTeam(systemId) {
+  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     if (systemId.includes('983')) {
@@ -373,6 +383,7 @@ export function getFacilitiesInfo(facilityIds) {
 }
 
 export function getSitesSupportingVAR(systemIds) {
+  console.log(`systemIds: ${systemIds}`);
   let promise;
   if (USE_MOCK_DATA) {
     promise = import('./sites-supporting-var.json').then(
@@ -422,6 +433,7 @@ export function getAvailableSlots(
 }
 
 export function getCancelReasons(systemId) {
+  console.log(`systemId: ${systemId}`);
   let promise;
   if (USE_MOCK_DATA) {
     promise = import('./cancel_reasons.json').then(

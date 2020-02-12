@@ -8,9 +8,9 @@ import { VAFacilityPage } from '../../containers/VAFacilityPage';
 describe('VAOS <VAFacilityPage>', () => {
   const defaultSchema = {
     type: 'object',
-    required: ['vaSystem', 'vaFacility'],
+    required: ['vaParent', 'vaFacility'],
     properties: {
-      vaSystem: {
+      vaParent: {
         type: 'string',
         enum: ['983'],
       },
@@ -26,7 +26,7 @@ describe('VAOS <VAFacilityPage>', () => {
     const openFormPage = sinon.spy();
     const form = shallow(
       <VAFacilityPage
-        loadingSystems
+        loadingParentFacilities
         data={defaultData}
         openFacilityPage={openFormPage}
       />,
@@ -42,7 +42,7 @@ describe('VAOS <VAFacilityPage>', () => {
     const form = shallow(
       <VAFacilityPage
         data={defaultData}
-        noValidVASystems
+        noValidVAParentFacilities
         openFacilityPage={openFormPage}
       />,
     );
@@ -99,7 +99,7 @@ describe('VAOS <VAFacilityPage>', () => {
 
     const form = mount(
       <VAFacilityPage
-        data={{ vaSystem: '123' }}
+        data={{ vaParent: '123' }}
         loadingFacilities
         schema={schema}
         openFacilityPage={openFormPage}
@@ -122,8 +122,8 @@ describe('VAOS <VAFacilityPage>', () => {
 
     const form = mount(
       <VAFacilityPage
-        data={{ vaSystem: '123' }}
-        noValidVASystems
+        data={{ vaParent: '123' }}
+        noValidVAParentFacilities
         schema={schema}
         openFacilityPage={openFormPage}
       />,
@@ -179,7 +179,7 @@ describe('VAOS <VAFacilityPage>', () => {
         openFacilityPage={openFormPage}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
         }}
       />,
@@ -201,9 +201,10 @@ describe('VAOS <VAFacilityPage>', () => {
         eligibility={{}}
         schema={defaultSchema}
         openFacilityPage={openFormPage}
+        parentOfChosenFacility="983"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
         }}
       />,
@@ -227,9 +228,10 @@ describe('VAOS <VAFacilityPage>', () => {
         schema={defaultSchema}
         openFacilityPage={openFormPage}
         facility={{}}
+        parentOfChosenFacility="983"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         data={{
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
         }}
       />,

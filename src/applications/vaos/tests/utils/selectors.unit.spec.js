@@ -80,25 +80,25 @@ describe('VAOS selectors', () => {
   });
 
   describe('getFacilityPageInfo', () => {
-    it('should return typeOfCare string and begin loading systems', () => {
+    it('should return typeOfCare string and begin loading parentFacilities', () => {
       const state = {
         newAppointment: {
           pages: {},
           data: {
             typeOfCareId: '160',
             facilityType: 'vamc',
-            vaSystem: '983',
+            vaParent: '983',
           },
           facilities: {},
           eligibility: {},
-          systems: [{}],
+          parentFacilities: [{}],
           facilityDetails: {},
         },
       };
 
       const newState = getFacilityPageInfo(state);
       expect(newState.typeOfCare).to.equal('Pharmacy');
-      expect(newState.loadingSystems).to.be.true;
+      expect(newState.loadingParentFacilities).to.be.true;
     });
     it('should return eligibility error flag', () => {
       const state = {
@@ -107,11 +107,11 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '160',
             facilityType: 'vamc',
-            vaSystem: '983',
+            vaParent: '983',
           },
           facilities: {},
           eligibility: {},
-          systems: [{}],
+          parentFacilities: [{}],
           facilityDetails: {},
           eligibilityStatus: 'failed',
         },
@@ -129,7 +129,7 @@ describe('VAOS selectors', () => {
           data: {
             typeOfCareId: '323',
             clinicId: '124',
-            vaSystem: '123',
+            vaParent: '123',
             vaFacility: '983',
           },
           facilities: {
@@ -308,12 +308,21 @@ describe('VAOS selectors', () => {
           },
           data: {
             typeOfCareId: '323',
-            vaSystem: '983',
+            vaParent: '983',
+            vaFacility: '983',
           },
           eligibility: {
             '983_323': {
               request: true,
             },
+          },
+          facilities: {
+            '323_983': [
+              {
+                institutionCode: '983',
+                rootStationCode: '983',
+              },
+            ],
           },
           availableSlots,
         },

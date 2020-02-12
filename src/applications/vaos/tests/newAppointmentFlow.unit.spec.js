@@ -89,7 +89,7 @@ describe('VAOS newAppointmentFlow', () => {
       newAppointment: {
         data: {
           typeOfCareId: '323',
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
           facilityType: undefined,
         },
@@ -170,7 +170,7 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           data: {
             typeOfCareId: '323',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             facilityType: FACILITY_TYPES.VAMC,
           },
@@ -188,7 +188,7 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           data: {
             typeOfCareId: '323',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             facilityType: FACILITY_TYPES.VAMC,
           },
@@ -208,7 +208,7 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           data: {
             typeOfCareId: '323',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             facilityType: FACILITY_TYPES.VAMC,
           },
@@ -228,7 +228,7 @@ describe('VAOS newAppointmentFlow', () => {
           ...defaultState.newAppointment,
           data: {
             typeOfCareId: '502',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             facilityType: FACILITY_TYPES.VAMC,
           },

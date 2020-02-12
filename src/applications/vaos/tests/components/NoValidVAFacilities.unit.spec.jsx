@@ -5,7 +5,7 @@ import { FETCH_STATUS } from '../../utils/constants';
 
 import NoValidVAFacilities from '../../components/NoValidVAFacilities';
 
-const systemDetails = {
+const parentDetails = {
   name: 'Cheyenne VA Medical Center',
   address: {
     physical: {
@@ -73,10 +73,10 @@ describe('VAOS <NoValidVAFacilities>', () => {
     tree.unmount();
   });
 
-  it('should render facility info if systemDetails provided', () => {
+  it('should render facility info if parentDetails provided', () => {
     const formContext = {
       typeOfCare: 'Mental health',
-      systemDetails,
+      parentDetails,
     };
     const tree = mount(<NoValidVAFacilities formContext={formContext} />);
 
@@ -87,10 +87,10 @@ describe('VAOS <NoValidVAFacilities>', () => {
     tree.unmount();
   });
 
-  it('should render a link to facility locator if no systemDetails provided', () => {
+  it('should render a link to facility locator if no parentDetails provided', () => {
     const formContext = {
       typeOfCare: 'Mental health',
-      systemId: '442',
+      parentId: '442',
     };
 
     const tree = mount(<NoValidVAFacilities formContext={formContext} />);
