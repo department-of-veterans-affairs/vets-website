@@ -7,7 +7,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusElement, scrollToScrollElement } from '../utilities/ui';
+import {
+  focusElement,
+  scrollToScrollElement,
+  focusOnChange,
+} from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
@@ -194,7 +198,10 @@ class ReviewCollapsibleChapter extends React.Component {
                     ) : (
                       <ProgressButton
                         submitButton
-                        onButtonClick={() => checkValidation(this.props)}
+                        onButtonClick={() => {
+                          checkValidation(this.props);
+                          focusOnChange(page.pageKey);
+                        }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"
                       />

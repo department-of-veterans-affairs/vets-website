@@ -1,6 +1,8 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
+const scrollElementSelector = key => `[name="${key}ScrollElement"]`;
+
 export const scrollToElement = name => {
   if (name) {
     Scroll.scroller.scrollTo(
@@ -15,7 +17,7 @@ export const scrollToElement = name => {
 };
 
 export const scrollToScrollElement = key => {
-  scrollToElement(`${key}ScrollElement`);
+  scrollToElement(scrollElementSelector(key));
 };
 
 export function focusElement(selectorOrElement, options) {
@@ -76,6 +78,19 @@ export function focusOnFirstElementLabel(
   return target;
 }
 
+// Called after the user edits a review form; focus on the review-row containing
+// the change (screenreader)
+export function focusOnChange(key) {
+  // Give DOM time to update
+  setTimeout(() => {
+    const el = document.querySelector(scrollElementSelector(key));
+    const target = el?.nextElementSibling?.querySelector('.review-row');
+    if (target) {
+      focusElement(target);
+    }
+  });
+}
+
 export function setGlobalScroll() {
   window.Forms = window.Forms || {
     scroll: {
@@ -122,9 +137,7 @@ export const focusAndScrollToReviewElement = (error = {}) => {
   if (error.name) {
     // Ensure DOM updates
     setTimeout(() => {
-      // accordion uses a 1-based index
-      const selector = `[name="${error.page}ScrollElement"]`;
-      const el = document.querySelector(selector);
+      const el = document.querySelector(scrollElementSelector(error.page));
       if (el) {
         if (error.page === error.chapter) {
           // Focus on accordion header
