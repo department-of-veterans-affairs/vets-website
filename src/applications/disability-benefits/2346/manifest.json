@@ -3,6 +3,7 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "hearing-aid-batteries-and-accessories",
   "rootUrl": "/hearing-aid-batteries-and-accessories",
+  "vagovprod": false,
   "production": false,
   "template": {
     "vagovprod": false
