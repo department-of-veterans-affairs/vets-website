@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export const textOnlyPattern = '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$';
 export const numberOnlyPattern = '^[0-9]*$';
 export const datePattern =

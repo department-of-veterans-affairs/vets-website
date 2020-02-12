@@ -6,10 +6,6 @@ import { wizard } from './chapters/taskWizard';
 import { veteranInformation } from './chapters/veteran-information';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 
-const formFields = {
-  firstName: 'firstName',
-};
-
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/v0/api',
@@ -33,7 +29,7 @@ const formConfig = {
         page1: {
           path: 'veteran-information',
           title: 'Veteran Information - Page 1',
-          uischema: veteranInformation.uiSchema,
+          uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
       },
@@ -48,7 +44,7 @@ const formConfig = {
           schema: wizard.schema,
         },
       },
-    },   
+    },
     deceasedDependents: {
       title: 'Report the death of a dependent',
       pages: {
