@@ -195,7 +195,7 @@ export function getFacilitiesBySystemAndTypeOfCare(
     }
   } else {
     promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}`,
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
     );
   }
 
