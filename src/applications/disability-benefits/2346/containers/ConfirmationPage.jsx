@@ -20,8 +20,10 @@ export class ConfirmationPage extends React.Component {
   render() {
     return (
       <div>
-        <h2>Your order is confirmed</h2>
-        <i className="form2346 fas fa-check-circle fa-4x" />
+        <h2>
+          Your order is confirmed
+          <i className="form2346 fas fa-check-circle fa-4x" />
+        </h2>
         <section>
           <h2>What happens next</h2>
           <p>
