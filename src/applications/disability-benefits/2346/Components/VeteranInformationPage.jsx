@@ -21,7 +21,7 @@ class VeteranInformationPage extends React.Component {
                 {first} {last}
               </p>
               <p className="vads-u-margin--1px">
-                Date of Birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
+                Date of Birth: {moment(dateOfBirth).format('MM/DD/YYYY')}
               </p>
               <p className="vads-u-margin--1px">
                 Gender: {gender ? genderLabels[gender] : ''}
