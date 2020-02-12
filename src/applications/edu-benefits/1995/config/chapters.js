@@ -16,7 +16,7 @@ import createApplicantInformationPage from '../../../../platform/forms/pages/app
 import { showSchoolAddress } from '../../utils/helpers';
 import { displayActiveDutyStem } from '../helpers';
 
-import { activeDuty, benefitSelection, stem } from '../pages';
+import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
 const {
@@ -58,6 +58,13 @@ export const chapters = {
         path: 'benefits/stem',
         uiSchema: stem.uiSchema,
         schema: stem.schema,
+      },
+      // related to 1995-STEM
+      stemEligibility: {
+        title: 'Rogers STEM Scholarship eligibility',
+        path: 'benefits/stem-eligibility',
+        uiSchema: stemEligibility.uiSchema,
+        schema: stemEligibility.schema,
       },
     },
   },
