@@ -135,20 +135,23 @@ function identifyAdditions(diffLines) {
 }
 
 /**
- * Tries to filter the array down to items which contain the CODE_PATTERN
- * Throws a Promise rejection if the filtered list is empty
+ * Tries to filter the array down to items which match the CODE_PATTERN env variable.
+ * If there are no lines that match the pattern, log a message and exit early
+ *
+ * @param {array} An array of objects where each object has a `line` from a diff
+ * @returns {array} An array of objects where each `line` matched a specific pattern
  */
 function findPattern(arr) {
   return Promise.resolve(
     arr.filter(({ line }) => new RegExp(CODE_PATTERN).test(line)),
   ).then(
-    patternList =>
-      isEmpty(patternList)
+    matchList =>
+      isEmpty(matchList)
         ? finish(
             `No additions found matching the pattern: "${CODE_PATTERN}"`,
-            patternList,
+            matchList,
           )
-        : patternList,
+        : matchList,
   );
 }
 
