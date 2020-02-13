@@ -59,13 +59,13 @@ Example data:
         <article class="usa-content">
             <h1 id="article-heading">{{ title }}</h1>
             <div class="vads-l-grid-container--full">
+            {% if fieldIntroText %}
               <div class="va-introtext">
-                {% if fieldIntroText %}
                 <p class="events-show" id="office-events-description">
                   {{ fieldIntroText }}
                 </p>
-                {% endif %}
               </div>
+            {% endif %}
           {% if paginator.prev == null %}
           {% for storyFeature in newsStoryTeasers.entities %}
             {% if forloop.first == true %}

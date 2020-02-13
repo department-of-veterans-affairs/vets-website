@@ -1,54 +1,53 @@
 {% comment %}
 Example data:
-"entityUrl": {
-"breadcrumb": [
-{
-"url": {
-"path": "/",
-"routed": true
-},
-"text": "Home"
-}
-],
-"path": "/pittsburgh-health-care"
-},
-"entityId": "83",
-"entityBundle": "health_care_region_page",
-"entityPublished": true,
-"title": "Pittsburgh Health Care System",
-"allEventTeasers": {
-"entities": [
-{
-"title": "Test Event",
-"fieldEventDate": {
-"value": "2019-03-15T08:00:00"
-},
-"fieldEventDateEnd": {
-"value": "2019-03-15T11:00:00"
-},
-"fieldDescription": "This is an event to test. ",
-"fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
-"fieldFacilityLocation": {
-"entity": {
-"title": "H. John Heinz III Department of Veterans Affairs Medical Center",
-"entityUrl": {
-"path": "/pittsburgh-health-care/locations/heinz-medical-center"
-}
-}
-},
-"entityUrl": {
-"path": "/pittsburgh-health-care/events/test-event"
-}
-}
-]
-},
-}
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      }
+    ],
+      "path": "/pittsburgh-health-care"
+  },
+  "entityId": "83",
+    "entityBundle": "health_care_region_page",
+      "entityPublished": true,
+        "title": "Pittsburgh Health Care System",
+          "allEventTeasers": {
+    "entities": [
+      {
+        "title": "Test Event",
+        "fieldEventDate": {
+          "value": "2019-03-15T08:00:00"
+        },
+        "fieldEventDateEnd": {
+          "value": "2019-03-15T11:00:00"
+        },
+        "fieldDescription": "This is an event to test. ",
+        "fieldLocationHumanreadable": "Kittery Public Library, 3rd Floor Meeting Room",
+        "fieldFacilityLocation": {
+          "entity": {
+            "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+            "entityUrl": {
+              "path": "/pittsburgh-health-care/locations/heinz-medical-center"
+            }
+          }
+        },
+        "entityUrl": {
+          "path": "/pittsburgh-health-care/events/test-event"
+        }
+      }
+    ]
+  },
 {% endcomment %}
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
 {% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
-<div class="interior" id="content">
+<div id="content" class="interior">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
       {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
@@ -70,13 +69,13 @@ Example data:
                   {% assign featuredUrl = featuredEvent.entityUrl.path %}
                   <div class="usa-width-two-thirds">
                     <div class="usa-grid usa-grid-full
-                                      vads-u-margin-bottom--3
-                                      medium-screen:vads-u-margin-bottom--4
-                                      vads-u-display--flex
-                                      vads-u-flex-direction--column
-                                      medium-screen:vads-u-flex-direction--row
-                                      vads-u-border-left--7px
-                                      vads-u-border-color--primary-alt-lightest" id="featured-content">
+                                vads-u-margin-bottom--3
+                                medium-screen:vads-u-margin-bottom--4
+                                vads-u-display--flex
+                                vads-u-flex-direction--column
+                                medium-screen:vads-u-flex-direction--row
+                                vads-u-border-left--7px
+                                vads-u-border-color--primary-alt-lightest" id="featured-content">
                       <div class="usa-width-full vads-u-padding-left--2">
                         <div class="vads-u-margin-bottom--2">
                           <strong>In the spotlight at

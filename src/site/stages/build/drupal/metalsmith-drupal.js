@@ -126,6 +126,16 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
           'health_services',
         );
         break;
+      case 'leaderships_listing':
+        modListPages(
+          pageCompiled,
+          pages,
+          files,
+          page.allStaffProfiles,
+          'leadership_listing.drupal.liquid',
+          'bio',
+        );
+        break;
       case 'page':
         addHubIconField(pageCompiled, pages);
         break;
