@@ -268,7 +268,7 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
     bioListingPage,
     files,
     'allStaffProfiles',
-    'bios_page.drupal.liquid',
+    'leadership_listing.drupal.liquid',
     'bio',
   );
 }
@@ -281,11 +281,10 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
-  const regionPage = pages.find(
-    p =>
-      p.entityUrl
-        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
-        : false,
+  const regionPage = pages.find(p =>
+    p.entityUrl
+      ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+      : false,
   );
 
   if (regionPage) {
@@ -323,6 +322,9 @@ function modListPages(page, pages, files, field, template, aria) {
       page.clinicalHealthServices = sortServices(
         page.fieldOffice.entity.reverseFieldRegionPageNode.entities,
       );
+      break;
+    case 'leadership_listing':
+      page.allStaffProfiles = page.fieldLeadership;
       break;
     default:
   }

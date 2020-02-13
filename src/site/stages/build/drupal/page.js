@@ -57,6 +57,9 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     case 'story_listing':
       chunker = page.allNewsStoryTeasers.entities;
       break;
+    case 'leadership_listing':
+      chunker = page.fieldLeadership;
+      break;
     case 'press_releases_listing':
       chunker = page.allPressReleaseTeasers.entities;
       break;
@@ -308,6 +311,7 @@ function compilePage(page, contentData) {
     case 'publication_listing':
     case 'locations_listing':
     case 'event_listing':
+    case 'leadership_listing':
     case 'story_listing':
     case 'press_releases_listing':
     case 'health_services_listing':
