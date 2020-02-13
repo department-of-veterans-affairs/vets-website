@@ -26,10 +26,8 @@
     "__MEGAMENU_CONFIG__": true
   },
   "rules": {
-    // Override airbnb style.
+    /* || Eslint main rules || */
     "camelcase": [2, { "properties": "always" }], // Override airbnb style.
-    "va-enzyme/unmount": 2,
-    "fp/no-proxy": 2, // IE 11 has not polyfill for Proxy 
     "func-names": 2,
     "no-console": 2,
     "no-unused-vars": [
