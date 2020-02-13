@@ -150,7 +150,7 @@ export class SearchResults extends Component {
     // Show no results found message.
     if (!results.length) {
       return (
-        <h2 className="vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal">
+        <h2 className="vads-u-font-size--sm vads-u-margin-top--1p5 vads-u-font-weight--normal">
           No results were found for "<strong>{query}</strong>
           ". Try using fewer words or broadening your search. If you&apos;re
           looking for non-VA forms, go to the{' '}
