@@ -59,6 +59,7 @@ export default class CalendarRow extends Component {
       currentlySelectedDate,
       handleSelectDate,
       handleSelectOption,
+      hasError,
       rowNumber,
       selectedDates,
       selectedIndicatorType,
@@ -77,6 +78,7 @@ export default class CalendarRow extends Component {
               date={date}
               disabled={this.isCellDisabled(date)}
               handleSelectOption={handleSelectOption}
+              hasError={hasError}
               index={index}
               inSelectedArray={isDateInSelectedArray(date, selectedDates)}
               key={`row-${rowNumber}-cell-${index}`}

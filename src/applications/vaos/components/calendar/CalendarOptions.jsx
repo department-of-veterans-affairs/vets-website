@@ -11,6 +11,7 @@ export default function CalendarOptions({
   selectedDates,
   selectedCellIndex,
   optionsHeightRef,
+  hasError,
 }) {
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
     currentlySelectedDate,
@@ -27,6 +28,9 @@ export default function CalendarOptions({
     // If list of items won't fill row, align items closer to selected cell
     const cssClasses = classNames(
       'vaos-calendar__options',
+      {
+        'vads-u-padding-left--1p5': hasError,
+      },
       selectedDateOptions.length < maxCellsPerRow
         ? {
             'vads-u-justify-content--flex-start': beginningCellIndex.includes(

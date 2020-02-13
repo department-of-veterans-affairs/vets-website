@@ -266,22 +266,24 @@ export default class CalendarWidget extends Component {
       minDate,
       selectedDates,
       selectedIndicatorType,
+      validationError,
     } = this.props;
 
     return getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
-        key={`row-${index}`}
-        cells={week}
-        availableDates={availableDates}
-        minDate={minDate}
-        maxDate={maxDate}
-        rowNumber={index}
         additionalOptions={additionalOptions}
+        availableDates={availableDates}
+        cells={week}
+        currentlySelectedDate={currentlySelectedDate}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
+        hasError={validationError?.length > 0}
+        key={`row-${index}`}
+        maxDate={maxDate}
+        minDate={minDate}
+        rowNumber={index}
         selectedDates={selectedDates || []}
         selectedIndicatorType={selectedIndicatorType}
-        currentlySelectedDate={currentlySelectedDate}
       />
     ));
   };
