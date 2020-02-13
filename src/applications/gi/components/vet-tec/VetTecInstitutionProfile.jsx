@@ -6,7 +6,7 @@ import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedPrograms from './VetTecApprovedPrograms';
 import VetTecCalculator from './VetTecCalculator';
 import VetTecHeadingSummary from './VetTecHeadingSummary';
-import VetTecContactInformation from './VetTecContactInformation';
+import ContactInformation from '../profile/ContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
@@ -42,7 +42,7 @@ const VetTecInstitutionProfile = ({
           <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
         <AccordionItem button="Contact details">
-          <VetTecContactInformation institution={institution} />
+          <ContactInformation institution={institution} />
         </AccordionItem>
         <AccordionItem button="Additional information">
           <VetTecAdditionalInformation
