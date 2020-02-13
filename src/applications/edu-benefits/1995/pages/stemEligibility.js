@@ -1,17 +1,23 @@
-import { rogersStemEligibilityInfo } from '../content/stemEligibility';
+import StemEligibilityView from '../components/StemEligibilityView';
 
 export const uiSchema = {
-  'view:rogersStemEligibilityInfo': {
-    'ui:description': formData => rogersStemEligibilityInfo(formData),
+  'view:determineEligibility': {
+    'ui:title': 'Rogers STEM Scholarship eligibility',
+    'ui:field': StemEligibilityView,
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    'view:rogersStemEligibilityInfo': {
+    'view:determineEligibility': {
       type: 'object',
-      properties: {},
+      required: ['determineEligibility'],
+      properties: {
+        determineEligibility: {
+          type: 'boolean',
+        },
+      },
     },
   },
 };
