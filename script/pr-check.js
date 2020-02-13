@@ -169,11 +169,11 @@ function filterAgainstPreviousComments(additions) {
         JSON.stringify,
       ),
     )
-    .then(sortedUniqueFlat =>
+    .then(uniqueFlatBotComments =>
       // Get all the items that aren't in the list of flattened objects
       additions.filter(
         ({ path, position }) =>
-          !sortedUniqueFlat.includes(
+          !uniqueFlatBotComments.includes(
             JSON.stringify({ path, position, body: LINE_COMMENT }),
           ),
       ),
