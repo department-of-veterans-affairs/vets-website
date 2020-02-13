@@ -54,7 +54,7 @@ import {
   FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
-import systems from '../../api/facilities.json';
+import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
@@ -84,7 +84,7 @@ const facilities983Parsed = facilities983.data.map(item => ({
   id: item.id,
 }));
 
-const systemsParsed = systems.data.map(item => ({
+const parentFacilitiesParsed = parentFacilities.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
@@ -218,7 +218,7 @@ describe('VAOS newAppointment actions', () => {
         },
         pages: {},
         parentFacilitiesStatus: FETCH_STATUS.notStarted,
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         facilities: {},
         eligibility: {},
       },
@@ -235,7 +235,7 @@ describe('VAOS newAppointment actions', () => {
 
     it('should fetch parentFacilities', async () => {
       setFetchJSONResponse(global.fetch, systemIdentifiers);
-      setFetchJSONResponse(global.fetch.onCall(1), systems);
+      setFetchJSONResponse(global.fetch.onCall(1), parentFacilities);
       const dispatch = sinon.spy();
       const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
@@ -253,7 +253,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         facilities: null,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -287,7 +287,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         facilities: null,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -313,7 +313,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         facilities: facilities983Parsed,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -367,7 +367,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         facilities: [],
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -700,7 +700,7 @@ describe('VAOS newAppointment actions', () => {
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch, parentFacilities);
     });
 
     afterEach(() => {
@@ -727,7 +727,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
       });
     });
 
