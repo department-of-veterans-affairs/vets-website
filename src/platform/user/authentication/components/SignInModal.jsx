@@ -94,7 +94,23 @@ class SignInModal extends React.Component {
           [EXTERNAL_SERVICES.dslogon],
           'You may have trouble signing in with DS Logon',
           'warning',
-          'We’re sorry. We’re working to fix some problems with our DS Logon sign in process. If you’d like to sign in to VA.gov with your DS Logon account, please check back later.',
+          <>
+            <p>
+              We’re sorry. We’re working to fix some problems with our DS Logon
+              sign in process. You can sign in to VA.gov with an existing ID.me
+              account or you can create an account and verify your identity
+              through ID.me.
+            </p>
+            <p>
+              <a href="/sign-in-faq">
+                Learn how to create an account through ID.me.
+              </a>
+            </p>
+            <p>
+              If you continue to have trouble, please call the DS Logon help
+              desk at <a href="tel:+18005389552">(800) 538-9552</a>.
+            </p>
+          </>,
         )}
         {this.downtimeBanner(
           [EXTERNAL_SERVICES.mhv],

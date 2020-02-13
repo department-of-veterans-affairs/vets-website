@@ -25,11 +25,11 @@ export default class Vet360EditModal extends React.Component {
     render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     transactionRequest: PropTypes.object,
-    useNewAddressForm: PropTypes.bool,
+    useSchemaForm: PropTypes.bool,
   };
 
   componentDidMount() {
-    if (this.props.useNewAddressForm) {
+    if (this.props.useSchemaForm) {
       this.props.onChangeFormDataAndSchemas(
         this.props.getInitialFormValues(),
         this.props.formSchema,
@@ -90,7 +90,7 @@ export default class Vet360EditModal extends React.Component {
         transactionRequest,
         analyticsSectionName,
         deleteDisabled,
-        useNewAddressForm,
+        useSchemaForm,
       },
     } = this;
 
@@ -120,7 +120,7 @@ export default class Vet360EditModal extends React.Component {
       </Vet360EditModalActionButtons>
     );
 
-    if (useNewAddressForm) {
+    if (useSchemaForm) {
       return (
         <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
           <h3>Edit {title.toLowerCase()}</h3>
