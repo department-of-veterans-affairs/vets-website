@@ -122,6 +122,11 @@ export const healthServices = {
   WomensHealth: "Women's Health",
 };
 
+export const ccUrgentCareLabels = {
+  UrgentCare: 'URGENT CARE',
+  WalkIn: 'RETAIL/WALK-IN CARE',
+};
+
 export const urgentCareServices = {
   UrgentCare: 'VA urgent care',
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
