@@ -7,6 +7,7 @@ export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   MISSING_UNIT_OVERRIDE: 'missingUnitNumberOverride',
   SHOW_SUGGESTIONS: 'showSuggestions',
   SHOW_SUGGESTIONS_OVERRIDE: 'showSuggestionsOverride',
+  SHOW_SUGGESTIONS_NO_CONFIRMED: 'showSuggestionsNoConfirmed',
   VALIDATION_ERROR: 'validationError',
 });
 
@@ -52,7 +53,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         It looks like your address is missing a unit number. Please{' '}
         <a onClick={editFunction}>edit your address</a> to add a unit number. If
         you don’t have a unit number and the address you entered below is
-        correct, please select Continue.
+        correct, please select Use this address.
       </p>
     ),
   },
@@ -75,6 +76,17 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         verify your address so we can save it to your VA profile. If the address
         you entered isn’t correct, please <a onClick={editFunction}>edit it</a>{' '}
         or choose a suggested address below.
+      </p>
+    ),
+  },
+  [ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED]: {
+    headline: 'Please confirm your address',
+    ModalText: ({ editFunction }) => (
+      <p>
+        We couldn’t confirm your address with the U.S. Postal Service. Please
+        verify your address so we can save it to your VA profile. If the address
+        you entered isn’t correct, please <a onClick={editFunction}>edit it</a>
+        {'. '}
       </p>
     ),
   },

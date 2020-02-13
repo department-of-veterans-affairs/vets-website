@@ -194,6 +194,7 @@ class AddressValidationModal extends React.Component {
       suggestedAddresses,
       validationKey,
       addressValidationError,
+      confirmedSuggestions,
     );
 
     const addressValidationMessage =
