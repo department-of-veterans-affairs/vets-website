@@ -208,9 +208,7 @@ const formConfig = {
               }),
               {
                 'ui:field': asyncLoader(() =>
-                  import(/* webpackChunkName: "photo-field" */ '../components/PhotoField').then(
-                    m => m.default,
-                  ),
+                  import(/* webpackChunkName: "photo-field" */ '../components/PhotoField'),
                 ),
                 'ui:validations': [validateFile],
               },
