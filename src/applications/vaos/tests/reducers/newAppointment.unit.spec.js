@@ -42,7 +42,7 @@ import {
   PURPOSE_TEXT,
 } from '../../utils/constants';
 
-const systemsParsed = systems.data.map(item => ({
+const parentFacilitiesParsed = systems.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
@@ -160,7 +160,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const action = {
         ...defaultOpenPageAction,
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
       };
 
       const newState = newAppointmentReducer(currentState, action);
@@ -188,7 +188,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set facilities when only one system', () => {
       const action = {
         ...defaultOpenPageAction,
-        parentFacilities: systemsParsed.slice(0, 1),
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
         facilities: facilities983Parsed,
       };
 
@@ -218,7 +218,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set system and facility when there is only one', () => {
       const action = {
         ...defaultOpenPageAction,
-        parentFacilities: systemsParsed.slice(0, 1),
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
         facilities: facilities983Parsed.slice(0, 1),
         eligibilityData: {
           clinics: [],
@@ -286,7 +286,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         },
       },
-      parentFacilities: systemsParsed,
+      parentFacilities: parentFacilitiesParsed,
       facilities: {},
       loadingFacilities: true,
     };
@@ -419,7 +419,7 @@ describe('VAOS reducer: newAppointment', () => {
         facilities: {
           '323_983': facilities983Parsed,
         },
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
           vaFacility: '983',
@@ -561,7 +561,7 @@ describe('VAOS reducer: newAppointment', () => {
             },
           ],
         },
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
@@ -620,7 +620,7 @@ describe('VAOS reducer: newAppointment', () => {
             },
           ],
         },
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
@@ -811,7 +811,7 @@ describe('VAOS reducer: newAppointment', () => {
         },
         uiSchema: {},
         page: 'ccPreferences',
-        parentFacilities: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
       };
       const state = {
         ...defaultState,
