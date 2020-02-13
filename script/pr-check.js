@@ -153,7 +153,7 @@ function findPattern(arr) {
 
 /**
  * Receives a list of additions and returns a list containing those additions which (if any)
- * area considered "new" in this run.
+ * are considered "new" in this run.
  */
 function filterAgainstPreviousComments(additions) {
   return getPRbotComments()
