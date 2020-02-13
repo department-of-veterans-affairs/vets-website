@@ -106,9 +106,13 @@ export default function ConfirmedAppointmentListItem({
           {showAddToCal && (
             <AddToCalendar
               summary={getAppointmentTypeHeader(appointment)}
-              description={`${getAppointmentInstructionsHeader(
-                appointment,
-              )}. ${getAppointmentInstructions(appointment)}`}
+              description={
+                hasInstructions(appointment)
+                  ? `${getAppointmentInstructionsHeader(
+                      appointment,
+                    )}. ${getAppointmentInstructions(appointment)}`
+                  : ''
+              }
               location={getAppointmentAddress(appointment, facility)}
               duration={getAppointmentDuration(appointment)}
               startDateTime={getMomentConfirmedDate(appointment).toDate()}

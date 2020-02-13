@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from './moment-tz';
-import * as ICS from 'ics-js';
+import guid from 'simple-guid';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
@@ -547,6 +547,7 @@ export function getAppointmentAddress(appt, facility) {
  * @param {*} startDateTime - start datetime in js date format
  * @param {*} endDateTime - end datetime in js date format
  */
+
 export function generateICS(
   summary,
   description,
@@ -554,21 +555,19 @@ export function generateICS(
   startDateTime,
   endDateTime,
 ) {
-  const cal = new ICS.VCALENDAR();
-  const event = new ICS.VEVENT();
-
-  cal.addProp('VERSION', 2);
-  cal.addProp('PRODID', 'VA');
-
-  event.addProp('UID');
-  event.addProp('SUMMARY', [summary]);
-  event.addProp('DESCRIPTION', [description]);
-  event.addProp('LOCATION', [location]);
-  event.addProp('DTSTAMP', startDateTime);
-  event.addProp('DTSTART', startDateTime);
-  event.addProp('DTEND', endDateTime);
-
-  cal.addComponent(event);
-
-  return cal.toString();
+  const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
+  const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
+  return `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:VA
+BEGIN:VEVENT
+UID:${guid()}
+SUMMARY:${summary}
+DESCRIPTION:${description}
+LOCATION:${location}
+DTSTAMP:${startDate}
+DTSTART:${startDate}
+DTEND:${endDate}
+END:VEVENT
+END:VCALENDAR`;
 }
