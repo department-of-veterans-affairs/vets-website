@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { merge } from 'lodash';
 
 import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
@@ -72,12 +71,14 @@ class PhoneEditModal extends React.Component {
     let defaultFieldValue;
 
     if (this.props.data) {
-      defaultFieldValue = merge(this.props.data, {
-        inputPhoneNumber:
-          this.props.data &&
-          [this.props.data.areaCode, this.props.data.phoneNumber].join(''),
+      defaultFieldValue = {
+        ...this.props.data,
+        inputPhoneNumber: `${this.props.data.areaCode}${
+          this.props.data.phoneNumber
+        }`,
+        extension: this.props.data.extension || '',
         'view:showSMSCheckbox': this.props.showSMSCheckbox,
-      });
+      };
     } else {
       defaultFieldValue = {
         countryCode: '1',
@@ -85,6 +86,7 @@ class PhoneEditModal extends React.Component {
         inputPhoneNumber: '',
         isTextable: false,
         isTextPermitted: false,
+        'view:showSMSCheckbox': this.props.showSMSCheckbox,
       };
     }
 

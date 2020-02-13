@@ -26,7 +26,7 @@ const formSchema = {
     },
     extension: {
       type: 'string',
-      pattern: '^\\s*[a-zA-Z0-9]{1,10}\\s*$',
+      pattern: '^\\s*[a-zA-Z0-9]{0,10}\\s*$',
     },
     isTextPermitted: {
       type: 'boolean',
