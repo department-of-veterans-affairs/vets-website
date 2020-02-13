@@ -1,3 +1,5 @@
+import React from 'react';
+
 // import _ from '../../../../platform/utilities/data';
 // import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
@@ -5,8 +7,10 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import ReviewCardField from '../components/ReviewCardField';
+import { checkMaxInputLength } from '../validations';
 
 import {
   contactInfoDescription,
@@ -27,7 +31,7 @@ import {
 import { ADDRESS_PATHS } from '../constants';
 
 const {
-  mailingAddress,
+  // mailingAddress,
   // forwardingAddress,
   phoneAndEmail,
 } = fullSchema.properties;
@@ -44,11 +48,41 @@ export const uiSchema = {
     primaryPhone: phoneUI('Phone number'),
     emailAddress: emailUI(),
   },
-  mailingAddress: addressUISchema(
-    ADDRESS_PATHS.mailingAddress,
-    'Mailing address',
-    true,
-  ),
+  mailingAddress: {
+    ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
+    'ui:order': [
+      'country',
+      'addressLine1',
+      'view:addressLine1MaxLengthAlert',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode',
+    ],
+    addressLine1: {
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+        required: 'Please enter a street address',
+      },
+      'ui:validations': [checkMaxInputLength],
+    },
+    'view:addressLine1MaxLengthAlert': {
+      'ui:title': ' ',
+      'ui:description': (
+        <AlertBox
+          headline="Warning alert"
+          content="Please enter no more than 20 characters in this field"
+          status="warning"
+        />
+      ),
+      'ui:options': {
+        hideIf: formData => formData.mailingAddress.addressLine1?.length < 20,
+        expandUnder: 'addressLine1',
+      },
+    },
+  },
   // 'view:hasForwardingAddress': {
   //   'ui:title': 'My address will be changing soon.',
   // },
@@ -108,11 +142,17 @@ export const uiSchema = {
   },
 };
 
+const modifiedMailingAddress = { ...fullSchema.definitions.address };
+modifiedMailingAddress.properties['view:addressLine1MaxLengthAlert'] = {
+  type: 'object',
+  properties: {},
+};
+
 export const schema = {
   type: 'object',
   properties: {
     phoneAndEmail,
-    mailingAddress,
+    mailingAddress: modifiedMailingAddress,
     // 'view:hasForwardingAddress': {
     //   type: 'boolean',
     // },
