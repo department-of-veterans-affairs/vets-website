@@ -93,16 +93,17 @@ function finish(message, data) {
 }
 
 /**
- * Add a label to the beginning of added lines in the diff
- * where the label consists of:
- *   - filename
- *   - offset from the top of the diff chunk
- * And both of the label pieces are separated by a colon
+ * Take the output of a `git diff` and return an array of objects where an addition line
+ * is accompanied by the file and position in the diff chunk it was found at.
  *
  * Modelled after a bash function from this SO answer:
  * https://stackoverflow.com/a/12179492
+ *
+ * @param {array} An array of strings where each string is a line from a `git diff` output
+ * @returns {array} An array where each object has a `file`, `position`, and `line`.
+ *
  */
-function labelAdditions(diffLines) {
+function identifyAdditions(diffLines) {
   let path = null;
   let position = null;
   let inNewFile = false;
@@ -183,7 +184,7 @@ function filterAgainstPreviousComments(additions) {
 }
 
 getPRdiff()
-  .then(labelAdditions)
+  .then(identifyAdditions)
   .then(findPattern)
   .then(filterAgainstPreviousComments)
   .then(createReview)
