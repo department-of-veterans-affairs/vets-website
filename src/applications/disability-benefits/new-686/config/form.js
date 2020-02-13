@@ -23,7 +23,7 @@ const formConfig = {
   title: 'New 686',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
+    veteranInformation: {
       title: "Veteran's Information",
       pages: {
         page1: {
