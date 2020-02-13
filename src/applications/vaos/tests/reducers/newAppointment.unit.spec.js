@@ -32,7 +32,7 @@ import {
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../actions/newAppointment';
 
-import systems from '../../api/facilities.json';
+import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import {
   FETCH_STATUS,
@@ -42,7 +42,7 @@ import {
   PURPOSE_TEXT,
 } from '../../utils/constants';
 
-const parentFacilitiesParsed = systems.data.map(item => ({
+const parentFacilitiesParsed = parentFacilities.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
