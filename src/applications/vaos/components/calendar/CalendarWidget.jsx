@@ -19,7 +19,6 @@ import { FETCH_STATUS } from '../../utils/constants';
 
 export default class CalendarWidget extends Component {
   static props = {
-    // TODO: add "showWeekends" prop
     additionalOptions: PropTypes.object,
     availableDates: PropTypes.array, // ['YYYY-MM-DD']
     loadingStatus: PropTypes.string,
