@@ -128,11 +128,19 @@ export function fetchInstitutionAutocompleteSuggestions(
   });
   return dispatch =>
     fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }),
-        err => dispatch({ type: AUTOCOMPLETE_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .catch(err => {
+        dispatch({ type: AUTOCOMPLETE_FAILED, err });
+      });
 }
 
 export function fetchProgramAutocompleteSuggestions(
@@ -147,11 +155,19 @@ export function fetchProgramAutocompleteSuggestions(
   });
   return dispatch =>
     fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }),
-        err => dispatch({ type: AUTOCOMPLETE_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .catch(err => {
+        dispatch({ type: AUTOCOMPLETE_FAILED, err });
+      });
 }
 
 export function clearAutocompleteSuggestions() {
