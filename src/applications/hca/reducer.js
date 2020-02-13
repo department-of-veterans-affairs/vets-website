@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import formConfig from './config/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import {
@@ -28,8 +27,6 @@ const initialState = {
   noESRRecordFound: false,
   showHCAReapplyContent: false,
 };
-
-Sentry.captureMessage('Something');
 
 export function hcaEnrollmentStatus(state = initialState, action) {
   switch (action.type) {
