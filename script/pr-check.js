@@ -62,6 +62,9 @@ function getPRbotComments() {
 
 /**
  * Create a Github review on the PR, leaving comments if there are any additions made
+ *
+ * @param {array} A list of objects with a `path` and `position` of where to
+ * leave a comment in the diff
  */
 function createReview(additions) {
   console.log(additions);
@@ -107,11 +110,10 @@ function identifyAdditions(diffLines) {
   let path = null;
   let position = null;
   let inNewFile = false;
-  const output = [];
 
-  diffLines.forEach(line => {
+  return diffLines.reduce((output, line) => {
     if (/--- (a\/)?.*/.test(line)) {
-      return;
+      return output;
     }
     const match = line.match(/\+\+\+ (b\/)?(.*$)/);
     if (match) {
@@ -130,8 +132,8 @@ function identifyAdditions(diffLines) {
       position++;
     }
     inNewFile = !!match;
-  });
-  return output;
+    return output;
+  }, []);
 }
 
 /**
