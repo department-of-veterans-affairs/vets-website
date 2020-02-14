@@ -6,7 +6,7 @@ class ViewDependentsListItem extends Component {
     return (
       <dl className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
         <dd className="vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold">
-          {`${this.props.firstName} ${this.props.lastName}`}
+          {this.props.firstName} {this.props.lastName}
         </dd>
 
         <dd className="vads-l-col--12 vads-u-margin--0">

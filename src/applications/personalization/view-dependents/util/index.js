@@ -13,21 +13,21 @@ export async function getData(apiRoute, options) {
 }
 
 export function splitPersons(persons) {
-  const onAwardPeeps = [];
-  const notOnAwardPeeps = [];
-  const allPersons = {};
+  const dependentsOnAward = [];
+  const dependentsNotOnAward = [];
+  const allDependents = {};
 
-  persons.map(person => {
+  persons.forEach(person => {
     if (person.awardIndicator === 'N') {
-      notOnAwardPeeps.push(person);
+      dependentsNotOnAward.push(person);
     } else {
-      onAwardPeeps.push(person);
+      dependentsOnAward.push(person);
     }
     return true;
   });
-  allPersons.onAward = onAwardPeeps;
-  allPersons.notOnAward = notOnAwardPeeps;
-  return allPersons;
+  allDependents.onAward = dependentsOnAward;
+  allDependents.notOnAward = dependentsNotOnAward;
+  return allDependents;
 }
 
 export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);

@@ -12,12 +12,11 @@ export function fetchAllDependents() {
         type: FETCH_ALL_DEPENDENTS_FAILED,
         response,
       });
+    } else {
+      dispatch({
+        type: FETCH_ALL_DEPENDENTS_SUCCESS,
+        response,
+      });
     }
-    dispatch({
-      type: FETCH_ALL_DEPENDENTS_SUCCESS,
-      response,
-    });
-
-    return true;
   };
 }
