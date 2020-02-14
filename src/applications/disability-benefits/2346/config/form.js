@@ -70,7 +70,6 @@ const formConfig = {
             'ui:description': ConfirmAddressPage,
           },
           schema: {
-            required: ['addressLine1', 'city', 'state', 'zip', 'email'],
             type: 'object',
             properties: {},
           },

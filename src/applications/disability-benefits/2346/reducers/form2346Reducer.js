@@ -4,7 +4,18 @@ import {
 } from '../constants';
 
 const initialState = {
-  formData: {},
+  formData: {
+    first: '',
+    last: '',
+    gender: '',
+    dateOfBirth: '',
+    addressLine1: '',
+    city: '',
+    state: '',
+    country: '',
+    zip: '',
+    email: '',
+  },
 };
 
 export default (state = initialState, action) => {
