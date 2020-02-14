@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const VetTecScoContact = (sco, index) => {
+export const ScoContact = (sco, index) => {
   if (sco) {
     const key = `${sco.firstName}.${sco.lastName}.${index}`;
     return (

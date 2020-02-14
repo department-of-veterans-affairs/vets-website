@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import VetTecContactInformation from './VetTecContactInformation';
+import ContactInformation from '../profile/ContactInformation';
 import { calculatorInputChange } from '../../actions';
 import { formatCurrency, isPresent } from '../../utils/helpers';
 
@@ -125,7 +125,7 @@ class VetTecApprovedPrograms extends React.Component {
   }
 }
 
-VetTecContactInformation.propTypes = {
+ContactInformation.propTypes = {
   institution: PropTypes.object,
   preSelectedProgram: PropTypes.string,
 };

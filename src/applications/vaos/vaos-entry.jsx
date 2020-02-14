@@ -2,13 +2,13 @@ import 'platform/polyfills';
 import './sass/vaos.scss';
 
 import startApp from 'platform/startup';
-import routes from './routes';
+import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
 import reducer from './reducers';
 
 startApp({
   url: manifest.rootUrl,
-  routes,
+  createRoutesWithStore,
   reducer,
   entryName: manifest.entryName,
 });

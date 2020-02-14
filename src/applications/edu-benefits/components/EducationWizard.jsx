@@ -135,7 +135,7 @@ export default class EducationWizard extends React.Component {
                 this.answerQuestion('newBenefit', value)
               }
               value={{ value: newBenefit }}
-              label="Are you applying for a new benefit or updating your current education benefits?"
+              label="Are you applying for a benefit or updating your program or place of training?"
             />
             {newBenefit === 'yes' && (
               <ErrorableRadioButtons
@@ -305,22 +305,26 @@ export default class EducationWizard extends React.Component {
               <div className="vads-u-margin-right--8">
                 <br />
                 <strong>
-                  To be eligible for the Edith Nourse Rogers STEM Scholarship,
-                  you must meet all the requirements below. You:
+                  To be eligible for the{' '}
+                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    Edith Nourse Rogers STEM Scholarship
+                  </a>
+                  , you must meet all the requirements below. You:
                 </strong>
                 <ul className="vads-u-margin-right--8">
                   <li>
-                    Are receiving Post-9/11 GI Bill or Fry Scholarship benefits
+                    Are using or recently used Post-9/11 GI Bill or Fry
+                    Scholarship benefits
                   </li>
                   <li>
-                    Have used up all your education benefits or are within 6
-                    months of using all your benefits.{' '}
+                    Have used all your education benefits or are within 6 months
+                    of doing so.{' '}
                     <a href="../gi-bill/post-9-11/ch-33-benefit/">
                       Check remaining benefits
                     </a>
                   </li>
                   <li>
-                    Are enrolled in an undergraduate program for science,
+                    Are enrolled in an undergraduate degree program for science,
                     technology, engineering or math (STEM), or have already
                     earned a STEM degree and are pursuing a teaching
                     certification.{' '}
@@ -329,12 +333,6 @@ export default class EducationWizard extends React.Component {
                     </a>
                   </li>
                 </ul>
-                <p className="vads-u-margin-right--8">
-                  To learn more about the scholarship,{' '}
-                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
-                    visit the VBA STEM page.
-                  </a>
-                </p>
 
                 <ErrorableRadioButtons
                   additionalFieldsetClass="wizard-fieldset"
