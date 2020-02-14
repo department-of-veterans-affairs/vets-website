@@ -217,8 +217,6 @@ export function getCommunityCare(typeOfCare) {
   return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
-// GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
-// eslint-disable-next-line no-unused-vars
 export function checkPastVisits(
   systemId,
   facilityId,

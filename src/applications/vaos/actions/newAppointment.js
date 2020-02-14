@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -38,6 +37,8 @@ import {
   getEligibilityData,
   getEligibleFacilities,
 } from '../utils/eligibility';
+
+import { captureError } from '../utils/error';
 
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
@@ -202,7 +203,7 @@ export function fetchFacilityDetails(facilityId) {
       facilityDetails = await getFacilityInfo(facilityId);
     } catch (error) {
       facilityDetails = null;
-      Sentry.captureException(error);
+      captureError(error);
     }
 
     dispatch({
@@ -288,7 +289,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         eligibilityData,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
       });
@@ -333,7 +334,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_FAILED,
         });
@@ -373,7 +374,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           eligibilityData,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_FAILED,
         });
@@ -503,7 +504,7 @@ export function getAppointmentSlots(startDate, endDate) {
           appointmentLength,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
         });
@@ -535,7 +536,7 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
         systems,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
       });
@@ -580,7 +581,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          Sentry.captureException(error);
+          captureError(error);
         }
 
         dispatch({
@@ -592,7 +593,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
@@ -630,7 +631,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          Sentry.captureException(error);
+          captureError(error);
         }
 
         dispatch({
@@ -642,7 +643,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });

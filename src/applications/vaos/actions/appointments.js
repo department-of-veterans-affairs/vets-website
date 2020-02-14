@@ -1,5 +1,5 @@
-import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import moment from 'moment';
 import { FETCH_STATUS } from '../utils/constants';
 import { getMomentConfirmedDate } from '../utils/appointment';
 
@@ -13,6 +13,8 @@ import {
   getFacilitiesInfo,
   getClinicInstitutions,
 } from '../api';
+
+import { captureError } from '../utils/error';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -49,7 +51,7 @@ export function fetchRequestMessages(requestId) {
         messages,
       });
     } catch (error) {
-      Sentry.captureException(error);
+      captureError(error);
       dispatch({
         type: FETCH_REQUEST_MESSAGES_FAILED,
         error,
@@ -205,10 +207,10 @@ export function fetchFutureAppointments() {
             });
           }
         } catch (error) {
-          Sentry.captureException(error);
+          captureError(error);
         }
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_FAILED,
           error,
@@ -285,7 +287,7 @@ export function confirmCancelAppointment() {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });
