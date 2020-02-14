@@ -4,6 +4,7 @@ import {
   resetFetch,
   mockFetch,
   setFetchJSONResponse,
+  setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
 import clinics from '../../api/clinicList983.json';
@@ -46,6 +47,28 @@ describe('VAOS scheduling eligibility logic', () => {
       ]);
     });
     it('should skip pact if not primary care', async () => {
+      const eligibilityData = await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '502',
+        '983',
+        true,
+      );
+
+      expect(Object.keys(eligibilityData)).to.deep.equal([
+        'requestPastVisit',
+        'requestLimits',
+        'directSupported',
+        'requestSupported',
+        'directPastVisit',
+        'clinics',
+      ]);
+    });
+    it('should finish all calls even if one fails', async () => {
+      setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
       const eligibilityData = await getEligibilityData(
         {
           institutionCode: '983',
