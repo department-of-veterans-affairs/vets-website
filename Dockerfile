@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
     --no-install-recommends \
   && npm install -g s3-cli
 
+
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
 
