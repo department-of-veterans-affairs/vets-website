@@ -11,7 +11,6 @@ export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   VALIDATION_ERROR: 'validationError',
 });
 
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   [ADDRESS_VALIDATION_TYPES.BAD_UNIT]: {
     headline: 'Please update your unit number',
