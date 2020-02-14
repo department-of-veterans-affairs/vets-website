@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import { FETCH_STATUS } from '../utils/constants';
 import { getMomentConfirmedDate } from '../utils/appointment';
 
