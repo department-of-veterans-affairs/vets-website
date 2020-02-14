@@ -130,9 +130,9 @@ class SignInModal extends React.Component {
           [EXTERNAL_SERVICES.global],
           'You may have trouble signing in or using some tools or services',
           'warning',
-          `We’re doing some work on VA.gov right now. We hope to finish our work by ${
-            scheduledDowntimeWindow.downtimeEnd.format('MMMM Do YYYY, h:mm:ss a')
-          }. If you have trouble signing in or using any tools or services, please check back after then.`,
+          `We’re doing some work on VA.gov right now. We hope to finish our work by ${scheduledDowntimeWindow.downtimeEnd.format(
+            'MMMM Do YYYY, h:mm:ss a',
+          )}. If you have trouble signing in or using any tools or services, please check back after then.`,
           this.setGlobalDowntimeState,
         )}
 
