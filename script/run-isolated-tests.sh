@@ -10,6 +10,8 @@ APP_SUBPATHS_CHANGED="$(echo $FILES_CHANGED | grep -oE "($APP_SUBPATHS)")"
 NUM_APPS_CHANGED=$(echo "$APP_SUBPATHS_CHANGED" | wc -l)
 
 # Run tests only within the apps that have changed.
+# If master is ahead of this branch, tests will still run
+# for apps that have diffs with this branch.
 
 # Handle when no app has been modified.
 if [ -z "${APP_SUBPATHS_CHANGED// }" ]; then
