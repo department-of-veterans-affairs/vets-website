@@ -18,8 +18,10 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t verify your address with the U.S. Postal Service because
         there may be a problem with the unit number. Please{' '}
-        <a onClick={editFunction}>edit your address</a> below to update the unit
-        number.
+        <a tabIndex="0" onClick={editFunction}>
+          edit your address
+        </a>{' '}
+        below to update the unit number.
       </p>
     ),
   },
@@ -29,9 +31,11 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t verify your address with the U.S. Postal Service because
         there may be a problem with the unit number. Please{' '}
-        <a onClick={editFunction}>edit your address</a> to update the unit
-        number. If your unit number is already correct, please continue with the
-        address you entered below.
+        <a tabIndex="0" onClick={editFunction}>
+          edit your address
+        </a>{' '}
+        to update the unit number. If your unit number is already correct,
+        please continue with the address you entered below.
       </p>
     ),
   },
@@ -41,8 +45,10 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t verify your address with the U.S. Postal Service because
         it’s missing a unit number. Please{' '}
-        <a onClick={editFunction}>edit your address</a> below to add a unit
-        number.
+        <a tabIndex="0" onClick={editFunction}>
+          edit your address
+        </a>{' '}
+        below to add a unit number.
       </p>
     ),
   },
@@ -63,8 +69,11 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We’re sorry. We couldn’t verify your address with the U.S. Postal
         Service, so we won't be able to deliver your VA mail to that address.
-        Please <a onClick={editFunction}>edit the address</a> you entered or
-        choose a suggested address below.
+        Please{' '}
+        <a tabIndex="0" onClick={editFunction}>
+          edit the address
+        </a>{' '}
+        you entered or choose a suggested address below.
       </p>
     ),
   },
@@ -74,7 +83,10 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t confirm your address with the U.S. Postal Service. Please
         verify your address so we can save it to your VA profile. If the address
-        you entered isn’t correct, please <a onClick={editFunction}>edit it</a>{' '}
+        you entered isn’t correct, please{' '}
+        <a tabIndex="0" onClick={editFunction}>
+          edit it
+        </a>{' '}
         or choose a suggested address below.
       </p>
     ),
@@ -96,7 +108,11 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We’re sorry. We couldn’t verify your address with the U.S. Postal
         Service, so we will not be able to deliver your VA mail to that address.
-        Please <a onClick={editFunction}>edit the address</a> you entered.
+        Please{' '}
+        <a tabIndex="0" onClick={editFunction}>
+          edit the address
+        </a>{' '}
+        you entered.
       </p>
     ),
   },
