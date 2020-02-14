@@ -270,3 +270,10 @@ span.sidelines {
 #help-menu {
   width: 21rem;
 }
+
+#address-validation-warning {
+  .usa-alert-warning::before {
+    display: block;
+    width: auto;
+  }
+}
