@@ -1,17 +1,10 @@
-// import fullSchema from 'vets-json-schema/dist/21-686-schema.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
 import { wizard } from './chapters/taskWizard';
+import { veteranInformation } from './chapters/veteran-information';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
 
 const formConfig = {
   urlPrefix: '/',
@@ -30,6 +23,17 @@ const formConfig = {
   title: 'New 686',
   defaultDefinitions: {},
   chapters: {
+    veteranInformation: {
+      title: "Veteran's Information",
+      pages: {
+        page1: {
+          path: 'veteran-information',
+          title: 'Veteran Information - Page 1',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+      },
+    },
     optionSelection: {
       title: '686c Options',
       pages: {
@@ -38,29 +42,6 @@ const formConfig = {
           path: '686-options-selection',
           uiSchema: wizard.uiSchema,
           schema: wizard.schema,
-        },
-      },
-    },
-    chapter1: {
-      title: 'Personal Information',
-      pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
-          uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
         },
       },
     },
