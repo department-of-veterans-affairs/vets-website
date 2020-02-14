@@ -1,6 +1,9 @@
-import { states50AndDC } from './constants';
-
-const fullNamePattern = '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$';
+import {
+  states50AndDC,
+  textOnlyPattern,
+  numberOnlyPattern,
+  datePattern,
+} from './constants';
 
 export const genericSchemas = {
   genericLocation: {
@@ -10,19 +13,24 @@ export const genericSchemas = {
       state: {
         type: 'string',
         maxLength: 30,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: textOnlyPattern,
       },
       city: {
         type: 'string',
         maxLength: 30,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: textOnlyPattern,
       },
     },
   },
   genericTextinput: {
     type: 'string',
     maxLength: 50,
-    pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    pattern: textOnlyPattern,
+  },
+  genericNumberInput: {
+    type: 'string',
+    maxLength: 50,
+    pattern: numberOnlyPattern,
   },
   genericUSACountryDropdown: {
     type: 'string',
@@ -36,24 +44,24 @@ export const genericSchemas = {
         type: 'string',
         minLength: 1,
         maxLength: 30,
-        pattern: fullNamePattern,
+        pattern: textOnlyPattern,
       },
       middle: {
         type: 'string',
         maxLength: 20,
-        pattern: fullNamePattern,
+        pattern: textOnlyPattern,
       },
       last: {
         type: 'string',
         minLength: 1,
         maxLength: 30,
-        pattern: fullNamePattern,
+        pattern: textOnlyPattern,
       },
     },
     required: ['first', 'last'],
   },
   date: {
     type: 'string',
-    pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
+    pattern: datePattern,
   },
 };
