@@ -14,12 +14,6 @@ export const errorMessages = {
     'Please sign in again to continue your request for Higher-Level Review',
   optOutCheckbox:
     'You need to opt out of the old appeals process to continue with your request',
-  phone: 'Please enter a phone number',
-  email: 'Please enter an email address',
-  address1: 'Please enter a street address',
-  city: 'Please enter a city',
-  state: 'Please enter a state',
-  zipCode: 'Please enter a valid postal code',
   forwardStartDate: 'Please select a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
@@ -34,9 +28,8 @@ export const errorMessages = {
 };
 
 export const patternMessages = {
-  phone: 'Please enter your 10-digit phone number (with or without dashes)',
-  email: 'Please enter your email address using this format: X@X.com',
-  representativePhone: 'Phone numbers must be 10 digits (dashes allowed)',
+  representativePhone:
+    'Please enter a 10-digit phone number (with or without dashes)',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

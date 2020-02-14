@@ -4,8 +4,8 @@ import fullSchema526EZ from 'vets-json-schema/dist/21-526EZ-schema.json';
 // import fullSchema526EZ from '/path/vets-json-schema/dist/21-526EZ-schema.json';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import { ForwardingAddressViewField } from '../helpers';
@@ -39,23 +39,8 @@ export const uiSchema = {
       'ui:options': {
         viewComponent: phoneEmailViewField,
       },
-      primaryPhone: {
-        'ui:title': 'Phone number',
-        'ui:widget': PhoneNumberWidget,
-        'ui:reviewWidget': PhoneNumberReviewWidget,
-        'ui:errorMessages': {
-          pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-        },
-        'ui:options': {
-          widgetClassNames: 'va-input-medium-large',
-        },
-      },
-      emailAddress: {
-        'ui:title': 'Email address',
-        'ui:errorMessages': {
-          pattern: 'The email you enter should be in this format x@x.xx',
-        },
-      },
+      primaryPhone: phoneUI('Phone number'),
+      emailAddress: emailUI(),
     },
     mailingAddress: addressUISchema(
       'veteran.mailingAddress',
@@ -85,6 +70,9 @@ export const uiSchema = {
         },
         effectiveDate: _.merge({}, dateUI('Effective date'), {
           'ui:required': hasForwardingAddress,
+          'ui:errorMessages': {
+            required: 'Please enter an effective date',
+          },
         }),
         country: {
           'ui:required': hasForwardingAddress,

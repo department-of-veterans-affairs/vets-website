@@ -34,7 +34,9 @@ function SelectWidget({
       id={id}
       name={id}
       multiple={multiple}
-      className={options.widgetClassNames}
+      className={`${options.widgetClassNames} ${
+        disabled ? 'vads-u-background-color--gray-lighter' : ''
+      }`}
       value={value || ''}
       required={required}
       disabled={disabled}

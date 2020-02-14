@@ -47,7 +47,7 @@ class EmailCapture extends React.Component {
           </p>
           <p>
             We want to engage you in the application process quickly and will be
-            sending specific instructions on how to proceed. Please enter your
+            sending specific instructions on how to proceed. Please enter an
             email address below. We'll only use it to contact you about
             continuing the Veteran ID Card application process.{' '}
             <a href="/privacy-policy/">See our privacy policy</a>

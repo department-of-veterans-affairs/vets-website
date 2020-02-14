@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
+import { generateMockSlots } from '../utils/calendar';
 
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
@@ -402,9 +403,11 @@ export function getAvailableSlots(
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import('./slots.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
+        import('./slots.json').then(module => {
+          const response = module.default ? module.default : module;
+          response.data[0].attributes.appointmentTimeSlot = generateMockSlots();
+          resolve(response);
+        });
       }, 500);
     });
   } else {

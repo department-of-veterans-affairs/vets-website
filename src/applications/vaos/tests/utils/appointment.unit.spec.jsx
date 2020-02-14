@@ -506,9 +506,9 @@ describe('VAOS appointment helpers', () => {
       expect(
         getAppointmentDate({
           ...communityCareAppointment,
-          appointmentTime: now,
+          appointmentTime: '01/02/2020 13:45:00',
         }),
-      ).to.equal(now.format('MMMM D, YYYY'));
+      ).to.equal('January 2, 2020');
     });
   });
 

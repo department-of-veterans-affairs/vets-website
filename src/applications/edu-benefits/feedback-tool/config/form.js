@@ -3,6 +3,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -209,13 +210,12 @@ const formConfig = {
                 expandUnderClassNames: 'schemaform-expandUnder',
               },
             },
-            anonymousEmail: {
-              'ui:title': 'Email',
+            anonymousEmail: _.merge(emailUI('Email'), {
               'ui:options': {
                 expandUnder: 'onBehalfOf',
                 expandUnderCondition: anonymous,
               },
-            },
+            }),
           },
           schema: {
             type: 'object',
@@ -368,20 +368,10 @@ const formConfig = {
                 'email',
               ),
             ],
-            applicantEmail: {
-              'ui:title': 'Email address',
-              'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx',
-                required: 'Please put your email in this format x@x.xxx',
-              },
-            },
-            'view:applicantEmailConfirmation': {
-              'ui:title': 'Re-enter email address',
-              'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx',
-                required: 'Please put your email in this format x@x.xxx',
-              },
-            },
+            applicantEmail: emailUI(),
+            'view:applicantEmailConfirmation': emailUI(
+              'Re-enter email address',
+            ),
             phone: phoneUI('Phone number'),
           },
           schema: {

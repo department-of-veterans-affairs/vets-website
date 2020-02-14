@@ -12,10 +12,11 @@ export default function uiSchema(title = 'Phone') {
     'ui:reviewWidget': PhoneNumberReviewWidget,
     'ui:title': title,
     'ui:errorMessages': {
-      pattern: 'Phone numbers must be 10 digits',
+      pattern: 'Please enter a 10-digit phone number (with or without dashes)',
+      required: 'Please enter a phone number',
     },
     'ui:options': {
-      widgetClassNames: 'home-phone va-input-medium-large',
+      widgetClassNames: 'va-input-medium-large',
       inputType: 'tel',
     },
   };

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from '../../components/ReviewCardField';
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { AddressViewField } from '../components/AddressViewField';
 import { PhoneEmailViewField } from '../components/PhoneEmailViewField';
 
@@ -14,7 +14,7 @@ import {
 import {
   uiSchema as addressUISchema,
   schema as addressSchema,
-} from '../../../../platform/forms/definitions/address';
+} from 'platform/forms/definitions/address';
 
 const { emailAddress, dayTimePhone, nightTimePhone } = fullSchema.properties;
 
@@ -48,34 +48,9 @@ export const uiSchema = {
       viewComponent: PhoneEmailViewField,
     },
     saveClickTrackEvent: { event: 'edu-0994-personal-information-saved' },
-    dayTimePhone: {
-      'ui:title': 'Phone number',
-      'ui:widget': PhoneNumberWidget,
-      'ui:reviewWidget': PhoneNumberReviewWidget,
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-      },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
-      },
-    },
-    nightTimePhone: {
-      'ui:title': 'Alternate Phone number',
-      'ui:widget': PhoneNumberWidget,
-      'ui:reviewWidget': PhoneNumberReviewWidget,
-      'ui:errorMessages': {
-        pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-      },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
-      },
-    },
-    emailAddress: {
-      'ui:title': 'Email address',
-      'ui:errorMessages': {
-        pattern: 'The email you enter should be in this format x@x.xx',
-      },
-    },
+    dayTimePhone: phoneUI('Phone number'),
+    nightTimePhone: phoneUI('Alternate Phone number'),
+    emailAddress: emailUI(),
   },
   mailingAddress: {
     ...addressUiSchema,
@@ -89,9 +64,6 @@ export const uiSchema = {
     street: {
       ...addressUiSchema.street,
       'ui:title': 'Street address',
-      'ui:errorMessages': {
-        pattern: 'Please provide a response',
-      },
     },
     street2: {
       ...addressUiSchema.street2,
@@ -101,12 +73,7 @@ export const uiSchema = {
       ...addressUiSchema.street3,
       'ui:title': 'Street address (line 3)',
     },
-    city: {
-      ...addressUiSchema.city,
-      'ui:errorMessages': {
-        pattern: 'Please provide a response',
-      },
-    },
+    city: addressUiSchema.city,
   },
   'view:contactInfoNote': {
     'ui:description': contactInfoNote,

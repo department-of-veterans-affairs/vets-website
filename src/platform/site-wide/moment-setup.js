@@ -1,4 +1,5 @@
 import moment from 'moment';
+import momentTimezone from 'moment-timezone';
 
 // Derive moment options.
 const options = {
@@ -26,3 +27,4 @@ const options = {
 
 // Called at startup so that the formatting applied under updateLocale occur site-wide.
 moment.updateLocale('en', options);
+momentTimezone.updateLocale('en', options);

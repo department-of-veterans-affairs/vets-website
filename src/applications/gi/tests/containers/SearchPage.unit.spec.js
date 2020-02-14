@@ -84,7 +84,6 @@ describe('<SearchPage> functions', () => {
       'stemIndicator',
       'priorityEnrollment',
       'independentStudy',
-      'vetTecProvider',
       'preferredProvider',
     ];
 
@@ -126,7 +125,6 @@ describe('<SearchPage> functions', () => {
       stemIndicator: 'false',
       priorityEnrollment: 'false',
       independentStudy: 'false',
-      vetTecProvider: 'false',
       preferredProvider: 'false',
       version: '94ed39bf-f816-4b12-b3ce-a8241c2325b7',
       category: 'school',
