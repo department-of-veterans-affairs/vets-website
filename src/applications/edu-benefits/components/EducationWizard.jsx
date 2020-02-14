@@ -302,7 +302,7 @@ export default class EducationWizard extends React.Component {
             {newBenefit === 'extend' &&
             // Prod flag for 5134
             !environment.isProduction() ? (
-              <div className="vads-u-margin-right--8">
+              <div className="wizard-edith-nourse-content">
                 <br />
                 <strong>
                   To be eligible for the{' '}
@@ -311,7 +311,7 @@ export default class EducationWizard extends React.Component {
                   </a>
                   , you must meet all the requirements below. You:
                 </strong>
-                <ul className="vads-u-margin-right--8">
+                <ul className="wizard-edith-nourse-content">
                   <li>
                     Are using or recently used Post-9/11 GI Bill or Fry
                     Scholarship benefits
