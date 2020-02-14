@@ -591,7 +591,7 @@ describe('VAOS newAppointment actions', () => {
     });
 
     it('should send fail action with eligibility fetch fails', async () => {
-      setFetchJSONFailure(global.fetch, {});
+      setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,

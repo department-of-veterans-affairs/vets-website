@@ -89,6 +89,8 @@ describe('VAOS scheduling eligibility logic', () => {
       });
 
       expect(eligibilityChecks).to.deep.equal({
+        directFailed: false,
+        requestFailed: false,
         directPastVisit: false,
         directPastVisitValue: 12,
         directPACT: false,
@@ -123,6 +125,8 @@ describe('VAOS scheduling eligibility logic', () => {
       });
 
       expect(eligibilityChecks).to.deep.equal({
+        directFailed: false,
+        requestFailed: false,
         directPastVisit: true,
         directPastVisitValue: 12,
         directPACT: true,
@@ -133,6 +137,66 @@ describe('VAOS scheduling eligibility logic', () => {
         requestPastVisitValue: 24,
         requestLimit: true,
         requestLimitValue: 1,
+      });
+    });
+    it('should skip direct status on direct failure', () => {
+      const eligibilityChecks = getEligibilityChecks('983', '323', {
+        pacTeam: [],
+        clinics: [],
+        directSupported: true,
+        requestSupported: true,
+        directPastVisit: {
+          directFailed: true,
+        },
+        requestPastVisit: {
+          durationInMonths: 24,
+          hasVisitedInPastMonths: false,
+        },
+        requestLimits: {
+          requestLimit: 1,
+          numberOfRequests: 1,
+        },
+      });
+
+      expect(eligibilityChecks).to.deep.equal({
+        directFailed: true,
+        requestFailed: false,
+        requestPastVisit: false,
+        requestPastVisitValue: 24,
+        requestLimit: false,
+        requestLimitValue: 1,
+        directSupported: true,
+        requestSupported: true,
+      });
+    });
+    it('should skip request status on request failure', () => {
+      const eligibilityChecks = getEligibilityChecks('983', '323', {
+        pacTeam: [],
+        clinics: [],
+        directSupported: true,
+        requestSupported: true,
+        directPastVisit: {
+          durationInMonths: 12,
+          hasVisitedInPastMonths: false,
+        },
+        requestPastVisit: {
+          requestFailed: true,
+        },
+        requestLimits: {
+          requestLimit: 1,
+          numberOfRequests: 1,
+        },
+      });
+
+      expect(eligibilityChecks).to.deep.equal({
+        directFailed: false,
+        directSupported: true,
+        requestSupported: true,
+        requestFailed: true,
+        directPastVisit: false,
+        directPastVisitValue: 12,
+        directPACT: false,
+        directClinics: false,
       });
     });
   });
