@@ -466,11 +466,19 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         pastAppointments: action.appointments,
+        data: {
+          ...state.data,
+          calendarData: {},
+        },
         flowType: FLOW_TYPES.DIRECT,
       };
     case START_REQUEST_APPOINTMENT_FLOW:
       return {
         ...state,
+        data: {
+          ...state.data,
+          calendarData: {},
+        },
         flowType: FLOW_TYPES.REQUEST,
       };
     case FORM_FETCH_FACILITY_DETAILS:
