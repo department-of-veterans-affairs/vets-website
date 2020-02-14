@@ -3,10 +3,11 @@ import titleCase from 'platform/utilities/data/titleCase';
 import { PURPOSE_TEXT, TYPE_OF_VISIT, LANGUAGES } from './constants';
 import {
   getTypeOfCare,
-  getSystems,
+  getParentFacilities,
   getFormData,
   getChosenClinicInfo,
   getChosenFacilityInfo,
+  getSystemFromChosenFacility,
 } from './selectors';
 import { selectVet360ResidentialAddress } from 'platform/user/selectors';
 
@@ -40,21 +41,22 @@ export function transformFormToVARequest(state) {
   const facility = getChosenFacilityInfo(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
+  const systemId = getSystemFromChosenFacility(state);
 
   return {
     typeOfCare: typeOfCare.id,
     typeOfCareId: typeOfCare.id,
     appointmentType: getTypeOfCare(data).name,
     cityState: {
-      institutionCode: data.vaSystem,
-      rootStationCode: data.vaSystem,
-      parentStationCode: data.vaSystem,
+      institutionCode: data.vaParent,
+      rootStationCode: systemId,
+      parentStationCode: data.vaParent,
       adminParent: true,
     },
     facility: {
       name: facility.authoritativeName,
       facilityCode: data.vaFacility,
-      parentSiteCode: data.vaSystem,
+      parentSiteCode: data.vaParent,
     },
     purposeOfVisit: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
@@ -117,7 +119,7 @@ export function transformFormToCCRequest(state) {
   }
 
   const residentialAddress = selectVet360ResidentialAddress(state);
-  const system = getSystems(state).find(
+  const system = getParentFacilities(state).find(
     sys => sys.institutionCode === data.communityCareSystemId,
   );
   let cityState;
