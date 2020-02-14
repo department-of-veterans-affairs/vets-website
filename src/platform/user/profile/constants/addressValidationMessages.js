@@ -11,6 +11,7 @@ export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   VALIDATION_ERROR: 'validationError',
 });
 
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
   [ADDRESS_VALIDATION_TYPES.BAD_UNIT]: {
     headline: 'Please update your unit number',
@@ -18,9 +19,9 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t verify your address with the U.S. Postal Service because
         there may be a problem with the unit number. Please{' '}
-        <a tabIndex="0" onClick={editFunction}>
+        <button className="va-button-link" onClick={editFunction}>
           edit your address
-        </a>{' '}
+        </button>{' '}
         below to update the unit number.
       </p>
     ),
@@ -31,9 +32,9 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t verify your address with the U.S. Postal Service because
         there may be a problem with the unit number. Please{' '}
-        <a tabIndex="0" onClick={editFunction}>
+        <button className="va-button-link" onClick={editFunction}>
           edit your address
-        </a>{' '}
+        </button>{' '}
         to update the unit number. If your unit number is already correct,
         please continue with the address you entered below.
       </p>
@@ -45,9 +46,9 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t verify your address with the U.S. Postal Service because
         it’s missing a unit number. Please{' '}
-        <a tabIndex="0" onClick={editFunction}>
+        <button className="va-button-link" onClick={editFunction}>
           edit your address
-        </a>{' '}
+        </button>{' '}
         below to add a unit number.
       </p>
     ),
@@ -57,9 +58,11 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
     ModalText: ({ editFunction }) => (
       <p>
         It looks like your address is missing a unit number. Please{' '}
-        <a onClick={editFunction}>edit your address</a> to add a unit number. If
-        you don’t have a unit number and the address you entered below is
-        correct, please select Use this address.
+        <button className="va-button-link" onClick={editFunction}>
+          edit your address
+        </button>{' '}
+        to add a unit number. If you don’t have a unit number and the address
+        you entered below is correct, please select Use this address.
       </p>
     ),
   },
@@ -70,9 +73,9 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         We’re sorry. We couldn’t verify your address with the U.S. Postal
         Service, so we won't be able to deliver your VA mail to that address.
         Please{' '}
-        <a tabIndex="0" onClick={editFunction}>
+        <button className="va-button-link" onClick={editFunction}>
           edit the address
-        </a>{' '}
+        </button>{' '}
         you entered or choose a suggested address below.
       </p>
     ),
@@ -84,9 +87,9 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         We couldn’t confirm your address with the U.S. Postal Service. Please
         verify your address so we can save it to your VA profile. If the address
         you entered isn’t correct, please{' '}
-        <a tabIndex="0" onClick={editFunction}>
+        <button className="va-button-link" onClick={editFunction}>
           edit it
-        </a>{' '}
+        </button>{' '}
         or choose a suggested address below.
       </p>
     ),
@@ -109,9 +112,9 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         We’re sorry. We couldn’t verify your address with the U.S. Postal
         Service, so we will not be able to deliver your VA mail to that address.
         Please{' '}
-        <a tabIndex="0" onClick={editFunction}>
+        <button className="va-button-link" onClick={editFunction}>
           edit the address
-        </a>{' '}
+        </button>{' '}
         you entered.
       </p>
     ),
