@@ -19,11 +19,16 @@ describe('VAOS scheduling eligibility logic', () => {
   describe('getEligibilityData', () => {
     before(() => {
       mockFetch();
+    });
+
+    beforeEach(() => {
       setFetchJSONResponse(global.fetch, clinics);
     });
-    after(() => {
+
+    afterEach(() => {
       resetFetch();
     });
+
     it('should fetch all data', async () => {
       const eligibilityData = await getEligibilityData(
         {

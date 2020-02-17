@@ -6,7 +6,7 @@ export default function EligibilityCheckMessage({ eligibility }) {
     return (
       <div aria-atomic="true" aria-live="assertive">
         <AlertBox status="error" headline="Sorry, something went wrong">
-          Sorry, we're having trouble verifying that you can make an appointment
+          Sorry, we’re having trouble verifying that you can make an appointment
           at this facility. Please try another facility.
         </AlertBox>
       </div>
