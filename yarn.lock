@@ -4730,6 +4730,11 @@ eslint-plugin-scanjs-rules@^0.1.4:
     babel-eslint ">=4.1.1"
     eslint ">=1.1"
 
+eslint-plugin-sonarjs@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.5.0.tgz#ce17b2daba65a874c2862213a9e38e8986ad7d7d"
+  integrity sha512-XW5MnzlRjhXpIdbULC/qAdJYHWw3rRLws/DyawdlPU/IdVr9AmRK1r2LaCvabwKOAW2XYYSo3kDX58E4MrB7PQ==
+
 eslint-plugin-va-enzyme@./script/custom-eslint/va-enzyme:
   version "1.0.0"
 
