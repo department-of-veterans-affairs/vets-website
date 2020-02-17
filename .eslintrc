@@ -26,21 +26,6 @@
     "__MEGAMENU_CONFIG__": true
   },
   "rules": {
-    /* || sonarjs plugin || */
-    /*     
-    "sonarjs/no-all-duplicated-branches": 2,
-    "sonarjs/no-element-overwrite": 2,
-    "sonarjs/no-identical-conditions": 2,
-    "sonarjs/no-one-iteration-loop": 2,
-    "sonarjs/no-use-of-empty-return-value": 2,
-    "sonarjs/no-collection-size-mischeck": 2,
-    "sonarjs/no-redundant-jump": 2,
-    "sonarjs/no-same-line-conditional": 2,
-    "sonarjs/no-useless-catch": 2,
-    "sonarjs/prefer-object-literal": 2,
-    "sonarjs/prefer-single-boolean-return": 2,
-    "sonarjs/prefer-while": 2, */
-
     /* || Eslint main rules || */
     "camelcase": [2, { "properties": "always" }], // Override airbnb style.
     "func-names": 2,
