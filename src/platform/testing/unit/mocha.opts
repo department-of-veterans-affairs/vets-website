@@ -6,5 +6,5 @@
 --require isomorphic-fetch
 --compilers js:@babel/register,jsx:@babel/register
 --prof
---reporter progress
+--reporter landing
 --timeout 5000
