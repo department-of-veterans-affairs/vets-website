@@ -24,17 +24,6 @@ const formConfig = {
   title: 'New 686',
   defaultDefinitions: {},
   chapters: {
-    veteranInformation: {
-      title: "Veteran's Information",
-      pages: {
-        page1: {
-          path: 'veteran-information',
-          title: 'Veteran Information - Page 1',
-          uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
-        },
-      },
-    },
     optionSelection: {
       title: '686c Options',
       pages: {
@@ -43,6 +32,17 @@ const formConfig = {
           path: '686-options-selection',
           uiSchema: wizard.uiSchema,
           schema: wizard.schema,
+        },
+      },
+    },
+    veteranInformation: {
+      title: "Veteran's Information",
+      pages: {
+        page1: {
+          path: 'veteran-information',
+          title: 'Veteran Information - Page 1',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
       },
     },

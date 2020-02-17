@@ -115,6 +115,12 @@ export const uiSchema = {
         last: {
           'ui:title': 'Dependent’s last name',
         },
+        suffix: {
+          'ui:title': 'Dependent’s suffix',
+          'ui:options': {
+            widgetClassNames: 'usa-input-medium',
+          },
+        },
       }),
       deceasedDateOfDeath: currentOrPastDateUI('Dependent’s date of death'),
       deceasedLocationOfDeath: deathLocationUiSchema,

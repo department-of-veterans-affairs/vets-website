@@ -30,6 +30,9 @@ export const uiSchema = {
     },
     suffix: {
       'ui:title': 'Child’s suffix',
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium',
+      },
     },
   }),
   dateChildMarried: currentOrPastDateUI('Date of marriage'),
