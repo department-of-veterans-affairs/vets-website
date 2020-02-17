@@ -3,7 +3,6 @@
     "sonarjs/no-all-duplicated-branches": 2,
     "sonarjs/no-element-overwrite": 2,
     "sonarjs/no-identical-conditions": 2,
-    "sonarjs/no-identical-expressions": 2,
     "sonarjs/no-one-iteration-loop": 2,
     "sonarjs/no-use-of-empty-return-value": 2,
     "sonarjs/no-collection-size-mischeck": 2,
