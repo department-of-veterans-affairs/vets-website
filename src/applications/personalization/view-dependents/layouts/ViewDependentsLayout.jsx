@@ -32,7 +32,7 @@ class ViewDependentsLayout extends Component {
         Add or remove dependents
       </a>,
       <a href="/disability/view-dependents/" key="4">
-        Your Dependents
+        Your VA Dependents
       </a>,
     ];
 
