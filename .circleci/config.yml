@@ -54,22 +54,6 @@ jobs:
       - checkout
       - run: yarn security-check
 
-  nyan-report:
-    docker:
-      - image: circleci/node:10.15.3
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - run: npm run test:unit
-
   build:
     docker:
       - image: circleci/node:10.15.3
@@ -91,7 +75,6 @@ workflows:
   test_and_build:
     jobs:
       - lint
-      - nyan-report
       - unit-test
       - security-audit
       - build:
