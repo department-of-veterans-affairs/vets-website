@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import sinon from 'sinon';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { VAOSApp } from '../../containers/VAOSApp';
@@ -120,6 +121,29 @@ describe('VAOS <VAOSApp>', () => {
         .exists(),
     ).to.be.true;
 
+    tree.unmount();
+  });
+
+  it('should display verify message', () => {
+    const user = {
+      profile: {
+        loading: false,
+        verified: false,
+        services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const oldReplace = window.location.replace;
+    window.location.replace = sinon.spy();
+    const tree = mount(<VAOSApp showApplication user={user} />);
+
+    expect(window.location.replace.firstCall.args[0]).to.contain('verify');
+    expect(tree.find('RequiredLoginView').exists()).to.be.true;
+
+    window.location.replace = oldReplace;
     tree.unmount();
   });
 });
