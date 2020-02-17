@@ -41,7 +41,7 @@
     "va-enzyme/unmount": 2,
 
     /* || fp plugin || */
-    "fp/no-proxy": 2, // IE 11 has not polyfill for Proxy
+    "fp/no-proxy": 2, // IE 11 has no polyfill for Proxy
 
     /* || mocha plugin || */
     "mocha/no-exclusive-tests": 2,

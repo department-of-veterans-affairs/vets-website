@@ -93,9 +93,11 @@ workflows:
       - lint
       - unit-test
       - security-audit
-      - additional-linting
       - build:
           requires:
             - lint
             - unit-test
             - security-audit
+  additional-linting:
+    jobs:
+      - additional-linting
