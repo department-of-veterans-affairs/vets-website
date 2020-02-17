@@ -10,7 +10,7 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
