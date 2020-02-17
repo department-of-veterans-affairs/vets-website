@@ -77,24 +77,26 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Evaluate the type of institution radio group with ARROW_DOWN and ARROW_RIGHT
   client
     .keys(TAB)
-    .evaluateRadioButtons(
+    .allyEvaluateRadioButtons(
       ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_DOWN,
     )
-    .evaluateRadioButtons(
+    .allyEvaluateRadioButtons(
       ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_RIGHT,
     );
 
   // Evaluate the type of institution radio group with ARROW_UP and ARROW_LEFT in reverse order
   client
-    .evaluateRadioButtonsReverse(
+    .allyEvaluateRadioButtons(
       ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_UP,
+      true,
     )
-    .evaluateRadioButtonsReverse(
+    .allyEvaluateRadioButtons(
       ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
       ARROW_LEFT,
+      true,
     );
 
   // Skip the modal and evaluate the type of class radio group with ARROW_DOWN and ARROW_RIGHT.
@@ -102,11 +104,11 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .keys(TAB)
-    .evaluateRadioButtons(
+    .allyEvaluateRadioButtons(
       ['input#radio-buttons-2-1', 'input#radio-buttons-2-2'],
       ARROW_DOWN,
     )
-    .evaluateRadioButtons(
+    .allyEvaluateRadioButtons(
       [
         'input#radio-buttons-2-0',
         'input#radio-buttons-2-1',
@@ -117,21 +119,23 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Evaluate the type of class radio group with ARROW_UP and ARROW_LEFT in reverse order
   client
-    .evaluateRadioButtonsReverse(
+    .allyEvaluateRadioButtons(
       [
         'input#radio-buttons-2-0',
         'input#radio-buttons-2-1',
         'input#radio-buttons-2-2',
       ],
       ARROW_UP,
+      true,
     )
-    .evaluateRadioButtonsReverse(
+    .allyEvaluateRadioButtons(
       [
         'input#radio-buttons-2-0',
         'input#radio-buttons-2-1',
         'input#radio-buttons-2-2',
       ],
       ARROW_LEFT,
+      true,
     );
 
   // Let's try to submit an incomplete form by skipping over the city typeahead
