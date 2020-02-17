@@ -35,7 +35,7 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
-  FORM_VA_SYSTEM_CHANGED,
+  FORM_VA_PARENT_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
@@ -54,7 +54,7 @@ import {
   FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
-import systems from '../../api/facilities.json';
+import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
@@ -84,7 +84,7 @@ const facilities983Parsed = facilities983.data.map(item => ({
   id: item.id,
 }));
 
-const systemsParsed = systems.data.map(item => ({
+const parentFacilitiesParsed = parentFacilities.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
@@ -197,7 +197,7 @@ describe('VAOS newAppointment actions', () => {
     const defaultSchema = {
       type: 'object',
       properties: {
-        vaSystem: {
+        vaParent: {
           type: 'string',
           enum: [],
         },
@@ -217,8 +217,8 @@ describe('VAOS newAppointment actions', () => {
           typeOfCareId: '323',
         },
         pages: {},
-        systemsStatus: FETCH_STATUS.notStarted,
-        systems,
+        parentFacilitiesStatus: FETCH_STATUS.notStarted,
+        parentFacilities: parentFacilitiesParsed,
         facilities: {},
         eligibility: {},
       },
@@ -233,11 +233,11 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should fetch systems', async () => {
+    it('should fetch parentFacilities', async () => {
       setFetchJSONResponse(global.fetch, systemIdentifiers);
-      setFetchJSONResponse(global.fetch.onCall(1), systems);
+      setFetchJSONResponse(global.fetch.onCall(1), parentFacilities);
       const dispatch = sinon.spy();
-      const state = set('newAppointment.systems', null, defaultState);
+      const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -253,7 +253,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        systems: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
         facilities: null,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -263,7 +263,7 @@ describe('VAOS newAppointment actions', () => {
     it('should send fail action if a fetch fails', async () => {
       setFetchJSONFailure(global.fetch, {});
       const dispatch = sinon.spy();
-      const state = set('newAppointment.systems', null, defaultState);
+      const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -274,7 +274,7 @@ describe('VAOS newAppointment actions', () => {
       );
     });
 
-    it('should reuse systems if already in state', async () => {
+    it('should reuse parentFacilities if already in state', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -287,7 +287,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        systems,
+        parentFacilities: parentFacilitiesParsed,
         facilities: null,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -297,7 +297,7 @@ describe('VAOS newAppointment actions', () => {
     it('should fetch facilities if system was selected already', async () => {
       setFetchJSONResponse(global.fetch, facilities983);
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaSystem', '983', defaultState);
+      const state = set('newAppointment.data.vaParent', '983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -313,7 +313,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        systems,
+        parentFacilities: parentFacilitiesParsed,
         facilities: facilities983Parsed,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -329,7 +329,7 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
           },
           facilities: {
@@ -351,7 +351,7 @@ describe('VAOS newAppointment actions', () => {
     it('should skip eligibility request and succeed if facility list is empty', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaSystem', '983', defaultState);
+      const state = set('newAppointment.data.vaParent', '983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -367,7 +367,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        systems,
+        parentFacilities: parentFacilitiesParsed,
         facilities: [],
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -387,7 +387,7 @@ describe('VAOS newAppointment actions', () => {
         },
         pages: {},
         systemsStatus: FETCH_STATUS.notStarted,
-        systems,
+        parentFacilities: parentFacilitiesParsed,
         facilities: {},
         eligibility: {},
       },
@@ -412,7 +412,7 @@ describe('VAOS newAppointment actions', () => {
           },
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
           },
         },
       });
@@ -422,7 +422,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -446,13 +446,13 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.lastCall.args[0].type).to.equal(FORM_VA_SYSTEM_CHANGED);
+      expect(dispatch.lastCall.args[0].type).to.equal(FORM_VA_PARENT_CHANGED);
     });
 
     it('should fetch facilities if system is selected already', async () => {
@@ -465,7 +465,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -497,7 +497,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -533,7 +533,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -581,7 +581,7 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
           },
           facilities: {
             '323_983': facilities983Parsed,
@@ -627,7 +627,7 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
           },
           facilities: {
             // This is an unexpected data type that causes an error
@@ -667,8 +667,8 @@ describe('VAOS newAppointment actions', () => {
             typeOfCareId: '323',
           },
           pages: {},
-          systemsStatus: FETCH_STATUS.notStarted,
-          systems: null,
+          parentFacilitiesStatus: FETCH_STATUS.notStarted,
+          parentFacilities: null,
           facilities: {},
           eligibility: {},
         },
@@ -722,21 +722,21 @@ describe('VAOS newAppointment actions', () => {
           typeOfCareId: '323',
         },
         pages: {},
-        systemsStatus: FETCH_STATUS.notStarted,
+        parentFacilitiesStatus: FETCH_STATUS.notStarted,
         ccEnabledSystems: ['983', '984'],
       },
     };
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch, parentFacilities);
     });
 
     afterEach(() => {
       resetFetch();
     });
 
-    it('should fetch systems', async () => {
+    it('should fetch parentFacilities', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -756,10 +756,7 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},
-        systems: systems.data.map(item => ({
-          ...item.attributes,
-          id: item.id,
-        })),
+        parentFacilities: parentFacilitiesParsed,
       });
     });
 
@@ -805,7 +802,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             typeOfCareId: '323',
             facilityType: 'vamc',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             calendarData: {
               selectedDates: [],
@@ -851,7 +848,7 @@ describe('VAOS newAppointment actions', () => {
           },
         },
         newAppointment: {
-          systems: [
+          parentFacilities: [
             {
               institutionCode: '983',
             },
@@ -901,7 +898,7 @@ describe('VAOS newAppointment actions', () => {
             ],
           },
           data: {
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             typeOfCareId: '323',
             clinicId: '123',
@@ -939,7 +936,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             typeOfCareId: '323',
             facilityType: 'vamc',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             calendarData: {
               selectedDates: [],
@@ -996,7 +993,7 @@ describe('VAOS newAppointment actions', () => {
             ],
           },
           data: {
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             typeOfCareId: '323',
             clinicId: '123',

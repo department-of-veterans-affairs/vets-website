@@ -154,7 +154,7 @@ export function getSystemIdentifiers() {
   );
 }
 
-export function getSystemDetails(systemIds) {
+export function getParentFacilities(systemIds) {
   let promise;
 
   if (USE_MOCK_DATA) {
@@ -168,19 +168,23 @@ export function getSystemDetails(systemIds) {
   }
 
   return promise.then(resp =>
-    resp.data
-      .map(item => ({ ...item.attributes, id: item.id }))
-      // Sometimes facilities that aren't in our codes list come back, because they're
-      // marked as parents. We don't want this, so we're filtering them out
-      .filter(item => item.rootStationCode === item.institutionCode),
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
 
-export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
+export function getFacilitiesBySystemAndTypeOfCare(
+  systemId,
+  parentId,
+  typeOfCareId,
+) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (systemId === '984') {
+    if (parentId === '984') {
       promise = import('./facilities_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else if (parentId === '983A6') {
+      promise = import('./facilities_983A6.json').then(
         module => (module.default ? module.default : module),
       );
     } else {
@@ -190,7 +194,7 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}`,
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
     );
   }
 
@@ -294,7 +298,7 @@ export function getClinicInstitutions(systemId, clinicIds) {
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId === '983') {
+    if (facilityId === '983A6') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
