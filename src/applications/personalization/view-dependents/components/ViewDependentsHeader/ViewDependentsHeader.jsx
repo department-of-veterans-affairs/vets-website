@@ -9,7 +9,10 @@ const ViewDependentsHeader = () => (
         claim for additional disability compensation whenever you add a new
         dependent.
       </p>
-      <a href="#" className="usa-button-primary va-button-primary">
+      <a
+        href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation"
+        className="usa-button-primary va-button-primary"
+      >
         Add or remove a dependent
       </a>
     </div>
