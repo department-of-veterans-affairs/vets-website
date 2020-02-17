@@ -66,6 +66,32 @@ describe('VAOS <DateTimeSelectPage>', () => {
     form.unmount();
   });
 
+  it('should not submit form with validation error', () => {
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
+    const updateFormData = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <DateTimeSelectPage
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
+        updateFormData={updateFormData}
+        data={{ calendarData: { currentlySelectedDate: '2020-12-20' } }}
+        availableDates={availableDates}
+        facilityId="123"
+        availableSlots={availableSlots}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        loadingStatus={FETCH_STATUS.succeeded}
+        validationError="Error"
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(routeToNextAppointmentPage.called).to.be.false;
+    form.unmount();
+  });
+
   it('should submit with selected data', () => {
     const openFormPage = sinon.spy();
     const getAppointmentSlots = sinon.spy();
