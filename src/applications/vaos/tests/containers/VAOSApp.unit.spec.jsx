@@ -9,6 +9,7 @@ describe('VAOS <VAOSApp>', () => {
   it('should render login gate and downtime notification', () => {
     const user = {
       profile: {
+        verified: true,
         services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       },
       login: {
@@ -33,6 +34,7 @@ describe('VAOS <VAOSApp>', () => {
   it('should render app unavailable messages', () => {
     const user = {
       profile: {
+        verified: true,
         services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       },
       login: {
@@ -64,6 +66,7 @@ describe('VAOS <VAOSApp>', () => {
   it('should render error boundary UI', () => {
     const user = {
       profile: {
+        verified: true,
         services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       },
       login: {
@@ -82,6 +85,7 @@ describe('VAOS <VAOSApp>', () => {
   it('should render spinner when loading feature toggles', () => {
     const user = {
       profile: {
+        verified: true,
         services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       },
       login: {

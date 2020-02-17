@@ -37,7 +37,6 @@ describe('VAOS reducer: registration', () => {
     const newState = registrationReducer(initialState, action);
 
     expect(newState.status).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.isEnrolled).to.be.false;
     expect(newState.hasRegisteredSystems).to.be.false;
   });
 
@@ -49,7 +48,6 @@ describe('VAOS reducer: registration', () => {
     const newState = registrationReducer(initialState, action);
 
     expect(newState.status).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.isEnrolled).to.be.true;
     expect(newState.hasRegisteredSystems).to.be.true;
   });
 });
