@@ -19,6 +19,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.overrideSmoothScrolling(client);
   client.timeoutsAsyncScript(2000);
 
+  // Assert the correct number of focusable elements in the form
+  client.assert.hasFocusableCount('div.usa-width-two-thirds form', 15);
+
+  // Assert the correct number of tabbable elements in the form
+  client.assert.hasTabbableCount('div.usa-width-two-thirds form', 11);
+
   // Assert skip navigation link works correctly
   client
     .waitForElementVisible('.landing-page', Timeouts.verySlow)
