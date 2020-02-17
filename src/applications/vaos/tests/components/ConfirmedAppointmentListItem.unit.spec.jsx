@@ -1,8 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import moment from 'moment';
 
+import { APPOINTMENT_TYPES } from '../../utils/constants';
 import ConfirmedAppointmentListItem from '../../components/ConfirmedAppointmentListItem';
 
 describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
@@ -44,12 +46,15 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
       main: '307-778-7550',
     },
   };
+  const cancelAppointment = sinon.spy();
 
   let tree;
 
   beforeEach(() => {
     tree = shallow(
       <ConfirmedAppointmentListItem
+        showCancelButton
+        cancelAppointment={cancelAppointment}
         appointment={appointment}
         facility={facility}
       />,
@@ -93,6 +98,18 @@ describe('VAOS <ConfirmedAppointmentListItem> Regular Appointment', () => {
 
   it('should not show booking note', () => {
     expect(tree.text()).not.to.contain('Booking note');
+  });
+
+  it('should show cancel link', () => {
+    expect(tree.text()).to.contain('Cancel appointment');
+  });
+
+  it('should cancel appointment', () => {
+    tree
+      .find('button')
+      .props()
+      .onClick();
+    expect(cancelAppointment.called).to.be.true;
   });
 });
 
@@ -182,5 +199,97 @@ describe('VAOS <ConfirmedAppointmentListItem> Video Appointment', () => {
   it('should show booking note', () => {
     expect(tree.text()).to.contain('Booking note');
     expect(tree.text()).to.contain('My reason isn’t listed');
+  });
+});
+
+describe('VAOS <ConfirmedAppointmentListItem> Canceled Appointment', () => {
+  const appointment = {
+    appointmentType: 'Testing',
+    startDate: '2019-12-11T16:00:00Z',
+    facilityId: '983',
+    clinicId: '123',
+    vvsAppointments: [],
+    vdsAppointments: [
+      {
+        appointmentLength: '60',
+        appointmentTime: '2019-12-11T16:00:00Z',
+        clinic: {
+          name: 'C&P BEV AUDIO FTC1',
+          askForCheckIn: false,
+          facilityCode: '983',
+        },
+        patientId: '7216691',
+        type: 'REGULAR',
+        currentStatus: 'NO-SHOW',
+        bookingNote: 'Booking note',
+      },
+    ],
+  };
+  const facility = {
+    address: {
+      mailing: {},
+      physical: {
+        zip: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        address1: '2360 East Pershing Boulevard',
+        address2: null,
+        address3: null,
+      },
+    },
+    phone: {
+      main: '307-778-7550',
+    },
+  };
+
+  let tree;
+
+  beforeEach(() => {
+    tree = shallow(
+      <ConfirmedAppointmentListItem
+        appointment={appointment}
+        type={APPOINTMENT_TYPES.vaAppointment}
+        facility={facility}
+      />,
+    );
+  });
+
+  afterEach(() => {
+    tree.unmount();
+  });
+
+  it('should have a status of "canceled"', () => {
+    expect(
+      tree
+        .find('span')
+        .at(2)
+        .text(),
+    ).to.contain('Canceled');
+  });
+
+  it('should have an h2 with date', () => {
+    expect(
+      tree
+        .find('h2')
+        .text()
+        .trim(),
+    ).to.contain('December 11, 2019');
+  });
+
+  it('should display clinic name', () => {
+    expect(
+      tree
+        .find('dt')
+        .first()
+        .text(),
+    ).to.contain('C&P BEV AUDIO FTC1');
+  });
+
+  it('should show facility address', () => {
+    expect(tree.find('FacilityAddress').exists()).to.be.true;
+  });
+
+  it('should not show booking note', () => {
+    expect(tree.text()).not.to.contain('Booking note');
   });
 });
