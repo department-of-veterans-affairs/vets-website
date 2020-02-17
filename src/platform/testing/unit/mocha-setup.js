@@ -26,6 +26,12 @@ export default function setupJSDom() {
   //   throw new Error('Refusing to override existing document and window.');
   // }
 
+  // Prevent warnings from displaying
+  /* eslint-disable no-console, func-names */
+  console.error = function() {};
+  console.warn = function() {};
+  /* eslint-enable no-console, func-names */
+
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
 
