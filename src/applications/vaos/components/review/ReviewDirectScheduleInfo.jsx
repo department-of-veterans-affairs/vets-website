@@ -20,7 +20,7 @@ export default function ReviewDirectScheduleInfo({
       <hr className="vads-u-margin-y--2" />
       <AppointmentDate
         dates={data.calendarData.selectedDates}
-        systemId={data.vaSystem}
+        systemId={facility.rootStationCode}
       />
       <hr className="vads-u-margin-y--2" />
       <h3 className="vaos-appts__block-label">

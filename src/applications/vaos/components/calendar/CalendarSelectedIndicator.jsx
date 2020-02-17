@@ -32,7 +32,9 @@ export default function CalendarSelectedIndicator({
     );
   }
 
-  return <i className="fas fa-check vads-u-color--white" />;
+  return (
+    <i className="fas fa-check vads-u-color--white vaos-calendar__fa-check-position" />
+  );
 }
 
 CalendarSelectedIndicator.propTypes = {

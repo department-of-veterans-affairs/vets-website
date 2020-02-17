@@ -1,37 +1,33 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from 'enzyme';
 import ViewDependentsListItem from '../../components/ViewDependentsList/ViewDependentsListItem';
 
 describe('<ViewDependentsListItem />', () => {
   const mockData = {
-    name: 'Cindy See',
-    social: '312-243-5634',
-    onAward: true,
-    birthdate: '05-05-1953',
-    spouse: true,
-    age: 32,
+    firstName: 'Cindy',
+    lastName: 'See',
+    ssn: '312-243-5634',
+    dateOfBirth: '05-05-1953',
+    relationship: 'Child',
   };
 
-  it('Should Render', () => {
-    const wrapper = shallow(
+  it('Should Render with all props visible', () => {
+    const wrapper = render(
       <ViewDependentsListItem
         key={1}
-        name={mockData.name}
-        spouse={mockData.spouse}
-        onAward={mockData.onAward}
-        social={mockData.social}
-        birthdate={mockData.birthdate}
-        age={mockData.age}
+        firstName={mockData.firstName}
+        lastName={mockData.lastName}
+        ssn={mockData.ssn}
+        dateOfBirth={mockData.dateOfBirth}
+        relationship={mockData.relationship}
       />,
     );
-    expect(
-      wrapper.contains(
-        <dfn className="vads-u-margin--0">
-          <strong>Relationship:</strong> Spouse
-        </dfn>,
-      ),
-    ).to.equal(true);
-    wrapper.unmount();
+
+    expect(wrapper.text()).to.contain('Child');
+    expect(wrapper.text()).to.contain('Cindy');
+    expect(wrapper.text()).to.contain('See');
+    expect(wrapper.text()).to.contain('312-243-5634');
+    expect(wrapper.text()).to.contain('05-05-1953');
   });
 });

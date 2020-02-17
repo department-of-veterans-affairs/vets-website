@@ -4,7 +4,6 @@ const VAOSHelpers = require('./vaos-helpers');
 const Auth = require('../../../../platform/testing/e2e/auth');
 
 module.exports = {
-  '@disabled': true,
   after: (client, done) => {
     client.deleteCookies();
     client.end();
@@ -30,7 +29,7 @@ module.exports = {
       .click('[value="211"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
+      .waitForElementPresent('#root_vaParent_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client

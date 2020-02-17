@@ -45,6 +45,8 @@ export const PinNames = {
  */
 export const LOCATION_OPTIONS = [
   LocationType.HEALTH,
+  LocationType.URGENT_CARE,
+  LocationType.URGENT_CARE_FARMACIES,
   LocationType.CC_PROVIDER,
   LocationType.BENEFITS,
   LocationType.CEMETARY,

@@ -14,7 +14,7 @@ const LocationInfoBlock = ({ location, from, query }) => {
   return (
     <div>
       {distance &&
-        from === 'SearchResult' && (
+        location.resultItem && (
           <p>
             <span>
               <strong>{distance.toFixed(1)} miles</strong>

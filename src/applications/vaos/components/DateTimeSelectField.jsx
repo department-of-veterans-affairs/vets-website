@@ -8,6 +8,7 @@ class DateTimeSelectField extends Component {
     formContext: PropTypes.object,
     formData: PropTypes.object,
     onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
   };
 
   getOptionsByDate = selectedDate => {
@@ -65,6 +66,7 @@ class DateTimeSelectField extends Component {
           .add(395, 'days')
           .format('YYYY-MM-DD')}
         startMonth={startMonth}
+        validationError={formContext?.validationError}
       />
     );
   }

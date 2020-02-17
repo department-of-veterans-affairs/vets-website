@@ -52,11 +52,12 @@ export const resolveParamsWithUrl = (
   let url;
   switch (locationType) {
     case 'urgent_care':
-      if (serviceType === 'NonVAUrgentCare') {
+      if (!serviceType || serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
         url = api.url;
-      } else {
+      }
+      if (serviceType === 'NonVAUrgentCare') {
         facility = 'cc_urgent_care';
         url = api.ccUrl;
       }
@@ -121,8 +122,13 @@ export const healthServices = {
   WomensHealth: "Women's Health",
 };
 
+export const ccUrgentCareLabels = {
+  UrgentCare: 'URGENT CARE',
+  WalkIn: 'RETAIL/WALK-IN CARE',
+};
+
 export const urgentCareServices = {
-  UrgentCare: 'Urgent care',
+  UrgentCare: 'VA urgent care',
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };
 
