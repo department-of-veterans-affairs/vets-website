@@ -6,7 +6,7 @@
  * ```javascript
  *  this.demoTest = function (client) {
  *    client
-      .evaluateModalWindow(
+      .allyEvaluateModalWindow(
         'button[aria-label="Learn more about VA education and training programs"]',
         'div[role="alertdialog"]',
         'button[aria-label="Close this modal"]',
@@ -15,14 +15,14 @@
  *  };
  * ```
  *
- * @method evaluateSelectMenu
+ * @method allyEvaluateModalWindow
  * @param {string} modalTrigger The selector (CSS / Xpath) used to open the modal window.
  * @param {string} modalElement The selector (CSS / Xpath) of the modal container.
  * @param {string} modalCloseElement The selector (CSS / Xpath) used to close the modal window.
  * @param {object} [triggerKey] The client.Keys.KEY being pressed to open and close the modal window. Default key is ENTER.
  * @api commands
  */
-module.exports.command = function evaluateModalWindow(
+module.exports.command = function allyEvaluateModalWindow(
   modalTrigger,
   modalElement,
   modalCloseElement,

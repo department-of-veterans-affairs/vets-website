@@ -8,7 +8,7 @@
  *
  * ```javascript
  *  this.demoTest = function (client) {
- *    client.evaluateCheckboxes([
+ *    client.allyEvaluateCheckboxes([
  *      "input[type="checkbox"]#1",
  *      "input[type="checkbox"]#2",
  *      "input[type="checkbox"]#3"
@@ -16,11 +16,11 @@
  *  };
  * ```
  *
- * @method evaluateCheckboxes
+ * @method allyEvaluateCheckboxes
  * @param {string} [selectorArray] The array of checkboxes to be evaluated
  * @api commands
  */
-exports.command = function evaluateCheckboxes(selectorArray) {
+exports.command = function allyEvaluateCheckboxes(selectorArray) {
   const { TAB } = this.Keys;
   const arrLength = selectorArray.length;
   const element = selectorArray[0];

@@ -42,12 +42,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.isActiveElement('#militaryStatus');
 
   // Evaluate the military status select menu
-  client.evaluateSelectMenu('#militaryStatus', 'child', 'child');
+  client.allyEvaluateSelectMenu('#militaryStatus', 'child', 'child');
 
   // Open and close the GI Bill Benefit modal
   client
     .keys(TAB)
-    .evaluateModalWindow(
+    .allyEvaluateModalWindow(
       'button[aria-label="Learn more about VA education and training programs"]',
       'div[role="alertdialog"]',
       'button[aria-label="Close this modal"]',
@@ -57,12 +57,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .assert.isActiveElement('#giBillChapter')
-    .evaluateSelectMenu('#giBillChapter', 'montgomery', '30');
+    .allyEvaluateSelectMenu('#giBillChapter', 'montgomery', '30');
 
   // Open and close the enlistment modal
   client
     .keys(TAB)
-    .evaluateModalWindow(
+    .allyEvaluateModalWindow(
       'button[aria-label="Learn more about how the length of Montgomery GI Bill active-duty service affects your benefits"]',
       'div[role="alertdialog"]',
       'button[aria-label="Close this modal"]',
@@ -72,7 +72,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .assert.isActiveElement('#enlistmentService')
-    .evaluateSelectMenu('#enlistmentService', '2', '2');
+    .allyEvaluateSelectMenu('#enlistmentService', '2', '2');
 
   // Evaluate the type of institution radio group with ARROW_DOWN and ARROW_RIGHT
   client

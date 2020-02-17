@@ -11,17 +11,17 @@
  *
  * ```javascript
  *  this.demoTest = function (client) {
- *    client.evaluateSelectMenu('selector', 'option text', 'option value');
+ *    client.allyevaluateSelectMenu('selector', 'option text', 'option value');
  *  };
  * ```
  *
- * @method evaluateSelectMenu
+ * @method allyevaluateSelectMenu
  * @param {string} selectMenu The selector (CSS / Xpath) used to locate the element.
  * @param {string} optionText The text of the <option> that should be selected.
  * @param {string} selectedOption Value attribute of the <option> that should be selected.
  * @api commands
  */
-module.exports.command = function evaluateSelectMenu(
+module.exports.command = function allyevaluateSelectMenu(
   selectMenu,
   optionText,
   selectedOption,

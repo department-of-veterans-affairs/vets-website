@@ -8,16 +8,16 @@
  *
  * ```javascript
  *  this.demoTest = function (client) {
- *    client.evaluateInput('selector', 'input text');
+ *    client.allyEvaluateInput('selector', 'input text');
  *  };
  * ```
  *
- * @method evaluateSelectMenu
+ * @method allyEvaluateInput
  * @param {string} input The selector (CSS / Xpath) used to locate the element.
  * @param {string} inputText The text string that should be keyed into the input.
  * @api commands
  */
-module.exports.command = function evaluateInput(input, inputText) {
+module.exports.command = function allyEvaluateInput(input, inputText) {
   const client = this;
 
   return client.waitForElementPresent(input, 1000, () => {
