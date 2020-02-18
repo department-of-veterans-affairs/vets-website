@@ -7,11 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import ProgressButton from '../components/ProgressButton';
-import {
-  focusElement,
-  scrollToScrollElement,
-  focusOnChange,
-} from '../utilities/ui';
+import { focusElement, focusOnChange } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
@@ -20,6 +16,7 @@ import { setFormErrors } from '../actions';
 import { checkValidation } from '../utilities/data/checkValidation';
 
 const Element = Scroll.Element;
+const scroller = Scroll.scroller;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -49,7 +46,7 @@ class ReviewCollapsibleChapter extends React.Component {
 
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
-    scrollToScrollElement(`${key}${index === null ? '' : index}`);
+    this.scrollToPage(`${key}${index === null ? '' : index}`);
     this.focusOnPage(`${key}${index === null ? '' : index}`);
   }
 
@@ -63,6 +60,17 @@ class ReviewCollapsibleChapter extends React.Component {
 
     this.handleEdit(key, false, index);
   };
+
+  scrollToPage(key) {
+    scroller.scrollTo(
+      `${key}ScrollElement`,
+      window.Forms.scroll || {
+        duration: 500,
+        delay: 2,
+        smooth: true,
+      },
+    );
+  }
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
