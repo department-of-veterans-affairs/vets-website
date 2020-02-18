@@ -41,7 +41,9 @@ export class StemEligibilityView extends React.Component {
     return (
       <div>
         <p>
-          <b>Based on you responses, it appears you're not eligible.</b>
+          <span className="vads-u-font-family--serif heading-level-4">
+            Based on you responses, it appears you're not eligible.
+          </span>
           <br />
           <br />
           <b>Your responses:</b>
@@ -119,7 +121,7 @@ export class StemEligibilityView extends React.Component {
       <div className={divClassName}>
         <legend className={legendClassName}>
           Since it appears you're not eligible for the scholarship, would you
-          still like apply and let us determine your eligibility?
+          still like to apply and let us determine your eligibility?
           <span className="schemaform-required-span">(*Required)</span>
         </legend>
         {this.renderErrorMessage()}
@@ -154,7 +156,7 @@ export class StemEligibilityView extends React.Component {
         'va-button-primary',
       );
       return (
-        <div className="explore-other-benefits">
+        <div>
           <span>
             If your situation changes in the future and you meet all of the
             criteria, you may return to apply for the Rogers STEM Scholarship.

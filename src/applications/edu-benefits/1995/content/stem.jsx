@@ -14,13 +14,14 @@ export const rogersStemScholarshipInfo = (
       is offered to students training in high-demand STEM (science, technology,
       engineering, and math) fields.
       <br />
+      <br />
       <b>To be considered, you must meet all the requirements below. You:</b>
     </p>
     <ul>
       <li>Are using or recently used Post-9/11 or Fry Scholarship benefits</li>
       <li>
-        Have used all your education benefits or are within 6 months of using
-        all your benefits.
+        Have used all your education benefits or are within 6 months of doing
+        so.
         <br />
         <a
           href="/education/gi-bill/post-9-11/ch-33-benefit/"
@@ -31,9 +32,9 @@ export const rogersStemScholarshipInfo = (
         </a>
       </li>
       <li>
-        Are enrolled in an undergraduate degree program for STEM, or have
-        already earned a STEM degree and are pursuing a teaching certification{' '}
-        <br />
+        Are enrolled in an undergraduate degree program for STEM,{' '}
+        <strong>or</strong> have already earned a STEM degree and are pursuing a
+        teaching certification <br />
         <a
           href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
           target="_blank"
