@@ -13,7 +13,7 @@ export class StemEligibilityView extends React.Component {
 
   icon = indication => (indication ? 'fa fa-check' : 'fa fa-times');
 
-  iconColor = indication => (indication ? 'green' : '757575');
+  iconColor = indication => (indication ? 'green' : '#757575');
 
   renderChecks = () => {
     const {
