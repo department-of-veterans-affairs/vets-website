@@ -9,6 +9,7 @@ const {
 } = fullSchema1995.properties;
 
 export const uiSchema = {
+  'ui:title': 'Rogers STEM Scholarship',
   'view:rogersStemScholarshipInfo': {
     'ui:description': rogersStemScholarshipInfo,
   },

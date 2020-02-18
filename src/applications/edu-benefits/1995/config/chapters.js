@@ -67,6 +67,7 @@ export const chapters = {
       stemEligibility: {
         title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
+        pageClass: 'stem-eligibility-page',
         depends: displayStemEligibility, // 1995-STEM related
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
