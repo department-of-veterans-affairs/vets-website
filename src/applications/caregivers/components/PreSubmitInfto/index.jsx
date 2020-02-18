@@ -1,10 +1,6 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 import SignatureInput from 'applications/caregivers/components/PreSubmitInfto/components/SignatureInput';
-
-import '../../sass/preSubmitCheckboxes.scss';
 
 const SignatureCheckbox = ({
   fullName,
@@ -21,6 +17,8 @@ const SignatureCheckbox = ({
     () => {
       signSignature({ ...signatures, [label]: isSignatureComplete });
     },
+
+    // eslint-disable-next-line
     [signSignature, label, isSignatureComplete],
   );
 
@@ -63,6 +61,7 @@ const PreSubmitCheckboxes = ({
       const unSignedLength = Object.values(signatures).filter(
         obj => Boolean(obj) === false,
       ).length;
+
       if (!unSignedLength) onChange(true);
 
       const hasSecondaryOne =
@@ -78,7 +77,7 @@ const PreSubmitCheckboxes = ({
         hasSecondaryTwo,
       });
     },
-    [checked, formData, onChange, preSubmitInfo, showError],
+    [checked, formData, onChange, preSubmitInfo, showError, signatures],
   );
 
   const CaregiverCopy = ({ label }) => {
@@ -125,9 +124,9 @@ const PreSubmitCheckboxes = ({
   };
 
   /*
-    - Vet must match and be checked
-    - Primary must match and be checked
-    - if hasSecondary must match and be checked
+    - Vet name must match and be checked
+    - Primary name must match and be checked
+    - if hasSecondary one || two, name must match and be checked to submit
    */
 
   return (

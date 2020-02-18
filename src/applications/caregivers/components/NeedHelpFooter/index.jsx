@@ -1,7 +1,5 @@
 import React from 'react';
 
-import '../../sass/needHelpFooter.scss';
-
 const NeedHelpFooter = () => (
   <footer className="need-help-footer row">
     <h5>Need Help?</h5>

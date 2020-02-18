@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import '../../sass/toggleButton.scss';
-
 export default function ToggleButton({
   disabled,
   id,

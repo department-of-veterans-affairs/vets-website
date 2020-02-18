@@ -14,8 +14,6 @@ import {
   RepresentativeInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 
-import '../sass/IntroductionPage.scss';
-
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');

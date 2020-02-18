@@ -28,7 +28,7 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
         setError(false);
       }
     },
-    [signature, signatureMatchesFullName],
+    [setIsSigned, signature, signatureMatchesFullName],
   );
 
   useEffect(() => {}, []);
