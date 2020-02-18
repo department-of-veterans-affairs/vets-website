@@ -117,7 +117,6 @@ describe('VAOS newAppointmentFlow', () => {
             '983_323': {
               directSupported: true,
               directPastVisit: true,
-              directPACT: true,
               directClinics: true,
             },
           },
@@ -145,7 +144,6 @@ describe('VAOS newAppointmentFlow', () => {
             '983_323': {
               directSupported: true,
               directPastVisit: false,
-              directPACT: true,
               directClinics: true,
               requestSupported: true,
               requestPastVisit: true,
