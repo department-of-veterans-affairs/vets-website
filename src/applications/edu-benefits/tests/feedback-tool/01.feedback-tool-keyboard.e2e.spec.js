@@ -1,10 +1,11 @@
 const E2eHelpers = require('../../../../platform/testing/e2e/helpers');
 const Timeouts = require('../../../../platform/testing/e2e/timeouts');
 const PageHelpers = require('./feedback-tool-helpers');
+const FormsTestHelpers = require('../../../../platform/testing/e2e/form-helpers');
 const manifest = require('../../feedback-tool/manifest.json');
 
 module.exports = E2eHelpers.createE2eTest(client => {
-  const { ARROW_DOWN, ARROW_RIGHT, ENTER, TAB } = client.Keys;
+  const { ARROW_DOWN, ARROW_UP, ENTER, TAB } = client.Keys;
 
   PageHelpers.initApplicationSubmitMock();
 
@@ -15,13 +16,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('.schemaform-start-button');
 
   E2eHelpers.overrideVetsGovApi(client);
-  // FormsTestHelpers.overrideFormsScrolling(client);
-  // E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
+  FormsTestHelpers.overrideFormsScrolling(client);
+  E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
   // Evaluate the radio buttons for whom to submit this feedback
   client
     .keys(TAB)
-    .evaluateRadioButtons(
+    .allyEvaluateRadioButtons(
       [
         'input#root_onBehalfOf_0',
         'input#root_onBehalfOf_1',
@@ -29,41 +30,44 @@ module.exports = E2eHelpers.createE2eTest(client => {
       ],
       ARROW_DOWN,
     )
-    .evaluateRadioButtons(
+    .allyEvaluateRadioButtons(
       [
         'input#root_onBehalfOf_0',
         'input#root_onBehalfOf_1',
         'input#root_onBehalfOf_2',
       ],
-      ARROW_RIGHT,
+      ARROW_UP,
+      true,
     );
 
   client.assert.isActiveElement('input#root_onBehalfOf_0');
 
-  // Let's continue to the next screen by keyboard submitting the form
-  client.keys(ENTER);
+  // Let's continue to the next screen by tabbing and pressing enter
+  client.repeatKeypress(TAB, 3).keys(ENTER);
 
   // Applicant information. Set a prefix.
   client
     .waitForElementVisible('input[name="root_fullName_first"]', Timeouts.slow)
     .keys(TAB)
-    .evaluateSelectMenu('#root_fullName_prefix', 'dr', 'Dr.');
+    .allyEvaluateSelectMenu('#root_fullName_prefix', 'dr', 'Dr.');
 
   // Enter first name
-  client.keys(TAB).evaluateInput('#root_fullName_first', 'Benjamin');
+  client.keys(TAB).allyEvaluateInput('#root_fullName_first', 'Benjamin');
 
   // Skip the middle name and enter the last name
-  client.repeatKeypress(TAB, 2).evaluateInput('#root_fullName_last', 'Rhodes');
+  client
+    .repeatKeypress(TAB, 2)
+    .allyEvaluateInput('#root_fullName_last', 'Rhodes');
 
   // Skip the suffix and enter a quasi-real last four SSN
   client
     .repeatKeypress(TAB, 2)
-    .evaluateInput('#root_socialSecurityNumberLastFour', '1234');
+    .allyEvaluateInput('#root_socialSecurityNumberLastFour', '1234');
 
   // Enter a service affiliation
   client
     .keys(TAB)
-    .evaluateSelectMenu('#root_serviceAffiliation', 'veteran', 'Veteran');
+    .allyEvaluateSelectMenu('#root_serviceAffiliation', 'veteran', 'Veteran');
 
   // Let's continue to the next screen by tabbing and pressing enter
   client.repeatKeypress(TAB, 2).keys(ENTER);
@@ -72,25 +76,26 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('#root_serviceBranch', Timeouts.slow)
     .keys(TAB)
-    .evaluateSelectMenu('#root_serviceBranch', 'army', 'Army');
+    .allyEvaluateSelectMenu('#root_serviceBranch', 'army', 'Army');
 
   // Set the service start date
   client
     .keys(TAB)
-    .evaluateSelectMenu('#root_serviceDateRange_fromMonth', 'jan', '1')
+    .allyEvaluateSelectMenu('#root_serviceDateRange_fromMonth', 'jan', '1')
     .keys(TAB)
-    .evaluateSelectMenu('#root_serviceDateRange_fromDay', '15', '15')
+    .allyEvaluateSelectMenu('#root_serviceDateRange_fromDay', '15', '15')
     .keys(TAB)
-    .evaluateInput('#root_serviceDateRange_fromYear', '1990');
+    .allyEvaluateInput('#root_serviceDateRange_fromYear', '1990');
 
   // Set the service end date
+  // *TODO: Create a month pattern helper
   client
     .keys(TAB)
-    .evaluateSelectMenu('#root_serviceDateRange_toMonth', 'mar', '3')
+    .allyEvaluateSelectMenu('#root_serviceDateRange_toMonth', 'mar', '3')
     .keys(TAB)
-    .evaluateSelectMenu('#root_serviceDateRange_toDay', '31', '31')
+    .allyEvaluateSelectMenu('#root_serviceDateRange_toDay', '31', '31')
     .keys(TAB)
-    .evaluateInput('#root_serviceDateRange_toYear', '2010');
+    .allyEvaluateInput('#root_serviceDateRange_toYear', '2010');
 
   // Let's continue to the next screen by keyboard submitting the form
   client.repeatKeypress(TAB, 2).keys(ENTER);
@@ -99,26 +104,26 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementVisible('select[name="root_address_country"]', Timeouts.slow)
     .repeatKeypress(TAB, 2)
-    .evaluateInput('#root_address_street', '11233 Nowhere St');
+    .allyEvaluateInput('#root_address_street', '11233 Nowhere St');
 
   // Enter a city
   client
     .repeatKeypress(TAB, 2)
-    .evaluateInput('#root_address_city', 'Long Beach');
+    .allyEvaluateInput('#root_address_city', 'Long Beach');
 
   // Select a state
-  client.keys(TAB).evaluateSelectMenu('#root_address_state', 'cali', 'CA');
+  client.keys(TAB).allyEvaluateSelectMenu('#root_address_state', 'cali', 'CA');
 
   // Enter a postal code
-  client.keys(TAB).evaluateInput('#root_address_postalCode', '90712');
+  client.keys(TAB).allyEvaluateInput('#root_address_postalCode', '90712');
 
   // Enter an email address
-  client.keys(TAB).evaluateInput('#root_applicantEmail', 'test@test.com');
+  client.keys(TAB).allyEvaluateInput('#root_applicantEmail', 'test@test.com');
 
   // Re-enter the email address
   client
     .keys(TAB)
-    .evaluateInput('[name*="applicantEmailConfirmation"]', 'test@test.com');
+    .allyEvaluateInput('[name*="applicantEmailConfirmation"]', 'test@test.com');
 
   // Let's continue to the next screen by keyboard submitting the form
   client.repeatKeypress(TAB, 3).keys(ENTER);
@@ -130,7 +135,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
       Timeouts.slow,
     )
     .keys(TAB)
-    .evaluateCheckboxes([
+    .allyEvaluateCheckboxes([
       '#root_educationDetails_programs_chapter33',
       '#root_educationDetails_programs_chapter30',
     ]);
@@ -142,17 +147,17 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementPresent('input[type="checkbox"]', Timeouts.slow)
     .repeatKeypress(TAB, 4)
-    .evaluateCheckboxes(['input[type="checkbox"]']);
+    .allyEvaluateCheckboxes(['input[type="checkbox"]']);
 
   // Enter a school name
   client
     .keys(TAB)
-    .evaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');
+    .allyEvaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');
 
   // Enter an address
   client
     .repeatKeypress(TAB, 2)
-    .evaluateInput(
+    .allyEvaluateInput(
       '[name*="manualSchoolEntry_address_street"]',
       '123 LaBrea Blvd',
     );
@@ -160,12 +165,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Enter a city
   client
     .repeatKeypress(TAB, 3)
-    .evaluateInput('[name*="manualSchoolEntry_address_city"]', 'Los Angeles');
+    .allyEvaluateInput(
+      '[name*="manualSchoolEntry_address_city"]',
+      'Los Angeles',
+    );
 
   // Enter a state
   client
     .keys(TAB)
-    .evaluateSelectMenu(
+    .allyEvaluateSelectMenu(
       '[name*="manualSchoolEntry_address_state"]',
       'cali',
       'CA',
@@ -174,28 +182,34 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Enter a postal code
   client
     .keys(TAB)
-    .evaluateInput('[name*="manualSchoolEntry_address_postalCode"]', '90001');
+    .allyEvaluateInput(
+      '[name*="manualSchoolEntry_address_postalCode"]',
+      '90001',
+    );
 
   // Let's continue to the next screen by keyboard submitting the form
-  // TODO: Investigate why pressing ENTER on the postal code doesn't submit properly
+  // *TODO: Investigate why pressing ENTER on the postal code doesn't submit properly
   client.repeatKeypress(TAB, 2).keys(ENTER);
 
   // Issue information and check the first box. Then tab a bunch of times.
   client
     .waitForElementPresent('legend#root_issue-label', Timeouts.slow)
     .keys(TAB)
-    .evaluateCheckboxes(['#root_issue_recruiting'])
+    .allyEvaluateCheckboxes(['#root_issue_recruiting'])
     .repeatKeypress(TAB, 11);
 
   // Enter text string in the first textarea
   client
     .keys(TAB)
-    .evaluateInput('#root_issueDescription', 'Bad recruiting practices');
+    .allyEvaluateInput('#root_issueDescription', 'Decent recruiting practices');
 
   // Enter text string in the second textarea
   client
     .keys(TAB)
-    .evaluateInput('#root_issueResolution', 'Return the invested money');
+    .allyEvaluateInput(
+      '#root_issueResolution',
+      'Follow up on my remaining tuition and fees',
+    );
 
   // Let's continue to the next screen by tabbing. Textareas don't allow submit inside them?
   client.repeatKeypress(TAB, 2).keys(ENTER);
@@ -204,7 +218,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .waitForElementPresent('input[type="checkbox"]', Timeouts.slow)
     .repeatKeypress(TAB, 5)
-    .evaluateCheckboxes(['input[type="checkbox"]']);
+    .allyEvaluateCheckboxes(['input[type="checkbox"]']);
 
   client.end();
 });

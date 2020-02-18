@@ -26,8 +26,8 @@ module.exports.command = function repeatKeypress(
   const client = this;
 
   return client.pause(pauseTime, () => {
-    pressCount.forEach(() => {
+    for (let i = 0; i < pressCount; i++) {
       this.keys(key);
-    });
+    }
   });
 };
