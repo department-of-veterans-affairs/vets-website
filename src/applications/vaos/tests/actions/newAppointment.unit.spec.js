@@ -373,6 +373,34 @@ describe('VAOS newAppointment actions', () => {
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
     });
+  });
+
+  describe('updateFacilityPageData', () => {
+    const defaultState = {
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      newAppointment: {
+        data: {
+          typeOfCareId: '323',
+        },
+        pages: {},
+        systemsStatus: FETCH_STATUS.notStarted,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: {},
+        eligibility: {},
+      },
+    };
+
+    beforeEach(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+    });
+
+    afterEach(() => {
+      resetFetch();
+    });
 
     it('should not fetch anything if system did not change', async () => {
       const dispatch = sinon.spy();
@@ -590,8 +618,8 @@ describe('VAOS newAppointment actions', () => {
       expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
     });
 
-    it('should send fail action with eligibility fetch fails', async () => {
-      setFetchJSONFailure(global.fetch, {});
+    it('should send fail action for error in eligibility code', async () => {
+      setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const previousState = {
         ...defaultState,
@@ -602,7 +630,8 @@ describe('VAOS newAppointment actions', () => {
             vaParent: '983',
           },
           facilities: {
-            '323_983': facilities983Parsed,
+            // This is an unexpected data type that causes an error
+            '323_983': {},
           },
         },
       };

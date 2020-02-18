@@ -4,6 +4,17 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 export default function VAFacilityInfoMessage({ facility, eligibility }) {
   let message;
 
+  if (eligibility.requestFailed) {
+    return (
+      <div aria-atomic="true" aria-live="assertive">
+        <AlertBox status="error" headline="Sorry, something went wrong">
+          Sorry, we’re having trouble verifying that you can make an appointment
+          at a facility.
+        </AlertBox>
+      </div>
+    );
+  }
+
   if (!eligibility.requestPastVisit) {
     message = (
       <>
@@ -30,7 +41,7 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
     return (
       <div aria-atomic="true" aria-live="assertive">
         <AlertBox status="error" headline="Sorry, something went wrong">
-          Sorry, we're having trouble verifying that you can make an appointment
+          Sorry, we’re having trouble verifying that you can make an appointment
           at a facility.
         </AlertBox>
       </div>
@@ -47,7 +58,7 @@ export default function VAFacilityInfoMessage({ facility, eligibility }) {
         </p>
         {message}
         <p>
-          If this location wasn't what you were looking for, you can{' '}
+          If this location wasn’t what you were looking for, you can{' '}
           <a href="/find-locations" target="_blank" rel="noopener noreferrer">
             search for a nearby location
           </a>{' '}
