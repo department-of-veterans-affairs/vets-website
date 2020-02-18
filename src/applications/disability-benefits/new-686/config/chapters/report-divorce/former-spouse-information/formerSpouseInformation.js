@@ -1,5 +1,5 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import fullNameUI from 'platform/forms/definitions/fullName';
+import { validateName } from '../../../utilities';
 import { genericSchemas } from '../../../generic-schema';
 
 const {
@@ -31,15 +31,19 @@ export const schema = {
 
 export const uiSchema = {
   formerSpouseName: {
-    ...fullNameUI,
+    'ui:validations': [validateName],
     first: {
       'ui:title': 'Former spouse’s first name',
+      'ui:errorMessages': { required: 'Please enter a first name' },
     },
-    middle: {
-      'ui:title': 'Former spouse’s middle name',
-    },
+    middle: { 'ui:title': 'Former spouse’s middle name' },
     last: {
       'ui:title': 'Former spouse’s last name',
+      'ui:errorMessages': { required: 'Please enter a last name' },
+    },
+    suffix: {
+      'ui:title': 'Former spouse’s suffix',
+      'ui:options': { widgetClassNames: 'form-select-medium' },
     },
   },
   dateOfDivorce: currentOrPastDateUI('Date of divorce'),
@@ -56,8 +60,6 @@ export const uiSchema = {
     'ui:title': 'Please give a brief explanation',
     'ui:required': formData => formData.isMarriageAnnulledOrVoid,
     'ui:widget': 'textarea',
-    'ui:options': {
-      expandUnder: 'isMarriageAnnulledOrVoid',
-    },
+    'ui:options': { expandUnder: 'isMarriageAnnulledOrVoid' },
   },
 };
