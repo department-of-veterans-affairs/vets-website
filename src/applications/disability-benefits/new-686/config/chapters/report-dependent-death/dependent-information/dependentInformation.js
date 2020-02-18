@@ -1,8 +1,8 @@
-import _ from 'lodash/fp';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import { genericSchemas } from '../../../generic-schema';
+
 import DependentViewField from '../../../../components/DependentViewField';
+import { genericSchemas } from '../../../generic-schema';
+import { validateName } from '../../../utilities';
 
 const dependentTypeSchema = {
   type: 'string',
@@ -105,17 +105,24 @@ export const uiSchema = {
     items: {
       dependentType: dependentTypeUiSchema,
       childStatus: childStatusUiSchema,
-      fullName: _.merge(fullNameUI, {
+      fullName: {
+        'ui:validations': [validateName],
         first: {
           'ui:title': 'Dependent’s first name',
+          'ui:errorMessages': { required: 'Please enter a first name' },
         },
         middle: {
           'ui:title': 'Dependent’s middle name',
         },
         last: {
           'ui:title': 'Dependent’s last name',
+          'ui:errorMessages': { required: 'Please enter a last name' },
         },
-      }),
+        suffix: {
+          'ui:title': 'Dependent’s suffix',
+          'ui:options': { widgetClassNames: 'form-select-medium' },
+        },
+      },
       deceasedDateOfDeath: currentOrPastDateUI('Dependent’s date of death'),
       deceasedLocationOfDeath: deathLocationUiSchema,
     },
