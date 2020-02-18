@@ -17,25 +17,24 @@
  * ```
  *
  * @method allyEvaluateCheckboxes
- * @param {string} [selectorArray] The array of checkboxes to be evaluated
+ * @param {string} selectorArray The array of checkboxes by (CSS / Xpath) to be evaluated.
  * @api commands
  */
 exports.command = function allyEvaluateCheckboxes(selectorArray) {
-  const { TAB } = this.Keys;
-  const arrLength = selectorArray.length;
-  const element = selectorArray[0];
+  const { SPACE, TAB } = this.Keys;
   const client = this;
+  const element = selectorArray[0];
 
   return client.waitForElementPresent(element, 1000, function() {
-    for (let i = 0; i < arrLength; i += 1) {
+    selectorArray.forEach((sel, i) => {
       this.assert
-        .isActiveElement(selectorArray[i])
-        .keys(this.Keys.SPACE)
+        .isActiveElement(sel)
+        .keys(SPACE)
         .assert.attributeContains(element, 'checked', 'true');
 
-      if (i < arrLength - 1) {
+      if (i < selectorArray.length - 1) {
         client.keys(TAB);
       }
-    }
+    });
   });
 };

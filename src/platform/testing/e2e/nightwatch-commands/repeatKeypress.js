@@ -15,7 +15,7 @@
  * @method repeatKeypress
  * @param {object} key The Selenium key to press. Formatted Client.Keys.KEY.
  * @param {number} pressCount Number of times to press the key.
- * @param {number} [pauseTime] The `waitTime` in milliseconds. Default is 125.
+ * @param {number} [pauseTime] The `waitTime` in milliseconds. Default is 125ms.
  * @api commands
  */
 module.exports.command = function repeatKeypress(
@@ -26,8 +26,8 @@ module.exports.command = function repeatKeypress(
   const client = this;
 
   return client.pause(pauseTime, () => {
-    for (let i = 0; i < pressCount; i++) {
+    pressCount.forEach(() => {
       this.keys(key);
-    }
+    });
   });
 };

@@ -21,7 +21,7 @@
  * ```
  *
  * @method allyEvaluateRadioButtons
- * @param {string} selectorArray The array of radio buttons to be evaluated
+ * @param {string} selectorArray The array of radio buttons by (CSS / Xpath) to be evaluated.
  * @param {object} arrowPressed Nightwatch Keys object. Expects ARROW_DOWN || ARROW_RIGHT.
  * @param {boolean} [reversed] Will reverse the array order to workw ith ARROW_UP and ARROW_LEFT.
  * @api commands
