@@ -218,7 +218,6 @@ describe('VAOS scheduling eligibility logic', () => {
         requestFailed: true,
         directPastVisit: false,
         directPastVisitValue: 12,
-        directPACT: false,
         directClinics: false,
       });
     });
