@@ -2,9 +2,10 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
-import { wizard } from './chapters/taskWizard';
-import { veteranInformation } from './chapters/veteran-information';
+import { formerSpouseInformation } from './chapters/report-divorce';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
+import { veteranInformation } from './chapters/veteran-information';
+import { wizard } from './chapters/taskWizard';
 
 const formConfig = {
   urlPrefix: '/',
@@ -23,6 +24,17 @@ const formConfig = {
   title: 'New 686',
   defaultDefinitions: {},
   chapters: {
+    optionSelection: {
+      title: '686c Options',
+      pages: {
+        wizard: {
+          title: '686c Options',
+          path: '686-options-selection',
+          uiSchema: wizard.uiSchema,
+          schema: wizard.schema,
+        },
+      },
+    },
     veteranInformation: {
       title: "Veteran's Information",
       pages: {
@@ -34,14 +46,14 @@ const formConfig = {
         },
       },
     },
-    optionSelection: {
-      title: '686c Options',
+    reportDivorce: {
+      title: 'Information needed to report a divorce',
       pages: {
-        wizard: {
-          title: '686c Options',
-          path: '686-options-selection',
-          uiSchema: wizard.uiSchema,
-          schema: wizard.schema,
+        formerSpouseDetails: {
+          title: 'Information needed to report a divorce',
+          path: 'report-a-divorce',
+          uiSchema: formerSpouseInformation.uiSchema,
+          schema: formerSpouseInformation.schema,
         },
       },
     },
