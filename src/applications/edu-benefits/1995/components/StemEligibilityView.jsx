@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 export class StemEligibilityView extends React.Component {
   onChange = property => {
@@ -12,7 +13,7 @@ export class StemEligibilityView extends React.Component {
 
   icon = indication => (indication ? 'fa fa-check' : 'fa fa-times');
 
-  color = indication => (indication ? 'green' : 'red');
+  iconColor = indication => (indication ? 'green' : '757575');
 
   renderChecks = () => {
     const {
@@ -23,8 +24,16 @@ export class StemEligibilityView extends React.Component {
       isEnrolledStem,
       isPursuingTeachingCert,
     } = this.props;
+
     const isEdithNourseRogersScholarshipCheck =
       isEdithNourseRogersScholarship && benefit === 'chapter33';
+    const isEdithNourseRogersScholarshipQuestion =
+      isEdithNourseRogersScholarship && benefit === undefined;
+
+    const recipientIcon = isEdithNourseRogersScholarshipQuestion
+      ? 'fa fa-question'
+      : this.icon(isEdithNourseRogersScholarshipCheck);
+
     const exhaustionOfBenefitsCheck =
       exhaustionOfBenefits || exhaustionOfBenefitsAfterPursuingTeachingCert;
     const isEnrolledStemCheck = isEnrolledStem || isPursuingTeachingCert;
@@ -41,9 +50,9 @@ export class StemEligibilityView extends React.Component {
           <li>
             <span className="fa-li">
               <i
-                className={this.icon(isEdithNourseRogersScholarshipCheck)}
+                className={recipientIcon}
                 style={{
-                  color: this.color(isEdithNourseRogersScholarshipCheck),
+                  color: this.iconColor(isEdithNourseRogersScholarshipCheck),
                 }}
                 aria-hidden="true"
               />
@@ -54,7 +63,7 @@ export class StemEligibilityView extends React.Component {
             <span className="fa-li">
               <i
                 className={this.icon(exhaustionOfBenefitsCheck)}
-                style={{ color: this.color(exhaustionOfBenefitsCheck) }}
+                style={{ color: this.iconColor(exhaustionOfBenefitsCheck) }}
                 aria-hidden="true"
               />
             </span>
@@ -65,7 +74,7 @@ export class StemEligibilityView extends React.Component {
             <span className="fa-li">
               <i
                 className={this.icon(isEnrolledStemCheck)}
-                style={{ color: this.color(isEnrolledStemCheck) }}
+                style={{ color: this.iconColor(isEnrolledStemCheck) }}
                 aria-hidden="true"
               />
             </span>
@@ -77,17 +86,42 @@ export class StemEligibilityView extends React.Component {
     );
   };
 
+  renderErrorMessage = () => {
+    const { errors, showErrors } = this.props;
+    if (showErrors) {
+      return (
+        <div>
+          {errors.map(error => (
+            <span key={error} className="usa-input-error-message" role="alert">
+              {error}
+            </span>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   renderDetermineEligibility = () => {
+    const { showErrors } = this.props;
     const { determineEligibility } = this.props.formData;
     const id = 'determineEligibility';
-
+    const divClassName = classNames(
+      'form-radio-buttons',
+      showErrors ? 'usa-input-error' : '',
+    );
+    const legendClassName = classNames(
+      'schemaform-label',
+      showErrors ? 'usa-input-error-label' : '',
+    );
     return (
-      <div className="form-radio-buttons">
-        <p>
+      <div className={divClassName}>
+        <legend className={legendClassName}>
           Since it appears you're not eligible for the scholarship, would you
           still like apply and let us determine your eligibility?
           <span className="schemaform-required-span">(*Required)</span>
-        </p>
+        </legend>
+        {this.renderErrorMessage()}
         <input
           type="radio"
           checked={determineEligibility != null && !determineEligibility}
@@ -110,35 +144,91 @@ export class StemEligibilityView extends React.Component {
     );
   };
 
+  renderExploreOtherBenefits = () => {
+    const { determineEligibility } = this.props;
+    if (determineEligibility !== undefined && !determineEligibility) {
+      const buttonClasses = classNames(
+        'usa-button-primary',
+        'wizard-button',
+        'va-button-primary',
+      );
+      return (
+        <div className="explore-other-benefits">
+          <span>
+            If your situation changes in the future and you meet all of the
+            criteria, you may return to apply for the Rogers STEM Scholarship.
+          </span>
+          <div className="explore-other-benefits-button">
+            <a className={buttonClasses} href="/education/eligibility/">
+              Explore other education benefits
+            </a>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  renderContinueApplication = () => {
+    const { determineEligibility } = this.props;
+    if (determineEligibility !== undefined && !determineEligibility) {
+      return (
+        <div className="stem-eligibility-continue-application">
+          Since you're not applying for the Rogers STEM Scholarship, if you need
+          to change your program of study or place of training, continue with
+          this application.
+        </div>
+      );
+    }
+    return null;
+  };
+
   render() {
     return (
-      <div className="rogers-stem-eligibility">
-        {this.renderChecks()}
-        {this.renderDetermineEligibility()}
+      <div>
+        <div className="stem-eligibility">
+          {this.renderChecks()}
+          {this.renderDetermineEligibility()}
+          {this.renderExploreOtherBenefits()}
+        </div>
+        {this.renderContinueApplication()}
       </div>
     );
   }
 }
-const mapStateToProps = (state, ownProps) => ({
-  isEdithNourseRogersScholarship: _.get(
-    state,
-    'form.data.isEdithNourseRogersScholarship',
-  ),
-  benefit: _.get(state, 'form.data.benefit'),
-  exhaustionOfBenefits: _.get(state, 'form.data.view:exhaustionOfBenefits'),
-  exhaustionOfBenefitsAfterPursuingTeachingCert: _.get(
-    state,
-    'form.data.view:exhaustionOfBenefitsAfterPursuingTeachingCert',
-    false,
-  ),
-  isEnrolledStem: _.get(state, 'form.data.isEnrolledStem'),
-  isPursuingTeachingCert: _.get(
-    state,
-    'form.data.isPursuingTeachingCert',
-    false,
-  ),
-  determineEligibility: _.get(ownProps, 'formData.determineEligibility'),
-});
+const mapStateToProps = (state, ownProps) => {
+  const determineEligibility = _.get(ownProps, 'formData.determineEligibility');
+  const errors = _.get(
+    ownProps,
+    'errorSchema.determineEligibility.__errors',
+    [],
+  );
+  return {
+    isEdithNourseRogersScholarship: _.get(
+      state,
+      'form.data.isEdithNourseRogersScholarship',
+    ),
+    benefit: _.get(state, 'form.data.benefit'),
+    exhaustionOfBenefits: _.get(state, 'form.data.view:exhaustionOfBenefits'),
+    exhaustionOfBenefitsAfterPursuingTeachingCert: _.get(
+      state,
+      'form.data.view:exhaustionOfBenefitsAfterPursuingTeachingCert',
+      false,
+    ),
+    isEnrolledStem: _.get(state, 'form.data.isEnrolledStem'),
+    isPursuingTeachingCert: _.get(
+      state,
+      'form.data.isPursuingTeachingCert',
+      false,
+    ),
+    determineEligibility,
+    errors,
+    showErrors:
+      errors.length > 0 &&
+      _.get(ownProps, 'formContext.submitted') &&
+      determineEligibility === undefined,
+  };
+};
 
 const mapDispatchToProps = {};
 

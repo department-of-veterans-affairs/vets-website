@@ -165,11 +165,27 @@
   }
 }
 
-.rogers-stem-eligibility {
+.stem-eligibility {
   background-color: #f1f1f1;
   padding: 0.5em 1em;
 
   ul {
     margin-left: 1.5em;
+    li {
+      margin-bottom: 0;
+    }
   }
+
+  .explore-other-benefits {
+    padding-top: 1em;
+  }
+
+  .explore-other-benefits-button {
+    padding-top: 1em;
+  }
+
+}
+
+.stem-eligibility-continue-application {
+  padding-top: 2em;
 }

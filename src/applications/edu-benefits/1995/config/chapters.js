@@ -14,7 +14,11 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import { displayActiveDutyStem } from '../helpers';
+import {
+  isEdithNourseRogersScholarship,
+  displayActiveDuty,
+  displayStemEligibility,
+} from '../helpers';
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -63,6 +67,7 @@ export const chapters = {
       stemEligibility: {
         title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
+        depends: displayStemEligibility, // 1995-STEM related
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
       },
@@ -75,14 +80,14 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: displayActiveDutyStem,
+        depends: displayActiveDuty, // 1995-STEM related
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
+        depends: form => !isEdithNourseRogersScholarship(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -106,7 +111,7 @@ export const chapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        depends: form => !displayActiveDutyStem(form), // 1995-STEM related
+        depends: form => !isEdithNourseRogersScholarship(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
@@ -196,7 +201,7 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form =>
-          !displayActiveDutyStem(form) &&
+          !isEdithNourseRogersScholarship(form) &&
           form['view:hasServiceBefore1978'] === true,
         uiSchema: {
           serviceBefore1977: serviceBefore1977UI,
