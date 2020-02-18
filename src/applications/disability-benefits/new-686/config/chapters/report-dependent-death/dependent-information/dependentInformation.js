@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import { genericSchemas } from '../../../generic-schema';
@@ -105,7 +104,8 @@ export const uiSchema = {
     items: {
       dependentType: dependentTypeUiSchema,
       childStatus: childStatusUiSchema,
-      fullName: _.merge(fullNameUI, {
+      fullName: {
+        ...fullNameUI,
         first: {
           'ui:title': 'Dependent’s first name',
         },
@@ -118,7 +118,7 @@ export const uiSchema = {
         suffix: {
           'ui:title': 'Dependent’s suffix',
         },
-      }),
+      },
       deceasedDateOfDeath: currentOrPastDateUI('Dependent’s date of death'),
       deceasedLocationOfDeath: deathLocationUiSchema,
     },

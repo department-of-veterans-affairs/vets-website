@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fullNameUI from 'platform/forms/definitions/fullName';
 
@@ -18,7 +16,8 @@ export const schema = {
 
 export const uiSchema = {
   'ui:title': 'Child who is now married',
-  marriedChildName: _.merge(fullNameUI, {
+  marriedChildName: {
+    ...fullNameUI,
     first: {
       'ui:title': 'Child’s first name',
     },
@@ -31,6 +30,6 @@ export const uiSchema = {
     suffix: {
       'ui:title': 'Child’s suffix',
     },
-  }),
+  },
   dateChildMarried: currentOrPastDateUI('Date of marriage'),
 };
