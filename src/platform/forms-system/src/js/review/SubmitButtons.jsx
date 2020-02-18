@@ -117,14 +117,19 @@ export default function SubmitButtons(props) {
               <ul className="vads-u-margin-left--3">
                 {errors.map(error => (
                   <li key={error.name} className="error-message-list-item">
-                    {error.chapter ? (
+                    {error.chapterKey ? (
                       <a
                         href="#"
                         className="error-message-list-link"
                         onClick={event => {
                           event.preventDefault();
-                          props.openReviewChapter(error.chapter);
-                          props.setEditMode(error.page, true);
+                          props.openReviewChapter(error.chapterKey);
+                          props.setEditMode(
+                            error.pageKey,
+                            true, // enable edit mode
+                            error.index || null,
+                          );
+                          // props.formContext.onError();
                           focusAndScrollToReviewElement(error);
                         }}
                       >

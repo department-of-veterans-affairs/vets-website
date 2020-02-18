@@ -200,7 +200,11 @@ class ReviewCollapsibleChapter extends React.Component {
                         submitButton
                         onButtonClick={() => {
                           checkValidation(this.props);
-                          focusOnChange(page.pageKey);
+                          focusOnChange(
+                            `${page.pageKey}${
+                              typeof page.index === 'number' ? page.index : ''
+                            }`,
+                          );
                         }}
                         buttonText="Update page"
                         buttonClass="usa-button-primary"

@@ -1,9 +1,10 @@
 import numberToWords from './numberToWords';
 // Process JSON-schema error messages for viewing
 
-// Change error message from `requires property "someCamelCasedProperty1"` to
-// `Some camel cased property 1`. Array type properties get special treatment,
-// `"instance.newDisabilities[0] requires property "cause"" is modified into
+// Change React-JSON-schema hard-coded error messages. For example, chabnge
+// `requires property "someCamelCasedProperty1"` to `Some camel cased property 1`
+// Array type properties need to get special treatment,
+// `"instance.newDisabilities[0] requires property "cause"` is modified into
 // `First new disabilities cause`. Both methods use the schema property name,
 // which isn't ideal, because the uiSchema may have an empty title and/or
 // description
@@ -30,56 +31,41 @@ const formatErrors = message =>
 // min/max length or item errors may show up as duplicates
 const errorExists = (acc, name) => acc.find(obj => obj.name === name);
 
+// Keys to ignore within the pageList objects & pageList schema
+const ignoreKeys = [
+  'title',
+  'path',
+  'depends',
+  'schema',
+  'chapterTitle',
+  'chapterKey',
+  'pageKey',
+  'type',
+  'required',
+  'initialData',
+];
+
 // Find the chapter and page name that contains the property (name) which is
 // used to build a link that will expand the associated accordion when clicked
-const getPropertyInfo = (chapters = {}, name, instance = '') => {
-  let page;
-  const find = (obj, insideInstance = false, pageName) => {
+const getPropertyInfo = (pageList = [], name, instance = '') => {
+  const findPageIndex = (obj, insideInstance = instance === '') => {
     if (obj && typeof obj === 'object') {
-      return Object.keys(obj).reduce(
-        (acc, key) => {
-          // these keys may contain all properties, or are react components
-          if (
-            acc.found ||
-            key === 'schema' ||
-            key === 'initialData' ||
-            key.startsWith('ui:')
-          ) {
-            return acc;
-          }
-          if (name === key && obj[name]) {
-            if (!acc.pageName) {
-              const pName = pageName || key;
-              acc.pageName = pName === 'uiSchema' ? '' : pName;
-              acc.found = !instance || insideInstance;
-            }
-            return acc;
-          }
-          return find(
-            obj[key],
-            insideInstance || key === instance,
-            pageName || key, // Keep a reference to the page name
-          );
-        },
-        { found: false },
-      );
+      return Object.keys(obj).findIndex(key => {
+        if (ignoreKeys.includes(key) || key.startsWith('ui:')) {
+          return false;
+        }
+        if (insideInstance && name === key && obj[name]) {
+          return true;
+        }
+        return findPageIndex(obj[key], insideInstance || key === instance) > -1;
+      });
     }
-    return {};
+    return -1;
   };
-  const index = Object.keys(chapters).findIndex(chapter => {
-    const { pageName = '', found = false } = find(
-      chapters[chapter].pages,
-      false,
-    );
-    if (found && !page) {
-      page = pageName;
-    }
-    return found;
-  });
-  return { index, page };
+  return pageList.find(page => findPageIndex(page) > -1) || {};
 };
 
-/* There are four types of Validation error messages:
+/* There are four types of hardcoded validation error messages in the form system:
  * min/max: {
     property: 'instance.someProperty',
     message: 'does not meet minimum length of 1',
@@ -108,14 +94,13 @@ const getPropertyInfo = (chapters = {}, name, instance = '') => {
     __errors: ['error message']
   }
 */
-export const reduceErrors = (errors, { chapters }) =>
+export const reduceErrors = (errors, pageList) =>
   errors.reduce((acc, error) => {
     const findErrors = (key, err) => {
       if (typeof err === 'object') {
         if (err.message) {
-          const instance = err.property
-            .replace('instance.', '')
-            .replace(/(\[\d+\])/, '');
+          const property = err.property.replace(/instance\.?/, '') || '';
+          const instance = property.replace(/(\[\d+\])/, '');
           const name = err.name === 'required' ? err.argument : instance;
           /*
            * There may be multiple errors for the same property, e.g.
@@ -125,29 +110,33 @@ export const reduceErrors = (errors, { chapters }) =>
            * anyone and show both
           */
           if (!errorExists(acc, name)) {
-            const { page = '', index } = getPropertyInfo(
-              chapters,
+            const { chapterKey = '', pageKey = '' } = getPropertyInfo(
+              pageList,
               err.argument,
               err.property.startsWith('instance.') ? instance : '',
             );
             acc.push({
               name,
+              // property may be `array[0]`; we need to extract out the `[0]`
+              index: property.match(/\[(\d+)\]/)?.[1] || null,
               message: formatErrors(err.stack),
-              chapter: Object.keys(chapters)[index] || '',
-              page,
-              index,
+              chapterKey,
+              pageKey,
             });
           }
           return null;
         }
         if (err.__errors && err.__errors.length && !errorExists(acc, key)) {
-          const { page = '', index } = getPropertyInfo(chapters, key);
+          const { chapterKey = '', pageKey = '' } = getPropertyInfo(
+            pageList,
+            key,
+          );
           acc.push({
             name: key,
+            index: null,
             message: err.__errors.map(e => formatErrors(e)).join('. '),
-            chapter: Object.keys(chapters)[index] || '',
-            page,
-            index,
+            chapterKey,
+            pageKey,
           });
         }
         Object.keys(err).forEach(sub => findErrors(sub, err[sub]));

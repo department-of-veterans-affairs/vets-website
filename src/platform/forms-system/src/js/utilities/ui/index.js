@@ -1,12 +1,23 @@
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import Scroll from 'react-scroll';
 
-const scrollElementSelector = key => `[name="${key}ScrollElement"]`;
+const scrollElementName = key => `${key}ScrollElement`;
+// react-scroll uses the element's name (preferred?) or id attribute
+const scrollElementSelector = key => `[name="${scrollElementName(key)}"]`;
+
+const getDOMElement = selectorOrElement =>
+  typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
 
 export const scrollToElement = name => {
   if (name) {
+    const el =
+      typeof name === 'string' && name.includes('name=')
+        ? getDOMElement(name)
+        : name;
     Scroll.scroller.scrollTo(
-      name,
+      el, // pass a string key + 'ScrollElement' or DOM element
       window.Forms.scroll || {
         duration: 500,
         delay: 2,
@@ -17,15 +28,11 @@ export const scrollToElement = name => {
 };
 
 export const scrollToScrollElement = key => {
-  scrollToElement(scrollElementSelector(key));
+  scrollToElement(scrollElementName(key));
 };
 
-export function focusElement(selectorOrElement, options) {
-  const el =
-    typeof selectorOrElement === 'string'
-      ? document.querySelector(selectorOrElement)
-      : selectorOrElement;
-
+export function focusElement(name, options) {
+  const el = getDOMElement(name);
   if (el) {
     if (el.tabIndex === 0) {
       el.setAttribute('tabindex', '0');
@@ -49,6 +56,7 @@ export function focusOnFirstElementLabel(
       'button',
       'details',
       'input:not([type="hidden"])',
+      // label removed from list, because we're moving to a specific focus
       // 'label[for]', some form labels
       'select',
       'textarea',
@@ -63,7 +71,7 @@ export function focusOnFirstElementLabel(
     ];
     let els = [...block?.querySelectorAll(focusableElements.join(','))].filter(
       // Ignore disabled & hidden elements
-      // This does not check the elements visibility or opacity
+      // This does not check the element's visibility or opacity
       el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
     );
     if (typeof filterCallback === 'function') {
@@ -78,12 +86,12 @@ export function focusOnFirstElementLabel(
   return target;
 }
 
-// Called after the user edits a review form; focus on the review-row containing
-// the change (screenreader)
+// Called after the user edits a review form; focus is then moved to the
+// review-row containing the change (for screenreader)
 export function focusOnChange(key) {
   // Give DOM time to update
   setTimeout(() => {
-    const el = document.querySelector(scrollElementSelector(key));
+    const el = getDOMElement(scrollElementSelector(key));
     const target = el?.nextElementSibling?.querySelector('.review-row');
     if (target) {
       focusElement(target);
@@ -137,12 +145,14 @@ export const focusAndScrollToReviewElement = (error = {}) => {
   if (error.name) {
     // Ensure DOM updates
     setTimeout(() => {
-      const el = document.querySelector(scrollElementSelector(error.page));
+      // index value indicates an array instance (saved as a string, e.g. '0')
+      const propertyKey = `${error.pageKey}${error.index || ''}`;
+      const el = document.querySelector(scrollElementSelector(propertyKey));
       if (el) {
-        if (error.page === error.chapter) {
+        if (error.pageKey === error.chapterKey) {
           // Focus on accordion header
           el.focus();
-          scrollToScrollElement(`chapter${error.chapter}`);
+          scrollToScrollElement(`chapter${error.chapterKey}`);
         } else {
           // Focus on form element
           const target = focusOnFirstElementLabel(
