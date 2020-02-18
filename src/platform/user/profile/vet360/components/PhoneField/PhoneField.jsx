@@ -1,15 +1,75 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from 'vet360/constants';
 
 import { isValidPhone } from 'platform/forms/validations';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 
 import PhoneEditModal from './PhoneEditModal';
 import PhoneView from './PhoneView';
+
+const formSchema = {
+  type: 'object',
+  properties: {
+    'view:noInternationalNumbers': {
+      type: 'object',
+      properties: {},
+    },
+    inputPhoneNumber: {
+      type: 'string',
+      pattern: '^\\d{10}$',
+    },
+    extension: {
+      type: 'string',
+      pattern: '^\\s*[a-zA-Z0-9]{0,10}\\s*$',
+    },
+    isTextPermitted: {
+      type: 'boolean',
+    },
+  },
+  required: ['inputPhoneNumber'],
+};
+
+const uiSchema = {
+  'view:noInternationalNumbers': {
+    'ui:description': () => (
+      <AlertBox isVisible status="info" className="vads-u-margin-bottom--3">
+        <p>
+          We can only support U.S. phone numbers right now. If you have an
+          international number, please check back later.
+        </p>
+      </AlertBox>
+    ),
+  },
+  inputPhoneNumber: {
+    'ui:widget': PhoneNumberWidget,
+    'ui:options': {
+      inputType: 'tel',
+    },
+    'ui:title': 'Number',
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid phone number.',
+    },
+  },
+  extension: {
+    'ui:title': 'Extension',
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid extension.',
+    },
+  },
+  isTextPermitted: {
+    'ui:title':
+      'Send me text message (SMS) reminders for my VA health care appointments',
+    'ui:options': {
+      hideIf: formData => !formData['view:showSMSCheckbox'],
+    },
+  },
+};
 
 export default class PhoneField extends React.Component {
   static propTypes = {
@@ -60,7 +120,8 @@ export default class PhoneField extends React.Component {
     };
   }
 
-  convertCleanDataToPayload(cleanData, fieldName) {
+  convertCleanDataToPayload(data, fieldName) {
+    const cleanData = this.convertNextValueToCleanData(data);
     return pickBy(
       {
         id: cleanData.id,
@@ -88,6 +149,8 @@ export default class PhoneField extends React.Component {
         convertCleanDataToPayload={this.convertCleanDataToPayload}
         Content={PhoneView}
         EditModal={PhoneEditModal}
+        formSchema={formSchema}
+        uiSchema={uiSchema}
       />
     );
   }

@@ -76,10 +76,10 @@ function hasVisitedInPastMonthsRequest(eligibilityData) {
   );
 }
 
-function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem) {
+function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) {
   return (
     typeOfCareId !== PRIMARY_CARE ||
-    eligibilityData.pacTeam.some(provider => provider.facilityId === vaSystem)
+    eligibilityData.pacTeam.some(provider => provider.facilityId === systemId)
   );
 }
 
@@ -91,7 +91,7 @@ function isUnderRequestLimit(eligibilityData) {
   );
 }
 
-export function getEligibilityChecks(vaSystem, typeOfCareId, eligibilityData) {
+export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
   // If we're missing this property, it means no DS checks were made
   // because it's disabled
   const directSchedulingEnabled =
@@ -106,7 +106,7 @@ export function getEligibilityChecks(vaSystem, typeOfCareId, eligibilityData) {
       eligibilityData.directPastVisit.durationInMonths,
     directPACT:
       directSchedulingEnabled &&
-      hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem),
+      hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId),
     directClinics: directSchedulingEnabled && !!eligibilityData.clinics.length,
     requestSupported: eligibilityData.requestSupported,
     requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),

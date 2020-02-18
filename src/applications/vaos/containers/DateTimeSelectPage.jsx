@@ -12,6 +12,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
 import DateTimeSelectField from '../components/DateTimeSelectField';
@@ -64,6 +65,11 @@ const uiSchema = {
 };
 
 export class DateTimeSelectPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { validationError: null };
+  }
+
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     const { preferredDate } = this.props;
@@ -80,15 +86,46 @@ export class DateTimeSelectPage extends React.Component {
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.validationError && this.state.validationError?.length > 0) {
+      scrollAndFocus('.usa-input-error-message');
+    }
+
+    const prevSelectedSlotsCount =
+      prevProps.data.calendarData?.selectedDates?.length || 0;
+    const newSelectedSlotsCount =
+      this.props.data.calendarData?.selectedDates?.length || 0;
+
+    if (prevSelectedSlotsCount !== newSelectedSlotsCount) {
+      this.validate();
+    }
+  }
+
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    if (this.props.data.calendarData?.selectedDates?.length) {
+    this.validate();
+    if (this.userSelectedSlot()) {
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    } else {
+      scrollAndFocus('.usa-input-error-message');
     }
   };
+
+  validate = () => {
+    if (this.userSelectedSlot()) {
+      this.setState({ validationError: null });
+    } else {
+      this.setState({
+        validationError: 'Please select a preferred date for your appointment',
+      });
+    }
+  };
+
+  userSelectedSlot = () =>
+    this.props.data.calendarData?.selectedDates?.length > 0;
 
   render() {
     const {
@@ -137,9 +174,10 @@ export class DateTimeSelectPage extends React.Component {
           formContext={{
             availableSlots,
             availableDates,
-            preferredDate,
             getAppointmentSlots: this.props.getAppointmentSlots,
             loadingStatus: appointmentSlotsStatus,
+            preferredDate,
+            validationError: this.state.validationError,
           }}
           data={data}
         >
