@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -11,6 +10,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 
+import { captureError } from '../utils/error';
 import {
   vaosApplication,
   selectFeatureToggleLoading,
@@ -32,7 +32,7 @@ export class VAOSApp extends React.Component {
   }
 
   componentDidCatch(error) {
-    Sentry.captureException(error);
+    captureError(error);
   }
 
   render() {
