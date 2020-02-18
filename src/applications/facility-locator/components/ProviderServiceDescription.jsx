@@ -8,9 +8,9 @@ const providerName = (query, posCodes) => {
       name = facilityTypes.cc_pharmacy.toUpperCase();
       break;
     case 'urgent_care':
-      if (posCodes && parseInt(posCodes, 0) === 17) {
+      if (posCodes && parseInt(posCodes, 10) === 17) {
         name = ccUrgentCareLabels.WalkIn;
-      } else if (posCodes && parseInt(posCodes, 0) === 20) {
+      } else if (posCodes && parseInt(posCodes, 10) === 20) {
         name = ccUrgentCareLabels.UrgentCare;
       } else {
         name = facilityTypes.urgent_care.toUpperCase();
