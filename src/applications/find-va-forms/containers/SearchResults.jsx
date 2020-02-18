@@ -155,7 +155,7 @@ export class SearchResults extends Component {
         vads-u-margin-top--1p5 vads-u-font-weight--normal"
         >
           No results were found for "<strong>{query}</strong>
-          ". Try using fewer words or broadening your search. If you&apos;re
+          ." Try using fewer words or broadening your search. If you&apos;re
           looking for non-VA forms, go to the{' '}
           <a
             href="https://www.gsa.gov/reference/forms"
