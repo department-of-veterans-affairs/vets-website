@@ -9,6 +9,7 @@ import RequiredLoginView from 'platform/user/authorization/components/RequiredLo
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
 
 import {
   vaosApplication,
@@ -61,7 +62,7 @@ export class VAOSApp extends React.Component {
           backendServices.FACILITIES,
         ]}
         user={user}
-        verify
+        verify={!environment.isLocalhost()}
       >
         {loadingFeatureToggles && (
           <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
