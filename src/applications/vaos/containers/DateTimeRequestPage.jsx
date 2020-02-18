@@ -107,7 +107,7 @@ export class DateTimeRequestPage extends React.Component {
     } else {
       this.setState({
         validationError:
-          'Please select at least once preferred date for your appointment. You can select up to three dates.',
+          'Please select at least one preferred date for your appointment. You can select up to three dates.',
       });
     }
   };
