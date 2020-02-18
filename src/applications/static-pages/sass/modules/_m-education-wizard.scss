@@ -59,3 +59,19 @@
     margin-right: 64px;
   }
 }
+.checkBenefitsLink {
+  white-space: nowrap;
+}
+
+.radioText {
+  display: inline-flex;
+
+  @media (min-width: $small-screen) {
+    width: 90%;
+  }
+  width: 75%;
+}
+
+label {
+  display: block !important;
+}
