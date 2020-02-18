@@ -7,8 +7,9 @@ export function PreSubmitSection({
   showError,
   preSubmitInfo,
   checked,
+  formData,
 }) {
-  return (
+  const PrivacyAgreementTemplate = () => (
     <div>
       {preSubmitInfo.notice}
       {preSubmitInfo.required && (
@@ -27,10 +28,27 @@ export function PreSubmitSection({
       )}
     </div>
   );
+
+  return (
+    <div>
+      {preSubmitInfo.customComponent ? (
+        preSubmitInfo.customComponent({
+          onChange,
+          showError,
+          preSubmitInfo,
+          checked,
+          formData,
+        })
+      ) : (
+        <PrivacyAgreementTemplate />
+      )}
+    </div>
+  );
 }
 
 PreSubmitSection.propTypes = {
   onChange: PropTypes.func.isRequired,
   preSubmitInfo: PropTypes.object.isRequired,
   showError: PropTypes.bool,
+  customComponent: PropTypes.func,
 };
