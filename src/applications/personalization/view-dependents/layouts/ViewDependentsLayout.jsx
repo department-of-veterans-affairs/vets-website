@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
@@ -10,42 +9,46 @@ import {
   secondSidebarBlock,
   thirdSidebarBlock,
 } from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlockStates/ViewDependentSidebarBlockStates';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import { isServerError, isClientError } from '../util';
+import { errorFragment, infoFragment, breadcrumbLinks } from './helpers';
 
 class ViewDependentsLayout extends Component {
   render() {
-    const breadcrumbLinks = [
-      <a href="/" aria-label="back to VA Home page" key="1">
-        Home
-      </a>,
-      <a
-        href="/disability"
-        aria-label="Back to the Disability Benefits page"
-        key="2"
-      >
-        Disability Benefits
-      </a>,
-      <a
-        href="/disability/add-remove-dependent"
-        aria-label="Back to the Add or remove dependents page"
-        key="3"
-      >
-        Add or remove dependents
-      </a>,
-      <a href="/disability/view-dependents/" key="4">
-        Your Dependents
-      </a>,
-    ];
+    let mainContent;
 
-    const mainContent = (
+    if (isServerError(this.props.error.code)) {
+      mainContent = (
+        <AlertBox
+          headline="We're sorry. Something went wrong on our end"
+          content={errorFragment}
+          status="error"
+        />
+      );
+    } else if (isClientError(this.props.error.code)) {
+      mainContent = (
+        <AlertBox
+          headline="We don't have dependents information on file for you"
+          content={infoFragment}
+          status="info"
+        />
+      );
+    } else {
+      mainContent = (
+        <ViewDependentsLists
+          loading={this.props.loading}
+          onAwardDependents={this.props.onAwardDependents}
+          notOnAwardDependents={this.props.notOnAwardDependents}
+        />
+      );
+    }
+
+    const layout = (
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             <ViewDependentsHeader />
-            <ViewDependentsLists
-              loading={this.props.loading}
-              onAwardDependents={this.props.onAwardDependents}
-              notOnAwardDependents={this.props.notOnAwardDependents}
-            />
+            {mainContent}
           </div>
           <div className="vads-l-col--12 medium-screen:vads-l-col--4">
             <ViewDependentsSidebar>
@@ -72,7 +75,7 @@ class ViewDependentsLayout extends Component {
         <div className="medium-screen:vads-u-padding-left--1p5 large-screen:vads-u-padding-left--6">
           <Breadcrumbs>{breadcrumbLinks}</Breadcrumbs>
         </div>
-        {mainContent}
+        {layout}
       </div>
     );
   }

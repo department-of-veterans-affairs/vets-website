@@ -18,6 +18,7 @@ function allDependents(state = initialState, action) {
   switch (action.type) {
     case FETCH_ALL_DEPENDENTS_SUCCESS:
       allPeople = splitPersons(action.response.persons);
+
       return {
         ...state,
         loading: false,
@@ -25,9 +26,14 @@ function allDependents(state = initialState, action) {
         notOnAwardDependents: allPeople.notOnAward,
       };
     case FETCH_ALL_DEPENDENTS_FAILED:
+      // We are assigning the 'status' to the state variable 'code' because the API calls it a status
+      // but in the application we treat it as an error code
       return {
         ...state,
-        allDependents: action,
+        loading: false,
+        error: {
+          code: action.response.errors[0].status,
+        },
       };
     default:
       return state;
