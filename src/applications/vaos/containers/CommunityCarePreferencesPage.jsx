@@ -138,17 +138,22 @@ export class CommunityCarePreferencesPage extends React.Component {
   };
 
   render() {
-    const { schema, data, pageChangeInProgress, systemsStatus } = this.props;
+    const {
+      schema,
+      data,
+      pageChangeInProgress,
+      parentFacilitiesStatus,
+    } = this.props;
 
     return (
       <div>
         <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-        {systemsStatus === FETCH_STATUS.failed && <ErrorMessage />}
-        {(!schema || systemsStatus === FETCH_STATUS.loading) && (
+        {parentFacilitiesStatus === FETCH_STATUS.failed && <ErrorMessage />}
+        {(!schema || parentFacilitiesStatus === FETCH_STATUS.loading) && (
           <LoadingIndicator message="Loading Community Care facilities" />
         )}
         {!!schema &&
-          systemsStatus === FETCH_STATUS.succeeded && (
+          parentFacilitiesStatus === FETCH_STATUS.succeeded && (
             <SchemaForm
               name="ccPreferences"
               title="Community Care preferences"
@@ -174,7 +179,7 @@ export class CommunityCarePreferencesPage extends React.Component {
 function mapStateToProps(state) {
   return {
     ...getFormPageInfo(state, pageKey),
-    systemsStatus: state.newAppointment.systemsStatus,
+    parentFacilitiesStatus: state.newAppointment.parentFacilitiesStatus,
   };
 }
 

@@ -30,7 +30,7 @@ describe('VAOS data transformation', () => {
             ],
             currentRowIndex: 3,
           },
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: '323',
@@ -116,7 +116,7 @@ describe('VAOS data transformation', () => {
             ],
             currentRowIndex: 3,
           },
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983GB',
           facilityType: 'vamc',
           typeOfCareId: 'SLEEP',
@@ -231,7 +231,7 @@ describe('VAOS data transformation', () => {
         facilityDetails: {},
         clinics: {},
         eligibility: {},
-        systems: [
+        parentFacilities: [
           {
             institutionCode: '983',
             city: 'Cheyenne',
@@ -253,7 +253,7 @@ describe('VAOS data transformation', () => {
         ],
         ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
-        systemsStatus: FETCH_STATUS.succeeded,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,
         facilityDetailsStatus: FETCH_STATUS.succeeded,
         pastAppointments: null,
@@ -372,7 +372,7 @@ describe('VAOS data transformation', () => {
         facilityDetails: {},
         clinics: {},
         eligibility: {},
-        systems: [
+        parentFacilities: [
           {
             institutionCode: '983',
             city: 'Cheyenne',
@@ -394,7 +394,7 @@ describe('VAOS data transformation', () => {
         ],
         ccEnabledSystems: ['984', '983'],
         pageChangeInProgress: false,
-        systemsStatus: FETCH_STATUS.succeeded,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
         eligibilityStatus: FETCH_STATUS.succeeded,
         facilityDetailsStatus: FETCH_STATUS.succeeded,
         pastAppointments: null,
@@ -491,7 +491,7 @@ describe('VAOS data transformation', () => {
           },
           preferredDate: '2019-12-02',
           clinicId: '308',
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
           facilityType: 'vamc',
           typeOfCareId: '323',

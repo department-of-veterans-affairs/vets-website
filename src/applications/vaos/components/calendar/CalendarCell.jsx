@@ -11,10 +11,10 @@ const CalendarCell = ({
   date,
   disabled,
   handleSelectOption,
+  hasError,
   index,
   inSelectedArray,
   onClick,
-  optionsError,
   selectedDates,
   selectedIndicatorType,
 }) => {
@@ -108,13 +108,13 @@ const CalendarCell = ({
       </button>
       {isCurrentlySelected && (
         <CalendarOptions
-          selectedCellIndex={index}
-          currentlySelectedDate={date}
           additionalOptions={additionalOptions}
+          currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
-          optionsError={optionsError}
-          selectedDates={selectedDates}
+          hasError={hasError}
           optionsHeightRef={optionsHeightRef}
+          selectedCellIndex={index}
+          selectedDates={selectedDates}
         />
       )}
     </div>

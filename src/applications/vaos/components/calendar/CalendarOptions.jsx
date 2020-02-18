@@ -8,10 +8,10 @@ export default function CalendarOptions({
   currentlySelectedDate,
   additionalOptions,
   handleSelectOption,
-  optionsError,
   selectedDates,
   selectedCellIndex,
   optionsHeightRef,
+  hasError,
 }) {
   const selectedDateOptions = additionalOptions?.getOptionsByDate(
     currentlySelectedDate,
@@ -28,9 +28,11 @@ export default function CalendarOptions({
     // If list of items won't fill row, align items closer to selected cell
     const cssClasses = classNames(
       'vaos-calendar__options',
+      {
+        'vads-u-padding-left--1p5': hasError,
+      },
       selectedDateOptions.length < maxCellsPerRow
         ? {
-            'usa-input-error': optionsError,
             'vads-u-justify-content--flex-start': beginningCellIndex.includes(
               selectedCellIndex,
             ),
@@ -51,14 +53,6 @@ export default function CalendarOptions({
               'Please select an option for this date'}
           </legend>
           <div className={cssClasses}>
-            {optionsError && (
-              <span
-                className="usa-input-error-message vads-u-margin-bottom--2 vads-u-padding-top--0 vads-u-width--full"
-                role="alert"
-              >
-                <span className="sr-only">Error</span> {optionsError}
-              </span>
-            )}
             {selectedDateOptions.map((o, index) => {
               const dateObj = {
                 date: currentlySelectedDate,

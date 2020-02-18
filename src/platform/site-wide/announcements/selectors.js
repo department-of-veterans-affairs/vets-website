@@ -1,5 +1,5 @@
 // Node modules.
-import moment from 'moment-timezone';
+import moment from 'moment';
 // Relative imports.
 import _config from './config';
 
@@ -7,10 +7,8 @@ import _config from './config';
 const isExpiredAnnouncement = announcement => {
   if (!announcement.expiresAt) return true;
 
-  const expiresAtDate = moment.tz(announcement.expiresAt, 'America/New_York');
-  const hasExpired = moment()
-    .tz('America/New_York')
-    .isSameOrAfter(expiresAtDate);
+  const expiresAtDate = moment(announcement.expiresAt);
+  const hasExpired = moment().isSameOrAfter(expiresAtDate);
 
   return !hasExpired;
 };
