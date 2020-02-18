@@ -75,7 +75,7 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
-      OVERALL_REVIEW_COMMENT: ESLint is disabled - manual review required.
+      OVERALL_REVIEW_COMMENT: ESLint is disabled - _please_ wait for a VSP review.
       LINE_COMMENT: ESLint disabled here
     steps:
       - checkout
@@ -91,7 +91,7 @@ jobs:
       - image: circleci/node:10.18
     environment:
       CODE_PATTERN: Sentry\.
-      OVERALL_REVIEW_COMMENT: Sentry call found - Check for potential PII exposure
+      OVERALL_REVIEW_COMMENT: Sentry call found - Check for potential PII exposure. _Please_ wait for a VSP review.
       LINE_COMMENT: Sentry found
     steps:
       - checkout
