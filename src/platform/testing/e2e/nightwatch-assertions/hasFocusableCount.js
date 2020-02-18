@@ -4,6 +4,10 @@
  * The count logic will break on tabindexes > 0 because we do not want to override the
  * browser's base tab order.
  *
+ * This solution is inspired by two blog posts:
+ * https://zellwk.com/blog/keyboard-focusable-elements/
+ * https://hiddedevries.nl/en/blog/2017-01-29-using-javascript-to-trap-focus-in-an-element
+ *
  * ```javascript
  *  this.demoTest = function (client) {
  *    client.assert.hasFocusableCount("body", 10, "Your custom message");
@@ -29,8 +33,11 @@ exports.assertion = function hasFocusableCount(
     this.api.execute(
       sel => {
         const target = document.querySelector(sel);
-        const focusableItems = target.querySelectorAll(
-          'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="email"]:not([disabled]), input[type="password"]:not([disabled]), input[type="search"]:not([disabled]), input[type="tel"]:not([disabled]), input[type="url"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled]), *[tabindex="0"], *[tabindex="-1"]',
+        const allItems = target.querySelectorAll(
+          'a[href], button, details, input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="url"], input[type="radio"], input[type="checkbox"], select, textarea, [tabindex="0"], [tabindex="-1"]',
+        );
+        const focusableItems = Array.from(allItems).filter(
+          el => !el.hasAttribute('disabled'),
         );
 
         return focusableItems;
