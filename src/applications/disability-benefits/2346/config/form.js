@@ -31,7 +31,7 @@ const {
   emailUI,
   genderUI,
   fullNameUI,
-} = UIDefinitions.sharedItems;
+} = UIDefinitions.sharedUISchemas;
 
 const formConfig = {
   urlPrefix: '/',

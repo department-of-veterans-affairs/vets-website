@@ -8,7 +8,7 @@ export default {
   'ui:options': {
     hideTitle: false,
   },
-  sharedItems: {
+  sharedUISchemas: {
     dateOfBirthUI: currentOrPastDateUI('Date of Birth'),
     fullNameUI,
     addressUI: address.uiSchema('Confirm your address', false),
