@@ -9,7 +9,7 @@ const ordinals = {
   8: 'eighth',
   9: 'ninth',
   10: 'tenth',
-  11: 'eleven',
+  11: 'eleventh',
   12: 'twelveth',
   13: 'thirteenth',
   14: 'fourteenth',

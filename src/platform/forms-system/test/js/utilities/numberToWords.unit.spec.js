@@ -14,7 +14,7 @@ describe('Convert numbers to words', () => {
     expect(numberToWords(8)).to.eql('eighth');
     expect(numberToWords(9)).to.eql('ninth');
     expect(numberToWords(10)).to.eql('tenth');
-    expect(numberToWords(11)).to.eql('eleven');
+    expect(numberToWords(11)).to.eql('eleventh');
     expect(numberToWords(12)).to.eql('twelveth');
     expect(numberToWords(13)).to.eql('thirteenth');
     expect(numberToWords(14)).to.eql('fourteenth');
