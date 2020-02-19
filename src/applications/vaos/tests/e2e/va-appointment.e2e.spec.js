@@ -35,7 +35,7 @@ module.exports = {
       .click('[value="vamc"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_vaSystem_0', Timeouts.slow);
+      .waitForElementPresent('#root_vaParent_0', Timeouts.slow);
   },
   'Choose a VA location for your appointment': client => {
     client

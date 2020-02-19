@@ -38,6 +38,25 @@ describe('profile360 selectors', () => {
         '';
       expect(selectors.directDepositIsSetUp(state)).to.be.false;
     });
+    it('returns `false` when the payment info endpoint failed to get data', () => {
+      state = {
+        vaProfile: {
+          paymentInformation: {
+            errors: [
+              {
+                title: 'Bad Gateway',
+                detail:
+                  'Received an an invalid response from the upstream server',
+                code: 'EVSS502',
+                source: 'EVSS::PPIU::Service',
+                status: '502',
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+    });
   });
 
   describe('directDepositAddressIsSetUp selector', () => {
@@ -74,6 +93,26 @@ describe('profile360 selectors', () => {
     it('returns `false` if the state is missing', () => {
       state.vaProfile.paymentInformation.responses[0].paymentAddress.stateCode =
         '';
+      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+    });
+
+    it('returns `false` when the payment info endpoint failed to get data', () => {
+      state = {
+        vaProfile: {
+          paymentInformation: {
+            errors: [
+              {
+                title: 'Bad Gateway',
+                detail:
+                  'Received an an invalid response from the upstream server',
+                code: 'EVSS502',
+                source: 'EVSS::PPIU::Service',
+                status: '502',
+              },
+            ],
+          },
+        },
+      };
       expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
     });
   });

@@ -29,7 +29,7 @@ describe('VAOS reducer: registration', () => {
     expect(newState.status).to.equal(FETCH_STATUS.failed);
   });
 
-  it('should not pass checks if no icn or dfn', () => {
+  it('should not pass checks if no dfn', () => {
     const action = {
       type: REGISTRATION_CHECK_SUCCEEDED,
       userIds: [],
@@ -37,22 +37,17 @@ describe('VAOS reducer: registration', () => {
     const newState = registrationReducer(initialState, action);
 
     expect(newState.status).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.isEnrolled).to.be.false;
     expect(newState.hasRegisteredSystems).to.be.false;
   });
 
-  it('should pass checks if icn and dfn', () => {
+  it('should pass checks if has dfn', () => {
     const action = {
       type: REGISTRATION_CHECK_SUCCEEDED,
-      userIds: [
-        { assigningAuthority: 'ICN' },
-        { assigningAuthority: 'dfn-434' },
-      ],
+      userIds: [{ assigningAuthority: 'dfn-434' }],
     };
     const newState = registrationReducer(initialState, action);
 
     expect(newState.status).to.equal(FETCH_STATUS.succeeded);
-    expect(newState.isEnrolled).to.be.true;
     expect(newState.hasRegisteredSystems).to.be.true;
   });
 });

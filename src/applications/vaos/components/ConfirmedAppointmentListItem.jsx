@@ -1,13 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 import {
-  getLocationHeader,
-  getAppointmentLocation,
+  getAppointmentAddress,
   getAppointmentDate,
   getAppointmentDateTime,
+  getAppointmentDuration,
   getAppointmentInstructions,
   getAppointmentInstructionsHeader,
+  getAppointmentLocation,
   getAppointmentTypeHeader,
+  getLocationHeader,
+  getMomentConfirmedDate,
   hasInstructions,
   isVideoVisit,
 } from '../utils/appointment';
@@ -38,6 +41,8 @@ export default function ConfirmedAppointmentListItem({
     !canceled &&
     type !== APPOINTMENT_TYPES.ccAppointment &&
     !isVideoVisit(appointment);
+
+  const showAddToCal = allowCancel || (!allowCancel && !canceled);
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -96,27 +101,37 @@ export default function ConfirmedAppointmentListItem({
         )}
       </div>
 
-      {!allowCancel &&
-        !canceled && (
-          <div className="vads-u-margin-top--2">
-            <AddToCalendar appointment={appointment} facility={facility} />
-          </div>
-        )}
-
-      {allowCancel && (
+      {(showAddToCal || allowCancel) && (
         <div className="vads-u-margin-top--2">
-          <AddToCalendar appointment={appointment} facility={facility} />
-          <button
-            onClick={() => cancelAppointment(appointment)}
-            aria-label="Cancel appointment"
-            className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-          >
-            Cancel appointment
-            <span className="sr-only">
-              {' '}
-              on {getAppointmentDate(appointment)}
-            </span>
-          </button>
+          {showAddToCal && (
+            <AddToCalendar
+              summary={getAppointmentTypeHeader(appointment)}
+              description={
+                hasInstructions(appointment)
+                  ? `${getAppointmentInstructionsHeader(
+                      appointment,
+                    )}. ${getAppointmentInstructions(appointment)}`
+                  : ''
+              }
+              location={getAppointmentAddress(appointment, facility)}
+              duration={getAppointmentDuration(appointment)}
+              startDateTime={getMomentConfirmedDate(appointment).toDate()}
+              endDateTime={getMomentConfirmedDate(appointment)}
+            />
+          )}
+          {allowCancel && (
+            <button
+              onClick={() => cancelAppointment(appointment)}
+              aria-label="Cancel appointment"
+              className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+            >
+              Cancel appointment
+              <span className="sr-only">
+                {' '}
+                on {getAppointmentDate(appointment)}
+              </span>
+            </button>
+          )}
         </div>
       )}
     </li>
