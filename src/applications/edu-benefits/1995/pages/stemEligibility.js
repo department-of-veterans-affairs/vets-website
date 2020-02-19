@@ -1,4 +1,4 @@
-import StemEligibilityView from '../components/StemEligibilityView';
+import StemEligibilityView from '../containers/StemEligibilityView';
 import _ from 'lodash';
 
 const determineEligibilityIsNotChecked = formData =>
