@@ -152,11 +152,13 @@ export class VetTecSearchPage extends React.Component {
   };
 
   autocomplete = (value, version) => {
-    this.props.fetchProgramAutocompleteSuggestions(
-      value,
-      _.omit(this.props.search.query, 'name'),
-      version,
-    );
+    if (value) {
+      this.props.fetchProgramAutocompleteSuggestions(
+        value,
+        _.omit(this.props.search.query, 'name'),
+        version,
+      );
+    }
   };
 
   filterResultsByProvider = result =>

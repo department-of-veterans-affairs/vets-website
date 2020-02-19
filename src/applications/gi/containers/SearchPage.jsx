@@ -105,11 +105,13 @@ export class SearchPage extends React.Component {
   };
 
   autocomplete = (value, version) => {
-    this.props.fetchInstitutionAutocompleteSuggestions(
-      value,
-      _.omit(this.props.search.query, 'name'),
-      version,
-    );
+    if (value) {
+      this.props.fetchInstitutionAutocompleteSuggestions(
+        value,
+        _.omit(this.props.search.query, 'name'),
+        version,
+      );
+    }
   };
 
   handlePageSelect = page => {
