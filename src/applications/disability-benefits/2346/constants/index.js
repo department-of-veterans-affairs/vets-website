@@ -7,12 +7,5 @@ export const vetFields = {
   dateOfBirth: 'veteranDateOfBirth',
   email: 'veteranEmail',
   fullName: 'veteranFullName',
-  first: 'veteranFirstName',
-  last: 'veteranLastName',
   gender: 'veteranGender',
-  primaryPhoneNumber: 'veteranPrimaryPhoneNumber',
-  ssn: 'veteranSsn',
-  city: 'veteranCity',
-  postalCode: 'veteranPostalCode',
-  country: 'veteranCountry',
 };
