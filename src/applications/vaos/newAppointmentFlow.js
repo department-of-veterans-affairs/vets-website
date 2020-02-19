@@ -25,6 +25,7 @@ import {
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
 
 function isCCAudiology(state) {
@@ -53,6 +54,10 @@ function isSleepCare(state) {
   return getFormData(state).typeOfCareId === SLEEP_CARE;
 }
 
+function isEyeCare(state) {
+  return getFormData(state).typeOfCareId === EYE_CARE;
+}
+
 function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
@@ -76,6 +81,8 @@ export default {
 
       if (isSleepCare(state)) {
         nextState = 'typeOfSleepCare';
+      } else if (isEyeCare(state)) {
+        nextState = 'typeOfEyeCare';
       } else if (isCommunityCare(state)) {
         try {
           if (communityCareEnabled) {
@@ -145,6 +152,16 @@ export default {
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
     next: 'vaFacility',
+    previous: 'typeOfCare',
+  },
+  typeOfEyeCare: {
+    url: '/new-appointment/choose-eye-care',
+    next(state) {
+      if (getFormData(state).typeOfEyeCareId === '407') {
+        return 'vaFacility';
+      }
+      return 'typeOfFacility';
+    },
     previous: 'typeOfCare',
   },
   audiologyCareType: {

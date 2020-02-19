@@ -8,6 +8,7 @@ import {
   TYPES_OF_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_SLEEP_CARE,
+  TYPES_OF_EYE_CARE,
   FETCH_STATUS,
 } from './constants';
 
@@ -33,9 +34,14 @@ export function getFormPageInfo(state, pageKey) {
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
+const EYE_CARE = 'EYE';
 export function getTypeOfCare(data) {
   if (data.typeOfCareId === SLEEP_CARE) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
+  }
+
+  if (data.typeOfCareId === EYE_CARE) {
+    return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
   }
 
   if (
