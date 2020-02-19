@@ -4,6 +4,7 @@ import {
   states50AndDC,
   suffixes,
   textOnlyPattern,
+  countries,
 } from './constants';
 
 export const genericSchemas = {
@@ -33,10 +34,15 @@ export const genericSchemas = {
     maxLength: 50,
     pattern: numberOnlyPattern,
   },
-  genericUSACountryDropdown: {
+  genericUSAStateDropdown: {
     type: 'string',
     enum: states50AndDC.map(state => state.value),
     default: states50AndDC.map(state => state.label),
+  },
+  countryDropdown: {
+    type: 'string',
+    enum: countries.map(country => country.label),
+    default: 'United States',
   },
   fullName: {
     type: 'object',
