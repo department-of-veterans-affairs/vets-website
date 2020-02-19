@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+  getAppointmentLength,
   getFormData,
   getFlowType,
   getChosenClinicInfo,
@@ -43,7 +44,13 @@ export class ConfirmationPage extends React.Component {
     this.props.closeConfirmationPage();
   }
   render() {
-    const { data, facilityDetails, clinic, flowType } = this.props;
+    const {
+      data,
+      facilityDetails,
+      clinic,
+      flowType,
+      appointmentLength,
+    } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
@@ -54,6 +61,7 @@ export class ConfirmationPage extends React.Component {
             facilityDetails={facilityDetails}
             clinic={clinic}
             pageTitle={this.pageTitle}
+            appointmentLength={appointmentLength}
           />
         )}
         {!isDirectSchedule && (
@@ -88,6 +96,7 @@ function mapStateToProps(state) {
     facilityDetails: getChosenFacilityDetails(state),
     clinic: getChosenClinicInfo(state),
     flowType: getFlowType(state),
+    appointmentLength: getAppointmentLength(state),
   };
 }
 

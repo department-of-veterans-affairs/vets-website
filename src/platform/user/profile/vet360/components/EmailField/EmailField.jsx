@@ -22,13 +22,15 @@ const formSchema = {
         '^(\\s)*(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))(\\s)*$',
     },
   },
+  required: ['emailAddress'],
 };
 const uiSchema = {
   emailAddress: {
     'ui:title': 'Email Address',
     'ui:errorMessages': {
+      required: 'Please enter your email address, using this format: X@X.com',
       pattern:
-        'Please enter your email address again, following a standard format like name@domain.com.',
+        'Please enter your email address again, using this format: X@X.com',
     },
   },
 };
