@@ -60,4 +60,20 @@ describe('VAOS <EligibilityCheckMessage>', () => {
     expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
     tree.unmount();
   });
+
+  it('should render error message', () => {
+    const eligibility = {
+      requestFailed: true,
+      requestSupported: true,
+      requestPastVisit: false,
+      requestPastVisitValue: 24,
+    };
+
+    const tree = mount(<EligibilityCheckMessage eligibility={eligibility} />);
+
+    expect(tree.text()).to.contain('having trouble');
+    expect(tree.find('AlertBox').props().status).to.equal('error');
+    expect(tree.find('[aria-atomic="true"]').exists()).to.be.true;
+    tree.unmount();
+  });
 });

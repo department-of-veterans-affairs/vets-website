@@ -1,7 +1,13 @@
 import React from 'react';
-import moment from 'moment';
+import moment from '../utils/moment-tz.js';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import FacilityAddress from './FacilityAddress';
+import AddToCalendar from './AddToCalendar';
+import { getFacilityAddress } from '../utils/appointment';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+} from './../utils/timezone';
 import { PURPOSE_TEXT } from '../utils/constants';
 
 export default function ConfirmationDirectScheduleInfo({
@@ -9,7 +15,14 @@ export default function ConfirmationDirectScheduleInfo({
   facilityDetails,
   clinic,
   pageTitle,
+  appointmentLength,
 }) {
+  const dateTime = data.calendarData.selectedDates[0].datetime;
+  const timezone = getTimezoneBySystemId(data.vaSystem);
+  const momentDate = timezone
+    ? moment(dateTime).tz(timezone.timezone, true)
+    : moment(dateTime);
+
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
@@ -24,9 +37,8 @@ export default function ConfirmationDirectScheduleInfo({
           VA Appointment
         </div>
         <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
-          {moment(data.calendarData.selectedDates[0].datetime).format(
-            'MMMM D, YYYY [at] hh:mm a',
-          )}{' '}
+          {momentDate.format('MMMM D, YYYY [at] hh:mm a')}
+          {` ${getTimezoneAbbrBySystemId(data.vaSystem)}`}
         </h2>
         <div className="vads-u-margin-top--2">
           <i className="fas fa-check-circle" />
@@ -66,6 +78,17 @@ export default function ConfirmationDirectScheduleInfo({
             </dl>
           </div>
         </div>
+        {facilityDetails && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendar
+              summary="VA Appointment"
+              description=""
+              location={getFacilityAddress(facilityDetails)}
+              startDateTime={momentDate.toDate()}
+              duation={appointmentLength}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

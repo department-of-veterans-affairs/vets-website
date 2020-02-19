@@ -1,8 +1,9 @@
 import {
-  states50AndDC,
-  textOnlyPattern,
-  numberOnlyPattern,
   datePattern,
+  numberOnlyPattern,
+  states50AndDC,
+  suffixes,
+  textOnlyPattern,
 } from './constants';
 
 export const genericSchemas = {
@@ -56,6 +57,10 @@ export const genericSchemas = {
         minLength: 1,
         maxLength: 30,
         pattern: textOnlyPattern,
+      },
+      suffix: {
+        type: 'string',
+        enum: suffixes,
       },
     },
     required: ['first', 'last'],
