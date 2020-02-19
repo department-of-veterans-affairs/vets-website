@@ -43,7 +43,10 @@ export const uiSchema = {
     },
     suffix: {
       'ui:title': 'Former spouse’s suffix',
-      'ui:options': { widgetClassNames: 'form-select-medium' },
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+        hideIf: () => true,
+      },
     },
   },
   dateOfDivorce: currentOrPastDateUI('Date of divorce'),
