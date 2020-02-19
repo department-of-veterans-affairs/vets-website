@@ -3,6 +3,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
 import { wizard } from './chapters/taskWizard';
+import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { veteranInformation } from './chapters/veteran-information';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 
@@ -23,17 +24,6 @@ const formConfig = {
   title: 'New 686',
   defaultDefinitions: {},
   chapters: {
-    veteranInformation: {
-      title: "Veteran's Information",
-      pages: {
-        page1: {
-          path: 'veteran-information',
-          title: 'Veteran Information - Page 1',
-          uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
-        },
-      },
-    },
     optionSelection: {
       title: '686c Options',
       pages: {
@@ -45,6 +35,17 @@ const formConfig = {
         },
       },
     },
+    veteranInformation: {
+      title: "Veteran's Information",
+      pages: {
+        page1: {
+          path: 'veteran-information',
+          title: 'Veteran Information - Page 1',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+      },
+    },
     deceasedDependents: {
       title: 'Report the death of a dependent',
       pages: {
@@ -53,6 +54,18 @@ const formConfig = {
           path: '686-report-dependent-death',
           uiSchema: deceasedDependentInformation.uiSchema,
           schema: deceasedDependentInformation.schema,
+        },
+      },
+    },
+    reportChildMarriage: {
+      title: 'Information needed to report the marriage of a child under 18',
+      pages: {
+        childInformation: {
+          title:
+            'Information needed to report the marriage of a child under 18',
+          path: '686-report-marriage-of-child',
+          uiSchema: reportChildMarriage.uiSchema,
+          schema: reportChildMarriage.schema,
         },
       },
     },

@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import { captureError } from '../utils/error';
 
 import { getUserIdentifiers } from '../api';
 
@@ -20,7 +20,7 @@ export function checkRegistration() {
         userIds,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: REGISTRATION_CHECK_FAILED,
       });
