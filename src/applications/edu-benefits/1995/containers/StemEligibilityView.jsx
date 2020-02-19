@@ -75,8 +75,8 @@ export class StemEligibilityView extends React.Component {
             <span className="fa-li">
               <i className={exhaustionOfBenefitsClasses} aria-hidden="true" />
             </span>
-            Have used all your education benefits or are within 6 months of do
-            so
+            Have used all your education benefits or are within 6 months of
+            doing so
           </li>
           <li>
             <span className="fa-li">
@@ -110,7 +110,7 @@ export class StemEligibilityView extends React.Component {
   renderDetermineEligibility = () => {
     const { showErrors } = this.props;
     const { determineEligibility } = this.props.formData;
-    const id = 'determineEligibility';
+    const id = 'root_determineEligibility';
     const divClassName = classNames(
       'form-radio-buttons',
       showErrors ? 'usa-input-error' : '',

@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import StemEligibilityView from '../../../1995/containers/StemEligibilityView';
-import createCommonStore from '../../../../../platform/startup/store';
+import createCommonStore from 'platform/startup/store';
 import { Provider } from 'react-redux';
 
 const createStore = (data = {}) =>
