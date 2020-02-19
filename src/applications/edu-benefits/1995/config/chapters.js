@@ -22,6 +22,7 @@ import {
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
+import environment from 'platform/utilities/environment';
 
 const {
   civilianBenefitsAssistance,
@@ -68,7 +69,8 @@ export const chapters = {
         title: 'Rogers STEM Scholarship eligibility',
         path: 'benefits/stem-eligibility',
         pageClass: 'stem-eligibility-page',
-        depends: displayStemEligibility, // 1995-STEM related
+        depends: form =>
+          displayStemEligibility(form) && !environment.isProduction(), // 1995-STEM related
         uiSchema: stemEligibility.uiSchema,
         schema: stemEligibility.schema,
       },
