@@ -40,7 +40,6 @@ describe('VAOS <RegistrationCheck>', () => {
     const tree = shallow(
       <RegistrationCheck
         status={FETCH_STATUS.succeeded}
-        isEnrolled
         hasRegisteredSystems
         checkRegistration={checkRegistration}
       >
@@ -54,28 +53,11 @@ describe('VAOS <RegistrationCheck>', () => {
     tree.unmount();
   });
 
-  it('should render no enrollement', () => {
-    const checkRegistration = sinon.spy();
-    const tree = shallow(
-      <RegistrationCheck
-        status={FETCH_STATUS.succeeded}
-        checkRegistration={checkRegistration}
-      >
-        Testing
-      </RegistrationCheck>,
-    );
-
-    expect(tree.find('NoEnrollmentMessage').exists()).to.be.true;
-    expect(tree.text()).not.to.contain('Testing');
-    tree.unmount();
-  });
-
   it('should render no registration', () => {
     const checkRegistration = sinon.spy();
     const tree = shallow(
       <RegistrationCheck
         status={FETCH_STATUS.succeeded}
-        isEnrolled
         checkRegistration={checkRegistration}
       >
         Testing

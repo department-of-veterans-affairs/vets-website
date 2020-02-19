@@ -41,6 +41,26 @@ describe('VAOS <DateTimeRequestPage>', () => {
     form.unmount();
   });
 
+  it('should not submit form with validationError', () => {
+    const openFormPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <DateTimeRequestPage
+        openFormPage={openFormPage}
+        updateFormData={updateFormData}
+        data={{ calendarData: { currentlySelectedDate: '2020-12-20' } }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        validationError="Error"
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(routeToNextAppointmentPage.called).to.be.false;
+    form.unmount();
+  });
+
   it('should submit with selected data', () => {
     const openFormPage = sinon.spy();
     const updateFormData = sinon.spy();

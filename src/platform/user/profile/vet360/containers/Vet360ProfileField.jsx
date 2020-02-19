@@ -14,6 +14,7 @@ import {
   refreshTransaction,
   clearTransactionRequest,
   updateFormField,
+  updateFormFieldWithSchema,
   openModal,
   validateAddress,
 } from '../actions';
@@ -60,6 +61,15 @@ class Vet360ProfileField extends React.Component {
       value,
       property,
       skipValidation,
+    );
+  };
+
+  onChangeFormDataAndSchemas = (value, schema, uiSchema) => {
+    this.props.updateFormFieldWithSchema(
+      this.props.fieldName,
+      value,
+      schema,
+      uiSchema,
     );
   };
 
@@ -176,6 +186,7 @@ class Vet360ProfileField extends React.Component {
       onAdd: this.onAdd,
       onEdit: this.onEdit,
       onChange: this.onChange,
+      onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
       onDelete: this.onDelete,
       onCancel: this.onCancel,
       onSubmit: this.onSubmit,
@@ -246,6 +257,7 @@ const mapDispatchToProps = {
   openModal,
   createTransaction,
   updateFormField,
+  updateFormFieldWithSchema,
   validateAddress,
 };
 

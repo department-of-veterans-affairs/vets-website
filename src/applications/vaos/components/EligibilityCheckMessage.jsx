@@ -2,6 +2,16 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
 export default function EligibilityCheckMessage({ eligibility }) {
+  if (eligibility.requestFailed) {
+    return (
+      <div aria-atomic="true" aria-live="assertive">
+        <AlertBox status="error" headline="Sorry, something went wrong">
+          Sorry, we’re having trouble verifying that you can make an appointment
+          at this facility. Please try another facility.
+        </AlertBox>
+      </div>
+    );
+  }
   if (!eligibility.requestSupported) {
     return (
       <div aria-atomic="true" aria-live="assertive">
@@ -55,7 +65,7 @@ export default function EligibilityCheckMessage({ eligibility }) {
 
   return (
     <div aria-atomic="true" aria-live="assertive">
-      <AlertBox status="warning" headline="Sorry, something went wrong">
+      <AlertBox status="error" headline="Sorry, something went wrong">
         Sorry, we're having trouble verifying that you can make an appointment
         at this facility. Please try another facility.
       </AlertBox>

@@ -1,4 +1,10 @@
-import { states50AndDC } from 'constants';
+import {
+  datePattern,
+  numberOnlyPattern,
+  states50AndDC,
+  suffixes,
+  textOnlyPattern,
+} from './constants';
 
 export const genericSchemas = {
   genericLocation: {
@@ -8,23 +14,59 @@ export const genericSchemas = {
       state: {
         type: 'string',
         maxLength: 30,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: textOnlyPattern,
       },
       city: {
         type: 'string',
         maxLength: 30,
-        pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+        pattern: textOnlyPattern,
       },
     },
   },
   genericTextinput: {
     type: 'string',
     maxLength: 50,
-    pattern: '^(?!\\s)(?!.*?\\s{2,})[^<>%$#@!^&*0-9]+$',
+    pattern: textOnlyPattern,
+  },
+  genericNumberInput: {
+    type: 'string',
+    maxLength: 50,
+    pattern: numberOnlyPattern,
   },
   genericUSACountryDropdown: {
     type: 'string',
     enum: states50AndDC.map(state => state.value),
     default: states50AndDC.map(state => state.label),
+  },
+  fullName: {
+    type: 'object',
+    properties: {
+      first: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 30,
+        pattern: textOnlyPattern,
+      },
+      middle: {
+        type: 'string',
+        maxLength: 20,
+        pattern: textOnlyPattern,
+      },
+      last: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 30,
+        pattern: textOnlyPattern,
+      },
+      suffix: {
+        type: 'string',
+        enum: suffixes,
+      },
+    },
+    required: ['first', 'last'],
+  },
+  date: {
+    type: 'string',
+    pattern: datePattern,
   },
 };

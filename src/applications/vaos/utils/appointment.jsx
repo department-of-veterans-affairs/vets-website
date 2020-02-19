@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from './moment-tz';
-import * as ICS from 'ics-js';
+import guid from 'simple-guid';
 import environment from 'platform/utilities/environment';
 import { APPOINTMENT_TYPES, TIME_TEXT, PURPOSE_TEXT } from './constants';
 import FacilityAddress from '../components/FacilityAddress';
@@ -500,6 +500,16 @@ export function getAppointmentDuration(appt) {
       return 60;
   }
 }
+/**
+ * Returns formatted address from facility details object
+ *
+ * @param {*} facility - facility details object
+ */
+export function getFacilityAddress(facility) {
+  return `${facility.address.physical.address1} ${
+    facility.address.physical.city
+  }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
+}
 
 /**
  * Function to get the appointment address.
@@ -522,49 +532,42 @@ export function getAppointmentAddress(appt, facility) {
   }
 
   if (facility) {
-    return `${facility.address.physical.address1} ${
-      facility.address.physical.city
-    }, ${facility.address.physical.state} ${facility.address.physical.zip}`;
+    return getFacilityAddress(facility);
   }
 
   return undefined;
 }
 
 /**
- * Function to generate ICS commands for an appointment.
+ * Function to generate ICS.
  *
- * @export
- * @param {*} appt
- * @param {*} facility
+ * @param {*} summary - summary or subject of invite
+ * @param {*} description - additional detials
+ * @param {*} location - address / location
+ * @param {*} startDateTime - start datetime in js date format
+ * @param {*} endDateTime - end datetime in js date format
  */
-export function generateICS(appt, facility) {
-  const cal = new ICS.VCALENDAR();
-  const event = new ICS.VEVENT();
 
-  const subject = getAppointmentTypeHeader(appt);
-  const description = `${getAppointmentInstructionsHeader(
-    appt,
-  )}. ${getAppointmentInstructions(appt)}`;
-  const location = getAppointmentAddress(appt, facility);
-
-  const duration = getAppointmentDuration(appt);
-  const startDateObj = getMomentConfirmedDate(appt).toDate();
-  const endDateObj = getMomentConfirmedDate(appt)
-    .add(duration, 'minutes')
-    .toDate();
-
-  cal.addProp('VERSION', 2);
-  cal.addProp('PRODID', 'VA');
-
-  event.addProp('UID');
-  event.addProp('SUMMARY', [subject]);
-  event.addProp('DESCRIPTION', [description]);
-  event.addProp('LOCATION', [location]);
-  event.addProp('DTSTAMP', startDateObj);
-  event.addProp('DTSTART', startDateObj);
-  event.addProp('DTEND', endDateObj);
-
-  cal.addComponent(event);
-
-  return cal.toString();
+export function generateICS(
+  summary,
+  description,
+  location,
+  startDateTime,
+  endDateTime,
+) {
+  const startDate = moment(startDateTime).format('YYYYMMDDTHHmmss');
+  const endDate = moment(endDateTime).format('YYYYMMDDTHHmmss');
+  return `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:VA
+BEGIN:VEVENT
+UID:${guid()}
+SUMMARY:${summary}
+DESCRIPTION:${description}
+LOCATION:${location}
+DTSTAMP:${startDate}
+DTSTART:${startDate}
+DTEND:${endDate}
+END:VEVENT
+END:VCALENDAR`;
 }

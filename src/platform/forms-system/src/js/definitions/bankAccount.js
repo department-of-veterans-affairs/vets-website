@@ -20,6 +20,7 @@ const uiSchema = {
     'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
       pattern: 'Please enter a valid nine digit routing number',
+      required: 'Please enter a routing number',
     },
   },
 };

@@ -10,6 +10,18 @@ module.exports = {
         title: { type: 'string' },
         entityUrl: { $ref: 'EntityUrl' },
         fieldNicknameForThisFacility: { type: 'string' },
+        fieldLinkFacilityEmergList: {
+          type: ['object', 'null'],
+          properties: {
+            url: {
+              type: 'object',
+              properties: {
+                path: { type: 'string' },
+              },
+            },
+          },
+          required: ['url'],
+        },
         fieldRelatedLinks: {
           $ref: 'transformed/paragraph-list_of_link_teasers',
         },
@@ -19,6 +31,7 @@ module.exports = {
       required: [
         'title',
         'fieldNicknameForThisFacility',
+        'fieldLinkFacilityEmergList',
         'fieldPressReleaseBlurb',
       ],
     },

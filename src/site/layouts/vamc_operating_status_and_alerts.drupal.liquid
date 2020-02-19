@@ -36,7 +36,7 @@
                             id="on-this-page">On this
                             page</h2>
                         <ul class="usa-unstyled-list">
-                            {% if fieldBannerAlert.0.entity %}
+                            {% if fieldBannerAlert.0.entity.status != false and fieldBannerAlert.0.entity.fieldSituationUpdates.0.entity %}
                             <li class="vads-u-margin-bottom--2">
                                 <a href="#situation-updates"
                                     onclick="recordEvent({ event: 'nav-jumplink-click' });"
@@ -70,7 +70,7 @@
                         </ul>
                     </section>
 
-                    {% if fieldBannerAlert.0.entity %}
+                    {% if fieldBannerAlert.0.entity.status != false and fieldBannerAlert.0.entity.fieldSituationUpdates.0.entity %}
                     {% include "src/site/components/situation_updates.drupal.liquid" with fieldBannerAlert %}
                     {% endif %}
 

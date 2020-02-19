@@ -64,6 +64,7 @@ describe('<EducationWizard>', () => {
   it('should show 1995 button', () => {
     const tree = SkinDeep.shallowRender(<EducationWizard />);
     answerQuestion(tree, 'newBenefit', 'extend');
+    answerQuestion(tree, 'applyForScholarship', 'yes');
     expect(tree.subTree('#apply-now-link').props.href.endsWith('1995')).to.be
       .true;
   });

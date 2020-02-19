@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-23T02:50:20+00:00",
+            "value": "2019-11-13T15:28:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -30,12 +30,12 @@
     ],
     "revision_log": [
         {
-            "value": "Bulk operation create draft revision"
+            "value": "Bulk operation publish revision"
         }
     ],
     "status": [
         {
-            "value": false
+            "value": true
         }
     ],
     "title": [
@@ -57,7 +57,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-23T02:50:20+00:00",
+            "value": "2019-11-13T15:28:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -76,10 +76,14 @@
             "value": true
         }
     ],
-    "revision_translation_affected": [],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
     "moderation_state": [
         {
-            "value": "draft"
+            "value": "published"
         }
     ],
     "metatag": {
@@ -107,12 +111,7 @@
             "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
         }
     ],
-    "field_banner_alert": [
-        {
-            "target_type": "node",
-            "target_uuid": "0f3b9c81-762c-4b8a-95e3-dab08a0b9441"
-        }
-    ],
+    "field_banner_alert": [],
     "field_facility_operating_status": [
         {
             "target_type": "node",

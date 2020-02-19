@@ -16,6 +16,8 @@ import Vet360ProfileField from 'vet360/containers/Vet360ProfileField';
 import AddressEditModal from './AddressEditModal';
 import AddressView from './AddressView';
 
+import { getFormSchema, getUiSchema } from './address-schemas';
+
 export const inferAddressType = (countryName, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
   if (countryName !== USA.COUNTRY_NAME) {
@@ -40,6 +42,7 @@ export const convertNextValueToCleanData = value => {
     zipCode,
     internationalPostalCode,
     province,
+    'view:livesOnMilitaryBase': livesOnMilitaryBase,
   } = value;
 
   const addressType = inferAddressType(countryName, stateCode);
@@ -52,7 +55,7 @@ export const convertNextValueToCleanData = value => {
     addressPou,
     addressType,
     city,
-    countryName,
+    countryName: livesOnMilitaryBase ? USA.COUNTRY_NAME : countryName,
     province: addressType === ADDRESS_TYPES.INTERNATIONAL ? province : null,
     stateCode: addressType === ADDRESS_TYPES.INTERNATIONAL ? null : stateCode,
     zipCode: addressType !== ADDRESS_TYPES.INTERNATIONAL ? zipCode : null,
@@ -60,15 +63,16 @@ export const convertNextValueToCleanData = value => {
       addressType === ADDRESS_TYPES.INTERNATIONAL
         ? internationalPostalCode
         : null,
+    'view:livesOnMilitaryBase': livesOnMilitaryBase,
   };
 };
 
 const validateZipCode = zipCode => {
   let result = '';
   if (!zipCode) {
-    result = 'Zip code is required';
+    result = 'Postal code is required';
   } else if (!zipCode.match(/\d{5}/)) {
-    result = 'Zip code must be 5 digits';
+    result = 'Postal code must be 5 digits';
   }
   return result;
 };
@@ -114,8 +118,9 @@ export const validateCleanData = (
   };
 };
 
-export const convertCleanDataToPayload = (cleanData, fieldName) =>
-  pickBy(
+export const convertCleanDataToPayload = (data, fieldName) => {
+  const cleanData = convertNextValueToCleanData(data);
+  return pickBy(
     {
       id: cleanData.id,
       addressLine1: cleanData.addressLine1,
@@ -135,6 +140,7 @@ export const convertCleanDataToPayload = (cleanData, fieldName) =>
     },
     e => !!e,
   );
+};
 
 export default class AddressField extends React.Component {
   static propTypes = {
@@ -158,6 +164,8 @@ export default class AddressField extends React.Component {
         deleteDisabled={this.props.deleteDisabled}
         Content={AddressView}
         EditModal={AddressEditModal}
+        formSchema={getFormSchema(this.props.fieldName)}
+        uiSchema={getUiSchema(this.props.fieldName)}
       />
     );
   }

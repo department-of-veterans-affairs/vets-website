@@ -6,6 +6,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
@@ -431,18 +432,8 @@ const formConfig = {
             'ui:validations': [
               validateMatch('email', 'view:emailConfirmation'),
             ],
-            email: {
-              'ui:title': 'Email address',
-              'ui:errorMessages': {
-                pattern: 'Please put your email in this format x@x.xxx',
-              },
-            },
-            'view:emailConfirmation': {
-              'ui:title': 'Re-enter email address',
-              'ui:errorMessages': {
-                pattern: 'Please enter a valid email address',
-              },
-            },
+            email: emailUI(),
+            'view:emailConfirmation': emailUI('Re-enter email address'),
             homePhone: phoneUI('Home telephone number'),
             mobilePhone: phoneUI('Mobile telephone number'),
           },

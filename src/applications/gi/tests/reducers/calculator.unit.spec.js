@@ -85,7 +85,7 @@ describe('calculator reducer', () => {
 
       const expectedState = {
         beneficiaryZIPError:
-          'No rates for this zip code found. Try another zip code',
+          'No rates for this postal code found. Try another postal code',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
         beneficiaryLocationGrandfatheredBah: null,
@@ -283,7 +283,7 @@ describe('calculator reducer', () => {
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'Zip code must be a 5-digit number',
+        beneficiaryZIPError: 'Postal code must be a 5-digit number',
         beneficiaryZIP: '1dd',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,
@@ -311,7 +311,7 @@ describe('calculator reducer', () => {
       };
 
       const expectedState = {
-        beneficiaryZIPError: 'Zip code must be a 5-digit number',
+        beneficiaryZIPError: 'Postal code must be a 5-digit number',
         beneficiaryZIP: '1111111',
         beneficiaryZIPFetched: '',
         beneficiaryLocationBah: null,

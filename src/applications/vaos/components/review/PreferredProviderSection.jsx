@@ -24,8 +24,12 @@ export default function PreferredProviderSection(props) {
             </div>
           </div>
           <span>
-            {props.data.communityCareProvider.practiceName}
-            <br />
+            {!!props.data.communityCareProvider.practiceName && (
+              <>
+                {props.data.communityCareProvider.practiceName}
+                <br />
+              </>
+            )}
             {props.data.communityCareProvider.firstName} &nbsp;
             {props.data.communityCareProvider.lastName}
             <br />
@@ -36,6 +40,11 @@ export default function PreferredProviderSection(props) {
             {props.data.communityCareProvider.address.city}, &nbsp;
             {props.data.communityCareProvider.address.state} &nbsp;
             {props.data.communityCareProvider.address.postalCode}
+            <br />
+            <br />
+            {props.vaCityState && (
+              <>Closest VA health system: {props.vaCityState}</>
+            )}
           </span>
         </>
       )}
@@ -67,7 +76,9 @@ export default function PreferredProviderSection(props) {
               )?.value
             }
             <br />
-            Practice in {props.vaCityState}
+            {props.vaCityState && (
+              <>Closest VA health system: {props.vaCityState}</>
+            )}
           </span>
         </>
       )}

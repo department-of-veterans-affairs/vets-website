@@ -37,6 +37,8 @@ describe('VAOS <CalendarWidget>', () => {
       />,
     );
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    expect(tree.find('.usa-input-error-message').exists()).to.be.false;
+    expect(tree.find('.usa-input-error').exists()).to.be.false;
     tree.unmount();
   });
 
@@ -105,6 +107,19 @@ describe('VAOS <CalendarWidget>', () => {
     expect(nextOnClick.called).to.be.true;
     tree.unmount();
 
+    tree.unmount();
+  });
+
+  it('should display an error if validationError is passed', () => {
+    const tree = shallow(
+      <CalendarWidget
+        monthsToShowAtOnce={2}
+        loadingStatus={FETCH_STATUS.succeeded}
+        validationError="Error message"
+      />,
+    );
+    expect(tree.find('.usa-input-error-message').exists()).to.be.true;
+    expect(tree.find('.usa-input-error').exists()).to.be.true;
     tree.unmount();
   });
 });

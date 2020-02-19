@@ -1,0 +1,103 @@
+version: 2
+jobs:
+  lint:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
+      - run: yarn lint:sass
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+
+  unit-test:
+    docker:
+      - image: circleci/node:10.15.3
+    environment:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run:
+          command: ./script/run-isolated-tests.sh
+          environment:
+            MOCHA_FILE: ./test-results/test-results.xml
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+
+  security-audit:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - run: yarn security-check
+
+  additional-linting:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: npm run lint:circle
+
+  build:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: yarn build-webpack
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - lint
+      - unit-test
+      - security-audit
+      - build:
+          requires:
+            - lint
+            - unit-test
+            - security-audit
+  additional-linting:
+    jobs:
+      - additional-linting

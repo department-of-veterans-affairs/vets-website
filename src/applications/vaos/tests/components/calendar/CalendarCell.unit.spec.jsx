@@ -5,6 +5,44 @@ import { mount } from 'enzyme';
 import CalendarCell from '../../../components/calendar/CalendarCell';
 
 describe('VAOS <CalendarCell>', () => {
+  const selectedDates = [
+    {
+      date: '2018-10-03',
+      optionTime: 'PM',
+    },
+    {
+      date: '2018-10-04',
+      optionTime: 'AM',
+    },
+  ];
+
+  it('test calendar CSS class', () => {
+    const tree = mount(
+      <CalendarCell
+        date="2018-10-04"
+        currentlySelectedDate="2018-10-04"
+        selectedDates={selectedDates}
+        inSelectedArray
+        disabled={false}
+      />,
+    );
+    const currentCell = tree.find(
+      'div.vaos-calendar__calendar-day.vaos-calendar__day--current.vaos-calendar__day--selected',
+    );
+    const selectedCell = tree.find(
+      'div.vaos-calendar__calendar-day.vaos-calendar__day--selected',
+    );
+    expect(selectedCell.exists()).to.be.true;
+    expect(currentCell.exists()).to.be.true;
+    expect(tree.find('.vaos-calendar__day--selected-triangle').length).to.equal(
+      1,
+    );
+    expect(tree.find('button.vaos-calendar__calendar-day-button').exists()).to
+      .be.true;
+
+    tree.unmount();
+  });
+
   it('should render a calendar cell button with proper label and values', () => {
     const tree = mount(
       <CalendarCell
@@ -16,8 +54,8 @@ describe('VAOS <CalendarCell>', () => {
     );
     const cell = tree.find('button#date-cell-2018-10-04');
     expect(cell.exists()).to.be.true;
-    expect(tree.find('.vaos-calendar__cell-current').length).to.equal(1);
-    expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(1);
+    expect(tree.find('.vaos-calendar__day--current').length).to.equal(1);
+    expect(tree.find('.vaos-calendar__day--selected').length).to.equal(1);
     expect(cell.text()).to.contain('4');
     expect(cell.find('CalendarSelectedIndicator').exists()).to.be.true;
     tree.unmount();
@@ -26,8 +64,8 @@ describe('VAOS <CalendarCell>', () => {
   it('should render differently if disabled', () => {
     const tree = mount(<CalendarCell date="2018-10-04" disabled />);
     const cell = tree.find('button#date-cell-2018-10-04');
-    expect(tree.find('.vaos-calendar__cell-current').length).to.equal(0);
-    expect(tree.find('.vaos-calendar__cell-selected').length).to.equal(0);
+    expect(tree.find('.vaos-calendar__day--current').length).to.equal(0);
+    expect(tree.find('.vaos-calendar__day--selected').length).to.equal(0);
     expect(cell.props().disabled).to.equal(true);
     tree.unmount();
   });

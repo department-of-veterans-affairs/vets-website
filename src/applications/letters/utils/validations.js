@@ -45,7 +45,7 @@ export const postalCodeValidations = [
   // Require zip for US addresses
   (postalCode, fullAddress) => {
     if (fullAddress.countryName === 'USA' && !postalCode) {
-      return 'Please enter a Zip code';
+      return 'Please enter a postal code';
     }
 
     return true;
@@ -53,7 +53,7 @@ export const postalCodeValidations = [
   // Check for valid US zip codes
   (postalCode, fullAddress) => {
     if (fullAddress.countryName === 'USA' && !isValidUSZipCode(postalCode)) {
-      return 'Please enter a valid Zip code';
+      return 'Please enter a valid postal code';
     }
 
     return true;

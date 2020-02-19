@@ -152,7 +152,7 @@ class Address extends React.Component {
             <ErrorableTextInput
               errorMessage={errorMessages.zipCode}
               additionalClass="usa-input-medium"
-              label={'Zip code'}
+              label={'Postal code'}
               name="postalCode"
               autocomplete="postal-code"
               value={this.props.address.zipCode}

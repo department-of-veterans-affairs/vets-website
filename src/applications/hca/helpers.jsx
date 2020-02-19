@@ -507,13 +507,13 @@ export const idFormUiSchema = {
   firstName: {
     'ui:title': 'First name',
     'ui:errorMessages': {
-      required: 'Please enter your first name.',
+      required: 'Please enter a first name.',
     },
   },
   lastName: {
     'ui:title': 'Last name',
     'ui:errorMessages': {
-      required: 'Please enter your last name.',
+      required: 'Please enter a last name.',
     },
   },
   dob: {
@@ -526,13 +526,12 @@ export const idFormUiSchema = {
   ssn: {
     ...ssnUI,
     'ui:errorMessages': {
-      required:
-        'Please enter your Social Security number in this format: XXX-XX-XXXX.',
+      required: 'Please enter a Social Security number',
       // NOTE: this `pattern` message is ignored because the pattern
       // validation error message is hard coded in the validation function:
       // https://github.com/usds/us-forms-system/blob/db029cb4f18362870d420e3eee5b71be98004e5e/src/js/validation.js#L231
       pattern:
-        'Please enter your Social Security number in this format: XXX-XX-XXXX.',
+        'Please enter a Social Security number in this format: XXX-XX-XXXX.',
     },
   },
 };

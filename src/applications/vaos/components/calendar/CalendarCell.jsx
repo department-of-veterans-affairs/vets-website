@@ -11,10 +11,10 @@ const CalendarCell = ({
   date,
   disabled,
   handleSelectOption,
+  hasError,
   index,
   inSelectedArray,
   onClick,
-  optionsError,
   selectedDates,
   selectedIndicatorType,
 }) => {
@@ -73,8 +73,8 @@ const CalendarCell = ({
   const ariaDate = momentDate.format('dddd, MMMM Do');
 
   const cssClasses = classNames('vaos-calendar__calendar-day', {
-    'vaos-calendar__cell-current': isCurrentlySelected,
-    'vaos-calendar__cell-selected': inSelectedArray,
+    'vaos-calendar__day--current': isCurrentlySelected,
+    'vaos-calendar__day--selected': inSelectedArray,
   });
 
   return (
@@ -84,6 +84,7 @@ const CalendarCell = ({
       style={{ height: isCurrentlySelected ? optionsHeight : 'auto' }}
     >
       <button
+        className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
         disabled={disabled}
@@ -102,18 +103,18 @@ const CalendarCell = ({
         )}
         {dateDay}
         {isCurrentlySelected && (
-          <span className="vaos-calendar__cell-selected-triangle" />
+          <span className="vaos-calendar__day--selected-triangle" />
         )}
       </button>
       {isCurrentlySelected && (
         <CalendarOptions
-          selectedCellIndex={index}
-          currentlySelectedDate={date}
           additionalOptions={additionalOptions}
+          currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
-          optionsError={optionsError}
-          selectedDates={selectedDates}
+          hasError={hasError}
           optionsHeightRef={optionsHeightRef}
+          selectedCellIndex={index}
+          selectedDates={selectedDates}
         />
       )}
     </div>

@@ -349,6 +349,65 @@ export function updateSchemaFromUiSchema(
   return currentSchema;
 }
 
+/**
+ * A helper that returns a new uiSchema based on the input uiSchema and
+ * formData. Only updates and returns a uiSchema object for the field that has
+ * an `updateUiSchema` callback defined in its `ui:options`.
+ *
+ * Note that this helper is _not_ called as part of the normal data-update flow
+ * in a standard form config-powered benefit application. Perhaps it could be
+ * called as part of updateSchemaAndData() (also in this file) but we'd have to
+ * investigate any possible side effects of updating that function to add a
+ * uiSchema prop in the object it returns.
+ *
+ * @param {Object} uiSchema - The uiSchema to update
+ * @param {Object} formData - The form data to based uiSchema updates on
+ * @returns {Object} The new uiSchema object
+ */
+export function updateUiSchema(uiSchema, formData) {
+  let currentUiSchema = uiSchema;
+
+  if (typeof currentUiSchema === 'object') {
+    const newUiSchema = Object.keys(currentUiSchema).reduce(
+      (modifiedUiSchema, key) => {
+        const nextProp = updateUiSchema(modifiedUiSchema[key], formData);
+
+        if (modifiedUiSchema[key] !== nextProp) {
+          return { ...modifiedUiSchema, [key]: nextProp };
+        }
+
+        return modifiedUiSchema;
+      },
+      currentUiSchema,
+    );
+
+    if (newUiSchema !== uiSchema) {
+      currentUiSchema = newUiSchema;
+    }
+  }
+
+  const uiSchemaUpdater = uiSchema['ui:options']?.updateUiSchema;
+
+  if (!uiSchemaUpdater) {
+    return currentUiSchema;
+  }
+
+  const newUiSchemaProps = uiSchemaUpdater(formData);
+
+  const updatedUiSchema = Object.entries(newUiSchemaProps).reduce(
+    (modifiedUiSchema, [key, value]) => {
+      if (value !== uiSchema[key]) {
+        return { ...modifiedUiSchema, [key]: value };
+      }
+
+      return modifiedUiSchema;
+    },
+    uiSchema,
+  );
+
+  return updatedUiSchema;
+}
+
 export function replaceRefSchemas(schema, definitions, path = '') {
   // this can happen if you import a field that doesn’t exist from a schema
   if (!schema) {

@@ -9,7 +9,6 @@ import {
 const initialState = {
   status: FETCH_STATUS.notStarted,
   hasRegisteredSystems: null,
-  isEnrolled: null,
 };
 
 export default function registrationReducer(state = initialState, action) {
@@ -23,7 +22,6 @@ export default function registrationReducer(state = initialState, action) {
       return {
         ...state,
         status: FETCH_STATUS.succeeded,
-        isEnrolled: action.userIds.some(id => id.assigningAuthority === 'ICN'),
         hasRegisteredSystems: action.userIds.some(id =>
           id.assigningAuthority.startsWith('dfn-'),
         ),

@@ -12,6 +12,7 @@ const uiSchema = {
   'ui:validations': [validateSSN],
   'ui:errorMessages': {
     pattern: 'Please enter a valid 9 digit SSN (dashes allowed)',
+    required: 'Please enter a SSN',
   },
 };
 

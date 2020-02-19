@@ -8,6 +8,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
 import DateTimeRequestField from '../components/DateTimeRequestField';
@@ -59,21 +60,60 @@ const uiSchema = {
 };
 
 export class DateTimeRequestPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { validationError: null };
+  }
+
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.validationError && this.state.validationError?.length > 0) {
+      scrollAndFocus('.usa-input-error-message');
+    }
+
+    const prevSelectedSlotsCount =
+      prevProps.data.calendarData?.selectedDates?.length || 0;
+    const newSelectedSlotsCount =
+      this.props.data.calendarData?.selectedDates?.length || 0;
+
+    if (prevSelectedSlotsCount !== newSelectedSlotsCount) {
+      this.validate();
+    }
+  }
+
   goBack = () => {
-    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    if (!this.state.validationError) {
+      this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
+    }
   };
 
   goForward = () => {
-    if (this.props.data.calendarData?.selectedDates?.length) {
+    this.validate();
+    if (this.userSelectedSlot()) {
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
+    } else {
+      scrollAndFocus('.usa-input-error-message');
     }
   };
+
+  validate = () => {
+    if (this.userSelectedSlot()) {
+      this.setState({ validationError: null });
+    } else {
+      this.setState({
+        validationError:
+          'Please select at least one preferred date for your appointment. You can select up to three dates.',
+      });
+    }
+  };
+
+  userSelectedSlot = () =>
+    this.props.data.calendarData?.selectedDates?.length > 0;
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
@@ -94,6 +134,7 @@ export class DateTimeRequestPage extends React.Component {
           onChange={newData => {
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
+          formContext={{ validationError: this.state.validationError }}
           data={data}
         >
           <FormButtons

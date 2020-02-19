@@ -1,13 +1,11 @@
 import React from 'react';
 import Scroll from 'react-scroll';
-import { withRouter, Link } from 'react-router';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from '../../../platform/utilities/ui';
 
@@ -64,89 +62,53 @@ class AdditionalEvidencePage extends React.Component {
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
   render() {
-    const claimsPath = `your-claims/${this.props.params.id}/files`;
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
     if (this.props.loading) {
       content = (
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={claimsPath}>Status details</Link>
-                <Link to={filesPath}>Additional evidence</Link>
-              </ClaimsBreadcrumbs>
-            </div>
-          </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <LoadingIndicator
-                setFocus
-                message="Loading your claim information..."
-              />
-            </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-              <AskVAQuestions />
-            </div>
-          </div>
-        </div>
+        <LoadingIndicator
+          setFocus
+          message="Loading your claim information..."
+        />
       );
     } else {
       const message = this.props.message;
 
       content = (
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={claimsPath}>Status details</Link>
-                <Link to={filesPath}>Additional evidence</Link>
-              </ClaimsBreadcrumbs>
+        <div className="claim-container">
+          {message && (
+            <div>
+              <Element name="uploadError" />
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+              />
             </div>
-          </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <div className="claim-container">
-                {message && (
-                  <div>
-                    <Element name="uploadError" />
-                    <Notification
-                      title={message.title}
-                      body={message.body}
-                      type={message.type}
-                    />
-                  </div>
-                )}
-                <h1 className="claims-header">Additional evidence</h1>
-                <EvidenceWarning />
-                <AddFilesForm
-                  field={this.props.uploadField}
-                  progress={this.props.progress}
-                  uploading={this.props.uploading}
-                  files={this.props.files}
-                  showMailOrFax={this.props.showMailOrFax}
-                  backUrl={this.props.lastPage || filesPath}
-                  onSubmit={() =>
-                    this.props.submitFiles(
-                      this.props.claim.id,
-                      null,
-                      this.props.files,
-                    )
-                  }
-                  onAddFile={this.props.addFile}
-                  onRemoveFile={this.props.removeFile}
-                  onFieldChange={this.props.updateField}
-                  onShowMailOrFax={this.props.showMailOrFaxModal}
-                  onCancel={this.props.cancelUpload}
-                  onDirtyFields={this.props.setFieldsDirty}
-                />
-              </div>
-            </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-              <AskVAQuestions />
-            </div>
-          </div>
+          )}
+          <EvidenceWarning />
+          <AddFilesForm
+            field={this.props.uploadField}
+            progress={this.props.progress}
+            uploading={this.props.uploading}
+            files={this.props.files}
+            showMailOrFax={this.props.showMailOrFax}
+            backUrl={this.props.lastPage || filesPath}
+            onSubmit={() =>
+              this.props.submitFiles(
+                this.props.claim.id,
+                null,
+                this.props.files,
+              )
+            }
+            onAddFile={this.props.addFile}
+            onRemoveFile={this.props.removeFile}
+            onFieldChange={this.props.updateField}
+            onShowMailOrFax={this.props.showMailOrFaxModal}
+            onCancel={this.props.cancelUpload}
+            onDirtyFields={this.props.setFieldsDirty}
+          />
         </div>
       );
     }
