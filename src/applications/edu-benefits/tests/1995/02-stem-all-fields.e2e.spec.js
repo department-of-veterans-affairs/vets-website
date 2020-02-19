@@ -46,11 +46,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
   Edu1995Helpers.completeExhaustionOfBenefitsAfterPursuingTeachingCert(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
-  // STEM eligibility page
-  E2eHelpers.expectLocation(client, '/benefits/stem-eligibility');
-  Edu1995Helpers.completeDetermineEligibility(client);
-  client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
-
   // Active duty page
   E2eHelpers.expectLocation(client, '/active-duty');
   client.waitForElementVisible(

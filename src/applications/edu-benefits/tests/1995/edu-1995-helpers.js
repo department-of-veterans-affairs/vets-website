@@ -104,7 +104,7 @@ function completeStemSelectionFor1995s(client) {
 
 function completeStemEnrollmentSelection(client) {
   client.waitForElementVisible(
-    'label[for="root_isEnrolledStemYes"]',
+    'label[for="root_isEnrolledStemNo"]',
     Timeouts.slow,
   );
   client.click('input[id="root_isEnrolledStemNo"]');
@@ -115,7 +115,7 @@ function completePursuingTeachingCertSelection(client) {
     'label[for="root_isPursuingTeachingCertYes"]',
     Timeouts.slow,
   );
-  client.click('input[id="root_isPursuingTeachingCertNo"]');
+  client.click('input[id="root_isPursuingTeachingCertYes"]');
 }
 
 function completeExhaustionOfBenefitsAfterPursuingTeachingCert(client) {
@@ -126,14 +126,6 @@ function completeExhaustionOfBenefitsAfterPursuingTeachingCert(client) {
   client.click(
     'input[id="root_view:exhaustionOfBenefitsAfterPursuingTeachingCertYes"]',
   );
-}
-
-function completeDetermineEligibility(client) {
-  client.waitForElementVisible(
-    'label[for="root_determineEligibilityYes"]',
-    Timeouts.slow,
-  );
-  client.click('input[id="root_determineEligibilityYes"]');
 }
 
 function completeActiveDutySelection(client) {
@@ -150,6 +142,5 @@ module.exports = {
   completeStemEnrollmentSelection,
   completePursuingTeachingCertSelection,
   completeExhaustionOfBenefitsAfterPursuingTeachingCert,
-  completeDetermineEligibility,
   completeActiveDutySelection,
 };
