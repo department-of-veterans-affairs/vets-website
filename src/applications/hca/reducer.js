@@ -26,6 +26,7 @@ const initialState = {
   loginRequired: false,
   noESRRecordFound: false,
   showHCAReapplyContent: false,
+  newStateField: null,
 };
 
 export function hcaEnrollmentStatus(state = initialState, action) {

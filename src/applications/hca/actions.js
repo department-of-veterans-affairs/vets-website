@@ -33,6 +33,8 @@ export function showReapplyContent() {
   return { type: SHOW_HCA_REAPPLY_CONTENT };
 }
 
+export function newAction() {}
+
 // fake a 404 response from /health_care_applications/enrollment_status
 function callFake404(dispatch) {
   new Promise(resolve => {
