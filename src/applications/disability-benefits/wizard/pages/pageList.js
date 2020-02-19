@@ -7,6 +7,5 @@ export const pageNames = {
   fileClaim: 'file-claim',
   disagreeing: 'disagreeing',
   decisionReview: 'decision-review',
-  fileAppeal: 'file-appeal',
   disagreeFileClaim: 'disagree-file-claim',
 };
