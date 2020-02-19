@@ -3,8 +3,6 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import classNames from 'classnames';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import ProgressButton from '../components/ProgressButton';
 import { focusElement, focusOnChange } from '../utilities/ui';
@@ -12,16 +10,13 @@ import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
 
-import { setFormErrors } from '../actions';
-import { checkValidation } from '../utilities/data/checkValidation';
-
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 /*
  * Displays all the pages in a chapter on the review page
  */
-class ReviewCollapsibleChapter extends React.Component {
+export default class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
@@ -85,10 +80,10 @@ class ReviewCollapsibleChapter extends React.Component {
       form,
       formContext,
       pageKeys,
+      checkValidation,
       showUnviewedPageWarning,
       viewedPages,
     } = this.props;
-
     const ChapterDescription = chapterFormConfig.reviewDescription;
     let chapterTitle = chapterFormConfig.title;
     if (typeof chapterFormConfig.title === 'function') {
@@ -207,7 +202,7 @@ class ReviewCollapsibleChapter extends React.Component {
                       <ProgressButton
                         submitButton
                         onButtonClick={() => {
-                          checkValidation(this.props);
+                          checkValidation();
                           focusOnChange(
                             `${page.pageKey}${
                               typeof page.index === 'number' ? page.index : ''
@@ -282,24 +277,9 @@ class ReviewCollapsibleChapter extends React.Component {
   }
 }
 
-const mapStateToProps = state => state;
-
-const mapDispatchToProps = {
-  setFormErrors,
-};
-
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
 };
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ReviewCollapsibleChapter),
-);
-
-export { ReviewCollapsibleChapter };

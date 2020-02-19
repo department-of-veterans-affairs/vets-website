@@ -8,6 +8,8 @@ import SubmitButtons from './SubmitButtons';
 import { PreSubmitSection } from '../components/PreSubmitSection';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import { isValidForm } from '../validation';
+import { reduceErrors } from '../utilities/data/reduceErrors';
 
 import {
   setPreSubmit,
@@ -17,7 +19,6 @@ import {
   openReviewChapter,
   setEditMode,
 } from '../actions';
-import { checkValidation } from '../utilities/data/checkValidation';
 
 class SubmitController extends React.Component {
   // eslint-disable-next-line
@@ -62,7 +63,7 @@ class SubmitController extends React.Component {
   };
 
   handleSubmit = () => {
-    const { form, formConfig, trackingPrefix } = this.props;
+    const { form, formConfig, trackingPrefix, pageList } = this.props;
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
@@ -74,7 +75,12 @@ class SubmitController extends React.Component {
 
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
-    const { isValid, errors } = checkValidation(this.props);
+    const { isValid, errors } = isValidForm(form, pageList);
+    // eslint-disable-next-line no-unused-expressions
+    this.props.setFormErrors?.({
+      rawErrors: errors,
+      errors: reduceErrors(errors, pageList),
+    });
     if (!isValid) {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
@@ -172,7 +178,7 @@ SubmitController.propTypes = {
   submitForm: PropTypes.func.isRequired,
   submission: PropTypes.object.isRequired,
   trackingPrefix: PropTypes.string.isRequired,
-  setFormErrors: PropTypes.func,
+  setFormErrors: PropTypes.func.isRequired,
   openReviewChapter: PropTypes.func,
   setEditMode: PropTypes.func,
 };
