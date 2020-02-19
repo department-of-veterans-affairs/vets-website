@@ -413,5 +413,25 @@
     "domain": "www.benefits.va.gov",
     "src": "/pension/current_rates_survivor_pen.asp",
     "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/current_rates_dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_Parents_DIC_pen.asp",
+    "dest": "/disability/parent-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-parentsdic.asp",
+    "dest": "/disability/parent-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
   }
 ]

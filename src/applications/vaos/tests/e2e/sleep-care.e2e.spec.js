@@ -35,7 +35,7 @@ module.exports = {
       .click('[value="349"]')
       .axeCheck('.main')
       .click('.rjsf [type="submit"]')
-      .waitForElementPresent('#root_vaSystem_0', Timeouts.normal);
+      .waitForElementPresent('#root_vaParent_0', Timeouts.normal);
   },
   'Choose a VA location for your appointment': client => {
     client

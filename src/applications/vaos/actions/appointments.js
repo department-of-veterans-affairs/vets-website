@@ -14,6 +14,8 @@ import {
   getClinicInstitutions,
 } from '../api';
 
+import { captureError } from '../utils/error';
+
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
   'vaos/FETCH_FUTURE_APPOINTMENTS_FAILED';
@@ -49,7 +51,7 @@ export function fetchRequestMessages(requestId) {
         messages,
       });
     } catch (error) {
-      Sentry.captureException(error);
+      captureError(error);
       dispatch({
         type: FETCH_REQUEST_MESSAGES_FAILED,
         error,
@@ -205,10 +207,10 @@ export function fetchFutureAppointments() {
             });
           }
         } catch (error) {
-          Sentry.captureException(error);
+          captureError(error);
         }
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FETCH_FUTURE_APPOINTMENTS_FAILED,
           error,
@@ -251,27 +253,26 @@ export function confirmCancelAppointment() {
             'MM/DD/YYYY HH:mm:ss',
           ),
           clinicId: appointment.clinicId,
+          facilityId: appointment.facilityId,
           remarks: '',
           clinicName: appointment.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        const cancelReasons = await getCancelReasons(
-          appointment.facilityId.substr(0, 3),
-        );
+        const cancelReasons = await getCancelReasons(appointment.facilityId);
 
         if (
-          cancelReasons.find(reason => reason.number === UNABLE_TO_KEEP_APPT)
+          cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
         ) {
           await updateAppointment({
             ...cancelData,
             cancelReason: UNABLE_TO_KEEP_APPT,
           });
         } else if (
-          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason))
+          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
         ) {
           const cancelReason = cancelReasons.find(reason =>
-            VALID_CANCEL_CODES.has(reason),
+            VALID_CANCEL_CODES.has(reason.number),
           );
           await updateAppointment({
             ...cancelData,
@@ -286,7 +287,7 @@ export function confirmCancelAppointment() {
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
       });

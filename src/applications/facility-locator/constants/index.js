@@ -45,18 +45,6 @@ export const PinNames = {
  */
 export const LOCATION_OPTIONS = [
   LocationType.HEALTH,
-  LocationType.CC_PROVIDER,
-  LocationType.BENEFITS,
-  LocationType.CEMETARY,
-  LocationType.VET_CENTER,
-];
-
-/**
- * Defines the options available for the Location Type Dropdown
- * ///TODO remove after testing on staging
- */
-export const LOCATION_OPTIONS_STAGING = [
-  LocationType.HEALTH,
   LocationType.URGENT_CARE,
   LocationType.URGENT_CARE_FARMACIES,
   LocationType.CC_PROVIDER,
