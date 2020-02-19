@@ -79,9 +79,6 @@ export default {
   },
   [SET_FORM_ERRORS]: (state, { data = {} }) => ({
     ...state,
-    formErrors: {
-      errors: data.errors,
-      rawErrors: data.rawErrors,
-    },
+    formErrors: data,
   }),
 };

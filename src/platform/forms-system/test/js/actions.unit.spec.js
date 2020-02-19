@@ -14,6 +14,8 @@ import {
   SET_SUBMITTED,
   submitForm,
   uploadFile,
+  setFormErrors,
+  SET_FORM_ERRORS,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -515,6 +517,15 @@ describe('Schemaform actions:', () => {
         name: 'jpg',
         errorMessage: 'Internal Server Error',
       });
+    });
+  });
+  describe('setFormErrors', () => {
+    it('should return action', () => {
+      const data = {};
+      const action = setFormErrors(data);
+
+      expect(action.data).to.equal(data);
+      expect(action.type).to.equal(SET_FORM_ERRORS);
     });
   });
 });

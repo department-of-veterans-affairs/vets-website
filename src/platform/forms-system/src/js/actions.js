@@ -12,7 +12,7 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
-export const SET_FORM_ERRORS = 'FORM_ERRORS';
+export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {

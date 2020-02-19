@@ -61,19 +61,21 @@ describe('Schemaform review: <SubmitButtons>', () => {
     const submission = {
       status: 'validationError',
     };
-    const errors = [
-      {
-        name: 'test',
-        message: 'We’re missing test',
-        chapter: 'Test',
-        index: 0,
-      },
-      { name: 'zip', message: 'We’re missing zip', chapter: 'Zip', index: 1 },
-      // No chapter -> no link to open accordion
-      { name: 'empty', message: 'Property not found', chapter: '', index: -1 },
-    ];
+    const formErrors = {
+      errors: [
+        {
+          name: 'test',
+          message: 'Missing test',
+          chapterKey: 'Test',
+          index: 0,
+        },
+        { name: 'zip', message: 'Zip', chapterKey: 'Zip', pageKey: 'zip' },
+        // No chapter -> no link to open accordion
+        { name: 'empty', message: 'Property not found', chapterKey: '' },
+      ],
+    };
     const tree = SkinDeep.shallowRender(
-      <SubmitButtons submission={submission} errors={errors} />,
+      <SubmitButtons submission={submission} formErrors={formErrors} />,
     );
 
     // Make sure it displays an error--and the right one
