@@ -5,9 +5,16 @@
 APP_SUBPATHS="$(find src -name manifest.json | sed -E 's/\/manifest.json//g' | xargs | sed 's/ /|/g')"
 
 # Match changed files to the app paths determined above
-FILES_CHANGED="$(git diff --name-only master)"
-APP_SUBPATHS_CHANGED="$(echo $FILES_CHANGED | grep -oE "($APP_SUBPATHS)")"
+FILES_CHANGED="$(git diff --name-only HEAD $(git merge-base HEAD origin/master))"
+APP_SUBPATHS_CHANGED="$(echo $FILES_CHANGED | grep -oE "($APP_SUBPATHS)" | uniq)"
 NUM_APPS_CHANGED=$(echo "$APP_SUBPATHS_CHANGED" | wc -l)
+
+echo 'Modified files:'
+echo "$FILES_CHANGED"
+echo
+echo 'Modified app dirs:'
+echo "$APP_SUBPATHS_CHANGED"
+echo
 
 # Run tests only within the apps that have changed.
 # If master is ahead of this branch, tests will still run
