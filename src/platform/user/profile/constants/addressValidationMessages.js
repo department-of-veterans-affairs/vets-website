@@ -62,7 +62,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
           edit your address
         </button>{' '}
         to add a unit number. If you don’t have a unit number and the address
-        you entered below is correct, please select Use this address.
+        you entered below is correct, please select it.
       </p>
     ),
   },
@@ -118,8 +118,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         <button className="va-button-link" onClick={editFunction}>
           edit it
         </button>
-        {'. '} If the address you entered below is correct, please select Use
-        this address.
+        {'. '} If the address you entered below is correct, please select it.
       </p>
     ),
   },
