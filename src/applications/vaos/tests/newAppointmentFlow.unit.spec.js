@@ -100,7 +100,7 @@ describe('VAOS newAppointmentFlow', () => {
         resetFetch();
       });
 
-      it('should be the requestDateTime page if CC support and typeOfCare is podiatry', async () => {
+      it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
         setFetchJSONResponse(global.fetch, systems);
         setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
