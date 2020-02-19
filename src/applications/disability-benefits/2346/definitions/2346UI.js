@@ -21,8 +21,8 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          F: 'Male',
-          M: 'Female',
+          F: 'Female',
+          M: 'Male',
         },
       },
     },
