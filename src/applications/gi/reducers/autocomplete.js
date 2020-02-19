@@ -4,7 +4,8 @@ import {
   AUTOCOMPLETE_STARTED,
   AUTOCOMPLETE_FAILED,
   AUTOCOMPLETE_SUCCEEDED,
-  SEARCH_STARTED, AUTOCOMPLETE_CLEARED,
+  SEARCH_STARTED,
+  AUTOCOMPLETE_CLEARED,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import get from 'platform/utilities/data/get';
