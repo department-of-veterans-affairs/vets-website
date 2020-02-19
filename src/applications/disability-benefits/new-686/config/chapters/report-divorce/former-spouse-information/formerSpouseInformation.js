@@ -52,12 +52,25 @@ export const uiSchema = {
   dateOfDivorce: currentOrPastDateUI('Date of divorce'),
   locationOfDivorce: {
     'ui:title': 'Where did this marriage end?',
-    state: { 'ui:title': 'State (or country if outside USA)' },
-    city: { 'ui:title': 'City or county' },
+    state: {
+      'ui:title': 'State (or country if outside USA)',
+      'ui:errorMessages': {
+        required: 'Please enter a state, or country if outside of USA',
+      },
+    },
+    city: {
+      'ui:title': 'City or county',
+      'ui:errorMessages': {
+        required: 'Please enter a city or county',
+      },
+    },
   },
   isMarriageAnnulledOrVoid: {
     'ui:title': 'Was the marriage annulled or declared void?',
     'ui:widget': 'yesNo',
+    'ui:errorMessages': {
+      required: 'Please select yes or no',
+    },
   },
   explanationOfAnnullmentOrVoid: {
     'ui:title': 'Please give a brief explanation',
