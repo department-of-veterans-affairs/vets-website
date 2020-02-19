@@ -1,7 +1,6 @@
 import { genericSchemas } from '../../../generic-schema';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-
 export const schema = {
   type: 'object',
   required: [],
@@ -14,8 +13,8 @@ export const schema = {
     postalCode: genericSchemas.genericNumberInput,
     phoneNumber: genericSchemas.genericNumberInput,
     emailAddress: genericSchemas.genericTextinput,
-  }
-}
+  },
+};
 
 export const uiSchema = {
   countryDropdown: {
@@ -50,4 +49,4 @@ export const uiSchema = {
     'ui:title': 'Phone Number',
   },
   emailAddress: emailUI(),
-}
+};

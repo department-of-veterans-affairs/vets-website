@@ -4,7 +4,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // Chapter imports
 import { wizard } from './chapters/taskWizard';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { veteranInformation, veteranAddress } from './chapters/veteran-information';
+import {
+  veteranInformation,
+  veteranAddress,
+} from './chapters/veteran-information';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 
 const formConfig = {
@@ -48,7 +51,7 @@ const formConfig = {
           path: 'veteran-address',
           title: 'Veteran Address',
           uiSchema: veteranAddress.uiSchema,
-          schema: veteranAddress.schema
+          schema: veteranAddress.schema,
         },
       },
     },
