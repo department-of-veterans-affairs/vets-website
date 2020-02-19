@@ -1,21 +1,37 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-sequences */
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/2346-schema.json';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import ConfirmAddressPage from '../Components/ConfirmAddress';
-import VeteranInformationPage from '../Components/VeteranInformationPage';
+import commonSchemaDefinitions from 'vets-json-schema/dist/definitions.json';
+import Schema2346 from '../2346-schema.json';
+import personalInfoBox from '../components/personalInfoBox';
+import { vetFields } from '../constants/';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
+import UIDefinitions from '../definitions/2346UI';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const { email, address } = Schema2346.definitions;
+const { fullName, gender, date } = commonSchemaDefinitions;
 
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  VeteranInformationPage: 'Veteran Information',
-  confirmAddressPage: 'Confirm Address Page',
+const formChapters = {
+  veteranInformation: 'Veteran Information',
 };
+
+const formPages = {
+  personalDetails: 'Personal Details',
+  address: 'Confirm Address',
+};
+
+const {
+  addressUI,
+  dateOfBirthUI,
+  emailUI,
+  genderUI,
+  fullNameUI,
+} = UIDefinitions.sharedItems;
 
 const formConfig = {
   urlPrefix: '/',
@@ -32,44 +48,54 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'Request for hearing aid batteries and accessories',
   defaultDefinitions: {
-    fullName,
-    ssn,
     date,
-    dateRange,
-    usaPhone,
+    email,
+    gender,
+    fullName,
+    address,
   },
   chapters: {
     VeteranInformationChapter: {
-      title: formPages.VeteranInformationPage,
+      title: formChapters.veteranInformation,
       pages: {
-        [formPages.VeteranInformationPage]: {
-          path: 'veteran-information',
-          title: formPages.VeteranInformationPage,
+        [formPages.personalDetails]: {
+          path: 'veteran-information/personal-details',
+          title: formPages.personalDetails,
           uiSchema: {
-            'ui:description': VeteranInformationPage,
+            'ui:description': personalInfoBox,
+            [vetFields.fullName]: fullNameUI,
+            [vetFields.dateOfBirth]: dateOfBirthUI,
+            [vetFields.gender]: genderUI,
           },
           schema: {
             type: 'object',
-            properties: {},
+            required: [
+              vetFields.fullName,
+              vetFields.dateOfBirth,
+              vetFields.gender,
+            ],
+            properties: {
+              [vetFields.fullName]: fullName,
+              [vetFields.dateOfBirth]: date,
+              [vetFields.gender]: gender,
+            },
           },
         },
-      },
-    },
-    ConfirmAddressChapter: {
-      title: formPages.confirmAddressPage,
-      pages: {
-        'Confirm Address': {
-          path: 'confirm-address',
-          title: "Veteran's Address Info",
-          required: ['addressLine1', 'city', 'state', 'zip', 'email'],
+        [formPages.address]: {
+          path: 'veteran-information/addresses',
+          title: formPages.address,
           uiSchema: {
-            'ui:description': ConfirmAddressPage,
+            [vetFields.address]: addressUI,
+            [vetFields.email]: emailUI,
           },
           schema: {
             type: 'object',
-            properties: {},
+            required: [vetFields.address, vetFields.email],
+            properties: {
+              [vetFields.address]: address,
+              [vetFields.email]: email,
+            },
           },
         },
       },

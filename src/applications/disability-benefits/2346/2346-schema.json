@@ -4,14 +4,59 @@
   "type": "object",
   "additionalProperties": false,
   "definitions": {
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        }
+      }
+    },
+    "dateOfBirth": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "Male",
+        "Female"
+      ]
+    },
+    "email": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 80,
+      "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+    },
     "address": {
       "type": "object",
+      "required": [
+        "state",
+        "country",
+        "street",
+        "postalCode",
+        "city"
+      ],
       "oneOf": [
         {
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["CAN"]
+              "enum": [
+                "CAN"
+              ]
             },
             "state": {
               "type": "string",
@@ -33,7 +78,10 @@
             },
             "postalCode": {
               "type": "string",
-              "maxLength": 10
+              "maxLength": 10,
+              "required": [
+                "postalCode"
+              ]
             }
           }
         },
@@ -41,7 +89,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["MEX"]
+              "enum": [
+                "MEX"
+              ]
             },
             "state": {
               "type": "string",
@@ -90,10 +140,15 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["USA"]
+              "enum": [
+                "USA"
+              ]
             },
             "state": {
               "type": "string",
+              "required": [
+                "state"
+              ],
               "enum": [
                 "AL",
                 "AK",
@@ -170,7 +225,11 @@
             "country": {
               "not": {
                 "type": "string",
-                "enum": ["CAN", "MEX", "USA"]
+                "enum": [
+                  "CAN",
+                  "MEX",
+                  "USA"
+                ]
               }
             },
             "state": {
@@ -198,6 +257,84 @@
         "city": {
           "type": "string",
           "minLength": 1,
+          "maxLength": 51
+        },
+        "country": {
+          "type": "string",
+          "default": "USA"
+        },
+        "state": {
+          "type": "string",
+          "required": [
+            "state"
+          ],
+          "enum": [
+            "AL",
+            "AK",
+            "AS",
+            "AZ",
+            "AR",
+            "AA",
+            "AE",
+            "AP",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "DC",
+            "FM",
+            "FL",
+            "GA",
+            "GU",
+            "HI",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "ME",
+            "MH",
+            "MD",
+            "MA",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NH",
+            "NJ",
+            "NM",
+            "NY",
+            "NC",
+            "ND",
+            "MP",
+            "OH",
+            "OK",
+            "OR",
+            "PW",
+            "PA",
+            "PR",
+            "RI",
+            "SC",
+            "SD",
+            "TN",
+            "TX",
+            "UT",
+            "VT",
+            "VI",
+            "VA",
+            "WA",
+            "WV",
+            "WI",
+            "WY"
+          ]
+        },
+        "postalCode": {
+          "type": "string",
           "maxLength": 51
         }
       }
