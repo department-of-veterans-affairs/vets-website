@@ -22,7 +22,6 @@ const addSubheadingsIds = require('../build/plugins/add-id-to-subheadings');
 const parseHtml = require('../build/plugins/parse-html');
 const replaceContentsWithDom = require('../build/plugins/replace-contents-with-dom');
 const injectAxeCore = require('../build/plugins/inject-axe-core');
-const injectValeLinter = require('../build/plugins/inject-vale-linter');
 
 async function createPipeline(options) {
   const BUILD_OPTIONS = await getOptions(options);
@@ -143,7 +142,6 @@ async function createPipeline(options) {
   smith.use(updateExternalLinks(BUILD_OPTIONS));
   smith.use(addSubheadingsIds(BUILD_OPTIONS));
   smith.use(injectAxeCore(BUILD_OPTIONS));
-  smith.use(injectValeLinter(BUILD_OPTIONS));
   smith.use(replaceContentsWithDom);
 
   return smith;
