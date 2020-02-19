@@ -1,4 +1,3 @@
-import { apiRequest } from 'platform/utilities/api';
 import { getData } from '../util';
 
 export const FETCH_ALL_DEPENDENTS_SUCCESS = 'FETCH_ALL_DEPENDENTS_SUCCESS';
@@ -6,7 +5,6 @@ export const FETCH_ALL_DEPENDENTS_FAILED = 'FETCH_ALL_DEPENDENTS_FAILED';
 
 export function fetchAllDependents() {
   return async dispatch => {
-    console.log('go');
     const response = await getData('/dependents_applications/show');
 
     if (response.errors) {

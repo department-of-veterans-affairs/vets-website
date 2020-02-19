@@ -17,11 +17,14 @@ export const errorFragment = (
 export const infoFragment = (
   <>
     <p>
-      We can't find any dependents added to your disability award. If you are eligable for
-      VA disability compensation and you have a VA combined rating of 30%, you may be eligable
-      for additional disability compensation for a spouse, child, and/or parent. 
+      We can't find any dependents added to your disability award. If you are
+      eligable for VA disability compensation and you have a VA combined rating
+      of 30%, you may be eligable for additional disability compensation for a
+      spouse, child, and/or parent.
     </p>
-    <a href="/disability/add-remove-dependent/">Find out how to add a dependent to your disability claim</a>
+    <a href="/disability/add-remove-dependent/">
+      Find out how to add a dependent to your disability claim
+    </a>
   </>
 );
 
