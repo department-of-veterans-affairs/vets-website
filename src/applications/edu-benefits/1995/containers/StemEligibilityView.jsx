@@ -208,7 +208,6 @@ const mapStateToProps = (state, ownProps) => {
     'errorSchema.determineEligibility.__errors',
     [],
   );
-  // console.log(state);
   return {
     isEdithNourseRogersScholarship: _.get(
       state,
