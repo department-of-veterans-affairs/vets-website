@@ -81,6 +81,12 @@ class PaymentInformationEditModal extends React.Component {
     formData: {},
   };
 
+  componentDidUpdate = prevProps => {
+    if (this.props.isEditing && !prevProps.isEditing) {
+      this.setState({ formData: {} });
+    }
+  };
+
   onSubmit = event => {
     event.preventDefault();
 
