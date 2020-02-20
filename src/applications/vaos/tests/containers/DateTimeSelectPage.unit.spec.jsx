@@ -145,4 +145,54 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(document.title).to.contain(pageTitle);
     form.unmount();
   });
+
+  it('should run validation after change', () => {
+    const openFormPage = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
+    const updateFormData = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <DateTimeSelectPage
+        openFormPage={openFormPage}
+        getAppointmentSlots={getAppointmentSlots}
+        updateFormData={updateFormData}
+        data={{}}
+        availableDates={availableDates}
+        facilityId="123"
+        availableSlots={availableSlots}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+        loadingStatus={FETCH_STATUS.succeeded}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(routeToNextAppointmentPage.called).to.be.false;
+    expect(form.find('.usa-input-error-message').exists()).to.be.true;
+
+    form
+      .find('SchemaForm')
+      .props()
+      .onChange({
+        calendarData: {
+          selectedDates: [
+            { date: '2019-10-30', datetime: '2019-10-30T10:00:00-07:00' },
+          ],
+        },
+      });
+    form.setProps({
+      data: {
+        calendarData: {
+          selectedDates: [
+            { date: '2019-10-30', datetime: '2019-10-30T10:00:00-07:00' },
+          ],
+        },
+      },
+    });
+
+    form.find('form').simulate('submit');
+    expect(routeToNextAppointmentPage.called).to.be.true;
+
+    form.unmount();
+  });
 });

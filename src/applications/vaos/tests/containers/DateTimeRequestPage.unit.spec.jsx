@@ -101,4 +101,34 @@ describe('VAOS <DateTimeRequestPage>', () => {
     expect(document.title).contain(pageTitle);
     form.unmount();
   });
+
+  it('should validate after change', () => {
+    const openFormPage = sinon.spy();
+    const updateFormData = sinon.spy();
+    const routeToNextAppointmentPage = sinon.spy();
+
+    const form = mount(
+      <DateTimeRequestPage
+        openFormPage={openFormPage}
+        updateFormData={updateFormData}
+        data={{
+          calendarData: {
+            selectedDates: [{ date: '2019-10-30', optionTime: 'AM' }],
+          },
+        }}
+        routeToNextAppointmentPage={routeToNextAppointmentPage}
+      />,
+    );
+
+    form
+      .find('SchemaForm')
+      .props()
+      .onChange({});
+    form.setProps({ data: {} });
+
+    form.find('form').simulate('submit');
+    expect(routeToNextAppointmentPage.called).to.be.false;
+    expect(form.find('.usa-input-error-message').exists()).to.be.true;
+    form.unmount();
+  });
 });
