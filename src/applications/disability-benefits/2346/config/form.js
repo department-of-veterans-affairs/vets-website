@@ -1,7 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import personalInfoBox from '../components/personalInfoBox';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -30,7 +28,6 @@ const formConfig = {
   submitUrl: '/posts',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  preSubmitInfo,
   trackingPrefix: 'va-2346a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -68,9 +65,7 @@ const formConfig = {
         [formPages.address]: {
           path: 'veteran-information/addresses',
           title: formPages.confirmAddress,
-          uiSchema: {
-            'ui:description': PrefillMessage,
-          },
+          uiSchema: {},
           schema: {
             type: 'object',
             properties: {

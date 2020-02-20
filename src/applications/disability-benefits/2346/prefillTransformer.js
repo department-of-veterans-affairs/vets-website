@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 export default function prefillTransformer(pages, formData, metadata, state) {
   let newData = formData;
 
