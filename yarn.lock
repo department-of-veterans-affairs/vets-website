@@ -824,9 +824,9 @@
     to-fast-properties "^2.0.0"
 
 "@department-of-veterans-affairs/formation-react@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.2.0.tgz#96015a2074b5243453d286c0bbfc46a61743c6e0"
-  integrity sha512-8Xnntu9ugPZwEJ2afkC/g7RaaN3De2Mn37e5+wDT0ywvxPdtst7gxLLAvlBpSfYonG67zfFlhbIOnd4FrdtlTQ==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation-react/-/formation-react-5.2.1.tgz#f49fc8a64076c5cfe2a749bfe3c89631ee5e354d"
+  integrity sha512-R0/tfYd1l5bh2n97WFATU3WMxP6F/x9XaUFNxDI251/icYZWz1HaBsp68vDzXFPiUR7rXGy4/SrJ+0N/YRzSvQ==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
@@ -834,10 +834,10 @@
     prop-types "^15.6.2"
     react-transition-group "1"
 
-"@department-of-veterans-affairs/formation@^6.9.0":
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.9.0.tgz#dd855292248a71e7bdcbe10a2a28aa2cfe229bff"
-  integrity sha512-wgYdDA6VwnxeiGYiYuY01l5Q2GyodPT2eorFOnjbIDx9tvScYwS/AqGfi+eppFEMCFci/qsLxEDFTfrDnGtp3Q==
+"@department-of-veterans-affairs/formation@^6.9.1":
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.9.1.tgz#0aab714ae790c3c59fe5fd9f07ba36abd3a0251c"
+  integrity sha512-qkT48+noGZBn2+EJ856967HExcInH3Zm9u5GojzF71TfFtXfsiTYmosPmsEXXNjNMpw5/tYSy8J9jWQCpGsybA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -4475,9 +4475,9 @@ element-closest@^2.0.1:
   resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-2.0.2.tgz#72a740a107453382e28df9ce5dbb5a8df0f966ec"
 
 element-closest@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.1.tgz#0b2000266ae43a800274401dc39486f5e4bfbce2"
-  integrity sha512-Wm8B0in+k6GsSCra8vLVnFIjIrff2T1s2b++jU6VL6mqIteP19THxDXwT5JDrmJPlqT3YifOK9cu28+uRGUdew==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.2.tgz#3814a69a84f30e48e63eaf57341f4dbf4227d2aa"
+  integrity sha512-JxKQiJKX0Zr5Q2/bCaTx8P+UbfyMET1OQd61qu5xQFeWr1km3fGaxelSJtnfT27XQ5Uoztn2yIyeamAc/VX13g==
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -11892,9 +11892,9 @@ react-is@^16.7.0, react-is@^16.8.6:
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
 react-is@^16.8.1:
-  version "16.9.0"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
-  integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
+  version "16.12.0"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
+  integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
 react-leaflet@^2.2.0:
   version "2.4.0"

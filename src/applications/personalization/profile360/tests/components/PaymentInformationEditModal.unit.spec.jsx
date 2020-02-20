@@ -99,4 +99,24 @@ describe('<PaymentInformationEditModal/>', () => {
     expect(onSubmit.called).to.be.false;
     wrapper.unmount();
   });
+
+  it('clears its state when the modal opens', () => {
+    const props = set('isEditing', false, defaultProps);
+    const wrapper = shallow(<PaymentInformationEditModal {...props} />);
+
+    wrapper.setState({
+      formData: {
+        accountNumber: '123456',
+        routingNumber: '123456789',
+        accountType: ACCOUNT_TYPES_OPTIONS.checking,
+      },
+    });
+    wrapper.setProps({ isEditing: true });
+
+    const state = wrapper.state();
+
+    expect(state).to.deep.equal({ formData: {} });
+
+    wrapper.unmount();
+  });
 });
