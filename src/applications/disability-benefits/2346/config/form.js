@@ -3,7 +3,6 @@ import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import prefillTransformer from '../prefillTransformer';
 
 const {
   email,

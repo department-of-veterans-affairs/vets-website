@@ -27,8 +27,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     newData = { ...newData, 'view:isUserInMvi': true };
   }
 
-  // eslint-disable-next-line no-console
-  console.log(formData);
   return {
     metadata,
     formData: newData,
