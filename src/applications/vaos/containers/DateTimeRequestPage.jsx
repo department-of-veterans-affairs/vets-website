@@ -66,17 +66,6 @@ export class DateTimeRequestPage extends React.Component {
     }
   };
 
-  validate = () => {
-    if (this.userSelectedSlot()) {
-      this.setState({ validationError: null });
-    } else {
-      this.setState({
-        validationError:
-          'Please select at least one preferred date for your appointment. You can select up to three dates.',
-      });
-    }
-  };
-
   render() {
     const { data, pageChangeInProgress } = this.props;
     const calendarData = data?.calendarData;
