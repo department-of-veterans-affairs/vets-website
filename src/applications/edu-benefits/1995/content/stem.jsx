@@ -1,5 +1,21 @@
 import React from 'react';
 
+const checkRemainingBenefits = (
+  <a
+    href="/education/gi-bill/post-9-11/ch-33-benefit/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Check your remaining benefits
+  </a>
+);
+
+export const exhaustionOfBenefitsTitle = (
+  <span>
+    Have you used all of your Post-9/11 GI Bill or Fry Scholarship benefits or
+    do you have less than 6 months of benefits left? {checkRemainingBenefits}
+  </span>
+);
 export const rogersStemScholarshipInfo = (
   <div>
     <p>
@@ -18,18 +34,14 @@ export const rogersStemScholarshipInfo = (
       <b>To be considered, you must meet all the requirements below. You:</b>
     </p>
     <ul>
-      <li>Are using or recently used Post-9/11 or Fry Scholarship benefits</li>
+      <li>
+        Are using or recently used Post-9/11 GI Bill or Fry Scholarship benefits
+      </li>
       <li>
         Have used all your education benefits or are within 6 months of doing
         so.
         <br />
-        <a
-          href="/education/gi-bill/post-9-11/ch-33-benefit/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Check your remaining benefits
-        </a>
+        {checkRemainingBenefits}
       </li>
       <li>
         Are enrolled in an undergraduate degree program for STEM,{' '}
