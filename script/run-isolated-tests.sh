@@ -9,18 +9,23 @@ FILES_CHANGED="$(git diff origin/master...HEAD --name-only)"
 APP_SUBPATHS_CHANGED="$(echo $FILES_CHANGED | grep -oE "($APP_SUBPATHS)" | uniq)"
 NUM_APPS_CHANGED=$(echo "$APP_SUBPATHS_CHANGED" | wc -l)
 
-echo 'Modified files:'
+if [ -z "$FILES_CHANGED" ]; then
+  echo 'No files changed. Skipping tests.'
+  exit $?
+fi
+
+echo 'Files changed:'
 echo "$FILES_CHANGED"
 echo
 
 # When no app has been modified, only run platform tests.
-if [ -z "${APP_SUBPATHS_CHANGED// }" ]; then
-  echo "No changes detected in apps."
-  yarn test:coverage "src/platform/**/*.unit.spec.js?(x)"
+if [ -z "$APP_SUBPATHS_CHANGED" ]; then
+  echo 'No changes detected in apps.'
+  yarn test:coverage 'src/platform/**/*.unit.spec.js?(x)'
   exit $?
 fi
 
-echo 'Modified app dirs:'
+echo 'Apps changed:'
 echo "$APP_SUBPATHS_CHANGED"
 echo
 
