@@ -14,9 +14,6 @@ import {
 } from '../utils/eligibility';
 
 import {
-  FORM_CALENDAR_CLEAR_DATA,
-  FORM_CALENDAR_ON_CHANGE,
-  FORM_CALENDAR_VALIDATE,
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
   FORM_PAGE_CHANGE_STARTED,
@@ -24,9 +21,12 @@ import {
   FORM_UPDATE_FACILITY_TYPE,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_OPEN_FAILED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_CLEAR_DATA,
+  FORM_CALENDAR_ON_CHANGE,
+  FORM_CALENDAR_VALIDATE,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -498,13 +498,13 @@ export default function formReducer(state = initialState, action) {
           [action.facilityId]: action.facilityDetails,
         },
       };
-    case FORM_FETCH_AVAILABLE_APPOINTMENTS: {
+    case FORM_CALENDAR_FETCH_SLOTS: {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.loading,
       };
     }
-    case FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED: {
+    case FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED: {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.succeeded,
@@ -513,7 +513,7 @@ export default function formReducer(state = initialState, action) {
         appointmentLength: action.appointmentLength,
       };
     }
-    case FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED: {
+    case FORM_CALENDAR_FETCH_SLOTS_FAILED: {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.failed,

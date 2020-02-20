@@ -62,14 +62,6 @@ export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED';
-export const FORM_FETCH_CHILD_FACILITIES_FAILED =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS';
 export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
@@ -89,6 +81,14 @@ export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
   'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
+export const FORM_CALENDAR_FETCH_SLOTS =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS';
+export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
+export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
+export const FORM_FETCH_CHILD_FACILITIES_FAILED =
+  'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_CALENDAR_CLEAR_DATA =
   'newAppointment/FORM_CALENDAR_CLEAR_DATA';
 export const FORM_CALENDAR_ON_CHANGE = 'newAppointment/FORM_CALENDAR_ON_CHANGE';
@@ -449,7 +449,7 @@ export function getAppointmentSlots(startDate, endDate) {
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
       let appointmentLength = null;
-      dispatch({ type: FORM_FETCH_AVAILABLE_APPOINTMENTS });
+      dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
         const startDateString = !fetchedStartMonth
@@ -506,7 +506,7 @@ export function getAppointmentSlots(startDate, endDate) {
         );
 
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+          type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
           appointmentLength,
@@ -514,7 +514,7 @@ export function getAppointmentSlots(startDate, endDate) {
       } catch (e) {
         captureError(e);
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+          type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
         });
       }
     }

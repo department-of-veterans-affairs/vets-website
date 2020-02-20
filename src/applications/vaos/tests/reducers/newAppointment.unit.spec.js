@@ -16,8 +16,14 @@ import {
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
-  START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+  START_DIRECT_SCHEDULE_FLOW,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_CLEAR_DATA,
+  FORM_CALENDAR_ON_CHANGE,
+  FORM_CALENDAR_VALIDATE,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
@@ -652,6 +658,93 @@ describe('VAOS reducer: newAppointment', () => {
         'Testing real name',
         'I need a different clinic',
       ]);
+    });
+  });
+
+  describe('calendar', () => {
+    it('should set appointmentSlotStatus to loading when fetching slots', () => {
+      const action = {
+        type: FORM_CALENDAR_FETCH_SLOTS,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.appointmentSlotsStatus).to.equal(FETCH_STATUS.loading);
+    });
+
+    it('should update slots when fetch slots succeeded', () => {
+      const availableSlots = [
+        {
+          date: '2020-02-02',
+          dateTime: '2020-02-02T11:00:00',
+        },
+      ];
+
+      const fetchedAppointmentSlotMonths = ['2020-02'];
+
+      const action = {
+        type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+        availableSlots,
+        fetchedAppointmentSlotMonths,
+        appointmentLength: 20,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.appointmentSlotsStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.availableSlots).to.equal(availableSlots);
+      expect(newState.fetchedAppointmentSlotMonths).to.equal(
+        fetchedAppointmentSlotMonths,
+      );
+    });
+
+    it('should set appointmentSlotStatus to failed when fetching slots', () => {
+      const action = {
+        type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.appointmentSlotsStatus).to.equal(FETCH_STATUS.failed);
+    });
+
+    it('should update calendar data on change', () => {
+      const calendarData = {
+        currentlySelectedDate: '2020-03-11',
+        selectedDates: [
+          {
+            date: '2020-03-11',
+            datetime: '2020-03-11T09:40:00',
+          },
+        ],
+        currentRowIndex: 1,
+        error: null,
+      };
+
+      const action = {
+        type: FORM_CALENDAR_ON_CHANGE,
+        calendarData,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.data.calendarData).to.deep.equal(calendarData);
+    });
+
+    it('should update calendar validation error', () => {
+      const error = 'Please select a preferred date for your appointment';
+      const action = {
+        type: FORM_CALENDAR_VALIDATE,
+        error,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.data.calendarData.error).to.equal(error);
+    });
+
+    it('should clear calendar data', () => {
+      const action = {
+        type: FORM_CALENDAR_CLEAR_DATA,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.data.calendarData).to.deep.equal({});
     });
   });
 
