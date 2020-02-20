@@ -6,11 +6,9 @@ import _config from './config';
 // Checks if the announcement has started.
 const isStarted = announcement => {
   const { startsAt } = announcement;
-  console.log('Name: ', announcement.name);
 
   // Assume announcement is valid if startsAt was NOT provided.
   if (!startsAt) {
-    console.log('does not have startsAt', announcement.startsAt);
     return true;
   }
 
@@ -20,23 +18,19 @@ const isStarted = announcement => {
 
   // Announcement has not started.
   if (!hasStarted) {
-    console.log('has NOT started', startsAtDate.format('YYYY-MM-DD h:mm a'));
     return false;
   }
 
   // Announcement has started.
-  console.log('has started', startsAtDate.format('YYYY-MM-DD h:mm a'));
   return true;
 };
 
 // Checks if the announcement has expired.
 const isNotExpired = announcement => {
   const { expiresAt } = announcement;
-  console.log('Name: ', announcement.name);
 
   // Assume announcement is valid if expiresAt was NOT provided.
   if (!expiresAt) {
-    console.log('does not have expiresAt', announcement.expiresAt);
     return true;
   }
 
@@ -46,12 +40,10 @@ const isNotExpired = announcement => {
 
   // Announcement has not expired.
   if (!hasExpired) {
-    console.log('has NOT expired', expiresAtDate.format('YYYY-MM-DD h:mm a'));
     return true;
   }
 
   // Announcement has expired.
-  console.log('has expired', expiresAtDate.format('YYYY-MM-DD h:mm a'));
   return false;
 };
 
