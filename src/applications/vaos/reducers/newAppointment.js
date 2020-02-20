@@ -14,6 +14,9 @@ import {
 } from '../utils/eligibility';
 
 import {
+  FORM_CALENDAR_CLEAR_DATA,
+  FORM_CALENDAR_ON_CHANGE,
+  FORM_CALENDAR_VALIDATE,
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
   FORM_PAGE_CHANGE_STARTED,
@@ -514,6 +517,33 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         appointmentSlotsStatus: FETCH_STATUS.failed,
+      };
+    }
+    case FORM_CALENDAR_ON_CHANGE: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          calendarData: action.calendarData,
+        },
+      };
+    }
+    case FORM_CALENDAR_VALIDATE: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          calendarData: { ...state.data.calendarData, error: action.error },
+        },
+      };
+    }
+    case FORM_CALENDAR_CLEAR_DATA: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          calendarData: {},
+        },
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {

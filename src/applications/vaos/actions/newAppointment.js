@@ -89,6 +89,10 @@ export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
   'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
+export const FORM_CALENDAR_CLEAR_DATA =
+  'newAppointment/FORM_CALENDAR_CLEAR_DATA';
+export const FORM_CALENDAR_ON_CHANGE = 'newAppointment/FORM_CALENDAR_ON_CHANGE';
+export const FORM_CALENDAR_VALIDATE = 'newAppointment/FORM_CALENDAR_VALIDATE';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -515,6 +519,49 @@ export function getAppointmentSlots(startDate, endDate) {
       }
     }
   };
+}
+
+export function validateCalendar(page) {
+  return (dispatch, getState) => {
+    const calendarData = getFormData(getState()).calendarData;
+    const { selectedDates } = calendarData;
+    let error = null;
+    if (!selectedDates?.length > 0) {
+      error =
+        page === 'selectDateTime'
+          ? 'Please select a preferred date for your appointment'
+          : 'Please select at least one preferred date for your appointment. You can select up to three dates.';
+    }
+    dispatch({
+      type: FORM_CALENDAR_VALIDATE,
+      error,
+    });
+  };
+}
+
+export function onCalendarChange({
+  currentlySelectedDate,
+  currentRowIndex,
+  selectedDates,
+}) {
+  return async (dispatch, getState) => {
+    const calendarData = getFormData(getState()).calendarData;
+    const { error } = calendarData;
+
+    dispatch({
+      type: FORM_CALENDAR_ON_CHANGE,
+      calendarData: {
+        currentlySelectedDate,
+        selectedDates,
+        currentRowIndex,
+        error: selectedDates?.length > 0 ? null : error,
+      },
+    });
+  };
+}
+
+export function clearCalendarData() {
+  return { type: FORM_CALENDAR_CLEAR_DATA };
 }
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {

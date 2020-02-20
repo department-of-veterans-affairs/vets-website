@@ -1,63 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import moment from 'moment';
+
 import {
+  clearCalendarData,
+  onCalendarChange,
   openFormPage,
-  updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  updateFormData,
+  validateCalendar,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
+import CalendarWidget from '../components/calendar/CalendarWidget';
 import { getFormPageInfo } from '../utils/selectors';
-import DateTimeRequestField from '../components/DateTimeRequestField';
+import { CALENDAR_INDICATOR_TYPES } from '../utils/constants';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose a day and time for your appointment';
-
-const initialSchema = {
-  type: 'object',
-  required: ['calendarData'],
-  properties: {
-    calendarData: {
-      type: 'object',
-      properties: {
-        currentlySelectedDate: {
-          type: 'string',
-        },
-        currentRowIndex: {
-          type: 'number',
-        },
-        selectedDates: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              date: {
-                type: 'string',
-              },
-              optionTime: {
-                type: 'string',
-                enum: ['AM', 'PM'],
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-const uiSchema = {
-  calendarData: {
-    'ui:field': DateTimeRequestField,
-    'ui:title': 'What date and time would you like to make an appointment?',
-    'ui:options': {
-      hideLabelText: true,
-    },
-  },
-};
 
 export class DateTimeRequestPage extends React.Component {
   constructor(props) {
@@ -67,34 +29,39 @@ export class DateTimeRequestPage extends React.Component {
 
   componentDidMount() {
     focusElement('h1.vads-u-font-size--h2');
-    this.props.openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.validationError && this.state.validationError?.length > 0) {
+  componentDidUpdate(prevProps) {
+    if (
+      !prevProps.data?.calendarData?.error &&
+      this.props.data?.calendarData?.error?.length > 0
+    ) {
       scrollAndFocus('.usa-input-error-message');
-    }
-
-    const prevSelectedSlotsCount =
-      prevProps.data.calendarData?.selectedDates?.length || 0;
-    const newSelectedSlotsCount =
-      this.props.data.calendarData?.selectedDates?.length || 0;
-
-    if (prevSelectedSlotsCount !== newSelectedSlotsCount) {
-      this.validate();
     }
   }
 
+  getOptionsByDate = () => [
+    {
+      value: 'AM',
+      label: 'AM',
+    },
+    {
+      value: 'PM',
+      label: 'PM',
+    },
+  ];
+
   goBack = () => {
+    this.props.clearCalendarData();
     if (!this.state.validationError) {
       this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
     }
   };
 
   goForward = () => {
-    this.validate();
-    if (this.userSelectedSlot()) {
+    this.props.validateCalendar(pageKey);
+    if (this.props.data.calendarData?.selectedDates?.length > 0) {
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
     } else {
       scrollAndFocus('.usa-input-error-message');
@@ -112,11 +79,19 @@ export class DateTimeRequestPage extends React.Component {
     }
   };
 
-  userSelectedSlot = () =>
-    this.props.data.calendarData?.selectedDates?.length > 0;
-
   render() {
-    const { schema, data, pageChangeInProgress } = this.props;
+    const { data, pageChangeInProgress } = this.props;
+    const calendarData = data?.calendarData;
+    const { currentlySelectedDate, selectedDates, error } = calendarData;
+
+    const additionalOptions = {
+      fieldName: 'optionTime',
+      required: true,
+      maxSelections: 2,
+      validationMessage:
+        'Please select a preferred time or unselect this date to continue',
+      getOptionsByDate: this.getOptionsByDate,
+    };
 
     return (
       <div className="vaos-form__detailed-radio">
@@ -125,23 +100,28 @@ export class DateTimeRequestPage extends React.Component {
           You can choose up to 3 dates. A scheduling coordinator will call you
           to schedule the best time for your appointment.
         </p>
-        <SchemaForm
-          name="Request appointment"
-          title="Request appointment"
-          schema={schema || initialSchema}
-          uiSchema={uiSchema}
+        <CalendarWidget
+          monthsToShowAtOnce={2}
+          multiSelect
+          maxSelections={3}
+          onChange={this.props.onCalendarChange}
+          minDate={moment()
+            .add(5, 'days')
+            .format('YYYY-MM-DD')}
+          maxDate={moment()
+            .add(395, 'days')
+            .format('YYYY-MM-DD')}
+          currentlySelectedDate={currentlySelectedDate}
+          selectedDates={selectedDates}
+          selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
+          additionalOptions={additionalOptions}
+          validationError={error}
+        />
+        <FormButtons
+          onBack={this.goBack}
           onSubmit={this.goForward}
-          onChange={newData => {
-            this.props.updateFormData(pageKey, uiSchema, newData);
-          }}
-          formContext={{ validationError: this.state.validationError }}
-          data={data}
-        >
-          <FormButtons
-            onBack={this.goBack}
-            pageChangeInProgress={pageChangeInProgress}
-          />
-        </SchemaForm>
+          pageChangeInProgress={pageChangeInProgress}
+        />
       </div>
     );
   }
@@ -152,10 +132,13 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  clearCalendarData,
+  onCalendarChange,
   openFormPage,
-  updateFormData,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  updateFormData,
+  validateCalendar,
 };
 
 export default connect(
