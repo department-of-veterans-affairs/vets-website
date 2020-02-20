@@ -1,6 +1,6 @@
 import {
   datePattern,
-  numberOnlyPattern,
+  numberAndDashPattern,
   states50AndDC,
   suffixes,
   textOnlyPattern,
@@ -32,7 +32,7 @@ export const genericSchemas = {
   genericNumberInput: {
     type: 'string',
     maxLength: 50,
-    pattern: numberOnlyPattern,
+    pattern: numberAndDashPattern,
   },
   genericUSAStateDropdown: {
     type: 'string',
@@ -42,7 +42,6 @@ export const genericSchemas = {
   countryDropdown: {
     type: 'string',
     enum: countries.map(country => country.label),
-    default: 'United States',
   },
   fullName: {
     type: 'object',
