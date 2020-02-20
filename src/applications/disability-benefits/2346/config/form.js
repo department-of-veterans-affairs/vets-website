@@ -34,7 +34,6 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -48,7 +47,7 @@ const formConfig = {
       title: formChapters.veteranInformation,
       pages: {
         [formPages.personalDetails]: {
-          path: 'veteran-information/personal-details',
+          path: 'veteran-information',
           title: formPages.personalDetails,
           uiSchema: {
             'ui:description': personalInfoBox,
