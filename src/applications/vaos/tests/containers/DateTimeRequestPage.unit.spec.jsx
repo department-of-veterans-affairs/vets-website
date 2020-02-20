@@ -15,7 +15,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
       <DateTimeRequestPage
         clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
-        facilityId="123"
         onCalendarChange={onCalendarChange}
         validateCalendar={validateCalendar}
       />,
@@ -36,7 +35,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
         onCalendarChange={onCalendarChange}
         clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
-        facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         validateCalendar={validateCalendar}
       />,
@@ -63,7 +61,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
         data={{
           calendarData: { currentlySelectedDate: '2020-12-20', error: 'test' },
         }}
-        facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         validateCalendar={validateCalendar}
       />,
@@ -93,7 +90,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
             selectedDates: [{ date: '2019-10-30', optionTime: 'AM' }],
           },
         }}
-        facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
     );
@@ -118,7 +114,6 @@ describe('VAOS <DateTimeRequestPage>', () => {
         clearCalendarData={clearCalendarData}
         validateCalendar={validateCalendar}
         data={{ calendarData: {} }}
-        facilityId="123"
       />,
     );
 
