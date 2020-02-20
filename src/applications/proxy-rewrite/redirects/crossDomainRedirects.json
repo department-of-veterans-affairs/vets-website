@@ -466,12 +466,12 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/HOMELOANS/purchaseco_certificate.asp",
+    "src": "/homeloans/purchaseco_certificate.asp",
     "dest": "/housing-assistance/home-loans/how-to-apply/"
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/HOMELOANS/resources_payments.asp",
+    "src": "/homeloans/resources_payments.asp",
     "dest": "/housing-assistance/home-loans/trouble-making-payments/"
   },
   {
