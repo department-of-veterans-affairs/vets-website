@@ -1,8 +1,5 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import {
-  rogersStemScholarshipInfo,
-  exhaustionOfBenefitsTitle,
-} from '../content/stem';
+import { rogersStemScholarshipInfo } from '../content/stem';
 import _ from 'lodash';
 
 const {
@@ -30,7 +27,8 @@ export const uiSchema = {
     },
   },
   'view:exhaustionOfBenefits': {
-    'ui:title': exhaustionOfBenefitsTitle,
+    'ui:title':
+      'Have you used all of your Post-9/11 GI Bill or Fry Scholarship benefits or do you have less than 6 months of benefits left?',
     'ui:widget': 'yesNo',
     'ui:required': form =>
       form.isEdithNourseRogersScholarship && form.isEnrolledStem,
@@ -51,7 +49,8 @@ export const uiSchema = {
     },
   },
   'view:exhaustionOfBenefitsAfterPursuingTeachingCert': {
-    'ui:title': exhaustionOfBenefitsTitle,
+    'ui:title':
+      'Have you used all of your Post-9/11 GI Bill or Fry Scholarship benefits or do you have less than 6 months of benefits left?',
     'ui:widget': 'yesNo',
     'ui:required': form =>
       form.isEdithNourseRogersScholarship && !form.isEnrolledStem,
