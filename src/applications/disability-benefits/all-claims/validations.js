@@ -288,11 +288,3 @@ export const requireNewDisability = (err, fieldData, formData) => {
     err.addError('');
   }
 };
-
-export const checkMaxInputLength = (err, fieldData, gg, schema) => {
-  if (fieldData.length >= schema.maxLength) {
-    err.addError(
-      `Please enter no more than ${schema.maxLength} characters in this field`,
-    );
-  }
-};
