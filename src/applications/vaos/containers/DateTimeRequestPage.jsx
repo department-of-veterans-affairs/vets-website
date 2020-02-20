@@ -5,10 +5,8 @@ import moment from 'moment';
 import {
   clearCalendarData,
   onCalendarChange,
-  openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
   validateCalendar,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
@@ -134,10 +132,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   clearCalendarData,
   onCalendarChange,
-  openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
   validateCalendar,
 };
 

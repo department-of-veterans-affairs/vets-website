@@ -6,11 +6,9 @@ import {
   clearCalendarData,
   getAppointmentSlots,
   onCalendarChange,
-  openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
-  updateFormData,
   validateCalendar,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
@@ -174,11 +172,9 @@ const mapDispatchToProps = {
   clearCalendarData,
   getAppointmentSlots,
   onCalendarChange,
-  openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
-  updateFormData,
   validateCalendar,
 };
 

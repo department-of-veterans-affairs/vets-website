@@ -20,20 +20,22 @@ const availableSlots = [
 
 describe('VAOS <DateTimeSelectPage>', () => {
   it('should render', () => {
-    const openFormPage = sinon.spy();
+    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
-    const updateFormData = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openFormPage={openFormPage}
-        getAppointmentSlots={getAppointmentSlots}
-        updateFormData={updateFormData}
-        data={{}}
-        facilityId="123"
         availableDates={availableDates}
         availableSlots={availableSlots}
+        clearCalendarData={clearCalendarData}
+        data={{ calendarData: {} }}
+        facilityId="123"
+        getAppointmentSlots={getAppointmentSlots}
         loadingStatus={FETCH_STATUS.succeeded}
+        onCalendarChange={onCalendarChange}
+        validateCalendar={validateCalendar}
       />,
     );
 
@@ -42,67 +44,80 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should not submit empty form', () => {
-    const openFormPage = sinon.spy();
+    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
-    const updateFormData = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openFormPage={openFormPage}
+        onCalendarChange={onCalendarChange}
         getAppointmentSlots={getAppointmentSlots}
-        updateFormData={updateFormData}
-        data={{}}
+        clearCalendarData={clearCalendarData}
+        data={{ calendarData: {} }}
         availableDates={availableDates}
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         loadingStatus={FETCH_STATUS.succeeded}
+        validateCalendar={validateCalendar}
       />,
     );
 
-    form.find('form').simulate('submit');
+    form
+      .find('FormButtons')
+      .find('button[type="submit"]')
+      .simulate('click');
     expect(routeToNextAppointmentPage.called).to.be.false;
     form.unmount();
   });
 
   it('should not submit form with validation error', () => {
-    const openFormPage = sinon.spy();
+    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
-    const updateFormData = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openFormPage={openFormPage}
         getAppointmentSlots={getAppointmentSlots}
-        updateFormData={updateFormData}
-        data={{ calendarData: { currentlySelectedDate: '2020-12-20' } }}
+        clearCalendarData={clearCalendarData}
+        onCalendarChange={onCalendarChange}
+        data={{
+          calendarData: { currentlySelectedDate: '2020-12-20', error: 'test' },
+        }}
         availableDates={availableDates}
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         loadingStatus={FETCH_STATUS.succeeded}
-        validationError="Error"
+        validateCalendar={validateCalendar}
       />,
     );
 
-    form.find('form').simulate('submit');
+    form
+      .find('FormButtons')
+      .find('button[type="submit"]')
+      .simulate('click');
     expect(routeToNextAppointmentPage.called).to.be.false;
     form.unmount();
   });
 
   it('should submit with selected data', () => {
-    const openFormPage = sinon.spy();
+    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
-    const updateFormData = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
-        openFormPage={openFormPage}
+        onCalendarChange={onCalendarChange}
         getAppointmentSlots={getAppointmentSlots}
-        updateFormData={updateFormData}
+        validateCalendar={validateCalendar}
+        clearCalendarData={clearCalendarData}
         data={{
           calendarData: {
             selectedDates: [
@@ -118,23 +133,28 @@ describe('VAOS <DateTimeSelectPage>', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    form
+      .find('FormButtons')
+      .find('button[type="submit"]')
+      .simulate('click');
     expect(routeToNextAppointmentPage.called).to.be.true;
     form.unmount();
   });
 
   it('document title should match h1 text', () => {
-    const openFormPage = sinon.spy();
-    const updateFormData = sinon.spy();
+    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
     const pageTitle = 'Tell us the date and time you’d like your appointment';
 
     const form = mount(
       <DateTimeSelectPage
-        openFormPage={openFormPage}
+        onCalendarChange={onCalendarChange}
         getAppointmentSlots={getAppointmentSlots}
-        updateFormData={updateFormData}
-        data={{}}
+        clearCalendarData={clearCalendarData}
+        validateCalendar={validateCalendar}
+        data={{ calendarData: {} }}
         facilityId="123"
         availableDates={availableDates}
         availableSlots={availableSlots}
