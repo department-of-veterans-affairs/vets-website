@@ -64,10 +64,17 @@ const uiSchema = {
   },
 };
 
+const missingDateError = 'Please select a preferred date for your appointment';
+
 export class DateTimeSelectPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { validationError: null };
+    this.state = {
+      submitted: false,
+      validationError: this.userSelectedSlot(props.data)
+        ? null
+        : missingDateError,
+    };
   }
 
   componentDidMount() {
@@ -87,17 +94,12 @@ export class DateTimeSelectPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!prevState.validationError && this.state.validationError?.length > 0) {
+    if (
+      this.state.validationError &&
+      !prevState.submitted &&
+      this.state.submitted
+    ) {
       scrollAndFocus('.usa-input-error-message');
-    }
-
-    const prevSelectedSlotsCount =
-      prevProps.data.calendarData?.selectedDates?.length || 0;
-    const newSelectedSlotsCount =
-      this.props.data.calendarData?.selectedDates?.length || 0;
-
-    if (prevSelectedSlotsCount !== newSelectedSlotsCount) {
-      this.validate();
     }
   }
 
@@ -106,26 +108,28 @@ export class DateTimeSelectPage extends React.Component {
   };
 
   goForward = () => {
-    this.validate();
-    if (this.userSelectedSlot()) {
+    if (this.userSelectedSlot(this.props.data)) {
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
-    } else {
+    } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
+    } else {
+      this.setState({ submitted: true });
     }
   };
 
-  validate = () => {
-    if (this.userSelectedSlot()) {
+  validate = data => {
+    if (this.userSelectedSlot(data)) {
       this.setState({ validationError: null });
     } else {
       this.setState({
-        validationError: 'Please select a preferred date for your appointment',
+        validationError: missingDateError,
       });
     }
   };
 
-  userSelectedSlot = () =>
-    this.props.data.calendarData?.selectedDates?.length > 0;
+  userSelectedSlot(data) {
+    return data.calendarData?.selectedDates?.length > 0;
+  }
 
   render() {
     const {
@@ -169,6 +173,7 @@ export class DateTimeSelectPage extends React.Component {
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={newData => {
+            this.validate(newData);
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
           formContext={{
@@ -177,7 +182,9 @@ export class DateTimeSelectPage extends React.Component {
             getAppointmentSlots: this.props.getAppointmentSlots,
             loadingStatus: appointmentSlotsStatus,
             preferredDate,
-            validationError: this.state.validationError,
+            validationError: this.state.submitted
+              ? this.state.validationError
+              : null,
           }}
           data={data}
         >

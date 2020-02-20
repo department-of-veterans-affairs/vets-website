@@ -59,10 +59,18 @@ const uiSchema = {
   },
 };
 
+const missingDateError =
+  'Please select at least one preferred date for your appointment. You can select up to three dates.';
+
 export class DateTimeRequestPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { validationError: null };
+    this.state = {
+      submitted: false,
+      validationError: this.userSelectedSlot(props.data)
+        ? null
+        : missingDateError,
+    };
   }
 
   componentDidMount() {
@@ -72,48 +80,42 @@ export class DateTimeRequestPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!prevState.validationError && this.state.validationError?.length > 0) {
+    if (
+      this.state.validationError &&
+      !prevState.submitted &&
+      this.state.submitted
+    ) {
       scrollAndFocus('.usa-input-error-message');
-    }
-
-    const prevSelectedSlotsCount =
-      prevProps.data.calendarData?.selectedDates?.length || 0;
-    const newSelectedSlotsCount =
-      this.props.data.calendarData?.selectedDates?.length || 0;
-
-    if (prevSelectedSlotsCount !== newSelectedSlotsCount) {
-      this.validate();
     }
   }
 
   goBack = () => {
-    if (!this.state.validationError) {
-      this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
-    }
+    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    this.validate();
-    if (this.userSelectedSlot()) {
+    if (this.userSelectedSlot(this.props.data)) {
       this.props.routeToNextAppointmentPage(this.props.router, pageKey);
-    } else {
+    } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
+    } else {
+      this.setState({ submitted: true });
     }
   };
 
-  validate = () => {
-    if (this.userSelectedSlot()) {
+  validate = data => {
+    if (this.userSelectedSlot(data)) {
       this.setState({ validationError: null });
     } else {
       this.setState({
-        validationError:
-          'Please select at least one preferred date for your appointment. You can select up to three dates.',
+        validationError: missingDateError,
       });
     }
   };
 
-  userSelectedSlot = () =>
-    this.props.data.calendarData?.selectedDates?.length > 0;
+  userSelectedSlot(data) {
+    return data.calendarData?.selectedDates?.length > 0;
+  }
 
   render() {
     const { schema, data, pageChangeInProgress } = this.props;
@@ -132,9 +134,14 @@ export class DateTimeRequestPage extends React.Component {
           uiSchema={uiSchema}
           onSubmit={this.goForward}
           onChange={newData => {
+            this.validate(newData);
             this.props.updateFormData(pageKey, uiSchema, newData);
           }}
-          formContext={{ validationError: this.state.validationError }}
+          formContext={{
+            validationError: this.state.submitted
+              ? this.state.validationError
+              : null,
+          }}
           data={data}
         >
           <FormButtons
