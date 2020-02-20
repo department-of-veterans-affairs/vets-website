@@ -2,7 +2,7 @@
 export const isEdithNourseRogersScholarship = form =>
   form.isEdithNourseRogersScholarship;
 
-const isEligibleForEdithNourseRogersScholarship = form =>
+export const isEligibleForEdithNourseRogersScholarship = form =>
   form.benefit === 'chapter33' &&
   form.isEdithNourseRogersScholarship &&
   (form['view:exhaustionOfBenefits'] ||

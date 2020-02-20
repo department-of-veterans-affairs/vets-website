@@ -1,5 +1,6 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { isEligibleForEdithNourseRogersScholarship } from './helpers';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit
@@ -18,10 +19,9 @@ const submitForm = (form, formConfig) => {
     preferredContactMethod: form.data.preferredContactMethod,
   };
 
-  const submitUrl =
-    form.data.isEdithNourseRogersScholarship === true
-      ? formConfig.submitUrl.replace('1995', '1995s')
-      : formConfig.submitUrl;
+  const submitUrl = isEligibleForEdithNourseRogersScholarship(form.data)
+    ? formConfig.submitUrl.replace('1995', '1995s')
+    : formConfig.submitUrl;
 
   return submitToUrl(body, submitUrl, formConfig.trackingPrefix, eventData);
 };
