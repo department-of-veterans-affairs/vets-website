@@ -49,7 +49,12 @@ export function scrollToFirstError() {
       document.body.scrollTop ||
       0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    // Don't animate the scrolling if there is an open modal on the page. This
+    // prevents the page behind the modal from scrolling if there is an error in
+    // modal's form.
+    if (!document.body.classList.contains('modal-open')) {
+      Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+    }
     focusElement(errorEl);
   }
 }
