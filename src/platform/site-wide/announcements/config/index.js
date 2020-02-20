@@ -1,3 +1,5 @@
+// Node modules.
+import moment from 'moment';
 // Relative imports.
 import Downtime from '../components/Downtime';
 import ExploreVAModal from '../components/ExploreVAModal';
@@ -10,33 +12,37 @@ import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 
+// Derive when downtime will start and expire.
+const downtimeStartAtDate = moment('2020-02-29 21:00');
+const downtimeExpiresAtDate = moment('2020-02-29 21:30');
+
 const config = {
   announcements: [
     {
       name: 'pre-pre-downtime',
       paths: /(.)/,
       component: PrePreDowntime,
-      startsAt: '2020-02-29 09:00',
-      expiresAt: '2020-02-29 20:00',
+      startsAt: downtimeStartAtDate.clone().subtract(12, 'hours'),
+      expiresAt: downtimeStartAtDate.clone().subtract(1, 'hours'),
       // The following key-value pairs are just used as props, not in selectors.js.
-      downtimeStartsAt: '2020-02-29 21:00',
-      downtimeExpiresAt: '2020-02-29 21:30',
+      downtimeStartsAt: downtimeStartAtDate.toISOString(),
+      downtimeExpiresAt: downtimeExpiresAtDate.toISOString(),
     },
     {
       name: 'pre-downtime',
       paths: /(.)/,
       component: PreDowntime,
-      startsAt: '2020-02-29 20:00',
-      expiresAt: '2020-02-29 21:00',
+      startsAt: downtimeStartAtDate.clone().subtract(1, 'hours'),
+      expiresAt: downtimeStartAtDate.toISOString(),
       // The following key-value pairs are just used as props, not in selectors.js.
-      downtimeStartsAt: '2020-02-29 21:00',
+      downtimeStartsAt: downtimeStartAtDate.toISOString(),
     },
     {
       name: 'downtime',
       paths: /(.)/,
       component: Downtime,
-      startsAt: '2020-02-29 21:00',
-      expiresAt: '2020-02-29 21:30',
+      startsAt: downtimeStartAtDate.toISOString(),
+      expiresAt: downtimeExpiresAtDate.toISOString(),
     },
     {
       name: 'brand-consolidation-va-plus-vets',
