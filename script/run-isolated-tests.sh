@@ -5,7 +5,7 @@
 APP_SUBPATHS="$(find src -name manifest.json | sed -E 's/\/manifest.json//g' | xargs | sed 's/ /|/g')"
 
 # Match changed files to the app paths determined above
-FILES_CHANGED="$(git diff master...HEAD --name-only)"
+FILES_CHANGED="$(git diff origin/master...HEAD --name-only)"
 APP_SUBPATHS_CHANGED="$(echo $FILES_CHANGED | grep -oE "($APP_SUBPATHS)" | uniq)"
 NUM_APPS_CHANGED=$(echo "$APP_SUBPATHS_CHANGED" | wc -l)
 
