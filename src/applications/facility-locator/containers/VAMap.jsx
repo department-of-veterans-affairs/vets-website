@@ -30,6 +30,7 @@ import { areGeocodeEqual, setFocus } from '../utils/helpers';
 import { facilityLocatorShowCommunityCares } from '../utils/selectors';
 import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxClient = mbxGeo(mapboxClient);
@@ -49,6 +50,30 @@ const urgentCareLink = (
       Find VA-approved urgent care locations and pharmacies near you
     </a>
   </p>
+);
+
+// Link to urgent care benefit web page
+const urgentCareDialogLink = (
+  <AlertBox status="warning">
+    <h3 className="usa-alert-heading" tabIndex="-1">
+      Important information about your Community Care appointment
+    </h3>
+    <p>
+      Click below to learn how to prepare for your urgent care appointment with
+      a Community Care provider.
+    </p>
+    <button
+      className="usa-button-primary vads-u-margin-y--0"
+      onClick={() =>
+        window.open(
+          'https://www.va.gov/COMMUNITYCARE/programs/veterans/UrgentCareInstructions.asp',
+          '_blank',
+        )
+      }
+    >
+      Learn about VA urgent care benefit
+    </button>
+  </AlertBox>
 );
 
 class VAMap extends Component {
@@ -496,6 +521,12 @@ class VAMap extends Component {
       currentQuery.facilityType === LocationType.CC_PROVIDER
         ? urgentCareLink
         : otherToolsLink;
+    const showDialogUrgCare =
+      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES ||
+      (currentQuery.facilityType === LocationType.URGENT_CARE &&
+        currentQuery.serviceType === 'NonVAUrgentCare')
+        ? urgentCareDialogLink
+        : null;
     return (
       <div>
         <div className="columns small-12">
@@ -506,6 +537,7 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
             isMobile
           />
+          <div>{showDialogUrgCare}</div>
           <div ref={this.searchResultTitle}>
             {results.length > 0 ? (
               <p className="search-result-title">
@@ -603,6 +635,12 @@ class VAMap extends Component {
       currentQuery.facilityType === LocationType.CC_PROVIDER
         ? urgentCareLink
         : otherToolsLink;
+    const showDialogUrgCare =
+      currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES ||
+      (currentQuery.facilityType === LocationType.URGENT_CARE &&
+        currentQuery.serviceType === 'NonVAUrgentCare')
+        ? urgentCareDialogLink
+        : null;
 
     return (
       <div className="desktop-container">
@@ -614,6 +652,7 @@ class VAMap extends Component {
             showCommunityCares={showCommunityCares}
           />
         </div>
+        <div>{showDialogUrgCare}</div>
         <div ref={this.searchResultTitle} style={{ paddingLeft: '15px' }}>
           {results.length > 0 ? (
             <p className="search-result-title">
