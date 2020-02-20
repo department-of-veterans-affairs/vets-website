@@ -1,14 +1,20 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonSchemaDefinitions from 'vets-json-schema/dist/definitions.json';
-import Schema2346 from '../2346-schema.json';
+import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import personalInfoBox from '../components/personalInfoBox';
-import { vetFields } from '../constants/';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import UIDefinitions from '../definitions/2346UI';
+import prefillTransformer from '../prefillTransformer';
 
-const { email, address } = Schema2346.definitions;
-const { fullName, gender, date } = commonSchemaDefinitions;
+const {
+  email,
+  dateOfBirth,
+  veteranFullName,
+  veteranAddress,
+} = fullSchema.properties;
+
+const { fullName, address, gender } = fullSchema.definitions;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
@@ -16,36 +22,27 @@ const formChapters = {
 
 const formPages = {
   personalDetails: 'Personal Details',
-  address: 'Confirm Address',
+  confirmAddress: 'Confirm Address',
 };
-
-const {
-  addressUI,
-  dateOfBirthUI,
-  emailUI,
-  genderUI,
-  fullNameUI,
-} = UIDefinitions.sharedUISchemas;
 
 const formConfig = {
   urlPrefix: '/',
   submitUrl: '/posts',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  preSubmitInfo,
   trackingPrefix: 'va-2346a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   defaultDefinitions: {
-    date,
-    email,
-    gender,
     fullName,
     address,
   },
@@ -58,37 +55,27 @@ const formConfig = {
           title: formPages.personalDetails,
           uiSchema: {
             'ui:description': personalInfoBox,
-            [vetFields.fullName]: fullNameUI,
-            [vetFields.dateOfBirth]: dateOfBirthUI,
-            [vetFields.gender]: genderUI,
           },
           schema: {
             type: 'object',
-            required: [
-              vetFields.fullName,
-              vetFields.dateOfBirth,
-              vetFields.gender,
-            ],
             properties: {
-              [vetFields.fullName]: fullName,
-              [vetFields.dateOfBirth]: date,
-              [vetFields.gender]: gender,
+              veteranFullName,
+              dateOfBirth,
+              gender,
             },
           },
         },
         [formPages.address]: {
           path: 'veteran-information/addresses',
-          title: formPages.address,
+          title: formPages.confirmAddress,
           uiSchema: {
-            [vetFields.address]: addressUI,
-            [vetFields.email]: emailUI,
+            'ui:description': PrefillMessage,
           },
           schema: {
             type: 'object',
-            required: [vetFields.address, vetFields.email],
             properties: {
-              [vetFields.address]: address,
-              [vetFields.email]: email,
+              veteranAddress,
+              email,
             },
           },
         },
