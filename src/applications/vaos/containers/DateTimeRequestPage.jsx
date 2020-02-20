@@ -68,7 +68,7 @@ export class DateTimeRequestPage extends React.Component {
 
   render() {
     const { data, pageChangeInProgress } = this.props;
-    const calendarData = data?.calendarData;
+    const calendarData = data?.calendarData || {};
     const { currentlySelectedDate, selectedDates, error } = calendarData;
 
     const additionalOptions = {

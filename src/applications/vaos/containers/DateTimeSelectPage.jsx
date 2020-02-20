@@ -103,7 +103,7 @@ export class DateTimeSelectPage extends React.Component {
       typeOfCareId,
     } = this.props;
 
-    const calendarData = data?.calendarData;
+    const calendarData = data?.calendarData || {};
     const { currentlySelectedDate, selectedDates, error } = calendarData;
     const startMonth = preferredDate
       ? moment(preferredDate).format('YYYY-MM')
