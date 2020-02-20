@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
-import * as address from '../../../../platform/forms/definitions/address';
+import * as address from 'platform/forms/definitions/address';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
@@ -11,7 +11,7 @@ import * as toursOfDuty from '../../definitions/toursOfDuty.jsx';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-import createApplicantInformationPage from '../../../../platform/forms/pages/applicantInformation';
+import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 import {

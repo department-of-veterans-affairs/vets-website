@@ -1,4 +1,4 @@
-const Timeouts = require('../../../../platform/testing/e2e/timeouts.js');
+const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 function completeMilitaryService(client) {
   client.click('input#root_view\\:hasServiceBefore1978Yes');
