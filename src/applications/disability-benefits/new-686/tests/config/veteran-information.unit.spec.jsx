@@ -2,8 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { changeDropdown } from '../helpers/index.js'
-
+import { changeDropdown } from '../helpers/index.js';
 import {
   DefinitionTester,
   fillData,
@@ -12,7 +11,10 @@ import {
 import formConfig from '../../config/form';
 
 describe('686 veteran information', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranInformation.pages.veteranInformation;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -52,9 +54,9 @@ describe('686 veteran information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_first', 'Bill'); 
+    fillData(form, 'input#root_first', 'Bill');
     fillData(form, 'input#root_last', 'Bob');
-    fillData(form, 'input#root_ssn', '555-55-5551'); 
+    fillData(form, 'input#root_ssn', '555-55-5551');
     changeDropdown(form, 'select#root_birthDateMonth', 1);
     changeDropdown(form, 'select#root_birthDateDay', 1);
     fillData(form, 'input#root_birthDateYear', '2002');
@@ -64,11 +66,13 @@ describe('686 veteran information', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-
 });
 
 describe('686 veteran Address', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranAddress;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.veteranInformation.pages.veteranAddress;
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -108,15 +112,14 @@ describe('686 veteran Address', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_city', 'Someplace'); 
+    fillData(form, 'input#root_city', 'Someplace');
     fillData(form, 'input#root_postalCode', '12345');
-    fillData(form, 'input#root_phoneNumber', '5555551');
-    changeDropdown(form, 'select#root_countryDropdown', "United States");
+    fillData(form, 'input#root_phoneNumber', '555-5551');
+    changeDropdown(form, 'select#root_countryDropdown', 'United States');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-
 });
