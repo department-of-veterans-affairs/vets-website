@@ -16,8 +16,6 @@ import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 const downtimeStartAtDate = moment.utc('2020-03-01 2:00').local();
 const downtimeExpiresAtDate = moment.utc('2020-03-01 2:30').local();
 
-console.log('downtimeStartAtDate', downtimeStartAtDate);
-
 const config = {
   announcements: [
     {
