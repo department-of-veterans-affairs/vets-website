@@ -13,8 +13,10 @@ import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
 
 // Derive when downtime will start and expire.
-const downtimeStartAtDate = moment('2020-02-29 21:00');
-const downtimeExpiresAtDate = moment('2020-02-29 21:30');
+const downtimeStartAtDate = moment.utc('2020-03-01 2:00').local();
+const downtimeExpiresAtDate = moment.utc('2020-03-01 2:30').local();
+
+console.log('downtimeStartAtDate', downtimeStartAtDate);
 
 const config = {
   announcements: [
