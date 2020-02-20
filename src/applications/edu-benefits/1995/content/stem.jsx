@@ -18,7 +18,9 @@ export const rogersStemScholarshipInfo = (
       <b>To be considered, you must meet all the requirements below. You:</b>
     </p>
     <ul>
-      <li>Are using or recently used Post-9/11 or Fry Scholarship benefits</li>
+      <li>
+        Are using or recently used Post-9/11 GI Bill or Fry Scholarship benefits
+      </li>
       <li>
         Have used all your education benefits or are within 6 months of doing
         so.
