@@ -544,6 +544,7 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           calendarData: {},
         },
+        fetchedAppointmentSlotMonths: [],
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {

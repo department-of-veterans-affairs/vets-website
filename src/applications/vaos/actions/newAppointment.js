@@ -493,6 +493,8 @@ export function getAppointmentSlots(startDate, endDate) {
           return acc;
         }, []);
 
+        // Keep track of which months we've fetched already so we don't
+        // make duplicate calls
         if (!fetchedStartMonth) {
           fetchedAppointmentSlotMonths.push(startDateMonth);
         }

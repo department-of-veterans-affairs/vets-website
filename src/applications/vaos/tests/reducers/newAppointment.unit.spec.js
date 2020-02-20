@@ -745,6 +745,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
       expect(newState.data.calendarData).to.deep.equal({});
+      expect(newState.fetchedAppointmentSlotMonths).to.deep.equal([]);
     });
   });
 
