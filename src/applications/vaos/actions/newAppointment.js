@@ -89,7 +89,8 @@ export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
 export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
-export const FORM_CALENDAR_ON_CHANGE = 'newAppointment/FORM_CALENDAR_ON_CHANGE';
+export const FORM_CALENDAR_DATA_CHANGED =
+  'newAppointment/FORM_CALENDAR_DATA_CHANGED';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -525,19 +526,13 @@ export function onCalendarChange({
   currentRowIndex,
   selectedDates,
 }) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_CALENDAR_ON_CHANGE,
-      calendarData: {
-        currentlySelectedDate,
-        selectedDates,
-        currentRowIndex,
-        error:
-          selectedDates?.length > 0
-            ? null
-            : getFormData(getState())?.calendarData?.error,
-      },
-    });
+  return {
+    type: FORM_CALENDAR_DATA_CHANGED,
+    calendarData: {
+      currentlySelectedDate,
+      selectedDates,
+      currentRowIndex,
+    },
   };
 }
 

@@ -24,7 +24,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
-  FORM_CALENDAR_ON_CHANGE,
+  FORM_CALENDAR_DATA_CHANGED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -517,7 +517,7 @@ export default function formReducer(state = initialState, action) {
         appointmentSlotsStatus: FETCH_STATUS.failed,
       };
     }
-    case FORM_CALENDAR_ON_CHANGE: {
+    case FORM_CALENDAR_DATA_CHANGED: {
       return {
         ...state,
         data: {

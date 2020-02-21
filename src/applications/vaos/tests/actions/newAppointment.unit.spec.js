@@ -53,7 +53,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
-  FORM_CALENDAR_ON_CHANGE,
+  FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
 import parentFacilities from '../../api/facilities.json';
@@ -812,25 +812,14 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should dispatch onChange action', async () => {
-      const getState = () => ({
-        newAppointment: {
-          data: {
-            calendarData: {
-              selectedDates: [{}],
-            },
-          },
-        },
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = onCalendarChange({
-        currentlySelectedDate: '2020-12-11',
-        currentRowIndex: 1,
-        selectedDates: [{}, {}],
-      });
-      await thunk(dispatch, getState);
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CALENDAR_ON_CHANGE);
+    it('should dispatch onChange action', () => {
+      expect(
+        onCalendarChange({
+          currentlySelectedDate: '2020-12-11',
+          currentRowIndex: 1,
+          selectedDates: [{}, {}],
+        }).type,
+      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
     });
   });
 
