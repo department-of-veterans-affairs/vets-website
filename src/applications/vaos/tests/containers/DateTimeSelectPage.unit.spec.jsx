@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DateTimeSelectPage } from '../../containers/DateTimeSelectPage';
+import {
+  DateTimeSelectPage,
+  getOptionsByDate,
+} from '../../containers/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const availableDates = ['2019-10-29'];
@@ -188,5 +191,17 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).to.contain(pageTitle);
     form.unmount();
+  });
+
+  it('should return options for date with getOptionsByDate', () => {
+    const selectedDate = '2019-10-29';
+    const options = getOptionsByDate(selectedDate, availableSlots);
+    expect(options.length).to.equal(2);
+    expect(options[0].label.props.children[0]).to.equal('9:30');
+    expect(options[0].label.props.children[2].props.children).to.equal('a.m.');
+    expect(options[0].label.props.children[4].props.children).to.equal('AM');
+    expect(options[1].label.props.children[0]).to.equal('10:00');
+    expect(options[1].label.props.children[2].props.children).to.equal('a.m.');
+    expect(options[1].label.props.children[4].props.children).to.equal('AM');
   });
 });

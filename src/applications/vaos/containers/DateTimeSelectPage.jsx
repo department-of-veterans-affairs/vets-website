@@ -22,6 +22,27 @@ const pageTitle = 'Tell us the date and time you’d like your appointment';
 
 const missingDateError = 'Please select a preferred date for your appointment';
 
+export function getOptionsByDate(selectedDate, availableSlots = []) {
+  const options = availableSlots.reduce((acc, slot) => {
+    if (slot.date === selectedDate) {
+      const time = moment(slot.datetime);
+      const meridiem = time.format('A');
+      const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
+      acc.push({
+        value: slot.datetime,
+        label: (
+          <>
+            {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
+            <span className="sr-only">{screenReaderMeridiem}</span>
+          </>
+        ),
+      });
+    }
+    return acc;
+  }, []);
+
+  return options;
+}
 export class DateTimeSelectPage extends React.Component {
   constructor(props) {
     super(props);
@@ -55,29 +76,6 @@ export class DateTimeSelectPage extends React.Component {
       scrollAndFocus('.usa-input-error-message');
     }
   }
-
-  getOptionsByDate = selectedDate => {
-    const availableSlots = this.props.availableSlots || [];
-    const options = availableSlots.reduce((acc, slot) => {
-      if (slot.date === selectedDate) {
-        const time = moment(slot.datetime);
-        const meridiem = time.format('A');
-        const screenReaderMeridiem = meridiem.replace(/\./g, '').toUpperCase();
-        acc.push({
-          value: slot.datetime,
-          label: (
-            <>
-              {time.format('h:mm')} <span aria-hidden="true">{meridiem}</span>{' '}
-              <span className="sr-only">{screenReaderMeridiem}</span>
-            </>
-          ),
-        });
-      }
-      return acc;
-    }, []);
-
-    return options;
-  };
 
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
@@ -160,7 +158,8 @@ export class DateTimeSelectPage extends React.Component {
             fieldName: 'datetime',
             required: true,
             maxSelections: 1,
-            getOptionsByDate: this.getOptionsByDate,
+            getOptionsByDate: selectedDate =>
+              getOptionsByDate(selectedDate, availableSlots),
           }}
           loadingStatus={appointmentSlotsStatus}
           onChange={newData => {

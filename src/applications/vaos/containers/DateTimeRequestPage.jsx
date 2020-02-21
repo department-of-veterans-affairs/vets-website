@@ -19,6 +19,18 @@ const pageTitle = 'Choose a day and time for your appointment';
 const missingDateError =
   'Please select at least one preferred date for your appointment. You can select up to three dates.';
 
+export function getOptionsByDate() {
+  return [
+    {
+      value: 'AM',
+      label: 'AM',
+    },
+    {
+      value: 'PM',
+      label: 'PM',
+    },
+  ];
+}
 export class DateTimeRequestPage extends React.Component {
   constructor(props) {
     super(props);
@@ -39,17 +51,6 @@ export class DateTimeRequestPage extends React.Component {
       scrollAndFocus('.usa-input-error-message');
     }
   }
-
-  getOptionsByDate = () => [
-    {
-      value: 'AM',
-      label: 'AM',
-    },
-    {
-      value: 'PM',
-      label: 'PM',
-    },
-  ];
 
   goBack = () => {
     if (!this.state.validationError) {
@@ -95,7 +96,7 @@ export class DateTimeRequestPage extends React.Component {
       maxSelections: 2,
       validationMessage:
         'Please select a preferred time or unselect this date to continue',
-      getOptionsByDate: this.getOptionsByDate,
+      getOptionsByDate,
     };
 
     return (

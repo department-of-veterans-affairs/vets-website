@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DateTimeRequestPage } from '../../containers/DateTimeRequestPage';
+import {
+  DateTimeRequestPage,
+  getOptionsByDate,
+} from '../../containers/DateTimeRequestPage';
 
 describe('VAOS <DateTimeRequestPage>', () => {
   it('should render', () => {
@@ -101,5 +104,14 @@ describe('VAOS <DateTimeRequestPage>', () => {
     expect(form.find('h1').text()).to.equal(pageTitle);
     expect(document.title).to.contain(pageTitle);
     form.unmount();
+  });
+
+  it('should return options for date with getOptionsByDate', () => {
+    const options = getOptionsByDate();
+    expect(options.length).to.equal(2);
+    expect(options[0].value).to.equal('AM');
+    expect(options[0].label).to.equal('AM');
+    expect(options[1].value).to.equal('PM');
+    expect(options[1].label).to.equal('PM');
   });
 });
