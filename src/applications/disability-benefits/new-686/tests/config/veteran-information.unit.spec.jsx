@@ -81,7 +81,7 @@ describe('686 veteran Address', () => {
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(1);
     form.unmount();
   });
@@ -97,7 +97,7 @@ describe('686 veteran Address', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -112,10 +112,12 @@ describe('686 veteran Address', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_city', 'Someplace');
-    fillData(form, 'input#root_postalCode', '12345');
-    fillData(form, 'input#root_phoneNumber', '555-5551');
     changeDropdown(form, 'select#root_countryDropdown', 'United States');
+    fillData(form, 'input#root_street', '123 Front St');
+    fillData(form, 'input#root_city', 'Someplace');
+    fillData(form, 'input#root_state', 'Some State');
+    fillData(form, 'input#root_postalCode', '12345');
+    fillData(form, 'input#root_phoneNumber', '2225555551');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

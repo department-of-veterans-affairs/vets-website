@@ -10,9 +10,10 @@ export const schema = {
     line2: genericSchemas.genericTextinput,
     line3: genericSchemas.genericTextinput,
     city: genericSchemas.genericTextinput,
+    state: genericSchemas.genericTextinput,
     postalCode: genericSchemas.genericNumberInput,
-    phoneNumber: genericSchemas.genericNumberInput,
-    emailAddress: genericSchemas.genericTextinput,
+    phoneNumber: genericSchemas.phoneInput,
+    emailAddress: genericSchemas.emailInput,
   },
 };
 
@@ -23,6 +24,7 @@ export const uiSchema = {
   },
   street: {
     'ui:title': 'Street',
+    'ui:required': () => true,
   },
   line2: {
     'ui:title': 'Line 2',
@@ -32,6 +34,10 @@ export const uiSchema = {
   },
   city: {
     'ui:title': 'City',
+    'ui:required': () => true,
+  },
+  state: {
+    'ui:title': 'State',
     'ui:required': () => true,
   },
   postalCode: {
@@ -47,6 +53,9 @@ export const uiSchema = {
     },
     'ui:required': () => true,
     'ui:title': 'Phone Number',
+    'ui:errorMessages': {
+      pattern: 'Please enter only numbers, no dashes or parenthesis',
+    },
   },
   emailAddress: emailUI(),
 };

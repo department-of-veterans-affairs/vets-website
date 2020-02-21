@@ -5,6 +5,7 @@ import {
   suffixes,
   textOnlyPattern,
   countries,
+  phonePattern,
 } from './constants';
 
 export const genericSchemas = {
@@ -27,7 +28,6 @@ export const genericSchemas = {
   genericTextinput: {
     type: 'string',
     maxLength: 50,
-    pattern: textOnlyPattern,
   },
   genericNumberInput: {
     type: 'string',
@@ -73,5 +73,13 @@ export const genericSchemas = {
   date: {
     type: 'string',
     pattern: datePattern,
+  },
+  emailInput: {
+    type: 'string',
+    format: 'email',
+  },
+  phoneInput: {
+    type: 'string',
+    pattern: phonePattern,
   },
 };
