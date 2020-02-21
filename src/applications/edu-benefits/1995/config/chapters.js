@@ -15,6 +15,7 @@ import createApplicantInformationPage from 'platform/forms/pages/applicantInform
 
 import { showSchoolAddress } from '../../utils/helpers';
 import {
+  display1995StemFlow,
   isEdithNourseRogersScholarship,
   displayStemEligibility,
 } from '../helpers';
@@ -86,14 +87,14 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: isEdithNourseRogersScholarship, // 1995-STEM related
+        depends: display1995StemFlow, // 1995-STEM related
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        depends: form => !isEdithNourseRogersScholarship(form), // 1995-STEM related
+        depends: form => !display1995StemFlow(form), // 1995-STEM related
         uiSchema: {
           'view:newService': {
             'ui:title':
@@ -117,7 +118,7 @@ export const chapters = {
       militaryHistory: {
         title: 'Military history',
         path: 'military/history',
-        depends: form => !isEdithNourseRogersScholarship(form), // 1995-STEM related
+        depends: form => !display1995StemFlow(form), // 1995-STEM related
         uiSchema: {
           'view:hasServiceBefore1978': {
             'ui:title':
