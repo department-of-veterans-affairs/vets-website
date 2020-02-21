@@ -116,4 +116,85 @@ describe('profile360 selectors', () => {
       expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
     });
   });
+
+  describe('directDepositIsBlocked', () => {
+    it('returns `false` if the isCompetentIndicator, noFiduciaryAssignedIndicator, and notDeceasedIndicator flags are all `true`', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  isCompetentIndicator: true,
+                  noFiduciaryAssignedIndicator: true,
+                  notDeceasedIndicator: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+    });
+    it('returns `true` if the control information is not set', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [{ paymentInformation: {} }],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+    it('returns `true` if the `isCompetentIndicator` is not true', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  isCompetentIndicator: null,
+                  noFiduciaryAssignedIndicator: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+    it('returns `true` if the `noFiduciaryAssignedIndicator` is not true', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  isCompetentIndicator: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+    it('returns `true` if the `notDeceasedIndicator` is not true', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  isCompetentIndicator: true,
+                  noFiduciaryAssignedIndicator: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+  });
 });

@@ -24,6 +24,7 @@ import MVIError from './MVIError';
 import {
   directDepositIsSetUp,
   directDepositAddressIsSetUp,
+  directDepositIsBlocked,
   profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
 
@@ -189,9 +190,11 @@ class ProfileView extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const directDepositIsAllowed = !directDepositIsBlocked(state);
   return {
     showDirectDepositLink:
-      directDepositIsSetUp(state) || directDepositAddressIsSetUp(state),
+      directDepositIsAllowed &&
+      (directDepositIsSetUp(state) || directDepositAddressIsSetUp(state)),
     showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }
