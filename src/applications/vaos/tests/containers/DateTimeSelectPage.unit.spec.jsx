@@ -197,16 +197,33 @@ describe('VAOS <DateTimeSelectPage>', () => {
   it('should return options for date with getOptionsByDate', () => {
     const selectedDate = '2019-10-29';
     const options = getOptionsByDate(selectedDate, availableSlots);
+    const dateTime0 = moment(availableSlots[0].datetime);
+    const dateTime1 = moment(availableSlots[1].datetime);
+    const srMeridiem = m =>
+      m
+        .format('A')
+        .replace(/\./g, '')
+        .toUpperCase();
+
     expect(options.length).to.equal(2);
     expect(options[0].label.props.children[0]).to.equal(
-      moment(availableSlots[0].datetime).format('h:mm'),
+      dateTime0.format('h:mm'),
     );
-    expect(options[0].label.props.children[2].props.children).to.equal('a.m.');
-    expect(options[0].label.props.children[4].props.children).to.equal('AM');
+    expect(options[0].label.props.children[2].props.children).to.equal(
+      dateTime0.format('A'),
+    );
+    expect(options[0].label.props.children[4].props.children).to.equal(
+      srMeridiem(dateTime0),
+    );
+
     expect(options[1].label.props.children[0]).to.equal(
-      moment(availableSlots[1].datetime).format('h:mm'),
+      dateTime1.format('h:mm'),
     );
-    expect(options[1].label.props.children[2].props.children).to.equal('a.m.');
-    expect(options[1].label.props.children[4].props.children).to.equal('AM');
+    expect(options[1].label.props.children[2].props.children).to.equal(
+      dateTime1.format('A'),
+    );
+    expect(options[1].label.props.children[4].props.children).to.equal(
+      srMeridiem(dateTime1),
+    );
   });
 });
