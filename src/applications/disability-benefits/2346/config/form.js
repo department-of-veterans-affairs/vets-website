@@ -1,5 +1,5 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
+import fullSchemaMDOT from 'vets-json-schema/dist/MDOT-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -9,9 +9,9 @@ const {
   dateOfBirth,
   veteranFullName,
   veteranAddress,
-} = fullSchema.properties;
+} = fullSchemaMDOT.properties;
 
-const { fullName, address, gender } = fullSchema.definitions;
+const { fullName, address, gender } = fullSchemaMDOT.definitions;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
