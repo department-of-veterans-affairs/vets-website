@@ -15,8 +15,8 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
-import PaymentInformation from '../containers/PaymentInformation';
-import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
+// import PaymentInformation from '../containers/PaymentInformation';
+// import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
@@ -27,14 +27,15 @@ import {
   profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
 
-const ProfileTOC = ({ militaryInformation, showDirectDepositLink }) => (
+const ProfileTOC = ({ militaryInformation }) => (
+  // const ProfileTOC = ({ militaryInformation, showDirectDepositLink }) => (
   <>
     <h2 className="vads-u-font-size--h3">On this page</h2>
     <ul>
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      {showDirectDepositLink && <PaymentInformationTOCItem />}
+      {/* {showDirectDepositLink && <PaymentInformationTOCItem />} */}
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
@@ -89,7 +90,7 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
-      showDirectDepositLink,
+      // showDirectDepositLink,
       showReceiveTextNotifications,
     } = this.props;
 
@@ -117,16 +118,16 @@ class ProfileView extends React.Component {
               />
               <ProfileTOC
                 militaryInformation={militaryInformation}
-                showDirectDepositLink={showDirectDepositLink}
+                // showDirectDepositLink={showDirectDepositLink}
               />
               <div id="contact-information" />
               <ContactInformation
                 showReceiveTextNotifications={showReceiveTextNotifications}
               />
-              <>
+              {/* <>
                 <div id="direct-deposit" />
                 <PaymentInformation />
-              </>
+              </> */}
               <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
