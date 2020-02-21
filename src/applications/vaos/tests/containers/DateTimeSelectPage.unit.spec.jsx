@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import moment from 'moment';
 
 import {
   DateTimeSelectPage,
@@ -197,10 +198,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const selectedDate = '2019-10-29';
     const options = getOptionsByDate(selectedDate, availableSlots);
     expect(options.length).to.equal(2);
-    expect(options[0].label.props.children[0]).to.equal('9:30');
+    expect(options[0].label.props.children[0]).to.equal(
+      moment(availableSlots[0].datetime).format('h:mm'),
+    );
     expect(options[0].label.props.children[2].props.children).to.equal('a.m.');
     expect(options[0].label.props.children[4].props.children).to.equal('AM');
-    expect(options[1].label.props.children[0]).to.equal('10:00');
+    expect(options[1].label.props.children[0]).to.equal(
+      moment(availableSlots[1].datetime).format('h:mm'),
+    );
     expect(options[1].label.props.children[2].props.children).to.equal('a.m.');
     expect(options[1].label.props.children[4].props.children).to.equal('AM');
   });
