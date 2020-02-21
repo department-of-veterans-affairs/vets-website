@@ -16,7 +16,6 @@ import createApplicantInformationPage from 'platform/forms/pages/applicantInform
 import { showSchoolAddress } from '../../utils/helpers';
 import {
   isEdithNourseRogersScholarship,
-  displayActiveDuty,
   displayStemEligibility,
 } from '../helpers';
 
@@ -87,10 +86,7 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: form =>
-          environment.isProduction()
-            ? isEdithNourseRogersScholarship(form)
-            : displayActiveDuty(form), // 1995-STEM related
+        depends: isEdithNourseRogersScholarship, // 1995-STEM related
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },

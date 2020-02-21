@@ -15,7 +15,3 @@ export const isEligibleForEdithNourseRogersScholarship = form =>
 export const displayStemEligibility = form =>
   isEdithNourseRogersScholarship(form) &&
   !isEligibleForEdithNourseRogersScholarship(form);
-
-export const displayActiveDuty = form =>
-  isEdithNourseRogersScholarship(form) &&
-  isEligibleForEdithNourseRogersScholarship(form);
