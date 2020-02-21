@@ -1,9 +1,9 @@
 import React from 'react';
-// import { Link } from 'react-router';
+import { Link } from 'react-router';
 
 import { capitalizeEachWord, isDisabilityPtsd } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
-// import formConfig from '../config/form';
+import formConfig from '../config/form';
 import { NULL_CONDITION_STRING } from '../constants';
 
 const mapDisabilityName = (disabilityName, formData, index) => {
@@ -52,18 +52,17 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const selectedDisabilitiesList = ratedDisabilityNames
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
-  // const orientationPath =
-  //   formConfig?.chapters.disabilities.pages.disabilitiesOrientation.path || '/';
+  const orientationPath =
+    formConfig?.chapters.disabilities.pages.disabilitiesOrientation.path || '/';
 
   return (
     <>
       <p>
         Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please go back to the
-        beginning of this step and add it
-        {/* <Link aria-label="Add missing disabilities" to={orientationPath}>
+        If a disability is missing from the list, please{' '}
+        <Link aria-label="Add missing disabilities" to={orientationPath}>
           go back and add it
-        </Link> */}
+        </Link>
         .
       </p>
       <ul>{selectedDisabilitiesList}</ul>
