@@ -10,10 +10,8 @@ const alertContent = (
       have one year from the date on your decision letter to request a decision
       review. The deadline to file may be different if you have a fiduciary
       claim, a{' '}
-      <a href="/decision-reviews/multiple-party-claims/">
-        claim contested by multiple parties
-      </a>
-      , or if you’re filing a{' '}
+      <a href="/decision-reviews/multiple-party-claims/">contested claim</a>, or
+      if you’re filing a{' '}
       <a href="/decision-reviews/#supplemental-claim">Supplemental Claim</a>.
     </p>
     <p>

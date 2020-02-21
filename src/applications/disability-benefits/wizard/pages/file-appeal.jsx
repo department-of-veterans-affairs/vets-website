@@ -6,9 +6,9 @@ const alertContent = (
   <>
     <p>
       If you disagree with a VA decision on your claim, you can file a
-      Supplemental Claim for all or some of the decisions. This is the only
-      decision review option available, as other options needed to be filed
-      within a year of the date of the decision letter.
+      Supplemental Claim. Because more than a year has passed since the date on
+      your decision letter, you can no longer request a Higher-Level Review or
+      Board Appeal.
     </p>
     <p>
       <a href="/decision-reviews/supplemental-claim/">
