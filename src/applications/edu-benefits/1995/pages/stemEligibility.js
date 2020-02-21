@@ -20,7 +20,7 @@ export const schema = {
     'view:determineEligibility': {
       type: 'object',
       properties: {
-        determineEligibility: {
+        'view:determineEligibility': {
           type: 'boolean',
         },
       },

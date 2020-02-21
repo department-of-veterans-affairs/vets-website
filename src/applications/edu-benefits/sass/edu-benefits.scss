@@ -168,36 +168,38 @@
 .stem-eligibility-page {
   max-width: 100%;
   width: 100%;
+}
 
-  .stem-eligibility {
-    background-color: #f1f1f1;
-    padding: 0.5em 1em;
 
-    p {
-      margin-bottom: 0.5em;
-    }
+.stem-eligibility {
+  background-color: #f1f1f1;
+  padding: 0.5em 1em;
 
-    ul {
-      margin-left: 1.5em;
-      margin-top: 0.263em;
-
-      li {
-        margin-bottom: 0;
-      }
-    }
-
-    .explore-other-benefits {
-      padding-top: 1em;
-    }
-
-    .explore-other-benefits-button {
-      padding-top: 1em;
-    }
-
+  p {
+    margin-bottom: 0.5em;
   }
 
-  .stem-eligibility-continue-application {
-    padding-top: 2em;
+  ul {
+    margin-left: 1.5em;
+    margin-top: 0.263em;
+    list-style: none !important;
+
+    li {
+      margin-bottom: 0;
+    }
   }
+
+  .explore-other-benefits {
+    padding-top: 1em;
+  }
+
+  .explore-other-benefits-button {
+    padding-top: 1em;
+  }
+
+}
+
+.stem-eligibility-continue-application {
+  padding-top: 2em;
 }
 

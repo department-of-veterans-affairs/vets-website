@@ -19,7 +19,7 @@ export const displayStemEligibility = form =>
   !isEligibleForEdithNourseRogersScholarship(form);
 
 export const determineEligibilityFor1995Stem = form =>
-  form['view:determineEligibility'].determineEligibility;
+  form['view:determineEligibility']['view:determineEligibility'];
 
 export const display1995StemFlow = form =>
   environment.isProduction()

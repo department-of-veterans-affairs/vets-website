@@ -62,7 +62,7 @@ export class StemEligibilityView extends React.Component {
           <br />
           <b>Your responses:</b>
         </p>
-        <ul className="fa-ul">
+        <ul className="fa-ul stem-eligibility-ul">
           <li>
             <span className="fa-li">
               <i
@@ -109,8 +109,7 @@ export class StemEligibilityView extends React.Component {
   };
 
   renderDetermineEligibility = () => {
-    const { showErrors } = this.props;
-    const { determineEligibility } = this.props.formData;
+    const { showErrors, determineEligibility } = this.props;
     const id = 'root_determineEligibility';
     const divClassName = classNames(
       'form-radio-buttons',
@@ -134,7 +133,7 @@ export class StemEligibilityView extends React.Component {
           id={`${id}No`}
           name={`${id}`}
           value="N"
-          onChange={() => this.onChange({ determineEligibility: false })}
+          onChange={() => this.onChange({ 'view:determineEligibility': false })}
         />
         <label htmlFor={`${id}No`}>No</label>
         <input
@@ -143,7 +142,7 @@ export class StemEligibilityView extends React.Component {
           id={`${id}Yes`}
           name={`${id}`}
           value="Y"
-          onChange={() => this.onChange({ determineEligibility: true })}
+          onChange={() => this.onChange({ 'view:determineEligibility': true })}
         />
         <label htmlFor={`${id}Yes`}>Yes</label>
       </div>
@@ -203,10 +202,13 @@ export class StemEligibilityView extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  const determineEligibility = _.get(ownProps, 'formData.determineEligibility');
+  const determineEligibility = _.get(
+    ownProps,
+    'formData.view:determineEligibility',
+  );
   const errors = _.get(
     ownProps,
-    'errorSchema.determineEligibility.__errors',
+    'errorSchema.view:determineEligibility.__errors',
     [],
   );
   return {
