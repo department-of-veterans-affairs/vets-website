@@ -72,6 +72,8 @@ const excludedForms = new Set([
   '28-1900',
   '28-8832',
   '24-0296',
+  '10-10CG-example',
+  '10-10CG',
   VA_FORM_IDS.FORM_21_526EZ, // old
   VA_FORM_IDS.FORM_22_1995S,
   'definitions',
