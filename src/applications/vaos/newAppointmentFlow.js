@@ -159,12 +159,10 @@ export default {
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
     next(state) {
-      const eyeID = getFormData(state).typeOfEyeCareId;
-      if (eyeID === '407') {
+      if (getFormData(state).typeOfEyeCareId === '407') {
         return 'vaFacility';
-      } else if (eyeID === '408') {
-        return 'typeOfFacility';
       }
+      return 'typeOfFacility';
     },
     previous: 'typeOfCare',
   },
