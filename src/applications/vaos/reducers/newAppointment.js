@@ -24,9 +24,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
-  FORM_CALENDAR_CLEAR_DATA,
   FORM_CALENDAR_ON_CHANGE,
-  FORM_CALENDAR_VALIDATE,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
@@ -528,25 +526,6 @@ export default function formReducer(state = initialState, action) {
         },
       };
     }
-    case FORM_CALENDAR_VALIDATE: {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          calendarData: { ...state.data.calendarData, error: action.error },
-        },
-      };
-    }
-    case FORM_CALENDAR_CLEAR_DATA: {
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          calendarData: {},
-        },
-        fetchedAppointmentSlotMonths: [],
-      };
-    }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       let reasonMaxChars = REASON_MAX_CHARS.request;
 
@@ -690,7 +669,10 @@ export default function formReducer(state = initialState, action) {
 
       return {
         ...state,
-        data,
+        data: {
+          ...data,
+          calendarData: {},
+        },
         pages: {
           ...state.pages,
           [action.page]: schema,

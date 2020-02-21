@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import {
-  clearCalendarData,
   getAppointmentSlots,
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
-  validateCalendar,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -22,10 +20,15 @@ import { FETCH_STATUS } from '../utils/constants';
 const pageKey = 'selectDateTime';
 const pageTitle = 'Tell us the date and time you’d like your appointment';
 
+const missingDateError = 'Please select a preferred date for your appointment';
+
 export class DateTimeSelectPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { validationError: null };
+    this.state = {
+      submitted: false,
+      validationError: null,
+    };
   }
 
   componentDidMount() {
@@ -43,10 +46,11 @@ export class DateTimeSelectPage extends React.Component {
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (
-      !prevProps.data?.calendarData?.error &&
-      this.props.data?.calendarData?.error?.length > 0
+      this.state.validationError &&
+      !prevState.submitted &&
+      this.state.submitted
     ) {
       scrollAndFocus('.usa-input-error-message');
     }
@@ -76,18 +80,35 @@ export class DateTimeSelectPage extends React.Component {
   };
 
   goBack = () => {
-    this.props.clearCalendarData();
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
-    this.props.validateCalendar(pageKey);
-    if (this.props.data.calendarData?.selectedDates?.length > 0) {
-      this.props.routeToNextAppointmentPage(this.props.router, pageKey);
-    } else {
+    const { data, router } = this.props;
+    const { calendarData } = data || {};
+    this.validate(calendarData);
+    if (this.userSelectedSlot(calendarData)) {
+      this.props.routeToNextAppointmentPage(router, pageKey);
+    } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
+    } else {
+      this.setState({ submitted: true });
     }
   };
+
+  validate = data => {
+    if (this.userSelectedSlot(data)) {
+      this.setState({ validationError: null });
+    } else {
+      this.setState({
+        validationError: missingDateError,
+      });
+    }
+  };
+
+  userSelectedSlot(calendarData) {
+    return calendarData?.selectedDates?.length > 0;
+  }
 
   render() {
     const {
@@ -104,7 +125,7 @@ export class DateTimeSelectPage extends React.Component {
     } = this.props;
 
     const calendarData = data?.calendarData || {};
-    const { currentlySelectedDate, selectedDates, error } = calendarData;
+    const { currentlySelectedDate, selectedDates } = calendarData;
     const startMonth = preferredDate
       ? moment(preferredDate).format('YYYY-MM')
       : null;
@@ -142,7 +163,10 @@ export class DateTimeSelectPage extends React.Component {
             getOptionsByDate: this.getOptionsByDate,
           }}
           loadingStatus={appointmentSlotsStatus}
-          onChange={this.props.onCalendarChange}
+          onChange={newData => {
+            this.validate(newData);
+            this.props.onCalendarChange(newData);
+          }}
           onClickNext={getAppointmentSlots}
           onClickPrev={getAppointmentSlots}
           minDate={moment()
@@ -152,7 +176,9 @@ export class DateTimeSelectPage extends React.Component {
             .add(395, 'days')
             .format('YYYY-MM-DD')}
           startMonth={startMonth}
-          validationError={error}
+          validationError={
+            this.state.submitted ? this.state.validationError : null
+          }
         />
         <FormButtons
           onBack={this.goBack}
@@ -169,13 +195,11 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  clearCalendarData,
   getAppointmentSlots,
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
-  validateCalendar,
 };
 
 export default connect(

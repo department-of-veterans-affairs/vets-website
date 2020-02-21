@@ -7,16 +7,12 @@ import { DateTimeRequestPage } from '../../containers/DateTimeRequestPage';
 
 describe('VAOS <DateTimeRequestPage>', () => {
   it('should render', () => {
-    const clearCalendarData = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
 
     const form = mount(
       <DateTimeRequestPage
-        clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
         onCalendarChange={onCalendarChange}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -26,18 +22,14 @@ describe('VAOS <DateTimeRequestPage>', () => {
   });
 
   it('should not submit empty form', () => {
-    const clearCalendarData = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeRequestPage
         onCalendarChange={onCalendarChange}
-        clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -50,20 +42,16 @@ describe('VAOS <DateTimeRequestPage>', () => {
   });
 
   it('should not submit form with validation error', () => {
-    const clearCalendarData = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeRequestPage
-        clearCalendarData={clearCalendarData}
         onCalendarChange={onCalendarChange}
         data={{
           calendarData: { currentlySelectedDate: '2020-12-20', error: 'test' },
         }}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -76,16 +64,12 @@ describe('VAOS <DateTimeRequestPage>', () => {
   });
 
   it('should submit with selected data', () => {
-    const clearCalendarData = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeRequestPage
         onCalendarChange={onCalendarChange}
-        validateCalendar={validateCalendar}
-        clearCalendarData={clearCalendarData}
         data={{
           calendarData: {
             selectedDates: [{ date: '2019-10-30', optionTime: 'AM' }],
@@ -104,16 +88,12 @@ describe('VAOS <DateTimeRequestPage>', () => {
   });
 
   it('document title should match h1 text', () => {
-    const clearCalendarData = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const pageTitle = 'Choose a day and time for your appointment';
 
     const form = mount(
       <DateTimeRequestPage
         onCalendarChange={onCalendarChange}
-        clearCalendarData={clearCalendarData}
-        validateCalendar={validateCalendar}
         data={{ calendarData: {} }}
       />,
     );

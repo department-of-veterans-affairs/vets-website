@@ -21,9 +21,7 @@ import {
   FORM_CALENDAR_FETCH_SLOTS,
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
-  FORM_CALENDAR_CLEAR_DATA,
   FORM_CALENDAR_ON_CHANGE,
-  FORM_CALENDAR_VALIDATE,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
@@ -725,27 +723,6 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
       expect(newState.data.calendarData).to.deep.equal(calendarData);
-    });
-
-    it('should update calendar validation error', () => {
-      const error = 'Please select a preferred date for your appointment';
-      const action = {
-        type: FORM_CALENDAR_VALIDATE,
-        error,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.data.calendarData.error).to.equal(error);
-    });
-
-    it('should clear calendar data', () => {
-      const action = {
-        type: FORM_CALENDAR_CLEAR_DATA,
-      };
-
-      const newState = newAppointmentReducer(defaultState, action);
-      expect(newState.data.calendarData).to.deep.equal({});
-      expect(newState.fetchedAppointmentSlotMonths).to.deep.equal([]);
     });
   });
 

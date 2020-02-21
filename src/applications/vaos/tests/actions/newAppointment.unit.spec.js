@@ -22,9 +22,7 @@ import {
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
   getAppointmentSlots,
-  clearCalendarData,
   onCalendarChange,
-  validateCalendar,
   hideTypeOfCareUnavailableModal,
   FORM_PAGE_OPENED,
   FORM_CLOSED_CONFIRMATION_PAGE,
@@ -56,8 +54,6 @@ import {
   FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
   FORM_CALENDAR_FETCH_SLOTS_FAILED,
   FORM_CALENDAR_ON_CHANGE,
-  FORM_CALENDAR_VALIDATE,
-  FORM_CALENDAR_CLEAR_DATA,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
 import parentFacilities from '../../api/facilities.json';
@@ -814,48 +810,6 @@ describe('VAOS newAppointment actions', () => {
       );
 
       resetFetch();
-    });
-
-    it('should clear calendar data', () => {
-      expect(clearCalendarData()).to.deep.equal({
-        type: FORM_CALENDAR_CLEAR_DATA,
-      });
-    });
-
-    it('should set error message when no dates selected when validating', async () => {
-      const getState = () => ({
-        newAppointment: {
-          data: {
-            calendarData: {},
-          },
-        },
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = validateCalendar('selectDateTime');
-      await thunk(dispatch, getState);
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CALENDAR_VALIDATE);
-      expect(dispatch.firstCall.args[0].error).to.equal(
-        'Please select a preferred date for your appointment',
-      );
-    });
-
-    it('should clear error message if dates selected when validating', async () => {
-      const getState = () => ({
-        newAppointment: {
-          data: {
-            calendarData: {
-              selectedDates: [{}],
-            },
-          },
-        },
-      });
-      const dispatch = sinon.spy();
-
-      const thunk = validateCalendar('selectDateTime');
-      await thunk(dispatch, getState);
-      expect(dispatch.firstCall.args[0].type).to.equal(FORM_CALENDAR_VALIDATE);
-      expect(dispatch.firstCall.args[0].error).to.equal(null);
     });
 
     it('should dispatch onChange action', async () => {

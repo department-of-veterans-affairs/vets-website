@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import {
-  clearCalendarData,
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  validateCalendar,
 } from '../actions/newAppointment.js';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -18,11 +16,13 @@ import { CALENDAR_INDICATOR_TYPES } from '../utils/constants';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose a day and time for your appointment';
+const missingDateError =
+  'Please select at least one preferred date for your appointment. You can select up to three dates.';
 
 export class DateTimeRequestPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { validationError: null };
+    this.state = { submitted: false, validationError: null };
   }
 
   componentDidMount() {
@@ -30,10 +30,11 @@ export class DateTimeRequestPage extends React.Component {
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (
-      !prevProps.data?.calendarData?.error &&
-      this.props.data?.calendarData?.error?.length > 0
+      this.state.validationError &&
+      !prevState.submitted &&
+      this.state.submitted
     ) {
       scrollAndFocus('.usa-input-error-message');
     }
@@ -51,25 +52,42 @@ export class DateTimeRequestPage extends React.Component {
   ];
 
   goBack = () => {
-    this.props.clearCalendarData();
     if (!this.state.validationError) {
       this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
     }
   };
 
   goForward = () => {
-    this.props.validateCalendar(pageKey);
-    if (this.props.data.calendarData?.selectedDates?.length > 0) {
-      this.props.routeToNextAppointmentPage(this.props.router, pageKey);
-    } else {
+    const { data, router } = this.props;
+    const { calendarData } = data || {};
+    this.validate(calendarData);
+    if (this.userSelectedSlot(calendarData)) {
+      this.props.routeToNextAppointmentPage(router, pageKey);
+    } else if (this.state.submitted) {
       scrollAndFocus('.usa-input-error-message');
+    } else {
+      this.setState({ submitted: true });
     }
   };
+
+  validate = data => {
+    if (this.userSelectedSlot(data)) {
+      this.setState({ validationError: null });
+    } else {
+      this.setState({
+        validationError: missingDateError,
+      });
+    }
+  };
+
+  userSelectedSlot(calendarData) {
+    return calendarData?.selectedDates?.length > 0;
+  }
 
   render() {
     const { data, pageChangeInProgress } = this.props;
     const calendarData = data?.calendarData || {};
-    const { currentlySelectedDate, selectedDates, error } = calendarData;
+    const { currentlySelectedDate, selectedDates } = calendarData;
 
     const additionalOptions = {
       fieldName: 'optionTime',
@@ -91,7 +109,10 @@ export class DateTimeRequestPage extends React.Component {
           monthsToShowAtOnce={2}
           multiSelect
           maxSelections={3}
-          onChange={this.props.onCalendarChange}
+          onChange={newData => {
+            this.validate(newData);
+            this.props.onCalendarChange(newData);
+          }}
           minDate={moment()
             .add(5, 'days')
             .format('YYYY-MM-DD')}
@@ -102,7 +123,9 @@ export class DateTimeRequestPage extends React.Component {
           selectedDates={selectedDates}
           selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
           additionalOptions={additionalOptions}
-          validationError={error}
+          validationError={
+            this.state.submitted ? this.state.validationError : null
+          }
         />
         <FormButtons
           onBack={this.goBack}
@@ -119,11 +142,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  clearCalendarData,
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  validateCalendar,
 };
 
 export default connect(

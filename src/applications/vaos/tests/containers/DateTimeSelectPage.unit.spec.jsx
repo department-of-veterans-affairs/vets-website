@@ -20,22 +20,18 @@ const availableSlots = [
 
 describe('VAOS <DateTimeSelectPage>', () => {
   it('should render', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
-        clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
         facilityId="123"
         getAppointmentSlots={getAppointmentSlots}
         appointmentSlotsStatus={FETCH_STATUS.succeeded}
         onCalendarChange={onCalendarChange}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -46,22 +42,18 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should not display WaitTimeAlert if loading', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
-        clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
         facilityId="123"
         getAppointmentSlots={getAppointmentSlots}
         appointmentSlotsStatus={FETCH_STATUS.loading}
         onCalendarChange={onCalendarChange}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -70,22 +62,18 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should fetch appointment slots', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
         availableDates={availableDates}
         availableSlots={availableSlots}
-        clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
         facilityId="123"
         getAppointmentSlots={getAppointmentSlots}
         appointmentSlotsStatus={FETCH_STATUS.succeeded}
         onCalendarChange={onCalendarChange}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -96,24 +84,20 @@ describe('VAOS <DateTimeSelectPage>', () => {
   // it('should display WaitTimeAlert ')
 
   it('should not submit empty form', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
         onCalendarChange={onCalendarChange}
         getAppointmentSlots={getAppointmentSlots}
-        clearCalendarData={clearCalendarData}
         data={{ calendarData: {} }}
         availableDates={availableDates}
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         appointmentSlotsStatus={FETCH_STATUS.succeeded}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -126,26 +110,22 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should not submit form with validation error', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
         getAppointmentSlots={getAppointmentSlots}
-        clearCalendarData={clearCalendarData}
         onCalendarChange={onCalendarChange}
         data={{
-          calendarData: { currentlySelectedDate: '2020-12-20', error: 'test' },
+          calendarData: { currentlySelectedDate: '2020-12-20' },
         }}
         availableDates={availableDates}
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
         appointmentSlotsStatus={FETCH_STATUS.succeeded}
-        validateCalendar={validateCalendar}
       />,
     );
 
@@ -158,18 +138,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should submit with selected data', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const routeToNextAppointmentPage = sinon.spy();
 
     const form = mount(
       <DateTimeSelectPage
         onCalendarChange={onCalendarChange}
         getAppointmentSlots={getAppointmentSlots}
-        validateCalendar={validateCalendar}
-        clearCalendarData={clearCalendarData}
         data={{
           calendarData: {
             selectedDates: [
@@ -194,18 +170,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('document title should match h1 text', () => {
-    const clearCalendarData = sinon.spy();
     const getAppointmentSlots = sinon.spy();
     const onCalendarChange = sinon.spy();
-    const validateCalendar = sinon.spy();
     const pageTitle = 'Tell us the date and time you’d like your appointment';
 
     const form = mount(
       <DateTimeSelectPage
         onCalendarChange={onCalendarChange}
         getAppointmentSlots={getAppointmentSlots}
-        clearCalendarData={clearCalendarData}
-        validateCalendar={validateCalendar}
         data={{ calendarData: {} }}
         facilityId="123"
         availableDates={availableDates}

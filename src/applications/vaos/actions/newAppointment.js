@@ -89,10 +89,7 @@ export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
 export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
   'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
-export const FORM_CALENDAR_CLEAR_DATA =
-  'newAppointment/FORM_CALENDAR_CLEAR_DATA';
 export const FORM_CALENDAR_ON_CHANGE = 'newAppointment/FORM_CALENDAR_ON_CHANGE';
-export const FORM_CALENDAR_VALIDATE = 'newAppointment/FORM_CALENDAR_VALIDATE';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -523,25 +520,6 @@ export function getAppointmentSlots(startDate, endDate) {
   };
 }
 
-export function validateCalendar(pageKey) {
-  return (dispatch, getState) => {
-    const selectedDates = getFormData(getState())?.calendarData?.selectedDates;
-    let error = null;
-
-    if (!selectedDates?.length > 0) {
-      error =
-        pageKey === 'selectDateTime'
-          ? 'Please select a preferred date for your appointment'
-          : 'Please select at least one preferred date for your appointment. You can select up to three dates.';
-    }
-
-    dispatch({
-      type: FORM_CALENDAR_VALIDATE,
-      error,
-    });
-  };
-}
-
 export function onCalendarChange({
   currentlySelectedDate,
   currentRowIndex,
@@ -561,10 +539,6 @@ export function onCalendarChange({
       },
     });
   };
-}
-
-export function clearCalendarData() {
-  return { type: FORM_CALENDAR_CLEAR_DATA };
 }
 
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
