@@ -25,7 +25,7 @@ const fakeWindow = () => {
       set: value => {
         global.window.location = value;
       },
-      href: '',
+      pathname: '',
     },
   };
 };
