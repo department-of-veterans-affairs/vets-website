@@ -1,11 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { genderLabels } from 'platform/static-data/labels';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import { getVeteranInformationData } from '../actions';
 
-class VeteranInformationPage extends React.Component {
+class personalInfoBox extends React.Component {
   componentDidMount() {
     this.props.getVeteranInformationData();
   }
@@ -35,7 +35,7 @@ class VeteranInformationPage extends React.Component {
   }
 }
 
-VeteranInformationPage.propTypes = {
+personalInfoBox.propTypes = {
   first: PropTypes.string.isRequired,
   last: PropTypes.string.isRequired,
   gender: PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ VeteranInformationPage.propTypes = {
   getVeteranInformationData: PropTypes.func.isRequired,
 };
 
-VeteranInformationPage.defaultProps = {
+personalInfoBox.defaultProps = {
   first: '',
   last: '',
   gender: '',
@@ -63,4 +63,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(VeteranInformationPage);
+)(personalInfoBox);

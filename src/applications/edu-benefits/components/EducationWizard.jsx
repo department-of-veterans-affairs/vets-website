@@ -42,7 +42,7 @@ export default class EducationWizard extends React.Component {
         href={url}
         className="usa-button va-button-primary"
       >
-        Apply Now
+        Apply now
       </a>
     );
   }
@@ -104,12 +104,20 @@ export default class EducationWizard extends React.Component {
       : [
           { label: 'Applying for a new benefit', value: 'yes' },
           {
-            label: 'Updating my program of study or place of training',
+            label: (
+              <span className="radioText">
+                Updating my program of study or place of training
+              </span>
+            ),
             value: 'no',
           },
           {
-            label:
-              'Applying to extend my Post-9/11 or Fry Scholarship benefits using the Edith Nourse Rogers STEM Scholarship',
+            label: (
+              <span className="radioText">
+                Applying to extend my Post-9/11 or Fry Scholarship benefits
+                using the Edith Nourse Rogers STEM Scholarship
+              </span>
+            ),
             value: 'extend',
           },
         ];
@@ -165,8 +173,11 @@ export default class EducationWizard extends React.Component {
                     value: 'transferred',
                   },
                   {
-                    label:
-                      'No, I’m using the Fry Scholarship or DEA (Chapter 35)',
+                    label: (
+                      <span className="radioText">
+                        No, I’m using the Fry Scholarship or DEA (Chapter 35)
+                      </span>
+                    ),
                     value: 'fry',
                   },
                 ]}
@@ -302,7 +313,7 @@ export default class EducationWizard extends React.Component {
             {newBenefit === 'extend' &&
             // Prod flag for 5134
             !environment.isProduction() ? (
-              <div className="vads-u-margin-right--8">
+              <div className="wizard-edith-nourse-content">
                 <br />
                 <strong>
                   To be eligible for the{' '}
@@ -311,7 +322,7 @@ export default class EducationWizard extends React.Component {
                   </a>
                   , you must meet all the requirements below. You:
                 </strong>
-                <ul className="vads-u-margin-right--8">
+                <ul className="wizard-edith-nourse-content">
                   <li>
                     Are using or recently used Post-9/11 GI Bill or Fry
                     Scholarship benefits
@@ -319,15 +330,18 @@ export default class EducationWizard extends React.Component {
                   <li>
                     Have used all your education benefits or are within 6 months
                     of doing so.{' '}
-                    <a href="../gi-bill/post-9-11/ch-33-benefit/">
+                    <a
+                      className="checkBenefitsLink"
+                      href="../gi-bill/post-9-11/ch-33-benefit/"
+                    >
                       Check remaining benefits
                     </a>
                   </li>
                   <li>
                     Are enrolled in an undergraduate degree program for science,
-                    technology, engineering or math (STEM), or have already
-                    earned a STEM degree and are pursuing a teaching
-                    certification.{' '}
+                    technology, engineering or math (STEM), <strong>or</strong>{' '}
+                    have already earned a STEM degree and are pursuing a
+                    teaching certification.{' '}
                     <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
                       See approved STEM programs
                     </a>
@@ -354,7 +368,7 @@ export default class EducationWizard extends React.Component {
                       <p>
                         Learn what other education benefits you may be eligible
                         for on the{' '}
-                        <a href="../eligibility/">GI Bill eligibility page.</a>
+                        <a href="../eligibility/">GI Bill eligibility page</a>.
                       </p>
                     ))}
                 </div>
