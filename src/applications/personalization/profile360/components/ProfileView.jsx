@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -111,6 +113,14 @@ class ProfileView extends React.Component {
           >
             <div>
               <Vet360TransactionReporter />
+              <AlertBox
+                headline="We're making some updates to the direct deposit tool"
+                status="warning"
+                className="vads-u-margin-bottom--2"
+              >
+                We’re sorry it’s not working right now. Please check back on
+                Monday Feb. 24, 2020.
+              </AlertBox>
               <Hero
                 fetchHero={fetchHero}
                 hero={hero}
