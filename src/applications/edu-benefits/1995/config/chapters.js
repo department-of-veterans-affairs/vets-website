@@ -59,10 +59,14 @@ export const chapters = {
       },
       // related to 1995-STEM
       stem: {
-        title: 'Rogers STEM Scholarship',
+        title: environment.isProduction()
+          ? 'The Rogers STEM Scholarship'
+          : 'Rogers STEM Scholarship',
         path: 'benefits/stem',
-        uiSchema: stem.uiSchema,
-        schema: stem.schema,
+        uiSchema: environment.isProduction()
+          ? stem.prodUiSchema
+          : stem.uiSchema,
+        schema: environment.isProduction() ? stem.prodSchema : stem.schema,
       },
       // related to 1995-STEM
       stemEligibility: {
@@ -83,7 +87,10 @@ export const chapters = {
       activeDuty: {
         title: 'Active Duty',
         path: 'active-duty',
-        depends: displayActiveDuty, // 1995-STEM related
+        depends: form =>
+          environment.isProduction()
+            ? isEdithNourseRogersScholarship(form)
+            : displayActiveDuty(form), // 1995-STEM related
         uiSchema: activeDuty.uiSchema,
         schema: activeDuty.schema,
       },
