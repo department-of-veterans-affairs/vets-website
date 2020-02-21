@@ -25,7 +25,7 @@ const defaultProps = {
   ...defaultStore.getState(),
   formData: {},
   errorSchema: {
-    determineEligibility: {
+    'view:determineEligibility': {
       __errors: [],
     },
   },
@@ -162,7 +162,7 @@ describe('<StemEligibilityView>', () => {
     const props = {
       ...defaultProps,
       formData: {
-        determineEligibility: false,
+        'view:determineEligibility': false,
       },
     };
     const tree = mount(
@@ -178,7 +178,7 @@ describe('<StemEligibilityView>', () => {
     const props = {
       ...defaultProps,
       formData: {
-        determineEligibility: true,
+        'view:determineEligibility': true,
       },
     };
     const tree = mount(
