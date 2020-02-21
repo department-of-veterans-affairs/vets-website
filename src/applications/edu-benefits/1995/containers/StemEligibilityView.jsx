@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { isChapter33 } from '../helpers';
 
 export class StemEligibilityView extends React.Component {
   onChange = property => {
@@ -27,7 +28,7 @@ export class StemEligibilityView extends React.Component {
     } = this.props;
 
     const isEdithNourseRogersScholarshipCheck =
-      isEdithNourseRogersScholarship && benefit === 'chapter33';
+      isEdithNourseRogersScholarship && isChapter33({ benefit });
     const isEdithNourseRogersScholarshipQuestion =
       isEdithNourseRogersScholarship && benefit === undefined;
     const exhaustionOfBenefitsCheck =
