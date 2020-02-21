@@ -196,6 +196,17 @@ describe('VAOS selectors', () => {
   });
 
   describe('getTypeOfCare', () => {
+    it('get eye type of care', () => {
+      const data = {
+        typeOfCareId: 'EYE',
+        typeOfEyeCareId: '408',
+      };
+
+      const typeOfCare = getTypeOfCare(data);
+      expect(typeOfCare.id).to.equal('408');
+      expect(typeOfCare.name).to.equal('Optometry');
+    });
+
     it('get sleep type of care', () => {
       const data = {
         typeOfCareId: 'SLEEP',

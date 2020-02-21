@@ -589,4 +589,46 @@ describe('VAOS newAppointmentFlow', () => {
       );
     });
   });
+
+  describe('eye care page', () => {
+    it('should choose eye care page', async () => {
+      const dispatch = sinon.spy();
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+          },
+        },
+      };
+      const nextState = await newAppointmentFlow.typeOfCare.next(
+        state,
+        dispatch,
+      );
+      expect(nextState).to.equal('typeOfEyeCare');
+    });
+
+    it('should display VA facility for opthamology ', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfEyeCareId: '407',
+          },
+        },
+      };
+      const nextState = newAppointmentFlow.typeOfEyeCare.next(state);
+      expect(nextState).to.equal('vaFacility');
+    });
+
+    it('should display VA facility for optometry ', () => {
+      const state = {
+        newAppointment: {
+          data: {
+            typeOfEyeCareId: '408',
+          },
+        },
+      };
+      const nextState = newAppointmentFlow.typeOfEyeCare.next(state);
+      expect(nextState).to.equal('typeOfFacility');
+    });
+  });
 });
