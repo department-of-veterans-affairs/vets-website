@@ -41,6 +41,7 @@ const mappedIds = [
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.VIC,
+  VA_FORM_IDS.FORM_VA_2346A,
 ];
 
 const configs = [
