@@ -21,6 +21,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
     );
 
     expect(form.find('CalendarWidget').length).to.equal(1);
+    expect(form.find('FormButtons').length).to.equal(1);
     form.unmount();
   });
 

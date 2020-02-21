@@ -33,15 +33,67 @@ describe('VAOS <DateTimeSelectPage>', () => {
         data={{ calendarData: {} }}
         facilityId="123"
         getAppointmentSlots={getAppointmentSlots}
-        loadingStatus={FETCH_STATUS.succeeded}
+        appointmentSlotsStatus={FETCH_STATUS.succeeded}
         onCalendarChange={onCalendarChange}
         validateCalendar={validateCalendar}
       />,
     );
 
     expect(form.find('CalendarWidget').length).to.equal(1);
+    expect(form.find('FormButtons').length).to.equal(1);
+    expect(form.find('WaitTimeAlert').length).to.equal(1);
     form.unmount();
   });
+
+  it('should not display WaitTimeAlert if loading', () => {
+    const clearCalendarData = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
+
+    const form = mount(
+      <DateTimeSelectPage
+        availableDates={availableDates}
+        availableSlots={availableSlots}
+        clearCalendarData={clearCalendarData}
+        data={{ calendarData: {} }}
+        facilityId="123"
+        getAppointmentSlots={getAppointmentSlots}
+        appointmentSlotsStatus={FETCH_STATUS.loading}
+        onCalendarChange={onCalendarChange}
+        validateCalendar={validateCalendar}
+      />,
+    );
+
+    expect(form.find('WaitTimeAlert').length).to.equal(0);
+    form.unmount();
+  });
+
+  it('should fetch appointment slots', () => {
+    const clearCalendarData = sinon.spy();
+    const getAppointmentSlots = sinon.spy();
+    const onCalendarChange = sinon.spy();
+    const validateCalendar = sinon.spy();
+
+    const form = mount(
+      <DateTimeSelectPage
+        availableDates={availableDates}
+        availableSlots={availableSlots}
+        clearCalendarData={clearCalendarData}
+        data={{ calendarData: {} }}
+        facilityId="123"
+        getAppointmentSlots={getAppointmentSlots}
+        appointmentSlotsStatus={FETCH_STATUS.succeeded}
+        onCalendarChange={onCalendarChange}
+        validateCalendar={validateCalendar}
+      />,
+    );
+
+    expect(getAppointmentSlots.called).to.be.true;
+    form.unmount();
+  });
+
+  // it('should display WaitTimeAlert ')
 
   it('should not submit empty form', () => {
     const clearCalendarData = sinon.spy();
@@ -60,7 +112,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        loadingStatus={FETCH_STATUS.succeeded}
+        appointmentSlotsStatus={FETCH_STATUS.succeeded}
         validateCalendar={validateCalendar}
       />,
     );
@@ -92,7 +144,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         facilityId="123"
         availableSlots={availableSlots}
         routeToNextAppointmentPage={routeToNextAppointmentPage}
-        loadingStatus={FETCH_STATUS.succeeded}
+        appointmentSlotsStatus={FETCH_STATUS.succeeded}
         validateCalendar={validateCalendar}
       />,
     );
@@ -127,7 +179,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
         }}
         availableDates={availableDates}
         availableSlots={availableSlots}
-        loadingStatus={FETCH_STATUS.succeeded}
+        appointmentSlotsStatus={FETCH_STATUS.succeeded}
         facilityId="123"
         routeToNextAppointmentPage={routeToNextAppointmentPage}
       />,
