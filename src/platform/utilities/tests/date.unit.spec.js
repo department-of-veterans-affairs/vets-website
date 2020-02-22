@@ -166,27 +166,39 @@ describe('Helpers unit tests', () => {
 
   describe('formatDowntime', () => {
     it('returns a formatted datetime', () => {
-      expect(formatDowntime('2020-02-17T20:04:51-05:00')).to.equal('Feb. 17th at 8:04 p.m. ET');
+      expect(formatDowntime('2020-02-17T20:04:51-05:00')).to.equal(
+        'Feb. 17th at 8:04 p.m. ET',
+      );
     });
 
     it('returns a formatted datetime with full month name', () => {
-      expect(formatDowntime('2020-07-03T03:14:00-04:00')).to.equal('July 3rd at 3:14 a.m. ET');
+      expect(formatDowntime('2020-07-03T03:14:00-04:00')).to.equal(
+        'July 3rd at 3:14 a.m. ET',
+      );
     });
 
     it('returns a formatted datetime at noon', () => {
-      expect(formatDowntime('2020-05-24T12:00:30-04:00')).to.equal('May 24th at noon ET');
+      expect(formatDowntime('2020-05-24T12:00:30-04:00')).to.equal(
+        'May 24th at noon ET',
+      );
     });
 
     it('returns a formatted datetime past noon', () => {
-      expect(formatDowntime('2020-08-19T12:15:30-04:00')).to.equal('Aug. 19th at 12:15 p.m. ET');
+      expect(formatDowntime('2020-08-19T12:15:30-04:00')).to.equal(
+        'Aug. 19th at 12:15 p.m. ET',
+      );
     });
 
     it('returns a formatted datetime at midnight', () => {
-      expect(formatDowntime('2020-01-02T00:00:30-05:00')).to.equal('Jan. 2nd at midnight ET');
+      expect(formatDowntime('2020-01-02T00:00:30-05:00')).to.equal(
+        'Jan. 2nd at midnight ET',
+      );
     });
 
     it('returns a formatted datetime past midnight', () => {
-      expect(formatDowntime('2020-11-22T00:35:30-05:00')).to.equal('Nov. 22nd at 12:35 a.m. ET');
+      expect(formatDowntime('2020-11-22T00:35:30-05:00')).to.equal(
+        'Nov. 22nd at 12:35 a.m. ET',
+      );
     });
   });
 });

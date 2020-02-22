@@ -102,13 +102,14 @@ const LONG_FORM_MONTHS = [
   monthIndices.JUL,
 ];
 
-export const formatDowntime = (dateTime) => {
+export const formatDowntime = dateTime => {
   const dtMoment = moment(dateTime);
   const dtHour = dtMoment.hour();
   const dtMinute = dtMoment.minute();
 
-  const monthFormat =
-    LONG_FORM_MONTHS.includes(dtMoment.month()) ? 'MMMM' : 'MMM';
+  const monthFormat = LONG_FORM_MONTHS.includes(dtMoment.month())
+    ? 'MMMM'
+    : 'MMM';
 
   let timeFormat;
 
