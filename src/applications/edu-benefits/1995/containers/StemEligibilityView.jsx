@@ -12,10 +12,13 @@ export class StemEligibilityView extends React.Component {
     });
   };
 
-  icon = indication => (indication ? 'fa fa-check' : 'fa fa-times');
-
-  iconColor = indication =>
-    indication ? 'vads-u-color--green' : 'vads-u-color--gray-medium';
+  iconClass = indication =>
+    classNames('fa', {
+      'fa-check': indication,
+      'vads-u-color--green': indication,
+      'fa-times': !indication,
+      'vads-u-color--gray-medium': !indication,
+    });
 
   renderChecks = () => {
     const {
@@ -35,22 +38,9 @@ export class StemEligibilityView extends React.Component {
       exhaustionOfBenefits || exhaustionOfBenefitsAfterPursuingTeachingCert;
     const isEnrolledStemCheck = isEnrolledStem || isPursuingTeachingCert;
 
-    const recipientIcon = isEdithNourseRogersScholarshipQuestion
-      ? 'fa fa-question'
-      : this.icon(isEdithNourseRogersScholarshipCheck);
-
-    const isEdithNourseRogersScholarshipClasses = classNames(
-      recipientIcon,
-      this.iconColor(isEdithNourseRogersScholarshipCheck),
-    );
-    const exhaustionOfBenefitsClasses = classNames(
-      this.icon(exhaustionOfBenefitsCheck),
-      this.iconColor(exhaustionOfBenefitsCheck),
-    );
-    const isEnrolledStemClasses = classNames(
-      this.icon(isEnrolledStemCheck),
-      this.iconColor(isEnrolledStemCheck),
-    );
+    const isEdithNourseRogersScholarshipClasses = isEdithNourseRogersScholarshipQuestion
+      ? 'fa fa-question vads-u-color--gray-medium'
+      : this.iconClass(isEdithNourseRogersScholarshipCheck);
 
     return (
       <div>
@@ -74,14 +64,20 @@ export class StemEligibilityView extends React.Component {
           </li>
           <li className="vads-u-margin-bottom--0">
             <span className="fa-li">
-              <i className={exhaustionOfBenefitsClasses} aria-hidden="true" />
+              <i
+                className={this.iconClass(exhaustionOfBenefitsCheck)}
+                aria-hidden="true"
+              />
             </span>
             Have used all your education benefits or are within 6 months of
             doing so
           </li>
           <li className="vads-u-margin-bottom--0">
             <span className="fa-li">
-              <i className={isEnrolledStemClasses} aria-hidden="true" />
+              <i
+                className={this.iconClass(isEnrolledStemCheck)}
+                aria-hidden="true"
+              />
             </span>
             Are enrolled in a STEM undergraduate degree program,{' '}
             <strong>or</strong> have earned a STEM degree and are now pursuing a
