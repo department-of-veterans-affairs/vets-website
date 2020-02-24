@@ -5,6 +5,8 @@ import environment from 'platform/utilities/environment';
 
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 const levels = [
   ['newBenefit'],
   ['serviceBenefitBasedOn', 'transferredEduBenefits'],
@@ -41,6 +43,7 @@ export default class EducationWizard extends React.Component {
         id="apply-now-link"
         href={url}
         className="usa-button va-button-primary"
+        onClick={() => this.recordWizardValues()}
       >
         Apply now
       </a>
@@ -53,6 +56,13 @@ export default class EducationWizard extends React.Component {
     // drop all the levels until we see the current question, then reset
     // everything at that level and beyond, so we don't see questions from
     // different branches
+    field === 'newBenefit' &&
+      recordEvent({
+        event: 'edu-howToApply-formChange', //remain consistent for all toggling
+        'edu-form-value': 'benefitUpdate', //remain consistent for all toggling
+        'edu-form-change': 'new', //dynamically populate according to selection -- other examples are 'Update', or 'STEM Scholarship'
+      });
+
     const fields = [].concat(
       ..._.dropWhile(level => !level.includes(field), levels),
     );
@@ -63,6 +73,20 @@ export default class EducationWizard extends React.Component {
     });
 
     this.setState(newState);
+  };
+
+  recordWizardValues = () => {
+    recordEvent({
+      event: 'edu-howToApply-applyNow',
+      'edu-benefitUpdate': this.state.newBenefit,
+      'edu-isBenefitClaimForSelf': this.state.serviceBenefitBasedOn,
+      'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
+      'edu-isVetTec': this.state.vetTecBenefit,
+      'edu-hasSponsorTransferredBenefits': this.state.sponsorTransferredBenefit,
+      'edu-isReceivingSponsorBenefits': this.state.transferredEduBenefits,
+      'edu-isSponsorReachable': this.state.sponsorDeceasedDisabledMIA,
+      'edu-stemApplicant': this.state.applyForScholarship,
+    });
   };
 
   render() {
@@ -317,7 +341,16 @@ export default class EducationWizard extends React.Component {
                 <br />
                 <strong>
                   To be eligible for the{' '}
-                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                  <a
+                    href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                    onClick={() =>
+                      recordEvent({
+                        event: 'edu-benefitUpdate',
+                        'edu-howToApply-clickLabel':
+                          'Edith Nourse Rogers STEM Scholarship',
+                      })
+                    }
+                  >
                     Edith Nourse Rogers STEM Scholarship
                   </a>
                   , you must meet all the requirements below. You:
@@ -333,6 +366,13 @@ export default class EducationWizard extends React.Component {
                     <a
                       className="checkBenefitsLink"
                       href="../gi-bill/post-9-11/ch-33-benefit/"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-benefitUpdate',
+                          'edu-howToApply-clickLabel':
+                            'Check remaining benefits',
+                        })
+                      }
                     >
                       Check remaining benefits
                     </a>
@@ -342,7 +382,16 @@ export default class EducationWizard extends React.Component {
                     technology, engineering or math (STEM), <strong>or</strong>{' '}
                     have already earned a STEM degree and are pursuing a
                     teaching certification.{' '}
-                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
+                    <a
+                      href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-benefitUpdate',
+                          'edu-howToApply-clickLabel':
+                            'See approved STEM programs',
+                        })
+                      }
+                    >
                       See approved STEM programs
                     </a>
                   </li>
