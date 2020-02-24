@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { resolveParamsWithUrl } from '../config';
 
-describe('Locator url and parameters builder', () => {
+describe.skip('Locator url and parameters builder', () => {
   const page = 1;
 
   /**
