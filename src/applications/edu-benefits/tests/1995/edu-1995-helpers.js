@@ -111,10 +111,10 @@ function completeStemEnrollmentSelection(client) {
 }
 
 function completeExhaustionOfBenefits(client) {
-  client.waitForElementVisible(
-    'label[for="root_view:exhaustionOfBenefitsYes"]',
-    Timeouts.verySlow,
-  );
+  // client.waitForElementVisible(
+  //   'label[for="root_view:exhaustionOfBenefitsYes"]',
+  //   Timeouts.verySlow,
+  // );
   client.click('input[id="root_view:exhaustionOfBenefitsYes"]');
 }
 
