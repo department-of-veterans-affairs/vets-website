@@ -22,76 +22,103 @@ export class StemEligibilityView extends React.Component {
       'vads-u-color--gray-medium': !indication,
     });
 
-  renderChecks = () => {
-    const {
-      isEdithNourseRogersScholarship,
-      benefit,
-      exhaustionOfBenefits,
-      exhaustionOfBenefitsAfterPursuingTeachingCert,
-      isEnrolledStem,
-      isPursuingTeachingCert,
-    } = this.props;
+  iconText = (indication, text) =>
+    indication ? `${text} criteria is met` : `${text} criteria is not met`;
 
-    const isEdithNourseRogersScholarshipCheck =
-      isEdithNourseRogersScholarship && isChapter33({ benefit });
-    const isEdithNourseRogersScholarshipQuestion =
-      isEdithNourseRogersScholarship && benefit === undefined;
-    const exhaustionOfBenefitsCheck =
-      exhaustionOfBenefits || exhaustionOfBenefitsAfterPursuingTeachingCert;
-    const isEnrolledStemCheck = isEnrolledStem || isPursuingTeachingCert;
+  renderIsEdithNourseRogersScholarshipCheck = () => {
+    const { isEdithNourseRogersScholarship, benefit } = this.props;
+    const check = isEdithNourseRogersScholarship && isChapter33({ benefit });
+    const question = isEdithNourseRogersScholarship && benefit === undefined;
 
-    const isEdithNourseRogersScholarshipClasses = isEdithNourseRogersScholarshipQuestion
+    const classes = question
       ? 'fa fa-question vads-u-color--gray-medium'
-      : this.iconClass(isEdithNourseRogersScholarshipCheck);
+      : this.iconClass(check);
+
+    const text = 'Post-9/11 GI Bill beneficiary or Fry Scholarship recipient';
+    const title = question
+      ? `It is unknown if ${text} criteria is met`
+      : this.iconText(check, text);
 
     return (
-      <div>
-        <p className="vads-u-margin-bottom--1">
-          <span className="vads-u-font-family--serif heading-level-4">
-            Based on you responses, it appears you're not eligible.
-          </span>
-          <br />
-          <br />
-          <b>Your responses:</b>
-        </p>
-        <ul
-          className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul"
-          role="list"
-        >
-          <li className="vads-u-margin-bottom--0">
-            <span className="fa-li">
-              <i
-                className={isEdithNourseRogersScholarshipClasses}
-                aria-hidden="true"
-              />
-            </span>
-            Post-9/11 GI Bill beneficiary or Fry Scholarship recipient
-          </li>
-          <li className="vads-u-margin-bottom--0">
-            <span className="fa-li">
-              <i
-                className={this.iconClass(exhaustionOfBenefitsCheck)}
-                aria-hidden="true"
-              />
-            </span>
-            Have used all your education benefits or are within 6 months of
-            doing so
-          </li>
-          <li className="vads-u-margin-bottom--0">
-            <span className="fa-li">
-              <i
-                className={this.iconClass(isEnrolledStemCheck)}
-                aria-hidden="true"
-              />
-            </span>
-            Are enrolled in a STEM undergraduate degree program,{' '}
-            <strong>or</strong> have earned a STEM degree and are now pursuing a
-            teaching certification
-          </li>
-        </ul>
-      </div>
+      <li className="vads-u-margin-bottom--0">
+        <span className="fa-li">
+          <i className={classes} title={title} aria-hidden="true" />
+        </span>
+        {text}
+      </li>
     );
   };
+
+  renderExhaustionOfBenefitsCheck = () => {
+    const {
+      exhaustionOfBenefits,
+      exhaustionOfBenefitsAfterPursuingTeachingCert,
+    } = this.props;
+
+    const exhaustionOfBenefitsCheck =
+      exhaustionOfBenefits || exhaustionOfBenefitsAfterPursuingTeachingCert;
+    const exhaustionOfBenefitsText =
+      'Have used all your education benefits or are within 6 months of doing so';
+    return (
+      <li className="vads-u-margin-bottom--0">
+        <span className="fa-li">
+          <i
+            className={this.iconClass(exhaustionOfBenefitsCheck)}
+            title={this.iconText(
+              exhaustionOfBenefitsCheck,
+              exhaustionOfBenefitsText,
+            )}
+            aria-hidden="true"
+          />
+        </span>
+        {exhaustionOfBenefitsText}
+      </li>
+    );
+  };
+
+  renderIsEnrolledStemCheck = () => {
+    const { isEnrolledStem, isPursuingTeachingCert } = this.props;
+
+    const isEnrolledStemCheck = isEnrolledStem || isPursuingTeachingCert;
+
+    const isEnrolledStemText =
+      'Are enrolled in a STEM undergraduate degree program, or have earned a STEM degree and are now pursuing a teaching certification';
+
+    return (
+      <li className="vads-u-margin-bottom--0">
+        <span className="fa-li">
+          <i
+            className={this.iconClass(isEnrolledStemCheck)}
+            title={this.iconText(isEnrolledStemCheck, isEnrolledStemText)}
+            aria-hidden="true"
+          />
+        </span>
+        Are enrolled in a STEM undergraduate degree program, <strong>or</strong>{' '}
+        have earned a STEM degree and are now pursuing a teaching certification
+      </li>
+    );
+  };
+
+  renderChecks = () => (
+    <div>
+      <p className="vads-u-margin-bottom--1">
+        <span className="vads-u-font-family--serif heading-level-4">
+          Based on you responses, it appears you're not eligible.
+        </span>
+        <br />
+        <br />
+        <b>Your responses:</b>
+      </p>
+      <ul
+        className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul"
+        role="list"
+      >
+        {this.renderIsEdithNourseRogersScholarshipCheck()}
+        {this.renderExhaustionOfBenefitsCheck()}
+        {this.renderIsEnrolledStemCheck()}
+      </ul>
+    </div>
+  );
 
   renderErrorMessage = () => {
     const { errors, showErrors } = this.props;
