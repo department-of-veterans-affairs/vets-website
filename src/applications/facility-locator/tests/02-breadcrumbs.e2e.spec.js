@@ -83,3 +83,4 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client.resizeWindow(1024, 768);
   client.end();
 });
+module.exports['@disabled'] = true;
