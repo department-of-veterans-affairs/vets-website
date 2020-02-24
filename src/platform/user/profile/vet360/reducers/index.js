@@ -215,6 +215,7 @@ export default function vet360(state = initialState, action) {
     case ADDRESS_VALIDATION_INITIALIZE:
       return {
         ...state,
+        modal: null,
         addressValidation: {
           ...initialAddressValidationState,
         },
