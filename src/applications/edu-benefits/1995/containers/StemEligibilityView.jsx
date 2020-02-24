@@ -191,7 +191,7 @@ export class StemEligibilityView extends React.Component {
   render() {
     return (
       <div>
-        <div className="stem-eligibility">
+        <div className="stem-eligibility vads-u-background-color--gray-lightest">
           {this.renderChecks()}
           {this.renderDetermineEligibility()}
           {this.renderExploreOtherBenefits()}
