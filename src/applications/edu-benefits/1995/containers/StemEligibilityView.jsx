@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-redundant-roles */
+
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -52,7 +54,10 @@ export class StemEligibilityView extends React.Component {
           <br />
           <b>Your responses:</b>
         </p>
-        <ul className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
+        <ul
+          className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul"
+          role="list"
+        >
           <li className="vads-u-margin-bottom--0">
             <span className="fa-li">
               <i
