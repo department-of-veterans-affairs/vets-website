@@ -54,7 +54,7 @@ export const uiSchema = {
     'ui:required': () => true,
     'ui:title': 'Phone Number',
     'ui:errorMessages': {
-      pattern: 'Please enter only numbers, no dashes or parenthesis',
+      pattern: 'Please enter only numbers, no dashes or parentheses',
     },
   },
   emailAddress: emailUI(),
