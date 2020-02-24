@@ -104,28 +104,18 @@ function completeStemSelectionFor1995s(client) {
 
 function completeStemEnrollmentSelection(client) {
   client.waitForElementVisible(
-    'label[for="root_isEnrolledStemNo"]',
+    'label[for="root_isEnrolledStemYes"]',
     Timeouts.slow,
   );
-  client.click('input[id="root_isEnrolledStemNo"]');
+  client.click('input[id="root_isEnrolledStemYes"]');
 }
 
-function completePursuingTeachingCertSelection(client) {
+function completeExhaustionOfBenefits(client) {
   client.waitForElementVisible(
-    'label[for="root_isPursuingTeachingCertYes"]',
-    Timeouts.slow,
-  );
-  client.click('input[id="root_isPursuingTeachingCertYes"]');
-}
-
-function completeExhaustionOfBenefitsAfterPursuingTeachingCert(client) {
-  client.waitForElementVisible(
-    'label[for="root_view:exhaustionOfBenefitsAfterPursuingTeachingCertYes"]',
+    'label[for="root_view:exhaustionOfBenefitsYes"]',
     Timeouts.verySlow,
   );
-  client.click(
-    'input[id="root_view:exhaustionOfBenefitsAfterPursuingTeachingCertYes"]',
-  );
+  client.click('input[id="root_view:exhaustionOfBenefitsYes"]');
 }
 
 function completeActiveDutySelection(client) {
@@ -140,7 +130,6 @@ module.exports = {
   completeStemSelection,
   completeStemSelectionFor1995s,
   completeStemEnrollmentSelection,
-  completePursuingTeachingCertSelection,
-  completeExhaustionOfBenefitsAfterPursuingTeachingCert,
+  completeExhaustionOfBenefits,
   completeActiveDutySelection,
 };

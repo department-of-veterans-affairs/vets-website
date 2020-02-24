@@ -42,8 +42,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   E2eHelpers.expectLocation(client, '/benefits/stem');
   Edu1995Helpers.completeStemSelectionFor1995s(client);
   Edu1995Helpers.completeStemEnrollmentSelection(client);
-  Edu1995Helpers.completePursuingTeachingCertSelection(client);
-  Edu1995Helpers.completeExhaustionOfBenefitsAfterPursuingTeachingCert(client);
+  Edu1995Helpers.completeExhaustionOfBenefits(client);
   client.axeCheck('.main').click('.form-progress-buttons .usa-button-primary');
 
   // Active duty page
