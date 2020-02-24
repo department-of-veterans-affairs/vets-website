@@ -121,7 +121,7 @@ function completePursuingTeachingCertSelection(client) {
 function completeExhaustionOfBenefitsAfterPursuingTeachingCert(client) {
   client.waitForElementVisible(
     'label[for="root_view:exhaustionOfBenefitsAfterPursuingTeachingCertYes"]',
-    Timeouts.slow,
+    Timeouts.verySlow,
   );
   client.click(
     'input[id="root_view:exhaustionOfBenefitsAfterPursuingTeachingCertYes"]',
