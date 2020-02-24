@@ -14,11 +14,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
-import {
-  display1995StemFlow,
-  isEdithNourseRogersScholarship,
-  displayStemEligibility,
-} from '../helpers';
+import { display1995StemFlow, displayStemEligibility } from '../helpers';
 
 import { activeDuty, benefitSelection, stem, stemEligibility } from '../pages';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -208,7 +204,7 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form =>
-          !isEdithNourseRogersScholarship(form) &&
+          !display1995StemFlow(form) &&
           form['view:hasServiceBefore1978'] === true,
         uiSchema: {
           serviceBefore1977: serviceBefore1977UI,

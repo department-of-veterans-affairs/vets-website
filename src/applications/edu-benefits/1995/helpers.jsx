@@ -1,7 +1,7 @@
 // 1995-STEM related
 import environment from 'platform/utilities/environment';
 
-export const isEdithNourseRogersScholarship = form =>
+const isEdithNourseRogersScholarship = form =>
   form.isEdithNourseRogersScholarship;
 
 export const isChapter33 = form =>
