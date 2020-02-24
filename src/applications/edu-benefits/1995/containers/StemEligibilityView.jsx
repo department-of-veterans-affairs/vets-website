@@ -54,7 +54,7 @@ export class StemEligibilityView extends React.Component {
 
     return (
       <div>
-        <p>
+        <p className="vads-u-margin-bottom--1">
           <span className="vads-u-font-family--serif heading-level-4">
             Based on you responses, it appears you're not eligible.
           </span>
@@ -62,8 +62,8 @@ export class StemEligibilityView extends React.Component {
           <br />
           <b>Your responses:</b>
         </p>
-        <ul className="fa-ul stem-eligibility-ul">
-          <li>
+        <ul className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
+          <li className="vads-u-margin-bottom--0">
             <span className="fa-li">
               <i
                 className={isEdithNourseRogersScholarshipClasses}
@@ -72,14 +72,14 @@ export class StemEligibilityView extends React.Component {
             </span>
             Post-9/11 GI Bill beneficiary or Fry Scholarship recipient
           </li>
-          <li>
+          <li className="vads-u-margin-bottom--0">
             <span className="fa-li">
               <i className={exhaustionOfBenefitsClasses} aria-hidden="true" />
             </span>
             Have used all your education benefits or are within 6 months of
             doing so
           </li>
-          <li>
+          <li className="vads-u-margin-bottom--0">
             <span className="fa-li">
               <i className={isEnrolledStemClasses} aria-hidden="true" />
             </span>
@@ -163,7 +163,7 @@ export class StemEligibilityView extends React.Component {
             If your situation changes in the future and you meet all of the
             criteria, you may return to apply for the Rogers STEM Scholarship.
           </span>
-          <div className="explore-other-benefits-button">
+          <div className="vads-u-padding-top--2">
             <a className={buttonClasses} href="/education/eligibility/">
               Explore other education benefits
             </a>
@@ -178,7 +178,7 @@ export class StemEligibilityView extends React.Component {
     const { determineEligibility } = this.props;
     if (determineEligibility !== undefined && !determineEligibility) {
       return (
-        <div className="stem-eligibility-continue-application">
+        <div className="vads-u-padding-top--4">
           Since you're not applying for the Rogers STEM Scholarship, if you need
           to change your program of study or place of training, continue with
           this application.
@@ -191,7 +191,7 @@ export class StemEligibilityView extends React.Component {
   render() {
     return (
       <div>
-        <div className="stem-eligibility vads-u-background-color--gray-lightest">
+        <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
           {this.renderChecks()}
           {this.renderDetermineEligibility()}
           {this.renderExploreOtherBenefits()}

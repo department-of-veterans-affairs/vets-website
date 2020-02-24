@@ -165,34 +165,8 @@
   }
 }
 
-.stem-eligibility {
-  padding: 0.5em 1em;
-
-  p {
-    margin-bottom: 0.5em;
-  }
-
-  ul {
-    margin-left: 1.5em;
-    margin-top: 0.263em;
-    list-style-type: none !important;
-
-    li {
-      margin-bottom: 0;
-    }
-  }
-
-  .explore-other-benefits {
-    padding-top: 1em;
-  }
-
-  .explore-other-benefits-button {
-    padding-top: 1em;
-  }
-
-}
-
-.stem-eligibility-continue-application {
-  padding-top: 2em;
+.stem-eligibility-ul {
+  // This needed for on the Review Page of the form
+  list-style-type: none !important;
 }
 
