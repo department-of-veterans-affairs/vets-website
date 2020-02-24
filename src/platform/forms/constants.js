@@ -17,5 +17,5 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_40_10007: '40-10007',
   FEEDBACK_TOOL: 'FEEDBACK-TOOL',
   VIC: 'VIC',
-  FORM_VA_2346A: 'VA-2346A',
+  FORM_VA_2346A: 'MDOT',
 });

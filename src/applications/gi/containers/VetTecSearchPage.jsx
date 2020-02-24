@@ -135,6 +135,7 @@ export class VetTecSearchPage extends React.Component {
     ) {
       return;
     }
+    this.props.clearAutocompleteSuggestions();
 
     // Reset to the first page upon a filter change.
     delete query.page;
@@ -148,6 +149,16 @@ export class VetTecSearchPage extends React.Component {
       delete query[field];
     }
     this.props.router.push({ ...this.props.location, query });
+  };
+
+  autocomplete = (value, version) => {
+    if (value) {
+      this.props.fetchProgramAutocompleteSuggestions(
+        value,
+        _.omit(this.props.search.query, 'name'),
+        version,
+      );
+    }
   };
 
   filterResultsByProvider = result =>
@@ -259,9 +270,7 @@ export class VetTecSearchPage extends React.Component {
             clearAutocompleteSuggestions={
               this.props.clearAutocompleteSuggestions
             }
-            fetchAutocompleteSuggestions={
-              this.props.fetchProgramAutocompleteSuggestions
-            }
+            fetchAutocompleteSuggestions={this.autocomplete}
             handleFilterChange={this.handleFilterChange}
             handleProviderFilterChange={this.handleProviderFilterChange}
             updateAutocompleteSearchTerm={
