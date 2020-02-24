@@ -47,11 +47,8 @@ export const uiSchema = {
   mailingAddress: {
     ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
     addressLine1: {
-      'ui:title': 'Street address',
-      'ui:description': `20 characters maximum. If you have a longer address,
-         use the second address box below`,
+      'ui:title': 'Street address (20 characters maximum)',
       'ui:errorMessages': {
-        pattern: 'Please enter a valid street address',
         required: 'Please enter a street address',
       },
     },
