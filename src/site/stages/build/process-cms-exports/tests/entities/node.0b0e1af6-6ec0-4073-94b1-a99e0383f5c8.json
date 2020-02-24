@@ -18,14 +18,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-10T17:44:23+00:00",
+            "value": "2019-11-05T15:22:22+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
+            "target_uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35"
         }
     ],
     "revision_log": [],
@@ -36,7 +36,7 @@
     ],
     "title": [
         {
-            "value": "Women's health at Pittsburgh VA Medical Center-University Drive"
+            "value": "Women Veteran care at Pittsburgh VA Medical Center-University Drive"
         }
     ],
     "uid": [
@@ -53,7 +53,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-10T17:44:23+00:00",
+            "value": "2019-11-05T15:22:22+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,12 +84,12 @@
     ],
     "metatag": {
         "value": {
-            "title": "Women's health at Pittsburgh VA Medical Center-University Drive | Veterans Affairs",
+            "title": "Women Veteran care at Pittsburgh VA Medical Center-University Drive | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_title": "Women's health at Pittsburgh VA Medical Center-University Drive | Veterans Affairs",
+            "twitter_cards_title": "Women Veteran care at Pittsburgh VA Medical Center-University Drive | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "Women's health at Pittsburgh VA Medical Center-University Drive | Veterans Affairs"
+            "og_title": "Women Veteran care at Pittsburgh VA Medical Center-University Drive | Veterans Affairs"
         }
     },
     "path": [
@@ -109,7 +109,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Location and contact information<\/h3>\r\n\r\n<p class=\"va-address-block\"><strong>Women's Health Center<\/strong><br \/>\r\nConsolidation Building<br \/>\r\n<a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"71ffee52-a47f-4909-ad7e-21ece5728be3\" href=\"\/node\/783\">Map of University Drive campus<\/a><br \/>\r\n<strong>Phone:<\/strong>&nbsp;<br \/>\r\n<a href=\"tel:+14123606289\">412-360-6289<\/a>&nbsp;- Women's Health Coordinator<br \/>\r\n<a href=\"tel:+14123603753\">412-360-3753<\/a>&nbsp;- Maternity Care Coordinator<br \/>\r\n<strong>Hours:&nbsp;<\/strong>Monday \u2013&nbsp;Friday, 8:00 a.m. to 4:30 p.m. ET<\/p>\r\n\r\n<h3>Make an appointment<\/h3>\r\n\r\n<p>If you have a primary care provider with VA Pittsburgh, you can call to make an appointment.<\/p>\r\n\r\n<p><strong>Phone:<\/strong><br \/>\r\n<a href=\"tel:+14123603306\">412-360-3306<\/a> -&nbsp;mammogram<br \/>\r\n<a href=\"tel:+4128223000\">412-822-3000<\/a>&nbsp;- primary care<\/p>\r\n\r\n<p><a class=\"usa-button\" href=\"\/pittsburgh-health-care\/make-an-appointment\/\">Schedule a primary care appointment online<\/a><\/p>\r\n",
+            "value": "<h3>Location and contact information<\/h3>\r\n\r\n<p class=\"va-address-block\"><strong>Women's Health Center<\/strong><br \/>\r\nBuilding 1<br \/>\r\n<a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"71ffee52-a47f-4909-ad7e-21ece5728be3\" href=\"\/node\/783\">Map of University Drive campus<\/a><br \/>\r\n<strong>Phone:<\/strong>&nbsp;<br \/>\r\n<a href=\"tel:+14123606289\">412-360-6289<\/a>&nbsp;- Women's Health Coordinator<br \/>\r\n<a href=\"tel:+14123603753\">412-360-3753<\/a>&nbsp;- Maternity Care Coordinator<br \/>\r\n<strong>Hours:&nbsp;<\/strong>Monday \u2013&nbsp;Friday, 8:00 a.m. to 4:30 p.m. ET<\/p>\r\n\r\n<h3>Appointments<\/h3>\r\n\r\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you\u2019ll need to contact your primary care provider first.<\/p>\r\n\r\n<p><strong>Phone:<\/strong><br \/>\r\n<a href=\"tel:+14123603306\">412-360-3306<\/a> -&nbsp;mammogram<br \/>\r\n<a href=\"tel:+4128223000\">412-822-3000<\/a>&nbsp;- primary care<\/p>\r\n\r\n<p><a class=\"usa-button\" href=\"\/pittsburgh-health-care\/make-an-appointment\/\">Schedule a primary care appointment online<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

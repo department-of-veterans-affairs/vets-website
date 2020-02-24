@@ -36,7 +36,7 @@
     ],
     "title": [
         {
-            "value": "HIV\/Hepatitis"
+            "value": "HIV\/hepatitis"
         }
     ],
     "uid": [
@@ -53,7 +53,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:14:59+00:00",
+            "value": "2019-11-04T20:18:56+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,12 +84,12 @@
     ],
     "metatag": {
         "value": {
-            "title": "HIV\/Hepatitis | Veterans Affairs",
+            "title": "HIV\/hepatitis | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_title": "HIV\/Hepatitis | Veterans Affairs",
+            "twitter_cards_title": "HIV\/hepatitis | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "HIV\/Hepatitis | Veterans Affairs"
+            "og_title": "HIV\/hepatitis | Veterans Affairs"
         }
     },
     "path": [
@@ -120,6 +120,26 @@
         {
             "target_type": "node",
             "target_uuid": "7e73815f-ef67-4483-8ac2-62aa605b968b"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "ed7ba178-a831-49bd-8a11-9f28ae46da8c"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "b909349a-9a8a-42f6-8a24-b824048cc845"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "24d1ecae-b3e4-4beb-a905-5411d0a5f3b7"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "5d8da153-27c7-4833-b98a-f51ad00a429c"
+        },
+        {
+            "target_type": "node",
+            "target_uuid": "24295ad0-0b7a-4a09-b8fa-bf335930c4af"
         }
     ],
     "field_region_page": [
