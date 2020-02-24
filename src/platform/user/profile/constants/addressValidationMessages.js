@@ -8,6 +8,7 @@ export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   SHOW_SUGGESTIONS: 'showSuggestions',
   SHOW_SUGGESTIONS_OVERRIDE: 'showSuggestionsOverride',
   SHOW_SUGGESTIONS_NO_CONFIRMED: 'showSuggestionsNoConfirmed',
+  SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE: 'showSuggestionsNoConfirmedOverride',
   VALIDATION_ERROR: 'validationError',
 });
 
@@ -61,7 +62,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
           edit your address
         </button>{' '}
         to add a unit number. If you don’t have a unit number and the address
-        you entered below is correct, please select Use this address.
+        you entered below is correct, please select it.
       </p>
     ),
   },
@@ -99,8 +100,25 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
       <p>
         We couldn’t confirm your address with the U.S. Postal Service. Please
         verify your address so we can save it to your VA profile. If the address
-        you entered isn’t correct, please <a onClick={editFunction}>edit it</a>
+        you entered isn’t correct, please{' '}
+        <button className="va-button-link" onClick={editFunction}>
+          edit it
+        </button>
         {'. '}
+      </p>
+    ),
+  },
+  [ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE]: {
+    headline: 'Please confirm your address',
+    ModalText: ({ editFunction }) => (
+      <p>
+        We couldn’t confirm your address with the U.S. Postal Service. Please
+        verify your address so we can save it to your VA profile. If the address
+        you entered isn’t correct, please{' '}
+        <button className="va-button-link" onClick={editFunction}>
+          edit it
+        </button>
+        {'. '} If the address you entered below is correct, please select it.
       </p>
     ),
   },
