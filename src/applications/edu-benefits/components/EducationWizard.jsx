@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
