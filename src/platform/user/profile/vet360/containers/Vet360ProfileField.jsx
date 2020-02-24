@@ -7,7 +7,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as VET360 from '../constants';
 
 import { isPendingTransaction } from '../util/transactions';
-import environment from 'platform/utilities/environment';
 
 import {
   createTransaction,
@@ -24,6 +23,7 @@ import {
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
+  vaProfileUseAddressValidation,
 } from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
@@ -108,10 +108,7 @@ class Vet360ProfileField extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    if (
-      this.props.fieldName.toLowerCase().includes('address') &&
-      !environment.isProduction()
-    ) {
+    if (this.props.useAddressValidation) {
       this.props.validateAddress(
         this.props.apiRoute,
         method,
@@ -238,6 +235,7 @@ const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
+  const useAddressValidation = vaProfileUseAddressValidation(state);
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
@@ -248,6 +246,7 @@ const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
+    useAddressValidation,
   };
 };
 

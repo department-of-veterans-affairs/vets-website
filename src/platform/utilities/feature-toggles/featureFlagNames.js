@@ -7,6 +7,7 @@ const FEATURE_FLAG_NAMES = Object.freeze({
   vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
   vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
+  vaProfileAddressValidation: 'vaProfileAddressValidation',
 });
 
 module.exports = FEATURE_FLAG_NAMES;
