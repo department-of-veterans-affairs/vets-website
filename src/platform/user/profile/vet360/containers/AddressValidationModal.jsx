@@ -132,7 +132,7 @@ class AddressValidationModal extends React.Component {
     return (
       <div
         key={id}
-        className="vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-bottom--1p5"
+        className="vads-u-margin-bottom--1p5 address-validation-container"
       >
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (

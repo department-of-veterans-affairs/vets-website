@@ -76,7 +76,13 @@ input.usa-only-phone {
   white-space: nowrap;
 }
 
-.address-validation-input {
-  max-height: 125px;
-  height: 100%;
+.address-validation-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 0 5px;
+
+  .address-validation-input {
+    height: 100%;
+  }
 }
