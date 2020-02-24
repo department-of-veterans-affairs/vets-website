@@ -115,7 +115,13 @@ export function mapStateToProps(state, ownProps) {
     const chapterFormConfig = formConfig.chapters[chapterName];
     const open = openChapters.includes(chapterName);
     const pageKeys = getPageKeys(pages, formData);
-    const showUnviewedPageWarning = pageKeys.some(key => !viewedPages.has(key));
+
+    const hasErrors = state.form.formErrors?.errors.some(err =>
+      pageKeys.includes(err.pageKey),
+    );
+
+    const showUnviewedPageWarning =
+      hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
     return {
       expandedPages: expandedPages.map(
