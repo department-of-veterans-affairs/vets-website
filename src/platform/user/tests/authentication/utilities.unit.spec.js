@@ -25,6 +25,7 @@ const fakeWindow = () => {
       set: value => {
         global.window.location = value;
       },
+      pathname: '',
     },
   };
 };
@@ -60,5 +61,10 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify', () => {
     verify();
     expect(global.window.location).to.include('/sessions/verify/new');
+  });
+
+  it('should redirect for SSO', () => {
+    login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });

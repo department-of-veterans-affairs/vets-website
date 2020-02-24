@@ -72,13 +72,6 @@ describe('GIBCT helpers:', () => {
       };
       expect(rubyifyKeys(data)).to.have.key('test_key');
     });
-
-    it('should properly suffix keys for array fields', () => {
-      const data = {
-        testKey: ['a', 'b'],
-      };
-      expect(rubyifyKeys(data)).to.have.key('test_key[]');
-    });
   });
 
   describe('sortOptionsByStateName', () => {

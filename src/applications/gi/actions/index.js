@@ -116,32 +116,58 @@ export function updateAutocompleteSearchTerm(searchTerm) {
   };
 }
 
-export function fetchInstitutionAutocompleteSuggestions(term, version) {
+export function fetchInstitutionAutocompleteSuggestions(
+  term,
+  filterFields,
+  version,
+) {
   const url = appendQuery(`${api.url}/institutions/autocomplete`, {
     term,
+    ...rubyifyKeys(filterFields),
     version,
   });
   return dispatch =>
     fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }),
-        err => dispatch({ type: AUTOCOMPLETE_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .catch(err => {
+        dispatch({ type: AUTOCOMPLETE_FAILED, err });
+      });
 }
 
-export function fetchProgramAutocompleteSuggestions(term, version) {
+export function fetchProgramAutocompleteSuggestions(
+  term,
+  filterFields,
+  version,
+) {
   const url = appendQuery(`${api.url}/institution_programs/autocomplete`, {
     term,
+    ...rubyifyKeys(filterFields),
     version,
   });
   return dispatch =>
     fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }),
-        err => dispatch({ type: AUTOCOMPLETE_FAILED, err }),
-      );
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .catch(err => {
+        dispatch({ type: AUTOCOMPLETE_FAILED, err });
+      });
 }
 
 export function clearAutocompleteSuggestions() {
