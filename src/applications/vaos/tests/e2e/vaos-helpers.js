@@ -91,7 +91,7 @@ function appointmentDateTimeTest(client, nextElement) {
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
     .axeCheck('.main')
-    .click('.rjsf [type="submit"]')
+    .click('.form-progress-buttons [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.slow);
 
   return client;
