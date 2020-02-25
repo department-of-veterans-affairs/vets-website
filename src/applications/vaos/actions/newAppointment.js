@@ -523,17 +523,12 @@ export function getAppointmentSlots(startDate, endDate) {
   };
 }
 
-export function onCalendarChange({
-  currentlySelectedDate,
-  currentRowIndex,
-  selectedDates,
-}) {
+export function onCalendarChange({ currentlySelectedDate, selectedDates }) {
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     calendarData: {
       currentlySelectedDate,
       selectedDates,
-      currentRowIndex,
     },
   };
 }

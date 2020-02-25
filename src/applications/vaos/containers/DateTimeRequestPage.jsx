@@ -15,8 +15,12 @@ import { CALENDAR_INDICATOR_TYPES } from '../utils/constants';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose a day and time for your appointment';
+
+const maxSelections = 3;
+
 const missingDateError =
   'Please select at least one preferred date for your appointment. You can select up to three dates.';
+const maxSelectionsError = 'You can only select up to 3 dates';
 
 export function getOptionsByDate() {
   return [
@@ -52,9 +56,7 @@ export class DateTimeRequestPage extends React.Component {
   }
 
   goBack = () => {
-    if (!this.state.validationError) {
-      this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
-    }
+    this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
 
   goForward = () => {
@@ -71,23 +73,27 @@ export class DateTimeRequestPage extends React.Component {
   };
 
   validate = data => {
-    if (this.userSelectedSlot(data)) {
-      this.setState({ validationError: null });
-    } else {
+    if (this.exceededMaxSelections(data)) {
+      this.setState({ validationError: maxSelectionsError });
+    } else if (!this.userSelectedSlot(data)) {
       this.setState({
         validationError: missingDateError,
       });
+    } else {
+      this.setState({ validationError: null });
     }
   };
 
-  userSelectedSlot(calendarData) {
-    return calendarData?.selectedDates?.length > 0;
-  }
+  userSelectedSlot = calendarData => calendarData?.selectedDates?.length > 0;
+
+  exceededMaxSelections = calendarData =>
+    calendarData?.selectedDates?.length > maxSelections;
 
   render() {
     const { data, pageChangeInProgress } = this.props;
     const calendarData = data?.calendarData || {};
     const { currentlySelectedDate, selectedDates } = calendarData;
+    const { validationError } = this.state;
 
     const additionalOptions = {
       fieldName: 'optionTime',
@@ -108,10 +114,12 @@ export class DateTimeRequestPage extends React.Component {
         <CalendarWidget
           monthsToShowAtOnce={2}
           multiSelect
-          maxSelections={3}
+          maxSelections={maxSelections}
           onChange={newData => {
             this.validate(newData);
-            this.props.onCalendarChange(newData);
+            if (!this.exceededMaxSelections(newData)) {
+              this.props.onCalendarChange(newData);
+            }
           }}
           minDate={moment()
             .add(5, 'days')
@@ -124,7 +132,9 @@ export class DateTimeRequestPage extends React.Component {
           selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
           additionalOptions={additionalOptions}
           validationError={
-            this.state.submitted ? this.state.validationError : null
+            this.state.submitted || validationError === maxSelectionsError
+              ? validationError
+              : null
           }
         />
         <FormButtons

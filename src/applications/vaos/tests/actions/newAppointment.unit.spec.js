@@ -845,7 +845,6 @@ describe('VAOS newAppointment actions', () => {
       expect(
         onCalendarChange({
           currentlySelectedDate: '2020-12-11',
-          currentRowIndex: 1,
           selectedDates: [{}, {}],
         }).type,
       ).to.equal(FORM_CALENDAR_DATA_CHANGED);

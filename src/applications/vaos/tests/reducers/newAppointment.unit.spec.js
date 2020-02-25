@@ -712,7 +712,6 @@ describe('VAOS reducer: newAppointment', () => {
             datetime: '2020-03-11T09:40:00',
           },
         ],
-        currentRowIndex: 1,
         error: null,
       };
 
