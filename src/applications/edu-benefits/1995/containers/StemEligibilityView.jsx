@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -26,6 +23,17 @@ export class StemEligibilityView extends React.Component {
   iconText = (indication, text) =>
     indication ? `You answered yes to ${text}` : `You answered no to ${text}`;
 
+  renderCheck = (classes, title, text) => (
+    <li className="vads-u-margin-bottom--0">
+      <span className="fa-li">
+        {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
+        <i className={classes} title={title} aria-hidden="true" tabIndex="0" />
+        {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
+      </span>
+      {text}
+    </li>
+  );
+
   renderIsEdithNourseRogersScholarshipCheck = () => {
     const { isEdithNourseRogersScholarship, benefit } = this.props;
     const check = isEdithNourseRogersScholarship && isChapter33({ benefit });
@@ -40,19 +48,7 @@ export class StemEligibilityView extends React.Component {
       ? `You didn't answer ${text}`
       : this.iconText(check, text);
 
-    return (
-      <li className="vads-u-margin-bottom--0">
-        <span className="fa-li">
-          <i
-            className={classes}
-            title={title}
-            aria-hidden="true"
-            tabIndex="0"
-          />
-        </span>
-        {text}
-      </li>
-    );
+    return this.renderCheck(classes, title, text);
   };
 
   renderExhaustionOfBenefitsCheck = () => {
@@ -65,21 +61,11 @@ export class StemEligibilityView extends React.Component {
       exhaustionOfBenefits || exhaustionOfBenefitsAfterPursuingTeachingCert;
     const exhaustionOfBenefitsText =
       'Have used all your education benefits or are within 6 months of doing so';
-    return (
-      <li className="vads-u-margin-bottom--0">
-        <span className="fa-li">
-          <i
-            className={this.iconClass(exhaustionOfBenefitsCheck)}
-            title={this.iconText(
-              exhaustionOfBenefitsCheck,
-              exhaustionOfBenefitsText,
-            )}
-            aria-hidden="true"
-            tabIndex="0"
-          />
-        </span>
-        {exhaustionOfBenefitsText}
-      </li>
+
+    return this.renderCheck(
+      this.iconClass(exhaustionOfBenefitsCheck),
+      this.iconText(exhaustionOfBenefitsCheck, exhaustionOfBenefitsText),
+      exhaustionOfBenefitsText,
     );
   };
 
@@ -91,19 +77,10 @@ export class StemEligibilityView extends React.Component {
     const isEnrolledStemText =
       'Are enrolled in a STEM undergraduate degree program, or have earned a STEM degree and are now pursuing a teaching certification';
 
-    return (
-      <li className="vads-u-margin-bottom--0">
-        <span className="fa-li">
-          <i
-            className={this.iconClass(isEnrolledStemCheck)}
-            title={this.iconText(isEnrolledStemCheck, isEnrolledStemText)}
-            aria-hidden="true"
-            tabIndex="0"
-          />
-        </span>
-        Are enrolled in a STEM undergraduate degree program, <strong>or</strong>{' '}
-        have earned a STEM degree and are now pursuing a teaching certification
-      </li>
+    return this.renderCheck(
+      this.iconClass(isEnrolledStemCheck),
+      this.iconText(isEnrolledStemCheck, isEnrolledStemText),
+      isEnrolledStemText,
     );
   };
 
@@ -117,10 +94,13 @@ export class StemEligibilityView extends React.Component {
         <br />
         <b>Your responses:</b>
       </p>
+      {/* eslint-disable jsx-a11y/no-redundant-roles */}
       <ul
         className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul"
         role="list"
       >
+        {/* eslint-enable jsx-a11y/no-redundant-roles */}
+
         {this.renderIsEdithNourseRogersScholarshipCheck()}
         {this.renderExhaustionOfBenefitsCheck()}
         {this.renderIsEnrolledStemCheck()}
