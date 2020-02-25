@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
@@ -224,38 +223,24 @@ export class StemEligibilityView extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  const determineEligibility = _.get(
-    ownProps,
-    'formData.view:determineEligibility',
-  );
-  const errors = _.get(
-    ownProps,
-    'errorSchema.view:determineEligibility.__errors',
-    [],
-  );
+  const determineEligibility = ownProps?.formData['view:determineEligibility'];
+  const errors =
+    ownProps?.errorSchema['view:determineEligibility']?.__errors || [];
   return {
-    isEdithNourseRogersScholarship: _.get(
-      state,
-      'form.data.isEdithNourseRogersScholarship',
-    ),
-    benefit: _.get(state, 'form.data.benefit'),
-    exhaustionOfBenefits: _.get(state, 'form.data.view:exhaustionOfBenefits'),
-    exhaustionOfBenefitsAfterPursuingTeachingCert: _.get(
-      state,
-      'form.data.view:exhaustionOfBenefitsAfterPursuingTeachingCert',
+    isEdithNourseRogersScholarship:
+      state?.form?.data?.isEdithNourseRogersScholarship,
+    benefit: state?.form?.data?.benefit,
+    exhaustionOfBenefits: state?.form?.data['view:exhaustionOfBenefits'],
+    exhaustionOfBenefitsAfterPursuingTeachingCert:
+      state?.form?.data['view:exhaustionOfBenefitsAfterPursuingTeachingCert'] ||
       false,
-    ),
-    isEnrolledStem: _.get(state, 'form.data.isEnrolledStem'),
-    isPursuingTeachingCert: _.get(
-      state,
-      'form.data.isPursuingTeachingCert',
-      false,
-    ),
+    isEnrolledStem: state?.form?.data.isEnrolledStem,
+    isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
     determineEligibility,
     errors,
     showErrors:
       errors.length > 0 &&
-      _.get(ownProps, 'formContext.submitted') &&
+      ownProps?.formContext?.submitted &&
       determineEligibility === undefined,
   };
 };
