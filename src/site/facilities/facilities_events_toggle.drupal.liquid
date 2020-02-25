@@ -9,7 +9,7 @@
         vads-u-flex-direction--row
         medium-screen:vads-u-align-items--flex-start">
                 {% if url contains 'past-events' %}
-                        <a role="button" href="{{ url | regionBasePath | append: '/events' | prepend: '/' }}" class="
+                        <a role="button" href="/{{ url | regionBasePath | append: '/events' }}" class="
                         vads-u-flex--1
                         vads-u-margin-right--0
                         usa-button
@@ -36,7 +36,7 @@
                         no-left-button-right-radius-treatment
                         vads-u-padding--1p5"
                         >Upcoming events</a>
-                        <a role="button" href="{{ url | regionBasePath | append: '/events/past-events' | prepend: '/' }}" class="
+                        <a role="button" href="/{{ url | regionBasePath | append: '/events/past-events' }}" class="
                         vads-u-margin-top--0
                         half-em-bottom-margin
                         vads-u-flex--1

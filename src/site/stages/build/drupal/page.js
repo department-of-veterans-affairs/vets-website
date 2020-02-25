@@ -49,24 +49,19 @@ function paginatePages(page, files, field, layout, ariaLabel, perPage) {
     ariaLabel = ` of ${ariaLabel}`;
   }
 
-  let chunker;
-  switch (page.entityBundle) {
-    case 'event_listing':
-      chunker = page.allEventTeasers.entities;
-      break;
-    case 'story_listing':
-      chunker = page.allNewsStoryTeasers.entities;
-      break;
-    case 'leadership_listing':
-      chunker = page.fieldLeadership;
-      break;
-    case 'press_releases_listing':
-      chunker = page.allPressReleaseTeasers.entities;
-      break;
-    default:
-      chunker = page[field].entities;
-  }
-  const pagedEntities = _.chunk(chunker, perPage);
+  /* eslint-disable camelcase */
+  // Map the page.entityBundle value to a property value we want for page
+  const bundleToField = {
+    event_listing: 'allEventTeasers',
+    story_listing: 'allNewsStoryTeasers',
+    leadership_listing: 'fieldLeadership',
+    press_releases_listing: 'allPressReleaseTeasers',
+  };
+
+  /* eslint-enable camelcase */
+  const pageField = _.get(bundleToField, page.entityBundle, field);
+  const pagedEntities = _.chunk(page[pageField].entities, perPage);
+
   const pageReturn = [];
   for (let pageNum = 0; pageNum < pagedEntities.length; pageNum++) {
     let pagedPage = Object.assign({}, page);
