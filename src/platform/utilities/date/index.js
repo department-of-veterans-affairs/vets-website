@@ -103,7 +103,7 @@ const LONG_FORM_MONTHS = [
 ];
 
 export const formatDowntime = dateTime => {
-  const dtMoment = moment(dateTime);
+  const dtMoment = moment.parseZone(dateTime);
   const dtHour = dtMoment.hour();
   const dtMinute = dtMoment.minute();
 
