@@ -167,15 +167,8 @@ export default {
       if (eligibilityStatus.direct) {
         let appointments = null;
 
-        // If we can't get the history, then continue anyway
-        // and we'll show the full clinic list
         try {
           appointments = await getLongTermAppointmentHistory();
-        } catch (error) {
-          captureError(error);
-        }
-
-        if (appointments) {
           const clinics = getClinicsForChosenFacility(state);
           const hasMatchingClinics = clinics.some(
             clinic =>
@@ -190,9 +183,8 @@ export default {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
-        } else {
-          dispatch(startDirectScheduleFlow(appointments));
-          return 'clinicChoice';
+        } catch (error) {
+          captureError(error);
         }
       }
 

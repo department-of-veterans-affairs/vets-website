@@ -2,26 +2,25 @@
 // Where else can I put this? Also, it could use a better name.
 .wizard-button {
   &::after {
-    background-image: url("/img/arrow-down-white.svg");
+    background-image: url('/img/arrow-down-white.svg');
     background-position: right bottom;
     background-repeat: no-repeat;
-    background-size: .6em auto;
-    content: ""; // Add content for accessibility purposes?
+    background-size: 0.6em auto;
+    content: ''; // Add content for accessibility purposes?
     display: inline-block;
     height: 1em;
-    margin-left: .5em;
-    margin-right: -.3em;
+    margin-left: 0.5em;
+    margin-right: -0.3em;
     text-indent: -9999em;
     width: 1em;
   }
-  &[aria-expanded="true"]::after {
-    background-image: url("/img/arrow-up-white.svg");
+  &[aria-expanded='true']::after {
+    background-image: url('/img/arrow-up-white.svg');
   }
 }
 
 // Handles the height transition
 .wizard-content {
-
   // Handles the opacity transition
   .wizard-content-inner {
     transition: opacity 700ms ease-in-out;
@@ -49,7 +48,30 @@
 }
 
 .wizard-fieldset {
-  input[type="checkbox"], input[type="radio"] {
+  input[type='checkbox'],
+  input[type='radio'] {
     margin-left: -4rem;
   }
+}
+
+.wizard-edith-nourse-content {
+  @media (min-width: $medium-screen) {
+    margin-right: 64px;
+  }
+}
+.checkBenefitsLink {
+  white-space: nowrap;
+}
+
+.radioText {
+  display: inline-flex;
+
+  @media (min-width: $small-screen) {
+    width: 90%;
+  }
+  width: 75%;
+}
+
+label {
+  display: block !important;
 }

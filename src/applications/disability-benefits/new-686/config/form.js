@@ -2,10 +2,14 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter imports
-import { wizard } from './chapters/taskWizard';
-import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { veteranInformation } from './chapters/veteran-information';
+import { formerSpouseInformation } from './chapters/report-divorce';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
+import { reportChildMarriage } from './chapters/report-marriage-of-child';
+import { wizard } from './chapters/taskWizard';
+import {
+  veteranInformation,
+  veteranAddress,
+} from './chapters/veteran-information';
 
 const formConfig = {
   urlPrefix: '/',
@@ -38,11 +42,28 @@ const formConfig = {
     veteranInformation: {
       title: "Veteran's Information",
       pages: {
-        page1: {
+        veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information - Page 1',
+          title: 'Veteran Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran Address',
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
+        },
+      },
+    },
+    reportDivorce: {
+      title: 'Information needed to report a divorce',
+      pages: {
+        formerSpouseDetails: {
+          title: 'Information needed to report a divorce',
+          path: 'report-a-divorce',
+          uiSchema: formerSpouseInformation.uiSchema,
+          schema: formerSpouseInformation.schema,
         },
       },
     },
