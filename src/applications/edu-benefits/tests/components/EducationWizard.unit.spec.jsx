@@ -124,12 +124,32 @@ describe('<EducationWizard>', () => {
       .true;
     expect(tree.subTree('.usa-alert-warning')).not.be.be.false;
   });
-  it('should record user events', () => {
+  it('should record user events for newBenefit', () => {
     const tree = SkinDeep.shallowRender(<EducationWizard />);
     expect(global.window.dataLayer.length).to.equal(0);
     answerQuestion(tree, 'newBenefit', 'yes');
     expect(global.window.dataLayer.length).to.equal(1);
     answerQuestion(tree, 'newBenefit', 'no');
     expect(global.window.dataLayer.length).to.equal(2);
+  });
+  it('should record user events for Edith Nourse Link', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    answerQuestion(tree, 'newBenefit', 'extend');
+    const edithNourseLink = tree.subTree('a', {
+      href: 'https://benefits.va.gov/gibill/fgib/stem.asp',
+    });
+    const remainingBenefitsLink = tree.subTree('a', {
+      href: '../gi-bill/post-9-11/ch-33-benefit/',
+    });
+    const approvedBenefitsLink = tree.subTree('a', {
+      href: 'https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf',
+    });
+    expect(global.window.dataLayer.length).to.equal(1);
+    edithNourseLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(2);
+    remainingBenefitsLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(3);
+    approvedBenefitsLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(4);
   });
 });
