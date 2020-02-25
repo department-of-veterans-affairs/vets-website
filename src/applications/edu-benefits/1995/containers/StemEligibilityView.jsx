@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
 import React from 'react';
 import _ from 'lodash';
@@ -23,7 +24,7 @@ export class StemEligibilityView extends React.Component {
     });
 
   iconText = (indication, text) =>
-    indication ? `${text} criteria is met` : `${text} criteria is not met`;
+    indication ? `You answered yes to ${text}` : `You answered no to ${text}`;
 
   renderIsEdithNourseRogersScholarshipCheck = () => {
     const { isEdithNourseRogersScholarship, benefit } = this.props;
@@ -36,13 +37,18 @@ export class StemEligibilityView extends React.Component {
 
     const text = 'Post-9/11 GI Bill beneficiary or Fry Scholarship recipient';
     const title = question
-      ? `It is unknown if ${text} criteria is met`
+      ? `You didn't answer ${text}`
       : this.iconText(check, text);
 
     return (
       <li className="vads-u-margin-bottom--0">
         <span className="fa-li">
-          <i className={classes} title={title} aria-hidden="true" />
+          <i
+            className={classes}
+            title={title}
+            aria-hidden="true"
+            tabIndex="0"
+          />
         </span>
         {text}
       </li>
@@ -69,6 +75,7 @@ export class StemEligibilityView extends React.Component {
               exhaustionOfBenefitsText,
             )}
             aria-hidden="true"
+            tabIndex="0"
           />
         </span>
         {exhaustionOfBenefitsText}
@@ -91,6 +98,7 @@ export class StemEligibilityView extends React.Component {
             className={this.iconClass(isEnrolledStemCheck)}
             title={this.iconText(isEnrolledStemCheck, isEnrolledStemText)}
             aria-hidden="true"
+            tabIndex="0"
           />
         </span>
         Are enrolled in a STEM undergraduate degree program, <strong>or</strong>{' '}
