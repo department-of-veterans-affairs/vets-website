@@ -278,6 +278,7 @@ export const facilityData = (facility, service) => {
                 state: 'TX',
                 zip: '78757',
               },
+              posCodes: '17',
               email: null,
               phone: null,
               fax: null,

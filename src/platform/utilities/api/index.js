@@ -83,6 +83,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);
+        scope.setFingerprint(['{{default}}', scope._tags?.source]);
         Sentry.captureMessage(`vets_client_error: ${err.message}`);
       });
 

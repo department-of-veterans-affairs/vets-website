@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -41,6 +40,8 @@ import {
   getEligibleFacilities,
 } from '../utils/eligibility';
 
+import { captureError } from '../utils/error';
+
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
 export const FORM_RESET = 'newAppointment/FORM_RESET';
@@ -61,12 +62,6 @@ export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED';
 export const FORM_FETCH_CHILD_FACILITIES_FAILED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
@@ -88,6 +83,14 @@ export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
   'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
+export const FORM_CALENDAR_FETCH_SLOTS =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS';
+export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
+export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
+export const FORM_CALENDAR_DATA_CHANGED =
+  'newAppointment/FORM_CALENDAR_DATA_CHANGED';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -204,7 +207,7 @@ export function fetchFacilityDetails(facilityId) {
       facilityDetails = await getFacilityInfo(facilityId);
     } catch (error) {
       facilityDetails = null;
-      Sentry.captureException(error);
+      captureError(error);
     }
 
     dispatch({
@@ -292,7 +295,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         eligibilityData,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
       });
@@ -338,7 +341,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_FAILED,
         });
@@ -378,7 +381,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           eligibilityData,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_FAILED,
         });
@@ -444,7 +447,7 @@ export function getAppointmentSlots(startDate, endDate) {
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
       let appointmentLength = null;
-      dispatch({ type: FORM_FETCH_AVAILABLE_APPOINTMENTS });
+      dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
         const startDateString = !fetchedStartMonth
@@ -488,6 +491,8 @@ export function getAppointmentSlots(startDate, endDate) {
           return acc;
         }, []);
 
+        // Keep track of which months we've fetched already so we don't
+        // make duplicate calls
         if (!fetchedStartMonth) {
           fetchedAppointmentSlotMonths.push(startDateMonth);
         }
@@ -501,18 +506,33 @@ export function getAppointmentSlots(startDate, endDate) {
         );
 
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+          type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
           appointmentLength,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+          type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
         });
       }
     }
+  };
+}
+
+export function onCalendarChange({
+  currentlySelectedDate,
+  currentRowIndex,
+  selectedDates,
+}) {
+  return {
+    type: FORM_CALENDAR_DATA_CHANGED,
+    calendarData: {
+      currentlySelectedDate,
+      selectedDates,
+      currentRowIndex,
+    },
   };
 }
 
@@ -539,7 +559,7 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
         parentFacilities,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
       });
@@ -584,7 +604,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          Sentry.captureException(error);
+          captureError(error);
         }
 
         dispatch({
@@ -596,7 +616,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
@@ -634,7 +654,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          Sentry.captureException(error);
+          captureError(error);
         }
 
         dispatch({
@@ -646,7 +666,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });

@@ -174,7 +174,7 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <div className="schemaform-intro caregiver-intro-page">
-      <FormTitle title="Caregiver Benefit Application" />
+      <FormTitle title="Apply for Caregiver Benefits" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
 
       <SaveInProgressIntro
