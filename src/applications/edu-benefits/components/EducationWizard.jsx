@@ -58,9 +58,9 @@ export default class EducationWizard extends React.Component {
     // different branches
     field === 'newBenefit' &&
       recordEvent({
-        event: 'edu-howToApply-formChange', //remain consistent for all toggling
-        'edu-form-value': 'benefitUpdate', //remain consistent for all toggling
-        'edu-form-change': 'new', //dynamically populate according to selection -- other examples are 'Update', or 'STEM Scholarship'
+        event: 'edu-howToApply-formChange',
+        'edu-form-value': 'benefitUpdate',
+        'edu-form-change': 'new',
       });
 
     const fields = [].concat(
