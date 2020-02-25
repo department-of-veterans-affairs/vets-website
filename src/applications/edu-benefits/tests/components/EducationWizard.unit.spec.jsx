@@ -124,4 +124,12 @@ describe('<EducationWizard>', () => {
       .true;
     expect(tree.subTree('.usa-alert-warning')).not.be.be.false;
   });
+  it('should record user events', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    expect(global.window.dataLayer.length).to.equal(0);
+    answerQuestion(tree, 'newBenefit', 'yes');
+    expect(global.window.dataLayer.length).to.equal(1);
+    answerQuestion(tree, 'newBenefit', 'no');
+    expect(global.window.dataLayer.length).to.equal(2);
+  });
 });
