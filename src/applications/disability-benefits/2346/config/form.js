@@ -1,14 +1,17 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import commonSchemaDefinitions from 'vets-json-schema/dist/definitions.json';
-import Schema2346 from '../2346-schema.json';
+import fullSchemaMDOT from 'vets-json-schema/dist/MDOT-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
-import { vetFields } from '../constants/';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import UIDefinitions from '../definitions/2346UI';
 
-const { email, address } = Schema2346.definitions;
-const { fullName, gender, date } = commonSchemaDefinitions;
+const {
+  email,
+  dateOfBirth,
+  veteranFullName,
+  veteranAddress,
+} = fullSchemaMDOT.properties;
+
+const { fullName, address, gender } = fullSchemaMDOT.definitions;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
@@ -16,16 +19,8 @@ const formChapters = {
 
 const formPages = {
   personalDetails: 'Personal Details',
-  address: 'Confirm Address',
+  confirmAddress: 'Confirm Address',
 };
-
-const {
-  addressUI,
-  dateOfBirthUI,
-  emailUI,
-  genderUI,
-  fullNameUI,
-} = UIDefinitions.sharedUISchemas;
 
 const formConfig = {
   urlPrefix: '/',
@@ -38,14 +33,13 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
+  title: 'Reorder Hearing Aid Batteries and Accessories',
+  subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   defaultDefinitions: {
-    date,
-    email,
-    gender,
     fullName,
     address,
   },
@@ -54,41 +48,29 @@ const formConfig = {
       title: formChapters.veteranInformation,
       pages: {
         [formPages.personalDetails]: {
-          path: 'veteran-information/personal-details',
+          path: 'veteran-information',
           title: formPages.personalDetails,
           uiSchema: {
             'ui:description': personalInfoBox,
-            [vetFields.fullName]: fullNameUI,
-            [vetFields.dateOfBirth]: dateOfBirthUI,
-            [vetFields.gender]: genderUI,
           },
           schema: {
             type: 'object',
-            required: [
-              vetFields.fullName,
-              vetFields.dateOfBirth,
-              vetFields.gender,
-            ],
             properties: {
-              [vetFields.fullName]: fullName,
-              [vetFields.dateOfBirth]: date,
-              [vetFields.gender]: gender,
+              veteranFullName,
+              dateOfBirth,
+              gender,
             },
           },
         },
         [formPages.address]: {
           path: 'veteran-information/addresses',
-          title: formPages.address,
-          uiSchema: {
-            [vetFields.address]: addressUI,
-            [vetFields.email]: emailUI,
-          },
+          title: formPages.confirmAddress,
+          uiSchema: {},
           schema: {
             type: 'object',
-            required: [vetFields.address, vetFields.email],
             properties: {
-              [vetFields.address]: address,
-              [vetFields.email]: email,
+              veteranAddress,
+              email,
             },
           },
         },

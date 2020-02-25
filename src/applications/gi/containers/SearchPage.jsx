@@ -104,6 +104,16 @@ export class SearchPage extends React.Component {
     this.props.fetchInstitutionSearchResults(query);
   };
 
+  autocomplete = (value, version) => {
+    if (value) {
+      this.props.fetchInstitutionAutocompleteSuggestions(
+        value,
+        _.omit(this.props.search.query, 'name'),
+        version,
+      );
+    }
+  };
+
   handlePageSelect = page => {
     this.props.router.push({
       ...this.props.location,
@@ -125,6 +135,7 @@ export class SearchPage extends React.Component {
     ) {
       return;
     }
+    this.props.clearAutocompleteSuggestions();
 
     // Reset to the first page upon a filter change.
     delete query.page;
@@ -235,9 +246,7 @@ export class SearchPage extends React.Component {
         autocomplete={this.props.autocomplete}
         location={this.props.location}
         clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={
-          this.props.fetchInstitutionAutocompleteSuggestions
-        }
+        fetchAutocompleteSuggestions={this.autocomplete}
         handleFilterChange={this.handleFilterChange}
         updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
         filters={this.props.filters}
