@@ -9,7 +9,6 @@ import SchoolLocations from './SchoolLocations';
 import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
-import environment from 'platform/utilities/environment';
 import ContactInformation from './ContactInformation';
 
 export class InstitutionProfile extends React.Component {
