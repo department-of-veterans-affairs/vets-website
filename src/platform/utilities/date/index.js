@@ -122,5 +122,5 @@ export const formatDowntime = dateTime => {
     timeFormat = `h:mm ${amPmFormat}`;
   }
 
-  return dtMoment.format(`${monthFormat} Do [at] ${timeFormat} [ET]`);
+  return dtMoment.format(`${monthFormat} D [at] ${timeFormat} [ET]`);
 };
