@@ -56,12 +56,13 @@ export default class EducationWizard extends React.Component {
     // drop all the levels until we see the current question, then reset
     // everything at that level and beyond, so we don't see questions from
     // different branches
-    field === 'newBenefit' &&
+    if (field === 'newBenefit') {
       recordEvent({
         event: 'edu-howToApply-formChange',
         'edu-form-value': 'benefitUpdate',
         'edu-form-change': 'new',
       });
+    }
 
     const fields = [].concat(
       ..._.dropWhile(level => !level.includes(field), levels),
