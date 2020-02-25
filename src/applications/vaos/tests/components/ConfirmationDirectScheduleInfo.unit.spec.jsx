@@ -35,7 +35,7 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
       <ConfirmationDirectScheduleInfo {...props} pageTitle={pageTitle} />,
     );
 
-    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m.');
+    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m. MT');
 
     expect(tree.find('h1').text()).to.equal(pageTitle);
 
