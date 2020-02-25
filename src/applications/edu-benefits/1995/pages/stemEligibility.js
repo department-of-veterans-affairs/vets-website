@@ -1,8 +1,7 @@
 import StemEligibilityView from '../containers/StemEligibilityView';
-import _ from 'lodash';
 
 const determineEligibilityIsNotChecked = formData =>
-  _.get(formData, 'determineEligibility') === undefined;
+  formData.determineEligibility === undefined;
 
 export const uiSchema = {
   'ui:title': 'Rogers STEM Scholarship eligibility',
