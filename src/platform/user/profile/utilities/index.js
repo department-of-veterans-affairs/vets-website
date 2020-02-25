@@ -153,6 +153,7 @@ export const getValidationMessageKey = (
   suggestedAddresses,
   validationKey,
   addressValidationError,
+  confirmedSuggestions,
 ) => {
   const singleSuggestion = suggestedAddresses.length === 1;
   const multipleSuggestions = suggestedAddresses.length > 1;
@@ -186,6 +187,18 @@ export const getValidationMessageKey = (
   }
 
   if (
+    !confirmedSuggestions.length &&
+    singleSuggestion &&
+    !containsMissingUnitNumber &&
+    !containsBadUnitNumber
+  ) {
+    return validationKey
+      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE
+      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED;
+  }
+
+  if (
+    confirmedSuggestions.length &&
     singleSuggestion &&
     !containsMissingUnitNumber &&
     !containsBadUnitNumber

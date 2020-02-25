@@ -32,6 +32,7 @@ import {
   directDepositAccountInformation,
   directDepositAddressIsSetUp,
   directDepositInformation,
+  directDepositIsBlocked,
   directDepositIsSetUp as directDepositIsSetUpSelector,
 } from '../selectors';
 
@@ -280,6 +281,7 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 const mapStateToProps = state => {
   const directDepositIsSetUp = directDepositIsSetUpSelector(state);
   const isEligible = isEvssAvailable(state);
+  const isNotBlocked = !directDepositIsBlocked(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
 
   return {
@@ -295,7 +297,9 @@ const mapStateToProps = state => {
     paymentInformation: directDepositInformation(state),
     paymentInformationUiState: state.vaProfile.paymentInformationUiState,
     shouldShowDirectDeposit:
-      isEligible && (directDepositIsSetUp || isEligibleToSignUp),
+      isEligible &&
+      isNotBlocked &&
+      (directDepositIsSetUp || isEligibleToSignUp),
   };
 };
 

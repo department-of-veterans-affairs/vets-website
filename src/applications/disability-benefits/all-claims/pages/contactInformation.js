@@ -44,11 +44,21 @@ export const uiSchema = {
     primaryPhone: phoneUI('Phone number'),
     emailAddress: emailUI(),
   },
-  mailingAddress: addressUISchema(
-    ADDRESS_PATHS.mailingAddress,
-    'Mailing address',
-    true,
-  ),
+  mailingAddress: {
+    ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
+    addressLine1: {
+      'ui:title': 'Street address (20 characters maximum)',
+      'ui:errorMessages': {
+        required: 'Please enter a street address',
+      },
+    },
+    addressLine2: {
+      'ui:title': 'Street address (20 characters maximum)',
+    },
+    addressLine3: {
+      'ui:title': 'Street address (20 characters maximum)',
+    },
+  },
   // 'view:hasForwardingAddress': {
   //   'ui:title': 'My address will be changing soon.',
   // },

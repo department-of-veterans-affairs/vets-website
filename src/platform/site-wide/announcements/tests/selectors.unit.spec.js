@@ -49,6 +49,17 @@ describe('selectAnnouncement', () => {
           paths: /^(\/unique-route\/)$/,
           expiresAt: '2019-11-11',
         },
+        {
+          name: 'dummy8',
+          paths: /^(\/unique-route-2\/)$/,
+          startsAt: '2022-11-11',
+        },
+        {
+          name: 'dummy9',
+          paths: /^(\/unique-route-3\/)$/,
+          startsAt: '2019-11-11',
+          expiresAt: '2022-11-11',
+        },
       ],
     };
   });
@@ -120,5 +131,25 @@ describe('selectAnnouncement', () => {
     );
 
     expect(result).to.be.undefined;
+  });
+
+  it('filters announcements that have not started yet', () => {
+    const result = selectors.selectAnnouncement(
+      state,
+      config,
+      '/unique-route-2/',
+    );
+
+    expect(result).to.be.undefined;
+  });
+
+  it('includes announcements where `startsAt` <= now <= `expiresAt`', () => {
+    const result = selectors.selectAnnouncement(
+      state,
+      config,
+      '/unique-route-3/',
+    );
+
+    expect(result).to.not.be.undefined;
   });
 });
