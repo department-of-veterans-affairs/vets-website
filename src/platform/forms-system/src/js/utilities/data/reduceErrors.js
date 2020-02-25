@@ -45,13 +45,16 @@ const ignoreKeys = [
   'initialData',
 ];
 
+export const isIgnoredSchemaKey = key =>
+  key.startsWith('ui:') || ignoreKeys.includes(key);
+
 // Find the chapter and page name that contains the property (name) which is
 // used to build a link that will expand the associated accordion when clicked
 const getPropertyInfo = (pageList = [], name, instance = '') => {
   const findPageIndex = (obj, insideInstance = instance === '') => {
     if (obj && typeof obj === 'object') {
       return Object.keys(obj).findIndex(key => {
-        if (ignoreKeys.includes(key) || key.startsWith('ui:')) {
+        if (isIgnoredSchemaKey(key)) {
           return false;
         }
         if (insideInstance && name === key && obj[name]) {
