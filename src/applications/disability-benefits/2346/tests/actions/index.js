@@ -1,7 +1,13 @@
 import { expect } from 'chai';
-import { FETCH_VETERAN_INFORMATION } from '../../constants';
-import { fetchVeteranInformation } from '../../actions';
-import { getVeteranInformation } from '../../api';
+
+import {
+  FETCH_VETERAN_INFORMATION,
+  FETCH_VETERAN_INFORMATION_FAILURE,
+} from '../../constants';
+import {
+  fetchVeteranInformation,
+  fetchVeteranInformationFailure,
+} from '../../actions';
 
 const data = {
   formData: {
@@ -30,8 +36,15 @@ describe('FORM 2346 actions', () => {
     });
   });
 
-  describe('getVeteranInformationData', () => {
-    it('should fetch request veteran information', async () => {});
-    it('should dispatch failure action if veteran information fetch fails', async () => {});
+  describe('fetchVeteranInformationFailure', () => {
+    it("returns an action with type 'FETCH_VETERAN_INFORMATION_FAILURE", () => {
+      const error = 'failed to retrieve data from the api';
+      const action = fetchVeteranInformationFailure(error);
+      const expectedAction = {
+        type: FETCH_VETERAN_INFORMATION_FAILURE,
+        error,
+      };
+      expect(action).to.deep.equal(expectedAction);
+    });
   });
 });
