@@ -3,6 +3,7 @@ import React from 'react';
 function GetFormHelp() {
   return (
     <div>
+      <i className="fa-times" aria-hidden="true" />
       <p className="help-talk">
         Need help enrolling or have questions about enrollment or eligibility?
         Call our toll-free number:
