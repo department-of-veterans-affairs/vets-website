@@ -17,6 +17,7 @@ function GetFormHelp() {
         <a className="help-phone-number-link" href="tel:1-800-877-8339">
           800-877-8339
         </a>
+        <i className="fa-times" aria-hidden="true" />
         <br />
         Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
       </p>
