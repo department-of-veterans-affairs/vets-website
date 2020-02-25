@@ -102,6 +102,22 @@ jobs:
           name: Check PR for Sentry calls
           command: npm run pr-check
 
+  icon-check:
+    docker:
+      - image: circleci/node:10.18
+    environment:
+      CODE_PATTERN: (<i)|(<i>)
+      OVERALL_REVIEW_COMMENT: `<i>` tag found in changes. _Please_ wait for a VSP review.
+      LINE_COMMENT: icon found
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - run:
+          name: Check PR for icon additions
+          command: npm run pr-check
+
 workflows:
   version: 2
   flag-for-manual-review:
@@ -111,6 +127,10 @@ workflows:
             branches:
               ignore: master
       - sentry-check:
+          filters:
+            branches:
+              ignore: master
+      - icon-check:
           filters:
             branches:
               ignore: master
