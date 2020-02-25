@@ -72,11 +72,9 @@ export class InstitutionProfile extends React.Component {
                 onShowModal={showModal}
               />
             </AccordionItem>
-            {!environment.isProduction() && (
-              <AccordionItem button="Contact details">
-                <ContactInformation institution={profile.attributes} />
-              </AccordionItem>
-            )}
+            <AccordionItem button="Contact details">
+              <ContactInformation institution={profile.attributes} />
+            </AccordionItem>
             <AccordionItem button="Additional information">
               <AdditionalInformation
                 institution={profile.attributes}
