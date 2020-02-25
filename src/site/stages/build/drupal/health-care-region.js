@@ -281,10 +281,11 @@ function createHealthCareRegionListPages(page, drupalPagePath, files) {
  * @return nothing
  */
 function addGetUpdatesFields(page, pages) {
-  const regionPage = pages.find(p =>
-    p.entityUrl
-      ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
-      : false,
+  const regionPage = pages.find(
+    p =>
+      p.entityUrl
+        ? p.entityUrl.path === page.entityUrl.breadcrumb[1].url.path
+        : false,
   );
 
   if (regionPage) {
@@ -303,7 +304,7 @@ function addGetUpdatesFields(page, pages) {
  * @param {pages} pages an array of page of objects containing a page
  * @return nothing
  */
-function modListPages(page, pages, files, field, template, aria) {
+function modListPages(page, files, field, template, aria) {
   switch (page.entityBundle) {
     case 'event_listing':
       page.allEventTeasers = page.fieldOffice.entity.reverseFieldOfficeNode

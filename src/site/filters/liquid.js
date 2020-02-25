@@ -233,16 +233,8 @@ module.exports = function registerFilters() {
     return JSON.stringify(id);
   };
 
-  liquid.filters.sortMainFacility = item => {
-    let sorted;
-    if (item) {
-      sorted = item.sort((a, b) => {
-        const sorter = a.entityId - b.entityId;
-        return sorter;
-      });
-    }
-    return sorted;
-  };
+  liquid.filters.sortMainFacility = item =>
+    item ? item.sort((a, b) => a.entityId - b.entityId) : undefined;
 
   liquid.filters.eventSorter = item => {
     const sorted = item.sort((a, b) => {
@@ -252,6 +244,7 @@ module.exports = function registerFilters() {
       const bTime = Math.floor(
         new Date(b.fieldDate.startDate).getTime() / 1000,
       );
+      // Sort order needs to be oldest first.
       const sorter = aTime - bTime;
       return sorter;
     });

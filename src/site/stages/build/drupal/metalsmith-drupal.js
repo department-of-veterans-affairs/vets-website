@@ -89,7 +89,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'event_listing':
         modListPages(
           pageCompiled,
-          pages,
           files,
           page.allEventTeasers,
           'event_listing.drupal.liquid',
@@ -99,7 +98,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'story_listing':
         modListPages(
           pageCompiled,
-          pages,
           files,
           page.allNewsStoryTeasers,
           'story_listing.drupal.liquid',
@@ -109,7 +107,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'press_releases_listing':
         modListPages(
           pageCompiled,
-          pages,
           files,
           page.allPressReleaseTeasers,
           'press_releases_listing.drupal.liquid',
@@ -119,7 +116,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'health_services_listing':
         modListPages(
           pageCompiled,
-          pages,
           files,
           page.clinicalHealthServices,
           'health_services_listing.drupal.liquid',
@@ -129,7 +125,6 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
       case 'leaderships_listing':
         modListPages(
           pageCompiled,
-          pages,
           files,
           page.allStaffProfiles,
           'leadership_listing.drupal.liquid',
