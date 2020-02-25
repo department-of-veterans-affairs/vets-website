@@ -156,32 +156,38 @@ export class StemEligibilityView extends React.Component {
       showErrors ? 'usa-input-error-label' : '',
     );
     return (
-      <div className={divClassName}>
-        <legend className={legendClassName}>
-          Since it appears you're not eligible for the scholarship, would you
-          still like to apply and let us determine your eligibility?
-          <span className="schemaform-required-span">(*Required)</span>
-        </legend>
-        {this.renderErrorMessage()}
-        <input
-          type="radio"
-          checked={determineEligibility != null && !determineEligibility}
-          id={`${id}No`}
-          name={`${id}`}
-          value="N"
-          onChange={() => this.onChange({ 'view:determineEligibility': false })}
-        />
-        <label htmlFor={`${id}No`}>No</label>
-        <input
-          type="radio"
-          checked={determineEligibility}
-          id={`${id}Yes`}
-          name={`${id}`}
-          value="Y"
-          onChange={() => this.onChange({ 'view:determineEligibility': true })}
-        />
-        <label htmlFor={`${id}Yes`}>Yes</label>
-      </div>
+      <fieldset className="schemaform-field-template schemaform-first-field">
+        <div className={divClassName}>
+          <legend className={legendClassName}>
+            Since it appears you're not eligible for the scholarship, would you
+            still like to apply and let us determine your eligibility?
+            <span className="schemaform-required-span">(*Required)</span>
+          </legend>
+          {this.renderErrorMessage()}
+          <input
+            type="radio"
+            checked={determineEligibility != null && !determineEligibility}
+            id={`${id}No`}
+            name={`${id}`}
+            value="N"
+            onChange={() =>
+              this.onChange({ 'view:determineEligibility': false })
+            }
+          />
+          <label htmlFor={`${id}No`}>No</label>
+          <input
+            type="radio"
+            checked={determineEligibility}
+            id={`${id}Yes`}
+            name={`${id}`}
+            value="Y"
+            onChange={() =>
+              this.onChange({ 'view:determineEligibility': true })
+            }
+          />
+          <label htmlFor={`${id}Yes`}>Yes</label>
+        </div>
+      </fieldset>
     );
   };
 
