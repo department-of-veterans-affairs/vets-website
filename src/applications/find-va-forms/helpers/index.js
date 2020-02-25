@@ -24,7 +24,7 @@ export const normalizeFormsForTable = forms =>
       // Overridden form values.
       id,
       type: form.type,
-      lastRevisionOn: lastRevisionOn && lastRevisionOn.unix(),
+      lastRevisionOn: lastRevisionOn?.unix(),
       // JSX Labels.
       idLabel,
       titleLabel: title,
