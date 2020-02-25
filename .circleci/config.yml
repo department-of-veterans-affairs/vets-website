@@ -106,7 +106,7 @@ jobs:
     docker:
       - image: circleci/node:10.18
     environment:
-      CODE_PATTERN: (<i)|(<i>)
+      CODE_PATTERN: (<i )|(<i$)
       OVERALL_REVIEW_COMMENT: Found `<i>` tag in changes. _Please_ wait for a VSP review.
       LINE_COMMENT: icon found
     steps:
