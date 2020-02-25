@@ -132,7 +132,7 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, 'newBenefit', 'no');
     expect(global.window.dataLayer.length).to.equal(2);
   });
-  it('should record user events for Edith Nourse Link', () => {
+  it('should record user events for STEM section links', () => {
     const tree = SkinDeep.shallowRender(<EducationWizard />);
     answerQuestion(tree, 'newBenefit', 'extend');
     const edithNourseLink = tree.subTree('a', {
@@ -151,5 +151,13 @@ describe('<EducationWizard>', () => {
     expect(global.window.dataLayer.length).to.equal(3);
     approvedBenefitsLink.props.onClick();
     expect(global.window.dataLayer.length).to.equal(4);
+  });
+  it('should record user events on application submission', () => {
+    const tree = SkinDeep.shallowRender(<EducationWizard />);
+    answerQuestion(tree, 'newBenefit', 'extend');
+    answerQuestion(tree, 'applyForScholarship', 'yes');
+    const applyNowLink = tree.subTree('#apply-now-link');
+    applyNowLink.props.onClick();
+    expect(global.window.dataLayer.length).to.equal(2);
   });
 });
