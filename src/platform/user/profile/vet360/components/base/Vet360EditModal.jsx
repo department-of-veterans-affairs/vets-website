@@ -19,26 +19,19 @@ export default class Vet360EditModal extends React.Component {
     hasValidationError: PropTypes.func,
     isEmpty: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     render: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     transactionRequest: PropTypes.object,
-    useSchemaForm: PropTypes.bool,
   };
 
   componentDidMount() {
-    if (this.props.useSchemaForm) {
-      this.props.onChangeFormDataAndSchemas(
-        this.props.getInitialFormValues(),
-        this.props.formSchema,
-        this.props.uiSchema,
-      );
-    } else {
-      // initialize form with no fieldName and skip validation
-      this.props.onChange(this.props.getInitialFormValues(), null, true);
-    }
+    this.props.onChangeFormDataAndSchemas(
+      this.props.getInitialFormValues(),
+      this.props.formSchema,
+      this.props.uiSchema,
+    );
   }
 
   componentWillUnmount() {
@@ -50,28 +43,9 @@ export default class Vet360EditModal extends React.Component {
     }
   }
 
-  onSubmit = event => {
-    event.preventDefault();
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
-    // delay until next tick for onBlur to complete
-    setTimeout(() => {
-      if (this.hasValidationError()) return;
-      this.props.onSubmit(this.props.field.value);
-    }, 10);
-  };
-
-  onSubmitSchemaForm = () => {
+  onSubmit = () => {
     this.props.onSubmit(this.props.field.value);
   };
-
-  hasValidationError() {
-    if (this.props.hasValidationError) return this.props.hasValidationError();
-
-    const validations = this.props.field.validations || {};
-    return Object.values(validations).some(e => !!e);
-  }
 
   isInitialized = () =>
     this.props.isInitialized ? this.props.isInitialized() : !!this.props.field;
@@ -90,7 +64,6 @@ export default class Vet360EditModal extends React.Component {
         transactionRequest,
         analyticsSectionName,
         deleteDisabled,
-        useSchemaForm,
       },
     } = this;
 
@@ -120,37 +93,17 @@ export default class Vet360EditModal extends React.Component {
       </Vet360EditModalActionButtons>
     );
 
-    if (useSchemaForm) {
-      return (
-        <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
-          <h3>Edit {title.toLowerCase()}</h3>
-          {error && (
-            <Vet360EditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
-          )}
-          {isFormReady && render(actionButtons, this.onSubmitSchemaForm)}
-        </Modal>
-      );
-    }
-
     return (
       <Modal id="profile-edit-modal" onClose={onCancel} visible={isFormReady}>
         <h3>Edit {title.toLowerCase()}</h3>
-        <form onSubmit={onSubmit} data-ready={isFormReady}>
-          {error && (
-            <Vet360EditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
-          )}
-          {isFormReady && render()}
-          <br />
-          {actionButtons}
-        </form>
+        {error && (
+          <Vet360EditModalErrorMessage
+            title={title}
+            error={error}
+            clearErrors={clearErrors}
+          />
+        )}
+        {isFormReady && render(actionButtons, onSubmit)}
       </Modal>
     );
   }
