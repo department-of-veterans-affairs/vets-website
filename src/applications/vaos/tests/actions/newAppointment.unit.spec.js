@@ -265,7 +265,9 @@ describe('VAOS newAppointment actions', () => {
     it('should fetch parentFacilities and child facilities if single parent', async () => {
       setFetchJSONResponse(global.fetch, systemIdentifiers);
       setFetchJSONResponse(global.fetch.onCall(1), {
-        data: parentFacilities.data.slice(0, 1),
+        data: parentFacilities.data.filter(
+          parent => parent.attributes.institutionCode === '983',
+        ),
       });
       setFetchJSONResponse(global.fetch.onCall(2), facilities983);
       const dispatch = sinon.spy();
