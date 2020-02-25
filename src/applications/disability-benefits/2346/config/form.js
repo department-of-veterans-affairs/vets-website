@@ -14,13 +14,7 @@ const {
   gender,
 } = fullSchemaMDOT.definitions;
 
-const {
-  fullNameUI,
-  dateOfBirthUI,
-  emailUI,
-  addressUI,
-  genderUI,
-} = UIDefinitions.sharedUISchemas;
+const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
@@ -64,17 +58,10 @@ const formConfig = {
           title: formPages.personalDetails,
           uiSchema: {
             'ui:description': personalInfoBox,
-            [vetFields.fullName]: fullNameUI,
-            [vetFields.dateOfBirth]: dateOfBirthUI,
-            [vetFields.gender]: genderUI,
           },
           schema: {
             type: 'object',
-            properties: {
-              veteranFullName,
-              dateOfBirth,
-              gender,
-            },
+            properties: {},
           },
         },
         [formPages.address]: {
