@@ -1,4 +1,5 @@
 import moment from 'moment';
+import environment from 'platform/utilities/environment';
 import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
 import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
@@ -102,15 +103,14 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
     }, null);
 }
 
-/* eslint-disable camelcase */
 export const isGlobalDowntimeInProgress = (
   downtimeWindow = scheduledDowntimeWindow,
 ) => {
-  const { start_time, end_time } = downtimeWindow;
+  const { downtimeStart, downtimeEnd } = downtimeWindow;
 
   return (
-    // !environment.isLocalhost() &&
-    moment().isAfter(start_time) && moment().isBefore(end_time)
+    !environment.isLocalhost() &&
+    moment().isAfter(downtimeStart) &&
+    moment().isBefore(downtimeEnd)
   );
 };
-/* eslint-enable camelcase */
