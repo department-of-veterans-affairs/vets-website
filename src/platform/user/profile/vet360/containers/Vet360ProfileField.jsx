@@ -193,7 +193,6 @@ class Vet360ProfileField extends React.Component {
       <div
         className="vet360-profile-field"
         aria-atomic="false"
-        aria-live="polite"
         data-field-name={fieldName}
       >
         <Vet360ProfileFieldHeading

@@ -159,13 +159,14 @@ class AddressValidationModal extends React.Component {
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
-                <a
+                <button
+                  className="va-button-link"
                   onClick={() =>
                     this.props.openModal(addressValidationType, addressFromUser)
                   }
                 >
                   Edit Address
-                </a>
+                </button>
               )}
           </div>
         </label>
