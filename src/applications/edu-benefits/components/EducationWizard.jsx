@@ -51,17 +51,17 @@ export default class EducationWizard extends React.Component {
   answerQuestion = (field, answer) => {
     const newState = Object.assign({}, { [field]: answer });
 
-    // drop all the levels until we see the current question, then reset
-    // everything at that level and beyond, so we don't see questions from
-    // different branches
     if (field === 'newBenefit') {
       recordEvent({
         event: 'edu-howToApply-formChange',
         'edu-form-value': 'benefitUpdate',
-        'edu-form-change': 'new',
+        'edu-form-change': this.eduFormChange(answer),
       });
     }
 
+    // drop all the levels until we see the current question, then reset
+    // everything at that level and beyond, so we don't see questions from
+    // different branches
     const fields = [].concat(
       ..._.dropWhile(level => !level.includes(field), levels),
     );
@@ -74,15 +74,46 @@ export default class EducationWizard extends React.Component {
     this.setState(newState);
   };
 
+  eduFormChange = input => {
+    let eduFormChange;
+    if (input === 'yes') {
+      eduFormChange = 'new';
+    } else if (input === 'no') {
+      eduFormChange = 'update';
+    } else if (input === 'extend') {
+      eduFormChange = 'stem scholarship';
+    } else {
+      return null;
+    }
+    return eduFormChange;
+  };
+
+  isReceivingSponsorBenefits = input => {
+    let isReceivingSponsorBenefits;
+    if (input === 'own') {
+      isReceivingSponsorBenefits = 'no';
+    } else if (this.state.transferredEduBenefits === 'transferred') {
+      isReceivingSponsorBenefits = 'yes';
+    } else if (this.state.transferredEduBenefits === 'fry') {
+      isReceivingSponsorBenefits = 'no with scholarship';
+    } else {
+      return null;
+    }
+    return isReceivingSponsorBenefits;
+  };
+
   recordWizardValues = () => {
     recordEvent({
       event: 'edu-howToApply-applyNow',
-      'edu-benefitUpdate': this.state.newBenefit,
+      'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
       'edu-isBenefitClaimForSelf': this.state.serviceBenefitBasedOn,
       'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
       'edu-isVetTec': this.state.vetTecBenefit,
-      'edu-hasSponsorTransferredBenefits': this.state.sponsorTransferredBenefit,
-      'edu-isReceivingSponsorBenefits': this.state.transferredEduBenefits,
+      'edu-hasSponsorTransferredBenefits': this.state
+        .sponsorTransferredBenefits,
+      'edu-isReceivingSponsorBenefits': this.isReceivingSponsorBenefits(
+        this.state.transferredEduBenefits,
+      ),
       'edu-isSponsorReachable': this.state.sponsorDeceasedDisabledMIA,
       'edu-stemApplicant': this.state.applyForScholarship,
     });
