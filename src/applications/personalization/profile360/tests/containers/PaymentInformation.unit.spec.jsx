@@ -21,7 +21,7 @@ describe('<PaymentInformation/>', () => {
     directDepositIsSetUp: true,
     multifactorEnabled: true,
     isLoading: false,
-    isEligible: true,
+    isEvssAvailable: true,
     isEligibleToSignUp: true,
     fetchPaymentInformation() {},
     savePaymentInformation() {},
@@ -54,7 +54,7 @@ describe('<PaymentInformation/>', () => {
     const props = {
       ...defaultProps,
       fetchPaymentInformation,
-      isEligible: false,
+      isEvssAvailable: false,
       shouldShowDirectDeposit: false,
     };
     const wrapper = shallow(<PaymentInformation {...props} />);

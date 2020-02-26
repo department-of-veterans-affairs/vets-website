@@ -108,7 +108,7 @@ const recordProfileNavEvent = (customProps = {}) => {
 class PaymentInformation extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    isEligible: PropTypes.bool.isRequired,
+    isEvssAvailable: PropTypes.bool.isRequired,
     multifactorEnabled: PropTypes.bool.isRequired,
     fetchPaymentInformation: PropTypes.func.isRequired,
     editModalToggled: PropTypes.func.isRequired,
@@ -130,7 +130,7 @@ class PaymentInformation extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.isEligible && this.props.multifactorEnabled) {
+    if (this.props.isEvssAvailable && this.props.multifactorEnabled) {
       this.props.fetchPaymentInformation();
     }
   }
@@ -277,21 +277,21 @@ class PaymentInformation extends React.Component {
   }
 }
 
-const isEvssAvailable = createIsServiceAvailableSelector(
+const isEvssAvailableSelector = createIsServiceAvailableSelector(
   backendServices.EVSS_CLAIMS,
 );
 
 const mapStateToProps = state => {
   const directDepositIsSetUp = directDepositIsSetUpSelector(state);
-  const isEligible = isEvssAvailable(state);
+  const isEvssAvailable = isEvssAvailableSelector(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
 
   return {
     directDepositIsSetUp,
-    isEligible,
+    isEvssAvailable,
     isEligibleToSignUp,
     isLoading:
-      isEligible &&
+      isEvssAvailable &&
       isMultifactorEnabled(state) &&
       !directDepositInformation(state),
     multifactorEnabled: isMultifactorEnabled(state),
@@ -300,7 +300,7 @@ const mapStateToProps = state => {
     paymentInformationUiState: state.vaProfile.paymentInformationUiState,
     directDepositIsBlocked: directDepositIsBlockedSelector(state),
     shouldShowDirectDeposit:
-      isEligible && (directDepositIsSetUp || isEligibleToSignUp),
+      isEvssAvailable && (directDepositIsSetUp || isEligibleToSignUp),
   };
 };
 
