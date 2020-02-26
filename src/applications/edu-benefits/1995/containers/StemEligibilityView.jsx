@@ -19,16 +19,15 @@ export class StemEligibilityView extends React.Component {
       'vads-u-color--gray-medium': !indication,
     });
 
-  iconText = (indication, text) =>
-    indication ? `You answered yes to ${text}` : `You answered no to ${text}`;
+  iconText = indication =>
+    indication ? `You answered yes to` : `You answered no to`;
 
   renderCheck = (classes, title, text) => (
     <li className="vads-u-margin-bottom--0">
       <span className="fa-li">
-        {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
-        <i className={classes} title={title} aria-hidden="true" tabIndex="0" />
-        {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
+        <i className={classes} aria-hidden="true" />
       </span>
+      <span className="vads-u-visibility--screen-reader">{title}</span>
       {text}
     </li>
   );
@@ -43,9 +42,7 @@ export class StemEligibilityView extends React.Component {
       : this.iconClass(check);
 
     const text = 'Post-9/11 GI Bill beneficiary or Fry Scholarship recipient';
-    const title = question
-      ? `You didn't answer ${text}`
-      : this.iconText(check, text);
+    const title = question ? `You didn't answer` : this.iconText(check);
 
     return this.renderCheck(classes, title, text);
   };
@@ -63,7 +60,7 @@ export class StemEligibilityView extends React.Component {
 
     return this.renderCheck(
       this.iconClass(exhaustionOfBenefitsCheck),
-      this.iconText(exhaustionOfBenefitsCheck, exhaustionOfBenefitsText),
+      this.iconText(exhaustionOfBenefitsCheck),
       exhaustionOfBenefitsText,
     );
   };
@@ -78,7 +75,7 @@ export class StemEligibilityView extends React.Component {
 
     return this.renderCheck(
       this.iconClass(isEnrolledStemCheck),
-      this.iconText(isEnrolledStemCheck, isEnrolledStemText),
+      this.iconText(isEnrolledStemCheck),
       isEnrolledStemText,
     );
   };
