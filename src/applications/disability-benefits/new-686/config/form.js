@@ -10,6 +10,7 @@ import {
   veteranInformation,
   veteranAddress,
 } from './chapters/veteran-information';
+import { stepchildInformation } from './chapters/stepchild-no-longer-part-of-howsehold';
 
 const formConfig = {
   urlPrefix: '/',
@@ -90,6 +91,17 @@ const formConfig = {
         },
       },
     },
+    stepchildNoLongerPartOfHousehold: {
+      title: 'Information needed to report a stepchild is no longer part of your household',
+      pages: {
+        stepchildInformation: {
+          title: 'Information needed to report a stepchild is no longer part of your household',
+          path: '686-stepchild-no-longer-part-of-household',
+          uiSchema: stepchildInformation.uiSchema,
+          schema: stepchildInformation.schema,
+        }
+      }
+    }
   },
 };
 

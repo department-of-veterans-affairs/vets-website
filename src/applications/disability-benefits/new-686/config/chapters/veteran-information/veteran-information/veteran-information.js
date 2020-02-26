@@ -6,7 +6,6 @@ import _ from 'lodash/fp';
 
 export const schema = {
   type: 'object',
-  required: ['first', 'last', 'ssn', 'birthDate'],
   properties: {
     first: genericSchemas.genericTextinput,
     middle: genericSchemas.genericTextinput,
