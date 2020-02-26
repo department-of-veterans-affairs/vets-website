@@ -10,7 +10,7 @@ fi
 
 # No test specified; run coverage on all of them
 if [[ -z "$1" ]] || [[ $1 == -* ]]; then
-  NODE_ENV=test $NYC --all --reporter=lcov --reporter=text mocha --reporter mocha-junit-reporter --no-color --opts src/platform/testing/unit/mocha.opts --recursive '{src,test}/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js "$@"
+  NODE_ENV=test $NYC --all --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color --opts src/platform/testing/unit/mocha.opts --recursive '{src,test}/**/*.unit.spec.js?(x)' src/platform/testing/unit/helper.js "$@"
   exit $?
 fi
 
