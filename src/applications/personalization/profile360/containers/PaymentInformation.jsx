@@ -32,7 +32,7 @@ import {
   directDepositAccountInformation,
   directDepositAddressIsSetUp,
   directDepositInformation,
-  directDepositIsBlocked,
+  directDepositIsBlocked as directDepositIsBlockedSelector,
   directDepositIsSetUp as directDepositIsSetUpSelector,
 } from '../selectors';
 
@@ -167,13 +167,10 @@ class PaymentInformation extends React.Component {
       paymentInformation,
       paymentAccount,
       shouldShowDirectDeposit,
+      directDepositIsBlocked,
     } = this.props;
 
     let content = null;
-
-    if (!shouldShowDirectDeposit) {
-      return content;
-    }
 
     if (isLoading) {
       return <LoadingIndicator message="Loading payment information..." />;
@@ -183,6 +180,12 @@ class PaymentInformation extends React.Component {
       content = <PaymentInformation2FARequired />;
     } else if (paymentInformation.error) {
       content = <LoadFail information="payment" />;
+    } else if (directDepositIsBlocked) {
+      // TODO: soon we will show an alert telling the user that they are blocked
+      // from the direct deposit feature
+      return content;
+    } else if (!shouldShowDirectDeposit) {
+      return content;
     } else {
       content = (
         <>
@@ -281,7 +284,6 @@ const isEvssAvailable = createIsServiceAvailableSelector(
 const mapStateToProps = state => {
   const directDepositIsSetUp = directDepositIsSetUpSelector(state);
   const isEligible = isEvssAvailable(state);
-  const isNotBlocked = !directDepositIsBlocked(state);
   const isEligibleToSignUp = directDepositAddressIsSetUp(state);
 
   return {
@@ -296,10 +298,9 @@ const mapStateToProps = state => {
     paymentAccount: directDepositAccountInformation(state),
     paymentInformation: directDepositInformation(state),
     paymentInformationUiState: state.vaProfile.paymentInformationUiState,
+    directDepositIsBlocked: directDepositIsBlockedSelector(state),
     shouldShowDirectDeposit:
-      isEligible &&
-      isNotBlocked &&
-      (directDepositIsSetUp || isEligibleToSignUp),
+      isEligible && (directDepositIsSetUp || isEligibleToSignUp),
   };
 };
 
