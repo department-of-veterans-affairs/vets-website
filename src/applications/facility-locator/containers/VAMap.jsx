@@ -35,23 +35,6 @@ import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxClient = mbxGeo(mapboxClient);
 
-const otherToolsLink = (
-  <p>
-    Can’t find what you’re looking for?
-    <a href="https://www.va.gov/directory/guide/home.asp">
-      Try using our other tools to search.
-    </a>
-  </p>
-);
-
-const urgentCareLink = (
-  <p id="urgent-care-link">
-    <a href="http://vaurgentcarelocator.triwest.com/">
-      Find VA-approved urgent care locations and pharmacies near you
-    </a>
-  </p>
-);
-
 // Link to urgent care benefit web page
 const urgentCareDialogLink = (
   <AlertBox status="warning">
@@ -517,10 +500,6 @@ class VAMap extends Component {
       pagination: { currentPage, totalPages, totalEntries },
     } = this.props;
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-    const externalLink =
-      currentQuery.facilityType === LocationType.CC_PROVIDER
-        ? urgentCareLink
-        : otherToolsLink;
     const showDialogUrgCare =
       currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES ||
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
@@ -569,7 +548,6 @@ class VAMap extends Component {
                   updateUrlParams={this.updateUrlParams}
                   query={this.props.currentQuery}
                 />
-                {externalLink}
               </div>
               {results.length > 0 && (
                 <Pagination
@@ -580,7 +558,6 @@ class VAMap extends Component {
               )}
             </TabPanel>
             <TabPanel>
-              {externalLink}
               <Map
                 ref="map"
                 center={position}
@@ -631,10 +608,6 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     const facilityLocatorMarkers = this.renderFacilityMarkers();
-    const externalLink =
-      currentQuery.facilityType === LocationType.CC_PROVIDER
-        ? urgentCareLink
-        : otherToolsLink;
     const showDialogUrgCare =
       currentQuery.facilityType === LocationType.URGENT_CARE_FARMACIES ||
       (currentQuery.facilityType === LocationType.URGENT_CARE &&
@@ -691,7 +664,6 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
-            {externalLink}
             <Map
               ref="map"
               center={position}
@@ -742,18 +714,6 @@ class VAMap extends Component {
             Find one of VA's more than 2,000 health care, counseling, benefits,
             and cemeteries facilities, plus VA's nationwide network of community
             health care providers.
-          </p>
-          <p>
-            <strong>Need same-day care for a minor illness or injury?</strong>{' '}
-            Search for your nearest VA health facility. Or find{' '}
-            <a
-              href="https://vaurgentcarelocator.triwest.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              VA-approved urgent care locations and pharmacies
-            </a>{' '}
-            near you.
           </p>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
