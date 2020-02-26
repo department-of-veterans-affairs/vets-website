@@ -27,10 +27,10 @@ export default function setupJSDom() {
   // }
 
   // Prevent warnings from displaying
-  /* eslint-disable no-console, func-names */
-  console.error = function() {};
-  console.warn = function() {};
-  /* eslint-enable no-console, func-names */
+  /* eslint-disable no-console */
+  console.error = () => {};
+  console.warn = () => {};
+  /* eslint-enable no-console */
 
   // setup the simplest document possible
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
