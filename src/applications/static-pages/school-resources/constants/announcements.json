@@ -1,50 +1,16 @@
 [
   {
-    "name": "Webinar on December 11 – Office Hours – For State Approving Agencies (SAAs)",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191205",
-    "date": "2019-12-05",
-    "displayStartDate": "2019-12-05",
-    "displayEndDate": "2019-12-13"
-  },
-
-  {
-    "name": "Webinar on December 12 – Office Hours – For State Certifying Officials (SCOs)",
-    "url": "https://benefits.va.gov/gibill/index.asp#201912052",
-    "date": "2019-12-05",
-    "displayStartDate": "2019-12-05",
-    "displayEndDate": "2019-12-13"
-  },
-  
-  {
-    "name": "Revised GI Bill Monthly Housing Allowance (MHA) Toolkit is now available",
-    "url": "https://benefits.va.gov/gibill/index.asp#201911212",
-    "date": "2019-11-21",
-    "displayStartDate": "2019-12-03"
-  },
-      
-  {
-    "name": "Webinar Slides Are Available for the 10/30 and 10/31 - STEM Scholarship and SCO Training Requirements for SCOS",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191121",
-    "date": "2019-11-21",
-    "displayStartDate": "2019-12-03"
-  },
-    
-  {
-    "name": "Veterans Affairs (VA) California State Approving Agency (SAA) Open House, November 7 at 10:00 am PST",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191104",
-    "date": "2019-11-04",
-    "displayStartDate": "2019-10-01"
+    "name": "Webinar on February 26 – Office Hours – For State Approving Agencies (SAAs)",
+    "url": "https://events-na1.adobeconnect.com/content/connect/c1/2372973515/en/events/catalog.html?folder-id=3265872203&from-origin=vbatraining.adobeconnect.com&OWASP_CSRFTOKEN=e0aa41eedf33d5abc9cfdde6fb11ee0366c590ed0c2dea833b4f65bce78656da",
+    "date": "2020-02-24",
+    "displayStartDate": "2020-02-24",
+    "displayEndDate": "2020-02-27"
   },
   {
-    "name": "Veterans Affairs (VA) California State Approving Agency (SAA) Open House - November 5, 10:00a PST",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191030",
-    "date": "2019-10-30",
-    "displayStartDate": "2019-10-01"
-  },
-  {
-    "name": "Veterans Affairs (VA) California State Approving Agency (SAA) Open House - November 1, 10a PST",
-    "url": "https://benefits.va.gov/gibill/index.asp#20191029",
-    "date": "2019-10-29",
-    "displayStartDate": "2019-10-01"
+    "name": "Webinar on February 27 – Office Hours – For School Certifying Officials (SCOs)",
+    "url": "https://events-na1.adobeconnect.com/content/connect/c1/2372973515/en/events/catalog.html?folder-id=3305575518&from-origin=vbatraining.adobeconnect.com&OWASP_CSRFTOKEN=f545f0b14cf6f2c6c4309dccda350cc299bb379da140011dee3d5a8e3858c899",
+    "date": "2020-02-24",
+    "displayStartDate": "2020-02-24",
+    "displayEndDate": "2020-02-28"
   }
 ]

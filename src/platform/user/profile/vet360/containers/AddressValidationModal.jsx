@@ -132,11 +132,12 @@ class AddressValidationModal extends React.Component {
     return (
       <div
         key={id}
-        className="vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-bottom--1p5"
+        className="vads-u-margin-bottom--1p5 address-validation-container"
       >
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
+              className="address-validation-input"
               type="radio"
               name={id}
               onChange={
@@ -158,13 +159,14 @@ class AddressValidationModal extends React.Component {
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
-                <a
+                <button
+                  className="va-button-link"
                   onClick={() =>
                     this.props.openModal(addressValidationType, addressFromUser)
                   }
                 >
                   Edit Address
-                </a>
+                </button>
               )}
           </div>
         </label>

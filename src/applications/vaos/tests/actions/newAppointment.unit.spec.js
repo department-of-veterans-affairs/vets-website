@@ -22,6 +22,7 @@ import {
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
   getAppointmentSlots,
+  onCalendarChange,
   hideTypeOfCareUnavailableModal,
   FORM_PAGE_OPENED,
   FORM_CLOSED_CONFIRMATION_PAGE,
@@ -49,9 +50,10 @@ import {
   FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
 import parentFacilities from '../../api/facilities.json';
@@ -711,6 +713,116 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
+  describe('calendar actions', () => {
+    it('should fetch appointment slots and not adjust time', async () => {
+      mockFetch();
+      const tomorrowString = moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD');
+      setFetchJSONResponse(global.fetch, {
+        data: [
+          {
+            attributes: {
+              appointmentLength: 20,
+              appointmentTimeSlot: [
+                {
+                  startDateTime: `${tomorrowString}T14:20:00.000+00:00`,
+                  endDateTime: `${tomorrowString}T14:40:00.000+00:00`,
+                },
+              ],
+            },
+          },
+        ],
+      });
+
+      const state = {
+        newAppointment: {
+          data: {
+            preferredDate: '2019-01-01',
+          },
+          fetchedAppointmentSlotMonths: [],
+        },
+      };
+      const getState = () => state;
+      const dispatch = sinon.spy();
+
+      const thunk = getAppointmentSlots(
+        moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment()
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS,
+      );
+
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+      );
+
+      expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
+      expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
+        date: tomorrowString,
+        datetime: `${tomorrowString}T14:20:00`,
+      });
+      expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
+
+      resetFetch();
+    });
+
+    it('should send fail action when appointment slots fetch fails', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch, {});
+
+      const state = {
+        newAppointment: {
+          data: {
+            preferredDate: '2019-01-01',
+          },
+          fetchedAppointmentSlotMonths: [],
+        },
+      };
+      const getState = () => state;
+      const dispatch = sinon.spy();
+
+      const thunk = getAppointmentSlots(
+        moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment()
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS,
+      );
+
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS_FAILED,
+      );
+
+      resetFetch();
+    });
+
+    it('should dispatch onChange action', () => {
+      expect(
+        onCalendarChange({
+          currentlySelectedDate: '2020-12-11',
+          currentRowIndex: 1,
+          selectedDates: [{}, {}],
+        }).type,
+      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
+    });
+  });
+
   describe('openCommunityCarePreferencesPage', () => {
     const defaultSchema = {
       type: 'object',
@@ -780,6 +892,7 @@ describe('VAOS newAppointment actions', () => {
       );
     });
   });
+
   describe('form submit', () => {
     beforeEach(() => {
       mockFetch();
@@ -1047,103 +1160,5 @@ describe('VAOS newAppointment actions', () => {
     );
     expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
     expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
-  });
-
-  it('should fetch appointment slots and not adjust time', async () => {
-    mockFetch();
-    const tomorrowString = moment()
-      .add(1, 'days')
-      .format('YYYY-MM-DD');
-    setFetchJSONResponse(global.fetch, {
-      data: [
-        {
-          attributes: {
-            appointmentLength: 20,
-            appointmentTimeSlot: [
-              {
-                startDateTime: `${tomorrowString}T14:20:00.000+00:00`,
-                endDateTime: `${tomorrowString}T14:40:00.000+00:00`,
-              },
-            ],
-          },
-        },
-      ],
-    });
-
-    const state = {
-      newAppointment: {
-        data: {
-          preferredDate: '2019-01-01',
-        },
-        fetchedAppointmentSlotMonths: [],
-      },
-    };
-    const getState = () => state;
-    const dispatch = sinon.spy();
-
-    const thunk = getAppointmentSlots(
-      moment()
-        .startOf('month')
-        .format('YYYY-MM-DD'),
-      moment()
-        .add(1, 'months')
-        .endOf('month')
-        .format('YYYY-MM-DD'),
-    );
-    await thunk(dispatch, getState);
-
-    expect(dispatch.firstCall.args[0].type).to.equal(
-      FORM_FETCH_AVAILABLE_APPOINTMENTS,
-    );
-
-    expect(dispatch.secondCall.args[0].type).to.equal(
-      FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
-    );
-
-    expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
-    expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
-      date: tomorrowString,
-      datetime: `${tomorrowString}T14:20:00`,
-    });
-    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
-
-    resetFetch();
-  });
-
-  it('should send fail action when appointment slots fetch fails', async () => {
-    mockFetch();
-    setFetchJSONFailure(global.fetch, {});
-
-    const state = {
-      newAppointment: {
-        data: {
-          preferredDate: '2019-01-01',
-        },
-        fetchedAppointmentSlotMonths: [],
-      },
-    };
-    const getState = () => state;
-    const dispatch = sinon.spy();
-
-    const thunk = getAppointmentSlots(
-      moment()
-        .startOf('month')
-        .format('YYYY-MM-DD'),
-      moment()
-        .add(1, 'months')
-        .endOf('month')
-        .format('YYYY-MM-DD'),
-    );
-    await thunk(dispatch, getState);
-
-    expect(dispatch.firstCall.args[0].type).to.equal(
-      FORM_FETCH_AVAILABLE_APPOINTMENTS,
-    );
-
-    expect(dispatch.secondCall.args[0].type).to.equal(
-      FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
-    );
-
-    resetFetch();
   });
 });

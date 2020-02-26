@@ -1,4 +1,6 @@
 import backendServices from 'platform/user/profile/constants/backendServices';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { VET360_INITIALIZATION_STATUS, INIT_VET360_ID } from './constants';
 
@@ -132,4 +134,8 @@ export function selectVet360InitializationStatus(state) {
     transaction,
     transactionRequest,
   };
+}
+
+export function vaProfileUseAddressValidation(state) {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.vaProfileAddressValidation];
 }

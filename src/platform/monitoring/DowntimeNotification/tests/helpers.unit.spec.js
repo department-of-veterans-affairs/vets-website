@@ -204,3 +204,32 @@ describe('getMostUrgentDowntime', () => {
     expect(appeals.externalService).to.equal('appeals');
   });
 });
+
+describe('isGlobalDowntimeInProgress', () => {
+  it('returns true when in middle of downtime', () => {
+    expect(
+      downtimeHelpers.isGlobalDowntimeInProgress({
+        downtimeStart: activeDowntime.attributes.startTime,
+        downtimeEnd: activeDowntime.attributes.endTime,
+      }),
+    ).to.be.true;
+  });
+
+  it('returns false when downtime is in the past', () => {
+    expect(
+      downtimeHelpers.isGlobalDowntimeInProgress({
+        downtimeStart: pastDowntime.attributes.startTime,
+        downtimeEnd: pastDowntime.attributes.endTime,
+      }),
+    ).to.be.false;
+  });
+
+  it('returns false when downtime is in the future', () => {
+    expect(
+      downtimeHelpers.isGlobalDowntimeInProgress({
+        downtimeStart: approachingDowntime.attributes.startTime,
+        downtimeEnd: approachingDowntime.attributes.endTime,
+      }),
+    ).to.be.false;
+  });
+});
