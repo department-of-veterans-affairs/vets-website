@@ -82,7 +82,11 @@ export const CHAMPVAInfo = () => (
       CHAMPVA is a cost-sharing program that covers the price of some health
       care services and supplies.
     </p>
-    <a href="" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://www.va.gov/health-care/family-caregiver-benefits/champva/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Learn more about CHAMPVA
     </a>
   </AdditionalInfo>
@@ -93,7 +97,11 @@ export const CaregiverSupportInfo = () => (
     Caregiver Support Coordinators (CSC) connect caregivers with VA and
     community resources. They are located at every VA medical center and
     specialize in caregiving issues.
-    <a href="" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Find a caregiver support coordinator near you.
     </a>
   </AdditionalInfo>

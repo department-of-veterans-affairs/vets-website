@@ -16,7 +16,7 @@ const NeedHelpFooter = () => (
 
     <section>
       <span>A Caregiver Support Coordinator locator is available at: </span>
-      <a href="http://www.caregiver.va.gov/" rel="noopener noreferrer">
+      <a href="https://www.caregiver.va.gov/" rel="noopener noreferrer">
         http://www.caregiver.va.gov/
       </a>
     </section>
