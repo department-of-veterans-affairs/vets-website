@@ -1,5 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+import { isChapterFieldRequired } from '../../taskWizard/wizard/helpers';
 import { genericSchemas } from '../../../generic-schema';
 import { validateName } from '../../../utilities';
 
@@ -7,7 +8,6 @@ const { fullName, date } = genericSchemas;
 
 export const schema = {
   type: 'object',
-  required: ['childNoLongerAtSchoolName', 'dateChildLeftSchool'],
   properties: {
     childNoLongerAtSchoolName: fullName,
     dateChildLeftSchool: date,
@@ -18,11 +18,21 @@ export const uiSchema = {
   childNoLongerAtSchoolName: {
     'ui:validations': [validateName],
     first: {
+      'ui:required': formData =>
+        isChapterFieldRequired(
+          formData,
+          'reportChild18OrOlderIsNotAttendingSchool',
+        ),
       'ui:title': 'Child’s first name',
       'ui:errorMessages': { required: 'Please enter a first name' },
     },
     middle: { 'ui:title': 'Child’s middle name' },
     last: {
+      'ui:required': formData =>
+        isChapterFieldRequired(
+          formData,
+          'reportChild18OrOlderIsNotAttendingSchool',
+        ),
       'ui:title': 'Child’s last name',
       'ui:errorMessages': { required: 'Please enter a last name' },
     },
@@ -31,7 +41,15 @@ export const uiSchema = {
       'ui:options': { widgetClassNames: 'form-select-medium' },
     },
   },
-  dateChildLeftSchool: currentOrPastDateUI(
-    'When did child stop attending school?',
+  dateChildLeftSchool: Object.assign(
+    {},
+    currentOrPastDateUI('When did child stop attending school?'),
+    {
+      'ui:required': formData =>
+        isChapterFieldRequired(
+          formData,
+          'reportChild18OrOlderIsNotAttendingSchool',
+        ),
+    },
   ),
 };

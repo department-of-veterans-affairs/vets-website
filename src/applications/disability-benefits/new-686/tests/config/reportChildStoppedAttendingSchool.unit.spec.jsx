@@ -15,11 +15,18 @@ describe('686 report a child has stopped attending school', () => {
     uiSchema,
   } = formConfig.chapters.reportChildStoppedAttendingSchool.pages.childNoLongerInSchool;
 
+  const formData = {
+    'view:selectable686Options': {
+      reportChild18OrOlderIsNotAttendingSchool: true,
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
         definitions={formConfig.defaultDefinitions}
       />,
     );
@@ -33,6 +40,7 @@ describe('686 report a child has stopped attending school', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
       />,
@@ -50,6 +58,7 @@ describe('686 report a child has stopped attending school', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
         definitions={formConfig.defaultDefinitions}
       />,
     );
@@ -76,6 +85,7 @@ describe('686 report a child has stopped attending school', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
       />,
@@ -94,6 +104,7 @@ describe('686 report a child has stopped attending school', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
       />,
@@ -120,6 +131,7 @@ describe('686 report a child has stopped attending school', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
+        data={formData}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
       />,
