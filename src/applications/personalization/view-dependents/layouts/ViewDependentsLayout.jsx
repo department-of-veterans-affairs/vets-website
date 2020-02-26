@@ -21,6 +21,8 @@ class ViewDependentsLayout extends Component {
       mainContent = <AlertBox content={errorFragment} status="error" />;
     } else if (this.props.error && isClientError(this.props.error.code)) {
       mainContent = <AlertBox content={infoFragment} status="info" />;
+    } else if (this.props.onAwardDependents == null && this.props.notOnAwardDependents == null) {
+      mainContent = <AlertBox content={infoFragment} status="info" />;
     } else {
       mainContent = (
         <ViewDependentsLists
