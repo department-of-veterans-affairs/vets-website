@@ -92,16 +92,18 @@ const formConfig = {
       },
     },
     stepchildNoLongerPartOfHousehold: {
-      title: 'Information needed to report a stepchild is no longer part of your household',
+      title:
+        'Information needed to report a stepchild is no longer part of your household',
       pages: {
         stepchildInformation: {
-          title: 'Information needed to report a stepchild is no longer part of your household',
+          title:
+            'Information needed to report a stepchild is no longer part of your household',
           path: '686-stepchild-no-longer-part-of-household',
           uiSchema: stepchildInformation.uiSchema,
           schema: stepchildInformation.schema,
-        }
-      }
-    }
+        },
+      },
+    },
   },
 };
 

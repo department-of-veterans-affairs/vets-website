@@ -1,30 +1,30 @@
-import {genericSchemas} from '../../../generic-schema';
-import {suffixes} from '../../../constants';
+import { genericSchemas } from '../../../generic-schema';
+import { suffixes } from '../../../constants';
 import { stepchildInfo } from './helpers';
 
 export const schema = {
   type: 'object',
   properties: {
-    "stepChildren": {
-      "type": "array",
-      "items": {
+    stepChildren: {
+      type: 'array',
+      items: {
         type: 'object',
-          properties: {
-            first: genericSchemas.genericTextinput,
-            middle: genericSchemas.genericTextinput,
-            last: genericSchemas.genericTextinput,
-            suffix: {
-              type: 'string',
-              enum: suffixes,
-            },
+        properties: {
+          first: genericSchemas.genericTextinput,
+          middle: genericSchemas.genericTextinput,
+          last: genericSchemas.genericTextinput,
+          suffix: {
+            type: 'string',
+            enum: suffixes,
           },
         },
+      },
     },
   },
 };
 
 export const uiSchema = {
-  "stepChildren": {
+  stepChildren: {
     'ui:options': {
       itemName: 'Stepchild',
       viewField: stepchildInfo,
@@ -43,9 +43,9 @@ export const uiSchema = {
       },
       suffix: {
         'ui:title': 'Stepchild’s suffix',
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
-          },
+        'ui:options': {
+          widgetClassNames: 'usa-input-medium',
+        },
       },
     },
   },
