@@ -1,18 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { scrollToTop } from 'applications/claims-status/utils/page';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -59,10 +50,8 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+const mapStateToProps = state => ({
+  form: state.form,
+});
 
 export default connect(mapStateToProps)(ConfirmationPage);

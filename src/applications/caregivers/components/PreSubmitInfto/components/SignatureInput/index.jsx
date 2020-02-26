@@ -31,12 +31,11 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
     [setIsSigned, signature, signatureMatchesFullName],
   );
 
-  useEffect(() => {}, []);
   return (
     <div>
       <label htmlFor="vet-signature-input">
         {label}
-        's full name
+        &apos;s full name
       </label>
       <ErrorableTextInput
         ref={inputRef}

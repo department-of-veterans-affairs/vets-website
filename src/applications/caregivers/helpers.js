@@ -19,7 +19,7 @@ export const directDepositWarning = (
     </a>
     . If you chose not to enroll, you must contact representatives handling
     waiver requests for the Department of Treasury at{' '}
-    <a href="tel:8882242950" target="_blank" rel="noopener noreferrer">
+    <a href="tel:8882242950" rel="noopener noreferrer">
       1-888-224-2950
     </a>
     . They will address any questions or concerns you may have and encourage
