@@ -84,9 +84,18 @@ const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
 export class VAFacilityPage extends React.Component {
   componentDidMount() {
-    scrollAndFocus();
     this.props.openFacilityPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.loadingParentFacilities &&
+      !this.props.loadingParentFacilities
+    ) {
+      scrollAndFocus();
+    }
   }
 
   goBack = () => {

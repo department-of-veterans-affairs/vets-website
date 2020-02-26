@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import { TYPES_OF_CARE } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
@@ -14,6 +15,7 @@ import {
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
 } from '../actions/newAppointment.js';
+import { loadApplication } from '../actions/registration';
 import { getFormPageInfo, getNewAppointment } from '../utils/selectors';
 
 const sortedCare = TYPES_OF_CARE.sort(
@@ -47,6 +49,8 @@ export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus(this.props.isInitialLoad ? 'body' : 'h1');
+    this.props.loadApplication();
   }
 
   onChange = newData => {
@@ -118,6 +122,7 @@ const mapDispatchToProps = {
   routeToPreviousAppointmentPage,
   showTypeOfCareUnavailableModal,
   hideTypeOfCareUnavailableModal,
+  loadApplication,
 };
 
 export default connect(
