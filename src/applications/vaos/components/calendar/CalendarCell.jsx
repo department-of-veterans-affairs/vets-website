@@ -84,6 +84,9 @@ const CalendarCell = ({
       style={{ height: isCurrentlySelected ? optionsHeight : 'auto' }}
     >
       <button
+        aria-controls={
+          isCurrentlySelected ? `vaos-options-container-${date}` : undefined
+        }
         className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
