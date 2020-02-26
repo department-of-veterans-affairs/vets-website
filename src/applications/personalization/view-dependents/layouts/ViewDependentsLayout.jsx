@@ -17,22 +17,10 @@ class ViewDependentsLayout extends Component {
   render() {
     let mainContent;
 
-    if (isServerError(this.props.error.code)) {
-      mainContent = (
-        <AlertBox
-          headline="We're sorry. Something went wrong on our end"
-          content={errorFragment}
-          status="error"
-        />
-      );
-    } else if (isClientError(this.props.error.code)) {
-      mainContent = (
-        <AlertBox
-          headline="We don't have dependents information on file for you"
-          content={infoFragment}
-          status="info"
-        />
-      );
+    if (this.props.error && isServerError(this.props.error.code)) {
+      mainContent = <AlertBox content={errorFragment} status="error" />;
+    } else if (this.props.error && isClientError(this.props.error.code)) {
+      mainContent = <AlertBox content={infoFragment} status="info" />;
     } else {
       mainContent = (
         <ViewDependentsLists
@@ -44,7 +32,7 @@ class ViewDependentsLayout extends Component {
     }
 
     const layout = (
-      <div className="vads-l-grid-container vads-u-padding--0">
+      <div className="vads-l-grid-container vads-u-padding--2">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             <ViewDependentsHeader />
