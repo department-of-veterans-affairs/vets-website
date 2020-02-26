@@ -168,9 +168,16 @@ export const focusAndScrollToReviewElement = (error = {}) => {
           // Focus on form element
           const target = focusOnFirstElementLabel(
             el.closest('.form-review-panel-page')?.querySelector('form'),
-            { filterCallback: elm => elm.id.includes(`_${error.name}`) },
+            {
+              filterCallback: elm =>
+                // ID may not match in an array block (e.g. 526 servicePeriods)
+                typeof error.index === 'undefined'
+                  ? elm.id.includes(`_${error.name}`)
+                  : true,
+            },
           );
-          scrollToElement(target?.id);
+          // label/legend with id OR div before an array (table) wrapper
+          scrollToElement(target?.id || `topOfTable_${error.name}`);
         }
       }
     });
