@@ -44,6 +44,17 @@ export function focusElement(name, options) {
   }
 }
 
+/**
+ * @typedef focusOnFirstElementLabel~options
+ * @type {object}
+ * @property {object} focusOptions - https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus#Parameters
+ * @property {function} filterCallback - filter callback; narrow down results
+ */
+/**
+ * Within a block, find the first focusable element, then focus on it'se label
+ * @param {HTMLElement|node} block - starting element
+ * @param {focusOnFirstElementLabel~options}
+ */
 export function focusOnFirstElementLabel(
   block,
   { focusOptions = {}, filterCallback },
