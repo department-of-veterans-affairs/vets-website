@@ -132,8 +132,8 @@ export class StemEligibilityView extends React.Component {
       showErrors ? 'usa-input-error-label' : '',
     );
     return (
-      <fieldset className="schemaform-field-template schemaform-first-field">
-        <div className={divClassName}>
+      <div className={divClassName}>
+        <fieldset className="schemaform-field-template schemaform-first-field">
           <legend className={legendClassName}>
             Since it appears you're not eligible for the scholarship, would you
             still like to apply and let us determine your eligibility?
@@ -162,8 +162,8 @@ export class StemEligibilityView extends React.Component {
             }
           />
           <label htmlFor={`${id}Yes`}>Yes</label>
-        </div>
-      </fieldset>
+        </fieldset>
+      </div>
     );
   };
 
