@@ -89,15 +89,6 @@ export class VAFacilityPage extends React.Component {
     scrollAndFocus();
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.loadingParentFacilities &&
-      !this.props.loadingParentFacilities
-    ) {
-      scrollAndFocus();
-    }
-  }
-
   goBack = () => {
     this.props.routeToPreviousAppointmentPage(this.props.router, pageKey);
   };
