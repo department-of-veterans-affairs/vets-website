@@ -5,6 +5,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { formerSpouseInformation } from './chapters/report-divorce';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
+import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
@@ -87,6 +88,19 @@ const formConfig = {
           path: '686-report-marriage-of-child',
           uiSchema: reportChildMarriage.uiSchema,
           schema: reportChildMarriage.schema,
+        },
+      },
+    },
+    reportChildStoppedAttendingSchool: {
+      title:
+        'Information needed to report a child 18-23 years old stopped attending school',
+      pages: {
+        childNoLongerInSchool: {
+          title:
+            'Information needed to report a child 18-23 years old stopped attending school',
+          path: 'report-child-stopped-attending-school',
+          uiSchema: reportChildStoppedAttendingSchool.uiSchema,
+          schema: reportChildStoppedAttendingSchool.schema,
         },
       },
     },
