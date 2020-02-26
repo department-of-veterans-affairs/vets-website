@@ -8,7 +8,7 @@ import {
   getFlowType,
   getChosenClinicInfo,
   getChosenFacilityDetails,
-  getSystemFromParent,
+  getSystemFromChosenFacility,
 } from '../utils/selectors';
 import {
   closeConfirmationPage,
@@ -102,7 +102,7 @@ function mapStateToProps(state) {
     clinic: getChosenClinicInfo(state),
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
-    systemId: getSystemFromParent(state, data?.vaParent),
+    systemId: getSystemFromChosenFacility(state),
   };
 }
 
