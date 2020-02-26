@@ -5,8 +5,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { formerSpouseInformation } from './chapters/report-divorce';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { veteranInformation } from './chapters/veteran-information';
 import { wizard } from './chapters/taskWizard';
+import {
+  veteranInformation,
+  veteranAddress,
+} from './chapters/veteran-information';
 
 const formConfig = {
   urlPrefix: '/',
@@ -39,11 +42,17 @@ const formConfig = {
     veteranInformation: {
       title: "Veteran's Information",
       pages: {
-        page1: {
+        veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information - Page 1',
+          title: 'Veteran Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran Address',
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
         },
       },
     },
