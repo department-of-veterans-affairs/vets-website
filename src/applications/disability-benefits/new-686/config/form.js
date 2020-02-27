@@ -95,6 +95,7 @@ const formConfig = {
         },
       },
     },
+    
     reportChildStoppedAttendingSchool: {
       title:
         'Information needed to report a child 18-23 years old stopped attending school',
@@ -105,7 +106,10 @@ const formConfig = {
           path: 'report-child-stopped-attending-school',
           uiSchema: reportChildStoppedAttendingSchool.uiSchema,
           schema: reportChildStoppedAttendingSchool.schema,
-    stepchildNoLongerPartOfHousehold: {
+        },
+      },
+    },
+   reportStepchildNotInHousehold: {
       title:
         'Information needed to report a stepchild is no longer part of your household',
       pages: {

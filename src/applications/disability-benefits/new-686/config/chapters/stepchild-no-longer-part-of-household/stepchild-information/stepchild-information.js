@@ -1,5 +1,6 @@
 import { genericSchemas } from '../../../generic-schema';
 import { stepchildTitle } from './helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -60,25 +61,41 @@ export const uiSchema = {
         'ui:title': 'Who does this stepchild live with?',
         first: {
           'ui:title': 'First Name',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
         },
         middle: {
           'ui:title': 'Middle Name',
         },
         last: {
           'ui:title': 'Last Name',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
         },
       },
       stepchildAddress: {
         'ui:title': "Stepchild's address",
         country: {
           'ui:title': 'Country',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
         },
         street: {
           'ui:title': 'Street',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
         },
         line2: {
           'ui:title': 'Line 2',
@@ -88,17 +105,29 @@ export const uiSchema = {
         },
         city: {
           'ui:title': 'City',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
         },
         state: {
           'ui:title': 'State',
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
         },
         postal: {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
-          'ui:required': () => true,
+          'ui:required': formData =>
+            isChapterFieldRequired(
+              formData,
+              'reportStepchildNotInHousehold',
+            ),
           'ui:title': 'Postal Code',
         },
       },

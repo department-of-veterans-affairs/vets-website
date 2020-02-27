@@ -1,6 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
-import { isChapterFieldRequired } from '../../taskWizard/wizard/helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { genericSchemas } from '../../../generic-schema';
 import { validateName } from '../../../utilities';
 
@@ -21,7 +21,7 @@ export const uiSchema = {
       'ui:required': formData =>
         isChapterFieldRequired(
           formData,
-          'reportChild18OrOlderIsNotAttendingSchool',
+          'reportStepchildNotInHousehold',
         ),
       'ui:title': 'Child’s first name',
       'ui:errorMessages': { required: 'Please enter a first name' },
@@ -31,7 +31,7 @@ export const uiSchema = {
       'ui:required': formData =>
         isChapterFieldRequired(
           formData,
-          'reportChild18OrOlderIsNotAttendingSchool',
+          'reportStepchildNotInHousehold',
         ),
       'ui:title': 'Child’s last name',
       'ui:errorMessages': { required: 'Please enter a last name' },
@@ -47,7 +47,7 @@ export const uiSchema = {
       'ui:required': formData =>
         isChapterFieldRequired(
           formData,
-          'reportChild18OrOlderIsNotAttendingSchool',
+          'reportStepchildNotInHousehold',
         ),
     },
   },
