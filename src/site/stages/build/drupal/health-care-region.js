@@ -298,49 +298,27 @@ function addGetUpdatesFields(page, pages) {
 }
 
 /**
- * Modify the list pages.
+ * Add pagers to cms content listing pages.
  *
  * @param {page} page The page object.
- * @param {pages} pages an array of page of objects containing a page
+ * @param {files} files The generated file.
+ * @param {field} field The target field.
+ * @param {template} template The template for output formatting.
+ * @param {files} files The acessibility aria.
  * @return nothing
  */
-function modListPages(page, files, field, template, aria) {
-  switch (page.entityBundle) {
-    case 'event_listing':
-      page.allEventTeasers = page.fieldOffice.entity.reverseFieldOfficeNode
-        .entities.length
-        ? page.fieldOffice.entity.reverseFieldOfficeNode
-        : page.reverseFieldOfficeNode;
-      break;
-    case 'story_listing':
-      page.allNewsStoryTeasers = page.fieldOffice.entity.reverseFieldOfficeNode;
-      break;
-    case 'press_releases_listing':
-      page.allPressReleaseTeasers =
-        page.fieldOffice.entity.reverseFieldOfficeNode;
-      break;
-    case 'health_services_listing':
-      page.clinicalHealthServices = sortServices(
-        page.fieldOffice.entity.reverseFieldRegionPageNode.entities,
-      );
-      break;
-    case 'leadership_listing':
-      page.allStaffProfiles = page.fieldLeadership;
-      break;
-    default:
-  }
+function addPager(page, files, field, template, aria) {
   // Add our pager to the Drupal page.
-  if (page.entityBundle !== 'health_services_listing') {
-    const pagingObject = paginatePages(page, files, field, template, aria);
-    if (pagingObject[0]) {
-      page.pagedItems = pagingObject[0].pagedItems;
-      page.paginator = pagingObject[0].paginator;
-    }
+  const pagingObject = paginatePages(page, files, field, template, aria);
+  if (pagingObject[0]) {
+    page.pagedItems = pagingObject[0].pagedItems;
+    page.paginator = pagingObject[0].paginator;
   }
 }
 
 module.exports = {
   createHealthCareRegionListPages,
   addGetUpdatesFields,
-  modListPages,
+  addPager,
+  sortServices,
 };
