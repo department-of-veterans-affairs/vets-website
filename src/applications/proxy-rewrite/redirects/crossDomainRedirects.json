@@ -501,7 +501,7 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/VOCREHAB/independent_living.asp",
+    "src": "/vocrehab/independent_living.asp",
     "dest": "/careers-employment/vocational-rehabilitation/programs/independent-living/"
   },
   {
@@ -516,7 +516,7 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/VOCREHAB/edu_voc_counseling.asp",
+    "src": "/vocrehab/edu_voc_counseling.asp",
     "dest": "/careers-employment/education-and-career-counseling/"
   },
   {
