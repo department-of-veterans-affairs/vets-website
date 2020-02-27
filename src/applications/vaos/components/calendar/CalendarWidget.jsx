@@ -315,7 +315,7 @@ export default class CalendarWidget extends Component {
             nextDisabled={nextDisabled}
           />
         )}
-        <hr className="vads-u-margin-y--1" />
+        <hr aria-hidden="true" className="vads-u-margin-y--1" />
         <CalendarWeekdayHeader />
         <div role="rowgroup">{this.renderWeeks(month)}</div>
       </>
@@ -358,7 +358,7 @@ export default class CalendarWidget extends Component {
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
-                  aria-describedby={`h2-${month.format('YYYY-MM')}`}
+                  aria-labelledby={`h2-${month.format('YYYY-MM')}`}
                   role="table"
                 >
                   {this.renderMonth(month, index)}
