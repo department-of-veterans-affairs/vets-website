@@ -67,23 +67,25 @@ const IntroductionPage = ({ route }) => {
       <PrimaryCaregiverInfo />
       <SecondaryCaregiverInfo />
 
-      <ul>
+      <div>
         <h5>If you’re the primary caregiver, you may receive:</h5>
-        <li>Caregiver education and training</li>
-        <li>A monthly stipend (payment)</li>
-        <li>
-          Travel, lodging, and financial assistance when traveling with Veteran
-          to receive care
-        </li>
-        <li>
-          Health care benefits through the Civilian Health and Medical Program
-          of the Department of Veterans Affairs (CHAMPVA)—if you don’t already
-          qualify for care or services under another health care plan.
-          <CHAMPVAInfo />
-        </li>
-        <li>Mental health services and counseling</li>
-        <li>Up to 30 days per year of short-term relief, or respite care</li>
-      </ul>
+        <ul>
+          <li>Caregiver education and training</li>
+          <li>A monthly stipend (payment)</li>
+          <li>
+            Travel, lodging, and financial assistance when traveling with
+            Veteran to receive care
+          </li>
+          <li>
+            Health care benefits through the Civilian Health and Medical Program
+            of the Department of Veterans Affairs (CHAMPVA)—if you don’t already
+            qualify for care or services under another health care plan.
+            <CHAMPVAInfo />
+          </li>
+          <li>Mental health services and counseling</li>
+          <li>Up to 30 days per year of short-term relief, or respite care</li>
+        </ul>
+      </div>
     </div>
   );
 
@@ -163,10 +165,10 @@ const IntroductionPage = ({ route }) => {
             </ul>
           </li>
           {/* Decision */}
-          <li className="process-step list-four">
+          <div className="process-step list-four">
             <h5>Decision</h5>
             <p>You’ll get a notice in the mail with our decision.</p>
-          </li>
+          </div>
         </ol>
       </div>
     </div>
