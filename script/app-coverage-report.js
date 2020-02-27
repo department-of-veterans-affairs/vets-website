@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const fs = require('fs');
 const path = require('path');
 const Table = require('cli-table');
@@ -22,7 +24,7 @@ const printCoverage = coverageResults => {
     }
   });
 
-  console.log(coverageTable.toString()); // eslint-disable-line
+  console.log(coverageTable.toString());
 };
 
 const generateCoverage = (rootDir, coverageSummary) =>
@@ -57,9 +59,14 @@ const generateCoverage = (rootDir, coverageSummary) =>
 // Root directory of application folders
 const applicationDir = path.join(__dirname, '../src/applications/');
 
-const coverageSummaryJson = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../coverage/coverage-summary.json')),
-);
-
-const appCoverage = generateCoverage(applicationDir, coverageSummaryJson);
-printCoverage(appCoverage);
+// Check if coverage-summary.json exists before generating coverage
+if (fs.existsSync(path.join(__dirname, '../coverage/coverage-summary.json'))) {
+  const coverageSummaryJson = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../coverage/coverage-summary.json')),
+  );
+  // Generate and print coverage
+  const appCoverage = generateCoverage(applicationDir, coverageSummaryJson);
+  printCoverage(appCoverage);
+} else {
+  console.log('./coverage/coverage-summary.json not found.');
+}
