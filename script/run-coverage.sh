@@ -14,4 +14,4 @@ if [[ -z "$1" ]] || [[ $1 == -* ]]; then
   exit $?
 fi
 
-NODE_ENV=test $NYC --reporter=lcov --reporter=text mocha --reporter mocha-junit-reporter --no-color --opts src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js --recursive "$@"
+NODE_ENV=test $NYC --reporter=lcov --reporter=text --reporter=json-summary mocha --reporter mocha-junit-reporter --no-color --opts src/platform/testing/unit/mocha.opts src/platform/testing/unit/helper.js --recursive "$@"
