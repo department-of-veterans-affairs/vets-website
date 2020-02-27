@@ -6,6 +6,7 @@ import { formerSpouseInformation } from './chapters/report-divorce';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
+import { spouseInformation } from './chapters/report-add-a-spouse';
 import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
@@ -54,6 +55,17 @@ const formConfig = {
           title: 'Veteran Address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
+        },
+      },
+    },
+    addSpouse: {
+      title: 'Information needed to add your spouse',
+      pages: {
+        spouseNameInformation: {
+          title: 'Information needed to add your spouse',
+          path: 'add-spouse',
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
         },
       },
     },
