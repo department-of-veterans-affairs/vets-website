@@ -42,7 +42,7 @@ const mappedIds = [
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.VIC,
-  VA_FORM_IDS.FORM_10_10CG,
+  fullSchema1010CG,
   VA_FORM_IDS.FORM_VA_2346A,
 ];
 
@@ -96,12 +96,10 @@ describe('form:', () => {
       mappedIdsSet.size,
       'a schema may have been removed from vets-json-schema/dist/schemas',
     );
-
     expect(includedSchemaIdsSet.size).to.not.greaterThan(
       mappedIdsSet.size,
       'a schema may have been added to vets-json-schema/dist/schemas',
     );
-
     expect(includedSchemaIds).to.have.same.members(
       includedFormIds,
       'possible missing formId property in a formConfig',

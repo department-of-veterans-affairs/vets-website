@@ -188,10 +188,7 @@ const IntroductionPage = ({ route, router }) => {
 
       <IntoHighlight />
 
-      <button
-        className="va-button-link schemaform-start-button"
-        onClick={startForm}
-      >
+      <button className="va-button-link" onClick={startForm}>
         Start your Application
       </button>
 
@@ -199,7 +196,7 @@ const IntroductionPage = ({ route, router }) => {
 
       <ProcessTimeline />
 
-      <button style={{ marginBottom: '20px' }} onClick={startForm}>
+      <button className="vads-u-margin-bottom--2p5" onClick={startForm}>
         Start your Application
       </button>
 
