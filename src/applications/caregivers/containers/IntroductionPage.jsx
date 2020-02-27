@@ -80,11 +80,11 @@ const IntroductionPage = ({ route }) => {
             Health care benefits through the Civilian Health and Medical Program
             of the Department of Veterans Affairs (CHAMPVA)—if you don’t already
             qualify for care or services under another health care plan.
-            <CHAMPVAInfo />
           </li>
           <li>Mental health services and counseling</li>
           <li>Up to 30 days per year of short-term relief, or respite care</li>
         </ul>
+        <CHAMPVAInfo />
       </div>
     </div>
   );
