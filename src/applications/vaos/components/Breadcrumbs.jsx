@@ -18,7 +18,7 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and view appointments
       </a>
       <Link to="/" key="vaos-home">
-        VA Online Scheduling
+        VA online scheduling
       </Link>
       {children}
     </Breadcrumbs>
