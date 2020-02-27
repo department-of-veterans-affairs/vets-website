@@ -31,9 +31,6 @@ describe('GIBCT helpers:', () => {
     it('should recognize VET TEC', () => {
       expect(isVetTecSelected({ category: 'vettec' })).to.be.true;
     });
-    it('should recognize vetTecProvider flag', () => {
-      expect(isVetTecSelected({ vetTecProvider: true })).to.be.true;
-    });
   });
 
   describe('addAllOption', () => {
@@ -74,13 +71,6 @@ describe('GIBCT helpers:', () => {
         testKey: '',
       };
       expect(rubyifyKeys(data)).to.have.key('test_key');
-    });
-
-    it('should properly suffix keys for array fields', () => {
-      const data = {
-        testKey: ['a', 'b'],
-      };
-      expect(rubyifyKeys(data)).to.have.key('test_key[]');
     });
   });
 

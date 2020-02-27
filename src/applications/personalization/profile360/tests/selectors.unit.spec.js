@@ -38,6 +38,25 @@ describe('profile360 selectors', () => {
         '';
       expect(selectors.directDepositIsSetUp(state)).to.be.false;
     });
+    it('returns `false` when the payment info endpoint failed to get data', () => {
+      state = {
+        vaProfile: {
+          paymentInformation: {
+            errors: [
+              {
+                title: 'Bad Gateway',
+                detail:
+                  'Received an an invalid response from the upstream server',
+                code: 'EVSS502',
+                source: 'EVSS::PPIU::Service',
+                status: '502',
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsSetUp(state)).to.be.false;
+    });
   });
 
   describe('directDepositAddressIsSetUp selector', () => {
@@ -75,6 +94,71 @@ describe('profile360 selectors', () => {
       state.vaProfile.paymentInformation.responses[0].paymentAddress.stateCode =
         '';
       expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+    });
+
+    it('returns `false` when the payment info endpoint failed to get data', () => {
+      state = {
+        vaProfile: {
+          paymentInformation: {
+            errors: [
+              {
+                title: 'Bad Gateway',
+                detail:
+                  'Received an an invalid response from the upstream server',
+                code: 'EVSS502',
+                source: 'EVSS::PPIU::Service',
+                status: '502',
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositAddressIsSetUp(state)).to.be.false;
+    });
+  });
+
+  describe('directDepositIsBlocked', () => {
+    it('returns `false` if the `canUpdateAddress` flag is `true`', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  canUpdateAddress: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.false;
+    });
+    it('returns `true` if the `paymentInformation.controlInformation` is not set', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [{ paymentInformation: {} }],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
+    });
+    it('returns `true` if the `canUpdateAddress` flag is not `true`', () => {
+      const state = {
+        vaProfile: {
+          paymentInformation: {
+            responses: [
+              {
+                controlInformation: {
+                  canUpdateAddress: null,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(selectors.directDepositIsBlocked(state)).to.be.true;
     });
   });
 });

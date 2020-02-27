@@ -53,6 +53,29 @@ function updateRequestDates(data) {
   return data;
 }
 
+function updateTimeslots(data) {
+  const startDateTime = moment()
+    .add(4, 'days')
+    .day(9)
+    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+  const endDateTime = moment()
+    .add(4, 'days')
+    .day(9)
+    .add(60, 'minutes')
+    .format('YYYY-MM-DDTHH:mm:ss[+0:00]');
+
+  const newSlot = {
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+    startDateTime,
+    endDateTime,
+  };
+
+  data.data[0].attributes.appointmentTimeSlot = [newSlot];
+
+  return data;
+}
 function newAppointmentTest(client, nextElement = '.rjsf [type="submit"]') {
   client
     .click('#new-appointment')
@@ -65,10 +88,10 @@ function appointmentDateTimeTest(client, nextElement) {
   client
     .click('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
     .click(
-      '.vaos-calendar__cell-current .vaos-calendar__options input[id$="_0"]',
+      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     )
     .axeCheck('.main')
-    .click('.rjsf [type="submit"]')
+    .click('.form-progress-buttons [type="submit"]')
     .waitForElementPresent(nextElement, Timeouts.slow);
 
   return client;
@@ -230,7 +253,7 @@ function initAppointmentListMock(token) {
   mock(token, {
     path: '/v0/vaos/facilities/983/available_appointments',
     verb: 'get',
-    value: slots,
+    value: updateTimeslots(slots),
   });
   mock(token, {
     path: '/v0/vaos/facilities/983/limits',

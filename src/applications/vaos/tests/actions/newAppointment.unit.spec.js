@@ -6,9 +6,12 @@ import {
   resetFetch,
   mockFetch,
   setFetchJSONResponse,
+  setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 
 import {
+  openFormPage,
+  closeConfirmationPage,
   routeToPageInFlow,
   openFacilityPage,
   fetchFacilityDetails,
@@ -19,29 +22,41 @@ import {
   openCommunityCarePreferencesPage,
   submitAppointmentOrRequest,
   getAppointmentSlots,
+  onCalendarChange,
+  hideTypeOfCareUnavailableModal,
+  FORM_PAGE_OPENED,
+  FORM_CLOSED_CONFIRMATION_PAGE,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
+  FORM_PAGE_FACILITY_OPEN_FAILED,
   FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
   FORM_FETCH_FACILITY_DETAILS,
   FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
-  FORM_VA_SYSTEM_CHANGED,
+  FORM_FETCH_CHILD_FACILITIES_FAILED,
+  FORM_VA_PARENT_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+  FORM_ELIGIBILITY_CHECKS_FAILED,
   FORM_CLINIC_PAGE_OPENED,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
+  FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
   FORM_SUBMIT_SUCCEEDED,
+  FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS,
-  FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_DATA_CHANGED,
+  FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
-import systems from '../../api/facilities.json';
+import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
 import clinics from '../../api/clinicList983.json';
@@ -71,7 +86,39 @@ const facilities983Parsed = facilities983.data.map(item => ({
   id: item.id,
 }));
 
+const parentFacilitiesParsed = parentFacilities.data.map(item => ({
+  ...item.attributes,
+  id: item.id,
+}));
+
 describe('VAOS newAppointment actions', () => {
+  it('should open form page', () => {
+    const action = openFormPage('test', 'uiSchema', 'schema');
+
+    expect(action).to.deep.equal({
+      type: FORM_PAGE_OPENED,
+      page: 'test',
+      uiSchema: 'uiSchema',
+      schema: 'schema',
+    });
+  });
+
+  it('should open close confirmation page', () => {
+    const action = closeConfirmationPage();
+
+    expect(action).to.deep.equal({
+      type: FORM_CLOSED_CONFIRMATION_PAGE,
+    });
+  });
+
+  it('should hide ToC modal', () => {
+    const action = hideTypeOfCareUnavailableModal();
+
+    expect(action).to.deep.equal({
+      type: FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
+    });
+  });
+
   describe('routeToPageInFlow', () => {
     it('should route to next page with string key', async () => {
       const router = {
@@ -152,7 +199,7 @@ describe('VAOS newAppointment actions', () => {
     const defaultSchema = {
       type: 'object',
       properties: {
-        vaSystem: {
+        vaParent: {
           type: 'string',
           enum: [],
         },
@@ -172,8 +219,8 @@ describe('VAOS newAppointment actions', () => {
           typeOfCareId: '323',
         },
         pages: {},
-        systemsStatus: FETCH_STATUS.notStarted,
-        systems,
+        parentFacilitiesStatus: FETCH_STATUS.notStarted,
+        parentFacilities: parentFacilitiesParsed,
         facilities: {},
         eligibility: {},
       },
@@ -188,30 +235,11 @@ describe('VAOS newAppointment actions', () => {
       resetFetch();
     });
 
-    it('should reuse systems systems if already in state', async () => {
+    it('should fetch parentFacilities', async () => {
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+      setFetchJSONResponse(global.fetch.onCall(1), parentFacilities);
       const dispatch = sinon.spy();
-      const getState = () => defaultState;
-
-      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
-      await thunk(dispatch, getState);
-
-      const succeededAction = dispatch.lastCall.args[0];
-      expect(succeededAction).to.deep.equal({
-        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        schema: defaultSchema,
-        page: 'vaFacility',
-        uiSchema: {},
-        systems,
-        facilities: null,
-        eligibilityData: null,
-        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
-      });
-    });
-
-    it('should fetch facilities if system was selected already', async () => {
-      setFetchJSONResponse(global.fetch, facilities983);
-      const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaSystem', '983', defaultState);
+      const state = set('newAppointment.parentFacilities', null, defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -227,7 +255,96 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        systems,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: null,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should fetch parentFacilities and child facilities if single parent', async () => {
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: parentFacilities.data.filter(
+          parent => parent.attributes.institutionCode === '983',
+        ),
+      });
+      setFetchJSONResponse(global.fetch.onCall(2), facilities983);
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.parentFacilities', null, defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
+        facilities: facilities983Parsed,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+      expect(global.fetch.thirdCall.args[0]).to.contain('/systems/983/');
+    });
+
+    it('should send fail action if a fetch fails', async () => {
+      setFetchJSONFailure(global.fetch, {});
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.parentFacilities', null, defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_FAILED,
+      );
+    });
+
+    it('should reuse parentFacilities if already in state', async () => {
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      const succeededAction = dispatch.lastCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed,
+        facilities: null,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should fetch facilities if system was selected already', async () => {
+      setFetchJSONResponse(global.fetch, facilities983);
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.data.vaParent', '983', defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed,
         facilities: facilities983Parsed,
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
@@ -243,7 +360,7 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
           },
           facilities: {
@@ -265,7 +382,7 @@ describe('VAOS newAppointment actions', () => {
     it('should skip eligibility request and succeed if facility list is empty', async () => {
       setFetchJSONResponse(global.fetch, { data: [] });
       const dispatch = sinon.spy();
-      const state = set('newAppointment.data.vaSystem', '983', defaultState);
+      const state = set('newAppointment.data.vaParent', '983', defaultState);
       const getState = () => state;
 
       const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
@@ -281,11 +398,39 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'vaFacility',
         uiSchema: {},
-        systems,
+        parentFacilities: parentFacilitiesParsed,
         facilities: [],
         eligibilityData: null,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
+    });
+  });
+
+  describe('updateFacilityPageData', () => {
+    const defaultState = {
+      featureToggles: {
+        loading: false,
+        vaOnlineSchedulingDirect: true,
+      },
+      newAppointment: {
+        data: {
+          typeOfCareId: '323',
+        },
+        pages: {},
+        systemsStatus: FETCH_STATUS.notStarted,
+        parentFacilities: parentFacilitiesParsed,
+        facilities: {},
+        eligibility: {},
+      },
+    };
+
+    beforeEach(() => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+    });
+
+    afterEach(() => {
+      resetFetch();
     });
 
     it('should not fetch anything if system did not change', async () => {
@@ -298,7 +443,7 @@ describe('VAOS newAppointment actions', () => {
           },
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
           },
         },
       });
@@ -308,7 +453,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -332,13 +477,13 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
-      expect(dispatch.lastCall.args[0].type).to.equal(FORM_VA_SYSTEM_CHANGED);
+      expect(dispatch.lastCall.args[0].type).to.equal(FORM_VA_PARENT_CHANGED);
     });
 
     it('should fetch facilities if system is selected already', async () => {
@@ -351,7 +496,7 @@ describe('VAOS newAppointment actions', () => {
         {},
         {
           ...defaultState.newAppointment.data,
-          vaSystem: '983',
+          vaParent: '983',
         },
       );
       await thunk(dispatch, getState);
@@ -371,6 +516,66 @@ describe('VAOS newAppointment actions', () => {
         facilities: facilities983Parsed,
         typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
       });
+    });
+
+    it('should fetch system details if no facilities found', async () => {
+      setFetchJSONResponse(global.fetch, { data: [] });
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: '983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES,
+      );
+
+      // system details dispatch
+      expect(dispatch.thirdCall.args[0]).to.be.a('function');
+
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+      );
+
+      const succeededAction = dispatch.lastCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
+        uiSchema: {},
+        facilities: [],
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+    });
+
+    it('should send fail action if facilities fetch fails', async () => {
+      setFetchJSONFailure(global.fetch, {});
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...defaultState.newAppointment.data,
+          vaParent: '983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_FETCH_CHILD_FACILITIES_FAILED,
+      );
     });
 
     it('should fetch eligibility info if facility is selected', async () => {
@@ -407,7 +612,7 @@ describe('VAOS newAppointment actions', () => {
           ...defaultState.newAppointment,
           data: {
             ...defaultState.newAppointment.data,
-            vaSystem: '983',
+            vaParent: '983',
           },
           facilities: {
             '323_983': facilities983Parsed,
@@ -443,6 +648,45 @@ describe('VAOS newAppointment actions', () => {
       expect(eligibilityData.clinics.length).to.equal(4);
       expect(eligibilityData.requestLimits.numberOfRequests).to.equal(0);
     });
+
+    it('should send fail action for error in eligibility code', async () => {
+      setFetchJSONResponse(global.fetch, {});
+      const dispatch = sinon.spy();
+      const previousState = {
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          data: {
+            ...defaultState.newAppointment.data,
+            vaParent: '983',
+          },
+          facilities: {
+            // This is an unexpected data type that causes an error
+            '323_983': {},
+          },
+        },
+      };
+
+      const getState = () => previousState;
+
+      const thunk = updateFacilityPageData(
+        'vaFacility',
+        {},
+        {
+          ...previousState.newAppointment.data,
+          vaFacility: '983',
+        },
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_DATA_UPDATED);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_ELIGIBILITY_CHECKS_FAILED,
+      );
+    });
   });
 
   describe('openClinicPage', () => {
@@ -454,8 +698,8 @@ describe('VAOS newAppointment actions', () => {
             typeOfCareId: '323',
           },
           pages: {},
-          systemsStatus: FETCH_STATUS.notStarted,
-          systems: null,
+          parentFacilitiesStatus: FETCH_STATUS.notStarted,
+          parentFacilities: null,
           facilities: {},
           eligibility: {},
         },
@@ -498,6 +742,116 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
+  describe('calendar actions', () => {
+    it('should fetch appointment slots and not adjust time', async () => {
+      mockFetch();
+      const tomorrowString = moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD');
+      setFetchJSONResponse(global.fetch, {
+        data: [
+          {
+            attributes: {
+              appointmentLength: 20,
+              appointmentTimeSlot: [
+                {
+                  startDateTime: `${tomorrowString}T14:20:00.000+00:00`,
+                  endDateTime: `${tomorrowString}T14:40:00.000+00:00`,
+                },
+              ],
+            },
+          },
+        ],
+      });
+
+      const state = {
+        newAppointment: {
+          data: {
+            preferredDate: '2019-01-01',
+          },
+          fetchedAppointmentSlotMonths: [],
+        },
+      };
+      const getState = () => state;
+      const dispatch = sinon.spy();
+
+      const thunk = getAppointmentSlots(
+        moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment()
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS,
+      );
+
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+      );
+
+      expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
+      expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
+        date: tomorrowString,
+        datetime: `${tomorrowString}T14:20:00`,
+      });
+      expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
+
+      resetFetch();
+    });
+
+    it('should send fail action when appointment slots fetch fails', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch, {});
+
+      const state = {
+        newAppointment: {
+          data: {
+            preferredDate: '2019-01-01',
+          },
+          fetchedAppointmentSlotMonths: [],
+        },
+      };
+      const getState = () => state;
+      const dispatch = sinon.spy();
+
+      const thunk = getAppointmentSlots(
+        moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment()
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS,
+      );
+
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FORM_CALENDAR_FETCH_SLOTS_FAILED,
+      );
+
+      resetFetch();
+    });
+
+    it('should dispatch onChange action', () => {
+      expect(
+        onCalendarChange({
+          currentlySelectedDate: '2020-12-11',
+          currentRowIndex: 1,
+          selectedDates: [{}, {}],
+        }).type,
+      ).to.equal(FORM_CALENDAR_DATA_CHANGED);
+    });
+  });
+
   describe('openCommunityCarePreferencesPage', () => {
     const defaultSchema = {
       type: 'object',
@@ -509,21 +863,21 @@ describe('VAOS newAppointment actions', () => {
           typeOfCareId: '323',
         },
         pages: {},
-        systemsStatus: FETCH_STATUS.notStarted,
+        parentFacilitiesStatus: FETCH_STATUS.notStarted,
         ccEnabledSystems: ['983', '984'],
       },
     };
 
     beforeEach(() => {
       mockFetch();
-      setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch, parentFacilities);
     });
 
     afterEach(() => {
       resetFetch();
     });
 
-    it('should fetch systems', async () => {
+    it('should fetch parentFacilities', async () => {
       const dispatch = sinon.spy();
       const getState = () => defaultState;
 
@@ -543,13 +897,31 @@ describe('VAOS newAppointment actions', () => {
         schema: defaultSchema,
         page: 'ccPreferences',
         uiSchema: {},
-        systems: systems.data.map(item => ({
-          ...item.attributes,
-          id: item.id,
-        })),
+        parentFacilities: parentFacilitiesParsed,
       });
     });
+
+    it('should send fail action when fetch fails', async () => {
+      setFetchJSONFailure(global.fetch, {});
+      const dispatch = sinon.spy();
+      const getState = () => defaultState;
+
+      const thunk = openCommunityCarePreferencesPage(
+        'ccPreferences',
+        {},
+        defaultSchema,
+      );
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
+      );
+      expect(dispatch.lastCall.args[0].type).to.equal(
+        FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
+      );
+    });
   });
+
   describe('form submit', () => {
     beforeEach(() => {
       mockFetch();
@@ -572,7 +944,7 @@ describe('VAOS newAppointment actions', () => {
           data: {
             typeOfCareId: '323',
             facilityType: 'vamc',
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             calendarData: {
               selectedDates: [],
@@ -618,7 +990,7 @@ describe('VAOS newAppointment actions', () => {
           },
         },
         newAppointment: {
-          systems: [
+          parentFacilities: [
             {
               institutionCode: '983',
             },
@@ -668,7 +1040,7 @@ describe('VAOS newAppointment actions', () => {
             ],
           },
           data: {
-            vaSystem: '983',
+            vaParent: '983',
             vaFacility: '983',
             typeOfCareId: '323',
             clinicId: '123',
@@ -692,7 +1064,103 @@ describe('VAOS newAppointment actions', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_SUCCEEDED);
       expect(router.push.called).to.be.true;
     });
+
+    it('should send fail action if request fails', async () => {
+      setFetchJSONFailure(global.fetch, { data: { attributes: {} } });
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          data: {
+            typeOfCareId: '323',
+            facilityType: 'vamc',
+            vaParent: '983',
+            vaFacility: '983',
+            calendarData: {
+              selectedDates: [],
+            },
+            reasonForAppointment: 'routine-follow-up',
+            bestTimeToCall: [],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institutionCode: '983',
+                name: 'CHYSHR-Cheyenne VA Medical Center',
+                city: 'Cheyenne',
+                stateAbbrev: 'WY',
+                authoritativeName: 'CHYSHR-Cheyenne VA Medical Center',
+                rootStationCode: '983',
+                parentStationCode: '983',
+                institutionTimezone: 'America/Denver',
+              },
+            ],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(router.push.called).to.be.false;
+    });
+
+    it('should send fail action if direct schedule fails', async () => {
+      setFetchJSONFailure(global.fetch, { data: { attributes: {} } });
+      const router = {
+        push: sinon.spy(),
+      };
+
+      const thunk = submitAppointmentOrRequest(router);
+      const dispatch = sinon.spy();
+      const getState = () => ({
+        newAppointment: {
+          flowType: FLOW_TYPES.DIRECT,
+          clinics: {
+            '983_323': [
+              {
+                clinicId: '123',
+              },
+            ],
+          },
+          facilities: {
+            '323_983': [
+              {
+                institutionCode: '983',
+              },
+            ],
+          },
+          data: {
+            vaParent: '983',
+            vaFacility: '983',
+            typeOfCareId: '323',
+            clinicId: '123',
+            facilityType: 'vamc',
+            calendarData: {
+              selectedDates: [
+                {
+                  date: '2019-01-01',
+                  dateTime: '2019-01-01T04:00:00',
+                },
+              ],
+            },
+            reasonForAppointment: 'routine-follow-up',
+            bestTimeToCall: [],
+          },
+        },
+      });
+      await thunk(dispatch, getState);
+
+      expect(dispatch.firstCall.args[0].type).to.equal(FORM_SUBMIT);
+      expect(dispatch.secondCall.args[0].type).to.equal(FORM_SUBMIT_FAILED);
+      expect(router.push.called).to.be.false;
+    });
   });
+
   it('should open type of care page and pull contact info to prefill', () => {
     const state = {
       user: {
@@ -721,66 +1189,5 @@ describe('VAOS newAppointment actions', () => {
     );
     expect(dispatch.firstCall.args[0].phoneNumber).to.equal('5032222222');
     expect(dispatch.firstCall.args[0].email).to.equal('test@va.gov');
-  });
-
-  it('should fetch appointment slots and not adjust time', async () => {
-    mockFetch();
-    const tomorrowString = moment()
-      .add(1, 'days')
-      .format('YYYY-MM-DD');
-    setFetchJSONResponse(global.fetch, {
-      data: [
-        {
-          attributes: {
-            appointmentLength: 20,
-            appointmentTimeSlot: [
-              {
-                startDateTime: `${tomorrowString}T14:20:00.000+00:00`,
-                endDateTime: `${tomorrowString}T14:40:00.000+00:00`,
-              },
-            ],
-          },
-        },
-      ],
-    });
-
-    const state = {
-      newAppointment: {
-        data: {
-          preferredDate: '2019-01-01',
-        },
-        fetchedAppointmentSlotMonths: [],
-      },
-    };
-    const getState = () => state;
-    const dispatch = sinon.spy();
-
-    const thunk = getAppointmentSlots(
-      moment()
-        .startOf('month')
-        .format('YYYY-MM-DD'),
-      moment()
-        .add(1, 'months')
-        .endOf('month')
-        .format('YYYY-MM-DD'),
-    );
-    await thunk(dispatch, getState);
-
-    expect(dispatch.firstCall.args[0].type).to.equal(
-      FORM_FETCH_AVAILABLE_APPOINTMENTS,
-    );
-
-    expect(dispatch.secondCall.args[0].type).to.equal(
-      FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
-    );
-
-    expect(dispatch.secondCall.args[0].availableSlots.length).to.equal(1);
-    expect(dispatch.secondCall.args[0].availableSlots[0]).to.deep.equal({
-      date: tomorrowString,
-      datetime: `${tomorrowString}T14:20:00`,
-    });
-    expect(dispatch.secondCall.args[0].appointmentLength).to.equal(20);
-
-    resetFetch();
   });
 });

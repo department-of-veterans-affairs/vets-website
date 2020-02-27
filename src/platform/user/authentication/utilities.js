@@ -8,25 +8,28 @@ export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
 };
 
-const SESSIONS_URI = `${environment.API_URL}/sessions`;
-const sessionTypeUrl = type => `${SESSIONS_URI}/${type}/new`;
+function sessionTypeUrl(type, version = 'v0') {
+  const SESSIONS_URI =
+    version === 'v1'
+      ? `${environment.API_URL}/v1/sessions`
+      : `${environment.API_URL}/sessions`;
+
+  return `${SESSIONS_URI}/${type}/new`;
+}
 
 const SIGNUP_URL = sessionTypeUrl('signup');
-const MHV_URL = sessionTypeUrl('mhv');
-const DSLOGON_URL = sessionTypeUrl('dslogon');
-const IDME_URL = sessionTypeUrl('idme');
 const MFA_URL = sessionTypeUrl('mfa');
 const VERIFY_URL = sessionTypeUrl('verify');
 const LOGOUT_URL = sessionTypeUrl('slo');
 
-const loginUrl = policy => {
+const loginUrl = (policy, version) => {
   switch (policy) {
     case 'mhv':
-      return MHV_URL;
+      return sessionTypeUrl('mhv', version);
     case 'dslogon':
-      return DSLOGON_URL;
+      return sessionTypeUrl('dslogon', version);
     default:
-      return IDME_URL;
+      return sessionTypeUrl('idme', version);
   }
 };
 
@@ -64,7 +67,12 @@ function redirectWithGAClientId(redirectUrl) {
 
 function redirect(redirectUrl, clickedEvent) {
   // Keep track of the URL to return to after auth operation.
-  sessionStorage.setItem(authnSettings.RETURN_URL, window.location);
+  // If the user is coming via the standalone sign-in, redirect to the home page.
+  const returnUrl =
+    window.location.pathname === '/sign-in/'
+      ? window.location.origin
+      : window.location;
+  sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
   if (redirectUrl.includes('idme')) {
@@ -74,8 +82,8 @@ function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(policy) {
-  return redirect(loginUrl(policy), 'login-link-clicked-modal');
+export function login(policy, version = 'v0') {
+  return redirect(loginUrl(policy, version), 'login-link-clicked-modal');
 }
 
 export function mfa() {

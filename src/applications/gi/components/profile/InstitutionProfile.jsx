@@ -10,7 +10,7 @@ import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
 import environment from 'platform/utilities/environment';
-import SchoolLocationsOld from './SchoolLocationsOld';
+import ContactInformation from './ContactInformation';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -50,26 +50,14 @@ export class InstitutionProfile extends React.Component {
             )}
             {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
               <AccordionItem button="School locations">
-                {/* prod flag for bah 4383. SchoolLocationsOld.jsx should be deleted when story is approved */
-                environment.isProduction() ? (
-                  <SchoolLocationsOld
-                    institution={profile.attributes}
-                    facilityMap={profile.attributes.facilityMap}
-                    calculator={this.props.calculator}
-                    eligibility={this.props.eligibility}
-                    constants={constants}
-                    version={this.props.version}
-                  />
-                ) : (
-                  <SchoolLocations
-                    institution={profile.attributes}
-                    facilityMap={profile.attributes.facilityMap}
-                    calculator={this.props.calculator}
-                    eligibility={this.props.eligibility}
-                    constants={constants}
-                    version={this.props.version}
-                  />
-                )}
+                <SchoolLocations
+                  institution={profile.attributes}
+                  facilityMap={profile.attributes.facilityMap}
+                  calculator={this.props.calculator}
+                  eligibility={this.props.eligibility}
+                  constants={constants}
+                  version={this.props.version}
+                />
               </AccordionItem>
             )}
             <AccordionItem
@@ -84,6 +72,11 @@ export class InstitutionProfile extends React.Component {
                 onShowModal={showModal}
               />
             </AccordionItem>
+            {!environment.isProduction() && (
+              <AccordionItem button="Contact details">
+                <ContactInformation institution={profile.attributes} />
+              </AccordionItem>
+            )}
             <AccordionItem button="Additional information">
               <AdditionalInformation
                 institution={profile.attributes}

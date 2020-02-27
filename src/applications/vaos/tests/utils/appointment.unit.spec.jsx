@@ -506,9 +506,9 @@ describe('VAOS appointment helpers', () => {
       expect(
         getAppointmentDate({
           ...communityCareAppointment,
-          appointmentTime: now,
+          appointmentTime: '01/02/2020 13:45:00',
         }),
-      ).to.equal(now.format('MMMM D, YYYY'));
+      ).to.equal('January 2, 2020');
     });
   });
 
@@ -518,7 +518,6 @@ describe('VAOS appointment helpers', () => {
         ...communityCareAppointment,
         appointmentTime: now,
       });
-      // console.log(ReactDOMServer.renderToString(component));
       expect(React.isValidElement(component)).to.be.true;
     });
   });
@@ -533,7 +532,6 @@ describe('VAOS appointment helpers', () => {
         optionDate3: moment().add(1, 'days'),
         optionTime3: 'PM',
       });
-      // console.log(ReactDOMServer.renderToString(component));
       expect(React.isValidElement(component[0])).to.be.true;
     });
   });
@@ -1008,7 +1006,14 @@ describe('VAOS appointment helpers', () => {
         .clone()
         .add(60, 'minutes')
         .format('YYYYMMDDTHHmmss');
-      const ics = generateICS(appt, facility);
+
+      const summary = getAppointmentTypeHeader(appt);
+      const description = `${getAppointmentInstructionsHeader(
+        appt,
+      )}. ${getAppointmentInstructions(appt)}`;
+      const location = getAppointmentAddress(appt, facility);
+
+      const ics = generateICS(summary, description, location, dtStart, dtEnd);
       expect(ics).to.contain('BEGIN:VCALENDAR');
       expect(ics).to.contain('VERSION:2.0');
       expect(ics).to.contain('PRODID:VA');
@@ -1114,7 +1119,14 @@ describe('VAOS appointment helpers', () => {
         .clone()
         .add(60, 'minutes')
         .format('YYYYMMDDTHHmmss');
-      const ics = generateICS(appt, facility);
+
+      const summary = getAppointmentTypeHeader(appt);
+      const description = `${getAppointmentInstructionsHeader(
+        appt,
+      )}. ${getAppointmentInstructions(appt)}`;
+      const location = getAppointmentAddress(appt, facility);
+
+      const ics = generateICS(summary, description, location, dtStart, dtEnd);
       expect(ics).to.contain('BEGIN:VCALENDAR');
       expect(ics).to.contain('VERSION:2.0');
       expect(ics).to.contain('PRODID:VA');

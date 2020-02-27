@@ -55,6 +55,7 @@ export default function applicantInformation(schema, options) {
           {
             'ui:errorMessages': {
               pattern: 'Please provide a valid date',
+              required: 'Please enter a date',
               futureDate: 'Please provide a valid date',
             },
           },

@@ -45,6 +45,7 @@ class ResultsList extends Component {
       results,
       error,
       isMobile,
+      query,
     } = this.props;
 
     if (inProgress) {
@@ -175,7 +176,7 @@ class ResultsList extends Component {
               result.attributes.long,
             )
           : null;
-        return { ...result, distance };
+        return { ...result, distance, resultItem: true };
       })
       .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
@@ -186,10 +187,10 @@ class ResultsList extends Component {
             r =>
               isMobile ? (
                 <div key={r.id} className="mobile-search-result">
-                  <SearchResult result={r} />
+                  <SearchResult result={r} query={query} />
                 </div>
               ) : (
-                <SearchResult key={r.id} result={r} />
+                <SearchResult key={r.id} result={r} query={query} />
               ),
           )}
         </div>

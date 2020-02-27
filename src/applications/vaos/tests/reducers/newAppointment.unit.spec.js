@@ -12,12 +12,16 @@ import {
   FORM_FETCH_CHILD_FACILITIES,
   FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
   FORM_FETCH_CHILD_FACILITIES_FAILED,
-  FORM_VA_SYSTEM_CHANGED,
+  FORM_VA_PARENT_CHANGED,
   FORM_ELIGIBILITY_CHECKS,
   FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
   FORM_ELIGIBILITY_CHECKS_FAILED,
-  START_DIRECT_SCHEDULE_FLOW,
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
+  START_DIRECT_SCHEDULE_FLOW,
+  FORM_CALENDAR_FETCH_SLOTS,
+  FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+  FORM_CALENDAR_FETCH_SLOTS_FAILED,
+  FORM_CALENDAR_DATA_CHANGED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
@@ -32,7 +36,7 @@ import {
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../actions/newAppointment';
 
-import systems from '../../api/facilities.json';
+import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
 import {
   FETCH_STATUS,
@@ -42,7 +46,7 @@ import {
   PURPOSE_TEXT,
 } from '../../utils/constants';
 
-const systemsParsed = systems.data.map(item => ({
+const parentFacilitiesParsed = parentFacilities.data.map(item => ({
   ...item.attributes,
   id: item.id,
 }));
@@ -50,9 +54,9 @@ const systemsParsed = systems.data.map(item => ({
 const defaultState = {
   data: {},
   pages: {},
-  systemsStatus: FETCH_STATUS.notStarted,
+  parentFacilitiesStatus: FETCH_STATUS.notStarted,
   loadingFacilities: false,
-  systems: null,
+  parentFacilities: null,
   facilities: {},
 };
 
@@ -141,7 +145,7 @@ describe('VAOS reducer: newAppointment', () => {
       schema: {
         type: 'object',
         properties: {
-          vaSystem: {
+          vaParent: {
             type: 'string',
             enum: [],
           },
@@ -154,13 +158,13 @@ describe('VAOS reducer: newAppointment', () => {
       typeOfCareId: '323',
     };
 
-    it('should set systems when facility page is done loading', () => {
+    it('should set parentFacilities when facility page is done loading', () => {
       const currentState = {
         ...defaultState,
       };
       const action = {
         ...defaultOpenPageAction,
-        systems: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
       };
 
       const newState = newAppointmentReducer(currentState, action);
@@ -168,12 +172,13 @@ describe('VAOS reducer: newAppointment', () => {
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
         properties: {
-          vaSystem: {
+          vaParent: {
             type: 'string',
-            enum: ['983', '984'],
+            enum: ['983', '984', '983A6'],
             enumNames: [
               'CHYSHR-Cheyenne VA Medical Center',
               'DAYTSHR -Dayton VA Medical Center',
+              'Five Digit Station ID Medical Center',
             ],
           },
           vaFacility: {
@@ -187,14 +192,14 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set facilities when only one system', () => {
       const action = {
         ...defaultOpenPageAction,
-        systems: systemsParsed.slice(0, 1),
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
         facilities: facilities983Parsed,
       };
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.data.vaSystem).to.equal(
-        action.systems[0].institutionCode,
+      expect(newState.data.vaParent).to.equal(
+        action.parentFacilities[0].institutionCode,
       );
       expect(newState.pages.vaFacility).to.deep.equal({
         type: 'object',
@@ -217,7 +222,7 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set system and facility when there is only one', () => {
       const action = {
         ...defaultOpenPageAction,
-        systems: systemsParsed.slice(0, 1),
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
         facilities: facilities983Parsed.slice(0, 1),
         eligibilityData: {
           clinics: [],
@@ -230,8 +235,8 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.data.vaSystem).to.equal(
-        action.systems[0].institutionCode,
+      expect(newState.data.vaParent).to.equal(
+        action.parentFacilities[0].institutionCode,
       );
       expect(newState.data.vaFacility).to.equal(
         action.facilities[0].institutionCode,
@@ -255,7 +260,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(currentState, action);
 
-      expect(newState.systemsStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.failed);
     });
   });
 
@@ -268,14 +273,14 @@ describe('VAOS reducer: newAppointment', () => {
     const defaultFacilityState = {
       ...defaultState,
       data: {
-        vaSystem: '983',
+        vaParent: '983',
         typeOfCareId: '323',
       },
       pages: {
         vaFacility: {
           type: 'object',
           properties: {
-            vaSystem: {
+            vaParent: {
               type: 'string',
             },
             vaFacility: {
@@ -285,7 +290,7 @@ describe('VAOS reducer: newAppointment', () => {
           },
         },
       },
-      systems: systemsParsed,
+      parentFacilities: parentFacilitiesParsed,
       facilities: {},
       loadingFacilities: true,
     };
@@ -328,13 +333,13 @@ describe('VAOS reducer: newAppointment', () => {
 
     it('should update facility choices if system changed and we have the list in state', () => {
       const action = {
-        type: FORM_VA_SYSTEM_CHANGED,
+        type: FORM_VA_PARENT_CHANGED,
         typeOfCareId: '323',
       };
       const state = {
         ...defaultFacilityState,
         data: {
-          vaSystem: '983',
+          vaParent: '983',
         },
         facilities: {
           '323_983': facilities983Parsed,
@@ -358,12 +363,12 @@ describe('VAOS reducer: newAppointment', () => {
 
     it('should remove facility question and set data if only one facility in state', () => {
       const action = {
-        type: FORM_VA_SYSTEM_CHANGED,
+        type: FORM_VA_PARENT_CHANGED,
         typeOfCareId: '323',
       };
       const state = {
         ...defaultFacilityState,
-        systems: [
+        parentFacilities: [
           {
             institutionCode: '983',
           },
@@ -415,6 +420,10 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
+        facilities: {
+          '323_983': facilities983Parsed,
+        },
+        parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
           vaFacility: '983',
@@ -556,10 +565,11 @@ describe('VAOS reducer: newAppointment', () => {
             },
           ],
         },
+        parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
         },
       };
@@ -614,10 +624,11 @@ describe('VAOS reducer: newAppointment', () => {
             },
           ],
         },
+        parentFacilities: parentFacilitiesParsed,
         data: {
           ...defaultState.data,
           typeOfCareId: '323',
-          vaSystem: '983',
+          vaParent: '983',
           vaFacility: '983',
         },
       };
@@ -645,6 +656,73 @@ describe('VAOS reducer: newAppointment', () => {
         'Testing real name',
         'I need a different clinic',
       ]);
+    });
+  });
+
+  describe('calendar', () => {
+    it('should set appointmentSlotStatus to loading when fetching slots', () => {
+      const action = {
+        type: FORM_CALENDAR_FETCH_SLOTS,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.appointmentSlotsStatus).to.equal(FETCH_STATUS.loading);
+    });
+
+    it('should update slots when fetch slots succeeded', () => {
+      const availableSlots = [
+        {
+          date: '2020-02-02',
+          dateTime: '2020-02-02T11:00:00',
+        },
+      ];
+
+      const fetchedAppointmentSlotMonths = ['2020-02'];
+
+      const action = {
+        type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
+        availableSlots,
+        fetchedAppointmentSlotMonths,
+        appointmentLength: 20,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.appointmentSlotsStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.availableSlots).to.equal(availableSlots);
+      expect(newState.fetchedAppointmentSlotMonths).to.equal(
+        fetchedAppointmentSlotMonths,
+      );
+    });
+
+    it('should set appointmentSlotStatus to failed when fetching slots', () => {
+      const action = {
+        type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.appointmentSlotsStatus).to.equal(FETCH_STATUS.failed);
+    });
+
+    it('should update calendar data on change', () => {
+      const calendarData = {
+        currentlySelectedDate: '2020-03-11',
+        selectedDates: [
+          {
+            date: '2020-03-11',
+            datetime: '2020-03-11T09:40:00',
+          },
+        ],
+        currentRowIndex: 1,
+        error: null,
+      };
+
+      const action = {
+        type: FORM_CALENDAR_DATA_CHANGED,
+        calendarData,
+      };
+
+      const newState = newAppointmentReducer(defaultState, action);
+      expect(newState.data.calendarData).to.deep.equal(calendarData);
     });
   });
 
@@ -761,7 +839,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.systemsStatus).to.equal(FETCH_STATUS.loading);
+      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.loading);
     });
 
     it('should remove system id if only one', () => {
@@ -779,13 +857,13 @@ describe('VAOS reducer: newAppointment', () => {
       };
       const state = {
         ...defaultState,
-        systemsStatus: FETCH_STATUS.loading,
+        parentFacilitiesStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983'],
       };
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.systemsStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).to
         .be.undefined;
@@ -804,17 +882,17 @@ describe('VAOS reducer: newAppointment', () => {
         },
         uiSchema: {},
         page: 'ccPreferences',
-        systems: systemsParsed,
+        parentFacilities: parentFacilitiesParsed,
       };
       const state = {
         ...defaultState,
-        systemsStatus: FETCH_STATUS.loading,
+        parentFacilitiesStatus: FETCH_STATUS.loading,
         ccEnabledSystems: ['983', '984'],
       };
 
       const newState = newAppointmentReducer(state, action);
 
-      expect(newState.systemsStatus).to.equal(FETCH_STATUS.succeeded);
+      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.succeeded);
 
       expect(newState.pages.ccPreferences.properties.communityCareSystemId).not
         .to.be.undefined;
@@ -835,7 +913,7 @@ describe('VAOS reducer: newAppointment', () => {
 
       const newState = newAppointmentReducer(defaultState, action);
 
-      expect(newState.systemsStatus).to.equal(FETCH_STATUS.failed);
+      expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.failed);
     });
   });
   describe('submit request', () => {
@@ -919,7 +997,7 @@ describe('VAOS reducer: newAppointment', () => {
   it('should reset form when confirmation page is closed', () => {
     const currentState = {
       data: { test: 'blah' },
-      systemsStatus: FETCH_STATUS.succeeded,
+      parentFacilitiesStatus: FETCH_STATUS.succeeded,
       eligibilityStatus: FETCH_STATUS.succeeded,
     };
     const action = {
@@ -929,7 +1007,7 @@ describe('VAOS reducer: newAppointment', () => {
     const newState = newAppointmentReducer(currentState, action);
 
     expect(newState.data).to.deep.equal({});
-    expect(newState.systemsStatus).to.equal(FETCH_STATUS.notStarted);
+    expect(newState.parentFacilitiesStatus).to.equal(FETCH_STATUS.notStarted);
     expect(newState.eligibilityStatus).to.equal(FETCH_STATUS.notStarted);
   });
 });

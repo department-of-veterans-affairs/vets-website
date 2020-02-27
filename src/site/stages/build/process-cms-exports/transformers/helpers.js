@@ -171,6 +171,8 @@ module.exports = {
    * that uses this function. This will hopefully keep the schemas from getting
    * out-of-sync.
    *
+   * NOTE: This should probably be in a schema helpers file.
+   *
    * @param {Object} schema - A schema of type 'object'
    * @param {Array<String>} properties - A list of properties found in `schema`
    *                                     that we want to use

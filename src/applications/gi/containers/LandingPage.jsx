@@ -52,13 +52,12 @@ export class LandingPage extends React.Component {
 
   search = value => {
     const { location } = this.props;
-    const { category, vetTecProvider } = this.props.filters;
+    const { category } = this.props.filters;
 
     const query = {
       name: value,
       version: location.query.version,
-      category: vetTecProvider ? null : category,
-      vetTecProvider,
+      category,
     };
 
     _.forEach(query, (val, key) => {
@@ -68,7 +67,7 @@ export class LandingPage extends React.Component {
     });
 
     if (isVetTecSelected(this.props.filters)) {
-      delete query.vetTecProvider;
+      delete query.category;
       this.props.router.push({ pathname: 'program-search', query });
     } else {
       this.props.router.push({ pathname: 'search', query });
@@ -86,12 +85,8 @@ export class LandingPage extends React.Component {
       'gibct-form-value': value,
     });
 
-    if (field === 'category') {
-      filters.vetTecProvider = value === 'vettec';
-
-      if (filters.vetTecProvider) {
-        this.props.updateAutocompleteSearchTerm('');
-      }
+    if (field === 'category' && value === 'vettec') {
+      this.props.updateAutocompleteSearchTerm('');
     }
     filters[field] = value;
 
@@ -109,18 +104,17 @@ export class LandingPage extends React.Component {
     const eligibility = { ...this.props.eligibility };
     eligibility[field] = value;
 
-    if (
-      this.props.filters.category === 'vettec' &&
-      !this.shouldDisplayTypeOfInstitution(eligibility)
-    ) {
-      this.props.institutionFilterChange({
-        ...this.props.filters,
-        category: 'school',
-        vetTecProvider: false,
-      });
-    }
-
     this.props.eligibilityChange(e);
+  };
+
+  autocomplete = (value, version) => {
+    this.props.fetchInstitutionAutocompleteSuggestions(
+      value,
+      {
+        category: this.props.filters.category,
+      },
+      version,
+    );
   };
 
   validateSearchQuery = searchQuery => {
@@ -164,9 +158,7 @@ export class LandingPage extends React.Component {
                   onClearAutocompleteSuggestions={
                     this.props.clearAutocompleteSuggestions
                   }
-                  onFetchAutocompleteSuggestions={
-                    this.props.fetchInstitutionAutocompleteSuggestions
-                  }
+                  onFetchAutocompleteSuggestions={this.autocomplete}
                   onFilterChange={this.handleFilterChange}
                   onUpdateAutocompleteSearchTerm={
                     this.props.updateAutocompleteSearchTerm

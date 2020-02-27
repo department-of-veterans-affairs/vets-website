@@ -1,37 +1,103 @@
-# JavaScript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
-  build:
+  lint:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:7.10
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+      - image: circleci/node:10.15.3
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: yarn install
-
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
       - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
+      - run: yarn lint:sass
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
 
-      # run tests!
-      - run: yarn test:unit
+  unit-test:
+    docker:
+      - image: circleci/node:10.15.3
+    environment:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: mkdir -p ./test-results
+      - run:
+          command: ./script/run-isolated-tests.sh
+          environment:
+            MOCHA_FILE: ./test-results/test-results.xml
+      - store_test_results:
+          path: ./test-results
+      - store_artifacts:
+          path: ./test-results
+
+  security-audit:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - run: yarn security-check
+
+  additional-linting:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: npm run lint:circle
+
+  build:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: yarn build-webpack
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - lint
+      - unit-test
+      - security-audit
+      - build:
+          requires:
+            - lint
+            - unit-test
+            - security-audit
+  additional-linting:
+    jobs:
+      - additional-linting

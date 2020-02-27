@@ -10,52 +10,58 @@
       "babel-module": {}
     }
   },
-  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp"],
+  "plugins": ["mocha", "jest", "va-enzyme", "react-hooks", "fp", "sonarjs"],
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
     "es6": true,
     "mocha": true,
-    "jest": true,
+    "jest": true
   },
   "globals": {
     "PerformanceObserver": true,
     "__BUILDTYPE__": true,
     "__API__": true,
-    "__MEGAMENU_CONFIG__": true,
+    "__MEGAMENU_CONFIG__": true
   },
   "rules": {
-    // Override airbnb style.
-    "camelcase": [2, { "properties": "always" }],
-    "va-enzyme/unmount": 2,
-    "fp/no-proxy": 2, // IE 11 has not polyfill for Proxy 
+    /* || Eslint main rules || */
+    "camelcase": [2, { "properties": "always" }], // Override airbnb style.
     "func-names": 2,
-    "import/no-extraneous-dependencies": 0,
     "no-console": 2,
-    "no-negated-condition": 0, // Sometimes negated conditions are easier to understand.
-    "no-plusplus": 0,
-    "no-underscore-dangle": 0, // We have build flags that use this
     "no-unused-vars": [
       2,
       { "args": "after-used", "argsIgnorePattern": "^_", "vars": "local" }
     ],
     "no-restricted-imports": ["error", "raven"],
     "prefer-rest-params": 2,
-    "quote-props": [2, "as-needed", { "keywords": false }],
 
+    /* || va-enzyme custom plugin || */
+    "va-enzyme/unmount": 2,
+
+    /* || fp plugin || */
+    "fp/no-proxy": 2, // IE 11 has no polyfill for Proxy
+
+    /* || mocha plugin || */
+    "mocha/no-exclusive-tests": 2,
+
+    /* || react-hooks plugin || */
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    /* || react plugin || */
     "react/no-multi-comp": 0, // Leave organization to code reviewer discretion.
     "react/prefer-stateless-function": 0, // Leave statelessness to code reviewer discretion.
     "react/jsx-key": 2,
     "react/jsx-pascal-case": 2,
     "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-target-blank": 2,
     "react/no-danger": 2,
     "react/no-deprecated": 2,
     "react/no-direct-mutation-state": 2,
 
-    // Additional plugins
-    "mocha/no-exclusive-tests": 2,
-
+    /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
     "no-restricted-syntax": [
       2,
@@ -73,32 +79,43 @@
       }
     ],
 
-    // TODO: evaluate and potentially turn these rules back on
-    "react/no-string-refs": 0, // TODO(awong): Enable.
-    "react/prop-types": 0, // TODO(awong): Enable.
-    "react/sort-prop-types": [
-      0,
-      { "callbacksLast": true, "requiredFirst": true }
-    ], // TODO(awong): Too hard to turn on.
+    /* ----- TODO: evaluate and potentially turn these rules back on ----- */
+
+    /* || Eslint main rules || */
+    "no-plusplus": 0,
+    "no-negated-condition": 0, // Sometimes negated conditions are easier to understand.
+    "no-underscore-dangle": 0, // We have build flags that use this
     "class-methods-use-this": 0,
     "global-require": 0,
     "lines-around-directive": 0,
     "no-mixed-operators": 0,
     "no-undef-init": 0,
     "padded-blocks": 0,
+
+    /* || import plugin || */
+    "import/no-extraneous-dependencies": 0,
     "import/extensions": 0,
     "import/first": 0,
     "import/no-named-as-default": 0,
     "import/prefer-default-export": 0,
+
+    /* || jsx-a11y plugin || */
     "jsx-a11y/href-no-hash": 0,
     "jsx-a11y/no-static-element-interactions": 0,
+
+    /* || react plugin || */
+    "react/no-string-refs": 0, // TODO(awong): Enable.
+    "react/prop-types": 0, // TODO(awong): Enable.
+    "react/sort-prop-types": [
+      0,
+      { "callbacksLast": true, "requiredFirst": true }
+    ], // TODO(awong): Too hard to turn on.
     "react/forbid-prop-types": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-first-prop-new-line": 0,
     "react/jsx-indent-props": 0,
     "react/jsx-max-props-per-line": 0,
     "react/jsx-no-bind": [0, { "ignoreRefs": true }], // TODO: Enable after fixing.
-    "react/jsx-no-target-blank": 2,
     "react/jsx-sort-props": [
       0,
       { "callbacksLast": true, "shorthandFirst": true }
@@ -106,9 +123,7 @@
     "react/no-array-index-key": 0,
     "react/no-unescaped-entities": 0,
     "react/no-unused-prop-types": 0,
-    "react/require-default-props": 0,
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react/require-default-props": 0
   },
   "overrides": [
     {

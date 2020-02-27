@@ -3,8 +3,8 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateUI from 'platform/forms-system/src/js/definitions/date';
 // import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
-import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from '../components/ReviewCardField';
 
@@ -41,29 +41,24 @@ export const uiSchema = {
     'ui:options': {
       viewComponent: phoneEmailViewField,
     },
-    primaryPhone: {
-      'ui:title': 'Phone number',
-      'ui:widget': PhoneNumberWidget,
-      'ui:reviewWidget': PhoneNumberReviewWidget,
+    primaryPhone: phoneUI('Phone number'),
+    emailAddress: emailUI(),
+  },
+  mailingAddress: {
+    ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
+    addressLine1: {
+      'ui:title': 'Street address (20 characters maximum)',
       'ui:errorMessages': {
-        pattern: 'Phone numbers must be 10 digits (dashes allowed)',
-      },
-      'ui:options': {
-        widgetClassNames: 'va-input-medium-large',
+        required: 'Please enter a street address',
       },
     },
-    emailAddress: {
-      'ui:title': 'Email address',
-      'ui:errorMessages': {
-        pattern: 'The email you enter should be in this format x@x.xx',
-      },
+    addressLine2: {
+      'ui:title': 'Street address (20 characters maximum)',
+    },
+    addressLine3: {
+      'ui:title': 'Street address (20 characters maximum)',
     },
   },
-  mailingAddress: addressUISchema(
-    ADDRESS_PATHS.mailingAddress,
-    'Mailing address',
-    true,
-  ),
   // 'view:hasForwardingAddress': {
   //   'ui:title': 'My address will be changing soon.',
   // },

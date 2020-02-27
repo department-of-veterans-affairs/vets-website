@@ -14,7 +14,7 @@ import Vet360EditModal from '../base/Vet360EditModal';
 
 import CopyMailingAddress from 'vet360/containers/CopyMailingAddress';
 import AddressForm from './AddressForm';
-import AddressFormV2 from './AddressFormV2';
+import ContactInfoForm from '../ContactInfoForm';
 
 import environment from 'platform/utilities/environment';
 
@@ -71,7 +71,7 @@ class AddressEditModal extends React.Component {
         internationalPostalCode: data.internationalPostalCode,
         zipCode: data.zipCode,
         province: data.province,
-        addressPou: data.Pou,
+        addressPou: data.addressPou,
       },
       e => !!e,
     );
@@ -92,12 +92,18 @@ class AddressEditModal extends React.Component {
   };
 
   /**
-   * Helper function that:
-   * - totally removes data fields that are not set
-   * - sets the form data's `view:livesOnMilitaryBase` prop to `true` if this is
+   * Helper function that calls other helpers to:
+   * - totally remove data fields that are not set
+   * - set the form data's `view:livesOnMilitaryBase` prop to `true` if this is
    *   an overseas military mailing address
+   *
+   * If the argument is not an object this function will simply return whatever
+   * was passed to it.
    */
   transformInitialFormValues = initialFormValues => {
+    if (!(initialFormValues instanceof Object)) {
+      return initialFormValues;
+    }
     let transformedData = this.removeEmptyKeys(initialFormValues);
     transformedData = this.selectLivesOnMilitaryBaseCheckbox(transformedData);
     return transformedData;
@@ -126,15 +132,15 @@ class AddressEditModal extends React.Component {
         />
       )}
       {useNewAddressForm && (
-        <AddressFormV2
-          address={this.props.field.value}
+        <ContactInfoForm
+          formData={this.props.field.value}
           formSchema={this.props.field.formSchema}
           uiSchema={this.props.field.uiSchema}
           onUpdateFormData={this.onInputV2}
           onSubmit={onSubmit}
         >
           {formButtons}
-        </AddressFormV2>
+        </ContactInfoForm>
       )}
       {!useNewAddressForm && (
         <AddressForm
@@ -156,7 +162,7 @@ class AddressEditModal extends React.Component {
         getInitialFormValues={this.getInitialFormValues}
         onBlur={useNewAddressForm ? null : this.onBlur}
         render={this.renderForm}
-        useNewAddressForm={useNewAddressForm}
+        useSchemaForm={useNewAddressForm}
         {...this.props}
       />
     );

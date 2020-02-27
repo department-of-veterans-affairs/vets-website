@@ -4,12 +4,16 @@ import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 
+import { isGlobalDowntimeInProgress } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { login, signup } from 'platform/user/authentication/utilities';
+import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
+
+import scheduledDowntimeWindow from 'platform/monitoring/DowntimeNotification/config/scheduledDowntimeWindow';
 
 const loginHandler = loginType => () => {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -60,6 +64,82 @@ class SignInModal extends React.Component {
     </ExternalServicesError>
   );
 
+  renderDowntimeBanners = () => {
+    if (isGlobalDowntimeInProgress()) {
+      const downtimeEnd = formatDowntime(scheduledDowntimeWindow.downtimeEnd);
+
+      return (
+        <div className="vads-u-margin-bottom--4">
+          <AlertBox
+            headline="You may have trouble signing in or using some tools or services"
+            status="warning"
+            isVisible
+          >
+            <p>
+              We’re doing some work on VA.gov right now. We hope to finish our
+              work by {downtimeEnd}. If you have trouble signing in or using any
+              tool or services, check back after then.
+            </p>
+          </AlertBox>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {this.downtimeBanner(
+          [EXTERNAL_SERVICES.idme],
+          'Our sign in process isn’t working right now',
+          'error',
+          'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
+        )}
+        {this.downtimeBanner(
+          [EXTERNAL_SERVICES.dslogon],
+          'You may have trouble signing in with DS Logon',
+          'warning',
+          <>
+            <p>
+              We’re sorry. We’re working to fix some problems with our DS Logon
+              sign in process. You can sign in to VA.gov with an existing ID.me
+              account or you can create an account and verify your identity
+              through ID.me.
+            </p>
+            <p>
+              <a href="/sign-in-faq">
+                Learn how to create an account through ID.me.
+              </a>
+            </p>
+            <p>
+              If you continue to have trouble, please call the DS Logon help
+              desk at <a href="tel:+18005389552">(800) 538-9552</a>.
+            </p>
+          </>,
+        )}
+        {this.downtimeBanner(
+          [EXTERNAL_SERVICES.mhv],
+          'You may have trouble signing in with My HealtheVet',
+          'warning',
+          'We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
+        )}
+        {this.downtimeBanner(
+          [EXTERNAL_SERVICES.mvi],
+          'You may have trouble signing in or using some tools or services',
+          'warning',
+          'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
+        )}
+        {this.downtimeBanner(
+          [EXTERNAL_SERVICES.global],
+          'You may have trouble signing in or using some tools or services',
+          'warning',
+          `We’re doing some work on VA.gov right now. We hope to finish our work by ${
+            scheduledDowntimeWindow.downtimeEnd
+          }. If you have trouble signing in or using any tools or services, please check back after then.`,
+          this.setGlobalDowntimeState,
+        )}
+      </>
+    );
+  };
+
   renderModalContent = ({ globalDowntime }) => (
     <main className="login">
       <div className="row">
@@ -84,31 +164,7 @@ class SignInModal extends React.Component {
             </h2>
           </div>
         </div>
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.idme],
-          'Our sign in process isn’t working right now',
-          'error',
-          'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
-        )}
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.dslogon],
-          'You may have trouble signing in with DS Logon',
-          'warning',
-          'We’re sorry. We’re working to fix some problems with our DS Logon sign in process. If you’d like to sign in to VA.gov with your DS Logon account, please check back later.',
-        )}
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.mhv],
-          'You may have trouble signing in with My HealtheVet',
-          'warning',
-          'We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
-        )}
-        {this.downtimeBanner(
-          [EXTERNAL_SERVICES.mvi],
-          'You may have trouble signing in or using some tools or services',
-          'warning',
-          'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
-        )}
-
+        {this.renderDowntimeBanners()}
         <div>
           <div className="usa-width-one-half">
             <div className="signin-actions-container">

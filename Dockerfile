@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gconf-service l
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth wget netcat \
+                                                xfonts-cyrillic x11-apps xvfb xauth wget netcat dumb-init \
   && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
   && apt-get update \
@@ -31,7 +31,7 @@ RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest
 RUN chmod +x /cc-test-reporter
 
 # Install vale for plain language linting
-RUN curl -sfL https://install.goreleaser.com/github.com/ValeLint/vale.sh | sh -s latest \
+RUN curl -sfL https://install.goreleaser.com/github.com/ValeLint/vale.sh | sh -s v1.7.1 \
   && export PATH="./bin:$PATH" \
   && vale -v
 
@@ -40,3 +40,5 @@ RUN mkdir -p /application
 WORKDIR /application
 
 USER vets-website
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]

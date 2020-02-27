@@ -1,4 +1,5 @@
 import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
+import { captureError } from '../utils/error';
 
 import {
   checkPastVisits,
@@ -7,6 +8,29 @@ import {
   getAvailableClinics,
 } from '../api';
 
+function handleDirectError(data) {
+  captureError(data);
+
+  return { directFailed: true };
+}
+
+function handleRequestError(data) {
+  captureError(data);
+
+  return { requestFailed: true };
+}
+
+/*
+ * This makes all the service calls needed to determine if a Veteran
+ * is eligible for direct scheduling or requests. The getEligibilityChecks
+ * function below takes the raw data from here and determines if the 
+ * check passes or fails.
+ *
+ * Any errors in the promises for each service are caught so that
+ * Promise.all doesn't abort and we can figure out if we can see if
+ * we made it through either all the request related checks or all the 
+ * direct related requests
+ */
 export async function getEligibilityData(
   facility,
   typeOfCareId,
@@ -15,20 +39,26 @@ export async function getEligibilityData(
 ) {
   const facilityId = facility.institutionCode;
   const eligibilityChecks = [
-    checkPastVisits(systemId, facilityId, typeOfCareId, 'request'),
-    getRequestLimits(facilityId, typeOfCareId),
+    checkPastVisits(systemId, facilityId, typeOfCareId, 'request').catch(
+      handleRequestError,
+    ),
+    getRequestLimits(facilityId, typeOfCareId).catch(handleRequestError),
   ];
 
   if (facility.directSchedulingSupported && isDirectScheduleEnabled) {
     eligibilityChecks.push(
-      checkPastVisits(systemId, facilityId, typeOfCareId, 'direct'),
+      checkPastVisits(systemId, facilityId, typeOfCareId, 'direct').catch(
+        handleDirectError,
+      ),
     );
     eligibilityChecks.push(
-      getAvailableClinics(facilityId, typeOfCareId, systemId),
+      getAvailableClinics(facilityId, typeOfCareId, systemId).catch(
+        handleDirectError,
+      ),
     );
 
     if (typeOfCareId === PRIMARY_CARE) {
-      eligibilityChecks.push(getPacTeam(systemId));
+      eligibilityChecks.push(getPacTeam(systemId).catch(handleDirectError));
     }
   }
 
@@ -76,10 +106,10 @@ function hasVisitedInPastMonthsRequest(eligibilityData) {
   );
 }
 
-function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem) {
+function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) {
   return (
     typeOfCareId !== PRIMARY_CARE ||
-    eligibilityData.pacTeam.some(provider => provider.facilityId === vaSystem)
+    eligibilityData.pacTeam.some(provider => provider.facilityId === systemId)
   );
 }
 
@@ -91,29 +121,58 @@ function isUnderRequestLimit(eligibilityData) {
   );
 }
 
-export function getEligibilityChecks(vaSystem, typeOfCareId, eligibilityData) {
+/*
+ * This function takes the data from the eligibility related services and 
+ * decides if each check we need to make passes or fails. It also checks for
+ * errors in either of the two "blocks" of checks (requests or direct). If 
+ * one block of checks is successful, we can still let a user continue on that,
+ * even if another path is blocked.
+*/
+export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
   // If we're missing this property, it means no DS checks were made
   // because it's disabled
   const directSchedulingEnabled =
     typeof eligibilityData.directPastVisit !== 'undefined';
 
-  return {
-    directSupported: eligibilityData.directSupported,
-    directPastVisit:
-      directSchedulingEnabled && hasVisitedInPastMonthsDirect(eligibilityData),
-    directPastVisitValue:
-      directSchedulingEnabled &&
-      eligibilityData.directPastVisit.durationInMonths,
-    directPACT:
-      directSchedulingEnabled &&
-      hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, vaSystem),
-    directClinics: directSchedulingEnabled && !!eligibilityData.clinics.length,
+  let eligibilityChecks = {
     requestSupported: eligibilityData.requestSupported,
-    requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
-    requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
-    requestLimit: isUnderRequestLimit(eligibilityData),
-    requestLimitValue: eligibilityData.requestLimits.requestLimit,
+    requestFailed: Object.values(eligibilityData).some(
+      result => result.requestFailed,
+    ),
+    directSupported: eligibilityData.directSupported,
+    directFailed: Object.values(eligibilityData).some(
+      result => result.directFailed,
+    ),
   };
+
+  if (!eligibilityChecks.requestFailed) {
+    eligibilityChecks = {
+      ...eligibilityChecks,
+      requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
+      requestPastVisitValue: eligibilityData.requestPastVisit.durationInMonths,
+      requestLimit: isUnderRequestLimit(eligibilityData),
+      requestLimitValue: eligibilityData.requestLimits.requestLimit,
+    };
+  }
+
+  if (!eligibilityChecks.directFailed) {
+    eligibilityChecks = {
+      ...eligibilityChecks,
+      directPastVisit:
+        directSchedulingEnabled &&
+        hasVisitedInPastMonthsDirect(eligibilityData),
+      directPastVisitValue:
+        directSchedulingEnabled &&
+        eligibilityData.directPastVisit.durationInMonths,
+      directPACT:
+        directSchedulingEnabled &&
+        hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId),
+      directClinics:
+        directSchedulingEnabled && !!eligibilityData.clinics.length,
+    };
+  }
+
+  return eligibilityChecks;
 }
 
 export function isEligible(eligibilityChecks) {
@@ -125,18 +184,26 @@ export function isEligible(eligibilityChecks) {
   }
 
   const {
+    directFailed,
     directSupported,
     directPastVisit,
     directClinics,
     directPACT,
+    requestFailed,
     requestSupported,
     requestLimit,
     requestPastVisit,
   } = eligibilityChecks;
 
   return {
-    direct: directSupported && directPastVisit && directPACT && directClinics,
-    request: requestSupported && requestLimit && requestPastVisit,
+    direct:
+      !directFailed &&
+      directSupported &&
+      directPastVisit &&
+      directPACT &&
+      directClinics,
+    request:
+      !requestFailed && requestSupported && requestLimit && requestPastVisit,
   };
 }
 

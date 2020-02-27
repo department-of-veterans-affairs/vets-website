@@ -107,7 +107,6 @@ export class GiBillApp extends React.Component {
             />
             <DowntimeNotification
               appTitle={'GI Bill Comparison Tool'}
-              render={this.renderDowntime}
               dependencies={[externalServices.global]}
             >
               {content}

@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
@@ -10,6 +11,7 @@ const levels = [
   ['nationalCallToService', 'sponsorDeceasedDisabledMIA'],
   ['vetTecBenefit'],
   ['sponsorTransferredBenefits'],
+  ['applyForScholarship'],
 ];
 
 export default class EducationWizard extends React.Component {
@@ -40,7 +42,7 @@ export default class EducationWizard extends React.Component {
         href={url}
         className="usa-button va-button-primary"
       >
-        Apply Now
+        Apply now
       </a>
     );
   }
@@ -72,6 +74,7 @@ export default class EducationWizard extends React.Component {
       sponsorDeceasedDisabledMIA,
       sponsorTransferredBenefits,
       vetTecBenefit,
+      applyForScholarship,
     } = this.state;
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
@@ -84,6 +87,40 @@ export default class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
+    // Prod flag for 5134
+    const newBenefitOptions = environment.isProduction()
+      ? [
+          { label: 'Applying for a new benefit', value: 'yes' },
+          {
+            label: 'Updating my current education benefits',
+            value: 'no',
+          },
+          {
+            label:
+              'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
+            value: 'extend',
+          },
+        ]
+      : [
+          { label: 'Applying for a new benefit', value: 'yes' },
+          {
+            label: (
+              <span className="radioText">
+                Updating my program of study or place of training
+              </span>
+            ),
+            value: 'no',
+          },
+          {
+            label: (
+              <span className="radioText">
+                Applying to extend my Post-9/11 or Fry Scholarship benefits
+                using the Edith Nourse Rogers STEM Scholarship
+              </span>
+            ),
+            value: 'extend',
+          },
+        ];
 
     return (
       <div className="wizard-container">
@@ -101,23 +138,12 @@ export default class EducationWizard extends React.Component {
               additionalFieldsetClass="wizard-fieldset"
               name="newBenefit"
               id="newBenefit"
-              options={[
-                { label: 'Applying for a new benefit', value: 'yes' },
-                {
-                  label: 'Updating my current education benefits',
-                  value: 'no',
-                },
-                {
-                  label:
-                    'Applying to extend my benefit using the Edith Nourse Rogers STEM Scholarship',
-                  value: 'extend',
-                },
-              ]}
+              options={newBenefitOptions}
               onValueChange={({ value }) =>
                 this.answerQuestion('newBenefit', value)
               }
               value={{ value: newBenefit }}
-              label="Are you applying for a new benefit or updating your current education benefits?"
+              label="Are you applying for a benefit or updating your program or place of training?"
             />
             {newBenefit === 'yes' && (
               <ErrorableRadioButtons
@@ -147,8 +173,11 @@ export default class EducationWizard extends React.Component {
                     value: 'transferred',
                   },
                   {
-                    label:
-                      'No, I’m using the Fry Scholarship or DEA (Chapter 35)',
+                    label: (
+                      <span className="radioText">
+                        No, I’m using the Fry Scholarship or DEA (Chapter 35)
+                      </span>
+                    ),
                     value: 'fry',
                   },
                 ]}
@@ -281,6 +310,72 @@ export default class EducationWizard extends React.Component {
                   {this.getButton('1990N')}
                 </div>
               )}
+            {newBenefit === 'extend' &&
+            // Prod flag for 5134
+            !environment.isProduction() ? (
+              <div className="wizard-edith-nourse-content">
+                <br />
+                <strong>
+                  To be eligible for the{' '}
+                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    Edith Nourse Rogers STEM Scholarship
+                  </a>
+                  , you must meet all the requirements below. You:
+                </strong>
+                <ul className="wizard-edith-nourse-content">
+                  <li>
+                    Are using or recently used Post-9/11 GI Bill or Fry
+                    Scholarship benefits
+                  </li>
+                  <li>
+                    Have used all your education benefits or are within 6 months
+                    of doing so.{' '}
+                    <a
+                      className="checkBenefitsLink"
+                      href="../gi-bill/post-9-11/ch-33-benefit/"
+                    >
+                      Check remaining benefits
+                    </a>
+                  </li>
+                  <li>
+                    Are enrolled in an undergraduate degree program for science,
+                    technology, engineering or math (STEM), <strong>or</strong>{' '}
+                    have already earned a STEM degree and are pursuing a
+                    teaching certification.{' '}
+                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
+                      See approved STEM programs
+                    </a>
+                  </li>
+                </ul>
+
+                <ErrorableRadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="applyForScholarship"
+                  id="applyForScholarship"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('applyForScholarship', value)
+                  }
+                  value={{ value: applyForScholarship }}
+                  label="Based on the eligibility requirements above, do you want to apply for this scholarship?"
+                />
+                <div className="vads-u-padding-top--2">
+                  {(applyForScholarship === 'yes' && this.getButton('1995')) ||
+                    (applyForScholarship === 'no' && (
+                      <p>
+                        Learn what other education benefits you may be eligible
+                        for on the{' '}
+                        <a href="../eligibility/">GI Bill eligibility page</a>.
+                      </p>
+                    ))}
+                </div>
+              </div>
+            ) : (
+              newBenefit === 'extend' && this.getButton('1995')
+            )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
@@ -289,7 +384,6 @@ export default class EducationWizard extends React.Component {
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {newBenefit === 'extend' && this.getButton('1995')}
             {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&

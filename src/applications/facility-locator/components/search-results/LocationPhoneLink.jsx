@@ -19,11 +19,11 @@ const renderPhoneNumber = (
   return (
     <div>
       {from === 'FacilityDetail' && <i className={`fa fa-${icon}`} />}
-      <strong>{title}: </strong>
+      {title && <strong>{title}: </strong>}
       {phone.replace(re, '$1-$2-$3 $4$5').replace(/x$/, '')}
       <br />
       {from === 'FacilityDetail' && <i className="fa fa-fw" />}
-      {subTitle}
+      {subTitle && subTitle}
 
       {from === 'FacilityDetail' ? (
         <a
@@ -37,23 +37,27 @@ const renderPhoneNumber = (
   );
 };
 
-const LocationPhoneLink = ({ location, from }) => {
+const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
-
+  const isCCProvider = query && query.facilityType === LocationType.CC_PROVIDER;
   if (isProvider) {
     const { caresitePhone: phone } = location.attributes;
     return (
       <div>
         {renderPhoneNumber(
-          'If you have a referral',
-          'Call this facility at',
+          isCCProvider ? 'If you have a referral' : null,
+          isCCProvider ? 'Call this facility at' : null,
           phone,
           'phone',
           true,
+          undefined,
+          isCCProvider,
         )}
-        <p>
-          If you don’t have a referral, contact your local VA medical center.
-        </p>
+        {isCCProvider && (
+          <p>
+            If you don’t have a referral, contact your local VA medical center.
+          </p>
+        )}
       </div>
     );
   }

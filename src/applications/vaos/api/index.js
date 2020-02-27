@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
+import { generateMockSlots } from '../utils/calendar';
 
 function getStagingId(facilityId) {
   if (!environment.isProduction() && facilityId.startsWith('983')) {
@@ -84,7 +85,6 @@ export const getLongTermAppointmentHistory = (() => {
   const MAX_HISTORY = 24;
   const MONTH_CHUNK = 6;
   let promise = null;
-  // eslint-disable-next-line no-unused-vars
   return () => {
     if (!promise || navigator.userAgent === 'node.js') {
       const appointments = [];
@@ -154,7 +154,7 @@ export function getSystemIdentifiers() {
   );
 }
 
-export function getSystemDetails(systemIds) {
+export function getParentFacilities(systemIds) {
   let promise;
 
   if (USE_MOCK_DATA) {
@@ -168,19 +168,23 @@ export function getSystemDetails(systemIds) {
   }
 
   return promise.then(resp =>
-    resp.data
-      .map(item => ({ ...item.attributes, id: item.id }))
-      // Sometimes facilities that aren't in our codes list come back, because they're
-      // marked as parents. We don't want this, so we're filtering them out
-      .filter(item => item.rootStationCode === item.institutionCode),
+    resp.data.map(item => ({ ...item.attributes, id: item.id })),
   );
 }
 
-export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
+export function getFacilitiesBySystemAndTypeOfCare(
+  systemId,
+  parentId,
+  typeOfCareId,
+) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (systemId === '984') {
+    if (parentId === '984') {
       promise = import('./facilities_984.json').then(
+        module => (module.default ? module.default : module),
+      );
+    } else if (parentId === '983A6') {
+      promise = import('./facilities_983A6.json').then(
         module => (module.default ? module.default : module),
       );
     } else {
@@ -190,7 +194,7 @@ export function getFacilitiesBySystemAndTypeOfCare(systemId, typeOfCareId) {
     }
   } else {
     promise = apiRequest(
-      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}`,
+      `/vaos/systems/${systemId}/direct_scheduling_facilities?type_of_care_id=${typeOfCareId}&parent_code=${parentId}`,
     );
   }
 
@@ -216,8 +220,6 @@ export function getCommunityCare(typeOfCare) {
   return promise.then(resp => ({ ...resp.data.attributes, id: resp.data.id }));
 }
 
-// GET /vaos/facilities/{facilityId}/visits/{directOrRequest}
-// eslint-disable-next-line no-unused-vars
 export function checkPastVisits(
   systemId,
   facilityId,
@@ -296,7 +298,7 @@ export function getClinicInstitutions(systemId, clinicIds) {
 export function getAvailableClinics(facilityId, typeOfCareId, systemId) {
   let promise;
   if (USE_MOCK_DATA) {
-    if (facilityId === '983') {
+    if (facilityId === '983A6') {
       promise = import('./clinicList983.json').then(
         module => (module.default ? module.default : module),
       );
@@ -402,9 +404,11 @@ export function getAvailableSlots(
   if (USE_MOCK_DATA) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import('./slots.json').then(module =>
-          resolve(module.default ? module.default : module),
-        );
+        import('./slots.json').then(module => {
+          const response = module.default ? module.default : module;
+          response.data[0].attributes.appointmentTimeSlot = generateMockSlots();
+          resolve(response);
+        });
       }, 500);
     });
   } else {

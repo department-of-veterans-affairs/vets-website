@@ -11,7 +11,7 @@ import {
   createTransaction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal as closeAddressValidationModal,
+  closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../../utilities';
@@ -86,9 +86,10 @@ class AddressValidationModal extends React.Component {
       return (
         <button
           className="usa-button-primary"
-          onClick={() =>
-            this.props.openModal(addressValidationType, addressFromUser)
-          }
+          onClick={() => {
+            this.props.closeModal();
+            this.props.openModal(addressValidationType, addressFromUser);
+          }}
         >
           Edit Address
         </button>
@@ -132,11 +133,12 @@ class AddressValidationModal extends React.Component {
     return (
       <div
         key={id}
-        className="vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--center vads-u-margin-bottom--1p5"
+        className="vads-u-margin-bottom--1p5 address-validation-container"
       >
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
+              className="address-validation-input"
               type="radio"
               name={id}
               onChange={
@@ -149,7 +151,7 @@ class AddressValidationModal extends React.Component {
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
             {addressLine1 && <span>{addressLine1}</span>}
             {addressLine2 && <span>{` ${addressLine2}`}</span>}
             {addressLine3 && <span>{` ${addressLine3}`}</span>}
@@ -158,13 +160,18 @@ class AddressValidationModal extends React.Component {
               zipCode && <span>{` ${city}, ${stateCode} ${zipCode}`}</span>}
             {isAddressFromUser &&
               showEditLink && (
-                <a
-                  onClick={() =>
-                    this.props.openModal(addressValidationType, addressFromUser)
-                  }
+                <button
+                  className="va-button-link"
+                  onClick={() => {
+                    this.props.closeModal();
+                    this.props.openModal(
+                      addressValidationType,
+                      addressFromUser,
+                    );
+                  }}
                 >
                   Edit Address
-                </a>
+                </button>
               )}
           </div>
         </label>
@@ -180,20 +187,20 @@ class AddressValidationModal extends React.Component {
       addressFromUser,
       validationKey,
       addressValidationError,
-      closeModal,
       resetAddressValidation,
       confirmedSuggestions,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
       resetAddressValidation();
-      closeModal();
+      this.props.closeModal();
     };
 
     const validationMessageKey = getValidationMessageKey(
       suggestedAddresses,
       validationKey,
       addressValidationError,
+      confirmedSuggestions,
     );
 
     const addressValidationMessage =
@@ -274,7 +281,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
-      closeModal: closeAddressValidationModal,
+      closeModal,
       openModal,
       updateSelectedAddress,
       updateValidationKeyAndSave,

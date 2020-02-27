@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,10 +12,12 @@ import {
   getTypeOfCare,
   vaosDirectScheduling,
   getNewAppointment,
+  getFormData,
+  getSystemFromParent,
 } from '../utils/selectors';
 import {
   getSystemIdentifiers,
-  getSystemDetails,
+  getParentFacilities,
   getFacilitiesBySystemAndTypeOfCare,
   getFacilityInfo,
   getAvailableSlots,
@@ -39,6 +40,8 @@ import {
   getEligibleFacilities,
 } from '../utils/eligibility';
 
+import { captureError } from '../utils/error';
+
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
 export const FORM_RESET = 'newAppointment/FORM_RESET';
@@ -59,19 +62,13 @@ export const FORM_FETCH_CHILD_FACILITIES =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES';
 export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED';
-export const FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED =
-  'newAppointment/FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED';
 export const FORM_FETCH_CHILD_FACILITIES_FAILED =
   'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS';
 export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
-export const FORM_VA_SYSTEM_CHANGED = 'newAppointment/FORM_VA_SYSTEM_CHANGED';
+export const FORM_VA_PARENT_CHANGED = 'newAppointment/FORM_VA_PARENT_CHANGED';
 export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
   'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
@@ -86,6 +83,14 @@ export const START_DIRECT_SCHEDULE_FLOW =
   'newAppointment/START_DIRECT_SCHEDULE_FLOW';
 export const START_REQUEST_APPOINTMENT_FLOW =
   'newAppointment/START_REQUEST_APPOINTMENT_FLOW';
+export const FORM_CALENDAR_FETCH_SLOTS =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS';
+export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
+export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
+  'newAppointment/FORM_CALENDAR_FETCH_SLOTS_FAILED';
+export const FORM_CALENDAR_DATA_CHANGED =
+  'newAppointment/FORM_CALENDAR_DATA_CHANGED';
 export const FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL =
   'newAppointment/FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL';
 export const FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL =
@@ -202,7 +207,7 @@ export function fetchFacilityDetails(facilityId) {
       facilityDetails = await getFacilityInfo(facilityId);
     } catch (error) {
       facilityDetails = null;
-      Sentry.captureException(error);
+      captureError(error);
     }
 
     dispatch({
@@ -215,11 +220,11 @@ export function fetchFacilityDetails(facilityId) {
 
 /*
  * The facility page can be opened with data in a variety of states and conditions.
- * We always need the list of systems (VAMCs) they can access. After that:
+ * We always need the list of parents (VAMCs) they can access. After that:
  *
- * 1. A user has multiple systems to choose from, so we just need to display them
- * 2. A user has only one system, so we also need to fetch facilities
- * 3. A user might only have one system and facility available, so we need to also
+ * 1. A user has multiple parents to choose from, so we just need to display them
+ * 2. A user has only one parent, so we also need to fetch facilities
+ * 3. A user might only have one parent and facility available, so we need to also
  *    do eligibility checks
  * 4. A user might already have been on this page, in which case we may have some 
  *    of the above data already and don't want to make another api call
@@ -229,32 +234,36 @@ export function openFacilityPage(page, uiSchema, schema) {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const newAppointment = getState().newAppointment;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    let systems = newAppointment.systems;
+    let parentFacilities = newAppointment.parentFacilities;
     let facilities = null;
     let eligibilityData = null;
-    let systemId = newAppointment.data.vaSystem;
+    let parentId = newAppointment.data.vaParent;
     let facilityId = newAppointment.data.vaFacility;
 
     try {
-      // If we have the VA systems in our state, we don't need to
+      // If we have the VA parent in our state, we don't need to
       // fetch them again
-      if (!systems) {
+      if (!parentFacilities) {
         const userSystemIds = await getSystemIdentifiers();
-        systems = await getSystemDetails(userSystemIds);
+        parentFacilities = await getParentFacilities(userSystemIds);
       }
 
-      const canShowFacilities = !!systemId || systems?.length === 1;
+      const canShowFacilities = !!parentId || parentFacilities?.length === 1;
 
-      if (canShowFacilities && !systemId) {
-        systemId = systems[0].institutionCode;
+      if (canShowFacilities && !parentId) {
+        parentId = parentFacilities[0].institutionCode;
       }
 
+      const systemId = parentFacilities?.find(
+        parent => parent.institutionCode === parentId,
+      )?.rootStationCode;
       facilities =
-        newAppointment.facilities[`${typeOfCareId}_${systemId}`] || null;
+        newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
 
       if (canShowFacilities && !facilities) {
         facilities = await getFacilitiesBySystemAndTypeOfCare(
           systemId,
+          parentId,
           typeOfCareId,
         );
       }
@@ -282,13 +291,13 @@ export function openFacilityPage(page, uiSchema, schema) {
         page,
         uiSchema,
         schema,
-        systems,
+        parentFacilities,
         facilities,
         typeOfCareId,
         eligibilityData,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_FAILED,
       });
@@ -301,9 +310,10 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const directSchedulingEnabled = vaosDirectScheduling(getState());
     const previousNewAppointmentState = getState().newAppointment;
     const typeOfCareId = getTypeOfCare(data)?.id;
+    const systemId = getSystemFromParent(getState(), data.vaParent);
     let facilities =
       previousNewAppointmentState.facilities[
-        `${typeOfCareId}_${data.vaSystem}`
+        `${typeOfCareId}_${data.vaParent}`
       ];
     dispatch(updateFormData(page, uiSchema, data));
 
@@ -314,7 +324,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
       try {
         facilities = await getFacilitiesBySystemAndTypeOfCare(
-          data.vaSystem,
+          systemId,
+          data.vaParent,
           typeOfCareId,
         );
 
@@ -322,8 +333,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
         // If no available facilities, fetch system details to display contact info
         if (!availableFacilities?.length) {
-          const systemId = data.vaSystem;
-          dispatch(fetchFacilityDetails(systemId));
+          dispatch(fetchFacilityDetails(data.vaParent));
         }
 
         dispatch({
@@ -333,17 +343,17 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_FETCH_CHILD_FACILITIES_FAILED,
         });
       }
     } else if (
-      data.vaSystem &&
-      previousNewAppointmentState.data.vaSystem !== data.vaSystem
+      data.vaParent &&
+      previousNewAppointmentState.data.vaParent !== data.vaParent
     ) {
       dispatch({
-        type: FORM_VA_SYSTEM_CHANGED,
+        type: FORM_VA_PARENT_CHANGED,
         uiSchema,
         typeOfCareId,
       });
@@ -363,7 +373,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
             facility => facility.institutionCode === data.vaFacility,
           ),
           typeOfCareId,
-          data.vaSystem,
+          systemId,
           directSchedulingEnabled,
         );
 
@@ -373,7 +383,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           eligibilityData,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_FAILED,
         });
@@ -406,9 +416,8 @@ export function openClinicPage(page, uiSchema, schema) {
       type: FORM_CLINIC_PAGE_OPENED,
     });
 
-    await dispatch(
-      fetchFacilityDetails(getState().newAppointment.data.vaFacility),
-    );
+    const formData = getFormData(getState());
+    await dispatch(fetchFacilityDetails(formData.vaFacility));
 
     dispatch({
       type: FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -440,7 +449,7 @@ export function getAppointmentSlots(startDate, endDate) {
     if (!fetchedStartMonth || !fetchedEndMonth) {
       let mappedSlots = [];
       let appointmentLength = null;
-      dispatch({ type: FORM_FETCH_AVAILABLE_APPOINTMENTS });
+      dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
         const startDateString = !fetchedStartMonth
@@ -484,6 +493,8 @@ export function getAppointmentSlots(startDate, endDate) {
           return acc;
         }, []);
 
+        // Keep track of which months we've fetched already so we don't
+        // make duplicate calls
         if (!fetchedStartMonth) {
           fetchedAppointmentSlotMonths.push(startDateMonth);
         }
@@ -497,18 +508,33 @@ export function getAppointmentSlots(startDate, endDate) {
         );
 
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_SUCCEEDED,
+          type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
           fetchedAppointmentSlotMonths: fetchedAppointmentSlotMonths.sort(),
           appointmentLength,
         });
       } catch (e) {
-        Sentry.captureException(e);
+        captureError(e);
         dispatch({
-          type: FORM_FETCH_AVAILABLE_APPOINTMENTS_FAILED,
+          type: FORM_CALENDAR_FETCH_SLOTS_FAILED,
         });
       }
     }
+  };
+}
+
+export function onCalendarChange({
+  currentlySelectedDate,
+  currentRowIndex,
+  selectedDates,
+}) {
+  return {
+    type: FORM_CALENDAR_DATA_CHANGED,
+    calendarData: {
+      currentlySelectedDate,
+      selectedDates,
+      currentRowIndex,
+    },
   };
 }
 
@@ -516,15 +542,15 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const newAppointment = getState().newAppointment;
     const systemIds = newAppointment.ccEnabledSystems;
-    let systems = newAppointment.systems;
+    let parentFacilities = newAppointment.parentFacilities;
 
     dispatch({
       type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN,
     });
 
     try {
-      if (!newAppointment.systems) {
-        systems = await getSystemDetails(systemIds);
+      if (!newAppointment.parentFacilities) {
+        parentFacilities = await getParentFacilities(systemIds);
       }
 
       dispatch({
@@ -532,10 +558,10 @@ export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
         page,
         uiSchema,
         schema,
-        systems,
+        parentFacilities,
       });
     } catch (e) {
-      Sentry.captureException(e);
+      captureError(e);
       dispatch({
         type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
       });
@@ -580,7 +606,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          Sentry.captureException(error);
+          captureError(error);
         }
 
         dispatch({
@@ -592,7 +618,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });
@@ -630,7 +656,7 @@ export function submitAppointmentOrRequest(router) {
         } catch (error) {
           // These are ancillary updates, the request went through if the first submit
           // succeeded
-          Sentry.captureException(error);
+          captureError(error);
         }
 
         dispatch({
@@ -642,7 +668,7 @@ export function submitAppointmentOrRequest(router) {
         });
         router.push('/new-appointment/confirmation');
       } catch (error) {
-        Sentry.captureException(error);
+        captureError(error);
         dispatch({
           type: FORM_SUBMIT_FAILED,
         });

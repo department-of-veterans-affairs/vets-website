@@ -8,8 +8,7 @@ export const formatNumber = value => {
 
 export const formatCurrency = value => `$${formatNumber(Math.round(+value))}`;
 
-export const isVetTecSelected = filters =>
-  filters.category === 'vettec' || filters.vetTecProvider;
+export const isVetTecSelected = filters => filters.category === 'vettec';
 
 export const addAllOption = options => [
   { value: 'ALL', label: 'ALL' },
@@ -48,21 +47,18 @@ export const phoneInfo = (areaCode, phoneNumber) => {
 };
 
 /**
- * Snake-cases field names and appends names of array fields with '[]'
- * so that the GIDS rails controller will collect as array
+ * Snake-cases field names
  * @param query {Object} an object containing query fields
  * @returns {Object} query object with updated field names
  */
 export const rubyifyKeys = query =>
-  Object.keys(query).reduce((queryParams, key) => {
-    const keyName = Array.isArray(query[key])
-      ? `${snakeCase(key)}[]`
-      : snakeCase(key);
-    return {
+  Object.keys(query).reduce(
+    (queryParams, key) => ({
       ...queryParams,
-      [keyName]: query[key],
-    };
-  }, {});
+      [snakeCase(key)]: query[key],
+    }),
+    {},
+  );
 
 export const isPresent = value => value && value !== '';
 

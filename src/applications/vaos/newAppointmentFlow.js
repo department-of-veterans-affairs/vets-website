@@ -1,4 +1,6 @@
 import * as Sentry from '@sentry/browser';
+import { captureError } from './utils/error';
+
 import {
   getFormData,
   getNewAppointment,
@@ -113,7 +115,7 @@ export default {
           dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
           return 'vaFacility';
         } catch (e) {
-          Sentry.captureException(e);
+          captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
@@ -165,15 +167,8 @@ export default {
       if (eligibilityStatus.direct) {
         let appointments = null;
 
-        // If we can't get the history, then continue anyway
-        // and we'll show the full clinic list
         try {
           appointments = await getLongTermAppointmentHistory();
-        } catch (error) {
-          Sentry.captureException(error);
-        }
-
-        if (appointments) {
           const clinics = getClinicsForChosenFacility(state);
           const hasMatchingClinics = clinics.some(
             clinic =>
@@ -188,9 +183,8 @@ export default {
             dispatch(startDirectScheduleFlow(appointments));
             return 'clinicChoice';
           }
-        } else {
-          dispatch(startDirectScheduleFlow(appointments));
-          return 'clinicChoice';
+        } catch (error) {
+          captureError(error);
         }
       }
 
