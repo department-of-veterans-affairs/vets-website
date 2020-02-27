@@ -10,6 +10,7 @@ import {
   getChosenVACityState,
 } from '../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
@@ -20,6 +21,7 @@ const pageTitle = 'Review your appointment details';
 export class ReviewPage extends React.Component {
   componentDidMount() {
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   render() {

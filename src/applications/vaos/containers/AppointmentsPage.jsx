@@ -60,7 +60,7 @@ export class AppointmentsPage extends Component {
     if (loading) {
       content = (
         <div className="vads-u-margin-y--8">
-          <LoadingIndicator setFocus message="Loading your appointments..." />
+          <LoadingIndicator message="Loading your appointments..." />
         </div>
       );
     } else if (hasAppointments) {

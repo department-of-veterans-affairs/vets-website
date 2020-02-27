@@ -7,7 +7,6 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
-import { focusElement } from 'platform/utilities/ui';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import CalendarWidget from '../components/calendar/CalendarWidget';
@@ -38,8 +37,8 @@ export class DateTimeRequestPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('h1.vads-u-font-size--h2');
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   componentDidUpdate(prevProps, prevState) {
