@@ -1,7 +1,5 @@
 import { genericSchemas } from '../../../generic-schema';
-import { suffixes } from '../../../constants';
-import React from 'react';
-import _ from 'lodash/fp';
+import { stepchildTitle } from './helpers';
 
 export const schema = {
   type: 'object',
@@ -13,7 +11,7 @@ export const schema = {
         properties: {
           stillSupportingStepchild: {
             type: 'boolean',
-            default: true
+            default: true,
           },
           stepchildLivingExpensesPaid: {
             type: 'string',
@@ -39,24 +37,24 @@ export const schema = {
               state: genericSchemas.genericTextinput,
               postal: genericSchemas.genericNumberInput,
             },
-          }
+          },
         },
       },
     },
   },
-}
+};
 
 export const uiSchema = {
-  stepChildren: {  
+  stepChildren: {
     items: {
-      'ui:title': DisclosureTitle,
-      'stillSupportingStepchild': {
+      'ui:title': stepchildTitle,
+      stillSupportingStepchild: {
         'ui:widget': 'yesNo',
         'ui:title': 'Are you still supporting this stepchild?',
       },
       stepchildLivingExpensesPaid: {
         'ui:widget': 'radio',
-        'ui:title': 'How much of this stepchild\'s living expenses do you pay?'
+        'ui:title': "How much of this stepchild's living expenses do you pay?",
       },
       whoDoesTheStepchildLiveWith: {
         'ui:title': 'Who does this stepchild live with?',
@@ -73,7 +71,7 @@ export const uiSchema = {
         },
       },
       stepchildAddress: {
-        'ui:title': 'Stepchild\'s address',
+        'ui:title': "Stepchild's address",
         country: {
           'ui:title': 'Country',
           'ui:required': () => true,
@@ -103,17 +101,7 @@ export const uiSchema = {
           'ui:required': () => true,
           'ui:title': 'Postal Code',
         },
-      }
+      },
     },
   },
-}
-
-export function DisclosureTitle({ formData }) {
-  return (
-    <div>
-      <h4 className="vads-u-border-color--link-default vads-u-border-bottom--2px vads-u-margin-top--0 vads-u-padding-bottom--0p5">
-        {formData.first} {formData.last}
-      </h4>
-    </div>
-  );
 };
