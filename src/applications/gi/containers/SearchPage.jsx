@@ -110,7 +110,7 @@ export class SearchPage extends React.Component {
     if (value) {
       this.props.fetchInstitutionAutocompleteSuggestions(
         value,
-        _.omit(this.props.search.query, 'name'),
+        omit(this.props.search.query, 'name'),
         version,
       );
     }

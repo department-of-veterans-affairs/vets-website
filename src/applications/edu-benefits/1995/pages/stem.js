@@ -37,7 +37,7 @@ export const uiSchema = {
       form.isEdithNourseRogersScholarship && form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
-      hideIf: formData => !_.get(formData, 'isEnrolledStem', false),
+      hideIf: formData => !get(formData, 'isEnrolledStem', false),
     },
   },
   isPursuingTeachingCert: {
@@ -48,7 +48,7 @@ export const uiSchema = {
       form.isEdithNourseRogersScholarship && !form.isEnrolledStem,
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
-      hideIf: formData => _.get(formData, 'isEnrolledStem', true),
+      hideIf: formData => get(formData, 'isEnrolledStem', true),
     },
   },
   'view:exhaustionOfBenefitsAfterPursuingTeachingCert': {
@@ -60,9 +60,9 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'isEdithNourseRogersScholarship',
       hideIf: formData =>
-        _.get(formData, 'isEnrolledStem', true) ||
-        (!_.get(formData, 'isPursuingTeachingCert', false) &&
-          _.get(formData, 'isPursuingTeachingCert', true)), // this causes question to show if isPursuingTeachingCert is answered
+        get(formData, 'isEnrolledStem', true) ||
+        (!get(formData, 'isPursuingTeachingCert', false) &&
+          get(formData, 'isPursuingTeachingCert', true)), // this causes question to show if isPursuingTeachingCert is answered
     },
   },
 };
