@@ -1,6 +1,8 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
+import { mfa } from 'platform/user/authentication/utilities';
+
 export default function PaymentInformation2FARequired() {
   return (
     <AlertBox
@@ -20,9 +22,9 @@ export default function PaymentInformation2FARequired() {
           make sure that no one but you can access your account—even if they get
           your password.
         </p>
-        <a className="usa-button-primary va-button-primary" href="/account">
+        <button className="usa-button-primary va-button-primary" onClick={mfa}>
           Set up 2-factor authentication
-        </a>
+        </button>
       </>
     </AlertBox>
   );
