@@ -1,32 +1,44 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Request for hearing aid batteries and accessories",
+  "title": "MEDICAL DEVICES ORDERING TOOL",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
-    "email": {
-      "type": "string",
-      "minLength": 6,
-      "maxLength": 80,
-      "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+    "privacyAgreementAccepted": {
+      "type": "boolean",
+      "enum": [true]
     },
-    "address": {
+    "veteranFullName": {
       "type": "object",
-      "required": [
-        "state",
-        "country",
-        "street",
-        "postalCode",
-        "city"
-      ],
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+        }
+      },
+      "required": ["first", "last"]
+    },
+    "veteranAddress": {
+      "type": "object",
       "oneOf": [
         {
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "CAN"
-              ]
+              "enum": ["CAN"]
             },
             "state": {
               "type": "string",
@@ -48,10 +60,7 @@
             },
             "postalCode": {
               "type": "string",
-              "maxLength": 10,
-              "required": [
-                "postalCode"
-              ]
+              "maxLength": 10
             }
           }
         },
@@ -59,9 +68,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "MEX"
-              ]
+              "enum": ["MEX"]
             },
             "state": {
               "type": "string",
@@ -110,15 +117,10 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "USA"
-              ]
+              "enum": ["USA"]
             },
             "state": {
               "type": "string",
-              "required": [
-                "state"
-              ],
               "enum": [
                 "AL",
                 "AK",
@@ -195,11 +197,7 @@
             "country": {
               "not": {
                 "type": "string",
-                "enum": [
-                  "CAN",
-                  "MEX",
-                  "USA"
-                ]
+                "enum": ["CAN", "MEX", "USA"]
               }
             },
             "state": {
@@ -235,9 +233,6 @@
         },
         "state": {
           "type": "string",
-          "required": [
-            "state"
-          ],
           "enum": [
             "AL",
             "AK",
@@ -307,7 +302,48 @@
           "type": "string",
           "maxLength": 51
         }
-      }
+      },
+      "required": ["street", "city", "state", "country", "postalCode"]
+    },
+    "gender": {
+      "type": "string",
+      "enum": ["F", "M"]
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "format": "date"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
     }
-  }
+  },
+  "properties": {
+    "email": {
+      "$ref": "#/definitions/email"
+    },
+    "dateOfBirth": {
+      "$ref": "#/definitions/dateOfBirth"
+    },
+    "privacyAgreementAccepted": {
+      "$ref": "#/definitions/privacyAgreementAccepted"
+    },
+    "veteranFullName": {
+      "$ref": "#/definitions/veteranFullName"
+    },
+    "veteranAddress": {
+      "$ref": "#/definitions/veteranAddress"
+    },
+    "gender": {
+      "$ref": "#/definitions/gender"
+    }
+  },
+  "required": [
+    "privacyAgreementAccepted",
+    "gender",
+    "email",
+    "dateOfBirth",
+    "veteranFullName",
+    "veteranAddress"
+  ]
 }
