@@ -13,8 +13,10 @@ const { compilePage, createFileObj } = require('./page');
 const {
   createHealthCareRegionListPages,
   addGetUpdatesFields,
-  modListPages,
+  addPager,
+  sortServices,
 } = require('./health-care-region');
+
 const { addHubIconField } = require('./benefit-hub');
 const { addHomeContent } = require('./home');
 
@@ -87,46 +89,51 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
-        modListPages(
+        pageCompiled.allEventTeasers = pageCompiled.fieldOffice.entity
+          .reverseFieldOfficeNode.entities.length
+          ? pageCompiled.fieldOffice.entity.reverseFieldOfficeNode
+          : pageCompiled.reverseFieldOfficeNode;
+        addPager(
           pageCompiled,
           files,
-          page.allEventTeasers,
+          pageCompiled.allEventTeasers,
           'event_listing.drupal.liquid',
           'event',
         );
         break;
       case 'story_listing':
-        modListPages(
+        pageCompiled.allNewsStoryTeasers =
+          page.fieldOffice.entity.reverseFieldOfficeNode;
+        addPager(
           pageCompiled,
           files,
-          page.allNewsStoryTeasers,
+          pageCompiled.allNewsStoryTeasers,
           'story_listing.drupal.liquid',
           'story',
         );
         break;
       case 'press_releases_listing':
-        modListPages(
+        pageCompiled.allPressReleaseTeasers =
+          page.fieldOffice.entity.reverseFieldOfficeNode;
+        addPager(
           pageCompiled,
           files,
-          page.allPressReleaseTeasers,
+          pageCompiled.allPressReleaseTeasers,
           'press_releases_listing.drupal.liquid',
           'press_release',
         );
         break;
       case 'health_services_listing':
-        modListPages(
-          pageCompiled,
-          files,
-          page.clinicalHealthServices,
-          'health_services_listing.drupal.liquid',
-          'health_services',
+        pageCompiled.clinicalHealthServices = sortServices(
+          pageCompiled.fieldOffice.entity.reverseFieldRegionPageNode.entities,
         );
         break;
       case 'leaderships_listing':
-        modListPages(
+        pageCompiled.allStaffProfiles = page.fieldLeadership;
+        addPager(
           pageCompiled,
           files,
-          page.allStaffProfiles,
+          pageCompiled.allStaffProfiles,
           'leadership_listing.drupal.liquid',
           'bio',
         );

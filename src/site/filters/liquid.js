@@ -252,26 +252,11 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.pastPresent = (items, url) => {
-    const pastEventTeasers = [];
-    const currentEventTeasers = [];
-    // separate current events from past events;
-
-    _.forEach(items, value => {
-      const startDate = value.fieldDate.startDate;
-      const isPast = moment().diff(startDate, 'days');
-      if (isPast >= 1) {
-        pastEventTeasers.push(value);
-      } else {
-        currentEventTeasers.push(value);
-      }
-    });
-
-    const pathArray = url.split('/');
-    if (pathArray.includes('past-events')) {
-      return pastEventTeasers;
-    }
-
-    return currentEventTeasers;
+    const isPast = value =>
+      moment().diff(value.fieldDate.startDate, 'days') >= 1;
+    const isCurrent = value => !isPast(value);
+    const filter = url.split('/').includes('past-events') ? isPast : isCurrent;
+    return items.filter(filter);
   };
 
   // Find the current path in an array of nested link arrays and then return it's depth + it's parent and children
@@ -368,30 +353,32 @@ module.exports = function registerFilters() {
     let deepObj = {};
 
     function findLink(arr, depth = 0) {
-      if (arr !== null) {
-        let d = depth;
-        // start depth at 1
-        d++;
-        for (const link of arr) {
-          // push the item into the trail
-          parentTree.push(link);
+      if (arr === null) {
+        return;
+      }
 
-          if (link.url.path === path) {
-            // we found the path! set 'found' to true and exit the recursion
-            deepObj = setDeepObj(parentTree, d, link);
-            found = true;
+      let d = depth;
+      // start depth at 1
+      d++;
+      for (const link of arr) {
+        // push the item into the trail
+        parentTree.push(link);
+
+        if (link.url.path === path) {
+          // we found the path! set 'found' to true and exit the recursion
+          deepObj = setDeepObj(parentTree, d, link);
+          found = true;
+          break;
+        } else if (link.links && link.links.length) {
+          // we didn't find it yet
+          // if the item has links, look for it within the links of this item (recursively)
+          findLink(link.links, d);
+          if (found) {
             break;
-          } else if (link.links && link.links.length) {
-            // we didn't find it yet
-            // if the item has links, look for it within the links of this item (recursively)
-            findLink(link.links, d);
-            if (found) {
-              break;
-            }
           }
-          // we don't need this parent, get rid of it
-          parentTree.pop();
         }
+        // we don't need this parent, get rid of it
+        parentTree.pop();
       }
     }
 
