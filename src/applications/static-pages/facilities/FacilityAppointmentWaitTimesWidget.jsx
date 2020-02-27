@@ -58,9 +58,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                 <div className="facility-satisfaction-tile vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-margin-right--1">
                   <p className="vads-u-margin--0">New patient</p>
                   <p
-                    id={`facility-${camelCase(
-                      service,
-                    )}-new-patient-wait-time`}
+                    id={`facility-${camelCase(service)}-new-patient-wait-time`}
                     className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
                   >
                     {this.appointmentWaitTime(facility.access.health, service)}
