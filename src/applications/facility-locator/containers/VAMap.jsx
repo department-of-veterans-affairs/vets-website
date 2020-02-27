@@ -32,6 +32,7 @@ import { isProduction } from 'platform/site-wide/feature-toggles/selectors';
 import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -47,12 +48,14 @@ const urgentCareDialogLink = (
     </p>
     <button
       className="usa-button-primary vads-u-margin-y--0"
-      onClick={() =>
+      onClick={() => {
+        // Record event
+        recordEvent({ event: 'fl-urgent-care-benefit-link' });
         window.open(
           'https://www.va.gov/COMMUNITYCARE/programs/veterans/UrgentCareInstructions.asp',
           '_blank',
-        )
-      }
+        );
+      }}
     >
       Learn about VA urgent care benefit
     </button>
