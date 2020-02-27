@@ -19,14 +19,14 @@ export const uiSchema = {
     'ui:validations': [validateName],
     first: {
       'ui:required': formData =>
-        isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
+        isChapterFieldRequired(formData, 'reportChild18OrOlderIsNotAttendingSchool'),
       'ui:title': 'Child’s first name',
       'ui:errorMessages': { required: 'Please enter a first name' },
     },
     middle: { 'ui:title': 'Child’s middle name' },
     last: {
       'ui:required': formData =>
-        isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
+        isChapterFieldRequired(formData, 'reportChild18OrOlderIsNotAttendingSchool'),
       'ui:title': 'Child’s last name',
       'ui:errorMessages': { required: 'Please enter a last name' },
     },
@@ -39,7 +39,7 @@ export const uiSchema = {
     ...currentOrPastDateUI('When did child stop attending school?'),
     ...{
       'ui:required': formData =>
-        isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
+        isChapterFieldRequired(formData, 'reportChild18OrOlderIsNotAttendingSchool'),
     },
   },
 };
