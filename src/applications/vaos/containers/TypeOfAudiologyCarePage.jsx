@@ -9,6 +9,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 const initialSchema = {
   type: 'object',
@@ -64,6 +65,7 @@ const pageKey = 'audiologyCareType';
 export class TypeOfAudiologyCarePage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
+    scrollAndFocus();
   }
 
   goBack = () => {

@@ -9,6 +9,7 @@ import {
   getChosenClinicInfo,
   getChosenFacilityDetails,
 } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   closeConfirmationPage,
   fetchFacilityDetails,
@@ -38,6 +39,7 @@ export class ConfirmationPage extends React.Component {
     ) {
       this.props.fetchFacilityDetails(this.props.data.vaFacility);
     }
+    scrollAndFocus();
   }
 
   componentWillUnmount() {

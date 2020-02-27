@@ -9,7 +9,6 @@ import {
   routeToPreviousAppointmentPage,
   startRequestAppointmentFlow,
 } from '../actions/newAppointment.js';
-import { focusElement } from 'platform/utilities/ui';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import FormButtons from '../components/FormButtons';
 import { getDateTimeSelect } from '../utils/selectors';
@@ -53,7 +52,6 @@ export class DateTimeSelectPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('h1.vads-u-font-size--h2');
     const { preferredDate } = this.props;
     this.props.getAppointmentSlots(
       moment(preferredDate)
@@ -65,6 +63,7 @@ export class DateTimeSelectPage extends React.Component {
         .format('YYYY-MM-DD'),
     );
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   componentDidUpdate(prevProps, prevState) {
