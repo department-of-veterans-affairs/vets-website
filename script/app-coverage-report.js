@@ -2,15 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const Table = require('cli-table');
 
-const camelCase = str =>
-  // Convert string to camel case
-  str
-    .replace(
-      /(?:^\w|[A-Z]|\b\w)/g,
-      (word, index) => (index === 0 ? word.toLowerCase() : word.toUpperCase()),
-    )
-    .replace(/-|\s/g, '');
-
 const printCoverage = coverageResults => {
   // Create a new table with headers
   const coverageTable = new Table({
@@ -31,41 +22,37 @@ const printCoverage = coverageResults => {
     }
   });
 
-  /* eslint-disable no-console */
-  console.log(coverageTable.toString());
+  console.log(coverageTable.toString()); // eslint-disable-line
 };
 
-const generateCoverageReport = (rootDir, coverageSummary) => {
-  const appCoverages = {};
-
-  // Iterate through each coverage result
-  Object.keys(coverageSummary).forEach(key => {
-    // Extract the application name from the coverage result & store in camel case
-    const appName = camelCase(key.replace(rootDir, '').split(path.sep)[0]);
-    const coverageResult = coverageSummary[key];
-
-    // If there is an app name, add result to overall coverage
+const generateCoverage = (rootDir, coverageSummary) =>
+  Object.keys(coverageSummary).reduce((acc, coverageResult) => {
+    const appName = coverageResult.replace(rootDir, '').split(path.sep)[0];
+    // If appName exists, add coverageResult to overall coverage
     if (appName) {
-      // Average coverageResult with respective appCoverage segment if present
-      if (appCoverages[appName]) {
-        Object.keys(appCoverages[appName]).forEach(seg => {
-          appCoverages[appName][seg].total += coverageResult[seg].total;
-          appCoverages[appName][seg].covered += coverageResult[seg].covered;
-          appCoverages[appName][seg].skipped += coverageResult[seg].skipped;
-          appCoverages[appName][seg].pct = (
-            (appCoverages[appName][seg].covered /
-              appCoverages[appName][seg].total) *
+      if (acc[appName]) {
+        // Average coverageResult with respective acc segment if present
+        // Each 'seg' represents coverage by line, function, statement, and branch
+        Object.keys(acc[appName]).forEach(seg => {
+          acc[appName][seg].total += coverageSummary[coverageResult][seg].total;
+          acc[appName][seg].covered +=
+            coverageSummary[coverageResult][seg].covered;
+          acc[appName][seg].skipped +=
+            coverageSummary[coverageResult][seg].skipped;
+          acc[appName][seg].pct = (
+            (acc[appName][seg].covered / acc[appName][seg].total) *
             100
           ).toFixed(2);
         });
       } else {
-        // Create new appCoverage entry
-        Object.assign(appCoverages, { [appName]: coverageResult });
+        // Create new coverageResult entry
+        Object.assign(acc, {
+          [appName]: coverageSummary[coverageResult],
+        });
       }
     }
-  });
-  printCoverage(appCoverages);
-};
+    return acc;
+  }, {});
 
 // Root directory of application folders
 const applicationDir = path.join(__dirname, '../src/applications/');
@@ -74,4 +61,5 @@ const coverageSummaryJson = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../coverage/coverage-summary.json')),
 );
 
-generateCoverageReport(applicationDir, coverageSummaryJson);
+const appCoverage = generateCoverage(applicationDir, coverageSummaryJson);
+printCoverage(appCoverage);
