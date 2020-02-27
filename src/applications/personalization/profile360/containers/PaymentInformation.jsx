@@ -178,7 +178,7 @@ class PaymentInformation extends React.Component {
 
     if (!multifactorEnabled) {
       content = <PaymentInformation2FARequired />;
-    } else if (paymentInformation.error) {
+    } else if (paymentInformation?.error) {
       content = <LoadFail information="payment" />;
     } else if (directDepositIsBlocked) {
       // TODO: soon we will show an alert telling the user that they are blocked
