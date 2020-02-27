@@ -17,7 +17,7 @@ export class ConfirmationPage extends React.Component {
     const name = data.veteranFullName;
 
     return (
-      <div>
+      <section>
         <h3 className="confirmation-page-title">Claim received</h3>
         <p>
           We usually process claims within <strong>a week</strong>.
@@ -45,7 +45,7 @@ export class ConfirmationPage extends React.Component {
             </ul>
           )}
         </div>
-      </div>
+      </section>
     );
   }
 }

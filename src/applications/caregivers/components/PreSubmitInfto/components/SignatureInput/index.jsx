@@ -32,7 +32,7 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
   );
 
   return (
-    <div>
+    <>
       <label htmlFor="vet-signature-input">
         {label}
         &apos;s full name
@@ -48,7 +48,7 @@ const SignatureInput = ({ fullName, required, label, setIsSigned }) => {
           'Your signature must match your first and last name as previously entered.'
         }
       />
-    </div>
+    </>
   );
 };
 

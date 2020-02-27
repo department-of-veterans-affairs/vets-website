@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { withRouter } from 'react-router';
 import {
   InjuredLineOfDutyInto,
   PrimaryCaregiverInfo,
@@ -14,10 +15,16 @@ import {
   RepresentativeInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
 
-const IntroductionPage = ({ route }) => {
+const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const startForm = () => {
+    recordEvent({ event: 'no-login-start-form' });
+    const pageList = route.pageList;
+    return router.push(pageList[1].path);
+  };
 
   const IntoHighlight = () => (
     <div className="info-highlight">
@@ -179,31 +186,28 @@ const IntroductionPage = ({ route }) => {
       <FormTitle title="Apply for Caregiver Benefits" />
       <p>Equal to VA Form 10-10CG (Application for Caregiver Benefits)</p>
 
-      <SaveInProgressIntro
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the Application"
-      />
-
       <IntoHighlight />
+
+      <button
+        className="va-button-link schemaform-start-button"
+        onClick={startForm}
+      >
+        Start your Application
+      </button>
 
       <Benifits />
 
       <ProcessTimeline />
 
-      <SaveInProgressIntro
-        buttonOnly
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the Application"
-      />
+      <button style={{ marginBottom: '20px' }} onClick={startForm}>
+        Start your Application
+      </button>
 
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <div className="omb-info--container vads-u-padding-left--0">
         <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2018" />
       </div>
     </div>
   );
 };
 
-export default IntroductionPage;
+export default withRouter(IntroductionPage);

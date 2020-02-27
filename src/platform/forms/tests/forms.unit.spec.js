@@ -81,7 +81,6 @@ const excludedForms = new Set([
   'definitions',
   'constants',
   'vaMedicalFacilities',
-  '10-10CG-example',
 ]);
 
 describe('form:', () => {
@@ -96,6 +95,11 @@ describe('form:', () => {
     expect(includedSchemaIdsSet.size).to.not.lessThan(
       mappedIdsSet.size,
       'a schema may have been removed from vets-json-schema/dist/schemas',
+    );
+
+    expect(includedSchemaIdsSet.size).to.not.greaterThan(
+      mappedIdsSet.size,
+      'a schema may have been added to vets-json-schema/dist/schemas',
     );
 
     expect(includedSchemaIds).to.have.same.members(
