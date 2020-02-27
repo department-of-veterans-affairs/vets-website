@@ -521,11 +521,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/vocrehab/vsoc.asp",
-    "dest": "/careers-employment/vetsuccess-on-campus/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/gibill/careerscope.asp",
     "dest": "/careers-employment/careerscope-skills-assessment/"
   }
