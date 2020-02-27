@@ -41,15 +41,14 @@ export const uiSchema = {
       'ui:options': { widgetClassNames: 'form-select-medium' },
     },
   },
-  dateChildLeftSchool: Object.assign(
-    {},
-    currentOrPastDateUI('When did child stop attending school?'),
-    {
+  dateChildLeftSchool: {
+    ...currentOrPastDateUI('When did child stop attending school?'),
+    ...{
       'ui:required': formData =>
         isChapterFieldRequired(
           formData,
           'reportChild18OrOlderIsNotAttendingSchool',
         ),
     },
-  ),
+  },
 };
