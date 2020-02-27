@@ -12,7 +12,7 @@ export default function VAOSBreadcrumbs({ children }) {
         Health care
       </a>
       <a
-        href="/health-care/schedule-view-va-appointments/"
+        href="/health-care/schedule-view-va-appointments"
         key="schedule-view-va-appointments"
       >
         Schedule and view appointments
