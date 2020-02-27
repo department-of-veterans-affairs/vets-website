@@ -62,10 +62,7 @@ export const uiSchema = {
         first: {
           'ui:title': 'First Name',
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         middle: {
           'ui:title': 'Middle Name',
@@ -73,10 +70,7 @@ export const uiSchema = {
         last: {
           'ui:title': 'Last Name',
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
       },
       stepchildAddress: {
@@ -84,18 +78,12 @@ export const uiSchema = {
         country: {
           'ui:title': 'Country',
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         street: {
           'ui:title': 'Street',
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         line2: {
           'ui:title': 'Line 2',
@@ -106,28 +94,19 @@ export const uiSchema = {
         city: {
           'ui:title': 'City',
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         state: {
           'ui:title': 'State',
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         postal: {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
           },
           'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
           'ui:title': 'Postal Code',
         },
       },

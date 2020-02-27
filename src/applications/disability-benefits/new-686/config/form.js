@@ -95,7 +95,7 @@ const formConfig = {
         },
       },
     },
-    
+
     reportChildStoppedAttendingSchool: {
       title:
         'Information needed to report a child 18-23 years old stopped attending school',
@@ -109,7 +109,7 @@ const formConfig = {
         },
       },
     },
-   reportStepchildNotInHousehold: {
+    reportStepchildNotInHousehold: {
       title:
         'Information needed to report a stepchild is no longer part of your household',
       pages: {

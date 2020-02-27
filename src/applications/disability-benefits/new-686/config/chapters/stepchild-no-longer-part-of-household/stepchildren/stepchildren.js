@@ -35,10 +35,7 @@ export const uiSchema = {
       first: {
         'ui:title': 'Stepchild’s first name',
         'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+          isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
       },
       middle: {
         'ui:title': 'Stepchild’s middle name',
@@ -46,10 +43,7 @@ export const uiSchema = {
       last: {
         'ui:title': 'Stepchild’s last name',
         'ui:required': formData =>
-            isChapterFieldRequired(
-              formData,
-              'reportStepchildNotInHousehold',
-            ),
+          isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
       },
       suffix: {
         'ui:title': 'Stepchild’s suffix',
