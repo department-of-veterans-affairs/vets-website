@@ -13,7 +13,7 @@ export default function SubmitButtons(props) {
     onSubmit,
     submission,
     renderErrorMessage,
-    formErrors,
+    formErrors = [],
   } = props;
   const [hadErrors, setHadErrors] = useState(false);
   if (
