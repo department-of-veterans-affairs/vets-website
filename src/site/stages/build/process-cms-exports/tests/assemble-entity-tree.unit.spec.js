@@ -53,13 +53,15 @@ describe('CMS export', () => {
           // Output what we think the transformed entity should look like
           if (!transformedEntitiesList.includes(transformedFileName)) {
             process.stdout.write(
-              `${chalk.red(
-                `No transformed entity JSON file found for ${contentModelType}.\n`,
-              )}\nassembleEntityTree result for ${contentModelType}:\n${JSON.stringify(
-                assembleEntityTree(entity),
-                null,
-                2,
-              )}\n`,
+              chalk.red(
+                `No transformed entity JSON file found for ${contentModelType}.\n\n`,
+              ),
+            );
+            process.stdout.write(
+              `assembleEntityTree result for ${contentModelType}:\n`,
+            );
+            process.stdout.write(
+              `${JSON.stringify(assembleEntityTree(entity), null, 2)}\n`,
             );
             throw new Error(
               `No transformed entity JSON file found for ${contentModelType}`,
