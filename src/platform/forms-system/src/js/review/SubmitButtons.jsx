@@ -4,6 +4,7 @@ import moment from 'moment';
 import ProgressButton from '../components/ProgressButton';
 import { timeFromNow } from '../utilities/date';
 import { focusAndScrollToReviewElement } from '../utilities/ui';
+import environment from 'platform/utilities/environment';
 
 export default function SubmitButtons(props) {
   const {
@@ -15,7 +16,11 @@ export default function SubmitButtons(props) {
     formErrors,
   } = props;
   const [hadErrors, setHadErrors] = useState(false);
-  if (!hadErrors && formErrors.errors?.length > 0) {
+  if (
+    !environment.isProduction() &&
+    !hadErrors &&
+    formErrors.errors?.length > 0
+  ) {
     setHadErrors(true);
   }
   let submitButton;
@@ -91,7 +96,8 @@ export default function SubmitButtons(props) {
       </div>
     );
   } else if (submission.status === 'validationError') {
-    const errors = formErrors?.errors || [];
+    // Needs evaluation & testing before production
+    const errors = environment.isProduction() ? [] : formErrors?.errors || [];
     const errLen = errors.length;
     submitButton = (
       <ProgressButton
