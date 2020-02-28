@@ -16,11 +16,13 @@ describe('VAOS <CalendarCheckboxOption>', () => {
       />,
     );
     const checkbox = tree.find('input#checkbox-0');
-    const label = tree.find('label');
+    const label = tree.find('label span').at(0);
+    const srLabel = tree.find('label span').at(1);
     expect(checkbox.length).to.equal(1);
     expect(checkbox.props().checked).to.equal(true);
     expect(checkbox.props().value).to.equal('AM');
     expect(label.text()).to.equal('a.m.');
+    expect(srLabel.text()).to.equal('a.m. option selected');
     tree.unmount();
   });
 });
