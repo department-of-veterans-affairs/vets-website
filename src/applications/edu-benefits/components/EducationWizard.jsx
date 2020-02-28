@@ -92,9 +92,9 @@ export default class EducationWizard extends React.Component {
     let isReceivingSponsorBenefits;
     if (input === 'own') {
       isReceivingSponsorBenefits = 'no';
-    } else if (this.state.transferredEduBenefits === 'transferred') {
+    } else if (input === 'transferred') {
       isReceivingSponsorBenefits = 'yes';
-    } else if (this.state.transferredEduBenefits === 'fry') {
+    } else if (input === 'fry') {
       isReceivingSponsorBenefits = 'no with scholarship';
     } else {
       return null;
@@ -102,11 +102,25 @@ export default class EducationWizard extends React.Component {
     return isReceivingSponsorBenefits;
   };
 
+  isBenefitClaimForSelf = input => {
+    let isBenefitClaimForSelf;
+    if (input === 'own') {
+      isBenefitClaimForSelf = 'yes';
+    } else if (input === 'other') {
+      isBenefitClaimForSelf = 'no';
+    } else {
+      return null;
+    }
+    return isBenefitClaimForSelf;
+  };
+
   recordWizardValues = () => {
     recordEvent({
       event: 'edu-howToApply-applyNow',
       'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
-      'edu-isBenefitClaimForSelf': this.state.serviceBenefitBasedOn,
+      'edu-isBenefitClaimForSelf': this.isBenefitClaimForSelf(
+        this.state.serviceBenefitBasedOn,
+      ),
       'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
       'edu-isVetTec': this.state.vetTecBenefit,
       'edu-hasSponsorTransferredBenefits': this.state
