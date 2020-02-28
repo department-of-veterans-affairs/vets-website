@@ -460,7 +460,6 @@ describe('vet360 reducer', () => {
         fieldTransactionMap: {
           mailingAddress: { isPending: true },
         },
-        modal: null,
       };
       expect(vet360(state, action)).to.eql(expectedState);
     });
