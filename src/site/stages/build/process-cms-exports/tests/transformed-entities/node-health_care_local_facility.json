@@ -3,13 +3,13 @@
   "entityType": "node",
   "entityBundle": "health_care_local_facility",
   "title": "Westmoreland County VA Clinic",
-  "changed": 1572551751,
+  "changed": 1580420357,
   "entityPublished": true,
   "entityMetatags": [
     {
       "__typename": "MetaValue",
       "key": "title",
-      "value": "VA Pittsburgh Health Care | Westmoreland County Clinic"
+      "value": "VA Pittsburgh Health Care | Westmoreland County VA Clinic"
     },
     {
       "__typename": "MetaValue",
@@ -24,7 +24,7 @@
     {
       "__typename": "MetaValue",
       "key": "twitter:description",
-      "value": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit."
+      "value": "Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic."
     },
     {
       "__typename": "MetaValue",
@@ -54,7 +54,7 @@
     {
       "__typename": "MetaProperty",
       "key": "og:description",
-      "value": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit."
+      "value": "Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic."
     },
     {
       "__typename": "MetaValue",
@@ -102,7 +102,7 @@
   "fieldFacilityLocatorApiId": "vha_646GB",
   "fieldFlickr": null,
   "fieldInstagram": null,
-  "fieldIntroText": "The Westmoreland County outpatient clinic offers Veterans general medical care, including physical exams, lab work, x-rays, nutrition counseling, and foot care.",
+  "fieldIntroText": "Our outpatient clinic offers general medical care, including physical exams, lab work, x-rays, nutrition counseling, and podiatry (foot care). Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic.",
   "fieldLocalHealthCareService": [
     {
       "contentModelType": "node-health_care_local_health_service",
@@ -118,7 +118,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at Pittsburgh VA</h3>\r\n\r\n<p>Our comprehensive laboratories&nbsp;provide&nbsp;a full range of clinical and diagnostic testing services. We offer:</p>\r\n\r\n<ul>\r\n\t<li>Analysis of blood, urine, and other bodily fluids for disease management</li>\r\n\t<li>Testing for infectious diseases</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>Our comprehensive laboratories&nbsp;provide&nbsp;a full range of clinical and diagnostic testing services. We offer:</p>\r\n\r\n<ul>\r\n\t<li>Analysis of blood, urine, and other bodily fluids for disease management</li>\r\n\t<li>Testing for infectious diseases</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -159,7 +159,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>Our patient advocates work hard to make sure you receive the best possible care. They offer help with:</p>\r\n\r\n<ul>\r\n\t<li>Patient concerns with the care team</li>\r\n\t<li>Advocating&nbsp;for patient and family rights</li>\r\n\t<li>Specialist advocacy for Former Prisoners of War, Minority Veterans, and OEF/OIF/OND transitioning Veterans</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"1e8a72b4-c54c-432e-b53a-ef6a7969f40e\" href=\"/node/198\">Learn more and connect with a&nbsp;patient advocate</a></p>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>Our patient advocates work hard to make sure you receive the best possible care. They offer help with:</p>\r\n\r\n<ul>\r\n\t<li>Patient concerns with the care team</li>\r\n\t<li>Advocating&nbsp;for patient and family rights</li>\r\n\t<li>Specialist advocacy for Former Prisoners of War, Minority Veterans, and OEF/OIF/OND transitioning Veterans</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"1e8a72b4-c54c-432e-b53a-ef6a7969f40e\" href=\"/node/198\">Learn more and connect with a&nbsp;patient advocate</a></p>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -200,7 +200,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<ul>\r\n\t<li>Arthritis care; foot and ankle fracture care</li>\r\n\t<li>Repair of cartilage and torn tendons and ligaments</li>\r\n\t<li>Injections to reduce pain and swelling</li>\r\n\t<li>Joint arthroplasty and replacement</li>\r\n\t<li>Minimally invasive surgery; rehabilitation</li>\r\n\t<li>Foot health maintenance, including bunion removal, resurfacing, and nail trimming</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<ul>\r\n\t<li>Arthritis care; foot and ankle fracture care</li>\r\n\t<li>Repair of cartilage and torn tendons and ligaments</li>\r\n\t<li>Injections to reduce pain and swelling</li>\r\n\t<li>Joint arthroplasty and replacement</li>\r\n\t<li>Minimally invasive surgery; rehabilitation</li>\r\n\t<li>Foot health maintenance, including bunion removal, resurfacing, and nail trimming</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -241,7 +241,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>Primary care is offered at all VA Pittsburgh health care facilities. Your primary care team can help coordinate many other services as part of your care,&nbsp;including:</p>\r\n\r\n<ul>\r\n\t<li>Labs and blood work</li>\r\n\t<li>Mental health care</li>\r\n\t<li>Women's health care</li>\r\n\t<li>Radiology</li>\r\n\t<li>Social services</li>\r\n\t<li>Telehealth</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>Primary care is offered at all VA Pittsburgh health care facilities. Your primary care team can help coordinate many other services as part of your care,&nbsp;including:</p>\r\n\r\n<ul>\r\n\t<li>Labs and blood work</li>\r\n\t<li>Mental health care</li>\r\n\t<li>Women's health care</li>\r\n\t<li>Radiology</li>\r\n\t<li>Social services</li>\r\n\t<li>Telehealth</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -282,7 +282,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<ul>\r\n\t<li>Xrays</li>\r\n\t<li>Ultrasounds</li>\r\n\t<li>Computer Tomography (CT)</li>\r\n\t<li>Positron Emission Tomography (PET)</li>\r\n\t<li>Magnetic Resonance Imaging (MRI)</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<ul>\r\n\t<li>Xrays</li>\r\n\t<li>Ultrasounds</li>\r\n\t<li>Computer Tomography (CT)</li>\r\n\t<li>Positron Emission Tomography (PET)</li>\r\n\t<li>Magnetic Resonance Imaging (MRI)</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -323,7 +323,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh</h3>\r\n\r\n<p dir=\"LTR\">Registry exams, services, and care coordination&nbsp;for Veterans exposed to environmental hazards such as:</p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Ionizing radiation</li>\r\n\t<li>Agent Orange</li>\r\n\t<li>Gulf War hazards</li>\r\n\t<li>Depleted Uranium (DU)</li>\r\n\t<li>Toxic Embedded Fragment (shrapnel)</li>\r\n</ul>\r\n"
+              "processed": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p dir=\"LTR\">Registry exams, services, and care coordination&nbsp;for Veterans exposed to environmental hazards such as:</p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Ionizing radiation</li>\r\n\t<li>Agent Orange</li>\r\n\t<li>Gulf War hazards</li>\r\n\t<li>Depleted Uranium (DU)</li>\r\n\t<li>Toxic Embedded Fragment (shrapnel)</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -364,7 +364,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>Our&nbsp;Minority Veterans Program serves&nbsp;all Veterans, including African Americans, Asian Americans, Hispanic Americans and Native Americans,&nbsp;including American Indians, Alaskan Natives, Native Hawaiians, and Pacific Island Americans. We focus on:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Management of the medical center in their efforts to address the needs of minority Veterans</li>\r\n\t<li>The needs of minority Veterans in the local community</li>\r\n\t<li>Identifying barriers and creating a more accessible environment for minority Veterans</li>\r\n\t<li>Informing&nbsp;Veterans of VA benefits, services, and programs</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f72b858b-5f36-4844-a47d-f1a92065bdc3\" href=\"/node/807\">Learn more and connect with a care coordinator</a>&nbsp;</p>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>Our&nbsp;Minority Veterans Program serves&nbsp;all Veterans, including African Americans, Asian Americans, Hispanic Americans and Native Americans,&nbsp;including American Indians, Alaskan Natives, Native Hawaiians, and Pacific Island Americans. We focus on:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Management of the medical center in their efforts to address the needs of minority Veterans</li>\r\n\t<li>The needs of minority Veterans in the local community</li>\r\n\t<li>Identifying barriers and creating a more accessible environment for minority Veterans</li>\r\n\t<li>Informing&nbsp;Veterans of VA benefits, services, and programs</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f72b858b-5f36-4844-a47d-f1a92065bdc3\" href=\"/node/807\">Learn more and connect with a care coordinator</a>&nbsp;</p>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -405,7 +405,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>We offer compassionate care to patients living with HIV or hepatitis. Services we offer include:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Hepatitis C screenings</li>\r\n\t<li>HIV testing</li>\r\n\t<li>HIV counseling</li>\r\n\t<li>HIV treatment and prevention care, including PEP&nbsp;(post-exposure prophylaxis)</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>We offer compassionate care to patients living with HIV or hepatitis. Services we offer include:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Hepatitis C screenings</li>\r\n\t<li>HIV testing</li>\r\n\t<li>HIV counseling</li>\r\n\t<li>HIV treatment and prevention care, including PEP&nbsp;(post-exposure prophylaxis)</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -446,7 +446,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>Our women's health program offers women Veterans comprehensive care, including:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Primary care</li>\r\n\t<li>Gynecology</li>\r\n\t<li>Maternity care, childbirth education classes, and postpartum support</li>\r\n\t<li>Ultrasounds and mammograms</li>\r\n\t<li>Mental health care and counseling</li>\r\n\t<li>Lifestyle wellness services</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"90ce90bd-5443-44b3-a72b-6370911d77ae\" href=\"/node/817\">Learn more and connect with a care coordinator</a></p>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>Our women's health program offers women Veterans comprehensive care, including:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Primary care</li>\r\n\t<li>Gynecology</li>\r\n\t<li>Maternity care, childbirth education classes, and postpartum support</li>\r\n\t<li>Ultrasounds and mammograms</li>\r\n\t<li>Mental health care and counseling</li>\r\n\t<li>Lifestyle wellness services</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"90ce90bd-5443-44b3-a72b-6370911d77ae\" href=\"/node/817\">Learn more and connect with a care coordinator</a></p>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -487,7 +487,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>The Veteran population is at greater risk for experiencing and/or using violence in their intimate relationships than the civilian population.&nbsp;Contact us for help with:</p>\r\n\r\n<ul>\r\n\t<li>Emotional intimate partner violence (IPV), which commonly begins before other types of IPV</li>\r\n\t<li>Physical IPV</li>\r\n\t<li>Sexual IPV, whether by physical force or by trying to convince a partner&nbsp;</li>\r\n\t<li>Stalking, which includes continuous unwanted contact, following, talking, or sending things</li>\r\n\t<li>Threats of violence</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>The Veteran population is at greater risk for experiencing and/or using violence in their intimate relationships than the civilian population.&nbsp;Contact us for help with:</p>\r\n\r\n<ul>\r\n\t<li>Emotional intimate partner violence (IPV), which commonly begins before other types of IPV</li>\r\n\t<li>Physical IPV</li>\r\n\t<li>Sexual IPV, whether by physical force or by trying to convince a partner&nbsp;</li>\r\n\t<li>Stalking, which includes continuous unwanted contact, following, talking, or sending things</li>\r\n\t<li>Threats of violence</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -528,7 +528,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>Our LGBT Veteran care coordinators can answer your questions, advocate for your right to quality care, handle complaints or concerns you have about your care, and help you get started with any of our services for LGBT Veterans. These&nbsp;include:</p>\r\n\r\n<ul>\r\n\t<li>Mental health services, including psychosocial assessments for hormone therapy and gender confirming surgeries</li>\r\n\t<li>Creative arts therapies</li>\r\n\t<li>Hormone therapy</li>\r\n\t<li>Gender-affirming prosthetics</li>\r\n\t<li>HIV and STI testing, counseling, and care, including PEP&nbsp;(post-exposure prophylaxis) and PrEP&nbsp;(pre-exposure prophylaxis) for Veterans at risk for HIV</li>\r\n\t<li>Other prevention, screening, wellness, and testing services</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"9660b498-8159-419c-a467-344ba8c0d6a5\" href=\"/node/804\">Learn more and connect with a care coordinator</a></p>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>Our LGBT Veteran care coordinators can answer your questions, advocate for your right to quality care, handle complaints or concerns you have about your care, and help you get started with any of our services for LGBT Veterans. These&nbsp;include:</p>\r\n\r\n<ul>\r\n\t<li>Mental health services, including psychosocial assessments for hormone therapy and gender confirming surgeries</li>\r\n\t<li>Creative arts therapies</li>\r\n\t<li>Hormone therapy</li>\r\n\t<li>Gender-affirming prosthetics</li>\r\n\t<li>HIV and STI testing, counseling, and care, including PEP&nbsp;(post-exposure prophylaxis) and PrEP&nbsp;(pre-exposure prophylaxis) for Veterans at risk for HIV</li>\r\n\t<li>Other prevention, screening, wellness, and testing services</li>\r\n</ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"9660b498-8159-419c-a467-344ba8c0d6a5\" href=\"/node/804\">Learn more and connect with a care coordinator</a></p>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -569,7 +569,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>We provide care for military sexual trauma in our mental (behavioral) health clinics. Our services include:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Counseling</li>\r\n\t<li>Psychiatric care</li>\r\n\t<li>Walk-in care</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>We provide care for military sexual trauma in our mental (behavioral) health clinics. Our services include:&nbsp;</p>\r\n\r\n<ul>\r\n\t<li>Counseling</li>\r\n\t<li>Psychiatric care</li>\r\n\t<li>Walk-in care</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -610,7 +610,7 @@
             "entityType": "node",
             "entityBundle": "regional_health_care_service_des",
             "fieldBody": {
-              "processed": "<h3>Care we provide at VA Pittsburgh</h3>\r\n\r\n<p>The MOVE! Program offers comprehensive support, including:</p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Weight loss support groups</li>\r\n\t<li>Cooking classes</li>\r\n</ul>\r\n"
+              "processed": "<h3>Care we provide at VA Pittsburgh health care</h3>\r\n\r\n<p>The MOVE! Program offers comprehensive support, including:</p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Weight loss support groups</li>\r\n\t<li>Cooking classes</li>\r\n</ul>\r\n"
             },
             "fieldServiceNameAndDescripti": {
               "contentModelType": "taxonomy_term-health_care_service_taxonomy",
@@ -664,7 +664,7 @@
       "entity": {
         "entityBundle": "health_care_local_facility_servi",
         "fieldWysiwyg": {
-          "processed": "<h4>Nearby hotels</h4>\r\n\r\n<p>There is no lodging at the Westmoreland County outpatient clinic.&nbsp;If you need to travel to the clinic for multiple days, try one of these hotels. When booking, ask if there is a Veteran rate. Many hotels have shuttle vans, so check with the hotel you’re staying at if you need help getting to the clinic.</p>\r\n\r\n<ul>\r\n\t<li dir=\"ltr\"><a href=\"https://www.redroof.com/property/pa/Greensburg/RRI1104\">Red Roof Inn Greensburg</a><br />\r\n\t<a href=\"tel: +1724-216-5951\">724-216-5951</a></li>\r\n\t<li dir=\"ltr\"><a href=\"https://www.hilton.com/en/hotels/gbgpahx-hampton-greensburg/\">Hampton Inn Greensburg</a><br />\r\n\t<a href=\"tel: +1-724-838-8800\">724-838-8800</a></li>\r\n</ul>\r\n"
+          "processed": "<h4>Nearby hotels</h4>\r\n\r\n<p>There is no lodging at the Westmoreland County outpatient clinic.&nbsp;If you need to travel to the clinic for multiple days, try one of these hotels. When booking, ask if there is a Veteran rate. Many hotels have shuttle vans, so check with the hotel you’re staying at if you need help getting to the clinic.</p>\r\n\r\n<ul>\r\n\t<li dir=\"ltr\"><a href=\"https://www.redroof.com/property/pa/Greensburg/RRI1104\">Red Roof Inn Greensburg</a><br />\r\n\t<a href=\"tel: +1724-216-5951\">724-216-5951</a></li>\r\n\t<li dir=\"ltr\"><a href=\"https://www.hilton.com/en/hotels/gbgpahx-hampton-greensburg/\">Hampton Inn Greensburg</a><br />\r\n\t<a href=\"tel: +1-724-838-8800\">724-838-8800</a></li>\r\n</ul>\r\n\r\n<p><em>NOTE:&nbsp;These links are provided for your convenience only. VA Pittsburgh Healthcare System does not endorse and is not responsible for the content on the linked web sites.</em></p>\r\n"
         },
         "fieldTitle": "Lodging for patients and families"
       }
@@ -672,6 +672,11 @@
   ],
   "fieldMainLocation": false,
   "fieldMedia": {
+    "mid": [
+      {
+        "value": 272
+      }
+    ],
     "uuid": "1e74f4a0-a0fb-49be-a821-f3d9d3a6de9c",
     "langcode": [
       {
@@ -763,7 +768,7 @@
     "contentModelType": "media-image"
   },
   "fieldMentalHealthPhone": "412-360-6600",
-  "fieldNicknameForThisFacility": "Westmoreland County clinic",
+  "fieldNicknameForThisFacility": "Westmoreland County VA Clinic",
   "fieldOperatingStatusFacility": "normal",
   "fieldOperatingStatusMoreInfo": null,
   "fieldPhoneNumber": "724-216-0317",
@@ -778,16 +783,13 @@
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },
-      "fieldNicknameForThisFacility": "VA Pittsburgh",
-      "fieldPressReleaseBlurb": {
-        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
-      },
+      "fieldNicknameForThisFacility": "VA Pittsburgh health care",
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",
         "entity": {
           "entityType": "paragraph",
           "entityBundle": "list_of_link_teasers",
-          "fieldTitle": "In the spotlight at VA Pittsburgh",
+          "fieldTitle": "In the spotlight at VA Pittsburgh health care",
           "fieldVaParagraphs": [
             {
               "contentModelType": "paragraph-link_teaser",
@@ -833,6 +835,19 @@
               "entity": {
                 "fieldLink": {
                   "url": {
+                    "path": "entity:node/2523"
+                  },
+                  "title": "Compare our performance with non-VA health facilities",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
                     "path": "entity:node/197"
                   },
                   "title": "Billing and insurance",
@@ -866,10 +881,26 @@
                 },
                 "fieldLinkSummary": null
               }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "https://www.publichealth.va.gov/n-coronavirus/index.asp"
+                  },
+                  "title": "Coronavirus Updates",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
             }
           ],
           "parentFieldName": "field_related_links"
         }
+      },
+      "fieldPressReleaseBlurb": {
+        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
       },
       "entityMetatags": [
         {

@@ -2,14 +2,14 @@
   "contentModelType": "node-news_story",
   "entityType": "node",
   "entityBundle": "news_story",
-  "title": "Loss is common human experience",
+  "title": "zzLoss is common human experiencez",
   "created": 1557855529,
   "promote": false,
   "entityMetatags": [
     {
       "__typename": "MetaValue",
       "key": "title",
-      "value": "VA Pittsburgh health care | Loss is common human experience | Veterans Affairs"
+      "value": "VA Pittsburgh health care | zzLoss is common human experiencez | Veterans Affairs"
     },
     {
       "__typename": "MetaValue",
@@ -34,7 +34,7 @@
     {
       "__typename": "MetaValue",
       "key": "twitter:title",
-      "value": "Loss is common human experience | VA Pittsburgh health care | Veterans Affairs"
+      "value": "zzLoss is common human experiencez | VA Pittsburgh health care | Veterans Affairs"
     },
     {
       "__typename": "MetaValue",
@@ -49,7 +49,7 @@
     {
       "__typename": "MetaProperty",
       "key": "og:title",
-      "value": "Loss is common human experience | VA Pittsburgh health care | Veterans Affairs"
+      "value": "zzLoss is common human experiencez | VA Pittsburgh health care | Veterans Affairs"
     },
     {
       "__typename": "MetaProperty",
@@ -70,7 +70,7 @@
   "entityPublished": true,
   "entityUrl": {
     "breadcrumb": [],
-    "path": "/pittsburgh-health-care/stories/loss-is-common-human-experience"
+    "path": "/pittsburgh-health-care/stories/zzloss-is-common-human-experiencez"
   },
   "fieldAuthor": null,
   "fieldFullStory": {
@@ -79,6 +79,11 @@
   "fieldImageCaption": "Photo of a white heart and a placeholder in the sand in the shape of a heart.",
   "fieldIntroText": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb",
   "fieldMedia": {
+    "mid": [
+      {
+        "value": 69
+      }
+    ],
     "uuid": "c9106a99-b16b-47f0-aa64-75935c9a0b46",
     "langcode": [
       {
@@ -179,13 +184,13 @@
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },
-      "fieldNicknameForThisFacility": "VA Pittsburgh",
+      "fieldNicknameForThisFacility": "VA Pittsburgh health care",
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",
         "entity": {
           "entityType": "paragraph",
           "entityBundle": "list_of_link_teasers",
-          "fieldTitle": "In the spotlight at VA Pittsburgh",
+          "fieldTitle": "In the spotlight at VA Pittsburgh health care",
           "fieldVaParagraphs": [
             {
               "contentModelType": "paragraph-link_teaser",
@@ -231,6 +236,19 @@
               "entity": {
                 "fieldLink": {
                   "url": {
+                    "path": "entity:node/2523"
+                  },
+                  "title": "Compare our performance with non-VA health facilities",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
                     "path": "entity:node/197"
                   },
                   "title": "Billing and insurance",
@@ -260,6 +278,19 @@
                     "path": "entity:node/775#annual-reports-and-newsletters"
                   },
                   "title": "Annual reports and newsletters",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "https://www.publichealth.va.gov/n-coronavirus/index.asp"
+                  },
+                  "title": "Coronavirus Updates",
                   "options": []
                 },
                 "fieldLinkSummary": null

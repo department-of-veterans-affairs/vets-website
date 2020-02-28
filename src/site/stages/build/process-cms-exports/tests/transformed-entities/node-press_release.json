@@ -1,12 +1,8 @@
 {
   "contentModelType": "node-press_release",
-  "entityBundle": "press_release",
   "entityType": "node",
-  "entityPublished": true,
+  "entityBundle": "press_release",
   "title": "VA Pittsburgh Announces Outstanding Physicians for 2018",
-  "entityUrl": {
-    "path": "/pittsburgh-health-care/press-releases/va-pittsburgh-announces-outstanding-physicians-for-2018-0"
-  },
   "entityMetatags": [
     {
       "__typename": "MetaValue",
@@ -54,72 +50,43 @@
       "value": "VA Pittsburgh Healthcare System recognized an oncologist and an internist as Outstanding Physicians of the Year for 2018. Oncologist Dr. Sandra Blakowski and internist Dr. Jo-Anne Suffoletto have more than 40 years’ combined service caring for Veterans in western Pennsylvania."
     }
   ],
-  "fieldReleaseDate": {
-    "value": "2018-05-14T19:59:10",
-    "date": "2018-05-14 19:59:10 UTC"
+  "entityUrl": {
+    "path": "/pittsburgh-health-care/news-releases/va-pittsburgh-announces-outstanding-physicians-for-2018-0"
   },
-  "fieldPdfVersion": null,
   "fieldAddress": {
-    "additionalName": null,
-    "addressLine1": null,
-    "addressLine2": null,
+    "langcode": "",
     "countryCode": "US",
+    "administrativeArea": "PA",
+    "locality": "Pittsburgh",
     "dependentLocality": null,
-    "familyName": null,
-    "givenName": null,
-    "organization": null,
     "postalCode": null,
     "sortingCode": null,
-    "langcode": "",
-    "locality": "Pittsburgh",
-    "administrativeArea": "PA"
+    "addressLine1": null,
+    "addressLine2": null,
+    "organization": null,
+    "givenName": null,
+    "additionalName": null,
+    "familyName": null
   },
   "fieldIntroText": "VA Pittsburgh Healthcare System recognized an oncologist and an internist as Outstanding Physicians of the Year for 2018. Oncologist Dr. Sandra Blakowski and internist Dr. Jo-Anne Suffoletto have more than 40 years’ combined service caring for Veterans in western Pennsylvania. ",
-  "fieldPressReleaseFulltext": {
-    "processed": "<p>Dr. Blakowski specializes in palliative care, which is the active treatment of patients with life-limiting illnesses. She spearheaded VA Pittsburgh’s groundbreaking No Veteran Dies Alone and Honors Escort programs.</p>\r\n\r\n<p>\"Bringing palliative care to every Veteran who needs it and training all VA staff in its importance will continue long after this award is forgotten,\" Blakowski said. Her mantra, \"That through education and valued relationships we can reach Veterans where they need us most,\" has remained unchanged throughout her many years of service.</p>\r\n\r\n<p>Dr. Suffoletto specializes in internal medicine with an area of interest in women's health. Suffoletto also oversees patient and staff education as the health care system's associate chief of staff for education and innovative learning.</p>\r\n\r\n<p>\"I love working with our Veterans here at VA Pittsburgh. I find our patients to be extraordinarily resilient and kind people. I am humbled by how appreciative they are for the care that they receive,\" Suffoletto said. \"And I love being a part of their health care community, especially when I see the way our Veterans care for each other in the hospital and in the outpatient clinics.\"</p>\r\n\r\n<p>Photos available upon request.</p>\r\n"
-  },
-  "fieldPressReleaseContact": [
-    {
-      "entity": {
-        "contentModelType": "node-person_profile",
-        "entityBundle": "person_profile",
-        "entityType": "node",
-        "entityUrl": {
-          "path": "/pittsburgh-health-care/staff-profiles/sheila-tunney"
-        },
-        "title": "Sheila Tunney",
-        "fieldDescription": "Public Affairs Specialist",
-        "fieldLastName": "Tunney",
-        "fieldNameFirst": "Sheila",
-        "fieldPhoneNumber": "412-360-1479",
-        "fieldEmailAddress": "sheila.tunney@va.gov",
-        "fieldMedia": null,
-        "fieldBody": null,
-        "fieldOffice": {
-          "entity": {
-            "entityLabel": "VA Pittsburgh health care",
-            "entityType": "node"
-          }
-        },
-        "fieldSuffix": null
-      }
-    }
-  ],
-  "fieldPressReleaseDownloads": [],
   "fieldOffice": {
     "contentModelType": "node-health_care_region_page",
     "entity": {
-      "entityBundle": "health_care_region_page",
       "entityType": "node",
+      "entityBundle": "health_care_region_page",
+      "entityPublished": true,
       "entityLabel": "VA Pittsburgh health care",
       "title": "VA Pittsburgh health care",
-      "fieldNicknameForThisFacility": "VA Pittsburgh",
+      "entityUrl": {
+        "path": "/pittsburgh-health-care"
+      },
+      "fieldNicknameForThisFacility": "VA Pittsburgh health care",
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",
         "entity": {
           "entityType": "paragraph",
           "entityBundle": "list_of_link_teasers",
-          "fieldTitle": "In the spotlight at VA Pittsburgh",
+          "fieldTitle": "In the spotlight at VA Pittsburgh health care",
           "fieldVaParagraphs": [
             {
               "contentModelType": "paragraph-link_teaser",
@@ -165,6 +132,19 @@
               "entity": {
                 "fieldLink": {
                   "url": {
+                    "path": "entity:node/2523"
+                  },
+                  "title": "Compare our performance with non-VA health facilities",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
                     "path": "entity:node/197"
                   },
                   "title": "Billing and insurance",
@@ -198,13 +178,26 @@
                 },
                 "fieldLinkSummary": null
               }
+            },
+            {
+              "contentModelType": "paragraph-link_teaser",
+              "entity": {
+                "fieldLink": {
+                  "url": {
+                    "path": "https://www.publichealth.va.gov/n-coronavirus/index.asp"
+                  },
+                  "title": "Coronavirus Updates",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
             }
           ],
           "parentFieldName": "field_related_links"
         }
       },
-      "entityUrl": {
-        "path": "/pittsburgh-health-care"
+      "fieldPressReleaseBlurb": {
+        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
       },
       "entityMetatags": [
         {
@@ -267,11 +260,44 @@
           "key": "og:image",
           "value": "http://default/sites/default/files/2019-04/UD%20front.jpg"
         }
-      ],
-      "entityPublished": true,
-      "fieldPressReleaseBlurb": {
-        "processed": "<p>Get the latest news from Pittsburgh-area medical centers and clinics. For further information, contact our Public Affairs Office at 412-822-3536.</p>\r\n"
+      ]
+    }
+  },
+  "fieldPdfVersion": null,
+  "fieldPressReleaseContact": [
+    {
+      "entity": {
+        "contentModelType": "node-person_profile",
+        "entityType": "node",
+        "entityBundle": "person_profile",
+        "entityUrl": {
+          "path": "/pittsburgh-health-care/staff-profiles/sheila-tunney"
+        },
+        "title": "Sheila Tunney",
+        "fieldBody": null,
+        "fieldDescription": "Public Affairs Specialist",
+        "fieldEmailAddress": "sheila.tunney@va.gov",
+        "fieldLastName": "Tunney",
+        "fieldMedia": null,
+        "fieldNameFirst": "Sheila",
+        "fieldOffice": {
+          "entity": {
+            "entityLabel": "VA Pittsburgh health care",
+            "entityType": "node"
+          }
+        },
+        "fieldPhoneNumber": "412-360-1479",
+        "fieldSuffix": null
       }
     }
-  }
+  ],
+  "fieldPressReleaseDownloads": [],
+  "fieldPressReleaseFulltext": {
+    "processed": "<p>Dr. Blakowski specializes in palliative care, which is the active treatment of patients with life-limiting illnesses. She spearheaded VA Pittsburgh’s groundbreaking No Veteran Dies Alone and Honors Escort programs.</p>\r\n\r\n<p>\"Bringing palliative care to every Veteran who needs it and training all VA staff in its importance will continue long after this award is forgotten,\" Blakowski said. Her mantra, \"That through education and valued relationships we can reach Veterans where they need us most,\" has remained unchanged throughout her many years of service.</p>\r\n\r\n<p>Dr. Suffoletto specializes in internal medicine with an area of interest in women's health. Suffoletto also oversees patient and staff education as the health care system's associate chief of staff for education and innovative learning.</p>\r\n\r\n<p>\"I love working with our Veterans here at VA Pittsburgh. I find our patients to be extraordinarily resilient and kind people. I am humbled by how appreciative they are for the care that they receive,\" Suffoletto said. \"And I love being a part of their health care community, especially when I see the way our Veterans care for each other in the hospital and in the outpatient clinics.\"</p>\r\n\r\n<p>Photos available upon request.</p>\r\n"
+  },
+  "fieldReleaseDate": {
+    "value": "2018-05-14T19:59:10",
+    "date": "2018-05-14 19:59:10 UTC"
+  },
+  "entityPublished": true
 }
