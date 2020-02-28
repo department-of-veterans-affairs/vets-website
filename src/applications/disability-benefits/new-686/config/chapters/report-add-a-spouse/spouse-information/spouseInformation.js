@@ -8,7 +8,7 @@ import { validateName } from '../../../utilities';
 
 const {
   fullName,
-  genericNumberInput: identificationPattern,
+  genericNumberAndDashInput: identificationPattern,
   date,
 } = genericSchemas;
 

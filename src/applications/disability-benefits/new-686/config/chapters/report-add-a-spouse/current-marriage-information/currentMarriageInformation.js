@@ -2,7 +2,9 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import { genericSchemas } from '../../../generic-schema';
 import { isChapterFieldRequired } from '../../taskWizard/wizard/helpers';
 
-const { date, genericLocation, genericTextinput } = genericSchemas;
+import { marriageTypeInformation } from './helpers';
+
+const { date, genericLocation, genericTextInput } = genericSchemas;
 
 export const schema = {
   type: 'object',
@@ -14,7 +16,11 @@ export const schema = {
       enum: ['CEREMONIAL', 'COMMON-LAW', 'TRIBAL', 'PROXY', 'OTHER'],
       enumNames: ['Ceremonial', 'Common-law', 'Tribal', 'Proxy', 'Other'],
     },
-    marriageTypeOther: genericTextinput,
+    marriageTypeOther: genericTextInput,
+    'view:marriageTypeInformation': {
+      type: 'object',
+      properties: {},
+    },
   },
 };
 
@@ -29,7 +35,7 @@ export const uiSchema = {
     'ui:title': 'Where were you married?',
     state: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
-      'ui:title': 'State (or Country if outside the U.S.',
+      'ui:title': 'State (or Country if outside the U.S.)',
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
@@ -51,5 +57,8 @@ export const uiSchema = {
       keepInPageOnReview: true,
       widgetClassNames: 'vads-u-margin-y--0',
     },
+  },
+  'view:marriageTypeInformation': {
+    'ui:description': marriageTypeInformation,
   },
 };

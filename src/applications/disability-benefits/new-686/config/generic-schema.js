@@ -25,11 +25,11 @@ export const genericSchemas = {
       },
     },
   },
-  genericTextinput: {
+  genericTextInput: {
     type: 'string',
     maxLength: 50,
   },
-  genericNumberInput: {
+  genericNumberAndDashInput: {
     type: 'string',
     maxLength: 50,
     pattern: numberAndDashPattern,

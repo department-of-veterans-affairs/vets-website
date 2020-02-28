@@ -7,8 +7,9 @@ import { deceasedDependentInformation } from './chapters/report-dependent-death'
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
-  spouseInformation,
   currentMarriageInformation,
+  doesLiveWithSpouse,
+  spouseInformation,
 } from './chapters/report-add-a-spouse';
 import { wizard } from './chapters/taskWizard';
 import {
@@ -75,6 +76,12 @@ const formConfig = {
           path: 'current-marriage-information',
           uiSchema: currentMarriageInformation.uiSchema,
           schema: currentMarriageInformation.schema,
+        },
+        doesLiveWithSpouse: {
+          title: 'Information needed to add your spouse',
+          path: 'current-marriage-address',
+          uiSchema: doesLiveWithSpouse.uiSchema,
+          schema: doesLiveWithSpouse.schema,
         },
       },
     },
