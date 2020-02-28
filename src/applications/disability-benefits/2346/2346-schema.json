@@ -4,10 +4,6 @@
   "type": "object",
   "additionalProperties": false,
   "definitions": {
-    "privacyAgreementAccepted": {
-      "type": "boolean",
-      "enum": [true]
-    },
     "fullName": {
       "type": "object",
       "properties": {
@@ -26,10 +22,19 @@
         },
         "suffix": {
           "type": "string",
-          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
         }
       },
-      "required": ["first", "last"]
+      "required": [
+        "first",
+        "last"
+      ]
     },
     "address": {
       "type": "object",
@@ -38,7 +43,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["CAN"]
+              "enum": [
+                "CAN"
+              ]
             },
             "state": {
               "type": "string",
@@ -68,7 +75,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["MEX"]
+              "enum": [
+                "MEX"
+              ]
             },
             "state": {
               "type": "string",
@@ -117,7 +126,9 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": ["USA"]
+              "enum": [
+                "USA"
+              ]
             },
             "state": {
               "type": "string",
@@ -197,7 +208,11 @@
             "country": {
               "not": {
                 "type": "string",
-                "enum": ["CAN", "MEX", "USA"]
+                "enum": [
+                  "CAN",
+                  "MEX",
+                  "USA"
+                ]
               }
             },
             "state": {
@@ -226,75 +241,31 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 51
-        },
-        "country": {
-          "type": "string",
-          "enum": ["USA", "CAN", "MEX"]
-        },
-        "state": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string",
-          "maxLength": 10
         }
-      },
-      "required": ["street", "city", "state", "country", "postalCode"]
+      }
     },
     "email": {
-      "type": "string"
-    },
-    "yesOrNo": {
       "type": "string",
-      "enum": ["yes", "no"]
-    },
-    "supplies": {
-      "type": "object",
-      "properties": {
-        "product_name": { "type": "string" },
-        "product_group": { "type": "string" },
-        "product_id": { "type": "number" },
-        "available_for_reorder": { "type": "boolean" },
-        "last_order_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "productName": {
-          "type": "string"
-        },
-        "quantity": { "type": "number" }
-      }
-    },
-    "accessories": {
-      "type": "object",
-      "properties": {
-        "product_name": { "type": "string" },
-        "product_group": { "type": "string" },
-        "product_id": { "type": "number" },
-        "available_for_reorder": { "type": "boolean" },
-        "last_order_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "nextAvailabilityDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "quantity": {
-          "type": "number"
-        },
-        "size": {
-          "type": "string"
-        }
-      }
+      "minLength": 6,
+      "maxLength": 80,
+      "pattern": "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
     },
     "gender": {
       "type": "string",
-      "enum": ["F", "M"]
+      "enum": [
+        "F",
+        "M"
+      ]
     },
     "date": {
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
+    },
+    "privacyAgreementAccepted": {
+      "type": "boolean",
+      "enum": [
+        true
+      ]
     }
   },
   "properties": {
@@ -302,38 +273,27 @@
       "$ref": "#/definitions/email"
     },
     "dateOfBirth": {
-      "$ref": "#/definitions/date"
+      "$ref": "#/definitions/dateOfBirth"
     },
     "privacyAgreementAccepted": {
       "$ref": "#/definitions/privacyAgreementAccepted"
     },
-    "fullName": {
+    "veteranFullName": {
       "$ref": "#/definitions/fullName"
     },
-    "permanentAddress": {
-      "$ref": "#/definitions/address"
-    },
-    "temporaryAddress": {
+    "veteranAddress": {
       "$ref": "#/definitions/address"
     },
     "gender": {
       "$ref": "#/definitions/gender"
-    },
-    "yesOrNo": {
-      "$ref": "#/definitions/yesOrNo"
-    },
-    "supplies": {
-      "$ref": "#/definitions/supplies"
     }
   },
   "required": [
     "privacyAgreementAccepted",
-    "permanentAddress",
-    "temporaryAddress",
     "fullName",
+    "address",
     "gender",
     "email",
-    "dateOfBirth",
-    "supplies"
+    "dateOfBirth"
   ]
 }
