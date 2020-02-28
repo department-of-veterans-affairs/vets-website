@@ -262,6 +262,35 @@ describe('VAOS newAppointment actions', () => {
       });
     });
 
+    it('should fetch parentFacilities and child facilities if single parent', async () => {
+      setFetchJSONResponse(global.fetch, systemIdentifiers);
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: parentFacilities.data.filter(
+          parent => parent.attributes.institutionCode === '983',
+        ),
+      });
+      setFetchJSONResponse(global.fetch.onCall(2), facilities983);
+      const dispatch = sinon.spy();
+      const state = set('newAppointment.parentFacilities', null, defaultState);
+      const getState = () => state;
+
+      const thunk = openFacilityPage('vaFacility', {}, defaultSchema);
+      await thunk(dispatch, getState);
+
+      const succeededAction = dispatch.firstCall.args[0];
+      expect(succeededAction).to.deep.equal({
+        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
+        schema: defaultSchema,
+        page: 'vaFacility',
+        uiSchema: {},
+        parentFacilities: parentFacilitiesParsed.slice(0, 1),
+        facilities: facilities983Parsed,
+        eligibilityData: null,
+        typeOfCareId: defaultState.newAppointment.data.typeOfCareId,
+      });
+      expect(global.fetch.thirdCall.args[0]).to.contain('/systems/983/');
+    });
+
     it('should send fail action if a fetch fails', async () => {
       setFetchJSONFailure(global.fetch, {});
       const dispatch = sinon.spy();

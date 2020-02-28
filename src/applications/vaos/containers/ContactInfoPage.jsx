@@ -12,6 +12,7 @@ import {
   routeToPreviousAppointmentPage,
 } from '../actions/newAppointment.js';
 import { getFormPageInfo } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 const initialSchema = {
   type: 'object',
@@ -100,6 +101,7 @@ export class ContactInfoPage extends React.Component {
   componentDidMount() {
     this.props.openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   goBack = () => {

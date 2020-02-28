@@ -56,12 +56,23 @@ export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
+  'SET_ADDITIONAL_EVIDENCE_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
+export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
+  'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
 export const HIDE_30_DAY_NOTICE = 'HIDE_30_DAY_NOTICE';
 
 export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
+    message,
+  };
+}
+
+export function setAdditionalEvidenceNotification(message) {
+  return {
+    type: SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
     message,
   };
 }
@@ -324,6 +335,12 @@ export function clearNotification() {
   };
 }
 
+export function clearAdditionalEvidenceNotification() {
+  return {
+    type: CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  };
+}
+
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -337,6 +354,7 @@ export function submitFiles(claimId, trackedItem, files) {
 
   return dispatch => {
     dispatch(clearNotification());
+    dispatch(clearAdditionalEvidenceNotification());
     dispatch({
       type: SET_UPLOADING,
       uploading: true,
@@ -399,7 +417,7 @@ export function submitFiles(claimId, trackedItem, files) {
                   type: SET_UPLOAD_ERROR,
                 });
                 dispatch(
-                  setNotification({
+                  setAdditionalEvidenceNotification({
                     title: 'Error uploading files',
                     body:
                       'There was an error uploading your files. Please try again',
