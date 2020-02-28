@@ -50,6 +50,27 @@ describe('VAOS <CalendarRow>', () => {
     tree.unmount();
   });
 
+  it('should pass along maxSelections to CalendarCell', () => {
+    const tree = shallow(
+      <CalendarRow
+        cells={dayCells}
+        currentlySelectedDate="2019-10-21"
+        rowNumber="0"
+        selectedDates={selectedDates}
+        additionalOptions={{ getOptionsByDate }}
+        maxSelections={3}
+      />,
+    );
+
+    expect(
+      tree
+        .find('CalendarCell')
+        .at(0)
+        .props().maxSelections,
+    ).to.equal(3);
+    tree.unmount();
+  });
+
   it('should disable cells if availableDates is provided and date is not in array', () => {
     const today = moment();
 
