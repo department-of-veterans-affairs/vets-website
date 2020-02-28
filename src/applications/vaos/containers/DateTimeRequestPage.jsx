@@ -47,10 +47,11 @@ export class DateTimeRequestPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { validationError } = this.state;
     if (
-      this.state.validationError &&
-      !prevState.submitted &&
-      this.state.submitted
+      validationError &&
+      (this.isMaxSelectionsError() ||
+        (!prevState.submitted && this.state.submitted))
     ) {
       scrollAndFocus('.usa-input-error-message');
     }
@@ -89,6 +90,9 @@ export class DateTimeRequestPage extends React.Component {
 
   exceededMaxSelections = calendarData =>
     calendarData?.selectedDates?.length > maxSelections;
+
+  isMaxSelectionsError = () =>
+    this.state.validationError === maxSelectionsError;
 
   render() {
     const { data, pageChangeInProgress } = this.props;
@@ -133,7 +137,7 @@ export class DateTimeRequestPage extends React.Component {
           selectedIndicatorType={CALENDAR_INDICATOR_TYPES.BUBBLES}
           additionalOptions={additionalOptions}
           validationError={
-            this.state.submitted || validationError === maxSelectionsError
+            this.state.submitted || this.isMaxSelectionsError()
               ? validationError
               : null
           }
