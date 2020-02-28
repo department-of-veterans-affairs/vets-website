@@ -1,18 +1,12 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullSchemaMDOT from '../2346-schema.json';
+import fullSchemaMDOT from 'vets-json-schema/dist/MDOT-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import UIDefinitions from '../definitions/2346UI';
 
-const {
-  email,
-  dateOfBirth,
-  veteranFullName,
-  veteranAddress,
-  gender,
-} = fullSchemaMDOT.definitions;
+const { email, date, fullName, address, gender } = fullSchemaMDOT.definitions;
 
 const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
 
@@ -44,9 +38,9 @@ const formConfig = {
   },
   defaultDefinitions: {
     email,
-    dateOfBirth,
-    veteranFullName,
-    veteranAddress,
+    date,
+    fullName,
+    address,
     gender,
   },
   chapters: {
@@ -74,7 +68,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranAddress,
+              address,
               email,
             },
           },
