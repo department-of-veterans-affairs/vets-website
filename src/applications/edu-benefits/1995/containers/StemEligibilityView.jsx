@@ -20,7 +20,7 @@ export class StemEligibilityView extends React.Component {
     });
 
   iconText = indication =>
-    indication ? `You answered yes to` : `You answered no to`;
+    indication ? `You answered yes to ` : `You answered no to `;
 
   renderCheck = (classes, title, text) => (
     <li className="vads-u-margin-bottom--0">
@@ -42,7 +42,7 @@ export class StemEligibilityView extends React.Component {
       : this.iconClass(check);
 
     const text = 'Post-9/11 GI Bill beneficiary or Fry Scholarship recipient';
-    const title = question ? `You didn't answer` : this.iconText(check);
+    const title = question ? `You didn't answer ` : this.iconText(check);
 
     return this.renderCheck(classes, title, text);
   };
