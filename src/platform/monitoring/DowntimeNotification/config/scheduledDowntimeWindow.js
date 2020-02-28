@@ -1,6 +1,7 @@
-import moment from 'moment-timezone';
+import moment from 'moment';
 
+// Times should always have Eastern time offset.
 export default {
-  downtimeStart: moment.tz('2020-02-29 21:00', 'America/New_York'),
-  downtimeEnd: moment.tz('2020-02-29 21:30', 'America/New_York'),
+  downtimeStart: moment.parseZone('2020-02-29T21:00:00-05:00'),
+  downtimeEnd: moment.parseZone('2020-02-29T21:30:00-05:00'),
 };
