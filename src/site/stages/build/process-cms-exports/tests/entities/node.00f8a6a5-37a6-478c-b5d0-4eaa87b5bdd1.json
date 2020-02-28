@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 221
+        }
+    ],
     "uuid": [
         {
             "value": "00f8a6a5-37a6-478c-b5d0-4eaa87b5bdd1"
+        }
+    ],
+    "vid": [
+        {
+            "value": 15183
         }
     ],
     "langcode": [
@@ -18,19 +28,19 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-10T19:13:54+00:00",
+            "value": "2020-02-06T14:14:17+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "767b1642-e148-4552-bfac-03cc93126cfa"
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
         }
     ],
     "revision_log": [
         {
-            "value": "Added in final content for \"Questions about medical records\" section"
+            "value": "fixed broken form link 10-5345"
         }
     ],
     "status": [
@@ -57,7 +67,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-10T19:13:54+00:00",
+            "value": "2020-02-06T14:14:17+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -91,12 +101,12 @@
             "title": "VA Pittsburgh Health Care | Medical Records Office | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_description": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office.",
-            "description": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office.",
+            "twitter_cards_description": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh health care Release of Information office.",
+            "description": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh health care Release of Information office.",
             "twitter_cards_title": "Medical records office | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
             "og_title": "Medical records office | Veterans Affairs",
-            "og_description": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office."
+            "og_description": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh health care Release of Information office."
         }
     },
     "path": [
@@ -138,16 +148,15 @@
     ],
     "field_description": [
         {
-            "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office."
+            "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh health care Release of Information office."
         }
     ],
     "field_featured_content": [],
     "field_intro_text": [
         {
-            "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh Release of Information office."
+            "value": "Get copies of your VA medical records online, by mail or fax, or in person at our VA Pittsburgh health care Release of Information office."
         }
     ],
-    "field_media": [],
     "field_meta_tags": [],
     "field_meta_title": [
         {

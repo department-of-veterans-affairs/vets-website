@@ -1,4 +1,9 @@
 {
+    "tid": [
+        {
+            "value": 70
+        }
+    ],
     "uuid": [
         {
             "value": "43901d82-efe9-4dc0-a581-71e081516651"
@@ -56,7 +61,7 @@
     ],
     "metatag": {
         "value": {
-            "title": "Education benefits hub | Veterans Affairs",
+            "title": "Education benefits hub | VA.gov CMS",
             "canonical_url": "http:\/\/default\/section\/veterans-benefits-administration\/education-benefits-hub",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",

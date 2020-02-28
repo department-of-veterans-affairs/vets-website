@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 5569
+        }
+    ],
     "uuid": [
         {
             "value": "06f14316-25a9-45a3-b231-fb1be92044a6"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 42200
         }
     ],
     "langcode": [
@@ -25,6 +35,21 @@
         {
             "value": "2019-09-04T13:30:54+00:00",
             "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "71"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_spokes"
         }
     ],
     "behavior_settings": [

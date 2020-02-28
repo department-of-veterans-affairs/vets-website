@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 346
+        }
+    ],
     "uuid": [
         {
             "value": "fa9fd27d-aa1c-4cc0-b31b-569e779c034d"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14894
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-31T19:41:28+00:00",
+            "value": "2020-01-29T21:10:07+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "c0745381-8e20-40da-9540-5a7d2eee1b35"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-31T19:41:28+00:00",
+            "value": "2020-01-29T21:10:07+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We help you throughout the employment process, from identifying your skills and abilities to finding and keeping a job. All Veterans enrolled in VA health care are eligible for vocational services. What are vocational services? Programs tailored to your skills, experience, abilities and interests, career counseling, workshops and training, including:<\/p>\r\n\r\n<ul>\r\n\t<li>Skills and abilities testing<\/li>\r\n\t<li>Real-world placements to assess skills, abilities and interests<\/li>\r\n\t<li>Job-search training<\/li>\r\n\t<li>Workplace survival skills<\/li>\r\n\t<li>One-on-one counseling<\/li>\r\n\t<li>Strategies to find and keep a job<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"30d0a3cb-fd75-47c5-944a-932a0a22d22d\" href=\"\/node\/725\">Learn more about VA VR&amp;E programs<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We help you throughout the employment process, from identifying your skills and abilities to finding and keeping a job. All Veterans enrolled in VA health care are eligible for vocational services. What are vocational services? Programs tailored to your skills, experience, abilities and interests, career counseling, workshops and training, including:<\/p>\r\n\r\n<ul>\r\n\t<li>Skills and abilities testing<\/li>\r\n\t<li>Real-world placements to assess skills, abilities and interests<\/li>\r\n\t<li>Job-search training<\/li>\r\n\t<li>Workplace survival skills<\/li>\r\n\t<li>One-on-one counseling<\/li>\r\n\t<li>Strategies to find and keep a job<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"30d0a3cb-fd75-47c5-944a-932a0a22d22d\" href=\"\/node\/725\">Learn more about VA VR&amp;E programs<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 269
+        }
+    ],
     "uuid": [
         {
             "value": "929402f4-2a85-4659-a1bf-900264984903"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14878
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T18:36:25+00:00",
+            "value": "2020-01-29T21:08:39+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-23T18:36:25+00:00",
+            "value": "2020-01-29T21:08:39+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh&nbsp;<\/h3>\r\n\r\n<ul>\r\n\t<li>New prescriptions available for in-person pick up<\/li>\r\n\t<li>Refills online and by phone or mail<\/li>\r\n\t<li>Safe disposal of medicines<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"d323fc5c-81a7-4388-a3e6-e5a8ff2a3f05\" href=\"\/node\/268\">Learn more about pharmacy services<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>New prescriptions available for in-person pick up<\/li>\r\n\t<li>Refills online and by phone or mail<\/li>\r\n\t<li>Safe disposal of medicines<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"d323fc5c-81a7-4388-a3e6-e5a8ff2a3f05\" href=\"\/node\/268\">Learn more about pharmacy services<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

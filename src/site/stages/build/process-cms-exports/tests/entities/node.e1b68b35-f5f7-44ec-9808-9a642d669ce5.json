@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 229
+        }
+    ],
     "uuid": [
         {
             "value": "e1b68b35-f5f7-44ec-9808-9a642d669ce5"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14873
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-31T17:51:06+00:00",
+            "value": "2020-01-29T21:05:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-31T17:51:06+00:00",
+            "value": "2020-01-29T21:05:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p dir=\"LTR\">If you are a caregiver&nbsp;for a Veteran, you can get support by contacting a VA Pittsburgh caregiver support coordinator.&nbsp;We can help with:<\/p>\r\n\r\n<ul>\r\n\t<li>Progressive needs planning for degenerative conditions<\/li>\r\n\t<li>Matching you with services and benefits&nbsp;<\/li>\r\n\t<li>Connecting you with local resources and programs<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"d0fff516-5df5-4ac6-b59d-c55fdfcfd878\" href=\"\/node\/794\">Learn more and connect with a support coordinator<\/a><\/p>\r\n",
+            "value": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p dir=\"LTR\">If you are a caregiver&nbsp;for a Veteran, you can get support by contacting a VA Pittsburgh caregiver support coordinator.&nbsp;We can help with:<\/p>\r\n\r\n<ul>\r\n\t<li>Progressive needs planning for degenerative conditions<\/li>\r\n\t<li>Matching you with services and benefits&nbsp;<\/li>\r\n\t<li>Connecting you with local resources and programs<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"d0fff516-5df5-4ac6-b59d-c55fdfcfd878\" href=\"\/node\/794\">Learn more and connect with a support coordinator<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

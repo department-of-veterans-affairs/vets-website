@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 333
+        }
+    ],
     "uuid": [
         {
             "value": "02e024f0-e9c8-4d11-8d71-6a4f3e91366d"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14865
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:14:59+00:00",
+            "value": "2020-01-29T21:04:55+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-04T20:18:56+00:00",
+            "value": "2020-01-29T21:04:55+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We offer compassionate care to patients living with HIV or hepatitis. Services we offer include:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Hepatitis C screenings<\/li>\r\n\t<li>HIV testing<\/li>\r\n\t<li>HIV counseling<\/li>\r\n\t<li>HIV treatment and prevention care, including PEP&nbsp;(post-exposure prophylaxis)<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We offer compassionate care to patients living with HIV or hepatitis. Services we offer include:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Hepatitis C screenings<\/li>\r\n\t<li>HIV testing<\/li>\r\n\t<li>HIV counseling<\/li>\r\n\t<li>HIV treatment and prevention care, including PEP&nbsp;(post-exposure prophylaxis)<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

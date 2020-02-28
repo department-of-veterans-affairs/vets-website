@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 1011
+        }
+    ],
     "uuid": [
         {
             "value": "0f3b9c81-762c-4b8a-95e3-dab08a0b9441"
+        }
+    ],
+    "vid": [
+        {
+            "value": 13947
         }
     ],
     "langcode": [
@@ -18,7 +28,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-13T15:28:44+00:00",
+            "value": "2019-11-14T15:29:39+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -28,19 +38,15 @@
             "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
-    "revision_log": [
-        {
-            "value": "Bulk operation publish revision"
-        }
-    ],
+    "revision_log": [],
     "status": [
         {
-            "value": true
+            "value": false
         }
     ],
     "title": [
         {
-            "value": "Some VA services in (geographic region) may be affected by (natural disaster)"
+            "value": "Some VA services in Western Pennsylvania may be affected by snowstorm."
         }
     ],
     "uid": [
@@ -57,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-13T15:28:44+00:00",
+            "value": "2019-11-14T16:07:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -81,24 +87,20 @@
             "value": true
         }
     ],
-    "moderation_state": [
-        {
-            "value": "published"
-        }
-    ],
+    "moderation_state": [],
     "metatag": {
         "value": {
-            "title": "Some VA services in (geographic region) may be affected by (natural disaster) | Veterans Affairs",
+            "title": "Some VA services in Western Pennsylvania may be affected by snowstorm. | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_title": "Some VA services in (geographic region) may be affected by (natural disaster) | Veterans Affairs",
+            "twitter_cards_title": "Some VA services in Western Pennsylvania may be affected by snowstorm. | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "Some VA services in (geographic region) may be affected by (natural disaster) | Veterans Affairs"
+            "og_title": "Some VA services in Western Pennsylvania may be affected by snowstorm. | Veterans Affairs"
         }
     },
     "path": [
         {
-            "alias": "\/some-va-services-in-geographic-region-may-be-affected-by-natural-disaster",
+            "alias": "\/some-va-services-in-western-pennsylvania-may-be-affected-by-snowstorm",
             "langcode": "en",
             "pathauto": 1
         }
@@ -125,11 +127,7 @@
             "value": true
         }
     ],
-    "field_alert_inheritance_subpages": [
-        {
-            "value": true
-        }
-    ],
+    "field_alert_inheritance_subpages": [],
     "field_alert_operating_status_cta": [
         {
             "value": true
@@ -140,13 +138,9 @@
             "value": "information"
         }
     ],
+    "field_banner_alert_computdvalues": [],
     "field_banner_alert_situationinfo": [],
-    "field_banner_alert_vamcs": [
-        {
-            "target_type": "node",
-            "target_uuid": "580be667-c875-4580-a4b1-39338eb0b22d"
-        }
-    ],
+    "field_banner_alert_vamcs": [],
     "field_body": [
         {
             "value": "<p>If your usual VA facility is affected, you can contact other VA facilities for help.<\/p>\r\n",

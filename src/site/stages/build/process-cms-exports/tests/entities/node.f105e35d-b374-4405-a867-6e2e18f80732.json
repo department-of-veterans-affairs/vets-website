@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 264
+        }
+    ],
     "uuid": [
         {
             "value": "f105e35d-b374-4405-a867-6e2e18f80732"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14860
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-04T20:27:26+00:00",
+            "value": "2020-01-29T21:04:27+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-04T20:27:26+00:00",
+            "value": "2020-01-29T21:04:27+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our low vision outpatient clinic can&nbsp;help&nbsp;assess your needs and provide a rehab plan tailored to your personal goals. You will work with a team of specialists and social workers to determine what aids and services are right for you. Clinic services include:<\/p>\r\n\r\n<ul>\r\n\t<li>Comprehensive eye examinations<\/li>\r\n\t<li>Visual skills assessments<\/li>\r\n\t<li>Guidance on developing visual motor and visual perceptual skills<\/li>\r\n\t<li>Training with activities of daily living with vision loss<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our low vision outpatient clinic can&nbsp;help&nbsp;assess your needs and provide a rehab plan tailored to your personal goals. You will work with a team of specialists and social workers to determine what aids and services are right for you. Clinic services include:<\/p>\r\n\r\n<ul>\r\n\t<li>Comprehensive eye examinations<\/li>\r\n\t<li>Visual skills assessments<\/li>\r\n\t<li>Guidance on developing visual motor and visual perceptual skills<\/li>\r\n\t<li>Training with activities of daily living with vision loss<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

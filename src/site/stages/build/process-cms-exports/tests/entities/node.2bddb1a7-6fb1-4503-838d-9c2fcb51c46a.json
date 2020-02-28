@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 318
+        }
+    ],
     "uuid": [
         {
             "value": "2bddb1a7-6fb1-4503-838d-9c2fcb51c46a"
+        }
+    ],
+    "vid": [
+        {
+            "value": 15161
         }
     ],
     "langcode": [
@@ -18,19 +28,19 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-13T16:14:22+00:00",
+            "value": "2020-02-05T18:30:27+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
         }
     ],
     "revision_log": [
         {
-            "value": "Updating email list links."
+            "value": "added coronavirus link to spotlight box"
         }
     ],
     "status": [
@@ -57,7 +67,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-13T16:14:22+00:00",
+            "value": "2020-02-05T18:30:27+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -123,7 +133,7 @@
     ],
     "field_clinical_health_care_servi": [
         {
-            "value": "<p>VA Pittsburgh Healthcare System offers a wide range of health, support, and facility services for Veterans in&nbsp;Pittsburgh,&nbsp;Western&nbsp;Pennsylvania, and Belmont County, Ohio. To find the care or service you need, browse the list below.<\/p>\r\n",
+            "value": "<p>VA Pittsburgh Healthcare System offers a wide range of health, support, and facility services for Veterans in Pittsburgh, Western Pennsylvania, and Belmont County, Ohio. Click on a service below for more details like which clinic or medical center offers that service.<\/p>\r\n",
             "format": "rich_text"
         }
     ],
@@ -338,12 +348,10 @@
             "value": "Find a health facility near you at VA Pittsburgh health care, and manage your health online. Our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers."
         }
     ],
-    "field_email_subscription": [],
-    "field_email_subscription_links": [],
     "field_facebook": [
         {
             "uri": "https:\/\/www.facebook.com\/VAPHS",
-            "title": "VA Pittsburgh Facebook",
+            "title": "VA Pittsburgh health care Facebook",
             "options": []
         }
     ],
@@ -364,19 +372,29 @@
     "field_flickr": [
         {
             "uri": "https:\/\/www.flickr.com\/photos\/vapittsburgh\/sets",
-            "title": "VA Pittsburgh Flickr",
+            "title": "VA Pittsburgh health care Flickr",
             "options": []
+        }
+    ],
+    "field_govdelivery_id_emerg": [
+        {
+            "value": "USVHA_396"
+        }
+    ],
+    "field_govdelivery_id_news": [
+        {
+            "value": "USVHA_94"
         }
     ],
     "field_instagram": [],
     "field_intro_text": [
         {
-            "value": "VA Pittsburgh Healthcare System proudly serves Veterans, their families and caregivers. Your needs guide our experienced health care providers. We make it easy for you to manage your health care online, find a VA health care facility near you, and sign up for community events and updates."
+            "value": "At VA Pittsburgh Healthcare System, our health care teams are deeply experienced and guided by the needs of Veterans, their families, and caregivers. Find a health facility near you, and manage your health online. Sign up for community events and updates."
         }
     ],
     "field_intro_text_events_page": [
         {
-            "value": "<p>Learn more about events in our Pittsburgh Veteran community, including classes on health and wellness.<\/p>\r\n",
+            "value": "<p>Learn more about events in our VA Pittsburgh health care community, including classes on health and wellness.<\/p>\r\n",
             "format": "rich_text"
         }
     ],
@@ -387,7 +405,7 @@
     ],
     "field_intro_text_news_stories": [
         {
-            "value": "<p>Read about what's happening in our Pittsburgh Veteran community.<\/p>\r\n",
+            "value": "<p>Read about what's happening in our VA Pittsburgh health care community.<\/p>\r\n",
             "format": "rich_text"
         }
     ],
@@ -411,7 +429,7 @@
         },
         {
             "target_type": "node",
-            "target_uuid": "7da1bfd8-e76a-48e4-b3a4-90d144539eb2"
+            "target_uuid": "c83e0c1b-4fa8-4d92-8763-bef7a374c25e"
         },
         {
             "target_type": "node",
@@ -420,32 +438,6 @@
         {
             "target_type": "node",
             "target_uuid": "5e241e3f-4e29-468f-97ab-3bf2593a2b70"
-        }
-    ],
-    "field_link_facility_emerg_list": [
-        {
-            "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_396",
-            "title": "",
-            "options": []
-        }
-    ],
-    "field_link_facility_news_list": [
-        {
-            "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_94",
-            "title": "",
-            "options": []
-        }
-    ],
-    "field_links": [
-        {
-            "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_94",
-            "title": "Subscribe to VA Pittsburgh news and announcements",
-            "options": []
-        },
-        {
-            "uri": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscriber\/new?topic_id=USVHA_396",
-            "title": "Subscribe to VA Pittsburgh emergency notifications",
-            "options": []
         }
     ],
     "field_locations_intro_blurb": [
@@ -468,10 +460,16 @@
     ],
     "field_nickname_for_this_facility": [
         {
-            "value": "VA Pittsburgh"
+            "value": "VA Pittsburgh health care"
         }
     ],
-    "field_operating_status": [],
+    "field_operating_status": [
+        {
+            "uri": "entity:node\/1010",
+            "title": "VA Pittsburgh health care operating status",
+            "options": []
+        }
+    ],
     "field_other_va_locations": [
         {
             "value": "vc_0211V"
@@ -501,12 +499,12 @@
             "target_uuid": "c47aaf53-cd32-47b7-84af-9c004926b211"
         }
     ],
-    "field_sign_up_for_emergency_emai": [],
     "field_twitter": [
         {
             "uri": "https:\/\/twitter.com\/VAPittsburgh",
-            "title": "VA Pittsburgh Twitter",
+            "title": "VA Pittsburgh health care Twitter",
             "options": []
         }
-    ]
+    ],
+    "field_vamc_system_official_name": []
 }

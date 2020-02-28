@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 262
+        }
+    ],
     "uuid": [
         {
             "value": "1fdda7ec-a660-4fa7-86be-ef2421cb4e6f"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14895
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T18:34:57+00:00",
+            "value": "2020-01-29T21:10:24+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-30T19:59:36+00:00",
+            "value": "2020-01-29T21:10:24+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our women's health program offers women Veterans comprehensive care, including:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Primary care<\/li>\r\n\t<li>Gynecology<\/li>\r\n\t<li>Maternity care, childbirth education classes, and postpartum support<\/li>\r\n\t<li>Ultrasounds and mammograms<\/li>\r\n\t<li>Mental health care and counseling<\/li>\r\n\t<li>Lifestyle wellness services<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"90ce90bd-5443-44b3-a72b-6370911d77ae\" href=\"\/node\/817\">Learn more and connect with a care coordinator<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our women's health program offers women Veterans comprehensive care, including:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Primary care<\/li>\r\n\t<li>Gynecology<\/li>\r\n\t<li>Maternity care, childbirth education classes, and postpartum support<\/li>\r\n\t<li>Ultrasounds and mammograms<\/li>\r\n\t<li>Mental health care and counseling<\/li>\r\n\t<li>Lifestyle wellness services<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"90ce90bd-5443-44b3-a72b-6370911d77ae\" href=\"\/node\/817\">Learn more and connect with a care coordinator<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 336
+        }
+    ],
     "uuid": [
         {
             "value": "27a7587b-c51b-4eea-956b-587819b1b630"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14854
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-04T20:26:51+00:00",
+            "value": "2020-01-29T21:03:49+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-04T20:26:51+00:00",
+            "value": "2020-01-29T21:03:49+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh&nbsp;<\/h3>\r\n\r\n<ul>\r\n\t<li>Pre End Stage Renal Disease (ESRD) education<\/li>\r\n\t<li>Onsite dialysis (inpatient and outpatient) and home dialysis and training (Peritoneal and Hemodialysis)<\/li>\r\n\t<li>Continuous Renal Replacement Therapy (CRRT)<\/li>\r\n\t<li>Home patient monitoring<\/li>\r\n\t<li>Kidney transplant evaluation and post-transplant care<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Pre End Stage Renal Disease (ESRD) education<\/li>\r\n\t<li>Onsite dialysis (inpatient and outpatient) and home dialysis and training (Peritoneal and Hemodialysis)<\/li>\r\n\t<li>Continuous Renal Replacement Therapy (CRRT)<\/li>\r\n\t<li>Home patient monitoring<\/li>\r\n\t<li>Kidney transplant evaluation and post-transplant care<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

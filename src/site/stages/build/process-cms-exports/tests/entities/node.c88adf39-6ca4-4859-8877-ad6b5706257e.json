@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 267
+        }
+    ],
     "uuid": [
         {
             "value": "c88adf39-6ca4-4859-8877-ad6b5706257e"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14853
         }
     ],
     "langcode": [
@@ -18,21 +28,17 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-08-27T17:49:53+00:00",
+            "value": "2020-01-29T21:03:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
-    "revision_log": [
-        {
-            "value": "Bulk operation publish revision"
-        }
-    ],
+    "revision_log": [],
     "status": [
         {
             "value": true
@@ -57,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T12:52:48+00:00",
+            "value": "2020-01-29T21:03:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -112,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p dir=\"LTR\">We offer information, resources, and counseling on:<\/p>\r\n\r\n<ul>\r\n\t<li>Diabetes<\/li>\r\n\t<li>Gastrointestinal disorders<\/li>\r\n\t<li>Heart disease<\/li>\r\n\t<li>Weight gain or loss<\/li>\r\n\t<li>High or low blood pressure<\/li>\r\n\t<li>Gastrointestinal surgery<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p dir=\"LTR\">We offer information, resources, and counseling on:<\/p>\r\n\r\n<ul>\r\n\t<li>Diabetes<\/li>\r\n\t<li>Gastrointestinal disorders<\/li>\r\n\t<li>Heart disease<\/li>\r\n\t<li>Weight gain or loss<\/li>\r\n\t<li>High or low blood pressure<\/li>\r\n\t<li>Gastrointestinal surgery<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

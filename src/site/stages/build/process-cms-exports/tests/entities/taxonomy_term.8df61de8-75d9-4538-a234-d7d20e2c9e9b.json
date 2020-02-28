@@ -1,4 +1,9 @@
 {
+    "tid": [
+        {
+            "value": 54
+        }
+    ],
     "uuid": [
         {
             "value": "8df61de8-75d9-4538-a234-d7d20e2c9e9b"
@@ -56,7 +61,7 @@
     ],
     "metatag": {
         "value": {
-            "title": "LGBT Veteran care | Veterans Affairs",
+            "title": "LGBT Veteran care | VA.gov CMS",
             "canonical_url": "http:\/\/default\/health-care\/lgbt-veteran-care",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 335
+        }
+    ],
     "uuid": [
         {
             "value": "b516b8f9-af49-4402-8a42-5e4428bfdda0"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14859
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T18:24:35+00:00",
+            "value": "2020-01-29T21:04:22+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-23T18:24:35+00:00",
+            "value": "2020-01-29T21:04:22+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh&nbsp;<\/h3>\r\n\r\n<p>The Behavioral Health Department offers both inpatient and outpatient services, including telehealth appointments. We provide consultation, evaluation, and treatment for a variety of issues impacting emotional well-being. Our&nbsp;services are confidential and&nbsp;include:<\/p>\r\n\r\n<ul>\r\n\t<li>Psychiatry<\/li>\r\n\t<li>Psychology<\/li>\r\n\t<li>Homeless Veterans services<\/li>\r\n\t<li>Treatment for addictive disorders, including residential rehabilitation treatment programs<\/li>\r\n\t<li>Transition and care management for returning Veterans (OIF\/OEF\/OND)<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f59ab38a-cc6d-457e-ba3f-dee0d822302b\" href=\"\/node\/806\">Learn more&nbsp;and connect with a care coordinator<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>The Behavioral Health Department offers both inpatient and outpatient services, including telehealth appointments. We provide consultation, evaluation, and treatment for a variety of issues impacting emotional well-being. Our&nbsp;services are confidential and&nbsp;include:<\/p>\r\n\r\n<ul>\r\n\t<li>Psychiatry<\/li>\r\n\t<li>Psychology<\/li>\r\n\t<li>Homeless Veterans services<\/li>\r\n\t<li>Treatment for addictive disorders, including residential rehabilitation treatment programs<\/li>\r\n\t<li>Transition and care management for returning Veterans (OIF\/OEF\/OND)<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f59ab38a-cc6d-457e-ba3f-dee0d822302b\" href=\"\/node\/806\">Learn more&nbsp;and connect with a care coordinator<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

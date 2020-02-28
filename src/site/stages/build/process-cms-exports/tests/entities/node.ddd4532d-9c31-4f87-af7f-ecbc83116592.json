@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 342
+        }
+    ],
     "uuid": [
         {
             "value": "ddd4532d-9c31-4f87-af7f-ecbc83116592"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14887
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T01:21:52+00:00",
+            "value": "2020-01-29T21:09:34+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T01:21:52+00:00",
+            "value": "2020-01-29T21:09:34+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>&nbsp;Our prosthetics and sensory aids services include the following:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Artificial limbs<\/li>\r\n\t<li>Wheelchairs<\/li>\r\n\t<li>Aids for the blind and hearing impaired<\/li>\r\n\t<li>Adaptive equipment for vehicles; modifications to make the home handicapped accessible<\/li>\r\n\t<li>Surgical implants<\/li>\r\n\t<li>Other devices and services for mobility, dignity, and independence<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>&nbsp;Our prosthetics and sensory aids services include the following:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Artificial limbs<\/li>\r\n\t<li>Wheelchairs<\/li>\r\n\t<li>Aids for the blind and hearing impaired<\/li>\r\n\t<li>Adaptive equipment for vehicles; modifications to make the home handicapped accessible<\/li>\r\n\t<li>Surgical implants<\/li>\r\n\t<li>Other devices and services for mobility, dignity, and independence<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

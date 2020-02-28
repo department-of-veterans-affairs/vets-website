@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 846
+        }
+    ],
     "uuid": [
         {
             "value": "2662d0b1-9ee5-45cc-a29f-5192681499ff"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14069
         }
     ],
     "langcode": [
@@ -18,7 +28,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:31:41+00:00",
+            "value": "2019-11-26T18:53:47+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:31:41+00:00",
+            "value": "2019-11-26T18:53:47+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -97,9 +107,9 @@
     },
     "path": [
         {
-            "alias": "\/pittsburgh-health-care\/press-releases\/va-pittsburgh-announces-outstanding-physicians-for-2018-0",
+            "alias": "\/pittsburgh-health-care\/news-releases\/va-pittsburgh-announces-outstanding-physicians-for-2018-0",
             "langcode": "en",
-            "pathauto": 1
+            "pathauto": 0
         }
     ],
     "menu_link": [],

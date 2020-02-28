@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 7399
+        }
+    ],
     "uuid": [
         {
             "value": "d9610006-5df1-4224-bea6-7f98f72e717f"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 37811
         }
     ],
     "langcode": [
@@ -25,6 +35,21 @@
         {
             "value": "2019-10-03T16:12:47+00:00",
             "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "7400"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "paragraph"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_va_paragraphs"
         }
     ],
     "behavior_settings": [

@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 30
+        }
+    ],
     "uuid": [
         {
             "value": "05929395-9414-4d5e-aebd-4473593fe00d"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 241
         }
     ],
     "langcode": [

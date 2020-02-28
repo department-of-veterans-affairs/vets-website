@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 4308
+        }
+    ],
     "uuid": [
         {
             "value": "b2954ff9-53b8-4aa6-aed1-95241539306b"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 48351
         }
     ],
     "langcode": [
@@ -27,6 +37,21 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "parent_id": [
+        {
+            "value": "3943"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "paragraph"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_va_paragraphs"
+        }
+    ],
     "behavior_settings": [
         {
             "value": []
@@ -37,11 +62,7 @@
             "value": true
         }
     ],
-    "revision_translation_affected": [
-        {
-            "value": true
-        }
-    ],
+    "revision_translation_affected": [],
     "field_link": [
         {
             "uri": "entity:node\/221",

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 343
+        }
+    ],
     "uuid": [
         {
             "value": "f88a91dc-918b-40da-a76d-baa3bd19c4ac"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14889
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T17:01:36+00:00",
+            "value": "2020-01-29T21:09:45+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T17:01:36+00:00",
+            "value": "2020-01-29T21:09:45+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Primary care for spinal-cord-injured patients<\/li>\r\n\t<li>Additional support for spinal-cord-injured patients<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Primary care for spinal-cord-injured patients<\/li>\r\n\t<li>Additional support for spinal-cord-injured patients<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 641
+        }
+    ],
     "uuid": [
         {
             "value": "f25b7f27-0320-404a-b116-dc2b21178818"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14891
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:49:03+00:00",
+            "value": "2020-01-29T21:09:54+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:49:03+00:00",
+            "value": "2020-01-29T21:09:54+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Liver transplants<\/li>\r\n\t<li>Kidney (renal) transplants<\/li>\r\n\t<li>Referrals to other transplant centers<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Liver transplants<\/li>\r\n\t<li>Kidney (renal) transplants<\/li>\r\n\t<li>Referrals to other transplant centers<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

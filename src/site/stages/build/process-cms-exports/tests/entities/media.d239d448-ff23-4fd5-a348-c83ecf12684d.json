@@ -1,7 +1,17 @@
 {
+    "mid": [
+        {
+            "value": 271
+        }
+    ],
     "uuid": [
         {
             "value": "d239d448-ff23-4fd5-a348-c83ecf12684d"
+        }
+    ],
+    "vid": [
+        {
+            "value": 271
         }
     ],
     "langcode": [

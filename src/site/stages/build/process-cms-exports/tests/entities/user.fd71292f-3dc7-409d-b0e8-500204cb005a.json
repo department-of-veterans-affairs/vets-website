@@ -48,7 +48,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-19T00:17:21+00:00",
+            "value": "2020-01-16T17:40:53+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -74,21 +74,9 @@
             "value": true
         }
     ],
-    "metatag": {
-        "value": {
-            "title": "Jeffrey.Brauer@va.gov | Veterans Affairs",
-            "canonical_url": "http:\/\/default\/user\/65",
-            "twitter_cards_type": "summary_large_image",
-            "og_site_name": "Veterans Affairs",
-            "description": "Veterans Affairs",
-            "twitter_cards_title": "| Veterans Affairs",
-            "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "| Veterans Affairs"
-        }
-    },
     "revision_log_settings": [
         {
-            "value": "a:2:{s:13:\"block_content\";a:3:{s:5:\"alert\";i:1;s:8:\"megamenu\";i:1;s:5:\"promo\";i:1;}s:4:\"node\";a:15:{s:18:\"documentation_page\";i:1;s:5:\"event\";i:1;s:13:\"event_listing\";i:1;s:26:\"health_care_local_facility\";i:1;s:30:\"health_care_region_detail_page\";i:1;s:23:\"health_care_region_page\";i:1;s:12:\"landing_page\";i:1;s:10:\"news_story\";i:1;s:6:\"office\";i:1;s:14:\"outreach_asset\";i:1;s:14:\"person_profile\";i:1;s:13:\"press_release\";i:1;s:19:\"publication_listing\";i:1;s:15:\"support_service\";i:1;s:4:\"page\";i:1;}}"
+            "value": "a:2:{s:13:\"block_content\";a:2:{s:5:\"alert\";i:1;s:5:\"promo\";i:1;}s:4:\"node\";a:17:{s:18:\"documentation_page\";i:1;s:5:\"event\";i:1;s:13:\"event_listing\";i:1;s:23:\"full_width_banner_alert\";i:1;s:26:\"health_care_local_facility\";i:1;s:30:\"health_care_region_detail_page\";i:1;s:23:\"health_care_region_page\";i:1;s:12:\"landing_page\";i:1;s:10:\"news_story\";i:1;s:6:\"office\";i:1;s:14:\"outreach_asset\";i:1;s:4:\"page\";i:1;s:14:\"person_profile\";i:1;s:13:\"press_release\";i:1;s:19:\"publication_listing\";i:1;s:15:\"support_service\";i:1;s:32:\"vamc_operating_status_and_alerts\";i:1;}}"
         }
     ],
     "path": [
@@ -97,6 +85,16 @@
             "pid": null,
             "langcode": "en",
             "pathauto": 0
+        }
+    ],
+    "field_last_password_reset": [
+        {
+            "value": "2020-01-15T23:51:55"
+        }
+    ],
+    "field_password_expiration": [
+        {
+            "value": false
         }
     ]
 }

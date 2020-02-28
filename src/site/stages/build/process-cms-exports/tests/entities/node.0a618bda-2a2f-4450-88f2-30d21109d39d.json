@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 739
+        }
+    ],
     "uuid": [
         {
             "value": "0a618bda-2a2f-4450-88f2-30d21109d39d"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14885
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T16:56:30+00:00",
+            "value": "2020-01-29T21:09:24+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T16:56:30+00:00",
+            "value": "2020-01-29T21:09:24+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3><strong>Care we provide at VA Pittsburgh<\/strong><\/h3>\r\n\r\n<p>Recreation and Creative Arts Therapists (Art, Dance Movement, Drama, Music) conduct consult-driven assessments and provide inpatient, outpatient, and telehealth therapeutic interventions with Veterans. Therapist and Veterans collaborate on therapeutic goals to maintain\/improve quality of life by identifying core problems, managing symptoms, and rehabilitating to the greatest extent possible. Our services include:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Dance Movement Therapy for eating disorders, trauma including military sexual trauma, moral injury, pain &amp; mood management<\/li>\r\n\t<li>Drama Therapy for memory care, gender transition, behavioral challenges, pain &amp; mood management<\/li>\r\n\t<li>Music Therapy for hospice\/palliative care, memory care, substance abuse, aphasia, sleep disorders, pain &amp; mood management, adaptive music instruction<\/li>\r\n\t<li>Recreation Therapy including adaptive sports, leisure education counseling, life skills management, social skills counseling, community integration\/reintegration<\/li>\r\n\t<li>Meaning recreation activities including cognitive skills maintenance, creative arts expression, physical exercise, and social activities<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3><strong>Care we provide at VA Pittsburgh health care<\/strong><\/h3>\r\n\r\n<p>Recreation and Creative Arts Therapists (Art, Dance Movement, Drama, Music) conduct consult-driven assessments and provide inpatient, outpatient, and telehealth therapeutic interventions with Veterans. Therapist and Veterans collaborate on therapeutic goals to maintain\/improve quality of life by identifying core problems, managing symptoms, and rehabilitating to the greatest extent possible. Our services include:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Dance Movement Therapy for eating disorders, trauma including military sexual trauma, moral injury, pain &amp; mood management<\/li>\r\n\t<li>Drama Therapy for memory care, gender transition, behavioral challenges, pain &amp; mood management<\/li>\r\n\t<li>Music Therapy for hospice\/palliative care, memory care, substance abuse, aphasia, sleep disorders, pain &amp; mood management, adaptive music instruction<\/li>\r\n\t<li>Recreation Therapy including adaptive sports, leisure education counseling, life skills management, social skills counseling, community integration\/reintegration<\/li>\r\n\t<li>Meaning recreation activities including cognitive skills maintenance, creative arts expression, physical exercise, and social activities<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

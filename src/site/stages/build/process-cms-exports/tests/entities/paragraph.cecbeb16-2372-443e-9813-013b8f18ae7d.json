@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 7003
+        }
+    ],
     "uuid": [
         {
             "value": "cecbeb16-2372-443e-9813-013b8f18ae7d"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 48356
         }
     ],
     "langcode": [
@@ -27,6 +37,21 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "parent_id": [
+        {
+            "value": "3943"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "paragraph"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_va_paragraphs"
+        }
+    ],
     "behavior_settings": [
         {
             "value": []
@@ -37,11 +62,7 @@
             "value": true
         }
     ],
-    "revision_translation_affected": [
-        {
-            "value": true
-        }
-    ],
+    "revision_translation_affected": [],
     "field_link": [
         {
             "uri": "entity:node\/775#annual-reports-and-newsletters",

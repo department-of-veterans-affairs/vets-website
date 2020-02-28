@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 259
+        }
+    ],
     "uuid": [
         {
             "value": "5483b3ee-eeb5-4286-9ff1-2d463784031b"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14861
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T18:32:27+00:00",
+            "value": "2020-01-29T21:04:32+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-30T20:47:30+00:00",
+            "value": "2020-01-29T21:04:32+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our LGBT Veteran care coordinators can answer your questions, advocate for your right to quality care, handle complaints or concerns you have about your care, and help you get started with any of our services for LGBT Veterans. These&nbsp;include:<\/p>\r\n\r\n<ul>\r\n\t<li>Mental health services, including psychosocial assessments for hormone therapy and gender confirming surgeries<\/li>\r\n\t<li>Creative arts therapies<\/li>\r\n\t<li>Hormone therapy<\/li>\r\n\t<li>Gender-affirming prosthetics<\/li>\r\n\t<li>HIV and STI testing, counseling, and care, including PEP&nbsp;(post-exposure prophylaxis) and PrEP&nbsp;(pre-exposure prophylaxis) for Veterans at risk for HIV<\/li>\r\n\t<li>Other prevention, screening, wellness, and testing services<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"9660b498-8159-419c-a467-344ba8c0d6a5\" href=\"\/node\/804\">Learn more and connect with a care coordinator<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our LGBT Veteran care coordinators can answer your questions, advocate for your right to quality care, handle complaints or concerns you have about your care, and help you get started with any of our services for LGBT Veterans. These&nbsp;include:<\/p>\r\n\r\n<ul>\r\n\t<li>Mental health services, including psychosocial assessments for hormone therapy and gender confirming surgeries<\/li>\r\n\t<li>Creative arts therapies<\/li>\r\n\t<li>Hormone therapy<\/li>\r\n\t<li>Gender-affirming prosthetics<\/li>\r\n\t<li>HIV and STI testing, counseling, and care, including PEP&nbsp;(post-exposure prophylaxis) and PrEP&nbsp;(pre-exposure prophylaxis) for Veterans at risk for HIV<\/li>\r\n\t<li>Other prevention, screening, wellness, and testing services<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"9660b498-8159-419c-a467-344ba8c0d6a5\" href=\"\/node\/804\">Learn more and connect with a care coordinator<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

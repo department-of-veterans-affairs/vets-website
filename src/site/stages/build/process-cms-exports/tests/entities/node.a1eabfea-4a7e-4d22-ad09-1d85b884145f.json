@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 86
+        }
+    ],
     "uuid": [
         {
             "value": "a1eabfea-4a7e-4d22-ad09-1d85b884145f"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14986
         }
     ],
     "langcode": [
@@ -18,17 +28,21 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-29T21:18:38+00:00",
+            "value": "2020-01-30T21:45:09+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "efa9900b-7446-41bf-b6a9-a99287ae2235"
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
         }
     ],
-    "revision_log": [],
+    "revision_log": [
+        {
+            "value": "added disclaimer for lodging"
+        }
+    ],
     "status": [
         {
             "value": true
@@ -53,7 +67,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T14:57:00+00:00",
+            "value": "2020-01-30T21:45:09+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,17 +98,17 @@
     ],
     "metatag": {
         "value": {
-            "title": "VA Pittsburgh Health Care | Beaver County Clinic | Veterans Affairs",
+            "title": "VA Pittsburgh Health Care | Beaver County VA Clinic",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_description": "Learn details about about the Beaver County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit.",
+            "twitter_cards_description": "Get address and hours, parking and transportation information, and health services offered at Beaver County VA Clinic.",
             "description": "Beaver County Outpatient VA Clinic - where you can receive general medical care, physical exams, and laboratory, radiology, dietary and podiatry services.",
             "twitter_cards_title": "Beaver County VA Clinic | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
             "keywords": "VA Outpatient Clinic Beaver County",
             "image_src": "http:\/\/default\/sites\/default\/files\/2019-06\/Beaver%20County%20Outpatient%20Clinic_20170713_4790.jpg",
             "og_title": "Beaver County VA Clinic | Veterans Affairs",
-            "og_description": "Learn details about about the Beaver County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit.",
+            "og_description": "Get address and hours, parking and transportation information, and health services offered at Beaver County VA Clinic.",
             "twitter_cards_image": "http:\/\/default\/sites\/default\/files\/2019-06\/Beaver%20County%20Outpatient%20Clinic_20170713_4790.jpg",
             "og_image_0": "http:\/\/default\/sites\/default\/files\/2019-06\/Beaver%20County%20Outpatient%20Clinic_20170713_4790.jpg"
         }
@@ -132,7 +146,7 @@
     ],
     "field_description": [
         {
-            "value": "Learn details about about the Beaver County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit. "
+            "value": "Get address and hours, parking and transportation information, and health services offered at Beaver County VA Clinic."
         }
     ],
     "field_email_subscription": [],
@@ -187,7 +201,7 @@
     "field_instagram": [],
     "field_intro_text": [
         {
-            "value": "The Beaver County outpatient clinic offers general medical care, including physical exams, laboratory services, radiology, dietary services, and podiatry (foot care).\r\n"
+            "value": "Our outpatient clinic offers general medical care, including physical exams, laboratory services, radiology, dietary services, and podiatry (foot care). Get address and hours, parking and transportation information, and health services offered at Beaver County VA Clinic.\r\n"
         }
     ],
     "field_local_health_care_service_": [
@@ -292,12 +306,12 @@
     ],
     "field_meta_title": [
         {
-            "value": "VA Pittsburgh Health Care | Beaver County Clinic | Veterans Affairs"
+            "value": "VA Pittsburgh Health Care | Beaver County VA Clinic"
         }
     ],
     "field_nickname_for_this_facility": [
         {
-            "value": "Beaver County clinic"
+            "value": "Beaver County VA Clinic"
         }
     ],
     "field_operating_status_facility": [

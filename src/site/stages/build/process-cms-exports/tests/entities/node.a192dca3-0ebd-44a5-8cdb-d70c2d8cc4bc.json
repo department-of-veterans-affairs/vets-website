@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 96
+        }
+    ],
     "uuid": [
         {
             "value": "a192dca3-0ebd-44a5-8cdb-d70c2d8cc4bc"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14875
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T20:56:36+00:00",
+            "value": "2020-01-29T21:05:54+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T20:56:36+00:00",
+            "value": "2020-01-29T21:05:54+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Hearing and balance evaluations<\/li>\r\n\t<li>Hearing aid selection, management, and repair, and assistive listening device assessments<\/li>\r\n\t<li>Evaluation, programming, and management for cochlear implants and&nbsp;bone-anchored implants<\/li>\r\n\t<li>Auditory processing evaluations and treatment<\/li>\r\n\t<li>Speech pathology services that help with speech, language, fluency, voice, cognitive communication, swallowing, stuttering, and laryngectomy<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Hearing and balance evaluations<\/li>\r\n\t<li>Hearing aid selection, management, and repair, and assistive listening device assessments<\/li>\r\n\t<li>Evaluation, programming, and management for cochlear implants and&nbsp;bone-anchored implants<\/li>\r\n\t<li>Auditory processing evaluations and treatment<\/li>\r\n\t<li>Speech pathology services that help with speech, language, fluency, voice, cognitive communication, swallowing, stuttering, and laryngectomy<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 743
+        }
+    ],
     "uuid": [
         {
             "value": "a3dbd92d-9e31-4766-962c-5cb52b8353fe"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14857
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T17:18:04+00:00",
+            "value": "2020-01-29T21:04:08+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-30T18:46:45+00:00",
+            "value": "2020-01-29T21:04:08+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our&nbsp;Minority Veterans Program serves&nbsp;all Veterans, including African Americans, Asian Americans, Hispanic Americans and Native Americans,&nbsp;including American Indians, Alaskan Natives, Native Hawaiians, and Pacific Island Americans. We focus on:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Management of the medical center in their efforts to address the needs of minority Veterans<\/li>\r\n\t<li>The needs of minority Veterans in the local community<\/li>\r\n\t<li>Identifying barriers and creating a more accessible environment for minority Veterans<\/li>\r\n\t<li>Informing&nbsp;Veterans of VA benefits, services, and programs<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f72b858b-5f36-4844-a47d-f1a92065bdc3\" href=\"\/node\/807\">Learn more and connect with a care coordinator<\/a>&nbsp;<\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our&nbsp;Minority Veterans Program serves&nbsp;all Veterans, including African Americans, Asian Americans, Hispanic Americans and Native Americans,&nbsp;including American Indians, Alaskan Natives, Native Hawaiians, and Pacific Island Americans. We focus on:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Management of the medical center in their efforts to address the needs of minority Veterans<\/li>\r\n\t<li>The needs of minority Veterans in the local community<\/li>\r\n\t<li>Identifying barriers and creating a more accessible environment for minority Veterans<\/li>\r\n\t<li>Informing&nbsp;Veterans of VA benefits, services, and programs<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"f72b858b-5f36-4844-a47d-f1a92065bdc3\" href=\"\/node\/807\">Learn more and connect with a care coordinator<\/a>&nbsp;<\/p>\r\n",
             "format": "rich_text"
         }
     ],

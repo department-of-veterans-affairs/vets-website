@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 327
+        }
+    ],
     "uuid": [
         {
             "value": "e65f031a-ad46-47ed-aa0a-9e923bc34f9e"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14872
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:03:01+00:00",
+            "value": "2020-01-29T21:05:37+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -36,7 +46,7 @@
     ],
     "title": [
         {
-            "value": "Critical Care"
+            "value": "Critical care"
         }
     ],
     "uid": [
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:03:01+00:00",
+            "value": "2020-01-29T21:05:37+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,12 +94,12 @@
     ],
     "metatag": {
         "value": {
-            "title": "Critical Care | Veterans Affairs",
+            "title": "Critical care | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_title": "Critical Care | Veterans Affairs",
+            "twitter_cards_title": "Critical care | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "Critical Care | Veterans Affairs"
+            "og_title": "Critical care | Veterans Affairs"
         }
     },
     "path": [
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Treatment for complications from surgery<\/li>\r\n\t<li>Treatment related to accidents or infections<\/li>\r\n\t<li>Care for severe breathing problems<\/li>\r\n\t<li>A Step Down Unit for patients recently discharged from critical care or who need greater care than a standard medical unit.<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Treatment for complications from surgery<\/li>\r\n\t<li>Treatment related to accidents or infections<\/li>\r\n\t<li>Care for severe breathing problems<\/li>\r\n\t<li>A Step Down Unit for patients recently discharged from critical care or who need greater care than a standard medical unit.<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

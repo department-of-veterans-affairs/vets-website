@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 338
+        }
+    ],
     "uuid": [
         {
             "value": "45fa1aaa-22f3-44a9-944d-0aef13efbc9a"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14851
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-30T21:54:43+00:00",
+            "value": "2020-01-29T21:03:30+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-30T21:54:43+00:00",
+            "value": "2020-01-29T21:03:30+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Comprehensive evaluation of ocular diseases<\/li>\r\n\t<li>Subspecialty services such as retina, cornea, and glaucoma evaluation and treatment<\/li>\r\n\t<li>Low vision services<\/li>\r\n\t<li>Diabetic eye exams<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Comprehensive evaluation of ocular diseases<\/li>\r\n\t<li>Subspecialty services such as retina, cornea, and glaucoma evaluation and treatment<\/li>\r\n\t<li>Low vision services<\/li>\r\n\t<li>Diabetic eye exams<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

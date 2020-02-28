@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 7402
+        }
+    ],
     "uuid": [
         {
             "value": "46a9cfa2-b877-4403-b849-bd5af6182f63"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 37376
         }
     ],
     "langcode": [
@@ -25,6 +35,21 @@
         {
             "value": "2019-10-08T00:33:42+00:00",
             "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "30"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "block_content"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_alert_content"
         }
     ],
     "behavior_settings": [

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 362
+        }
+    ],
     "uuid": [
         {
             "value": "c8ea6d96-9263-4d1d-ac90-c90b55ba13c9"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14866
         }
     ],
     "langcode": [
@@ -18,21 +28,17 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-08-27T17:49:53+00:00",
+            "value": "2020-01-29T21:05:06+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
-    "revision_log": [
-        {
-            "value": "Bulk operation publish revision"
-        }
-    ],
+    "revision_log": [],
     "status": [
         {
             "value": true
@@ -57,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-08-27T17:49:53+00:00",
+            "value": "2020-01-29T21:05:06+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -112,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We provide evaluation and treatment for:<\/p>\r\n\r\n<ul>\r\n\t<li>Abnormal Pap test<\/li>\r\n\t<li>Abnormal uterine bleeding<\/li>\r\n\t<li>Infertility<\/li>\r\n\t<li>Pelvic pain<\/li>\r\n\t<li>Gynecologic cancers<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We provide evaluation and treatment for:<\/p>\r\n\r\n<ul>\r\n\t<li>Abnormal Pap test<\/li>\r\n\t<li>Abnormal uterine bleeding<\/li>\r\n\t<li>Infertility<\/li>\r\n\t<li>Pelvic pain<\/li>\r\n\t<li>Gynecologic cancers<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

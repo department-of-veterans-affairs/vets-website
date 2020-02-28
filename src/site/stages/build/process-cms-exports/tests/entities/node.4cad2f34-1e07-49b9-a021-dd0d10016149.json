@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 340
+        }
+    ],
     "uuid": [
         {
             "value": "4cad2f34-1e07-49b9-a021-dd0d10016149"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14879
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T00:58:33+00:00",
+            "value": "2020-01-29T21:08:43+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T00:58:33+00:00",
+            "value": "2020-01-29T21:08:43+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Outpatient physical and occupational therapy<\/li>\r\n\t<li>Physical medicine and rehabilitation<\/li>\r\n\t<li>Blind and low vision services<\/li>\r\n\t<li>Traumatic brain injury\/polytrauma services<\/li>\r\n\t<li>Geriatric evaluation &amp; management<\/li>\r\n\t<li>Wheelchair and power mobility services<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Outpatient physical and occupational therapy<\/li>\r\n\t<li>Physical medicine and rehabilitation<\/li>\r\n\t<li>Blind and low vision services<\/li>\r\n\t<li>Traumatic brain injury\/polytrauma services<\/li>\r\n\t<li>Geriatric evaluation &amp; management<\/li>\r\n\t<li>Wheelchair and power mobility services<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

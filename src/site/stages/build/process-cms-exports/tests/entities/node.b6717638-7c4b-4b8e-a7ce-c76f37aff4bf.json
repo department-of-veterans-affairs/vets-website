@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 330
+        }
+    ],
     "uuid": [
         {
             "value": "b6717638-7c4b-4b8e-a7ce-c76f37aff4bf"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14869
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:08:23+00:00",
+            "value": "2020-01-29T21:05:21+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -36,7 +46,7 @@
     ],
     "title": [
         {
-            "value": "Emergency medicine"
+            "value": "Emergency care"
         }
     ],
     "uid": [
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:08:23+00:00",
+            "value": "2020-01-29T21:05:21+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,17 +94,17 @@
     ],
     "metatag": {
         "value": {
-            "title": "Emergency medicine | Veterans Affairs",
+            "title": "Emergency care | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_title": "Emergency medicine | Veterans Affairs",
+            "twitter_cards_title": "Emergency care | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
-            "og_title": "Emergency medicine | Veterans Affairs"
+            "og_title": "Emergency care | Veterans Affairs"
         }
     },
     "path": [
         {
-            "alias": "\/emergency-medicine",
+            "alias": "\/emergency-care",
             "langcode": "en",
             "pathauto": 1
         }
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We treat patients daily for a broad spectrum of emergencies. These include:<\/p>\r\n\r\n<ul>\r\n\t<li>Life-threatening illnesses and injuries&nbsp;that require immediate attention<\/li>\r\n\t<li>Mental health conditions<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We treat patients daily for a broad spectrum of emergencies. These include:<\/p>\r\n\r\n<ul>\r\n\t<li>Life-threatening illnesses and injuries&nbsp;that require immediate attention<\/li>\r\n\t<li>Mental health conditions<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

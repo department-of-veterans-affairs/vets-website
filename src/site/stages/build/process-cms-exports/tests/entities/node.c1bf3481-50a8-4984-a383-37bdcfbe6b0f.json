@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 363
+        }
+    ],
     "uuid": [
         {
             "value": "c1bf3481-50a8-4984-a383-37bdcfbe6b0f"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14850
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-04T20:41:55+00:00",
+            "value": "2020-01-29T21:03:26+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-04T20:41:55+00:00",
+            "value": "2020-01-29T21:03:26+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our orthopedics specialists use both surgical and nonsurgical means to treat diseases and disorders of the musculoskeletal system. Conditions they address include:<\/p>\r\n\r\n<ul>\r\n\t<li>Musculoskeletal trauma<\/li>\r\n\t<li>Degenerative diseases<\/li>\r\n\t<li>Sports injuries<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our orthopedics specialists use both surgical and nonsurgical means to treat diseases and disorders of the musculoskeletal system. Conditions they address include:<\/p>\r\n\r\n<ul>\r\n\t<li>Musculoskeletal trauma<\/li>\r\n\t<li>Degenerative diseases<\/li>\r\n\t<li>Sports injuries<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

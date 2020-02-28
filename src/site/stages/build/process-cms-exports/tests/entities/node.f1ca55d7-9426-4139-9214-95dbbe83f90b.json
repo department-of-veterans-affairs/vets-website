@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 69
+        }
+    ],
     "uuid": [
         {
             "value": "f1ca55d7-9426-4139-9214-95dbbe83f90b"
+        }
+    ],
+    "vid": [
+        {
+            "value": 10592
         }
     ],
     "langcode": [
@@ -125,7 +135,7 @@
     ],
     "field_page_last_built": [
         {
-            "value": "2019-11-12T21:18:56"
+            "value": "2020-02-13T14:42:50"
         }
     ],
     "field_phone_number": [

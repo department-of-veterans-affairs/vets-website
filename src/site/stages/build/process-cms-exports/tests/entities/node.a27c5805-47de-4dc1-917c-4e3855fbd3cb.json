@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 257
+        }
+    ],
     "uuid": [
         {
             "value": "a27c5805-47de-4dc1-917c-4e3855fbd3cb"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14856
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:32:19+00:00",
+            "value": "2020-01-29T21:04:03+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-31T18:45:33+00:00",
+            "value": "2020-01-29T21:04:03+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>The MOVE! Program offers comprehensive support, including:<\/p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Weight loss support groups<\/li>\r\n\t<li>Cooking classes<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>The MOVE! Program offers comprehensive support, including:<\/p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Weight loss support groups<\/li>\r\n\t<li>Cooking classes<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

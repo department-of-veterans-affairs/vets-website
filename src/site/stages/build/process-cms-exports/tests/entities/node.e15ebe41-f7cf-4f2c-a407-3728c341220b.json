@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 175
+        }
+    ],
     "uuid": [
         {
             "value": "e15ebe41-f7cf-4f2c-a407-3728c341220b"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14987
         }
     ],
     "langcode": [
@@ -18,17 +28,21 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-22T20:35:34+00:00",
+            "value": "2020-01-30T21:46:38+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "d5b8f9a1-0178-484a-be39-40cb6d91a7a7"
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
         }
     ],
-    "revision_log": [],
+    "revision_log": [
+        {
+            "value": "added disclaimer for lodging"
+        }
+    ],
     "status": [
         {
             "value": true
@@ -53,7 +67,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T01:31:37+00:00",
+            "value": "2020-01-30T21:46:38+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,17 +98,17 @@
     ],
     "metatag": {
         "value": {
-            "title": "VA Pittsburgh Health Care | H.J. Heinz III Campus | Veterans Affairs",
+            "title": "VA Pittsburgh Health Care | H. John Heinz III Department of Veterans A",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_description": "Learn details about about the H.J. Heinz III Campus, part of the VA Pittsburgh Health Care system, including the services provided here to help you prepare for your visit.",
+            "twitter_cards_description": "Get address and hours, parking and transportation information, and health services offered at H. John Heinz III Department of Veterans Affairs Medical Center.",
             "description": "The Pittsburgh VA H.J. Heinz campus is a medical geriatric community living and progressive care center. Services include hearing care, speech pathology, dental care, primary care, and a pharmacy.",
             "twitter_cards_title": "H. John Heinz III Department of Veterans Affairs Medical Center | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
             "keywords": "H.J. Heinz VA medical geriatric community living center",
             "image_src": "http:\/\/default\/sites\/default\/files\/2019-02\/HJ-heinz-ambulatory-care3_0.jpg",
             "og_title": "H. John Heinz III Department of Veterans Affairs Medical Center | Veterans Affairs",
-            "og_description": "Learn details about about the H.J. Heinz III Campus, part of the VA Pittsburgh Health Care system, including the services provided here to help you prepare for your visit.",
+            "og_description": "Get address and hours, parking and transportation information, and health services offered at H. John Heinz III Department of Veterans Affairs Medical Center.",
             "twitter_cards_image": "http:\/\/default\/sites\/default\/files\/2019-02\/HJ-heinz-ambulatory-care3_0.jpg",
             "og_image_0": "http:\/\/default\/sites\/default\/files\/2019-02\/HJ-heinz-ambulatory-care3_0.jpg"
         }
@@ -132,7 +146,7 @@
     ],
     "field_description": [
         {
-            "value": "Learn details about about the H.J. Heinz III Campus, part of the VA Pittsburgh Health Care system, including the services provided here to help you prepare for your visit. "
+            "value": "Get address and hours, parking and transportation information, and health services offered at H. John Heinz III Department of Veterans Affairs Medical Center."
         }
     ],
     "field_email_subscription": [],
@@ -187,7 +201,7 @@
     "field_instagram": [],
     "field_intro_text": [
         {
-            "value": "Classified as a Geriatric Center of Excellence, our H.J. Heinz III campus offers transitional care, rehabilitation, dementia and hospice care beds, an ambulatory care center, and many outpatient services."
+            "value": "Classified as a Geriatric Center of Excellence, our H.J. Heinz III campus offers transitional care, rehabilitation, dementia and hospice care beds, an ambulatory care center, and many outpatient services. Get address and hours, parking and transportation information, and health services offered at H. John Heinz III Department of Veterans Affairs Medical Center."
         }
     ],
     "field_local_health_care_service_": [
@@ -396,12 +410,12 @@
     ],
     "field_meta_title": [
         {
-            "value": "VA Pittsburgh Health Care | H.J. Heinz III Campus | Veterans Affairs"
+            "value": "VA Pittsburgh Health Care | H. John Heinz III Department of Veterans A"
         }
     ],
     "field_nickname_for_this_facility": [
         {
-            "value": "H.J. Heinz III campus"
+            "value": "H. John Heinz III Department of Veterans Affairs Medica"
         }
     ],
     "field_operating_status_facility": [

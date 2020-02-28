@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 7400
+        }
+    ],
     "uuid": [
         {
             "value": "cbd78ba2-78a3-40df-a95e-d598bd3def6f"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 48539
         }
     ],
     "langcode": [
@@ -27,6 +37,21 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "parent_id": [
+        {
+            "value": "221"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_content_block"
+        }
+    ],
     "behavior_settings": [
         {
             "value": []
@@ -37,11 +62,7 @@
             "value": true
         }
     ],
-    "revision_translation_affected": [
-        {
-            "value": true
-        }
-    ],
+    "revision_translation_affected": [],
     "field_collapsible_panel_bordered": [
         {
             "value": false

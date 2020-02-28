@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 638
+        }
+    ],
     "uuid": [
         {
             "value": "7bc4ce20-f573-4ea6-b361-b3060be2e2ea"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14890
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T01:26:21+00:00",
+            "value": "2020-01-29T21:09:49+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T01:26:21+00:00",
+            "value": "2020-01-29T21:09:49+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We use the latest in secure digital technology to provide remote visits with health care providers. Our telehealth technologies include video conferencing, home telehealth (which lets you send us vital health information, like blood pressure readings, over the phone or internet), and store-and-forward telehealth (which helps you send your health information to experts at VA facilities using secure technology). We offer telehealth visits with providers in these fields:<\/p>\r\n\r\n<ul>\r\n\t<li>Mental health&nbsp;<\/li>\r\n\t<li>Retinal care&nbsp;<\/li>\r\n\t<li>Dermatology&nbsp;<\/li>\r\n\t<li>Rehabilitation&nbsp;<\/li>\r\n\t<li>Primary care<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We use the latest in secure digital technology to provide remote visits with health care providers. Our telehealth technologies include video conferencing, home telehealth (which lets you send us vital health information, like blood pressure readings, over the phone or internet), and store-and-forward telehealth (which helps you send your health information to experts at VA facilities using secure technology). We offer telehealth visits with providers in these fields:<\/p>\r\n\r\n<ul>\r\n\t<li>Mental health&nbsp;<\/li>\r\n\t<li>Retinal care&nbsp;<\/li>\r\n\t<li>Dermatology&nbsp;<\/li>\r\n\t<li>Rehabilitation&nbsp;<\/li>\r\n\t<li>Primary care<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

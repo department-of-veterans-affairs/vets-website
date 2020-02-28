@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 364
+        }
+    ],
     "uuid": [
         {
             "value": "fa8d2d15-0e41-4ef0-a606-c0da352fe76d"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14893
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T01:35:28+00:00",
+            "value": "2020-01-29T21:10:03+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T01:35:28+00:00",
+            "value": "2020-01-29T21:10:03+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We offer various urology procedures, including minimally invasive and robotic procedures for diseases affecting:<\/p>\r\n\r\n<ul>\r\n\t<li>The kidneys<\/li>\r\n\t<li>The bladder<\/li>\r\n\t<li>The urethra&nbsp;<\/li>\r\n\t<li>The male reproductive organs<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We offer various urology procedures, including minimally invasive and robotic procedures for diseases affecting:<\/p>\r\n\r\n<ul>\r\n\t<li>The kidneys<\/li>\r\n\t<li>The bladder<\/li>\r\n\t<li>The urethra&nbsp;<\/li>\r\n\t<li>The male reproductive organs<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

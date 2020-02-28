@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 265
+        }
+    ],
     "uuid": [
         {
             "value": "3e92eaa8-bbf8-4173-84f8-d187b281d548"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14886
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-05T17:00:49+00:00",
+            "value": "2020-01-29T21:09:29+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-05T17:00:49+00:00",
+            "value": "2020-01-29T21:09:29+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p dir=\"LTR\">Registry exams, services, and care coordination&nbsp;for Veterans exposed to environmental hazards such as:<\/p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Ionizing radiation<\/li>\r\n\t<li>Agent Orange<\/li>\r\n\t<li>Gulf War hazards<\/li>\r\n\t<li>Depleted Uranium (DU)<\/li>\r\n\t<li>Toxic Embedded Fragment (shrapnel)<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3 dir=\"LTR\">Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p dir=\"LTR\">Registry exams, services, and care coordination&nbsp;for Veterans exposed to environmental hazards such as:<\/p>\r\n\r\n<ul dir=\"ltr\">\r\n\t<li>Ionizing radiation<\/li>\r\n\t<li>Agent Orange<\/li>\r\n\t<li>Gulf War hazards<\/li>\r\n\t<li>Depleted Uranium (DU)<\/li>\r\n\t<li>Toxic Embedded Fragment (shrapnel)<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

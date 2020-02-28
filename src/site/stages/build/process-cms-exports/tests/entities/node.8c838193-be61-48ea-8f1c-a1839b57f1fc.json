@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 270
+        }
+    ],
     "uuid": [
         {
             "value": "8c838193-be61-48ea-8f1c-a1839b57f1fc"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14880
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:38:49+00:00",
+            "value": "2020-01-29T21:08:49+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:38:49+00:00",
+            "value": "2020-01-29T21:08:49+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Arthritis care; foot and ankle fracture care<\/li>\r\n\t<li>Repair of cartilage and torn tendons and ligaments<\/li>\r\n\t<li>Injections to reduce pain and swelling<\/li>\r\n\t<li>Joint arthroplasty and replacement<\/li>\r\n\t<li>Minimally invasive surgery; rehabilitation<\/li>\r\n\t<li>Foot health maintenance, including bunion removal, resurfacing, and nail trimming<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Arthritis care; foot and ankle fracture care<\/li>\r\n\t<li>Repair of cartilage and torn tendons and ligaments<\/li>\r\n\t<li>Injections to reduce pain and swelling<\/li>\r\n\t<li>Joint arthroplasty and replacement<\/li>\r\n\t<li>Minimally invasive surgery; rehabilitation<\/li>\r\n\t<li>Foot health maintenance, including bunion removal, resurfacing, and nail trimming<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],
@@ -125,7 +135,6 @@
             "target_type": "node",
             "target_uuid": "b14b30e7-2b21-4ae9-9e57-c93f4901e3b0"
         },
-        [],
         {
             "target_type": "node",
             "target_uuid": "82fc56d3-e6a6-43e3-98c1-c87e0f8366dd"

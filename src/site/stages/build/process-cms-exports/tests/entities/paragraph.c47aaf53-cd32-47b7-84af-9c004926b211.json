@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 3943
+        }
+    ],
     "uuid": [
         {
             "value": "c47aaf53-cd32-47b7-84af-9c004926b211"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 48358
         }
     ],
     "langcode": [
@@ -27,6 +37,21 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "parent_id": [
+        {
+            "value": "318"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_related_links"
+        }
+    ],
     "behavior_settings": [
         {
             "value": []
@@ -37,10 +62,14 @@
             "value": true
         }
     ],
-    "revision_translation_affected": [],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
     "field_title": [
         {
-            "value": "In the spotlight at VA Pittsburgh"
+            "value": "In the spotlight at VA Pittsburgh health care"
         }
     ],
     "field_va_paragraphs": [
@@ -58,6 +87,10 @@
         },
         {
             "target_type": "paragraph",
+            "target_uuid": "78e116bc-4869-4799-a396-1c2dff85f232"
+        },
+        {
+            "target_type": "paragraph",
             "target_uuid": "0fc00163-7a70-4baa-bf09-218e1e9686a5"
         },
         {
@@ -67,6 +100,10 @@
         {
             "target_type": "paragraph",
             "target_uuid": "cecbeb16-2372-443e-9813-013b8f18ae7d"
+        },
+        {
+            "target_type": "paragraph",
+            "target_uuid": "7978438f-c217-4a3e-ae79-aa8e20073547"
         }
     ]
 }

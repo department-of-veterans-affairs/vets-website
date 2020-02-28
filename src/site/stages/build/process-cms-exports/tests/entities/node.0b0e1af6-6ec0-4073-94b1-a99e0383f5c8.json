@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 646
+        }
+    ],
     "uuid": [
         {
             "value": "0b0e1af6-6ec0-4073-94b1-a99e0383f5c8"
+        }
+    ],
+    "vid": [
+        {
+            "value": 13811
         }
     ],
     "langcode": [

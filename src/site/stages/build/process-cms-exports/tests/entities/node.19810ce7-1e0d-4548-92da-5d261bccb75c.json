@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 620
+        }
+    ],
     "uuid": [
         {
             "value": "19810ce7-1e0d-4548-92da-5d261bccb75c"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14883
         }
     ],
     "langcode": [
@@ -18,21 +28,17 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-08-27T17:50:02+00:00",
+            "value": "2020-01-29T21:09:07+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
-    "revision_log": [
-        {
-            "value": "Bulk operation publish revision"
-        }
-    ],
+    "revision_log": [],
     "status": [
         {
             "value": true
@@ -57,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-08-27T17:50:02+00:00",
+            "value": "2020-01-29T21:09:07+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -112,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our psychology teams offer consultation, evaluation and treatment for Veterans dealing&nbsp;with:<\/p>\r\n\r\n<ul>\r\n\t<li>Depression (including sadness and grief)&nbsp;and\/or anxiety (including worry and nervousness)<\/li>\r\n\t<li>Addictive behaviors<\/li>\r\n\t<li>Post-traumatic stress disorder and combat related stress disorder<\/li>\r\n\t<li>Emotional problems, such as managing anger, and relationship problems<\/li>\r\n\t<li>Confused thinking, memory problems, and troublesome thoughts or ideas<\/li>\r\n\t<li>Aggressive or self-harming behaviors<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our psychology teams offer consultation, evaluation and treatment for Veterans dealing&nbsp;with:<\/p>\r\n\r\n<ul>\r\n\t<li>Depression (including sadness and grief)&nbsp;and\/or anxiety (including worry and nervousness)<\/li>\r\n\t<li>Addictive behaviors<\/li>\r\n\t<li>Post-traumatic stress disorder and combat related stress disorder<\/li>\r\n\t<li>Emotional problems, such as managing anger, and relationship problems<\/li>\r\n\t<li>Confused thinking, memory problems, and troublesome thoughts or ideas<\/li>\r\n\t<li>Aggressive or self-harming behaviors<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

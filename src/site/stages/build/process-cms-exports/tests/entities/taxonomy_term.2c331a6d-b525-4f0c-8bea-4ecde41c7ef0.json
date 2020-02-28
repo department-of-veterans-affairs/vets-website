@@ -1,4 +1,9 @@
 {
+    "tid": [
+        {
+            "value": 1
+        }
+    ],
     "uuid": [
         {
             "value": "2c331a6d-b525-4f0c-8bea-4ecde41c7ef0"
@@ -55,7 +60,7 @@
     ],
     "metatag": {
         "value": {
-            "title": "Veterans Benefits Administration | Veterans Affairs",
+            "title": "Veterans Benefits Administration | VA.gov CMS",
             "canonical_url": "http:\/\/default\/section\/veterans-benefits-administration",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",

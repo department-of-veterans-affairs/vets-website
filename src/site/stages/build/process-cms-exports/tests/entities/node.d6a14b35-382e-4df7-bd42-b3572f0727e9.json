@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 99
+        }
+    ],
     "uuid": [
         {
             "value": "d6a14b35-382e-4df7-bd42-b3572f0727e9"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14888
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-24T16:24:48+00:00",
+            "value": "2020-01-29T21:09:40+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-24T16:24:48+00:00",
+            "value": "2020-01-29T21:09:40+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<ul>\r\n\t<li>Suicide prevention care coordinators<\/li>\r\n\t<li>Suicide prevention case managers<\/li>\r\n\t<li>Gun safety locks<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"3bca7853-a18c-4eab-a62c-86cf180f89b2\" href=\"\/node\/996\">Learn more and connect with a care coordinator<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<ul>\r\n\t<li>Suicide prevention care coordinators<\/li>\r\n\t<li>Suicide prevention case managers<\/li>\r\n\t<li>Gun safety locks<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"3bca7853-a18c-4eab-a62c-86cf180f89b2\" href=\"\/node\/996\">Learn more and connect with a care coordinator<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

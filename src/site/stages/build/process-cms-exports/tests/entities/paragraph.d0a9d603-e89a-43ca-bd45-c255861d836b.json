@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 5341
+        }
+    ],
     "uuid": [
         {
             "value": "d0a9d603-e89a-43ca-bd45-c255861d836b"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 47711
         }
     ],
     "langcode": [
@@ -27,6 +37,21 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "parent_id": [
+        {
+            "value": "88"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_location_services"
+        }
+    ],
     "behavior_settings": [
         {
             "value": []
@@ -49,7 +74,7 @@
     ],
     "field_wysiwyg": [
         {
-            "value": "<h4>Nearby hotels<\/h4>\r\n\r\n<p>There is no lodging at the Fayette&nbsp;County outpatient clinic. If you need to travel to the clinic for multiple days, try one of these hotels. When booking, ask if there is a Veteran rate. Many hotels have shuttle vans, so check with the hotel you\u2019re staying at if you need help getting to the clinic.<\/p>\r\n\r\n<ul>\r\n\t<li dir=\"ltr\"><a href=\"https:\/\/www.hilton.com\/en\/hotels\/untpahx-hampton-uniontown\/\">Hampton Inn Uniontown<\/a><br \/>\r\n\t<a href=\"tel: ++1-724-430-1000\">724-430-1000<\/a><\/li>\r\n\t<li dir=\"ltr\"><a href=\"https:\/\/www.choicehotels.com\/pennsylvania\/uniontown\/comfort-suites-hotels\/pa654\/rates\">Comfort Suites<\/a><br \/>\r\n\t<a href=\"tel: +1724-550-4700\">724-550-4700<\/a><\/li>\r\n\t<li dir=\"ltr\"><a href=\"https:\/\/hiltongardeninn3.hilton.com\/en\/hotels\/pennsylvania\/hilton-garden-inn-uniontown-MGWUNGI\/index.html\">Hilton Garden Inn Uniontown<\/a><br \/>\r\n\t<a href=\"tel: +1-724-434-7200\">724-434-7200<\/a><\/li>\r\n<\/ul>\r\n",
+            "value": "<h4>Nearby hotels<\/h4>\r\n\r\n<p>There is no lodging at the Fayette&nbsp;County outpatient clinic. If you need to travel to the clinic for multiple days, try one of these hotels. When booking, ask if there is a Veteran rate. Many hotels have shuttle vans, so check with the hotel you\u2019re staying at if you need help getting to the clinic.<\/p>\r\n\r\n<ul>\r\n\t<li dir=\"ltr\"><a href=\"https:\/\/www.hilton.com\/en\/hotels\/untpahx-hampton-uniontown\/\">Hampton Inn Uniontown<\/a><br \/>\r\n\t<a href=\"tel: ++1-724-430-1000\">724-430-1000<\/a><\/li>\r\n\t<li dir=\"ltr\"><a href=\"https:\/\/www.choicehotels.com\/pennsylvania\/uniontown\/comfort-suites-hotels\/pa654\/rates\">Comfort Suites<\/a><br \/>\r\n\t<a href=\"tel: +1724-550-4700\">724-550-4700<\/a><\/li>\r\n\t<li dir=\"ltr\"><a href=\"https:\/\/hiltongardeninn3.hilton.com\/en\/hotels\/pennsylvania\/hilton-garden-inn-uniontown-MGWUNGI\/index.html\">Hilton Garden Inn Uniontown<\/a><br \/>\r\n\t<a href=\"tel: +1-724-434-7200\">724-434-7200<\/a><\/li>\r\n<\/ul>\r\n\r\n<p><em>NOTE:&nbsp;These links are provided for your convenience only. VA Pittsburgh Healthcare System does not endorse and is not responsible for the content on the linked web sites.<\/em><\/p>\r\n",
             "format": "rich_text"
         }
     ]

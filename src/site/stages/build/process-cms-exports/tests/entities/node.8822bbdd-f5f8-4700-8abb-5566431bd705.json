@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 1010
+        }
+    ],
     "uuid": [
         {
             "value": "8822bbdd-f5f8-4700-8abb-5566431bd705"
+        }
+    ],
+    "vid": [
+        {
+            "value": 15290
         }
     ],
     "langcode": [
@@ -18,19 +28,19 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-13T15:28:44+00:00",
+            "value": "2020-01-29T18:35:53+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
         }
     ],
     "revision_log": [
         {
-            "value": "Bulk operation publish revision"
+            "value": "updated local resources phone numbers"
         }
     ],
     "status": [
@@ -57,7 +67,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-13T15:28:44+00:00",
+            "value": "2020-02-12T19:48:44+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -111,7 +121,12 @@
             "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
         }
     ],
-    "field_banner_alert": [],
+    "field_banner_alert": [
+        {
+            "target_type": "node",
+            "target_uuid": "d7a6b771-2063-4112-915f-0a99165743a7"
+        }
+    ],
     "field_facility_operating_status": [
         {
             "target_type": "node",
@@ -203,7 +218,7 @@
     ],
     "field_operating_status_emerg_inf": [
         {
-            "value": "<h3>Patient resources<\/h3>\r\n\r\n<p><strong>Emergency:<\/strong> <a href=\"tel:911\">911<\/a><\/p>\r\n\r\n<p><strong>Veterans Crisis Line: <\/strong><a href=\"tel:+1800-507-4571\">800-273-8255<\/a> (Press 1)<\/p>\r\n\r\n<p><strong>24 hour Nurse:<\/strong> <a href=\"tel:+18009358387\">800-935-8387<\/a><\/p>\r\n\r\n<p><strong>Change Your Appointment:<\/strong> <a href=\"tel:+18009358387\">800-935-8387<\/a><\/p>\r\n\r\n<p><strong>National Veterans Helpline: <\/strong><a href=\"tel:+1800-507-4571\">800-507-4571<\/a><\/p>\r\n\r\n<p><strong>Patient Locator: <\/strong><a href=\"tel:+18009358387\">800-935-8387<\/a><\/p>\r\n\r\n<p><strong>Pharmacy Refill:<\/strong> <a href=\"tel:+18009358387\">800-935-8387<\/a><\/p>\r\n\r\n<p><strong>Staff Locator:<\/strong> <a href=\"tel:+18009358387\">800-935-8387<\/a><\/p>\r\n\r\n<p><strong>Telephone Care: <\/strong><a href=\"tel:+18009358387\">800-935-8387<\/a><\/p>\r\n",
+            "value": "<h3>Patient resources<\/h3>\r\n\r\n<p><strong>Emergency:<\/strong> <a href=\"tel:911\">911<\/a><\/p>\r\n\r\n<p><strong>Veterans Crisis Line: <\/strong><a href=\"tel:+1800-507-4571\">800-273-8255<\/a> (Press 1)<\/p>\r\n\r\n<p><strong>24 hour Nurse:<\/strong> <a href=\"tel:+18664827488\">866-482-7488<\/a>&nbsp;(or&nbsp;<a href=\"tel:+18885583812\">888-558-3812<\/a> on weekends and holidays)<\/p>\r\n\r\n<p><strong>Change Your Appointment:<\/strong> <a href=\"tel:+18664827488\">866-482-7488<\/a><\/p>\r\n\r\n<p><strong>National Veterans Helpline: <\/strong><a href=\"tel:+1800-507-4571\">800-507-4571<\/a><\/p>\r\n\r\n<p><strong>Patient Locator: <\/strong><a href=\"tel:+18664827488\">866-482-7488<\/a><\/p>\r\n\r\n<p><strong>Pharmacy Refill:<\/strong> <a href=\"tel:+14128223140\">412-822-3140<\/a><\/p>\r\n\r\n<p><strong>Staff Locator:<\/strong> <a href=\"tel:+18664827488\">866-482-7488<\/a><\/p>\r\n\r\n<p><strong>Telephone Care: <\/strong><a href=\"tel:+18664827488\">866-482-7488<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ]

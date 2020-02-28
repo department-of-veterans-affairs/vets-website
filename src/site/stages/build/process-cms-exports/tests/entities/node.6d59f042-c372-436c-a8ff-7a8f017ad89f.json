@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 477
+        }
+    ],
     "uuid": [
         {
             "value": "6d59f042-c372-436c-a8ff-7a8f017ad89f"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14858
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:31:12+00:00",
+            "value": "2020-01-29T21:04:16+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-30T21:09:33+00:00",
+            "value": "2020-01-29T21:04:16+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We provide care for military sexual trauma in our mental (behavioral) health clinics. Our services include:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Counseling<\/li>\r\n\t<li>Psychiatric care<\/li>\r\n\t<li>Walk-in care<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We provide care for military sexual trauma in our mental (behavioral) health clinics. Our services include:&nbsp;<\/p>\r\n\r\n<ul>\r\n\t<li>Counseling<\/li>\r\n\t<li>Psychiatric care<\/li>\r\n\t<li>Walk-in care<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 332
+        }
+    ],
     "uuid": [
         {
             "value": "ffa5121a-9775-4825-9f9b-27a20c599f1f"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14867
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:12:48+00:00",
+            "value": "2020-01-29T21:05:11+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:12:48+00:00",
+            "value": "2020-01-29T21:05:11+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our Geriatric Evaluation and Management Clinic (GEM)&nbsp;offers outpatient-based comprehensive geriatric assessments&nbsp;and care coordination for you or a senior Veteran in your care.&nbsp;We accept&nbsp;referrals from any doctor. Our team of specialists provides geriatric-specific:<\/p>\r\n\r\n<ul>\r\n\t<li>Medicine and nursing<\/li>\r\n\t<li>Psychology, psychiatry, and social work<\/li>\r\n\t<li>Physical and occupational therapy<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our Geriatric Evaluation and Management Clinic (GEM)&nbsp;offers outpatient-based comprehensive geriatric assessments&nbsp;and care coordination for you or a senior Veteran in your care.&nbsp;We accept&nbsp;referrals from any doctor. Our team of specialists provides geriatric-specific:<\/p>\r\n\r\n<ul>\r\n\t<li>Medicine and nursing<\/li>\r\n\t<li>Psychology, psychiatry, and social work<\/li>\r\n\t<li>Physical and occupational therapy<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

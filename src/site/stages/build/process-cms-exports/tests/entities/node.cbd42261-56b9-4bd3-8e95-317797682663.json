@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 337
+        }
+    ],
     "uuid": [
         {
             "value": "cbd42261-56b9-4bd3-8e95-317797682663"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14852
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-30T21:59:19+00:00",
+            "value": "2020-01-29T21:03:37+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-30T21:59:19+00:00",
+            "value": "2020-01-29T21:03:37+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We offer&nbsp;comprehensive evaluation of ocular diseases, including subspecialty services, such as the evaluation and treatment&nbsp;for issues related to:<\/p>\r\n\r\n<ul>\r\n\t<li>Retina<\/li>\r\n\t<li>Cornea<\/li>\r\n\t<li>Glaucoma<\/li>\r\n\t<li>Oculoplastics<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We offer&nbsp;comprehensive evaluation of ocular diseases, including subspecialty services, such as the evaluation and treatment&nbsp;for issues related to:<\/p>\r\n\r\n<ul>\r\n\t<li>Retina<\/li>\r\n\t<li>Cornea<\/li>\r\n\t<li>Glaucoma<\/li>\r\n\t<li>Oculoplastics<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

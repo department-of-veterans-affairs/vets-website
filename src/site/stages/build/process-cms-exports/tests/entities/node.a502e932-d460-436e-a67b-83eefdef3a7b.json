@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 324
+        }
+    ],
     "uuid": [
         {
             "value": "a502e932-d460-436e-a67b-83eefdef3a7b"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14876
         }
     ],
     "langcode": [
@@ -18,21 +28,17 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-08-27T17:50:02+00:00",
+            "value": "2020-01-29T21:06:06+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
-    "revision_log": [
-        {
-            "value": "Bulk operation publish revision"
-        }
-    ],
+    "revision_log": [],
     "status": [
         {
             "value": true
@@ -57,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-08-27T17:50:02+00:00",
+            "value": "2020-01-29T21:06:06+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -112,12 +118,11 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our Center for Treatment of Addictive Disorders (CTAD) offers both residential and outpatient treatment for substance use problems. Some of our services include:<\/p>\r\n\r\n<ul>\r\n\t<li>Alcohol screening<\/li>\r\n\t<li>Abuse counseling<\/li>\r\n\t<li>Outpatient detox<\/li>\r\n\t<li>Opiate abuse counseling, suboxone therapy, and&nbsp;polysubstance abuse counseling<\/li>\r\n\t<li>Pre-operative evaluations<\/li>\r\n\t<li>Management of care for patients&nbsp;who require opiate therapy for pain control and who need close follow-up and monitoring<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our Center for Treatment of Addictive Disorders (CTAD) offers both residential and outpatient treatment for substance use problems. Some of our services include:<\/p>\r\n\r\n<ul>\r\n\t<li>Alcohol screening<\/li>\r\n\t<li>Abuse counseling<\/li>\r\n\t<li>Outpatient detox<\/li>\r\n\t<li>Opiate abuse counseling, suboxone therapy, and&nbsp;polysubstance abuse counseling<\/li>\r\n\t<li>Pre-operative evaluations<\/li>\r\n\t<li>Management of care for patients&nbsp;who require opiate therapy for pain control and who need close follow-up and monitoring<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],
     "field_local_health_care_service_": [
-        [],
         {
             "target_type": "node",
             "target_uuid": "e615f046-866b-44e0-a96b-c84c931a69cc"

@@ -1,7 +1,17 @@
 {
+    "mid": [
+        {
+            "value": 126
+        }
+    ],
     "uuid": [
         {
             "value": "012ecad1-2030-4ca6-a48f-996921a5816a"
+        }
+    ],
+    "vid": [
+        {
+            "value": 752
         }
     ],
     "langcode": [
@@ -18,11 +28,16 @@
     ],
     "revision_created": [
         {
-            "value": "2019-06-14T12:58:48+00:00",
+            "value": "2020-01-16T14:48:21+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
-    "revision_user": [],
+    "revision_user": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bf5f6c-06f8-407b-8d38-263c724b5ca9"
+        }
+    ],
     "revision_log_message": [],
     "status": [
         {
@@ -58,7 +73,7 @@
     ],
     "changed": [
         {
-            "value": "2019-06-20T20:24:39+00:00",
+            "value": "2020-01-16T14:48:21+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -101,5 +116,10 @@
             "value": "https:\/\/www.youtube.com\/watch?time_continue=2&v=8sntgBJJk9E"
         }
     ],
-    "field_owner": []
+    "field_owner": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "1d2fb45c-58b4-409b-9fef-24d15a56aba7"
+        }
+    ]
 }

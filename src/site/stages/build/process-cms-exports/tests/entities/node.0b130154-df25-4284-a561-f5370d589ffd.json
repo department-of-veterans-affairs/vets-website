@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 390
+        }
+    ],
     "uuid": [
         {
             "value": "0b130154-df25-4284-a561-f5370d589ffd"
+        }
+    ],
+    "vid": [
+        {
+            "value": 15327
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T22:27:50+00:00",
+            "value": "2020-02-14T04:04:18+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "d3057a1d-1a5c-42aa-9747-cdf2a4c3a6b8"
         }
     ],
     "revision_log": [],
@@ -36,7 +46,7 @@
     ],
     "title": [
         {
-            "value": "Loss is common human experience"
+            "value": "zzLoss is common human experiencez"
         }
     ],
     "uid": [
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T22:27:50+00:00",
+            "value": "2020-02-14T04:04:18+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,15 +94,15 @@
     ],
     "metatag": {
         "value": {
-            "title": "VA Pittsburgh health care | Loss is common human experience | Veterans Affairs",
+            "title": "VA Pittsburgh health care | zzLoss is common human experiencez | Veterans Affairs",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
             "twitter_cards_description": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb",
             "description": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb",
-            "twitter_cards_title": "Loss is common human experience | VA Pittsburgh health care | Veterans Affairs",
+            "twitter_cards_title": "zzLoss is common human experiencez | VA Pittsburgh health care | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
             "image_src": "http:\/\/default\/sites\/default\/files\/2019-05\/Loss.jpg",
-            "og_title": "Loss is common human experience | VA Pittsburgh health care | Veterans Affairs",
+            "og_title": "zzLoss is common human experiencez | VA Pittsburgh health care | Veterans Affairs",
             "og_description": "\"You cannot prevent the birds of sorrow from flying over your head, but you can prevent them from building nests in your hair.\"\r\n\r\n    -- Old Chinese Proverb",
             "twitter_cards_image": "http:\/\/default\/sites\/default\/files\/2019-05\/Loss.jpg",
             "og_image_0": "http:\/\/default\/sites\/default\/files\/2019-05\/Loss.jpg"
@@ -100,7 +110,7 @@
     },
     "path": [
         {
-            "alias": "\/pittsburgh-health-care\/stories\/loss-is-common-human-experience",
+            "alias": "\/pittsburgh-health-care\/stories\/zzloss-is-common-human-experiencez",
             "langcode": "en",
             "pathauto": 1
         }

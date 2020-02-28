@@ -1,7 +1,17 @@
 {
+    "id": [
+        {
+            "value": 2765
+        }
+    ],
     "uuid": [
         {
             "value": "f0d0eb26-72cc-42f0-9198-77636b1ab018"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 47719
         }
     ],
     "langcode": [
@@ -27,6 +37,21 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "parent_id": [
+        {
+            "value": "175"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_location_services"
+        }
+    ],
     "behavior_settings": [
         {
             "value": []
@@ -44,7 +69,7 @@
     ],
     "field_title": [
         {
-            "value": "Transportation services, schedules, and benefits"
+            "value": "Transportation services and schedules"
         }
     ],
     "field_wysiwyg": [

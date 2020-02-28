@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 89
+        }
+    ],
     "uuid": [
         {
             "value": "f875b03e-7ebc-46d9-9320-d412981cd677"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14983
         }
     ],
     "langcode": [
@@ -18,17 +28,21 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-10-29T21:20:24+00:00",
+            "value": "2020-01-30T21:39:17+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "efa9900b-7446-41bf-b6a9-a99287ae2235"
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
         }
     ],
-    "revision_log": [],
+    "revision_log": [
+        {
+            "value": "added disclaimer for hotels"
+        }
+    ],
     "status": [
         {
             "value": true
@@ -53,7 +67,7 @@
     ],
     "changed": [
         {
-            "value": "2019-10-31T19:55:51+00:00",
+            "value": "2020-01-30T21:39:17+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -84,17 +98,17 @@
     ],
     "metatag": {
         "value": {
-            "title": "VA Pittsburgh Health Care | Westmoreland County Clinic",
+            "title": "VA Pittsburgh Health Care | Westmoreland County VA Clinic",
             "twitter_cards_type": "summary_large_image",
             "og_site_name": "Veterans Affairs",
-            "twitter_cards_description": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit.",
+            "twitter_cards_description": "Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic.",
             "description": "Westmoreland County Outpatient VA Clinic - where you can receive general medical care, physical exams, laboratory, radiology, dietary and podiatry services.",
             "twitter_cards_title": "Westmoreland County VA Clinic | Veterans Affairs",
             "twitter_cards_site": "@DeptVetAffairs",
             "keywords": "VA Outpatient Clinic Westmoreland County",
             "image_src": "http:\/\/default\/sites\/default\/files\/2019-08\/Westmoreland_County_CBOC.jpg",
             "og_title": "Westmoreland County VA Clinic | Veterans Affairs",
-            "og_description": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit.",
+            "og_description": "Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic.",
             "twitter_cards_image": "http:\/\/default\/sites\/default\/files\/2019-08\/Westmoreland_County_CBOC.jpg",
             "og_image_0": "http:\/\/default\/sites\/default\/files\/2019-08\/Westmoreland_County_CBOC.jpg"
         }
@@ -132,7 +146,7 @@
     ],
     "field_description": [
         {
-            "value": "Learn details about about the Westmoreland County outpatient clinic, part of the VA Pittsburgh Health Care system, to help prepare for your visit. "
+            "value": "Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic."
         }
     ],
     "field_email_subscription": [],
@@ -187,7 +201,7 @@
     "field_instagram": [],
     "field_intro_text": [
         {
-            "value": "The Westmoreland County outpatient clinic offers Veterans general medical care, including physical exams, lab work, x-rays, nutrition counseling, and foot care."
+            "value": "Our outpatient clinic offers general medical care, including physical exams, lab work, x-rays, nutrition counseling, and podiatry (foot care). Get address and hours, parking and transportation information, and health services offered at Westmoreland County VA Clinic."
         }
     ],
     "field_local_health_care_service_": [
@@ -284,12 +298,12 @@
     ],
     "field_meta_title": [
         {
-            "value": "VA Pittsburgh Health Care | Westmoreland County Clinic"
+            "value": "VA Pittsburgh Health Care | Westmoreland County VA Clinic"
         }
     ],
     "field_nickname_for_this_facility": [
         {
-            "value": "Westmoreland County clinic"
+            "value": "Westmoreland County VA Clinic"
         }
     ],
     "field_operating_status_facility": [

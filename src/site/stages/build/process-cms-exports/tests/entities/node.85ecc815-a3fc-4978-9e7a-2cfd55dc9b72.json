@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 592
+        }
+    ],
     "uuid": [
         {
             "value": "85ecc815-a3fc-4978-9e7a-2cfd55dc9b72"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14849
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T17:25:48+00:00",
+            "value": "2020-01-29T21:03:20+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-23T17:25:48+00:00",
+            "value": "2020-01-29T21:03:20+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Our patient advocates work hard to make sure you receive the best possible care. They offer help with:<\/p>\r\n\r\n<ul>\r\n\t<li>Patient concerns with the care team<\/li>\r\n\t<li>Advocating&nbsp;for patient and family rights<\/li>\r\n\t<li>Specialist advocacy for Former Prisoners of War, Minority Veterans, and OEF\/OIF\/OND transitioning Veterans<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"1e8a72b4-c54c-432e-b53a-ef6a7969f40e\" href=\"\/node\/198\">Learn more and connect with a&nbsp;patient advocate<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Our patient advocates work hard to make sure you receive the best possible care. They offer help with:<\/p>\r\n\r\n<ul>\r\n\t<li>Patient concerns with the care team<\/li>\r\n\t<li>Advocating&nbsp;for patient and family rights<\/li>\r\n\t<li>Specialist advocacy for Former Prisoners of War, Minority Veterans, and OEF\/OIF\/OND transitioning Veterans<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"1e8a72b4-c54c-432e-b53a-ef6a7969f40e\" href=\"\/node\/198\">Learn more and connect with a&nbsp;patient advocate<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],

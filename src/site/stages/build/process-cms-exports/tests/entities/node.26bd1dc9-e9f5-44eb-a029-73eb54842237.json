@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 266
+        }
+    ],
     "uuid": [
         {
             "value": "26bd1dc9-e9f5-44eb-a029-73eb54842237"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14896
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-11-12T20:32:35+00:00",
+            "value": "2020-01-29T21:34:08+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "76a324e9-c71f-4524-9a21-ab167cbd4542"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-11-12T20:32:35+00:00",
+            "value": "2020-01-29T21:34:08+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<p>You can visit our wheelchair and mobility clinic to be evaluated for mobility devices that meet your needs. If you\u2019re already a patient at VA Pittsburgh, you don\u2019t need a primary care referral.<\/p>\r\n\r\n<h3>Learn how to&nbsp;<a href=\"https:\/\/www.va.gov\/pittsburgh-health-care\/become-a-patient\">become a patient with VA Pittsburgh<\/a><\/h3>\r\n\r\n<p>Comprehensive adaptive mobility devices products inservices including:<\/p>\r\n\r\n<ul>\r\n\t<li>Wheelchair training for functional and efficient mobility<\/li>\r\n\t<li>Environmental control<\/li>\r\n\t<li>Specialty Control Devices<\/li>\r\n\t<li>Pressure mapping to identify areas of the body at highest risk of skin breakdown<\/li>\r\n\t<li>Custom molded systems for fixed postural deformities<\/li>\r\n<\/ul>\r\n\r\n<p>To make an appointment, call the clinic at 412-822-2180, or contact us via secure messaging on&nbsp;<a href=\"https:\/\/www.myhealth.va.gov\/mhv-portal-web\/home\">My HealtheVet<\/a>.<\/p>\r\n",
+            "value": "<p>You can visit our wheelchair and mobility clinic to be evaluated for mobility devices that meet your needs. If you\u2019re already a patient at VA Pittsburgh, you don\u2019t need a primary care referral.<\/p>\r\n\r\n<h3>Care we provide at VA Pittsburgh health care&nbsp;<\/h3>\r\n\r\n<p>Comprehensive adaptive mobility devices products inservices including:<\/p>\r\n\r\n<ul>\r\n\t<li>Wheelchair training for functional and efficient mobility<\/li>\r\n\t<li>Environmental control<\/li>\r\n\t<li>Specialty Control Devices<\/li>\r\n\t<li>Pressure mapping to identify areas of the body at highest risk of skin breakdown<\/li>\r\n\t<li>Custom molded systems for fixed postural deformities<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

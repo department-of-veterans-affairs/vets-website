@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 331
+        }
+    ],
     "uuid": [
         {
             "value": "94177aa5-4a5e-4a66-97d5-e721b8f02f92"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14868
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-09T21:09:52+00:00",
+            "value": "2020-01-29T21:05:16+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "8d4a7bed-f4ba-499f-afd4-8e1cbeadfc4a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-09T21:09:52+00:00",
+            "value": "2020-01-29T21:05:16+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>Staff in our gastroenterology department can provide the following treatments:<\/p>\r\n\r\n<ul>\r\n\t<li>Colonoscopy<\/li>\r\n\t<li>Esophagogastroduodenoscopy (EGD)<\/li>\r\n\t<li>Manometry studies<\/li>\r\n\t<li>Endoscopic ultrasound and&nbsp;Endoscopic Retrograde Cholangiopancreatography&nbsp;(ERCP)<\/li>\r\n\t<li>Small bowel capsule endoscopy<\/li>\r\n\t<li>24-hour pH studies<\/li>\r\n<\/ul>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>Staff in our gastroenterology department can provide the following treatments:<\/p>\r\n\r\n<ul>\r\n\t<li>Colonoscopy<\/li>\r\n\t<li>Esophagogastroduodenoscopy (EGD)<\/li>\r\n\t<li>Manometry studies<\/li>\r\n\t<li>Endoscopic ultrasound and&nbsp;Endoscopic Retrograde Cholangiopancreatography&nbsp;(ERCP)<\/li>\r\n\t<li>Small bowel capsule endoscopy<\/li>\r\n\t<li>24-hour pH studies<\/li>\r\n<\/ul>\r\n",
             "format": "rich_text"
         }
     ],

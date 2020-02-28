@@ -1,7 +1,17 @@
 {
+    "nid": [
+        {
+            "value": 326
+        }
+    ],
     "uuid": [
         {
             "value": "077bad0f-e9f1-4f6b-94cc-fb021b287f0e"
+        }
+    ],
+    "vid": [
+        {
+            "value": 14874
         }
     ],
     "langcode": [
@@ -18,14 +28,14 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2019-09-23T17:25:17+00:00",
+            "value": "2020-01-29T21:05:50+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "revision_uid": [
         {
             "target_type": "user",
-            "target_uuid": "fd71292f-3dc7-409d-b0e8-500204cb005a"
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
         }
     ],
     "revision_log": [],
@@ -53,7 +63,7 @@
     ],
     "changed": [
         {
-            "value": "2019-09-23T17:25:17+00:00",
+            "value": "2020-01-29T21:05:50+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -108,7 +118,7 @@
     ],
     "field_body": [
         {
-            "value": "<h3>Care we provide at VA Pittsburgh<\/h3>\r\n\r\n<p>We perform non-invasive tests and&nbsp;minimally invasive cardiac catheterizations in state of the art lab facilities, and we treat you with the most effective medications. Our doctors can provide:<\/p>\r\n\r\n<ul>\r\n\t<li>Evaluation&nbsp;for&nbsp;coronary heart disease, heart valve disease, and heart defects<\/li>\r\n\t<li>Determining how well blood flows through heart vessels or the cause of&nbsp;heart failure<\/li>\r\n\t<li>Non-surgical or minimally invasive operations to open and support heart vessels, such as&nbsp;balloon angioplasty&nbsp;or stents<\/li>\r\n\t<li>Non-invasive monitoring to look for changes in heart rhythm<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"016896fb-cf41-4732-83b0-5d14a4607913\" href=\"\/node\/772\">Learn more about cardiology at VA Pittsburgh<\/a><\/p>\r\n",
+            "value": "<h3>Care we provide at VA Pittsburgh health care<\/h3>\r\n\r\n<p>We perform non-invasive tests and&nbsp;minimally invasive cardiac catheterizations in state of the art lab facilities, and we treat you with the most effective medications. Our doctors can provide:<\/p>\r\n\r\n<ul>\r\n\t<li>Evaluation&nbsp;for&nbsp;coronary heart disease, heart valve disease, and heart defects<\/li>\r\n\t<li>Determining how well blood flows through heart vessels or the cause of&nbsp;heart failure<\/li>\r\n\t<li>Non-surgical or minimally invasive operations to open and support heart vessels, such as&nbsp;balloon angioplasty&nbsp;or stents<\/li>\r\n\t<li>Non-invasive monitoring to look for changes in heart rhythm<\/li>\r\n<\/ul>\r\n\r\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"016896fb-cf41-4732-83b0-5d14a4607913\" href=\"\/node\/772\">Learn more about cardiology at VA Pittsburgh<\/a><\/p>\r\n",
             "format": "rich_text"
         }
     ],
