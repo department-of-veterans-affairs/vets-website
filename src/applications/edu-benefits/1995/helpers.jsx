@@ -17,7 +17,7 @@ export const displayStemEligibility = form =>
   isEdithNourseRogersScholarship(form) &&
   !isEligibleForEdithNourseRogersScholarship(form);
 
-const determineEligibilityFor1995Stem = form =>
+export const determineEligibilityFor1995Stem = form =>
   form['view:determineEligibility']['view:determineEligibility'];
 
 export const display1995StemFlow = form =>
