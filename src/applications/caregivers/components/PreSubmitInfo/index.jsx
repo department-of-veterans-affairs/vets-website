@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
-import SignatureInput from 'applications/caregivers/components/PreSubmitInfto/components/SignatureInput';
+import SignatureInput from 'applications/caregivers/components/PreSubmitInfo/components/SignatureInput';
 
 const SignatureCheckbox = ({
   fullName,
