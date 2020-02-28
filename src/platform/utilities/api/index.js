@@ -17,15 +17,38 @@ const SSOeEndpoint = () => {
       environmentPrefix = '';
   }
 
-  return `https://${environmentPrefix}eauth.va.gov/favicon.ico`;
+  return `https://${environmentPrefix}eauth.va.gov/keepalive`;
 };
 
-function refreshSSOeSession() {
+function refreshSSOeSession(sessionExpiration) {
+  const minutesUntilExpiration =
+    (sessionExpiration.getTime() - Date.now()) / (1000 * 60);
+
+  if (minutesUntilExpiration > 10) {
+    // We want to minimize external keepalive calls, so this functions
+    // as self-enforced rate limiting
+    return;
+  }
+
   fetch(SSOeEndpoint(), {
     method: 'GET',
     credentials: 'include',
+    cache: 'no-store',
   })
-    .then(() => {})
+    .then(res => {
+      const hasSSOsession = res.headers.get('session-alive');
+
+      if (hasSSOsession) {
+        const sessionTimeout = res.headers.get('session-timeout');
+        const expirationTime = new Date();
+
+        // sessionTimeout is in seconds, convert to milliseconds and add from current time
+        expirationTime.setTime(
+          expirationTime.getTime() + sessionTimeout * 1000,
+        );
+        localStorage.setItem('sessionExpirationSSO', expirationTime);
+      }
+    })
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);
@@ -50,7 +73,12 @@ export function fetchAndUpdateSessionExpiration(...args) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
         // SSOe session is independent of vets-api, and must be kept alive for continuity
-        refreshSSOeSession();
+        const sessionExpirationSSO = localStorage.getItem(
+          'sessionExpirationSSO',
+        );
+        if (sessionExpirationSSO) {
+          refreshSSOeSession(sessionExpirationSSO);
+        }
       }
       return response;
     });
