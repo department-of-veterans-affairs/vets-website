@@ -229,7 +229,7 @@
 
   &.disabled {
     input[type="checkbox"], input[type="checkbox"] + label::before {
-      background: $color--gray-lightest;
+      background: $color-gray-lightest;
       cursor: not-allowed;
     }
   }
