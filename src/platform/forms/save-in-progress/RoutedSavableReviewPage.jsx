@@ -155,7 +155,6 @@ class RoutedSavableReviewPage extends React.Component {
         >
           <SubmitController
             formConfig={formConfig}
-            formContext={formContext}
             pageList={pageList}
             path={path}
             renderErrorMessage={this.renderErrorMessage}
