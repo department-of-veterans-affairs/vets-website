@@ -35,7 +35,10 @@ const CalendarCheckboxOption = ({
         onChange={onChange}
       />
       <label className={labelClasses} htmlFor={`checkbox-${id}`}>
-        {label}
+        <span aria-hidden="true">{label}</span>
+        <span className="vads-u-visibility--screen-reader">
+          {label} option selected
+        </span>
       </label>
     </div>
   );

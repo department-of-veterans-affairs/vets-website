@@ -20,7 +20,8 @@ const maxSelections = 3;
 
 const missingDateError =
   'Please select at least one preferred date for your appointment. You can select up to three dates.';
-const maxSelectionsError = 'You can only select up to 3 dates';
+const maxSelectionsError =
+  'You can only choose up to 3 dates for your appointment.';
 
 export function getOptionsByDate() {
   return [
