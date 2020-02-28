@@ -1,0 +1,78 @@
+{
+    "id": [
+        {
+            "value": 8199
+        }
+    ],
+    "uuid": [
+        {
+            "value": "7978438f-c217-4a3e-ae79-aa8e20073547"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 48357
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "link_teaser",
+            "target_type": "paragraphs_type",
+            "target_uuid": "072db7a4-476e-41a6-ab49-c44184281451"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-02-05T18:28:52+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "3943"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "paragraph"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_va_paragraphs"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "field_link": [
+        {
+            "uri": "https:\/\/www.publichealth.va.gov\/n-coronavirus\/index.asp",
+            "title": "Coronavirus Updates",
+            "options": []
+        }
+    ],
+    "field_link_summary": []
+}

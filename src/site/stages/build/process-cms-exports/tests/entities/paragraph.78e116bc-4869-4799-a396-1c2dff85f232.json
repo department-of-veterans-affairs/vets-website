@@ -1,0 +1,74 @@
+{
+    "id": [
+        {
+            "value": 8112
+        }
+    ],
+    "uuid": [
+        {
+            "value": "78e116bc-4869-4799-a396-1c2dff85f232"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 48353
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "link_teaser",
+            "target_type": "paragraphs_type",
+            "target_uuid": "072db7a4-476e-41a6-ab49-c44184281451"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-01-28T01:19:57+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "3943"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "paragraph"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_va_paragraphs"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": []
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [],
+    "field_link": [
+        {
+            "uri": "entity:node\/2523",
+            "title": "Compare our performance with non-VA health facilities",
+            "options": []
+        }
+    ],
+    "field_link_summary": []
+}
