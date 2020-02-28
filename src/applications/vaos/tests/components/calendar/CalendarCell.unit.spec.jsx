@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import moment from 'moment';
 
 import CalendarCell from '../../../components/calendar/CalendarCell';
 
@@ -15,6 +16,42 @@ describe('VAOS <CalendarCell>', () => {
       optionTime: 'AM',
     },
   ];
+
+  it('show include CalendarSelectedIndicator if in selected array', () => {
+    const tree = mount(
+      <CalendarCell
+        date="2018-10-04"
+        currentlySelectedDate="2018-10-04"
+        selectedDates={selectedDates}
+        inSelectedArray
+        disabled={false}
+      />,
+    );
+    expect(tree.find('CalendarSelectedIndicator').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should have a button with the correct id and aria label', () => {
+    const momentDate = moment('2018-10-04');
+    const tree = mount(
+      <CalendarCell
+        date={momentDate.format('YYYY-MM-DD')}
+        currentlySelectedDate="2018-10-04"
+        selectedDates={selectedDates}
+        inSelectedArray
+        disabled={false}
+      />,
+    );
+    const button = tree.find('button');
+    expect(button.exists()).to.be.true;
+    expect(button.props().id).to.equal(
+      `date-cell-${momentDate.format('YYYY-MM-DD')}`,
+    );
+    expect(button.props()['aria-label']).to.equal(
+      momentDate.format('dddd, MMMM Do'),
+    );
+    tree.unmount();
+  });
 
   it('test calendar CSS class', () => {
     const tree = mount(
