@@ -179,12 +179,6 @@
       "entityUrl": {
         "path": "/pittsburgh-health-care"
       },
-      "fieldLinkFacilityEmergList": {
-        "url": {
-          "path": "https://public.govdelivery.com/accounts/USVHA/subscriber/new?topic_id=USVHA_396",
-          "routed": false
-        }
-      },
       "fieldNicknameForThisFacility": "VA Pittsburgh",
       "fieldRelatedLinks": {
         "contentModelType": "paragraph-list_of_link_teasers",

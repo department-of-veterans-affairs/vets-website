@@ -2,7 +2,6 @@ const {
   getDrupalValue,
   getWysiwygString,
   createMetaTagArray,
-  uriToUrl,
 } = require('./helpers');
 
 const transform = ({
@@ -13,7 +12,6 @@ const transform = ({
   fieldNicknameForThisFacility,
   fieldRelatedLinks,
   fieldPressReleaseBlurb,
-  fieldLinkFacilityEmergList,
 }) => ({
   entity: {
     entityType: 'node',
@@ -25,14 +23,6 @@ const transform = ({
       path: path[0].alias,
     },
     fieldNicknameForThisFacility: getDrupalValue(fieldNicknameForThisFacility),
-    fieldLinkFacilityEmergList: fieldLinkFacilityEmergList[0]
-      ? {
-          url: {
-            path: uriToUrl(fieldLinkFacilityEmergList[0].uri),
-            routed: false, // Until we have an indication of where this comes from
-          },
-        }
-      : null,
     fieldRelatedLinks: fieldRelatedLinks[0],
     fieldPressReleaseBlurb: {
       processed: getWysiwygString(getDrupalValue(fieldPressReleaseBlurb)),
@@ -46,7 +36,6 @@ module.exports = {
     'moderation_state',
     'path',
     'field_nickname_for_this_facility',
-    'field_link_facility_emerg_list',
     'field_related_links',
     'field_press_release_blurb',
     'metatag',
