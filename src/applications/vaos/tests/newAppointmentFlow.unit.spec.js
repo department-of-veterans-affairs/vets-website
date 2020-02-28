@@ -721,28 +721,37 @@ describe('VAOS newAppointmentFlow', () => {
       expect(nextState).to.equal('typeOfEyeCare');
     });
 
-    it('should display VA facility for opthamology ', () => {
-      const state = {
-        newAppointment: {
-          data: {
-            typeOfEyeCareId: '407',
-          },
+    it('should be typeOfFacility page when optometry selected', async () => {
+      mockFetch();
+      setFetchJSONResponse(global.fetch, systems);
+      setFetchJSONResponse(global.fetch.onCall(1), supportedSites);
+      setFetchJSONResponse(global.fetch.onCall(2), {
+        data: {
+          attributes: { eligible: true },
         },
-      };
-      const nextState = newAppointmentFlow.typeOfEyeCare.next(state);
-      expect(nextState).to.equal('vaFacility');
-    });
-
-    it('should display VA facility for optometry ', () => {
+      });
       const state = {
+        featureToggles: {
+          loading: false,
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingCommunityCare: true,
+        },
         newAppointment: {
           data: {
+            typeOfCareId: 'EYE',
             typeOfEyeCareId: '408',
           },
         },
       };
-      const nextState = newAppointmentFlow.typeOfEyeCare.next(state);
+
+      const dispatch = sinon.spy();
+      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+        state,
+        dispatch,
+      );
       expect(nextState).to.equal('typeOfFacility');
+
+      resetFetch();
     });
   });
 });

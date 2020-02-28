@@ -8,6 +8,7 @@ import {
   vaosCommunityCare,
   getCCEType,
   getClinicsForChosenFacility,
+  getTypeOfCare,
 } from './utils/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from './utils/constants';
 import {
@@ -158,11 +159,46 @@ export default {
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
-    next(state) {
-      if (getFormData(state).typeOfEyeCareId === '407') {
-        return 'vaFacility';
+    async next(state, dispatch) {
+      const data = getFormData(state);
+      const communityCareEnabled = vaosCommunityCare(state);
+
+      // check that the result does have a ccId
+      if (getTypeOfCare(data)?.ccId !== undefined) {
+        try {
+          if (communityCareEnabled) {
+            // Check if user registered systems support community care...
+            const userSystemIds = await getSystemIdentifiers();
+            const ccSites = await getSitesSupportingVAR(userSystemIds);
+            const ccEnabledSystems = userSystemIds.filter(id =>
+              ccSites.some(site => site.id === id),
+            );
+            dispatch(updateCCEnabledSystems(ccEnabledSystems));
+
+            // Reroute to VA facility page if none of the user's registered systems support community care.
+            if (ccEnabledSystems.length) {
+              const response = await getCommunityCare(getCCEType(state));
+
+              dispatch(updateCCEligibility(response.eligible));
+
+              if (response.eligible) {
+                return 'typeOfFacility';
+              }
+            }
+          }
+
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          return 'vaFacility';
+        } catch (e) {
+          captureError(e);
+          Sentry.captureMessage(
+            'Community Care eligibility check failed with errors',
+          );
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          return 'vaFacility';
+        }
       }
-      return 'typeOfFacility';
+      return 'vaFacility';
     },
     previous: 'typeOfCare',
   },
