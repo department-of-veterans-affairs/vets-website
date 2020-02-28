@@ -19,6 +19,7 @@ const transformedMinimalDataActual = {
   newSchool: {
     name: 'Test',
   },
+  'view:determineEligibility': {},
 };
 
 export const transformedMinimalData = JSON.stringify({
@@ -84,6 +85,7 @@ const transformedMaximalDataActual = {
       postalCode: '12345',
     },
   },
+  'view:determineEligibility': {},
 };
 
 export const transformedMaximalData = JSON.stringify({
