@@ -308,7 +308,7 @@ export default class CalendarWidget extends Component {
         </h2>
         <div
           className="sr-only"
-          id={`vaos-calendar-instructions-${month.format('MM')}`}
+          id={`vaos-calendar-instructions-${month.month()}`}
         >
           Press the Enter key to expand the day you want to schedule an
           appointment. Then press the Tab key or form shortcut key to select an
