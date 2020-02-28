@@ -114,6 +114,28 @@ describe('VAOS <CalendarCell>', () => {
     tree.unmount();
   });
 
+  it('should render CalendarOptions if isCurrentlySelected', () => {
+    const tree = mount(
+      <CalendarCell currentlySelectedDate="2019-10-21" date="2019-10-21" />,
+    );
+
+    expect(tree.find('CalendarOptions').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should pass maxSelections on to CalendarOptions', () => {
+    const tree = mount(
+      <CalendarCell
+        currentlySelectedDate="2019-10-21"
+        date="2019-10-21"
+        maxSelections={3}
+      />,
+    );
+
+    expect(tree.find('CalendarOptions').props().maxSelections).to.equal(3);
+    tree.unmount();
+  });
+
   it('should update height after resize', done => {
     const tree = mount(
       <CalendarCell
