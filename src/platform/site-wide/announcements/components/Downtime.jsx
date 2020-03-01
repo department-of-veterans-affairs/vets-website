@@ -9,8 +9,7 @@ import PromoBanner, {
 class Downtime extends Component {
   static propTypes = {
     announcement: PropTypes.shape({
-      startsAt: PropTypes.object.isRequired,
-      expiresAt: PropTypes.object.isRequired,
+      expiresAt: PropTypes.string.isRequired,
     }).isRequired,
     dismiss: PropTypes.func.isRequired,
   };

@@ -18,6 +18,9 @@ const config = {
       component: PrePreDowntime,
       startsAt: '2020-02-29 09:00',
       expiresAt: '2020-02-29 20:00',
+      // The following key-value pairs are just used as props, not in selectors.js.
+      downtimeStartsAt: '2020-02-29 21:00',
+      downtimeExpiresAt: '2020-02-29 21:30',
     },
     {
       name: 'pre-downtime',
@@ -25,6 +28,8 @@ const config = {
       component: PreDowntime,
       startsAt: '2020-02-29 20:00',
       expiresAt: '2020-02-29 21:00',
+      // The following key-value pairs are just used as props, not in selectors.js.
+      downtimeStartsAt: '2020-02-29 21:00',
     },
     {
       name: 'downtime',

@@ -9,8 +9,7 @@ import PromoBanner, {
 class PreDowntime extends Component {
   static propTypes = {
     announcement: PropTypes.shape({
-      startsAt: PropTypes.object.isRequired,
-      expiresAt: PropTypes.object.isRequired,
+      downtimeStartsAt: PropTypes.string.isRequired,
     }).isRequired,
     dismiss: PropTypes.func.isRequired,
   };
@@ -27,13 +26,13 @@ class PreDowntime extends Component {
 
   render() {
     const {
-      announcement: { startsAt },
+      announcement: { downtimeStartsAt },
       dismiss,
     } = this.props;
 
     // Derive the message.
     const now = moment();
-    const minutesRemaining = moment(startsAt).diff(now, 'minutes');
+    const minutesRemaining = moment(downtimeStartsAt).diff(now, 'minutes');
     const message = `Scheduled maintenance starts in ${minutesRemaining} minutes. If you’re filling out a form, sign in or create an account to save your work.`;
 
     return (

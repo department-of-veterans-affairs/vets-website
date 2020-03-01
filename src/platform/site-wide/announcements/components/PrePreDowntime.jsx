@@ -9,21 +9,23 @@ import PromoBanner, {
 class PrePreDowntime extends Component {
   static propTypes = {
     announcement: PropTypes.shape({
-      startsAt: PropTypes.object.isRequired,
-      expiresAt: PropTypes.object.isRequired,
+      downtimeStartsAt: PropTypes.string.isRequired,
+      downtimeExpiresAt: PropTypes.string.isRequired,
     }).isRequired,
     dismiss: PropTypes.func.isRequired,
   };
 
   render() {
     const {
-      announcement: { startsAt, expiresAt },
+      announcement: { downtimeStartsAt, downtimeExpiresAt },
       dismiss,
     } = this.props;
 
     // Derive the message.
-    const formattedStartsAt = moment(startsAt).format('MMM Do [at] h:mm a');
-    const formattedExpiresAt = moment(expiresAt).format('h:mm a z');
+    const formattedStartsAt = moment(downtimeStartsAt).format(
+      'MMM Do [at] h:mm a',
+    );
+    const formattedExpiresAt = moment(downtimeExpiresAt).format('h:mm a z');
     const message = `We'll be doing site maintenance on ${formattedStartsAt} until ${formattedExpiresAt}. You won’t be able to sign in or use some tools during this time.`;
 
     return (
