@@ -14,9 +14,27 @@ class PreDowntime extends Component {
     dismiss: PropTypes.func.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    // Derive minutes remaining.
+    const now = moment();
+    const minutesRemaining = moment(props?.announcement?.downtimeStartsAt).diff(
+      now,
+      'minutes',
+    );
+
+    this.state = {
+      minutesRemaining,
+    };
+  }
+
   componentWillMount() {
     // Set an interval to update the time.
-    this.rerenderInterval = setInterval(() => this.forceUpdate(), 60000);
+    this.rerenderInterval = setInterval(
+      () => this.updateMinutesRemaining(),
+      60000,
+    );
   }
 
   componentWillUnmount() {
@@ -24,15 +42,24 @@ class PreDowntime extends Component {
     clearInterval(this.rerenderInterval);
   }
 
-  render() {
+  updateMinutesRemaining = () => {
     const {
       announcement: { downtimeStartsAt },
-      dismiss,
     } = this.props;
 
-    // Derive the message.
+    // Derive minutes remaining.
     const now = moment();
     const minutesRemaining = moment(downtimeStartsAt).diff(now, 'minutes');
+
+    // Update minutes remaining in state.
+    this.setState({ minutesRemaining });
+  };
+
+  render() {
+    const { minutesRemaining } = this.state;
+    const { dismiss } = this.props;
+
+    // Derive the message.
     const message = `Scheduled maintenance starts in ${minutesRemaining} minutes. If you’re filling out a form, sign in or create an account to save your work.`;
 
     return (
