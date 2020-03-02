@@ -150,7 +150,6 @@ describe('Schemaform review <ArrayField>', () => {
         requiredSchema={requiredSchema}
       />,
     );
-
     tree.getMountedInstance().handleAdd();
 
     expect(tree.everySubTree('h5')[1].text()).to.equal('New Item name');
@@ -158,6 +157,72 @@ describe('Schemaform review <ArrayField>', () => {
       'Add Another Item name',
     );
   });
+
+  it('should call handleAdd in edit mode with no data', done => {
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name',
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={[]}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        registry={registry}
+        formContext={{ onReviewPage: true }}
+        editing
+        pageTitle=""
+        requiredSchema={requiredSchema}
+      />,
+    );
+    setTimeout(() => {
+      // componenetDidMount not called?!
+      tree.getMountedInstance().componentDidMount();
+
+      expect(tree.everySubTree('h5')[1].text()).to.equal('New Item name');
+      expect(tree.everySubTree('button')[2].text()).to.equal(
+        'Add Another Item name',
+      );
+      done();
+    }, 0);
+  });
+
   it('should render array warning', () => {
     // If it's a BasicArrayField with a set minItems, make sure it doesn't break
     //  if no items are found; it should render a validation warning instead.

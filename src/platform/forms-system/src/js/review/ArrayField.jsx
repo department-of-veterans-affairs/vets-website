@@ -37,10 +37,10 @@ class ArrayField extends React.Component {
   }
 
   componentDidMount() {
-    const { formContext, arrayData, editing } = this.props;
+    const { formContext, arrayData = [], editing } = this.props;
     // Automatically add a new item when editing & no data
     // called when the review page error link is used
-    if (formContext?.onReviewPage && !arrayData && editing) {
+    if (editing && arrayData.length === 0 && formContext?.onReviewPage) {
       this.handleAdd();
     }
   }
