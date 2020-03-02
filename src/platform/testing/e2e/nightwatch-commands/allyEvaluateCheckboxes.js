@@ -34,7 +34,7 @@ exports.command = function allyEvaluateCheckboxes(
       this.assert
         .isActiveElement(sel)
         .keys(SPACE)
-        .assert.attributeContains(element, 'checked', 'true');
+        .assert.attributeContains(sel, 'checked', 'true');
 
       if (i < selectorArray.length - 1) {
         client.keys(TAB);

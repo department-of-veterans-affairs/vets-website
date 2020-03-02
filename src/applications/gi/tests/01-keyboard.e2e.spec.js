@@ -35,11 +35,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .assert.isActiveElement('.va-nav-breadcrumbs-list > li > a');
 
   // Move on to the form
-  client
-    .keys(TAB)
-    .keys(TAB)
-    .keys(TAB)
-    .assert.isActiveElement('#militaryStatus');
+  client.repeatKeypress(TAB, 3).assert.isActiveElement('#militaryStatus');
 
   // Evaluate the military status select menu
   client.allyEvaluateSelectMenu('#militaryStatus', 'child', 'child');
@@ -102,8 +98,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Skip the modal and evaluate the type of class radio group with ARROW_DOWN and ARROW_RIGHT.
   // This one is a bit unique because the second radio is pre-checked.
   client
-    .keys(TAB)
-    .keys(TAB)
+    .repeatKeypress(TAB, 2)
     .allyEvaluateRadioButtons(
       ['input#radio-buttons-8-1', 'input#radio-buttons-8-2'],
       ARROW_DOWN,
@@ -140,8 +135,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Let's try to submit an incomplete form by skipping over the city typeahead
   client
-    .keys(TAB)
-    .keys(TAB)
+    .repeatKeypress(TAB, 2)
     .assert.isDisabledElement('#search-button', false)
     .assert.isActiveElement('#search-button')
     .keys(ENTER);
