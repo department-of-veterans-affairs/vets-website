@@ -74,7 +74,7 @@ export class StemEligibilityView extends React.Component {
       <span>
         Are enrolled in a STEM undergraduate degree program, <strong>or</strong>
         &nbsp;have earned a STEM degree and are now pursuing a teaching
-        certification'
+        certification
       </span>
     );
 
