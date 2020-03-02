@@ -1,6 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
-import { isChapterFieldRequired } from '../../taskWizard/wizard/helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { genericSchemas } from '../../../generic-schema';
 import { validateName } from '../../../utilities';
 
