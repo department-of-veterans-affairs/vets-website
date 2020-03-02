@@ -16,6 +16,7 @@ function openModal(browser) {
     .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton)
     .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
+  browser.pause(500000);
 }
 
 function verifyLabels(browser) {
@@ -53,14 +54,10 @@ function begin(browser) {
       // Login to access the Profile
       Auth.logIn(token, browser, '/profile', 3).waitForElementVisible(
         '.va-profile-wrapper',
-        Timeouts.slow,
+        Timeouts.verySlow,
       );
 
-      E2eHelpers.overrideSmoothScrolling(browser);
-
-      // There's so much data loading async that it's easiest to just do a slow timeout
-      // and not try to wait for all elements to finish loading.
-      browser.pause(Timeouts.slow);
+      browser.pause(Timeouts.verySlow);
       beginTests(browser, token);
       done();
     });
