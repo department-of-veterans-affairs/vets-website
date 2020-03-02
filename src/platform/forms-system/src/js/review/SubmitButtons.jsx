@@ -16,11 +16,7 @@ export default function SubmitButtons(props) {
     formErrors = [],
   } = props;
   const [hadErrors, setHadErrors] = useState(false);
-  if (
-    !environment.isProduction() &&
-    !hadErrors &&
-    formErrors.errors?.length > 0
-  ) {
+  if (!hadErrors && formErrors.errors?.length > 0) {
     setHadErrors(true);
   }
   let submitButton;
@@ -97,8 +93,9 @@ export default function SubmitButtons(props) {
     );
   } else if (submission.status === 'validationError') {
     // Needs evaluation & testing before production
-    const errors = environment.isProduction() ? [] : formErrors?.errors || [];
+    const errors = formErrors?.errors || [];
     const errLen = errors.length;
+    const renderErrors = errLen > 0 && !environment.isProduction();
     submitButton = (
       <ProgressButton
         onButtonClick={onSubmit}
@@ -125,7 +122,7 @@ export default function SubmitButtons(props) {
                 not valid.
               </strong>
             </p>
-            {errLen > 0 && (
+            {renderErrors && (
               <fieldset>
                 <legend
                   className="error-message-focus vads-u-font-size--base"
