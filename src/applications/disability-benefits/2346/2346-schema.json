@@ -309,6 +309,10 @@
       "type": "string",
       "enum": ["F", "M"]
     },
+    "addBatteries": {
+      "type": "string",
+      "enum": ["yes", "no"]
+    },
     "dateOfBirth": {
       "type": "string",
       "format": "date"
@@ -336,6 +340,9 @@
     },
     "gender": {
       "$ref": "#/definitions/gender"
+    },
+    "addBatteries": {
+      "$ref": "#/definitions/addBatteries"
     }
   },
   "required": [

@@ -1,6 +1,7 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
+import orderSupplyPageContent from '../components/oderSupplyPageContent';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -12,17 +13,20 @@ const {
   veteranFullName,
   veteranAddress,
   gender,
+  addBatteries,
 } = fullSchemaMDOT.definitions;
 
 const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
+  orderSupplies: 'Order your supplies',
 };
 
 const formPages = {
   personalDetails: 'Personal Details',
-  confirmAddress: 'Confirm Address',
+  confirmAddress: 'Shipping Address',
+  orderSuppliesPage: 'Add batteries to your order',
 };
 
 const formConfig = {
@@ -48,6 +52,7 @@ const formConfig = {
     veteranFullName,
     veteranAddress,
     gender,
+    addBatteries,
   },
   chapters: {
     VeteranInformationChapter: {
@@ -76,6 +81,33 @@ const formConfig = {
             properties: {
               veteranAddress,
               email,
+            },
+          },
+        },
+      },
+    },
+    OrderSuppliesChapter: {
+      title: formChapters.orderSupplies,
+      pages: {
+        [formPages.orderSuppliesPage]: {
+          path: 'order-supplies',
+          title: formPages.orderSuppliesPage,
+          schema: {
+            type: 'object',
+            properties: {
+              addBatteries,
+            },
+          },
+          uiSchema: {
+            'ui:description': orderSupplyPageContent,
+            addBatteries: {
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  yes: 'Yes, I need to order hearing aid batteries.',
+                  no: "No, I don't need to order hearing aid batteries.",
+                },
+              },
             },
           },
         },
