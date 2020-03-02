@@ -16,9 +16,10 @@ export default function ConfirmationDirectScheduleInfo({
   clinic,
   pageTitle,
   appointmentLength,
+  systemId,
 }) {
   const dateTime = data.calendarData.selectedDates[0].datetime;
-  const timezone = getTimezoneBySystemId(data.vaSystem);
+  const timezone = getTimezoneBySystemId(systemId);
   const momentDate = timezone
     ? moment(dateTime).tz(timezone.timezone, true)
     : moment(dateTime);
@@ -38,7 +39,7 @@ export default function ConfirmationDirectScheduleInfo({
         </div>
         <h2 className="vaos-appts__date-time vads-u-font-size--lg vads-u-margin-x--0">
           {momentDate.format('MMMM D, YYYY [at] hh:mm a')}
-          {` ${getTimezoneAbbrBySystemId(data.vaSystem)}`}
+          {` ${getTimezoneAbbrBySystemId(systemId)}`}
         </h2>
         <div className="vads-u-margin-top--2">
           <i className="fas fa-check-circle" />
