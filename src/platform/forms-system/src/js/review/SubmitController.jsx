@@ -63,7 +63,7 @@ class SubmitController extends React.Component {
   };
 
   handleSubmit = () => {
-    const { form, formConfig, trackingPrefix, pageList } = this.props;
+    const { form, formConfig, pageList, trackingPrefix } = this.props;
 
     // If a pre-submit agreement is required, make sure it was accepted
     const preSubmit = this.getPreSubmit(formConfig);
@@ -108,6 +108,8 @@ class SubmitController extends React.Component {
       formErrors = [],
     } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
+    // Render inside SubmitButtons so the alert is _above_ the submit button;
+    // helps with accessibility
     const PreSubmitBlock = (
       <PreSubmitSection
         preSubmitInfo={preSubmit}

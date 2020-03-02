@@ -45,56 +45,43 @@ export function focusElement(name, options) {
 }
 
 /**
- * @typedef focusOnFirstElementLabel~options
- * @type {object}
- * @property {object} focusOptions - https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus#Parameters
- * @property {function} filterCallback - filter callback; narrow down results
+ * Find all the focusable elements within a block
+ * @param {HTMLElement|node} block - wrapping element
  */
-/**
- * Within a block, find the first focusable element, then focus on it'se label
- * @param {HTMLElement|node} block - starting element
- * @param {focusOnFirstElementLabel~options}
- */
-export function focusOnFirstElementLabel(
-  block,
-  { focusOptions = {}, filterCallback },
-) {
-  let target;
-  if (block) {
-    // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
-    const focusableElements = [
-      '[href]',
-      'button',
-      'details',
-      'input:not([type="hidden"])',
-      // label removed from list, because we're moving to a specific focus
-      // 'label[for]', some form labels
-      'select',
-      'textarea',
-      '[tabindex]:not([tabindex="-1"])', // focusable, but not tabbable
-      // focusable elements not used in our form system
-      // 'audio[controls]',
-      // 'embed',
-      // 'iframe',
-      // 'img[usemap]',
-      // 'object[usemap]',
-      // 'video[controls]',
-    ];
-    let els = [...block?.querySelectorAll(focusableElements.join(','))].filter(
-      // Ignore disabled & hidden elements
-      // This does not check the element's visibility or opacity
-      el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
-    );
-    if (typeof filterCallback === 'function') {
-      els = els.filter(filterCallback);
-    }
-    target = els[0]
-      ?.closest('.schemaform-field-template')
-      ?.querySelector('legend, label');
-    // eslint-disable-next-line no-unused-expressions
-    target?.focus(focusOptions);
-  }
-  return target;
+export function getFocusableElements(block) {
+  // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
+  const focusableElements = [
+    '[href]',
+    'button',
+    'details',
+    'input:not([type="hidden"])',
+
+    /* label removed from list, because you can't programmically focus it
+     * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
+     * associated focusable form element
+     */
+    // 'label[for]',
+    'select',
+    'textarea',
+
+    /* focusable, but not tabbable */
+    '[tabindex]:not([tabindex="-1"])',
+
+    /* focusable elements not used in our form system */
+    // 'audio[controls]',
+    // 'embed',
+    // 'iframe',
+    // 'img[usemap]',
+    // 'object[usemap]',
+    // 'video[controls]',
+  ];
+  return block
+    ? [...block?.querySelectorAll(focusableElements.join(','))].filter(
+        // Ignore disabled & hidden elements
+        // This does not check the element's visibility or opacity
+        el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
+      )
+    : [];
 }
 
 // Called after the user edits a review form; focus is then moved to the
@@ -151,33 +138,46 @@ export function scrollToFirstError() {
   }
 }
 
+// Find the wrapping accordion header, or the label of a specific element inside
+// the accordion
+const findTarget = error => {
+  // index value indicates an array instance (saved as a string, e.g. '0')
+  const propertyKey = `${error.pageKey}${error.index || ''}`;
+  const el = document.querySelector(scrollElementSelector(propertyKey));
+  if (error.pageKey === error.chapterKey) {
+    return el;
+  }
+  // Find all visible elements within the form
+  const form = el?.closest('.form-review-panel-page')?.querySelector('form');
+  return (
+    getFocusableElements(form)
+      // narrow down search to a matching id (if possible)
+      .filter(
+        elm =>
+          // ID may not match in an array block (e.g. 526 servicePeriods)
+          (error.index || '') === '' ? elm.id.includes(`_${error.name}`) : true,
+      )?.[0]
+      ?.closest('.schemaform-field-template')
+      ?.querySelector('legend, label')
+  );
+};
+
 // error object created by ../utilities/data/reduceErrors.js
 export const focusAndScrollToReviewElement = (error = {}) => {
   if (error.name) {
     // Ensure DOM updates
     setTimeout(() => {
-      // index value indicates an array instance (saved as a string, e.g. '0')
-      const propertyKey = `${error.pageKey}${error.index || ''}`;
-      const el = document.querySelector(scrollElementSelector(propertyKey));
+      const el = findTarget(error);
       if (el) {
         if (error.pageKey === error.chapterKey) {
           // Focus on accordion header
           el.focus();
           scrollToScrollElement(`chapter${error.chapterKey}`);
         } else {
-          // Focus on form element
-          const target = focusOnFirstElementLabel(
-            el.closest('.form-review-panel-page')?.querySelector('form'),
-            {
-              filterCallback: elm =>
-                // ID may not match in an array block (e.g. 526 servicePeriods)
-                (error.index || null) === null
-                  ? elm.id.includes(`_${error.name}`)
-                  : true,
-            },
-          );
+          // eslint-disable-next-line no-unused-expressions
+          el.focus();
           // label/legend with id OR div before an array (table) wrapper
-          scrollToElement(target?.id || `topOfTable_${error.name}`);
+          scrollToElement(el.id || `topOfTable_${error.name}`);
         }
       }
     });

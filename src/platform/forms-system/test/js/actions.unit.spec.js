@@ -521,7 +521,7 @@ describe('Schemaform actions:', () => {
   });
   describe('setFormErrors', () => {
     it('should return action', () => {
-      const data = {};
+      const data = { test: 'foo' };
       const action = setFormErrors(data);
 
       expect(action.data).to.equal(data);

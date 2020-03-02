@@ -268,6 +268,7 @@ export function isValidForm(form, pageList) {
       }
 
       const result = v.validate(formData, schema);
+
       if (result.valid) {
         const customErrors = {};
         uiSchemaValidate(
