@@ -172,7 +172,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
   it('formatOperatingHours should convert API hour (without colon) to a human readable hour', () => {
     const operatingHours = '800AM-430PM';
-    const expected = '8:00a.m. - 4:30p.m.';
+    const expected = '8:00 a.m. - 4:30 p.m.';
 
     const result = formatOperatingHours(operatingHours);
 
@@ -181,7 +181,7 @@ describe('Validate ID Strings for Breadcrumb', () => {
 
   it('formatOperatingHours should convert API hour (with colon) to a human readable hour', () => {
     const operatingHours = '8:00AM-4:30PM';
-    const expected = '8:00a.m. - 4:30p.m.';
+    const expected = '8:00 a.m. - 4:30 p.m.';
 
     const result = formatOperatingHours(operatingHours);
 
@@ -189,8 +189,8 @@ describe('Validate ID Strings for Breadcrumb', () => {
   });
 
   it('formatOperatingHours should return the original string a time is invalid', () => {
-    const operatingHours = 'By Appointment only';
-    const expected = 'By Appointment only';
+    const operatingHours = '8:00am-Sunset';
+    const expected = '8:00 a.m. - Sunset';
 
     const result = formatOperatingHours(operatingHours);
 
