@@ -11,13 +11,13 @@ function beginTests(browser) {
   const userEnteredAddressInput = `label[for="userEntered"]`;
   const firstSuggestedAddressInput = `label[for="0"]`;
   browser
-    .waitForElementVisible(editButton, Timeouts.slow)
+    .waitForElementVisible(editButton, Timeouts.verySlow)
     .click(editButton)
-    .waitForElementVisible(updateButton, Timeouts.slow)
+    .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton)
-    .waitForElementVisible(userEnteredAddressInput, Timeouts.slow)
+    .waitForElementVisible(userEnteredAddressInput, Timeouts.verySlow)
     .assert.containsText(userEnteredAddressInput, '1493 Martin Luther King Rd')
-    .waitForElementVisible(firstSuggestedAddressInput, Timeouts.slow)
+    .waitForElementVisible(firstSuggestedAddressInput, Timeouts.verySlow)
     .assert.containsText(
       firstSuggestedAddressInput,
       // eslint-disable-next-line no-useless-concat
