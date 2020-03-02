@@ -70,8 +70,13 @@ export class StemEligibilityView extends React.Component {
 
     const isEnrolledStemCheck = isEnrolledStem || isPursuingTeachingCert;
 
-    const isEnrolledStemText =
-      'Are enrolled in a STEM undergraduate degree program, or have earned a STEM degree and are now pursuing a teaching certification';
+    const isEnrolledStemText = (
+      <span>
+        Are enrolled in a STEM undergraduate degree program, <strong>or</strong>
+        &nbsp;have earned a STEM degree and are now pursuing a teaching
+        certification
+      </span>
+    );
 
     return this.renderCheck(
       this.iconClass(isEnrolledStemCheck),

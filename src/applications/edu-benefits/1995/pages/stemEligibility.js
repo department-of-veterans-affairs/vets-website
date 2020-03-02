@@ -1,12 +1,13 @@
 import StemEligibilityView from '../containers/StemEligibilityView';
 
 const determineEligibilityIsNotChecked = formData =>
-  formData.determineEligibility === undefined;
+  formData['view:determineEligibility']['view:determineEligibility'] ===
+  undefined;
 
 export const uiSchema = {
   'ui:title': 'Rogers STEM Scholarship eligibility',
   'view:determineEligibility': {
-    determineEligibility: {
+    'view:determineEligibility': {
       'ui:required': determineEligibilityIsNotChecked,
     },
     'ui:field': StemEligibilityView,
