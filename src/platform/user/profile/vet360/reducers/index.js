@@ -215,7 +215,6 @@ export default function vet360(state = initialState, action) {
     case ADDRESS_VALIDATION_INITIALIZE:
       return {
         ...state,
-        modal: null,
         addressValidation: {
           ...initialAddressValidationState,
         },
@@ -251,16 +250,21 @@ export default function vet360(state = initialState, action) {
         ...state,
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
-          [action.addressValidationType]: { isPending: false },
+          [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
+            isPending: false,
+            isFailed: true,
+            error: action.error,
+          },
         },
         addressValidation: {
           ...initialAddressValidationState,
           addressValidationError: action.addressValidationError,
-          addressValidationType: action.addressValidationType,
+          addressValidationType: action.fieldName,
           validationKey: action.validationKey || null,
           addressFromUser: action.addressFromUser,
         },
-        modal: 'addressValidation',
+        modal: action.fieldName,
       };
 
     case ADDRESS_VALIDATION_RESET:

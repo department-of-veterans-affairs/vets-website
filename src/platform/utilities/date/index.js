@@ -102,6 +102,13 @@ const LONG_FORM_MONTHS = [
   monthIndices.JUL,
 ];
 
+/**
+ * Formats the given date-time into a string that is intended for use in
+ * downtime notifications
+ *
+ * @param {string} dateTime The date-time as a moment or string in Eastern time
+ * @returns {string} The formatted date-time string
+ */
 export const formatDowntime = dateTime => {
   const dtMoment = moment.parseZone(dateTime);
   const dtHour = dtMoment.hour();

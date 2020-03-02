@@ -23,11 +23,11 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
         },
       },
       data: {
-        vaSystem: '983',
         calendarData: {
           selectedDates: [{ datetime: '2019-12-20T10:00:00' }],
         },
       },
+      systemId: '983',
     };
     const pageTitle = 'Your appointment has been scheduled';
 
@@ -35,7 +35,7 @@ describe('VAOS <ConfirmationDirectScheduleInfo>', () => {
       <ConfirmationDirectScheduleInfo {...props} pageTitle={pageTitle} />,
     );
 
-    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m.');
+    expect(tree.text()).to.contain('December 20, 2019 at 10:00 a.m. MT');
 
     expect(tree.find('h1').text()).to.equal(pageTitle);
 

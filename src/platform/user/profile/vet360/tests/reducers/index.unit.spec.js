@@ -323,9 +323,10 @@ describe('vet360 reducer', () => {
       };
       const action = {
         type: 'ADDRESS_VALIDATION_ERROR',
-        addressValidationError: true,
-        addressValidationType: 'mailingAddress',
         addressFromUser: { street: '987 main' },
+        addressValidationError: true,
+        fieldName: 'mailingAddress',
+        error: 'Foo',
       };
       const expectedState = {
         ...state,
@@ -340,9 +341,13 @@ describe('vet360 reducer', () => {
           validationKey: null,
         },
         fieldTransactionMap: {
-          mailingAddress: { isPending: false },
+          mailingAddress: {
+            isPending: false,
+            isFailed: true,
+            error: 'Foo',
+          },
         },
-        modal: 'addressValidation',
+        modal: 'mailingAddress',
       };
       expect(vet360(state, action)).to.eql(expectedState);
     });
@@ -460,7 +465,6 @@ describe('vet360 reducer', () => {
         fieldTransactionMap: {
           mailingAddress: { isPending: true },
         },
-        modal: null,
       };
       expect(vet360(state, action)).to.eql(expectedState);
     });
