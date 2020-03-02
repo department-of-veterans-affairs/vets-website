@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
@@ -50,10 +49,13 @@ export const uiSchema = {
       },
     },
   },
-  spouseSSN: _.merge(ssnUI, {
-    'ui:title': 'Spouse’s Social Security number',
-    'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
-  }),
+  spouseSSN: {
+    ...ssnUI,
+    ...{
+      'ui:title': 'Spouse’s Social Security number',
+      'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
+    },
+  },
   spouseDOB: {
     ...currentOrPastDateUI('Spouse’s date of birth'),
     ...{
