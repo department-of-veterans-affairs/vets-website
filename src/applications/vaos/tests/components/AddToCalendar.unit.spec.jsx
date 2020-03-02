@@ -147,7 +147,6 @@ describe('VAOS <AddToCalendar>', () => {
         },
       },
       data: {
-        vaSystem: '983',
         calendarData: {
           selectedDates: [
             {
@@ -156,10 +155,11 @@ describe('VAOS <AddToCalendar>', () => {
           ],
         },
       },
+      systemId: '983',
     };
 
     const dateTime = props.data.calendarData.selectedDates[0].dateTime;
-    const timezone = getTimezoneBySystemId(props.data.vaSystem);
+    const timezone = getTimezoneBySystemId(props.systemId);
     const momentDate = timezone
       ? moment(dateTime).tz(timezone.timezone, true)
       : moment(dateTime);

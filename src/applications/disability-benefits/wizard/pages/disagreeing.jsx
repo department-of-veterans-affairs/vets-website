@@ -48,7 +48,7 @@ const DisagreeingPage = ({ setPageState, state = defaultState }) => {
     );
   return (
     <ErrorableDate
-      label="What’s the official date of VA’s decision?"
+      label="What’s the date of VA’s decision?"
       onValueChange={onChange}
       name="decision-date"
       date={state}
