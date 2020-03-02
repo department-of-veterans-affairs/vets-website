@@ -8,7 +8,6 @@ function beginTests(browser) {
   const fieldWrapper = `[data-field-name="mailingAddress"]`;
   const editButton = `${fieldWrapper} [data-action="edit"]`;
   const updateButton = 'button[data-action="save-edit"]';
-  const addressValidationModal = 'div[id="address-validation-warning"]';
   const userEnteredAddressInput = `label[for="userEntered"]`;
   const firstSuggestedAddressInput = `label[for="0"]`;
   browser
@@ -16,7 +15,6 @@ function beginTests(browser) {
     .click(editButton)
     .waitForElementVisible(updateButton, Timeouts.slow)
     .click(updateButton)
-    .waitForElementVisible(addressValidationModal, Timeouts.slow)
     .waitForElementVisible(userEnteredAddressInput, Timeouts.slow)
     .assert.containsText(userEnteredAddressInput, '1493 Martin Luther King Rd')
     .waitForElementVisible(firstSuggestedAddressInput, Timeouts.slow)
