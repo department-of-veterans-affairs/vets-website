@@ -13,7 +13,7 @@ const {
   veteranFullName,
   veteranAddress,
   gender,
-  addBatteries,
+  order,
 } = fullSchemaMDOT.definitions;
 
 const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
@@ -52,7 +52,7 @@ const formConfig = {
     veteranFullName,
     veteranAddress,
     gender,
-    addBatteries,
+    order,
   },
   chapters: {
     VeteranInformationChapter: {
@@ -95,18 +95,30 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              addBatteries,
+              'view:addBatteries': {
+                type: 'string',
+                enum: ['yes', 'no'],
+              },
+              order,
             },
           },
           uiSchema: {
-            'ui:description': orderSupplyPageContent,
-            addBatteries: {
+            'view:addBatteries': {
+              'ui:description': orderSupplyPageContent,
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
                   yes: 'Yes, I need to order hearing aid batteries.',
                   no: "No, I don't need to order hearing aid batteries.",
                 },
+              },
+            },
+            order: {
+              'ui:title': 'Which hearing aid do you need batteries for?',
+              'ui:widget': 'boolean',
+              'ui:options': {
+                expandUnder: 'view:addBatteries',
+                expandUnderCondition: 'yes',
               },
             },
           },

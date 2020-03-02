@@ -313,6 +313,15 @@
       "type": "string",
       "enum": ["yes", "no"]
     },
+    "order": {
+      "type": "object",
+      "properties": {
+        "product 1": { "type": "boolean" },
+        "product 2": { "type": "boolean" },
+        "product 3": { "type": "boolean" },
+        "product 4": { "type": "boolean" }
+      }
+    },
     "dateOfBirth": {
       "type": "string",
       "format": "date"
@@ -343,6 +352,9 @@
     },
     "addBatteries": {
       "$ref": "#/definitions/addBatteries"
+    },
+    "order": {
+      "$ref": "#/definitions/order"
     }
   },
   "required": [
