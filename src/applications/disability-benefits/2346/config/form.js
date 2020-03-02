@@ -104,7 +104,8 @@ const formConfig = {
           },
           uiSchema: {
             'view:addBatteries': {
-              'ui:description': orderSupplyPageContent,
+              'ui:title':
+                'Do you need to order batteries for any of your hearing aids? (*Required)',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -115,6 +116,8 @@ const formConfig = {
             },
             order: {
               'ui:title': 'Which hearing aid do you need batteries for?',
+              'ui:description':
+                'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:widget': 'boolean',
               'ui:options': {
                 expandUnder: 'view:addBatteries',
