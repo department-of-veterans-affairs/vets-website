@@ -244,6 +244,7 @@
     "cookie-parser": "^1.4.3",
     "core-js": "^2.5.7",
     "downshift": "^1.22.5",
+    "element-matches-polyfill": "^1.0.0",
     "express": "^4.14.0",
     "express-http-proxy": "^1.5.1",
     "fast-levenshtein": "^2.0.6",
