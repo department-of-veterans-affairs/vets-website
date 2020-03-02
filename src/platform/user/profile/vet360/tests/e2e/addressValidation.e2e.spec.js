@@ -5,7 +5,27 @@ const Auth = require('platform/testing/e2e/auth');
 const routes = require('./routes.json');
 
 function beginTests(browser) {
-  return browser.pause(5600000);
+  const fieldWrapper = `[data-field-name="mailingAddress"]`;
+  const editButton = `${fieldWrapper} [data-action="edit"]`;
+  const updateButton = 'button[data-action="save-edit"]';
+  const addressValidationModal = 'div[id="address-validation-warning"]';
+  const userEnteredAddressInput = `label[for="userEntered"]`;
+  const firstSuggestedAddressInput = `label[for="0"]`;
+  browser.waitForElementVisible(editButton, Timeouts.slow).click(editButton);
+  browser
+    .waitForElementVisible(updateButton, Timeouts.slow)
+    .click(updateButton);
+  browser.waitForElementVisible(addressValidationModal, Timeouts.slow);
+  browser
+    .waitForElementVisible(userEnteredAddressInput, Timeouts.slow)
+    .assert.containsText(userEnteredAddressInput, '1493 Martin Luther King Rd');
+  browser
+    .waitForElementVisible(firstSuggestedAddressInput, Timeouts.slow)
+    .assert.containsText(
+      firstSuggestedAddressInput,
+      // eslint-disable-next-line no-useless-concat
+      '400 NW 65th St\n' + 'Seattle, WA 98117',
+    );
 }
 
 function createMockRoutes(token) {

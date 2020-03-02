@@ -1,5 +1,19 @@
 [
   {
+    "path": "/v0/feature_toggles",
+    "verb": "get",
+    "value": {
+      "data": {
+        "features": [
+          {
+            "name": "vaProfileAddressValidation",
+            "value": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "path": "/v0/address/countries",
     "verb": "get",
     "value": {
