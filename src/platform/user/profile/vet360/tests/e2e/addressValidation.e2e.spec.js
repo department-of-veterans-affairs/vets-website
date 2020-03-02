@@ -11,15 +11,14 @@ function beginTests(browser) {
   const addressValidationModal = 'div[id="address-validation-warning"]';
   const userEnteredAddressInput = `label[for="userEntered"]`;
   const firstSuggestedAddressInput = `label[for="0"]`;
-  browser.waitForElementVisible(editButton, Timeouts.slow).click(editButton);
   browser
+    .waitForElementVisible(editButton, Timeouts.slow)
+    .click(editButton)
     .waitForElementVisible(updateButton, Timeouts.slow)
-    .click(updateButton);
-  browser.waitForElementVisible(addressValidationModal, Timeouts.slow);
-  browser
+    .click(updateButton)
+    .waitForElementVisible(addressValidationModal, Timeouts.slow)
     .waitForElementVisible(userEnteredAddressInput, Timeouts.slow)
-    .assert.containsText(userEnteredAddressInput, '1493 Martin Luther King Rd');
-  browser
+    .assert.containsText(userEnteredAddressInput, '1493 Martin Luther King Rd')
     .waitForElementVisible(firstSuggestedAddressInput, Timeouts.slow)
     .assert.containsText(
       firstSuggestedAddressInput,
