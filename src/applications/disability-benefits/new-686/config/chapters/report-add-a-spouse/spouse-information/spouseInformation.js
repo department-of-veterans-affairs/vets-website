@@ -45,6 +45,9 @@ export const uiSchema = {
     },
     suffix: {
       'ui:title': 'Spouse’s suffix',
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+      },
     },
   },
   spouseSSN: _.merge(ssnUI, {
