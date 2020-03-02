@@ -103,6 +103,12 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
     }, null);
 }
 
+/**
+ * Determines whether there is a global downtime in progress
+ * @param {object} downtimeWindow Optional arg to set arbitrary downtime
+ * @returns {boolean} true if the current time is within the downtime window,
+ *     false if not
+ */
 export const isGlobalDowntimeInProgress = (
   downtimeWindow = scheduledDowntimeWindow,
 ) => {
