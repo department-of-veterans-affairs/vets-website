@@ -4,17 +4,24 @@ const createMockEndpoint = require('platform/testing/e2e/mock-helpers');
 const Auth = require('platform/testing/e2e/auth');
 const routes = require('./routes.json');
 
-function beginTests(browser) {
+function openModal(browser) {
   const fieldWrapper = `[data-field-name="mailingAddress"]`;
   const editButton = `${fieldWrapper} [data-action="edit"]`;
   const updateButton = 'button[data-action="save-edit"]';
-  const userEnteredAddressInput = `label[for="userEntered"]`;
-  const firstSuggestedAddressInput = `label[for="0"]`;
+  const addressValidationModal = 'div[id="address-validation-warning"]';
+
   browser
     .waitForElementVisible(editButton, Timeouts.verySlow)
     .click(editButton)
     .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton)
+    .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
+}
+
+function verifyLabels(browser) {
+  const userEnteredAddressInput = `label[for="userEntered"]`;
+  const firstSuggestedAddressInput = `label[for="0"]`;
+  browser
     .waitForElementVisible(userEnteredAddressInput, Timeouts.verySlow)
     .assert.containsText(userEnteredAddressInput, '1493 Martin Luther King Rd')
     .waitForElementVisible(firstSuggestedAddressInput, Timeouts.verySlow)
@@ -23,6 +30,11 @@ function beginTests(browser) {
       // eslint-disable-next-line no-useless-concat
       '400 NW 65th St\n' + 'Seattle, WA 98117',
     );
+}
+
+function beginTests(browser) {
+  openModal(browser);
+  verifyLabels(browser);
 }
 
 function createMockRoutes(token) {
