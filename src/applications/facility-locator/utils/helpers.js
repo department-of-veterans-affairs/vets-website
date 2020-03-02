@@ -116,7 +116,6 @@ export const validateIdString = (urlObj, urlPrefixString) => {
  */
 export const formatOperatingHours = operatingHours => {
   if (!operatingHours) return operatingHours;
-  console.log({operatingHours})
 
   // Remove all whitespace.
   const sanitizedOperatingHours = replace(operatingHours, ' ', '');
@@ -175,7 +174,6 @@ export const formatOperatingHours = operatingHours => {
   ) {
     formattedClosingHour = formattedClosingHour.replace(/p.m./g, ' p.m.');
   }
-
 
   // Derive the formatted operating hours.
   const formattedOperatingHours = `${formattedOpeningHour} - ${formattedClosingHour}`;
