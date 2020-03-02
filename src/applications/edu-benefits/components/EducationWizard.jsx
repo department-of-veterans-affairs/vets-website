@@ -54,8 +54,8 @@ export default class EducationWizard extends React.Component {
     if (field === 'newBenefit') {
       recordEvent({
         event: 'edu-howToApply-formChange',
-        'edu-form-value': 'benefitUpdate',
-        'edu-form-change': this.eduFormChange(answer),
+        'edu-form-field': 'benefitUpdate',
+        'edu-form-value': this.eduFormChange(answer),
       });
     }
 
@@ -81,7 +81,7 @@ export default class EducationWizard extends React.Component {
     } else if (input === 'no') {
       eduFormChange = 'update';
     } else if (input === 'extend') {
-      eduFormChange = 'stem scholarship';
+      eduFormChange = 'stem-scholarship';
     } else {
       return null;
     }
@@ -389,9 +389,8 @@ export default class EducationWizard extends React.Component {
                     href="https://benefits.va.gov/gibill/fgib/stem.asp"
                     onClick={() =>
                       recordEvent({
-                        event: 'edu-benefitUpdate',
-                        'edu-howToApply-clickLabel':
-                          'Edith Nourse Rogers STEM Scholarship',
+                        event: 'edu-navigation',
+                        'edu-action': 'stem-scholarship',
                       })
                     }
                   >
@@ -412,9 +411,8 @@ export default class EducationWizard extends React.Component {
                       href="../gi-bill/post-9-11/ch-33-benefit/"
                       onClick={() =>
                         recordEvent({
-                          event: 'edu-benefitUpdate',
-                          'edu-howToApply-clickLabel':
-                            'Check remaining benefits',
+                          event: 'edu-navigation',
+                          'edu-action': 'check-remaining-benefits',
                         })
                       }
                     >
@@ -430,9 +428,8 @@ export default class EducationWizard extends React.Component {
                       href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                       onClick={() =>
                         recordEvent({
-                          event: 'edu-benefitUpdate',
-                          'edu-howToApply-clickLabel':
-                            'See approved STEM programs',
+                          event: 'edu-navigation',
+                          'edu-action': 'see-approved-stem-programs',
                         })
                       }
                     >
