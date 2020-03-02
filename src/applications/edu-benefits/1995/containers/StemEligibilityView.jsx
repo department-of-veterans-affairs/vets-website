@@ -72,8 +72,9 @@ export class StemEligibilityView extends React.Component {
 
     const isEnrolledStemText = (
       <span>
-        Are enrolled in a STEM undergraduate degree program, <strong>or</strong>{' '}
-        have earned a STEM degree and are now pursuing a teaching certification'
+        Are enrolled in a STEM undergraduate degree program, <strong>or</strong>
+        &nbsp;have earned a STEM degree and are now pursuing a teaching
+        certification'
       </span>
     );
 
