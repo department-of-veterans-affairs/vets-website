@@ -18,6 +18,9 @@ const updateTestData = data => {
   d.data.dependents[0].childDateOfBirth = moment()
     .subtract(20, 'years')
     .format('YYYY-MM-DD');
+  d.data.dependents[1].childDateOfBirth = moment()
+    .subtract(27, 'years')
+    .format('YYYY-MM-DD');
   return d;
 };
 
