@@ -11,11 +11,7 @@ exports.command = function checkDisabledElement(selector, callback) {
       const target = document.querySelector(sel);
       const disabledTarget = target.getAttribute('disabled');
 
-      if (disabledTarget === null) {
-        return false;
-      }
-
-      return true;
+      return disabledTarget !== null;
     },
     [selector],
     callback,

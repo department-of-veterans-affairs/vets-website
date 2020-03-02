@@ -19,16 +19,18 @@
  * @param {string} selectMenu The selector (CSS / Xpath) used to locate the element.
  * @param {string} optionText The text of the <option> that should be selected.
  * @param {string} selectedOption Value attribute of the <option> that should be selected.
+ * @param {number} [timeoutNum] Value in milliseconds to wait for a selector. Default is 2000.
  * @api commands
  */
 module.exports.command = function allyevaluateSelectMenu(
   selectMenu,
   optionText,
   selectedOption,
+  timeoutNum = 2000,
 ) {
   const client = this;
 
-  return client.waitForElementPresent(selectMenu, 1000, () => {
+  return client.waitForElementPresent(selectMenu, timeoutNum, () => {
     this.assert
       .isActiveElement(selectMenu)
       .sendKeys(selectMenu, optionText)

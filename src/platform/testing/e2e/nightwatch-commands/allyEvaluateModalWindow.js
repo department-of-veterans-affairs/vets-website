@@ -20,6 +20,7 @@
  * @param {string} modalElement The selector (CSS / Xpath) of the modal container.
  * @param {string} modalCloseElement The selector (CSS / Xpath) used to close the modal window.
  * @param {object} [triggerKey] The client.Keys.KEY being pressed to open and close the modal window. Default key is ENTER.
+ * @param {number} [timeoutNum] Value in milliseconds to wait for a selector. Default is 2000.
  * @api commands
  */
 module.exports.command = function allyEvaluateModalWindow(
@@ -27,10 +28,11 @@ module.exports.command = function allyEvaluateModalWindow(
   modalElement,
   modalCloseElement,
   triggerKey,
+  timeoutNum = 2000,
 ) {
   const client = this;
 
-  return client.waitForElementPresent(modalTrigger, 1000, () => {
+  return client.waitForElementPresent(modalTrigger, timeoutNum, () => {
     this.assert
       .isActiveElement(modalTrigger)
       .keys(triggerKey || client.Keys.ENTER)

@@ -78,23 +78,23 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .keys(TAB)
     .allyEvaluateRadioButtons(
-      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
+      ['input#radio-buttons-7-0', 'input#radio-buttons-7-1'],
       ARROW_DOWN,
     )
     .allyEvaluateRadioButtons(
-      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
+      ['input#radio-buttons-7-0', 'input#radio-buttons-7-1'],
       ARROW_RIGHT,
     );
 
   // Evaluate the type of institution radio group with ARROW_UP and ARROW_LEFT in reverse order
   client
     .allyEvaluateRadioButtons(
-      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
+      ['input#radio-buttons-7-0', 'input#radio-buttons-7-1'],
       ARROW_UP,
       true,
     )
     .allyEvaluateRadioButtons(
-      ['input#radio-buttons-1-0', 'input#radio-buttons-1-1'],
+      ['input#radio-buttons-7-0', 'input#radio-buttons-7-1'],
       ARROW_LEFT,
       true,
     );
@@ -105,14 +105,14 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .keys(TAB)
     .keys(TAB)
     .allyEvaluateRadioButtons(
-      ['input#radio-buttons-2-1', 'input#radio-buttons-2-2'],
+      ['input#radio-buttons-8-1', 'input#radio-buttons-8-2'],
       ARROW_DOWN,
     )
     .allyEvaluateRadioButtons(
       [
-        'input#radio-buttons-2-0',
-        'input#radio-buttons-2-1',
-        'input#radio-buttons-2-2',
+        'input#radio-buttons-8-0',
+        'input#radio-buttons-8-1',
+        'input#radio-buttons-8-2',
       ],
       ARROW_RIGHT,
     );
@@ -121,18 +121,18 @@ module.exports = E2eHelpers.createE2eTest(client => {
   client
     .allyEvaluateRadioButtons(
       [
-        'input#radio-buttons-2-0',
-        'input#radio-buttons-2-1',
-        'input#radio-buttons-2-2',
+        'input#radio-buttons-8-0',
+        'input#radio-buttons-8-1',
+        'input#radio-buttons-8-2',
       ],
       ARROW_UP,
       true,
     )
     .allyEvaluateRadioButtons(
       [
-        'input#radio-buttons-2-0',
-        'input#radio-buttons-2-1',
-        'input#radio-buttons-2-2',
+        'input#radio-buttons-8-0',
+        'input#radio-buttons-8-1',
+        'input#radio-buttons-8-2',
       ],
       ARROW_LEFT,
       true,

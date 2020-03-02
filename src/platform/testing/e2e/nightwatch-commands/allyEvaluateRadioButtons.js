@@ -24,17 +24,19 @@
  * @param {string} selectorArray The array of radio buttons by (CSS / Xpath) to be evaluated.
  * @param {object} arrowPressed Nightwatch Keys object. Expects ARROW_DOWN || ARROW_RIGHT.
  * @param {boolean} [reversed] Will reverse the array order to workw ith ARROW_UP and ARROW_LEFT.
+ * @param {number} [timeoutNum] Value in milliseconds to wait for a selector. Default is 2000.
  * @api commands
  */
 exports.command = function allyEvaluateRadioButtons(
   selectorArray,
   arrowPressed,
   reversed = false,
+  timeoutNum = 2000,
 ) {
   const element = selectorArray[0];
   const client = this;
 
-  return client.waitForElementPresent(element, 1000, function() {
+  return client.waitForElementPresent(element, timeoutNum, function() {
     if (reversed) {
       selectorArray
         .reverse()

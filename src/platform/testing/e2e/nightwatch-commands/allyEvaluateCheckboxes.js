@@ -18,14 +18,18 @@
  *
  * @method allyEvaluateCheckboxes
  * @param {string} selectorArray The array of checkboxes by (CSS / Xpath) to be evaluated.
+ * @param {number} [timeoutNum] Value in milliseconds to wait for a selector. Default is 2000.
  * @api commands
  */
-exports.command = function allyEvaluateCheckboxes(selectorArray) {
+exports.command = function allyEvaluateCheckboxes(
+  selectorArray,
+  timeoutNum = 2000,
+) {
   const { SPACE, TAB } = this.Keys;
   const client = this;
   const element = selectorArray[0];
 
-  return client.waitForElementPresent(element, 1000, function() {
+  return client.waitForElementPresent(element, timeoutNum, function() {
     selectorArray.forEach((sel, i) => {
       this.assert
         .isActiveElement(sel)
