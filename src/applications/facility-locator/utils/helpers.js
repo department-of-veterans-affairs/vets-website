@@ -1,6 +1,11 @@
 // Dependencies
 import moment from 'moment';
-import { first, includes, last, replace, split, toLower } from 'lodash';
+import head from 'lodash/head';
+import includes from 'lodash/includes';
+import last from 'lodash/last';
+import replace from 'lodash/replace';
+import split from 'lodash/split';
+import toLower from 'lodash/toLower';
 
 export const setFocus = selector => {
   const el =
@@ -137,7 +142,7 @@ export const formatOperatingHours = operatingHours => {
 
   // Derive the opening and closing hours.
   const hours = split(sanitizedOperatingHours, '-');
-  const openingHour = first(hours);
+  const openingHour = head(hours);
   const closingHour = last(hours);
 
   // Format the hours based on 'hmmA' format.

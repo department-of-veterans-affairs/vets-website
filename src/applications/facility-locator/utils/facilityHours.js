@@ -1,6 +1,7 @@
 // Dependencies
 import moment from 'moment';
-import { forIn, upperFirst } from 'lodash';
+import forIn from 'lodash/forIn';
+import upperFirst from 'lodash/upperFirst';
 
 export const buildHours = (hours, shortDay = false) => {
   const builtHours = [];
