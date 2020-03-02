@@ -3,6 +3,3 @@ export const validateAtLeastOneSelected = (errors, fieldData) => {
     errors.addError('Please select at least one option');
   }
 };
-
-export const isChapterFieldRequired = (formData, option) =>
-  formData[`view:selectable686Options`][option];

@@ -16,6 +16,10 @@ import {
   veteranInformation,
   veteranAddress,
 } from './chapters/veteran-information';
+import {
+  stepchildren,
+  stepchildInformation,
+} from './chapters/stepchild-no-longer-part-of-household';
 
 const formConfig = {
   urlPrefix: '/',
@@ -119,6 +123,7 @@ const formConfig = {
         },
       },
     },
+
     reportChildStoppedAttendingSchool: {
       title:
         'Information needed to report a child 18-23 years old stopped attending school',
@@ -129,6 +134,28 @@ const formConfig = {
           path: 'report-child-stopped-attending-school',
           uiSchema: reportChildStoppedAttendingSchool.uiSchema,
           schema: reportChildStoppedAttendingSchool.schema,
+        },
+      },
+    },
+    reportStepchildNotInHousehold: {
+      title:
+        'Information needed to report a stepchild is no longer part of your household',
+      pages: {
+        stepchildren: {
+          title:
+            'Information needed to report a stepchild is no longer part of your household',
+          path: '686-stepchild-no-longer-part-of-household',
+          uiSchema: stepchildren.uiSchema,
+          schema: stepchildren.schema,
+        },
+        stepchildInformation: {
+          title:
+            'Information needed to report a stepchild is no longer part of your household',
+          path: '686-stepchild-no-longer-part-of-household/:index',
+          showPagePerItem: true,
+          arrayPath: 'stepChildren',
+          uiSchema: stepchildInformation.uiSchema,
+          schema: stepchildInformation.schema,
         },
       },
     },
