@@ -171,7 +171,7 @@ export const focusAndScrollToReviewElement = (error = {}) => {
             {
               filterCallback: elm =>
                 // ID may not match in an array block (e.g. 526 servicePeriods)
-                typeof error.index === 'undefined'
+                (error.index || null) === null
                   ? elm.id.includes(`_${error.name}`)
                   : true,
             },
