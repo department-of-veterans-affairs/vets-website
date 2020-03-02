@@ -1,13 +1,13 @@
 import numberToWords from './numberToWords';
 // Process JSON-schema error messages for viewing
 
-// Change React-JSON-schema hard-coded error messages. For example, chabnge
+// Change jsonschema validation hard-coded error messages. For example, changes
 // `requires property "someCamelCasedProperty1"` to `Some camel cased property 1`
 // Array type properties need to get special treatment,
 // `"instance.newDisabilities[0] requires property "cause"` is modified into
 // `First new disabilities cause`. Both methods use the schema property name,
 // which isn't ideal, because the uiSchema may have an empty title and/or
-// description
+// description, or it may be a string or React component
 const formatErrors = message =>
   message
     .replace(/(requires property|instance\.?)\s*/g, '')
@@ -68,7 +68,31 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
   return pageList.find(page => findPageIndex(page) > -1) || {};
 };
 
-/* There are four types of hardcoded validation error messages in the form system:
+/**
+ * @typedef Form~errors
+ * @type {object[]}
+ * @property {string} name - form element name from uiSchema
+ * @property {number|null} index - if the value is an array, this is the index
+ * @property {string} message - processed error message
+ * @property {string} chapterKey - the chapter the element is associated with
+ * @property {string} pageKey - the page within the chapter the element is
+ *   associated with
+ */
+/**
+ * @typedef Form~rawErrors - list of raw errors that are output from jsonschema
+ *   validator
+ * @type {object}
+ * @property {string} property
+ * @property {string} message
+ * @property {string} name
+ * @property {string|number} argument - element name or index in array
+ * @property {object} schema - ignored
+ * @property {string} stack - error message used in processing
+ * @property {string[]} __errors - may contain multiple error messages for one
+ *   element
+ *
+ * There are four types of hardcoded validation error messages:
+ *
  * min/max: {
     property: 'instance.someProperty',
     message: 'does not meet minimum length of 1',
@@ -97,6 +121,17 @@ const getPropertyInfo = (pageList = [], name, instance = '') => {
     __errors: ['error message']
   }
 */
+/**
+ * @typedef Form~formErrors
+ * @type {object}
+ * @property {Form~rawErrors}
+ * @property {Form~errors}
+ */
+/**
+ * Process rawErrors from jsonschema validator into a more friendly list
+ * @param {Form~formErrors} errors
+ * @param {object[]} pageList - list of all form pages from `form.pages`
+ */
 export const reduceErrors = (errors, pageList) =>
   errors.reduce((acc, error) => {
     const findErrors = (key, err) => {

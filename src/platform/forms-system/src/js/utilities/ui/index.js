@@ -44,52 +44,57 @@ export function focusElement(name, options) {
   }
 }
 
+// List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
+const focusableElements = [
+  '[href]',
+  'button',
+  'details',
+  'input:not([type="hidden"])',
+  'select',
+  'textarea',
+
+  /* focusable, but not tabbable */
+  '[tabindex]:not([tabindex="-1"])',
+
+  /* label removed from list, because you can't programmically focus it
+   * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
+   * associated focusable form element
+   */
+  // 'label[for]',
+
+  /* focusable elements not used in our form system */
+  // 'audio[controls]',
+  // 'embed',
+  // 'iframe',
+  // 'img[usemap]',
+  // 'object[usemap]',
+  // 'video[controls]',
+];
+
 /**
  * Find all the focusable elements within a block
  * @param {HTMLElement|node} block - wrapping element
+ * @return {HTMLElement[]}
  */
-export function getFocusableElements(block) {
-  // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
-  const focusableElements = [
-    '[href]',
-    'button',
-    'details',
-    'input:not([type="hidden"])',
-
-    /* label removed from list, because you can't programmically focus it
-     * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
-     * associated focusable form element
-     */
-    // 'label[for]',
-    'select',
-    'textarea',
-
-    /* focusable, but not tabbable */
-    '[tabindex]:not([tabindex="-1"])',
-
-    /* focusable elements not used in our form system */
-    // 'audio[controls]',
-    // 'embed',
-    // 'iframe',
-    // 'img[usemap]',
-    // 'object[usemap]',
-    // 'video[controls]',
-  ];
-  return block
+export const getFocusableElements = block =>
+  block
     ? [...block?.querySelectorAll(focusableElements.join(','))].filter(
         // Ignore disabled & hidden elements
         // This does not check the element's visibility or opacity
         el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
       )
     : [];
-}
 
-// Called after the user edits a review form; focus is then moved to the
-// review-row containing the change (for screenreader)
-export function focusOnChange(key) {
-  // Give DOM time to update
+/**
+ * Function called after the user changes a form element in the review form, and
+ * presses the "Update" button; focus is then moved to the review-row containing
+ * the change so the screenreader can notify the user
+ * @param {string} name - form element name
+ */
+export function focusOnChange(name) {
+  // Give DOM time to update; setTimeout isn't ideal here
   setTimeout(() => {
-    const el = getDOMElement(scrollElementSelector(key));
+    const el = getDOMElement(scrollElementSelector(name));
     const target = el?.nextElementSibling?.querySelector('.review-row');
     if (target) {
       focusElement(target);
@@ -121,7 +126,8 @@ export function getScrollOptions(additionalOptions) {
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
-    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
+    // document.body.scrollTop doesn’t work with all browsers, so we’ll cover
+    // them all like so:
     const currentPosition =
       window.pageYOffset ||
       document.documentElement.scrollTop ||
@@ -138,9 +144,19 @@ export function scrollToFirstError() {
   }
 }
 
-// Find the wrapping accordion header, or the label of a specific element inside
-// the accordion
-const findTarget = error => {
+/**
+ * @typedef FormUtility~findTargetOptions
+ * @type {object}
+ * @property {boolean} getLabel - if true, return label vs actual element
+ */
+/**
+ * Find the wrapping accordion header, or the label of a specific element inside
+ * the accordion
+ * @param {Form~errors} error - single error from `form.formErrors.errors`
+ * @param {FormUtility~findTargetOptions}
+ * @return {HTMLElement} - either the form element or associated label
+ */
+const findTarget = (error, { getLabel = true } = {}) => {
   // index value indicates an array instance (saved as a string, e.g. '0')
   const propertyKey = `${error.pageKey}${error.index || ''}`;
   const el = document.querySelector(scrollElementSelector(propertyKey));
@@ -149,20 +165,28 @@ const findTarget = error => {
   }
   // Find all visible elements within the form
   const form = el?.closest('.form-review-panel-page')?.querySelector('form');
-  return (
-    getFocusableElements(form)
-      // narrow down search to a matching id (if possible)
-      .filter(
-        elm =>
-          // ID may not match in an array block (e.g. 526 servicePeriods)
-          (error.index || '') === '' ? elm.id.includes(`_${error.name}`) : true,
-      )?.[0]
-      ?.closest('.schemaform-field-template')
-      ?.querySelector('legend, label')
-  );
+  const formElement = getFocusableElements(form)
+    // narrow down search to a matching id (if possible)
+    .filter(
+      elm =>
+        // ID may not match in an array block (e.g. 526 servicePeriods)
+        (error.index || '') === '' ? elm.id.includes(`_${error.name}`) : true,
+    )?.[0];
+  return getLabel
+    ? formElement
+        ?.closest('.schemaform-field-template')
+        ?.querySelector('legend, label')
+    : formElement;
 };
 
-// error object created by ../utilities/data/reduceErrors.js
+/**
+ * Focus on the review form accordion chapter, or form element; then scroll
+ * to that element. Code is within a setTimeout since it is difficult to add a
+ * ref or call this function within the componentDidMount function (both within
+ * the rjsf library)
+ * The error object is created by ../utilities/data/reduceErrors.js
+ * @param {Form~errors} error - single error from `form.formErrors.errors`
+ */
 export const focusAndScrollToReviewElement = (error = {}) => {
   if (error.name) {
     // Ensure DOM updates
@@ -174,7 +198,6 @@ export const focusAndScrollToReviewElement = (error = {}) => {
           el.focus();
           scrollToScrollElement(`chapter${error.chapterKey}`);
         } else {
-          // eslint-disable-next-line no-unused-expressions
           el.focus();
           // label/legend with id OR div before an array (table) wrapper
           scrollToElement(el.id || `topOfTable_${error.name}`);

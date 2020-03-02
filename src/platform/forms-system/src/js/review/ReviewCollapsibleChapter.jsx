@@ -267,7 +267,10 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {chapterTitle || ''}
               </button>
               {showUnviewedPageWarning && (
-                <span className="schemaform-review-chapter-warning-icon" />
+                <span
+                  role="presentation"
+                  className="schemaform-review-chapter-warning-icon"
+                />
               )}
             </div>
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
