@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 
 import { LOADING_STATES, PREFERENCE_CODES } from '../constants';
@@ -120,7 +120,7 @@ export default function preferences(state = initialState, action) {
       return newState;
     }
     case SET_DISMISSED_DASHBOARD_PREFERENCE_BENEFIT_ALERTS: {
-      return _.set(`dismissedBenefitAlerts`, action.value, state);
+      return set(`dismissedBenefitAlerts`, action.value, state);
     }
     case RESTORE_PREVIOUS_USER_PREFERENCES: {
       return {

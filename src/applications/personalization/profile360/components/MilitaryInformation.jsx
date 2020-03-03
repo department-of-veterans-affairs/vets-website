@@ -1,5 +1,5 @@
 import React from 'react';
-import { some } from 'lodash';
+import some from 'lodash/some';
 
 import DowntimeNotification, {
   externalServices,

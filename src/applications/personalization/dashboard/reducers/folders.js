@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import set from 'lodash/fp/set';
+import kebabCase from 'lodash/kebabCase';
+import set from 'platform/utilities/data/set';
 
 import { FETCH_FOLDER_SUCCESS, LOADING_FOLDER } from '../utils/constants';
 
@@ -28,7 +28,7 @@ const initialState = {
   },
 };
 
-const folderKey = folderName => _.kebabCase(folderName);
+const folderKey = folderName => kebabCase(folderName);
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
