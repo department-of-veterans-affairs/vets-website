@@ -9,9 +9,9 @@ import ReviewCardField from '../../all-claims/components/ReviewCardField';
 import { addressUISchema } from '../../all-claims/utils';
 import {
   contactInfoDescription,
-  contactInfoUpdateHelp,
   phoneEmailViewField,
 } from '../../all-claims/content/contactInformation';
+import { contactInfoProfileLink } from '../content/contactInformation';
 
 /*
 import { errorMessages } from '../constants';
@@ -117,7 +117,7 @@ const contactInfo = {
     ),
     */
     'view:contactInfoDescription': {
-      'ui:description': contactInfoUpdateHelp,
+      'ui:description': contactInfoProfileLink,
     },
   },
 
@@ -143,6 +143,10 @@ const contactInfo = {
         properties: {},
       },
       */
+      'view:contactInfoDescription': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
