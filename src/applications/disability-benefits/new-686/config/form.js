@@ -5,8 +5,16 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { formerSpouseInformation } from './chapters/report-divorce';
 import { deceasedDependentInformation } from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
-import { veteranInformation } from './chapters/veteran-information';
+import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import { wizard } from './chapters/taskWizard';
+import {
+  veteranInformation,
+  veteranAddress,
+} from './chapters/veteran-information';
+import {
+  stepchildren,
+  stepchildInformation,
+} from './chapters/stepchild-no-longer-part-of-household';
 
 const formConfig = {
   urlPrefix: '/',
@@ -39,11 +47,17 @@ const formConfig = {
     veteranInformation: {
       title: "Veteran's Information",
       pages: {
-        page1: {
+        veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information - Page 1',
+          title: 'Veteran Information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran Address',
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
         },
       },
     },
@@ -78,6 +92,42 @@ const formConfig = {
           path: '686-report-marriage-of-child',
           uiSchema: reportChildMarriage.uiSchema,
           schema: reportChildMarriage.schema,
+        },
+      },
+    },
+
+    reportChildStoppedAttendingSchool: {
+      title:
+        'Information needed to report a child 18-23 years old stopped attending school',
+      pages: {
+        childNoLongerInSchool: {
+          title:
+            'Information needed to report a child 18-23 years old stopped attending school',
+          path: 'report-child-stopped-attending-school',
+          uiSchema: reportChildStoppedAttendingSchool.uiSchema,
+          schema: reportChildStoppedAttendingSchool.schema,
+        },
+      },
+    },
+    reportStepchildNotInHousehold: {
+      title:
+        'Information needed to report a stepchild is no longer part of your household',
+      pages: {
+        stepchildren: {
+          title:
+            'Information needed to report a stepchild is no longer part of your household',
+          path: '686-stepchild-no-longer-part-of-household',
+          uiSchema: stepchildren.uiSchema,
+          schema: stepchildren.schema,
+        },
+        stepchildInformation: {
+          title:
+            'Information needed to report a stepchild is no longer part of your household',
+          path: '686-stepchild-no-longer-part-of-household/:index',
+          showPagePerItem: true,
+          arrayPath: 'stepChildren',
+          uiSchema: stepchildInformation.uiSchema,
+          schema: stepchildInformation.schema,
         },
       },
     },

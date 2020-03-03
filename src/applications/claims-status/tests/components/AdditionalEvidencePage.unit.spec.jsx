@@ -45,19 +45,21 @@ describe('<AdditionalEvidencePage>', () => {
       body: 'test',
       type: 'error',
     };
-    const clearNotification = sinon.spy();
+    const clearAdditionalEvidenceNotification = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
         params={params}
         claim={claim}
-        clearNotification={clearNotification}
+        clearAdditionalEvidenceNotification={
+          clearAdditionalEvidenceNotification
+        }
         message={message}
       />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.true;
+    expect(clearAdditionalEvidenceNotification.called).to.be.true;
   });
   it('should not clear notification after completed upload', () => {
     const claim = {
@@ -69,20 +71,22 @@ describe('<AdditionalEvidencePage>', () => {
       body: 'test',
       type: 'error',
     };
-    const clearNotification = sinon.spy();
+    const clearAdditionalEvidenceNotification = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage
         params={params}
         claim={claim}
         uploadComplete
-        clearNotification={clearNotification}
+        clearAdditionalEvidenceNotification={
+          clearAdditionalEvidenceNotification
+        }
         message={message}
       />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
     tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.false;
+    expect(clearAdditionalEvidenceNotification.called).to.be.false;
   });
   it('should handle submit files', () => {
     const files = [];

@@ -8,10 +8,9 @@ export const normalizeFormsForTable = forms =>
     const id = form?.id;
     const downloadURL = form?.attributes?.url || '';
     const title = form?.attributes?.title || '';
-    const lastRevisionOn = moment(
-      form?.attributes?.lastRevisionOn,
-      'YYYY-MM-DD',
-    );
+    const lastRevisionOn =
+      form?.attributes?.lastRevisionOn &&
+      moment(form.attributes.lastRevisionOn, 'YYYY-MM-DD');
 
     // Derive the ID field.
     const idLabel = (
@@ -25,10 +24,12 @@ export const normalizeFormsForTable = forms =>
       // Overridden form values.
       id,
       type: form.type,
-      lastRevisionOn: lastRevisionOn.unix(),
+      lastRevisionOn: lastRevisionOn?.unix(),
       // JSX Labels.
       idLabel,
       titleLabel: title,
-      lastRevisionOnLabel: lastRevisionOn.format('MM-DD-YYYY'),
+      lastRevisionOnLabel: lastRevisionOn
+        ? lastRevisionOn.format('MM-DD-YYYY')
+        : 'N/A',
     };
   });
