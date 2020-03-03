@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import _ from 'lodash/fp';
+import forEach from 'lodash/forEach';
 import SkinDeep from 'skin-deep';
 
 import { ADDRESS_TYPES, MILITARY_STATES } from '../../utils/constants';
@@ -24,7 +24,7 @@ describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
     // The following tests check for options that should be available / not available given certain conditions
     it('should be defined for both veterans and dependents', () => {
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
           expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
@@ -34,7 +34,7 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined for veterans', () => {
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
           expect(getBenefitOptionText(option, true, false)).to.be.undefined;
@@ -50,7 +50,7 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined for dependents', () => {
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, true)).to.be.undefined;
           expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
@@ -64,7 +64,7 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined for veterans if value is true', () => {
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
           expect(getBenefitOptionText(option, false, true)).to.be.undefined;
@@ -79,7 +79,7 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined for dependents if value is true', () => {
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
           expect(getBenefitOptionText(option, false, false)).to.be.undefined;
@@ -90,7 +90,7 @@ describe('Letters helpers: ', () => {
 
     it('should be defined whether value is true or false', () => {
       // For both veterans and dependents
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
           expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
@@ -101,7 +101,7 @@ describe('Letters helpers: ', () => {
         ['hasChapter35Eligibility'],
       );
       // For veterans only
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
           expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
@@ -109,7 +109,7 @@ describe('Letters helpers: ', () => {
         ['hasServiceConnectedDisabilities'],
       );
       // For dependents only
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
           expect(getBenefitOptionText(option, false, false)).not.to.be
@@ -133,7 +133,7 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined if value is valid', () => {
-      _.forEach(
+      forEach(
         option => {
           expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
           expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
