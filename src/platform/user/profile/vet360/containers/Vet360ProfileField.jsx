@@ -45,7 +45,12 @@ class Vet360ProfileField extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.transaction && !this.props.transaction) {
-      document.querySelector(`button#${this.props.fieldName}`).focus();
+      const editButton = document.querySelector(
+        `button#${this.props.fieldName}`,
+      );
+      if (editButton) {
+        editButton.focus();
+      }
     }
   }
 
