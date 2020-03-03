@@ -10,6 +10,7 @@ import {
   currentMarriageInformation,
   doesLiveWithSpouse,
   spouseInformation,
+  spouseMarriageHistory,
 } from './chapters/report-add-a-spouse';
 import { wizard } from './chapters/taskWizard';
 import {
@@ -86,6 +87,12 @@ const formConfig = {
           path: 'current-marriage-address',
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
+        },
+        spouseMarriageHistory: {
+          title: 'Information needed to add your spouse',
+          path: 'current-spouse-marriage-history',
+          uiSchema: spouseMarriageHistory.uiSchema,
+          schema: spouseMarriageHistory.schema,
         },
       },
     },
