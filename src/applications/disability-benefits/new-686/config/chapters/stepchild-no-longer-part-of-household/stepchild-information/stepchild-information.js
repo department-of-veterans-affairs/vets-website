@@ -1,5 +1,6 @@
 import { genericSchemas } from '../../../generic-schema';
 import { stepchildTitle } from './helpers';
+import { stepchildInfo } from '../stepchildren/helpers';
 import { isChapterFieldRequired } from '../../../helpers';
 
 export const schema = {
@@ -47,6 +48,10 @@ export const schema = {
 
 export const uiSchema = {
   stepChildren: {
+    'ui:options': {
+      itemName: 'Stepchild',
+      viewField: stepchildInfo,
+    },
     items: {
       'ui:title': stepchildTitle,
       stillSupportingStepchild: {
