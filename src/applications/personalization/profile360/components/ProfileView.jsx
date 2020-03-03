@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -17,8 +15,8 @@ import Hero from './Hero';
 import ContactInformation from './ContactInformation';
 import PersonalInformation from './PersonalInformation';
 import MilitaryInformation from './MilitaryInformation';
-// import PaymentInformation from '../containers/PaymentInformation';
-// import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
+import PaymentInformation from '../containers/PaymentInformation';
+import PaymentInformationTOCItem from '../containers/PaymentInformationTOCItem';
 
 import IdentityVerification from './IdentityVerification';
 import MVIError from './MVIError';
@@ -26,18 +24,18 @@ import MVIError from './MVIError';
 import {
   directDepositIsSetUp,
   directDepositAddressIsSetUp,
+  directDepositIsBlocked,
   profileShowReceiveTextNotifications,
 } from 'applications/personalization/profile360/selectors';
 
-const ProfileTOC = ({ militaryInformation }) => (
-  // const ProfileTOC = ({ militaryInformation, showDirectDepositLink }) => (
+const ProfileTOC = ({ militaryInformation, showDirectDepositLink }) => (
   <>
     <h2 className="vads-u-font-size--h3">On this page</h2>
     <ul>
       <li>
         <a href="#contact-information">Contact information</a>
       </li>
-      {/* {showDirectDepositLink && <PaymentInformationTOCItem />} */}
+      {showDirectDepositLink && <PaymentInformationTOCItem />}
       <li>
         <a href="#personal-information">Personal information</a>
       </li>
@@ -92,7 +90,7 @@ class ProfileView extends React.Component {
       fetchPersonalInformation,
       profile: { hero, personalInformation, militaryInformation },
       downtimeData: { appTitle },
-      // showDirectDepositLink,
+      showDirectDepositLink,
       showReceiveTextNotifications,
     } = this.props;
 
@@ -113,14 +111,6 @@ class ProfileView extends React.Component {
           >
             <div>
               <Vet360TransactionReporter />
-              <AlertBox
-                headline="We're making some updates to the direct deposit tool"
-                status="warning"
-                className="vads-u-margin-bottom--2"
-              >
-                We’re sorry it’s not working right now. Please check back on
-                Monday Feb. 24, 2020.
-              </AlertBox>
               <Hero
                 fetchHero={fetchHero}
                 hero={hero}
@@ -128,16 +118,16 @@ class ProfileView extends React.Component {
               />
               <ProfileTOC
                 militaryInformation={militaryInformation}
-                // showDirectDepositLink={showDirectDepositLink}
+                showDirectDepositLink={showDirectDepositLink}
               />
               <div id="contact-information" />
               <ContactInformation
                 showReceiveTextNotifications={showReceiveTextNotifications}
               />
-              {/* <>
+              <>
                 <div id="direct-deposit" />
                 <PaymentInformation />
-              </> */}
+              </>
               <div id="personal-information" />
               <PersonalInformation
                 fetchPersonalInformation={fetchPersonalInformation}
@@ -200,9 +190,11 @@ class ProfileView extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const directDepositIsAllowed = !directDepositIsBlocked(state);
   return {
     showDirectDepositLink:
-      directDepositIsSetUp(state) || directDepositAddressIsSetUp(state),
+      directDepositIsAllowed &&
+      (directDepositIsSetUp(state) || directDepositAddressIsSetUp(state)),
     showReceiveTextNotifications: profileShowReceiveTextNotifications(state),
   };
 }

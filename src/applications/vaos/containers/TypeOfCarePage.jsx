@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import { TYPES_OF_CARE } from '../utils/constants';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../api';
 import FormButtons from '../components/FormButtons';
 import TypeOfCareUnavailableModal from '../components/TypeOfCareUnavailableModal';
@@ -47,6 +48,7 @@ export class TypeOfCarePage extends React.Component {
   componentDidMount() {
     this.props.openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
   }
 
   onChange = newData => {

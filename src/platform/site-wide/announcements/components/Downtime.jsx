@@ -21,8 +21,8 @@ class Downtime extends Component {
     } = this.props;
 
     // Derive the message.
-    const formattedExpiresAt = moment(expiresAt).format('MMM Do [at] h:mm a z');
-    const message = `We're doing work on VA.gov. If you have trouble using online tools, check back after ${formattedExpiresAt}.`;
+    const formattedExpiresAt = moment(expiresAt).format('MMM D [at] h:mm a');
+    const message = `We're doing work on VA.gov. If you have trouble using online tools, check back after ${formattedExpiresAt}`;
 
     return (
       <PromoBanner

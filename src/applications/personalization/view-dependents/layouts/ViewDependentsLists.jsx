@@ -4,13 +4,18 @@ import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsL
 class ViewDependentsLists extends Component {
   render() {
     const onAwardSubhead = (
-      <>Dependents on award have been added to you disability claim.</>
+      <>
+        The following dependents have been added to your VA benefits. Please let
+        us know if a dependent's status has changed.
+      </>
     );
 
     const notOnAwardSubhead = (
       <>
-        Dependents not on award may be awaiting a decision, or they were once
-        added to your disability claim and their status has changed.
+        The following dependents aren’t on your VA benefits. This is because
+        either their dependent status is still awaiting a decision or their
+        status has changed and they’re no longer eligible to be on your benefit
+        award. Please let us know if a dependent’s status has changed.
       </>
     );
 
@@ -18,14 +23,18 @@ class ViewDependentsLists extends Component {
       <div>
         <ViewDependentsList
           loading={this.props.loading}
-          header="Dependents on award"
+          header="Dependents on your VA benefits"
           subHeader={onAwardSubhead}
+          link="/disability/add-remove-dependent/"
+          linkText="Learn more about adding or removing a dependent from your VA benefits."
           dependents={this.props.onAwardDependents}
         />
         <ViewDependentsList
           loading={this.props.loading}
-          header="Dependents not on award"
+          header="Dependents not on your VA benefits"
           subHeader={notOnAwardSubhead}
+          link="/disability/add-remove-dependent/"
+          linkText="Learn more about adding or removing a dependent from your VA benefits."
           dependents={this.props.notOnAwardDependents}
         />
       </div>

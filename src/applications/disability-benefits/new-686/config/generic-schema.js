@@ -1,9 +1,11 @@
 import {
   datePattern,
-  numberOnlyPattern,
+  numberAndDashPattern,
   states50AndDC,
   suffixes,
   textOnlyPattern,
+  countries,
+  phonePattern,
 } from './constants';
 
 export const genericSchemas = {
@@ -26,17 +28,20 @@ export const genericSchemas = {
   genericTextinput: {
     type: 'string',
     maxLength: 50,
-    pattern: textOnlyPattern,
   },
   genericNumberInput: {
     type: 'string',
     maxLength: 50,
-    pattern: numberOnlyPattern,
+    pattern: numberAndDashPattern,
   },
-  genericUSACountryDropdown: {
+  genericUSAStateDropdown: {
     type: 'string',
     enum: states50AndDC.map(state => state.value),
     default: states50AndDC.map(state => state.label),
+  },
+  countryDropdown: {
+    type: 'string',
+    enum: countries.map(country => country.label),
   },
   fullName: {
     type: 'object',
@@ -68,5 +73,13 @@ export const genericSchemas = {
   date: {
     type: 'string',
     pattern: datePattern,
+  },
+  emailInput: {
+    type: 'string',
+    format: 'email',
+  },
+  phoneInput: {
+    type: 'string',
+    pattern: phonePattern,
   },
 };
