@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
-
+import recordEvent from 'platform/monitoring/record-event';
 import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 
 const levels = [
@@ -40,6 +40,7 @@ export default class EducationWizard extends React.Component {
         id="apply-now-link"
         href={url}
         className="usa-button va-button-primary"
+        onClick={() => this.recordWizardValues()}
       >
         Apply now
       </a>
@@ -48,6 +49,14 @@ export default class EducationWizard extends React.Component {
 
   answerQuestion = (field, answer) => {
     const newState = Object.assign({}, { [field]: answer });
+
+    if (field === 'newBenefit') {
+      recordEvent({
+        event: 'edu-howToApply-formChange',
+        'edu-form-field': 'benefitUpdate',
+        'edu-form-value': this.eduFormChange(answer),
+      });
+    }
 
     // drop all the levels until we see the current question, then reset
     // everything at that level and beyond, so we don't see questions from
@@ -62,6 +71,65 @@ export default class EducationWizard extends React.Component {
     });
 
     this.setState(newState);
+  };
+
+  eduFormChange = input => {
+    let eduFormChange;
+    if (input === 'yes') {
+      eduFormChange = 'new';
+    } else if (input === 'no') {
+      eduFormChange = 'update';
+    } else if (input === 'extend') {
+      eduFormChange = 'stem-scholarship';
+    } else {
+      return null;
+    }
+    return eduFormChange;
+  };
+
+  isReceivingSponsorBenefits = input => {
+    let isReceivingSponsorBenefits;
+    if (input === 'own') {
+      isReceivingSponsorBenefits = 'no';
+    } else if (input === 'transferred') {
+      isReceivingSponsorBenefits = 'yes';
+    } else if (input === 'fry') {
+      isReceivingSponsorBenefits = 'no with scholarship';
+    } else {
+      return null;
+    }
+    return isReceivingSponsorBenefits;
+  };
+
+  isBenefitClaimForSelf = input => {
+    let isBenefitClaimForSelf;
+    if (input === 'own') {
+      isBenefitClaimForSelf = 'yes';
+    } else if (input === 'other') {
+      isBenefitClaimForSelf = 'no';
+    } else {
+      return null;
+    }
+    return isBenefitClaimForSelf;
+  };
+
+  recordWizardValues = () => {
+    recordEvent({
+      event: 'edu-howToApply-applyNow',
+      'edu-benefitUpdate': this.eduFormChange(this.state.newBenefit),
+      'edu-isBenefitClaimForSelf': this.isBenefitClaimForSelf(
+        this.state.serviceBenefitBasedOn,
+      ),
+      'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
+      'edu-isVetTec': this.state.vetTecBenefit,
+      'edu-hasSponsorTransferredBenefits': this.state
+        .sponsorTransferredBenefits,
+      'edu-isReceivingSponsorBenefits': this.isReceivingSponsorBenefits(
+        this.state.transferredEduBenefits,
+      ),
+      'edu-isSponsorReachable': this.state.sponsorDeceasedDisabledMIA,
+      'edu-stemApplicant': this.state.applyForScholarship,
+    });
   };
 
   render() {
@@ -86,6 +154,7 @@ export default class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
+    // Prod flag for 5134
     const newBenefitOptions = [
       { label: 'Applying for a new benefit', value: 'yes' },
       {
@@ -300,7 +369,15 @@ export default class EducationWizard extends React.Component {
                 <br />
                 <strong>
                   To be eligible for the{' '}
-                  <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                  <a
+                    href="https://benefits.va.gov/gibill/fgib/stem.asp"
+                    onClick={() =>
+                      recordEvent({
+                        event: 'edu-navigation',
+                        'edu-action': 'stem-scholarship',
+                      })
+                    }
+                  >
                     Edith Nourse Rogers STEM Scholarship
                   </a>
                   , you must meet all the requirements below. You:
@@ -316,6 +393,12 @@ export default class EducationWizard extends React.Component {
                     <a
                       className="checkBenefitsLink"
                       href="../gi-bill/post-9-11/ch-33-benefit/"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'check-remaining-benefits',
+                        })
+                      }
                     >
                       Check remaining benefits
                     </a>
@@ -325,7 +408,15 @@ export default class EducationWizard extends React.Component {
                     technology, engineering or math (STEM), <strong>or</strong>{' '}
                     have already earned a STEM degree and are pursuing a
                     teaching certification.{' '}
-                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
+                    <a
+                      href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                      onClick={() =>
+                        recordEvent({
+                          event: 'edu-navigation',
+                          'edu-action': 'see-approved-stem-programs',
+                        })
+                      }
+                    >
                       See approved STEM programs
                     </a>
                   </li>
