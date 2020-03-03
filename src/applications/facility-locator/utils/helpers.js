@@ -146,10 +146,10 @@ export const formatOperatingHours = operatingHours => {
 
   // Attempt to format the hours based on 'h:mmA' if theere's a colon.
   if (includes(openingHour, ':')) {
-    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mma');
+    formattedOpeningHour = moment(openingHour, 'h:mmA').format('h:mm a');
   }
   if (includes(closingHour, ':')) {
-    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mma');
+    formattedClosingHour = moment(closingHour, 'h:mmA').format('h:mm a');
   }
 
   // Return original string if invalid date.
@@ -160,19 +160,6 @@ export const formatOperatingHours = operatingHours => {
   // Return original string if invalid date.
   if (formattedClosingHour.search(/Invalid date/i) === 0) {
     formattedClosingHour = closingHour;
-  }
-  // Add space in between time and format
-  if (
-    formattedOpeningHour.match(/a.m./g) &&
-    formattedOpeningHour.match(/a.m./g).length > 0
-  ) {
-    formattedOpeningHour = formattedOpeningHour.replace(/a.m./g, ' a.m.');
-  }
-  if (
-    formattedClosingHour.match(/p.m./g) &&
-    formattedClosingHour.match(/p.m./g).length > 0
-  ) {
-    formattedClosingHour = formattedClosingHour.replace(/p.m./g, ' p.m.');
   }
 
   // Derive the formatted operating hours.

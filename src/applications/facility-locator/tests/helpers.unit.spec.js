@@ -171,8 +171,8 @@ describe('Validate ID Strings for Breadcrumb', () => {
   });
 
   it('formatOperatingHours should convert API hour (without colon) to a human readable hour', () => {
-    const operatingHours = '800AM-430PM';
-    const expected = '8:00 a.m. - 4:30 p.m.';
+    const operatingHours = '800 AM - 430 PM';
+    const expected = '8:00a.m. - 4:30p.m.';
 
     const result = formatOperatingHours(operatingHours);
 
