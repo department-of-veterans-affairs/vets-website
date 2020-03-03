@@ -86,9 +86,10 @@ class AddressValidationModal extends React.Component {
       return (
         <button
           className="usa-button-primary"
-          onClick={() =>
-            this.props.openModal(addressValidationType, addressFromUser)
-          }
+          onClick={() => {
+            this.props.closeModal();
+            this.props.openModal(addressValidationType, addressFromUser);
+          }}
         >
           Edit Address
         </button>
@@ -161,9 +162,13 @@ class AddressValidationModal extends React.Component {
               showEditLink && (
                 <button
                   className="va-button-link"
-                  onClick={() =>
-                    this.props.openModal(addressValidationType, addressFromUser)
-                  }
+                  onClick={() => {
+                    this.props.closeModal();
+                    this.props.openModal(
+                      addressValidationType,
+                      addressFromUser,
+                    );
+                  }}
                 >
                   Edit Address
                 </button>
@@ -221,6 +226,7 @@ class AddressValidationModal extends React.Component {
         >
           <addressValidationMessage.ModalText
             editFunction={() => {
+              this.props.closeModal();
               this.props.openModal(addressValidationType, addressFromUser);
             }}
           />
