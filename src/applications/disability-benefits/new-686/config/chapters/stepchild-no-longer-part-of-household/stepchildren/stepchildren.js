@@ -12,9 +12,9 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          first: genericSchemas.genericTextinput,
-          middle: genericSchemas.genericTextinput,
-          last: genericSchemas.genericTextinput,
+          first: genericSchemas.genericTextInput,
+          middle: genericSchemas.genericTextInput,
+          last: genericSchemas.genericTextInput,
           suffix: {
             type: 'string',
             enum: suffixes,
