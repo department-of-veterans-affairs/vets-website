@@ -140,6 +140,9 @@ class AddressValidationModal extends React.Component {
               className="address-validation-input"
               type="radio"
               name={id}
+              aria-label={
+                id === 'userEntered' ? 'Your address' : 'Suggested Address'
+              }
               onChange={
                 isFirstOptionOrEnabled && this.onChangeHandler(address, id)
               }
