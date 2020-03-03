@@ -154,7 +154,6 @@ export default class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
-    // Prod flag for 5134
     const newBenefitOptions = [
       { label: 'Applying for a new benefit', value: 'yes' },
       {
