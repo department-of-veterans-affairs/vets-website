@@ -3,7 +3,6 @@ import SelectArrayItemsWidget from '../../all-claims/components/SelectArrayItems
 
 import {
   contestedIssuesTitle,
-  contestedIssuesDescription,
   disabilityOption,
   disabilitiesExplanation,
   contestedIssuesAlert,
@@ -18,7 +17,6 @@ const contestedIssuesPage = {
     'ui:title': contestedIssuesTitle,
     contestedIssues: {
       'ui:title': ' ',
-      'ui:description': contestedIssuesDescription,
       'ui:field': 'StringField',
       'ui:widget': SelectArrayItemsWidget,
       'ui:options': {
