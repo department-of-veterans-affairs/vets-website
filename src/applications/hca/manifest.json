@@ -23,6 +23,10 @@
       },
       {
         "path": "health-care/how-to-apply/",
+        "name": "How to apply"
+      },
+      {
+        "path": "health-care/apply/application",
         "name": "Apply for VA Health Care"
       }
     ]

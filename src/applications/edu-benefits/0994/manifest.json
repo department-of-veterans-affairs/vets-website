@@ -14,8 +14,12 @@
         "path": "education/"
       },
       {
-        "name": "Apply for VET TEC",
+        "name": "How to apply",
         "path": "education/how-to-apply/"
+      },
+      {
+        "name": "Apply for education benefits",
+        "path": "education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994"
       }
     ]
   }
