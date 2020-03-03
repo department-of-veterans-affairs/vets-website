@@ -43,6 +43,12 @@ class Vet360ProfileField extends React.Component {
     transactionRequest: PropTypes.object,
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.transaction && !this.props.transaction) {
+      document.querySelector(`button#${this.props.fieldName}`).focus();
+    }
+  }
+
   onAdd = () => {
     this.captureEvent('add-link');
     this.openEditModal();
@@ -196,6 +202,7 @@ class Vet360ProfileField extends React.Component {
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading
           onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
+          fieldName={fieldName}
         >
           {title}
         </Vet360ProfileFieldHeading>

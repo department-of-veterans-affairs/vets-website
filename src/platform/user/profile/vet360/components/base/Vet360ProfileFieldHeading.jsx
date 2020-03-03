@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Vet360ProfileFieldHeading({ children, onEditClick }) {
+function Vet360ProfileFieldHeading({ children, onEditClick, fieldName }) {
   return (
     <div>
       <h3 style={{ display: 'inline-block' }}>{children}</h3>{' '}
@@ -11,6 +11,7 @@ function Vet360ProfileFieldHeading({ children, onEditClick }) {
           type="button"
           data-action="edit"
           onClick={onEditClick}
+          id={fieldName}
           className="va-button-link va-profile-btn"
         >
           Edit
