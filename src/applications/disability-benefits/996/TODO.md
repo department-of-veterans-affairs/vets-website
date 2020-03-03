@@ -48,6 +48,7 @@
 - [x] Add note for relevant evidence
 - [x] Add unit tests
 - [ ] Add e2e tests
+- [x] Remove "add notes" from contested issues
 
 ### Office of review (Step 3)
 

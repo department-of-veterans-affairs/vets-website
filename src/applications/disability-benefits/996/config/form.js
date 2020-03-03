@@ -22,15 +22,12 @@ import veteranInformationDescription from '../pages/veteranInformation';
 
 import contactInfo from '../pages/contactInformation';
 import contestedIssuesPage from '../pages/contestedIssues';
-import contestedIssueFollowup from '../pages/contestedIssueFollowup';
 import officeForReview from '../pages/officeForReview';
-import { contestedIssuesNotesStart } from '../content/contestedIssues';
 import informalConference from '../pages/informalConference';
 
 // TODO: Mock data - remove once API is connected
 import initialData from '../tests/schema/initialData';
 import { errorMessages } from '../constants';
-import { hasSelectedIssues } from '../helpers';
 
 const {
   name,
@@ -121,28 +118,6 @@ const formConfig = {
           path: 'contested-issues',
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
-          initialData,
-        },
-        'view:contestedIssueFollowupStart': {
-          title: ' ',
-          path: 'contested-issues/start',
-          uiSchema: {
-            'ui:description': contestedIssuesNotesStart,
-          },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
-        'view:contestedIssueFollowup': {
-          title: item => item?.name,
-          path: 'contested-issues/:index',
-          depends: () => hasSelectedIssues,
-          showPagePerItem: true,
-          itemFilter: item => item?.['view:selected'],
-          arrayPath: 'contestedIssues',
-          uiSchema: contestedIssueFollowup.uiSchema,
-          schema: contestedIssueFollowup.schema,
           initialData,
         },
       },

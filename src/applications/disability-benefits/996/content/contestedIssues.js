@@ -7,13 +7,6 @@ export const contestedIssuesTitle = (
   <strong>Select the issue(s) you would like to contest</strong>
 );
 
-export const contestedIssuesNotesStart = (
-  <p>
-    Now we’re going to ask you some follow-up questions about the issues you’re
-    requesting a Higher-Level Review. We’ll go through them one by one.
-  </p>
-);
-
 /**
  * @typedef {Object} Disability
  * @property {String} diagnosticCode
