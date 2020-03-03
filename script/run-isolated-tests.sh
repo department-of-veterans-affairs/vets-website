@@ -32,8 +32,10 @@ echo
 # When only one app has been modified, run its tests and platform's tests.
 if [ $NUM_APPS_CHANGED -eq 1 ]; then
   yarn test:coverage "{src/platform,$APP_SUBPATHS_CHANGED}/**/*.unit.spec.js?(x)"
+  node ./script/app-coverage-report.js
   exit $?
 fi
 
 # Run tests for platform and all apps that have changes.
 echo $APP_SUBPATHS_CHANGED | sed 's/ /,/g' | xargs -I '$' yarn test:coverage '{src/platform,$}/**/*.unit.spec.js?(x)'
+node ./script/app-coverage-report.js

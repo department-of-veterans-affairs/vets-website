@@ -254,7 +254,9 @@ export function openFacilityPage(page, uiSchema, schema) {
         parentId = parentFacilities[0].institutionCode;
       }
 
-      const systemId = getSystemFromParent(getState(), parentId);
+      const systemId = parentFacilities?.find(
+        parent => parent.institutionCode === parentId,
+      )?.rootStationCode;
       facilities =
         newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
 
