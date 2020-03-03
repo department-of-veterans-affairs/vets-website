@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -45,12 +46,7 @@ class Vet360ProfileField extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.transaction && !this.props.transaction) {
-      const editButton = document.querySelector(
-        `button#${this.props.fieldName}-edit-link`,
-      );
-      if (editButton) {
-        editButton.focus();
-      }
+      focusElement(`button#${this.props.fieldName}-edit-link`);
     }
   }
 
