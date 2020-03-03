@@ -2,9 +2,6 @@
 import { addXMonths } from '../../helpers';
 
 export default {
-  // Opt out of old appeals checkbox
-  legacyOptInApproved: false,
-
   fullName: { first: 'MIKE', last: 'WAZOWSKI' },
   // full SSN isn't necessary
   last4SSN: '4321',

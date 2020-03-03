@@ -84,6 +84,7 @@
 - [x] ~Opt out page should only be visible if user has a legacy appeal~ - N/A, always visible now
 - [x] Consider updating JSON form schema library to accept an option to add an
       opt out/in page after the introduction page
+- [x] Remove opt out page!
 
 ### Before Production
 - [ ] Check for, and remove, all console logs.
