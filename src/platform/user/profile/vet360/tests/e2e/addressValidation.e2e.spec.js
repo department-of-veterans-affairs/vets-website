@@ -16,7 +16,7 @@ function openModal(browser) {
     .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton)
     .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
-  browser.pause(500000);
+  // browser.pause(500000);
 }
 
 function verifyLabels(browser) {
