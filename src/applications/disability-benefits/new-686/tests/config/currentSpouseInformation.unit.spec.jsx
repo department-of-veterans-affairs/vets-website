@@ -23,8 +23,6 @@ describe('686 current spouse information', () => {
     },
   };
 
-  const onSubmit = sinon.spy();
-
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -39,6 +37,7 @@ describe('686 current spouse information', () => {
   });
 
   it('should not submit without required fields', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -55,6 +54,7 @@ describe('686 current spouse information', () => {
   });
 
   it('should submit with valid information for non-veteran spouse', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -78,6 +78,7 @@ describe('686 current spouse information', () => {
   });
 
   it('should submit with valid information for a veteran spouse', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
