@@ -46,7 +46,7 @@ class Vet360ProfileField extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.transaction && !this.props.transaction) {
       const editButton = document.querySelector(
-        `button#${this.props.fieldName}`,
+        `button#${this.props.fieldName}-edit-link`,
       );
       if (editButton) {
         editButton.focus();

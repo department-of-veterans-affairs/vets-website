@@ -11,7 +11,7 @@ function Vet360ProfileFieldHeading({ children, onEditClick, fieldName }) {
           type="button"
           data-action="edit"
           onClick={onEditClick}
-          id={fieldName}
+          id={`${fieldName}-edit-link`}
           className="va-button-link va-profile-btn"
         >
           Edit
