@@ -13,7 +13,10 @@ export default class NewAppointmentLayout extends React.Component {
 
     // We don't want people to start in the middle of the form, so redirect them when they jump
     // in the middle
-    if (!this.props.location.pathname.endsWith('new-appointment')) {
+    if (
+      !this.props.location.pathname.endsWith('new-appointment') &&
+      !this.props.location.pathname.endsWith('confirmation')
+    ) {
       this.props.router.replace('/new-appointment');
     }
   }
