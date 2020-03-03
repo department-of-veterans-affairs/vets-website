@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   getFormData,
   getFlowType,
@@ -9,7 +10,7 @@ import {
   getChosenClinicInfo,
   getChosenVACityState,
 } from '../utils/selectors';
-import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
+import { FLOW_TYPES, FETCH_STATUS, GA_PREFIX } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
@@ -58,7 +59,12 @@ export class ReviewPage extends React.Component {
           <LoadingButton
             disabled={submitStatus === FETCH_STATUS.succeeded}
             isLoading={submitStatus === FETCH_STATUS.loading}
-            onClick={() => this.props.submitAppointmentOrRequest(router)}
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+              });
+              this.props.submitAppointmentOrRequest(router);
+            }}
             className="usa-button usa-button-primary"
           >
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
