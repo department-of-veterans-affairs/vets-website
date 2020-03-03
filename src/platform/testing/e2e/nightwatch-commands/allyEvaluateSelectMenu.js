@@ -30,7 +30,7 @@ module.exports.command = function allyevaluateSelectMenu(
 ) {
   const client = this;
 
-  return client.waitForElementPresent(selectMenu, timeoutNum, () => {
+  return client.waitForElementPresent(selectMenu, timeoutNum, function() {
     this.assert
       .isActiveElement(selectMenu)
       .sendKeys(selectMenu, optionText)

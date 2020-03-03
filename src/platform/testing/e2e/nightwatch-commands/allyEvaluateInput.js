@@ -20,7 +20,7 @@
 module.exports.command = function allyEvaluateInput(input, inputText) {
   const client = this;
 
-  return client.waitForElementPresent(input, 1000, () => {
+  return client.waitForElementPresent(input, 1000, function() {
     this.assert
       .isActiveElement(input)
       .sendKeys(input, inputText)

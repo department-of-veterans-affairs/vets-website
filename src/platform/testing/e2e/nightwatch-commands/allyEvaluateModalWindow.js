@@ -27,18 +27,18 @@ module.exports.command = function allyEvaluateModalWindow(
   modalTrigger,
   modalElement,
   modalCloseElement,
-  triggerKey,
+  triggerKey = this.Keys.ENTER,
   timeoutNum = 2000,
 ) {
   const client = this;
 
-  return client.waitForElementPresent(modalTrigger, timeoutNum, () => {
+  return client.waitForElementPresent(modalTrigger, timeoutNum, function() {
     this.assert
       .isActiveElement(modalTrigger)
-      .keys(triggerKey || client.Keys.ENTER)
+      .keys(triggerKey)
       .waitForElementVisible(modalElement, 1000)
       .assert.isActiveElement(modalCloseElement)
-      .keys(triggerKey || client.Keys.ENTER)
+      .keys(triggerKey)
       .assert.isActiveElement(modalTrigger);
   });
 };
