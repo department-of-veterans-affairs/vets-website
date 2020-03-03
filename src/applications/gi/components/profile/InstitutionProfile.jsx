@@ -9,7 +9,6 @@ import SchoolLocations from './SchoolLocations';
 import Calculator from './Calculator';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
-import environment from 'platform/utilities/environment';
 import ContactInformation from './ContactInformation';
 
 export class InstitutionProfile extends React.Component {
@@ -72,11 +71,9 @@ export class InstitutionProfile extends React.Component {
                 onShowModal={showModal}
               />
             </AccordionItem>
-            {!environment.isProduction() && (
-              <AccordionItem button="Contact details">
-                <ContactInformation institution={profile.attributes} />
-              </AccordionItem>
-            )}
+            <AccordionItem button="Contact details">
+              <ContactInformation institution={profile.attributes} />
+            </AccordionItem>
             <AccordionItem button="Additional information">
               <AdditionalInformation
                 institution={profile.attributes}
