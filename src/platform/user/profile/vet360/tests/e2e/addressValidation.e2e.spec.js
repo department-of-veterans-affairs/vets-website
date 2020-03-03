@@ -11,8 +11,10 @@ function openModal(browser) {
   const addressValidationModal = 'div[id="address-validation-warning"]';
 
   browser
+    .getLocationInView(editButton)
     .waitForElementVisible(editButton, Timeouts.verySlow)
     .click(editButton)
+    .getLocationInView(updateButton)
     .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton)
     .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
