@@ -15,12 +15,20 @@ describe('686 veteran information', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+
+  const formData = {
+    'view:selectable686Options': {
+      addSpouse: false,
+    },
+  };
+
   it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
       />,
     );
     expect(form.find('input').length).to.equal(7);
@@ -35,6 +43,7 @@ describe('686 veteran information', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
         onSubmit={onSubmit}
       />,
     );
@@ -51,6 +60,7 @@ describe('686 veteran information', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
+        data={formData}
         onSubmit={onSubmit}
       />,
     );

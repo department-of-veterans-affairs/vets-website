@@ -7,16 +7,16 @@ import _ from 'lodash/fp';
 export const schema = {
   type: 'object',
   properties: {
-    first: genericSchemas.genericTextinput,
-    middle: genericSchemas.genericTextinput,
-    last: genericSchemas.genericTextinput,
+    first: genericSchemas.genericTextInput,
+    middle: genericSchemas.genericTextInput,
+    last: genericSchemas.genericTextInput,
     suffix: {
       type: 'string',
       enum: suffixes,
     },
-    ssn: genericSchemas.genericNumberInput,
-    vaFileNumber: genericSchemas.genericNumberInput,
-    serviceNumber: genericSchemas.genericNumberInput,
+    ssn: genericSchemas.genericNumberAndDashInput,
+    vaFileNumber: genericSchemas.genericNumberAndDashInput,
+    serviceNumber: genericSchemas.genericNumberAndDashInput,
     birthDate: genericSchemas.date,
   },
 };

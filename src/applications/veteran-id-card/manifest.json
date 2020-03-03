@@ -12,6 +12,14 @@
     "includeBreadcrumbs": true,
     "breadcrumbs_override": [
       {
+        "path": "records/",
+        "name": "Records"
+      },
+      {
+        "path": "records/get-veteran-id-cards/",
+        "name": "Types of Veteran ID cards"
+      },
+      {
         "path": "records/get-veteran-id-cards/apply/",
         "name": "Apply for an ID Card"
       }
