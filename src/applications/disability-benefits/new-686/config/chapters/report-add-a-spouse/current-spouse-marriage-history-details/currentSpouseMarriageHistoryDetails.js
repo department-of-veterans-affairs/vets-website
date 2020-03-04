@@ -1,6 +1,7 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { genericSchemas } from '../../../generic-schema';
+import { spouseTitle } from './helpers';
 
 const { date, genericLocation, genericTextInput } = genericSchemas;
 
@@ -39,7 +40,7 @@ export const schema = {
 export const uiSchema = {
   spouseMarriageHistory: {
     items: {
-      'ui:title': 'Placeholder for now',
+      'ui:title': spouseTitle,
       marriageStartDate: {
         ...currentOrPastDateUI('Date of marriage'),
         ...{
