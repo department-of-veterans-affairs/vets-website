@@ -36,6 +36,7 @@ const initialState = {
   facilityData: {},
   requestMessages: {},
   systemClinicToFacilityMap: {},
+  welcomeModelOpen: false,
 };
 
 export default function appointmentsReducer(state = initialState, action) {
