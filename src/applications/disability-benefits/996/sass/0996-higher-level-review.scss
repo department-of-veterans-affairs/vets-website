@@ -193,6 +193,10 @@ article[data-location^="contested-issues/"] {
 /* Step 3 */
 /* Informal conference */
 article[data-location="request-informal-conference"] {
+  .schemaform-block-header {
+    margin-bottom: 1.5em;
+  }
+
   .form-expanding-group-open {
     .schemaform-field-template,
     .schemaform-field-container {
@@ -202,6 +206,7 @@ article[data-location="request-informal-conference"] {
 
   /* Remove extra spacing between form elements */
   .form-expanding-group {
+    .schemaform-first-field,
     .usa-input-error {
       margin-top: 0;
     }
@@ -209,6 +214,10 @@ article[data-location="request-informal-conference"] {
     .schemaform-block-header {
       margin-bottom: 0;
     }
+  }
+
+  .schemaform-label.usa-input-error-label {
+    font-weight: bold;
   }
 
   #root_scheduleTimes-label {
