@@ -36,6 +36,15 @@ import recordEvent from '../../../platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 
+const otherToolsLink = (
+  <p>
+    Can’t find what you’re looking for?
+    <a href="https://www.va.gov/directory/guide/home.asp">
+      Try using our other tools to search.
+    </a>
+  </p>
+);
+
 // Link to urgent care benefit web page
 const urgentCareDialogLink = (
   <AlertBox status="warning">
@@ -561,6 +570,7 @@ class VAMap extends Component {
               )}
             </TabPanel>
             <TabPanel>
+              {otherToolsLink}
               <Map
                 ref="map"
                 center={position}
@@ -667,6 +677,7 @@ class VAMap extends Component {
             className="columns usa-width-two-thirds medium-8 small-12"
             style={{ minHeight: '75vh', paddingLeft: '0px' }}
           >
+            {otherToolsLink}
             <Map
               ref="map"
               center={position}
