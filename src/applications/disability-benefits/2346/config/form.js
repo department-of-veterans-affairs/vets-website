@@ -119,6 +119,7 @@ const formConfig = {
               'ui:title': 'Which hearing aid do you need batteries for?',
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
+              'ui:widget': SelectArrayOrdersWidget,
               'ui:options': {
                 widgetClassNames: 'order-background',
                 expandUnder: 'view:addBatteries',
