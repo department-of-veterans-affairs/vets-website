@@ -16,7 +16,7 @@ function openModal(browser) {
     .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton);
   browser
-    .pause(5000)
+    .pause(20000)
     .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
 }
 
