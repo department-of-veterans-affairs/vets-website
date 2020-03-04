@@ -11,7 +11,7 @@ export const schema = {
     spouseWasMarriedBefore: {
       type: 'boolean',
     },
-    spouseFormerMarriages: {
+    spouseMarriageHistory: {
       type: 'array',
       items: {
         type: 'object',
@@ -29,7 +29,7 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
     'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },
-  spouseFormerMarriages: {
+  spouseMarriageHistory: {
     'ui:options': {
       viewField: SpouseViewField,
       expandUnder: 'spouseWasMarriedBefore',

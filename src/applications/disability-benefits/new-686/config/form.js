@@ -11,6 +11,7 @@ import {
   doesLiveWithSpouse,
   spouseInformation,
   spouseMarriageHistory,
+  spouseMarriageHistoryDetails,
 } from './chapters/report-add-a-spouse';
 import { wizard } from './chapters/taskWizard';
 import {
@@ -93,6 +94,14 @@ const formConfig = {
           path: 'current-spouse-marriage-history',
           uiSchema: spouseMarriageHistory.uiSchema,
           schema: spouseMarriageHistory.schema,
+        },
+        spouseMarriageHistoryDetails: {
+          title: 'Information needed to add your spouse',
+          path: 'current-spouse-marriage-history/:index',
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriageHistory',
+          uiSchema: spouseMarriageHistoryDetails.uiSchema,
+          schema: spouseMarriageHistoryDetails.schema,
         },
       },
     },
