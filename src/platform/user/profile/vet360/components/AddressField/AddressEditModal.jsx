@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import pickBy from 'lodash/pickBy';
+import { focusElement } from 'platform/utilities/ui';
 
 import {
   ADDRESS_FORM_VALUES,
@@ -21,6 +22,10 @@ import environment from 'platform/utilities/environment';
 const useNewAddressForm = !environment.isProduction();
 
 class AddressEditModal extends React.Component {
+  componentWillUnmount() {
+    focusElement(`#${this.props.fieldName}-edit-link`);
+  }
+
   onBlur = field => {
     this.props.onChange(this.props.field.value, field);
   };
