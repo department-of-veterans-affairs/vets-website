@@ -1,7 +1,4 @@
-import {
-  OfficeForReviewTitle,
-  OfficeForReviewChoiceAlert,
-} from '../content/OfficeForReview';
+import { OfficeForReviewTitle } from '../content/OfficeForReview';
 
 const OfficeForReview = {
   uiSchema: {
@@ -10,12 +7,6 @@ const OfficeForReview = {
       'ui:title': OfficeForReviewTitle,
       'ui:widget': 'yesNo',
     },
-    'view:sameOffice': {
-      'ui:description': OfficeForReviewChoiceAlert,
-      'ui:options': {
-        hideIf: formData => formData?.sameOffice !== false,
-      },
-    },
   },
 
   schema: {
@@ -23,10 +14,6 @@ const OfficeForReview = {
     properties: {
       sameOffice: {
         type: 'boolean',
-      },
-      'view:sameOffice': {
-        type: 'object',
-        properties: {},
       },
     },
   },

@@ -66,7 +66,7 @@ export default {
     },
   ],
 
-  sameOffice: true,
+  sameOffice: false,
   informalConferenceChoice: null,
   contactRepresentativeChoice: null,
   representative: {
