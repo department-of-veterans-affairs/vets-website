@@ -8,49 +8,35 @@ export default function NeedHelp() {
       </h2>
       <hr className="vads-u-margin-y--1p5 vads-u-border-color--primary" />
       <p className="vads-u-margin-top--0">
-        For help scheduling an appointment, or if you have questions about
-        enrollment or eligibility, please call:
+        For help scheduling a VA or Community Care appointment, or if you have
+        questions about enrollment or eligibility, please call{' '}
+        <a href="tel:8774705947">877-470-5947</a> (if you have hearing loss,
+        call TTY: 711). We’re here Monday &ndash; Friday, 8 a.m. to 8 p.m. ET.
       </p>
-      <div className="vads-u-display--flex">
-        <ul className="usa-unstyled-list vads-u-flex--1">
-          <li>VA facility and Community Care appointments:</li>
-          <li>
-            <a href="tel:8772228387" className="vads-u-font-weight--bold">
-              877-222-8387
-            </a>
-          </li>
-          <li>
-            TTY:{' '}
-            <a href="tel:8008778339" className="vads-u-font-weight--bold">
-              800-877-8339
-            </a>
-          </li>
-          <li>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. ET</li>
-        </ul>
-        <ul className="usa-unstyled-list vads-u-padding-left--4">
-          <li>VA Video Connect appointments:</li>
-          <li>
-            <a href="tel:8772228387" className="vads-u-font-weight--bold">
-              877-222-8387
-            </a>
-          </li>
-          <li>
-            TTY:{' '}
-            <a href="tel:8008778339" className="vads-u-font-weight--bold">
-              800-877-8339
-            </a>
-          </li>
-          <li>Monday &ndash; Friday, 8:00 a.m. &ndash; 8:00 p.m. ET</li>
-        </ul>
-      </div>
-      <a
-        href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE"
-        className="vads-u-display--block vads-u-margin-top--2"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Leave feedback for this application
-      </a>
+      <p className="vads-u-margin-top--0">
+        For questions about joining a VA Video Connect appointment, please call{' '}
+        <a href="tel:8666513180">866-651-3180</a> (if you have hearing loss,
+        call TTY: 711). We’re here Monday &ndash; Saturday, 7 a.m. to 11 p.m.
+        ET.
+      </p>
+      <p className="vads-u-margin-top--0">
+        <a
+          href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Leave feedback for this application
+        </a>
+      </p>
+      <p>
+        <a
+          href="https://veteran.mobile.va.gov/var/v4/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go back to the old VA appointment tool
+        </a>
+      </p>
     </div>
   );
 }
