@@ -11,10 +11,7 @@ export default function WelcomeVAOSModal({ dismiss }) {
           alt="VA.gov"
         />
       </div>
-      <h1
-        id="modal-announcement-title"
-        className="vads-u-font-size--h3 announcement-title"
-      >
+      <h1 className="vads-u-font-size--h3 vads-u-margin-top--2">
         Welcome to the new VA online scheduling tool on VA.gov
       </h1>
       <p>
