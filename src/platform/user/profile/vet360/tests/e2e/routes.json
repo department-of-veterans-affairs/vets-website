@@ -103,7 +103,7 @@
   },
   {
     "path": "/v0/profile/address_validation",
-    "verb": "get",
+    "verb": "post",
     "value": {
       "addresses": [
         {
