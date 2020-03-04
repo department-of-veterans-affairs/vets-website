@@ -23,7 +23,7 @@ const useNewAddressForm = !environment.isProduction();
 
 class AddressEditModal extends React.Component {
   componentWillUnmount() {
-    focusElement(`button#${this.props.modal}-edit-link`);
+    focusElement(`#${this.props.fieldName}-edit-link`);
   }
 
   onBlur = field => {
@@ -175,7 +175,6 @@ class AddressEditModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  modal: state.vet360.modal,
   modalData: state.vet360?.modalData,
 });
 

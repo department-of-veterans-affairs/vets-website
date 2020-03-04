@@ -22,7 +22,7 @@ import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
   componentWillUnmount() {
-    focusElement(`button#${this.props.addressValidationType}-edit-link`);
+    focusElement(`#${this.props.addressValidationType}-edit-link`);
   }
 
   onChangeHandler = (address, selectedAddressId) => _event => {
