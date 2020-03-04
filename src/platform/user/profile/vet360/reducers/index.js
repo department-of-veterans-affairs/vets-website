@@ -222,7 +222,6 @@ export default function vet360(state = initialState, action) {
           ...state.fieldTransactionMap,
           [action.fieldName]: { isPending: true },
         },
-        modal: null,
       };
 
     case ADDRESS_VALIDATION_CONFIRM:
