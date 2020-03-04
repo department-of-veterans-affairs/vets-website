@@ -38,7 +38,7 @@ function refreshSSOeSession(sessionExpiration) {
     .then(res => {
       const hasSSOsession = res.headers.get('session-alive');
 
-      if (hasSSOsession) {
+      if (hasSSOsession === 'true') {
         const sessionTimeout = res.headers.get('session-timeout');
         const expirationTime = new Date();
 
