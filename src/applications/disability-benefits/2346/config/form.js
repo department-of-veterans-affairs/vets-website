@@ -2,7 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
 import orderSupplyPageContent from '../components/oderSupplyPageContent.jsx';
-import SelectArrayOrdersWidget from '../components/SelectArrayOrdersWidget.jsx';
+import deviceNameField from '../components/deviceNameField';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';
@@ -119,11 +119,14 @@ const formConfig = {
               'ui:title': 'Which hearing aid do you need batteries for?',
               'ui:description':
                 'You will be sent a 6 month supply of batteries for each device you select below.',
-              'ui:widget': SelectArrayOrdersWidget,
               'ui:options': {
                 classNames: 'order-background',
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
+              },
+              deviceName: {
+                'ui:title': 'Reorder Batteries',
+                'ui:field': deviceNameField,
               },
             },
           },
