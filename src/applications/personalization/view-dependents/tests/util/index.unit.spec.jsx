@@ -11,11 +11,13 @@ describe('View Dependents splitPersons Utility', () => {
     },
   ];
 
-  it('should return an object with two arrays', () => {
+  it('should return a populated object with two arrays', () => {
     const data = splitPersons(mockData);
 
     expect(data.onAward).to.exist;
     expect(data.notOnAward).to.exist;
+    expect(data.notOnAward[0].awardIndicator).to.equal('N');
+    expect(data.notOnAward[1].awardIndicator).to.equal('N');
   });
 });
 

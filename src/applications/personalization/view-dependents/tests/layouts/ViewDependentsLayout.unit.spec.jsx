@@ -71,7 +71,7 @@ describe('<ViewDependentsLayout />', () => {
     wrapper.unmount();
   });
 
-  it('should show an error alert when there is a 400 error', () => {
+  it('should show an error alert when there is a 500 error', () => {
     const wrapper = mount(
       <ViewDependentsLayout
         loading={false}
