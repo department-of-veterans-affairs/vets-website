@@ -22,7 +22,7 @@ import {
   getCancelInfo,
   vaosCancel,
   vaosRequests,
-  isWelcomeModalDimissed,
+  isWelcomeModalDismissed,
 } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
@@ -30,7 +30,7 @@ const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
-    if (this.props.isWelcomeModalDimissed) {
+    if (this.props.isWelcomeModalDismissed) {
       scrollAndFocus();
     }
     this.props.fetchFutureAppointments();
@@ -39,8 +39,8 @@ export class AppointmentsPage extends Component {
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.isWelcomeModalDimissed &&
-      !prevProps.isWelcomeModalDimissed
+      this.props.isWelcomeModalDismissed &&
+      !prevProps.isWelcomeModalDismissed
     ) {
       scrollAndFocus();
     }
@@ -238,7 +238,7 @@ function mapStateToProps(state) {
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
-    isWelcomeModalDimissed: isWelcomeModalDimissed(state),
+    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };
 }
 
