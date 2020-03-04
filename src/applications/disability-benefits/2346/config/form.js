@@ -121,7 +121,7 @@ const formConfig = {
                 'You will be sent a 6 month supply of batteries for each device you select below.',
               'ui:widget': SelectArrayOrdersWidget,
               'ui:options': {
-                widgetClassNames: 'order-background',
+                classNames: 'order-background',
                 expandUnder: 'view:addBatteries',
                 expandUnderCondition: 'yes',
               },
