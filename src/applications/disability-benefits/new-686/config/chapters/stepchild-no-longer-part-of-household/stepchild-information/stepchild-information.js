@@ -8,12 +8,13 @@ export const schema = {
   properties: {
     stepChildren: {
       type: 'array',
+      minItems: 1,
       items: {
         type: 'object',
         properties: {
           stillSupportingStepchild: {
             type: 'boolean',
-            default: true,
+            default: false,
           },
           stepchildLivingExpensesPaid: {
             type: 'string',
@@ -61,6 +62,11 @@ export const uiSchema = {
       stepchildLivingExpensesPaid: {
         'ui:widget': 'radio',
         'ui:title': "How much of this stepchild's living expenses do you pay?",
+        'ui:options': {
+          expandUnder: 'stillSupportingStepchild',
+          expandUnderCondition: true,
+          keepInPageOnReview: true,
+        },
       },
       whoDoesTheStepchildLiveWith: {
         'ui:title': 'Who does this stepchild live with?',
