@@ -10,6 +10,7 @@ import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../components/FormButtons';
 import { getFormPageInfo } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import { PURPOSE_TEXT } from '../utils/constants';
 import TextareaWidget from '../components/TextareaWidget';
 
@@ -50,6 +51,7 @@ export class ReasonForAppointmentPage extends React.Component {
   componentDidMount() {
     document.title = `${pageTitle} | Veterans Affairs`;
     this.props.openReasonForAppointment(pageKey, uiSchema, initialSchema);
+    scrollAndFocus();
   }
 
   goBack = () => {

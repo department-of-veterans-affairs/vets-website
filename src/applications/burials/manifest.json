@@ -8,6 +8,21 @@
     "display_title": "Apply Now",
     "layout": "page-react.html",
     "description": "Use VA Form 21P-530 to apply for VA burial benefits online now. Get step-by-step instructions, and consider signing in to save your in-progress application if you need to come back to finish filling it out later.",
-    "order": 1
+    "order": 1,
+    "includeBreadcrumbs": true,
+    "breadcrumbs_override": [
+      {
+        "path": "burials-memorials/",
+        "name": "Burials and memorials"
+      },
+      {
+        "path": "burials-memorials/veterans-burial-allowance",
+        "name": "Burial allowance"
+      },
+      {
+        "path": "burials-and-memorials/application/530",
+        "name": "Apply for burial benefits"
+      }
+    ]
   }
 }

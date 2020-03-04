@@ -11,7 +11,7 @@ export const schema = {
         addSpouse: { type: 'boolean', default: false },
         reportDivorce: { type: 'boolean', default: false },
         reportDeath: { type: 'boolean', default: false },
-        reportChildNotInHousehold: { type: 'boolean', default: false },
+        reportStepchildNotInHousehold: { type: 'boolean', default: false },
         reportMarriageOfChildUnder18: { type: 'boolean', default: false },
         reportChild18OrOlderIsNotAttendingSchool: {
           type: 'boolean',
@@ -40,7 +40,7 @@ export const uiSchema = {
     reportDivorce: {
       'ui:title': 'Report a divorce',
     },
-    reportChildNotInHousehold: {
+    reportStepchildNotInHousehold: {
       'ui:title':
         'Report that a stepchild is no longer a member of your household',
     },

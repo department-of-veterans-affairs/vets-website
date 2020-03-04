@@ -1,17 +1,20 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullSchemaMDOT from 'vets-json-schema/dist/MDOT-schema.json';
+import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
+import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
+import UIDefinitions from '../definitions/2346UI';
 
 const {
   email,
   dateOfBirth,
   veteranFullName,
   veteranAddress,
-} = fullSchemaMDOT.properties;
+  gender,
+} = fullSchemaMDOT.definitions;
 
-const { fullName, address, gender } = fullSchemaMDOT.definitions;
+const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
 
 const formChapters = {
   veteranInformation: 'Veteran Information',
@@ -40,8 +43,11 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   defaultDefinitions: {
-    fullName,
-    address,
+    email,
+    dateOfBirth,
+    veteranFullName,
+    veteranAddress,
+    gender,
   },
   chapters: {
     VeteranInformationChapter: {
@@ -55,17 +61,16 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            properties: {
-              veteranFullName,
-              dateOfBirth,
-              gender,
-            },
+            properties: {},
           },
         },
         [formPages.address]: {
           path: 'veteran-information/addresses',
           title: formPages.confirmAddress,
-          uiSchema: {},
+          uiSchema: {
+            [vetFields.address]: addressUI,
+            [vetFields.email]: emailUI,
+          },
           schema: {
             type: 'object',
             properties: {
@@ -78,5 +83,4 @@ const formConfig = {
     },
   },
 };
-
 export default formConfig;

@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { formatDowntime } from 'platform/utilities/date';
 
 import {
   getScheduledDowntime,
@@ -10,13 +14,17 @@ import {
   dismissDowntimeWarning,
 } from '../actions';
 
-import { getSoonestDowntime } from '../util/helpers';
+import Down from '../components/Down';
+import DowntimeApproaching from '../components/DowntimeApproaching';
 
 import externalServices from '../config/externalServices';
 import externalServiceStatus from '../config/externalServiceStatus';
+import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
 
-import Down from '../components/Down';
-import DowntimeApproaching from '../components/DowntimeApproaching';
+import {
+  getSoonestDowntime,
+  isGlobalDowntimeInProgress,
+} from '../util/helpers';
 
 /**
  * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
@@ -48,7 +56,34 @@ class DowntimeNotification extends React.Component {
     if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
   }
 
+  renderGlobalDowntimeOverride = () => {
+    const appType = Object.values(VA_FORM_IDS).includes(this.props.appTitle)
+      ? 'form'
+      : 'tool';
+
+    const downtimeEnd = formatDowntime(scheduledDowntimeWindow.downtimeEnd);
+
+    return (
+      <AlertBox
+        className="vads-u-margin-bottom--4"
+        headline={`This ${appType} is down for maintenance`}
+        isVisible
+        status="warning"
+      >
+        <p>
+          We’re making some updates to this {appType}. We’re sorry it’s not
+          working right now and we hope to be finished by {downtimeEnd}. Please
+          check back soon.
+        </p>
+      </AlertBox>
+    );
+  };
+
   render() {
+    if (isGlobalDowntimeInProgress()) {
+      return this.renderGlobalDowntimeOverride();
+    }
+
     if (!this.props.isReady) {
       return (
         this.props.loadingIndicator || (

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import recordEvent from 'platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
 
 import { isPendingTransaction } from '../util/transactions';
-import environment from 'platform/utilities/environment';
 
 import {
   createTransaction,
@@ -24,6 +24,7 @@ import {
   selectVet360Transaction,
   selectCurrentlyOpenEditModal,
   selectEditedFormField,
+  vaProfileUseAddressValidation,
 } from '../selectors';
 
 import Vet360ProfileFieldHeading from '../components/base/Vet360ProfileFieldHeading';
@@ -42,6 +43,12 @@ class Vet360ProfileField extends React.Component {
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.transaction && !this.props.transaction) {
+      focusElement(`button#${this.props.fieldName}-edit-link`);
+    }
+  }
 
   onAdd = () => {
     this.captureEvent('add-link');
@@ -110,7 +117,7 @@ class Vet360ProfileField extends React.Component {
 
     if (
       this.props.fieldName.toLowerCase().includes('address') &&
-      !environment.isProduction()
+      this.props.useAddressValidation
     ) {
       this.props.validateAddress(
         this.props.apiRoute,
@@ -193,14 +200,10 @@ class Vet360ProfileField extends React.Component {
     };
 
     return (
-      <div
-        className="vet360-profile-field"
-        aria-atomic="false"
-        aria-live="polite"
-        data-field-name={fieldName}
-      >
+      <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading
           onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
+          fieldName={fieldName}
         >
           {title}
         </Vet360ProfileFieldHeading>
@@ -238,6 +241,7 @@ const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
+  const useAddressValidation = vaProfileUseAddressValidation(state);
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
@@ -248,6 +252,7 @@ const mapStateToProps = (state, ownProps) => {
     isEmpty,
     transaction,
     transactionRequest,
+    useAddressValidation,
   };
 };
 
