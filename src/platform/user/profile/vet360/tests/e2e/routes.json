@@ -102,7 +102,7 @@
     }
   },
   {
-    "path": "/profile/address_validation",
+    "path": "/v0/profile/address_validation",
     "verb": "get",
     "value": {
       "addresses": [
