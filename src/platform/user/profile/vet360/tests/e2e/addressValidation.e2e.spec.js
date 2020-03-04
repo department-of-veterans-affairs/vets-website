@@ -8,15 +8,13 @@ function openModal(browser) {
   const fieldWrapper = `[data-field-name="mailingAddress"]`;
   const editButton = `${fieldWrapper} [data-action="edit"]`;
   const updateButton = 'button[data-action="save-edit"]';
-  const addressValidationModal = 'div[id="address-validation-warning"]';
+  const addressValidationModal = '#address-validation-warning';
 
   browser
     .waitForElementVisible(editButton, Timeouts.verySlow)
     .click(editButton)
     .waitForElementVisible(updateButton, Timeouts.verySlow)
-    .click(updateButton);
-  browser
-    .pause(20000)
+    .click(updateButton)
     .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
 }
 
@@ -58,7 +56,6 @@ function begin(browser) {
         Timeouts.verySlow,
       );
 
-      browser.pause(Timeouts.verySlow);
       beginTests(browser, token);
       done();
     });
