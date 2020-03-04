@@ -65,9 +65,11 @@ export const uiSchema = {
   isSpouseVeteran: {
     'ui:title': 'Is your spouse a veteran?',
     'ui:widget': 'yesNo',
+    'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
   },
   spouseVAFileNumber: {
     'ui:title': 'Spouse’s VA file number',
+    'ui:errorMessages': { pattern: 'Please enter a valid VA File number' },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
       expandUnder: 'isSpouseVeteran',
@@ -75,6 +77,7 @@ export const uiSchema = {
   },
   spouseServiceNumber: {
     'ui:title': 'Spouse’s service number',
+    'ui:errorMessages': { pattern: 'Please enter a valid Service Number' },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
       expandUnder: 'isSpouseVeteran',
