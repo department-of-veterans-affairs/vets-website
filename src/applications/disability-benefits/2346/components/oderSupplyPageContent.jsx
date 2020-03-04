@@ -5,8 +5,8 @@ class orderSupplyPageContent extends React.Component {
     return (
       <div>
         <p>
-          Do you need to order batteries for any of your hearing aids?
-          (*Required)
+          Do you need to order batteries for any of your hearing aids?{' '}
+          <span className="vads-u-color--secondary-darkest">(*Required)</span>
         </p>
       </div>
     );
