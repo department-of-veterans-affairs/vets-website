@@ -1,0 +1,143 @@
+{
+    "tid": [
+        {
+            "value": 3
+        }
+    ],
+    "uuid": [
+        {
+            "value": "e5820ec7-83b0-4d03-8ebf-ed50fa8cc211"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 3
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "vid": [
+        {
+            "target_id": "administration",
+            "target_type": "taxonomy_vocabulary",
+            "target_uuid": "645055c5-e567-4683-b6db-459ce04522ce"
+        }
+    ],
+    "revision_created": [],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "name": [
+        {
+            "value": "Veterans Health Administration"
+        }
+    ],
+    "description": [
+        {
+            "value": null,
+            "format": null
+        }
+    ],
+    "weight": [
+        {
+            "value": 51
+        }
+    ],
+    "parent": [
+        {
+            "target_id": null
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-09-25T00:04:26+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "Veterans Health Administration | VA.gov CMS",
+            "canonical_url": "http:\/\/default\/section\/veterans-health-administration",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "| Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "| Veterans Affairs"
+        }
+    },
+    "path": [
+        {
+            "alias": "\/section\/veterans-health-administration",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_acronym": [
+        {
+            "value": "VHA"
+        }
+    ],
+    "field_description": [],
+    "field_email_updates_link_text": [
+        {
+            "value": "Veterans health email updates"
+        }
+    ],
+    "field_email_updates_url": [
+        {
+            "value": "https:\/\/public.govdelivery.com\/accounts\/USVHA\/subscribers\/qualify?category_id=USVHA_C4&email=dwdw%40gmail.com&commit.x=36&commit.y=11"
+        }
+    ],
+    "field_intro_text": [],
+    "field_link": [
+        {
+            "uri": "https:\/\/www.va.gov\/health\/",
+            "title": null,
+            "options": []
+        }
+    ],
+    "field_metatags": [],
+    "field_social_media_links": [
+        {
+            "platform": null,
+            "value": null,
+            "platform_values": {
+                "twitter": {
+                    "value": "VeteransHealth"
+                },
+                "facebook": {
+                    "value": "VeteransHealth"
+                },
+                "youtube": {
+                    "value": "user\/VeteransHealthAdmin"
+                },
+                "youtube_channel": {
+                    "value": ""
+                },
+                "linkedin": {
+                    "value": ""
+                },
+                "instagram": {
+                    "value": ""
+                }
+            }
+        }
+    ]
+}

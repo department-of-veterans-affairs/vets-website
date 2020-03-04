@@ -130,7 +130,7 @@ const entityAssemblerFactory = contentDir => {
       /* eslint-enable no-console */
 
       // Abort! (We may want to change this later)
-      throw new Error(`${toId(entity)} is invalid after transformation`);
+      //throw new Error(`${toId(entity)} is invalid after transformation`);
     }
 
     return transformedEntity;

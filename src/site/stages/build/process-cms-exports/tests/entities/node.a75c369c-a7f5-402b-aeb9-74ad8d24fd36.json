@@ -1,0 +1,143 @@
+{
+    "nid": [
+        {
+            "value": 2806
+        }
+    ],
+    "uuid": [
+        {
+            "value": "a75c369c-a7f5-402b-aeb9-74ad8d24fd36"
+        }
+    ],
+    "vid": [
+        {
+            "value": 15878
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "story_listing",
+            "target_type": "node_type",
+            "target_uuid": "f28cd2f7-2819-4dfa-a768-72d269cf68ff"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2020-03-02T21:36:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "8bea8773-6a06-4afd-99b5-1dfa7a2192ea"
+        }
+    ],
+    "title": [
+        {
+            "value": "Stories"
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-03-02T21:36:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-03-02T21:36:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": false
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "moderation_state": [
+        {
+            "value": "published"
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "Stories | Veterans Affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_description": "Read about what's happening in our VA Pittsburgh health care community.",
+            "description": "Read about what's happening in our VA Pittsburgh health care community.",
+            "twitter_cards_title": "Stories | Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "Stories | Veterans Affairs",
+            "og_description": "Read about what's happening in our VA Pittsburgh health care community."
+        }
+    },
+    "path": [
+        {
+            "alias": "\/pittsburgh-health-care\/stories-new",
+            "langcode": "en",
+            "pathauto": 0
+        }
+    ],
+    "field_administration": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
+        }
+    ],
+    "field_description": [
+        {
+            "value": "Read about what's happening in our VA Pittsburgh health care community."
+        }
+    ],
+    "field_intro_text": [
+        {
+            "value": "Read about what's happening in our VA Pittsburgh health care community."
+        }
+    ],
+    "field_meta_tags": [],
+    "field_meta_title": [
+        {
+            "value": "VA Pittsburgh Health Care | Stories | Veterans Affairs"
+        }
+    ],
+    "field_office": [
+        {
+            "target_type": "node",
+            "target_uuid": "2bddb1a7-6fb1-4503-838d-9c2fcb51c46a"
+        }
+    ]
+}

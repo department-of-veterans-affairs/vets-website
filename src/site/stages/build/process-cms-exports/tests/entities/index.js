@@ -39,6 +39,7 @@ module.exports = {
     'node.8822bbdd-f5f8-4700-8abb-5566431bd705.json',
   'node-office': 'node.c715d441-b6cb-4067-92eb-0650e97b7d62.json',
   'node-landing_page': 'node.18ca8756-9f78-43ef-95ea-04bd106063c5.json',
+  'node-story_listing': 'node.a75c369c-a7f5-402b-aeb9-74ad8d24fd36.json',
   'paragraph-link_teaser':
     'paragraph.c5fec275-9ce2-480c-af68-a6ad65e9ff65.json',
   'paragraph-q_a': 'paragraph.000f52e7-99da-44a1-8b95-2dfe2c2b2682.json',

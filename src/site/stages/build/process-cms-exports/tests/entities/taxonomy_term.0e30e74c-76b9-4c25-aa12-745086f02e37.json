@@ -1,0 +1,134 @@
+{
+    "tid": [
+        {
+            "value": 46
+        }
+    ],
+    "uuid": [
+        {
+            "value": "0e30e74c-76b9-4c25-aa12-745086f02e37"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 46
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "vid": [
+        {
+            "target_id": "administration",
+            "target_type": "taxonomy_vocabulary",
+            "target_uuid": "645055c5-e567-4683-b6db-459ce04522ce"
+        }
+    ],
+    "revision_created": [],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "name": [
+        {
+            "value": "National health care service descriptions"
+        }
+    ],
+    "description": [
+        {
+            "value": null,
+            "format": null
+        }
+    ],
+    "weight": [
+        {
+            "value": 1
+        }
+    ],
+    "parent": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "e5820ec7-83b0-4d03-8ebf-ed50fa8cc211"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-03-12T01:34:16+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "National health care service descriptions | VA.gov CMS",
+            "canonical_url": "http:\/\/default\/section\/national-health-care-service-descriptions",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "| Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "| Veterans Affairs"
+        }
+    },
+    "path": [
+        {
+            "alias": "\/section\/national-health-care-service-descriptions",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_acronym": [],
+    "field_description": [
+        {
+            "value": "VHA HQ controlled plain language descriptions of health care services"
+        }
+    ],
+    "field_email_updates_link_text": [],
+    "field_email_updates_url": [],
+    "field_intro_text": [
+        {
+            "value": "[delete me later]"
+        }
+    ],
+    "field_link": [],
+    "field_metatags": [],
+    "field_social_media_links": [
+        {
+            "platform": null,
+            "value": null,
+            "platform_values": {
+                "facebook": {
+                    "value": ""
+                },
+                "instagram": {
+                    "value": ""
+                },
+                "linkedin": {
+                    "value": ""
+                },
+                "twitter": {
+                    "value": ""
+                },
+                "youtube": {
+                    "value": ""
+                },
+                "youtube_channel": {
+                    "value": ""
+                }
+            }
+        }
+    ]
+}

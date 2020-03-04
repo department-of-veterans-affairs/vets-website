@@ -1,0 +1,60 @@
+{
+    "fid": [
+        {
+            "value": 899
+        }
+    ],
+    "uuid": [
+        {
+            "value": "6c670bf2-05b1-44fc-ac21-af641564335b"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
+        }
+    ],
+    "filename": [
+        {
+            "value": "washington-clinic.jpg"
+        }
+    ],
+    "uri": [
+        {
+            "value": "public:\/\/2020-01\/washington-clinic.jpg"
+        }
+    ],
+    "filemime": [
+        {
+            "value": "image\/jpeg"
+        }
+    ],
+    "filesize": [
+        {
+            "value": 479222
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-01-30T20:40:08+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-01-30T20:40:53+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ]
+}

@@ -1,0 +1,197 @@
+  {
+    "contentModelType": "node-story_listing",
+    "entityType": "node",
+    "entityBundle": "story_listing",
+    "entityId": "2806",
+    "changed": 1583184990,
+    "entityPublished": true,
+    "title": "Stories",
+    "entityUrl": {
+      "path": "/pittsburgh-health-care/stories-new"
+    },
+    "entityMetatags": [
+      {
+        "__typename": "MetaValue",
+        "key": "title",
+        "value": "Stories | Veterans Affairs"
+      },
+      {
+        "__typename": "MetaValue",
+        "key": "twitter:card",
+        "value": "summary_large_image"
+      },
+      {
+        "__typename": "MetaProperty",
+        "key": "og:site_name",
+        "value": "Veterans Affairs"
+      },
+      {
+        "__typename": "MetaValue",
+        "key": "twitter:description",
+        "value": "Read about what's happening in our VA Pittsburgh health care community."
+      },
+      {
+        "__typename": "MetaValue",
+        "key": "description",
+        "value": "Read about what's happening in our VA Pittsburgh health care community."
+      },
+      {
+        "__typename": "MetaValue",
+        "key": "twitter:title",
+        "value": "Stories | Veterans Affairs"
+      },
+      {
+        "__typename": "MetaValue",
+        "key": "twitter:site",
+        "value": "@DeptVetAffairs"
+      },
+      {
+        "__typename": "MetaProperty",
+        "key": "og:title",
+        "value": "Stories | Veterans Affairs"
+      },
+      {
+        "__typename": "MetaProperty",
+        "key": "og:description",
+        "value": "Read about what's happening in our VA Pittsburgh health care community."
+      }
+    ],
+    "fieldIntroText": "Read about what's happening in our VA Pittsburgh health care community.",
+    "fieldOffice": {
+      "entity": {
+        "title": "VA Pittsburgh health care",
+        "reverseFieldOfficeNode": {
+          "entities": [
+            {
+              "entityId": "389",
+              "title": "Great reasons to connect with friends",
+              "fieldFeatured": true,
+              "entityUrl": {
+                "path": "/pittsburgh-health-care/stories/great-reasons-to-connect-with-friends"
+              },
+              "uid": {
+                "targetId": 86,
+                "entity": {
+                  "name": "Howard.Brande@va.gov",
+                  "timezone": "America/New_York"
+                }
+              },
+              "promote": false,
+              "created": 1557854222,
+              "fieldOffice": {
+                "entity": {
+                  "entityLabel": "VA Pittsburgh health care",
+                  "entityUrl": {
+                    "breadcrumb": [
+                      {
+                        "url": {
+                          "path": "/",
+                          "routed": true
+                        },
+                        "text": "Home"
+                      },
+                      {
+                        "url": {
+                          "path": "",
+                          "routed": true
+                        },
+                        "text": "VA Pittsburgh health care"
+                      }
+                    ],
+                    "path": "/pittsburgh-health-care"
+                  }
+                }
+              },
+              "fieldAuthor": {
+                "entity": {
+                  "title": "Marlena Regus",
+                  "fieldDescription": null
+                }
+              },
+              "fieldImageCaption": "Photo of three middle aged women, laughing together.",
+              "fieldIntroText": "Socializing can provide many benefits to your physical and mental health. ",
+              "fieldMedia": {
+                "entity": {
+                  "image": {
+                    "alt": "Photo of three middle aged women, multicultural, laughing together",
+                    "title": "",
+                    "derivative": {
+                      "url": "http://va-gov-cms.lndo.site/sites/default/files/styles/2_1_medium_thumbnail/public/2019-05/Friends_main.jpg",
+                      "width": 480,
+                      "height": 240
+                    }
+                  }
+                }
+              },
+              "fieldFullStory": {
+                "processed": "<p>Socializing can provide many benefits to your physical and mental health. According to recent research:</p>\n\n<ul><li>Connecting with friends may also boost your brain health and lower your risk of dementia.</li>\n\t<li>People who regularly connect with others generally perform better on tests of memory and other cognitive skills.</li>\n\t<li>In the long run, people with active social lives are less likely to develop dementia than those who are more socially isolated.</li>\n\t<li>People with more social support also tend to live longer, and this is true even after accounting for overall health.</li>\n\t<li>Social engagement is associated with a stronger immune system, especially for older adults. This means you are better able to fight off colds, the flu and even some types of cancer.</li>\n\t<li>Interacting with others boosts feelings of well-being and decreases feelings of depression.</li>\n</ul><p>Ways to boost your social engagement: </p>\n\n<ul><li>Sign up for activities at your local recreation center, library or event center.</li>\n\t<li>Join a choir or musical group.</li>\n\t<li>Volunteer at your favorite charity organization.</li>\n\t<li>Visit a museum with a friend and chat about what you see.</li>\n\t<li>Participate in a neighborhood or community group.</li>\n\t<li>Play a group sport like lawn bowling, golf or croquet.</li>\n\t<li>Have a friend or family member over for coffee or tea.</li>\n\t<li>Play cards or board games with others.</li>\n\t<li>Exercise with a friend by walking, swimming or going to the gym together.</li>\n\t<li>Take a class to meet new friends.</li>\n</ul><p>VA Pittsburgh's Recreation Services offers many opportunities for connecting with fellow Veterans and the community. Contact <a href=\"mailto:marlena.regus@va.gov\">Marlena Regus</a> at 412-360-3756 for scheduled events.</p>"
+              }
+            },
+            {
+              "entityId": "832",
+              "title": "3D Printing Longtime Staple of VAPHS Research Lab",
+              "fieldFeatured": false,
+              "entityUrl": {
+                "path": "/pittsburgh-health-care/stories/3d-printing-longtime-staple-of-vaphs-research-lab"
+              },
+              "uid": {
+                "targetId": 65,
+                "entity": {
+                  "name": "Jeffrey.Brauer@va.gov",
+                  "timezone": "America/New_York"
+                }
+              },
+              "promote": false,
+              "created": 1559241201,
+              "fieldOffice": {
+                "entity": {
+                  "entityLabel": "VA Pittsburgh health care",
+                  "entityUrl": {
+                    "breadcrumb": [
+                      {
+                        "url": {
+                          "path": "/",
+                          "routed": true
+                        },
+                        "text": "Home"
+                      },
+                      {
+                        "url": {
+                          "path": "",
+                          "routed": true
+                        },
+                        "text": "VA Pittsburgh health care"
+                      }
+                    ],
+                    "path": "/pittsburgh-health-care"
+                  }
+                }
+              },
+              "fieldAuthor": null,
+              "fieldImageCaption": "Garrett Grindle, assistant director for engineering at the Human Engineering Research Laboratories, retrieves a 3D-printed object from the 3D printer.",
+              "fieldIntroText": "Last week, VA engineers at the Human Engineering Research Laboratories (HERL) participated in North America's most influential 3D printing event in Detroit.",
+              "fieldMedia": {
+                "entity": {
+                  "image": {
+                    "alt": "An engineer retrieves a 3D-printed object from a 3D printer.",
+                    "title": "",
+                    "derivative": {
+                      "url": "http://va-gov-cms.lndo.site/sites/default/files/styles/2_1_medium_thumbnail/public/2019-09/3d-printing-grindle-480.jpg",
+                      "width": 480,
+                      "height": 240
+                    }
+                  }
+                }
+              },
+              "fieldFullStory": {
+                "processed": "<p>3D printing, also known as additive manufacturing, uses a Computer Aided Design (CAD) file and enables the production of complex and functional shapes using less material than traditional manufacturing methods.</p>\n\n<p>HERL—a collaboration between VA Pittsburgh Healthcare System, the University of Pittsburgh, and the UPMC Health System—have used 3D printing for more than 15 years to accelerate the development of accessibility devices for Veterans.</p>\n\n<p>\"Nearly every HERL development project uses some 3D-printed parts,\" notes Garrett Grindle, HERL's assistant director for engineering.</p>\n\n<p>Since HERL engineers create unique inventions—such as the PneuChair, a wheelchair powered solely by compressed air, or Strong Arm, a robotic arm for a wheelchair—they can't just run to the store and buy a part off a shelf. Their designs and prototypes require 3D-printed parts.</p>\n\n<p>Before 3D printing, Grindle said, creating unique parts was time consuming and costly.</p>\n\n<p>\"Worse, things were often not made, as ideas were judged to be too costly or take too much time,\" Grindle said. \"Having an enabling technology like 3D printing now allows for rapidly executing ideas and the freedom to try new things quickly—and this, no doubt, has led to more and better ideas for assistive devices.\"</p>\n\n<p>VA Pittsburgh Healthcare System is one of more than 25 VA medical facilities that have embraced 3D printing technology, leading to innovations and advancements in surgery, prosthetics and treatment of chronic illness.</p>\n\n<p>One of the newest inventions that HERL engineers are developing is a computer mouse specifically designed for Veterans who use prosthetic hooks.</p>\n\n<p>\"They have a very unusual shape and would be very difficult to make in the quantities we are making them in with any other technology,\" Grindle said. Another benefit of 3D printing is perfect reproducibility.</p>\n\n<p>\"Often, we need to make 10, 20, 50, or 200 copies of a single device to support a clinical trial. 3D printers are great for scaling up to make these short production runs.\"</p>\n\n<p>3D printing has helped HERL since 2003 in their mission of improving the mobility and function of Veterans—and all people—with disabilities through advanced engineering in clinical research and medical rehabilitation. The technology, Grindle said, has come a long way.</p>\n\n<p>\"Our first 3D printer had some significant limitations on the types of material it could use, but the potential was clearly there,\" Grindle said. \"Over time, machines and materials got better. We went from making maybe a few hundred basic plastic parts a year to making several thousand plastic parts, many of high complexity.\"</p>\n\n<p>HERL has been a leader in using 3D printing technology, helping to spread the technology to VA facilities nationwide and in training the next generation of 3D print users.</p>\n\n<p>\"Some of the first rehab engineers within the VA to use 3D printing parts in assistive technology clinics have been HERL alumni,\" Grindle said. \"They were strong advocates for spreading these technologies to other VA assistive technology clinics and creating the national network.</p>\n\n<p>\"We've trained hundreds of people in this technology: students, vocational trainees, staff and faculty. 3D printers are easy to operate and a good starting point for introducing people to manufacturing.\"</p>\n\n<p>While it can take years to master designing parts for 3D printers, the operation of the machines can be taught in several weeks.</p>\n\n<p>\"We teach people the theory behind the machines, how to operate them, and good design practices for making parts on 3D printers.\"</p>"
+              }
+            }
+          ]
+        },
+        "entityLabel": "VA Pittsburgh health care",
+        "fieldNicknameForThisFacility": "VA Pittsburgh health care"
+      },
+      "targetId": 318
+    }
+  }

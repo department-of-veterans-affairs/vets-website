@@ -1,0 +1,125 @@
+{
+    "mid": [
+        {
+            "value": 767
+        }
+    ],
+    "uuid": [
+        {
+            "value": "b50ed690-582f-4dd4-9c16-1d3bfacb45e2"
+        }
+    ],
+    "vid": [
+        {
+            "value": 904
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "bundle": [
+        {
+            "target_id": "image",
+            "target_type": "media_type",
+            "target_uuid": "92f64a34-81e5-4094-82a9-4fe61d7f2227"
+        }
+    ],
+    "revision_created": [
+        {
+            "value": "2020-01-30T20:40:53+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "51c1ce1d-2508-479c-ba3e-0c8a432cad30"
+        }
+    ],
+    "name": [
+        {
+            "value": "washington-clinic.jpg"
+        }
+    ],
+    "thumbnail": [
+        {
+            "alt": "Exterior of the Washington Clinic",
+            "title": null,
+            "width": 1223,
+            "height": 900,
+            "target_type": "file",
+            "target_uuid": "6c670bf2-05b1-44fc-ac21-af641564335b"
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-01-30T20:40:08+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-01-30T20:40:08+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "| Veterans Affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "| Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "| Veterans Affairs"
+        }
+    },
+    "path": [
+        {
+            "alias": null,
+            "pid": null,
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_media_in_library": [
+        {
+            "value": true
+        }
+    ],
+    "field_media_submission_guideline": [],
+    "field_owner": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "87832236-1e54-4ce3-8141-8dec27c8a9a7"
+        }
+    ],
+    "image": [
+        {
+            "alt": "Exterior of the Washington Clinic",
+            "title": "",
+            "width": 1223,
+            "height": 900,
+            "target_type": "file",
+            "target_uuid": "6c670bf2-05b1-44fc-ac21-af641564335b"
+        }
+    ]
+}

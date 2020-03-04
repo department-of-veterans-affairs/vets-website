@@ -1,0 +1,147 @@
+{
+    "tid": [
+        {
+            "value": 5
+        }
+    ],
+    "uuid": [
+        {
+            "value": "c20f3989-e93e-49bd-8c95-ad3821042a02"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 5
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "vid": [
+        {
+            "target_id": "administration",
+            "target_type": "taxonomy_vocabulary",
+            "target_uuid": "645055c5-e567-4683-b6db-459ce04522ce"
+        }
+    ],
+    "revision_created": [],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "name": [
+        {
+            "value": "Veterans Affairs"
+        }
+    ],
+    "description": [
+        {
+            "value": null,
+            "format": null
+        }
+    ],
+    "weight": [
+        {
+            "value": 48
+        }
+    ],
+    "parent": [
+        {
+            "target_id": null
+        }
+    ],
+    "changed": [
+        {
+            "value": "2019-09-25T20:43:35+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "metatag": {
+        "value": {
+            "title": "Veterans Affairs | VA.gov CMS",
+            "canonical_url": "http:\/\/default\/section\/veterans-affairs",
+            "twitter_cards_type": "summary_large_image",
+            "og_site_name": "Veterans Affairs",
+            "twitter_cards_title": "| Veterans Affairs",
+            "twitter_cards_site": "@DeptVetAffairs",
+            "og_title": "| Veterans Affairs"
+        }
+    },
+    "path": [
+        {
+            "alias": "\/section\/veterans-affairs",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "field_acronym": [
+        {
+            "value": "VACO"
+        }
+    ],
+    "field_description": [
+        {
+            "value": "VA Central Office"
+        }
+    ],
+    "field_email_updates_link_text": [
+        {
+            "value": "VA email updates"
+        }
+    ],
+    "field_email_updates_url": [
+        {
+            "value": "https:\/\/public.govdelivery.com\/accounts\/USVA\/subscriber\/new\/"
+        }
+    ],
+    "field_intro_text": [],
+    "field_link": [
+        {
+            "uri": "https:\/\/www.va.gov",
+            "title": "",
+            "options": []
+        }
+    ],
+    "field_metatags": [],
+    "field_social_media_links": [
+        {
+            "platform": null,
+            "value": null,
+            "platform_values": {
+                "facebook": {
+                    "value": "VeteransAffairs"
+                },
+                "instagram": {
+                    "value": "deptvetaffairs"
+                },
+                "linkedin": {
+                    "value": ""
+                },
+                "twitter": {
+                    "value": "DeptVetAffairs"
+                },
+                "youtube": {
+                    "value": "DeptVetAffairs"
+                },
+                "youtube_channel": {
+                    "value": ""
+                }
+            }
+        }
+    ]
+}

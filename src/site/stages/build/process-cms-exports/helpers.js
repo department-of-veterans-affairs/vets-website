@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const get = require('lodash/get');
+//const findEntities
 
 /**
  * This assumes the tome-sync output is sibling to the vets-website
