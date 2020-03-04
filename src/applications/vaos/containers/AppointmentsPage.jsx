@@ -18,14 +18,19 @@ import {
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
-import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
+import {
+  getCancelInfo,
+  vaosCancel,
+  vaosRequests,
+  isWelcomeModalDimissed,
+} from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 
 const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
-    if (this.props.welcomeModalDismissed) {
+    if (this.props.isWelcomeModalDimissed) {
       scrollAndFocus();
     }
     this.props.fetchFutureAppointments();
@@ -33,7 +38,10 @@ export class AppointmentsPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.welcomeModalDismissed && !prevProps.welcomeModalDismissed) {
+    if (
+      this.props.isWelcomeModalDimissed &&
+      !prevProps.isWelcomeModalDimissed
+    ) {
       scrollAndFocus();
     }
   }
@@ -232,9 +240,7 @@ function mapStateToProps(state) {
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
-    welcomeModalDismissed: state.announcements.dismissed.some(
-      announcement => announcement === 'welcome-to-new-vaos',
-    ),
+    isWelcomeModalDimissed: isWelcomeModalDimissed(state),
   };
 }
 
