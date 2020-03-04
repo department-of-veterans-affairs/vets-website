@@ -59,7 +59,7 @@ const urgentCareDialogLink = (
       className="usa-button-primary vads-u-margin-y--0"
       onClick={() => {
         // Record event
-        recordEvent({ event: 'fl-urgent-care-benefit-link' });
+        recordEvent({ event: 'cta-primary-button-click' });
         window.open(
           'https://www.va.gov/COMMUNITYCARE/programs/veterans/UrgentCareInstructions.asp',
           '_blank',
