@@ -118,6 +118,7 @@ export default class HomepageBanner extends React.Component {
           isVisible
           onCloseAlert={this.dismiss}
           status="warning"
+          headline={this.state.banner?.title}
           content={wysiwygDiv}
         />
       </div>
