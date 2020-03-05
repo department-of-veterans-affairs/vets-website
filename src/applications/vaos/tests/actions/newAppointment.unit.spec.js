@@ -181,8 +181,8 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('fetchFacilityDetails', () => {
-    mockFetch();
     it('should fetch facility details', async () => {
+      mockFetch();
       setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const thunk = fetchFacilityDetails('123');
@@ -195,7 +195,6 @@ describe('VAOS newAppointment actions', () => {
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
     });
-    resetFetch();
   });
 
   describe('openFacilityPage', () => {

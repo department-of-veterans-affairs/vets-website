@@ -20,6 +20,7 @@ import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import NeedHelp from '../components/NeedHelp';
 
 const pageTitle = 'VA appointments';
 
@@ -193,6 +194,7 @@ export class AppointmentsPage extends Component {
               Upcoming appointments
             </h2>
             {content}
+            <NeedHelp />
           </div>
         </div>
         <CancelAppointmentModal
