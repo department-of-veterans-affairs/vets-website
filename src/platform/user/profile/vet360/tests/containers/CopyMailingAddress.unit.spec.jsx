@@ -91,5 +91,77 @@ describe('<CopyMailingAddress/>', () => {
       const result = mapStateToProps(state, ownProps);
       expect(result.checked).to.be.true;
     });
+
+    describe('when using new address form', () => {
+      beforeEach(() => {
+        // this is real data from staging
+        state.user.profile.vet360[FIELD_NAMES.MAILING_ADDRESS] = {
+          addressLine1: '36320 Coronado Dr',
+          addressLine2: null,
+          addressLine3: null,
+          addressPou: 'CORRESPONDENCE',
+          addressType: 'DOMESTIC',
+          city: 'Fremont',
+          countryName: 'United States',
+          countryCodeIso2: 'US',
+          countryCodeIso3: 'USA',
+          countryCodeFips: null,
+          countyCode: '06001',
+          countyName: 'Alameda County',
+          createdAt: '2019-10-04T17:52:48.000Z',
+          effectiveEndDate: null,
+          effectiveStartDate: '2020-03-04T18:33:56.000Z',
+          id: 104273,
+          internationalPostalCode: null,
+          province: null,
+          sourceDate: '2020-03-04T18:33:56.000Z',
+          sourceSystemUser: null,
+          stateCode: 'CA',
+          transactionId: '17a5fa0c-36be-4ce0-960d-b06d3b297ebe',
+          updatedAt: '2020-03-04T18:33:57.000Z',
+          validationKey: null,
+          vet360Id: '139281',
+          zipCode: '94536',
+          zipCodeSuffix: '5537',
+        };
+      });
+
+      it('returns `checked` as `true` when addresses are equal', () => {
+        // This is real data from staging
+        state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+          value: {
+            id: 145184,
+            addressLine1: '36320 Coronado Dr',
+            addressType: 'DOMESTIC',
+            city: 'Fremont',
+            countryName: 'United States',
+            stateCode: 'CA',
+            zipCode: '94536',
+            addressPou: 'RESIDENCE/CHOICE',
+          },
+        };
+
+        const result = mapStateToProps(state, { useNewAddressForm: true });
+        expect(result.checked).to.be.true;
+      });
+
+      it('returns `checked` as `false` when addresses are not equal', () => {
+        state.vet360.formFields[FIELD_NAMES.RESIDENTIAL_ADDRESS] = {
+          value: {
+            id: 145184,
+            addressLine1: '123 Main St.',
+            addressType: 'DOMESTIC',
+            city: 'Fremont',
+            countryName: 'United States',
+            stateCode: 'CA',
+            zipCode: '94536',
+            addressPou: 'RESIDENCE/CHOICE',
+          },
+        };
+
+        const result = mapStateToProps(state, { useNewAddressForm: true });
+        expect(result.checked).to.be.false;
+      });
+    });
   });
 });
