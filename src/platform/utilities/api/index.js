@@ -4,6 +4,7 @@ import environment from '../environment';
 import ENVIRONMENTS from '../../../site/constants/environments';
 import localStorage from '../storage/localStorage';
 
+let sessionTimeoutMinutesLengthSSO = 0;
 const SSOeEndpoint = () => {
   let environmentPrefix;
   switch (ENVIRONMENTS.BUILDTYPE) {
@@ -20,14 +21,18 @@ const SSOeEndpoint = () => {
   return `https://${environmentPrefix}eauth.va.gov/keepalive`;
 };
 
-function refreshSSOeSession(sessionExpiration) {
-  const minutesUntilExpiration =
-    (sessionExpiration.getTime() - Date.now()) / (1000 * 60);
+function checkAndUpdateSSOeSession() {
+  const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
-  if (minutesUntilExpiration > 10) {
-    // We want to minimize external keepalive calls, so this functions
-    // as self-enforced rate limiting
-    return;
+  if (sessionExpiration) {
+    const minutesUntilExpiration =
+      (sessionExpiration.getTime() - Date.now()) / (1000 * 60);
+
+    if (minutesUntilExpiration / sessionTimeoutMinutesLengthSSO < 0.67) {
+      // We want to minimize external keepalive calls, so this functions
+      // as self-enforced rate limiting
+      return;
+    }
   }
 
   fetch(SSOeEndpoint(), {
@@ -40,9 +45,10 @@ function refreshSSOeSession(sessionExpiration) {
 
       if (hasSSOsession === 'true') {
         const sessionTimeout = res.headers.get('session-timeout');
-        const expirationTime = new Date();
+        sessionTimeoutMinutesLengthSSO = sessionTimeout / 60;
 
         // sessionTimeout is in seconds, convert to milliseconds and add from current time
+        const expirationTime = new Date();
         expirationTime.setTime(
           expirationTime.getTime() + sessionTimeout * 1000,
         );
@@ -72,13 +78,8 @@ export function fetchAndUpdateSessionExpiration(...args) {
         if (sessionExpiration) {
           localStorage.setItem('sessionExpiration', sessionExpiration);
         }
-        // SSOe session is independent of vets-api, and must be kept alive for continuity
-        const sessionExpirationSSO = localStorage.getItem(
-          'sessionExpirationSSO',
-        );
-        if (sessionExpirationSSO) {
-          refreshSSOeSession(sessionExpirationSSO);
-        }
+        // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+        checkAndUpdateSSOeSession();
       }
       return response;
     });
