@@ -301,7 +301,7 @@ export function confirmCancelAppointment() {
       });
 
       recordEvent({
-        event: `${eventPrefix}-succeeded`,
+        event: `${eventPrefix}-successful`,
         ...additionalEventdata,
       });
     } catch (e) {

@@ -281,7 +281,7 @@ describe('VAOS actions: appointments', () => {
       });
 
       expect(global.window.dataLayer[1]).to.deep.equal({
-        event: 'vaos-cancel-appointment-submission-succeeded',
+        event: 'vaos-cancel-appointment-submission-successful',
         appointmentType: 'confirmed',
         facilityType: 'va',
       });
