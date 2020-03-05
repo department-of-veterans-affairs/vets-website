@@ -1,8 +1,11 @@
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import moment from 'moment';
+
 import environment from 'platform/utilities/environment';
+import ENVIRONMENTS from 'site/constants/environments';
+
 import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
-import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
 
 /**
  * Derives downtime status based on a time range
@@ -104,19 +107,35 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
 }
 
 /**
- * Determines whether there is a global downtime in progress
- * @param {object} downtimeWindow Optional arg to set arbitrary downtime
- * @returns {boolean} true if the current time is within the downtime window,
- *     false if not
+ * Determines the global downtime window that includes the current time
+ * @returns {object} A global downtime window that covers the current time
+ *     if it exists and null if not
  */
-export const isGlobalDowntimeInProgress = (
-  downtimeWindow = scheduledDowntimeWindow,
-) => {
-  const { downtimeStart, downtimeEnd } = downtimeWindow;
+export const getCurrentGlobalDowntime = (() => {
+  const BUCKET_BASE_URL = 's3-us-gov-west-1.amazonaws.com';
 
-  return (
+  const MAINTENANCE_WINDOWS_SUBDOMAIN = {
+    [ENVIRONMENTS.VAGOVDEV]: 'dev-va-gov-maintenance-windows',
+    [ENVIRONMENTS.VAGOVSTAGING]: 'staging-va-gov-maintenance-windows',
+    [ENVIRONMENTS.VAGOVPROD]: 'prod-va-gov-maintenance-windows',
+  };
+
+  const MAINTENANCE_WINDOWS_JSON = `https://${
+    MAINTENANCE_WINDOWS_SUBDOMAIN[environment.BUILDTYPE]
+  }.${BUCKET_BASE_URL}/maintenance_windows.json`;
+
+  const includesCurrentTime = ({ startTime, endTime }) =>
     !environment.isLocalhost() &&
-    moment().isAfter(downtimeStart) &&
-    moment().isBefore(downtimeEnd)
-  );
-};
+    moment().isAfter(moment.parseZone(startTime)) &&
+    moment().isBefore(moment.parseZone(endTime));
+
+  return async () => {
+    try {
+      const response = await fetch(MAINTENANCE_WINDOWS_JSON);
+      const data = camelCaseKeysRecursive(await response.json());
+      return data.find(includesCurrentTime) || null;
+    } catch (error) {
+      return null;
+    }
+  };
+})();
