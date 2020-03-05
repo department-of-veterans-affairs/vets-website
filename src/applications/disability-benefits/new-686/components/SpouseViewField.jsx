@@ -4,7 +4,7 @@ export default function SpouseViewField({ formData }) {
   const { first, middle, last, suffix } = formData.spouseFormerPartnerName;
 
   return (
-    <div>
+    <div className="vads-u-padding--2">
       <strong>
         {first} {middle && `${middle} `}
         {last}
