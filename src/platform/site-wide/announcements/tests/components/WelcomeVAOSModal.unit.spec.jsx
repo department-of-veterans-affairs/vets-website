@@ -12,7 +12,7 @@ describe('Announcements <WelcomeVAOSModal>', () => {
     const tree = mount(<WelcomeVAOSModal dismiss={dismiss} />);
 
     expect(tree.text()).to.contain(
-      'Welcome to the new VA online scheduling tool on VA.gov',
+      'Welcome to the new VA.gov online scheduling tool',
     );
 
     tree
