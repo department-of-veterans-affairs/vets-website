@@ -1,9 +1,9 @@
-import yaml from 'js-yaml';
-import * as Sentry from '@sentry/browser';
-import sanitizeHtml from 'sanitize-html';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import React from 'react';
+import * as Sentry from '@sentry/browser';
 import classnames from 'classnames';
+import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import sanitizeHtml from 'sanitize-html';
+import yaml from 'js-yaml';
 
 const VAGOV_CONTENT =
   'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/master';
