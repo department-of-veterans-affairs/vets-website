@@ -14,12 +14,17 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
+  componentWillUnmount() {
+    focusElement(`#${this.props.addressValidationType}-edit-link`);
+  }
+
   onChangeHandler = (address, selectedAddressId) => _event => {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
