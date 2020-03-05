@@ -56,6 +56,7 @@ export class ReviewPage extends React.Component {
         )}
         <div className="vads-u-margin-y--2">
           <LoadingButton
+            disabled={submitStatus === FETCH_STATUS.succeeded}
             isLoading={submitStatus === FETCH_STATUS.loading}
             onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
