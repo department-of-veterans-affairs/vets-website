@@ -31,7 +31,7 @@ describe('VAOS <RegistrationCheck>', () => {
     );
 
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(tree.find('AlertBox').exists()).to.be.true;
+    expect(tree.find('ErrorMessage').exists()).to.be.true;
     tree.unmount();
   });
 
