@@ -1,12 +1,10 @@
-import moment from 'moment';
-import { apiRequest } from '../../../utilities/api';
-import environment from 'platform/utilities/environment';
-import { createGlobalMaintenanceWindow } from '../util/helpers';
-import scheduledDowntimeWindow from '../config/scheduledDowntimeWindow';
+import { apiRequest } from 'platform/utilities/api';
+import { getCurrentGlobalDowntime } from '../util/helpers';
 
 export const ERROR_SCHEDULE_DOWNTIME = 'ERROR_SCHEDULE_DOWNTIME';
 export const RETRIEVE_SCHEDULED_DOWNTIME = 'RETRIEVE_SCHEDULED_DOWNTIME';
 export const RECEIVE_SCHEDULED_DOWNTIME = 'RECEIVE_SCHEDULED_DOWNTIME';
+export const RECEIVE_GLOBAL_DOWNTIME = 'RECEIVE_GLOBAL_DOWNTIME';
 
 export const INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS =
   'INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS';
@@ -54,47 +52,25 @@ export function dismissDowntimeWarning(appTitle) {
   };
 }
 
-export function getScheduledDowntime(downtimeWindow = scheduledDowntimeWindow) {
+export const getGlobalDowntime = () => async dispatch => {
+  try {
+    const downtime = await getCurrentGlobalDowntime();
+    dispatch({ type: RECEIVE_GLOBAL_DOWNTIME, downtime });
+  } catch (error) {
+    // Failed to get file, likely because it doesn't exist.
+  }
+};
+
+export function getScheduledDowntime() {
   return async dispatch => {
     dispatch({ type: RETRIEVE_SCHEDULED_DOWNTIME });
 
-    // create global downtime data if feature toggle is enabled and if
-    // current time is in downtime window
-    // default to empty array
-    const { downtimeStart, downtimeEnd } = downtimeWindow;
-
-    const globalDowntimeData =
-      (!environment.isLocalhost() &&
-        moment().isAfter(downtimeStart) &&
-        moment().isBefore(downtimeEnd) &&
-        createGlobalMaintenanceWindow({
-          startTime: downtimeStart,
-          endTime: downtimeEnd,
-        })) ||
-      [];
-
     try {
-      await apiRequest('/maintenance_windows/')
-        .then(({ data }) => {
-          if (data.errors?.[0].status === '500') {
-            Promise.reject();
-          }
-          dispatch({
-            type: RECEIVE_SCHEDULED_DOWNTIME,
-            data,
-          });
-        })
-        .catch(() =>
-          dispatch({
-            type: ERROR_SCHEDULE_DOWNTIME,
-            data: globalDowntimeData,
-          }),
-        );
-    } catch (err) {
-      dispatch({
-        type: ERROR_SCHEDULE_DOWNTIME,
-        data: globalDowntimeData,
-      });
+      const response = await apiRequest('/maintenance_windows');
+      const { data } = response;
+      dispatch({ type: RECEIVE_SCHEDULED_DOWNTIME, data });
+    } catch (error) {
+      dispatch({ type: ERROR_SCHEDULE_DOWNTIME });
     }
   };
 }
