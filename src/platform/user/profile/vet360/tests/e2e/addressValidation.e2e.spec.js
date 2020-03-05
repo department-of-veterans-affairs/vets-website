@@ -8,14 +8,14 @@ function openModal(browser) {
   const fieldWrapper = `[data-field-name="mailingAddress"]`;
   const editButton = `${fieldWrapper} [data-action="edit"]`;
   const updateButton = 'button[data-action="save-edit"]';
-  const userEnteredAddressInput = `label[for="userEntered"]`;
+  const addressValidationModal = 'div[id="address-validation-warning"]';
 
   browser
     .waitForElementVisible(editButton, Timeouts.verySlow)
     .click(editButton)
     .waitForElementVisible(updateButton, Timeouts.verySlow)
     .click(updateButton)
-    .waitForElementVisible(userEnteredAddressInput, Timeouts.verySlow);
+    .waitForElementVisible(addressValidationModal, Timeouts.verySlow);
 }
 
 function verifyLabels(browser) {
