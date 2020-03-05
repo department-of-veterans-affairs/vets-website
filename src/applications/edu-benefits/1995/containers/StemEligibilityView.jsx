@@ -140,6 +140,11 @@ export class StemEligibilityView extends React.Component {
       <div className={divClassName}>
         <fieldset className="schemaform-field-template schemaform-first-field">
           <legend className={legendClassName}>
+            <div className="sr-only">
+              {this.renderIsEdithNourseRogersScholarshipCheck()}
+              {this.renderExhaustionOfBenefitsCheck()}
+              {this.renderIsEnrolledStemCheck()}
+            </div>
             Since it appears you're not eligible for the scholarship, would you
             still like to apply and let us determine your eligibility?
             <span className="schemaform-required-span">(*Required)</span>
