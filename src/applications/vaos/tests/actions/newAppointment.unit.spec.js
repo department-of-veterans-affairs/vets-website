@@ -11,7 +11,6 @@ import {
 
 import {
   openFormPage,
-  closeConfirmationPage,
   routeToPageInFlow,
   openFacilityPage,
   fetchFacilityDetails,
@@ -24,8 +23,8 @@ import {
   getAppointmentSlots,
   onCalendarChange,
   hideTypeOfCareUnavailableModal,
+  startNewAppointmentFlow,
   FORM_PAGE_OPENED,
-  FORM_CLOSED_CONFIRMATION_PAGE,
   FORM_DATA_UPDATED,
   FORM_PAGE_CHANGE_STARTED,
   FORM_PAGE_CHANGE_COMPLETED,
@@ -47,7 +46,6 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_CALENDAR_FETCH_SLOTS,
@@ -56,6 +54,11 @@ import {
   FORM_CALENDAR_DATA_CHANGED,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
 } from '../../actions/newAppointment';
+import {
+  FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../actions/sitewide';
+
 import parentFacilities from '../../api/facilities.json';
 import systemIdentifiers from '../../api/systems.json';
 import facilities983 from '../../api/facilities_983.json';
@@ -103,11 +106,11 @@ describe('VAOS newAppointment actions', () => {
     });
   });
 
-  it('should open close confirmation page', () => {
-    const action = closeConfirmationPage();
+  it('should start new appointment flow', () => {
+    const action = startNewAppointmentFlow();
 
     expect(action).to.deep.equal({
-      type: FORM_CLOSED_CONFIRMATION_PAGE,
+      type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });
 
@@ -178,8 +181,8 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('fetchFacilityDetails', () => {
-    mockFetch();
     it('should fetch facility details', async () => {
+      mockFetch();
       setFetchJSONResponse(global.fetch, {});
       const dispatch = sinon.spy();
       const thunk = fetchFacilityDetails('123');
@@ -192,7 +195,6 @@ describe('VAOS newAppointment actions', () => {
         FORM_FETCH_FACILITY_DETAILS_SUCCEEDED,
       );
     });
-    resetFetch();
   });
 
   describe('openFacilityPage', () => {
