@@ -14,12 +14,17 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
+  componentWillUnmount() {
+    focusElement(`#${this.props.addressValidationType}-edit-link`);
+  }
+
   onChangeHandler = (address, selectedAddressId) => _event => {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
@@ -86,10 +91,9 @@ class AddressValidationModal extends React.Component {
       return (
         <button
           className="usa-button-primary"
-          onClick={() => {
-            this.props.closeModal();
-            this.props.openModal(addressValidationType, addressFromUser);
-          }}
+          onClick={() =>
+            this.props.openModal(addressValidationType, addressFromUser)
+          }
         >
           Edit Address
         </button>
@@ -162,13 +166,9 @@ class AddressValidationModal extends React.Component {
               showEditLink && (
                 <button
                   className="va-button-link"
-                  onClick={() => {
-                    this.props.closeModal();
-                    this.props.openModal(
-                      addressValidationType,
-                      addressFromUser,
-                    );
-                  }}
+                  onClick={() =>
+                    this.props.openModal(addressValidationType, addressFromUser)
+                  }
                 >
                   Edit Address
                 </button>
@@ -225,10 +225,9 @@ class AddressValidationModal extends React.Component {
           headline={addressValidationMessage.headline}
         >
           <addressValidationMessage.ModalText
-            editFunction={() => {
-              this.props.closeModal();
-              this.props.openModal(addressValidationType, addressFromUser);
-            }}
+            editFunction={() =>
+              this.props.openModal(addressValidationType, addressFromUser)
+            }
           />
         </AlertBox>
         <form onSubmit={this.onSubmit}>
