@@ -65,9 +65,25 @@ export class ReviewPage extends React.Component {
           </LoadingButton>
         </div>
         {submitStatus === FETCH_STATUS.failed && (
-          <AlertBox status="error" headline="We're sorry. Something went wrong">
-            We ran into a problem trying to submit your request. Please try
-            again later.
+          <AlertBox
+            status="error"
+            headline={`Your ${
+              isDirectSchedule ? 'appointment' : 'request'
+            } didn’t go through`}
+          >
+            We’re sorry. Something went wrong when we tried to submit your
+            request and you’ll need to start over. We suggest you wait a day to
+            try again or you can call your medical center to help with your{' '}
+            {isDirectSchedule ? 'appointment' : 'request'}.
+            <p>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`/find-locations/facility/${facility.id}`}
+              >
+                Contact your local VA medical center
+              </a>
+            </p>
           </AlertBox>
         )}
       </div>
