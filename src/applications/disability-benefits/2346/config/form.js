@@ -8,6 +8,7 @@ import quantityField from '../components/customFields/quantityField';
 import productIdField from '../components/customFields/productIdField';
 import lastOrderDateField from '../components/customFields/lastOrderDateField';
 import emptyField from '../components/customFields/emptyField';
+import SuppliesReview from '../components/SuppliesReview';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -106,6 +107,7 @@ const formConfig = {
                 enum: ['yes', 'no'],
               },
               supplies,
+              supplies,
             },
           },
           uiSchema: {
@@ -119,6 +121,7 @@ const formConfig = {
                   no: "No, I don't need to order hearing aid batteries.",
                 },
               },
+              'ui:reviewField': SuppliesReview,
             },
             supplies: {
               'ui:title': 'Which hearing aid do you need batteries for?',
@@ -132,42 +135,52 @@ const formConfig = {
               deviceName: {
                 'ui:title': '  ',
                 'ui:field': deviceNameField,
+                'ui:reviewField': SuppliesReview,
               },
               productName: {
                 'ui:title': '  ',
                 'ui:field': productNameField,
+                'ui:reviewField': SuppliesReview,
               },
               quantity: {
                 'ui:title': '  ',
                 'ui:field': quantityField,
+                'ui:reviewField': SuppliesReview,
               },
               productId: {
                 'ui:title': '  ',
                 'ui:field': productIdField,
+                'ui:reviewField': SuppliesReview,
               },
               lastOrderDate: {
                 'ui:title': '  ',
                 'ui:field': lastOrderDateField,
+                'ui:reviewField': SuppliesReview,
               },
               productGroup: {
                 'ui:title': '  ',
                 'ui:field': emptyField,
+                'ui:reviewField': SuppliesReview,
               },
               availableForReorder: {
                 'ui:title': '  ',
                 'ui:field': emptyField,
+                'ui:reviewField': SuppliesReview,
               },
               nextAvailabilityDate: {
                 'ui:title': '  ',
                 'ui:field': emptyField,
+                'ui:reviewField': SuppliesReview,
               },
               leftEar: {
                 'ui:title': '  ',
                 'ui:field': emptyField,
+                'ui:reviewField': SuppliesReview,
               },
               rightEar: {
                 'ui:title': '  ',
                 'ui:field': emptyField,
+                'ui:reviewField': SuppliesReview,
               },
             },
           },
