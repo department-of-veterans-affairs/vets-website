@@ -48,6 +48,9 @@ class Vet360ProfileField extends React.Component {
     if (prevProps.transaction && !this.props.transaction) {
       focusElement(`button#${this.props.fieldName}-edit-link`);
     }
+    if (!prevProps.transaction && this.props.transaction) {
+      focusElement(`div#${this.props.fieldName}-transaction-status`);
+    }
   }
 
   onAdd = () => {
@@ -209,6 +212,7 @@ class Vet360ProfileField extends React.Component {
         </Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
         <Vet360Transaction
+          id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
