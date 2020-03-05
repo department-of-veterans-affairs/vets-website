@@ -28,6 +28,7 @@ const ACCEPTABLE_CONTENT_TAGS = [
   'hr',
   'br',
   'div',
+  'span',
 ];
 
 const HOMEPAGE_BANNER_LOCALSTORAGE = 'HOMEPAGE_BANNER';
