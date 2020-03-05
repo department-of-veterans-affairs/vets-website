@@ -1,4 +1,5 @@
 import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
+import recordEvent from 'platform/monitoring/record-event';
 import { captureError } from '../utils/error';
 
 import {
@@ -40,25 +41,55 @@ export async function getEligibilityData(
   const facilityId = facility.institutionCode;
   const eligibilityChecks = [
     checkPastVisits(systemId, facilityId, typeOfCareId, 'request').catch(
-      handleRequestError,
+      error => {
+        handleRequestError(error);
+        recordEvent({
+          event: 'vaos-error',
+          'error-key': 'request-past-visits-error',
+        });
+      },
     ),
-    getRequestLimits(facilityId, typeOfCareId).catch(handleRequestError),
+    getRequestLimits(facilityId, typeOfCareId).catch(error => {
+      handleRequestError(error);
+      recordEvent({
+        event: 'vaos-error',
+        'error-key': 'request-exceeded-outstanding-requests-error',
+      });
+    }),
   ];
 
   if (facility.directSchedulingSupported && isDirectScheduleEnabled) {
     eligibilityChecks.push(
       checkPastVisits(systemId, facilityId, typeOfCareId, 'direct').catch(
-        handleDirectError,
+        error => {
+          handleDirectError(error);
+          recordEvent({
+            event: 'vaos-error',
+            'error-key': 'direct-check-past-visits-error',
+          });
+        },
       ),
     );
     eligibilityChecks.push(
-      getAvailableClinics(facilityId, typeOfCareId, systemId).catch(
-        handleDirectError,
-      ),
+      getAvailableClinics(facilityId, typeOfCareId, systemId).catch(error => {
+        handleDirectError(error);
+        recordEvent({
+          event: 'vaos-error',
+          'error-key': 'direct-available-clinics-error',
+        });
+      }),
     );
 
     if (typeOfCareId === PRIMARY_CARE) {
-      eligibilityChecks.push(getPacTeam(systemId).catch(handleDirectError));
+      eligibilityChecks.push(
+        getPacTeam(systemId).catch(error => {
+          handleDirectError(error);
+          recordEvent({
+            event: 'vaos-error',
+            'error-key': 'direct-pac-team-error',
+          });
+        }),
+      );
     }
   }
 
@@ -153,6 +184,20 @@ export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
       requestLimit: isUnderRequestLimit(eligibilityData),
       requestLimitValue: eligibilityData.requestLimits.requestLimit,
     };
+
+    if (!isUnderRequestLimit) {
+      recordEvent({
+        event: 'vaos-error',
+        'error-key': 'request-exceeded-outstanding-requests-failure',
+      });
+    }
+
+    if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
+      recordEvent({
+        event: 'vaos-error',
+        'error-key': 'request-past-visits-failure',
+      });
+    }
   }
 
   if (!eligibilityChecks.directFailed) {
@@ -170,6 +215,34 @@ export function getEligibilityChecks(systemId, typeOfCareId, eligibilityData) {
       directClinics:
         directSchedulingEnabled && !!eligibilityData.clinics.length,
     };
+
+    if (
+      directSchedulingEnabled &&
+      !hasVisitedInPastMonthsDirect(eligibilityData)
+    ) {
+      recordEvent({
+        event: 'vaos-error',
+        'error-key': 'direct-check-past-visits-failure',
+      });
+    }
+
+    if (directSchedulingEnabled && !eligibilityData.clinics?.length) {
+      recordEvent({
+        event: 'vaos-error',
+        'error-key': 'direct-available-clinics-failure',
+      });
+    }
+
+    if (
+      directSchedulingEnabled &&
+      typeOfCareId === PRIMARY_CARE &&
+      !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId)
+    ) {
+      recordEvent({
+        event: 'vaos-error',
+        'error-key': 'direct-pac-team-failure',
+      });
+    }
   }
 
   return eligibilityChecks;
