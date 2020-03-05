@@ -116,7 +116,7 @@ const fetchLocations = async (
       page,
     );
     // Record event as soon as API return results
-    if (data && data.length > 0) {
+    if (data.data && data.data.length > 0) {
       recordEvent({ event: 'fl-search-results' });
     }
     if (data.errors) {
