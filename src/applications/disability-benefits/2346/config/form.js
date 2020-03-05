@@ -125,7 +125,7 @@ const formConfig = {
                 expandUnderCondition: 'yes',
               },
               deviceName: {
-                'ui:title': 'Reorder Batteries',
+                'ui:title': '  ',
                 'ui:field': deviceNameField,
               },
             },
