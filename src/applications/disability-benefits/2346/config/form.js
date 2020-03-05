@@ -1,8 +1,13 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullSchemaMDOT from '../2346-schema.json';
 import personalInfoBox from '../components/personalInfoBox';
-import orderSupplyPageContent from '../components/oderSupplyPageContent.jsx';
-import deviceNameField from '../components/deviceNameField';
+import orderSupplyPageContent from '../components/oderSupplyPageContent';
+import deviceNameField from '../components/customFields/deviceNameField';
+import productNameField from '../components/customFields/productNameField';
+import quantityField from '../components/customFields/quantityField';
+import productIdField from '../components/customFields/productIdField';
+import lastOrderDateField from '../components/customFields/lastOrderDateField';
+import emptyField from '../components/customFields/emptyField';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -127,6 +132,42 @@ const formConfig = {
               deviceName: {
                 'ui:title': '  ',
                 'ui:field': deviceNameField,
+              },
+              productName: {
+                'ui:title': '  ',
+                'ui:field': productNameField,
+              },
+              quantity: {
+                'ui:title': '  ',
+                'ui:field': quantityField,
+              },
+              productId: {
+                'ui:title': '  ',
+                'ui:field': productIdField,
+              },
+              lastOrderDate: {
+                'ui:title': '  ',
+                'ui:field': lastOrderDateField,
+              },
+              productGroup: {
+                'ui:title': '  ',
+                'ui:field': emptyField,
+              },
+              availableForReorder: {
+                'ui:title': '  ',
+                'ui:field': emptyField,
+              },
+              nextAvailabilityDate: {
+                'ui:title': '  ',
+                'ui:field': emptyField,
+              },
+              leftEar: {
+                'ui:title': '  ',
+                'ui:field': emptyField,
+              },
+              rightEar: {
+                'ui:title': '  ',
+                'ui:field': emptyField,
               },
             },
           },
