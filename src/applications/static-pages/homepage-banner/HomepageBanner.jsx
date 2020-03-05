@@ -74,7 +74,7 @@ export default class HomepageBanner extends React.Component {
     const content = sanitizeHtml(bannerConfig.content, {
       allowedTags: ACCEPTABLE_CONTENT_TAGS,
       allowedSchemes: ['http', 'https', 'mailto', 'tel'],
-      allowedSchemesAppliedToAttributes: ['href'],
+      allowedSchemesAppliedToAttributes: ['href', 'target', 'rel'],
     });
 
     const dismissed =
