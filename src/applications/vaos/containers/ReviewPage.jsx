@@ -58,9 +58,7 @@ export class ReviewPage extends React.Component {
           <LoadingButton
             disabled={submitStatus === FETCH_STATUS.succeeded}
             isLoading={submitStatus === FETCH_STATUS.loading}
-            onClick={() => {
-              this.props.submitAppointmentOrRequest(router);
-            }}
+            onClick={() => this.props.submitAppointmentOrRequest(router)}
             className="usa-button usa-button-primary"
           >
             {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
