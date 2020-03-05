@@ -35,8 +35,8 @@ describe('Higher-Level Review 0996 contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(6);
+    // street 1, 2, city, phone, email, fwding address checkbox
+    expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
 
@@ -57,8 +57,8 @@ describe('Higher-Level Review 0996 contact information', () => {
     );
     // country, state
     expect(form.find('select').length).to.equal(2);
-    // street 1, 2, 3, city, zip, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(7);
+    // street 1, 2, city, zip, phone, email, fwding address checkbox
+    expect(form.find('input').length).to.equal(6);
     form.unmount();
   });
 
@@ -80,8 +80,8 @@ describe('Higher-Level Review 0996 contact information', () => {
 
     // country
     expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, fwding address checkbox
-    expect(form.find('input').length).to.equal(6);
+    // street 1, 2, city, phone, email, fwding address checkbox
+    expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
 
@@ -150,10 +150,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'APO',
             state: 'TX',
-            zipCode: '12345',
+            postalCode: '12345',
           },
         }}
         formData={{}}
@@ -181,10 +181,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'AA',
-            zipCode: '12345',
+            postalCode: '12345',
           },
         }}
         formData={{}}
@@ -209,11 +209,11 @@ describe('Higher-Level Review 0996 contact information', () => {
           'view:hasForwardingAddress': true,
           mailingAddress: {
             country: '',
-            addressLine1: '',
+            street: '',
           },
           forwardingAddress: {
             country: '',
-            addressLine1: '',
+            street: '',
           },
           phoneEmailCard: {},
         }}
@@ -224,8 +224,8 @@ describe('Higher-Level Review 0996 contact information', () => {
 
     // (2 x country), 2x date month, 2x date day, country
     expect(form.find('select').length).to.equal(6);
-    // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, 2x date year
-    expect(form.find('input').length).to.equal(13);
+    // (2 x (street 1, 2, city)), phone, email, fwding address checkbox, 2x date year
+    expect(form.find('input').length).to.equal(12);
     form.unmount();
   });
 
@@ -242,10 +242,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -253,10 +253,10 @@ describe('Higher-Level Review 0996 contact information', () => {
               from: NEXT_YEAR,
             },
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'APO',
             state: 'TX',
-            zipCode: '12345',
+            postalCode: '12345',
           },
         }}
         formData={{}}
@@ -284,10 +284,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -295,10 +295,10 @@ describe('Higher-Level Review 0996 contact information', () => {
               from: NEXT_YEAR,
             },
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'AA',
-            zipCode: '12345',
+            postalCode: '12345',
           },
         }}
         formData={{}}
@@ -326,10 +326,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -337,10 +337,10 @@ describe('Higher-Level Review 0996 contact information', () => {
               from: '2018-10-12',
             },
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Detroit',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
         }}
         formData={{}}
@@ -368,10 +368,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -380,10 +380,10 @@ describe('Higher-Level Review 0996 contact information', () => {
               to: '2099-10-12',
             },
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Detroit',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
         }}
         formData={{}}
@@ -412,7 +412,7 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: '',
-            addressLine1: '',
+            street: '',
             city: '',
           },
           'view:hasForwardingAddress': true,
@@ -421,7 +421,7 @@ describe('Higher-Level Review 0996 contact information', () => {
               from: '',
             },
             country: '',
-            addressLine1: '',
+            street: '',
             city: '',
           },
         }}
@@ -450,10 +450,10 @@ describe('Higher-Level Review 0996 contact information', () => {
           },
           mailingAddress: {
             country: 'USA',
-            addressLine1: '123 Any Street',
+            street: '123 Any Street',
             city: 'Anytown',
             state: 'MI',
-            zipCode: '12345',
+            postalCode: '12345',
           },
           'view:hasForwardingAddress': true,
           forwardingAddress: {
@@ -461,10 +461,10 @@ describe('Higher-Level Review 0996 contact information', () => {
               from: NEXT_YEAR,
             },
             country: 'USA',
-            addressLine1: '234 Maple St.',
+            street: '234 Maple St.',
             city: 'Detroit',
             state: 'MI',
-            zipCode: '234563453',
+            postalCode: '234563453',
           },
         }}
         formData={{}}

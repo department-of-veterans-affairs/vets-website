@@ -8,7 +8,7 @@
       "required": [
         "country",
         "city",
-        "addressLine1"
+        "street"
       ],
       "properties": {
         "country": {
@@ -229,19 +229,14 @@
           ],
           "default": "USA"
         },
-        "addressLine1": {
+        "street": {
           "type": "string",
           "maxLength": 50,
           "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
         },
-        "addressLine2": {
+        "street2": {
           "type": "string",
-          "maxLength": 20,
-          "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
-        },
-        "addressLine3": {
-          "type": "string",
-          "maxLength": 20,
+          "maxLength": 30,
           "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
         },
         "city": {
@@ -384,7 +379,7 @@
             "Missouri"
           ]
         },
-        "zipCode": {
+        "postalCode": {
           "type": "string",
           "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
         }
@@ -711,17 +706,12 @@
           ],
           "default": "USA"
         },
-        "addressLine1": {
+        "street": {
           "type": "string",
           "maxLength": 35,
           "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
         },
-        "addressLine2": {
-          "type": "string",
-          "maxLength": 35,
-          "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
-        },
-        "addressLine3": {
+        "street2": {
           "type": "string",
           "maxLength": 35,
           "pattern": "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$"
@@ -866,7 +856,7 @@
             "Missouri"
           ]
         },
-        "zipCode": {
+        "postalCode": {
           "type": "string",
           "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
         },

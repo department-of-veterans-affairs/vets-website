@@ -1,12 +1,17 @@
+import React from 'react';
 // import fullSchema from 'vets-json-schema/dist/20-0996-schema.json';
 import fullSchema from '../20-0996-schema.json';
 
 // import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import {
+  uiSchema as addressUISchema,
+  schema as addressSchema,
+} from 'platform/forms/definitions/address';
 
 import ReviewCardField from '../../all-claims/components/ReviewCardField';
-import { addressUISchema } from '../../all-claims/utils';
+import AddressViewField from '../containers/AddressViewField';
 import {
   contactInfoDescription,
   phoneEmailViewField,
@@ -28,7 +33,6 @@ import ForwardingAddressReviewField from '../containers/ForwardingAddressReviewF
 */
 
 const {
-  mailingAddress,
   // forwardingAddress,
   emailAddress,
   phone,
@@ -50,7 +54,31 @@ const contactInfo = {
       phone: phoneUI('Phone number'),
       emailAddress: emailUI(),
     },
-    mailingAddress: addressUISchema('mailingAddress', 'Mailing address', true),
+    mailingAddress: {
+      ...addressUISchema('Mailing address', false, () => true),
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        viewComponent: AddressViewField,
+      },
+      street: {
+        'ui:title': 'Street address',
+        'ui:errorMessages': {
+          pattern: 'Please enter a valid street address',
+          required: 'Please enter a street address',
+        },
+      },
+      street2: {
+        'ui:title': 'Street address',
+        'ui:reviewField': ({ children, uiSchema }) =>
+          // Don't render undefined entries
+          !children?.props.formData ? null : (
+            <div className="review-row">
+              <dt>{uiSchema?.['ui:title'] || ''}</dt>
+              <dd>{children}</dd>
+            </div>
+          ),
+      },
+    },
     /*
     'view:hasForwardingAddress': {
       'ui:title': forwardingAddressCheckboxLabel,
@@ -63,16 +91,17 @@ const contactInfo = {
       },
     },
     forwardingAddress: merge(
+      // update this to _not_ use 526's addressUISchema
       addressUISchema('forwardingAddress', 'Forwarding address', true),
       {
         'ui:order': [
           'effectiveDates',
           'country',
-          'addressLine1',
-          'addressLine2',
+          'street',
+          'street2',
           'city',
           'state',
-          'zipCode',
+          'postalCode',
         ],
         'ui:subtitle': ForwardingAddressDescription,
         'ui:options': {
@@ -99,7 +128,7 @@ const contactInfo = {
         country: {
           'ui:required': hasForwardingAddress,
         },
-        addressLine1: {
+        street: {
           'ui:required': hasForwardingAddress,
         },
         city: {
@@ -109,7 +138,7 @@ const contactInfo = {
           'ui:required': formData =>
             hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
         },
-        zipCode: {
+        postalCode: {
           'ui:required': formData =>
             hasForwardingAddress(formData) && forwardingCountryIsUSA(formData),
         },
@@ -132,7 +161,7 @@ const contactInfo = {
           emailAddress,
         },
       },
-      mailingAddress,
+      mailingAddress: addressSchema(fullSchema, true, 'address'),
       /*
       'view:hasForwardingAddress': {
         type: 'boolean',

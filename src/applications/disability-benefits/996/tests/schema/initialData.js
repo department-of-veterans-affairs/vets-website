@@ -1,5 +1,5 @@
 // Test data for HLR
-import { addXMonths } from '../../helpers';
+// import { addXMonths } from '../../helpers';
 
 export default {
   fullName: { first: 'MIKE', last: 'WAZOWSKI' },
@@ -21,26 +21,26 @@ export default {
   },
 
   mailingAddress: {
-    addressLine1: '1200 Park Ave',
+    street: '1200 Park Ave',
     city: 'Emeryville',
     country: 'USA',
     state: 'CA',
-    zipCode: '94608',
+    postalCode: '94608',
   },
 
   // Checkbox state
-  'view:hasForwardingAddress': true,
-  forwardingAddress: {
-    effectiveDates: {
-      from: addXMonths(6),
-      to: addXMonths(12),
-    },
-    addressLine1: '1600 Pennsylvania Ave',
-    city: 'Washington',
-    country: 'USA',
-    state: 'DC',
-    zipCode: '20500',
-  },
+  // 'view:hasForwardingAddress': true,
+  // forwardingAddress: {
+  //   effectiveDates: {
+  //     from: addXMonths(6),
+  //     to: addXMonths(12),
+  //   },
+  //   street: '1600 Pennsylvania Ave',
+  //   city: 'Washington',
+  //   country: 'USA',
+  //   state: 'DC',
+  //   postalCode: '20500',
+  // },
 
   // Rated disabilities modified from 526EZ all-claims
   // Leave 'view:selected' set to false for unit testing
