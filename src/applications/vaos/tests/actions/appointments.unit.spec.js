@@ -212,6 +212,18 @@ describe('VAOS actions: appointments', () => {
   });
 
   describe('cancel appointment', () => {
+    const oldWindow = global.window;
+
+    beforeEach(() => {
+      global.window = {
+        dataLayer: [],
+      };
+    });
+
+    afterEach(() => {
+      global.window = oldWindow;
+    });
+
     it('should return cancel appointment action', () => {
       const appointment = {};
       const action = cancelAppointment(appointment);
@@ -261,6 +273,18 @@ describe('VAOS actions: appointments', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
+
+      expect(global.window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-cancel-appointment-submission',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
+
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-cancel-appointment-submission-succeeded',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
+      });
       expect(
         JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
       ).to.equal('4');
@@ -291,6 +315,7 @@ describe('VAOS actions: appointments', () => {
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
       });
+
       expect(
         JSON.parse(global.fetch.secondCall.args[1].body).cancelReason,
       ).to.equal('5');
@@ -342,6 +367,12 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
+      });
+
+      expect(global.window.dataLayer[1]).to.deep.equal({
+        event: 'vaos-cancel-appointment-submission-failed',
+        appointmentType: 'confirmed',
+        facilityType: 'va',
       });
     });
 

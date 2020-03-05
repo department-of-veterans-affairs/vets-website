@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   getAppointmentLength,
   getFormData,
@@ -15,7 +16,7 @@ import {
   startNewAppointmentFlow,
   fetchFacilityDetails,
 } from '../actions/newAppointment';
-import { FLOW_TYPES, FACILITY_TYPES } from '../utils/constants';
+import { FLOW_TYPES, FACILITY_TYPES, GA_PREFIX } from '../utils/constants';
 import ConfirmationDirectScheduleInfo from '../components/ConfirmationDirectScheduleInfo';
 import ConfirmationRequestInfo from '../components/ConfirmationRequestInfo';
 
@@ -80,7 +81,11 @@ export class ConfirmationPage extends React.Component {
           <Link
             to="new-appointment"
             className="usa-button"
-            onClick={this.props.startNewAppointmentFlow}
+            onClick={() =>
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+              })
+            }
           >
             New appointment
           </Link>
