@@ -118,7 +118,7 @@ class AddressEditModal extends React.Component {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
     if (useNewAddressForm) {
       this.props.onChangeFormDataAndSchemas(
-        newAddressValue,
+        this.transformInitialFormValues(newAddressValue),
         this.props.field.formSchema,
         this.props.field.uiSchema,
       );
