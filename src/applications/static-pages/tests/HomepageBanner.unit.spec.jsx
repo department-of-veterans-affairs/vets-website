@@ -109,7 +109,7 @@ describe('<HomepageBanner/>', () => {
 
     setTimeout(() => {
       expect(tree.html()).to.not.contain('script');
-      expect(tree.html()).to.contain('href="/health-care');
+      expect(tree.html()).to.contain('href="/health-care"');
       tree.unmount();
       done();
     }, 0);
