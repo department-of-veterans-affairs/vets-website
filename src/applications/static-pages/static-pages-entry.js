@@ -15,7 +15,7 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import createHomepageBanner from './createHomepageBanner';
+import createHomepageBanner from './homepage-banner/createHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';

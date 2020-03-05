@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import yaml from 'js-yaml';
 
-import HomepageBanner from '../HomepageBanner';
+import HomepageBanner from '../homepage-banner/HomepageBanner';
 
 function setupResponse(config) {
   const defaults = {
@@ -94,6 +94,24 @@ describe('<HomepageBanner/>', () => {
           done();
         }, 0);
       }, 0);
+    }, 0);
+  });
+
+  it('sanitizes HTML', done => {
+    setupResponse({
+      content:
+        '<a href="/health-care">Testing</a> <script>alert("hey")</script>',
+    });
+
+    const tree = shallow(<HomepageBanner />);
+
+    expect(tree.html()).to.be.null;
+
+    setTimeout(() => {
+      expect(tree.html()).to.not.contain('script');
+      expect(tree.html()).to.contain('href="/health-care');
+      tree.unmount();
+      done();
     }, 0);
   });
 });
