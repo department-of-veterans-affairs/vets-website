@@ -220,9 +220,11 @@ export class StemEligibilityView extends React.Component {
     return (
       <div>
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2">
-          {this.renderChecks()}
-          {this.renderDetermineEligibility()}
-          {this.renderExploreOtherBenefits()}
+          <ul>
+            {this.renderChecks()}
+            {this.renderDetermineEligibility()}
+            {this.renderExploreOtherBenefits()}
+          </ul>
         </div>
         {this.renderContinueApplication()}
       </div>
