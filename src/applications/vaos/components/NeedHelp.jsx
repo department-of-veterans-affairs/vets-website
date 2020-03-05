@@ -1,4 +1,5 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function NeedHelp() {
   return (
@@ -34,6 +35,9 @@ export default function NeedHelp() {
           href="https://veteran.mobile.va.gov/var/v4/"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            recordEvent({ event: 'vaos-return-to-legacy-link-clicked' })
+          }
         >
           Go back to the old VA appointment tool
         </a>
