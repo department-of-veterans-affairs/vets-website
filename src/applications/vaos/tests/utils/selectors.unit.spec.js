@@ -401,7 +401,7 @@ describe('VAOS selectors', () => {
     });
   });
   describe('getCCEType', () => {
-    it('should return cce type', () => {
+    it('should return cce type for Audiology', () => {
       const state = {
         appointment: {},
         newAppointment: {
@@ -412,6 +412,19 @@ describe('VAOS selectors', () => {
       };
       const cceType = getCCEType(state);
       expect(cceType).to.equal('Audiology');
+    });
+    it('should return cce type for Optometry', () => {
+      const state = {
+        appointment: {},
+        newAppointment: {
+          data: {
+            typeOfCareId: 'EYE',
+            typeOfEyeCareId: '408',
+          },
+        },
+      };
+      const cceType = getCCEType(state);
+      expect(cceType).to.equal('Optometry');
     });
   });
 });

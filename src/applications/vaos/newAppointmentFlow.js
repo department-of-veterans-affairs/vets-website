@@ -150,7 +150,14 @@ export default {
 
       return 'vaFacility';
     },
-    previous: 'typeOfCare',
+    previous(state) {
+      //  check for eye care flow
+      if (isEyeCare(state)) {
+        return 'typeOfEyeCare';
+      }
+
+      return 'typeOfCare';
+    },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
@@ -255,9 +262,11 @@ export default {
       if (
         communityCareEnabled &&
         isCCEligible(state) &&
-        isCommunityCare(state)
+        getTypeOfCare(getFormData(state))?.ccId !== undefined
       ) {
         nextState = 'typeOfFacility';
+      } else if (isEyeCare(state)) {
+        nextState = 'typeOfEyeCare';
       }
 
       return nextState;

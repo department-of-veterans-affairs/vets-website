@@ -63,7 +63,12 @@ export function getTypeOfCare(data) {
 export function getCCEType(state) {
   const data = getFormData(state);
 
-  const typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+  let typeOfCare = TYPES_OF_CARE.find(care => care.id === data.typeOfCareId);
+  if (typeOfCare.id === 'EYE') {
+    typeOfCare = TYPES_OF_EYE_CARE.find(
+      care => care.id === data.typeOfEyeCareId,
+    );
+  }
 
   return typeOfCare?.cceType;
 }
