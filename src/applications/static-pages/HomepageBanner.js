@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import sanitizeHtml from 'sanitize-html';
 import yaml from 'js-yaml';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 const VAGOV_CONTENT =
   'https://raw.githubusercontent.com/department-of-veterans-affairs/vagov-content/master';
@@ -29,11 +30,14 @@ const ACCEPTABLE_CONTENT_TAGS = [
   'div',
 ];
 
+const HOMEPAGE_BANNER_LOCALSTORAGE = 'HOMEPAGE_BANNER';
+
 export default class HomepageBanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       banner: null,
+      dismissed: false,
     };
   }
 
@@ -58,30 +62,43 @@ export default class HomepageBanner extends React.Component {
     return yaml.safeLoad(homepageBannerYml);
   }
 
-  processConfig(banner) {
-    const type = sanitizeHtml(banner.type, {
+  processConfig(bannerConfig) {
+    const type = sanitizeHtml(bannerConfig.type, {
       allowedTags: [],
     });
 
-    const title = sanitizeHtml(banner.title, {
+    const title = sanitizeHtml(bannerConfig.title, {
       allowedTags: ['b', 'i', 'strong', 'em'],
     });
 
-    const content = sanitizeHtml(banner.content, {
+    const content = sanitizeHtml(bannerConfig.content, {
       allowedTags: ACCEPTABLE_CONTENT_TAGS,
       allowedSchemes: ['http', 'https', 'mailto', 'tel'],
       allowedSchemesAppliedToAttributes: ['href'],
     });
 
-    this.setState({
-      banner: { visible: banner.visible, type, title, content },
-    });
+    const dismissed =
+      localStorage.getItem(HOMEPAGE_BANNER_LOCALSTORAGE) === bannerConfig.title;
+
+    const banner = {
+      visible: bannerConfig.visible,
+      type,
+      title,
+      content,
+    };
+
+    this.setState({ banner, dismissed });
   }
 
-  dismiss = () => {};
+  dismiss = () => {
+    localStorage.setItem(HOMEPAGE_BANNER_LOCALSTORAGE, this.state.banner.title);
+    this.setState({
+      dismissed: true,
+    });
+  };
 
   render() {
-    if (!this.state.banner?.visible) {
+    if (!this.state.banner?.visible || this.state.dismissed) {
       return null;
     }
 
