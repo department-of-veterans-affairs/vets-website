@@ -26,15 +26,17 @@ import {
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_SUCCEEDED,
   FORM_PAGE_COMMUNITY_CARE_PREFS_OPEN_FAILED,
   FORM_SUBMIT,
-  FORM_SUBMIT_SUCCEEDED,
   FORM_SUBMIT_FAILED,
   FORM_TYPE_OF_CARE_PAGE_OPENED,
   FORM_SHOW_TYPE_OF_CARE_UNAVAILABLE_MODAL,
   FORM_HIDE_TYPE_OF_CARE_UNAVAILABLE_MODAL,
-  FORM_CLOSED_CONFIRMATION_PAGE,
   FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
   FORM_REASON_FOR_APPOINTMENT_CHANGED,
 } from '../../actions/newAppointment';
+import {
+  STARTED_NEW_APPOINTMENT_FLOW,
+  FORM_SUBMIT_SUCCEEDED,
+} from '../../actions/sitewide';
 
 import parentFacilities from '../../api/facilities.json';
 import facilities983 from '../../api/facilities_983.json';
@@ -994,14 +996,14 @@ describe('VAOS reducer: newAppointment', () => {
     expect(newState.showTypeOfCareUnavailableModal).to.be.false;
   });
 
-  it('should reset form when confirmation page is closed', () => {
+  it('should reset form when new appointment button is clicked', () => {
     const currentState = {
       data: { test: 'blah' },
       parentFacilitiesStatus: FETCH_STATUS.succeeded,
       eligibilityStatus: FETCH_STATUS.succeeded,
     };
     const action = {
-      type: FORM_CLOSED_CONFIRMATION_PAGE,
+      type: STARTED_NEW_APPOINTMENT_FLOW,
     };
 
     const newState = newAppointmentReducer(currentState, action);
