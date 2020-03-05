@@ -117,7 +117,7 @@ export default class HomepageBanner extends React.Component {
         <AlertBox
           isVisible
           onCloseAlert={this.dismiss}
-          status="warning"
+          status={this.state.banner?.type}
           headline={this.state.banner?.title}
           content={wysiwygDiv}
         />
