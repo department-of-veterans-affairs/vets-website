@@ -4,6 +4,9 @@ const { sortBy, unescape, pick, omit } = require('lodash');
 const moment = require('moment-timezone');
 const { readEntity } = require('../helpers');
 
+const { readEntity } = require('../helpers');
+const assembleEntityTreeFactory = require('../index');
+
 /**
  * Takes a string with escaped unicode code points and replaces them
  * with the unicode characters. E.g. '\u2014' -> '—'
@@ -229,13 +232,11 @@ module.exports = {
    * entities.
    *
    * @param {String} baseType - The base type of the entity
-   * @param {String} contentDir - The path to the directory to read the files from
-   * @param {Function} assembleEntityTree - The assembleEntityTree function which
-   *                                        is passed to the transformer function
-   * @param {String} subType - [Optional] The subType of the entity
+   * @param {Path} contentDir - The directory to read the files from
+   * @param {String} subType  - [Optional] The subType of the entity
    * @param {Function} filter - [Optional] A function which recieves the object
-   *                              read from the JSON file and returns true if we
-   *                              should keep the entity or false if we should not
+   *                            read from the JSON file and returns true if we
+   *                            should keep the entity or false if we should not
    *
    * TODO: Memoize this function to improve speed if the build is slow because
    * of this CMS content transformation process.
@@ -243,12 +244,7 @@ module.exports = {
    * @return {Array<Object>} - The transformed entities whose raw form matches
    *                           the parameters
    */
-  findMatchingEntities(
-    baseType,
-    contentDir,
-    assembleEntityTree,
-    { subType, filter } = {},
-  ) {
+  findMatchingEntities(baseType, contentDir, { subType, filter }) {
     // Sanity checks
     assert(
       typeof baseType === 'string',
@@ -257,10 +253,6 @@ module.exports = {
     assert(
       fs.lstatSync(contentDir).isDirectory(),
       `${contentDir} is not a directory.`,
-    );
-    assert(
-      typeof assembleEntityTree === 'function',
-      'Please pass assembleEntityTree from the transformer.',
     );
     if (subType)
       assert(
@@ -273,6 +265,8 @@ module.exports = {
         `filter needs to be a string. Found ${typeof filter} (${filter})`,
       );
 
+    const assembleEntityTree = assembleEntityTreeFactory(contentDir);
+
     // Look through contentDir for all `${baseType}.*.json` files
     return (
       fs
@@ -280,7 +274,7 @@ module.exports = {
         .filter(name => name.startsWith(`${baseType}.`))
         .map(name => {
           const uuid = name.split('.')[1];
-          return readEntity(contentDir, baseType, uuid, { noLog: true });
+          return readEntity(contentDir, baseType, uuid);
         })
         .filter(
           // Filter them by `subType` if available
@@ -289,7 +283,7 @@ module.exports = {
           entity => (subType ? entity.type[0].target_id === subType : true),
         )
         // Filter them by `filter` if available
-        .filter(filter || (() => true))
+        .filter(entity => (filter ? filter(entity) : true))
         .map(entity => assembleEntityTree(entity))
     );
   },
