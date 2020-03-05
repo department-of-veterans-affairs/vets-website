@@ -77,6 +77,10 @@ module.exports = {
    * Note: Later, we can keep a counter for how many times we open a
    * particular file to see if we can gain anything from caching the
    * contents.
+   *
+   * TODO: Memoize this function if the build is slow because of this CMS
+   * content transformation process.
+   *
    * @param {String} baseType - The type of entity; corresponds to the
    *                              name of the file.
    * @param {String} uuid - The UUID of the entity; corresponds to the

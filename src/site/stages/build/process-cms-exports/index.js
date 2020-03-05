@@ -16,6 +16,9 @@ const entityAssemblerFactory = contentDir => {
    * searches for references to other entities, and replaces the
    * references with the contents of those entities recursively.
    *
+   * TODO: Memoize this function if the build is slow because of this CMS
+   * content transformation process.
+   *
    * @param {Object} entity - The entity object.
    * @param {Array<Object>} ancestors - All the ancestors, each like:
    *                          { id: toId(entity), entity }
