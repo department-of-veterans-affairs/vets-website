@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -42,6 +43,15 @@ class Vet360ProfileField extends React.Component {
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.transaction && !this.props.transaction) {
+      focusElement(`button#${this.props.fieldName}-edit-link`);
+    }
+    if (!prevProps.transaction && this.props.transaction) {
+      focusElement(`div#${this.props.fieldName}-transaction-status`);
+    }
+  }
 
   onAdd = () => {
     this.captureEvent('add-link');
@@ -196,11 +206,13 @@ class Vet360ProfileField extends React.Component {
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <Vet360ProfileFieldHeading
           onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
+          fieldName={fieldName}
         >
           {title}
         </Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
         <Vet360Transaction
+          id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
           transactionRequest={transactionRequest}
