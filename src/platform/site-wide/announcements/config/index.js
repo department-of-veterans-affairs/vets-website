@@ -1,40 +1,49 @@
 // Node modules.
-import moment from 'moment-timezone';
+import moment from 'moment';
 // Relative imports.
+import Downtime from '../components/Downtime';
 import ExploreVAModal from '../components/ExploreVAModal';
 import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
 import PersonalizationBanner from '../components/PersonalizationBanner';
+import PreDowntime from '../components/PreDowntime';
+import PrePreDowntime from '../components/PrePreDowntime';
 import Profile360Intro from '../components/Profile360Intro';
-import ScheduledMaintenance from '../components/ScheduledMaintenance';
+import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
-import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 
-const scheduledMaintenance = {
-  name: 'scheduled-maintenance',
-  paths: /(.)/,
-  component: ScheduledMaintenance,
-  // This is just used as a prop and not in selectors.
-  downtimeStartsAt: moment.tz('2020-02-15 21:00', 'America/New_York'),
-  expiresAt: moment.tz('2020-02-15 21:30', 'America/New_York'),
-};
-
-const scheduledMaintenanceMessage = ScheduledMaintenance.deriveMessage(
-  scheduledMaintenance.downtimeStartsAt,
-  scheduledMaintenance.expiresAt,
-);
-
-// The scheduled maintenance announcement has three different states, each of which should be separately dismissible
-// This spoofs it by deriving the announcement's name property in the config.
-if (scheduledMaintenanceMessage) {
-  const stateId = scheduledMaintenanceMessage.slice(1, 10);
-  scheduledMaintenance.name = `scheduled-maintenance-${stateId}`;
-} else {
-  scheduledMaintenance.disabled = true;
-}
+// Derive when downtime will start and expire.
+const downtimeStartAtDate = moment.utc('2020-03-01T02:00:00.000Z').local();
+const downtimeExpiresAtDate = moment.utc('2020-03-01T02:30:00.000Z').local();
 
 const config = {
   announcements: [
+    {
+      name: 'pre-pre-downtime',
+      paths: /(.)/,
+      component: PrePreDowntime,
+      startsAt: downtimeStartAtDate.clone().subtract(12, 'hours'),
+      expiresAt: downtimeStartAtDate.clone().subtract(1, 'hours'),
+      // The following key-value pairs are just used as props, not in selectors.js.
+      downtimeStartsAt: downtimeStartAtDate.toISOString(),
+      downtimeExpiresAt: downtimeExpiresAtDate.toISOString(),
+    },
+    {
+      name: 'pre-downtime',
+      paths: /(.)/,
+      component: PreDowntime,
+      startsAt: downtimeStartAtDate.clone().subtract(1, 'hours'),
+      expiresAt: downtimeStartAtDate.toISOString(),
+      // The following key-value pairs are just used as props, not in selectors.js.
+      downtimeStartsAt: downtimeStartAtDate.toISOString(),
+    },
+    {
+      name: 'downtime',
+      paths: /(.)/,
+      component: Downtime,
+      startsAt: downtimeStartAtDate.toISOString(),
+      expiresAt: downtimeExpiresAtDate.toISOString(),
+    },
     {
       name: 'brand-consolidation-va-plus-vets',
       paths: /(.)/,
@@ -42,7 +51,6 @@ const config = {
       disabled: !VAPlusVetsModal.isEnabled(),
       showEverytime: true,
     },
-    scheduledMaintenance,
     {
       name: 'explore-va',
       paths: /(.)/,

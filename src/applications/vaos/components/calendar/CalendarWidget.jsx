@@ -19,7 +19,6 @@ import { FETCH_STATUS } from '../../utils/constants';
 
 export default class CalendarWidget extends Component {
   static props = {
-    // TODO: add "showWeekends" prop
     additionalOptions: PropTypes.object,
     availableDates: PropTypes.array, // ['YYYY-MM-DD']
     loadingStatus: PropTypes.string,
@@ -31,6 +30,7 @@ export default class CalendarWidget extends Component {
     onChange: PropTypes.func,
     onClickNext: PropTypes.func,
     onClickPrev: PropTypes.func,
+    validationError: PropTypes.string,
   };
 
   static defaultProps = {
@@ -265,25 +265,24 @@ export default class CalendarWidget extends Component {
       minDate,
       selectedDates,
       selectedIndicatorType,
+      validationError,
     } = this.props;
 
     return getCalendarWeeks(month).map((week, index) => (
       <CalendarRow
-        key={`row-${index}`}
-        cells={week}
-        availableDates={availableDates}
-        minDate={minDate}
-        maxDate={maxDate}
-        rowNumber={index}
         additionalOptions={additionalOptions}
+        availableDates={availableDates}
+        cells={week}
+        currentlySelectedDate={currentlySelectedDate}
         handleSelectDate={this.handleSelectDate}
         handleSelectOption={this.handleSelectOption}
+        hasError={validationError?.length > 0}
+        key={`row-${index}`}
+        maxDate={maxDate}
+        minDate={minDate}
+        rowNumber={index}
         selectedDates={selectedDates || []}
         selectedIndicatorType={selectedIndicatorType}
-        currentlySelectedDate={currentlySelectedDate}
-        optionsError={
-          this.state.currentRowIndex === index ? this.state.optionsError : null
-        }
       />
     ));
   };
@@ -307,6 +306,14 @@ export default class CalendarWidget extends Component {
         >
           {month.format('MMMM YYYY')}
         </h2>
+        <div
+          className="sr-only"
+          id={`vaos-calendar-instructions-${month.month()}`}
+        >
+          Press the Enter key to expand the day you want to schedule an
+          appointment. Then press the Tab key or form shortcut key to select an
+          appointment time.
+        </div>
 
         {index === 0 && (
           <CalendarNavigation
@@ -316,7 +323,7 @@ export default class CalendarWidget extends Component {
             nextDisabled={nextDisabled}
           />
         )}
-        <hr className="vads-u-margin-y--1" />
+        <hr aria-hidden="true" className="vads-u-margin-y--1" />
         <CalendarWeekdayHeader />
         <div role="rowgroup">{this.renderWeeks(month)}</div>
       </>
@@ -324,10 +331,13 @@ export default class CalendarWidget extends Component {
   };
 
   render() {
-    const { loadingStatus } = this.props;
+    const { loadingStatus, validationError } = this.props;
     const { maxMonth, months } = this.state;
+    const showError = validationError?.length > 0;
+
     const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
       'vaos-calendar__loading': loadingStatus === FETCH_STATUS.loading,
+      'usa-input-error': showError,
     });
 
     if (loadingStatus === FETCH_STATUS.failed) {
@@ -347,13 +357,16 @@ export default class CalendarWidget extends Component {
           </div>
         )}
         <div className={calendarCss}>
+          {showError && (
+            <span className="usa-input-error-message">{validationError}</span>
+          )}
           {months.map(
             (month, index) =>
               month.format('YYYY-MM') <= maxMonth ? (
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
-                  aria-describedby={`h2-${month.format('YYYY-MM')}`}
+                  aria-labelledby={`h2-${month.format('YYYY-MM')}`}
                   role="table"
                 >
                   {this.renderMonth(month, index)}

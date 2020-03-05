@@ -79,6 +79,7 @@
       "accountType": "checking",
       "accountNumber": "1234344",
       "routingNumber": "114923756"
-    }
+    },
+    "view:determineEligibility": {}
   }
 }

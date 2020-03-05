@@ -19,7 +19,7 @@ import {
   getClaimDetail,
   setFieldsDirty,
   resetUploads,
-  clearNotification,
+  clearAdditionalEvidenceNotification,
 } from '../actions/index.jsx';
 
 const scrollToError = () => {
@@ -54,7 +54,7 @@ class AdditionalEvidencePage extends React.Component {
   }
   componentWillUnmount() {
     if (!this.props.uploadComplete) {
-      this.props.clearNotification();
+      this.props.clearAdditionalEvidenceNotification();
     }
   }
   goToFilesPage() {
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
     uploadField: claimsState.uploads.uploadField,
     showMailOrFax: claimsState.uploads.showMailOrFax,
     lastPage: claimsState.routing.lastPage,
-    message: claimsState.notifications.message,
+    message: claimsState.notifications.additionalEvidenceMessage,
   };
 }
 
@@ -149,7 +149,7 @@ const mapDispatchToProps = {
   getClaimDetail,
   setFieldsDirty,
   resetUploads,
-  clearNotification,
+  clearAdditionalEvidenceNotification,
 };
 
 export default withRouter(

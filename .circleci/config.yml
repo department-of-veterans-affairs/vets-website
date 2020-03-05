@@ -54,6 +54,22 @@ jobs:
       - checkout
       - run: yarn security-check
 
+  additional-linting:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: npm run lint:circle
+
   build:
     docker:
       - image: circleci/node:10.15.3
@@ -144,3 +160,6 @@ workflows:
             - lint
             - unit-test
             - security-audit
+  additional-linting:
+    jobs:
+      - additional-linting

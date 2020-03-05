@@ -3,13 +3,16 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+  getAppointmentLength,
   getFormData,
   getFlowType,
   getChosenClinicInfo,
   getChosenFacilityDetails,
+  getSystemFromChosenFacility,
 } from '../utils/selectors';
+import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
-  closeConfirmationPage,
+  startNewAppointmentFlow,
   fetchFacilityDetails,
 } from '../actions/newAppointment';
 import { FLOW_TYPES, FACILITY_TYPES } from '../utils/constants';
@@ -37,13 +40,18 @@ export class ConfirmationPage extends React.Component {
     ) {
       this.props.fetchFacilityDetails(this.props.data.vaFacility);
     }
+    scrollAndFocus();
   }
 
-  componentWillUnmount() {
-    this.props.closeConfirmationPage();
-  }
   render() {
-    const { data, facilityDetails, clinic, flowType } = this.props;
+    const {
+      data,
+      facilityDetails,
+      clinic,
+      flowType,
+      appointmentLength,
+      systemId,
+    } = this.props;
     const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
 
     return (
@@ -54,6 +62,8 @@ export class ConfirmationPage extends React.Component {
             facilityDetails={facilityDetails}
             clinic={clinic}
             pageTitle={this.pageTitle}
+            appointmentLength={appointmentLength}
+            systemId={systemId}
           />
         )}
         {!isDirectSchedule && (
@@ -67,7 +77,11 @@ export class ConfirmationPage extends React.Component {
           <Link to="/" className="usa-button vads-u-padding-right--2">
             View your appointments
           </Link>
-          <Link to="new-appointment" className="usa-button">
+          <Link
+            to="new-appointment"
+            className="usa-button"
+            onClick={this.props.startNewAppointmentFlow}
+          >
             New appointment
           </Link>
         </div>
@@ -83,16 +97,20 @@ ConfirmationPage.propTypes = {
 };
 
 function mapStateToProps(state) {
+  const data = getFormData(state);
+
   return {
-    data: getFormData(state),
+    data,
     facilityDetails: getChosenFacilityDetails(state),
     clinic: getChosenClinicInfo(state),
     flowType: getFlowType(state),
+    appointmentLength: getAppointmentLength(state),
+    systemId: getSystemFromChosenFacility(state),
   };
 }
 
 const mapDispatchToProps = {
-  closeConfirmationPage,
+  startNewAppointmentFlow,
   fetchFacilityDetails,
 };
 

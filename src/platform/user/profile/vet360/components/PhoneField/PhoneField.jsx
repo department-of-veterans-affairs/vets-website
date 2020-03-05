@@ -26,7 +26,7 @@ const formSchema = {
     },
     extension: {
       type: 'string',
-      pattern: '^\\s*[a-zA-Z0-9]{1,10}\\s*$',
+      pattern: '^\\s*[a-zA-Z0-9]{0,10}\\s*$',
     },
     isTextPermitted: {
       type: 'boolean',
@@ -121,7 +121,10 @@ export default class PhoneField extends React.Component {
   }
 
   convertCleanDataToPayload(data, fieldName) {
-    const cleanData = this.convertNextValueToCleanData(data);
+    let cleanData = data;
+    if (data.inputPhoneNumber) {
+      cleanData = this.convertNextValueToCleanData(data);
+    }
     return pickBy(
       {
         id: cleanData.id,

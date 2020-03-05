@@ -98,9 +98,8 @@ export default function HCASubwayMap() {
             <p>
               We process health care claims within a week. If more than a week
               has passed since you submitted your application and you haven’t
-              heard back, please don’t apply again. Call us at 877-222-VETS (
-              <a href="tel:+18772228387">877-222-8387</a>
-              ).
+              heard back, please don’t apply again. Call us at{' '}
+              <a href="tel:+18772228387">877-222-8387</a>.
             </p>
           </li>
           <li className="process-step list-four">

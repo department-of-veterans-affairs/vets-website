@@ -1,18 +1,50 @@
 // Node modules.
-import moment from 'moment-timezone';
+import moment from 'moment';
 // Relative imports.
 import _config from './config';
 
+// Checks if the announcement has started.
+const isStarted = announcement => {
+  const { startsAt } = announcement;
+
+  // Assume announcement is valid if startsAt was NOT provided.
+  if (!startsAt) {
+    return true;
+  }
+
+  // Derive if the announcement has started.
+  const startsAtDate = moment(startsAt);
+  const hasStarted = moment().isSameOrAfter(startsAtDate);
+
+  // Announcement has not started.
+  if (!hasStarted) {
+    return false;
+  }
+
+  // Announcement has started.
+  return true;
+};
+
 // Checks if the announcement has expired.
-const isExpiredAnnouncement = announcement => {
-  if (!announcement.expiresAt) return true;
+const isNotExpired = announcement => {
+  const { expiresAt } = announcement;
 
-  const expiresAtDate = moment.tz(announcement.expiresAt, 'America/New_York');
-  const hasExpired = moment()
-    .tz('America/New_York')
-    .isSameOrAfter(expiresAtDate);
+  // Assume announcement is valid if expiresAt was NOT provided.
+  if (!expiresAt) {
+    return true;
+  }
 
-  return !hasExpired;
+  // Derive if the announcement has expired.
+  const expiresAtDate = moment(expiresAt);
+  const hasExpired = moment().isSameOrAfter(expiresAtDate);
+
+  // Announcement has not expired.
+  if (!hasExpired) {
+    return true;
+  }
+
+  // Announcement has expired.
+  return false;
 };
 
 export const selectAnnouncement = (
@@ -26,7 +58,8 @@ export const selectAnnouncement = (
   if (announcements.isInitialized) {
     announcement = config.announcements
       .filter(a => !a.disabled)
-      .filter(isExpiredAnnouncement)
+      .filter(isStarted)
+      .filter(isNotExpired)
       .filter(a => !announcements.dismissed.includes(a.name))
       .find(a => a.paths.test(path));
   }

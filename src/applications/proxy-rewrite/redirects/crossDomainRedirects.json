@@ -413,5 +413,115 @@
     "domain": "www.benefits.va.gov",
     "src": "/pension/current_rates_survivor_pen.asp",
     "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/current_rates_dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_Parents_DIC_pen.asp",
+    "dest": "/disability/parent-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-parentsdic.asp",
+    "dest": "/disability/parent-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/veteran_borrowers.asp",
+    "dest": "/housing-assistance/home-loans/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchasecashout.asp",
+    "dest": "/housing-assistance/home-loans/loan-types/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_buy_process.asp",
+    "dest": "/housing-assistance/home-loans/home-buying-process/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/nadl.asp",
+    "dest": "/housing-assistance/home-loans/loan-types/native-american-direct-loan/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/irrrl.asp",
+    "dest": "/housing-assistance/home-loans/loan-types/interest-rate-reduction-loan/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_eligibility.asp",
+    "dest": "/housing-assistance/home-loans/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_certificate.asp",
+    "dest": "/housing-assistance/home-loans/how-to-apply/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/resources_payments.asp",
+    "dest": "/housing-assistance/home-loans/trouble-making-payments/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/adaptedhousing.asp",
+    "dest": "/housing-assistance/disability-housing-grants/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/resources_veteran.asp",
+    "dest": "/housing-assistance/home-loans/home-buying-process/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_loan_fee.asp",
+    "dest": "/housing-assistance/home-loans/funding-fee-and-closing-costs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_loan_limits.asp",
+    "dest": "/housing-assistance/home-loans/loan-limits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/employment_tracks.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/programs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/independent_living.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/programs/independent-living/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/eligibility_and_entitlement.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/application_roadmap.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/how-to-apply/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/edu_voc_counseling.asp",
+    "dest": "/careers-employment/education-and-career-counseling/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/careerscope.asp",
+    "dest": "/careers-employment/careerscope-skills-assessment/"
   }
 ]
