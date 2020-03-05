@@ -109,8 +109,6 @@ export const uiSchema = {
         },
         state: {
           'ui:title': 'State',
-          'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
         },
         postal: {
           'ui:options': {
