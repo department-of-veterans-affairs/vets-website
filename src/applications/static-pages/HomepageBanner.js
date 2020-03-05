@@ -73,7 +73,6 @@ export default class HomepageBanner extends React.Component {
       allowedSchemesAppliedToAttributes: ['href'],
     });
 
-    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       banner: { visible: banner.visible, type, title, content },
     });
