@@ -330,7 +330,8 @@
           "format": "date"
         },
         "leftEar": { "type": "boolean" },
-        "rightEar": { "type": "boolean" }
+        "rightEar": { "type": "boolean" },
+        "quantity": { "type": "number" }
       }
     },
     "dateOfBirth": {
