@@ -360,5 +360,8 @@ describe('CMS export transformer helpers', () => {
         }),
       ).to.have.length(1);
     });
+
+    // Not sure how to write this test without a lot of extra wiring
+    // it('should transform the entities', () => {});
   });
 });
