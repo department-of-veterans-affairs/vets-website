@@ -6,19 +6,14 @@ import localStorage from '../storage/localStorage';
 
 let sessionTimeoutMinutesLengthSSO = 0;
 const SSOeEndpoint = () => {
-  let environmentPrefix;
-  switch (ENVIRONMENTS.BUILDTYPE) {
-    case ENVIRONMENTS.VAGOVSTAGING:
-      environmentPrefix = 'sqa.';
-      break;
-    case ENVIRONMENTS.VAGOVDEV:
-      environmentPrefix = 'int.';
-      break;
-    default:
-      environmentPrefix = '';
-  }
+  const environmentPrefixes = {
+    [ENVIRONMENTS.VAGOVSTAGING]: 'sqa.',
+    [ENVIRONMENTS.VAGOVDEV]: 'int',
+  };
 
-  return `https://${environmentPrefix}eauth.va.gov/keepalive`;
+  const envPrefiix = environmentPrefixes[ENVIRONMENTS.BUILDTYPE] || '';
+
+  return `https://${envPrefiix}eauth.va.gov/keepalive`;
 };
 
 function checkAndUpdateSSOeSession() {
