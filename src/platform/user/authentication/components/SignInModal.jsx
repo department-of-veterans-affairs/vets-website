@@ -29,8 +29,8 @@ class SignInModal extends React.Component {
   state = { globalDowntime: null };
 
   componentDidMount() {
-    getCurrentGlobalDowntime().then(downtime => {
-      this.setState(downtime);
+    getCurrentGlobalDowntime().then(globalDowntime => {
+      this.setState(globalDowntime);
     });
   }
 
