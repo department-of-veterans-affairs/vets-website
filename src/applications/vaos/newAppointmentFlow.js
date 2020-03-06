@@ -83,6 +83,7 @@ export default {
       const communityCareEnabled = vaosCommunityCare(state);
 
       if (isSleepCare(state)) {
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         nextState = 'typeOfSleepCare';
       } else if (isEyeCare(state)) {
         nextState = 'typeOfEyeCare';
@@ -132,7 +133,6 @@ export default {
         }
       }
 
-      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return nextState;
     },
     previous: 'home',
@@ -205,6 +205,7 @@ export default {
           return 'vaFacility';
         }
       }
+      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return 'vaFacility';
     },
     previous: 'typeOfCare',
