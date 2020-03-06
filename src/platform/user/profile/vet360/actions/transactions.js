@@ -3,6 +3,7 @@ import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { inferAddressType } from 'applications/letters/utils/helpers';
 import { showAddressValidationModal } from '../../utilities';
+import kebabCase from 'lodash/kebabCase';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import { CONFIRMED } from '../../constants/addressValidationMessages';
@@ -248,6 +249,18 @@ export const validateAddress = (
     // and only one confirmed address came back from the API
     const showModal = showAddressValidationModal(suggestedAddresses);
 
+    // push data to dataLayer for analytics
+
+    window.dataLayer.push({
+      event: 'profile-navigation',
+      'profile-action': 'update-button',
+      'profile-section': kebabCase(fieldName),
+      'profile-addressValidationAlertShown': showModal ? 'yes' : 'no',
+      'profile-addressSuggestionProvided': confirmedSuggestions.length
+        ? 'yes'
+        : 'no',
+    });
+
     // show the modal if the API doesn't find a single solid match for the address
     if (showModal) {
       return dispatch({
@@ -272,6 +285,12 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
+    window.dataLayer.push({
+      event: 'profile-edit-failure',
+      'profile-action': 'address-suggestion-failure',
+      'profile-section': kebabCase(fieldName),
+    });
+
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationError: true,
