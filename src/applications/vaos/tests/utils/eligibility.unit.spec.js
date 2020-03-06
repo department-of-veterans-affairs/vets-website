@@ -247,18 +247,6 @@ describe('VAOS scheduling eligibility logic', () => {
   });
 
   describe('GA Events', () => {
-    const oldWindow = global.window;
-
-    beforeEach(() => {
-      global.window = {
-        dataLayer: [],
-      };
-    });
-
-    afterEach(() => {
-      global.window = oldWindow;
-    });
-
     it('should record error events with fetch failures', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch.onCall(0), { errors: [{}] });

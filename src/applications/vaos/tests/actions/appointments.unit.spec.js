@@ -212,18 +212,6 @@ describe('VAOS actions: appointments', () => {
   });
 
   describe('cancel appointment', () => {
-    const oldWindow = global.window;
-
-    beforeEach(() => {
-      global.window = {
-        dataLayer: [],
-      };
-    });
-
-    afterEach(() => {
-      global.window = oldWindow;
-    });
-
     it('should return cancel appointment action', () => {
       const appointment = {};
       const action = cancelAppointment(appointment);
