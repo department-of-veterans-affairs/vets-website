@@ -470,7 +470,7 @@ export function updateRequest(req) {
 export function submitRequest(type, request) {
   let promise;
   if (USE_MOCK_DATA) {
-    promise = Promise.resolve({
+    promise = Promise.reject({
       data: {
         id: 'testing',
         attributes: {},

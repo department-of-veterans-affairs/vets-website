@@ -99,8 +99,12 @@ export function getParentOfChosenFacility(state) {
 
 export function getChosenFacilityDetails(state) {
   const data = getFormData(state);
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const facilityDetails = getNewAppointment(state).facilityDetails;
-  return facilityDetails[data.vaFacility] || null;
+
+  return isCommunityCare
+    ? facilityDetails[data.vaFacility]
+    : facilityDetails[data.communityCareSystemId];
 }
 
 export function getEligibilityChecks(state) {

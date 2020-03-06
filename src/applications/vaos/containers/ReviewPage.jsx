@@ -8,6 +8,7 @@ import {
   getChosenFacilityInfo,
   getChosenClinicInfo,
   getChosenVACityState,
+  getChosenFacilityDetails,
 } from '../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -15,6 +16,7 @@ import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleI
 import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../actions/newAppointment';
+import FacilityAddress from '../components/FacilityAddress';
 
 const pageTitle = 'Review your appointment details';
 
@@ -28,6 +30,7 @@ export class ReviewPage extends React.Component {
     const {
       data,
       facility,
+      facilityDetails,
       clinic,
       vaCityState,
       flowType,
@@ -71,18 +74,25 @@ export class ReviewPage extends React.Component {
               isDirectSchedule ? 'appointment' : 'request'
             } didn’t go through`}
           >
-            We’re sorry. Something went wrong when we tried to submit your
-            request and you’ll need to start over. We suggest you wait a day to
-            try again or you can call your medical center to help with your{' '}
-            {isDirectSchedule ? 'appointment' : 'request'}.
             <p>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`/find-locations/facility/${facility.id}`}
-              >
-                Contact your local VA medical center
-              </a>
+              We’re sorry. Something went wrong when we tried to submit your
+              request and you’ll need to start over. We suggest you wait a day
+              to try again or you can call your medical center to help with your{' '}
+              {isDirectSchedule ? 'appointment' : 'request'}.
+            </p>
+            <p>
+              {!facilityDetails && (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`/find-locations/facility/${facility?.id}`}
+                >
+                  Contact your local VA medical center
+                </a>
+              )}
+              {facilityDetails && (
+                <FacilityAddress facility={facilityDetails} />
+              )}
             </p>
           </AlertBox>
         )}
@@ -101,6 +111,7 @@ function mapStateToProps(state) {
   return {
     data: getFormData(state),
     facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityDetails(state),
     clinic: getChosenClinicInfo(state),
     vaCityState: getChosenVACityState(state),
     flowType: getFlowType(state),
