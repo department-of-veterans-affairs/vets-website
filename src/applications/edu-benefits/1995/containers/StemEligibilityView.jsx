@@ -89,7 +89,7 @@ export class StemEligibilityView extends React.Component {
     <div>
       <p className="vads-u-margin-bottom--1">
         <span className="vads-u-font-family--serif heading-level-4">
-          Based on you responses, it appears you're not eligible.
+          Based on your responses, it appears you're not eligible.
         </span>
         <br />
         <br />
