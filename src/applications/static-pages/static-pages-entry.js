@@ -15,7 +15,7 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import renderHomepageBanner from './renderHomepageBanner';
+import createHomepageBanner from './homepage-banner/createHomepageBanner';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -116,9 +116,10 @@ createScoAnnouncementsWidget();
 
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 
+createHomepageBanner(store, widgetTypes.HOMEPAGE_BANNER);
+
 // homepage widgets
 if (location.pathname === '/') {
-  renderHomepageBanner();
   createMyVALoginWidget(store);
 }
 
