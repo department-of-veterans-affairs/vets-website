@@ -925,18 +925,8 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('form submit', () => {
-    const oldWindow = global.window;
-
-    beforeEach(() => {
-      mockFetch();
-      global.window = {
-        dataLayer: [],
-      };
-    });
-
     afterEach(() => {
       resetFetch();
-      global.window = oldWindow;
     });
 
     it('should send VA request', async () => {
