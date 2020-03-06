@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { get } from 'lodash';
+import get from 'lodash/get';
 // Relative
 import ExpandCollapseIcon from './ExpandCollapseIcon';
 import LabelText from './LabelText';

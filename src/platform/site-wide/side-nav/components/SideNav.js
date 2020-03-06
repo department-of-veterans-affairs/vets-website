@@ -1,7 +1,11 @@
 // Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { find, filter, get, map, orderBy } from 'lodash';
+import find from 'lodash/find';
+import filter from 'lodash/filter';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import sortBy from 'lodash/sortBy';
 // Relative
 import NavItem from './NavItem';
 
@@ -52,11 +56,12 @@ class SideNav extends Component {
     // Derive the items to render.
     const filteredNavItems = filter(
       navItemsLookup,
+      // eslint-disable-next-line lodash/matches-prop-shorthand,lodash/matches-shorthand
       item => item.parentID === parentID,
     );
 
     // Sort the items by `order`.
-    const sortedNavItems = orderBy(filteredNavItems, 'order', 'asc');
+    const sortedNavItems = sortBy(filteredNavItems, 'order');
 
     return map(sortedNavItems, (item, index) => (
       <NavItem

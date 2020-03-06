@@ -1,5 +1,10 @@
 // Dependencies
-import { each, get, isEmpty, set, trimEnd, uniqueId } from 'lodash';
+import forEach from 'lodash/forEach';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import set from 'lodash/set';
+import trimEnd from 'lodash/trimEnd';
+import uniqueId from 'lodash/uniqueId';
 
 /* Recursive function that expands all `parentID`s.
   @param {Object}, options:
@@ -55,7 +60,7 @@ const deriveNavItemsLookup = options => {
   // Determine if the nav items are top-level.
   const isTopNavItem = depth < 2;
 
-  each(items, (item, index) => {
+  forEach(items, (item, index) => {
     // Derive item properties.
     const description = get(item, 'description', '');
     const href = get(item, 'url.path', '');

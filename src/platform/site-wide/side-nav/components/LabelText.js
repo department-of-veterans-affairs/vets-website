@@ -1,6 +1,6 @@
 // Dependencies
 import React from 'react';
-import { get } from 'lodash';
+import get from 'lodash/get';
 // Relative
 import { NavItemPropTypes } from '../prop-types';
 

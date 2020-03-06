@@ -1,6 +1,7 @@
 import React from 'react';
 import { createSelector } from 'reselect';
-import { startCase, toLower } from 'lodash';
+import startCase from 'lodash/startCase';
+import toLower from 'lodash/toLower';
 
 import localStorage from '../../utilities/storage/localStorage';
 import { selectProfile } from '../../user/selectors';
