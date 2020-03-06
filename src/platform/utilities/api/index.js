@@ -23,9 +23,12 @@ function checkAndUpdateSSOeSession() {
     const minutesUntilExpiration =
       (sessionExpiration.getTime() - Date.now()) / (1000 * 60);
 
-    if (minutesUntilExpiration / sessionTimeoutMinutesLengthSSO < 0.67) {
-      // We want to minimize external keepalive calls, so this functions
-      // as self-enforced rate limiting
+    // We want to minimize external keepalive calls, so this functions as self-enforced rate limiting
+    const percentageOfTimeoutThreshold = 0.67;
+    if (
+      minutesUntilExpiration / sessionTimeoutMinutesLengthSSO <
+      percentageOfTimeoutThreshold
+    ) {
       return;
     }
   }
