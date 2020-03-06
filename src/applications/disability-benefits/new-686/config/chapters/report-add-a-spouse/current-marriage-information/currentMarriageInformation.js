@@ -39,7 +39,7 @@ export const uiSchema = {
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
-      'ui:title': 'City (or APO/FPO/DPO)',
+      'ui:title': 'City or county',
     },
   },
   marriageType: {
