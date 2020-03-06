@@ -81,17 +81,21 @@ module.exports = {
    * TODO: Memoize this function if the build is slow because of this CMS
    * content transformation process.
    *
-   * @param {String} baseType - The type of entity; corresponds to the
-   *                              name of the file.
-   * @param {String} uuid - The UUID of the entity; corresponds to the
-   *                        name of the file.
+   * @param {String} baseType - The type of entity; corresponds to the name of
+   *                            the file.
+   * @param {String} uuid - The UUID of the entity; corresponds to the name of
+   *                        the file.
+   * @param {Boolean} noLog - [Optional] Skip logging of the filename. This is
+   *                          so findMatchingEntities doesn't log _every_
+   *                          filename even if it's not used. This _does_ mean
+   *                          it won't log files that may be used.
    *
    * @return {Object} - The contents of the file.
    */
-  readEntity(dir, baseType, uuid) {
+  readEntity(dir, baseType, uuid, { noLog } = {}) {
     // Used only in script/remove-unnecessary-raw-entity-files.sh to get the
     // list of all entities the assemble-entity-tree.unit.spec.js tests access.
-    if (process.env.LOG_USED_ENTITIES) {
+    if (process.env.LOG_USED_ENTITIES && !noLog) {
       // eslint-disable-next-line no-console
       console.log(`${baseType}.${uuid}.json`);
     }

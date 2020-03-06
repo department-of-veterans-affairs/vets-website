@@ -55,7 +55,7 @@ function findMatchingEntities(baseType, contentDir, { subType, filter } = {}) {
       .filter(name => name.startsWith(`${baseType}.`))
       .map(name => {
         const uuid = name.split('.')[1];
-        return readEntity(contentDir, baseType, uuid);
+        return readEntity(contentDir, baseType, uuid, { noLog: true });
       })
       .filter(
         // Filter them by `subType` if available
