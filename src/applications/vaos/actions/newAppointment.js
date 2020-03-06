@@ -27,7 +27,12 @@ import {
   submitAppointment,
   sendRequestMessage,
 } from '../api';
-import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  GA_FLOWS,
+} from '../utils/constants';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -608,7 +613,7 @@ export function submitAppointmentOrRequest(router) {
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const additionalEventData = {
         typeOfCare,
-        flow: 'direct',
+        flow: GA_FLOWS.DIRECT,
       };
 
       recordEvent({
@@ -653,7 +658,7 @@ export function submitAppointmentOrRequest(router) {
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const additionalEventData = {
         typeOfCare,
-        flow: isCommunityCare ? 'cc-request' : 'va-request',
+        flow: isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST,
       };
 
       recordEvent({
