@@ -64,7 +64,7 @@ function findMatchingEntities(baseType, contentDir, { subType, filter } = {}) {
         entity => (subType ? entity.type[0].target_id === subType : true),
       )
       // Filter them by `filter` if available
-      .filter(entity => (filter ? filter(entity) : true))
+      .filter(filter || (() => true))
       .map(entity => assembleEntityTree(entity))
   );
 }
