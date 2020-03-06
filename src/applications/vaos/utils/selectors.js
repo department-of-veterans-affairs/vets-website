@@ -296,3 +296,8 @@ export const vaosCommunityCare = state =>
 export const vaosDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
+
+export const isWelcomeModalDismissed = state =>
+  state.announcements.dismissed.some(
+    announcement => announcement === 'welcome-to-new-vaos',
+  );
