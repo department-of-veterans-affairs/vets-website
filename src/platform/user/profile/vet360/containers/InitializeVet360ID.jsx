@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AddressValidationModal from './AddressValidationModal';
-import environment from 'platform/utilities/environment';
+// import AddressValidationModal from './AddressValidationModal';
 
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 
@@ -18,7 +17,10 @@ import {
   refreshTransaction,
 } from '../actions';
 
-import { selectVet360InitializationStatus } from '../selectors';
+import {
+  selectVet360InitializationStatus,
+  // vaProfileUseAddressValidation,
+} from '../selectors';
 
 import TransactionPending from '../components/base/Vet360TransactionPending';
 
@@ -66,7 +68,7 @@ class InitializeVet360ID extends React.Component {
       case VET360_INITIALIZATION_STATUS.INITIALIZED:
         return (
           <div>
-            {!environment.isProduction() && <AddressValidationModal />}
+            {/* {this.props.useAddressValidation && <AddressValidationModal />} */}
             {this.props.children}
           </div>
         );
@@ -109,6 +111,7 @@ const mapStateToProps = state => {
     status,
     transaction,
     transactionRequest,
+    // useAddressValidation: vaProfileUseAddressValidation(state),
   };
 };
 
