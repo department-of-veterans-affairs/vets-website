@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { FETCH_STATUS } from '../../utils/constants';
 
 import { AppointmentsPage } from '../../containers/AppointmentsPage';
@@ -213,5 +213,37 @@ describe('VAOS <AppointmentsPage>', () => {
     expect(tree.find('h1').text()).to.equal(pageTitle);
     expect(document.title).contain(pageTitle);
     tree.unmount();
+  });
+
+  it('should focus if modal is dismissed', () => {
+    const defaultProps = {
+      appointments: {
+        future: [],
+        futureStatus: FETCH_STATUS.succeeded,
+        facilityData: {},
+      },
+      isWelcomeModalDismissed: false,
+    };
+
+    const fetchFutureAppointments = sinon.spy();
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const tree = mount(
+      <AppointmentsPage
+        fetchFutureAppointments={fetchFutureAppointments}
+        {...defaultProps}
+      />,
+      {
+        attachTo: div,
+      },
+    );
+
+    expect(document.activeElement.nodeName).to.not.equal('H1');
+    tree.setProps({ isWelcomeModalDismissed: true });
+    expect(document.activeElement.nodeName).to.equal('H1');
+
+    tree.unmount();
+    div.remove();
   });
 });

@@ -16,6 +16,7 @@ import { LocationType, BOUNDING_RADIUS } from '../constants';
 import { ccLocatorEnabled } from '../config';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import recordEvent from '../../../platform/monitoring/record-event';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -114,6 +115,10 @@ const fetchLocations = async (
       serviceType,
       page,
     );
+    // Record event as soon as API return results
+    if (data.data && data.data.length > 0) {
+      recordEvent({ event: 'fl-search-results' });
+    }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
