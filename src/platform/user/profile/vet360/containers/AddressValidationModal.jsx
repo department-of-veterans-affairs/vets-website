@@ -16,7 +16,6 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
-import kebabCase from 'lodash/kebabCase';
 
 import * as VET360 from '../constants';
 
@@ -36,6 +35,7 @@ class AddressValidationModal extends React.Component {
       addressValidationType,
       selectedAddress,
       selectedAddressId,
+      analyticsSectionName,
     } = this.props;
 
     const payload = {
@@ -49,7 +49,7 @@ class AddressValidationModal extends React.Component {
 
     window.dataLayer.push({
       event: 'profile-transaction',
-      'profile-section': 'home-address',
+      'profile-section': analyticsSectionName,
       'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
     });
 
@@ -73,11 +73,15 @@ class AddressValidationModal extends React.Component {
   };
 
   onEditClick = () => {
-    const { addressValidationType, addressFromUser } = this.props;
+    const {
+      addressValidationType,
+      addressFromUser,
+      analyticsSectionName,
+    } = this.props;
     window.dataLayer.push({
       event: 'profile-navigation',
       'profile-action': 'edit-link',
-      'profile-section': kebabCase(addressValidationType),
+      'profile-section': analyticsSectionName,
     });
     this.props.openModal(addressValidationType, addressFromUser);
   };

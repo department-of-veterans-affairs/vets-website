@@ -3,7 +3,6 @@ import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import { inferAddressType } from 'applications/letters/utils/helpers';
 import { showAddressValidationModal } from '../../utilities';
-import kebabCase from 'lodash/kebabCase';
 
 import localVet360, { isVet360Configured } from '../util/local-vet360';
 import { CONFIRMED } from '../../constants/addressValidationMessages';
@@ -207,7 +206,7 @@ export const validateAddress = (
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
-      : await localVet360.addressValidationSuccess();
+      : await localVet360.addressValidationError();
     const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
@@ -254,7 +253,7 @@ export const validateAddress = (
     window.dataLayer.push({
       event: 'profile-navigation',
       'profile-action': 'update-button',
-      'profile-section': kebabCase(fieldName),
+      'profile-section': analyticsSectionName,
       'profile-addressValidationAlertShown': showModal ? 'yes' : 'no',
       'profile-addressSuggestionProvided': confirmedSuggestions.length
         ? 'yes'
@@ -288,7 +287,7 @@ export const validateAddress = (
     window.dataLayer.push({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
-      'profile-section': kebabCase(fieldName),
+      'profile-section': analyticsSectionName,
     });
 
     return dispatch({
