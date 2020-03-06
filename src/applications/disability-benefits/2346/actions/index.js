@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/browser';
-import { getVeteranInformation } from '../api';
 import {
   FETCH_VETERAN_INFORMATION,
   FETCH_VETERAN_INFORMATION_FAILURE,
@@ -15,9 +14,8 @@ export const fetchVeteranInformationFailure = error => ({
   error,
 });
 
-export const getVeteranInformationData = () => async dispatch => {
+export const getVeteranInformationData = data => async dispatch => {
   try {
-    const data = await getVeteranInformation();
     const veteranInformation = {
       veteranFullName: data.formData.veteranFullName,
       gender: data.formData.gender,
