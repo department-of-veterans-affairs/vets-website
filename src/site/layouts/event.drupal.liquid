@@ -210,7 +210,7 @@ Ultimately, we will allow check to use user timezone.
                         {% if start_timestamp < current_timestamp %}
                             <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
                         {% else %}
-                            {% if fieldLink %}
+                            {% if fieldLink and fieldEventCta %}
                                 <p class="vads-u-margin--0"><a
                                             href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
                                 </p>
@@ -338,7 +338,7 @@ Ultimately, we will allow check to use user timezone.
                       {% if start_timestamp < current_timestamp %}
                           <p class="vads-u-margin--0 vads-u-color--secondary vads-u-font-weight--bold">This event already happened.</p>
                       {% else %}
-                          {% if fieldLink %}
+                          {% if fieldLink and fieldEventCta %}
                               <p class="vads-u-margin--0"><a
                                           href="{{ fieldLink.url.path }}"><button class="vads-u-margin--0">{{fieldEventCta | listValue | capitalize}}</button></a>
                               </p>
