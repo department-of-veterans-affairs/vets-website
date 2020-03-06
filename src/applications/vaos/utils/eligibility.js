@@ -1,5 +1,4 @@
 import { PRIMARY_CARE, DISABLED_LIMIT_VALUE } from '../utils/constants';
-import recordEvent from 'platform/monitoring/record-event';
 import { captureError } from '../utils/error';
 
 import {
@@ -9,12 +8,7 @@ import {
   getAvailableClinics,
 } from '../api';
 
-function recordVaosError(errorKey) {
-  recordEvent({
-    event: 'vaos-error',
-    'error-key': errorKey,
-  });
-}
+import { recordVaosError } from './events';
 
 function createErrorHandler(directOrRequest, errorKey) {
   return data => {
