@@ -5,6 +5,7 @@ import { RECEIVE_SCHEDULED_DOWNTIME } from '../actions';
 describe('Downtime Notification Reducer', () => {
   describe('scheduledDowntime', () => {
     const scheduledDowntimeInterface = [
+      'globalDowntime',
       'isReady',
       'serviceMap',
       'isPending',
