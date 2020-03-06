@@ -69,6 +69,8 @@ export class SchoolLocations extends React.Component {
       viewableRowCount: this.state.initialRowCount,
       viewAll: false,
     });
+    const schoolLocationsElement = document.getElementById('accordion-item-7');
+    schoolLocationsElement.scrollIntoView();
   };
 
   showMoreClicked = () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
+import captureEvents from '../analytics-functions';
 
 export class StemEligibilityView extends React.Component {
   onChange = property => {
@@ -154,6 +155,7 @@ export class StemEligibilityView extends React.Component {
             onChange={() =>
               this.onChange({ 'view:determineEligibility': false })
             }
+            onClick={() => captureEvents.ineligibilityStillApply(false)}
           />
           <label htmlFor={`${id}No`}>No</label>
           <input
@@ -165,6 +167,9 @@ export class StemEligibilityView extends React.Component {
             onChange={() =>
               this.onChange({ 'view:determineEligibility': true })
             }
+            onClick={() => {
+              captureEvents.ineligibilityStillApply(true);
+            }}
           />
           <label htmlFor={`${id}Yes`}>Yes</label>
         </fieldset>
@@ -187,7 +192,11 @@ export class StemEligibilityView extends React.Component {
             criteria, you may return to apply for the Rogers STEM Scholarship.
           </span>
           <div className="vads-u-padding-top--2">
-            <a className={buttonClasses} href="/education/eligibility/">
+            <a
+              className={buttonClasses}
+              href="/education/eligibility/"
+              onClick={() => captureEvents.exploreOtherBenefits()}
+            >
               Explore other education benefits
             </a>
           </div>
