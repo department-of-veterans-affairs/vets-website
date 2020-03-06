@@ -290,7 +290,7 @@
     "syswide-cas": "^5.3.0",
     "tinyliquid": "^0.2.33",
     "url-search-params": "^0.10.0",
-    "uswds": "1.6.10",
+    "uswds": "^1.6.13",
     "vanilla-lazyload": "^8.17.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#53c351b16a1130c959bb54e3d52df290dc9aa64f",
     "whatwg-fetch": "^2.0.3"
