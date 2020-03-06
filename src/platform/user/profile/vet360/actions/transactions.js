@@ -249,7 +249,7 @@ export const validateAddress = (
     const showModal = showAddressValidationModal(suggestedAddresses);
 
     // push data to dataLayer for analytics
-    window.dataLayer.push({
+    recordEvent({
       event: 'profile-navigation',
       'profile-action': 'update-button',
       'profile-section': analyticsSectionName,
@@ -283,7 +283,7 @@ export const validateAddress = (
       ),
     );
   } catch (error) {
-    window.dataLayer.push({
+    recordEvent({
       event: 'profile-edit-failure',
       'profile-action': 'address-suggestion-failure',
       'profile-section': analyticsSectionName,

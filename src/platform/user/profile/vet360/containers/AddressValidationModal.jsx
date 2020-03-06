@@ -16,6 +16,7 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
+import recordEvent from 'platform/monitoring/record-event';
 
 import * as VET360 from '../constants';
 
@@ -47,7 +48,7 @@ class AddressValidationModal extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    window.dataLayer.push({
+    recordEvent({
       event: 'profile-transaction',
       'profile-section': analyticsSectionName,
       'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
@@ -78,7 +79,7 @@ class AddressValidationModal extends React.Component {
       addressFromUser,
       analyticsSectionName,
     } = this.props;
-    window.dataLayer.push({
+    recordEvent({
       event: 'profile-navigation',
       'profile-action': 'edit-link',
       'profile-section': analyticsSectionName,
