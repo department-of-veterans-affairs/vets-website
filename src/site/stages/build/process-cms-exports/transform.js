@@ -51,6 +51,8 @@ function getEntityTransformer(entityType, verbose = true) {
  * @property {string} parentFieldName - The name of the field in the
  *                        entity's parent in which the current entity
  *                        can be found.
+ * @property {string} contentDir - The path to the tome-sync content
+ *                        directory.
  *
  * @return {Object} - The entity with modified properties based on
  *                    the specific content model type.
