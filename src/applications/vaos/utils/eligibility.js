@@ -231,7 +231,7 @@ export function getEligibleFacilities(facilities) {
  * Record Google Analytics events based on results of eligibility checks.
  * Error keys ending with 'error' represent a failure in fetching info for the check,
  * while keys ending with 'failure' signify that the user didn't meet the condition
- * of the check
+ * of the check.
  */
 export function recordEligibilityGAEvents(
   eligibilityData,
