@@ -206,7 +206,7 @@ export const validateAddress = (
   try {
     const response = isVet360Configured()
       ? await apiRequest('/profile/address_validation', options)
-      : await localVet360.addressValidationError();
+      : await localVet360.addressValidationSuccess();
     const { addresses, validationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
