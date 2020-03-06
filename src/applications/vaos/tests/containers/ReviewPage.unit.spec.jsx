@@ -75,4 +75,30 @@ describe('VAOS <ReviewPage>', () => {
 
     tree.unmount();
   });
+
+  it('should render submit error with facility', () => {
+    const flowType = FLOW_TYPES.REQUEST;
+    const data = {};
+
+    const tree = shallow(
+      <ReviewPage
+        submitStatus={FETCH_STATUS.failed}
+        flowType={flowType}
+        data={data}
+        facilityDetails={{}}
+      />,
+    );
+
+    expect(tree.find('LoadingButton').props().isLoading).to.be.false;
+    expect(tree.find('AlertBox').props().status).to.equal('error');
+    expect(
+      tree
+        .find('AlertBox')
+        .dive()
+        .find('FacilityAddress')
+        .exists(),
+    ).to.be.true;
+
+    tree.unmount();
+  });
 });

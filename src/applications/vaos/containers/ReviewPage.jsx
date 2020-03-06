@@ -11,6 +11,7 @@ import {
   getChosenFacilityDetails,
 } from '../utils/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../utils/constants';
+import { getStagingId } from '../utils/appointment';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from '../components/review/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from '../components/review/ReviewRequestInfo';
@@ -73,28 +74,38 @@ export class ReviewPage extends React.Component {
             headline={`Your ${
               isDirectSchedule ? 'appointment' : 'request'
             } didn’t go through`}
-          >
-            <p>
-              We’re sorry. Something went wrong when we tried to submit your
-              request and you’ll need to start over. We suggest you wait a day
-              to try again or you can call your medical center to help with your{' '}
-              {isDirectSchedule ? 'appointment' : 'request'}.
-            </p>
-            <p>
-              {!facilityDetails && (
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={`/find-locations/facility/${facility?.id}`}
-                >
-                  Contact your local VA medical center
-                </a>
-              )}
-              {facilityDetails && (
-                <FacilityAddress facility={facilityDetails} />
-              )}
-            </p>
-          </AlertBox>
+            content={
+              <>
+                <p>
+                  We’re sorry. Something went wrong when we tried to submit your{' '}
+                  {isDirectSchedule ? 'appointment' : 'request'} and you’ll need
+                  to start over. We suggest you wait a day to try again or you
+                  can call your medical center to help with your{' '}
+                  {isDirectSchedule ? 'appointment' : 'request'}.
+                </p>
+                <p>
+                  {!facilityDetails && (
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`/find-locations/facility/vha_${getStagingId(
+                        data.vaFacility || data.communityCareSystemId,
+                      )}`}
+                    >
+                      Contact your local VA medical center
+                    </a>
+                  )}
+                  {!!facilityDetails && (
+                    <FacilityAddress
+                      name={facilityDetails.name}
+                      facility={facilityDetails}
+                      showDirectionsLink
+                    />
+                  )}
+                </p>
+              </>
+            }
+          />
         )}
       </div>
     );

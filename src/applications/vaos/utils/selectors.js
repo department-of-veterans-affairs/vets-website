@@ -103,8 +103,8 @@ export function getChosenFacilityDetails(state) {
   const facilityDetails = getNewAppointment(state).facilityDetails;
 
   return isCommunityCare
-    ? facilityDetails[data.vaFacility]
-    : facilityDetails[data.communityCareSystemId];
+    ? facilityDetails[data.communityCareSystemId]
+    : facilityDetails[data.vaFacility];
 }
 
 export function getEligibilityChecks(state) {
