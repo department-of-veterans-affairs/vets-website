@@ -216,17 +216,6 @@ describe('VAOS <AppointmentsPage>', () => {
   });
 
   it('should fire a GA event when clicking schedule new appointment button', () => {
-    const oldWindow = global.window;
-    beforeEach(() => {
-      global.window = {
-        dataLayer: [],
-      };
-    });
-
-    afterEach(() => {
-      global.window = oldWindow;
-    });
-
     const defaultProps = {
       appointments: {
         future: [],
@@ -235,12 +224,14 @@ describe('VAOS <AppointmentsPage>', () => {
       },
     };
 
+    const startNewAppointmentFlow = sinon.spy();
     const fetchFutureAppointments = sinon.spy();
     const tree = shallow(
       <AppointmentsPage
         {...defaultProps}
         showScheduleButton
         fetchFutureAppointments={fetchFutureAppointments}
+        startNewAppointmentFlow={startNewAppointmentFlow}
       />,
     );
 

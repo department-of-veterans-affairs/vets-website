@@ -81,11 +81,12 @@ export class ConfirmationPage extends React.Component {
           <Link
             to="new-appointment"
             className="usa-button"
-            onClick={() =>
+            onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
-              })
-            }
+              });
+              this.props.startNewAppointmentFlow();
+            }}
           >
             New appointment
           </Link>

@@ -75,21 +75,11 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render view/schedule appointment buttons and fire GA event on click', () => {
-    const oldWindow = global.window;
-    beforeEach(() => {
-      global.window = {
-        dataLayer: [],
-      };
-    });
-
-    afterEach(() => {
-      global.window = oldWindow;
-    });
-
     const flowType = FLOW_TYPES.DIRECT;
     const closeConfirmationPage = sinon.spy();
     const data = {};
     const fetchFacilityDetails = sinon.spy();
+    const startNewAppointmentFlow = sinon.spy();
 
     const tree = shallow(
       <ConfirmationPage
@@ -97,6 +87,7 @@ describe('VAOS <ConfirmationPage>', () => {
         closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}
         data={data}
+        startNewAppointmentFlow={startNewAppointmentFlow}
       />,
     );
 

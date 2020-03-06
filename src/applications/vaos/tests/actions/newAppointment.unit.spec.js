@@ -925,6 +925,10 @@ describe('VAOS newAppointment actions', () => {
   });
 
   describe('form submit', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
     afterEach(() => {
       resetFetch();
     });
