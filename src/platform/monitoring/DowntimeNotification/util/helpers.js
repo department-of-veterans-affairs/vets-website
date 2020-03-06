@@ -114,11 +114,11 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
 export const getCurrentGlobalDowntime = (() => {
   const BUCKET_BASE_URL = 's3-us-gov-west-1.amazonaws.com';
 
-  const MAINTENANCE_WINDOWS_SUBDOMAIN = {
+  const MAINTENANCE_WINDOWS_SUBDOMAIN = Object.freeze({
     [ENVIRONMENTS.VAGOVDEV]: 'dev-va-gov-maintenance-windows',
     [ENVIRONMENTS.VAGOVSTAGING]: 'staging-va-gov-maintenance-windows',
     [ENVIRONMENTS.VAGOVPROD]: 'prod-va-gov-maintenance-windows',
-  };
+  });
 
   const MAINTENANCE_WINDOWS_JSON = `https://${
     MAINTENANCE_WINDOWS_SUBDOMAIN[environment.BUILDTYPE]
@@ -126,8 +126,8 @@ export const getCurrentGlobalDowntime = (() => {
 
   const includesCurrentTime = ({ startTime, endTime }) =>
     !environment.isLocalhost() &&
-    moment().isAfter(moment.parseZone(startTime)) &&
-    moment().isBefore(moment.parseZone(endTime));
+    moment().isAfter(startTime) &&
+    moment().isBefore(endTime);
 
   return async () => {
     try {
