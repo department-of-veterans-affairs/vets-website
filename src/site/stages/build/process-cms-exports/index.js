@@ -106,6 +106,7 @@ const entityAssemblerFactory = contentDir => {
       uuid: entity.uuid[0].value,
       ancestors,
       parentFieldName,
+      contentDir,
     });
     const transformedErrors = validateTransformedEntity(transformedEntity);
     if (transformedErrors.length) {
