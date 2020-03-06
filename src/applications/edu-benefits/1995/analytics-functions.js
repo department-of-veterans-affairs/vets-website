@@ -14,12 +14,6 @@ export default {
       'edu-action': 'explore-other-benefits',
     });
   },
-  finishLater: () => {
-    recordEvent({
-      event: 'edu-navigation',
-      'edu-action': 'finish-later',
-    });
-  },
   checkRemainingBenefits: () => {
     recordEvent({
       event: 'edu-navigation',
