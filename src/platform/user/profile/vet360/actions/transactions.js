@@ -249,7 +249,6 @@ export const validateAddress = (
     const showModal = showAddressValidationModal(suggestedAddresses);
 
     // push data to dataLayer for analytics
-
     window.dataLayer.push({
       event: 'profile-navigation',
       'profile-action': 'update-button',
