@@ -240,7 +240,7 @@ class Vet360ProfileField extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
   const { transaction, transactionRequest } = selectVet360Transaction(
     state,
@@ -251,6 +251,11 @@ const mapStateToProps = (state, ownProps) => {
   const useAddressValidation = vaProfileUseAddressValidation(state);
   const addressValidationType =
     state.vet360.addressValidation.addressValidationType;
+  const showValidationModal =
+    useAddressValidation &&
+    ownProps.ValidationModal &&
+    addressValidationType === fieldName &&
+    selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
@@ -258,11 +263,7 @@ const mapStateToProps = (state, ownProps) => {
     fieldName,
     field: selectEditedFormField(state, fieldName),
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
-    showValidationModal:
-      useAddressValidation &&
-      ownProps.ValidationModal &&
-      addressValidationType === fieldName &&
-      selectCurrentlyOpenEditModal(state) === 'addressValidation',
+    showValidationModal: !!showValidationModal,
     isEmpty,
     transaction,
     transactionRequest,
