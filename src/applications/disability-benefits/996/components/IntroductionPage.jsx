@@ -46,7 +46,6 @@ class IntroductionPage extends React.Component {
 
         <CallToActionWidget appId="higher-level-review">
           <SaveInProgressIntro
-            downtime={formConfig.downtime}
             formId={formConfig.formId}
             prefillEnabled={formConfig.prefillEnabled}
             messages={formConfig.savedFormMessages}
@@ -136,7 +135,6 @@ class IntroductionPage extends React.Component {
         </aside>
         <CallToActionWidget appId="higher-level-review">
           <SaveInProgressIntro
-            downtime={formConfig.downtime}
             formId={formConfig.formId}
             prefillEnabled={formConfig.prefillEnabled}
             messages={formConfig.savedFormMessages}

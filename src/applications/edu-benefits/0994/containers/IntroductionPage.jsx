@@ -25,7 +25,6 @@ export class IntroductionPage extends React.Component {
         <CallToActionWidget appId="vet-tec">
           <SaveInProgressIntro
             startMessageOnly
-            downtime={this.props.route.formConfig.downtime}
             verifyRequiredPrefill={
               this.props.route.formConfig.verifyRequiredPrefill
             }
@@ -131,7 +130,6 @@ export class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
-          downtime={this.props.route.formConfig.downtime}
           hideUnauthedStartLink
           verifyRequiredPrefill={
             this.props.route.formConfig.verifyRequiredPrefill
