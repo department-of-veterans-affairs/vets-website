@@ -17,7 +17,8 @@ const entityAssemblerFactory = contentDir => {
    * references with the contents of those entities recursively.
    *
    * TODO: Memoize this function if the build is slow because of this CMS
-   * content transformation process.
+   * content transformation process. If we do memoize this, make sure the
+   * memoized function is used in findMatchingEntities as well.
    *
    * @param {Object} entity - The entity object.
    * @param {Array<Object>} ancestors - All the ancestors, each like:
