@@ -1,7 +1,7 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { genericSchemas } from '../../../generic-schema';
-import { spouseTitle } from './helpers';
+import { SpouseTitle } from './helpers';
 
 const { date, genericLocation, genericTextInput } = genericSchemas;
 
@@ -40,21 +40,21 @@ export const schema = {
 export const uiSchema = {
   spouseMarriageHistory: {
     items: {
-      'ui:title': spouseTitle,
+      'ui:title': SpouseTitle,
       marriageStartDate: {
         ...currentOrPastDateUI('Date of marriage'),
         ...{
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
         },
       },
       marriageStartLocation: {
         'ui:title': 'Where did this marriage take place?',
         state: {
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
         },
         city: {
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
           'ui:title': 'City or county',
         },
       },
@@ -74,17 +74,17 @@ export const uiSchema = {
       marriageEndDate: {
         ...currentOrPastDateUI('When did marriage end?'),
         ...{
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
         },
       },
       marriageEndLocation: {
         'ui:title': 'Where did this marriage end?',
         state: {
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
           'ui:title': 'State (or country if outside the U.S.)',
         },
         city: {
-          'ui:required': formData => formData.spouseWasMarriedBefore === true,
+          'ui:required': formData => formData.spouseWasMarriedBefore,
           'ui:title': 'City or county',
         },
       },
