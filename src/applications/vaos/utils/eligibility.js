@@ -9,13 +9,17 @@ import {
   getAvailableClinics,
 } from '../api';
 
+function recordVaosError(errorKey) {
+  recordEvent({
+    event: 'vaos-error',
+    'error-key': errorKey,
+  });
+}
+
 function createErrorHandler(directOrRequest, errorKey) {
   return data => {
     captureError(data);
-    recordEvent({
-      event: 'vaos-error',
-      'error-key': errorKey,
-    });
+    recordVaosError(errorKey);
     return { [`${directOrRequest}Failed`]: true };
   };
 }
@@ -242,17 +246,11 @@ export function recordEligibilityGAEvents(
 ) {
   if (!hasRequestFailed(eligibilityData)) {
     if (!isUnderRequestLimit(eligibilityData)) {
-      recordEvent({
-        event: 'vaos-error',
-        'error-key': 'request-exceeded-outstanding-requests-failure',
-      });
+      recordVaosError('request-exceeded-outstanding-requests-failure');
     }
 
     if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
-      recordEvent({
-        event: 'vaos-error',
-        'error-key': 'request-past-visits-failure',
-      });
+      recordVaosError('request-past-visits-failure');
     }
   }
 
@@ -260,27 +258,18 @@ export function recordEligibilityGAEvents(
 
   if (directSchedulingEnabled && !hasRequestFailed(eligibilityData)) {
     if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
-      recordEvent({
-        event: 'vaos-error',
-        'error-key': 'direct-check-past-visits-failure',
-      });
+      recordVaosError('direct-check-past-visits-failure');
     }
 
     if (!eligibilityData.clinics?.length) {
-      recordEvent({
-        event: 'vaos-error',
-        'error-key': 'direct-available-clinics-failure',
-      });
+      recordVaosError('direct-available-clinics-failure');
     }
 
     if (
       typeOfCareId === PRIMARY_CARE &&
       !hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId)
     ) {
-      recordEvent({
-        event: 'vaos-error',
-        'error-key': 'direct-pac-team-failure',
-      });
+      recordVaosError('direct-pac-team-failure');
     }
   }
 }
