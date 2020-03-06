@@ -53,12 +53,8 @@ export function dismissDowntimeWarning(appTitle) {
 }
 
 export const getGlobalDowntime = () => async dispatch => {
-  try {
-    const downtime = await getCurrentGlobalDowntime();
-    dispatch({ type: RECEIVE_GLOBAL_DOWNTIME, downtime });
-  } catch (error) {
-    // Failed to get file, likely because it doesn't exist.
-  }
+  const downtime = await getCurrentGlobalDowntime();
+  dispatch({ type: RECEIVE_GLOBAL_DOWNTIME, downtime });
 };
 
 export function getScheduledDowntime() {
