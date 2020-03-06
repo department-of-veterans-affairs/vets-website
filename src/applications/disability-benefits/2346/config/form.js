@@ -8,7 +8,7 @@ import quantityField from '../components/customFields/quantityField';
 import productIdField from '../components/customFields/productIdField';
 import lastOrderDateField from '../components/customFields/lastOrderDateField';
 import emptyField from '../components/customFields/emptyField';
-import SuppliesReview from '../components/SuppliesReview';
+import SuppliesReview from '../components/suppliesReview';
 import { vetFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../components/IntroductionPage';
@@ -106,7 +106,6 @@ const formConfig = {
                 type: 'string',
                 enum: ['yes', 'no'],
               },
-              supplies,
               supplies,
             },
           },
