@@ -38,6 +38,7 @@ import {
 import {
   getEligibilityData,
   getEligibleFacilities,
+  recordEligibilityGAEvents,
 } from '../utils/eligibility';
 
 import { captureError } from '../utils/error';
@@ -289,6 +290,8 @@ export function openFacilityPage(page, uiSchema, schema) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
       }
 
       dispatch({
@@ -381,6 +384,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
           systemId,
           directSchedulingEnabled,
         );
+
+        recordEligibilityGAEvents(eligibilityData, typeOfCareId, systemId);
 
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
