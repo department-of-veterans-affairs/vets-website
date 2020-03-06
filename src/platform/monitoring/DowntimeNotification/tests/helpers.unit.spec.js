@@ -1,5 +1,13 @@
 import { expect } from 'chai';
 import moment from 'moment';
+
+import {
+  mockFetch,
+  setFetchJSONResponse,
+  setFetchJSONFailure,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
+
 import externalServiceStatus from '../config/externalServiceStatus';
 import defaultExternalServices from '../config/externalServices';
 import * as downtimeHelpers from '../util/helpers';
@@ -205,31 +213,59 @@ describe('getMostUrgentDowntime', () => {
   });
 });
 
-describe('isGlobalDowntimeInProgress', () => {
-  it('returns true when in middle of downtime', () => {
-    expect(
-      downtimeHelpers.isGlobalDowntimeInProgress({
-        downtimeStart: activeDowntime.attributes.startTime,
-        downtimeEnd: activeDowntime.attributes.endTime,
-      }),
-    ).to.be.true;
+describe('getCurrentGlobalDowntime', () => {
+  beforeEach(() => mockFetch());
+
+  afterEach(() => {
+    resetFetch();
   });
 
-  it('returns false when downtime is in the past', () => {
-    expect(
-      downtimeHelpers.isGlobalDowntimeInProgress({
-        downtimeStart: pastDowntime.attributes.startTime,
-        downtimeEnd: pastDowntime.attributes.endTime,
-      }),
-    ).to.be.false;
+  it('returns downtime when in the middle of a downtime', async () => {
+    const response = [
+      {
+        startTime: pastDowntime.attributes.startTime,
+        endTime: pastDowntime.attributes.endTime,
+      },
+      {
+        startTime: activeDowntime.attributes.startTime,
+        endTime: activeDowntime.attributes.endTime,
+      },
+      {
+        startTime: distantFutureDowntime.attributes.startTime,
+        endTime: distantFutureDowntime.attributes.endTime,
+      },
+    ];
+
+    setFetchJSONResponse(global.fetch, response);
+
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+
+    expect(downtime.startTime).to.equal(response[1].startTime);
+    expect(downtime.endTime).to.equal(response[1].endTime);
   });
 
-  it('returns false when downtime is in the future', () => {
-    expect(
-      downtimeHelpers.isGlobalDowntimeInProgress({
-        downtimeStart: approachingDowntime.attributes.startTime,
-        downtimeEnd: approachingDowntime.attributes.endTime,
-      }),
-    ).to.be.false;
+  it('returns null when not within any downtimes', async () => {
+    const response = [
+      {
+        startTime: pastDowntime.attributes.startTime,
+        endTime: pastDowntime.attributes.endTime,
+      },
+      {
+        startTime: distantFutureDowntime.attributes.startTime,
+        endTime: distantFutureDowntime.attributes.endTime,
+      },
+    ];
+
+    setFetchJSONResponse(global.fetch, response);
+
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+
+    expect(downtime).to.be.null;
+  });
+
+  it('returns null when failing to get downtimes', async () => {
+    setFetchJSONFailure(global.fetch, null);
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+    expect(downtime).to.be.null;
   });
 });
