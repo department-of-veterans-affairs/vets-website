@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { selectCurrentlyOpenEditModal } from '../selectors';
 import {
   openModal,
   createTransaction,
@@ -181,7 +180,6 @@ class AddressValidationModal extends React.Component {
 
   render() {
     const {
-      isAddressValidationModalVisible,
       addressValidationType,
       suggestedAddresses,
       addressFromUser,
@@ -217,7 +215,7 @@ class AddressValidationModal extends React.Component {
         }
         id="address-validation-warning"
         onClose={resetDataAndCloseModal}
-        visible={isAddressValidationModalVisible}
+        visible
       >
         <AlertBox
           className="vads-u-margin-bottom--1"
@@ -264,8 +262,6 @@ const mapStateToProps = state => {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
       state.vet360.fieldTransactionMap[addressValidationType]?.isPending,
-    isAddressValidationModalVisible:
-      selectCurrentlyOpenEditModal(state) === 'addressValidation',
     addressValidationError:
       state.vet360.addressValidation.addressValidationError,
     suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
@@ -294,7 +290,6 @@ const mapDispatchToProps = dispatch => ({
 
 AddressValidationModal.propTypes = {
   analyticsSectionName: PropTypes.string,
-  isAddressValidationModalVisible: PropTypes.bool.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   confirmedSuggestions: PropTypes.arrayOf(
