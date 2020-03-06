@@ -6,7 +6,6 @@ import {
   RETRIEVE_SCHEDULED_DOWNTIME,
   INIT_DISMISSED_DOWNTIME_APPROACHING_MODALS,
   DISMISS_DOWNTIME_APPROACHING_MODAL,
-  ERROR_SCHEDULE_DOWNTIME,
 } from '../actions';
 
 const initialState = {
@@ -22,16 +21,7 @@ export default function scheduledDowntime(state = initialState, action) {
     case RECEIVE_GLOBAL_DOWNTIME:
       return {
         ...state,
-        isReady: true,
-        isPending: false,
         globalDowntime: action.downtime,
-      };
-
-    case ERROR_SCHEDULE_DOWNTIME:
-      return {
-        ...state,
-        isReady: true,
-        isPending: false,
       };
 
     case RECEIVE_SCHEDULED_DOWNTIME:
