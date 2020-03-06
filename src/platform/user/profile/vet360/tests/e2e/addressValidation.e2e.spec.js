@@ -38,11 +38,7 @@ function beginTests(browser) {
 }
 
 function createMockRoutes(token) {
-  const promises = [];
-  for (const route of routes) {
-    promises.push(createMockEndpoint(token, route));
-  }
-  return Promise.all(promises);
+  return Promise.all(routes.map(route => createMockEndpoint(token, route)));
 }
 
 function begin(browser) {
