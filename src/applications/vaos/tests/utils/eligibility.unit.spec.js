@@ -13,6 +13,7 @@ import {
   isEligible,
   getEligibilityChecks,
   getEligibilityData,
+  recordEligibilityGAEvents,
 } from '../../utils/eligibility';
 
 describe('VAOS scheduling eligibility logic', () => {
@@ -242,6 +243,94 @@ describe('VAOS scheduling eligibility logic', () => {
 
       expect(direct).to.be.false;
       expect(request).to.be.true;
+    });
+  });
+
+  describe('GA Events', () => {
+    const oldWindow = global.window;
+
+    beforeEach(() => {
+      global.window = {
+        dataLayer: [],
+      };
+    });
+
+    afterEach(() => {
+      global.window = oldWindow;
+    });
+
+    it('should record error events with fetch failures', async () => {
+      mockFetch();
+      setFetchJSONFailure(global.fetch.onCall(0), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(1), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(3), { errors: [{}] });
+      setFetchJSONFailure(global.fetch.onCall(4), { errors: [{}] });
+      await getEligibilityData(
+        {
+          institutionCode: '983',
+          directSchedulingSupported: true,
+          requestSupported: true,
+        },
+        '323',
+        '983',
+        true,
+      );
+      expect(global.window.dataLayer.length).to.equal(5);
+      resetFetch();
+    });
+
+    it('should record failure events when ineligible', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [],
+          clinics: [],
+          directSupported: true,
+          requestSupported: true,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: false,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 1,
+          },
+        },
+        '323',
+        '983',
+      );
+
+      expect(global.window.dataLayer.length).to.equal(5);
+    });
+
+    it('should not record failure events when ineligible', () => {
+      recordEligibilityGAEvents(
+        {
+          pacTeam: [{ facilityId: '983' }],
+          clinics: [{}],
+          directSupported: true,
+          requestSupported: true,
+          directPastVisit: {
+            durationInMonths: 12,
+            hasVisitedInPastMonths: true,
+          },
+          requestPastVisit: {
+            requestFailed: false,
+            hasVisitedInPastMonths: true,
+          },
+          requestLimits: {
+            requestLimit: 1,
+            numberOfRequests: 0,
+          },
+        },
+        '323',
+        '983',
+      );
+
+      expect(global.window.dataLayer.length).to.equal(0);
     });
   });
 });

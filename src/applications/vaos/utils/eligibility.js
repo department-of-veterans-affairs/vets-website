@@ -109,9 +109,9 @@ function hasVisitedInPastMonthsDirect(eligibilityData) {
 
 function hasVisitedInPastMonthsRequest(eligibilityData) {
   return (
-    eligibilityData.requestPastVisit.durationInMonths ===
+    eligibilityData.requestPastVisit?.durationInMonths ===
       DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestPastVisit.hasVisitedInPastMonths
+    eligibilityData.requestPastVisit?.hasVisitedInPastMonths
   );
 }
 
@@ -124,9 +124,9 @@ function hasPACTeamIfPrimaryCare(eligibilityData, typeOfCareId, systemId) {
 
 function isUnderRequestLimit(eligibilityData) {
   return (
-    eligibilityData.requestLimits.requestLimit === DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestLimits.numberOfRequests <
-      eligibilityData.requestLimits.requestLimit
+    eligibilityData.requestLimits?.requestLimit === DISABLED_LIMIT_VALUE ||
+    eligibilityData.requestLimits?.numberOfRequests <
+      eligibilityData.requestLimits?.requestLimit
   );
 }
 
@@ -135,11 +135,11 @@ function isDirectSchedulingEnabled(eligibilityData) {
 }
 
 function hasRequestFailed(eligibilityData) {
-  return Object.values(eligibilityData).some(result => result.requestFailed);
+  return Object.values(eligibilityData).some(result => result?.requestFailed);
 }
 
 function hasDirectFailed(eligibilityData) {
-  return Object.values(eligibilityData).some(result => result.directFailed);
+  return Object.values(eligibilityData).some(result => result?.directFailed);
 }
 
 /*
