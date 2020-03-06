@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import recordEvent from 'platform/monitoring/record-event';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
@@ -16,7 +17,7 @@ import {
   startNewAppointmentFlow,
 } from '../actions/appointments';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
 import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
@@ -29,6 +30,12 @@ export class AppointmentsPage extends Component {
     scrollAndFocus();
     this.props.fetchFutureAppointments();
     document.title = `${pageTitle} | Veterans Affairs`;
+  }
+
+  recordStartEvent() {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
   }
 
   render() {
@@ -140,7 +147,10 @@ export class AppointmentsPage extends Component {
                 id="new-appointment"
                 className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
                 to="/new-appointment"
-                onClick={this.props.startNewAppointmentFlow}
+                onClick={() => {
+                  this.recordStartEvent();
+                  this.props.startNewAppointmentFlow();
+                }}
               >
                 Schedule an appointment
               </Link>
@@ -184,7 +194,10 @@ export class AppointmentsPage extends Component {
                   id="new-appointment"
                   className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
                   to="/new-appointment"
-                  onClick={this.props.startNewAppointmentFlow}
+                  onClick={() => {
+                    this.recordStartEvent();
+                    this.props.startNewAppointmentFlow();
+                  }}
                 >
                   Schedule an appointment
                 </Link>
