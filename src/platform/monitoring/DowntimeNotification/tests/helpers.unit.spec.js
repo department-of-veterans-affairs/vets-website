@@ -214,7 +214,9 @@ describe('getMostUrgentDowntime', () => {
 });
 
 describe('getCurrentGlobalDowntime', () => {
-  beforeEach(() => mockFetch());
+  beforeEach(() => {
+    mockFetch();
+  });
 
   afterEach(() => {
     resetFetch();
@@ -237,9 +239,7 @@ describe('getCurrentGlobalDowntime', () => {
     ];
 
     setFetchJSONResponse(global.fetch, response);
-
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
-
     expect(downtime.startTime).to.equal(response[1].startTime);
     expect(downtime.endTime).to.equal(response[1].endTime);
   });
@@ -257,9 +257,13 @@ describe('getCurrentGlobalDowntime', () => {
     ];
 
     setFetchJSONResponse(global.fetch, response);
-
     const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
+    expect(downtime).to.be.null;
+  });
 
+  it('returns null when there are no downtimes', async () => {
+    setFetchJSONResponse(global.fetch, []);
+    const downtime = await downtimeHelpers.getCurrentGlobalDowntime();
     expect(downtime).to.be.null;
   });
 

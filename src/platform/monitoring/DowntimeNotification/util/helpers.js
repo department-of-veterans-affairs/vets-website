@@ -107,31 +107,32 @@ export function getSoonestDowntime(serviceMap, serviceNames) {
 }
 
 /**
- * Determines the global downtime window that includes the current time
+ * Retrieves a list of global downtimes from a cached JSON file and gets the
+ * downtime that includes the current time.
  * @returns {object} A global downtime window that covers the current time
  *     if it exists and null if not
  */
 export const getCurrentGlobalDowntime = (() => {
   const BUCKET_BASE_URL = 's3-us-gov-west-1.amazonaws.com';
 
-  const MAINTENANCE_WINDOWS_SUBDOMAIN = Object.freeze({
+  const MAINTENANCE_WINDOWS_SUBDOMAINS = Object.freeze({
     [ENVIRONMENTS.VAGOVDEV]: 'dev-va-gov-maintenance-windows',
     [ENVIRONMENTS.VAGOVSTAGING]: 'staging-va-gov-maintenance-windows',
     [ENVIRONMENTS.VAGOVPROD]: 'prod-va-gov-maintenance-windows',
   });
 
-  const MAINTENANCE_WINDOWS_JSON = `https://${
-    MAINTENANCE_WINDOWS_SUBDOMAIN[environment.BUILDTYPE]
-  }.${BUCKET_BASE_URL}/maintenance_windows.json`;
+  const subdomain = MAINTENANCE_WINDOWS_SUBDOMAINS[environment.BUILDTYPE];
+
+  const maintenanceWindowsUrl = subdomain
+    ? `https://${subdomain}.${BUCKET_BASE_URL}/maintenance_windows.json`
+    : null;
 
   const includesCurrentTime = ({ startTime, endTime }) =>
-    !environment.isLocalhost() &&
-    moment().isAfter(startTime) &&
-    moment().isBefore(endTime);
+    moment().isAfter(startTime) && moment().isBefore(endTime);
 
   return async () => {
     try {
-      const response = await fetch(MAINTENANCE_WINDOWS_JSON);
+      const response = await fetch(maintenanceWindowsUrl);
       const data = camelCaseKeysRecursive(await response.json());
       return data.find(includesCurrentTime) || null;
     } catch (error) {
