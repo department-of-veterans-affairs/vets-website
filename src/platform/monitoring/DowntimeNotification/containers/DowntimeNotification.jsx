@@ -42,6 +42,7 @@ class DowntimeNotification extends React.Component {
     dependencies: PropTypes.arrayOf(
       PropTypes.oneOf(Object.values(externalServices)),
     ).isRequired,
+    getGlobalDowntime: PropTypes.func.isRequired,
     getScheduledDowntime: PropTypes.func.isRequired,
     isReady: PropTypes.bool,
     loadingIndicator: PropTypes.node,
