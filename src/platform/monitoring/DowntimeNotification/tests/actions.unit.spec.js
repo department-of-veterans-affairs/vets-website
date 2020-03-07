@@ -2,14 +2,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   getScheduledDowntime,
-  ERROR_SCHEDULE_DOWNTIME,
   RECEIVE_SCHEDULED_DOWNTIME,
   RETRIEVE_SCHEDULED_DOWNTIME,
 } from '../actions';
 import {
   mockFetch,
   setFetchJSONResponse,
-  setFetchJSONFailure,
   resetFetch,
 } from 'platform/testing/unit/helpers';
 
@@ -87,24 +85,5 @@ describe('getScheduledDowntime', () => {
         );
       })
       .then(done, done);
-  });
-
-  it('invokes downtime if the response is not ok', async () => {
-    const actionCreator = getScheduledDowntime();
-    const state = {};
-
-    setFetchJSONFailure(global.fetch, {});
-    await actionCreator(dispatch, state);
-    const [firstArgs, secondArgs] = dispatch.args;
-    const firstAction = firstArgs[0];
-    const secondAction = secondArgs[0];
-    expect(firstAction.type).to.be.equal(
-      RETRIEVE_SCHEDULED_DOWNTIME,
-      'RETRIEVE_SCHEDULED_DOWNTIME was dispatched',
-    );
-    expect(secondAction.type).to.be.equal(
-      ERROR_SCHEDULE_DOWNTIME,
-      'ERROR_SCHEDULED_DOWNTIME was dispatched',
-    );
   });
 });
