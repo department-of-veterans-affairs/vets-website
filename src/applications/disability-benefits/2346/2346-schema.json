@@ -8,7 +8,7 @@
       "type": "boolean",
       "enum": [true]
     },
-    "veteranFullName": {
+    "fullName": {
       "type": "object",
       "properties": {
         "first": {
@@ -31,7 +31,7 @@
       },
       "required": ["first", "last"]
     },
-    "veteranAddress": {
+    "address": {
       "type": "object",
       "oneOf": [
         {
@@ -371,10 +371,10 @@
       "$ref": "#/definitions/privacyAgreementAccepted"
     },
     "veteranFullName": {
-      "$ref": "#/definitions/veteranFullName"
+      "$ref": "#/definitions/fullName"
     },
     "veteranAddress": {
-      "$ref": "#/definitions/veteranAddress"
+      "$ref": "#/definitions/address"
     },
     "gender": {
       "$ref": "#/definitions/gender"

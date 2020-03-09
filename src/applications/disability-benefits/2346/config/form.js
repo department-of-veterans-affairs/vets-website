@@ -20,12 +20,13 @@ import UIDefinitions from '../definitions/2346UI';
 const {
   email,
   dateOfBirth,
-  veteranFullName,
-  veteranAddress,
   gender,
+  address,
   supplies,
   accessories,
 } = fullSchemaMDOT.definitions;
+
+const { veteranAddress } = fullSchemaMDOT.properties;
 
 const { emailUI, addressUI } = UIDefinitions.sharedUISchemas;
 
@@ -61,8 +62,7 @@ const formConfig = {
   defaultDefinitions: {
     email,
     dateOfBirth,
-    veteranFullName,
-    veteranAddress,
+    address,
     gender,
     supplies,
     accessories,
