@@ -16,6 +16,7 @@ import {
   getTypeOfCare,
   getCancelInfo,
   getCCEType,
+  isWelcomeModalDismissed,
 } from '../../utils/selectors';
 
 describe('VAOS selectors', () => {
@@ -401,6 +402,24 @@ describe('VAOS selectors', () => {
       };
       const cceType = getCCEType(state);
       expect(cceType).to.equal('Audiology');
+    });
+  });
+  describe('isWelcomeModalDismissed', () => {
+    it('should return dismissed if key is in list', () => {
+      const state = {
+        announcements: {
+          dismissed: ['welcome-to-new-vaos'],
+        },
+      };
+      expect(isWelcomeModalDismissed(state)).to.be.true;
+    });
+    it('should not return dismissed if key is not in list', () => {
+      const state = {
+        announcements: {
+          dismissed: ['welcome-to-new-va'],
+        },
+      };
+      expect(isWelcomeModalDismissed(state)).to.be.false;
     });
   });
 });
