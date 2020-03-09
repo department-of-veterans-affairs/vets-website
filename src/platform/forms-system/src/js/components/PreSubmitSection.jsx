@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
 
 export function PreSubmitSection({
-  termsAccepted,
+  sectionCompleted,
   showError,
   preSubmitInfo,
   checked,
@@ -15,7 +15,7 @@ export function PreSubmitSection({
         <ErrorableCheckbox
           required
           checked={checked}
-          onValueChange={termsAccepted}
+          onValueChange={sectionCompleted}
           name={preSubmitInfo.field}
           errorMessage={
             showError && !checked
@@ -30,7 +30,7 @@ export function PreSubmitSection({
 }
 
 PreSubmitSection.propTypes = {
-  termsAccepted: PropTypes.func.isRequired,
+  sectionCompleted: PropTypes.func.isRequired,
   preSubmitInfo: PropTypes.object.isRequired,
   showError: PropTypes.bool,
 };
