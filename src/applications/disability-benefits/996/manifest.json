@@ -2,20 +2,28 @@
   "appName": "Request for Higher-Level Review",
   "entryFile": "./form-entry.jsx",
   "entryName": "0996-higher-level-review",
-  "rootUrl": "/disability-benefits/apply/form-0996-higher-level-review",
+  "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996",
   "production": false,
   "template": {
     "title": "Request a Higher-Level Review",
     "heading": "Request a Higher-Level Review",
     "display_title": "Request a Higher-Level Review",
     "layout": "page-react.html",
-    "description": "Apply online to request a higher-level review.",
+    "description": "Apply online to request a Higher-Level Review.",
     "includeBreadcrumbs": true,
     "vagovprod": false,
     "breadcrumbs_override": [
       {
+        "name": "VA decision review and appeals",
+        "path": "decision-reviews"
+      },
+      {
+        "name": "Higher-Level Review",
+        "path": "decision-reviews/higher-level-review/"
+      },
+      {
         "name": "Request a Higher-Level Review",
-        "path": "disability-benefits/apply/form-0996-higher-level-review"
+        "path": "decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
       }
     ]
   }

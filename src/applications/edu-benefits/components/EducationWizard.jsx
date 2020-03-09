@@ -74,43 +74,29 @@ export default class EducationWizard extends React.Component {
   };
 
   eduFormChange = input => {
-    let eduFormChange;
-    if (input === 'yes') {
-      eduFormChange = 'new';
-    } else if (input === 'no') {
-      eduFormChange = 'update';
-    } else if (input === 'extend') {
-      eduFormChange = 'stem-scholarship';
-    } else {
-      return null;
-    }
-    return eduFormChange;
+    const formChangeMap = {
+      yes: 'new',
+      no: 'update',
+      extend: 'stem-scholarship',
+    };
+    return formChangeMap[input] || null;
   };
 
   isReceivingSponsorBenefits = input => {
-    let isReceivingSponsorBenefits;
-    if (input === 'own') {
-      isReceivingSponsorBenefits = 'no';
-    } else if (input === 'transferred') {
-      isReceivingSponsorBenefits = 'yes';
-    } else if (input === 'fry') {
-      isReceivingSponsorBenefits = 'no with scholarship';
-    } else {
-      return null;
-    }
-    return isReceivingSponsorBenefits;
+    const formChangeMap = {
+      own: 'no',
+      transferred: 'yes',
+      fry: 'no with scholarship',
+    };
+    return formChangeMap[input] || null;
   };
 
   isBenefitClaimForSelf = input => {
-    let isBenefitClaimForSelf;
-    if (input === 'own') {
-      isBenefitClaimForSelf = 'yes';
-    } else if (input === 'other') {
-      isBenefitClaimForSelf = 'no';
-    } else {
-      return null;
-    }
-    return isBenefitClaimForSelf;
+    const formChangeMap = {
+      own: 'yes',
+      other: 'no',
+    };
+    return formChangeMap[input] || null;
   };
 
   recordWizardValues = () => {
