@@ -30,7 +30,7 @@ class SubmitController extends React.Component {
     field: 'AGREED',
     label: 'I agree to the terms and conditions.',
     error: 'You must accept the agreement before submitting.',
-    customComponent: false,
+    CustomComponent: false,
     ...formConfig.preSubmitInfo,
   });
 
@@ -90,7 +90,7 @@ class SubmitController extends React.Component {
 
     return (
       <>
-        {preSubmit.customComponent ? (
+        {CustomComponent ? (
           <CustomComponent
             preSubmitInfo={preSubmit}
             onChange={value => this.props.setPreSubmit(preSubmit.field, value)}

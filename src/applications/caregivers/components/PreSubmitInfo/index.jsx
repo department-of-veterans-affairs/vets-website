@@ -184,5 +184,5 @@ const PreSubmitCheckboxes = ({
 
 export default {
   required: true,
-  customComponent: PreSubmitCheckboxes,
+  CustomComponent: PreSubmitCheckboxes,
 };
