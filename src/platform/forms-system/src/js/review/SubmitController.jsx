@@ -30,6 +30,7 @@ class SubmitController extends React.Component {
     field: 'AGREED',
     label: 'I agree to the terms and conditions.',
     error: 'You must accept the agreement before submitting.',
+    customComponent: false,
     ...formConfig.preSubmitInfo,
   });
 
@@ -76,23 +77,42 @@ class SubmitController extends React.Component {
     this.props.submitForm(formConfig, form);
   };
 
-  render() {
-    const {
-      form,
-      formConfig,
-      showPreSubmitError,
-      renderErrorMessage,
-    } = this.props;
+  /*
+*  RenderPreSubmitSection - Component that conditionally renders PreSubmitSection which is default or a custom override
+*  PreSubmitSection - Default component that renders if no customComponent is provided
+*  preSubmitInfo.customComponent - property that can be added to `preSubmitInfo` object that overwrites `PrivacyAgreementTemplate`
+*/
+
+  RenderPreSubmitSection = () => {
+    const { form, formConfig, showPreSubmitError } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
+    return (
+      <>
+        {preSubmit.customComponent ? (
+          <preSubmit.customComponent
+            preSubmitInfo={preSubmit}
+            onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
+            checked={form.data[preSubmit.field] || false}
+            showError={showPreSubmitError}
+          />
+        ) : (
+          <PreSubmitSection
+            preSubmitInfo={preSubmit}
+            onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
+            checked={form.data[preSubmit.field] || false}
+            showError={showPreSubmitError}
+          />
+        )}
+      </>
+    );
+  };
+
+  render() {
+    const { form, renderErrorMessage } = this.props;
 
     return (
       <div>
-        <PreSubmitSection
-          preSubmitInfo={preSubmit}
-          onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
-          checked={form.data[preSubmit.field] || false}
-          showError={showPreSubmitError}
-        />
+        {this.RenderPreSubmitSection()}
         <SubmitButtons
           onBack={this.goBack}
           onSubmit={this.handleSubmit}
