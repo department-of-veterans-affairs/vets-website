@@ -89,11 +89,12 @@ class SubmitController extends React.Component {
     return (
       <>
         {preSubmit.customComponent ? (
-          <preSubmit.customComponent
+          <preSubmit.CustomComponent
             preSubmitInfo={preSubmit}
             onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
             checked={form.data[preSubmit.field] || false}
             showError={showPreSubmitError}
+            formData={form.data}
           />
         ) : (
           <PreSubmitSection
