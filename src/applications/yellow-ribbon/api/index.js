@@ -22,9 +22,9 @@ export const fetchResultsApi = async (options = {}) => {
     {
       city,
       country,
-      school_name_in_yr_database,
       page,
       per_page,
+      school_name_in_yr_database,
       state,
     },
     { removeNull: true },
