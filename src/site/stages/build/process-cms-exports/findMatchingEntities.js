@@ -1,6 +1,5 @@
 const assert = require('assert');
 const fs = require('fs');
-const assembleEntityTreeFactory = require('./index');
 const { readEntity } = require('./helpers');
 
 /*
@@ -14,6 +13,8 @@ const { readEntity } = require('./helpers');
  *
  * @param {String} baseType - The base type of the entity
  * @param {String} contentDir - The path to the directory to read the files from
+ * @param {Function} assembleEntityTree - The assembleEntityTree function which
+ *                                        is passed to the transformer function
  * @param {String} subType - [Optional] The subType of the entity
  * @param {Function} filter - [Optional] A function which recieves the object
  *                              read from the JSON file and returns true if we
@@ -25,7 +26,12 @@ const { readEntity } = require('./helpers');
  * @return {Array<Object>} - The transformed entities whose raw form matches
  *                           the parameters
  */
-function findMatchingEntities(baseType, contentDir, { subType, filter } = {}) {
+function findMatchingEntities(
+  baseType,
+  contentDir,
+  assembleEntityTree,
+  { subType, filter } = {},
+) {
   // Sanity checks
   assert(
     typeof baseType === 'string',
@@ -34,6 +40,10 @@ function findMatchingEntities(baseType, contentDir, { subType, filter } = {}) {
   assert(
     fs.lstatSync(contentDir).isDirectory(),
     `${contentDir} is not a directory.`,
+  );
+  assert(
+    typeof assembleEntityTree === 'function',
+    'Please pass assembleEntityTree from the transformer.',
   );
   if (subType)
     assert(
@@ -45,8 +55,6 @@ function findMatchingEntities(baseType, contentDir, { subType, filter } = {}) {
       typeof filter === 'function',
       `filter needs to be a string. Found ${typeof filter} (${filter})`,
     );
-
-  const assembleEntityTree = assembleEntityTreeFactory(contentDir);
 
   // Look through contentDir for all `${baseType}.*.json` files
   return (
