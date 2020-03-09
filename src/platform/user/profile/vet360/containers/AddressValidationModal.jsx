@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/formation-react/Modal';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { selectCurrentlyOpenEditModal } from '../selectors';
 import {
   openModal,
   createTransaction,
@@ -14,12 +13,17 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../../utilities';
 import { ADDRESS_VALIDATION_MESSAGES } from '../../constants/addressValidationMessages';
 
 import * as VET360 from '../constants';
 
 class AddressValidationModal extends React.Component {
+  componentWillUnmount() {
+    focusElement(`#${this.props.addressValidationType}-edit-link`);
+  }
+
   onChangeHandler = (address, selectedAddressId) => _event => {
     this.props.updateSelectedAddress(address, selectedAddressId);
   };
@@ -139,7 +143,7 @@ class AddressValidationModal extends React.Component {
             <input
               className="address-validation-input"
               type="radio"
-              name={id}
+              id={id}
               onChange={
                 isFirstOptionOrEnabled && this.onChangeHandler(address, id)
               }
@@ -176,7 +180,6 @@ class AddressValidationModal extends React.Component {
 
   render() {
     const {
-      isAddressValidationModalVisible,
       addressValidationType,
       suggestedAddresses,
       addressFromUser,
@@ -212,7 +215,7 @@ class AddressValidationModal extends React.Component {
         }
         id="address-validation-warning"
         onClose={resetDataAndCloseModal}
-        visible={isAddressValidationModalVisible}
+        visible
       >
         <AlertBox
           className="vads-u-margin-bottom--1"
@@ -220,9 +223,9 @@ class AddressValidationModal extends React.Component {
           headline={addressValidationMessage.headline}
         >
           <addressValidationMessage.ModalText
-            editFunction={() => {
-              this.props.openModal(addressValidationType, addressFromUser);
-            }}
+            editFunction={() =>
+              this.props.openModal(addressValidationType, addressFromUser)
+            }
           />
         </AlertBox>
         <form onSubmit={this.onSubmit}>
@@ -259,8 +262,6 @@ const mapStateToProps = state => {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
       state.vet360.fieldTransactionMap[addressValidationType]?.isPending,
-    isAddressValidationModalVisible:
-      selectCurrentlyOpenEditModal(state) === 'addressValidation',
     addressValidationError:
       state.vet360.addressValidation.addressValidationError,
     suggestedAddresses: state.vet360.addressValidation.suggestedAddresses,
@@ -289,7 +290,6 @@ const mapDispatchToProps = dispatch => ({
 
 AddressValidationModal.propTypes = {
   analyticsSectionName: PropTypes.string,
-  isAddressValidationModalVisible: PropTypes.bool.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   confirmedSuggestions: PropTypes.arrayOf(

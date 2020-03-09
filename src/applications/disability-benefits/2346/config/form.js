@@ -53,7 +53,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   prefillEnabled: true,
-  title: 'Reorder Hearing Aid Batteries and Accessories',
+  title: 'Order Hearing Aid Batteries and Accessories',
   subTitle: 'VA Form 2346A',
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',

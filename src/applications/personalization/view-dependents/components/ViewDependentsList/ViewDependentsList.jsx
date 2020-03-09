@@ -11,7 +11,7 @@ class ViewDependentsList extends Component {
       mainContent = (
         <LoadingIndicator message="Loading your dependents" setFocus />
       );
-    } else if (this.props.dependents) {
+    } else if (this.props.dependents && this.props.dependents.length > 0) {
       mainContent = this.props.dependents.map((dependent, index) => (
         <ViewDependentsListItem key={index} {...dependent} />
       ));

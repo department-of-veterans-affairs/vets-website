@@ -1,6 +1,6 @@
 // Same as "rootUrl" in manifest.json
 export const BASE_URL =
-  '/disability-benefits/apply/form-0996-higher-level-review';
+  '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996';
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0996-ARE.pdf';
 

@@ -11,6 +11,12 @@ export class StemEligibilityView extends React.Component {
     });
   };
 
+  inReviewEditMode = () => this.props.onReviewPage && this.props.reviewMode;
+  showNotApplyingToStemInformation = () =>
+    !this.props.onReviewPage &&
+    this.props.determineEligibility !== undefined &&
+    !this.props.determineEligibility;
+
   iconClass = indication =>
     classNames('fa', {
       'fa-check': indication,
@@ -70,8 +76,13 @@ export class StemEligibilityView extends React.Component {
 
     const isEnrolledStemCheck = isEnrolledStem || isPursuingTeachingCert;
 
-    const isEnrolledStemText =
-      'Are enrolled in a STEM undergraduate degree program, or have earned a STEM degree and are now pursuing a teaching certification';
+    const isEnrolledStemText = (
+      <span>
+        Are enrolled in a STEM undergraduate degree program, <strong>or</strong>
+        &nbsp;have earned a STEM degree and are now pursuing a teaching
+        certification
+      </span>
+    );
 
     return this.renderCheck(
       this.iconClass(isEnrolledStemCheck),
@@ -84,7 +95,7 @@ export class StemEligibilityView extends React.Component {
     <div>
       <p className="vads-u-margin-bottom--1">
         <span className="vads-u-font-family--serif heading-level-4">
-          Based on you responses, it appears you're not eligible.
+          Based on your responses, it appears you're not eligible.
         </span>
         <br />
         <br />
@@ -131,12 +142,31 @@ export class StemEligibilityView extends React.Component {
       'schemaform-label',
       showErrors ? 'usa-input-error-label' : '',
     );
+    const questionText =
+      "Since it appears you're not eligible for the scholarship, would you still like to apply and let us determine your eligibility?";
+
+    if (this.inReviewEditMode()) {
+      let value;
+      if (determineEligibility !== undefined) {
+        value = determineEligibility ? 'Yes' : 'No';
+      }
+
+      return (
+        <dl className="review">
+          <div className="review-row">
+            <dt>{questionText}</dt>
+            <dd>
+              <span>{value}</span>
+            </dd>
+          </div>
+        </dl>
+      );
+    }
     return (
       <div className={divClassName}>
         <fieldset className="schemaform-field-template schemaform-first-field">
           <legend className={legendClassName}>
-            Since it appears you're not eligible for the scholarship, would you
-            still like to apply and let us determine your eligibility?
+            {questionText}
             <span className="schemaform-required-span">(*Required)</span>
           </legend>
           {this.renderErrorMessage()}
@@ -168,8 +198,7 @@ export class StemEligibilityView extends React.Component {
   };
 
   renderExploreOtherBenefits = () => {
-    const { determineEligibility } = this.props;
-    if (determineEligibility !== undefined && !determineEligibility) {
+    if (this.showNotApplyingToStemInformation()) {
       const buttonClasses = classNames(
         'usa-button-primary',
         'wizard-button',
@@ -193,8 +222,7 @@ export class StemEligibilityView extends React.Component {
   };
 
   renderContinueApplication = () => {
-    const { determineEligibility } = this.props;
-    if (determineEligibility !== undefined && !determineEligibility) {
+    if (this.showNotApplyingToStemInformation()) {
       return (
         <div className="vads-u-padding-top--4">
           Since you're not applying for the Rogers STEM Scholarship, if you need
@@ -239,6 +267,8 @@ const mapStateToProps = (state, ownProps) => {
       errors.length > 0 &&
       ownProps?.formContext?.submitted &&
       determineEligibility === undefined,
+    reviewMode: ownProps?.formContext?.reviewMode,
+    onReviewPage: ownProps?.formContext?.onReviewPage,
   };
 };
 
