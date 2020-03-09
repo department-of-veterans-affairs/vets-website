@@ -84,22 +84,25 @@ class SubmitController extends React.Component {
       renderErrorMessage,
     } = this.props;
     const preSubmit = this.getPreSubmit(formConfig);
+    // Render inside SubmitButtons so the alert is _above_ the submit button;
+    // helps with accessibility
+    const PreSubmitBlock = (
+      <PreSubmitSection
+        preSubmitInfo={preSubmit}
+        onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
+        checked={form.data[preSubmit.field] || false}
+        showError={showPreSubmitError}
+      />
+    );
 
     return (
-      <div>
-        <PreSubmitSection
-          preSubmitInfo={preSubmit}
-          onChange={value => this.props.setPreSubmit(preSubmit.field, value)}
-          checked={form.data[preSubmit.field] || false}
-          showError={showPreSubmitError}
-        />
-        <SubmitButtons
-          onBack={this.goBack}
-          onSubmit={this.handleSubmit}
-          submission={form.submission}
-          renderErrorMessage={renderErrorMessage}
-        />
-      </div>
+      <SubmitButtons
+        onBack={this.goBack}
+        onSubmit={this.handleSubmit}
+        submission={form.submission}
+        renderErrorMessage={renderErrorMessage}
+        preSubmitBlock={PreSubmitBlock}
+      />
     );
   }
 }
