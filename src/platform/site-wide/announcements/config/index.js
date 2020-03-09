@@ -11,6 +11,7 @@ import Profile360Intro from '../components/Profile360Intro';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
 import WelcomeToNewVAModal from '../components/WelcomeToNewVAModal';
+import WelcomeVAOSModal from '../components/WelcomeVAOSModal';
 
 // Derive when downtime will start and expire.
 const downtimeStartAtDate = moment.utc('2020-03-01T02:00:00.000Z').local();
@@ -63,6 +64,11 @@ const config = {
       name: 'welcome-to-new-va',
       paths: /^\/$/,
       component: WelcomeToNewVAModal,
+    },
+    {
+      name: 'welcome-to-new-vaos',
+      paths: /^\/health-care\/schedule-view-va-appointments\/appointments\/$/,
+      component: WelcomeVAOSModal,
     },
     {
       name: 'pittsburgh-vamc',

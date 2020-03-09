@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
 
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 
@@ -68,7 +69,7 @@ export function mapStateToProps(state, ownProps) {
     }
     if (useNewAddressForm) {
       return isEqual(
-        pick(mailingAddress, ADDRESS_PROPS),
+        pickBy(pick(mailingAddress, ADDRESS_PROPS), e => !!e),
         pick(residentialAddress, ADDRESS_PROPS),
       );
     }

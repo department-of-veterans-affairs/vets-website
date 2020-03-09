@@ -14,6 +14,7 @@ const exceptionSet = new Set([
   'https://npmjs.com/advisories/788',
   'https://npmjs.com/advisories/813',
   'https://npmjs.com/advisories/996',
+  'https://npmjs.com/advisories/1488',
 ]);
 
 const severitySet = new Set(['high', 'critical', 'moderate']);

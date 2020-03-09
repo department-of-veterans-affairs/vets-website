@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import recordEvent from 'platform/monitoring/record-event';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmedAppointmentListItem from '../components/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from '../components/AppointmentRequestListItem';
@@ -14,26 +13,38 @@ import {
   confirmCancelAppointment,
   closeCancelAppointment,
   fetchRequestMessages,
+  startNewAppointmentFlow,
 } from '../actions/appointments';
 import { getAppointmentType, getRealFacilityId } from '../utils/appointment';
-import { FETCH_STATUS, APPOINTMENT_TYPES, GA_PREFIX } from '../utils/constants';
+import { FETCH_STATUS, APPOINTMENT_TYPES } from '../utils/constants';
 import CancelAppointmentModal from '../components/CancelAppointmentModal';
-import { getCancelInfo, vaosCancel, vaosRequests } from '../utils/selectors';
+import {
+  getCancelInfo,
+  vaosCancel,
+  vaosRequests,
+  isWelcomeModalDismissed,
+} from '../utils/selectors';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
+import NeedHelp from '../components/NeedHelp';
 
 const pageTitle = 'VA appointments';
 
 export class AppointmentsPage extends Component {
   componentDidMount() {
-    scrollAndFocus();
+    if (this.props.isWelcomeModalDismissed) {
+      scrollAndFocus();
+    }
     this.props.fetchFutureAppointments();
     document.title = `${pageTitle} | Veterans Affairs`;
   }
 
-  recordStartEvent() {
-    recordEvent({
-      event: `${GA_PREFIX}-schedule-new-appointment-started`,
-    });
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.isWelcomeModalDismissed &&
+      !prevProps.isWelcomeModalDismissed
+    ) {
+      scrollAndFocus();
+    }
   }
 
   render() {
@@ -141,14 +152,13 @@ export class AppointmentsPage extends Component {
                 </a>{' '}
                 to schedule an appointment.
               </p>
-              <Link to="new-appointment">
-                <button
-                  type="button"
-                  className="usa-button vads-u-margin-x--0 vads-u-margin-bottom--1p5"
-                  name="newAppointment"
-                >
-                  Schedule an appointment
-                </button>
+              <Link
+                id="new-appointment"
+                className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
+                to="/new-appointment"
+                onClick={this.props.startNewAppointmentFlow}
+              >
+                Schedule an appointment
               </Link>
             </>
           )}
@@ -186,13 +196,13 @@ export class AppointmentsPage extends Component {
                   Schedule an appointment at a VA medical center, clinic, or
                   Community Care facility.
                 </p>
-                <Link to="/new-appointment" onClick={this.recordStartEvent}>
-                  <button
-                    id="new-appointment"
-                    className="usa-button vads-u-margin--0 vads-u-font-weight--bold vads-u-font-size--md"
-                  >
-                    Schedule an appointment
-                  </button>
+                <Link
+                  id="new-appointment"
+                  className="usa-button vads-u-font-weight--bold vads-u-font-size--md"
+                  to="/new-appointment"
+                  onClick={this.props.startNewAppointmentFlow}
+                >
+                  Schedule an appointment
                 </Link>
               </div>
             )}
@@ -200,6 +210,7 @@ export class AppointmentsPage extends Component {
               Upcoming appointments
             </h2>
             {content}
+            <NeedHelp />
           </div>
         </div>
         <CancelAppointmentModal
@@ -222,6 +233,7 @@ function mapStateToProps(state) {
     cancelInfo: getCancelInfo(state),
     showCancelButton: vaosCancel(state),
     showScheduleButton: vaosRequests(state),
+    isWelcomeModalDismissed: isWelcomeModalDismissed(state),
   };
 }
 
@@ -231,6 +243,7 @@ const mapDispatchToProps = {
   cancelAppointment,
   confirmCancelAppointment,
   closeCancelAppointment,
+  startNewAppointmentFlow,
 };
 
 export default connect(

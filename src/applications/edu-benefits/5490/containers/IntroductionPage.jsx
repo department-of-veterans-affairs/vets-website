@@ -110,7 +110,7 @@ export class IntroductionPage extends React.Component {
           startText="Start the education application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="09/30/2018" />
+          <OMBInfo resBurden={45} ombNumber="2900-0098" expDate="10/31/2021" />
         </div>
       </div>
     );
