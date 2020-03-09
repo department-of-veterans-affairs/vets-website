@@ -193,18 +193,14 @@ export default {
               }
             }
           }
-
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          return 'vaFacility';
         } catch (e) {
           captureError(e);
           Sentry.captureMessage(
             'Community Care eligibility check failed with errors',
           );
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          return 'vaFacility';
         }
       }
+
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
       return 'vaFacility';
     },
@@ -260,7 +256,9 @@ export default {
       let nextState = 'typeOfCare';
       const communityCareEnabled = vaosCommunityCare(state);
 
-      if (
+      if (isSleepCare(state)) {
+        nextState = 'typeOfSleepCare';
+      } else if (
         communityCareEnabled &&
         isCCEligible(state) &&
         getTypeOfCare(getFormData(state))?.ccId !== undefined
