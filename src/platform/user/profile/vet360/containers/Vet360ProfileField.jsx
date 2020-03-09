@@ -184,6 +184,8 @@ class Vet360ProfileField extends React.Component {
       isEmpty,
       Content,
       EditModal,
+      ValidationModal,
+      showValidationModal,
       title,
       transaction,
       transactionRequest,
@@ -211,6 +213,7 @@ class Vet360ProfileField extends React.Component {
           {title}
         </Vet360ProfileFieldHeading>
         {isEditing && <EditModal {...childProps} />}
+        {showValidationModal && <ValidationModal />}
         <Vet360Transaction
           id={`${fieldName}-transaction-status`}
           title={title}
@@ -237,7 +240,7 @@ class Vet360ProfileField extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
   const { transaction, transactionRequest } = selectVet360Transaction(
     state,
@@ -246,6 +249,13 @@ const mapStateToProps = (state, ownProps) => {
   const data = selectVet360Field(state, fieldName);
   const isEmpty = !data;
   const useAddressValidation = vaProfileUseAddressValidation(state);
+  const addressValidationType =
+    state.vet360.addressValidation.addressValidationType;
+  const showValidationModal =
+    useAddressValidation &&
+    ownProps.ValidationModal &&
+    addressValidationType === fieldName &&
+    selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
   return {
     analyticsSectionName: VET360.ANALYTICS_FIELD_MAP[fieldName],
@@ -253,6 +263,7 @@ const mapStateToProps = (state, ownProps) => {
     fieldName,
     field: selectEditedFormField(state, fieldName),
     isEditing: selectCurrentlyOpenEditModal(state) === fieldName,
+    showValidationModal: !!showValidationModal,
     isEmpty,
     transaction,
     transactionRequest,
@@ -290,6 +301,7 @@ Vet360ProfileFieldContainer.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VET360.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
   EditModal: PropTypes.func.isRequired,
+  ValidationModal: PropTypes.func,
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VET360.API_ROUTES)).isRequired,
   convertNextValueToCleanData: PropTypes.func.isRequired,

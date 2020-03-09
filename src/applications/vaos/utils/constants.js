@@ -101,18 +101,6 @@ export const TYPES_OF_CARE = [
     cceType: 'Nutrition',
   },
   {
-    id: '407',
-    name: 'Ophthalmology',
-    group: 'specialty',
-  },
-  {
-    id: '408',
-    name: 'Optometry',
-    group: 'specialty',
-    ccId: 'CCOPT',
-    cceType: 'Optometry',
-  },
-  {
     id: 'tbd-podiatry',
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
@@ -125,6 +113,11 @@ export const TYPES_OF_CARE = [
     name: 'Sleep medicine',
     group: 'specialty',
   },
+  {
+    id: 'EYE',
+    name: 'Eye care',
+    group: 'specialty',
+  },
 ];
 
 export const TYPES_OF_SLEEP_CARE = [
@@ -135,6 +128,19 @@ export const TYPES_OF_SLEEP_CARE = [
   {
     id: '143',
     name: 'Sleep medicine and home sleep testing',
+  },
+];
+
+export const TYPES_OF_EYE_CARE = [
+  {
+    id: '408',
+    name: 'Optometry',
+    ccId: 'CCOPT',
+    cceType: 'Optometry',
+  },
+  {
+    id: '407',
+    name: 'Ophthalmology',
   },
 ];
 
