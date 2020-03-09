@@ -1,5 +1,6 @@
+import React from 'react';
 // import _ from '../../../../platform/utilities/data';
-// import merge from 'lodash/merge';
+import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 // import dateUI from 'platform/forms-system/src/js/definitions/date';
 // import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -7,6 +8,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from '../components/ReviewCardField';
+import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
 
 import {
   contactInfoDescription,
@@ -24,13 +26,35 @@ import {
   addressUISchema,
 } from '../utils';
 
-import { ADDRESS_PATHS } from '../constants';
+import {
+  ADDRESS_PATHS,
+  USA,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  MILITARY_CITIES,
+  STATE_LABELS,
+  STATE_VALUES,
+} from '../constants';
 
 const {
-  mailingAddress,
   // forwardingAddress,
   phoneAndEmail,
 } = fullSchema.properties;
+
+const mailingAddress = merge(fullSchema.definitions.address, {
+  properties: {
+    'view:livesOnMilitaryBase': {
+      type: 'boolean',
+    },
+    'view:livesOnMilitaryBaseInfo': {
+      type: 'object',
+      properties: {},
+    },
+  },
+});
+
+const countryEnum = fullSchema.definitions.country.enum;
+const citySchema = fullSchema.definitions.address.properties.city;
 
 export const uiSchema = {
   'ui:title': 'Contact information',
@@ -46,6 +70,61 @@ export const uiSchema = {
   },
   mailingAddress: {
     ...addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
+    'ui:order': [
+      'view:livesOnMilitaryBase',
+      'view:livesOnMilitaryBaseInfo',
+      'country',
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'state',
+      'zipCode',
+    ],
+    'view:livesOnMilitaryBase': {
+      'ui:title':
+        'I live on a United States military base outside of the United States',
+    },
+    'view:livesOnMilitaryBaseInfo': {
+      'ui:description': () => (
+        <div className="vads-u-padding-x--2p5">
+          <AdditionalInfo
+            status="info"
+            triggerText="Learn more about military base addresses"
+          >
+            <span>
+              The United States is automatically chosen as your country if you
+              live on a military base outside of the country.
+            </span>
+          </AdditionalInfo>
+        </div>
+      ),
+    },
+    country: {
+      'ui:title': 'Country',
+      'ui:options': {
+        updateSchema: formData => {
+          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+            return {
+              enum: [USA],
+            };
+          }
+          return {
+            enum: countryEnum,
+          };
+        },
+        updateUiSchema: formData => {
+          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+            return {
+              'ui:disabled': true,
+            };
+          }
+          return {
+            'ui:disabled': false,
+          };
+        },
+      },
+    },
     addressLine1: {
       'ui:title': 'Street address (20 characters maximum)',
       'ui:errorMessages': {
@@ -57,6 +136,52 @@ export const uiSchema = {
     },
     addressLine3: {
       'ui:title': 'Street address (20 characters maximum)',
+    },
+    city: {
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid city',
+        required: 'Please enter a city',
+      },
+      'ui:options': {
+        replaceSchema: formData => {
+          if (formData.mailingAddress['view:livesOnMilitaryBase'] === true) {
+            return {
+              type: 'string',
+              title: 'APO/FPO/DPO',
+              enum: MILITARY_CITIES,
+            };
+          }
+          return merge(
+            {
+              title: 'City',
+            },
+            citySchema,
+          );
+        },
+      },
+    },
+    state: {
+      'ui:title': 'State',
+      'ui:options': {
+        hideIf: formData => formData.mailingAddress.country !== USA,
+        updateSchema: formData => {
+          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+            return {
+              enum: MILITARY_STATE_VALUES,
+              enumNames: MILITARY_STATE_LABELS,
+            };
+          }
+          return {
+            enum: STATE_LABELS,
+            enumNames: STATE_VALUES,
+          };
+        },
+      },
+      'ui:required': formData => formData.mailingAddress.country === USA,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid state',
+        required: 'Please enter a state',
+      },
     },
   },
   // 'view:hasForwardingAddress': {
